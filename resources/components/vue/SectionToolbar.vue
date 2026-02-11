@@ -100,6 +100,8 @@ export default {
   box-shadow: none;
   justify-content: flex-start;
   overflow-x: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
   -webkit-overflow-scrolling: touch;
   scroll-snap-type: x mandatory;
   scroll-padding-left: 0.75rem;
@@ -198,12 +200,9 @@ export default {
 }
 
 .section-toolbar__inner::-webkit-scrollbar {
-  height: 4px;
-}
-
-.section-toolbar__inner::-webkit-scrollbar-thumb {
-  background: rgba(15, 34, 48, 0.25);
-  border-radius: 999px;
+  display: none;
+  width: 0;
+  height: 0;
 }
 
 @media (max-width: 640px) {

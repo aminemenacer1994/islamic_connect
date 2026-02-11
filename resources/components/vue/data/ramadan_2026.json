@@ -28,9 +28,9 @@
   "labels": {
     "references": "References",
     "open_video": "Open video",
-    "open_tool": "Open tool",
-    "open_tool_title": "Open tool",
-    "open_tool_aria": "Open tool in a new tab",
+    "open_tool": "Launch tool",
+    "open_tool_title": "Launch tool",
+    "open_tool_aria": "Launch tool in a new tab",
     "download": "Download",
     "watch_short": "Watch short",
     "highlights": "Highlights",
@@ -56,8 +56,9 @@
     { "label": "Key dates", "href": "#key-dates" },
     { "label": "How to fast", "href": "#how-to-fast" },
     { "label": "FAQ", "href": "#faq" },
+    { "label": "Recources", "href": "#platforms" },
     { "label": "Quran plans", "href": "#quran-plans" },
-    { "label": "Personal plans", "href": "#personal-plans" },    
+    { "label": "Personal plans", "href": "#personal-plans" },
     { "label": "Tools", "href": "#tools" },
     { "label": "Charity", "href": "#charity" },
     { "label": "Health tips", "href": "#health" },
@@ -1143,7 +1144,7 @@
     "cards": [
       {
         "title": "Verified Mobile Apps",
-        "description": "High-volume apps with transparent governance, Ramadan-ready hubs, and reliable prayer/Quran content.",
+        "description": "",
         "items": [
           {
             "name": "Muslim Pro",
@@ -1177,7 +1178,7 @@
       },
       {
         "title": "Interactive Learning Platforms",
-        "description": "Structured courses, scholar-led series, and research archives that get refreshed around each Ramadan.",
+        "description": "",
         "items": [
           {
             "name": "Bayyinah TV",
@@ -1211,7 +1212,7 @@
       },
       {
         "title": "Audio & Qur’an Study Tools",
-        "description": "Audio-first and memorization-friendly tools for every listener and reciter.",
+        "description": "",
         "items": [
           {
             "name": "QuranicAudio",

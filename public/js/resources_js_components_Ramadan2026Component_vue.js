@@ -43,6 +43,8 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       calendarStartOverride: "",
       calendarLength: 30,
       selectedDayIndex: 0,
+      viewportWidth: typeof window !== "undefined" ? window.innerWidth : 1200,
+      isTrackerVisible: true,
       showFab: false,
       fabVisibilityHandler: null,
       hoveredCalendarDay: null,
@@ -52,7 +54,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
         timeOfDay: "maghrib",
         note: ""
       },
-      heroHighlights: ["Complete Ramadan 1447 AH (2026 CE) guide with dates, prayer cues, health tips, and trusted tools.", "Planner-driven reminders, Quran tracking, and community reflections keep you consistent through the month."],
+      heroHighlights: ["Complete Ramadan 1447 AH (2026 CE) guide with dates, prayer cues, health tips, and trusted tools.", "Quran tracking, practical guidance, and verified resources help keep your month focused and organized."],
       reminders: [],
       reflectionDraft: {
         name: "",
@@ -62,7 +64,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       reflections: [],
       quranUnits: [{
         value: "pages",
-        label: "Pages (614)"
+        label: "Pages (604)"
       }, {
         value: "juz",
         label: "Juz (30)"
@@ -72,7 +74,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       }],
       quranProgress: {
         unit: "pages",
-        total: 614,
+        total: 604,
         completed: 0,
         dailyGoal: 20
       },
@@ -85,6 +87,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       personalPlanExpanded: {},
       quranPlanExpanded: {},
       platformCardExpanded: {},
+      shortsSectionExpanded: {},
       failedPlatformLogos: {},
       iconPalettes: {
         fallback: ["fa-star"],
@@ -166,18 +169,11 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
     heroImage() {
       return this.heroImageOverride || this.ramadan.header.banner_image || this.heroImageFallback;
     },
-    navPrimaryLinks() {
-      return [{
-        label: "Interactive tools",
-        href: "#interactive"
-      }, {
-        label: "Planner",
-        href: "#planner"
-      }];
+    isDesktopViewport() {
+      return this.viewportWidth >= 992;
     },
     navSections() {
-      const foundationLabels = new Set(["What is Ramadan", "History", "Key dates", "How to fast", "FAQ"]);
-      const resourceLabels = new Set(["Quran plans", "Personal plans", "Charity", "Health tips", "Duas", "Short clips", "Tools"]);
+      const foundationLabels = new Set(["What is Ramadan", "History", "Key dates", "How to fast", "FAQ", "Recources"]);
       const sections = [];
       const baseLinks = Array.isArray(this.ramadan.nav_links) ? this.ramadan.nav_links : [];
       const foundations = [];
@@ -416,16 +412,16 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
     quranOnboardingSteps() {
       return [{
         icon: "fa-book-open",
-        title: "Choose your measurement",
-        detail: "Select pages, juz, or hizb so the tracker matches the mushaf you read."
+        title: "Pick your unit",
+        detail: "Choose pages, juz, or surahs."
       }, {
         icon: "fa-bullseye",
-        title: "Set totals & goals",
-        detail: "Add your current progress, overall target, and a daily pace so estimates fall into place."
+        title: "Set your goal",
+        detail: "Enter your total and daily target."
       }, {
         icon: "fa-bolt",
-        title: "Log quick boosts",
-        detail: "Use the +1/+3/+5 buttons or “Mark today complete” to keep streaks growing."
+        title: "Update daily",
+        detail: "Use quick add or mark today complete."
       }];
     },
     duaSearchTokens() {
@@ -520,10 +516,22 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
         day: "numeric"
       });
     },
+    toggleTrackerVisibility() {
+      this.isTrackerVisible = !this.isTrackerVisible;
+    },
+    isShortsSectionOpen(key) {
+      return this.shortsSectionExpanded[key] !== false;
+    },
+    toggleShortsSection(key) {
+      this.shortsSectionExpanded = _objectSpread(_objectSpread({}, this.shortsSectionExpanded), {}, {
+        [key]: !this.isShortsSectionOpen(key)
+      });
+    },
     isPlatformCardOpen(index) {
       return this.platformCardExpanded[index] !== false;
     },
     togglePlatformCard(index) {
+      if (this.isDesktopViewport) return;
       this.platformCardExpanded = _objectSpread(_objectSpread({}, this.platformCardExpanded), {}, {
         [index]: !this.isPlatformCardOpen(index)
       });
@@ -664,7 +672,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
     getQuranDefaults(unit) {
       const defaults = {
         pages: {
-          total: 614,
+          total: 604,
           dailyGoal: 20
         },
         juz: {
@@ -909,6 +917,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
         this.showFab = false;
         return;
       }
+      this.viewportWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth || this.viewportWidth;
       const scrollTop = window.pageYOffset || document.documentElement.scrollTop || 0;
       const viewportHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight || 0;
       const scrollableHeight = Math.max((document.documentElement.scrollHeight || document.body.scrollHeight || 0) - viewportHeight, 0);
@@ -924,13 +933,16 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
     },
     scrollToQuranTracker() {
       if (typeof window === "undefined") return;
-      const card = this.$refs.quranProgressCard;
-      if (card && typeof card.scrollIntoView === "function") {
-        card.scrollIntoView({
-          behavior: "smooth",
-          block: "start"
-        });
-      }
+      this.isTrackerVisible = true;
+      this.$nextTick(() => {
+        const card = this.$refs.quranProgressCard;
+        if (card && typeof card.scrollIntoView === "function") {
+          card.scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+          });
+        }
+      });
     },
     persistCalendar() {
       if (this.calendarLength < 1) return;
@@ -1087,7 +1099,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
         case "platforms":
           ((platforms === null || platforms === void 0 ? void 0 : platforms.intro) || []).forEach(line => append(line));
           ((platforms === null || platforms === void 0 ? void 0 : platforms.cards) || []).forEach(card => {
-            append(`${card.title}: ${card.description}`);
+            append(card.description ? `${card.title}: ${card.description}` : card.title);
             (card.items || []).forEach(item => append(`- ${item.label}`));
           });
           break;
@@ -1544,840 +1556,706 @@ const _hoisted_48 = {
   class: "container"
 };
 const _hoisted_49 = {
+  class: "r-section__head"
+};
+const _hoisted_50 = {
+  class: "r-section__controls"
+};
+const _hoisted_51 = {
+  key: 0,
   id: "section-interactive-body",
   class: "r-section__body"
 };
-const _hoisted_50 = {
+const _hoisted_52 = {
   key: 0,
   class: "r-empty"
 };
-const _hoisted_51 = {
+const _hoisted_53 = {
   key: 1,
   class: "r-auth-gate"
 };
-const _hoisted_52 = {
+const _hoisted_54 = {
   key: 2,
   class: "r-interactive-layout"
 };
-const _hoisted_53 = {
+const _hoisted_55 = {
   key: 0,
   class: "r-quran-onboarding r-quran-onboarding--theme"
 };
-const _hoisted_54 = {
+const _hoisted_56 = {
   class: "r-quran-onboarding__steps r-quran-onboarding__steps--theme"
 };
-const _hoisted_55 = {
+const _hoisted_57 = {
   class: "r-quran-onboarding__step-badge"
 };
-const _hoisted_56 = {
+const _hoisted_58 = {
   class: "r-quran-onboarding__step-icon",
   "aria-hidden": "true"
 };
-const _hoisted_57 = {
+const _hoisted_59 = {
   class: "r-quran-onboarding__step-index"
 };
-const _hoisted_58 = {
+const _hoisted_60 = {
   class: "r-quran-onboarding__cta-row"
 };
-const _hoisted_59 = {
+const _hoisted_61 = {
   class: "r-interactive-grid"
 };
-const _hoisted_60 = {
+const _hoisted_62 = {
   ref: "quranProgressCard",
   class: "r-card r-card--interactive r-animate",
   style: {
     "--delay": "0.05s"
   }
 };
-const _hoisted_61 = {
+const _hoisted_63 = {
   class: "r-interactive-stack"
 };
-const _hoisted_62 = {
+const _hoisted_64 = {
   class: "r-stack-head"
 };
-const _hoisted_63 = {
+const _hoisted_65 = {
   class: "r-badge"
 };
-const _hoisted_64 = {
+const _hoisted_66 = {
   class: "r-progress"
 };
-const _hoisted_65 = ["aria-valuenow"];
-const _hoisted_66 = {
+const _hoisted_67 = ["aria-valuenow"];
+const _hoisted_68 = {
   class: "r-progress__meta"
 };
-const _hoisted_67 = {
+const _hoisted_69 = {
   class: "r-form r-form--compact"
 };
-const _hoisted_68 = {
+const _hoisted_70 = {
   class: "r-form__row"
 };
-const _hoisted_69 = ["value"];
-const _hoisted_70 = ["max"];
-const _hoisted_71 = {
-  class: "r-form__row"
-};
-const _hoisted_72 = {
-  class: "r-quick-add"
-};
+const _hoisted_71 = ["value"];
+const _hoisted_72 = ["max"];
 const _hoisted_73 = {
-  class: "r-quick-add__buttons"
+  class: "r-form__row"
 };
 const _hoisted_74 = {
-  class: "r-progress__footer"
+  class: "r-quick-add"
 };
 const _hoisted_75 = {
-  key: 0
+  class: "r-quick-add__buttons"
 };
 const _hoisted_76 = {
-  key: 1
+  class: "r-progress__footer"
 };
 const _hoisted_77 = {
-  key: 2
+  key: 0
 };
 const _hoisted_78 = {
-  class: "r-progress-insights"
+  key: 1
 };
 const _hoisted_79 = {
+  key: 2
+};
+const _hoisted_80 = {
+  class: "r-progress-insights"
+};
+const _hoisted_81 = {
   class: "r-card r-card--interactive r-animate",
   style: {
     "--delay": "0.12s"
   }
 };
-const _hoisted_80 = {
+const _hoisted_82 = {
   class: "r-interactive-stack"
 };
-const _hoisted_81 = {
+const _hoisted_83 = {
   class: "r-stack-head"
 };
-const _hoisted_82 = {
+const _hoisted_84 = {
   class: "r-badge"
 };
-const _hoisted_83 = {
+const _hoisted_85 = {
   class: "r-today-panel"
 };
-const _hoisted_84 = {
+const _hoisted_86 = {
   class: "r-today-meta"
 };
-const _hoisted_85 = {
+const _hoisted_87 = {
   key: 0,
   class: "r-badge r-badge--good"
 };
-const _hoisted_86 = {
+const _hoisted_88 = {
   key: 0,
   class: "r-confirm"
 };
-const _hoisted_87 = {
+const _hoisted_89 = {
   class: "r-today-actions"
 };
-const _hoisted_88 = ["disabled"];
-const _hoisted_89 = {
+const _hoisted_90 = ["disabled"];
+const _hoisted_91 = {
   class: "r-breakdown"
 };
-const _hoisted_90 = {
+const _hoisted_92 = {
   class: "r-breakdown__day"
 };
-const _hoisted_91 = {
+const _hoisted_93 = {
   class: "r-breakdown__date"
 };
-const _hoisted_92 = {
+const _hoisted_94 = {
   class: "r-breakdown__meta"
 };
-const _hoisted_93 = {
+const _hoisted_95 = {
   id: "key-dates",
   class: "r-section"
 };
-const _hoisted_94 = {
+const _hoisted_96 = {
   class: "container"
 };
-const _hoisted_95 = {
+const _hoisted_97 = {
   class: "r-section__head"
 };
-const _hoisted_96 = {
+const _hoisted_98 = {
   class: "r-section__title"
 };
-const _hoisted_97 = {
+const _hoisted_99 = {
   class: "r-section__subtitle"
 };
-const _hoisted_98 = {
+const _hoisted_100 = {
   key: 0,
   class: "r-key-dates__highlights"
 };
-const _hoisted_99 = {
+const _hoisted_101 = {
   key: 0,
   class: "r-card--mini__icon"
 };
-const _hoisted_100 = {
+const _hoisted_102 = {
   class: "r-card__title"
 };
-const _hoisted_101 = {
+const _hoisted_103 = {
   class: "r-card__desc"
 };
-const _hoisted_102 = {
+const _hoisted_104 = {
   id: "section-key-dates-body",
   class: "r-section__body"
 };
-const _hoisted_103 = {
+const _hoisted_105 = {
   class: "r-grid r-grid--dates"
 };
-const _hoisted_104 = {
+const _hoisted_106 = {
   class: "r-card__title"
 };
-const _hoisted_105 = {
+const _hoisted_107 = {
   class: "r-card__meta"
 };
-const _hoisted_106 = {
+const _hoisted_108 = {
   class: "r-card__desc"
 };
-const _hoisted_107 = {
+const _hoisted_109 = {
   key: 0,
   class: "r-moon-sighting"
 };
-const _hoisted_108 = {
+const _hoisted_110 = {
   class: "r-card r-card--moon"
 };
-const _hoisted_109 = {
+const _hoisted_111 = {
   class: "r-card__title"
 };
-const _hoisted_110 = {
+const _hoisted_112 = {
   class: "r-moon-sighting__intro"
 };
-const _hoisted_111 = {
+const _hoisted_113 = {
   class: "r-moon-sighting__steps"
 };
-const _hoisted_112 = {
+const _hoisted_114 = {
   class: "r-moon-sighting__note"
 };
-const _hoisted_113 = {
-  id: "planner",
-  class: "r-section"
-};
-const _hoisted_114 = {
-  class: "container"
-};
 const _hoisted_115 = {
-  id: "section-planner-body",
-  class: "r-section__body"
-};
-const _hoisted_116 = {
-  class: "row justify-content-center r-planner-row"
-};
-const _hoisted_117 = {
-  class: "col-12"
-};
-const _hoisted_118 = {
-  class: "r-card r-planner-card r-card--planner"
-};
-const _hoisted_119 = {
-  class: "r-planner-head"
-};
-const _hoisted_120 = {
-  class: "r-planner-controls"
-};
-const _hoisted_121 = ["value"];
-const _hoisted_122 = {
-  class: "r-calendar"
-};
-const _hoisted_123 = ["onClick", "onMouseenter", "onFocus"];
-const _hoisted_124 = {
-  class: "r-calendar__day"
-};
-const _hoisted_125 = {
-  class: "r-calendar__date"
-};
-const _hoisted_126 = {
-  key: 0,
-  class: "r-calendar__event"
-};
-const _hoisted_127 = {
-  key: 0,
-  class: "r-calendar__hint",
-  "aria-live": "polite"
-};
-const _hoisted_128 = {
-  class: "row r-planner-row"
-};
-const _hoisted_129 = {
-  class: "col-12 col-md-6"
-};
-const _hoisted_130 = {
-  class: "ramadan-reminder-card"
-};
-const _hoisted_131 = {
-  class: "ramadan-reminder-card__head"
-};
-const _hoisted_132 = {
-  class: "ramadan-reminder-pill"
-};
-const _hoisted_133 = {
-  key: 0,
-  class: "ramadan-reminder-empty"
-};
-const _hoisted_134 = {
-  key: 1,
-  class: "ramadan-reminder-auth"
-};
-const _hoisted_135 = {
-  key: 2
-};
-const _hoisted_136 = {
-  class: "ramadan-reminder-form-shell"
-};
-const _hoisted_137 = {
-  class: "ramadan-reminder-form__row"
-};
-const _hoisted_138 = ["value"];
-const _hoisted_139 = {
-  class: "ramadan-reminder-form__row"
-};
-const _hoisted_140 = ["value"];
-const _hoisted_141 = {
-  key: 0,
-  class: "ramadan-reminder-list"
-};
-const _hoisted_142 = {
-  class: "ramadan-reminder-item__status"
-};
-const _hoisted_143 = {
-  class: "ramadan-checkbox"
-};
-const _hoisted_144 = ["onUpdate:modelValue"];
-const _hoisted_145 = {
-  class: "ramadan-reminder-meta"
-};
-const _hoisted_146 = {
-  key: 0,
-  class: "ramadan-reminder-note"
-};
-const _hoisted_147 = ["onClick"];
-const _hoisted_148 = {
-  key: 1,
-  class: "ramadan-reminder-empty"
-};
-const _hoisted_149 = {
-  class: "col-12 col-md-6"
-};
-const _hoisted_150 = {
-  class: "r-card r-card--soft"
-};
-const _hoisted_151 = {
-  class: "r-stack-head"
-};
-const _hoisted_152 = {
-  class: "r-badge"
-};
-const _hoisted_153 = {
-  key: 0,
-  class: "r-empty"
-};
-const _hoisted_154 = {
-  key: 1,
-  class: "r-auth-gate"
-};
-const _hoisted_155 = {
-  key: 2
-};
-const _hoisted_156 = {
-  class: "r-form-shell"
-};
-const _hoisted_157 = {
-  class: "r-form__row"
-};
-const _hoisted_158 = ["value"];
-const _hoisted_159 = {
-  key: 0,
-  class: "r-reflection-list"
-};
-const _hoisted_160 = {
-  class: "r-reflection__meta"
-};
-const _hoisted_161 = {
-  class: "r-reflection__name"
-};
-const _hoisted_162 = {
-  class: "r-reflection__mood"
-};
-const _hoisted_163 = {
-  class: "r-reflection__time"
-};
-const _hoisted_164 = {
-  key: 1,
-  class: "r-empty"
-};
-const _hoisted_165 = {
   id: "how-to-fast",
   class: "r-section r-section--alt"
 };
-const _hoisted_166 = {
+const _hoisted_116 = {
   class: "container"
 };
-const _hoisted_167 = {
+const _hoisted_117 = {
   class: "r-section__head"
 };
-const _hoisted_168 = {
+const _hoisted_118 = {
   class: "r-section__title"
 };
-const _hoisted_169 = {
+const _hoisted_119 = {
   class: "r-section__subtitle"
 };
-const _hoisted_170 = {
+const _hoisted_120 = {
   class: "r-grid r-grid--triple r-grid--stagger r-grid--how-to-fast"
 };
-const _hoisted_171 = {
+const _hoisted_121 = {
   class: "r-card__icon",
   "aria-hidden": "true"
 };
-const _hoisted_172 = {
+const _hoisted_122 = {
   class: "r-card__title"
 };
-const _hoisted_173 = {
+const _hoisted_123 = {
   class: "r-list"
 };
-const _hoisted_174 = {
+const _hoisted_124 = {
   key: 0,
   class: "r-inline-references"
 };
-const _hoisted_175 = {
+const _hoisted_125 = {
   class: "r-inline-references__title"
 };
-const _hoisted_176 = {
+const _hoisted_126 = {
   class: "r-inline-reference__citation"
 };
-const _hoisted_177 = {
+const _hoisted_127 = {
   key: 0
 };
-const _hoisted_178 = {
+const _hoisted_128 = {
   id: "faq",
   class: "r-section r-section--alt"
 };
-const _hoisted_179 = {
+const _hoisted_129 = {
   class: "container"
 };
-const _hoisted_180 = {
+const _hoisted_130 = {
   class: "r-section__head"
 };
-const _hoisted_181 = {
+const _hoisted_131 = {
   class: "r-section__title"
 };
-const _hoisted_182 = {
+const _hoisted_132 = {
   class: "r-section__subtitle"
 };
-const _hoisted_183 = {
+const _hoisted_133 = {
   class: "r-grid r-grid--double r-faq-grid"
 };
-const _hoisted_184 = {
+const _hoisted_134 = {
   class: "r-card__title r-faq-question"
 };
-const _hoisted_185 = {
+const _hoisted_135 = {
   class: "r-card__desc r-faq-answer"
 };
-const _hoisted_186 = {
+const _hoisted_136 = {
   id: "quran-plans",
   class: "r-section r-section--alt"
 };
-const _hoisted_187 = {
+const _hoisted_137 = {
   class: "container"
 };
-const _hoisted_188 = {
+const _hoisted_138 = {
   class: "r-section__head"
 };
-const _hoisted_189 = {
+const _hoisted_139 = {
   class: "r-section__title"
 };
-const _hoisted_190 = {
+const _hoisted_140 = {
   class: "r-section__subtitle"
 };
-const _hoisted_191 = {
+const _hoisted_141 = {
   class: "r-section__controls"
 };
-const _hoisted_192 = {
+const _hoisted_142 = ["aria-label", "title"];
+const _hoisted_143 = {
   class: "r-grid r-grid--triple r-grid--stagger"
 };
-const _hoisted_193 = {
+const _hoisted_144 = {
   class: "r-card__head"
 };
-const _hoisted_194 = {
+const _hoisted_145 = {
   class: "r-card__icon",
   "aria-hidden": "true"
 };
-const _hoisted_195 = {
+const _hoisted_146 = {
   class: "r-card__head-text"
 };
-const _hoisted_196 = {
+const _hoisted_147 = {
   class: "r-card__title"
 };
-const _hoisted_197 = {
+const _hoisted_148 = {
   class: "r-card__desc"
 };
-const _hoisted_198 = ["aria-expanded", "aria-controls", "onClick"];
-const _hoisted_199 = ["id"];
-const _hoisted_200 = {
+const _hoisted_149 = ["aria-expanded", "aria-controls", "onClick", "aria-label", "title"];
+const _hoisted_150 = ["id"];
+const _hoisted_151 = {
   class: "r-list"
 };
-const _hoisted_201 = {
+const _hoisted_152 = {
   class: "r-list r-spacing-top"
 };
-const _hoisted_202 = {
+const _hoisted_153 = {
   key: 0,
   class: "r-inline-references"
 };
-const _hoisted_203 = {
+const _hoisted_154 = {
   class: "r-inline-references__title"
 };
-const _hoisted_204 = {
+const _hoisted_155 = {
   class: "r-inline-reference__citation"
 };
-const _hoisted_205 = {
+const _hoisted_156 = {
   key: 0
 };
-const _hoisted_206 = {
+const _hoisted_157 = {
   id: "personal-plans",
   class: "r-section"
 };
-const _hoisted_207 = {
+const _hoisted_158 = {
   class: "container"
 };
-const _hoisted_208 = {
+const _hoisted_159 = {
   class: "r-section__head"
 };
-const _hoisted_209 = {
+const _hoisted_160 = {
   class: "r-section__title"
 };
-const _hoisted_210 = {
+const _hoisted_161 = {
   class: "r-section__subtitle"
 };
-const _hoisted_211 = {
+const _hoisted_162 = {
   class: "r-section__controls"
 };
-const _hoisted_212 = {
+const _hoisted_163 = ["aria-label", "title"];
+const _hoisted_164 = {
   class: "r-grid r-grid--double r-grid--stagger"
 };
-const _hoisted_213 = {
+const _hoisted_165 = {
   class: "r-card__head"
 };
-const _hoisted_214 = {
+const _hoisted_166 = {
   class: "r-card__icon",
   "aria-hidden": "true"
 };
-const _hoisted_215 = {
+const _hoisted_167 = {
   class: "r-card__head-text"
 };
-const _hoisted_216 = {
+const _hoisted_168 = {
   class: "r-card__title"
 };
-const _hoisted_217 = ["aria-expanded", "aria-controls", "onClick"];
-const _hoisted_218 = {
+const _hoisted_169 = ["aria-expanded", "aria-controls", "onClick", "aria-label", "title"];
+const _hoisted_170 = {
   class: "r-card__desc"
 };
-const _hoisted_219 = {
+const _hoisted_171 = {
   class: "r-card__desc"
 };
-const _hoisted_220 = ["id"];
-const _hoisted_221 = {
+const _hoisted_172 = ["id"];
+const _hoisted_173 = {
   class: "r-card__desc"
 };
-const _hoisted_222 = {
+const _hoisted_174 = {
   class: "r-list-block"
 };
-const _hoisted_223 = {
+const _hoisted_175 = {
   class: "r-list-block"
 };
-const _hoisted_224 = {
+const _hoisted_176 = {
   class: "r-card__desc"
 };
-const _hoisted_225 = {
+const _hoisted_177 = {
   id: "charity",
   class: "r-section r-section--alt"
 };
-const _hoisted_226 = {
+const _hoisted_178 = {
   class: "container"
 };
-const _hoisted_227 = {
+const _hoisted_179 = {
   class: "r-section__head"
 };
-const _hoisted_228 = {
+const _hoisted_180 = {
   class: "r-section__title"
 };
-const _hoisted_229 = {
+const _hoisted_181 = {
   class: "r-section__subtitle"
 };
-const _hoisted_230 = {
+const _hoisted_182 = {
   class: "r-grid r-grid--double"
 };
-const _hoisted_231 = {
+const _hoisted_183 = {
   class: "r-card r-card--charity"
 };
-const _hoisted_232 = {
+const _hoisted_184 = {
   class: "r-charity-body"
 };
-const _hoisted_233 = {
+const _hoisted_185 = {
   class: "r-card__title"
 };
-const _hoisted_234 = {
+const _hoisted_186 = {
   class: "r-list"
 };
-const _hoisted_235 = {
+const _hoisted_187 = {
   class: "r-card r-card--charity r-card--charity-alt"
 };
-const _hoisted_236 = {
+const _hoisted_188 = {
   class: "r-card__title"
 };
-const _hoisted_237 = {
+const _hoisted_189 = {
   class: "r-list"
 };
-const _hoisted_238 = {
+const _hoisted_190 = {
   class: "r-card__title r-card__title--small"
 };
-const _hoisted_239 = {
+const _hoisted_191 = {
   class: "r-list"
 };
-const _hoisted_240 = {
+const _hoisted_192 = {
   key: 0,
   class: "r-inline-references"
 };
-const _hoisted_241 = {
+const _hoisted_193 = {
   class: "r-inline-references__title"
 };
-const _hoisted_242 = {
+const _hoisted_194 = {
   class: "r-inline-reference__citation"
 };
-const _hoisted_243 = {
+const _hoisted_195 = {
   key: 0
 };
-const _hoisted_244 = {
+const _hoisted_196 = {
   id: "health",
   class: "r-section"
 };
-const _hoisted_245 = {
+const _hoisted_197 = {
   class: "container"
 };
-const _hoisted_246 = {
+const _hoisted_198 = {
   class: "r-section__head"
 };
-const _hoisted_247 = {
+const _hoisted_199 = {
   class: "r-section__title"
 };
-const _hoisted_248 = {
+const _hoisted_200 = {
   class: "r-section__subtitle"
 };
-const _hoisted_249 = {
+const _hoisted_201 = {
   class: "r-grid r-grid--triple r-grid--stagger"
 };
-const _hoisted_250 = {
+const _hoisted_202 = {
   class: "r-card__icon",
   "aria-hidden": "true"
+};
+const _hoisted_203 = {
+  class: "r-card__title"
+};
+const _hoisted_204 = {
+  class: "r-list"
+};
+const _hoisted_205 = {
+  class: "r-grid r-grid--double r-spacing-top"
+};
+const _hoisted_206 = {
+  class: "r-card__icon",
+  "aria-hidden": "true"
+};
+const _hoisted_207 = {
+  class: "r-card__title"
+};
+const _hoisted_208 = {
+  class: "r-list"
+};
+const _hoisted_209 = {
+  class: "r-micro-tips"
+};
+const _hoisted_210 = {
+  id: "shorts",
+  class: "r-section"
+};
+const _hoisted_211 = {
+  class: "container"
+};
+const _hoisted_212 = {
+  class: "r-section__head"
+};
+const _hoisted_213 = {
+  class: "r-section__title"
+};
+const _hoisted_214 = {
+  class: "r-section__subtitle"
+};
+const _hoisted_215 = {
+  class: "ramadan-short-hero"
+};
+const _hoisted_216 = {
+  class: "ramadan-short-hero__title"
+};
+const _hoisted_217 = {
+  class: "ramadan-short-hero__lead"
+};
+const _hoisted_218 = {
+  class: "ramadan-short-section"
+};
+const _hoisted_219 = {
+  class: "ramadan-short-section__head"
+};
+const _hoisted_220 = {
+  class: "ramadan-short-section__title"
+};
+const _hoisted_221 = ["aria-expanded", "aria-label", "title"];
+const _hoisted_222 = {
+  key: 0,
+  id: "shorts-highlights-grid",
+  class: "ramadan-short-highlights"
+};
+const _hoisted_223 = {
+  class: "ramadan-short-card__content"
+};
+const _hoisted_224 = {
+  class: "ramadan-short-card__tag"
+};
+const _hoisted_225 = {
+  class: "ramadan-short-card__title"
+};
+const _hoisted_226 = {
+  class: "ramadan-short-card__desc"
+};
+const _hoisted_227 = {
+  class: "ramadan-short-card__footer"
+};
+const _hoisted_228 = ["href"];
+const _hoisted_229 = {
+  class: "ramadan-short-groups"
+};
+const _hoisted_230 = {
+  class: "ramadan-short-group__head"
+};
+const _hoisted_231 = {
+  class: "ramadan-short-group__title"
+};
+const _hoisted_232 = ["onClick", "aria-expanded", "aria-controls", "aria-label", "title"];
+const _hoisted_233 = ["id"];
+const _hoisted_234 = {
+  class: "ramadan-short-card__content"
+};
+const _hoisted_235 = {
+  class: "ramadan-short-card__tag"
+};
+const _hoisted_236 = {
+  class: "ramadan-short-card__title"
+};
+const _hoisted_237 = {
+  class: "ramadan-short-card__desc"
+};
+const _hoisted_238 = {
+  class: "ramadan-short-card__footer"
+};
+const _hoisted_239 = ["href"];
+const _hoisted_240 = {
+  id: "tools",
+  class: "r-section r-section--alt"
+};
+const _hoisted_241 = {
+  class: "container"
+};
+const _hoisted_242 = {
+  class: "r-section__head"
+};
+const _hoisted_243 = {
+  class: "r-section__title"
+};
+const _hoisted_244 = {
+  class: "r-section__subtitle"
+};
+const _hoisted_245 = {
+  key: 0,
+  class: "r-section__intro"
+};
+const _hoisted_246 = {
+  id: "section-tools-body",
+  class: "r-section__body"
+};
+const _hoisted_247 = {
+  class: "r-grid r-grid--triple r-grid--stagger"
+};
+const _hoisted_248 = {
+  class: "r-card--tool__top-row"
+};
+const _hoisted_249 = {
+  class: "r-card--tool__icons"
+};
+const _hoisted_250 = {
+  class: "r-card--tool__text"
 };
 const _hoisted_251 = {
   class: "r-card__title"
 };
 const _hoisted_252 = {
-  class: "r-list"
-};
-const _hoisted_253 = {
-  class: "r-grid r-grid--double r-spacing-top"
-};
-const _hoisted_254 = {
-  class: "r-card__icon",
-  "aria-hidden": "true"
-};
-const _hoisted_255 = {
-  class: "r-card__title"
-};
-const _hoisted_256 = {
-  class: "r-list"
-};
-const _hoisted_257 = {
-  class: "r-micro-tips"
-};
-const _hoisted_258 = {
-  id: "shorts",
-  class: "r-section"
-};
-const _hoisted_259 = {
-  class: "container"
-};
-const _hoisted_260 = {
-  class: "r-section__head"
-};
-const _hoisted_261 = {
-  class: "r-section__title"
-};
-const _hoisted_262 = {
-  class: "r-section__subtitle"
-};
-const _hoisted_263 = {
-  class: "ramadan-short-hero"
-};
-const _hoisted_264 = {
-  class: "ramadan-short-hero__title"
-};
-const _hoisted_265 = {
-  class: "ramadan-short-hero__lead"
-};
-const _hoisted_266 = {
-  class: "ramadan-short-highlights"
-};
-const _hoisted_267 = {
-  class: "ramadan-short-card__content"
-};
-const _hoisted_268 = {
-  class: "ramadan-short-card__tag"
-};
-const _hoisted_269 = {
-  class: "ramadan-short-card__title"
-};
-const _hoisted_270 = {
-  class: "ramadan-short-card__desc"
-};
-const _hoisted_271 = {
-  class: "ramadan-short-card__footer"
-};
-const _hoisted_272 = ["href"];
-const _hoisted_273 = {
-  class: "ramadan-short-groups"
-};
-const _hoisted_274 = {
-  class: "ramadan-short-group__head"
-};
-const _hoisted_275 = {
-  class: "ramadan-short-group__title"
-};
-const _hoisted_276 = {
-  class: "ramadan-short-group__grid"
-};
-const _hoisted_277 = {
-  class: "ramadan-short-card__content"
-};
-const _hoisted_278 = {
-  class: "ramadan-short-card__tag"
-};
-const _hoisted_279 = {
-  class: "ramadan-short-card__title"
-};
-const _hoisted_280 = {
-  class: "ramadan-short-card__desc"
-};
-const _hoisted_281 = {
-  class: "ramadan-short-card__footer"
-};
-const _hoisted_282 = ["href"];
-const _hoisted_283 = {
-  id: "tools",
-  class: "r-section r-section--alt"
-};
-const _hoisted_284 = {
-  class: "container"
-};
-const _hoisted_285 = {
-  class: "r-section__head"
-};
-const _hoisted_286 = {
-  class: "r-section__title"
-};
-const _hoisted_287 = {
-  class: "r-section__subtitle"
-};
-const _hoisted_288 = {
-  key: 0,
-  class: "r-section__intro"
-};
-const _hoisted_289 = {
-  id: "section-tools-body",
-  class: "r-section__body"
-};
-const _hoisted_290 = {
-  class: "r-grid r-grid--triple r-grid--stagger"
-};
-const _hoisted_291 = {
-  class: "r-card--tool__top-row"
-};
-const _hoisted_292 = {
-  class: "r-card--tool__icons"
-};
-const _hoisted_293 = {
-  class: "r-card--tool__text"
-};
-const _hoisted_294 = {
-  class: "r-card__title"
-};
-const _hoisted_295 = {
   class: "r-card__desc"
 };
-const _hoisted_296 = {
+const _hoisted_253 = {
   key: 0,
   class: "r-card__detail"
 };
-const _hoisted_297 = {
+const _hoisted_254 = {
   class: "r-card--tool__footer"
 };
-const _hoisted_298 = ["href"];
-const _hoisted_299 = {
+const _hoisted_255 = ["href", "title", "aria-label"];
+const _hoisted_256 = {
   id: "platforms",
   class: "r-section"
 };
-const _hoisted_300 = {
+const _hoisted_257 = {
   class: "container"
 };
-const _hoisted_301 = {
+const _hoisted_258 = {
   class: "r-section__head"
 };
-const _hoisted_302 = {
+const _hoisted_259 = {
   class: "r-section__title"
 };
-const _hoisted_303 = {
+const _hoisted_260 = {
   class: "r-section__subtitle"
 };
-const _hoisted_304 = {
-  class: "r-grid r-grid--triple r-grid--stagger"
+const _hoisted_261 = {
+  class: "r-grid r-grid--platforms"
 };
-const _hoisted_305 = {
+const _hoisted_262 = {
   class: "r-resource-card__header"
 };
-const _hoisted_306 = {
+const _hoisted_263 = {
   class: "r-card__icon",
   "aria-hidden": "true"
 };
-const _hoisted_307 = {
+const _hoisted_264 = {
   class: "r-resource-card__title-wrap"
 };
-const _hoisted_308 = {
+const _hoisted_265 = {
   class: "r-card__title"
 };
-const _hoisted_309 = {
+const _hoisted_266 = {
+  key: 0,
   class: "r-card__desc r-resource-card__desc"
 };
-const _hoisted_310 = ["onClick", "aria-expanded", "aria-label"];
-const _hoisted_311 = {
+const _hoisted_267 = ["onClick", "aria-expanded", "aria-label"];
+const _hoisted_268 = {
+  key: 0,
   class: "r-resource-list"
 };
-const _hoisted_312 = {
+const _hoisted_269 = {
   class: "r-resource-item__head"
 };
-const _hoisted_313 = {
+const _hoisted_270 = {
   class: "r-resource-item__logo-wrap",
   "aria-hidden": "true"
 };
-const _hoisted_314 = ["src", "alt", "onError"];
-const _hoisted_315 = {
+const _hoisted_271 = ["src", "alt", "onError"];
+const _hoisted_272 = {
   key: 1,
   class: "r-resource-item__logo-fallback"
 };
-const _hoisted_316 = {
+const _hoisted_273 = {
   class: "r-resource-item__title-wrap"
 };
-const _hoisted_317 = {
+const _hoisted_274 = {
   class: "r-resource-item__title"
 };
-const _hoisted_318 = {
+const _hoisted_275 = {
   key: 0,
   class: "r-resource-item__note"
 };
-const _hoisted_319 = {
+const _hoisted_276 = {
   class: "r-resource-item__footer"
 };
-const _hoisted_320 = ["href", "aria-label", "title"];
+const _hoisted_277 = ["href", "aria-label", "title"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_SectionToolbar = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("SectionToolbar");
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("header", _hoisted_2, [_cache[33] || (_cache[33] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("header", _hoisted_2, [_cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "r-hero__backdrop"
   }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.ramadan.page_title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", _hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.ramadan.header.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_8, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.ramadan.header.subtitle), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.heroHighlights, (line, index) => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", {
@@ -2460,371 +2338,222 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       key: `history-reference-${refIndex}`,
       class: "r-inline-reference"
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_45, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(ref.citation), 1 /* TEXT */), $options.referenceSummary(ref) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_46, " - " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.referenceSummary(ref)), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
-  }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 4 /* STYLE */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_47, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_48, [_cache[62] || (_cache[62] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    class: "r-section__head"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
+  }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 4 /* STYLE */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_47, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_48, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_49, [_cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
     class: "r-section__title"
-  }, " Quran progress studio "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, " Quran progress studio ", -1 /* CACHED */)), _cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "r-section__subtitle"
-  }, " Track your reading with simple goals and a planner-tied daily breakdown. Estimates are calculated from your inputs. ")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_49, [!$data.authResolved ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_50, "Checking login status...")) : !$data.isAuthenticated ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_51, [...(_cache[34] || (_cache[34] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    class: "r-card__desc"
-  }, " Log in to personalize your Quran tracker. May Allah bless your journey and help you stay consistent. ", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    class: "r-auth-actions"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
-    class: "r-button r-button--ghost",
-    href: "/login"
-  }, "Log in")], -1 /* CACHED */)]))])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_52, [$options.quranOnboardingSteps.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_53, [_cache[36] || (_cache[36] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    class: "r-quran-onboarding__header"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    class: "r-mini-label"
-  }, "Quick start"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", null, "Ramadan-ready tracker prep")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    class: "r-quran-onboarding__hint"
-  }, "Follow the flow · 3 steps")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_54, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.quranOnboardingSteps, (step, index) => {
-    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("article", {
-      key: step.title,
-      class: "r-quran-onboarding__step r-quran-onboarding__step--theme"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_55, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_56, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(['fas', step.icon])
-    }, null, 2 /* CLASS */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_57, "Step " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(index + 1), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(step.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(step.detail), 1 /* TEXT */)]);
-  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_58, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    class: "r-button r-button--primary",
+  }, " Follow three simple steps: pick a unit, set your target, and update your reading each day. ", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_50, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    class: "r-button r-button--primary r-button--sm r-tracker-toggle",
     type: "button",
-    onClick: _cache[0] || (_cache[0] = (...args) => $options.scrollToQuranTracker && $options.scrollToQuranTracker(...args))
-  }, " Open tracker "), _cache[35] || (_cache[35] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    class: "r-quran-onboarding__cta-hint"
-  }, "Or jump straight to today’s target", -1 /* CACHED */))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_59, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("article", _hoisted_60, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_61, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_62, [_cache[37] || (_cache[37] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
-    class: "r-card__title"
+    onClick: _cache[0] || (_cache[0] = (...args) => $options.toggleTrackerVisibility && $options.toggleTrackerVisibility(...args))
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: "fas fa-book-open",
+    class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["fas", $data.isTrackerVisible ? 'fa-circle-xmark' : 'fa-chart-line']),
     "aria-hidden": "true"
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Quran reading progress ")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_63, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.quranProgressPercent) + "% complete", 1 /* TEXT */)]), _cache[51] || (_cache[51] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    class: "r-card__desc"
-  }, " Choose a unit, set a pace, and track your progress day by day. ", -1 /* CACHED */)), _cache[52] || (_cache[52] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    class: "r-helper"
-  }, "Estimates use your daily goal and planner dates. Adjust totals to match your mushaf.", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_64, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    class: "r-progress__bar",
-    role: "progressbar",
-    "aria-valuenow": $options.quranProgressPercent,
-    "aria-valuemin": "0",
-    "aria-valuemax": "100"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    class: "r-progress__fill",
-    style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
-      width: `${$options.quranProgressPercent}%`
-    })
-  }, null, 4 /* STYLE */)], 8 /* PROPS */, _hoisted_65), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_66, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.quranProgress.completed) + " / " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.quranProgress.total) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.quranUnitLabel), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.quranProgressRemaining) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.quranUnitLabel) + " remaining", 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_67, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_68, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[38] || (_cache[38] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-    class: "r-label",
-    for: "quran-unit"
-  }, "Unit", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
-    id: "quran-unit",
-    class: "r-select",
-    "onUpdate:modelValue": _cache[1] || (_cache[1] = $event => $data.quranProgress.unit = $event),
-    onChange: _cache[2] || (_cache[2] = (...args) => $options.handleQuranUnitChange && $options.handleQuranUnitChange(...args))
-  }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.quranUnits, unit => {
-    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
-      key: unit.value,
-      value: unit.value
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(unit.label), 9 /* TEXT, PROPS */, _hoisted_69);
-  }), 128 /* KEYED_FRAGMENT */))], 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.quranProgress.unit]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[39] || (_cache[39] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-    class: "r-label",
-    for: "quran-total"
-  }, "Total", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-    id: "quran-total",
-    class: "r-input",
-    type: "number",
-    min: "1",
-    "onUpdate:modelValue": _cache[3] || (_cache[3] = $event => $data.quranProgress.total = $event),
-    onInput: _cache[4] || (_cache[4] = (...args) => $options.normalizeQuranProgress && $options.normalizeQuranProgress(...args))
-  }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.quranProgress.total, void 0, {
-    number: true
-  }]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[40] || (_cache[40] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-    class: "r-label",
-    for: "quran-completed"
-  }, "Completed", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-    id: "quran-completed",
-    class: "r-input",
-    type: "number",
-    min: "0",
-    max: $data.quranProgress.total,
-    "onUpdate:modelValue": _cache[5] || (_cache[5] = $event => $data.quranProgress.completed = $event),
-    onInput: _cache[6] || (_cache[6] = (...args) => $options.normalizeQuranProgress && $options.normalizeQuranProgress(...args))
-  }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_70), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.quranProgress.completed, void 0, {
-    number: true
-  }]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_71, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[41] || (_cache[41] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-    class: "r-label",
-    for: "quran-goal"
-  }, "Daily goal", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-    id: "quran-goal",
-    class: "r-input",
-    type: "number",
-    min: "0",
-    step: "1",
-    "onUpdate:modelValue": _cache[7] || (_cache[7] = $event => $data.quranProgress.dailyGoal = $event),
-    onInput: _cache[8] || (_cache[8] = (...args) => $options.normalizeQuranProgress && $options.normalizeQuranProgress(...args))
-  }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.quranProgress.dailyGoal, void 0, {
-    number: true
-  }]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_72, [_cache[42] || (_cache[42] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    class: "r-label"
-  }, "Quick add", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_73, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    class: "r-button r-button--ghost r-button--sm",
-    type: "button",
-    onClick: _cache[9] || (_cache[9] = $event => $options.addQuranProgress(1))
-  }, " +1 "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    class: "r-button r-button--ghost r-button--sm",
-    type: "button",
-    onClick: _cache[10] || (_cache[10] = $event => $options.addQuranProgress(3))
-  }, " +3 "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    class: "r-button r-button--ghost r-button--sm",
-    type: "button",
-    onClick: _cache[11] || (_cache[11] = $event => $options.addQuranProgress(5))
-  }, " +5 ")])])])]), _cache[53] || (_cache[53] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    class: "r-note r-note--muted"
-  }, " Page counts can vary by mushaf edition. Adjust totals if needed. ", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_74, [$options.quranProgressRemaining === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_75, [...(_cache[43] || (_cache[43] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: "fas fa-check-circle",
-    "aria-hidden": "true"
-  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Completed ", -1 /* CACHED */)]))])) : $options.quranProgressDaysLeft ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_76, [_cache[44] || (_cache[44] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: "fas fa-road",
-    "aria-hidden": "true"
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" At this pace: ~" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.quranProgressDaysLeft) + " day" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.quranProgressDaysLeft === 1 ? "" : "s") + " left ", 1 /* TEXT */)])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_77, [...(_cache[45] || (_cache[45] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: "fas fa-calendar",
-    "aria-hidden": "true"
-  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Set a daily goal to estimate your pace. ", -1 /* CACHED */)]))])), _cache[46] || (_cache[46] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    class: "r-progress__hint"
-  }, "Saved locally for your login.", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_78, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[47] || (_cache[47] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    class: "r-mini-label"
-  }, "Days remaining", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.quranDaysRemaining), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[48] || (_cache[48] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    class: "r-mini-label"
-  }, "Needed per day", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.quranDailyTargetNeeded) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.quranUnitLabel) + "/day", 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[50] || (_cache[50] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    class: "r-mini-label"
-  }, "Est. completion", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, [_cache[49] || (_cache[49] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: "fas fa-flag-checkered",
-    "aria-hidden": "true"
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.quranCompletionLabel), 1 /* TEXT */)])])])])], 512 /* NEED_PATCH */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("article", _hoisted_79, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_80, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_81, [_cache[54] || (_cache[54] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
-    class: "r-card__title"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: "fas fa-calendar-day",
-    "aria-hidden": "true"
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Daily breakdown ")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_82, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.calendarLength) + " days", 1 /* TEXT */)]), _cache[60] || (_cache[60] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    class: "r-card__desc"
-  }, " Tied to your planner dates. Targets use your daily goal or an even split across Ramadan. ", -1 /* CACHED */)), _cache[61] || (_cache[61] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    class: "r-helper"
-  }, "Daily totals update from your saved entries (including “Mark today complete”).", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_83, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[56] || (_cache[56] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    class: "r-mini-label"
-  }, "Today's Progress", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.quranTodayRead) + " / " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.quranTodayTarget) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.quranUnitLabel), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_84, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Remaining: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.quranTodayRemaining), 1 /* TEXT */), $options.quranTodayRemaining === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_85, [...(_cache[55] || (_cache[55] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: "fas fa-check",
-    "aria-hidden": "true"
-  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Completed ", -1 /* CACHED */)]))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), $options.quranTodayRemaining === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_86, "Completion saved for today.")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_87, [_cache[57] || (_cache[57] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    class: "r-tooltip",
-    "aria-label": "Uses your device date to define today.",
-    title: "Uses your device date to define today."
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: "fas fa-circle-info",
-    "aria-hidden": "true"
-  })], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    class: "r-button r-button--ghost r-button--sm",
-    type: "button",
-    disabled: !$options.canMarkTodayComplete,
-    onClick: _cache[12] || (_cache[12] = (...args) => $options.markTodayComplete && $options.markTodayComplete(...args))
-  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.quranTodayRemaining === 0 ? "Completed" : "Mark today complete"), 9 /* TEXT, PROPS */, _hoisted_88), $data.lastQuickAction ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
-    key: 0,
-    class: "r-chip r-chip--action",
-    type: "button",
-    onClick: _cache[13] || (_cache[13] = (...args) => $options.undoLastQuickAction && $options.undoLastQuickAction(...args))
-  }, " Undo ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_89, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.quranBreakdownDays, day => {
-    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
-      key: day.key,
-      class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["r-breakdown__row", {
-        'is-today': day.isToday,
-        'is-selected': day.isSelected
-      }])
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_90, "Day " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(day.dayNumber), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_91, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatShortDate(day.date)), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_92, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, [_cache[58] || (_cache[58] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      class: "fas fa-bullseye",
-      "aria-hidden": "true"
-    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(day.target) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.quranUnitLabel), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, [_cache[59] || (_cache[59] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.isTrackerVisible ? "Close tracker" : "Open tracker"), 1 /* TEXT */)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
+    name: "r-collapse"
+  }, {
+    default: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(() => [$data.isTrackerVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_51, [!$data.authResolved ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_52, "Checking login status...")) : !$data.isAuthenticated ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_53, [...(_cache[22] || (_cache[22] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+      class: "r-card__desc"
+    }, " Log in to personalize your Quran tracker. May Allah bless your journey and help you stay consistent. ", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+      class: "r-auth-actions"
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+      class: "r-button r-button--ghost",
+      href: "/login"
+    }, "Log in")], -1 /* CACHED */)]))])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_54, [$options.quranOnboardingSteps.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_55, [_cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+      class: "r-quran-onboarding__header"
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+      class: "r-mini-label"
+    }, "Quick start"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", null, "Ramadan-ready tracker prep")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+      class: "r-quran-onboarding__hint"
+    }, "Follow the flow · 3 steps")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_56, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.quranOnboardingSteps, (step, index) => {
+      return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("article", {
+        key: step.title,
+        class: "r-quran-onboarding__step r-quran-onboarding__step--theme"
+      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_57, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_58, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+        class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(['fas', step.icon])
+      }, null, 2 /* CLASS */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_59, "Step " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(index + 1), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(step.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(step.detail), 1 /* TEXT */)]);
+    }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_60, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      class: "r-button r-button--primary",
+      type: "button",
+      onClick: _cache[1] || (_cache[1] = (...args) => $options.scrollToQuranTracker && $options.scrollToQuranTracker(...args))
+    }, " Go to tracker "), _cache[23] || (_cache[23] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+      class: "r-quran-onboarding__cta-hint"
+    }, "Or jump straight to today’s target", -1 /* CACHED */))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_61, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("article", _hoisted_62, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_63, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_64, [_cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
+      class: "r-card__title"
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "fas fa-book-open",
       "aria-hidden": "true"
-    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(day.read) + " read ", 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-      class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["r-badge", $options.breakdownStatusClass(day.status)])
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.breakdownStatusLabel(day.status)), 3 /* TEXT, CLASS */)])], 2 /* CLASS */);
-  }), 128 /* KEYED_FRAGMENT */))])])])])]))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_93, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_94, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_95, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", _hoisted_96, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.ramadan.important_dates.section_title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_97, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.ramadan.important_dates.subtitle), 1 /* TEXT */)]), $options.keyDateHighlights.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_98, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.keyDateHighlights, highlight => {
+    }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Quran reading progress ")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_65, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.quranProgressPercent) + "% complete", 1 /* TEXT */)]), _cache[39] || (_cache[39] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+      class: "r-card__desc"
+    }, " Choose a unit, set a pace, and track your progress day by day. ", -1 /* CACHED */)), _cache[40] || (_cache[40] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+      class: "r-helper"
+    }, "Estimates use your daily goal and selected Ramadan dates. Adjust totals to match your mushaf.", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_66, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+      class: "r-progress__bar",
+      role: "progressbar",
+      "aria-valuenow": $options.quranProgressPercent,
+      "aria-valuemin": "0",
+      "aria-valuemax": "100"
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+      class: "r-progress__fill",
+      style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
+        width: `${$options.quranProgressPercent}%`
+      })
+    }, null, 4 /* STYLE */)], 8 /* PROPS */, _hoisted_67), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_68, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.quranProgress.completed) + " / " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.quranProgress.total) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.quranUnitLabel), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.quranProgressRemaining) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.quranUnitLabel) + " remaining", 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_69, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_70, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[26] || (_cache[26] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+      class: "r-label",
+      for: "quran-unit"
+    }, "Unit", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+      id: "quran-unit",
+      class: "r-select",
+      "onUpdate:modelValue": _cache[2] || (_cache[2] = $event => $data.quranProgress.unit = $event),
+      onChange: _cache[3] || (_cache[3] = (...args) => $options.handleQuranUnitChange && $options.handleQuranUnitChange(...args))
+    }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.quranUnits, unit => {
+      return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
+        key: unit.value,
+        value: unit.value
+      }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(unit.label), 9 /* TEXT, PROPS */, _hoisted_71);
+    }), 128 /* KEYED_FRAGMENT */))], 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.quranProgress.unit]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[27] || (_cache[27] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+      class: "r-label",
+      for: "quran-total"
+    }, "Total", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+      id: "quran-total",
+      class: "r-input",
+      type: "number",
+      min: "1",
+      "onUpdate:modelValue": _cache[4] || (_cache[4] = $event => $data.quranProgress.total = $event),
+      onInput: _cache[5] || (_cache[5] = (...args) => $options.normalizeQuranProgress && $options.normalizeQuranProgress(...args))
+    }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.quranProgress.total, void 0, {
+      number: true
+    }]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[28] || (_cache[28] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+      class: "r-label",
+      for: "quran-completed"
+    }, "Completed", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+      id: "quran-completed",
+      class: "r-input",
+      type: "number",
+      min: "0",
+      max: $data.quranProgress.total,
+      "onUpdate:modelValue": _cache[6] || (_cache[6] = $event => $data.quranProgress.completed = $event),
+      onInput: _cache[7] || (_cache[7] = (...args) => $options.normalizeQuranProgress && $options.normalizeQuranProgress(...args))
+    }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_72), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.quranProgress.completed, void 0, {
+      number: true
+    }]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_73, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[29] || (_cache[29] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+      class: "r-label",
+      for: "quran-goal"
+    }, "Daily goal", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+      id: "quran-goal",
+      class: "r-input",
+      type: "number",
+      min: "0",
+      step: "1",
+      "onUpdate:modelValue": _cache[8] || (_cache[8] = $event => $data.quranProgress.dailyGoal = $event),
+      onInput: _cache[9] || (_cache[9] = (...args) => $options.normalizeQuranProgress && $options.normalizeQuranProgress(...args))
+    }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.quranProgress.dailyGoal, void 0, {
+      number: true
+    }]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_74, [_cache[30] || (_cache[30] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+      class: "r-label"
+    }, "Quick add", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_75, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      class: "r-button r-button--ghost r-button--sm",
+      type: "button",
+      onClick: _cache[10] || (_cache[10] = $event => $options.addQuranProgress(1))
+    }, " +1 "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      class: "r-button r-button--ghost r-button--sm",
+      type: "button",
+      onClick: _cache[11] || (_cache[11] = $event => $options.addQuranProgress(3))
+    }, " +3 "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      class: "r-button r-button--ghost r-button--sm",
+      type: "button",
+      onClick: _cache[12] || (_cache[12] = $event => $options.addQuranProgress(5))
+    }, " +5 ")])])])]), _cache[41] || (_cache[41] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+      class: "r-note r-note--muted"
+    }, " Page counts can vary by mushaf edition. Adjust totals if needed. ", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_76, [$options.quranProgressRemaining === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_77, [...(_cache[31] || (_cache[31] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      class: "fas fa-check-circle",
+      "aria-hidden": "true"
+    }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Completed ", -1 /* CACHED */)]))])) : $options.quranProgressDaysLeft ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_78, [_cache[32] || (_cache[32] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      class: "fas fa-road",
+      "aria-hidden": "true"
+    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" At this pace: ~" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.quranProgressDaysLeft) + " day" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.quranProgressDaysLeft === 1 ? "" : "s") + " left ", 1 /* TEXT */)])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_79, [...(_cache[33] || (_cache[33] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      class: "fas fa-calendar",
+      "aria-hidden": "true"
+    }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Set a daily goal to estimate your pace. ", -1 /* CACHED */)]))])), _cache[34] || (_cache[34] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+      class: "r-progress__hint"
+    }, "Saved locally for your login.", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_80, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[35] || (_cache[35] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+      class: "r-mini-label"
+    }, "Days remaining", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.quranDaysRemaining), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[36] || (_cache[36] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+      class: "r-mini-label"
+    }, "Needed per day", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.quranDailyTargetNeeded) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.quranUnitLabel) + "/day", 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[38] || (_cache[38] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+      class: "r-mini-label"
+    }, "Est. completion", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, [_cache[37] || (_cache[37] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      class: "fas fa-flag-checkered",
+      "aria-hidden": "true"
+    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.quranCompletionLabel), 1 /* TEXT */)])])])])], 512 /* NEED_PATCH */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("article", _hoisted_81, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_82, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_83, [_cache[42] || (_cache[42] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
+      class: "r-card__title"
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      class: "fas fa-calendar-day",
+      "aria-hidden": "true"
+    }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Daily breakdown ")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_84, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.calendarLength) + " days", 1 /* TEXT */)]), _cache[48] || (_cache[48] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+      class: "r-card__desc"
+    }, " Tied to your selected Ramadan dates. Targets use your daily goal or an even split across Ramadan. ", -1 /* CACHED */)), _cache[49] || (_cache[49] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+      class: "r-helper"
+    }, "Daily totals update from your saved entries (including “Mark today complete”).", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_85, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[44] || (_cache[44] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+      class: "r-mini-label"
+    }, "Today's Progress", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.quranTodayRead) + " / " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.quranTodayTarget) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.quranUnitLabel), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_86, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Remaining: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.quranTodayRemaining), 1 /* TEXT */), $options.quranTodayRemaining === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_87, [...(_cache[43] || (_cache[43] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      class: "fas fa-check",
+      "aria-hidden": "true"
+    }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Completed ", -1 /* CACHED */)]))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), $options.quranTodayRemaining === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_88, "Completion saved for today.")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_89, [_cache[45] || (_cache[45] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+      class: "r-tooltip",
+      "aria-label": "Uses your device date to define today.",
+      title: "Uses your device date to define today."
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      class: "fas fa-circle-info",
+      "aria-hidden": "true"
+    })], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      class: "r-button r-button--ghost r-button--sm",
+      type: "button",
+      disabled: !$options.canMarkTodayComplete,
+      onClick: _cache[13] || (_cache[13] = (...args) => $options.markTodayComplete && $options.markTodayComplete(...args))
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.quranTodayRemaining === 0 ? "Completed" : "Mark today complete"), 9 /* TEXT, PROPS */, _hoisted_90), $data.lastQuickAction ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+      key: 0,
+      class: "r-chip r-chip--action",
+      type: "button",
+      onClick: _cache[14] || (_cache[14] = (...args) => $options.undoLastQuickAction && $options.undoLastQuickAction(...args))
+    }, " Undo ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_91, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.quranBreakdownDays, day => {
+      return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+        key: day.key,
+        class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["r-breakdown__row", {
+          'is-today': day.isToday,
+          'is-selected': day.isSelected
+        }])
+      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_92, "Day " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(day.dayNumber), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_93, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatShortDate(day.date)), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_94, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, [_cache[46] || (_cache[46] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+        class: "fas fa-bullseye",
+        "aria-hidden": "true"
+      }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(day.target) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.quranUnitLabel), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, [_cache[47] || (_cache[47] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+        class: "fas fa-book-open",
+        "aria-hidden": "true"
+      }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(day.read) + " read ", 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+        class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["r-badge", $options.breakdownStatusClass(day.status)])
+      }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.breakdownStatusLabel(day.status)), 3 /* TEXT, CLASS */)])], 2 /* CLASS */);
+    }), 128 /* KEYED_FRAGMENT */))])])])])]))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]),
+    _: 1 /* STABLE */
+  })])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_95, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_96, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_97, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", _hoisted_98, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.ramadan.important_dates.section_title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_99, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.ramadan.important_dates.subtitle), 1 /* TEXT */)]), $options.keyDateHighlights.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_100, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.keyDateHighlights, highlight => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("article", {
       key: highlight.title,
       class: "r-card r-card--mini"
-    }, [highlight.showIcon !== false && highlight.icon ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_99, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [highlight.showIcon !== false && highlight.icon ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_101, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(['fas', highlight.icon]),
       "aria-hidden": "true"
-    }, null, 2 /* CLASS */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_100, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(highlight.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_101, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(highlight.copy), 1 /* TEXT */)])]);
-  }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_102, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_103, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.ramadan.important_dates.dates, (date, index) => {
+    }, null, 2 /* CLASS */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_102, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(highlight.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_103, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(highlight.copy), 1 /* TEXT */)])]);
+  }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_104, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_105, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.ramadan.important_dates.dates, (date, index) => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("article", {
       key: date.event,
       class: "r-card r-card--date"
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["r-card__tag", `r-card__tag--${date.type}`])
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(date.event), 3 /* TEXT, CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_104, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(date.gregorian_date), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_105, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(date.hijri_date), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_106, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(date.description), 1 /* TEXT */)]);
-  }), 128 /* KEYED_FRAGMENT */))]), $data.ramadan.moon_sighting ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_107, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("article", _hoisted_108, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_109, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.ramadan.moon_sighting.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_110, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.ramadan.moon_sighting.intro), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ol", _hoisted_111, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.ramadan.moon_sighting.steps, (step, index) => {
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(date.event), 3 /* TEXT, CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_106, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(date.gregorian_date), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_107, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(date.hijri_date), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_108, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(date.description), 1 /* TEXT */)]);
+  }), 128 /* KEYED_FRAGMENT */))]), $data.ramadan.moon_sighting ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_109, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("article", _hoisted_110, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_111, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.ramadan.moon_sighting.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_112, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.ramadan.moon_sighting.intro), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ol", _hoisted_113, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.ramadan.moon_sighting.steps, (step, index) => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
       key: index
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(step), 1 /* TEXT */);
-  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_112, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.ramadan.moon_sighting.note), 1 /* TEXT */)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_113, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_114, [_cache[74] || (_cache[74] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    class: "r-section__head"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
-    class: "r-section__title"
-  }, " Live Ramadan Planner "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    class: "r-section__subtitle"
-  }, " Turn this guide into a living plan with a day-by-day calendar, personal reminders, and shared reflections. ")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_115, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_116, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_117, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("article", _hoisted_118, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_119, [_cache[65] || (_cache[65] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
-    class: "r-card__title"
-  }, "Ramadan day-by-day calendar"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    class: "r-card__desc"
-  }, " Adjust the start date to match local moon sighting and track your progress each day. ")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_120, [_cache[63] || (_cache[63] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-    class: "r-label",
-    for: "planner-start-date"
-  }, "Start date", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-    id: "planner-start-date",
-    class: "r-input",
-    type: "date",
-    "onUpdate:modelValue": _cache[14] || (_cache[14] = $event => $data.calendarStartOverride = $event),
-    onChange: _cache[15] || (_cache[15] = (...args) => $options.persistCalendar && $options.persistCalendar(...args))
-  }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.calendarStartOverride]]), _cache[64] || (_cache[64] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-    class: "r-label",
-    for: "planner-length"
-  }, "Length", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
-    id: "planner-length",
-    class: "r-select",
-    "onUpdate:modelValue": _cache[16] || (_cache[16] = $event => $data.calendarLength = $event),
-    onChange: _cache[17] || (_cache[17] = (...args) => $options.persistCalendar && $options.persistCalendar(...args))
-  }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)([29, 30], len => {
-    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
-      key: len,
-      value: len
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(len) + " days", 9 /* TEXT, PROPS */, _hoisted_121);
-  }), 64 /* STABLE_FRAGMENT */))], 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.calendarLength, void 0, {
-    number: true
-  }]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_122, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.calendarDays, (day, index) => {
-    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
-      key: day.key,
-      class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["r-calendar__cell", {
-        'is-today': day.isToday,
-        'is-selected': index === $data.selectedDayIndex,
-        'is-special': day.event
-      }]),
-      type: "button",
-      onClick: $event => $options.selectDay(index),
-      onMouseenter: $event => $options.setHoveredCalendarDay(day),
-      onFocus: $event => $options.setHoveredCalendarDay(day),
-      onMouseleave: _cache[18] || (_cache[18] = (...args) => $options.clearHoveredCalendarDay && $options.clearHoveredCalendarDay(...args)),
-      onBlur: _cache[19] || (_cache[19] = (...args) => $options.clearHoveredCalendarDay && $options.clearHoveredCalendarDay(...args))
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_124, "Day " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(day.dayNumber), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_125, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatShortDate(day.date)), 1 /* TEXT */), day.event ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_126, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(day.event), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 42 /* CLASS, PROPS, NEED_HYDRATION */, _hoisted_123);
-  }), 128 /* KEYED_FRAGMENT */)), $options.hoveredCalendarHint ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_127, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.hoveredCalendarHint.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.hoveredCalendarHint.event), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_128, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_129, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("article", _hoisted_130, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_131, [_cache[66] || (_cache[66] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
-    class: "ramadan-reminder-title"
-  }, "Stay present this Ramadan"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    class: "ramadan-reminder-lead"
-  }, " Build a mini schedule for suhoor, iftar, prayers, or goals. Reminders stay on this device. ")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_132, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.reminders.length) + " saved", 1 /* TEXT */)]), !$data.authResolved ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_133, "Checking login status...")) : !$data.isAuthenticated ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_134, [...(_cache[67] || (_cache[67] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "Log in to create and view your saved personal reminders.", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    class: "ramadan-reminder-auth__actions"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
-    class: "ramadan-reminder-link",
-    href: "/login"
-  }, "Log in")], -1 /* CACHED */)]))])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_135, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_136, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
-    class: "ramadan-reminder-form",
-    onSubmit: _cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)((...args) => $options.addReminder && $options.addReminder(...args), ["prevent"]))
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_137, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-    class: "ramadan-reminder-input",
-    "onUpdate:modelValue": _cache[20] || (_cache[20] = $event => $data.reminderDraft.title = $event),
-    type: "text",
-    placeholder: "Reminder title",
-    required: ""
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.reminderDraft.title, void 0, {
-    trim: true
-  }]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
-    class: "ramadan-reminder-select",
-    "onUpdate:modelValue": _cache[21] || (_cache[21] = $event => $data.reminderDraft.dayNumber = $event)
-  }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.dayOptions, day => {
-    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
-      key: day,
-      value: day
-    }, "Day " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(day), 9 /* TEXT, PROPS */, _hoisted_138);
-  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.reminderDraft.dayNumber, void 0, {
-    number: true
-  }]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_139, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
-    class: "ramadan-reminder-select",
-    "onUpdate:modelValue": _cache[22] || (_cache[22] = $event => $data.reminderDraft.timeOfDay = $event)
-  }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.timeOfDayOptions, option => {
-    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
-      key: option.value,
-      value: option.value
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(option.label), 9 /* TEXT, PROPS */, _hoisted_140);
-  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.reminderDraft.timeOfDay]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-    class: "ramadan-reminder-input",
-    "onUpdate:modelValue": _cache[23] || (_cache[23] = $event => $data.reminderDraft.note = $event),
-    type: "text",
-    placeholder: "Optional note"
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.reminderDraft.note, void 0, {
-    trim: true
-  }]])]), _cache[68] || (_cache[68] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    class: "ramadan-reminder-submit",
-    type: "submit"
-  }, "Save reminder", -1 /* CACHED */))], 32 /* NEED_HYDRATION */)]), $options.sortedReminders.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_141, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.sortedReminders, reminder => {
-    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("article", {
-      key: reminder.id,
-      class: "ramadan-reminder-item"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_142, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", _hoisted_143, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-      type: "checkbox",
-      "onUpdate:modelValue": $event => reminder.done = $event,
-      onChange: _cache[25] || (_cache[25] = (...args) => $options.persistReminders && $options.persistReminders(...args))
-    }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_144), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelCheckbox, reminder.done]]), _cache[69] || (_cache[69] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, null, -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
-      class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)({
-        'is-done': reminder.done
-      })
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(reminder.title), 3 /* TEXT, CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_145, " Day " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(reminder.dayNumber) + " - " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatTimeLabel(reminder.timeOfDay)), 1 /* TEXT */), reminder.note ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_146, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(reminder.note), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-      class: "ramadan-reminder-remove",
-      type: "button",
-      onClick: $event => $options.removeReminder(reminder.id)
-    }, " Remove ", 8 /* PROPS */, _hoisted_147)]);
-  }), 128 /* KEYED_FRAGMENT */))])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_148, "No reminders yet. Add your first one above."))]))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_149, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("article", _hoisted_150, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_151, [_cache[70] || (_cache[70] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
-    class: "r-card__title"
-  }, "Community reflections", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_152, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.reflections.length) + " shared", 1 /* TEXT */)]), _cache[73] || (_cache[73] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    class: "r-card__desc"
-  }, "Share a short reflection, dua, or intention and see it appear instantly.", -1 /* CACHED */)), !$data.authResolved ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_153, "Checking login status...")) : !$data.isAuthenticated ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_154, [...(_cache[71] || (_cache[71] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    class: "r-card__desc"
-  }, "Log in to share and view your saved community reflections.", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    class: "r-auth-actions"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
-    class: "r-button r-button--ghost",
-    href: "/login"
-  }, "Log in")], -1 /* CACHED */)]))])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_155, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_156, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
-    class: "r-form",
-    onSubmit: _cache[29] || (_cache[29] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)((...args) => $options.addReflection && $options.addReflection(...args), ["prevent"]))
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_157, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-    class: "r-input",
-    "onUpdate:modelValue": _cache[26] || (_cache[26] = $event => $data.reflectionDraft.name = $event),
-    type: "text",
-    placeholder: "Name (optional)"
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.reflectionDraft.name, void 0, {
-    trim: true
-  }]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
-    class: "r-select",
-    "onUpdate:modelValue": _cache[27] || (_cache[27] = $event => $data.reflectionDraft.mood = $event)
-  }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.reflectionMoods, mood => {
-    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
-      key: mood,
-      value: mood
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(mood), 9 /* TEXT, PROPS */, _hoisted_158);
-  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.reflectionDraft.mood]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("textarea", {
-    class: "r-textarea",
-    "onUpdate:modelValue": _cache[28] || (_cache[28] = $event => $data.reflectionDraft.text = $event),
-    rows: "3",
-    placeholder: "Share a reflection or dua...",
-    required: ""
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.reflectionDraft.text, void 0, {
-    trim: true
-  }]]), _cache[72] || (_cache[72] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    class: "r-button r-button--primary",
-    type: "submit"
-  }, "Share reflection", -1 /* CACHED */))], 32 /* NEED_HYDRATION */)]), $data.reflections.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_159, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.reflections, reflection => {
-    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("article", {
-      key: reflection.id,
-      class: "r-reflection"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_160, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_161, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(reflection.name || "Anonymous"), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_162, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(reflection.mood), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_163, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatRelativeTime(reflection.timestamp)), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(reflection.text), 1 /* TEXT */)]);
-  }), 128 /* KEYED_FRAGMENT */))])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_164, "Be the first to share a reflection."))]))])])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_165, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_166, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_167, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", _hoisted_168, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.ramadan.how_to_fast.section_title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_169, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.ramadan.how_to_fast.intro), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_SectionToolbar, {
+  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_114, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.ramadan.moon_sighting.note), 1 /* TEXT */)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_115, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_116, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_117, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", _hoisted_118, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.ramadan.how_to_fast.section_title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_119, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.ramadan.how_to_fast.intro), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_SectionToolbar, {
     "section-id": "how-to-fast",
     "section-title": $data.ramadan.how_to_fast.section_title,
     "section-feedback": $data.toolbarFeedback['how-to-fast'],
@@ -2837,23 +2566,23 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     id: "section-how-to-fast-body",
     class: "r-section__body",
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)($options.sectionBodyStyle('how-to-fast'))
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_170, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.ramadan.how_to_fast.cards, (card, index) => {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_120, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.ramadan.how_to_fast.cards, (card, index) => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("article", {
       key: card.title,
       class: "r-card r-card--step"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_171, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_121, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)($options.getIconClasses('fasting', index))
-    }, null, 2 /* CLASS */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_172, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(card.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_173, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(card.items, item => {
+    }, null, 2 /* CLASS */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_122, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(card.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_123, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(card.items, item => {
       return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
         key: item
       }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item), 1 /* TEXT */);
     }), 128 /* KEYED_FRAGMENT */))])]);
-  }), 128 /* KEYED_FRAGMENT */))]), $options.hasSectionReferences($data.ramadan.how_to_fast.references) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_174, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_175, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.ramadan.labels.references), 1 /* TEXT */), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.ramadan.how_to_fast.references, (ref, refIndex) => {
+  }), 128 /* KEYED_FRAGMENT */))]), $options.hasSectionReferences($data.ramadan.how_to_fast.references) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_124, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_125, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.ramadan.labels.references), 1 /* TEXT */), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.ramadan.how_to_fast.references, (ref, refIndex) => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", {
       key: `how-to-fast-reference-${refIndex}`,
       class: "r-inline-reference"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_176, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(ref.citation), 1 /* TEXT */), $options.referenceSummary(ref) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_177, " - " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.referenceSummary(ref)), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
-  }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 4 /* STYLE */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_178, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_179, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_180, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", _hoisted_181, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.ramadan.faq.section_title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_182, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.ramadan.faq.subtitle), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_SectionToolbar, {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_126, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(ref.citation), 1 /* TEXT */), $options.referenceSummary(ref) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_127, " - " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.referenceSummary(ref)), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
+  }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 4 /* STYLE */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_128, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_129, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_130, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", _hoisted_131, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.ramadan.faq.section_title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_132, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.ramadan.faq.subtitle), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_SectionToolbar, {
     "section-id": "faq",
     "section-title": $data.ramadan.faq.section_title,
     "section-feedback": $data.toolbarFeedback.faq,
@@ -2866,16 +2595,21 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     id: "section-faq-body",
     class: "r-section__body",
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)($options.sectionBodyStyle('faq'))
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_183, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.ramadan.faq.items, item => {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_133, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.ramadan.faq.items, item => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("article", {
       key: item.question,
       class: "r-card r-card--faq"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_184, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.question), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_185, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.answer), 1 /* TEXT */)]);
-  }), 128 /* KEYED_FRAGMENT */))])], 4 /* STYLE */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_186, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_187, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_188, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", _hoisted_189, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.ramadan.quran_reading_plans.section_title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_190, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.ramadan.quran_reading_plans.intro), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_191, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    class: "r-button r-button--ghost r-button--sm",
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_134, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.question), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_135, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.answer), 1 /* TEXT */)]);
+  }), 128 /* KEYED_FRAGMENT */))])], 4 /* STYLE */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_136, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_137, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_138, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", _hoisted_139, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.ramadan.quran_reading_plans.section_title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_140, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.ramadan.quran_reading_plans.intro), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_141, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    class: "r-button r-button--ghost r-button--sm r-button--icon",
     type: "button",
-    onClick: _cache[30] || (_cache[30] = (...args) => $options.toggleAllQuranPlans && $options.toggleAllQuranPlans(...args))
-  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.areAllQuranPlansExpanded ? "Collapse all plans" : "Expand all plans"), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_SectionToolbar, {
+    onClick: _cache[15] || (_cache[15] = (...args) => $options.toggleAllQuranPlans && $options.toggleAllQuranPlans(...args)),
+    "aria-label": $options.areAllQuranPlansExpanded ? 'Collapse all plans' : 'Expand all plans',
+    title: $options.areAllQuranPlansExpanded ? 'Collapse all plans' : 'Expand all plans'
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["fas", $options.areAllQuranPlansExpanded ? 'fa-chevron-up' : 'fa-chevron-down']),
+    "aria-hidden": "true"
+  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_142)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_SectionToolbar, {
     "section-id": "quran-plans",
     "section-title": $data.ramadan.quran_reading_plans.section_title,
     "section-feedback": $data.toolbarFeedback['quran-plans'],
@@ -2888,36 +2622,46 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     id: "section-quran-plans-body",
     class: "r-section__body",
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)($options.sectionBodyStyle('quran-plans'))
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_192, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.ramadan.quran_reading_plans.plans, (plan, index) => {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_143, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.ramadan.quran_reading_plans.plans, (plan, index) => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("article", {
       key: plan.level,
       class: "r-card r-card--plan"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_193, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_194, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_144, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_145, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)($options.getIconClasses('quran', index))
-    }, null, 2 /* CLASS */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_195, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_196, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.level), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_197, "Daily target: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.daily_target), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-      class: "r-card__toggle",
+    }, null, 2 /* CLASS */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_146, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_147, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.level), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_148, "Daily target: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.daily_target), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      class: "r-card__toggle r-card__toggle--icon",
       type: "button",
       "aria-expanded": $options.isQuranPlanExpanded(index),
       "aria-controls": `quran-plan-${index}`,
-      onClick: $event => $options.toggleQuranPlan(index)
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.isQuranPlanExpanded(index) ? "Hide details" : "View full plan"), 9 /* TEXT, PROPS */, _hoisted_198)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+      onClick: $event => $options.toggleQuranPlan(index),
+      "aria-label": $options.isQuranPlanExpanded(index) ? 'Hide details' : 'Show details',
+      title: $options.isQuranPlanExpanded(index) ? 'Hide details' : 'Show details'
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["fas", $options.isQuranPlanExpanded(index) ? 'fa-chevron-up' : 'fa-chevron-down']),
+      "aria-hidden": "true"
+    }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_149)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       id: `quran-plan-${index}`,
       class: "r-plan-details"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_200, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, "Time needed: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.time_needed), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, "Structure: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.structure), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, "Goal: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.goal), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, "Split: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.split), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_201, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(plan.tips, tip => {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_151, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, "Time needed: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.time_needed), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, "Structure: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.structure), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, "Goal: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.goal), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, "Split: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.split), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_152, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(plan.tips, tip => {
       return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
         key: tip
       }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(tip), 1 /* TEXT */);
-    }), 128 /* KEYED_FRAGMENT */))])], 8 /* PROPS */, _hoisted_199), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $options.isQuranPlanExpanded(index)]])]);
-  }), 128 /* KEYED_FRAGMENT */))]), $options.hasSectionReferences($data.ramadan.quran_reading_plans.references) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_202, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_203, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.ramadan.labels.references), 1 /* TEXT */), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.ramadan.quran_reading_plans.references, (ref, refIndex) => {
+    }), 128 /* KEYED_FRAGMENT */))])], 8 /* PROPS */, _hoisted_150), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $options.isQuranPlanExpanded(index)]])]);
+  }), 128 /* KEYED_FRAGMENT */))]), $options.hasSectionReferences($data.ramadan.quran_reading_plans.references) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_153, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_154, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.ramadan.labels.references), 1 /* TEXT */), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.ramadan.quran_reading_plans.references, (ref, refIndex) => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", {
       key: `quran-plans-reference-${refIndex}`,
       class: "r-inline-reference"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_204, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(ref.citation), 1 /* TEXT */), $options.referenceSummary(ref) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_205, " - " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.referenceSummary(ref)), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
-  }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 4 /* STYLE */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_206, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_207, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_208, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", _hoisted_209, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.ramadan.personal_plans.section_title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_210, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.ramadan.personal_plans.intro), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_211, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    class: "r-button r-button--ghost r-button--sm",
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_155, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(ref.citation), 1 /* TEXT */), $options.referenceSummary(ref) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_156, " - " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.referenceSummary(ref)), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
+  }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 4 /* STYLE */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_157, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_158, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_159, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", _hoisted_160, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.ramadan.personal_plans.section_title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_161, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.ramadan.personal_plans.intro), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_162, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    class: "r-button r-button--ghost r-button--sm r-button--icon",
     type: "button",
-    onClick: _cache[31] || (_cache[31] = (...args) => $options.toggleAllPersonalPlans && $options.toggleAllPersonalPlans(...args))
-  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.areAllPersonalPlansExpanded ? "Collapse all plans" : "Expand all plans"), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_SectionToolbar, {
+    onClick: _cache[16] || (_cache[16] = (...args) => $options.toggleAllPersonalPlans && $options.toggleAllPersonalPlans(...args)),
+    "aria-label": $options.areAllPersonalPlansExpanded ? 'Collapse all plans' : 'Expand all plans',
+    title: $options.areAllPersonalPlansExpanded ? 'Collapse all plans' : 'Expand all plans'
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["fas", $options.areAllPersonalPlansExpanded ? 'fa-chevron-up' : 'fa-chevron-down']),
+    "aria-hidden": "true"
+  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_163)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_SectionToolbar, {
     "section-id": "personal-plans",
     "section-title": $data.ramadan.personal_plans.section_title,
     "section-feedback": $data.toolbarFeedback['personal-plans'],
@@ -2930,31 +2674,36 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     id: "section-personal-plans-body",
     class: "r-section__body",
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)($options.sectionBodyStyle('personal-plans'))
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_212, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.ramadan.personal_plans.plans, (plan, index) => {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_164, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.ramadan.personal_plans.plans, (plan, index) => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("article", {
       key: plan.title,
       class: "r-card r-card--persona"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_213, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_214, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_165, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_166, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)($options.getIconClasses('personal', index))
-    }, null, 2 /* CLASS */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_215, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_216, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-      class: "r-card__toggle",
+    }, null, 2 /* CLASS */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_167, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_168, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      class: "r-card__toggle r-card__toggle--icon",
       type: "button",
       "aria-expanded": $options.isPersonalPlanExpanded(index),
       "aria-controls": `personal-plan-${index}`,
-      onClick: $event => $options.togglePersonalPlan(index)
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.isPersonalPlanExpanded(index) ? "Hide details" : "View full plan"), 9 /* TEXT, PROPS */, _hoisted_217)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_218, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.who_for), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_219, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.overview), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+      onClick: $event => $options.togglePersonalPlan(index),
+      "aria-label": $options.isPersonalPlanExpanded(index) ? 'Hide details' : 'Show details',
+      title: $options.isPersonalPlanExpanded(index) ? 'Hide details' : 'Show details'
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["fas", $options.isPersonalPlanExpanded(index) ? 'fa-chevron-up' : 'fa-chevron-down']),
+      "aria-hidden": "true"
+    }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_169)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_170, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.who_for), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_171, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.overview), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       id: `personal-plan-${index}`,
       class: "r-plan-details"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_221, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.focus), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_222, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.ramadan.personal_plans.daily_flow_title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", null, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(plan.daily_flow, item => {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_173, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.focus), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_174, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.ramadan.personal_plans.daily_flow_title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", null, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(plan.daily_flow, item => {
       return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
         key: item
       }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item), 1 /* TEXT */);
-    }), 128 /* KEYED_FRAGMENT */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_223, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.ramadan.personal_plans.weekly_focus_title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", null, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(plan.weekly_focus, item => {
+    }), 128 /* KEYED_FRAGMENT */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_175, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.ramadan.personal_plans.weekly_focus_title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", null, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(plan.weekly_focus, item => {
       return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
         key: item
       }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item), 1 /* TEXT */);
-    }), 128 /* KEYED_FRAGMENT */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_224, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.accountability), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_220), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $options.isPersonalPlanExpanded(index)]])]);
-  }), 128 /* KEYED_FRAGMENT */))])], 4 /* STYLE */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_225, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_226, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_227, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", _hoisted_228, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.ramadan.charity_guide.section_title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_229, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.ramadan.charity_guide.intro), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_SectionToolbar, {
+    }), 128 /* KEYED_FRAGMENT */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_176, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.accountability), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_172), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $options.isPersonalPlanExpanded(index)]])]);
+  }), 128 /* KEYED_FRAGMENT */))])], 4 /* STYLE */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_177, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_178, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_179, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", _hoisted_180, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.ramadan.charity_guide.section_title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_181, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.ramadan.charity_guide.intro), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_SectionToolbar, {
     "section-id": "charity",
     "section-title": $data.ramadan.charity_guide.section_title,
     "section-feedback": $data.toolbarFeedback.charity,
@@ -2967,30 +2716,30 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     id: "section-charity-body",
     class: "r-section__body",
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)($options.sectionBodyStyle('charity'))
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_230, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("article", _hoisted_231, [_cache[75] || (_cache[75] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_182, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("article", _hoisted_183, [_cache[50] || (_cache[50] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "r-card__icon",
     "aria-hidden": "true"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "fas fa-heart"
-  })], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_232, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.ramadan.charity_guide.overview, (para, index) => {
+  })], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_184, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.ramadan.charity_guide.overview, (para, index) => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", {
       key: index,
       class: "r-card__desc"
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(para), 1 /* TEXT */);
-  }), 128 /* KEYED_FRAGMENT */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_233, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.ramadan.charity_guide.zakat_al_fitr.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_234, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.ramadan.charity_guide.zakat_al_fitr.points, point => {
+  }), 128 /* KEYED_FRAGMENT */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_185, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.ramadan.charity_guide.zakat_al_fitr.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_186, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.ramadan.charity_guide.zakat_al_fitr.points, point => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
       key: point
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(point), 1 /* TEXT */);
-  }), 128 /* KEYED_FRAGMENT */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("article", _hoisted_235, [_cache[76] || (_cache[76] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }), 128 /* KEYED_FRAGMENT */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("article", _hoisted_187, [_cache[51] || (_cache[51] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "r-card__icon",
     "aria-hidden": "true"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "fas fa-gift"
-  })], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_236, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.ramadan.charity_guide.sadaqah_title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_237, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.ramadan.charity_guide.sadaqah_ideas, item => {
+  })], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_188, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.ramadan.charity_guide.sadaqah_title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_189, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.ramadan.charity_guide.sadaqah_ideas, item => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
       key: item
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item), 1 /* TEXT */);
-  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", _hoisted_238, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.ramadan.charity_guide.giving_checklist_title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_239, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.ramadan.charity_guide.giving_checklist, item => {
+  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", _hoisted_190, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.ramadan.charity_guide.giving_checklist_title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_191, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.ramadan.charity_guide.giving_checklist, item => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
       key: item
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item), 1 /* TEXT */);
@@ -2999,12 +2748,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       class: "r-note",
       key: note
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(note), 1 /* TEXT */);
-  }), 128 /* KEYED_FRAGMENT */))])]), $options.hasSectionReferences($data.ramadan.charity_guide.references) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_240, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_241, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.ramadan.labels.references), 1 /* TEXT */), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.ramadan.charity_guide.references, (ref, refIndex) => {
+  }), 128 /* KEYED_FRAGMENT */))])]), $options.hasSectionReferences($data.ramadan.charity_guide.references) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_192, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_193, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.ramadan.labels.references), 1 /* TEXT */), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.ramadan.charity_guide.references, (ref, refIndex) => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", {
       key: `charity-reference-${refIndex}`,
       class: "r-inline-reference"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_242, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(ref.citation), 1 /* TEXT */), $options.referenceSummary(ref) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_243, " - " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.referenceSummary(ref)), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
-  }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 4 /* STYLE */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_244, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_245, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_246, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", _hoisted_247, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.ramadan.health_food_tips.section_title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_248, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.ramadan.health_food_tips.intro), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_SectionToolbar, {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_194, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(ref.citation), 1 /* TEXT */), $options.referenceSummary(ref) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_195, " - " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.referenceSummary(ref)), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
+  }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 4 /* STYLE */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_196, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_197, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_198, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", _hoisted_199, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.ramadan.health_food_tips.section_title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_200, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.ramadan.health_food_tips.intro), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_SectionToolbar, {
     "section-id": "health",
     "section-title": $data.ramadan.health_food_tips.section_title,
     "section-feedback": $data.toolbarFeedback.health,
@@ -3017,36 +2766,36 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     id: "section-health-body",
     class: "r-section__body",
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)($options.sectionBodyStyle('health'))
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_249, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.ramadan.health_food_tips.primary_sections, (section, index) => {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_201, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.ramadan.health_food_tips.primary_sections, (section, index) => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("article", {
       key: section.title,
       class: "r-card r-card--health"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_250, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_202, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)($options.getIconClasses('health', index))
-    }, null, 2 /* CLASS */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_251, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(section.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_252, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(section.items, item => {
+    }, null, 2 /* CLASS */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_203, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(section.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_204, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(section.items, item => {
       return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
         key: item
       }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item), 1 /* TEXT */);
     }), 128 /* KEYED_FRAGMENT */))])]);
-  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_253, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.ramadan.health_food_tips.secondary_sections, (section, index) => {
+  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_205, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.ramadan.health_food_tips.secondary_sections, (section, index) => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("article", {
       key: section.title,
       class: "r-card r-card--health r-card--health-alt"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_254, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_206, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)($options.getIconClasses('health', index + 3))
-    }, null, 2 /* CLASS */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_255, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(section.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_256, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(section.items, item => {
+    }, null, 2 /* CLASS */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_207, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(section.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_208, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(section.items, item => {
       return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
         key: item
       }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item), 1 /* TEXT */);
     }), 128 /* KEYED_FRAGMENT */))])]);
-  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_257, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.ramadan.health_food_tips.micro_tips, tip => {
+  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_209, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.ramadan.health_food_tips.micro_tips, tip => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", {
       key: tip,
       class: "r-chip"
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(tip), 1 /* TEXT */);
-  }), 128 /* KEYED_FRAGMENT */))])], 4 /* STYLE */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <section id=\"duas\" class=\"r-section r-section--alt\">\n      <div class=\"container\">\n        <div class=\"r-section__head\">\n          <h2 class=\"r-section__title\">\n            {{ ramadan.duas_prayers.section_title }}\n          </h2>\n          <p class=\"r-section__subtitle\">{{ ramadan.duas_prayers.intro }}</p>\n        </div>\n        <div id=\"section-duas-body\" class=\"r-section__body\">\n          <div class=\"r-story-grid\">\n            <article v-for=\"dua in ramadan.duas_prayers.daily_duas\" :key=\"dua.occasion\"\n              class=\"r-story-card r-story-card--dua\" :style=\"storyStyle()\">\n              <div class=\"r-story-content\">\n                <h3 class=\"r-story-title\">{{ dua.occasion }}</h3>\n                <p class=\"r-arabic\" dir=\"rtl\">{{ dua.arabic }}</p>\n                <p class=\"r-translit\">{{ dua.transliteration }}</p>\n                <p class=\"r-story-desc\">{{ dua.translation }}</p>\n                <a class=\"r-story-duration\" :href=\"dua.link\" target=\"_blank\" rel=\"noopener\">\n                  {{ dua.reference }}\n                </a>\n              </div>\n            </article>\n          </div>\n          <button class=\"r-link r-link--button\" type=\"button\" data-bs-toggle=\"modal\" data-bs-target=\"#moreDuasModal\">\n            {{ ramadan.duas_prayers.view_more_label }}\n          </button>\n        </div>\n      </div>\n    </section> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_258, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_259, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_260, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", _hoisted_261, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.ramadan.shorts.section_title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_262, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.ramadan.shorts.subtitle), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_263, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[77] || (_cache[77] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }), 128 /* KEYED_FRAGMENT */))])], 4 /* STYLE */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <section id=\"duas\" class=\"r-section r-section--alt\">\n      <div class=\"container\">\n        <div class=\"r-section__head\">\n          <h2 class=\"r-section__title\">\n            {{ ramadan.duas_prayers.section_title }}\n          </h2>\n          <p class=\"r-section__subtitle\">{{ ramadan.duas_prayers.intro }}</p>\n        </div>\n        <div id=\"section-duas-body\" class=\"r-section__body\">\n          <div class=\"r-story-grid\">\n            <article v-for=\"dua in ramadan.duas_prayers.daily_duas\" :key=\"dua.occasion\"\n              class=\"r-story-card r-story-card--dua\" :style=\"storyStyle()\">\n              <div class=\"r-story-content\">\n                <h3 class=\"r-story-title\">{{ dua.occasion }}</h3>\n                <p class=\"r-arabic\" dir=\"rtl\">{{ dua.arabic }}</p>\n                <p class=\"r-translit\">{{ dua.transliteration }}</p>\n                <p class=\"r-story-desc\">{{ dua.translation }}</p>\n                <a class=\"r-story-duration\" :href=\"dua.link\" target=\"_blank\" rel=\"noopener\">\n                  {{ dua.reference }}\n                </a>\n              </div>\n            </article>\n          </div>\n          <button class=\"r-link r-link--button\" type=\"button\" data-bs-toggle=\"modal\" data-bs-target=\"#moreDuasModal\">\n            {{ ramadan.duas_prayers.view_more_label }}\n          </button>\n        </div>\n      </div>\n    </section> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_210, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_211, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_212, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", _hoisted_213, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.ramadan.shorts.section_title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_214, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.ramadan.shorts.subtitle), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_215, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[52] || (_cache[52] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "ramadan-short-eyebrow"
-  }, "Quick inspiration for Ramadan", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_264, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.ramadan.shorts.highlights_title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_265, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.ramadan.shorts.subtitle), 1 /* TEXT */)]), _cache[78] || (_cache[78] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, "Quick inspiration for Ramadan", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_216, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.ramadan.shorts.highlights_title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_217, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.ramadan.shorts.subtitle), 1 /* TEXT */)]), _cache[53] || (_cache[53] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "ramadan-short-pillset"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "ramadan-short-pill"
@@ -3054,51 +2803,89 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "ramadan-short-pill"
   }, "Reminders ready"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "ramadan-short-pill"
-  }, "Shareable")], -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_266, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.ramadan.shorts.highlights, item => {
-    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("article", {
-      key: item.link,
-      class: "ramadan-short-card",
-      style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)($options.storyStyle(item.thumbnail))
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_267, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_268, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.tag), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_269, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_270, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.description), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_271, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
-      class: "ramadan-short-card__link",
-      href: item.link,
-      target: "_blank",
-      rel: "noopener"
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.ramadan.labels.watch_short), 9 /* TEXT, PROPS */, _hoisted_272)])], 4 /* STYLE */);
-  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_273, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.ramadan.shorts.groups, group => {
-    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
-      key: group.title,
-      class: "ramadan-short-group"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_274, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", _hoisted_275, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(group.title), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_276, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(group.items, item => {
+  }, "Shareable")], -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_218, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_219, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", _hoisted_220, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.ramadan.shorts.highlights_title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    class: "ramadan-short-toggle",
+    type: "button",
+    onClick: _cache[17] || (_cache[17] = $event => $options.toggleShortsSection('highlights')),
+    "aria-expanded": $options.isShortsSectionOpen('highlights'),
+    "aria-controls": "shorts-highlights-grid",
+    "aria-label": $options.isShortsSectionOpen('highlights') ? 'Collapse highlights' : 'Expand highlights',
+    title: $options.isShortsSectionOpen('highlights') ? 'Collapse highlights' : 'Expand highlights'
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["fas", $options.isShortsSectionOpen('highlights') ? 'fa-chevron-up' : 'fa-chevron-down']),
+    "aria-hidden": "true"
+  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_221)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
+    name: "r-collapse"
+  }, {
+    default: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(() => [$options.isShortsSectionOpen('highlights') ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_222, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.ramadan.shorts.highlights, item => {
       return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("article", {
         key: item.link,
-        class: "ramadan-short-card ramadan-short-card--compact",
+        class: "ramadan-short-card",
         style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)($options.storyStyle(item.thumbnail))
-      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_277, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_278, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.tag), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_279, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_280, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.description), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_281, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_223, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_224, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.tag), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_225, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_226, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.description), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_227, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
         class: "ramadan-short-card__link",
         href: item.link,
         target: "_blank",
         rel: "noopener"
-      }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.ramadan.labels.watch_short), 9 /* TEXT, PROPS */, _hoisted_282)])], 4 /* STYLE */);
-    }), 128 /* KEYED_FRAGMENT */))])]);
-  }), 128 /* KEYED_FRAGMENT */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_283, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_284, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_285, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", _hoisted_286, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.ramadan.tools_calculators.section_title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_287, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.ramadan.tools_calculators.subtitle), 1 /* TEXT */), $data.ramadan.tools_calculators.intro ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_288, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.ramadan.tools_calculators.intro, (line, index) => {
+      }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.ramadan.labels.watch_short), 9 /* TEXT, PROPS */, _hoisted_228)])], 4 /* STYLE */);
+    }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]),
+    _: 1 /* STABLE */
+  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_229, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.ramadan.shorts.groups, (group, groupIndex) => {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+      key: group.title,
+      class: "ramadan-short-group"
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_230, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", _hoisted_231, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(group.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      class: "ramadan-short-toggle",
+      type: "button",
+      onClick: $event => $options.toggleShortsSection(`group-${groupIndex}`),
+      "aria-expanded": $options.isShortsSectionOpen(`group-${groupIndex}`),
+      "aria-controls": `shorts-group-${groupIndex}`,
+      "aria-label": $options.isShortsSectionOpen(`group-${groupIndex}`) ? `Collapse ${group.title}` : `Expand ${group.title}`,
+      title: $options.isShortsSectionOpen(`group-${groupIndex}`) ? `Collapse ${group.title}` : `Expand ${group.title}`
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["fas", $options.isShortsSectionOpen(`group-${groupIndex}`) ? 'fa-chevron-up' : 'fa-chevron-down']),
+      "aria-hidden": "true"
+    }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_232)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
+      name: "r-collapse"
+    }, {
+      default: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(() => [$options.isShortsSectionOpen(`group-${groupIndex}`) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+        key: 0,
+        id: `shorts-group-${groupIndex}`,
+        class: "ramadan-short-group__grid"
+      }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(group.items, item => {
+        return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("article", {
+          key: item.link,
+          class: "ramadan-short-card ramadan-short-card--compact",
+          style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)($options.storyStyle(item.thumbnail))
+        }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_234, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_235, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.tag), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_236, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_237, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.description), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_238, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+          class: "ramadan-short-card__link",
+          href: item.link,
+          target: "_blank",
+          rel: "noopener"
+        }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.ramadan.labels.watch_short), 9 /* TEXT, PROPS */, _hoisted_239)])], 4 /* STYLE */);
+      }), 128 /* KEYED_FRAGMENT */))], 8 /* PROPS */, _hoisted_233)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]),
+      _: 2 /* DYNAMIC */
+    }, 1024 /* DYNAMIC_SLOTS */)]);
+  }), 128 /* KEYED_FRAGMENT */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_240, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_241, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_242, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", _hoisted_243, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.ramadan.tools_calculators.section_title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_244, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.ramadan.tools_calculators.subtitle), 1 /* TEXT */), $data.ramadan.tools_calculators.intro ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_245, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.ramadan.tools_calculators.intro, (line, index) => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", {
       key: index
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(line), 1 /* TEXT */);
-  }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_289, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_290, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.ramadan.tools_calculators.tools, (tool, index) => {
+  }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_246, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_247, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.ramadan.tools_calculators.tools, (tool, index) => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("article", {
       key: tool.title,
       class: "r-card r-card--tool"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_291, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_292, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_248, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_249, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(['fas', tool.icon]),
       "aria-hidden": "true"
-    }, null, 2 /* CLASS */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_293, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_294, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(tool.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_295, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(tool.description), 1 /* TEXT */)])]), tool.detail ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_296, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(tool.detail), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_297, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+    }, null, 2 /* CLASS */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_250, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_251, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(tool.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_252, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(tool.description), 1 /* TEXT */)])]), tool.detail ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_253, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(tool.detail), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_254, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
       href: tool.link,
       class: "r-button r-button--ghost r-card--tool__action",
       target: "_blank",
-      rel: "noopener"
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.ramadan.labels.open_tool), 9 /* TEXT, PROPS */, _hoisted_298)])]);
-  }), 128 /* KEYED_FRAGMENT */))])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_299, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_300, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_301, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", _hoisted_302, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.ramadan.platform_resources.section_title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_303, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.ramadan.platform_resources.subtitle), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_SectionToolbar, {
+      rel: "noopener",
+      title: $data.ramadan.labels.open_tool_title || $data.ramadan.labels.open_tool,
+      "aria-label": $data.ramadan.labels.open_tool_aria || $data.ramadan.labels.open_tool
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.ramadan.labels.open_tool), 9 /* TEXT, PROPS */, _hoisted_255)])]);
+  }), 128 /* KEYED_FRAGMENT */))])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_256, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_257, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_258, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", _hoisted_259, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.ramadan.platform_resources.section_title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_260, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.ramadan.platform_resources.subtitle), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_SectionToolbar, {
     "section-id": "platforms",
     "section-title": $data.ramadan.platform_resources.section_title,
     "section-feedback": $data.toolbarFeedback.platforms,
@@ -3111,13 +2898,16 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     id: "section-platforms-body",
     class: "r-section__body",
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)($options.sectionBodyStyle('platforms'))
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_304, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.ramadan.platform_resources.cards, (card, index) => {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_261, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.ramadan.platform_resources.cards, (card, index) => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("article", {
       key: card.title,
-      class: "r-card r-card--resource"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_305, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_306, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["r-card r-card--resource", {
+        'r-card--resource-collapsed': !$options.isDesktopViewport && !$options.isPlatformCardOpen(index)
+      }])
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_262, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_263, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)($options.getIconClasses('platforms', index))
-    }, null, 2 /* CLASS */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_307, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_308, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(card.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_309, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(card.description), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, null, 2 /* CLASS */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_264, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_265, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(card.title), 1 /* TEXT */), card.description && ($options.isDesktopViewport || $options.isPlatformCardOpen(index)) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_266, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(card.description), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), !$options.isDesktopViewport ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+      key: 0,
       type: "button",
       class: "r-resource-toggle",
       onClick: $event => $options.togglePlatformCard(index),
@@ -3125,37 +2915,42 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "aria-label": `Toggle ${card.title}`
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["fas", $options.isPlatformCardOpen(index) ? 'fa-chevron-up' : 'fa-chevron-down'])
-    }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_310)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_311, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(card.items, item => {
-      return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("article", {
-        key: item.label,
-        class: "r-resource-item"
-      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_312, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_313, [!$data.failedPlatformLogos[item.link] ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("img", {
-        key: 0,
-        src: item.logo,
-        alt: `${item.name || item.label} logo`,
-        class: "r-resource-item__logo",
-        loading: "lazy",
-        onError: $event => $options.markPlatformLogoFailed(item.link)
-      }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_314)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_315, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.resourceInitials(item.name || item.label)), 1 /* TEXT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_316, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", _hoisted_317, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.name || item.label), 1 /* TEXT */)])]), item.note ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_318, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.note), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_319, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
-        class: "r-resource-link r-button r-button--ghost r-resource-link--icon",
-        href: item.link,
-        target: "_blank",
-        rel: "noopener",
-        "aria-label": `Open ${item.name || item.label}`,
-        title: `Open ${item.name || item.label}`
-      }, [...(_cache[79] || (_cache[79] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-        class: "fas fa-arrow-up-right-from-square",
-        "aria-hidden": "true"
-      }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_320)])]);
-    }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $options.isPlatformCardOpen(index)]])]);
+    }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_267)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
+      name: "r-collapse"
+    }, {
+      default: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(() => [$options.isDesktopViewport || $options.isPlatformCardOpen(index) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_268, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(card.items, item => {
+        return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("article", {
+          key: item.label,
+          class: "r-resource-item"
+        }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_269, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_270, [!$data.failedPlatformLogos[item.link] ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("img", {
+          key: 0,
+          src: item.logo,
+          alt: `${item.name || item.label} logo`,
+          class: "r-resource-item__logo",
+          loading: "lazy",
+          onError: $event => $options.markPlatformLogoFailed(item.link)
+        }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_271)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_272, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.resourceInitials(item.name || item.label)), 1 /* TEXT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_273, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", _hoisted_274, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.name || item.label), 1 /* TEXT */)])]), item.note ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_275, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.note), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_276, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+          class: "r-resource-link r-button r-button--ghost r-resource-link--icon",
+          href: item.link,
+          target: "_blank",
+          rel: "noopener",
+          "aria-label": `Open ${item.name || item.label}`,
+          title: `Open ${item.name || item.label}`
+        }, [...(_cache[54] || (_cache[54] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+          class: "fas fa-arrow-up-right-from-square",
+          "aria-hidden": "true"
+        }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_277)])]);
+      }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]),
+      _: 2 /* DYNAMIC */
+    }, 1024 /* DYNAMIC_SLOTS */)], 2 /* CLASS */);
   }), 128 /* KEYED_FRAGMENT */))])], 4 /* STYLE */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"modal fade\" id=\"moreDuasModal\" tabindex=\"-1\" aria-labelledby=\"moreDuasModalLabel\" aria-hidden=\"true\">\n      <div class=\"modal-dialog modal-xl modal-dialog-centered\">\n        <div class=\"modal-content\">\n          <div class=\"modal-header\">\n            <h5 class=\"modal-title\" id=\"moreDuasModalLabel\">{{ ramadan.duas_prayers.modal_title }}</h5>\n            <button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"modal\" aria-label=\"Close\"></button>\n          </div>\n          <div class=\"modal-body\">\n            <div class=\"r-dua-modal-controls\">\n              <div class=\"r-dua-search\">\n                <label class=\"r-dua-search__label\" for=\"duaSearchInput\">\n                  {{ ramadan.duas_prayers.search_label || \"Search the dua library\" }}\n                </label>\n                <input id=\"duaSearchInput\" class=\"r-input r-input--search\" type=\"search\" v-model=\"duaSearchTerm\"\n                  placeholder=\"Search by purpose, Arabic, or reference\" autocomplete=\"off\" />\n                <p class=\"r-dua-search__hint\">Highlights refresh as you type and show every matching word.</p>\n              </div>\n              <div class=\"r-dua-filters\" role=\"group\" aria-label=\"Filter duas\">\n                <div class=\"r-dua-filter-group\">\n                  <label class=\"r-dua-filter-label\" for=\"duaSourceSelect\">Source</label>\n                  <select id=\"duaSourceSelect\" class=\"r-select\" v-model=\"duaSourceFilter\">\n                    <option v-for=\"filter in duaSourceFilters\" :key=\"filter.value\" :value=\"filter.value\">\n                      {{ filter.label }}\n                    </option>\n                  </select>\n                </div>\n                <div class=\"r-dua-filter-group\">\n                  <label class=\"r-dua-filter-label\" for=\"duaSectionSelect\">Section</label>\n                  <select id=\"duaSectionSelect\" class=\"r-select\" v-model=\"duaSectionFilter\">\n                    <option v-for=\"filter in duaSectionFilters\" :key=\"filter.value\" :value=\"filter.value\">\n                      {{ filter.label }}\n                    </option>\n                  </select>\n                </div>\n              </div>\n            </div>\n\n            <div v-if=\"!filteredDuaSections.length\" class=\"r-dua-empty\">\n              <p>No matching supplications were found. Try clearing the search or changing the filter.</p>\n              <button type=\"button\" class=\"r-link\" @click=\"resetDuaFilters\">Reset filters</button>\n            </div>\n\n            <div v-else class=\"r-modal-grid\">\n              <div v-for=\"section in filteredDuaSections\" :key=\"section.title\" class=\"r-modal-card\">\n                <h3>{{ section.title }}</h3>\n                <div class=\"r-story-grid r-story-grid--modal\">\n                  <article v-for=\"item in section.items\" :key=\"`${item.name}-${item.reference}`\"\n                    class=\"r-story-card r-story-card--dua\">\n                    <div class=\"r-story-content\">\n                      <h4 class=\"r-story-title\" v-html=\"highlightDuaText(item.name)\"></h4>\n                      <p class=\"r-arabic\" dir=\"rtl\" v-html=\"highlightDuaText(item.arabic)\"></p>\n                      <p class=\"r-translit\" v-html=\"highlightDuaText(item.transliteration)\"></p>\n                      <p class=\"r-story-desc\" v-html=\"highlightDuaText(item.translation)\"></p>\n                      <div class=\"r-story-meta\">\n                        <a class=\"r-story-duration\" :href=\"item.resource\" target=\"_blank\" rel=\"noopener\"\n                          v-html=\"highlightDuaText(item.reference)\"></a>\n                        <a class=\"r-story-link\" :href=\"item.resource\" target=\"_blank\" rel=\"noopener\">\n                          {{ ramadan.labels.resource_label }}\n                        </a>\n                      </div>\n                    </div>\n                  </article>\n                </div>\n              </div>\n            </div>\n          </div>\n        </div>\n      </div>\n    </div> "), $data.showFab ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
     key: 0,
     class: "r-fab",
     type: "button",
-    onClick: _cache[32] || (_cache[32] = (...args) => $options.scrollToTop && $options.scrollToTop(...args)),
+    onClick: _cache[18] || (_cache[18] = (...args) => $options.scrollToTop && $options.scrollToTop(...args)),
     "aria-label": "Scroll back to top",
     title: "Scroll back to top"
-  }, [...(_cache[80] || (_cache[80] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, [...(_cache[55] || (_cache[55] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "aria-hidden": "true"
   }, "⬆", -1 /* CACHED */)]))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
 }
@@ -3427,7 +3222,7 @@ __webpack_require__.r(__webpack_exports__);
   \*********************************************************/
 /***/ ((module) => {
 
-module.exports = /*#__PURE__*/JSON.parse('{"page_title":"Ramadan 2026 | Complete Guide & Resources","meta_description":"Complete guide for Ramadan 1447 AH (2026 CE): key dates, how to fast, prayers made easy, Quran plans, charity guidance, health tips, duas, tools, and verified resources.","last_updated":"2025-03-01","data_sources":[{"label":"Quran.com","link":"https://quran.com"},{"label":"Sunnah.com","link":"https://sunnah.com"},{"label":"IslamQA.info","link":"https://islamqa.info"},{"label":"Yaqeen Institute","link":"https://yaqeeninstitute.org"},{"label":"SeekersGuidance","link":"https://seekersguidance.org"}],"labels":{"references":"References","open_video":"Open video","open_tool":"Open tool","open_tool_title":"Open tool","open_tool_aria":"Open tool in a new tab","download":"Download","watch_short":"Watch short","highlights":"Highlights","view_source":"View","duration_prefix":"Duration","resource_label":"Resource"},"header":{"title":"Ramadan 2026 (1447 AH)","subtitle":"The Month of Quran, Fasting, and Spiritual Renewal","banner_image":"/images/ramadan-hero-pexels.jpg","alt_text":"Grand mosque exterior under a twilight sky","stats":{"last_updated_label":"Last updated","data_sources_label":"Data sources"}},"nav_links":[{"label":"What is Ramadan","href":"#overview"},{"label":"History","href":"#history"},{"label":"Key dates","href":"#key-dates"},{"label":"How to fast","href":"#how-to-fast"},{"label":"FAQ","href":"#faq"},{"label":"Quran plans","href":"#quran-plans"},{"label":"Personal plans","href":"#personal-plans"},{"label":"Tools","href":"#tools"},{"label":"Charity","href":"#charity"},{"label":"Health tips","href":"#health"},{"label":"Short clips","href":"#shorts"}],"overview":{"section_title":"What Is Ramadan?","subtitle":"Ramadan is the ninth month of the Islamic lunar calendar. It is a month of fasting from dawn to sunset, focused worship, Quran recitation, community care, and spiritual renewal.","body":["The Quran describes Ramadan as the month in which the Quran was revealed as guidance for humanity. Muslims fast to develop taqwa (God-consciousness), discipline their desires, and increase empathy for those in need.","Beyond fasting, Ramadan is a time to elevate worship through prayer, charity, and reflection. Families gather, communities host iftars, and masajid become centers of learning and service.","Every day in Ramadan is an invitation to reset habits, strengthen spiritual focus, and renew intentions with sincerity."],"key_points_title":"Key ideas to remember","key_points":["Fasting is an act of worship and self-discipline.","Ramadan is the month in which the Quran was revealed.","The last ten nights are especially blessed, including Laylat al-Qadr.","Charity and community care are central to the month.","Every day is an opportunity to improve character and habits."],"references":[{"source":"Qur\'an","citation":"Al-Baqarah 2:183-185","source_site":"quran.com","embedded_text":"Allah prescribed fasting for believers so they may attain taqwa, and identified Ramadan as the month in which the Quran was revealed as guidance."},{"source":"Qur\'an","citation":"Al-Qadr 97:1-5","source_site":"quran.com","embedded_text":"Laylat al-Qadr is described as better than a thousand months and a night filled with peace by Allah\'s permission."},{"source":"Hadith","citation":"Sahih al-Bukhari 38; Sahih Muslim 760","source_site":"sunnah.com","embedded_text":"The Prophet taught that whoever fasts Ramadan with faith and hope of reward will have previous sins forgiven."}]},"history":{"section_title":"History & Significance","subtitle":"Ramadan is linked to the Quranic revelation and the obligation of fasting. Its devotional rhythm has shaped Muslim worship, ethics, and communal life for centuries.","body":["The Quran frames fasting in Ramadan as a prescribed act for believers and ties the month to revelation and guidance.","Prophetic practice established suhoor, iftar at sunset, and intensified night worship, while the last ten nights emphasize Laylat al-Qadr and spiritual retreat (i\'tikaf).","Across centuries, Ramadan shaped daily routines, public worship, and charitable life, anchored by mosques, learning circles, and family gatherings.","Modern Ramadan carries these traditions worldwide through organized charity, community programming, and digital learning."],"timeline":[{"number":1,"period":"c. 610 CE (13 BH)","detail":"The first revelation is tied to Ramadan, and the Quran identifies this month as the period of guidance for humanity.","reference":"Qur\'an 96:1-5; Qur\'an 97:1-5; Qur\'an 2:185","reference_site":"quran.com"},{"number":2,"period":"624 CE (2 AH)","detail":"The command to fast in Ramadan is formally legislated, with clear rulings on the goal, timeframe, and concessions.","reference":"Qur\'an 2:183-187","reference_site":"quran.com"},{"number":3,"period":"632-661 CE (Rashidun Caliphate)","detail":"Companions preserved Quran transmission and organized Ramadan night prayer at scale for community worship.","reference":"Sahih al-Bukhari 4986; Sahih al-Bukhari 2010","reference_site":"sunnah.com"},{"number":4,"period":"Classical Sunni Practice","detail":"Iftar at sunset, suhoor before dawn, and intensified qiyam became stable features of Ramadan worship across regions.","reference":"Sahih al-Bukhari 1957; Sahih Muslim 1095","reference_site":"sunnah.com"},{"number":5,"period":"Contemporary Fiqh Clarification","detail":"Modern fatwa platforms continue to explain exemptions, makeup fasts, fidyah, and valid reasons for breaking the fast.","reference":"IslamQA Ramadan topic hub and fasting rulings","reference_site":"IslamQA.info"},{"number":6,"period":"Community Teaching in the Digital Era","detail":"Structured online courses and answer services broaden access to Ramadan fiqh, adab, and worship preparation.","reference":"SeekersGuidance Ramadan answers and curriculum pages","reference_site":"SeekersGuidance"},{"number":7,"period":"Global Reflection Projects","detail":"Research-driven Ramadan series and reflection journals increase access to spiritually grounded educational content.","reference":"Yaqeen Institute Ramadan collection","reference_site":"Yaqeen Institute"},{"number":8,"period":"Contemporary Observance (21st Century)","detail":"Ramadan is globally shared but locally timed, with communities combining moon-sighting announcements, digital planning, and local service.","reference":"Qur\'an 2:185 with applied guidance from Sunni fiqh references","reference_site":"quran.com / Sunnah.com / IslamQA.info / SeekersGuidance / Yaqeen Institute"}],"notable_figures":{"title":"Scholars & Voices","items":[{"name":"Ibn Abbas (d. 687 CE)","note":"Early Qur\'anic exegete whose explanations shaped how Muslims understand verses about fasting."},{"name":"Imam Malik (d. 795 CE)","note":"Documented Madinan practice, including Ramadan customs and community observance."},{"name":"Imam al-Shafi\'i (d. 820 CE)","note":"Systematized legal principles that influenced fasting rulings across regions."},{"name":"Imam al-Nawawi (d. 1277 CE)","note":"Compiled hadith and devotional guidance that shaped Ramadan practice."}]},"regional_practices":{"title":"Regional Traditions","items":[{"region":"Egypt (Cairo)","detail":"Lantern processions and communal iftars became distinctive Ramadan features."},{"region":"Ottoman cities (Istanbul)","detail":"Public iftar tents and endowments supported travelers and the poor."},{"region":"West Africa (Sahel)","detail":"Quran recitation circles and night study gatherings remain a hallmark."},{"region":"South & Southeast Asia","detail":"Large taraweeh congregations and neighborhood iftars reinforce community bonds."},{"region":"Diaspora communities","detail":"Mosques and Islamic centers host open iftars and service drives to build cohesion."}]},"references":[{"source":"Qur\'an","citation":"Al-Baqarah 2:183-187","source_site":"quran.com","embedded_text":"These verses establish fasting in Ramadan, name the month of revelation, and provide core legal concessions for illness and travel."},{"source":"Qur\'an","citation":"Al-Baqarah 2:185","source_site":"quran.com","embedded_text":"Ramadan is defined as the month of Quran revelation and guidance, linking worship routine directly to revelation."},{"source":"Hadith","citation":"Sahih al-Bukhari 2010; Sahih al-Bukhari 4986","source_site":"sunnah.com","embedded_text":"These narrations are used for Ramadan congregational night prayer and the compilation-preservation history of the Qur\'an."},{"source":"Fiqh Guidance","citation":"Ramadan guidance collections","source_site":"IslamQA.info / SeekersGuidance / Yaqeen Institute","embedded_text":"Contemporary scholarship explains how classical rulings are applied in modern schedules, health contexts, and community conditions."}]},"important_dates":{"section_title":"Ramadan 2026 Key Dates","subtitle":"Plan ahead with the most likely timeline for Ramadan 1447 AH.","note":"Dates are approximate and subject to moon sighting. Local moon sighting announcements take precedence.","dates":[{"event":"First Taraweeh Night","gregorian_date":"February 16, 2026 (after Maghrib)","hijri_date":"30 Sha\'ban 1447 AH","description":"First Taraweeh prayer is usually held the night before the first fast.","type":"start"},{"event":"First Day of Ramadan","gregorian_date":"February 17, 2026","hijri_date":"1 Ramadan 1447 AH","description":"Expected first day of fasting based on astronomical calculations.","type":"start"},{"event":"First Friday of Ramadan","gregorian_date":"February 20, 2026","hijri_date":"4 Ramadan 1447 AH","description":"A meaningful Jumu\'ah during the early days of the month; a great moment to recommit to worship and community support.","type":"special"},{"event":"Mid-Ramadan Check-In","gregorian_date":"Approx. March 3, 2026","hijri_date":"15 Ramadan 1447 AH","description":"A good moment to renew goals and review Quran progress.","type":"special"},{"event":"Last 10 Nights Begin","gregorian_date":"Approx. March 8, 2026 (night)","hijri_date":"20 Ramadan 1447 AH","description":"Focus intensifies for night worship, duas, and seeking Laylat al-Qadr.","type":"special"},{"event":"Laylat al-Qadr (Night of Decree)","gregorian_date":"Approx. March 15-16, 2026","hijri_date":"27 Ramadan 1447 AH","description":"The most blessed night - better than 1000 months. Seek it in the last 10 odd nights.","type":"special"},{"event":"Zakat al-Fitr Deadline","gregorian_date":"Before Eid prayer (March 19, 2026)","hijri_date":"End of Ramadan","description":"Zakat al-Fitr should be paid before Eid prayer to reach those in need.","type":"special"},{"event":"Eid al-Fitr","gregorian_date":"March 19, 2026","hijri_date":"1 Shawwal 1447 AH","description":"Festival of Breaking the Fast. Subject to moon sighting.","type":"eid"}]},"moon_sighting":{"title":"Moon-sighting adjustment instructions","intro":"Ramadan depends on the lunar crescent. These steps help you stay aligned with local moon-sighting announcements while keeping your plan flexible.","steps":["Follow the final announcement from your local masjid, Islamic council, or moon-sighting committee before committing to the start of Ramadan.","Keep both 29- and 30-day plans handy so you can switch the calendar as soon as you hear whether the crescent was seen.","If the crescent is not confirmed on the 29th night, extend the current day of preparation and begin fasting the next evening while still waiting for confirmation.","Note who confirmed the sighting (community leader, scholar, or committee) and which geographic region they represented so your family can confidently follow the approved schedule."],"note":"Right after the official sighting, update the planner start date and adapt reminders, printouts, and digital exports to the confirmed timeline."},"how_to_fast":{"section_title":"How To Fast (Do\'s & Don\'ts)","intro":"Fasting is from dawn to sunset with the intention (niyyah). The goal is worship, discipline, and avoiding what breaks the fast.","cards":[{"title":"Do\'s","items":["Make intention before Fajr.","Eat a balanced Suhoor and hydrate well.","Pray on time and read Quran daily.","Break fast promptly at sunset with dates and water if possible.","Be mindful of behavior, speech, and time.","Make dua before Iftar - it is a special time for acceptance."]},{"title":"Don\'ts","items":["Do not eat or drink between Fajr and Maghrib.","Avoid backbiting, arguments, and harmful speech.","Avoid overeating at Iftar.","Do not neglect prayers or Quran.","Avoid wasting time in unhelpful activities."]},{"title":"Exemptions","items":["Children before puberty","The ill","Travelers","Pregnant or nursing women","Menstruating women"]}],"references":[{"source":"Qur\'an","citation":"Al-Baqarah 2:183-187","source_site":"quran.com","embedded_text":"These verses define the obligation, the fasting window from dawn to night, and legal allowances for hardship."},{"source":"Hadith","citation":"Sahih al-Bukhari 1904; Sahih Muslim 1151","source_site":"sunnah.com","embedded_text":"Prophetic guidance clarifies intention, what invalidates fasting, and the reward connected to sincere fasting."},{"source":"Fiqh Q&A","citation":"Common fasting rulings","source_site":"IslamQA.info / SeekersGuidance","embedded_text":"Scholarly answers explain practical edge cases such as sickness, travel, pregnancy, medication timing, and makeup fasts."}]},"quran_reading_plans":{"section_title":"Quran Reading Plans (3 Levels)","intro":"Choose a plan that fits your schedule and energy. Consistency matters most.","plans":[{"level":"Beginner","daily_target":"4-6 pages","time_needed":"15-25 minutes","structure":"After Fajr + before sleep","goal":"Finish a meaningful portion and build a daily habit.","split":"2 short sessions","tips":["Read after Fajr when focus is strongest.","Listen to audio while commuting or walking.","Track progress on a simple checklist."]},{"level":"Intermediate","daily_target":"1 Juz","time_needed":"45-60 minutes","structure":"Split across 5 prayers","goal":"Complete the Quran once by Eid.","split":"5 short segments","tips":["Read 4-5 pages after each prayer.","Use the evening to catch up if needed.","Pair reading with reflection notes."]},{"level":"Advanced","daily_target":"1.5-2 Juz","time_needed":"90-120 minutes","structure":"Morning + afternoon + night","goal":"Complete the Quran more than once.","split":"3 focused sessions","tips":["Commit to a longer morning session.","Use Taraweeh recitation as part of the goal.","Review a translation alongside recitation."]}],"references":[{"source":"Qur\'an","citation":"Al-Baqarah 2:185","source_site":"quran.com","embedded_text":"Ramadan is explicitly framed around Quran guidance, making daily recitation and study central to the month."},{"source":"Hadith","citation":"Sahih al-Bukhari 1901; Sahih Muslim 760","source_site":"sunnah.com","embedded_text":"Prophetic teachings connect Ramadan fasting and night prayer to purification and spiritual growth."},{"source":"Reflection & Study","citation":"Ramadan reading resources","source_site":"Yaqeen Institute / SeekersGuidance","embedded_text":"Structured learning paths and reflection guides support consistent Quran goals for different schedules."}]},"personal_plans":{"section_title":"Personal Plans (Long-Form)","intro":"Choose a plan that matches your lifestyle and sustain it for 30 days.","daily_flow_title":"Daily flow","weekly_focus_title":"Weekly focus","plans":[{"title":"Quiet Renewal Plan","who_for":"Students and solo worshippers","overview":"A slower, reflective pace focused on Quran, journaling, and community check-ins.","focus":"Spiritual depth and daily consistency.","daily_flow":["Fajr + 10 minutes reflection","Midday: 6 pages Quran","Asr: 5-minute dhikr","After Isha: Taraweeh + short dua"],"weekly_focus":["Week 1: Intention and habit building","Week 2: Deepening Quran connection","Week 3: Night worship focus","Week 4: Gratitude and giving"],"accountability":"Weekly check-in with a friend or mentor."},{"title":"Family Connection Plan","who_for":"Parents and households","overview":"Shared worship with kids, simple lessons, and family goals.","focus":"Family unity and shared learning.","daily_flow":["Suhoor: one short Quran reflection","Maghrib: gratitude circle","After Taraweeh: 15-minute story or Quran"],"weekly_focus":["Week 1: Set family goals","Week 2: Add a family charity project","Week 3: Quran memorization night","Week 4: Eid preparation + reflection"],"accountability":"Family chart tracking prayers and reading."},{"title":"Working Professional Plan","who_for":"Busy schedules","overview":"Short, consistent blocks that fit around work and commuting.","focus":"Micro-habits and consistency.","daily_flow":["Morning commute: Quran audio","Lunch break: 2 pages reading","Evening: 10-minute dhikr + dua","Weekend: longer reflection session"],"weekly_focus":["Week 1: Align calendar","Week 2: Increase charity","Week 3: Add night prayer twice","Week 4: Finish Quran goal"],"accountability":"Set reminders and a weekly target review."},{"title":"Community Service Plan","who_for":"Volunteers and organizers","overview":"Balance worship with consistent service and community care.","focus":"Service and leadership.","daily_flow":["Post-Dhuhr: 20 minutes planning","Evening: serve at iftar or food bank","Night: Taraweeh and dua"],"weekly_focus":["Week 1: Identify a need","Week 2: Build a small volunteer team","Week 3: Host a community iftar","Week 4: Wrap-up and gratitude"],"accountability":"Weekly debrief with the team."},{"title":"Beginner Step-Up Plan","who_for":"New to consistent Ramadan routines","overview":"A gentle ramp-up plan that builds confidence with short, repeatable habits.","focus":"Consistency over intensity.","daily_flow":["Fajr: 5 minutes of Quran + simple dua","Dhuhr: 2 pages of Quran","Maghrib: gratitude note + family check-in","Isha: short Taraweeh or 2 rakaat at home"],"weekly_focus":["Week 1: Set a realistic daily target","Week 2: Add a short reflection journal","Week 3: Increase Quran time by 5 minutes","Week 4: Maintain routine and prepare for Eid"],"accountability":"Track progress daily and celebrate small wins."},{"title":"Night Worship Plan","who_for":"Those focusing on the last 10 nights","overview":"Structured routine to maximize Qiyam, dua, and Quran in the evenings.","focus":"Deep night worship and focused dua.","daily_flow":["After Maghrib: light meal + rest","After Isha: Taraweeh with focus","Late night: 20 minutes Quran + dua","Before Suhoor: 2-4 rakaat Qiyam"],"weekly_focus":["Week 1: Prepare sleep schedule","Week 2: Add a dua list for family","Week 3: Increase Qiyam duration","Week 4: Focus on Laylat al-Qadr"],"accountability":"Set a nightly alarm and keep a short dua checklist."}]},"charity_guide":{"section_title":"Charity Guide (Zakat al-Fitr Made Simple)","intro":"Charity is central in Ramadan. Zakat al-Fitr is obligatory before Eid prayer, while ongoing sadaqah builds compassion.","sadaqah_title":"Sadaqah ideas","giving_checklist_title":"Giving checklist","overview":["Zakat al-Fitr purifies the fasting person from minor shortcomings and ensures everyone can celebrate Eid with dignity.","Sadaqah is voluntary charity given throughout the month. Even small, consistent giving can have a large impact."],"zakat_al_fitr":{"title":"Zakat al-Fitr basics","points":["A required charity per person in the household, given before Eid prayer.","Paid before Eid prayer, preferably during Ramadan.","Every eligible Muslim who can afford it pays for themselves and dependents.","Equivalent to a staple food amount (varies by region).","Give through a local masjid or trusted charity organization."]},"sadaqah_ideas":["Sponsor iftar meals","Support local food banks","Contribute to masjid programs","Help neighbors and community initiatives","Share educational resources","Volunteer time and skills"],"giving_checklist":["Set a realistic daily or weekly amount.","Choose 1-2 trusted organizations.","Include a family charity goal if possible.","Give before Eid for Zakat al-Fitr."],"impact_notes":["Small, consistent charity builds long-term benefit.","Prioritize local needs alongside global relief."],"references":[{"source":"Qur\'an","citation":"Al-Baqarah 2:177","source_site":"quran.com","embedded_text":"Righteousness includes financial giving to relatives, vulnerable people, and those in need."},{"source":"Hadith","citation":"Sahih al-Bukhari 1902; Sahih Muslim 2308","source_site":"sunnah.com","embedded_text":"The Prophet was described as especially generous in Ramadan, encouraging expanded charity during this month."},{"source":"Fiqh Q&A","citation":"Zakat al-Fitr and sadaqah guidance","source_site":"IslamQA.info / SeekersGuidance","embedded_text":"Practical rulings explain who pays Zakat al-Fitr, timing before Eid prayer, and distribution priorities."}]},"health_food_tips":{"section_title":"Health & Food Tips","intro":"Keep energy stable and hydration steady. Aim for balance, not perfection.","primary_sections":[{"title":"Suhoor ideas","items":["Oatmeal with nuts and dates","Eggs with whole-grain toast","Greek yogurt + berries","Chia pudding with milk","Water + herbal tea"]},{"title":"Iftar ideas","items":["Dates + water + light soup","Grilled protein + salad","Lentil soup + brown rice","Baked salmon + vegetables","Fresh fruit plate"]},{"title":"Wellness focus","items":["Avoid salty foods to reduce thirst","Prioritize complex carbs for longer energy","Short walks after Iftar","Limit heavy fried meals","Ease into caffeine to avoid dehydration"]}],"secondary_sections":[{"title":"Hydration plan","items":["Drink 8-10 glasses between iftar and suhoor","2 glasses at iftar","4 glasses between iftar and sleep","2-4 glasses at suhoor"]},{"title":"Sleep & movement","items":["Take a 20-30 minute power nap if needed","Sleep soon after Taraweeh","Dim screens 30 minutes before bed","Keep a consistent bedtime if possible","Light exercise 1-2 hours after iftar","Walking for 30 minutes","Light stretching","Avoid intense workouts during fasting hours"]}],"micro_tips":["Add fruit and vegetables to every meal.","Keep a water bottle nearby at night.","Reduce sugar spikes by breaking fast slowly."]},"duas_prayers":{"section_title":"Essential Duas & Supplications","intro":"Every dua below is verified from the Qur\'an or authentic hadith so you can recite with confidence.","tag_label":"Source","search_label":"Search Quran & Prophetic duas","daily_duas":[{"occasion":"Good in this life and the next","arabic":"رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً","transliteration":"Rabbana atina fid-dunya hasanah","translation":"Our Lord, give us good in this world","reference":"Qur\'an 2:201","link":"https://quran.com/2/201","source":"Qur\'an","tag":"Qur\'an"},{"occasion":"Steadfast hearts","arabic":"رَبَّنَا لَا تُزِغْ قُلُوبَنَا","transliteration":"Rabbana la tuzigh qulubana","translation":"Our Lord, do not let our hearts deviate","reference":"Qur\'an 3:8","link":"https://quran.com/3/8","source":"Qur\'an","tag":"Qur\'an"},{"occasion":"Guide us to the straight path","arabic":"اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ","transliteration":"Ihdinas-siratal-mustaqim","translation":"Guide us to the straight path","reference":"Qur\'an 1:6","link":"https://quran.com/1/6","source":"Qur\'an","tag":"Qur\'an"},{"occasion":"Mercy from Allah","arabic":"رَبَّنَا هَبْ لَنَا مِنْ لَدُنْكَ رَحْمَةً","transliteration":"Rabbana hab lana min ladunka rahmah","translation":"Our Lord, grant us mercy from Yourself","reference":"Qur\'an 18:10","link":"https://quran.com/18/10","source":"Qur\'an","tag":"Qur\'an"},{"occasion":"Steadfast in prayer","arabic":"رَبِّ اجْعَلْنِي مُقِيمَ الصَّلَاةِ","transliteration":"Rabbi ij\'alni muqima as-salah","translation":"My Lord, make me an establisher of prayer","reference":"Qur\'an 14:40","link":"https://quran.com/14/40","source":"Qur\'an","tag":"Qur\'an"},{"occasion":"Patience & resilience","arabic":"رَبَّنَا أَفْرِغْ عَلَيْنَا صَبْرًا","transliteration":"Rabbana afrigh \'alayna sabran","translation":"Our Lord, pour upon us patience","reference":"Qur\'an 2:250","link":"https://quran.com/2/250","source":"Qur\'an","tag":"Qur\'an"}],"view_more_label":"Explore the verified dua library","modal_title":"Dua Library","modal_sections":[{"title":"Worship & Prayer","items":[{"name":"Ease in prayer","arabic":"رَبِّ اشْرَحْ لِي صَدْرِي","transliteration":"Rabbi ishrah li sadri","translation":"My Lord, expand for me my chest","reference":"Qur\'an 20:25","resource":"https://quran.com/20/25","source":"Qur\'an"},{"name":"Increase knowledge","arabic":"رَبِّ زِدْنِي عِلْمًا","transliteration":"Rabbi zidni \'ilma","translation":"My Lord, increase me in knowledge","reference":"Qur\'an 20:114","resource":"https://quran.com/20/114","source":"Qur\'an"},{"name":"Guidance","arabic":"اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ","transliteration":"Ihdinas-siratal-mustaqim","translation":"Guide us to the straight path","reference":"Qur\'an 1:6","resource":"https://quran.com/1/6","source":"Qur\'an"},{"name":"Devotion","arabic":"رَبَّنَا وَاجْعَلْنَا مُسْلِمَيْنِ","transliteration":"Rabbana waj\'alna muslimayn","translation":"Our Lord, make us Muslims in submission to You","reference":"Qur\'an 2:128","resource":"https://quran.com/2/128","source":"Qur\'an"},{"name":"Prayer in family","arabic":"رَبِّ اجْعَلْنِي مُقِيمَ الصَّلَاةِ","transliteration":"Rabbi ij\'alni muqima as-salah","translation":"My Lord, make me an establisher of prayer","reference":"Qur\'an 14:40","resource":"https://quran.com/14/40","source":"Qur\'an"}]},{"title":"Forgiveness & Mercy","items":[{"name":"Do not burden us","arabic":"رَبَّنَا لَا تُحَمِّلْنَا مَا لَا طَاقَةَ لَنَا بِهِ","transliteration":"Rabbana la tuhammilna ma la taqata lana bih","translation":"Our Lord, do not burden us beyond what we can bear","reference":"Qur\'an 2:286","resource":"https://quran.com/2/286","source":"Qur\'an"},{"name":"Mercy","arabic":"رَبِّ اغْفِرْ وَارْحَمْ","transliteration":"Rabbi ighfir warham","translation":"My Lord, forgive and have mercy","reference":"Qur\'an 23:118","resource":"https://quran.com/23/118","source":"Qur\'an"},{"name":"Repentance","arabic":"رَبَّنَا ظَلَمْنَا أَنْفُسَنَا","transliteration":"Rabbana zalamna anfusana","translation":"Our Lord, we have wronged ourselves","reference":"Qur\'an 7:23","resource":"https://quran.com/7/23","source":"Qur\'an"},{"name":"Forgive our sins","arabic":"رَبَّنَا اغْفِرْ لَنَا ذُنُوبَنَا","transliteration":"Rabbana ighfir lana dhunubana","translation":"Our Lord, forgive us our sins","reference":"Qur\'an 3:147","resource":"https://quran.com/3/147","source":"Qur\'an"},{"name":"Light for us","arabic":"رَبَّنَا أَتْمِمْ لَنَا نُورَنَا","transliteration":"Rabbana atmim lana nurana","translation":"Our Lord, perfect for us our light","reference":"Qur\'an 66:8","resource":"https://quran.com/66/8","source":"Qur\'an"},{"name":"Turn away punishment","arabic":"رَبَّنَا اصْرِفْ عَنَّا عَذَابَ جَهَنَّمَ","transliteration":"Rabbana isrif \'anna \'adhaba jahannam","translation":"Our Lord, turn away from us the punishment of Hell","reference":"Qur\'an 25:65","resource":"https://quran.com/25/65","source":"Qur\'an"}]},{"title":"Family & Community","items":[{"name":"Righteous family","arabic":"رَبَّنَا هَبْ لَنَا مِنْ أَزْوَاجِنَا","transliteration":"Rabbana hab lana min azwajina","translation":"Our Lord, grant us from among our spouses","reference":"Qur\'an 25:74","resource":"https://quran.com/25/74","source":"Qur\'an"},{"name":"Parents and believers","arabic":"رَبِّ اغْفِرْ لِي وَلِوَالِدَيَّ","transliteration":"Rabbi ighfir li wa li walidayya","translation":"My Lord, forgive me and my parents","reference":"Qur\'an 14:41","resource":"https://quran.com/14/41","source":"Qur\'an"},{"name":"Peaceful home","arabic":"رَبِّ أَنزِلْنِي مُنزَلًا مُّبَارَكًا","transliteration":"Rabbi anzilni munzalan mubaraka","translation":"My Lord, let me land at a blessed landing place","reference":"Qur\'an 23:29","resource":"https://quran.com/23/29","source":"Qur\'an"},{"name":"Clean hearts","arabic":"رَبَّنَا لَا تَجْعَلْ فِي قُلُوبِنَا غِلًّا","transliteration":"Rabbana la taj\'al fi qulubina ghillan","translation":"Our Lord, do not place in our hearts any rancor","reference":"Qur\'an 59:10","resource":"https://quran.com/59/10","source":"Qur\'an"},{"name":"Do not leave me alone","arabic":"رَبِّ لَا تَذَرْنِي فَرْدًا","transliteration":"Rabbi la tadharni fardan","translation":"My Lord, do not leave me alone while You are the best of inheritors","reference":"Qur\'an 4:129","resource":"https://quran.com/4/129","source":"Qur\'an"}]},{"title":"Provision & Resilience","items":[{"name":"Good provision","arabic":"رَبِّ إِنِّي لِمَا أَنْزَلْتَ إِلَيَّ مِنْ خَيْرٍ فَقِيرٌ","transliteration":"Rabbi inni lima anzalta ilayya min khayrin faqir","translation":"My Lord, I am in need of whatever good You send down to me","reference":"Qur\'an 28:24","resource":"https://quran.com/28/24","source":"Qur\'an"},{"name":"Blessed wealth","arabic":"رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً","transliteration":"Rabbana atina fid-dunya hasanah","translation":"Our Lord, give us good in this world","reference":"Qur\'an 2:201","resource":"https://quran.com/2/201","source":"Qur\'an"},{"name":"Accepted deeds","arabic":"رَبَّنَا تَقَبَّلْ مِنَّا","transliteration":"Rabbana taqabbal minna","translation":"Our Lord, accept from us","reference":"Qur\'an 2:127","resource":"https://quran.com/2/127","source":"Qur\'an"},{"name":"Steadfast faith","arabic":"رَبَّنَا عَلَيْكَ تَوَكَّلْنَا","transliteration":"Rabbana \'alayka tawakkalna","translation":"Our Lord, upon You we rely","reference":"Qur\'an 10:85","resource":"https://quran.com/10/85","source":"Qur\'an"},{"name":"Patience in trials","arabic":"رَبَّنَا أَفْرِغْ عَلَيْنَا صَبْرًا","transliteration":"Rabbana afrigh \'alayna sabran","translation":"Our Lord, pour upon us patience","reference":"Qur\'an 2:250","resource":"https://quran.com/2/250","source":"Qur\'an"},{"name":"Turn away punishment","arabic":"رَبَّنَا اصْرِفْ عَنَّا عَذَابَ جَهَنَّمَ","transliteration":"Rabbana isrif \'anna \'adhaba jahannam","translation":"Our Lord, turn away from us the punishment of Hell","reference":"Qur\'an 25:65","resource":"https://quran.com/25/65","source":"Qur\'an"}]},{"title":"Prophetic Supplications","items":[{"name":"Guidance & piety","arabic":"اللَّهُمَّ إِنِّي أَسْأَلُكَ الْهُدَى وَالتُّقَى وَالْعَفَافَ وَالْغِنَى","transliteration":"Allahumma inni as\'alukal-huda wat-tuqa wal-\'afafa wal-ghina","translation":"O Allah, I ask You for guidance, piety, chastity, and contentment","reference":"Sunan Ibn Majah 3832","resource":"https://sunnah.com/ibnmajah:3832","source":"Hadith"},{"name":"Beneficial knowledge, provision & deeds","arabic":"اللَّهُمَّ إِنِّي أَسْأَلُكَ عِلْمًا نَافِعًا وَرِزْقًا طَيِّبًا وَعَمَلًا مُتَقَبَّلًا","transliteration":"Allahumma inni as\'aluka ilman nafi\'an, wa rizqan tayyiban, wa amalan mutaqabbalan","translation":"O Allah, I ask You for beneficial knowledge, good provision, and accepted deeds","reference":"Sunan Ibn Majah 925","resource":"https://sunnah.com/ibnmajah:925","source":"Hadith"},{"name":"Forgiveness & well-being","arabic":"اللَّهُمَّ إِنِّي أَسْأَلُكَ الْعَفْوَ وَالْعَافِيَةَ فِي الدُّنْيَا وَالْآخِرَةِ","transliteration":"Allahumma inni as\'alukal-\'afwa wal-\'afiyah fid-dunya wal-akhirah","translation":"O Allah, I ask You for forgiveness and well-being in this world and the Hereafter","reference":"Sunan Ibn Majah 3871","resource":"https://sunnah.com/ibnmajah:3871","source":"Hadith"}]}]},"shorts":{"section_title":"Ramadan Short Clips","subtitle":"Quick, inspiring clips grouped by theme. Tap any card to watch.","highlights_title":"Quick highlights","highlights":[{"title":"Ramadan is coming","description":"A quick reminder to prepare your heart and schedule.","duration":"Under 1 min","tag":"Preparation","link":"https://www.youtube.com/shorts/HRHR66dGphk","thumbnail":"https://i.ytimg.com/vi/HRHR66dGphk/hqdefault.jpg"},{"title":"Which one are you this Ramadan?","description":"A short reflection on personal goals.","duration":"Under 1 min","tag":"Reflection","link":"https://www.youtube.com/shorts/ubK3uJzcS6k","thumbnail":"https://i.ytimg.com/vi/ubK3uJzcS6k/hqdefault.jpg"},{"title":"Ramadan Mubarak dua","description":"Short dua to share blessings in the month.","duration":"Under 1 min","tag":"Dua","link":"https://www.youtube.com/shorts/V3VN1lkfrjM","thumbnail":"https://i.ytimg.com/vi/V3VN1lkfrjM/hqdefault.jpg"},{"title":"Shortest fasting times","description":"A quick look at shorter fasting windows by region.","duration":"Under 1 min","tag":"Fasting","link":"https://www.youtube.com/shorts/xX74aNqVf28","thumbnail":"https://i.ytimg.com/vi/xX74aNqVf28/hqdefault.jpg"}],"groups":[{"title":"Quran & Taraweeh","items":[{"title":"Ramadan reminder","description":"Keep the Quran close and hearts soft.","duration":"Under 1 min","tag":"Quran","link":"https://www.youtube.com/shorts/nOG_AO74gFE","thumbnail":"https://i.ytimg.com/vi/nOG_AO74gFE/hqdefault.jpg"},{"title":"Quran in Ramadan","description":"Quick motivation to recite more.","duration":"Under 1 min","tag":"Quran","link":"https://www.youtube.com/watch?v=_P32u0x2v_w","thumbnail":"https://i.ytimg.com/vi/_P32u0x2v_w/hqdefault.jpg"},{"title":"Fast Taraweeh","description":"A short reminder about nightly prayers.","duration":"Under 1 min","tag":"Taraweeh","link":"https://www.youtube.com/shorts/sTyXJo_O9zI","thumbnail":"https://i.ytimg.com/vi/sTyXJo_O9zI/hqdefault.jpg"}]},{"title":"Duas & Laylat al-Qadr","items":[{"title":"Ramadan dua","description":"A brief dua to recite in the month.","duration":"Under 1 min","tag":"Dua","link":"https://www.youtube.com/shorts/yBHKEwH89Co","thumbnail":"https://i.ytimg.com/vi/yBHKEwH89Co/hqdefault.jpg"},{"title":"Authentic dua at iftar","description":"Iftar dua reminder.","duration":"Under 1 min","tag":"Iftar","link":"https://www.youtube.com/shorts/O1z666oaa0U","thumbnail":"https://i.ytimg.com/vi/O1z666oaa0U/hqdefault.jpg"},{"title":"Laylat al-Qadr dua","description":"What to say on the Night of Power.","duration":"Under 1 min","tag":"Laylat al-Qadr","link":"https://www.youtube.com/shorts/lmnZZVZKuIY","thumbnail":"https://i.ytimg.com/vi/lmnZZVZKuIY/hqdefault.jpg"}]},{"title":"Suhoor & Charity","items":[{"title":"Eating suhoor in Ramadan","description":"A lighthearted look at suhoor routines.","duration":"Under 1 min","tag":"Suhoor","link":"https://www.youtube.com/shorts/2kyjR_uMnRw","thumbnail":"https://i.ytimg.com/vi/2kyjR_uMnRw/hqdefault.jpg"},{"title":"DIY Sadaqah box","description":"A creative charity idea for families.","duration":"Under 1 min","tag":"Charity","link":"https://www.youtube.com/shorts/Ycfzl4NjkmI","thumbnail":"https://i.ytimg.com/vi/Ycfzl4NjkmI/hqdefault.jpg"}]}]},"platform_resources":{"section_title":"Apps & Learning Resources","subtitle":"Choose the platform that suits your learning style.","intro":["Listed resources were checked against their official domains and app stores on February 4, 2026, so the URLs remain reachable.","We focus on app publishers and learning platforms backed by trusted teams, scholar-led research centers, or high-usage communities so you can prepare for Ramadan with confidence."],"cards":[{"title":"Verified Mobile Apps","description":"High-volume apps with transparent governance, Ramadan-ready hubs, and reliable prayer/Quran content.","items":[{"name":"Muslim Pro","label":"Muslim Pro","link":"https://www.muslimpro.com/","note":"Prayer times, Quran, and Ramadan reminders in one place with large global usage.","logo":"https://www.muslimpro.com/favicon.ico"},{"name":"Quran.com Mobile","label":"Quran.com Mobile","link":"https://quran.com/en/apps","note":"Ad-free Quran Foundation app with translations, recitations, tafsir access, and daily goals.","logo":"https://quran.com/favicon.ico"},{"name":"IslamicFinder Athan","label":"IslamicFinder Athan","link":"https://www.islamicfinder.org/prayer-times/","note":"Global prayer times with mosque directory, qibla support, and Hijri calendar features.","logo":"https://www.islamicfinder.org/favicon.ico"},{"name":"Quran Companion","label":"Quran Companion","link":"https://apps.apple.com/us/app/quran-companion-memorize-quran/id1111843462","note":"Memorization-focused experience with streaks, motivation tools, and guided review routines.","logo":"https://qurancompanion.com/favicon.ico"}]},{"title":"Interactive Learning Platforms","description":"Structured courses, scholar-led series, and research archives that get refreshed around each Ramadan.","items":[{"name":"Bayyinah TV","label":"Bayyinah TV","link":"https://bayyinah.tv/","note":"Long-form Quran and Arabic video learning with family pathways and structured episodes.","logo":"https://bayyinah.tv/favicon.ico"},{"name":"Yaqeen Institute Ramadan","label":"Yaqeen Institute Ramadan","link":"https://yaqeeninstitute.org/ramadan","note":"Research-backed Ramadan reflections, videos, and journals with downloadable resources.","logo":"https://yaqeeninstitute.org/favicon.ico"},{"name":"SeekersGuidance","label":"SeekersGuidance","link":"https://seekersguidance.org/","note":"Non-profit seminary with structured courses, Q&A resources, and guided learning tracks.","logo":"https://seekersguidance.org/favicon.ico"},{"name":"Quran Academy","label":"Quran Academy","link":"https://quranacademy.io/","note":"Quranic Arabic learning pathways with challenges, memorization support, and coach-led sessions.","logo":"https://quranacademy.io/favicon.ico"}]},{"title":"Audio & Qur’an Study Tools","description":"Audio-first and memorization-friendly tools for every listener and reciter.","items":[{"name":"QuranicAudio","label":"QuranicAudio","link":"https://quranicaudio.com/","note":"Large reciter library with downloadable MP3 and flexible streaming playback.","logo":"https://quranicaudio.com/favicon.ico"},{"name":"Mushafi Quran","label":"Mushafi Quran","link":"https://mushafiquran.com/","note":"Word-by-word meaning, offline packs, and tajwid-friendly recitation tools.","logo":"https://mushafiquran.com/favicon.ico"},{"name":"HifzPath","label":"HifzPath","link":"https://hifzpath.pages.dev/","note":"Memorization tracking with streak tools, quick quizzes, and revision support.","logo":"https://hifzpath.pages.dev/favicon.ico"},{"name":"Quran IQ","label":"Quran IQ","link":"https://quraniq.com/","note":"Arabic vocabulary and grammar drills for understanding Quranic language with guided lessons.","logo":"https://quraniq.com/favicon.ico"}]}]},"faq":{"section_title":"Frequently Asked Questions","subtitle":"Mainstream Sunni guidance commonly shared in North American masajid.","items":[{"question":"When does Ramadan 2026 start?","answer":"Most North American calendars project the first fast on February 17, 2026, with the first Taraweeh night on February 16, 2026. Local moon sighting can shift this by a day, so confirm with your local masjid."},{"question":"What time does the daily fast begin and end?","answer":"Fasting is from true dawn (Fajr) until sunset (Maghrib). Follow your local prayer timetable for your exact city times."},{"question":"Who is exempt from fasting?","answer":"Children before puberty, the ill, travelers, pregnant or nursing women, and those menstruating are exempt. Missed fasts are made up later when possible; ask a local scholar about fidya or kaffarah in your situation."},{"question":"What breaks the fast?","answer":"Eating or drinking, sexual relations, intentional vomiting, and menstrual or postpartum bleeding break the fast. If you eat or drink out of forgetfulness, the fast remains valid according to most Sunni opinions."},{"question":"How can I make the most of the last 10 nights?","answer":"Prioritize night prayer, Quran, dua, and charity, and focus on the odd nights (21, 23, 25, 27, 29) for Laylat al-Qadr. Many people adjust sleep schedules or take time off to focus on worship."}]},"tools_calculators":{"section_title":"Ramadan Preparation Toolbox","subtitle":"Direct access to Islamic Connect tools.","intro":["Use this hub to reach zakat calculators, dua collections, surah resources, podcasts, the seerah timeline, and prayer calendars without guessing where to go next.","Each card opens the tool in a new tab so you can drop into the experience you need while you keep reading the Ramadan guide."],"tools":[{"title":"Zakat Calculator","description":"Estimate your zakat obligations with step-by-step guidance ahead of Ramadan.","detail":"Answer a few questions about savings, investments, and liabilities to see what you owe before Eid.","link":"/zakat","icon":"fa-calculator"},{"title":"Surat Explorer","description":"Browse suwar summaries, audio, and study notes for focused reading.","detail":"Compare tafsir notes, choose reciters, and plan quran sessions so every surah has context.","link":"/surat","icon":"fa-book-open"},{"title":"Prayer Times Calendar","description":"Track global prayer schedules with a comprehensive calendar view.","detail":"Sync sunrise, sunset, and city-specific reminders so you never miss a dawah moment.","link":"/prayer","icon":"fa-globe"}]}}');
+module.exports = /*#__PURE__*/JSON.parse('{"page_title":"Ramadan 2026 | Complete Guide & Resources","meta_description":"Complete guide for Ramadan 1447 AH (2026 CE): key dates, how to fast, prayers made easy, Quran plans, charity guidance, health tips, duas, tools, and verified resources.","last_updated":"2025-03-01","data_sources":[{"label":"Quran.com","link":"https://quran.com"},{"label":"Sunnah.com","link":"https://sunnah.com"},{"label":"IslamQA.info","link":"https://islamqa.info"},{"label":"Yaqeen Institute","link":"https://yaqeeninstitute.org"},{"label":"SeekersGuidance","link":"https://seekersguidance.org"}],"labels":{"references":"References","open_video":"Open video","open_tool":"Launch tool","open_tool_title":"Launch tool","open_tool_aria":"Launch tool in a new tab","download":"Download","watch_short":"Watch short","highlights":"Highlights","view_source":"View","duration_prefix":"Duration","resource_label":"Resource"},"header":{"title":"Ramadan 2026 (1447 AH)","subtitle":"The Month of Quran, Fasting, and Spiritual Renewal","banner_image":"/images/ramadan-hero-pexels.jpg","alt_text":"Grand mosque exterior under a twilight sky","stats":{"last_updated_label":"Last updated","data_sources_label":"Data sources"}},"nav_links":[{"label":"What is Ramadan","href":"#overview"},{"label":"History","href":"#history"},{"label":"Key dates","href":"#key-dates"},{"label":"How to fast","href":"#how-to-fast"},{"label":"FAQ","href":"#faq"},{"label":"Recources","href":"#platforms"},{"label":"Quran plans","href":"#quran-plans"},{"label":"Personal plans","href":"#personal-plans"},{"label":"Tools","href":"#tools"},{"label":"Charity","href":"#charity"},{"label":"Health tips","href":"#health"},{"label":"Short clips","href":"#shorts"}],"overview":{"section_title":"What Is Ramadan?","subtitle":"Ramadan is the ninth month of the Islamic lunar calendar. It is a month of fasting from dawn to sunset, focused worship, Quran recitation, community care, and spiritual renewal.","body":["The Quran describes Ramadan as the month in which the Quran was revealed as guidance for humanity. Muslims fast to develop taqwa (God-consciousness), discipline their desires, and increase empathy for those in need.","Beyond fasting, Ramadan is a time to elevate worship through prayer, charity, and reflection. Families gather, communities host iftars, and masajid become centers of learning and service.","Every day in Ramadan is an invitation to reset habits, strengthen spiritual focus, and renew intentions with sincerity."],"key_points_title":"Key ideas to remember","key_points":["Fasting is an act of worship and self-discipline.","Ramadan is the month in which the Quran was revealed.","The last ten nights are especially blessed, including Laylat al-Qadr.","Charity and community care are central to the month.","Every day is an opportunity to improve character and habits."],"references":[{"source":"Qur\'an","citation":"Al-Baqarah 2:183-185","source_site":"quran.com","embedded_text":"Allah prescribed fasting for believers so they may attain taqwa, and identified Ramadan as the month in which the Quran was revealed as guidance."},{"source":"Qur\'an","citation":"Al-Qadr 97:1-5","source_site":"quran.com","embedded_text":"Laylat al-Qadr is described as better than a thousand months and a night filled with peace by Allah\'s permission."},{"source":"Hadith","citation":"Sahih al-Bukhari 38; Sahih Muslim 760","source_site":"sunnah.com","embedded_text":"The Prophet taught that whoever fasts Ramadan with faith and hope of reward will have previous sins forgiven."}]},"history":{"section_title":"History & Significance","subtitle":"Ramadan is linked to the Quranic revelation and the obligation of fasting. Its devotional rhythm has shaped Muslim worship, ethics, and communal life for centuries.","body":["The Quran frames fasting in Ramadan as a prescribed act for believers and ties the month to revelation and guidance.","Prophetic practice established suhoor, iftar at sunset, and intensified night worship, while the last ten nights emphasize Laylat al-Qadr and spiritual retreat (i\'tikaf).","Across centuries, Ramadan shaped daily routines, public worship, and charitable life, anchored by mosques, learning circles, and family gatherings.","Modern Ramadan carries these traditions worldwide through organized charity, community programming, and digital learning."],"timeline":[{"number":1,"period":"c. 610 CE (13 BH)","detail":"The first revelation is tied to Ramadan, and the Quran identifies this month as the period of guidance for humanity.","reference":"Qur\'an 96:1-5; Qur\'an 97:1-5; Qur\'an 2:185","reference_site":"quran.com"},{"number":2,"period":"624 CE (2 AH)","detail":"The command to fast in Ramadan is formally legislated, with clear rulings on the goal, timeframe, and concessions.","reference":"Qur\'an 2:183-187","reference_site":"quran.com"},{"number":3,"period":"632-661 CE (Rashidun Caliphate)","detail":"Companions preserved Quran transmission and organized Ramadan night prayer at scale for community worship.","reference":"Sahih al-Bukhari 4986; Sahih al-Bukhari 2010","reference_site":"sunnah.com"},{"number":4,"period":"Classical Sunni Practice","detail":"Iftar at sunset, suhoor before dawn, and intensified qiyam became stable features of Ramadan worship across regions.","reference":"Sahih al-Bukhari 1957; Sahih Muslim 1095","reference_site":"sunnah.com"},{"number":5,"period":"Contemporary Fiqh Clarification","detail":"Modern fatwa platforms continue to explain exemptions, makeup fasts, fidyah, and valid reasons for breaking the fast.","reference":"IslamQA Ramadan topic hub and fasting rulings","reference_site":"IslamQA.info"},{"number":6,"period":"Community Teaching in the Digital Era","detail":"Structured online courses and answer services broaden access to Ramadan fiqh, adab, and worship preparation.","reference":"SeekersGuidance Ramadan answers and curriculum pages","reference_site":"SeekersGuidance"},{"number":7,"period":"Global Reflection Projects","detail":"Research-driven Ramadan series and reflection journals increase access to spiritually grounded educational content.","reference":"Yaqeen Institute Ramadan collection","reference_site":"Yaqeen Institute"},{"number":8,"period":"Contemporary Observance (21st Century)","detail":"Ramadan is globally shared but locally timed, with communities combining moon-sighting announcements, digital planning, and local service.","reference":"Qur\'an 2:185 with applied guidance from Sunni fiqh references","reference_site":"quran.com / Sunnah.com / IslamQA.info / SeekersGuidance / Yaqeen Institute"}],"notable_figures":{"title":"Scholars & Voices","items":[{"name":"Ibn Abbas (d. 687 CE)","note":"Early Qur\'anic exegete whose explanations shaped how Muslims understand verses about fasting."},{"name":"Imam Malik (d. 795 CE)","note":"Documented Madinan practice, including Ramadan customs and community observance."},{"name":"Imam al-Shafi\'i (d. 820 CE)","note":"Systematized legal principles that influenced fasting rulings across regions."},{"name":"Imam al-Nawawi (d. 1277 CE)","note":"Compiled hadith and devotional guidance that shaped Ramadan practice."}]},"regional_practices":{"title":"Regional Traditions","items":[{"region":"Egypt (Cairo)","detail":"Lantern processions and communal iftars became distinctive Ramadan features."},{"region":"Ottoman cities (Istanbul)","detail":"Public iftar tents and endowments supported travelers and the poor."},{"region":"West Africa (Sahel)","detail":"Quran recitation circles and night study gatherings remain a hallmark."},{"region":"South & Southeast Asia","detail":"Large taraweeh congregations and neighborhood iftars reinforce community bonds."},{"region":"Diaspora communities","detail":"Mosques and Islamic centers host open iftars and service drives to build cohesion."}]},"references":[{"source":"Qur\'an","citation":"Al-Baqarah 2:183-187","source_site":"quran.com","embedded_text":"These verses establish fasting in Ramadan, name the month of revelation, and provide core legal concessions for illness and travel."},{"source":"Qur\'an","citation":"Al-Baqarah 2:185","source_site":"quran.com","embedded_text":"Ramadan is defined as the month of Quran revelation and guidance, linking worship routine directly to revelation."},{"source":"Hadith","citation":"Sahih al-Bukhari 2010; Sahih al-Bukhari 4986","source_site":"sunnah.com","embedded_text":"These narrations are used for Ramadan congregational night prayer and the compilation-preservation history of the Qur\'an."},{"source":"Fiqh Guidance","citation":"Ramadan guidance collections","source_site":"IslamQA.info / SeekersGuidance / Yaqeen Institute","embedded_text":"Contemporary scholarship explains how classical rulings are applied in modern schedules, health contexts, and community conditions."}]},"important_dates":{"section_title":"Ramadan 2026 Key Dates","subtitle":"Plan ahead with the most likely timeline for Ramadan 1447 AH.","note":"Dates are approximate and subject to moon sighting. Local moon sighting announcements take precedence.","dates":[{"event":"First Taraweeh Night","gregorian_date":"February 16, 2026 (after Maghrib)","hijri_date":"30 Sha\'ban 1447 AH","description":"First Taraweeh prayer is usually held the night before the first fast.","type":"start"},{"event":"First Day of Ramadan","gregorian_date":"February 17, 2026","hijri_date":"1 Ramadan 1447 AH","description":"Expected first day of fasting based on astronomical calculations.","type":"start"},{"event":"First Friday of Ramadan","gregorian_date":"February 20, 2026","hijri_date":"4 Ramadan 1447 AH","description":"A meaningful Jumu\'ah during the early days of the month; a great moment to recommit to worship and community support.","type":"special"},{"event":"Mid-Ramadan Check-In","gregorian_date":"Approx. March 3, 2026","hijri_date":"15 Ramadan 1447 AH","description":"A good moment to renew goals and review Quran progress.","type":"special"},{"event":"Last 10 Nights Begin","gregorian_date":"Approx. March 8, 2026 (night)","hijri_date":"20 Ramadan 1447 AH","description":"Focus intensifies for night worship, duas, and seeking Laylat al-Qadr.","type":"special"},{"event":"Laylat al-Qadr (Night of Decree)","gregorian_date":"Approx. March 15-16, 2026","hijri_date":"27 Ramadan 1447 AH","description":"The most blessed night - better than 1000 months. Seek it in the last 10 odd nights.","type":"special"},{"event":"Zakat al-Fitr Deadline","gregorian_date":"Before Eid prayer (March 19, 2026)","hijri_date":"End of Ramadan","description":"Zakat al-Fitr should be paid before Eid prayer to reach those in need.","type":"special"},{"event":"Eid al-Fitr","gregorian_date":"March 19, 2026","hijri_date":"1 Shawwal 1447 AH","description":"Festival of Breaking the Fast. Subject to moon sighting.","type":"eid"}]},"moon_sighting":{"title":"Moon-sighting adjustment instructions","intro":"Ramadan depends on the lunar crescent. These steps help you stay aligned with local moon-sighting announcements while keeping your plan flexible.","steps":["Follow the final announcement from your local masjid, Islamic council, or moon-sighting committee before committing to the start of Ramadan.","Keep both 29- and 30-day plans handy so you can switch the calendar as soon as you hear whether the crescent was seen.","If the crescent is not confirmed on the 29th night, extend the current day of preparation and begin fasting the next evening while still waiting for confirmation.","Note who confirmed the sighting (community leader, scholar, or committee) and which geographic region they represented so your family can confidently follow the approved schedule."],"note":"Right after the official sighting, update the planner start date and adapt reminders, printouts, and digital exports to the confirmed timeline."},"how_to_fast":{"section_title":"How To Fast (Do\'s & Don\'ts)","intro":"Fasting is from dawn to sunset with the intention (niyyah). The goal is worship, discipline, and avoiding what breaks the fast.","cards":[{"title":"Do\'s","items":["Make intention before Fajr.","Eat a balanced Suhoor and hydrate well.","Pray on time and read Quran daily.","Break fast promptly at sunset with dates and water if possible.","Be mindful of behavior, speech, and time.","Make dua before Iftar - it is a special time for acceptance."]},{"title":"Don\'ts","items":["Do not eat or drink between Fajr and Maghrib.","Avoid backbiting, arguments, and harmful speech.","Avoid overeating at Iftar.","Do not neglect prayers or Quran.","Avoid wasting time in unhelpful activities."]},{"title":"Exemptions","items":["Children before puberty","The ill","Travelers","Pregnant or nursing women","Menstruating women"]}],"references":[{"source":"Qur\'an","citation":"Al-Baqarah 2:183-187","source_site":"quran.com","embedded_text":"These verses define the obligation, the fasting window from dawn to night, and legal allowances for hardship."},{"source":"Hadith","citation":"Sahih al-Bukhari 1904; Sahih Muslim 1151","source_site":"sunnah.com","embedded_text":"Prophetic guidance clarifies intention, what invalidates fasting, and the reward connected to sincere fasting."},{"source":"Fiqh Q&A","citation":"Common fasting rulings","source_site":"IslamQA.info / SeekersGuidance","embedded_text":"Scholarly answers explain practical edge cases such as sickness, travel, pregnancy, medication timing, and makeup fasts."}]},"quran_reading_plans":{"section_title":"Quran Reading Plans (3 Levels)","intro":"Choose a plan that fits your schedule and energy. Consistency matters most.","plans":[{"level":"Beginner","daily_target":"4-6 pages","time_needed":"15-25 minutes","structure":"After Fajr + before sleep","goal":"Finish a meaningful portion and build a daily habit.","split":"2 short sessions","tips":["Read after Fajr when focus is strongest.","Listen to audio while commuting or walking.","Track progress on a simple checklist."]},{"level":"Intermediate","daily_target":"1 Juz","time_needed":"45-60 minutes","structure":"Split across 5 prayers","goal":"Complete the Quran once by Eid.","split":"5 short segments","tips":["Read 4-5 pages after each prayer.","Use the evening to catch up if needed.","Pair reading with reflection notes."]},{"level":"Advanced","daily_target":"1.5-2 Juz","time_needed":"90-120 minutes","structure":"Morning + afternoon + night","goal":"Complete the Quran more than once.","split":"3 focused sessions","tips":["Commit to a longer morning session.","Use Taraweeh recitation as part of the goal.","Review a translation alongside recitation."]}],"references":[{"source":"Qur\'an","citation":"Al-Baqarah 2:185","source_site":"quran.com","embedded_text":"Ramadan is explicitly framed around Quran guidance, making daily recitation and study central to the month."},{"source":"Hadith","citation":"Sahih al-Bukhari 1901; Sahih Muslim 760","source_site":"sunnah.com","embedded_text":"Prophetic teachings connect Ramadan fasting and night prayer to purification and spiritual growth."},{"source":"Reflection & Study","citation":"Ramadan reading resources","source_site":"Yaqeen Institute / SeekersGuidance","embedded_text":"Structured learning paths and reflection guides support consistent Quran goals for different schedules."}]},"personal_plans":{"section_title":"Personal Plans (Long-Form)","intro":"Choose a plan that matches your lifestyle and sustain it for 30 days.","daily_flow_title":"Daily flow","weekly_focus_title":"Weekly focus","plans":[{"title":"Quiet Renewal Plan","who_for":"Students and solo worshippers","overview":"A slower, reflective pace focused on Quran, journaling, and community check-ins.","focus":"Spiritual depth and daily consistency.","daily_flow":["Fajr + 10 minutes reflection","Midday: 6 pages Quran","Asr: 5-minute dhikr","After Isha: Taraweeh + short dua"],"weekly_focus":["Week 1: Intention and habit building","Week 2: Deepening Quran connection","Week 3: Night worship focus","Week 4: Gratitude and giving"],"accountability":"Weekly check-in with a friend or mentor."},{"title":"Family Connection Plan","who_for":"Parents and households","overview":"Shared worship with kids, simple lessons, and family goals.","focus":"Family unity and shared learning.","daily_flow":["Suhoor: one short Quran reflection","Maghrib: gratitude circle","After Taraweeh: 15-minute story or Quran"],"weekly_focus":["Week 1: Set family goals","Week 2: Add a family charity project","Week 3: Quran memorization night","Week 4: Eid preparation + reflection"],"accountability":"Family chart tracking prayers and reading."},{"title":"Working Professional Plan","who_for":"Busy schedules","overview":"Short, consistent blocks that fit around work and commuting.","focus":"Micro-habits and consistency.","daily_flow":["Morning commute: Quran audio","Lunch break: 2 pages reading","Evening: 10-minute dhikr + dua","Weekend: longer reflection session"],"weekly_focus":["Week 1: Align calendar","Week 2: Increase charity","Week 3: Add night prayer twice","Week 4: Finish Quran goal"],"accountability":"Set reminders and a weekly target review."},{"title":"Community Service Plan","who_for":"Volunteers and organizers","overview":"Balance worship with consistent service and community care.","focus":"Service and leadership.","daily_flow":["Post-Dhuhr: 20 minutes planning","Evening: serve at iftar or food bank","Night: Taraweeh and dua"],"weekly_focus":["Week 1: Identify a need","Week 2: Build a small volunteer team","Week 3: Host a community iftar","Week 4: Wrap-up and gratitude"],"accountability":"Weekly debrief with the team."},{"title":"Beginner Step-Up Plan","who_for":"New to consistent Ramadan routines","overview":"A gentle ramp-up plan that builds confidence with short, repeatable habits.","focus":"Consistency over intensity.","daily_flow":["Fajr: 5 minutes of Quran + simple dua","Dhuhr: 2 pages of Quran","Maghrib: gratitude note + family check-in","Isha: short Taraweeh or 2 rakaat at home"],"weekly_focus":["Week 1: Set a realistic daily target","Week 2: Add a short reflection journal","Week 3: Increase Quran time by 5 minutes","Week 4: Maintain routine and prepare for Eid"],"accountability":"Track progress daily and celebrate small wins."},{"title":"Night Worship Plan","who_for":"Those focusing on the last 10 nights","overview":"Structured routine to maximize Qiyam, dua, and Quran in the evenings.","focus":"Deep night worship and focused dua.","daily_flow":["After Maghrib: light meal + rest","After Isha: Taraweeh with focus","Late night: 20 minutes Quran + dua","Before Suhoor: 2-4 rakaat Qiyam"],"weekly_focus":["Week 1: Prepare sleep schedule","Week 2: Add a dua list for family","Week 3: Increase Qiyam duration","Week 4: Focus on Laylat al-Qadr"],"accountability":"Set a nightly alarm and keep a short dua checklist."}]},"charity_guide":{"section_title":"Charity Guide (Zakat al-Fitr Made Simple)","intro":"Charity is central in Ramadan. Zakat al-Fitr is obligatory before Eid prayer, while ongoing sadaqah builds compassion.","sadaqah_title":"Sadaqah ideas","giving_checklist_title":"Giving checklist","overview":["Zakat al-Fitr purifies the fasting person from minor shortcomings and ensures everyone can celebrate Eid with dignity.","Sadaqah is voluntary charity given throughout the month. Even small, consistent giving can have a large impact."],"zakat_al_fitr":{"title":"Zakat al-Fitr basics","points":["A required charity per person in the household, given before Eid prayer.","Paid before Eid prayer, preferably during Ramadan.","Every eligible Muslim who can afford it pays for themselves and dependents.","Equivalent to a staple food amount (varies by region).","Give through a local masjid or trusted charity organization."]},"sadaqah_ideas":["Sponsor iftar meals","Support local food banks","Contribute to masjid programs","Help neighbors and community initiatives","Share educational resources","Volunteer time and skills"],"giving_checklist":["Set a realistic daily or weekly amount.","Choose 1-2 trusted organizations.","Include a family charity goal if possible.","Give before Eid for Zakat al-Fitr."],"impact_notes":["Small, consistent charity builds long-term benefit.","Prioritize local needs alongside global relief."],"references":[{"source":"Qur\'an","citation":"Al-Baqarah 2:177","source_site":"quran.com","embedded_text":"Righteousness includes financial giving to relatives, vulnerable people, and those in need."},{"source":"Hadith","citation":"Sahih al-Bukhari 1902; Sahih Muslim 2308","source_site":"sunnah.com","embedded_text":"The Prophet was described as especially generous in Ramadan, encouraging expanded charity during this month."},{"source":"Fiqh Q&A","citation":"Zakat al-Fitr and sadaqah guidance","source_site":"IslamQA.info / SeekersGuidance","embedded_text":"Practical rulings explain who pays Zakat al-Fitr, timing before Eid prayer, and distribution priorities."}]},"health_food_tips":{"section_title":"Health & Food Tips","intro":"Keep energy stable and hydration steady. Aim for balance, not perfection.","primary_sections":[{"title":"Suhoor ideas","items":["Oatmeal with nuts and dates","Eggs with whole-grain toast","Greek yogurt + berries","Chia pudding with milk","Water + herbal tea"]},{"title":"Iftar ideas","items":["Dates + water + light soup","Grilled protein + salad","Lentil soup + brown rice","Baked salmon + vegetables","Fresh fruit plate"]},{"title":"Wellness focus","items":["Avoid salty foods to reduce thirst","Prioritize complex carbs for longer energy","Short walks after Iftar","Limit heavy fried meals","Ease into caffeine to avoid dehydration"]}],"secondary_sections":[{"title":"Hydration plan","items":["Drink 8-10 glasses between iftar and suhoor","2 glasses at iftar","4 glasses between iftar and sleep","2-4 glasses at suhoor"]},{"title":"Sleep & movement","items":["Take a 20-30 minute power nap if needed","Sleep soon after Taraweeh","Dim screens 30 minutes before bed","Keep a consistent bedtime if possible","Light exercise 1-2 hours after iftar","Walking for 30 minutes","Light stretching","Avoid intense workouts during fasting hours"]}],"micro_tips":["Add fruit and vegetables to every meal.","Keep a water bottle nearby at night.","Reduce sugar spikes by breaking fast slowly."]},"duas_prayers":{"section_title":"Essential Duas & Supplications","intro":"Every dua below is verified from the Qur\'an or authentic hadith so you can recite with confidence.","tag_label":"Source","search_label":"Search Quran & Prophetic duas","daily_duas":[{"occasion":"Good in this life and the next","arabic":"رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً","transliteration":"Rabbana atina fid-dunya hasanah","translation":"Our Lord, give us good in this world","reference":"Qur\'an 2:201","link":"https://quran.com/2/201","source":"Qur\'an","tag":"Qur\'an"},{"occasion":"Steadfast hearts","arabic":"رَبَّنَا لَا تُزِغْ قُلُوبَنَا","transliteration":"Rabbana la tuzigh qulubana","translation":"Our Lord, do not let our hearts deviate","reference":"Qur\'an 3:8","link":"https://quran.com/3/8","source":"Qur\'an","tag":"Qur\'an"},{"occasion":"Guide us to the straight path","arabic":"اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ","transliteration":"Ihdinas-siratal-mustaqim","translation":"Guide us to the straight path","reference":"Qur\'an 1:6","link":"https://quran.com/1/6","source":"Qur\'an","tag":"Qur\'an"},{"occasion":"Mercy from Allah","arabic":"رَبَّنَا هَبْ لَنَا مِنْ لَدُنْكَ رَحْمَةً","transliteration":"Rabbana hab lana min ladunka rahmah","translation":"Our Lord, grant us mercy from Yourself","reference":"Qur\'an 18:10","link":"https://quran.com/18/10","source":"Qur\'an","tag":"Qur\'an"},{"occasion":"Steadfast in prayer","arabic":"رَبِّ اجْعَلْنِي مُقِيمَ الصَّلَاةِ","transliteration":"Rabbi ij\'alni muqima as-salah","translation":"My Lord, make me an establisher of prayer","reference":"Qur\'an 14:40","link":"https://quran.com/14/40","source":"Qur\'an","tag":"Qur\'an"},{"occasion":"Patience & resilience","arabic":"رَبَّنَا أَفْرِغْ عَلَيْنَا صَبْرًا","transliteration":"Rabbana afrigh \'alayna sabran","translation":"Our Lord, pour upon us patience","reference":"Qur\'an 2:250","link":"https://quran.com/2/250","source":"Qur\'an","tag":"Qur\'an"}],"view_more_label":"Explore the verified dua library","modal_title":"Dua Library","modal_sections":[{"title":"Worship & Prayer","items":[{"name":"Ease in prayer","arabic":"رَبِّ اشْرَحْ لِي صَدْرِي","transliteration":"Rabbi ishrah li sadri","translation":"My Lord, expand for me my chest","reference":"Qur\'an 20:25","resource":"https://quran.com/20/25","source":"Qur\'an"},{"name":"Increase knowledge","arabic":"رَبِّ زِدْنِي عِلْمًا","transliteration":"Rabbi zidni \'ilma","translation":"My Lord, increase me in knowledge","reference":"Qur\'an 20:114","resource":"https://quran.com/20/114","source":"Qur\'an"},{"name":"Guidance","arabic":"اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ","transliteration":"Ihdinas-siratal-mustaqim","translation":"Guide us to the straight path","reference":"Qur\'an 1:6","resource":"https://quran.com/1/6","source":"Qur\'an"},{"name":"Devotion","arabic":"رَبَّنَا وَاجْعَلْنَا مُسْلِمَيْنِ","transliteration":"Rabbana waj\'alna muslimayn","translation":"Our Lord, make us Muslims in submission to You","reference":"Qur\'an 2:128","resource":"https://quran.com/2/128","source":"Qur\'an"},{"name":"Prayer in family","arabic":"رَبِّ اجْعَلْنِي مُقِيمَ الصَّلَاةِ","transliteration":"Rabbi ij\'alni muqima as-salah","translation":"My Lord, make me an establisher of prayer","reference":"Qur\'an 14:40","resource":"https://quran.com/14/40","source":"Qur\'an"}]},{"title":"Forgiveness & Mercy","items":[{"name":"Do not burden us","arabic":"رَبَّنَا لَا تُحَمِّلْنَا مَا لَا طَاقَةَ لَنَا بِهِ","transliteration":"Rabbana la tuhammilna ma la taqata lana bih","translation":"Our Lord, do not burden us beyond what we can bear","reference":"Qur\'an 2:286","resource":"https://quran.com/2/286","source":"Qur\'an"},{"name":"Mercy","arabic":"رَبِّ اغْفِرْ وَارْحَمْ","transliteration":"Rabbi ighfir warham","translation":"My Lord, forgive and have mercy","reference":"Qur\'an 23:118","resource":"https://quran.com/23/118","source":"Qur\'an"},{"name":"Repentance","arabic":"رَبَّنَا ظَلَمْنَا أَنْفُسَنَا","transliteration":"Rabbana zalamna anfusana","translation":"Our Lord, we have wronged ourselves","reference":"Qur\'an 7:23","resource":"https://quran.com/7/23","source":"Qur\'an"},{"name":"Forgive our sins","arabic":"رَبَّنَا اغْفِرْ لَنَا ذُنُوبَنَا","transliteration":"Rabbana ighfir lana dhunubana","translation":"Our Lord, forgive us our sins","reference":"Qur\'an 3:147","resource":"https://quran.com/3/147","source":"Qur\'an"},{"name":"Light for us","arabic":"رَبَّنَا أَتْمِمْ لَنَا نُورَنَا","transliteration":"Rabbana atmim lana nurana","translation":"Our Lord, perfect for us our light","reference":"Qur\'an 66:8","resource":"https://quran.com/66/8","source":"Qur\'an"},{"name":"Turn away punishment","arabic":"رَبَّنَا اصْرِفْ عَنَّا عَذَابَ جَهَنَّمَ","transliteration":"Rabbana isrif \'anna \'adhaba jahannam","translation":"Our Lord, turn away from us the punishment of Hell","reference":"Qur\'an 25:65","resource":"https://quran.com/25/65","source":"Qur\'an"}]},{"title":"Family & Community","items":[{"name":"Righteous family","arabic":"رَبَّنَا هَبْ لَنَا مِنْ أَزْوَاجِنَا","transliteration":"Rabbana hab lana min azwajina","translation":"Our Lord, grant us from among our spouses","reference":"Qur\'an 25:74","resource":"https://quran.com/25/74","source":"Qur\'an"},{"name":"Parents and believers","arabic":"رَبِّ اغْفِرْ لِي وَلِوَالِدَيَّ","transliteration":"Rabbi ighfir li wa li walidayya","translation":"My Lord, forgive me and my parents","reference":"Qur\'an 14:41","resource":"https://quran.com/14/41","source":"Qur\'an"},{"name":"Peaceful home","arabic":"رَبِّ أَنزِلْنِي مُنزَلًا مُّبَارَكًا","transliteration":"Rabbi anzilni munzalan mubaraka","translation":"My Lord, let me land at a blessed landing place","reference":"Qur\'an 23:29","resource":"https://quran.com/23/29","source":"Qur\'an"},{"name":"Clean hearts","arabic":"رَبَّنَا لَا تَجْعَلْ فِي قُلُوبِنَا غِلًّا","transliteration":"Rabbana la taj\'al fi qulubina ghillan","translation":"Our Lord, do not place in our hearts any rancor","reference":"Qur\'an 59:10","resource":"https://quran.com/59/10","source":"Qur\'an"},{"name":"Do not leave me alone","arabic":"رَبِّ لَا تَذَرْنِي فَرْدًا","transliteration":"Rabbi la tadharni fardan","translation":"My Lord, do not leave me alone while You are the best of inheritors","reference":"Qur\'an 4:129","resource":"https://quran.com/4/129","source":"Qur\'an"}]},{"title":"Provision & Resilience","items":[{"name":"Good provision","arabic":"رَبِّ إِنِّي لِمَا أَنْزَلْتَ إِلَيَّ مِنْ خَيْرٍ فَقِيرٌ","transliteration":"Rabbi inni lima anzalta ilayya min khayrin faqir","translation":"My Lord, I am in need of whatever good You send down to me","reference":"Qur\'an 28:24","resource":"https://quran.com/28/24","source":"Qur\'an"},{"name":"Blessed wealth","arabic":"رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً","transliteration":"Rabbana atina fid-dunya hasanah","translation":"Our Lord, give us good in this world","reference":"Qur\'an 2:201","resource":"https://quran.com/2/201","source":"Qur\'an"},{"name":"Accepted deeds","arabic":"رَبَّنَا تَقَبَّلْ مِنَّا","transliteration":"Rabbana taqabbal minna","translation":"Our Lord, accept from us","reference":"Qur\'an 2:127","resource":"https://quran.com/2/127","source":"Qur\'an"},{"name":"Steadfast faith","arabic":"رَبَّنَا عَلَيْكَ تَوَكَّلْنَا","transliteration":"Rabbana \'alayka tawakkalna","translation":"Our Lord, upon You we rely","reference":"Qur\'an 10:85","resource":"https://quran.com/10/85","source":"Qur\'an"},{"name":"Patience in trials","arabic":"رَبَّنَا أَفْرِغْ عَلَيْنَا صَبْرًا","transliteration":"Rabbana afrigh \'alayna sabran","translation":"Our Lord, pour upon us patience","reference":"Qur\'an 2:250","resource":"https://quran.com/2/250","source":"Qur\'an"},{"name":"Turn away punishment","arabic":"رَبَّنَا اصْرِفْ عَنَّا عَذَابَ جَهَنَّمَ","transliteration":"Rabbana isrif \'anna \'adhaba jahannam","translation":"Our Lord, turn away from us the punishment of Hell","reference":"Qur\'an 25:65","resource":"https://quran.com/25/65","source":"Qur\'an"}]},{"title":"Prophetic Supplications","items":[{"name":"Guidance & piety","arabic":"اللَّهُمَّ إِنِّي أَسْأَلُكَ الْهُدَى وَالتُّقَى وَالْعَفَافَ وَالْغِنَى","transliteration":"Allahumma inni as\'alukal-huda wat-tuqa wal-\'afafa wal-ghina","translation":"O Allah, I ask You for guidance, piety, chastity, and contentment","reference":"Sunan Ibn Majah 3832","resource":"https://sunnah.com/ibnmajah:3832","source":"Hadith"},{"name":"Beneficial knowledge, provision & deeds","arabic":"اللَّهُمَّ إِنِّي أَسْأَلُكَ عِلْمًا نَافِعًا وَرِزْقًا طَيِّبًا وَعَمَلًا مُتَقَبَّلًا","transliteration":"Allahumma inni as\'aluka ilman nafi\'an, wa rizqan tayyiban, wa amalan mutaqabbalan","translation":"O Allah, I ask You for beneficial knowledge, good provision, and accepted deeds","reference":"Sunan Ibn Majah 925","resource":"https://sunnah.com/ibnmajah:925","source":"Hadith"},{"name":"Forgiveness & well-being","arabic":"اللَّهُمَّ إِنِّي أَسْأَلُكَ الْعَفْوَ وَالْعَافِيَةَ فِي الدُّنْيَا وَالْآخِرَةِ","transliteration":"Allahumma inni as\'alukal-\'afwa wal-\'afiyah fid-dunya wal-akhirah","translation":"O Allah, I ask You for forgiveness and well-being in this world and the Hereafter","reference":"Sunan Ibn Majah 3871","resource":"https://sunnah.com/ibnmajah:3871","source":"Hadith"}]}]},"shorts":{"section_title":"Ramadan Short Clips","subtitle":"Quick, inspiring clips grouped by theme. Tap any card to watch.","highlights_title":"Quick highlights","highlights":[{"title":"Ramadan is coming","description":"A quick reminder to prepare your heart and schedule.","duration":"Under 1 min","tag":"Preparation","link":"https://www.youtube.com/shorts/HRHR66dGphk","thumbnail":"https://i.ytimg.com/vi/HRHR66dGphk/hqdefault.jpg"},{"title":"Which one are you this Ramadan?","description":"A short reflection on personal goals.","duration":"Under 1 min","tag":"Reflection","link":"https://www.youtube.com/shorts/ubK3uJzcS6k","thumbnail":"https://i.ytimg.com/vi/ubK3uJzcS6k/hqdefault.jpg"},{"title":"Ramadan Mubarak dua","description":"Short dua to share blessings in the month.","duration":"Under 1 min","tag":"Dua","link":"https://www.youtube.com/shorts/V3VN1lkfrjM","thumbnail":"https://i.ytimg.com/vi/V3VN1lkfrjM/hqdefault.jpg"},{"title":"Shortest fasting times","description":"A quick look at shorter fasting windows by region.","duration":"Under 1 min","tag":"Fasting","link":"https://www.youtube.com/shorts/xX74aNqVf28","thumbnail":"https://i.ytimg.com/vi/xX74aNqVf28/hqdefault.jpg"}],"groups":[{"title":"Quran & Taraweeh","items":[{"title":"Ramadan reminder","description":"Keep the Quran close and hearts soft.","duration":"Under 1 min","tag":"Quran","link":"https://www.youtube.com/shorts/nOG_AO74gFE","thumbnail":"https://i.ytimg.com/vi/nOG_AO74gFE/hqdefault.jpg"},{"title":"Quran in Ramadan","description":"Quick motivation to recite more.","duration":"Under 1 min","tag":"Quran","link":"https://www.youtube.com/watch?v=_P32u0x2v_w","thumbnail":"https://i.ytimg.com/vi/_P32u0x2v_w/hqdefault.jpg"},{"title":"Fast Taraweeh","description":"A short reminder about nightly prayers.","duration":"Under 1 min","tag":"Taraweeh","link":"https://www.youtube.com/shorts/sTyXJo_O9zI","thumbnail":"https://i.ytimg.com/vi/sTyXJo_O9zI/hqdefault.jpg"}]},{"title":"Duas & Laylat al-Qadr","items":[{"title":"Ramadan dua","description":"A brief dua to recite in the month.","duration":"Under 1 min","tag":"Dua","link":"https://www.youtube.com/shorts/yBHKEwH89Co","thumbnail":"https://i.ytimg.com/vi/yBHKEwH89Co/hqdefault.jpg"},{"title":"Authentic dua at iftar","description":"Iftar dua reminder.","duration":"Under 1 min","tag":"Iftar","link":"https://www.youtube.com/shorts/O1z666oaa0U","thumbnail":"https://i.ytimg.com/vi/O1z666oaa0U/hqdefault.jpg"},{"title":"Laylat al-Qadr dua","description":"What to say on the Night of Power.","duration":"Under 1 min","tag":"Laylat al-Qadr","link":"https://www.youtube.com/shorts/lmnZZVZKuIY","thumbnail":"https://i.ytimg.com/vi/lmnZZVZKuIY/hqdefault.jpg"}]},{"title":"Suhoor & Charity","items":[{"title":"Eating suhoor in Ramadan","description":"A lighthearted look at suhoor routines.","duration":"Under 1 min","tag":"Suhoor","link":"https://www.youtube.com/shorts/2kyjR_uMnRw","thumbnail":"https://i.ytimg.com/vi/2kyjR_uMnRw/hqdefault.jpg"},{"title":"DIY Sadaqah box","description":"A creative charity idea for families.","duration":"Under 1 min","tag":"Charity","link":"https://www.youtube.com/shorts/Ycfzl4NjkmI","thumbnail":"https://i.ytimg.com/vi/Ycfzl4NjkmI/hqdefault.jpg"}]}]},"platform_resources":{"section_title":"Apps & Learning Resources","subtitle":"Choose the platform that suits your learning style.","intro":["Listed resources were checked against their official domains and app stores on February 4, 2026, so the URLs remain reachable.","We focus on app publishers and learning platforms backed by trusted teams, scholar-led research centers, or high-usage communities so you can prepare for Ramadan with confidence."],"cards":[{"title":"Verified Mobile Apps","description":"","items":[{"name":"Muslim Pro","label":"Muslim Pro","link":"https://www.muslimpro.com/","note":"Prayer times, Quran, and Ramadan reminders in one place with large global usage.","logo":"https://www.muslimpro.com/favicon.ico"},{"name":"Quran.com Mobile","label":"Quran.com Mobile","link":"https://quran.com/en/apps","note":"Ad-free Quran Foundation app with translations, recitations, tafsir access, and daily goals.","logo":"https://quran.com/favicon.ico"},{"name":"IslamicFinder Athan","label":"IslamicFinder Athan","link":"https://www.islamicfinder.org/prayer-times/","note":"Global prayer times with mosque directory, qibla support, and Hijri calendar features.","logo":"https://www.islamicfinder.org/favicon.ico"},{"name":"Quran Companion","label":"Quran Companion","link":"https://apps.apple.com/us/app/quran-companion-memorize-quran/id1111843462","note":"Memorization-focused experience with streaks, motivation tools, and guided review routines.","logo":"https://qurancompanion.com/favicon.ico"}]},{"title":"Interactive Learning Platforms","description":"","items":[{"name":"Bayyinah TV","label":"Bayyinah TV","link":"https://bayyinah.tv/","note":"Long-form Quran and Arabic video learning with family pathways and structured episodes.","logo":"https://bayyinah.tv/favicon.ico"},{"name":"Yaqeen Institute Ramadan","label":"Yaqeen Institute Ramadan","link":"https://yaqeeninstitute.org/ramadan","note":"Research-backed Ramadan reflections, videos, and journals with downloadable resources.","logo":"https://yaqeeninstitute.org/favicon.ico"},{"name":"SeekersGuidance","label":"SeekersGuidance","link":"https://seekersguidance.org/","note":"Non-profit seminary with structured courses, Q&A resources, and guided learning tracks.","logo":"https://seekersguidance.org/favicon.ico"},{"name":"Quran Academy","label":"Quran Academy","link":"https://quranacademy.io/","note":"Quranic Arabic learning pathways with challenges, memorization support, and coach-led sessions.","logo":"https://quranacademy.io/favicon.ico"}]},{"title":"Audio & Qur’an Study Tools","description":"","items":[{"name":"QuranicAudio","label":"QuranicAudio","link":"https://quranicaudio.com/","note":"Large reciter library with downloadable MP3 and flexible streaming playback.","logo":"https://quranicaudio.com/favicon.ico"},{"name":"Mushafi Quran","label":"Mushafi Quran","link":"https://mushafiquran.com/","note":"Word-by-word meaning, offline packs, and tajwid-friendly recitation tools.","logo":"https://mushafiquran.com/favicon.ico"},{"name":"HifzPath","label":"HifzPath","link":"https://hifzpath.pages.dev/","note":"Memorization tracking with streak tools, quick quizzes, and revision support.","logo":"https://hifzpath.pages.dev/favicon.ico"},{"name":"Quran IQ","label":"Quran IQ","link":"https://quraniq.com/","note":"Arabic vocabulary and grammar drills for understanding Quranic language with guided lessons.","logo":"https://quraniq.com/favicon.ico"}]}]},"faq":{"section_title":"Frequently Asked Questions","subtitle":"Mainstream Sunni guidance commonly shared in North American masajid.","items":[{"question":"When does Ramadan 2026 start?","answer":"Most North American calendars project the first fast on February 17, 2026, with the first Taraweeh night on February 16, 2026. Local moon sighting can shift this by a day, so confirm with your local masjid."},{"question":"What time does the daily fast begin and end?","answer":"Fasting is from true dawn (Fajr) until sunset (Maghrib). Follow your local prayer timetable for your exact city times."},{"question":"Who is exempt from fasting?","answer":"Children before puberty, the ill, travelers, pregnant or nursing women, and those menstruating are exempt. Missed fasts are made up later when possible; ask a local scholar about fidya or kaffarah in your situation."},{"question":"What breaks the fast?","answer":"Eating or drinking, sexual relations, intentional vomiting, and menstrual or postpartum bleeding break the fast. If you eat or drink out of forgetfulness, the fast remains valid according to most Sunni opinions."},{"question":"How can I make the most of the last 10 nights?","answer":"Prioritize night prayer, Quran, dua, and charity, and focus on the odd nights (21, 23, 25, 27, 29) for Laylat al-Qadr. Many people adjust sleep schedules or take time off to focus on worship."}]},"tools_calculators":{"section_title":"Ramadan Preparation Toolbox","subtitle":"Direct access to Islamic Connect tools.","intro":["Use this hub to reach zakat calculators, dua collections, surah resources, podcasts, the seerah timeline, and prayer calendars without guessing where to go next.","Each card opens the tool in a new tab so you can drop into the experience you need while you keep reading the Ramadan guide."],"tools":[{"title":"Zakat Calculator","description":"Estimate your zakat obligations with step-by-step guidance ahead of Ramadan.","detail":"Answer a few questions about savings, investments, and liabilities to see what you owe before Eid.","link":"/zakat","icon":"fa-calculator"},{"title":"Surat Explorer","description":"Browse suwar summaries, audio, and study notes for focused reading.","detail":"Compare tafsir notes, choose reciters, and plan quran sessions so every surah has context.","link":"/surat","icon":"fa-book-open"},{"title":"Prayer Times Calendar","description":"Track global prayer schedules with a comprehensive calendar view.","detail":"Sync sunrise, sunset, and city-specific reminders so you never miss a dawah moment.","link":"/prayer","icon":"fa-globe"}]}}');
 
 /***/ }),
 
