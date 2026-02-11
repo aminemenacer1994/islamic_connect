@@ -190,7 +190,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["p-3 mission-shell", {
       'pb-audio-gap': _ctx.showAudioPlayer
     }])
-  }, [_cache[70] || (_cache[70] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<section class=\"mission-intro container px-0 px-lg-3\" data-v-34eda1ab><div class=\"row py-3 justify-content-center text-center mb-3 mission-hero\" data-v-34eda1ab><div class=\"col-lg-10 col-xl-10\" data-v-34eda1ab><h1 class=\"display-5 fw-bold mission-hero__title\" data-v-34eda1ab>Seerah Timeline</h1><p class=\"lead mission-hero__lead\" data-v-34eda1ab> The Seerah Timeline offers an insightful journey through the life of Prophet Muhammad (PBUH). </p></div></div><!-- Next Step: From Qur&#39;an History to Seerah Timeline --><!-- &lt;div class=&quot;next-step-card animate-rise mx-auto mb-4&quot;&gt;\n        &lt;button type=&quot;button&quot; class=&quot;next-step-toggle&quot; :title=&quot;nextStepMinimized ? &#39;Restore&#39; : &#39;Minimize&#39;&quot;\n          :aria-label=&quot;nextStepMinimized ? &#39;Restore next step&#39; : &#39;Minimize next step&#39;&quot;\n          @click.stop=&quot;toggleNextStepMinimized&quot;&gt;\n          &lt;i class=&quot;fas&quot; :class=&quot;nextStepMinimized ? &#39;fa-expand-alt&#39; : &#39;fa-compress-alt&#39;&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;\n        &lt;/button&gt;\n        &lt;div class=&quot;d-flex align-items-start gap-3 text-start&quot;&gt;\n          &lt;div class=&quot;flex-shrink-0 mt-1&quot;&gt;\n            &lt;div class=&quot;next-step-icon-circle&quot;&gt;&lt;i class=&quot;fas fa-praying-hands&quot;&gt;&lt;/i&gt;&lt;/div&gt;\n          &lt;/div&gt;\n          &lt;div class=&quot;flex-grow-1&quot;&gt;\n            &lt;p class=&quot;mb-2 fw-semibold text-uppercase next-step-eyebrow&quot;&gt;\n              NEXT STEP\n            &lt;/p&gt;\n            -- Minimized teaser --\n            &lt;div v-show=&quot;nextStepMinimized&quot; class=&quot;mb-2 next-step-teaser&quot;&gt;\n              &lt;a href=&quot;/dua&quot; class=&quot;fw-semibold text-decoration-none next-step-link&quot;&gt;\n                Explore Du‘a collection\n              &lt;/a&gt;\n              &lt;i class=&quot;fas fa-arrow-up-right-from-square ms-1 next-step-link-icon&quot;&gt;&lt;/i&gt;\n            &lt;/div&gt;\n            &lt;p v-show=&quot;!nextStepMinimized&quot; class=&quot;mb-3 next-step-text&quot;&gt;\n              Learning the Prophet’s blessed journey is a beautiful beginning. When you feel ready, take a gentle step\n              into\n              heartfelt supplications, explore a simple, welcoming the\n              &lt;a href=&quot;/dua&quot; class=&quot;fw-semibold text-decoration-none next-step-link&quot;&gt;\n                Du‘a collection\n              &lt;/a&gt;\n              for daily moments of connection.\n            &lt;/p&gt;\n            &lt;a v-show=&quot;!nextStepMinimized&quot; href=&quot;/dua&quot;\n              class=&quot;btn btn-sm fw-semibold text-white px-3 py-2 next-step-cta&quot;&gt;\n              Explore Du‘a\n              &lt;i class=&quot;fas fa-arrow-up-right-from-square ms-2&quot;&gt;&lt;/i&gt;\n            &lt;/a&gt;\n          &lt;/div&gt;\n        &lt;/div&gt;\n      &lt;/div&gt; --></section>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_1, [_cache[32] || (_cache[32] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"timeline-intro__upper\" data-v-34eda1ab><div class=\"timeline-intro__text\" data-v-34eda1ab><p class=\"timeline-kicker\" data-v-34eda1ab>Navigate the Seerah</p><h2 class=\"timeline-heading\" data-v-34eda1ab>Choose a moment in the life of the Prophet</h2><p class=\"timeline-subtitle\" data-v-34eda1ab>Scroll the years or search by title, year, or keyword.</p></div></div>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, [_cache[69] || (_cache[69] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<section class=\"mission-intro container px-0 px-lg-3\" data-v-34eda1ab><div class=\"row py-3 justify-content-center text-center mb-3 mission-hero\" data-v-34eda1ab><div class=\"col-lg-10 col-xl-10\" data-v-34eda1ab><h1 class=\"display-5 fw-bold mission-hero__title\" data-v-34eda1ab>Seerah Timeline</h1><p class=\"lead mission-hero__lead\" data-v-34eda1ab> The Seerah Timeline offers an insightful journey through the life of Prophet Muhammad (PBUH). </p></div></div><!-- Next Step: From Qur&#39;an History to Seerah Timeline --><!-- &lt;div class=&quot;next-step-card animate-rise mx-auto mb-4&quot;&gt;\n        &lt;button type=&quot;button&quot; class=&quot;next-step-toggle&quot; :title=&quot;nextStepMinimized ? &#39;Restore&#39; : &#39;Minimize&#39;&quot;\n          :aria-label=&quot;nextStepMinimized ? &#39;Restore next step&#39; : &#39;Minimize next step&#39;&quot;\n          @click.stop=&quot;toggleNextStepMinimized&quot;&gt;\n          &lt;i class=&quot;fas&quot; :class=&quot;nextStepMinimized ? &#39;fa-expand-alt&#39; : &#39;fa-compress-alt&#39;&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;\n        &lt;/button&gt;\n        &lt;div class=&quot;d-flex align-items-start gap-3 text-start&quot;&gt;\n          &lt;div class=&quot;flex-shrink-0 mt-1&quot;&gt;\n            &lt;div class=&quot;next-step-icon-circle&quot;&gt;&lt;i class=&quot;fas fa-praying-hands&quot;&gt;&lt;/i&gt;&lt;/div&gt;\n          &lt;/div&gt;\n          &lt;div class=&quot;flex-grow-1&quot;&gt;\n            &lt;p class=&quot;mb-2 fw-semibold text-uppercase next-step-eyebrow&quot;&gt;\n              NEXT STEP\n            &lt;/p&gt;\n            -- Minimized teaser --\n            &lt;div v-show=&quot;nextStepMinimized&quot; class=&quot;mb-2 next-step-teaser&quot;&gt;\n              &lt;a href=&quot;/dua&quot; class=&quot;fw-semibold text-decoration-none next-step-link&quot;&gt;\n                Explore Du‘a collection\n              &lt;/a&gt;\n              &lt;i class=&quot;fas fa-arrow-up-right-from-square ms-1 next-step-link-icon&quot;&gt;&lt;/i&gt;\n            &lt;/div&gt;\n            &lt;p v-show=&quot;!nextStepMinimized&quot; class=&quot;mb-3 next-step-text&quot;&gt;\n              Learning the Prophet’s blessed journey is a beautiful beginning. When you feel ready, take a gentle step\n              into\n              heartfelt supplications, explore a simple, welcoming the\n              &lt;a href=&quot;/dua&quot; class=&quot;fw-semibold text-decoration-none next-step-link&quot;&gt;\n                Du‘a collection\n              &lt;/a&gt;\n              for daily moments of connection.\n            &lt;/p&gt;\n            &lt;a v-show=&quot;!nextStepMinimized&quot; href=&quot;/dua&quot;\n              class=&quot;btn btn-sm fw-semibold text-white px-3 py-2 next-step-cta&quot;&gt;\n              Explore Du‘a\n              &lt;i class=&quot;fas fa-arrow-up-right-from-square ms-2&quot;&gt;&lt;/i&gt;\n            &lt;/a&gt;\n          &lt;/div&gt;\n        &lt;/div&gt;\n      &lt;/div&gt; --></section>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_1, [_cache[32] || (_cache[32] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"timeline-intro__upper\" data-v-34eda1ab><div class=\"timeline-intro__text\" data-v-34eda1ab><p class=\"timeline-kicker\" data-v-34eda1ab>Navigate the Seerah</p><h2 class=\"timeline-heading\" data-v-34eda1ab>Choose a moment in the life of the Prophet</h2><p class=\"timeline-subtitle\" data-v-34eda1ab>Scroll the years or search by title, year, or keyword.</p></div></div>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "timeline-progress",
     role: "progressbar",
     "aria-valuemin": 0,
@@ -479,26 +479,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }, "Poppins", -1 /* CACHED */)]))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, _ctx.fontSettings.fontFamily]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       class: "btn btn-success mt-3",
       onClick: _cache[21] || (_cache[21] = (...args) => _ctx.submitFontSize && _ctx.submitFontSize(...args))
-    }, " Submit Changes ")], 32 /* NEED_HYDRATION */)])], 4 /* STYLE */), _cache[65] || (_cache[65] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-      class: "fab btn btn-light rounded-circle shadow",
-      style: {
-        "position": "fixed",
-        "bottom": "20px",
-        "right": "20px",
-        "width": "60px",
-        "height": "60px",
-        "display": "flex",
-        "align-items": "center",
-        "justify-content": "center",
-        "z-index": "1000",
-        "cursor": "pointer"
-      },
-      "data-bs-toggle": "offcanvas",
-      "data-bs-target": "#settingsOffcanvas",
-      "aria-controls": "settingsOffcanvas"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      class: "bi bi-gear-fill fs-4"
-    })], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, " Submit Changes ")], 32 /* NEED_HYDRATION */)])], 4 /* STYLE */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["controls text-center mt-3 mt-md-4", {
         'mb-audio-gap': _ctx.showAudioPlayer
       }])
@@ -519,14 +500,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[25] || (_cache[25] = (...args) => _ctx.closeAudioPlayer && _ctx.closeAudioPlayer(...args)),
     title: "Close",
     "aria-label": "Close audio player"
-  }, [...(_cache[66] || (_cache[66] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[65] || (_cache[65] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-x-lg"
   }, null, -1 /* CACHED */)]))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_48, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     class: "icon-btn",
     onClick: _cache[26] || (_cache[26] = $event => _ctx.rewindAudio(_ctx.currentlyPlayingIndex)),
     title: "Rewind 10 seconds",
     "aria-label": "Rewind 10 seconds"
-  }, [...(_cache[67] || (_cache[67] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[66] || (_cache[66] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-skip-backward-fill"
   }, null, -1 /* CACHED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     class: "icon-btn",
@@ -540,14 +521,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[28] || (_cache[28] = $event => _ctx.fastForwardAudio(_ctx.currentlyPlayingIndex)),
     title: "Fast forward 10 seconds",
     "aria-label": "Fast forward 10 seconds"
-  }, [...(_cache[68] || (_cache[68] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[67] || (_cache[67] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-skip-forward-fill"
   }, null, -1 /* CACHED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     class: "icon-btn",
     onClick: _cache[29] || (_cache[29] = $event => _ctx.stopAudio(_ctx.currentlyPlayingIndex)),
     title: "Stop",
     "aria-label": "Stop audio"
-  }, [...(_cache[69] || (_cache[69] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[68] || (_cache[68] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-stop-fill"
   }, null, -1 /* CACHED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     class: "icon-btn",
