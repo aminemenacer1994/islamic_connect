@@ -11,72 +11,115 @@
 
       <!-- Search Bar and Category Dropdown -->
       <section class="mb-4" role="search" aria-label="Search and filter stations">
-        <!-- Collapsible Filter Panel -->
-        <div class="fixed-footer p-2 mb-4 border-md filters-panel">
-
-          <!-- Toggle Header -->
-          <div class="d-flex justify-content-between align-items-center mb-2 cursor-pointer filter-header"
+        <div class="fixed-footer mb-4 border-md filters-panel">
+          <div class="d-flex justify-content-between align-items-center gap-2 cursor-pointer filter-header"
             @click="isFilterOpen = !isFilterOpen" role="button" :aria-expanded="isFilterOpen"
             :aria-controls="'filter-panel'" tabindex="0" @keydown.enter.prevent="isFilterOpen = !isFilterOpen"
             @keydown.space.prevent="isFilterOpen = !isFilterOpen">
-
-            <h4 class="filter-title text-dark mb-0 d-flex align-items-center gap-2">
-              <span class="filter-chevron" aria-hidden="true">
-                <i :class="isFilterOpen ? 'bi bi-chevron-down' : 'bi bi-chevron-right'"></i>
+            <div class="d-flex align-items-center gap-2">
+              <span class="filter-header-icon" aria-hidden="true">
+                <i class="bi bi-sliders2"></i>
               </span>
-              Filters
-            </h4>
-
-            <!-- Optional: Badge showing active filters -->
-            <span v-if="hasActiveFilters" class="badge bg-primary rounded-pill filter-badge">
-              {{ activeFilterCount }} active
-            </span>
+              <div>
+                <h4 class="filter-title mb-0">Find Stations</h4>
+              </div>
+            </div>
+            <div class="d-flex align-items-center gap-2 filter-meta">
+              <span v-if="hasActiveFilters" class="badge bg-primary rounded-pill filter-badge">
+                {{ activeFilterCount }} active
+              </span>
+              <button type="button" class="advanced-toggle-btn advanced-toggle-icon"
+                :class="{ 'is-active': hasAdvancedFiltersActive || showAdvancedFilters }"
+                @click.stop="showAdvancedFilters = !showAdvancedFilters"
+                @keydown.enter.stop.prevent="showAdvancedFilters = !showAdvancedFilters"
+                @keydown.space.stop.prevent="showAdvancedFilters = !showAdvancedFilters"
+                :aria-expanded="showAdvancedFilters" aria-controls="advanced-filter-panel"
+                :title="showAdvancedFilters ? 'Hide advanced filters' : 'Show advanced filters'"
+                :aria-label="showAdvancedFilters ? 'Hide advanced filters' : 'Show advanced filters'">
+                <i :class="showAdvancedFilters ? 'bi bi-funnel-fill' : 'bi bi-funnel'"></i>
+              </button>
+              <span class="filter-chevron" aria-hidden="true">
+                <i :class="isFilterOpen ? 'bi bi-chevron-up' : 'bi bi-chevron-down'"></i>
+              </span>
+            </div>
           </div>
 
-          <!-- Collapsible Content with smooth transition -->
           <transition name="slide-fade">
-            <div v-show="isFilterOpen" id="filter-panel">
-              <div class="row g-3 align-items-end">
-                <!-- Search by Name -->
-                <div class="col-md-6">
-                  <label for="reciterSearch" class="form-label fw-bold text-dark mb-2 filter-label">
+            <div v-show="isFilterOpen" id="filter-panel" class="filter-panel-body">
+              <div class="row g-2 align-items-end">
+                <div class="col-12">
+                  <label for="reciterSearch" class="form-label fw-semibold text-dark mb-1 filter-label">
                     Search by Name
                   </label>
-                  <div class="input-group align-items-center">
-                    <input v-model="searchQuery" @input="handleSearch" id="reciterSearch" type="text"
-                      class="form-control rounded-3 shadow-sm px-3 py-2 fs-6 filter-input"
-                      placeholder="e.g., Abdul Basit" aria-label="Search reciters by name" />
+                  <div class="search-input-wrap">
+                    <span class="search-input-icon" aria-hidden="true">
+                      <i class="bi bi-search"></i>
+                    </span>
+                    <input v-model="searchQuery" @input="handleSearch" @keydown="handleKeydown"
+                      @focus="showSuggestions = lowerSearchQuery.length >= 2 && filteredSuggestions.length > 0"
+                      @blur="hideSuggestions" id="reciterSearch" type="text" class="form-control filter-input filter-input-search"
+                      placeholder="Search reciter..." aria-label="Search reciters by name" />
+                    <button v-if="searchQuery" type="button" class="search-clear-btn" @click="clearSearch"
+                      aria-label="Clear search query">
+                      <i class="bi bi-x-lg"></i>
+                    </button>
+                  </div>
+                  <div v-if="showSuggestions && filteredSuggestions.length" class="search-suggestions" role="listbox"
+                    aria-label="Suggested reciters">
+                    <button v-for="(suggestion, index) in filteredSuggestions" :key="`${suggestion.id}-${suggestion.name}`"
+                      type="button" class="search-suggestion-item" :class="{ active: index === highlightIndex }"
+                      @mousedown.prevent @click="selectSuggestion(suggestion.name)">
+                      <i class="bi bi-broadcast-pin" aria-hidden="true"></i>
+                      <span>{{ suggestion.name }}</span>
+                    </button>
                   </div>
                 </div>
-
-                <!-- Category Filter -->
-                <div class="col-md-3">
-                  <label for="reciterCategory" class="form-label fw-bold text-dark mb-2 filter-label">
-                    Category
-                  </label>
-                  <select v-model="selectedCategory" @change="handleSearch" id="reciterCategory"
-                    class="form-select rounded-3 shadow-sm px-3 py-2 fs-6 filter-select" aria-label="Select a Category">
-                    <option value="All Categories">All Categories</option>
-                    <option v-for="category in availableCategories" :key="category" :value="category">
-                      {{ category }}
-                    </option>
-                  </select>
-                </div>
-
-                <!-- Sort By Filter -->
-                <div class="col-md-3">
-                  <label for="sortBy" class="form-label fw-bold text-dark mb-2 filter-label">
-                    Sort By
-                  </label>
-                  <select v-model="sortBy" id="sortBy" class="form-select rounded-3 shadow-sm px-3 py-2 fs-6 filter-select"
-                    aria-label="Sort stations">
-                    <option value="default">Default</option>
-                    <option value="name_asc">Name (A-Z)</option>
-                    <option value="name_desc">Name (Z-A)</option>
-                    <option value="listeners_desc">Most Listeners</option>
-                  </select>
-                </div>
               </div>
+
+              <transition name="slide-fade">
+                <div v-show="showAdvancedFilters" id="advanced-filter-panel" class="row g-2 mt-1 advanced-filter-grid">
+                  <div class="col-12 d-flex justify-content-end">
+                    <button v-if="hasActiveFilters" type="button" class="filter-reset-btn" @click="clearAllFilters">
+                      Reset
+                    </button>
+                  </div>
+                  <div class="col-md-6">
+                    <label for="reciterCategory" class="form-label fw-semibold text-dark mb-1 filter-label">
+                      Category
+                    </label>
+                    <div class="select-wrap">
+                      <span class="select-icon" aria-hidden="true">
+                        <i class="bi bi-tags"></i>
+                      </span>
+                      <select v-model="selectedCategory" @change="handleSearch" id="reciterCategory"
+                        class="form-select filter-select filter-select-with-icon" aria-label="Select a category">
+                        <option value="All Categories">All Categories</option>
+                        <option v-for="category in availableCategories" :key="category" :value="category">
+                          {{ category }}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <label for="sortBy" class="form-label fw-semibold text-dark mb-1 filter-label">
+                      Sort By
+                    </label>
+                    <div class="select-wrap">
+                      <span class="select-icon" aria-hidden="true">
+                        <i class="bi bi-sort-down"></i>
+                      </span>
+                      <select v-model="sortBy" id="sortBy" class="form-select filter-select filter-select-with-icon"
+                        aria-label="Sort stations">
+                        <option value="default">Default</option>
+                        <option value="name_asc">Name (A-Z)</option>
+                        <option value="name_desc">Name (Z-A)</option>
+                        <option value="listeners_desc">Most Listeners</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </transition>
             </div>
           </transition>
         </div>
@@ -766,10 +809,15 @@ watch(sortedStations, () => {
 const getAudioForStation = (id) => audioRefs[id];
 
 const isFilterOpen = ref(true) // Start open by default (or false if you prefer collapsed)
+const showAdvancedFilters = ref(false)
 
 // Optional: computed to show active filter count
 const hasActiveFilters = computed(() => {
   return searchQuery.value || selectedCategory.value !== 'All Categories' || sortBy.value !== 'default'
+})
+
+const hasAdvancedFiltersActive = computed(() => {
+  return selectedCategory.value !== 'All Categories' || sortBy.value !== 'default'
 })
 
 const activeFilterCount = computed(() => {
@@ -1046,6 +1094,25 @@ const runSearch = () => {
     const matchesCategory = selectedCategory.value === 'All Categories' || station.category === selectedCategory.value;
     return matchesName && matchesCategory;
   });
+};
+
+const clearSearch = () => {
+  if (!searchQuery.value) return;
+  searchQuery.value = '';
+  filteredSuggestions.value = [];
+  showSuggestions.value = false;
+  highlightIndex.value = -1;
+  handleSearch();
+};
+
+const clearAllFilters = () => {
+  searchQuery.value = '';
+  selectedCategory.value = 'All Categories';
+  sortBy.value = 'default';
+  filteredSuggestions.value = [];
+  showSuggestions.value = false;
+  highlightIndex.value = -1;
+  handleSearch();
 };
 
 const highlightSearch = (name) => {
@@ -1438,14 +1505,15 @@ const playAudio = (index) => {
 
 .filters-panel {
   border-radius: 16px;
-  padding:20px;
-  border: 1px solid rgba(6, 182, 172, 0.28);
-  box-shadow: 0 8px 22px rgba(2, 44, 34, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.45);
+  padding: 0.75rem 0.8rem 0.82rem;
+  border: 1px solid rgba(14, 116, 144, 0.24);
+  background: linear-gradient(140deg, rgba(248, 252, 255, 0.94) 0%, rgba(236, 253, 250, 0.92) 45%, rgba(245, 250, 255, 0.95) 100%);
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.62);
   position: sticky;
-  top: 8px;
+  top: 6px;
   z-index: 40;
-  backdrop-filter: saturate(130%) blur(8px);
-  -webkit-backdrop-filter: saturate(130%) blur(8px);
+  backdrop-filter: saturate(130%) blur(9px);
+  -webkit-backdrop-filter: saturate(130%) blur(9px);
 }
 
 .favorite-section-toggle {
@@ -1466,13 +1534,41 @@ const playAudio = (index) => {
 }
 
 .filter-header {
-  padding: 0.25rem 0.35rem 0;
+  padding: 0.24rem 0.28rem;
+  border-radius: 10px;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.filter-header:hover {
+  background: rgba(255, 255, 255, 0.48);
+}
+
+.filter-header:focus-visible {
+  outline: 2px solid rgba(20, 184, 166, 0.38);
+  outline-offset: 2px;
+}
+
+.filter-header-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #0ea5a3, #06b6d4);
+  color: #ffffff;
+  box-shadow: 0 5px 12px rgba(14, 165, 163, 0.2);
 }
 
 .filter-title {
-  font-size: 1.02rem;
-  font-weight: 700;
+  font-size: 0.96rem;
+  font-weight: 800;
   letter-spacing: -0.01em;
+  color: #0f172a;
+}
+
+.filter-meta {
+  flex-shrink: 0;
 }
 
 .station-card-focusable {
@@ -1491,29 +1587,174 @@ const playAudio = (index) => {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 22px;
-  height: 22px;
+  width: 26px;
+  height: 26px;
   border-radius: 999px;
-  background: rgba(6, 182, 172, 0.14);
+  background: #ffffff;
+  border: 1px solid rgba(148, 163, 184, 0.35);
   color: #0f766e;
-  font-size: 0.85rem;
+  font-size: 0.82rem;
+}
+
+.filter-panel-body {
+  padding: 0.45rem 0.28rem 0.1rem;
 }
 
 .filter-badge {
-  font-size: 0.72rem;
-  padding: 0.25rem 0.55rem;
+  font-size: 0.66rem;
+  padding: 0.18rem 0.52rem;
+  box-shadow: 0 4px 10px rgba(37, 99, 235, 0.18);
 }
 
 .filter-label {
-  font-size: 0.95rem;
-  letter-spacing: 0.01em;
+  font-size: 0.72rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: #334155;
 }
 
-.filter-input,
-.filter-select {
-  background-color: #edf2f7;
-  border: 1px solid #d1d5db;
-  color: #0b1320;
+.search-input-wrap,
+.select-wrap {
+  position: relative;
+}
+
+.search-input-icon,
+.select-icon {
+  position: absolute;
+  left: 0.68rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #64748b;
+  font-size: 0.82rem;
+  pointer-events: none;
+}
+
+.filters-panel .filter-input,
+.filters-panel .filter-select {
+  border-radius: 10px;
+  border: 1px solid rgba(148, 163, 184, 0.4);
+  background: rgba(255, 255, 255, 0.96);
+  color: #0f172a;
+  min-height: 40px;
+  font-size: 0.9rem;
+  box-shadow: 0 4px 10px rgba(15, 23, 42, 0.05);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.filters-panel .filter-input:focus,
+.filters-panel .filter-select:focus {
+  border-color: rgba(13, 148, 136, 0.8);
+  box-shadow: 0 0 0 0.24rem rgba(20, 184, 166, 0.16);
+}
+
+.filter-input-search {
+  padding: 0.45rem 2rem 0.45rem 1.95rem;
+}
+
+.filter-select-with-icon {
+  padding-left: 1.95rem;
+  padding-right: 1.8rem;
+}
+
+.search-clear-btn {
+  position: absolute;
+  right: 0.42rem;
+  top: 50%;
+  transform: translateY(-50%);
+  border: none;
+  width: 23px;
+  height: 23px;
+  border-radius: 999px;
+  background: rgba(226, 232, 240, 0.8);
+  color: #334155;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.72rem;
+}
+
+.search-clear-btn:hover {
+  background: rgba(203, 213, 225, 0.95);
+}
+
+.search-suggestions {
+  margin-top: 0.36rem;
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  border-radius: 10px;
+  background: #ffffff;
+  box-shadow: 0 8px 16px rgba(15, 23, 42, 0.08);
+  max-height: 180px;
+  overflow-y: auto;
+}
+
+.search-suggestion-item {
+  width: 100%;
+  border: none;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  gap: 0.38rem;
+  padding: 0.45rem 0.62rem;
+  color: #1e293b;
+  font-size: 0.84rem;
+  text-align: left;
+}
+
+.search-suggestion-item:hover,
+.search-suggestion-item.active {
+  background: rgba(20, 184, 166, 0.14);
+  color: #0f172a;
+}
+
+.advanced-toggle-btn {
+  border: 1px solid rgba(148, 163, 184, 0.42);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.94);
+  color: #0f172a;
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.76rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.advanced-toggle-btn:hover {
+  border-color: rgba(13, 148, 136, 0.52);
+  background: #ffffff;
+}
+
+.advanced-toggle-btn.is-active {
+  border-color: rgba(13, 148, 136, 0.62);
+  background: rgba(204, 251, 241, 0.8);
+  color: #0f766e;
+}
+
+.advanced-toggle-btn:focus-visible {
+  outline: 2px solid rgba(20, 184, 166, 0.28);
+  outline-offset: 2px;
+}
+
+.advanced-filter-grid {
+  padding-top: 0.15rem;
+}
+
+.filter-reset-btn {
+  border: none;
+  background: transparent;
+  color: #0f766e;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.filter-reset-btn:hover {
+  color: #115e59;
 }
 
 .card-teal {
@@ -1741,8 +1982,8 @@ body {
   background: linear-gradient(to right, #00bfa6 calc(var(--volume-level, 50%)), #e9ecef calc(var(--volume-level, 50%)));
 }
 
-.form-control,
-.form-select {
+.form-control:not(.filter-input),
+.form-select:not(.filter-select) {
   border: none;
   border-radius: 20px;
   font-size: clamp(0.875rem, 2.5vw, 1rem);
@@ -1750,8 +1991,8 @@ body {
   transition: box-shadow 0.2s ease;
 }
 
-.form-control:focus,
-.form-select:focus {
+.form-control:not(.filter-input):focus,
+.form-select:not(.filter-select):focus {
   box-shadow: 0 0 6px rgba(0, 191, 166, 0.3);
   outline: none;
 }
@@ -1995,10 +2236,63 @@ mark {
     height: 8px;
   }
 
-  .form-control,
-  .form-select {
+  .form-control:not(.filter-input),
+  .form-select:not(.filter-select) {
     font-size: 0.875rem;
     padding: 0.5rem 0.75rem;
+  }
+
+  .filters-panel {
+    padding: 0.65rem;
+    top: 6px;
+  }
+
+  .filter-title {
+    font-size: 0.88rem;
+  }
+
+  .filter-meta {
+    margin-left: auto;
+  }
+
+  .filter-header-icon {
+    width: 24px;
+    height: 24px;
+  }
+
+  .filter-chevron {
+    width: 22px;
+    height: 22px;
+    font-size: 0.72rem;
+  }
+
+  .filter-badge {
+    font-size: 0.62rem;
+    padding: 0.14rem 0.45rem;
+  }
+
+  .filter-panel-body {
+    padding: 0.48rem 0.05rem 0.08rem;
+  }
+
+  .filters-panel .filter-input,
+  .filters-panel .filter-select {
+    min-height: 38px;
+    font-size: 0.86rem;
+  }
+
+  .filter-input-search {
+    padding-right: 1.95rem;
+  }
+
+  .advanced-toggle-btn {
+    width: 24px;
+    height: 24px;
+    font-size: 0.7rem;
+  }
+
+  .filter-reset-btn {
+    font-size: 0.68rem;
   }
 
   .btn-outline-teal {
