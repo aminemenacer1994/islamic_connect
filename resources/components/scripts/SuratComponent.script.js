@@ -453,6 +453,7 @@ export default {
             isNavigating: false, // Prevents scroll conflicts during jumps
             headerCollapsed: false, // Controls whether the toolbar/links are visible
             isToolbarPinned: false,
+            isMobileToolbarExpanded: false,
             firstAyahTop: 0,
             showDesktopToolbar: true,
             showDesktopSurahContext: true,
@@ -5879,6 +5880,9 @@ export default {
                 this.isTabletOrMobile = width <= 991;
                 this.isTablet = width >= 768 && width <= 991;
             }
+            if (!this.isTabletOrMobile && this.isMobileToolbarExpanded) {
+                this.isMobileToolbarExpanded = false;
+            }
         },
         // removed ensureCardPositionsCached and fallbackCardPositions (scrollbar-related)
 
@@ -6789,6 +6793,14 @@ export default {
         onTransliterationToggle(item, event) {
             const checked = !!event.target.checked;
             this.setTransliterationVisibleFor(item, checked);
+        },
+        toggleMobileToolbarExpanded() {
+            this.isMobileToolbarExpanded = !this.isMobileToolbarExpanded;
+            this.announce(
+                this.isMobileToolbarExpanded
+                    ? "Expanded mobile toolbar controls."
+                    : "Collapsed mobile toolbar controls."
+            );
         },
         toggleToolbarTranslation() {
             const checked = !this.isTranslationAllEnabled;

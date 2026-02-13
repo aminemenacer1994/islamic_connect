@@ -14,35 +14,7 @@
                 <p class="holy-book-description mb-0">Explore the Holy Quran with clear recitations, trusted translations, and practical tools that help you read with focus, listen with understanding, and reflect on each ayah in your daily life.</p>
             </div>
         </div>
-        <div v-if="!isAdvancedSearchVisible" class="row justify-content-center mb-2">
-            <div class="col-12 d-flex justify-content-end ltr-text">
-                <div class="advanced-search-utility-actions">
-                    <button
-                        type="button"
-                        class="btn btn-link advanced-quran-search-visibility-btn"
-                        :aria-expanded="isAdvancedSearchVisible ? 'true' : 'false'"
-                        aria-controls="advancedQuranSearchSection"
-                        @click="toggleAdvancedSearchVisibility">
-                        <i class="bi"
-                            :class="isAdvancedSearchVisible ? 'bi-eye-slash' : 'bi-eye'"
-                            aria-hidden="true"></i>
-                        <span>{{ isAdvancedSearchVisible ? "Hide search" : "Show search" }}</span>
-                    </button>
-                    <button
-                        v-if="hasPinnedAyahs && isPinnedSectionHidden && isMobile"
-                        type="button"
-                        class="btn btn-link advanced-quran-search-visibility-btn"
-                        @click="showPinnedSection"
-                        aria-label="Show pinned favourite ayat"
-                        title="Show pinned favourite ayat">
-                        <i class="bi bi-pin-angle-fill" aria-hidden="true"></i>
-                        <span>Pins</span>
-                    </button>
-                </div>
-            </div>
-        </div>
         <div
-            v-show="isAdvancedSearchVisible"
             id="advancedQuranSearchSection"
             class="row justify-content-center mb-4">
             <div class="col-12">
@@ -65,22 +37,14 @@
                                     :aria-expanded="isAdvancedSearchVisible ? 'true' : 'false'"
                                     aria-controls="advancedQuranSearchSection"
                                     @click="toggleAdvancedSearchVisibility">
-                                    <i class="bi bi-eye-slash" aria-hidden="true"></i>
-                                    <span>Hide search</span>
-                                </button>
-                                <button
-                                    v-if="hasPinnedAyahs && isPinnedSectionHidden && isMobile"
-                                    type="button"
-                                    class="btn btn-link advanced-quran-search-visibility-btn advanced-quran-search-top-pill"
-                                    @click="showPinnedSection"
-                                    aria-label="Show pinned favourite ayat"
-                                    title="Show pinned favourite ayat">
-                                    <i class="bi bi-pin-angle-fill" aria-hidden="true"></i>
-                                    <span>Pins</span>
+                                    <i class="bi"
+                                        :class="isAdvancedSearchVisible ? 'bi-eye-slash' : 'bi-eye'"
+                                        aria-hidden="true"></i>
+                                    <span>{{ isAdvancedSearchVisible ? "Hide search" : "Show search" }}</span>
                                 </button>
                             </div>
                             <button
-                                v-if="isAdvancedSearchPanelVisible && hasAdvancedSearchPanelContent"
+                                v-if="isAdvancedSearchVisible && isAdvancedSearchPanelVisible && hasAdvancedSearchPanelContent"
                                 type="button"
                                 class="btn btn-link advanced-quran-search-close-panel"
                                 @click="closeAdvancedSearchPanel"
@@ -90,12 +54,12 @@
                         </div>
                     </div>
                 
-                    <div class="advanced-quran-search-input-wrap">
+                    <div v-show="isAdvancedSearchVisible" class="advanced-quran-search-input-wrap">
                         <i class="bi bi-search advanced-quran-search-icon" aria-hidden="true"></i>
                         <input type="search" class="form-control advanced-quran-search-input"
                             ref="advancedSearchInput"
                             v-model="advancedSearchQuery"
-                            placeholder="Search across all ayahs (min 2 characters)..."
+                            placeholder="Search across all ayahs..."
                             aria-label="Search across all Quran verses"
                             @keydown.enter.prevent="runAdvancedSearch({ force: true })"
                             @keydown.esc.prevent="clearAdvancedSearch()" />
@@ -125,58 +89,249 @@
                     <div
                         v-if="isTabletOrMobile"
                         class="advanced-quran-mobile-controls"
-                        :class="{ 'is-pinned': isToolbarPinned }"
+                        :class="{
+                            'is-pinned': isToolbarPinned,
+                            'is-expanded': isMobileToolbarExpanded
+                        }"
                         role="group"
                         aria-label="Surah quick controls">
-                        <label class="visually-hidden" for="searchSurahDropdown">
-                            Select surah
-                        </label>
-                        <select
-                            id="searchSurahDropdown"
-                            class="form-select advanced-quran-mobile-surah-select"
-                            v-model="selectedSurah"
-                            @change="selectSurah(selectedSurah)"
-                            aria-label="Select surah">
-                            <option v-if="!surahs.length" disabled>Loading surahs...</option>
-                            <option v-for="surah in surahs" :key="surah.number" :value="String(surah.number)">
-                                {{ surah.number }}. {{ surah.englishName }}
-                            </option>
-                        </select>
-                        <button
-                            type="button"
-                            class="btn advanced-quran-mobile-icon-btn"
-                            @click="openSuratOnboarding"
-                            aria-label="Open surat onboarding guide"
-                            title="Open onboarding guide">
-                            <i class="fas fa-compass" aria-hidden="true"></i>
-                        </button>
-                        <button
-                            type="button"
-                            class="btn advanced-quran-mobile-icon-btn"
-                            data-bs-toggle="modal"
-                            data-bs-target="#surahSettingsModal"
-                            @click="prepareSettingsDraft"
-                            aria-label="Open display settings"
-                            title="Display settings">
-                            <i class="bi bi-gear" aria-hidden="true"></i>
-                        </button>
-                        <button
-                            type="button"
-                            class="btn advanced-quran-mobile-icon-btn"
-                            @click="openSurahInfo(currentSurahInfo)"
-                            :disabled="!currentSurahInfo"
-                            aria-label="Open surah information"
-                            title="Open surah information">
-                            <i class="bi bi-info-circle" aria-hidden="true"></i>
-                        </button>
+                        <div class="advanced-quran-mobile-main-row">
+                            <label class="visually-hidden" for="searchSurahDropdown">
+                                Select surah
+                            </label>
+                            <select
+                                id="searchSurahDropdown"
+                                class="form-select advanced-quran-mobile-surah-select"
+                                v-model="selectedSurah"
+                                @change="selectSurah(selectedSurah)"
+                                aria-label="Select surah">
+                                <option v-if="!surahs.length" disabled>Loading surahs...</option>
+                                <option v-for="surah in surahs" :key="surah.number" :value="String(surah.number)">
+                                    {{ surah.number }}. {{ surah.englishName }}
+                                </option>
+                            </select>
+                            <button
+                                type="button"
+                                class="btn advanced-quran-mobile-icon-btn"
+                                @click="openSurahInfo(currentSurahInfo)"
+                                :disabled="!currentSurahInfo"
+                                aria-label="Open surah information"
+                                title="Open surah information">
+                                <i class="bi bi-info-circle" aria-hidden="true"></i>
+                            </button>
+                            <button
+                                type="button"
+                                class="btn advanced-quran-mobile-icon-btn"
+                                data-bs-toggle="modal"
+                                data-bs-target="#surahSettingsModal"
+                                @click="prepareSettingsDraft"
+                                aria-label="Open display settings"
+                                title="Display settings">
+                                <i class="bi bi-gear" aria-hidden="true"></i>
+                            </button>
+                            <button
+                                type="button"
+                                class="btn advanced-quran-mobile-icon-btn advanced-quran-mobile-expand-btn"
+                                :aria-expanded="isMobileToolbarExpanded ? 'true' : 'false'"
+                                aria-controls="advancedQuranMobileExpandedControls"
+                                :aria-label="isMobileToolbarExpanded
+                                    ? 'Collapse more toolbar controls'
+                                    : 'Expand more toolbar controls'"
+                                :title="isMobileToolbarExpanded
+                                    ? 'Collapse controls'
+                                    : 'More controls'"
+                                @click="toggleMobileToolbarExpanded">
+                                <i class="bi"
+                                    :class="isMobileToolbarExpanded ? 'bi-chevron-up' : 'bi-chevron-down'"
+                                    aria-hidden="true"></i>
+                            </button>
+                        </div>
+
+                        <div
+                            v-if="isMobileToolbarExpanded"
+                            id="advancedQuranMobileExpandedControls"
+                            class="advanced-quran-mobile-expanded"
+                            role="group"
+                            aria-label="Extended surah controls">
+                            <div class="advanced-quran-mobile-select-grid">
+                                <div class="advanced-quran-mobile-select-field">
+                                    <label class="visually-hidden" for="mobileToolbarReciterSelect">
+                                        Select audio reciter
+                                    </label>
+                                    <select
+                                        id="mobileToolbarReciterSelect"
+                                        class="form-select advanced-quran-mobile-select"
+                                        v-model="selectedReciter"
+                                        aria-label="Select audio reciter">
+                                        <option value="" disabled>Select reciter</option>
+                                        <option v-for="reciter in recitersSorted" :key="reciter.identifier" :value="reciter.identifier">
+                                            {{ reciter.englishName }}
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="advanced-quran-mobile-select-field">
+                                    <label class="visually-hidden" for="mobileToolbarTranslationSelect">
+                                        Select translation
+                                    </label>
+                                    <select
+                                        id="mobileToolbarTranslationSelect"
+                                        class="form-select advanced-quran-mobile-select"
+                                        v-model="selectedTranslation"
+                                        aria-label="Select translation">
+                                        <option value="" disabled>Select translation</option>
+                                        <option v-for="translation in translationsSorted" :key="translation.identifier"
+                                            :value="translation.identifier">
+                                            {{ `${translation.flag} ${translation.englishName} (${translation.language})` }}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div
+                                class="advanced-quran-mobile-toggle-row"
+                                role="group"
+                                aria-label="Global translation controls">
+                                <button
+                                    type="button"
+                                    class="btn advanced-quran-mobile-action-btn advanced-quran-mobile-action-btn-toggle"
+                                    :class="{ 'is-enabled': isTranslationAllEnabled }"
+                                    @click="toggleToolbarTranslation"
+                                    :title="isTranslationAllEnabled
+                                        ? 'Turn translation off for all visible ayahs.'
+                                        : 'Turn translation on for all visible ayahs.'"
+                                    :aria-label="isTranslationAllEnabled
+                                        ? 'Turn translation off for all ayahs'
+                                        : 'Turn translation on for all ayahs'">
+                                    <i class="bi bi-translate" aria-hidden="true"></i>
+                                    <span class="advanced-quran-mobile-action-label">Translation</span>
+                                    <span class="advanced-quran-mobile-action-btn-state">
+                                        {{ isTranslationAllEnabled ? "On" : "Off" }}
+                                    </span>
+                                </button>
+                                <button
+                                    type="button"
+                                    class="btn advanced-quran-mobile-action-btn advanced-quran-mobile-action-btn-toggle"
+                                    :class="{ 'is-enabled': isTransliterationAllEnabled }"
+                                    @click="toggleToolbarTransliteration"
+                                    :title="isTransliterationAllEnabled
+                                        ? 'Turn transliteration off for all visible ayahs.'
+                                        : 'Turn transliteration on for all visible ayahs.'"
+                                    :aria-label="isTransliterationAllEnabled
+                                        ? 'Turn transliteration off for all ayahs'
+                                        : 'Turn transliteration on for all ayahs'">
+                                    <i class="bi bi-type" aria-hidden="true"></i>
+                                    <span class="advanced-quran-mobile-action-label">Transliteration</span>
+                                    <span class="advanced-quran-mobile-action-btn-state">
+                                        {{ isTransliterationAllEnabled ? "On" : "Off" }}
+                                    </span>
+                                </button>
+                            </div>
+
+                            <div class="advanced-quran-mobile-action-grid">
+                                <button
+                                    v-if="showTajweed"
+                                    type="button"
+                                    class="btn advanced-quran-mobile-action-btn"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#tajweedRulesModal"
+                                    aria-label="View tajweed rules"
+                                    title="Open the tajweed color guide to understand pronunciation and reading rules.">
+                                    <i class="bi bi-palette-fill" aria-hidden="true"></i>
+                                    <span class="advanced-quran-mobile-action-label">Tajweed rules</span>
+                                </button>
+                                <button
+                                    type="button"
+                                    class="btn advanced-quran-mobile-action-btn"
+                                    @click="openDeepFocusPlaceholder"
+                                    aria-label="Open deep focus mode"
+                                    title="Deep focus mode (coming soon)">
+                                    <i class="bi bi-bullseye" aria-hidden="true"></i>
+                                    <span class="advanced-quran-mobile-action-label">Deep focus</span>
+                                </button>
+                                <button
+                                    type="button"
+                                    class="btn advanced-quran-mobile-action-btn"
+                                    @click.stop="openFontPicker"
+                                    aria-label="Choose Quranic fonts"
+                                    title="Open Quran font options to change how Arabic text is displayed.">
+                                    <i class="fas fa-font" aria-hidden="true"></i>
+                                    <span class="advanced-quran-mobile-action-label">Font</span>
+                                </button>
+                                <button
+                                    type="button"
+                                    class="btn advanced-quran-mobile-action-btn"
+                                    @click="openSuratOnboarding"
+                                    aria-label="Open surat onboarding guide"
+                                    title="Open onboarding guide">
+                                    <i class="fas fa-compass" aria-hidden="true"></i>
+                                    <span class="advanced-quran-mobile-action-label">Guide</span>
+                                </button>
+                                <button
+                                    type="button"
+                                    class="btn advanced-quran-mobile-action-btn advanced-quran-mobile-action-btn-download"
+                                    :class="{ 'is-downloaded': isSurahAudioDownloaded }"
+                                    @click.stop="downloadSurahAudio()"
+                                    :disabled="isSurahAudioDownloading || !canDownloadSurahAudio()"
+                                    :aria-label="!canDownloadSurahAudio()
+                                        ? 'Full surah download unavailable for this reciter'
+                                        : isSurahAudioDownloading
+                                            ? 'Downloading full surah MP3'
+                                            : isSurahAudioDownloaded
+                                                ? 'Surah MP3 downloaded'
+                                                : surahDownloadReadyAriaLabel"
+                                    :title="!canDownloadSurahAudio()
+                                        ? 'This reciter does not provide a full-surah MP3 file for download.'
+                                        : isSurahAudioDownloading
+                                            ? 'Downloading the full surah MP3 to your device for offline listening.'
+                                            : isSurahAudioDownloaded
+                                                ? 'The full surah MP3 is already downloaded. Click to download it again.'
+                                                : surahDownloadReadyLabel">
+                                    <i
+                                        class="bi"
+                                        :class="isSurahAudioDownloading
+                                            ? 'bi-arrow-repeat ic-spin'
+                                            : isSurahAudioDownloaded
+                                                ? 'bi-check-circle-fill'
+                                                : 'bi-download'"
+                                        aria-hidden="true"></i>
+                                    <span class="advanced-quran-mobile-action-label">
+                                        {{
+                                            isSurahAudioDownloading
+                                                ? "Downloading"
+                                                : isSurahAudioDownloaded
+                                                    ? "Downloaded"
+                                                    : "Download"
+                                        }}
+                                    </span>
+                                    <span class="advanced-quran-mobile-action-meta">
+                                        {{
+                                            isSurahAudioDownloading
+                                                ? "..."
+                                                : currentSurahAudioSizeLabel || (isCurrentSurahAudioMetaLoading ? "..." : "n/a")
+                                        }}
+                                    </span>
+                                </button>
+                                <button
+                                    v-if="hasPinnedAyahs && isPinnedSectionHidden"
+                                    type="button"
+                                    class="btn advanced-quran-mobile-action-btn"
+                                    @click="showPinnedSection"
+                                    aria-label="Show pinned favourite ayat"
+                                    title="Show pinned favourite ayat">
+                                    <i class="bi bi-pin-angle-fill" aria-hidden="true"></i>
+                                    <span class="advanced-quran-mobile-action-label">Pins</span>
+                                </button>
+                            </div>
+                        </div>
                     </div>
                     
                     <div
                         v-if="isTabletOrMobile && isToolbarPinned"
                         class="advanced-quran-mobile-controls-spacer"
+                        :class="{ 'is-expanded': isMobileToolbarExpanded }"
                         aria-hidden="true"></div>
                     <div
-                        v-if="isAdvancedSearchPanelVisible"
+                        v-if="isAdvancedSearchVisible && isAdvancedSearchPanelVisible"
                         id="advancedQuranSearchPanel"
                         class="advanced-quran-search-panel">
                         <div class="advanced-quran-search-meta" aria-live="polite">
