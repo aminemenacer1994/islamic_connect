@@ -547,6 +547,13 @@ export default {
             savedAyahKeys: {},
             savedAyahsLoaded: false,
             savedAyahClearTimer: null,
+            pinnedAyahs: {},
+            pinnedAyahStorageKeyBase: "ic_surat_pinned_ayahs",
+            pinnedAyahStorageKey: "",
+            pinnedSectionUiStateStorageKeyBase: "ic_surat_pinned_ayahs_ui",
+            pinnedSectionUiStateStorageKey: "",
+            isPinnedSectionCollapsed: false,
+            isPinnedSectionHidden: false,
             bookmarkStorageUserId: null,
             bookmarkAnonId: null,
             savedAyahStorageKey: "ic_saved_ayahs_session",
@@ -1221,6 +1228,30 @@ export default {
             const reflections = this.ayahReflections[this.selectedReflectionKey];
             return Array.isArray(reflections) ? reflections : [];
         },
+        pinnedAyahsList() {
+            if (!this.pinnedAyahs || typeof this.pinnedAyahs !== "object") {
+                return [];
+            }
+            return Object.entries(this.pinnedAyahs)
+                .map(([key, value]) => {
+                    if (!value || typeof value !== "object") return null;
+                    const surahNumber = Number(value.surahNumber);
+                    const ayahNumber = Number(value.ayahNumber);
+                    if (!surahNumber || !ayahNumber) return null;
+                    return {
+                        ...value,
+                        key: key || this.buildAyahKey(surahNumber, ayahNumber),
+                        surahNumber,
+                        ayahNumber,
+                        pinnedAt: Number(value.pinnedAt) || 0,
+                    };
+                })
+                .filter(Boolean)
+                .sort((a, b) => b.pinnedAt - a.pinnedAt);
+        },
+        hasPinnedAyahs() {
+            return this.bookmarkAuthenticated && this.pinnedAyahsList.length > 0;
+        },
         canPlaySurah() {
             return (
                 !this.isLoading &&
@@ -1239,6 +1270,12 @@ export default {
             deep: true,
             handler(next) {
                 this.persistSavedAyahs(next);
+            },
+        },
+        pinnedAyahs: {
+            deep: true,
+            handler(next) {
+                this.persistPinnedAyahs(next);
             },
         },
         searchQuery: function (val) {
@@ -1503,6 +1540,8 @@ export default {
             this.showMobileSurahInfoCard =
                 localStorage.getItem(this.mobileSurahInfoCardStorageKey) !== "1";
         } catch (_) { }
+        await this.loadPinnedAyahs();
+        await this.loadPinnedSectionUiPreference();
         let storedSurah = null;
         let storedReciter = null;
         let storedTranslation = null;
@@ -3200,6 +3239,409 @@ export default {
                 this.screenReaderMessage = "";
             }, timeout);
         },
+        buildPinnedSectionUiStorageKey() {
+            if (!this.bookmarkStorageUserId) {
+                return "";
+            }
+            return `${this.pinnedSectionUiStateStorageKeyBase}_user_${this.bookmarkStorageUserId}`;
+        },
+        async initializePinnedSectionUiStorageKey() {
+            if (!this.bookmarkAuthenticated) {
+                this.pinnedSectionUiStateStorageKey = "";
+                return "";
+            }
+            if (
+                this.pinnedSectionUiStateStorageKey &&
+                this.pinnedSectionUiStateStorageKey.startsWith(
+                    `${this.pinnedSectionUiStateStorageKeyBase}_user_`
+                ) &&
+                this.bookmarkStorageUserId
+            ) {
+                return this.pinnedSectionUiStateStorageKey;
+            }
+            await this.fetchBookmarkStorageUserId();
+            this.pinnedSectionUiStateStorageKey =
+                this.buildPinnedSectionUiStorageKey();
+            return this.pinnedSectionUiStateStorageKey;
+        },
+        async loadPinnedSectionUiPreference() {
+            if (!this.bookmarkAuthenticated) {
+                this.pinnedSectionUiStateStorageKey = "";
+                this.isPinnedSectionCollapsed = false;
+                this.isPinnedSectionHidden = false;
+                return;
+            }
+            const key = await this.initializePinnedSectionUiStorageKey();
+            if (!key) {
+                this.isPinnedSectionCollapsed = false;
+                this.isPinnedSectionHidden = false;
+                return;
+            }
+            try {
+                const raw = localStorage.getItem(key);
+                if (!raw) {
+                    this.isPinnedSectionCollapsed = false;
+                    this.isPinnedSectionHidden = false;
+                    return;
+                }
+                const parsed = JSON.parse(raw);
+                this.isPinnedSectionCollapsed = !!parsed?.collapsed;
+                this.isPinnedSectionHidden = !!parsed?.hidden;
+            } catch (_) {
+                this.isPinnedSectionCollapsed = false;
+                this.isPinnedSectionHidden = false;
+            }
+        },
+        persistPinnedSectionUiPreference() {
+            if (!this.bookmarkAuthenticated) return;
+            const key = this.pinnedSectionUiStateStorageKey;
+            if (!key) return;
+            try {
+                localStorage.setItem(
+                    key,
+                    JSON.stringify({
+                        collapsed: !!this.isPinnedSectionCollapsed,
+                        hidden: !!this.isPinnedSectionHidden,
+                    })
+                );
+            } catch (_) {
+                // ignore storage quota errors
+            }
+        },
+        togglePinnedSectionCollapsed() {
+            this.isPinnedSectionCollapsed = !this.isPinnedSectionCollapsed;
+            this.persistPinnedSectionUiPreference();
+        },
+        hidePinnedSection() {
+            this.isPinnedSectionHidden = true;
+            this.persistPinnedSectionUiPreference();
+        },
+        showPinnedSection() {
+            this.isPinnedSectionHidden = false;
+            this.persistPinnedSectionUiPreference();
+        },
+        buildPinnedAyahStorageKey() {
+            if (!this.bookmarkStorageUserId) {
+                return "";
+            }
+            return `${this.pinnedAyahStorageKeyBase}_user_${this.bookmarkStorageUserId}`;
+        },
+        async initializePinnedAyahStorageKey() {
+            if (!this.bookmarkAuthenticated) {
+                this.pinnedAyahStorageKey = "";
+                return "";
+            }
+            if (
+                this.pinnedAyahStorageKey &&
+                this.pinnedAyahStorageKey.startsWith(
+                    `${this.pinnedAyahStorageKeyBase}_user_`
+                ) &&
+                this.bookmarkStorageUserId
+            ) {
+                return this.pinnedAyahStorageKey;
+            }
+            await this.fetchBookmarkStorageUserId();
+            this.pinnedAyahStorageKey = this.buildPinnedAyahStorageKey();
+            return this.pinnedAyahStorageKey;
+        },
+        async loadPinnedAyahs() {
+            const emptyState = {};
+            if (!this.bookmarkAuthenticated) {
+                this.pinnedAyahStorageKey = "";
+                this.pinnedAyahs = emptyState;
+                return;
+            }
+            const scopedStorageKey = await this.initializePinnedAyahStorageKey();
+            if (!scopedStorageKey) {
+                this.pinnedAyahs = emptyState;
+                return;
+            }
+            try {
+                const raw = localStorage.getItem(scopedStorageKey);
+                if (!raw) {
+                    this.pinnedAyahs = emptyState;
+                    return;
+                }
+                const parsed = JSON.parse(raw);
+                if (!parsed || typeof parsed !== "object") {
+                    this.pinnedAyahs = emptyState;
+                    return;
+                }
+
+                const source = Array.isArray(parsed)
+                    ? parsed.reduce((acc, item) => {
+                        if (!item || typeof item !== "object") return acc;
+                        const surahNumber = Number(item.surahNumber);
+                        const ayahNumber = Number(item.ayahNumber);
+                        if (!surahNumber || !ayahNumber) return acc;
+                        const key = this.buildAyahKey(surahNumber, ayahNumber);
+                        acc[key] = item;
+                        return acc;
+                    }, {})
+                    : parsed;
+
+                const normalized = {};
+                Object.entries(source).forEach(([rawKey, value]) => {
+                    if (!value || typeof value !== "object") return;
+                    const keyParts = String(rawKey || "").split(":");
+                    const surahNumber = Number(value.surahNumber || keyParts[0]);
+                    const ayahNumber = Number(value.ayahNumber || keyParts[1]);
+                    if (!surahNumber || !ayahNumber) return;
+
+                    const key = this.buildAyahKey(surahNumber, ayahNumber);
+                    const translation = String(value.translation || "")
+                        .replace(/\s+/g, " ")
+                        .trim();
+                    const text = String(value.text || "")
+                        .replace(/\s+/g, " ")
+                        .trim();
+                    const previewSource = String(
+                        value.preview || translation || text || ""
+                    )
+                        .replace(/\s+/g, " ")
+                        .trim();
+
+                    normalized[key] = {
+                        key,
+                        surahNumber,
+                        ayahNumber,
+                        surahEnglishName: String(
+                            value.surahEnglishName || value.surahName || ""
+                        ).trim(),
+                        surahArabicName: String(value.surahArabicName || "").trim(),
+                        translation,
+                        text,
+                        preview:
+                            previewSource ||
+                            `Surah ${surahNumber}, Ayah ${ayahNumber}`,
+                        pinnedAt:
+                            Number(value.pinnedAt) ||
+                            Number(value.createdAt) ||
+                            0,
+                    };
+                });
+                this.pinnedAyahs = normalized;
+            } catch (_) {
+                this.pinnedAyahs = emptyState;
+            }
+        },
+        persistPinnedAyahs(next = this.pinnedAyahs) {
+            if (!this.bookmarkAuthenticated) return;
+            const scopedStorageKey = this.pinnedAyahStorageKey;
+            if (!scopedStorageKey) return;
+            try {
+                localStorage.setItem(
+                    scopedStorageKey,
+                    JSON.stringify(next || {})
+                );
+            } catch (_) {
+                // ignore storage quota errors
+            }
+        },
+        buildPinnedAyahEntry(ayah, options = {}) {
+            const surahNumber = Number(
+                options.surahNumber ||
+                    this.surahDetails?.surahNumber ||
+                    this.selectedSurah
+            );
+            const ayahNumber = Number(
+                options.ayahNumber || ayah?.numberInSurah || ayah?.number
+            );
+            if (!surahNumber || !ayahNumber) return null;
+
+            const key = this.buildAyahKey(surahNumber, ayahNumber);
+            const surahLookup = Array.isArray(this.surahs)
+                ? this.surahs.find(
+                    (surah) => Number(surah.number) === surahNumber
+                )
+                : null;
+            const translation = String(
+                options.translation || ayah?.translation || ""
+            )
+                .replace(/\s+/g, " ")
+                .trim();
+            const text = String(options.text || ayah?.text || "")
+                .replace(/\s+/g, " ")
+                .trim();
+            const previewSource = translation || text || "";
+            const preview =
+                previewSource.length > 170
+                    ? `${previewSource.slice(0, 167).trimEnd()}...`
+                    : previewSource;
+
+            return {
+                key,
+                surahNumber,
+                ayahNumber,
+                surahEnglishName: String(
+                    options.surahEnglishName ||
+                        this.surahDetails?.englishName ||
+                        surahLookup?.englishName ||
+                        ""
+                ).trim(),
+                surahArabicName: String(
+                    options.surahArabicName ||
+                        this.surahDetails?.name ||
+                        surahLookup?.name ||
+                        ""
+                ).trim(),
+                translation,
+                text,
+                preview: preview || `Surah ${surahNumber}, Ayah ${ayahNumber}`,
+                pinnedAt: Number(options.pinnedAt) || Date.now(),
+            };
+        },
+        syncPinnedAyahsForCurrentSurah() {
+            if (
+                !this.surahDetails ||
+                !Array.isArray(this.surahDetails.ayahs) ||
+                !this.surahDetails.ayahs.length ||
+                !this.pinnedAyahs ||
+                typeof this.pinnedAyahs !== "object"
+            ) {
+                return;
+            }
+            const surahNumber = Number(this.surahDetails.surahNumber);
+            if (!surahNumber) return;
+
+            let changed = false;
+            const next = { ...this.pinnedAyahs };
+            this.surahDetails.ayahs.forEach((ayah) => {
+                const ayahNumber = Number(ayah?.numberInSurah || ayah?.number);
+                if (!ayahNumber) return;
+                const key = this.buildAyahKey(surahNumber, ayahNumber);
+                const existing = next[key];
+                if (!existing) return;
+
+                const refreshed = this.buildPinnedAyahEntry(ayah, {
+                    pinnedAt: existing.pinnedAt || existing.createdAt || 0,
+                    surahEnglishName:
+                        existing.surahEnglishName ||
+                        this.surahDetails?.englishName ||
+                        "",
+                    surahArabicName:
+                        existing.surahArabicName || this.surahDetails?.name || "",
+                });
+                if (!refreshed) return;
+
+                if (
+                    existing.translation !== refreshed.translation ||
+                    existing.text !== refreshed.text ||
+                    existing.preview !== refreshed.preview ||
+                    existing.surahEnglishName !== refreshed.surahEnglishName ||
+                    existing.surahArabicName !== refreshed.surahArabicName
+                ) {
+                    next[key] = {
+                        ...existing,
+                        ...refreshed,
+                        pinnedAt: existing.pinnedAt || refreshed.pinnedAt,
+                    };
+                    changed = true;
+                }
+            });
+
+            if (changed) {
+                this.pinnedAyahs = next;
+            }
+        },
+        isAyahPinned(ayah) {
+            const key = this.getAyahKeyForAyah(ayah);
+            return !!(key && this.pinnedAyahs[key]);
+        },
+        async togglePinnedAyah(ayah) {
+            if (!this.bookmarkAuthenticated) {
+                const isAuthed = await this.ensureAuthenticated(
+                    "Please log in to manage pinned ayat.",
+                    { ayah }
+                );
+                if (!isAuthed) return;
+            }
+            await this.initializePinnedAyahStorageKey();
+            if (!this.pinnedAyahStorageKey) return;
+            const entry = this.buildPinnedAyahEntry(ayah);
+            if (!entry) return;
+
+            if (this.pinnedAyahs[entry.key]) {
+                this.removePinnedAyahByKey(entry.key, {
+                    announceRemoval: true,
+                });
+                return;
+            }
+
+            this.pinnedAyahs = {
+                ...this.pinnedAyahs,
+                [entry.key]: entry,
+            };
+            this.announce(
+                `Pinned Surah ${entry.surahNumber}, Ayah ${entry.ayahNumber}.`
+            );
+        },
+        removePinnedAyahByKey(key, options = {}) {
+            const { announceRemoval = true } = options;
+            if (!key || !this.pinnedAyahs[key]) return;
+
+            const removed = this.pinnedAyahs[key];
+            const next = { ...this.pinnedAyahs };
+            delete next[key];
+            this.pinnedAyahs = next;
+
+            if (announceRemoval) {
+                const ref =
+                    removed?.surahNumber && removed?.ayahNumber
+                        ? `Surah ${removed.surahNumber}, Ayah ${removed.ayahNumber}`
+                        : "selected ayah";
+                this.announce(`Removed ${ref} from pinned ayahs.`);
+            }
+        },
+        getPinnedSurahName(pinnedAyah) {
+            const explicit = String(pinnedAyah?.surahEnglishName || "").trim();
+            if (explicit) return explicit;
+            const surahNumber = Number(pinnedAyah?.surahNumber);
+            if (!surahNumber) return "Surah";
+            const match = Array.isArray(this.surahs)
+                ? this.surahs.find(
+                    (surah) => Number(surah.number) === surahNumber
+                )
+                : null;
+            return match?.englishName || `Surah ${surahNumber}`;
+        },
+        getPinnedAyahPreview(pinnedAyah) {
+            const preview = String(
+                pinnedAyah?.preview ||
+                    pinnedAyah?.translation ||
+                    pinnedAyah?.text ||
+                    ""
+            )
+                .replace(/\s+/g, " ")
+                .trim();
+            return preview || "Pinned for quick access.";
+        },
+        async openPinnedAyah(pinnedAyah) {
+            const surahNumber = Number(pinnedAyah?.surahNumber);
+            const ayahNumber = Number(pinnedAyah?.ayahNumber);
+            if (!surahNumber || !ayahNumber) return;
+
+            try {
+                if (String(this.selectedSurah) !== String(surahNumber)) {
+                    await this.selectSurah(surahNumber, { skipScroll: true });
+                }
+                this.searchQuery = "";
+                this.debouncedQuery = "";
+                const targetIndex = Math.max(0, ayahNumber - 1);
+                this.selectCard(targetIndex);
+                this.$nextTick(() => {
+                    this.scrollToAyahIndex(targetIndex, {
+                        settle: true,
+                        force: true,
+                        behavior: "smooth",
+                        lock: true,
+                    });
+                });
+                this.announce(`Opened Surah ${surahNumber}, Ayah ${ayahNumber}.`);
+            } catch (_) {
+                // ignore navigation errors
+            }
+        },
         async loadSavedAyahs() {
             if (this.savedAyahsLoaded) return;
             if (!this.bookmarkAuthenticated) {
@@ -3778,9 +4220,16 @@ export default {
             if (!this.bookmarkAuthenticated) {
                 this.savedAyahKeys = {};
                 this.savedAyahsLoaded = true;
+                this.pinnedAyahs = {};
+                this.pinnedAyahStorageKey = "";
+                this.pinnedSectionUiStateStorageKey = "";
+                this.isPinnedSectionCollapsed = false;
+                this.isPinnedSectionHidden = false;
                 return;
             }
             await this.loadSavedAyahs();
+            await this.loadPinnedAyahs();
+            await this.loadPinnedSectionUiPreference();
             await this.initializeReflectionCacheKey();
             await this.syncSavedAyahsFromApi();
             if (this.bookmarkAuthenticated) {
@@ -4483,10 +4932,19 @@ export default {
             if (isAuthed) {
                 this.bookmarkAuthenticated = true;
                 this.bookmarkStorageUserId = userId;
+                await this.initializePinnedAyahStorageKey();
+                await this.loadPinnedAyahs();
+                await this.initializePinnedSectionUiStorageKey();
+                await this.loadPinnedSectionUiPreference();
                 await this.initializeReflectionCacheKey();
                 return true;
             }
             this.bookmarkAuthenticated = false;
+            this.pinnedAyahs = {};
+            this.pinnedAyahStorageKey = "";
+            this.pinnedSectionUiStateStorageKey = "";
+            this.isPinnedSectionCollapsed = false;
+            this.isPinnedSectionHidden = false;
             if (options.ayah) {
                 this.showAyahAuthWarning(options.ayah, message);
             } else {
@@ -6694,6 +7152,7 @@ export default {
                                 }
                             ),
                         };
+                        this.syncPinnedAyahsForCurrentSurah();
                         this.isLoading = false;
                         this.fetchSurahTransliteration(this.selectedSurah);
                         this.enrichSurahWithQuranSegments()
@@ -6805,6 +7264,7 @@ export default {
                             };
                         }),
                     };
+                    this.syncPinnedAyahsForCurrentSurah();
                     console.log("Surah details fetched:", this.surahDetails);
                     this.isLoading = false;
                     this.fetchSurahTransliteration(this.selectedSurah);

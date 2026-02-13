@@ -43,12 +43,12 @@
             v-show="isAdvancedSearchVisible"
             id="advancedQuranSearchSection"
             class="row justify-content-center mb-4">
-            <div class="col-12">
-                <section class="advanced-quran-search ltr-text"
+            <!-- <div class="col-12">
+               <section class="advanced-quran-search ltr-text"
                     :class="{ 'is-panel-hidden': !isAdvancedSearchPanelVisible }"
                     role="search"
                     aria-label="Advanced Quran search">
-                    <div class="advanced-quran-search-top">
+                     <div class="advanced-quran-search-top">
                         <div class="advanced-quran-search-head">
                             <h2 class="advanced-quran-search-title mb-0">Search Quran</h2>
                             <p class="advanced-quran-search-subtitle mb-0">
@@ -85,6 +85,7 @@
                             </button>
                         </div>
                     </div>
+                
                     <div class="advanced-quran-search-input-wrap">
                         <i class="bi bi-search advanced-quran-search-icon" aria-hidden="true"></i>
                         <input type="search" class="form-control advanced-quran-search-input"
@@ -157,6 +158,7 @@
                             <i class="bi bi-info-circle" aria-hidden="true"></i>
                         </button>
                     </div>
+                    
                     <div
                         v-if="isTabletOrMobile && isToolbarPinned"
                         class="advanced-quran-mobile-controls-spacer"
@@ -225,8 +227,9 @@
                             </article>
                         </div>
                     </div>
-                </section>
-            </div>
+                   
+                </section> 
+            </div> -->
         </div>
         <div v-if="(surahDetails || currentSurahInfo) && !isTabletOrMobile && (showDesktopToolbar || showDesktopSurahContext)"
             class="quran-toolbar-sticky ltr-text"
@@ -366,6 +369,15 @@
                         <i class="bi bi-info-circle" aria-hidden="true"></i>
                     </button>
                     <button
+                        v-if="hasPinnedAyahs && isPinnedSectionHidden"
+                        type="button"
+                        class="quran-toolbar-btn quran-toolbar-btn-icon quran-toolbar-btn-pinned-restore"
+                        @click="showPinnedSection"
+                        aria-label="Show pinned favourite ayat"
+                        title="Show pinned favourite ayat">
+                        <i class="bi bi-pin-angle-fill" aria-hidden="true"></i>
+                    </button>
+                    <button
                         type="button"
                         class="quran-toolbar-btn quran-toolbar-btn-settings"
                         data-bs-toggle="modal"
@@ -455,6 +467,92 @@
                 </button>
             </template>
         </div>
+        <div
+            v-if="hasPinnedAyahs && isPinnedSectionHidden && (isTabletOrMobile || !showDesktopToolbar)"
+            class="pinned-ayahs-restore ltr-text">
+            <button
+                type="button"
+                class="pinned-ayahs-icon-btn"
+                @click="showPinnedSection"
+                aria-label="Show pinned favourite ayat"
+                title="Show pinned favourite ayat">
+                <i class="bi bi-pin-angle-fill" aria-hidden="true"></i>
+            </button>
+        </div>
+        <section
+            v-if="hasPinnedAyahs && !isPinnedSectionHidden"
+            class="pinned-ayahs-section ltr-text"
+            :class="{ 'is-collapsed': isPinnedSectionCollapsed }"
+            role="region"
+            aria-label="Pinned favourite ayahs">
+            <div class="pinned-ayahs-header">
+                <div>
+                    <h2 class="pinned-ayahs-title mb-1">Pinned favourite ayat</h2>
+                    <p class="pinned-ayahs-description mb-0">
+                        Quick access to the verses you marked for reflection.
+                    </p>
+                </div>
+                <div class="pinned-ayahs-header-actions">
+                    <button
+                        type="button"
+                        class="pinned-ayahs-icon-btn"
+                        @click="togglePinnedSectionCollapsed"
+                        :aria-label="isPinnedSectionCollapsed
+                            ? 'Expand pinned section'
+                            : 'Collapse pinned section'"
+                        :title="isPinnedSectionCollapsed
+                            ? 'Expand pinned section'
+                            : 'Collapse pinned section'">
+                        <i
+                            class="bi"
+                            :class="isPinnedSectionCollapsed ? 'bi-chevron-down' : 'bi-chevron-up'"
+                            aria-hidden="true"></i>
+                    </button>
+                    <button
+                        type="button"
+                        class="pinned-ayahs-icon-btn pinned-ayahs-icon-btn-close"
+                        @click="hidePinnedSection"
+                        aria-label="Hide pinned section"
+                        title="Hide pinned section">
+                        <i class="bi bi-x-lg" aria-hidden="true"></i>
+                    </button>
+                </div>
+            </div>
+            <div
+                v-show="!isPinnedSectionCollapsed"
+                class="pinned-ayahs-scroll"
+                role="region"
+                aria-label="Pinned ayat horizontal list">
+                <div class="pinned-ayahs-list" role="list">
+                    <article
+                        v-for="pinned in pinnedAyahsList"
+                        :key="pinned.key"
+                        class="pinned-ayah-item"
+                        role="listitem">
+                        <button
+                            type="button"
+                            class="pinned-ayah-open"
+                            @click="openPinnedAyah(pinned)"
+                            :aria-label="`Open pinned ayah ${pinned.surahNumber}:${pinned.ayahNumber}`">
+                            <span class="pinned-ayah-ref">
+                                <i class="bi bi-pin-angle-fill" aria-hidden="true"></i>
+                                {{ pinned.surahNumber }}:{{ pinned.ayahNumber }}
+                                <span class="pinned-ayah-name">· {{ getPinnedSurahName(pinned) }}</span>
+                            </span>
+                            <p class="pinned-ayah-preview mb-0">{{ getPinnedAyahPreview(pinned) }}</p>
+                        </button>
+                        <button
+                            type="button"
+                            class="pinned-ayah-remove"
+                            @click.stop="removePinnedAyahByKey(pinned.key)"
+                            aria-label="Remove pinned ayah"
+                            title="Remove pin">
+                            <i class="bi bi-x-lg" aria-hidden="true"></i>
+                        </button>
+                    </article>
+                </div>
+            </div>
+        </section>
         <!-- <div v-show="showNextStep" class="next-step-wrapper">
             <div class="mx-auto mb-4 next-step-card">
                 <button v-if="canMinimizeNextStep" type="button" :title="isNextStepMinimized ? 'Restore' : 'Minimize'" :aria-label="isNextStepMinimized
@@ -731,6 +829,7 @@
                         highlighted:
                             isHighlighted && activeAyahIndex === item.index,
                         'currently-playing': isAudioPlaying[item.index],
+                        'is-pinned': isAyahPinned(item.ayah),
                     }">
                     <div class="ayah-surface rtl-text d-flex flex-column">
                         <!-- Surah and Ayah Number -->
@@ -773,6 +872,24 @@
                                         Transliteration
                                     </label>
                                 </div>
+                                <button
+                                    type="button"
+                                    class="icon-btn ayah-pin-btn"
+                                    :class="{ 'is-pinned': isAyahPinned(item.ayah) }"
+                                    @click.stop="togglePinnedAyah(item.ayah)"
+                                    :aria-label="isAyahPinned(item.ayah)
+                                        ? 'Unpin favourite ayah'
+                                        : 'Pin ayah as favourite'"
+                                    :title="isAyahPinned(item.ayah)
+                                        ? 'Unpin favourite ayah'
+                                        : 'Pin ayah as favourite'">
+                                    <i
+                                        class="bi"
+                                        :class="isAyahPinned(item.ayah)
+                                            ? 'bi-pin-angle-fill'
+                                            : 'bi-pin-angle'"
+                                        aria-hidden="true"></i>
+                                </button>
                                 <button
                                     type="button"
                                     class="icon-btn ayah-download-btn"

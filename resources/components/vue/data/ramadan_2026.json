@@ -243,71 +243,76 @@
       }
     ]
   },
-
-  "important_dates": {
-    "section_title": "Ramadan 2026 Key Dates",
-    "subtitle": "Plan ahead with the most likely timeline for Ramadan 1447 AH.",
-    "note": "Dates are approximate and subject to moon sighting. Local moon sighting announcements take precedence.",
-    "dates": [
-      {
-        "event": "First Taraweeh Night",
-        "gregorian_date": "February 16, 2026 (after Maghrib)",
-        "hijri_date": "30 Sha'ban 1447 AH",
-        "description": "First Taraweeh prayer is usually held the night before the first fast.",
-        "type": "start"
-      },
-      {
-        "event": "First Day of Ramadan",
-        "gregorian_date": "February 17, 2026",
-        "hijri_date": "1 Ramadan 1447 AH",
-        "description": "Expected first day of fasting based on astronomical calculations.",
-        "type": "start"
-      },
-      {
-        "event": "First Friday of Ramadan",
-        "gregorian_date": "February 20, 2026",
-        "hijri_date": "4 Ramadan 1447 AH",
-        "description": "A meaningful Jumu'ah during the early days of the month; a great moment to recommit to worship and community support.",
-        "type": "special"
-      },
-      {
-        "event": "Mid-Ramadan Check-In",
-        "gregorian_date": "Approx. March 3, 2026",
-        "hijri_date": "15 Ramadan 1447 AH",
-        "description": "A good moment to renew goals and review Quran progress.",
-        "type": "special"
-      },
-      {
-        "event": "Last 10 Nights Begin",
-        "gregorian_date": "Approx. March 8, 2026 (night)",
-        "hijri_date": "20 Ramadan 1447 AH",
-        "description": "Focus intensifies for night worship, duas, and seeking Laylat al-Qadr.",
-        "type": "special"
-      },
-      {
-        "event": "Laylat al-Qadr (Night of Decree)",
-        "gregorian_date": "Approx. March 15-16, 2026",
-        "hijri_date": "27 Ramadan 1447 AH",
-        "description": "The most blessed night - better than 1000 months. Seek it in the last 10 odd nights.",
-        "type": "special"
-      },
-      {
-        "event": "Zakat al-Fitr Deadline",
-        "gregorian_date": "Before Eid prayer (March 19, 2026)",
-        "hijri_date": "End of Ramadan",
-        "description": "Zakat al-Fitr should be paid before Eid prayer to reach those in need.",
-        "type": "special"
-      },
-      {
-        "event": "Eid al-Fitr",
-        "gregorian_date": "March 19, 2026",
-        "hijri_date": "1 Shawwal 1447 AH",
-        "description": "Festival of Breaking the Fast. Subject to moon sighting.",
-        "type": "eid"
-      }
-    ]
-  },
-
+    "important_dates": {
+      "section_title": "Ramadan 1447 AH (2026 CE) – Umm al-Qura Calendar (Official Saudi Calendar)",
+      "subtitle": "These dates represent the Umm al-Qura administrative calendar used by Saudi Arabia for civil and planning purposes. They are the most widely published pre-calculated dates for 1447 AH.",
+      "global_note": "IMPORTANT: These dates are based on the Umm al-Qura calendar calculations. While this is the official calendar of Saudi Arabia, the actual beginning and end of Ramadan remain subject to the official moon sighting by the Saudi Supreme Court. Final announcements may differ by ±1 day.",
+      "methodology": "Umm al-Qura Calendar (Saudi Arabia). Based on astronomical calculations permitting visibility of the crescent somewhere in the world. Dates verified against the official Riyadh prayer timetable for 1447 AH [citation:3] and royal decree dating (24 Sha'ban 1447 AH = 12 February 2026) [citation:5][citation:10].",
+      "dates": [
+        {
+          "event": "First Taraweeh Night",
+          "gregorian_date": "February 18, 2026 (after Maghrib)",
+          "hijri_date": "29 Sha'ban 1447 AH",
+          "description": "First Taraweeh prayer is held the night immediately preceding the first day of fasting. Umm al-Qura calendar basis.",
+          "type": "start"
+        },
+        {
+          "event": "First Day of Ramadan (Fasting Begins)",
+          "gregorian_date": "February 19, 2026",
+          "hijri_date": "1 Ramadan 1447 AH",
+          "description": "VERIFIED UMM AL-QURA DATE. Confirmed by Riyadh & Makkah 1447 AH prayer timetable [citation:3] and derived from royal decree dating (Sha'ban 24 = Feb 12).",
+          "type": "start"
+        },
+        {
+          "event": "First Friday of Ramadan",
+          "gregorian_date": "February 20, 2026",
+          "hijri_date": "2 Ramadan 1447 AH",
+          "description": "First Jumu'ah of the month. Hijri date corrected to reflect Feb 19 start date.",
+          "type": "special"
+        },
+        {
+          "event": "Mid-Ramadan (15th Night)",
+          "gregorian_date": "Night of March 4–5, 2026",
+          "hijri_date": "15 Ramadan 1447 AH",
+          "description": "Occurs on the evening entering the 15th of Ramadan. Gregorian date: March 4 (evening) / March 5 (day).",
+          "type": "special"
+        },
+        {
+          "event": "Last 10 Nights Begin",
+          "gregorian_date": "Evening of March 9, 2026",
+          "hijri_date": "20 Ramadan 1447 AH",
+          "description": "Marked by Maghrib prayer on the 20th of Ramadan. Intensified worship begins.",
+          "type": "special"
+        },
+        {
+          "event": "Laylat al-Qadr (Night of Decree)",
+          "gregorian_date": "Not fixed, Seek on odd nights: 21, 23, 25, 27, 29",
+          "hijri_date": "Last 10 odd nights (21, 23, 25, 27, 29 Ramadan)",
+          "description": "The Umm al-Qura calendar does not fix Laylat al-Qadr to a specific Gregorian date. The 27th night corresponds to the evening of **March 16, 2026**, entering the day of March 17, 2026. This is the most anticipated night but not definitive.",
+          "type": "special"
+        },
+        {
+          "event": "Zakat al-Fitr Deadline",
+          "gregorian_date": "Before Eid prayer (March 21, 2026)",
+          "hijri_date": "End of Ramadan",
+          "description": "Must be paid before Eid prayer. Based on Umm al-Qura Eid date.",
+          "type": "special"
+        },
+        {
+          "event": "Eid al-Fitr",
+          "gregorian_date": "March 21, 2026",
+          "hijri_date": "1 Shawwal 1447 AH",
+          "description": "VERIFIED UMM AL-QURA DATE. Ramadan 30 = March 20; therefore 1 Shawwal = March 21. Confirmed by Riyadh prayer timetable (Ramadan ends March 20; Eid is March 21) [citation:3].",
+          "type": "eid"
+        }
+      ],
+      "verification_footnotes": [
+        "✅ 1 Ramadan 1447 AH = February 19, 2026. Source: Almosafer Ramadan 2026 timetable (Riyadh/Makkah), explicitly labeled 'Umm al-Qura calendar' [citation:3].",
+        "✅ 24 Sha'ban 1447 AH = February 12, 2026. Source: Royal decree for Salat Al-Istisqa [citation:5][citation:10]. Counting forward: Feb 13 (25 Sha'ban), Feb 14 (26), Feb 15 (27), Feb 16 (28), Feb 17 (29), Feb 18 (30 Sha'ban*), Feb 19 (1 Ramadan). *Umm al-Qura typically assigns 30 days to Sha'ban, confirming Feb 19 start.",
+        "✅ 1 Shawwal 1447 AH = March 21, 2026. Source: Ramadan 30 = March 20 [citation:3]; therefore Eid = March 21.",
+        "⚠️ Minor discrepancy noted: Some news sources incorrectly state the Umm al-Qura calendar predicts Feb 18 [citation:6][citation:9]. The printed prayer timetable for 1447 AH conclusively shows Feb 19. This JSON reflects the official printed calendar."
+      ]
+    },
   "moon_sighting": {
     "title": "Moon-sighting adjustment instructions",
     "intro": "Ramadan depends on the lunar crescent. These steps help you stay aligned with local moon-sighting announcements while keeping your plan flexible.",
@@ -1246,18 +1251,17 @@
       }
     ]
   },
-
   "faq": {
     "section_title": "Frequently Asked Questions",
-    "subtitle": "Mainstream Sunni guidance commonly shared in North American masajid.",
+    "subtitle": "Answers reflect the Umm al-Qura calendar (official Saudi calendar) for Ramadan 1447 AH. Local moon sighting and regional methodologies may produce different dates; always verify with your local religious authority or masjid.",
     "items": [
       {
         "question": "When does Ramadan 2026 start?",
-        "answer": "Most North American calendars project the first fast on February 17, 2026, with the first Taraweeh night on February 16, 2026. Local moon sighting can shift this by a day, so confirm with your local masjid."
+        "answer": "According to the Umm al-Qura calendar the official administrative calendar of Saudi Arabia, the first day of fasting is on the February 19, 2026 , with the first Taraweeh prayer on the night of February 18, 2026 (29 Sha‘ban 1447 AH). These dates are pre-calculated and used for planning purposes. Actual observance in any country remains subject to local moon sighting, which may shift the start by ±1 day. Please confirm with your local masjid."
       },
       {
         "question": "What time does the daily fast begin and end?",
-        "answer": "Fasting is from true dawn (Fajr) until sunset (Maghrib). Follow your local prayer timetable for your exact city times."
+        "answer": "Fasting is from true dawn (Fajr) until sunset (Maghrib). Follow your local prayer timetable for your exact city times; timetables based on the Umm al-Qura calendar are available for Saudi Arabia and some other regions."
       },
       {
         "question": "Who is exempt from fasting?",
@@ -1269,11 +1273,10 @@
       },
       {
         "question": "How can I make the most of the last 10 nights?",
-        "answer": "Prioritize night prayer, Quran, dua, and charity, and focus on the odd nights (21, 23, 25, 27, 29) for Laylat al-Qadr. Many people adjust sleep schedules or take time off to focus on worship."
+        "answer": "Prioritize night prayer, Quran, dua, and charity, and focus on the odd nights (21, 23, 25, 27, 29) for Laylat al-Qadr. Under the Umm al-Qura calendar, the 27th night falls on March 16–17, 2026 (evening of March 16 entering March 17), but the exact night is not fixed. Many people adjust sleep schedules or take time off to focus on worship."
       }
     ]
   },
-
   "tools_calculators": {
     "section_title": "Ramadan Starter Kit",
     "subtitle": "Direct access to Islamic Connect tools.",

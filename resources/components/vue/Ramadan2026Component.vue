@@ -178,39 +178,11 @@
               </div>
             </div>
             <div v-else class="r-interactive-layout">
-              <div v-if="quranOnboardingSteps.length" class="r-quran-onboarding r-quran-onboarding--theme">
-                <div class="r-quran-onboarding__header">
-                  <div>
-                    <p class="r-mini-label">Quick start</p>
-                    <h4>Ramadan-ready tracker prep</h4>
-                  </div>
-                  <span class="r-quran-onboarding__hint">Follow the flow · 3 steps</span>
-                </div>
-                <div class="r-quran-onboarding__steps r-quran-onboarding__steps--theme">
-                  <article
-                    v-for="(step, index) in quranOnboardingSteps"
-                    :key="step.title"
-                    class="r-quran-onboarding__step r-quran-onboarding__step--theme"
-                  >
-                    <div class="r-quran-onboarding__step-badge">
-                      <span class="r-quran-onboarding__step-icon" aria-hidden="true">
-                        <i :class="['fas', step.icon]"></i>
-                      </span>
-                      <span class="r-quran-onboarding__step-index">Step {{ index + 1 }}</span>
-                    </div>
-                    <h5>{{ step.title }}</h5>
-                    <p>{{ step.detail }}</p>
-                  </article>
-                </div>
-                <div class="r-quran-onboarding__cta-row">
-                  <button class="r-button r-button--primary" type="button" @click="scrollToQuranTracker">
-                    Go to tracker
-                  </button>
-                  <span class="r-quran-onboarding__cta-hint">Or jump straight to today’s target</span>
-                </div>
-              </div>
+              <p class="r-helper r-interactive-intro">
+                Keep it simple: set your target once, update today, and reset anytime if you want to start over.
+              </p>
               <div class="r-interactive-grid">
-                <article ref="quranProgressCard" class="r-card r-card--interactive r-animate" style="--delay: 0.05s;">
+                <article class="r-card r-card--interactive r-animate" style="--delay: 0.05s;">
                   <div class="r-interactive-stack">
                     <div class="r-stack-head">
                       <h3 class="r-card__title">
@@ -220,10 +192,8 @@
                       <span class="r-badge">{{ quranProgressPercent }}% complete</span>
                     </div>
                     <p class="r-card__desc">
-                      Choose a unit, set a pace, and track your progress day by day.
+                      Set your unit, total, and daily goal. Then update completed as you read.
                     </p>
-                    <p class="r-helper">Estimates use your daily goal and selected Ramadan dates. Adjust totals to match your
-                      mushaf.</p>
                     <div class="r-progress">
                       <div class="r-progress__bar" role="progressbar" :aria-valuenow="quranProgressPercent"
                         aria-valuemin="0" aria-valuemax="100">
@@ -278,27 +248,17 @@
                             </button>
                           </div>
                         </div>
+                        <div class="r-tracker-actions">
+                          <span class="r-label">Reset</span>
+                          <button class="r-button r-button--ghost r-button--sm r-button--danger" type="button"
+                            :disabled="!isQuranTrackerDirty" data-bs-toggle="modal" data-bs-target="#quranResetModal">
+                            Reset tracker
+                          </button>
+                          <small class="r-tracker-actions__hint">Clears progress and daily entries.</small>
+                        </div>
                       </div>
                     </div>
-                    <p class="r-note r-note--muted">
-                      Page counts can vary by mushaf edition. Adjust totals if needed.
-                    </p>
-                    <div class="r-progress__footer">
-                      <span v-if="quranProgressRemaining === 0">
-                        <i class="fas fa-check-circle" aria-hidden="true"></i>
-                        Completed
-                      </span>
-                      <span v-else-if="quranProgressDaysLeft">
-                        <i class="fas fa-road" aria-hidden="true"></i>
-                        At this pace: ~{{ quranProgressDaysLeft }} day{{ quranProgressDaysLeft === 1 ? "" : "s" }} left
-                      </span>
-                      <span v-else>
-                        <i class="fas fa-calendar" aria-hidden="true"></i>
-                        Set a daily goal to estimate your pace.
-                      </span>
-                      <span class="r-progress__hint">Saved locally for your login.</span>
-                    </div>
-                    <div class="r-progress-insights">
+                    <div class="r-progress-insights r-progress-insights--simple">
                       <div>
                         <span class="r-mini-label">Days remaining</span>
                         <strong>{{ quranDaysRemaining }}</strong>
@@ -309,10 +269,10 @@
                       </div>
                       <div>
                         <span class="r-mini-label">Est. completion</span>
-                      <strong>
-                        <i class="fas fa-flag-checkered" aria-hidden="true"></i>
-                        {{ quranCompletionLabel }}
-                      </strong>
+                        <strong>
+                          <i class="fas fa-flag-checkered" aria-hidden="true"></i>
+                          {{ quranCompletionLabel }}
+                        </strong>
                       </div>
                     </div>
                   </div>
@@ -323,14 +283,13 @@
                     <div class="r-stack-head">
                       <h3 class="r-card__title">
                         <i class="fas fa-calendar-day" aria-hidden="true"></i>
-                        Daily breakdown
+                        Today and daily log
                       </h3>
-                      <span class="r-badge">{{ calendarLength }} days</span>
+                      <span class="r-badge">Day {{ selectedDay ? selectedDay.dayNumber : 1 }}</span>
                     </div>
                     <p class="r-card__desc">
-                      Tied to your selected Ramadan dates. Targets use your daily goal or an even split across Ramadan.
+                      Mark today complete in one tap. Open the full breakdown only when you need it.
                     </p>
-                    <p class="r-helper">Daily totals update from your saved entries (including “Mark today complete”).</p>
                     <div class="r-today-panel">
                       <div>
                         <span class="r-mini-label">Today's Progress</span>
@@ -345,10 +304,6 @@
                         <p v-if="quranTodayRemaining === 0" class="r-confirm">Completion saved for today.</p>
                       </div>
                       <div class="r-today-actions">
-                        <span class="r-tooltip" aria-label="Uses your device date to define today."
-                          title="Uses your device date to define today.">
-                          <i class="fas fa-circle-info" aria-hidden="true"></i>
-                        </span>
                         <button class="r-button r-button--ghost r-button--sm" type="button"
                           :disabled="!canMarkTodayComplete" @click="markTodayComplete">
                           {{ quranTodayRemaining === 0 ? "Completed" : "Mark today complete" }}
@@ -357,30 +312,40 @@
                           @click="undoLastQuickAction">
                           Undo
                         </button>
+                        <button class="r-button r-button--ghost r-button--sm" type="button"
+                          @click="toggleDailyBreakdown">
+                          {{ showDailyBreakdown ? "Hide full list" : "Show full list" }}
+                        </button>
                       </div>
                     </div>
-                    <div class="r-breakdown">
-                      <div v-for="day in quranBreakdownDays" :key="day.key" class="r-breakdown__row"
-                        :class="{ 'is-today': day.isToday, 'is-selected': day.isSelected }">
-                        <div>
-                          <span class="r-breakdown__day">Day {{ day.dayNumber }}</span>
-                          <span class="r-breakdown__date">{{ formatShortDate(day.date) }}</span>
-                        </div>
-                        <div class="r-breakdown__meta">
-                          <span>
-                            <i class="fas fa-bullseye" aria-hidden="true"></i>
-                            {{ day.target }} {{ quranUnitLabel }}
-                          </span>
-                          <span>
-                            <i class="fas fa-book-open" aria-hidden="true"></i>
-                            {{ day.read }} read
-                          </span>
-                          <span class="r-badge" :class="breakdownStatusClass(day.status)">
-                            {{ breakdownStatusLabel(day.status) }}
-                          </span>
+                    <div class="r-breakdown-summary">
+                      <span><strong>{{ quranCompletedDaysCount }}</strong> completed days</span>
+                      <span><strong>{{ quranPartialDaysCount }}</strong> days in progress</span>
+                    </div>
+                    <transition name="r-collapse">
+                      <div v-if="showDailyBreakdown" class="r-breakdown">
+                        <div v-for="day in quranBreakdownDays" :key="day.key" class="r-breakdown__row"
+                          :class="{ 'is-today': day.isToday, 'is-selected': day.isSelected }">
+                          <div>
+                            <span class="r-breakdown__day">Day {{ day.dayNumber }}</span>
+                            <span class="r-breakdown__date">{{ formatShortDate(day.date) }}</span>
+                          </div>
+                          <div class="r-breakdown__meta">
+                            <span>
+                              <i class="fas fa-bullseye" aria-hidden="true"></i>
+                              {{ day.target }} {{ quranUnitLabel }}
+                            </span>
+                            <span>
+                              <i class="fas fa-book-open" aria-hidden="true"></i>
+                              {{ day.read }} read
+                            </span>
+                            <span class="r-badge" :class="breakdownStatusClass(day.status)">
+                              {{ breakdownStatusLabel(day.status) }}
+                            </span>
+                          </div>
                         </div>
                       </div>
-                    </div>
+                    </transition>
                   </div>
                 </article>
               </div>
@@ -389,6 +354,28 @@
         </transition>
       </div>
     </section>
+
+    <div class="modal fade" id="quranResetModal" tabindex="-1" aria-labelledby="quranResetModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="quranResetModalLabel">Reset Quran tracker?</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            This will clear your Quran tracker progress and all saved daily entries.
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal" :disabled="!isQuranTrackerDirty"
+              @click="resetQuranTracker">
+              Reset tracker
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <section id="key-dates" class="r-section">
       <div class="container">
@@ -1079,6 +1066,7 @@ export default {
       },
       quranSessions: [],
       lastQuickAction: null,
+      showDailyBreakdown: false,
       isAuthenticated: false,
       authResolved: false,
       userId: null,
@@ -1385,24 +1373,19 @@ export default {
       if (!this.quranProgress.dailyGoal) return "Set a daily goal";
       return this.quranEstimatedCompletionDate ? this.formatISODate(this.quranEstimatedCompletionDate) : "Set a daily goal";
     },
-    quranOnboardingSteps() {
-      return [
-        {
-          icon: "fa-book-open",
-          title: "Pick your unit",
-          detail: "Choose pages, juz, or surahs.",
-        },
-        {
-          icon: "fa-bullseye",
-          title: "Set your goal",
-          detail: "Enter your total and daily target.",
-        },
-        {
-          icon: "fa-bolt",
-          title: "Update daily",
-          detail: "Use quick add or mark today complete.",
-        },
-      ];
+    quranCompletedDaysCount() {
+      return this.quranBreakdownDays.filter((day) => day.status === "done").length;
+    },
+    quranPartialDaysCount() {
+      return this.quranBreakdownDays.filter((day) => day.status === "partial").length;
+    },
+    isQuranTrackerDirty() {
+      const unit = this.quranProgress.unit || "pages";
+      const defaults = this.getQuranDefaults(unit);
+      const total = Number(this.quranProgress.total) || 0;
+      const completed = Number(this.quranProgress.completed) || 0;
+      const dailyGoal = Number(this.quranProgress.dailyGoal) || 0;
+      return completed > 0 || this.quranSessions.length > 0 || total !== defaults.total || dailyGoal !== defaults.dailyGoal;
     },
     heroSearchTokens() {
       if (!this.heroSearchTerm) return [];
@@ -1456,14 +1439,7 @@ export default {
         "section-interactive-body",
         "Quran tracker",
         "Quran progress studio",
-        "Follow three simple steps: pick a unit, set your target, and update your reading each day."
-      );
-      addList(
-        "interactive",
-        "section-interactive-body",
-        "Quran tracker",
-        "Tracker step",
-        (this.quranOnboardingSteps || []).map((step) => `${step.title} ${step.detail}`.trim())
+        "Set your target once, update today, and review the daily log when needed."
       );
 
       addEntry("overview", "section-overview-body", "What is Ramadan", "Overview", this.ramadan.overview?.subtitle);
@@ -1864,6 +1840,9 @@ export default {
     toggleTrackerVisibility() {
       this.isTrackerVisible = !this.isTrackerVisible;
     },
+    toggleDailyBreakdown() {
+      this.showDailyBreakdown = !this.showDailyBreakdown;
+    },
     isShortsSectionOpen(key) {
       return this.shortsSectionExpanded[key] !== false;
     },
@@ -2029,9 +2008,33 @@ export default {
       const match = dates.find((entry) => /first day of ramadan/i.test(entry.event));
       return this.parseLooseDate(match?.gregorian_date);
     },
-    getLocalStorageKey(suffix) {
+    getQuranStorageNamespace() {
       if (!this.userId) return null;
+      return `ramadan2026.quranStudio.${this.userId}`;
+    },
+    getLocalStorageKey(suffix) {
+      const namespace = this.getQuranStorageNamespace();
+      if (!namespace || !suffix) return null;
+      return `${namespace}.${suffix}`;
+    },
+    getLegacyLocalStorageKey(suffix) {
+      if (!this.userId || !suffix) return null;
       return `ramadan2026.${suffix}.${this.userId}`;
+    },
+    getCalendarStorageKey() {
+      const namespace = this.getQuranStorageNamespace();
+      if (!namespace) return "ramadan2026.calendar";
+      return `${namespace}.calendar`;
+    },
+    getStorageItemWithLegacy(primaryKey, legacyKey, fallback = null) {
+      if (typeof window === "undefined" || !primaryKey) return fallback;
+      const primaryValue = window.localStorage.getItem(primaryKey);
+      if (primaryValue !== null) return primaryValue;
+      if (!legacyKey) return fallback;
+      const legacyValue = window.localStorage.getItem(legacyKey);
+      if (legacyValue === null) return fallback;
+      window.localStorage.setItem(primaryKey, legacyValue);
+      return legacyValue;
     },
     getQuranDefaults(unit) {
       const defaults = {
@@ -2096,6 +2099,22 @@ export default {
       if (!this.canMarkTodayComplete) return;
       this.addQuranSessionEntry(this.quranTodayRemaining, this.quranTodayKey, "Marked today complete");
     },
+    resetQuranTracker() {
+      if (!this.isAuthenticated) return;
+      const unit = this.quranProgress.unit || "pages";
+      const defaults = this.getQuranDefaults(unit);
+      this.quranProgress = {
+        unit,
+        total: defaults.total,
+        completed: 0,
+        dailyGoal: defaults.dailyGoal,
+      };
+      this.quranSessions = [];
+      this.lastQuickAction = null;
+      this.showDailyBreakdown = false;
+      this.normalizeQuranProgress();
+      this.persistQuranSessions();
+    },
     undoLastQuickAction() {
       if (!this.lastQuickAction?.id) return;
       this.removeQuranSession(this.lastQuickAction.id);
@@ -2139,7 +2158,8 @@ export default {
       }
       try {
         const progressKey = this.getLocalStorageKey("quranProgress");
-        const progressStored = JSON.parse(window.localStorage.getItem(progressKey) || "null");
+        const progressLegacyKey = this.getLegacyLocalStorageKey("quranProgress");
+        const progressStored = JSON.parse(this.getStorageItemWithLegacy(progressKey, progressLegacyKey, "null") || "null");
         if (progressStored && typeof progressStored === "object") {
           this.quranProgress = {
             ...this.quranProgress,
@@ -2148,7 +2168,8 @@ export default {
         }
         this.normalizeQuranProgress();
         const sessionsKey = this.getLocalStorageKey("quranSessions");
-        const sessionsStored = JSON.parse(window.localStorage.getItem(sessionsKey) || "[]");
+        const sessionsLegacyKey = this.getLegacyLocalStorageKey("quranSessions");
+        const sessionsStored = JSON.parse(this.getStorageItemWithLegacy(sessionsKey, sessionsLegacyKey, "[]") || "[]");
         this.quranSessions = Array.isArray(sessionsStored)
           ? sessionsStored.map((session) => ({
             ...session,
@@ -2293,16 +2314,6 @@ export default {
       if (typeof window === "undefined") return;
       window.scrollTo({ top: 0, behavior: "smooth" });
     },
-    scrollToQuranTracker() {
-      if (typeof window === "undefined") return;
-      this.isTrackerVisible = true;
-      this.$nextTick(() => {
-        const card = this.$refs.quranProgressCard;
-        if (card && typeof card.scrollIntoView === "function") {
-          card.scrollIntoView({ behavior: "smooth", block: "start" });
-        }
-      });
-    },
     persistCalendar() {
       if (this.calendarLength < 1) return;
       if (this.selectedDayIndex >= this.calendarLength) {
@@ -2313,8 +2324,10 @@ export default {
         this.calendarLength
       );
       if (typeof window === "undefined") return;
+      const key = this.getCalendarStorageKey();
+      if (!key) return;
       window.localStorage.setItem(
-        "ramadan2026.calendar",
+        key,
         JSON.stringify({
           start: this.calendarStartOverride,
           length: this.calendarLength,
@@ -2668,7 +2681,9 @@ export default {
     loadPlannerState() {
       if (typeof window === "undefined") return;
       try {
-        const calendarStored = JSON.parse(window.localStorage.getItem("ramadan2026.calendar") || "{}");
+        const calendarKey = this.getCalendarStorageKey();
+        const legacyCalendarKey = this.userId ? "ramadan2026.calendar" : null;
+        const calendarStored = JSON.parse(this.getStorageItemWithLegacy(calendarKey, legacyCalendarKey, "{}") || "{}");
         if (calendarStored?.start) this.calendarStartOverride = calendarStored.start;
         if (calendarStored?.length) this.calendarLength = Number(calendarStored.length) || this.calendarLength;
         if (this.isAuthenticated) {
@@ -2971,10 +2986,14 @@ export default {
 .r-input--hero-search {
   flex: 1 1 240px;
   min-width: 0;
+  min-height: 46px;
+  height: 46px;
   border-radius: 12px;
   border: 1px solid rgba(15, 34, 48, 0.2);
   background: rgba(255, 255, 255, 0.95);
   color: #102334;
+  -webkit-appearance: none;
+  appearance: none;
 }
 
 .r-input--hero-search::placeholder {
@@ -5025,6 +5044,13 @@ export default {
   gap: 20px;
 }
 
+.r-interactive-intro {
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 1px solid rgba(27, 31, 42, 0.08);
+  background: rgba(27, 31, 42, 0.03);
+}
+
 .r-interactive-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -5213,6 +5239,10 @@ export default {
   gap: 4px;
 }
 
+.r-progress-insights--simple strong {
+  color: var(--r-deep);
+}
+
 .r-mini-label {
   display: block;
   font-size: 0.7rem;
@@ -5241,6 +5271,30 @@ export default {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
+}
+
+.r-tracker-actions {
+  display: grid;
+  gap: 6px;
+}
+
+.r-tracker-actions__hint {
+  margin: 0;
+  font-size: 0.75rem;
+  color: var(--r-ink-soft);
+}
+
+.r-breakdown-summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  font-size: 0.85rem;
+  color: var(--r-ink-soft);
+}
+
+.r-breakdown-summary strong {
+  color: var(--r-deep);
 }
 
 
@@ -5387,6 +5441,22 @@ export default {
 .r-button--ghost:hover {
   background: rgba(27, 31, 42, 0.08);
   color: var(--r-deep);
+}
+
+.r-button--danger {
+  border-color: rgba(185, 28, 28, 0.35);
+  color: #b91c1c;
+}
+
+.r-button--danger:hover {
+  background: rgba(185, 28, 28, 0.08);
+  color: #991b1b;
+}
+
+.r-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+  box-shadow: none;
 }
 
 .r-button--primary {
@@ -5755,12 +5825,31 @@ export default {
   }
 
   .r-hero-search {
-    padding: 14px;
+    padding: 12px;
+    border-radius: 16px;
   }
 
   .r-hero-search__input-row {
     flex-direction: column;
     align-items: stretch;
+  }
+
+  .r-hero-search__label {
+    font-size: 0.62rem;
+    letter-spacing: 0.14em;
+  }
+
+  .r-input--hero-search {
+    flex-basis: auto;
+    width: 100%;
+    min-height: 44px;
+    height: 44px;
+    font-size: 16px;
+    padding: 10px 12px;
+  }
+
+  .r-hero-search__hint {
+    font-size: 0.78rem;
   }
 
   .r-hero-search__action {
@@ -5865,6 +5954,12 @@ export default {
     justify-content: flex-start;
   }
 
+  .r-breakdown-summary {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
   .r-today-panel {
     align-items: flex-start;
   }
@@ -5873,6 +5968,19 @@ export default {
     justify-content: flex-start;
   }
 
+}
+
+@media (max-width: 480px) {
+  .r-hero-search {
+    padding: 10px;
+    gap: 8px;
+  }
+
+  .r-input--hero-search {
+    min-height: 42px;
+    height: 42px;
+    border-radius: 10px;
+  }
 }
 
 @media (min-width: 900px) {

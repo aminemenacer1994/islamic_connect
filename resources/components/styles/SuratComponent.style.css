@@ -2454,6 +2454,15 @@
     box-shadow: 0 16px 32px rgba(15, 53, 48, 0.1);
 }
 
+.ayah-card-container.is-pinned .ayah-surface {
+    border-color: rgba(11, 107, 89, 0.42);
+    box-shadow: 0 16px 30px rgba(11, 107, 89, 0.16);
+}
+
+.ayah-card-container.is-pinned .ayah-surface::before {
+    border-top-color: rgba(11, 107, 89, 0.48);
+}
+
 .highlighted .ayah-surface {
     background: linear-gradient(135deg,
             rgba(15, 110, 99, 0.18),
@@ -4024,6 +4033,26 @@
     border-radius: 10px;
 }
 
+.ayah-pin-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+}
+
+.ayah-pin-btn.is-pinned {
+    background: linear-gradient(140deg, #0b8f7e 0%, #0b6b59 100%);
+    border-color: rgba(11, 107, 89, 0.95);
+    color: #ffffff;
+    box-shadow: 0 10px 18px rgba(11, 107, 89, 0.28);
+}
+
+.ayah-pin-btn.is-pinned:hover,
+.ayah-pin-btn.is-pinned:focus-visible {
+    background: linear-gradient(140deg, #0d9e8a 0%, #0b6b59 100%);
+    border-color: rgba(11, 107, 89, 1);
+    color: #ffffff;
+}
+
 .ayah-download-btn.is-downloaded {
     background: rgba(16, 185, 129, 0.14);
     border-color: rgba(16, 185, 129, 0.35);
@@ -5110,6 +5139,18 @@ h1.display-5 {
     padding-inline: 0;
 }
 
+.quran-toolbar-btn-pinned-restore {
+    background: rgba(11, 128, 111, 0.12);
+    border-color: rgba(11, 128, 111, 0.32);
+    color: #0b6b59;
+}
+
+.quran-toolbar-btn-pinned-restore:hover,
+.quran-toolbar-btn-pinned-restore:focus-visible {
+    background: rgba(11, 128, 111, 0.18);
+    border-color: rgba(11, 128, 111, 0.48);
+}
+
 .quran-toolbar-btn-settings .quran-toolbar-btn-text {
     display: none;
 }
@@ -5457,6 +5498,241 @@ h1.display-5 {
     transform: translateY(-1px);
 }
 
+.pinned-ayahs-restore {
+    margin: 0 0 14px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.pinned-ayahs-section {
+    margin: 0 0 14px;
+    padding: 0.9rem 0.95rem;
+    border-radius: 16px;
+    border: 1px solid rgba(11, 107, 89, 0.22);
+    background: linear-gradient(145deg, rgba(243, 253, 250, 0.92), rgba(255, 255, 255, 0.96));
+    box-shadow: 0 10px 20px rgba(15, 53, 48, 0.08);
+}
+
+.pinned-ayahs-section.is-collapsed {
+    padding-bottom: 0.75rem;
+}
+
+.pinned-ayahs-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 0.75rem;
+}
+
+.pinned-ayahs-header-actions {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.42rem;
+    flex-shrink: 0;
+}
+
+.pinned-ayahs-icon-btn {
+    width: 30px;
+    height: 30px;
+    border-radius: 999px;
+    border: 1px solid rgba(11, 92, 83, 0.28);
+    background: rgba(255, 255, 255, 0.95);
+    color: #0b6b59;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    line-height: 1;
+    transition: transform 0.18s ease, box-shadow 0.18s ease,
+        border-color 0.18s ease, background-color 0.18s ease;
+}
+
+.pinned-ayahs-icon-btn:hover,
+.pinned-ayahs-icon-btn:focus-visible {
+    transform: translateY(-1px);
+    border-color: rgba(11, 92, 83, 0.45);
+    box-shadow: 0 8px 16px rgba(15, 53, 48, 0.1);
+    background: #ffffff;
+}
+
+.pinned-ayahs-icon-btn i {
+    font-size: 0.82rem;
+}
+
+.pinned-ayahs-icon-btn-close:hover,
+.pinned-ayahs-icon-btn-close:focus-visible {
+    color: #b91c1c;
+    border-color: rgba(220, 38, 38, 0.35);
+    background: rgba(254, 242, 242, 0.95);
+}
+
+.pinned-ayahs-title {
+    font-size: 1rem;
+    font-weight: 800;
+    color: #0b3d2e;
+    line-height: 1.2;
+}
+
+.pinned-ayahs-description {
+    font-size: 0.82rem;
+    color: #52606d;
+    line-height: 1.3;
+}
+
+.pinned-ayahs-scroll {
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding-bottom: 0.24rem;
+    -webkit-overflow-scrolling: touch;
+}
+
+.pinned-ayahs-scroll::-webkit-scrollbar {
+    height: 8px;
+}
+
+.pinned-ayahs-scroll::-webkit-scrollbar-thumb {
+    background: rgba(11, 107, 89, 0.28);
+    border-radius: 999px;
+}
+
+.pinned-ayahs-scroll::-webkit-scrollbar-track {
+    background: rgba(148, 163, 184, 0.14);
+    border-radius: 999px;
+}
+
+.pinned-ayahs-list {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 0.62rem;
+    min-width: max-content;
+}
+
+.pinned-ayah-item {
+    position: relative;
+    flex: 0 0 258px;
+    width: 258px;
+    border-radius: 12px;
+    border: 1px solid rgba(11, 107, 89, 0.16);
+    background: #ffffff;
+    box-shadow: 0 8px 16px rgba(15, 53, 48, 0.06);
+}
+
+.pinned-ayah-open {
+    width: 100%;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    gap: 0.34rem;
+    padding: 0.72rem 2.25rem 0.72rem 0.78rem;
+    border-radius: inherit;
+    transition: background-color 0.18s ease, transform 0.18s ease;
+}
+
+.pinned-ayah-open:hover,
+.pinned-ayah-open:focus-visible {
+    background: rgba(11, 107, 89, 0.07);
+    transform: translateY(-1px);
+}
+
+.pinned-ayah-ref {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.82rem;
+    font-weight: 800;
+    color: #0b6b59;
+}
+
+.pinned-ayah-name {
+    font-weight: 700;
+    color: #4f5f6f;
+}
+
+.pinned-ayah-preview {
+    font-size: 0.86rem;
+    color: #2f3d4b;
+    line-height: 1.35;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.pinned-ayah-remove {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 22px;
+    height: 22px;
+    border-radius: 999px;
+    border: 1px solid rgba(148, 163, 184, 0.4);
+    background: #ffffff;
+    color: #64748b;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    line-height: 1;
+    transition: color 0.18s ease, border-color 0.18s ease, background-color 0.18s ease;
+}
+
+.pinned-ayah-remove i {
+    font-size: 0.68rem;
+}
+
+.pinned-ayah-remove:hover,
+.pinned-ayah-remove:focus-visible {
+    color: #b91c1c;
+    border-color: rgba(220, 38, 38, 0.34);
+    background: rgba(254, 242, 242, 0.9);
+}
+
+@media (max-width: 767.98px) {
+    .pinned-ayahs-restore {
+        margin-bottom: 12px;
+    }
+
+    .pinned-ayahs-section {
+        border-radius: 14px;
+        padding: 0.74rem 0.72rem;
+    }
+
+    .pinned-ayahs-header {
+        margin-bottom: 0.62rem;
+    }
+
+    .pinned-ayahs-icon-btn {
+        width: 28px;
+        height: 28px;
+    }
+
+    .pinned-ayahs-title {
+        font-size: 0.92rem;
+    }
+
+    .pinned-ayahs-description {
+        font-size: 0.77rem;
+    }
+
+    .pinned-ayah-item {
+        flex-basis: 252px;
+        width: 252px;
+    }
+
+    .pinned-ayah-open {
+        padding: 0.66rem 2.08rem 0.66rem 0.72rem;
+    }
+
+    .pinned-ayah-preview {
+        font-size: 0.8rem;
+        -webkit-line-clamp: 3;
+    }
+}
+
 .translation-row {
     display: flex;
     align-items: flex-start;
@@ -5650,6 +5926,12 @@ h1.display-5 {
     }
 
     .ayah-card-header-actions .ayah-download-btn {
+        flex: 0 0 34px;
+        width: 34px;
+        height: 34px;
+    }
+
+    .ayah-card-header-actions .ayah-pin-btn {
         flex: 0 0 34px;
         width: 34px;
         height: 34px;
@@ -5870,6 +6152,25 @@ h1.display-5 {
 
 .ayah-card-container .icon-btn:hover {
     background: rgba(11, 128, 111, 0.1);
+}
+
+/* Keep pinned ayah button colors readable; override generic icon-btn color rules */
+.ayah-card-container .icon-btn.ayah-pin-btn.is-pinned {
+    background: linear-gradient(140deg, #0b8f7e 0%, #0b6b59 100%);
+    border-color: rgba(11, 107, 89, 0.95);
+    color: #ffffff;
+    box-shadow: 0 10px 18px rgba(11, 107, 89, 0.28);
+}
+
+.ayah-card-container .icon-btn.ayah-pin-btn.is-pinned i {
+    color: #ffffff;
+}
+
+.ayah-card-container .icon-btn.ayah-pin-btn.is-pinned:hover,
+.ayah-card-container .icon-btn.ayah-pin-btn.is-pinned:focus-visible {
+    background: linear-gradient(140deg, #0d9e8a 0%, #0b6b59 100%);
+    border-color: rgba(11, 107, 89, 1);
+    color: #ffffff;
 }
 
 .ayah-card-container .bookmark-btn {
