@@ -29,14 +29,6 @@
                         <span>{{ isAdvancedSearchVisible ? "Hide search" : "Show search" }}</span>
                     </button>
                     <button
-                        type="button"
-                        class="btn btn-link advanced-quran-search-visibility-btn surat-onboarding-trigger"
-                        aria-label="Open surat onboarding guide"
-                        @click="openSuratOnboarding">
-                        <i class="fas fa-compass" aria-hidden="true"></i>
-                        <span>Onboarding</span>
-                    </button>
-                    <button
                         v-if="hasPinnedAyahs && isPinnedSectionHidden && isMobile"
                         type="button"
                         class="btn btn-link advanced-quran-search-visibility-btn"
@@ -75,14 +67,6 @@
                                     @click="toggleAdvancedSearchVisibility">
                                     <i class="bi bi-eye-slash" aria-hidden="true"></i>
                                     <span>Hide search</span>
-                                </button>
-                                <button
-                                    type="button"
-                                    class="btn btn-link advanced-quran-search-visibility-btn surat-onboarding-trigger advanced-quran-search-top-pill"
-                                    aria-label="Open surat onboarding guide"
-                                    @click="openSuratOnboarding">
-                                    <i class="fas fa-compass" aria-hidden="true"></i>
-                                    <span>Onboarding</span>
                                 </button>
                                 <button
                                     v-if="hasPinnedAyahs && isPinnedSectionHidden && isMobile"
@@ -158,6 +142,14 @@
                                 {{ surah.number }}. {{ surah.englishName }}
                             </option>
                         </select>
+                        <button
+                            type="button"
+                            class="btn advanced-quran-mobile-icon-btn"
+                            @click="openSuratOnboarding"
+                            aria-label="Open surat onboarding guide"
+                            title="Open onboarding guide">
+                            <i class="fas fa-compass" aria-hidden="true"></i>
+                        </button>
                         <button
                             type="button"
                             class="btn advanced-quran-mobile-icon-btn"
@@ -262,7 +254,126 @@
             <div v-if="showDesktopToolbar" class="quran-toolbar">
                 <button
                     type="button"
-                    class="quran-toolbar-btn quran-toolbar-btn-sm quran-toolbar-btn-download"
+                    class="quran-toolbar-btn quran-toolbar-btn-info"
+                    @click="openSurahInfo(currentSurahInfo)"
+                    :disabled="!currentSurahInfo"
+                    aria-label="Open surah information"
+                    title="View this surah's details, including its name, origin, and total ayah count.">
+                    <i class="bi bi-info-circle" aria-hidden="true"></i>
+                    <span class="quran-toolbar-btn-text">Surah info</span>
+                </button>
+                
+                <div class="quran-toolbar-reciter">
+                    <label class="visually-hidden" for="toolbarReciterSelect">
+                        Select audio reciter
+                    </label>
+                    <select
+                        id="toolbarReciterSelect"
+                        class="form-select quran-toolbar-select"
+                        v-model="selectedReciter"
+                        title="Choose which reciter's voice will be used for the surah audio."
+                        aria-label="Select audio reciter">
+                        <option value="" disabled>Select reciter</option>
+                        <option v-for="reciter in recitersSorted" :key="reciter.identifier" :value="reciter.identifier">
+                            {{ reciter.englishName }}
+                        </option>
+                    </select>
+                </div>
+
+                <div class="quran-toolbar-translation">
+                    <label class="visually-hidden" for="toolbarTranslationSelect">
+                        Select translation
+                    </label>
+                    <select
+                        id="toolbarTranslationSelect"
+                        class="form-select quran-toolbar-select"
+                        v-model="selectedTranslation"
+                        title="Choose the translation language and translator shown under each ayah."
+                        aria-label="Select translation">
+                        <option value="" disabled>Select translation</option>
+                        <option v-for="translation in translationsSorted" :key="translation.identifier"
+                            :value="translation.identifier">
+                            {{ `${translation.flag} ${translation.englishName} (${translation.language})` }}
+                        </option>
+                    </select>
+                </div>
+
+                <button
+                    v-if="showTajweed"
+                    type="button"
+                    class="quran-toolbar-btn"
+                    data-bs-toggle="modal"
+                    data-bs-target="#tajweedRulesModal"
+                    aria-label="View tajweed rules"
+                    title="Open the tajweed color guide to understand pronunciation and reading rules.">
+                    <i class="bi bi-palette-fill" aria-hidden="true"></i>
+                    <span class="quran-toolbar-btn-text">Tajweed rules</span>
+                </button>
+
+                <button
+                    type="button"
+                    class="quran-toolbar-btn quran-toolbar-btn-toggle"
+                    :class="{ 'is-enabled': isTranslationAllEnabled }"
+                    @click="toggleToolbarTranslation"
+                    :title="isTranslationAllEnabled
+                        ? 'Turn translation off for all visible ayahs.'
+                        : 'Turn translation on for all visible ayahs.'"
+                    :aria-label="isTranslationAllEnabled
+                        ? 'Turn translation off for all ayahs'
+                        : 'Turn translation on for all ayahs'">
+                    <i class="bi bi-translate" aria-hidden="true"></i>
+                    <span class="quran-toolbar-btn-text">Translation</span>
+                    <span class="quran-toolbar-btn-state">{{ isTranslationAllEnabled ? "On" : "Off" }}</span>
+                </button>
+
+                <button
+                    type="button"
+                    class="quran-toolbar-btn quran-toolbar-btn-toggle"
+                    :class="{ 'is-enabled': isTransliterationAllEnabled }"
+                    @click="toggleToolbarTransliteration"
+                    :title="isTransliterationAllEnabled
+                        ? 'Turn transliteration off for all visible ayahs.'
+                        : 'Turn transliteration on for all visible ayahs.'"
+                    :aria-label="isTransliterationAllEnabled
+                        ? 'Turn transliteration off for all ayahs'
+                        : 'Turn transliteration on for all ayahs'">
+                    <i class="bi bi-type" aria-hidden="true"></i>
+                    <span class="quran-toolbar-btn-text">Transliteration</span>
+                    <span class="quran-toolbar-btn-state">{{ isTransliterationAllEnabled ? "On" : "Off" }}</span>
+                </button>
+
+                <button
+                    type="button"
+                    class="quran-toolbar-btn quran-toolbar-btn-deep-focus"
+                    @click="openDeepFocusPlaceholder"
+                    aria-label="Open deep focus mode"
+                    title="Deep focus mode (coming soon)">
+                    <i class="bi bi-bullseye" aria-hidden="true"></i>
+                    <span class="quran-toolbar-btn-text">Deep focus</span>
+                </button>
+
+                <button
+                    type="button"
+                    class="quran-toolbar-btn quran-toolbar-btn-icon quran-toolbar-btn-font"
+                    @click.stop="openFontPicker"
+                    aria-label="Choose Quranic fonts"
+                    title="Open Quran font options to change how Arabic text is displayed.">
+                    <i class="fas fa-font" aria-hidden="true"></i>
+                </button>
+
+                <button
+                    v-if="hasPinnedAyahs && isPinnedSectionHidden"
+                    type="button"
+                    class="quran-toolbar-btn quran-toolbar-btn-icon quran-toolbar-btn-pinned-restore"
+                    @click="showPinnedSection"
+                    aria-label="Show pinned favourite ayat"
+                    title="Show pinned favourite ayat">
+                    <i class="bi bi-pin-angle-fill" aria-hidden="true"></i>
+                </button>
+
+                <button
+                    type="button"
+                    class="quran-toolbar-btn quran-toolbar-btn-sm quran-toolbar-btn-download quran-toolbar-btn-download-size-only"
                     :class="{ 'is-downloaded': isSurahAudioDownloaded }"
                     @click.stop="downloadSurahAudio()"
                     :disabled="isSurahAudioDownloading || !canDownloadSurahAudio()"
@@ -286,129 +397,50 @@
                             ? 'bi-arrow-repeat ic-spin'
                             : isSurahAudioDownloaded
                                 ? 'bi-check-circle-fill'
-                                : 'bi-download'"
+                            : 'bi-download'"
                         aria-hidden="true"></i>
                     <span class="quran-toolbar-btn-text">
                         {{
                             isSurahAudioDownloading
-                                ? "Downloading..."
+                                ? "Downloading"
                                 : isSurahAudioDownloaded
                                     ? "Downloaded"
                                     : "Download"
                         }}
                     </span>
-                    <span v-if="!isSurahAudioDownloading"
+                    <span
                         class="quran-toolbar-download-size"
-                        :class="{ 'quran-toolbar-download-size-loading': !currentSurahAudioSizeLabel }">
-                        {{ currentSurahAudioSizeLabel || (isCurrentSurahAudioMetaLoading ? "..." : "n/a") }}
+                        :class="{
+                            'quran-toolbar-download-size-loading':
+                                isSurahAudioDownloading || !currentSurahAudioSizeLabel
+                        }">
+                        {{
+                            isSurahAudioDownloading
+                                ? "..."
+                                : currentSurahAudioSizeLabel || (isCurrentSurahAudioMetaLoading ? "..." : "n/a")
+                        }}
                     </span>
                 </button>
-                <div class="quran-toolbar-reciter">
-                    <label class="visually-hidden" for="toolbarReciterSelect">
-                        Select audio reciter
-                    </label>
-                    <select
-                        id="toolbarReciterSelect"
-                        class="form-select quran-toolbar-select"
-                        v-model="selectedReciter"
-                        title="Choose which reciter's voice will be used for the surah audio."
-                        aria-label="Select audio reciter">
-                        <option value="" disabled>Select reciter</option>
-                        <option v-for="reciter in recitersSorted" :key="reciter.identifier" :value="reciter.identifier">
-                            {{ reciter.englishName }}
-                        </option>
-                    </select>
-                </div>
-                <div class="quran-toolbar-translation">
-                    <label class="visually-hidden" for="toolbarTranslationSelect">
-                        Select translation
-                    </label>
-                    <select
-                        id="toolbarTranslationSelect"
-                        class="form-select quran-toolbar-select"
-                        v-model="selectedTranslation"
-                        title="Choose the translation language and translator shown under each ayah."
-                        aria-label="Select translation">
-                        <option value="" disabled>Select translation</option>
-                        <option v-for="translation in translationsSorted" :key="translation.identifier"
-                            :value="translation.identifier">
-                            {{ `${translation.flag} ${translation.englishName} (${translation.language})` }}
-                        </option>
-                    </select>
-                </div>
+
                 <button
                     type="button"
-                    class="quran-toolbar-btn"
-                    @click.stop="openFontPicker"
-                    aria-label="Choose Quranic fonts"
-                    title="Open Quran font options to change how Arabic text is displayed.">
-                    <i class="fas fa-font" aria-hidden="true"></i>
-                    <span class="quran-toolbar-btn-text">Quranic fonts</span>
+                    class="quran-toolbar-btn quran-toolbar-btn-icon quran-toolbar-btn-onboarding"
+                    @click="openSuratOnboarding"
+                    aria-label="Open surat onboarding guide"
+                    title="Open onboarding guide">
+                    <i class="fas fa-compass" aria-hidden="true"></i>
                 </button>
+                
                 <button
-                    v-if="showTajweed"
                     type="button"
-                    class="quran-toolbar-btn"
+                    class="quran-toolbar-btn quran-toolbar-btn-icon quran-toolbar-btn-settings"
                     data-bs-toggle="modal"
-                    data-bs-target="#tajweedRulesModal"
-                    aria-label="View tajweed rules"
-                    title="Open the tajweed color guide to understand pronunciation and reading rules.">
-                    <i class="bi bi-palette-fill" aria-hidden="true"></i>
-                    <span class="quran-toolbar-btn-text">Tajweed rules</span>
+                    data-bs-target="#surahSettingsModal"
+                    @click="prepareSettingsDraft"
+                    aria-label="Open display settings"
+                    title="Open reading and display settings such as layout, card style, and typography.">
+                    <i class="bi bi-gear-fill" aria-hidden="true"></i>
                 </button>
-                <div class="form-check form-switch quran-toolbar-switch">
-                    <label
-                        class="form-check-label"
-                        for="toolbarAllTextToggle"
-                        :title="isTranslationTransliterationAllEnabled
-                            ? 'Turn off both translation and transliteration for all visible ayahs.'
-                            : 'Turn on both translation and transliteration for all visible ayahs.'">
-                        Translation/Transliteration {{ isTranslationTransliterationAllEnabled ? "On" : "Off" }}
-                    </label>
-                    <input
-                        id="toolbarAllTextToggle"
-                        class="form-check-input"
-                        type="checkbox"
-                        :checked="isTranslationTransliterationAllEnabled"
-                        @change="onToolbarAllTextToggle"
-                        :title="isTranslationTransliterationAllEnabled
-                            ? 'Turn off both translation and transliteration for all visible ayahs.'
-                            : 'Turn on both translation and transliteration for all visible ayahs.'"
-                        :aria-label="isTranslationTransliterationAllEnabled
-                            ? 'Turn translation and transliteration off for all ayahs'
-                            : 'Turn translation and transliteration on for all ayahs'">
-                </div>
-                <div class="quran-toolbar-end">
-                    <button
-                        type="button"
-                        class="quran-toolbar-btn quran-toolbar-btn-icon quran-toolbar-btn-info"
-                        @click="openSurahInfo(currentSurahInfo)"
-                        :disabled="!currentSurahInfo"
-                        aria-label="Open surah information"
-                        title="View this surah's details, including its name, origin, and total ayah count.">
-                        <i class="bi bi-info-circle" aria-hidden="true"></i>
-                    </button>
-                    <button
-                        v-if="hasPinnedAyahs && isPinnedSectionHidden"
-                        type="button"
-                        class="quran-toolbar-btn quran-toolbar-btn-icon quran-toolbar-btn-pinned-restore"
-                        @click="showPinnedSection"
-                        aria-label="Show pinned favourite ayat"
-                        title="Show pinned favourite ayat">
-                        <i class="bi bi-pin-angle-fill" aria-hidden="true"></i>
-                    </button>
-                    <button
-                        type="button"
-                        class="quran-toolbar-btn quran-toolbar-btn-settings"
-                        data-bs-toggle="modal"
-                        data-bs-target="#surahSettingsModal"
-                        @click="prepareSettingsDraft"
-                        aria-label="Open display settings"
-                        title="Open reading and display settings such as layout, card style, and typography.">
-                        <i class="bi bi-gear-fill" aria-hidden="true"></i>
-                        <span class="quran-toolbar-btn-text">Settings</span>
-                    </button>
-                </div>
             </div>
             <div v-if="showDesktopSurahContext" class="desktop-surah-context-wrapper ltr-text">
                 <transition name="surah-context-fade" mode="out-in">

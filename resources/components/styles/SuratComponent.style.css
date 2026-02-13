@@ -186,7 +186,7 @@
         border: 1px solid rgba(11, 107, 89, 0.24);
         border-radius: 14px;
         display: grid;
-        grid-template-columns: minmax(0, 1fr) auto auto;
+        grid-template-columns: minmax(0, 1fr) auto auto auto;
         align-items: center;
         gap: 0.5rem;
         background: #ffffff !important;
@@ -5043,21 +5043,21 @@ h1.display-5 {
     padding: 10px 12px;
     border-radius: 16px;
     border: 1px solid rgba(15, 110, 99, 0.3);
-    background: linear-gradient(
-        135deg,
-        rgba(255, 255, 255, 0.99),
-        rgba(245, 252, 249, 0.99)
-    );
+    background: #ffffff !important;
+    background-color: #ffffff !important;
+    background-image: none !important;
     box-shadow:
         inset 0 1px 0 rgba(255, 255, 255, 0.9),
         0 0 0 1px rgba(255, 255, 255, 0.7),
         0 18px 34px rgba(15, 53, 48, 0.2),
         0 36px 60px -20px rgba(15, 53, 48, 0.45);
-    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
     overflow-x: auto;
     overflow-y: hidden;
     scrollbar-width: thin;
     scrollbar-color: rgba(15, 110, 99, 0.34) transparent;
+    -webkit-overflow-scrolling: touch;
 }
 
 .quran-toolbar::-webkit-scrollbar {
@@ -5081,7 +5081,8 @@ h1.display-5 {
     min-height: 40px;
     border-radius: 12px;
     border: 1px solid rgba(15, 110, 99, 0.24);
-    background: #ffffff;
+    background: #ffffff !important;
+    background-image: none !important;
     color: #0b5c53;
     font-weight: 700;
     font-size: 0.82rem;
@@ -5116,18 +5117,82 @@ h1.display-5 {
 }
 
 .quran-toolbar-btn-download {
-    background: linear-gradient(135deg, rgba(15, 110, 99, 0.13), rgba(20, 184, 166, 0.13));
+    background: #ffffff !important;
+    background-image: none !important;
     gap: 6px;
+    border-color: rgba(15, 110, 99, 0.34);
 }
 
 .quran-toolbar-btn-download.is-downloaded {
-    background: rgba(16, 185, 129, 0.12);
+    background: #ffffff !important;
+    background-image: none !important;
     border-color: rgba(16, 185, 129, 0.32);
     color: #0f766e;
 }
 
+.quran-toolbar-btn-download-size-only {
+    min-width: 132px;
+    padding-inline: 0.72rem;
+}
+
+.quran-toolbar-btn-download .quran-toolbar-btn-text {
+    font-weight: 700;
+}
+
+.quran-toolbar-btn-toggle {
+    gap: 0.45rem;
+}
+
+.quran-toolbar-btn-toggle.is-enabled {
+    border-color: rgba(11, 128, 111, 0.44);
+    box-shadow: 0 10px 20px rgba(15, 53, 48, 0.12);
+}
+
+.quran-toolbar-btn-state {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 34px;
+    padding: 0.12rem 0.4rem;
+    border-radius: 999px;
+    border: 1px solid rgba(15, 110, 99, 0.26);
+    background: #ffffff;
+    color: #0b5c53;
+    font-size: 0.68rem;
+    font-weight: 800;
+    line-height: 1;
+}
+
+.quran-toolbar-btn-toggle.is-enabled .quran-toolbar-btn-state {
+    border-color: rgba(11, 128, 111, 0.34);
+    background: rgba(11, 128, 111, 0.14);
+    color: #0b6b59;
+}
+
+.quran-toolbar-btn-deep-focus {
+    border-color: rgba(37, 99, 235, 0.28);
+    color: #1d4ed8;
+}
+
+.quran-toolbar-btn-deep-focus:hover,
+.quran-toolbar-btn-deep-focus:focus-visible {
+    border-color: rgba(37, 99, 235, 0.44);
+    color: #1e40af;
+}
+
+.quran-toolbar-btn-onboarding {
+    border-color: rgba(8, 145, 178, 0.32);
+    color: #0e7490;
+}
+
+.quran-toolbar-btn-onboarding:hover,
+.quran-toolbar-btn-onboarding:focus-visible {
+    border-color: rgba(8, 145, 178, 0.46);
+    color: #155e75;
+}
+
 .quran-toolbar-download-size {
-    font-size: 0.7rem;
+    font-size: 0.76rem;
     font-weight: 800;
     line-height: 1;
     opacity: 0.9;
@@ -5145,7 +5210,8 @@ h1.display-5 {
 }
 
 .quran-toolbar-btn-pinned-restore {
-    background: rgba(11, 128, 111, 0.12);
+    background: #ffffff !important;
+    background-image: none !important;
     border-color: rgba(11, 128, 111, 0.32);
     color: #0b6b59;
 }
@@ -5154,10 +5220,6 @@ h1.display-5 {
 .quran-toolbar-btn-pinned-restore:focus-visible {
     background: rgba(11, 128, 111, 0.18);
     border-color: rgba(11, 128, 111, 0.48);
-}
-
-.quran-toolbar-btn-settings .quran-toolbar-btn-text {
-    display: none;
 }
 
 .quran-toolbar-end {
@@ -5184,6 +5246,9 @@ h1.display-5 {
     height: 40px;
     border-radius: 12px;
     border: 1px solid rgba(11, 61, 46, 0.22);
+    background: #ffffff !important;
+    background-color: #ffffff !important;
+    background-image: none !important;
     color: #0b3d2e;
     font-weight: 600;
     font-size: 0.85rem;
@@ -5259,6 +5324,15 @@ h1.display-5 {
 
     .quran-toolbar-btn-sm {
         padding: 0.62rem 0.88rem;
+    }
+
+    .quran-toolbar-btn-download-size-only {
+        min-width: 152px;
+    }
+
+    .quran-toolbar-btn-state {
+        min-width: 40px;
+        font-size: 0.74rem;
     }
 
     .quran-toolbar-btn-icon,

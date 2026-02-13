@@ -1072,17 +1072,21 @@ export default {
             }
             return "Download full surah MP3 for offline listening";
         },
-        isTranslationTransliterationAllEnabled() {
+        isTranslationAllEnabled() {
             if (!Array.isArray(this.filteredAyahs) || !this.filteredAyahs.length) {
-                return !!this.isTranslationVisible && !!this.isTransliterationVisible;
+                return !!this.isTranslationVisible;
             }
-            return this.filteredAyahs.every((ayah) => {
-                const item = { ayah };
-                return (
-                    this.isTranslationVisibleFor(item) &&
-                    this.isTransliterationVisibleFor(item)
-                );
-            });
+            return this.filteredAyahs.every((ayah) =>
+                this.isTranslationVisibleFor({ ayah })
+            );
+        },
+        isTransliterationAllEnabled() {
+            if (!Array.isArray(this.filteredAyahs) || !this.filteredAyahs.length) {
+                return !!this.isTransliterationVisible;
+            }
+            return this.filteredAyahs.every((ayah) =>
+                this.isTransliterationVisibleFor({ ayah })
+            );
         },
         currentMobileAyah() {
             const ayahs = Array.isArray(this.filteredAyahs)
@@ -6786,17 +6790,32 @@ export default {
             const checked = !!event.target.checked;
             this.setTransliterationVisibleFor(item, checked);
         },
-        onToolbarAllTextToggle(event) {
-            const checked = !!event?.target?.checked;
+        toggleToolbarTranslation() {
+            const checked = !this.isTranslationAllEnabled;
             this.applyGlobalTextVisibility({
                 translation: checked,
+                transliteration: this.isTransliterationAllEnabled,
+            });
+            this.announce(
+                checked
+                    ? "Translation enabled for all ayahs."
+                    : "Translation disabled for all ayahs."
+            );
+        },
+        toggleToolbarTransliteration() {
+            const checked = !this.isTransliterationAllEnabled;
+            this.applyGlobalTextVisibility({
+                translation: this.isTranslationAllEnabled,
                 transliteration: checked,
             });
             this.announce(
                 checked
-                    ? "Translation and transliteration enabled for all ayahs."
-                    : "Translation and transliteration disabled for all ayahs."
+                    ? "Transliteration enabled for all ayahs."
+                    : "Transliteration disabled for all ayahs."
             );
+        },
+        openDeepFocusPlaceholder() {
+            this.announce("Deep focus mode will be added soon.");
         },
         shareOnWhatsApp: function (ayah) {
             const message = this.buildAyahMessage(ayah, { includeAudio: true });
