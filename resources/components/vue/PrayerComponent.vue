@@ -56,9 +56,8 @@
   <div class="container d-flex justify-content-center">
     <div class="card shadow p-4 w-100">
       <!-- Input Form -->
-      <form @submit.prevent="submitSearch"
-        class="container d-flex flex-wrap gap-3 align-items-end justify-content-center mb-4">
-        <div class="flex-grow-1 position-relative">
+      <form @submit.prevent="submitSearch" class="row g-3 align-items-end mb-4 prayer-search-form flex-md-nowrap">
+        <div class="col-md position-relative">
           <label for="city" class="form-label fw-bold">City</label>
           <input id="city" v-model="city" class="form-control" required autocomplete="off" @input="onCityInput"
             @focus="showCitySuggestions = true" @blur="hideCitySuggestions" />
@@ -71,7 +70,7 @@
           </ul>
         </div>
 
-        <div class="flex-grow-1">
+        <div class="col-md">
           <label for="country" class="form-label fw-bold">Country</label>
           <select id="country" v-model="country" class="form-select" required>
             <option value="" disabled>Select Country</option>
@@ -79,7 +78,7 @@
           </select>
         </div>
 
-        <div class="flex-grow-1">
+        <div class="col-md">
           <label for="methodSelect">Select Calculation Method:</label>
           <select id="methodSelect" v-model="method" class="form-select">
             <option v-for="(name, id) in methodOptions" :key="id" :value="id">
@@ -88,34 +87,11 @@
           </select>
         </div>
 
-        <div class="flex-grow-1">
-          <label for="schoolSelect">Asr Juristic Method:</label>
-          <select id="schoolSelect" v-model.number="school" class="form-select">
-            <option :value="0">Shafi, Maliki, Hanbali (Standard)</option>
-            <option :value="1">Hanafi (Later Asr)</option>
-          </select>
-        </div>
-
-        <div class="flex-grow-1">
-          <label for="latAdjSelect">High Latitude Adjustment:</label>
-          <select id="latAdjSelect" v-model.number="latitudeAdjustmentMethod" class="form-select">
-            <option :value="0">None</option>
-            <option :value="1">Middle of the Night</option>
-            <option :value="2">One Seventh of the Night</option>
-            <option :value="3">Angle Based</option>
-          </select>
-        </div>
-
-        <div class="action-row mt-3 w-100 flex-wrap">
+        <div class="col-12 col-md-auto">
           <button type="submit" class="premium-action-button premium-action-button--primary"
             aria-label="Search for prayer times">
             <span class="action-row__icon"><i class="bi bi-search text-white" aria-hidden="true"></i></span>
             <span class="action-row__label">Search</span>
-          </button>
-          <button type="button" class="premium-action-button premium-action-button--outline" @click="resetFields"
-            aria-label="Use my current location">
-            <span class="action-row__icon"><i class="bi bi-geo-alt" aria-hidden="true"></i></span>
-            <span class="action-row__label">My Location</span>
           </button>
         </div>
       </form>
@@ -204,13 +180,11 @@ const COUNTRY_LIST = [
 ];
 
 const METHOD_OPTIONS = {
-  0: 'Shia Ithna-Ashari (Jafari)',
   1: 'University of Islamic Sciences, Karachi',
   2: 'Islamic Society of North America (ISNA)',
   3: 'Muslim World League (MWL)',
   4: 'Umm Al-Qura University, Makkah',
   5: 'Egyptian General Authority of Survey',
-  7: 'Institute of Geophysics, University of Tehran',
   8: 'Gulf Region',
   9: 'Kuwait',
   10: 'Qatar',
@@ -219,6 +193,15 @@ const METHOD_OPTIONS = {
   13: 'Diyanet İşleri Başkanlığı, Turkey',
   14: 'Spiritual Administration of Muslims of Russia'
 };
+
+const DEFAULT_METHOD = '2';
+const DEFAULT_SCHOOL = 0;
+const DEFAULT_LAT_ADJUSTMENT = 3;
+
+function normalizeMethod(method) {
+  const methodId = String(method ?? '');
+  return Object.prototype.hasOwnProperty.call(METHOD_OPTIONS, methodId) ? methodId : DEFAULT_METHOD;
+}
 
 export default {
   name: 'PrayerTimes',
@@ -232,7 +215,7 @@ export default {
       latitude: null,
       longitude: null,
       debugInfo: '',
-      method: '2',
+      method: DEFAULT_METHOD,
       methodOptions: METHOD_OPTIONS,
       // Raw API data (kept minimal usage)
       prayerData: [],
@@ -245,10 +228,6 @@ export default {
       year: '',
       errorMessage: '',
       nextStepMinimized: false,
-      // Asr juristic method (0: Shafi et al., 1: Hanafi)
-      school: 0,
-      // High latitude adjustment method (0 none, 1 middle, 2 one-seventh, 3 angle-based)
-      latitudeAdjustmentMethod: 3,
       // Timezone reported by API for accurate display
       apiTimezone: '',
       // Internal caches/non-reactive helpers
@@ -261,17 +240,13 @@ export default {
     const savedCity = localStorage.getItem('prayer_city');
     const savedCountry = localStorage.getItem('prayer_country');
     const savedMethod = localStorage.getItem('prayer_method');
-    const savedSchool = localStorage.getItem('prayer_school');
-    const savedLatAdj = localStorage.getItem('prayer_latAdj');
     const savedLat = localStorage.getItem('prayer_lat');
     const savedLon = localStorage.getItem('prayer_lon');
     const savedTZ = localStorage.getItem('prayer_tz');
-    if (savedCity && savedCountry && savedMethod) {
+    this.method = normalizeMethod(savedMethod);
+    if (savedCity && savedCountry) {
       this.city = savedCity;
       this.country = savedCountry;
-      this.method = savedMethod;
-      if (savedSchool !== null) this.school = Number(savedSchool);
-      if (savedLatAdj !== null) this.latitudeAdjustmentMethod = Number(savedLatAdj);
       this.useCurrentLocation = false;
       // Reuse saved coordinates if present to skip geocoding
       if (savedLat && savedLon) {
@@ -357,7 +332,7 @@ export default {
       const month = date.getMonth() + 1;
       const year = date.getFullYear();
       // Let Aladhan detect timezone from coordinates to avoid forcing browser TZ
-      const url = `https://api.aladhan.com/v1/calendar?latitude=${this.latitude}&longitude=${this.longitude}&method=${Number(this.method)}&month=${month}&year=${year}&school=${this.school}&latitudeAdjustmentMethod=${this.latitudeAdjustmentMethod}&iso8601=true`;
+      const url = `https://api.aladhan.com/v1/calendar?latitude=${this.latitude}&longitude=${this.longitude}&method=${Number(this.method)}&month=${month}&year=${year}&school=${DEFAULT_SCHOOL}&latitudeAdjustmentMethod=${DEFAULT_LAT_ADJUSTMENT}&iso8601=true`;
       try {
         const response = await fetch(url);
         const data = await response.json();
@@ -402,16 +377,19 @@ export default {
     },
     async submitSearch() {
       this.errorMessage = '';
-      if (!this.city || !this.country) {
+      const city = this.city.trim();
+      const country = this.country.trim();
+      if (!city || !country) {
         this.errorMessage = 'Please enter both city and country.';
         return;
       }
+      this.city = city;
+      this.country = country;
+      this.method = normalizeMethod(this.method);
       // Save user preferences to localStorage
       localStorage.setItem('prayer_city', this.city);
       localStorage.setItem('prayer_country', this.country);
       localStorage.setItem('prayer_method', String(this.method));
-      localStorage.setItem('prayer_school', String(this.school));
-      localStorage.setItem('prayer_latAdj', String(this.latitudeAdjustmentMethod));
       try {
         this.useCurrentLocation = false;
         const geo = await this.geocodeCity(this.city, this.country);
@@ -452,17 +430,6 @@ export default {
       };
       this._geoCache.set(cacheKey, result);
       return result;
-    },
-    resetFields() {
-      this.useCurrentLocation = true;
-      // Remove saved preferences if user chooses current location
-      localStorage.removeItem('prayer_city');
-      localStorage.removeItem('prayer_country');
-      localStorage.removeItem('prayer_method');
-      localStorage.removeItem('prayer_lat');
-      localStorage.removeItem('prayer_lon');
-      localStorage.removeItem('prayer_tz');
-      this.getCurrentLocation();
     },
     setDefaultLocation() {
       this.city = 'Nottingham';
