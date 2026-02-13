@@ -2,9 +2,65 @@
 import { jsPDF } from 'jspdf';
 // JSON modules default-export the entire object; access its events property.
 import eventsData from '../vue/prophet_events.json';
+import SeerahMapComponent from '../vue/SeerahMapComponent.vue';
+
+const SEERAH_DATASET_API = 'https://datasets-server.huggingface.co';
+const SEERAH_DATASET_NAME = 'mustknowislam/seera_events';
+
+const PRECISE_EVENT_LOCATIONS = Object.freeze([
+  { match: 'birth of the prophet', locationName: 'Makkah (Masjid al-Haram area)', lat: 21.4225, lng: 39.8262 },
+  { match: 'mother passes away', locationName: 'Al-Abwa', lat: 23.0947, lng: 39.0942 },
+  { match: 'nursed by halima', locationName: "Banu Sa'd region", lat: 21.566, lng: 40.29 },
+  { match: 'opening of the chest', locationName: "Banu Sa'd region", lat: 21.566, lng: 40.29 },
+  { match: 'shepherd in makkah', locationName: 'Makkah outskirts', lat: 21.3891, lng: 39.8579 },
+  { match: 'honest trader', locationName: 'Makkah market area', lat: 21.425, lng: 39.8286 },
+  { match: 'marriage to khadijah', locationName: 'Makkah', lat: 21.4225, lng: 39.8262 },
+  { match: 'arbitration of the black stone', locationName: 'Kaaba (Masjid al-Haram)', lat: 21.4225, lng: 39.8262 },
+  { match: 'iqra in cave hira', locationName: 'Jabal al-Nour (Cave Hira)', lat: 21.4583, lng: 39.8579 },
+  { match: 'call begins privately', locationName: 'Dar al-Arqam / Safa area', lat: 21.4218, lng: 39.8262 },
+  { match: 'open invitation to islam', locationName: 'Mount Safa area', lat: 21.4217, lng: 39.8261 },
+  { match: 'social and economic boycott', locationName: "Shi'b Abi Talib", lat: 21.4254, lng: 39.8287 },
+  { match: 'khadijah and abu talib pass', locationName: 'Makkah', lat: 21.4225, lng: 39.8262 },
+  { match: 'call to ta if', locationName: "Ta'if", lat: 21.4373, lng: 40.5127 },
+  { match: 'night journey and ascension', locationName: 'Al-Aqsa (Jerusalem)', lat: 31.778, lng: 35.235 },
+  { match: 'ansar pledge support', locationName: 'Al-Aqabah (Mina)', lat: 21.4136, lng: 39.8942 },
+  { match: 'migration and new beginning', locationName: 'Quba (Madinah)', lat: 24.4409, lng: 39.6172 },
+  { match: 'founding the mosque', locationName: 'Masjid an-Nabawi', lat: 24.4672, lng: 39.6111 },
+  { match: 'ummah cohesion', locationName: 'Madinah', lat: 24.4672, lng: 39.6111 },
+  { match: 'decisive victory', locationName: 'Badr', lat: 23.7833, lng: 38.7933 },
+  { match: 'trials and lessons', locationName: 'Mount Uhud', lat: 24.5013, lng: 39.6116 },
+  { match: 'confederates repelled', locationName: 'Trench area (Madinah)', lat: 24.4721, lng: 39.6056 },
+  { match: 'peace opens doors', locationName: 'Hudaybiyyah', lat: 21.3726, lng: 39.7459 },
+  { match: 'fortresses opened', locationName: 'Khaybar', lat: 25.7056, lng: 39.2743 },
+  { match: 'global invitation', locationName: 'Madinah (letters sent from here)', lat: 24.4672, lng: 39.6111 },
+  { match: 'makkah embraces islam', locationName: 'Makkah (Fath Makkah)', lat: 21.4225, lng: 39.8262 },
+  { match: 'after makkah s opening', locationName: 'Hunayn Valley', lat: 21.4483, lng: 40.0001 },
+  { match: 'northern expedition', locationName: 'Tabuk', lat: 28.3838, lng: 36.5662 },
+  { match: 'aam al wufud', locationName: 'Madinah', lat: 24.4672, lng: 39.6111 },
+  { match: 'hajj al wada', locationName: "Arafat (Jabal ar-Rahmah)", lat: 21.3552, lng: 39.9842 },
+  { match: 'return to the highest companion', locationName: "Masjid an-Nabawi (Rawdah area)", lat: 24.4673, lng: 39.6112 },
+]);
+
+const MAP_LOCATION_RULES = Object.freeze([
+  { id: 'jerusalem', label: 'Jerusalem', lat: 31.778, lng: 35.235, keywords: ['jerusalem', 'al aqsa', 'aqsa', 'isra', 'miraj', 'night journey'] },
+  { id: 'badr', label: 'Badr', lat: 23.7833, lng: 38.7933, keywords: ['badr'] },
+  { id: 'uhud', label: 'Mount Uhud', lat: 24.5013, lng: 39.6116, keywords: ['uhud'] },
+  { id: 'khaybar', label: 'Khaybar', lat: 25.7056, lng: 39.2743, keywords: ['khaybar'] },
+  { id: 'taif', label: "Ta'if", lat: 21.4373, lng: 40.5127, keywords: ['taif', "ta'if"] },
+  { id: 'tabuk', label: 'Tabuk', lat: 28.3838, lng: 36.5662, keywords: ['tabuk'] },
+  { id: 'hudaybiyyah', label: 'Hudaybiyyah', lat: 21.3726, lng: 39.7459, keywords: ['hudaybiyyah', 'hudaibiyah', 'hudaybiya'] },
+  { id: 'hunayn', label: 'Hunayn', lat: 21.4298, lng: 40.0001, keywords: ['hunayn'] },
+  { id: 'arafah', label: 'Arafah', lat: 21.3552, lng: 39.9842, keywords: ['arafah', "arafat"] },
+  { id: 'mina', label: 'Mina', lat: 21.4136, lng: 39.8942, keywords: ['mina'] },
+  { id: 'makkah', label: 'Makkah', lat: 21.3891, lng: 39.8579, keywords: ['makkah', 'mecca', 'kaaba', 'quraysh', 'hira', 'hunayn', 'hudaybiyyah'] },
+  { id: 'madinah', label: 'Madinah', lat: 24.4672, lng: 39.6111, keywords: ['madinah', 'medina', 'yathrib', 'ansar', 'nabawi', 'trench', 'ahzab', 'quba'] },
+]);
 
 export default {
   name: 'SeerahTimeline',
+  components: {
+    SeerahMapComponent,
+  },
   data() {
     return {
       isOffcanvasOpen: true,
@@ -54,6 +110,10 @@ export default {
       wordCount: 0,
       readTime: 0,
       listenTime: 0,
+      mapPoints: [],
+      rawRemoteMapPoints: [],
+      mapLoading: false,
+      mapError: '',
       _filterTimer: null,
       _rafScheduled: false,
       _pendingProgress: null,
@@ -121,6 +181,7 @@ export default {
     };
     this.events = ((eventsData && eventsData.events) || []).map(preprocess);
     this.originalEvents = this.events.slice();
+    this.syncMapPointsToTimeline();
     this.initializeAudioStates();
     this.initializeTooltips();
     this.updateCurrentMetrics();
@@ -170,6 +231,282 @@ export default {
     try { document.body.classList.remove('with-audio-player'); } catch (_) { }
   },
   methods: {
+    onMapPointSelected(index) {
+      if (!Number.isInteger(index)) return;
+      if (index < 0 || index >= this.events.length) return;
+      this.selectEvent(index);
+    },
+    async loadSeerahMapPoints() {
+      this.mapLoading = true;
+      this.mapError = '';
+      try {
+        const remotePoints = await this.fetchRemoteSeerahPoints();
+        this.rawRemoteMapPoints = remotePoints;
+        if (!remotePoints.length) {
+          this.mapError = 'Remote Seerah dataset is unavailable. Showing built-in mapping.';
+        }
+      } catch (_) {
+        this.rawRemoteMapPoints = [];
+        this.mapError = 'Could not reach Seerah dataset. Showing built-in mapping.';
+      } finally {
+        this.syncMapPointsToTimeline();
+        this.mapLoading = false;
+      }
+    },
+    async fetchRemoteSeerahPoints() {
+      const datasetName = encodeURIComponent(SEERAH_DATASET_NAME);
+      let split = 'train';
+      let config = 'default';
+
+      try {
+        const splitRes = await fetch(`${SEERAH_DATASET_API}/splits?dataset=${datasetName}`, {
+          headers: { Accept: 'application/json' },
+        });
+        if (splitRes.ok) {
+          const splitData = await splitRes.json();
+          const firstSplit = Array.isArray(splitData?.splits) && splitData.splits.length
+            ? splitData.splits[0]
+            : null;
+          if (firstSplit?.split) split = firstSplit.split;
+          if (firstSplit?.config) config = firstSplit.config;
+        }
+      } catch (_) {
+        // Keep default split/config when split discovery fails.
+      }
+
+      const maxRows = 500;
+      const pageSize = 100; // HF datasets-server caps length at 100 per request
+      const rows = [];
+
+      for (let offset = 0; offset < maxRows; offset += pageSize) {
+        const rowsUrl = `${SEERAH_DATASET_API}/rows?dataset=${datasetName}&config=${encodeURIComponent(config)}&split=${encodeURIComponent(split)}&offset=${offset}&length=${pageSize}`;
+        const rowsRes = await fetch(rowsUrl, { headers: { Accept: 'application/json' } });
+        if (!rowsRes.ok) {
+          throw new Error(`Seerah dataset request failed with status ${rowsRes.status}`);
+        }
+
+        const payload = await rowsRes.json();
+        const pageRows = Array.isArray(payload?.rows) ? payload.rows : [];
+        rows.push(...pageRows);
+
+        if (pageRows.length < pageSize) {
+          break;
+        }
+      }
+
+      return rows
+        .map((row, index) => this.parseRemoteRowToPoint(row, index))
+        .filter(Boolean);
+    },
+    parseRemoteRowToPoint(rowWrapper, index) {
+      const row = rowWrapper && typeof rowWrapper.row === 'object' ? rowWrapper.row : rowWrapper;
+      if (!row || typeof row !== 'object') return null;
+
+      let lat = this.toFiniteNumber(this.pickObjectValue(row, ['latitude', 'lat', 'y']));
+      let lng = this.toFiniteNumber(this.pickObjectValue(row, ['longitude', 'lng', 'lon', 'x']));
+      if (!Number.isFinite(lat) || !Number.isFinite(lng)) {
+        const pair = this.parseCoordinatePair(this.pickObjectValue(row, ['coordinates', 'coords', 'coord', 'location_coordinates', 'point']));
+        if (pair) {
+          lat = pair.lat;
+          lng = pair.lng;
+        }
+      }
+      if (!Number.isFinite(lat) || !Number.isFinite(lng)) return null;
+      if (Math.abs(lat) > 90 || Math.abs(lng) > 180) return null;
+
+      const titleRaw = this.pickObjectValue(row, ['event', 'title', 'name', 'event_title']);
+      const yearRaw = this.pickObjectValue(row, ['year', 'date', 'ce_year', 'event_year', 'time']);
+      const locationRaw = this.pickObjectValue(row, ['location', 'place', 'city', 'landmark', 'region']);
+      const descriptionRaw = this.pickObjectValue(row, ['description', 'details', 'summary', 'text']);
+
+      const title = String(titleRaw || '').trim();
+      const year = String(yearRaw || '').trim();
+      const locationName = String(locationRaw || '').trim();
+      const description = String(descriptionRaw || '').trim();
+
+      return {
+        id: `remote-${index}`,
+        title,
+        year,
+        locationName,
+        lat,
+        lng,
+        searchText: this.normalizeMapText(`${title} ${year} ${locationName} ${description}`),
+      };
+    },
+    pickObjectValue(source, candidates) {
+      if (!source || typeof source !== 'object') return null;
+      for (const key of candidates) {
+        const value = source[key];
+        if (value !== undefined && value !== null && value !== '') return value;
+      }
+
+      const normalizedLookup = {};
+      Object.keys(source).forEach((key) => {
+        const normalizedKey = this.normalizeMapText(key).replace(/\s+/g, '');
+        normalizedLookup[normalizedKey] = source[key];
+      });
+      for (const key of candidates) {
+        const normalizedCandidate = this.normalizeMapText(key).replace(/\s+/g, '');
+        const value = normalizedLookup[normalizedCandidate];
+        if (value !== undefined && value !== null && value !== '') return value;
+      }
+      return null;
+    },
+    toFiniteNumber(value) {
+      if (typeof value === 'number' && Number.isFinite(value)) return value;
+      if (typeof value !== 'string') return null;
+      const normalized = value.replace(/,/g, '.');
+      const match = normalized.match(/-?\d+(?:\.\d+)?/);
+      if (!match) return null;
+      const parsed = Number(match[0]);
+      return Number.isFinite(parsed) ? parsed : null;
+    },
+    parseCoordinatePair(value) {
+      if (!value) return null;
+      if (typeof value === 'object') {
+        const lat = this.toFiniteNumber(value.lat ?? value.latitude ?? value.y);
+        const lng = this.toFiniteNumber(value.lng ?? value.lon ?? value.longitude ?? value.x);
+        if (Number.isFinite(lat) && Number.isFinite(lng)) return { lat, lng };
+      }
+      if (typeof value !== 'string') return null;
+      const normalized = value.replace(/\s+/g, ' ').trim();
+      const match = normalized.match(/(-?\d{1,2}(?:\.\d+)?)\s*[,;|]\s*(-?\d{1,3}(?:\.\d+)?)/);
+      if (!match) return null;
+      const lat = Number(match[1]);
+      const lng = Number(match[2]);
+      if (!Number.isFinite(lat) || !Number.isFinite(lng)) return null;
+      return { lat, lng };
+    },
+    normalizeMapText(value) {
+      return String(value || '')
+        .toLowerCase()
+        .replace(/[^a-z0-9\s]/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim();
+    },
+    extractEventYearNumber(value) {
+      const match = String(value || '').match(/\b(5\d{2}|6\d{2})\b/);
+      return match ? Number(match[1]) : null;
+    },
+    detectLocationRule(searchText, eventYear) {
+      const normalized = this.normalizeMapText(searchText);
+      const matched = MAP_LOCATION_RULES.find((rule) =>
+        rule.keywords.some((keyword) => normalized.includes(this.normalizeMapText(keyword)))
+      );
+      if (matched) return matched;
+
+      if (eventYear && eventYear >= 623) {
+        return MAP_LOCATION_RULES.find((rule) => rule.id === 'madinah');
+      }
+      return MAP_LOCATION_RULES.find((rule) => rule.id === 'makkah');
+    },
+    getPreciseLocationForEvent(event) {
+      const normalizedTitle = this.normalizeMapText(event?.title || '');
+      const entry = PRECISE_EVENT_LOCATIONS.find((candidate) =>
+        normalizedTitle.includes(this.normalizeMapText(candidate.match))
+      );
+      if (!entry) return null;
+      return {
+        locationName: entry.locationName,
+        lat: entry.lat,
+        lng: entry.lng,
+      };
+    },
+    pickRemotePointForEvent(event, remotePoints, usedIds = new Set()) {
+      if (!Array.isArray(remotePoints) || !remotePoints.length) return null;
+
+      const title = this.normalizeMapText(event?.title || '');
+      const yearNum = this.extractEventYearNumber(event?.year || '');
+      const yearText = yearNum ? String(yearNum) : '';
+      const plain = event?._plainText || this.stripHtml(event?.description || '');
+      const eventSearch = this.normalizeMapText(`${event?.title || ''} ${event?.year || ''} ${plain.slice(0, 280)}`);
+      const locationRule = this.detectLocationRule(eventSearch, yearNum);
+      const locationTokens = locationRule
+        ? locationRule.keywords.map((keyword) => this.normalizeMapText(keyword))
+        : [];
+
+      let best = null;
+      let bestScore = 0;
+      remotePoints.forEach((point) => {
+        if (usedIds.has(point.id)) return;
+
+        let score = 0;
+        const remoteTitle = this.normalizeMapText(point.title || '');
+        if (title && remoteTitle) {
+          if (title === remoteTitle) {
+            score += 7;
+          } else if (title.includes(remoteTitle) || remoteTitle.includes(title)) {
+            score += 5;
+          } else {
+            const words = title.split(' ').filter((word) => word.length > 3);
+            let overlap = 0;
+            words.forEach((word) => {
+              if (remoteTitle.includes(word)) overlap += 1;
+            });
+            score += Math.min(overlap, 3);
+          }
+        }
+
+        if (yearText && String(point.year || '').includes(yearText)) {
+          score += 3;
+        }
+
+        if (locationTokens.length && locationTokens.some((token) => point.searchText.includes(token))) {
+          score += 2;
+        }
+
+        const locationName = this.normalizeMapText(point.locationName || '');
+        if (locationName && eventSearch.includes(locationName)) {
+          score += 1.5;
+        }
+
+        if (score > bestScore) {
+          best = point;
+          bestScore = score;
+        }
+      });
+
+      return bestScore >= 4 ? best : null;
+    },
+    getFallbackLocationForEvent(event) {
+      const plain = event?._plainText || this.stripHtml(event?.description || '');
+      const yearNum = this.extractEventYearNumber(event?.year || '');
+      const search = `${event?.title || ''} ${event?.year || ''} ${plain.slice(0, 280)}`;
+      const rule = this.detectLocationRule(search, yearNum);
+      if (!rule) return null;
+      return {
+        locationName: rule.label,
+        lat: rule.lat,
+        lng: rule.lng,
+      };
+    },
+    buildMapPointsForCurrentEvents() {
+      if (!Array.isArray(this.events) || !this.events.length) return [];
+
+      return this.events.map((event, index) => {
+        const precisePoint = this.getPreciseLocationForEvent(event);
+        const fallbackPoint = this.getFallbackLocationForEvent(event);
+        const resolvedPoint = precisePoint || fallbackPoint;
+        if (!resolvedPoint) return null;
+
+        const locationName = precisePoint?.locationName || fallbackPoint?.locationName || 'Historic location';
+
+        return {
+          id: `mission-map-${index}`,
+          title: event?.title || `Event ${index + 1}`,
+          year: event?.year || '',
+          locationName,
+          lat: Number(resolvedPoint.lat),
+          lng: Number(resolvedPoint.lng),
+          eventIndex: index,
+          source: precisePoint ? 'precise' : 'fallback',
+        };
+      }).filter(Boolean);
+    },
+    syncMapPointsToTimeline() {
+      this.mapPoints = this.buildMapPointsForCurrentEvents();
+    },
     toggleNextStepMinimized() {
       this.nextStepMinimized = !this.nextStepMinimized;
       try { localStorage.setItem('missionNextStepMinimized', this.nextStepMinimized ? '1' : '0'); } catch (_) { }
@@ -507,6 +844,8 @@ export default {
       this.currentlyPlayingIndex = null;
     },
     selectEvent(index) {
+      if (!Number.isInteger(index)) return;
+      if (index < 0 || index >= this.events.length) return;
       if (this.synth.speaking || this.synth.paused) {
         this.stopAudio(this.currentlyPlayingIndex);
       }
@@ -962,6 +1301,7 @@ export default {
           this.events = this.originalEvents.slice();
           this.currentIndex = 0;
           this.updateCurrentMetrics();
+          this.syncMapPointsToTimeline();
           return;
         }
         const filtered = this.originalEvents.filter(e =>
@@ -972,6 +1312,7 @@ export default {
         this.events = filtered;
         this.currentIndex = 0;
         this.updateCurrentMetrics();
+        this.syncMapPointsToTimeline();
       }, 200);
     },
     clearSearch() {

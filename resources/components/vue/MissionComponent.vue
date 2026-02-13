@@ -85,6 +85,11 @@
       </ol>
     </nav>
 
+    <section class="mission-map-shell container">
+      <seerah-map-component :points="mapPoints" :active-index="currentIndex" :loading="mapLoading" :error="mapError"
+        @point-selected="onMapPointSelected" />
+    </section>
+
     <transition name="fade" mode="out-in" class="container">
       <div v-if="events.length" :key="currentIndex" class="event-box event-details" role="region"
         :aria-labelledby="`event-title-${currentIndex}`" ref="eventDetails">

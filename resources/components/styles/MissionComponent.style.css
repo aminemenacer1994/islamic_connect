@@ -603,6 +603,12 @@ mark {
   border-radius: 4px;
 }
 
+.mission-map-shell {
+  margin: 0 auto 1rem;
+  animation: riseIn 420ms ease-out both;
+  animation-delay: 110ms;
+}
+
 .timeline-wrapper {
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;

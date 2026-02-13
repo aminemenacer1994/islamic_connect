@@ -6,12 +6,40 @@
         <div class="r-hero__grid">
           <div class="r-hero__content">
             <p class="r-hero__eyebrow r-animate" style="--delay: 0.05s;">{{ ramadan.page_title }}</p>
-            <h1 class="r-hero__title r-animate" style="--delay: 0.12s;">{{ ramadan.header.title }}</h1>
-            <p class="r-hero__subtitle r-animate" style="--delay: 0.18s;">{{ ramadan.header.subtitle }}</p>
+            <h1 class="r-hero__title r-animate" style="--delay: 0.12s;" v-html="highlightHeroText(ramadan.header.title)">
+            </h1>
+            <p class="r-hero__subtitle r-animate" style="--delay: 0.18s;" v-html="highlightHeroText(ramadan.header.subtitle)">
+            </p>
             <div class="r-hero__subtext-wrap r-animate" style="--delay: 0.25s;">
               <p v-for="(line, index) in heroHighlights" :key="index" class="r-hero__subtext">
-                {{ line }}
+                <span v-html="highlightHeroText(line)"></span>
               </p>
+            </div>
+            <div class="row justify-content-center r-hero-search-row r-animate" style="--delay: 0.3s;">
+              <div class="col-12">
+                <div class="r-hero-search">
+                  <label class="r-hero-search__label" for="heroSearchInput">Search this page</label>
+                  <div class="r-hero-search__input-row">
+                    <input id="heroSearchInput" class="r-input r-input--hero-search" type="search" v-model.trim="heroSearchTerm"
+                      placeholder='Try "fasting", "zakat", or "laylat"' autocomplete="off"
+                      @keydown.enter.prevent="openFirstSearchResult" />
+                    <button v-if="heroSearchTerm" class="r-button r-button--ghost r-button--sm r-hero-search__action"
+                      type="button" @click="clearHeroSearch">
+                      Clear
+                    </button>
+                  </div>
+                  <p class="r-hero-search__hint">{{ heroSearchHelperText }}</p>
+                  <div v-if="heroSearchShouldShowDropdown" class="r-hero-search__dropdown">
+                    <button v-for="result in heroSearchResults" :key="result.id" class="r-hero-search__result" type="button"
+                      @click="goToSearchResult(result)">
+                      <span class="r-hero-search__result-section">{{ result.sectionLabel }}</span>
+                      <span class="r-hero-search__result-title" v-html="highlightSearchResultText(result.title)"></span>
+                      <span class="r-hero-search__result-snippet" v-html="buildSearchSnippet(result.text)"></span>
+                    </button>
+                    <p v-if="!heroSearchResults.length" class="r-hero-search__empty-result">No results found.</p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -1008,6 +1036,7 @@ export default {
   data() {
     return {
       ramadan: ramadanData,
+      heroSearchTerm: "",
       duaSearchTerm: "",
       duaSourceFilter: "all",
       duaSectionFilter: "all",
@@ -1081,6 +1110,7 @@ export default {
       sectionFontScale: {},
       toolbarFeedback: {},
       toolbarFeedbackTimeouts: {},
+      sectionHighlightPulseTimeout: null,
     };
   },
   async mounted() {
@@ -1108,6 +1138,7 @@ export default {
       window.removeEventListener("resize", this.fabVisibilityHandler);
       this.fabVisibilityHandler = null;
     }
+    this.clearSectionHighlights();
     this.clearAllToolbarFeedbackTimers();
   },
   unmounted() {
@@ -1120,6 +1151,7 @@ export default {
       window.removeEventListener("resize", this.fabVisibilityHandler);
       this.fabVisibilityHandler = null;
     }
+    this.clearSectionHighlights();
     this.clearAllToolbarFeedbackTimers();
   },
   computed: {
@@ -1372,6 +1404,191 @@ export default {
         },
       ];
     },
+    heroSearchTokens() {
+      if (!this.heroSearchTerm) return [];
+      return this.heroSearchTerm
+        .toLowerCase()
+        .split(/\s+/)
+        .map((token) => token.trim())
+        .filter(Boolean);
+    },
+    heroSearchRegex() {
+      if (!this.heroSearchTokens.length) return null;
+      const pattern = this.heroSearchTokens.map((token) => this.escapeRegExp(token)).join("|");
+      return new RegExp(`(${pattern})`, "gi");
+    },
+    heroSearchShouldShowDropdown() {
+      return this.heroSearchTerm.trim().length >= 3;
+    },
+    heroSearchHelperText() {
+      if (!this.heroSearchTerm) return "Type at least 3 letters.";
+      if (!this.heroSearchShouldShowDropdown) return "Type at least 3 letters.";
+      if (!this.heroSearchResults.length) return "No results found.";
+      return `${this.heroSearchResults.length} result${this.heroSearchResults.length === 1 ? "" : "s"} found.`;
+    },
+    heroSearchIndex() {
+      const entries = [];
+      const addEntry = (sectionId, targetId, sectionLabel, title, text) => {
+        if (!text || typeof text !== "string") return;
+        const normalizedText = text.replace(/\s+/g, " ").trim();
+        if (!normalizedText) return;
+        entries.push({
+          id: `${sectionId}-${entries.length}`,
+          sectionId,
+          targetId,
+          sectionLabel,
+          title,
+          text: normalizedText,
+          searchable: normalizedText.toLowerCase(),
+        });
+      };
+      const addList = (sectionId, targetId, sectionLabel, titlePrefix, items = []) => {
+        items.forEach((item, index) => {
+          addEntry(sectionId, targetId, sectionLabel, `${titlePrefix} ${index + 1}`, item);
+        });
+      };
+
+      addEntry("top", "top", "Top", "Hero title", this.ramadan.header?.title);
+      addEntry("top", "top", "Top", "Hero subtitle", this.ramadan.header?.subtitle);
+      addList("top", "top", "Top", "Hero line", this.heroHighlights || []);
+      addEntry(
+        "interactive",
+        "section-interactive-body",
+        "Quran tracker",
+        "Quran progress studio",
+        "Follow three simple steps: pick a unit, set your target, and update your reading each day."
+      );
+      addList(
+        "interactive",
+        "section-interactive-body",
+        "Quran tracker",
+        "Tracker step",
+        (this.quranOnboardingSteps || []).map((step) => `${step.title} ${step.detail}`.trim())
+      );
+
+      addEntry("overview", "section-overview-body", "What is Ramadan", "Overview", this.ramadan.overview?.subtitle);
+      addList("overview", "section-overview-body", "What is Ramadan", "Point", this.ramadan.overview?.body || []);
+      addList("overview", "section-overview-body", "What is Ramadan", "Key idea", this.ramadan.overview?.key_points || []);
+
+      addEntry("history", "section-history-body", "History", "Summary", this.ramadan.history?.subtitle);
+      addList("history", "section-history-body", "History", "Detail", this.ramadan.history?.body || []);
+      (this.ramadan.history?.timeline || []).forEach((item) => {
+        addEntry(
+          "history",
+          "section-history-body",
+          "History",
+          item.period || "Timeline",
+          [item.detail, item.reference].filter(Boolean).join(" ")
+        );
+      });
+
+      addEntry("key-dates", "section-key-dates-body", "Key dates", "Summary", this.ramadan.important_dates?.subtitle);
+      (this.ramadan.important_dates?.dates || []).forEach((item) => {
+        addEntry(
+          "key-dates",
+          "section-key-dates-body",
+          "Key dates",
+          item.event || "Date",
+          [item.gregorian_date, item.hijri_date, item.description].filter(Boolean).join(" ")
+        );
+      });
+      addEntry("key-dates", "section-key-dates-body", "Key dates", "Moon sighting", this.ramadan.moon_sighting?.intro);
+      addList("key-dates", "section-key-dates-body", "Key dates", "Moon sighting step", this.ramadan.moon_sighting?.steps || []);
+
+      addEntry("how-to-fast", "section-how-to-fast-body", "How to fast", "Summary", this.ramadan.how_to_fast?.intro);
+      (this.ramadan.how_to_fast?.cards || []).forEach((item) => {
+        addList("how-to-fast", "section-how-to-fast-body", "How to fast", item.title || "Guide", item.items || []);
+      });
+
+      addEntry("faq", "section-faq-body", "FAQ", "Summary", this.ramadan.faq?.subtitle);
+      (this.ramadan.faq?.items || []).forEach((item) => {
+        addEntry("faq", "section-faq-body", "FAQ", item.question || "Question", item.answer || "");
+      });
+
+      addEntry("quran-plans", "section-quran-plans-body", "Quran plans", "Summary", this.ramadan.quran_reading_plans?.intro);
+      (this.ramadan.quran_reading_plans?.plans || []).forEach((item) => {
+        addEntry(
+          "quran-plans",
+          "section-quran-plans-body",
+          "Quran plans",
+          item.level || "Plan",
+          [item.daily_target, item.time_needed, item.structure, item.goal, item.split].filter(Boolean).join(" ")
+        );
+        addList("quran-plans", "section-quran-plans-body", "Quran plans", "Tip", item.tips || []);
+      });
+
+      addEntry("personal-plans", "section-personal-plans-body", "Personal plans", "Summary", this.ramadan.personal_plans?.intro);
+      (this.ramadan.personal_plans?.plans || []).forEach((item) => {
+        addEntry(
+          "personal-plans",
+          "section-personal-plans-body",
+          "Personal plans",
+          item.title || "Plan",
+          [item.who_for, item.overview, item.focus, item.accountability].filter(Boolean).join(" ")
+        );
+        addList("personal-plans", "section-personal-plans-body", "Personal plans", "Daily flow", item.daily_flow || []);
+        addList("personal-plans", "section-personal-plans-body", "Personal plans", "Weekly focus", item.weekly_focus || []);
+      });
+
+      addEntry("charity", "section-charity-body", "Charity", "Summary", this.ramadan.charity_guide?.intro);
+      addList("charity", "section-charity-body", "Charity", "Overview", this.ramadan.charity_guide?.overview || []);
+      addList("charity", "section-charity-body", "Charity", "Zakat", this.ramadan.charity_guide?.zakat_al_fitr?.points || []);
+      addList("charity", "section-charity-body", "Charity", "Sadaqah", this.ramadan.charity_guide?.sadaqah_ideas || []);
+
+      addEntry("health", "section-health-body", "Health", "Summary", this.ramadan.health_food_tips?.intro);
+      (this.ramadan.health_food_tips?.primary_sections || []).forEach((item) => {
+        addList("health", "section-health-body", "Health", item.title || "Health tip", item.items || []);
+      });
+      (this.ramadan.health_food_tips?.secondary_sections || []).forEach((item) => {
+        addList("health", "section-health-body", "Health", item.title || "Health tip", item.items || []);
+      });
+      addList("health", "section-health-body", "Health", "Quick tip", this.ramadan.health_food_tips?.micro_tips || []);
+
+      addEntry("shorts", "shorts", "Short clips", "Summary", this.ramadan.shorts?.subtitle);
+      addList("shorts", "shorts", "Short clips", "Highlight", (this.ramadan.shorts?.highlights || []).map((item) => item.title));
+      const shortItems = [];
+      (this.ramadan.shorts?.modal_sections || []).forEach((section) => {
+        (section.items || []).forEach((item) => {
+          shortItems.push(`${item.title || ""} ${item.description || ""}`.trim());
+        });
+      });
+      addList("shorts", "shorts", "Short clips", "Clip", shortItems);
+
+      addEntry("tools", "section-tools-body", "Tools", "Summary", this.ramadan.tools?.subtitle);
+      addList("tools", "section-tools-body", "Tools", "Intro", this.ramadan.tools?.intro || []);
+      (this.ramadan.tools?.cards || []).forEach((item) => {
+        addEntry("tools", "section-tools-body", "Tools", item.title || "Tool", [item.description, item.detail].filter(Boolean).join(" "));
+      });
+
+      addEntry("platforms", "section-platforms-body", "Resources", "Summary", this.ramadan.platform_resources?.subtitle);
+      addList("platforms", "section-platforms-body", "Resources", "Intro", this.ramadan.platform_resources?.intro || []);
+      (this.ramadan.platform_resources?.cards || []).forEach((item) => {
+        addEntry("platforms", "section-platforms-body", "Resources", item.title || "Resource", item.description || "");
+        addList("platforms", "section-platforms-body", "Resources", "Item", (item.items || []).map((link) => `${link.label || ""} ${link.note || ""}`.trim()));
+      });
+
+      return entries;
+    },
+    heroSearchResults() {
+      if (!this.heroSearchShouldShowDropdown || !this.heroSearchTokens.length) return [];
+      const tokens = this.heroSearchTokens;
+      return this.heroSearchIndex
+        .map((entry) => {
+          const matchAllTokens = tokens.every((token) => entry.searchable.includes(token));
+          if (!matchAllTokens) return null;
+          const score = tokens.reduce((total, token) => {
+            const matches = entry.searchable.match(new RegExp(this.escapeRegExp(token), "g"));
+            const entryScore = matches ? matches.length : 0;
+            const sectionBoost = entry.sectionLabel.toLowerCase().includes(token) ? 2 : 0;
+            const titleBoost = entry.title.toLowerCase().includes(token) ? 1 : 0;
+            return total + entryScore + sectionBoost + titleBoost;
+          }, 0);
+          return { ...entry, score };
+        })
+        .filter(Boolean)
+        .sort((a, b) => b.score - a.score)
+        .slice(0, 12);
+    },
     duaSearchTokens() {
       if (!this.duaSearchTerm) return [];
       return this.duaSearchTerm
@@ -1438,6 +1655,187 @@ export default {
     },
   },
   methods: {
+    highlightHeroText(text) {
+      if (!text) return "";
+      const escaped = this.escapeHtml(text);
+      if (!this.heroSearchRegex) return escaped;
+      return escaped.replace(this.heroSearchRegex, '<mark class="r-hero__mark">$1</mark>');
+    },
+    highlightSearchResultText(text) {
+      if (!text) return "";
+      const escaped = this.escapeHtml(text);
+      if (!this.heroSearchRegex) return escaped;
+      return escaped.replace(this.heroSearchRegex, '<mark class="r-search-result__mark">$1</mark>');
+    },
+    buildSearchSnippet(text) {
+      if (!text) return "";
+      const normalizedText = String(text).replace(/\s+/g, " ").trim();
+      if (!normalizedText) return "";
+      if (!this.heroSearchTokens.length) {
+        return this.escapeHtml(normalizedText.slice(0, 170));
+      }
+      const lowerText = normalizedText.toLowerCase();
+      let firstMatchIndex = -1;
+      this.heroSearchTokens.forEach((token) => {
+        const index = lowerText.indexOf(token);
+        if (index === -1) return;
+        if (firstMatchIndex === -1 || index < firstMatchIndex) {
+          firstMatchIndex = index;
+        }
+      });
+      const start = firstMatchIndex > 60 ? firstMatchIndex - 60 : 0;
+      const end = Math.min(start + 190, normalizedText.length);
+      const prefix = start > 0 ? "... " : "";
+      const suffix = end < normalizedText.length ? " ..." : "";
+      const escaped = this.escapeHtml(`${prefix}${normalizedText.slice(start, end)}${suffix}`);
+      if (!this.heroSearchRegex) return escaped;
+      return escaped.replace(this.heroSearchRegex, '<mark class="r-search-result__mark">$1</mark>');
+    },
+    clearSectionHighlights() {
+      if (this.sectionHighlightPulseTimeout) {
+        clearTimeout(this.sectionHighlightPulseTimeout);
+        this.sectionHighlightPulseTimeout = null;
+      }
+      if (typeof document === "undefined" || !this.$el) return;
+      const marks = this.$el.querySelectorAll("mark.r-section-search-highlight");
+      marks.forEach((mark) => {
+        const parent = mark.parentNode;
+        if (!parent) return;
+        parent.replaceChild(document.createTextNode(mark.textContent || ""), mark);
+        parent.normalize();
+      });
+    },
+    pulseFirstSectionHighlight(target) {
+      if (!target) return;
+      const first = target.querySelector("mark.r-section-search-highlight");
+      if (!first) return;
+      first.classList.add("is-active");
+      if (this.sectionHighlightPulseTimeout) {
+        clearTimeout(this.sectionHighlightPulseTimeout);
+      }
+      this.sectionHighlightPulseTimeout = setTimeout(() => {
+        first.classList.remove("is-active");
+        this.sectionHighlightPulseTimeout = null;
+      }, 1400);
+    },
+    applySectionHighlights(target, tokens = []) {
+      if (typeof document === "undefined" || !target) return;
+      this.clearSectionHighlights();
+      const normalizedTokens = (tokens || [])
+        .map((token) => String(token || "").trim())
+        .filter((token) => token.length > 1);
+      if (!normalizedTokens.length) return;
+
+      const lowerTokens = normalizedTokens.map((token) => token.toLowerCase());
+      const pattern = normalizedTokens.map((token) => this.escapeRegExp(token)).join("|");
+      if (!pattern) return;
+      const regex = new RegExp(`(${pattern})`, "gi");
+
+      const textNodes = [];
+      const walker = document.createTreeWalker(
+        target,
+        NodeFilter.SHOW_TEXT,
+        {
+          acceptNode: (node) => {
+            const textValue = node?.nodeValue || "";
+            if (!textValue.trim()) return NodeFilter.FILTER_REJECT;
+            const parent = node.parentElement;
+            if (!parent) return NodeFilter.FILTER_REJECT;
+            const blockedTags = new Set([
+              "SCRIPT",
+              "STYLE",
+              "NOSCRIPT",
+              "MARK",
+              "TEXTAREA",
+              "SELECT",
+              "OPTION",
+              "BUTTON",
+              "INPUT",
+            ]);
+            if (blockedTags.has(parent.tagName)) return NodeFilter.FILTER_REJECT;
+            if (parent.closest(".section-toolbar, .r-hero-search")) return NodeFilter.FILTER_REJECT;
+            const lowerText = textValue.toLowerCase();
+            return lowerTokens.some((token) => lowerText.includes(token))
+              ? NodeFilter.FILTER_ACCEPT
+              : NodeFilter.FILTER_REJECT;
+          },
+        },
+        false
+      );
+
+      let currentNode = walker.nextNode();
+      while (currentNode) {
+        textNodes.push(currentNode);
+        currentNode = walker.nextNode();
+      }
+
+      textNodes.forEach((node) => {
+        const sourceText = node.nodeValue || "";
+        regex.lastIndex = 0;
+        if (!regex.test(sourceText)) return;
+        regex.lastIndex = 0;
+        const fragment = document.createDocumentFragment();
+        let lastIndex = 0;
+        let match = regex.exec(sourceText);
+        while (match) {
+          const matchIndex = match.index;
+          if (matchIndex > lastIndex) {
+            fragment.appendChild(document.createTextNode(sourceText.slice(lastIndex, matchIndex)));
+          }
+          const mark = document.createElement("mark");
+          mark.className = "r-section-search-highlight";
+          mark.textContent = match[0];
+          fragment.appendChild(mark);
+          lastIndex = matchIndex + match[0].length;
+          if (regex.lastIndex === matchIndex) {
+            regex.lastIndex += 1;
+          }
+          match = regex.exec(sourceText);
+        }
+        if (lastIndex < sourceText.length) {
+          fragment.appendChild(document.createTextNode(sourceText.slice(lastIndex)));
+        }
+        if (node.parentNode) {
+          node.parentNode.replaceChild(fragment, node);
+        }
+      });
+
+      this.pulseFirstSectionHighlight(target);
+    },
+    goToSearchResult(result) {
+      if (!result) return;
+      if (typeof document === "undefined") return;
+      const searchTokens = [...this.heroSearchTokens];
+      const target =
+        document.getElementById(result.targetId) ||
+        document.getElementById(result.sectionId) ||
+        document.getElementById("top");
+      if (target && typeof target.scrollIntoView === "function") {
+        target.scrollIntoView({ behavior: "smooth", block: "start" });
+        const applyHighlight = () => {
+          this.applySectionHighlights(target, searchTokens);
+        };
+        if (typeof window !== "undefined" && window.requestAnimationFrame) {
+          window.requestAnimationFrame(() => {
+            window.setTimeout(applyHighlight, 220);
+          });
+        } else {
+          applyHighlight();
+        }
+      }
+      if (typeof window !== "undefined" && result.sectionId && window.history?.replaceState) {
+        window.history.replaceState(null, "", `#${result.sectionId}`);
+      }
+      this.heroSearchTerm = "";
+    },
+    openFirstSearchResult() {
+      if (!this.heroSearchResults.length) return;
+      this.goToSearchResult(this.heroSearchResults[0]);
+    },
+    clearHeroSearch() {
+      this.heroSearchTerm = "";
+      this.clearSectionHighlights();
+    },
     hasSectionReferences(items) {
       return Array.isArray(items) && items.length > 0;
     },
@@ -2538,6 +2936,163 @@ export default {
   max-width: 540px;
 }
 
+.r-hero-search-row {
+  margin-top: 8px;
+}
+
+.r-hero-search {
+  padding: 16px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  background: rgba(8, 24, 34, 0.38);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12), 0 16px 28px rgba(6, 27, 43, 0.28);
+  backdrop-filter: blur(12px);
+  display: grid;
+  gap: 10px;
+  width: 100%;
+}
+
+.r-hero-search__label {
+  margin: 0;
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-weight: 700;
+  color: rgba(253, 247, 239, 0.78);
+}
+
+.r-hero-search__input-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.r-input--hero-search {
+  flex: 1 1 240px;
+  min-width: 0;
+  border-radius: 12px;
+  border: 1px solid rgba(15, 34, 48, 0.2);
+  background: rgba(255, 255, 255, 0.95);
+  color: #102334;
+}
+
+.r-input--hero-search::placeholder {
+  color: rgba(16, 35, 52, 0.62);
+}
+
+.r-input--hero-search:focus {
+  outline: none;
+  border-color: rgba(215, 166, 74, 0.72);
+  box-shadow: 0 0 0 3px rgba(215, 166, 74, 0.18);
+}
+
+.r-hero-search__action {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.r-hero-search__action.r-button--ghost {
+  border-color: rgba(255, 255, 255, 0.34);
+  color: #fdf7ef;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.r-hero-search__action.r-button--ghost:hover {
+  background: rgba(255, 255, 255, 0.18);
+  color: #ffffff;
+}
+
+.r-hero-search__hint {
+  margin: 0;
+  font-size: 0.82rem;
+  color: rgba(253, 247, 239, 0.82);
+}
+
+.r-hero-search__dropdown {
+  max-height: 360px;
+  overflow-y: auto;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 14px 28px rgba(10, 28, 40, 0.24);
+}
+
+.r-hero-search__result {
+  width: 100%;
+  padding: 12px 14px;
+  border: none;
+  border-bottom: 1px solid rgba(15, 34, 48, 0.1);
+  background: transparent;
+  text-align: left;
+  display: grid;
+  gap: 4px;
+  cursor: pointer;
+}
+
+.r-hero-search__result:last-child {
+  border-bottom: none;
+}
+
+.r-hero-search__result:hover {
+  background: rgba(16, 35, 52, 0.06);
+}
+
+.r-hero-search__result-section {
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 700;
+  color: #4a6378;
+}
+
+.r-hero-search__result-title {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #0f2230;
+}
+
+.r-hero-search__result-snippet {
+  font-size: 0.84rem;
+  line-height: 1.45;
+  color: #31485c;
+}
+
+.r-hero-search__empty-result {
+  margin: 0;
+  padding: 14px;
+  color: #3f566b;
+  font-size: 0.86rem;
+}
+
+.r-search-result__mark {
+  background: rgba(215, 166, 74, 0.38);
+  color: #0f2230;
+  border-radius: 4px;
+  padding: 0 0.18em;
+  box-decoration-break: clone;
+}
+
+.r-section-search-highlight {
+  background: rgba(215, 166, 74, 0.42);
+  color: #102334;
+  border-radius: 4px;
+  padding: 0 0.2em;
+  box-decoration-break: clone;
+}
+
+.r-section-search-highlight.is-active {
+  animation: sectionHighlightPulse 1.1s ease;
+}
+
+.r-hero__mark {
+  background: rgba(215, 166, 74, 0.5);
+  color: #ffffff;
+  border-radius: 6px;
+  padding: 0 0.22em;
+  box-decoration-break: clone;
+}
 
 .r-hero__media {
   display: grid;
@@ -5167,6 +5722,15 @@ export default {
   }
 }
 
+@keyframes sectionHighlightPulse {
+  0% {
+    background: rgba(215, 166, 74, 0.7);
+  }
+  100% {
+    background: rgba(215, 166, 74, 0.42);
+  }
+}
+
 @media (max-width: 992px) {
   .r-hero__grid {
     grid-template-columns: 1fr;
@@ -5188,6 +5752,20 @@ export default {
 
   .r-hero__stats {
     grid-template-columns: 1fr;
+  }
+
+  .r-hero-search {
+    padding: 14px;
+  }
+
+  .r-hero-search__input-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .r-hero-search__action {
+    width: 100%;
+    justify-content: center;
   }
 
   .r-card {

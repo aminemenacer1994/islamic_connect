@@ -2834,7 +2834,7 @@ const CHAPTER_TOOL_MAP = {
     title: 'Seerah Timeline',
     description: 'Trace the Prophet ﷺ’s story while the lessons stay anchored.',
     icon: 'bi-people-fill',
-    loader: () => Promise.all(/*! import() */[__webpack_require__.e("css/app"), __webpack_require__.e("resources_components_vue_MissionComponent_vue")]).then(__webpack_require__.bind(__webpack_require__, /*! ./MissionComponent.vue */ "./resources/components/vue/MissionComponent.vue")),
+    loader: () => Promise.all(/*! import() */[__webpack_require__.e("css/app"), __webpack_require__.e("/js/vendor"), __webpack_require__.e("resources_components_vue_MissionComponent_vue")]).then(__webpack_require__.bind(__webpack_require__, /*! ./MissionComponent.vue */ "./resources/components/vue/MissionComponent.vue")),
     route: '/mission'
   }),
   6: createChapterToolEntry({
