@@ -36814,6 +36814,10 @@ to {
 }
 }
 @media (max-width: 767.98px) {
+.advanced-search-utility-actions[data-v-637d02d8] {
+        flex-wrap: nowrap;
+        gap: 0.3rem;
+}
 .advanced-quran-search[data-v-637d02d8] {
         border-radius: 12px;
 }

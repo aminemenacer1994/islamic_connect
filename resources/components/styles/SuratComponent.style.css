@@ -539,6 +539,11 @@
 }
 
 @media (max-width: 767.98px) {
+    .advanced-search-utility-actions {
+        flex-wrap: nowrap;
+        gap: 0.3rem;
+    }
+
     .advanced-quran-search {
         border-radius: 12px;
     }

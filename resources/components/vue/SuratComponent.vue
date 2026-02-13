@@ -36,6 +36,16 @@
                         <i class="fas fa-compass" aria-hidden="true"></i>
                         <span>Onboarding</span>
                     </button>
+                    <button
+                        v-if="hasPinnedAyahs && isPinnedSectionHidden && isMobile"
+                        type="button"
+                        class="btn btn-link advanced-quran-search-visibility-btn"
+                        @click="showPinnedSection"
+                        aria-label="Show pinned favourite ayat"
+                        title="Show pinned favourite ayat">
+                        <i class="bi bi-pin-angle-fill" aria-hidden="true"></i>
+                        <span>Pins</span>
+                    </button>
                 </div>
             </div>
         </div>
@@ -43,7 +53,7 @@
             v-show="isAdvancedSearchVisible"
             id="advancedQuranSearchSection"
             class="row justify-content-center mb-4">
-            <!-- <div class="col-12">
+            <div class="col-12">
                <section class="advanced-quran-search ltr-text"
                     :class="{ 'is-panel-hidden': !isAdvancedSearchPanelVisible }"
                     role="search"
@@ -73,6 +83,16 @@
                                     @click="openSuratOnboarding">
                                     <i class="fas fa-compass" aria-hidden="true"></i>
                                     <span>Onboarding</span>
+                                </button>
+                                <button
+                                    v-if="hasPinnedAyahs && isPinnedSectionHidden && isMobile"
+                                    type="button"
+                                    class="btn btn-link advanced-quran-search-visibility-btn advanced-quran-search-top-pill"
+                                    @click="showPinnedSection"
+                                    aria-label="Show pinned favourite ayat"
+                                    title="Show pinned favourite ayat">
+                                    <i class="bi bi-pin-angle-fill" aria-hidden="true"></i>
+                                    <span>Pins</span>
                                 </button>
                             </div>
                             <button
@@ -229,7 +249,7 @@
                     </div>
                    
                 </section> 
-            </div> -->
+            </div>
         </div>
         <div v-if="(surahDetails || currentSurahInfo) && !isTabletOrMobile && (showDesktopToolbar || showDesktopSurahContext)"
             class="quran-toolbar-sticky ltr-text"
@@ -468,7 +488,7 @@
             </template>
         </div>
         <div
-            v-if="hasPinnedAyahs && isPinnedSectionHidden && (isTabletOrMobile || !showDesktopToolbar)"
+            v-if="hasPinnedAyahs && isPinnedSectionHidden && !isMobile && (isTabletOrMobile || !showDesktopToolbar)"
             class="pinned-ayahs-restore ltr-text">
             <button
                 type="button"
