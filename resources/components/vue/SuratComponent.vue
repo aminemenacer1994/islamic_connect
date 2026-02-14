@@ -170,22 +170,6 @@
                                         </option>
                                     </select>
                                 </div>
-                                <div class="advanced-quran-mobile-select-field">
-                                    <label class="visually-hidden" for="mobileToolbarTranslationSelect">
-                                        Select translation
-                                    </label>
-                                    <select
-                                        id="mobileToolbarTranslationSelect"
-                                        class="form-select advanced-quran-mobile-select"
-                                        v-model="selectedTranslation"
-                                        aria-label="Select translation">
-                                        <option value="" disabled>Select translation</option>
-                                        <option v-for="translation in translationsSorted" :key="translation.identifier"
-                                            :value="translation.identifier">
-                                            {{ `${translation.flag} ${translation.englishName} (${translation.language})` }}
-                                        </option>
-                                    </select>
-                                </div>
                             </div>
 
                             <div
@@ -288,20 +272,14 @@
                                                 ? 'The full surah MP3 is already downloaded. Click to download it again.'
                                                 : surahDownloadReadyLabel">
                                     <i
-                                        class="bi"
+                                        class="bi advanced-quran-mobile-download-icon"
                                         :class="isSurahAudioDownloading
                                             ? 'bi-arrow-repeat ic-spin'
                                             : isSurahAudioDownloaded
                                                 ? 'bi-check-circle-fill'
                                                 : 'bi-cloud-arrow-down-fill'"
                                         aria-hidden="true"></i>
-                                    <span class="advanced-quran-mobile-action-meta">
-                                        {{
-                                            isSurahAudioDownloading
-                                                ? "..."
-                                                : currentSurahAudioSizeLabel || (isCurrentSurahAudioMetaLoading ? "..." : "n/a")
-                                        }}
-                                    </span>
+                                    <span class="advanced-quran-mobile-action-label">Download</span>
                                 </button>
                                 <button
                                     v-if="hasPinnedAyahs && isPinnedSectionHidden"
@@ -427,24 +405,6 @@
                     </select>
                 </div>
 
-                <div class="quran-toolbar-translation">
-                    <label class="visually-hidden" for="toolbarTranslationSelect">
-                        Select translation
-                    </label>
-                    <select
-                        id="toolbarTranslationSelect"
-                        class="form-select quran-toolbar-select"
-                        v-model="selectedTranslation"
-                        title="Choose the translation language and translator shown under each ayah."
-                        aria-label="Select translation">
-                        <option value="" disabled>Select translation</option>
-                        <option v-for="translation in translationsSorted" :key="translation.identifier"
-                            :value="translation.identifier">
-                            {{ `${translation.flag} ${translation.englishName} (${translation.language})` }}
-                        </option>
-                    </select>
-                </div>
-
                 <button
                     v-if="showTajweed"
                     type="button"
@@ -560,25 +520,13 @@
                                 ? 'The full surah MP3 is already downloaded. Click to download it again.'
                                 : surahDownloadReadyLabel">
                     <i
-                        class="bi"
+                        class="bi quran-toolbar-download-icon"
                         :class="isSurahAudioDownloading
                             ? 'bi-arrow-repeat ic-spin'
                             : isSurahAudioDownloaded
                                 ? 'bi-check-circle-fill'
                             : 'bi-cloud-arrow-down-fill'"
                         aria-hidden="true"></i>
-                    <span
-                        class="quran-toolbar-download-size"
-                        :class="{
-                            'quran-toolbar-download-size-loading':
-                                isSurahAudioDownloading || !currentSurahAudioSizeLabel
-                        }">
-                        {{
-                            isSurahAudioDownloading
-                                ? "..."
-                                : currentSurahAudioSizeLabel || (isCurrentSurahAudioMetaLoading ? "..." : "n/a")
-                        }}
-                    </span>
                 </button>
 
                 <button

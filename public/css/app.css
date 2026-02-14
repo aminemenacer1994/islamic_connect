@@ -36746,12 +36746,16 @@ to {
     cursor: not-allowed;
 }
 .advanced-quran-mobile-action-btn-download[data-v-637d02d8] {
-    grid-column: 1 / -1;
+    grid-column: auto;
     justify-content: flex-start;
     text-align: left;
+    width: 100%;
+    min-width: 0;
+    padding-inline: 0.56rem;
 }
-.advanced-quran-mobile-action-btn-download .bi[data-v-637d02d8] {
-    font-size: 0.98rem;
+.advanced-quran-mobile-download-icon[data-v-637d02d8] {
+    font-size: 1.16rem;
+    font-weight: 900;
 }
 .advanced-quran-mobile-action-btn-download.is-downloaded[data-v-637d02d8] {
     border-color: rgba(16, 185, 129, 0.34);
@@ -36766,13 +36770,6 @@ to {
 .advanced-quran-mobile-action-label[data-v-637d02d8] {
     font-size: 0.74rem;
     font-weight: 700;
-}
-.advanced-quran-mobile-action-meta[data-v-637d02d8] {
-    font-size: 0.66rem;
-    font-weight: 800;
-    opacity: 0.82;
-    margin-left: 0.3rem;
-    white-space: nowrap;
 }
 @media (max-width: 991.98px) {
 .advanced-quran-mobile-controls.is-pinned[data-v-637d02d8],
@@ -37095,9 +37092,6 @@ to {
 .advanced-quran-mobile-action-label[data-v-637d02d8] {
         font-size: 0.72rem;
 }
-.advanced-quran-mobile-action-meta[data-v-637d02d8] {
-        font-size: 0.64rem;
-}
 .advanced-quran-search-actions[data-v-637d02d8] {
         right: 6px;
         gap: 0.3rem;
@@ -37217,6 +37211,11 @@ to {
 }
 .advanced-quran-mobile-action-btn-download[data-v-637d02d8] {
         grid-column: auto;
+        justify-content: flex-start;
+        text-align: left;
+        width: 100%;
+        min-width: 0;
+        padding-inline: 0.5rem;
 }
 .advanced-quran-search-voice[data-v-637d02d8],
     .advanced-quran-search-clear[data-v-637d02d8] {
@@ -41136,8 +41135,10 @@ h1.display-5[data-v-637d02d8] {
     color: #0f766e;
 }
 .quran-toolbar-btn-download-size-only[data-v-637d02d8] {
-    min-width: 132px;
-    padding-inline: 0.72rem;
+    width: 46px;
+    min-width: 46px;
+    justify-content: center;
+    padding-inline: 0;
 }
 .quran-toolbar-btn-download .quran-toolbar-btn-text[data-v-637d02d8] {
     font-weight: 700;
@@ -41200,14 +41201,9 @@ h1.display-5[data-v-637d02d8] {
     border-color: rgba(8, 145, 178, 0.46);
     color: #155e75;
 }
-.quran-toolbar-download-size[data-v-637d02d8] {
-    font-size: 0.76rem;
-    font-weight: 800;
-    line-height: 1;
-    opacity: 0.9;
-}
-.quran-toolbar-download-size-loading[data-v-637d02d8] {
-    opacity: 0.6;
+.quran-toolbar-download-icon[data-v-637d02d8] {
+    font-size: 1.2rem;
+    font-weight: 900;
 }
 .quran-toolbar-btn-icon[data-v-637d02d8],
 .quran-toolbar-btn-settings[data-v-637d02d8] {
@@ -41233,13 +41229,11 @@ h1.display-5[data-v-637d02d8] {
     margin-left: auto;
     flex: 0 0 auto;
 }
-.quran-toolbar-reciter[data-v-637d02d8],
-.quran-toolbar-translation[data-v-637d02d8] {
+.quran-toolbar-reciter[data-v-637d02d8] {
     flex: 0 0 220px;
     min-width: 190px;
 }
-.surat-premium.sidebar-collapsed .quran-toolbar-reciter[data-v-637d02d8],
-.surat-premium.sidebar-collapsed .quran-toolbar-translation[data-v-637d02d8] {
+.surat-premium.sidebar-collapsed .quran-toolbar-reciter[data-v-637d02d8] {
     flex: 0 0 250px;
     min-width: 210px;
 }
@@ -41321,7 +41315,8 @@ h1.display-5[data-v-637d02d8] {
         padding: 0.62rem 0.88rem;
 }
 .quran-toolbar-btn-download-size-only[data-v-637d02d8] {
-        min-width: 152px;
+        width: 52px;
+        min-width: 52px;
 }
 .quran-toolbar-btn-state[data-v-637d02d8] {
         min-width: 40px;
@@ -41332,13 +41327,11 @@ h1.display-5[data-v-637d02d8] {
         width: 50px;
         min-width: 50px;
 }
-.quran-toolbar-reciter[data-v-637d02d8],
-    .quran-toolbar-translation[data-v-637d02d8] {
+.quran-toolbar-reciter[data-v-637d02d8] {
         flex: 0 0 240px;
         min-width: 210px;
 }
-.surat-premium.sidebar-collapsed .quran-toolbar-reciter[data-v-637d02d8],
-    .surat-premium.sidebar-collapsed .quran-toolbar-translation[data-v-637d02d8] {
+.surat-premium.sidebar-collapsed .quran-toolbar-reciter[data-v-637d02d8] {
         flex: 0 0 280px;
         min-width: 230px;
 }
@@ -41382,8 +41375,7 @@ h1.display-5[data-v-637d02d8] {
         padding: 8px 10px;
         border-radius: 14px;
 }
-.quran-toolbar-reciter[data-v-637d02d8],
-    .quran-toolbar-translation[data-v-637d02d8] {
+.quran-toolbar-reciter[data-v-637d02d8] {
         min-width: 185px;
 }
 .quran-toolbar-btn[data-v-637d02d8] {
