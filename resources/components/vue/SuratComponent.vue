@@ -112,15 +112,15 @@
                             </span>
                         </button>
                     </div>
-                    <div
-                        v-else-if="isTabletOrMobile"
-                        class="advanced-quran-mobile-controls"
-                        :class="{
-                            'is-pinned': isToolbarPinned,
-                            'is-expanded': isMobileToolbarExpanded
-                        }"
-                        role="group"
-                        aria-label="Surah quick controls">
+                    <template v-else-if="isTabletOrMobile">
+                        <div
+                            class="advanced-quran-mobile-controls"
+                            :class="{
+                                'is-pinned': isToolbarPinned,
+                                'is-expanded': isMobileToolbarExpanded
+                            }"
+                            role="group"
+                            aria-label="Surah quick controls">
                         <div
                             class="advanced-quran-mobile-main-row"
                             :class="{ 'has-search-toggle': !isAdvancedSearchVisible }">
@@ -174,7 +174,6 @@
                                     aria-hidden="true"></i>
                             </button>
                         </div>
-
                         <div
                             v-if="isMobileToolbarExpanded"
                             id="advancedQuranMobileExpandedControls"
@@ -334,6 +333,39 @@
                             </div>
                         </div>
                     </div>
+                        <div
+                            v-if="desktopSurahContext.englishName || desktopSurahContext.arabicName"
+                            class="quran-toolbar-surah-identity quran-toolbar-surah-identity-mobile ltr-text"
+                            role="status"
+                            aria-live="polite"
+                            aria-atomic="true">
+                            <div class="quran-toolbar-surah-identity-inner d-flex align-items-center flex-nowrap">
+                                <span
+                                    v-if="desktopSurahContext.arabicName"
+                                    class="quran-toolbar-surah-identity-ar text-end"
+                                    dir="rtl">
+                                    {{ desktopSurahContext.arabicName }}
+                                </span>
+                                <div class="quran-toolbar-surah-identity-en d-flex flex-column text-start flex-grow-1">
+                                    <span class="quran-toolbar-surah-identity-en-main d-inline-flex align-items-center">
+                                        <span
+                                            v-if="desktopSurahContext.number"
+                                            class="quran-toolbar-surah-identity-number">
+                                            {{ desktopSurahContext.number }}.
+                                        </span>
+                                        <span class="quran-toolbar-surah-identity-title">
+                                            {{ desktopSurahContext.englishName }}
+                                        </span>
+                                    </span>
+                                    <span
+                                        v-if="desktopSurahContext.translationName"
+                                        class="quran-toolbar-surah-identity-en-sub">
+                                        {{ desktopSurahContext.translationName }}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
 
                     <div
                         v-if="isAdvancedSearchVisible && isAdvancedSearchPanelVisible && !(isDeepFocusMode && isTabletOrMobile)"
@@ -423,17 +455,6 @@
                     <span class="quran-toolbar-btn-text">Surah info</span>
                 </button>
 
-                <button
-                    v-if="!isAdvancedSearchVisible"
-                    type="button"
-                    class="quran-toolbar-btn quran-toolbar-btn-search-toggle"
-                    @click="toggleAdvancedSearchVisibility"
-                    aria-label="Show search"
-                    title="Show search">
-                    <i class="bi bi-eye" aria-hidden="true"></i>
-                    <span class="quran-toolbar-btn-text">Show search</span>
-                </button>
-                
                 <div class="quran-toolbar-reciter">
                     <label class="visually-hidden" for="toolbarReciterSelect">
                         Select audio reciter
@@ -508,10 +529,20 @@
                 </button>
 
                 <button
+                    v-if="!isAdvancedSearchVisible && !isTabletOrMobile"
+                    type="button"
+                    class="quran-toolbar-btn quran-toolbar-btn-search-toggle quran-toolbar-btn-icon"
+                    @click="toggleAdvancedSearchVisibility"
+                    aria-label="Show search"
+                    title="Show search">
+                    <i class="fas fa-magnifying-glass quran-toolbar-search-icon" aria-hidden="true"></i>
+                </button>
+
+                <button
                     v-if="!isTabletOrMobile"
                     ref="readingFullscreenToggleButton"
                     type="button"
-                    class="quran-toolbar-btn quran-toolbar-btn-fullscreen"
+                    class="quran-toolbar-btn quran-toolbar-btn-fullscreen quran-toolbar-btn-icon"
                     :class="{ 'is-active': isReadingFullscreen }"
                     @click="toggleReadingFullscreen"
                     :aria-label="isReadingFullscreen
@@ -523,9 +554,6 @@
                     <i class="bi"
                         :class="isReadingFullscreen ? 'bi-fullscreen-exit' : 'bi-arrows-fullscreen'"
                         aria-hidden="true"></i>
-                    <span class="quran-toolbar-btn-text">
-                        {{ isReadingFullscreen ? "Minimize" : "Full Screen" }}
-                    </span>
                 </button>
 
                 <button
@@ -596,6 +624,42 @@
                     title="Open reading and display settings such as layout, card style, and typography.">
                     <i class="bi bi-gear-fill" aria-hidden="true"></i>
                 </button>
+            </div>
+            <div
+                v-if="showDesktopToolbar && (desktopSurahContext.englishName || desktopSurahContext.arabicName)"
+                class="quran-toolbar-surah-identity ltr-text reading-fullscreen-chrome"
+                role="status"
+                aria-live="polite"
+                aria-atomic="true">
+                <transition name="surah-context-fade" mode="out-in">
+                    <div
+                        :key="desktopSurahContextKey"
+                        class="quran-toolbar-surah-identity-inner d-flex align-items-center flex-nowrap">
+                        <span
+                            v-if="desktopSurahContext.arabicName"
+                            class="quran-toolbar-surah-identity-ar text-end"
+                            dir="rtl">
+                            {{ desktopSurahContext.arabicName }}
+                        </span>
+                        <div class="quran-toolbar-surah-identity-en d-flex flex-column text-start flex-grow-1">
+                            <span class="quran-toolbar-surah-identity-en-main d-inline-flex align-items-center">
+                                <span
+                                    v-if="desktopSurahContext.number"
+                                    class="quran-toolbar-surah-identity-number">
+                                    {{ desktopSurahContext.number }}.
+                                </span>
+                                <span class="quran-toolbar-surah-identity-title">
+                                    {{ desktopSurahContext.englishName }}
+                                </span>
+                            </span>
+                            <span
+                                v-if="desktopSurahContext.translationName"
+                                class="quran-toolbar-surah-identity-en-sub">
+                                {{ desktopSurahContext.translationName }}
+                            </span>
+                        </div>
+                    </div>
+                </transition>
             </div>
             <div v-if="showDesktopSurahContext" class="desktop-surah-context-wrapper ltr-text">
                 <transition name="surah-context-fade" mode="out-in">
@@ -1324,7 +1388,7 @@
                                     v-html="highlightedText(item.ayah)"
                                     :style="{ fontSize: effectiveArabicFontSize + 'px' }"
                                 ></p>
-                                <div v-if="isTranslationVisibleFor(item)" class="d-flex align-items-center fw-bold pt-2 ltr-text hide-on-mobile-tablet ml-2">
+                                <div v-if="isTranslationVisibleFor(item)" class="d-flex align-items-center fw-bold pt-2 ltr-text ml-2">
                                     <h4 class="mb-0">
                                         Translation:
                                     </h4>
@@ -1346,7 +1410,7 @@
                                     ></p>
                                 </div>
                                 <template v-else></template>
-                                <div v-if="isTransliterationVisibleFor(item)" class="d-flex align-items-center fw-bold pt-2 ltr-text hide-on-mobile-tablet ml-2 transliteration-header">
+                                <div v-if="isTransliterationVisibleFor(item)" class="d-flex align-items-center fw-bold pt-2 ltr-text ml-2 transliteration-header">
                                     <h4 class="mb-0">
                                         Transliteration:
                                     </h4>
@@ -1377,7 +1441,7 @@
                                         <i class="bi bi-send" aria-hidden="true"></i>
                                         <span>Share</span>
                                     </button>
-                                    <!-- <button type="button" class="action-pill reflection-pill-fill"
+                                    <button type="button" class="action-pill reflection-pill-fill"
                                     :class="{ 'has-reflection': hasReflection(item.ayah) }"
                                     @click.stop="openReflectionModal(item.ayah)" :aria-label="hasReflection(item.ayah)
                                         ? 'Edit reflection'
@@ -1386,7 +1450,7 @@
                                             : 'Add reflection'">
                                     <i class="bi bi-journal-text" aria-hidden="true"></i>
                                     <span>{{ hasReflection(item.ayah) ? 'Reflected' : 'Reflect' }}</span>
-                                </button> -->
+                                </button>
                                 </div>
                             </div>
                             <div class="row card-teal mb-3 py-2 ayah-inline-controls" style="
@@ -1449,18 +1513,18 @@
                                     </button>
                                 </div>
                                 <!-- <div class="col text-center" style="padding: 2px">
-                                <button class="icon-btn reflection-btn"
-                                    :class="{ 'has-reflection': hasReflection(item.ayah) }"
-                                    @click.stop="openReflectionModal(item.ayah)"
-                                    :aria-label="hasReflection(item.ayah)
-                                        ? 'Edit reflection'
-                                        : 'Add reflection'"
-                                    :title="hasReflection(item.ayah)
-                                        ? 'Edit reflection'
-                                        : 'Add reflection'">
-                                    <i class="bi bi-journal-text" style="font-size: 1.6rem" aria-hidden="true"></i>
-                                </button>
-                            </div> -->
+                                    <button class="icon-btn reflection-btn"
+                                        :class="{ 'has-reflection': hasReflection(item.ayah) }"
+                                        @click.stop="openReflectionModal(item.ayah)"
+                                        :aria-label="hasReflection(item.ayah)
+                                            ? 'Edit reflection'
+                                            : 'Add reflection'"
+                                        :title="hasReflection(item.ayah)
+                                            ? 'Edit reflection'
+                                            : 'Add reflection'">
+                                        <i class="bi bi-journal-text" style="font-size: 1.6rem" aria-hidden="true"></i>
+                                    </button>
+                                </div> -->
                                 <div class="col text-center" style="padding: 2px">
                                     <button class="icon-btn ayah-inline-btn ayah-inline-btn--bookmark" :class="{
                                         'is-saved': isAyahSaved(item.ayah),

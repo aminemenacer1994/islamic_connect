@@ -71,6 +71,38 @@
                                 :selectedSurah="selectedSurahId" :filteredSurah="filteredSurah" :surat="surat"
                                 @update:selectedSurah="updateSelectedSurah" @fetchAyat="getAyat" />
                         </div>
+                        <div
+                            v-if="selectedSurahMeta"
+                            class="quran-selected-surah-identity"
+                            role="status"
+                            aria-live="polite"
+                            aria-atomic="true">
+                            <div class="quran-selected-surah-identity-inner d-flex align-items-center flex-nowrap">
+                                <span
+                                    v-if="selectedSurahMeta.arabicName"
+                                    class="quran-selected-surah-identity-ar text-end"
+                                    dir="rtl">
+                                    {{ selectedSurahMeta.arabicName }}
+                                </span>
+                                <div class="quran-selected-surah-identity-en d-flex flex-column text-start flex-grow-1">
+                                    <span class="quran-selected-surah-identity-en-main d-inline-flex align-items-center">
+                                        <span
+                                            v-if="selectedSurahMeta.number"
+                                            class="quran-selected-surah-identity-number">
+                                            {{ selectedSurahMeta.number }}.
+                                        </span>
+                                        <span class="quran-selected-surah-identity-title">
+                                            {{ selectedSurahMeta.englishName }}
+                                        </span>
+                                    </span>
+                                    <span
+                                        v-if="selectedSurahMeta.translationName"
+                                        class="quran-selected-surah-identity-en-sub">
+                                        {{ selectedSurahMeta.translationName }}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
 
                         <div v-if="information != null" class="mt-4">
                             <div class="selector-heading">

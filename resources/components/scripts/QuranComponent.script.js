@@ -141,6 +141,33 @@ export default {
                 : this.information?.translation;
             return translation ? `Translation: ${translation}` : "";
         },
+        selectedSurahMeta() {
+            const surahId = Number(this.selectedSurahId);
+            if (!surahId || !Array.isArray(this.surat) || !this.surat.length) {
+                return null;
+            }
+            const found =
+                this.surat.find((item) => Number(item?.id) === surahId) || null;
+            if (!found) return null;
+            return {
+                number: Number(found.id) || surahId,
+                englishName:
+                    found.name_en ||
+                    found.englishName ||
+                    found.surah_name_en ||
+                    "Surah",
+                translationName:
+                    found.englishNameTranslation ||
+                    found.name_translation ||
+                    found.surah_name_translation ||
+                    "",
+                arabicName:
+                    found.name_ar ||
+                    found.name ||
+                    found.surah_name_ar ||
+                    "",
+            };
+        },
     },
     created() {
         this.bootstrapComponent();
