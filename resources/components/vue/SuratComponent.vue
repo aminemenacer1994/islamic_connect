@@ -5,6 +5,7 @@
             'has-sidebar': true,
             'sidebar-collapsed': sidebarCollapsed,
             'mobile-toolbar-pinned': isTabletOrMobile && isToolbarPinned,
+            'mobile-toolbar-expanded': isTabletOrMobile && isToolbarPinned && isMobileToolbarExpanded,
             'reading-fullscreen': isReadingFullscreen,
             'deep-focus-mode': isDeepFocusMode
         }"
@@ -18,13 +19,17 @@
         </div>
         <div
             id="advancedQuranSearchSection"
+            v-show="isAdvancedSearchVisible || isTabletOrMobile"
             class="row justify-content-center mb-4">
             <div class="col-12">
                <section class="advanced-quran-search ltr-text"
-                    :class="{ 'is-panel-hidden': !isAdvancedSearchPanelVisible }"
+                    :class="{
+                        'is-panel-hidden': !isAdvancedSearchPanelVisible,
+                        'is-search-hidden': !isAdvancedSearchVisible
+                    }"
                     role="search"
                     aria-label="Advanced Quran search">
-                     <div v-if="!(isDeepFocusMode && isTabletOrMobile)" class="advanced-quran-search-top">
+                     <div v-if="isAdvancedSearchVisible && !(isDeepFocusMode && isTabletOrMobile)" class="advanced-quran-search-top">
                         <div class="advanced-quran-search-head">
                             <h2 class="advanced-quran-search-title mb-0">Search Quran</h2>
                             <p class="advanced-quran-search-subtitle mb-0">
@@ -116,7 +121,9 @@
                         }"
                         role="group"
                         aria-label="Surah quick controls">
-                        <div class="advanced-quran-mobile-main-row">
+                        <div
+                            class="advanced-quran-mobile-main-row"
+                            :class="{ 'has-search-toggle': !isAdvancedSearchVisible }">
                             <label class="visually-hidden" for="searchSurahDropdown">
                                 Select surah
                             </label>
@@ -132,13 +139,13 @@
                                 </option>
                             </select>
                             <button
+                                v-if="!isAdvancedSearchVisible"
                                 type="button"
-                                class="btn advanced-quran-mobile-icon-btn"
-                                @click="openSurahInfo(currentSurahInfo)"
-                                :disabled="!currentSurahInfo"
-                                aria-label="Open surah information"
-                                title="Open surah information">
-                                <i class="bi bi-info-circle-fill" aria-hidden="true"></i>
+                                class="btn advanced-quran-mobile-icon-btn advanced-quran-mobile-search-toggle-btn"
+                                @click="toggleAdvancedSearchVisibility"
+                                aria-label="Show search"
+                                title="Show search">
+                                <i class="bi bi-eye" aria-hidden="true"></i>
                             </button>
                             <button
                                 type="button"
@@ -234,6 +241,16 @@
 
                             <div class="advanced-quran-mobile-action-grid">
                                 <button
+                                    type="button"
+                                    class="btn advanced-quran-mobile-action-btn"
+                                    @click="openSurahInfo(currentSurahInfo)"
+                                    :disabled="!currentSurahInfo"
+                                    aria-label="Open surah information"
+                                    title="Open surah information">
+                                    <i class="bi bi-info-circle-fill" aria-hidden="true"></i>
+                                    <span class="advanced-quran-mobile-action-label">Surah info</span>
+                                </button>
+                                <button
                                     v-if="showTajweed"
                                     type="button"
                                     class="btn advanced-quran-mobile-action-btn"
@@ -317,12 +334,7 @@
                             </div>
                         </div>
                     </div>
-                    
-                    <div
-                        v-if="isTabletOrMobile && isToolbarPinned && !isDeepFocusMode"
-                        class="advanced-quran-mobile-controls-spacer"
-                        :class="{ 'is-expanded': isMobileToolbarExpanded }"
-                        aria-hidden="true"></div>
+
                     <div
                         v-if="isAdvancedSearchVisible && isAdvancedSearchPanelVisible && !(isDeepFocusMode && isTabletOrMobile)"
                         id="advancedQuranSearchPanel"
@@ -409,6 +421,17 @@
                     title="View this surah's details, including its name, origin, and total ayah count.">
                     <i class="bi bi-info-circle-fill" aria-hidden="true"></i>
                     <span class="quran-toolbar-btn-text">Surah info</span>
+                </button>
+
+                <button
+                    v-if="!isAdvancedSearchVisible"
+                    type="button"
+                    class="quran-toolbar-btn quran-toolbar-btn-search-toggle"
+                    @click="toggleAdvancedSearchVisibility"
+                    aria-label="Show search"
+                    title="Show search">
+                    <i class="bi bi-eye" aria-hidden="true"></i>
+                    <span class="quran-toolbar-btn-text">Show search</span>
                 </button>
                 
                 <div class="quran-toolbar-reciter">

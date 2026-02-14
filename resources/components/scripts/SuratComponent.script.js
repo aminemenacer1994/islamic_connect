@@ -93,7 +93,7 @@ export default {
             advancedSearchMaxResults: 18,
             advancedSearchHydrationSurahLimit: 10,
             advancedSearchMinLength: 2,
-            isAdvancedSearchVisible: true,
+            isAdvancedSearchVisible: false,
             isAdvancedSearchPanelVisible: true,
             speechRecognitionSupported: false,
             speechRecognitionListening: false,
@@ -2264,20 +2264,34 @@ export default {
             }
 
             let total = offset + 10;
-            const stickyToolbar = document.querySelector(".quran-toolbar-sticky");
-            if (stickyToolbar && stickyToolbar.getBoundingClientRect) {
-                const style = window.getComputedStyle(stickyToolbar);
-                if (style.display !== "none" && style.visibility !== "hidden") {
-                    const rect = stickyToolbar.getBoundingClientRect();
-                    const overlapsTopBand =
-                        rect.height > 0 &&
-                        rect.bottom > offset &&
-                        rect.top <= offset + 28;
-                    if (overlapsTopBand) {
-                        total += rect.height + 10;
-                    }
+            const addToolbarOffsetIfVisible = (selector, overlapBuffer = 28) => {
+                const el = document.querySelector(selector);
+                if (!el || !el.getBoundingClientRect) return;
+                const style = window.getComputedStyle(el);
+                if (
+                    style.display === "none" ||
+                    style.visibility === "hidden" ||
+                    Number(style.opacity) === 0
+                ) {
+                    return;
                 }
-            }
+                const rect = el.getBoundingClientRect();
+                const overlapsTopBand =
+                    rect.height > 0 &&
+                    rect.bottom > offset &&
+                    rect.top <= offset + overlapBuffer;
+                if (overlapsTopBand) {
+                    total += rect.height + 10;
+                }
+            };
+
+            // Desktop sticky toolbar.
+            addToolbarOffsetIfVisible(".quran-toolbar-sticky", 28);
+            // Mobile/tablet fixed toolbar (when pinned).
+            addToolbarOffsetIfVisible(
+                ".advanced-quran-mobile-controls.is-pinned",
+                36
+            );
 
             return Math.min(Math.max(total, 56), 340);
         },
