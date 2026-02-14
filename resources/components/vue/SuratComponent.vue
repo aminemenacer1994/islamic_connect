@@ -117,7 +117,7 @@
                                 :disabled="!currentSurahInfo"
                                 aria-label="Open surah information"
                                 title="Open surah information">
-                                <i class="bi bi-info-circle" aria-hidden="true"></i>
+                                <i class="bi bi-info-circle-fill" aria-hidden="true"></i>
                             </button>
                             <button
                                 type="button"
@@ -219,7 +219,7 @@
                                     :aria-label="isTransliterationAllEnabled
                                         ? 'Turn transliteration off for all ayahs'
                                         : 'Turn transliteration on for all ayahs'">
-                                    <i class="bi bi-type" aria-hidden="true"></i>
+                                    <i class="bi bi-input-cursor-text" aria-hidden="true"></i>
                                     <span class="advanced-quran-mobile-action-label">Transliteration</span>
                                     <span class="advanced-quran-mobile-action-btn-state">
                                         {{ isTransliterationAllEnabled ? "On" : "Off" }}
@@ -292,17 +292,8 @@
                                             ? 'bi-arrow-repeat ic-spin'
                                             : isSurahAudioDownloaded
                                                 ? 'bi-check-circle-fill'
-                                                : 'bi-download'"
+                                                : 'bi-cloud-arrow-down-fill'"
                                         aria-hidden="true"></i>
-                                    <span class="advanced-quran-mobile-action-label">
-                                        {{
-                                            isSurahAudioDownloading
-                                                ? "Downloading"
-                                                : isSurahAudioDownloaded
-                                                    ? "Downloaded"
-                                                    : "Download"
-                                        }}
-                                    </span>
                                     <span class="advanced-quran-mobile-action-meta">
                                         {{
                                             isSurahAudioDownloading
@@ -414,7 +405,7 @@
                     :disabled="!currentSurahInfo"
                     aria-label="Open surah information"
                     title="View this surah's details, including its name, origin, and total ayah count.">
-                    <i class="bi bi-info-circle" aria-hidden="true"></i>
+                    <i class="bi bi-info-circle-fill" aria-hidden="true"></i>
                     <span class="quran-toolbar-btn-text">Surah info</span>
                 </button>
                 
@@ -492,7 +483,7 @@
                     :aria-label="isTransliterationAllEnabled
                         ? 'Turn transliteration off for all ayahs'
                         : 'Turn transliteration on for all ayahs'">
-                    <i class="bi bi-type" aria-hidden="true"></i>
+                    <i class="bi bi-input-cursor-text" aria-hidden="true"></i>
                     <span class="quran-toolbar-btn-text">Transliteration</span>
                     <span class="quran-toolbar-btn-state">{{ isTransliterationAllEnabled ? "On" : "Off" }}</span>
                 </button>
@@ -552,17 +543,8 @@
                             ? 'bi-arrow-repeat ic-spin'
                             : isSurahAudioDownloaded
                                 ? 'bi-check-circle-fill'
-                            : 'bi-download'"
+                            : 'bi-cloud-arrow-down-fill'"
                         aria-hidden="true"></i>
-                    <span class="quran-toolbar-btn-text">
-                        {{
-                            isSurahAudioDownloading
-                                ? "Downloading"
-                                : isSurahAudioDownloaded
-                                    ? "Downloaded"
-                                    : "Download"
-                        }}
-                    </span>
                     <span
                         class="quran-toolbar-download-size"
                         :class="{
@@ -886,7 +868,7 @@
                                                     class="btn btn-link text-white p-0 opacity-50 hover-opacity-100 sidebar-info-button"
                                                     @click.stop="openSurahInfo(surah)"
                                                     aria-label="View surah information">
-                                                    <i class="bi bi-info-circle"></i>
+                                                    <i class="bi bi-info-circle-fill"></i>
                                                 </button>
                                             </div>
                                         </div>
@@ -1052,7 +1034,7 @@
                                     Now playing
                                 </span>
                             </div>
-                            <div class="d-flex align-items-center ayah-card-header-actions">
+                            <div class="ayah-card-header-actions">
                                 <div class="form-check form-switch translation-toggle ayah-translation-toggle">
                                     <input class="form-check-input" type="checkbox"
                                         :checked="isTranslationVisibleFor(item)"
@@ -1079,53 +1061,55 @@
                                         Transliteration
                                     </label>
                                 </div>
-                                <button
-                                    type="button"
-                                    class="icon-btn ayah-pin-btn"
-                                    :class="{ 'is-pinned': isAyahPinned(item.ayah) }"
-                                    @click.stop="togglePinnedAyah(item.ayah)"
-                                    :aria-label="isAyahPinned(item.ayah)
-                                        ? 'Unpin favourite ayah'
-                                        : 'Pin ayah as favourite'"
-                                    :title="isAyahPinned(item.ayah)
-                                        ? 'Unpin favourite ayah'
-                                        : 'Pin ayah as favourite'">
-                                    <i
-                                        class="bi"
-                                        :class="isAyahPinned(item.ayah)
-                                            ? 'bi-pin-angle-fill'
-                                            : 'bi-pin-angle'"
-                                        aria-hidden="true"></i>
-                                </button>
-                                <button
-                                    type="button"
-                                    class="icon-btn ayah-download-btn"
-                                    :class="{ 'is-downloaded': isAyahAudioDownloaded(item.ayah) }"
-                                    @click.stop="downloadAyahAudio(item.ayah)"
-                                    :disabled="!item.ayah?.audio || isAyahAudioDownloading(item.ayah)"
-                                    :aria-label="!item.ayah?.audio
-                                        ? 'Audio unavailable for this ayah'
-                                        : isAyahAudioDownloading(item.ayah)
-                                            ? 'Downloading ayah audio'
-                                            : isAyahAudioDownloaded(item.ayah)
-                                                ? 'Ayah MP3 downloaded'
-                                            : 'Download ayah audio as MP3'"
-                                    :title="!item.ayah?.audio
-                                        ? 'Audio unavailable'
-                                        : isAyahAudioDownloading(item.ayah)
-                                            ? 'Downloading...'
-                                            : isAyahAudioDownloaded(item.ayah)
-                                                ? 'Downloaded'
-                                            : 'Download MP3'">
-                                    <i
-                                        class="bi"
-                                        :class="isAyahAudioDownloading(item.ayah)
-                                            ? 'bi-arrow-repeat ic-spin'
-                                            : isAyahAudioDownloaded(item.ayah)
-                                                ? 'bi-check-circle-fill'
-                                                : 'bi-download'"
-                                        aria-hidden="true"></i>
-                                </button>
+                                <div class="ayah-pin-feedback-group">
+                                    <button
+                                        type="button"
+                                        class="icon-btn ayah-pin-btn"
+                                        :class="{ 'is-pinned': isAyahPinned(item.ayah) }"
+                                        @click.stop="togglePinnedAyah(item.ayah)"
+                                        :aria-label="isAyahPinned(item.ayah)
+                                            ? 'Unpin favourite ayah'
+                                            : 'Pin ayah as favourite'"
+                                        :title="isAyahPinned(item.ayah)
+                                            ? 'Unpin favourite ayah'
+                                            : 'Pin ayah as favourite'">
+                                        <i
+                                            class="bi"
+                                            :class="isAyahPinned(item.ayah)
+                                                ? 'bi-pin-angle-fill'
+                                                : 'bi-pin-angle'"
+                                            aria-hidden="true"></i>
+                                    </button>
+                                    <button
+                                        type="button"
+                                        class="icon-btn ayah-download-btn"
+                                        :class="{ 'is-downloaded': isAyahAudioDownloaded(item.ayah) }"
+                                        @click.stop="downloadAyahAudio(item.ayah)"
+                                        :disabled="!item.ayah?.audio || isAyahAudioDownloading(item.ayah)"
+                                        :aria-label="!item.ayah?.audio
+                                            ? 'Audio unavailable for this ayah'
+                                            : isAyahAudioDownloading(item.ayah)
+                                                ? 'Downloading ayah audio'
+                                                : isAyahAudioDownloaded(item.ayah)
+                                                    ? 'Ayah MP3 downloaded'
+                                                : 'Download ayah audio as MP3'"
+                                        :title="!item.ayah?.audio
+                                            ? 'Audio unavailable'
+                                            : isAyahAudioDownloading(item.ayah)
+                                                ? 'Downloading...'
+                                                : isAyahAudioDownloaded(item.ayah)
+                                                    ? 'Downloaded'
+                                                : 'Download MP3'">
+                                        <i
+                                            class="bi"
+                                            :class="isAyahAudioDownloading(item.ayah)
+                                                ? 'bi-arrow-repeat ic-spin'
+                                                : isAyahAudioDownloaded(item.ayah)
+                                                    ? 'bi-check-circle-fill'
+                                                    : 'bi-cloud-arrow-down-fill'"
+                                            aria-hidden="true"></i>
+                                    </button>
+                                </div>
                                 <transition name="feedback-fade">
                                     <span v-if="
                                         feedbackMessages[
@@ -1135,7 +1119,7 @@
                                             item.ayah.number
                                         )
                                         ]
-                                    " class="me-3 badge rounded-pill shadow-lg border-0 px-4 py-2 fs-6 fw-bold feedback-badge"
+                                    " class="badge rounded-pill feedback-badge ayah-feedback-message"
                                         :class="feedbackMessages[
                                             buildAyahKey(
                                                 surahDetails?.surahNumber,
@@ -1152,7 +1136,7 @@
                                                     item.ayah.number
                                                 )
                                             ].icon === 'check'
-                                        " class="bi bi-check-circle-fill me-2 fs-5"></i>
+                                        " class="bi bi-check-circle-fill feedback-badge-icon"></i>
                                         <i v-else-if="
                                             feedbackMessages[
                                                 buildAyahKey(
@@ -1161,7 +1145,7 @@
                                                     item.ayah.number
                                                 )
                                             ].icon === 'trash'
-                                        " class="bi bi-trash-fill me-2 fs-5"></i>
+                                        " class="bi bi-trash-fill feedback-badge-icon"></i>
                                         <i v-else-if="
                                             feedbackMessages[
                                                 buildAyahKey(
@@ -1170,7 +1154,7 @@
                                                     item.ayah.number
                                                 )
                                             ].icon === 'warning'
-                                        " class="bi bi-exclamation-triangle-fill me-2 fs-5"></i>
+                                        " class="bi bi-exclamation-triangle-fill feedback-badge-icon"></i>
                                         {{
                                             feedbackMessages[
                                                 buildAyahKey(
@@ -1188,7 +1172,7 @@
                                                     item.ayah.number
                                                 )
                                             ].link
-                                        " class="auth-alert-link ms-2" :href="feedbackMessages[
+                                        " class="auth-alert-link ms-1" :href="feedbackMessages[
                                             buildAyahKey(
                                                 surahDetails?.surahNumber,
                                                 item.ayah.numberInSurah ||

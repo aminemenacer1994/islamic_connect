@@ -36774,6 +36774,45 @@ to {
     margin-left: 0.3rem;
     white-space: nowrap;
 }
+
+/* Keep expanded quick controls on a single horizontal row. */
+.advanced-quran-mobile-expanded[data-v-637d02d8] {
+    display: flex !important;
+    align-items: center;
+    flex-wrap: nowrap;
+    gap: 0.5rem;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(11, 107, 89, 0.28) transparent;
+}
+.advanced-quran-mobile-expanded[data-v-637d02d8]::-webkit-scrollbar {
+    height: 5px;
+}
+.advanced-quran-mobile-expanded[data-v-637d02d8]::-webkit-scrollbar-thumb {
+    border-radius: 999px;
+    background: rgba(11, 107, 89, 0.28);
+}
+.advanced-quran-mobile-select-grid[data-v-637d02d8],
+.advanced-quran-mobile-toggle-row[data-v-637d02d8],
+.advanced-quran-mobile-action-grid[data-v-637d02d8] {
+    display: inline-flex !important;
+    align-items: center;
+    flex-wrap: nowrap;
+    gap: 0.4rem;
+    flex: 0 0 auto;
+    grid-template-columns: none !important;
+}
+.advanced-quran-mobile-select-field[data-v-637d02d8] {
+    min-width: 170px;
+    flex: 0 0 auto;
+}
+.advanced-quran-mobile-action-btn[data-v-637d02d8] {
+    white-space: nowrap;
+}
+.advanced-quran-mobile-action-btn-download[data-v-637d02d8] {
+    grid-column: auto !important;
+}
 @media (max-width: 991.98px) {
 .advanced-quran-mobile-controls.is-pinned[data-v-637d02d8],
     .advanced-quran-mobile-controls.is-pinned .advanced-quran-mobile-surah-select[data-v-637d02d8],
@@ -41745,71 +41784,193 @@ to {
 .ayah-card-header-actions[data-v-637d02d8] {
     display: flex;
     align-items: center;
-    flex-wrap: wrap;
-    gap: 10px 12px;
+    flex-wrap: nowrap;
+    gap: 8px;
     justify-content: flex-end;
     max-width: 100%;
+    overflow: visible;
 }
-@media (max-width: 576px) {
+.ayah-pin-feedback-group[data-v-637d02d8] {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-width: auto;
+    flex: 0 0 auto;
+}
+.ayah-feedback-message[data-v-637d02d8] {
+    flex: 0 0 auto;
+}
+
+/* Keep ayah action controls in one row on tablet/mobile by tightening sizes. */
+@media (max-width: 768px) {
 .ayah-card-header-actions[data-v-637d02d8] {
         width: 100%;
-        justify-content: flex-start;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) 32px 32px;
+        justify-content: stretch;
         align-items: center;
-        flex-wrap: nowrap;
-        gap: 8px;
+        gap: 6px;
+        overflow: visible;
 }
 .ayah-card-header-actions .translation-toggle[data-v-637d02d8] {
-        flex: 1 1 0;
+        width: 100%;
         min-width: 0;
         justify-content: center !important;
-        padding: 0.24rem 0.58rem !important;
-        gap: 0.42rem !important;
+        padding: 0.18rem 0.42rem !important;
+        gap: 0.32rem !important;
+        min-height: 32px;
 }
 .ayah-card-header-actions .translation-toggle .form-check-input[data-v-637d02d8] {
-        width: 1.7rem;
-        height: 0.98rem;
+        width: 1.62rem;
+        height: 0.94rem;
 }
 .ayah-card-header-actions .translation-toggle .form-check-label[data-v-637d02d8] {
         font-size: 0.68rem;
 }
-.ayah-translation-toggle[data-v-637d02d8],
-    .ayah-transliteration-toggle[data-v-637d02d8] {
+.ayah-card-header-actions .ayah-translation-toggle[data-v-637d02d8] {
+        grid-column: 1;
         margin-right: 0 !important;
 }
-.ayah-card-header-actions .ayah-download-btn[data-v-637d02d8] {
-        flex: 0 0 34px;
-        width: 34px;
-        height: 34px;
+.ayah-card-header-actions .ayah-transliteration-toggle[data-v-637d02d8] {
+        grid-column: 2;
+        margin-right: 0 !important;
 }
-.ayah-card-header-actions .ayah-pin-btn[data-v-637d02d8] {
-        flex: 0 0 34px;
-        width: 34px;
-        height: 34px;
+.ayah-card-header-actions .ayah-pin-feedback-group[data-v-637d02d8] {
+        grid-column: 3 / 5;
+        justify-self: end;
+        gap: 6px;
 }
-.ayah-card-header-actions .feedback-badge[data-v-637d02d8] {
-        flex-basis: 100%;
-        order: 99;
+.ayah-card-header-actions .ayah-pin-feedback-group .icon-btn[data-v-637d02d8] {
+        flex: 0 0 32px;
+        min-width: 32px;
+        max-width: 32px;
+        min-height: 32px;
+        max-height: 32px;
+        width: 32px;
+        height: 32px;
+        padding: 0;
+        border-radius: 10px;
+        box-sizing: border-box;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+}
+.ayah-card-header-actions .ayah-pin-feedback-group .icon-btn i[data-v-637d02d8] {
+        font-size: 0.95rem !important;
+        line-height: 1;
+}
+.ayah-card-header-actions .ayah-pin-feedback-group .ayah-pin-btn.is-pinned[data-v-637d02d8] {
+        box-shadow: none;
+}
+
+    /* Show feedback on its own line below the full controls row. */
+.ayah-card-header-actions .ayah-feedback-message[data-v-637d02d8] {
+        grid-column: 1 / -1;
+        width: 100%;
+        max-width: none;
+        margin-top: 2px;
+        white-space: normal;
+        overflow-wrap: anywhere;
+}
+}
+@media (max-width: 576px) {
+.ayah-card-header-actions[data-v-637d02d8] {
+        width: 100%;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) 30px 30px;
+        align-items: center;
+        gap: 5px;
+        overflow: visible;
+}
+.ayah-card-header-actions .translation-toggle[data-v-637d02d8] {
+        width: 100%;
+        min-width: 0;
+        justify-content: center !important;
+        padding: 0.14rem 0.34rem !important;
+        gap: 0.26rem !important;
+        min-height: 30px;
+}
+.ayah-card-header-actions .translation-toggle .form-check-input[data-v-637d02d8] {
+        width: 1.5rem;
+        height: 0.88rem;
+}
+.ayah-card-header-actions .translation-toggle .form-check-label[data-v-637d02d8] {
+        font-size: 0.62rem;
+}
+.ayah-card-header-actions .ayah-pin-feedback-group[data-v-637d02d8] {
+        grid-column: 3 / 5;
+        justify-self: end;
+        gap: 5px;
+}
+.ayah-card-header-actions .ayah-pin-feedback-group .icon-btn[data-v-637d02d8] {
+        flex: 0 0 30px;
+        min-width: 30px;
+        max-width: 30px;
+        min-height: 30px;
+        max-height: 30px;
+        width: 30px;
+        height: 30px;
+        padding: 0;
+        border-radius: 10px;
+        box-sizing: border-box;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+}
+.ayah-card-header-actions .ayah-pin-feedback-group .icon-btn i[data-v-637d02d8] {
+        font-size: 0.88rem !important;
+        line-height: 1;
+}
+.ayah-card-header-actions .ayah-pin-feedback-group .ayah-pin-btn.is-pinned[data-v-637d02d8] {
+        box-shadow: none;
+}
+.ayah-card-header-actions .ayah-feedback-message[data-v-637d02d8] {
+        grid-column: 1 / -1;
+        width: 100%;
+        max-width: none;
+        margin-top: 2px;
+        white-space: normal;
+        overflow-wrap: anywhere;
 }
 }
 .feedback-badge[data-v-637d02d8] {
-    max-width: 100%;
-    white-space: normal;
-    line-height: 1.2;
-    text-align: left;
-}
-.feedback-warning[data-v-637d02d8] {
-    background: rgba(255, 241, 214, 0.95) !important;
-    color: #7a4b00 !important;
-    border: 1px solid rgba(217, 119, 6, 0.35) !important;
-    box-shadow: 0 10px 18px rgba(217, 119, 6, 0.18);
     display: inline-flex;
     align-items: center;
-    gap: 6px;
+    gap: 0.38rem;
+    max-width: 100%;
+    line-height: 1;
+    text-align: left;
+    font-size: 0.84rem;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    padding: 0.4rem 0.72rem;
+    border: 1px solid transparent;
+    box-shadow: 0 6px 14px rgba(15, 23, 42, 0.08);
+    white-space: nowrap;
+}
+.feedback-badge-icon[data-v-637d02d8] {
+    font-size: 0.92rem;
+    line-height: 1;
+}
+.feedback-pin-saved[data-v-637d02d8] {
+    background: rgba(16, 185, 129, 0.14) !important;
+    color: #065f46 !important;
+    border-color: rgba(16, 185, 129, 0.35) !important;
+}
+.feedback-pin-removed[data-v-637d02d8] {
+    background: rgba(245, 158, 11, 0.14) !important;
+    color: #92400e !important;
+    border-color: rgba(217, 119, 6, 0.35) !important;
+}
+.feedback-warning[data-v-637d02d8] {
+    background: rgba(255, 245, 224, 0.96) !important;
+    color: #7a4b00 !important;
+    border-color: rgba(217, 119, 6, 0.28) !important;
 }
 .feedback-warning .auth-alert-link[data-v-637d02d8] {
     margin-left: 8px;
-    padding: 4px 10px;
-    font-size: 0.72rem;
+    padding: 3px 8px;
+    font-size: 0.68rem;
     background: #fff7e6;
     border-color: rgba(122, 75, 0, 0.3);
     color: #7a4b00;

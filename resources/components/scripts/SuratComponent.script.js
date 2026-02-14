@@ -3577,6 +3577,15 @@ export default {
                 ...this.pinnedAyahs,
                 [entry.key]: entry,
             };
+            this.triggerAyahFeedback(
+                entry.key,
+                "Pin saved",
+                "feedback-pin-saved",
+                "check",
+                "",
+                "",
+                3000
+            );
             this.announce(
                 `Pinned Surah ${entry.surahNumber}, Ayah ${entry.ayahNumber}.`
             );
@@ -3589,6 +3598,15 @@ export default {
             const next = { ...this.pinnedAyahs };
             delete next[key];
             this.pinnedAyahs = next;
+            this.triggerAyahFeedback(
+                key,
+                "Pin removed",
+                "feedback-pin-removed",
+                "trash",
+                "",
+                "",
+                3000
+            );
 
             if (announceRemoval) {
                 const ref =
