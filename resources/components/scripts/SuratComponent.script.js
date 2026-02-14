@@ -16,6 +16,9 @@ export default {
             isTablet: false,
             isDesktopWide: false,
             isReadingFullscreen: false,
+            isDeepFocusMode: false,
+            readingFullscreenBodyClass: "quran-reading-fullscreen-active",
+            readingFullscreenPreferenceBaseKey: "surat_reading_fullscreen_mode",
             readingFullscreenLastFocusedEl: null,
             fullscreenChangeHandler: null,
             // a11y
@@ -79,6 +82,7 @@ export default {
             surahInfoFontSizeMin: 14,
             surahInfoFontSizeMax: 22,
             surahInfoFontSizePreferenceBaseKey: "surat_surah_info_font_size",
+            deepFocusModePreferenceBaseKey: "surat_deep_focus_mode",
             advancedSearchQuery: "",
             advancedSearchDebounceTimer: null,
             advancedSearchAbortController: null,
@@ -971,6 +975,18 @@ export default {
             if (!Number.isFinite(baseSize)) return 15;
             return Math.max(10, Math.min(baseSize - 2, 17));
         },
+        effectiveArabicFontSize() {
+            const baseSize = Number(this.arabicFontSize);
+            const safeBase = Number.isFinite(baseSize) ? baseSize : 28;
+            if (!this.isDeepFocusMode) return safeBase;
+            return Math.round(safeBase * 1.08 * 10) / 10;
+        },
+        effectiveAyahBodyFontSize() {
+            const baseSize = Number(this.ayahBodyFontSize);
+            const safeBase = Number.isFinite(baseSize) ? baseSize : 15;
+            if (!this.isDeepFocusMode) return safeBase;
+            return Math.round(safeBase * 1.06 * 10) / 10;
+        },
         filteredSurahs() {
             if (!Array.isArray(this.surahs)) return [];
             const raw = (this.surahSearchQuery || "").trim().toLowerCase();
@@ -1474,7 +1490,7 @@ export default {
     created() {
         // postpone loading until we know the authentication status
     },
-    async mounted() {
+        async mounted() {
         if (typeof window !== "undefined") {
             if ("scrollRestoration" in window.history) {
                 window.history.scrollRestoration = "manual";
@@ -1509,17 +1525,18 @@ export default {
         window.addEventListener("keydown", this._keydownHandler);
         this.fullscreenChangeHandler = () =>
             this.handleNativeFullscreenChange();
-        if (typeof document !== "undefined") {
-            document.addEventListener(
-                "fullscreenchange",
-                this.fullscreenChangeHandler
-            );
-            document.addEventListener(
-                "webkitfullscreenchange",
-                this.fullscreenChangeHandler
-            );
-        }
-        this.updateIsMobile();
+            if (typeof document !== "undefined") {
+                document.addEventListener(
+                    "fullscreenchange",
+                    this.fullscreenChangeHandler
+                );
+                document.addEventListener(
+                    "webkitfullscreenchange",
+                    this.fullscreenChangeHandler
+                );
+            }
+            this.syncReadingFullscreenBodyClass(false);
+            this.updateIsMobile();
         window.addEventListener("resize", this.updateIsMobile);
         this.detectSpeechRecognitionSupport();
         // Restore dismissal state for next-step card
@@ -1529,6 +1546,8 @@ export default {
         } catch (_) { }
         await this.initializeBookmarkAuth();
         await this.initializeFontSizePreferences();
+        await this.initializeDeepFocusModePreference();
+        await this.initializeReadingFullscreenPreference();
         this.bookmarkEventHandler = (event) =>
             this.handleBookmarksUpdated(event);
         this.bookmarkStorageHandler = (event) =>
@@ -1657,9 +1676,11 @@ export default {
         beforeUnmount() {
             this.isComponentAlive = false;
             this.stopHighlightLoop();
+        this.syncReadingFullscreenBodyClass(false);
         this.exitReadingFullscreen({
             restoreFocus: false,
             skipNativeExit: false,
+            persistPreference: false,
         });
         window.removeEventListener("keydown", this.onKeydown);
         if (this._keydownHandler)
@@ -1745,9 +1766,11 @@ export default {
     },
         beforeDestroy() {
             this.stopHighlightLoop();
+            this.syncReadingFullscreenBodyClass(false);
             this.exitReadingFullscreen({
                 restoreFocus: false,
                 skipNativeExit: false,
+                persistPreference: false,
             });
             window.removeEventListener("keydown", this.onKeydown);
         if (this._keydownHandler)
@@ -1810,6 +1833,15 @@ export default {
             }
         },
     methods: {
+        syncReadingFullscreenBodyClass(enabled = this.isReadingFullscreen) {
+            if (typeof document === "undefined") return;
+            const body = document.body;
+            if (!body || !body.classList) return;
+            body.classList.toggle(
+                this.readingFullscreenBodyClass,
+                !!enabled
+            );
+        },
         getNativeFullscreenElement() {
             if (typeof document === "undefined") return null;
             return (
@@ -1883,6 +1915,11 @@ export default {
             }
 
             this.isReadingFullscreen = true;
+            this.syncReadingFullscreenBodyClass(true);
+            this.writeScopedBooleanPreference(
+                this.readingFullscreenPreferenceBaseKey,
+                true
+            );
             this.focusReadingFullscreenToggleButton();
 
             await this.requestNativeFullscreen();
@@ -1891,12 +1928,20 @@ export default {
             const {
                 restoreFocus = true,
                 skipNativeExit = false,
+                persistPreference = true,
             } = options || {};
             if (!this.isReadingFullscreen && !this.getNativeFullscreenElement()) {
                 return;
             }
 
             this.isReadingFullscreen = false;
+            this.syncReadingFullscreenBodyClass(false);
+            if (persistPreference) {
+                this.writeScopedBooleanPreference(
+                    this.readingFullscreenPreferenceBaseKey,
+                    false
+                );
+            }
 
             if (!skipNativeExit && this.getNativeFullscreenElement()) {
                 await this.exitNativeFullscreen();
@@ -3280,6 +3325,80 @@ export default {
             } catch (_) {
                 // ignore storage errors
             }
+        },
+        readScopedBooleanPreference(baseKey, fallback = false) {
+            const raw = this.readScopedFontPreference(baseKey);
+            if (raw === null || raw === undefined || raw === "") {
+                return !!fallback;
+            }
+            const normalized = String(raw).trim().toLowerCase();
+            if (["1", "true", "on", "yes"].includes(normalized)) return true;
+            if (["0", "false", "off", "no"].includes(normalized)) return false;
+            return !!fallback;
+        },
+        writeScopedBooleanPreference(baseKey, value) {
+            this.writeScopedFontPreference(baseKey, value ? "1" : "0");
+        },
+        async initializeDeepFocusModePreference() {
+            if (
+                this.bookmarkAuthenticated &&
+                !this.bookmarkStorageUserId
+            ) {
+                try {
+                    await this.fetchBookmarkStorageUserId();
+                } catch (_) {
+                    // ignore preference scope lookup errors
+                }
+            }
+
+            const currentValue = !!this.isDeepFocusMode;
+            const hasScopedValue =
+                this.readScopedFontPreference(
+                    this.deepFocusModePreferenceBaseKey
+                ) !== null;
+            this.isDeepFocusMode = this.readScopedBooleanPreference(
+                this.deepFocusModePreferenceBaseKey,
+                currentValue
+            );
+            if (!hasScopedValue) {
+                // Preserve the current runtime mode when scope changes (anon<->user).
+                this.isDeepFocusMode = currentValue;
+            }
+            this.writeScopedBooleanPreference(
+                this.deepFocusModePreferenceBaseKey,
+                this.isDeepFocusMode
+            );
+        },
+        async initializeReadingFullscreenPreference() {
+            if (
+                this.bookmarkAuthenticated &&
+                !this.bookmarkStorageUserId
+            ) {
+                try {
+                    await this.fetchBookmarkStorageUserId();
+                } catch (_) {
+                    // ignore preference scope lookup errors
+                }
+            }
+
+            const currentValue = !!this.isReadingFullscreen;
+            const hasScopedValue =
+                this.readScopedFontPreference(
+                    this.readingFullscreenPreferenceBaseKey
+                ) !== null;
+            const scopedValue = this.readScopedBooleanPreference(
+                this.readingFullscreenPreferenceBaseKey,
+                currentValue
+            );
+            const preferredValue = hasScopedValue ? scopedValue : currentValue;
+
+            // Keep mobile behavior untouched while still retaining the desktop preference.
+            this.isReadingFullscreen = !!preferredValue && !!this.isDesktopWide;
+            this.syncReadingFullscreenBodyClass(this.isReadingFullscreen);
+            this.writeScopedBooleanPreference(
+                this.readingFullscreenPreferenceBaseKey,
+                !!preferredValue
+            );
         },
         clampFontSizeValue(value, min, max, fallback) {
             const parsed = Number(value);
@@ -5124,6 +5243,8 @@ export default {
             if (isAuthed) {
                 this.bookmarkAuthenticated = true;
                 this.bookmarkStorageUserId = userId;
+                await this.initializeDeepFocusModePreference();
+                await this.initializeReadingFullscreenPreference();
                 await this.initializePinnedAyahStorageKey();
                 await this.loadPinnedAyahs();
                 await this.initializePinnedSectionUiStorageKey();
@@ -5132,6 +5253,9 @@ export default {
                 return true;
             }
             this.bookmarkAuthenticated = false;
+            this.bookmarkStorageUserId = null;
+            await this.initializeDeepFocusModePreference();
+            await this.initializeReadingFullscreenPreference();
             this.pinnedAyahs = {};
             this.pinnedAyahStorageKey = "";
             this.pinnedSectionUiStateStorageKey = "";
@@ -6092,7 +6216,10 @@ export default {
                 this.isMobileToolbarExpanded = false;
             }
             if (!this.isDesktopWide && this.isReadingFullscreen) {
-                this.exitReadingFullscreen({ restoreFocus: false });
+                this.exitReadingFullscreen({
+                    restoreFocus: false,
+                    persistPreference: false,
+                });
             }
         },
         // removed ensureCardPositionsCached and fallbackCardPositions (scrollbar-related)
@@ -7037,8 +7164,29 @@ export default {
                     : "Transliteration disabled for all ayahs."
             );
         },
-        openDeepFocusPlaceholder() {
-            this.announce("Deep focus mode will be added soon.");
+        setDeepFocusMode(enabled, options = {}) {
+            const { announce = true } = options;
+            const nextState = !!enabled;
+            if (this.isDeepFocusMode === nextState) return;
+
+            this.isDeepFocusMode = nextState;
+            this.writeScopedBooleanPreference(
+                this.deepFocusModePreferenceBaseKey,
+                this.isDeepFocusMode
+            );
+            this.itemHeightCalibrated = false;
+            this.$nextTick(() => this.scheduleHeightCalibration(true));
+
+            if (announce) {
+                this.announce(
+                    nextState
+                        ? "Deep focus mode enabled."
+                        : "Deep focus mode disabled."
+                );
+            }
+        },
+        toggleDeepFocusMode() {
+            this.setDeepFocusMode(!this.isDeepFocusMode);
         },
         shareOnWhatsApp: function (ayah) {
             const message = this.buildAyahMessage(ayah, { includeAudio: true });

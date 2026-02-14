@@ -5,11 +5,12 @@
             'has-sidebar': true,
             'sidebar-collapsed': sidebarCollapsed,
             'mobile-toolbar-pinned': isTabletOrMobile && isToolbarPinned,
-            'reading-fullscreen': isReadingFullscreen
+            'reading-fullscreen': isReadingFullscreen,
+            'deep-focus-mode': isDeepFocusMode
         }"
         :style="quranFontStyle"
         role="main" aria-label="Quran Explorer">
-        <div class="row justify-content-center text-center mb-3 reading-fullscreen-chrome">
+        <div class="row justify-content-center text-center mb-3 reading-fullscreen-chrome quran-reader-hero">
             <div class="col-lg-10 col-xl-10">
                 <h1 class="display-5 fw-bold">The Holy Quran</h1>
                 <p class="holy-book-description mb-0">Explore the Holy Quran with clear recitations, trusted translations, and practical tools that help you read with focus, listen with understanding, and reflect on each ayah in your daily life.</p>
@@ -23,7 +24,7 @@
                     :class="{ 'is-panel-hidden': !isAdvancedSearchPanelVisible }"
                     role="search"
                     aria-label="Advanced Quran search">
-                     <div class="advanced-quran-search-top">
+                     <div v-if="!(isDeepFocusMode && isTabletOrMobile)" class="advanced-quran-search-top">
                         <div class="advanced-quran-search-head">
                             <h2 class="advanced-quran-search-title mb-0">Search Quran</h2>
                             <p class="advanced-quran-search-subtitle mb-0">
@@ -55,7 +56,7 @@
                         </div>
                     </div>
                 
-                    <div v-show="isAdvancedSearchVisible" class="advanced-quran-search-input-wrap">
+                    <div v-if="!(isDeepFocusMode && isTabletOrMobile) && isAdvancedSearchVisible" class="advanced-quran-search-input-wrap">
                         <i class="bi bi-search advanced-quran-search-icon" aria-hidden="true"></i>
                         <input type="search" class="form-control advanced-quran-search-input"
                             ref="advancedSearchInput"
@@ -88,7 +89,26 @@
                         </div>
                     </div>
                     <div
-                        v-if="isTabletOrMobile"
+                        v-if="isTabletOrMobile && isDeepFocusMode"
+                        class="advanced-quran-mobile-deep-focus-bar"
+                        role="group"
+                        aria-label="Deep focus mode controls">
+                        <button
+                            type="button"
+                            class="btn advanced-quran-mobile-action-btn advanced-quran-mobile-action-btn-deep-focus"
+                            :class="{ 'is-enabled': isDeepFocusMode }"
+                            @click="toggleDeepFocusMode"
+                            :aria-label="isDeepFocusMode ? 'Turn deep focus mode off' : 'Turn deep focus mode on'"
+                            :title="isDeepFocusMode ? 'Turn deep focus mode off' : 'Turn deep focus mode on'">
+                            <i class="bi bi-bullseye" aria-hidden="true"></i>
+                            <span class="advanced-quran-mobile-action-label">Deep focus mode</span>
+                            <span class="advanced-quran-mobile-action-btn-state">
+                                {{ isDeepFocusMode ? "On" : "Off" }}
+                            </span>
+                        </button>
+                    </div>
+                    <div
+                        v-else-if="isTabletOrMobile"
                         class="advanced-quran-mobile-controls"
                         :class="{
                             'is-pinned': isToolbarPinned,
@@ -227,11 +247,14 @@
                                 <button
                                     type="button"
                                     class="btn advanced-quran-mobile-action-btn"
-                                    @click="openDeepFocusPlaceholder"
-                                    aria-label="Open deep focus mode"
-                                    title="Deep focus mode (coming soon)">
+                                    @click="toggleDeepFocusMode"
+                                    aria-label="Toggle deep focus mode"
+                                    title="Toggle deep focus mode">
                                     <i class="bi bi-bullseye" aria-hidden="true"></i>
-                                    <span class="advanced-quran-mobile-action-label">Deep focus</span>
+                                    <span class="advanced-quran-mobile-action-label">Deep focus mode</span>
+                                    <span class="advanced-quran-mobile-action-btn-state">
+                                        {{ isDeepFocusMode ? "On" : "Off" }}
+                                    </span>
                                 </button>
                                 <button
                                     type="button"
@@ -296,12 +319,12 @@
                     </div>
                     
                     <div
-                        v-if="isTabletOrMobile && isToolbarPinned"
+                        v-if="isTabletOrMobile && isToolbarPinned && !isDeepFocusMode"
                         class="advanced-quran-mobile-controls-spacer"
                         :class="{ 'is-expanded': isMobileToolbarExpanded }"
                         aria-hidden="true"></div>
                     <div
-                        v-if="isAdvancedSearchVisible && isAdvancedSearchPanelVisible"
+                        v-if="isAdvancedSearchVisible && isAdvancedSearchPanelVisible && !(isDeepFocusMode && isTabletOrMobile)"
                         id="advancedQuranSearchPanel"
                         class="advanced-quran-search-panel">
                         <div class="advanced-quran-search-meta" aria-live="polite">
@@ -452,15 +475,17 @@
                 <button
                     type="button"
                     class="quran-toolbar-btn quran-toolbar-btn-deep-focus"
-                    @click="openDeepFocusPlaceholder"
-                    aria-label="Open deep focus mode"
-                    title="Deep focus mode (coming soon)">
+                    :class="{ 'is-active': isDeepFocusMode }"
+                    @click="toggleDeepFocusMode"
+                    :aria-label="isDeepFocusMode ? 'Exit deep focus mode' : 'Enter deep focus mode'"
+                    :title="isDeepFocusMode ? 'Exit deep focus mode and restore tools' : 'Enter deep focus mode for distraction-free reading'">
                     <i class="bi bi-bullseye" aria-hidden="true"></i>
-                    <span class="quran-toolbar-btn-text">Deep focus</span>
+                    <span class="quran-toolbar-btn-text">Deep focus mode</span>
+                    <span class="quran-toolbar-btn-state">{{ isDeepFocusMode ? "On" : "Off" }}</span>
                 </button>
 
                 <button
-                    v-if="isDesktopWide"
+                    v-if="!isTabletOrMobile"
                     ref="readingFullscreenToggleButton"
                     type="button"
                     class="quran-toolbar-btn quran-toolbar-btn-fullscreen"
@@ -1179,7 +1204,7 @@
                                         },
                                     ]"
                                     v-html="highlightedText(item.ayah)"
-                                    :style="{ fontSize: arabicFontSize + 'px' }"
+                                    :style="{ fontSize: effectiveArabicFontSize + 'px' }"
                                 ></p>
                                 <div v-if="isTranslationVisibleFor(item)" class="translation-header pt-2 ltr-text hide-on-mobile-tablet ml-2">
                                     <h2 class="mb-0">
@@ -1200,7 +1225,7 @@
                                                 ]"
                                                 v-html="highlightText(item.ayah.translation)"
                                                 :style="{
-                                                    fontSize: ayahBodyFontSize + 'px',
+                                                    fontSize: effectiveAyahBodyFontSize + 'px',
                                                 }"
                                             ></p>
                                         </div>
@@ -1222,7 +1247,7 @@
                                             ]"
                                             v-html="highlightText(item.ayah.transliteration || transliterationFallbackText)"
                                             :style="{
-                                                fontSize: ayahBodyFontSize + 'px',
+                                                fontSize: effectiveAyahBodyFontSize + 'px',
                                             }"
                                         ></p>
                                         <div class="ayah-quick-actions ltr-text" role="group" aria-label="Quick actions">
@@ -1274,7 +1299,7 @@
                                         },
                                     ]"
                                     v-html="highlightedText(item.ayah)"
-                                    :style="{ fontSize: arabicFontSize + 'px' }"
+                                    :style="{ fontSize: effectiveArabicFontSize + 'px' }"
                                 ></p>
                                 <div v-if="isTranslationVisibleFor(item)" class="d-flex align-items-center fw-bold pt-2 ltr-text hide-on-mobile-tablet ml-2">
                                     <h4 class="mb-0">
@@ -1293,7 +1318,7 @@
                                         ]"
                                         v-html="highlightText(item.ayah.translation)"
                                         :style="{
-                                            fontSize: ayahBodyFontSize + 'px',
+                                            fontSize: effectiveAyahBodyFontSize + 'px',
                                         }"
                                     ></p>
                                 </div>
@@ -1315,7 +1340,7 @@
                                     ]"
                                     v-html="highlightText(item.ayah.transliteration || transliterationFallbackText)"
                                     :style="{
-                                        fontSize: ayahBodyFontSize + 'px',
+                                        fontSize: effectiveAyahBodyFontSize + 'px',
                                     }"
                                 ></p>
                                 <div class="ayah-quick-actions ltr-text" role="group" aria-label="Quick actions">

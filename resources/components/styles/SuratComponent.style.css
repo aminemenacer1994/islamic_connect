@@ -174,6 +174,17 @@
     will-change: transform, opacity;
 }
 
+.advanced-quran-mobile-deep-focus-bar {
+    margin-top: 0.62rem;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.advanced-quran-mobile-action-btn-deep-focus {
+    margin-left: auto;
+}
+
 .advanced-quran-mobile-main-row {
     display: grid;
     grid-template-columns: minmax(0, 1fr) 42px 42px 42px;
@@ -2155,6 +2166,23 @@
     transform-origin: top center;
 }
 
+.surat-premium.deep-focus-mode .quran-reader-hero {
+    display: none !important;
+}
+
+:global(body.quran-reading-fullscreen-active) {
+    --navbar-h: 0px;
+    --nav-offset: 0px;
+}
+
+:global(body.quran-reading-fullscreen-active .navbar),
+:global(body.quran-reading-fullscreen-active .main-navbar),
+:global(body.quran-reading-fullscreen-active .navbar.navbar-transparent),
+:global(body.quran-reading-fullscreen-active .navbar.fixed-top),
+:global(body.quran-reading-fullscreen-active .main-header) {
+    display: none !important;
+}
+
 @media (max-width: 1199.98px) {
     .surat-premium {
         margin-top: calc(var(--navbar-h, 72px) * 0.15);
@@ -2293,6 +2321,245 @@
 
     .surat-premium.reading-fullscreen .surah-scroll-top {
         bottom: 96px;
+    }
+}
+
+@media (min-width: 992px) {
+    .surat-premium #advancedQuranSearchSection,
+    .surat-premium .sidebar-header .search-container,
+    .surat-premium .ayah-quick-actions,
+    .surat-premium .translation-toggle,
+    .surat-premium .ayah-pin-feedback-group,
+    .surat-premium .ayah-feedback-message,
+    .surat-premium .ayah-inline-btn--font-down,
+    .surat-premium .ayah-inline-btn--font-up,
+    .surat-premium .ayah-inline-btn--bookmark,
+    .surat-premium .sidebar-info-button,
+    .surat-premium .pinned-ayahs-section,
+    .surat-premium .pinned-ayahs-restore,
+    .surat-premium .desktop-surah-context-wrapper,
+    .surat-premium .desktop-sticky-restore,
+    .surat-premium .surah-offcanvas-trigger,
+    .surat-premium .quran-toolbar > * {
+        transition: opacity 0.24s ease, transform 0.24s ease, max-height 0.24s ease,
+            width 0.24s ease, max-width 0.24s ease, margin 0.24s ease, padding 0.24s ease,
+            border-width 0.24s ease;
+    }
+
+    .surat-premium.deep-focus-mode .quran-toolbar {
+        justify-content: flex-end;
+        background: transparent !important;
+        border: 0 !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+        margin-bottom: 0 !important;
+        overflow: visible;
+    }
+
+    .surat-premium.deep-focus-mode .quran-toolbar-sticky {
+        margin-bottom: 0 !important;
+    }
+
+    .surat-premium.deep-focus-mode .quran-toolbar-sticky.quran-toolbar-fixed-shell {
+        min-height: 0 !important;
+    }
+
+    .surat-premium.deep-focus-mode .quran-toolbar > :not(.quran-toolbar-btn-deep-focus):not(.quran-toolbar-btn-fullscreen) {
+        opacity: 0;
+        pointer-events: none;
+        width: 0 !important;
+        min-width: 0 !important;
+        max-width: 0 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        border-width: 0 !important;
+        overflow: hidden;
+        transform: translateY(-6px);
+    }
+
+    .surat-premium.deep-focus-mode .quran-toolbar-btn-deep-focus {
+        margin-left: auto;
+    }
+
+    .surat-premium.deep-focus-mode #advancedQuranSearchSection,
+    .surat-premium.deep-focus-mode .sidebar-header .search-container,
+    .surat-premium.deep-focus-mode .ayah-quick-actions,
+    .surat-premium.deep-focus-mode .translation-toggle,
+    .surat-premium.deep-focus-mode .ayah-pin-feedback-group,
+    .surat-premium.deep-focus-mode .ayah-feedback-message,
+    .surat-premium.deep-focus-mode .ayah-inline-btn--font-down,
+    .surat-premium.deep-focus-mode .ayah-inline-btn--font-up,
+    .surat-premium.deep-focus-mode .ayah-inline-btn--bookmark,
+    .surat-premium.deep-focus-mode .sidebar-info-button,
+    .surat-premium.deep-focus-mode .pinned-ayahs-section,
+    .surat-premium.deep-focus-mode .pinned-ayahs-restore,
+    .surat-premium.deep-focus-mode .desktop-surah-context-wrapper,
+    .surat-premium.deep-focus-mode .desktop-sticky-restore,
+    .surat-premium.deep-focus-mode .surah-offcanvas-trigger {
+        opacity: 0 !important;
+        pointer-events: none !important;
+        max-height: 0 !important;
+        width: 0 !important;
+        max-width: 0 !important;
+        min-width: 0 !important;
+        min-height: 0 !important;
+        margin: 0 !important;
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        border-width: 0 !important;
+        overflow: hidden !important;
+        transform: translateY(-8px);
+    }
+
+    .surat-premium.deep-focus-mode .surah-layout > .row.rtl-text {
+        max-width: none;
+        margin: 14px 0 0 !important;
+    }
+
+    .surat-premium.deep-focus-mode .ayah-card-container {
+        max-width: none;
+        margin: 0.95rem 0 !important;
+        padding: 14px 8px !important;
+    }
+
+    .surat-premium.deep-focus-mode .ayah-card-header-actions {
+        gap: 0;
+    }
+
+    .surat-premium.deep-focus-mode .ayah-card-container .d-block.d-md-none .row.mb-3.ayah-inline-controls {
+        justify-content: center !important;
+        gap: 0.55rem !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        width: 100% !important;
+    }
+
+    .surat-premium.deep-focus-mode .ayah-card-container .d-block.d-md-none .row.mb-3.ayah-inline-controls > .col {
+        flex: 0 0 auto !important;
+        width: auto !important;
+        max-width: none !important;
+        padding: 2px !important;
+    }
+
+    .surat-premium.deep-focus-mode .ayah-card-container .d-block.d-md-none .row.mb-3.ayah-inline-controls > .col:nth-child(1),
+    .surat-premium.deep-focus-mode .ayah-card-container .d-block.d-md-none .row.mb-3.ayah-inline-controls > .col:nth-child(2),
+    .surat-premium.deep-focus-mode .ayah-card-container .d-block.d-md-none .row.mb-3.ayah-inline-controls > .col:nth-child(6) {
+        display: none !important;
+    }
+
+    .surat-premium.deep-focus-mode .ayah-surface {
+        border-radius: 24px;
+        padding: 1.65rem 1.8rem;
+        box-shadow: 0 16px 32px rgba(15, 53, 48, 0.08);
+        border-color: rgba(15, 110, 99, 0.12);
+    }
+
+    .surat-premium.deep-focus-mode .ayah-card-container .arabic-text {
+        line-height: 2.5;
+        letter-spacing: 0.014em;
+    }
+
+    .surat-premium.deep-focus-mode .ayah-card-container .translation-text,
+    .surat-premium.deep-focus-mode .ayah-card-container .transliteration-text {
+        line-height: 2.05;
+    }
+}
+
+@media (max-width: 991.98px) {
+    .surat-premium.deep-focus-mode .advanced-quran-search {
+        background: transparent !important;
+        border: 0 !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+    }
+
+    .surat-premium.deep-focus-mode .advanced-quran-mobile-deep-focus-bar {
+        margin-top: 0 !important;
+        margin-bottom: 0 !important;
+        padding: 0 !important;
+    }
+
+    .surat-premium.deep-focus-mode .advanced-quran-mobile-deep-focus-bar .advanced-quran-mobile-action-btn {
+        margin-left: auto;
+    }
+
+    .surat-premium.deep-focus-mode .ayah-quick-actions,
+    .surat-premium.deep-focus-mode .translation-toggle,
+    .surat-premium.deep-focus-mode .ayah-pin-feedback-group,
+    .surat-premium.deep-focus-mode .ayah-feedback-message,
+    .surat-premium.deep-focus-mode .ayah-inline-btn--font-down,
+    .surat-premium.deep-focus-mode .ayah-inline-btn--font-up,
+    .surat-premium.deep-focus-mode .ayah-inline-btn--bookmark,
+    .surat-premium.deep-focus-mode .sidebar-info-button,
+    .surat-premium.deep-focus-mode .pinned-ayahs-section,
+    .surat-premium.deep-focus-mode .pinned-ayahs-restore,
+    .surat-premium.deep-focus-mode .desktop-surah-context-wrapper,
+    .surat-premium.deep-focus-mode .desktop-sticky-restore,
+    .surat-premium.deep-focus-mode .surah-offcanvas-trigger {
+        opacity: 0 !important;
+        pointer-events: none !important;
+        max-height: 0 !important;
+        width: 0 !important;
+        max-width: 0 !important;
+        min-width: 0 !important;
+        min-height: 0 !important;
+        margin: 0 !important;
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        border-width: 0 !important;
+        overflow: hidden !important;
+        transform: translateY(-8px);
+    }
+
+    .surat-premium.deep-focus-mode .surah-layout > .row.rtl-text {
+        max-width: none;
+        margin: 14px 0 0 !important;
+    }
+
+    .surat-premium.deep-focus-mode .ayah-card-container {
+        max-width: none;
+        margin: 0.95rem 0 !important;
+        padding: 14px 8px !important;
+    }
+
+    .surat-premium.deep-focus-mode .ayah-card-container .d-block.d-md-none .row.mb-3.ayah-inline-controls {
+        justify-content: center !important;
+        gap: 0.55rem !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        width: 100% !important;
+    }
+
+    .surat-premium.deep-focus-mode .ayah-card-container .d-block.d-md-none .row.mb-3.ayah-inline-controls > .col {
+        flex: 0 0 auto !important;
+        width: auto !important;
+        max-width: none !important;
+        padding: 2px !important;
+    }
+
+    .surat-premium.deep-focus-mode .ayah-card-container .d-block.d-md-none .row.mb-3.ayah-inline-controls > .col:nth-child(1),
+    .surat-premium.deep-focus-mode .ayah-card-container .d-block.d-md-none .row.mb-3.ayah-inline-controls > .col:nth-child(2),
+    .surat-premium.deep-focus-mode .ayah-card-container .d-block.d-md-none .row.mb-3.ayah-inline-controls > .col:nth-child(6) {
+        display: none !important;
+    }
+
+    .surat-premium.deep-focus-mode .ayah-surface {
+        border-radius: 24px;
+        padding: 1.4rem 1.1rem;
+    }
+
+    .surat-premium.deep-focus-mode .ayah-card-container .arabic-text {
+        line-height: 2.45;
+        letter-spacing: 0.014em;
+    }
+
+    .surat-premium.deep-focus-mode .ayah-card-container .translation-text,
+    .surat-premium.deep-focus-mode .ayah-card-container .transliteration-text {
+        line-height: 2;
     }
 }
 
@@ -5609,6 +5876,13 @@ h1.display-5 {
 .quran-toolbar-btn-deep-focus:focus-visible {
     border-color: rgba(37, 99, 235, 0.44);
     color: #1e40af;
+}
+
+.quran-toolbar-btn-deep-focus.is-active {
+    border-color: rgba(37, 99, 235, 0.56);
+    background: rgba(37, 99, 235, 0.11) !important;
+    color: #1e3a8a;
+    box-shadow: 0 12px 24px rgba(37, 99, 235, 0.16);
 }
 
 .quran-toolbar-btn-fullscreen {
