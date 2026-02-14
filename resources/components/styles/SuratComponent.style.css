@@ -492,51 +492,6 @@
     white-space: nowrap;
 }
 
-/* Keep expanded quick controls on a single horizontal row. */
-.advanced-quran-mobile-expanded {
-    display: flex !important;
-    align-items: center;
-    flex-wrap: nowrap;
-    gap: 0.5rem;
-    overflow-x: auto;
-    overflow-y: hidden;
-    scrollbar-width: thin;
-    scrollbar-color: rgba(11, 107, 89, 0.28) transparent;
-}
-
-.advanced-quran-mobile-expanded::-webkit-scrollbar {
-    height: 5px;
-}
-
-.advanced-quran-mobile-expanded::-webkit-scrollbar-thumb {
-    border-radius: 999px;
-    background: rgba(11, 107, 89, 0.28);
-}
-
-.advanced-quran-mobile-select-grid,
-.advanced-quran-mobile-toggle-row,
-.advanced-quran-mobile-action-grid {
-    display: inline-flex !important;
-    align-items: center;
-    flex-wrap: nowrap;
-    gap: 0.4rem;
-    flex: 0 0 auto;
-    grid-template-columns: none !important;
-}
-
-.advanced-quran-mobile-select-field {
-    min-width: 170px;
-    flex: 0 0 auto;
-}
-
-.advanced-quran-mobile-action-btn {
-    white-space: nowrap;
-}
-
-.advanced-quran-mobile-action-btn-download {
-    grid-column: auto !important;
-}
-
 @media (max-width: 991.98px) {
     .advanced-quran-mobile-controls.is-pinned,
     .advanced-quran-mobile-controls.is-pinned .advanced-quran-mobile-surah-select,
