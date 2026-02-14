@@ -6451,6 +6451,254 @@ h1.display-5 {
     }
 }
 
+.ayah-inline-controls .ayah-inline-control-label {
+    display: none;
+    margin-left: 0.2rem;
+    background: none !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    line-height: 1.2;
+    color: inherit !important;
+    font-size: 0.82rem;
+    font-weight: 400;
+    letter-spacing: normal;
+    text-transform: none;
+    white-space: nowrap;
+}
+
+@keyframes ayah-inline-pop {
+    0% {
+        transform: scale(0.96);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+@media (min-width: 992px) {
+    .ayah-inline-controls {
+        direction: ltr;
+    }
+
+    .ayah-card-container .d-block.d-md-none .row.mb-3.ayah-inline-controls {
+        position: relative;
+        isolation: isolate;
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content: space-between;
+        align-items: center;
+        gap: 0.45rem;
+        padding: 0.6rem 0.7rem !important;
+        border-radius: 16px;
+        border: 1px solid rgba(15, 23, 42, 0.08);
+        background: linear-gradient(
+            132deg,
+            rgba(248, 250, 252, 0.96),
+            rgba(241, 245, 249, 0.92)
+        );
+        box-shadow: 0 12px 28px rgba(15, 23, 42, 0.1);
+        backdrop-filter: saturate(118%) blur(2px);
+        width: 100% !important;
+        max-width: 100% !important;
+        overflow: hidden;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+    }
+
+    .ayah-card-container .d-block.d-md-none .row.mb-3.ayah-inline-controls::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+        background: radial-gradient(
+            120% 92% at 0% 0%,
+            rgba(14, 165, 142, 0.12),
+            rgba(14, 165, 142, 0) 62%
+        );
+    }
+
+    .ayah-inline-controls > .col {
+        position: relative;
+        z-index: 1;
+        flex: 1 1 0;
+        width: 0;
+        max-width: 100%;
+        min-width: 0;
+        padding: 0 0.16rem !important;
+        text-align: center !important;
+    }
+
+    .ayah-card-container .ayah-inline-controls .ayah-inline-btn {
+        position: relative;
+        z-index: 1;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: row;
+        gap: 0.42rem;
+        width: 100% !important;
+        height: auto !important;
+        padding: 0.34rem 0.62rem;
+        white-space: nowrap;
+        min-width: 0;
+        border-radius: 999px !important;
+        border: 1px solid transparent !important;
+        background-size: 180% 180% !important;
+        background-position: 0% 50% !important;
+        box-shadow: 0 3px 10px rgba(15, 23, 42, 0.09);
+        color: #0f172a !important;
+        transform: translateY(0);
+        transition:
+            transform 180ms ease,
+            box-shadow 180ms ease,
+            background-position 220ms ease,
+            border-color 180ms ease,
+            color 180ms ease;
+    }
+
+    .ayah-card-container .ayah-inline-controls .ayah-inline-btn:hover,
+    .ayah-card-container .ayah-inline-controls .ayah-inline-btn:focus-visible {
+        transform: translateY(-1px);
+        box-shadow: 0 8px 16px rgba(15, 23, 42, 0.14);
+        background-position: 100% 50% !important;
+    }
+
+    .ayah-card-container .ayah-inline-controls .ayah-inline-btn:active {
+        transform: translateY(0);
+    }
+
+    .ayah-card-container .ayah-inline-controls .ayah-inline-btn i {
+        color: currentColor !important;
+        text-shadow: none !important;
+        font-size: 1rem !important;
+        transition: transform 180ms ease;
+    }
+
+    .ayah-card-container .ayah-inline-controls .ayah-inline-btn:hover i,
+    .ayah-card-container .ayah-inline-controls .ayah-inline-btn:focus-visible i {
+        transform: translateX(1px);
+    }
+
+    .ayah-card-container .ayah-inline-controls .ayah-inline-btn--font-down {
+        background: linear-gradient(
+            135deg,
+            rgba(245, 158, 11, 0.22),
+            rgba(180, 83, 9, 0.08)
+        ) !important;
+        border-color: rgba(217, 119, 6, 0.3) !important;
+    }
+
+    .ayah-card-container .ayah-inline-controls .ayah-inline-btn--font-up {
+        background: linear-gradient(
+            135deg,
+            rgba(16, 185, 129, 0.22),
+            rgba(5, 150, 105, 0.08)
+        ) !important;
+        border-color: rgba(5, 150, 105, 0.3) !important;
+    }
+
+    .ayah-card-container .ayah-inline-controls .ayah-inline-btn--rewind {
+        background: linear-gradient(
+            135deg,
+            rgba(14, 116, 144, 0.24),
+            rgba(14, 116, 144, 0.08)
+        ) !important;
+        border-color: rgba(14, 116, 144, 0.3) !important;
+    }
+
+    .ayah-card-container .ayah-inline-controls .ayah-inline-btn--play {
+        background: linear-gradient(
+            135deg,
+            rgba(15, 118, 110, 0.24),
+            rgba(13, 148, 136, 0.1)
+        ) !important;
+        border-color: rgba(13, 148, 136, 0.34) !important;
+    }
+
+    .ayah-card-container .ayah-inline-controls .ayah-inline-btn--play.is-active {
+        background: linear-gradient(
+            135deg,
+            rgba(6, 182, 212, 0.92),
+            rgba(14, 116, 144, 0.95)
+        ) !important;
+        border-color: rgba(8, 145, 178, 0.98) !important;
+        color: #ffffff !important;
+        box-shadow:
+            0 0 0 1px rgba(8, 145, 178, 0.44),
+            0 10px 22px rgba(8, 145, 178, 0.34) !important;
+        animation: ayah-inline-pop 220ms ease;
+    }
+
+    .ayah-card-container .ayah-inline-controls .ayah-inline-btn--play.is-active i {
+        color: currentColor !important;
+        transform: scale(1.06);
+    }
+
+    .ayah-card-container .ayah-inline-controls .ayah-inline-btn--forward {
+        background: linear-gradient(
+            135deg,
+            rgba(37, 99, 235, 0.24),
+            rgba(30, 64, 175, 0.08)
+        ) !important;
+        border-color: rgba(37, 99, 235, 0.3) !important;
+    }
+
+    .ayah-card-container .ayah-inline-controls .ayah-inline-btn--bookmark {
+        background: linear-gradient(
+            135deg,
+            rgba(219, 39, 119, 0.2),
+            rgba(157, 23, 77, 0.08)
+        ) !important;
+        border-color: rgba(190, 24, 93, 0.28) !important;
+    }
+
+    .ayah-card-container
+        .ayah-inline-controls
+        .ayah-inline-btn--bookmark.is-saved {
+        background: linear-gradient(
+            135deg,
+            rgba(12, 148, 118, 0.9),
+            rgba(4, 120, 87, 0.92)
+        ) !important;
+        border-color: rgba(4, 120, 87, 0.95) !important;
+        color: #ffffff !important;
+        box-shadow: 0 9px 18px rgba(5, 120, 99, 0.3) !important;
+        animation: ayah-inline-pop 220ms ease;
+    }
+
+    .ayah-card-container
+        .ayah-inline-controls
+        .ayah-inline-btn--bookmark.is-saved
+        i {
+        color: currentColor !important;
+    }
+
+    .ayah-inline-controls .ayah-inline-control-label {
+        display: inline-block;
+        max-width: 18rem;
+        opacity: 1;
+        transition: opacity 140ms ease, max-width 160ms ease, margin-left 160ms ease;
+    }
+}
+
+/* Hide labels before collision on narrower desktop widths (no container-query sizing). */
+@media (min-width: 992px) and (max-width: 1320px) {
+    .ayah-inline-controls .ayah-inline-control-label {
+        opacity: 0;
+        max-width: 0;
+        margin-left: 0;
+        overflow: hidden;
+    }
+
+    .ayah-card-container .ayah-inline-controls .ayah-inline-btn {
+        gap: 0;
+        padding-inline: 0.4rem;
+    }
+}
+
 /* Toolbar styling */
 .ayah-card-container .d-block.d-md-none .row.mb-3 {
     background: linear-gradient(135deg,

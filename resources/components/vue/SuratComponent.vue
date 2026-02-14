@@ -1387,35 +1387,40 @@
                                 </button> -->
                                 </div>
                             </div>
-                            <div class="row card-teal mb-3 py-2" style="
+                            <div class="row card-teal mb-3 py-2 ayah-inline-controls" style="
                                 display: flex;
                                 justify-content: center;
                                 align-items: center;
                                 margin: 0 -5px;
                             ">
                                 <div class="col text-center" style="padding: 2px">
-                                    <button class="icon-btn" @click="decreaseFontSize" aria-label="Decrease font size"
+                                    <button class="icon-btn ayah-inline-btn ayah-inline-btn--font-down" @click="decreaseFontSize" aria-label="Decrease font size"
                                         title="Decrease Font Size">
                                         <i class="bi bi-dash-circle-fill" style="font-size: 1.6rem"
                                             aria-hidden="true"></i>
+                                        <span class="ayah-inline-control-label">Decrease font size</span>
                                     </button>
                                 </div>
                                 <div class="col text-center" style="padding: 2px">
-                                    <button class="icon-btn" @click="increaseFontSize" aria-label="Increase font size"
+                                    <button class="icon-btn ayah-inline-btn ayah-inline-btn--font-up" @click="increaseFontSize" aria-label="Increase font size"
                                         title="Increase Font Size">
                                         <i class="bi bi-plus-circle-fill" style="font-size: 1.6rem"
                                             aria-hidden="true"></i>
+                                        <span class="ayah-inline-control-label">Increase font size</span>
                                     </button>
                                 </div>
                                 <div class="col text-center" style="padding: 2px">
-                                    <button class="icon-btn" @click="rewindAudio(item.index)"
+                                    <button class="icon-btn ayah-inline-btn ayah-inline-btn--rewind" @click="rewindAudio(item.index)"
                                         aria-label="Rewind 15 seconds" title="Rewind">
                                         <i class="bi bi-skip-backward-circle-fill" style="font-size: 1.6rem"
                                             aria-hidden="true"></i>
+                                        <span class="ayah-inline-control-label">Rewind 15 seconds</span>
                                     </button>
                                 </div>
                                 <div class="col text-center" style="padding: 2px">
-                                    <button class="icon-btn" @click="toggleAudioPlayer(item.index)" :aria-label="isAudioPlaying[item.index]
+                                    <button class="icon-btn ayah-inline-btn ayah-inline-btn--play" :class="{
+                                        'is-active': isAudioPlaying[item.index],
+                                    }" @click="toggleAudioPlayer(item.index)" :aria-label="isAudioPlaying[item.index]
                                         ? 'Pause ayah ' + (item.index + 1)
                                         : 'Play ayah ' + (item.index + 1)
                                         " :title="isAudioPlaying[item.index]
@@ -1426,13 +1431,19 @@
                                             ? 'bi-pause-circle-fill'
                                             : 'bi-play-circle-fill'
                                             " style="font-size: 1.8rem" aria-hidden="true"></i>
+                                        <span class="ayah-inline-control-label">{{
+                                            isAudioPlaying[item.index]
+                                                ? "Pause current verse"
+                                                : "Play current verse"
+                                        }}</span>
                                     </button>
                                 </div>
                                 <div class="col text-center" style="padding: 2px">
-                                    <button class="icon-btn" @click="fastForwardAudio(item.index)"
+                                    <button class="icon-btn ayah-inline-btn ayah-inline-btn--forward" @click="fastForwardAudio(item.index)"
                                         aria-label="Fast forward 20 seconds" title="Fast Forward">
                                         <i class="bi bi-skip-forward-circle-fill" style="font-size: 1.6rem"
                                             aria-hidden="true"></i>
+                                        <span class="ayah-inline-control-label">Fast forward 20 seconds</span>
                                     </button>
                                 </div>
                                 <!-- <div class="col text-center" style="padding: 2px">
@@ -1449,7 +1460,7 @@
                                 </button>
                             </div> -->
                                 <div class="col text-center" style="padding: 2px">
-                                    <button class="icon-btn" :class="{
+                                    <button class="icon-btn ayah-inline-btn ayah-inline-btn--bookmark" :class="{
                                         'is-saved': isAyahSaved(item.ayah),
                                     }" @click.stop="toggleBookmark(item.ayah)" :title="isAyahSaved(item.ayah)
                                         ? 'Remove bookmark'
@@ -1459,6 +1470,11 @@
                                             ? 'bi-bookmark-check-fill'
                                             : 'bi-bookmark-plus-fill'
                                             " style="font-size: 1.6rem" aria-hidden="true"></i>
+                                        <span class="ayah-inline-control-label">{{
+                                            isAyahSaved(item.ayah)
+                                                ? "Remove verse bookmark"
+                                                : "Save verse bookmark"
+                                        }}</span>
                                     </button>
                                 </div>
                             </div>
