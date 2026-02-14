@@ -4,11 +4,12 @@
             'has-audio-player': showAudioPlayer,
             'has-sidebar': true,
             'sidebar-collapsed': sidebarCollapsed,
-            'mobile-toolbar-pinned': isTabletOrMobile && isToolbarPinned
+            'mobile-toolbar-pinned': isTabletOrMobile && isToolbarPinned,
+            'reading-fullscreen': isReadingFullscreen
         }"
         :style="quranFontStyle"
         role="main" aria-label="Quran Explorer">
-        <div class="row justify-content-center text-center mb-3">
+        <div class="row justify-content-center text-center mb-3 reading-fullscreen-chrome">
             <div class="col-lg-10 col-xl-10">
                 <h1 class="display-5 fw-bold">The Holy Quran</h1>
                 <p class="holy-book-description mb-0">Explore the Holy Quran with clear recitations, trusted translations, and practical tools that help you read with focus, listen with understanding, and reflect on each ayah in your daily life.</p>
@@ -499,6 +500,27 @@
                 </button>
 
                 <button
+                    v-if="isDesktopWide"
+                    ref="readingFullscreenToggleButton"
+                    type="button"
+                    class="quran-toolbar-btn quran-toolbar-btn-fullscreen"
+                    :class="{ 'is-active': isReadingFullscreen }"
+                    @click="toggleReadingFullscreen"
+                    :aria-label="isReadingFullscreen
+                        ? 'Minimize / Exit Full Screen'
+                        : 'Enter full screen Quran reading mode'"
+                    :title="isReadingFullscreen
+                        ? 'Minimize / Exit Full Screen'
+                        : 'Enter full screen Quran reading mode'">
+                    <i class="bi"
+                        :class="isReadingFullscreen ? 'bi-fullscreen-exit' : 'bi-arrows-fullscreen'"
+                        aria-hidden="true"></i>
+                    <span class="quran-toolbar-btn-text">
+                        {{ isReadingFullscreen ? "Minimize" : "Full Screen" }}
+                    </span>
+                </button>
+
+                <button
                     type="button"
                     class="quran-toolbar-btn quran-toolbar-btn-icon quran-toolbar-btn-font"
                     @click.stop="openFontPicker"
@@ -631,7 +653,7 @@
         </div>
         <div
             v-if="!isTabletOrMobile && (surahDetails || currentSurahInfo) && (!showDesktopToolbar || !showDesktopSurahContext)"
-            class="desktop-sticky-restore ltr-text">
+            class="desktop-sticky-restore ltr-text reading-fullscreen-chrome">
             <button
                 v-if="!showDesktopToolbar && !showDesktopSurahContext"
                 type="button"
@@ -658,7 +680,7 @@
         </div>
         <div
             v-if="hasPinnedAyahs && isPinnedSectionHidden && !isMobile && (isTabletOrMobile || !showDesktopToolbar)"
-            class="pinned-ayahs-restore ltr-text">
+            class="pinned-ayahs-restore ltr-text reading-fullscreen-chrome">
             <button
                 type="button"
                 class="pinned-ayahs-icon-btn"

@@ -2147,6 +2147,15 @@
     width: min(1500px, calc(100% - 32px));
     max-width: none;
     margin-inline: auto;
+    transition: width 0.28s ease, margin 0.28s ease, padding 0.28s ease,
+        border-radius 0.28s ease, background-color 0.28s ease,
+        box-shadow 0.28s ease;
+}
+
+.reading-fullscreen-chrome {
+    transition: opacity 0.24s ease, transform 0.24s ease,
+        max-height 0.24s ease, margin 0.24s ease, padding 0.24s ease;
+    transform-origin: top center;
 }
 
 @media (max-width: 1199.98px) {
@@ -2164,6 +2173,130 @@
 .surat-premium.sidebar-collapsed {
     width: calc(100% - 72px);
     margin-left: 72px;
+}
+
+@media (min-width: 1024px) {
+    .surat-premium.reading-fullscreen {
+        min-height: 100vh;
+        border-radius: 0;
+        padding: 18px 22px 40px;
+        background: linear-gradient(
+            180deg,
+            #f8fbf8 0%,
+            #f3f8f4 58%,
+            #ffffff 100%
+        );
+        box-shadow: none;
+    }
+
+    .surat-premium.reading-fullscreen .reading-fullscreen-chrome {
+        opacity: 0;
+        transform: translateY(-10px);
+        pointer-events: none;
+        visibility: hidden;
+        max-height: 0;
+        margin: 0 !important;
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
+        overflow: hidden;
+    }
+
+    .surat-premium.reading-fullscreen #advancedQuranSearchSection,
+    .surat-premium.reading-fullscreen #advancedQuranSearchSection.reading-fullscreen-chrome {
+        display: flex !important;
+        opacity: 1 !important;
+        transform: none !important;
+        visibility: visible !important;
+        pointer-events: auto !important;
+        max-height: none !important;
+        overflow: visible !important;
+        margin-bottom: 1rem !important;
+    }
+
+    .surat-premium.reading-fullscreen #advancedQuranSearchSection .col-12 {
+        display: block;
+        width: 100%;
+    }
+
+    .surat-premium.reading-fullscreen .quran-toolbar-sticky {
+        margin-top: 8px;
+        margin-bottom: 16px;
+        z-index: 80;
+    }
+
+    .surat-premium.reading-fullscreen .quran-toolbar {
+        border-color: rgba(15, 110, 99, 0.2);
+        box-shadow: 0 16px 30px rgba(15, 23, 42, 0.09);
+        background: rgba(255, 255, 255, 0.98) !important;
+    }
+
+    .surat-premium.reading-fullscreen .surah-layout > .sticky-dropdown {
+        top: var(--nav-offset, 72px);
+        height: calc(100vh - var(--nav-offset, 72px));
+    }
+
+    .surat-premium.reading-fullscreen .sidebar-toggle,
+    .surat-premium.reading-fullscreen .sidebar-toggle .btn {
+        display: flex;
+        visibility: visible;
+        opacity: 1;
+    }
+
+    .surat-premium.reading-fullscreen .surah-layout > .sticky-dropdown .sidebar-toggle {
+        position: sticky;
+        top: 0;
+        z-index: 12;
+        margin: 0 0 12px;
+        padding: 10px 12px 12px;
+    }
+
+    .surat-premium.reading-fullscreen .surah-layout > .sticky-dropdown .sidebar-toggle .btn {
+        width: 100%;
+        min-height: 42px;
+        justify-content: center;
+    }
+
+    .surat-premium.reading-fullscreen .surah-layout > .row.rtl-text {
+        margin-top: 18px;
+    }
+
+    .surat-premium.reading-fullscreen .ayah-card-container {
+        margin-top: 0.85rem !important;
+        margin-bottom: 0.85rem !important;
+        padding: 14px 14px !important;
+    }
+
+    .surat-premium.reading-fullscreen .ayah-surface {
+        border-radius: 22px;
+        padding: 1.45rem 1.6rem;
+        border-color: rgba(15, 110, 99, 0.13);
+        box-shadow: 0 14px 28px rgba(15, 53, 48, 0.08);
+        background: #ffffff;
+    }
+
+    .surat-premium.reading-fullscreen .ayah-surface::before {
+        border-top-color: rgba(15, 110, 99, 0.14);
+    }
+
+    .surat-premium.reading-fullscreen .arabic-text {
+        line-height: 2.3;
+        letter-spacing: 0.012em;
+    }
+
+    .surat-premium.reading-fullscreen .translation-text,
+    .surat-premium.reading-fullscreen .transliteration-text {
+        line-height: 1.9;
+    }
+
+    .surat-premium.reading-fullscreen .desktop-sticky-restore,
+    .surat-premium.reading-fullscreen .pinned-ayahs-restore,
+    .surat-premium.reading-fullscreen .surah-offcanvas-trigger {
+        display: none !important;
+    }
+
+    .surat-premium.reading-fullscreen .surah-scroll-top {
+        bottom: 96px;
+    }
 }
 
 /* .surah-layout {
@@ -5477,6 +5610,23 @@ h1.display-5 {
 .quran-toolbar-btn-deep-focus:focus-visible {
     border-color: rgba(37, 99, 235, 0.44);
     color: #1e40af;
+}
+
+.quran-toolbar-btn-fullscreen {
+    border-color: rgba(11, 128, 111, 0.34);
+    color: #0b6b59;
+}
+
+.quran-toolbar-btn-fullscreen:hover,
+.quran-toolbar-btn-fullscreen:focus-visible {
+    border-color: rgba(11, 128, 111, 0.5);
+    color: #085c4d;
+}
+
+.quran-toolbar-btn-fullscreen.is-active {
+    border-color: rgba(13, 148, 136, 0.5);
+    background: rgba(13, 148, 136, 0.1) !important;
+    color: #0f766e;
 }
 
 .quran-toolbar-btn-onboarding {

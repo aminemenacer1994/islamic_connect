@@ -14,6 +14,10 @@ export default {
             isMobile: false,
             isTabletOrMobile: false,
             isTablet: false,
+            isDesktopWide: false,
+            isReadingFullscreen: false,
+            readingFullscreenLastFocusedEl: null,
+            fullscreenChangeHandler: null,
             // a11y
             selectedCardIndex: 0,
             screenReaderMessage: "",
@@ -1503,6 +1507,18 @@ export default {
             }
         };
         window.addEventListener("keydown", this._keydownHandler);
+        this.fullscreenChangeHandler = () =>
+            this.handleNativeFullscreenChange();
+        if (typeof document !== "undefined") {
+            document.addEventListener(
+                "fullscreenchange",
+                this.fullscreenChangeHandler
+            );
+            document.addEventListener(
+                "webkitfullscreenchange",
+                this.fullscreenChangeHandler
+            );
+        }
         this.updateIsMobile();
         window.addEventListener("resize", this.updateIsMobile);
         this.detectSpeechRecognitionSupport();
@@ -1641,9 +1657,24 @@ export default {
         beforeUnmount() {
             this.isComponentAlive = false;
             this.stopHighlightLoop();
+        this.exitReadingFullscreen({
+            restoreFocus: false,
+            skipNativeExit: false,
+        });
         window.removeEventListener("keydown", this.onKeydown);
         if (this._keydownHandler)
             window.removeEventListener("keydown", this._keydownHandler);
+        if (typeof document !== "undefined" && this.fullscreenChangeHandler) {
+            document.removeEventListener(
+                "fullscreenchange",
+                this.fullscreenChangeHandler
+            );
+            document.removeEventListener(
+                "webkitfullscreenchange",
+                this.fullscreenChangeHandler
+            );
+            this.fullscreenChangeHandler = null;
+        }
         window.removeEventListener("resize", this.updateIsMobile);
         window.removeEventListener("scroll", this.onScrollVirtual);
         window.removeEventListener("resize", this.computeListTop);
@@ -1714,9 +1745,24 @@ export default {
     },
         beforeDestroy() {
             this.stopHighlightLoop();
+            this.exitReadingFullscreen({
+                restoreFocus: false,
+                skipNativeExit: false,
+            });
             window.removeEventListener("keydown", this.onKeydown);
         if (this._keydownHandler)
             window.removeEventListener("keydown", this._keydownHandler);
+        if (typeof document !== "undefined" && this.fullscreenChangeHandler) {
+            document.removeEventListener(
+                "fullscreenchange",
+                this.fullscreenChangeHandler
+            );
+            document.removeEventListener(
+                "webkitfullscreenchange",
+                this.fullscreenChangeHandler
+            );
+            this.fullscreenChangeHandler = null;
+        }
         window.removeEventListener("resize", this.updateIsMobile);
         window.removeEventListener("scroll", this.onScrollVirtual);
         window.removeEventListener("resize", this.computeListTop);
@@ -1764,6 +1810,129 @@ export default {
             }
         },
     methods: {
+        getNativeFullscreenElement() {
+            if (typeof document === "undefined") return null;
+            return (
+                document.fullscreenElement ||
+                document.webkitFullscreenElement ||
+                null
+            );
+        },
+        supportsNativeFullscreen() {
+            if (typeof document === "undefined") return false;
+            const root = document.documentElement;
+            return !!(
+                root &&
+                (typeof root.requestFullscreen === "function" ||
+                    typeof root.webkitRequestFullscreen === "function")
+            );
+        },
+        async requestNativeFullscreen() {
+            if (!this.supportsNativeFullscreen()) return false;
+            const root = document.documentElement;
+            const request =
+                root.requestFullscreen || root.webkitRequestFullscreen;
+            if (typeof request !== "function") return false;
+            try {
+                await request.call(root);
+                return true;
+            } catch (_) {
+                return false;
+            }
+        },
+        async exitNativeFullscreen() {
+            if (typeof document === "undefined") return false;
+            const exit = document.exitFullscreen || document.webkitExitFullscreen;
+            if (typeof exit !== "function") return false;
+            try {
+                await exit.call(document);
+                return true;
+            } catch (_) {
+                return false;
+            }
+        },
+        handleNativeFullscreenChange() {
+            const isNativeFullscreen = !!this.getNativeFullscreenElement();
+            if (!isNativeFullscreen && this.isReadingFullscreen) {
+                this.exitReadingFullscreen({
+                    skipNativeExit: true,
+                });
+            }
+        },
+        focusReadingFullscreenToggleButton() {
+            this.$nextTick(() => {
+                const toggleButton = this.$refs.readingFullscreenToggleButton;
+                if (
+                    toggleButton &&
+                    typeof toggleButton.focus === "function"
+                ) {
+                    toggleButton.focus();
+                }
+            });
+        },
+        async enterReadingFullscreen() {
+            if (this.isReadingFullscreen || !this.isDesktopWide) return;
+            if (typeof document !== "undefined") {
+                const active = document.activeElement;
+                this.readingFullscreenLastFocusedEl =
+                    active && typeof active.focus === "function"
+                        ? active
+                        : null;
+            } else {
+                this.readingFullscreenLastFocusedEl = null;
+            }
+
+            this.isReadingFullscreen = true;
+            this.focusReadingFullscreenToggleButton();
+
+            await this.requestNativeFullscreen();
+        },
+        async exitReadingFullscreen(options = {}) {
+            const {
+                restoreFocus = true,
+                skipNativeExit = false,
+            } = options || {};
+            if (!this.isReadingFullscreen && !this.getNativeFullscreenElement()) {
+                return;
+            }
+
+            this.isReadingFullscreen = false;
+
+            if (!skipNativeExit && this.getNativeFullscreenElement()) {
+                await this.exitNativeFullscreen();
+            }
+
+            if (!restoreFocus) {
+                this.readingFullscreenLastFocusedEl = null;
+                return;
+            }
+
+            this.$nextTick(() => {
+                const previous = this.readingFullscreenLastFocusedEl;
+                const fallback = this.$refs.readingFullscreenToggleButton;
+                const canFocusPrevious =
+                    previous &&
+                    typeof previous.focus === "function" &&
+                    (typeof previous.isConnected !== "boolean" ||
+                        previous.isConnected);
+                if (canFocusPrevious) {
+                    previous.focus();
+                } else if (
+                    fallback &&
+                    typeof fallback.focus === "function"
+                ) {
+                    fallback.focus();
+                }
+                this.readingFullscreenLastFocusedEl = null;
+            });
+        },
+        async toggleReadingFullscreen() {
+            if (this.isReadingFullscreen) {
+                await this.exitReadingFullscreen();
+                return;
+            }
+            await this.enterReadingFullscreen();
+        },
         showToast(message, timeout = 3500, action = null) {
             this.bookmarkToast = message;
             this.bookmarkToastAction = action;
@@ -5802,6 +5971,23 @@ export default {
         },
         onKeydown(e) {
             const key = (e && e.key) || "";
+            const normalizedKey = key.toLowerCase();
+            const isFullscreenShortcut =
+                normalizedKey === "f" &&
+                e.ctrlKey &&
+                e.shiftKey &&
+                !e.metaKey &&
+                !e.altKey;
+            if (isFullscreenShortcut && this.isDesktopWide) {
+                e.preventDefault();
+                this.toggleReadingFullscreen();
+                return;
+            }
+            if (key === "Escape" && this.isReadingFullscreen) {
+                e.preventDefault();
+                this.exitReadingFullscreen();
+                return;
+            }
             const tag = ((e.target && e.target.tagName) || "").toLowerCase();
             const isTypingContext =
                 e.target?.isContentEditable ||
@@ -5892,14 +6078,21 @@ export default {
                 this.isTablet = window.matchMedia(
                     "(min-width: 768px) and (max-width: 991px)"
                 ).matches;
+                this.isDesktopWide = window.matchMedia(
+                    "(min-width: 1024px)"
+                ).matches;
             } catch (e) {
                 const width = window.innerWidth;
                 this.isMobile = width <= 767;
                 this.isTabletOrMobile = width <= 991;
                 this.isTablet = width >= 768 && width <= 991;
+                this.isDesktopWide = width >= 1024;
             }
             if (!this.isTabletOrMobile && this.isMobileToolbarExpanded) {
                 this.isMobileToolbarExpanded = false;
+            }
+            if (!this.isDesktopWide && this.isReadingFullscreen) {
+                this.exitReadingFullscreen({ restoreFocus: false });
             }
         },
         // removed ensureCardPositionsCached and fallbackCardPositions (scrollbar-related)
