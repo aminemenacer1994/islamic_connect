@@ -622,85 +622,112 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
 const _hoisted_1 = {
-  class: "row justify-content-center mb-4"
+  key: 0,
+  class: "quran-toolbar-surah-identity quran-toolbar-surah-identity-mobile ltr-text pb-3",
+  role: "status",
+  "aria-live": "polite",
+  "aria-atomic": "true"
 };
 const _hoisted_2 = {
-  class: "col-md-6"
+  class: "quran-toolbar-surah-identity-inner d-flex align-items-center flex-nowrap"
 };
 const _hoisted_3 = {
+  key: 0,
+  class: "quran-toolbar-surah-identity-ar text-end",
+  dir: "rtl"
+};
+const _hoisted_4 = {
+  class: "quran-toolbar-surah-identity-en d-flex flex-column text-start flex-grow-1"
+};
+const _hoisted_5 = {
+  class: "quran-toolbar-surah-identity-en-main d-inline-flex align-items-center"
+};
+const _hoisted_6 = {
+  key: 0,
+  class: "quran-toolbar-surah-identity-number"
+};
+const _hoisted_7 = {
+  class: "quran-toolbar-surah-identity-title"
+};
+const _hoisted_8 = {
+  key: 0,
+  class: "quran-toolbar-surah-identity-en-sub"
+};
+const _hoisted_9 = {
   id: "advancedQuranSearchSection",
   class: "row justify-content-center mb-4"
 };
-const _hoisted_4 = {
+const _hoisted_10 = {
   class: "col-12"
 };
-const _hoisted_5 = {
+const _hoisted_11 = {
   key: 0,
   class: "advanced-quran-search-top"
 };
-const _hoisted_6 = {
+const _hoisted_12 = {
   class: "advanced-quran-search-top-actions"
 };
-const _hoisted_7 = {
+const _hoisted_13 = {
   class: "advanced-quran-search-top-pills"
 };
-const _hoisted_8 = ["aria-expanded"];
-const _hoisted_9 = {
+const _hoisted_14 = ["aria-expanded"];
+const _hoisted_15 = {
   key: 1,
   class: "advanced-quran-search-input-wrap"
 };
-const _hoisted_10 = {
+const _hoisted_16 = {
   class: "advanced-quran-search-actions"
 };
-const _hoisted_11 = ["aria-label"];
-const _hoisted_12 = {
+const _hoisted_17 = ["aria-label"];
+const _hoisted_18 = {
   key: 2,
   class: "advanced-quran-mobile-deep-focus-bar",
   role: "group",
   "aria-label": "Deep focus mode controls"
 };
-const _hoisted_13 = ["aria-label", "title"];
-const _hoisted_14 = {
+const _hoisted_19 = ["aria-label", "title"];
+const _hoisted_20 = {
   class: "advanced-quran-mobile-action-btn-state"
 };
-const _hoisted_15 = {
+const _hoisted_21 = {
   key: 0,
   disabled: ""
 };
-const _hoisted_16 = ["value"];
-const _hoisted_17 = ["aria-expanded", "aria-label", "title"];
-const _hoisted_18 = {
+const _hoisted_22 = ["value"];
+const _hoisted_23 = ["aria-expanded", "aria-label", "title"];
+const _hoisted_24 = {
   key: 0,
   id: "advancedQuranMobileExpandedControls",
-  class: "advanced-quran-mobile-expanded",
-  role: "group",
   "aria-label": "Extended surah controls"
 };
-const _hoisted_19 = {
+const _hoisted_25 = {
   class: "advanced-quran-mobile-select-grid"
 };
-const _hoisted_20 = {
+const _hoisted_26 = {
   class: "advanced-quran-mobile-select-field"
 };
-const _hoisted_21 = ["value"];
-const _hoisted_22 = {
+const _hoisted_27 = ["value"];
+const _hoisted_28 = {
   class: "advanced-quran-mobile-toggle-row",
   role: "group",
   "aria-label": "Global translation controls"
 };
-const _hoisted_23 = ["title", "aria-label"];
-const _hoisted_24 = {
+const _hoisted_29 = ["title", "aria-label"];
+const _hoisted_30 = {
   class: "advanced-quran-mobile-action-btn-state"
 };
-const _hoisted_25 = ["title", "aria-label"];
-const _hoisted_26 = {
+const _hoisted_31 = ["title", "aria-label"];
+const _hoisted_32 = {
   class: "advanced-quran-mobile-action-btn-state"
 };
-const _hoisted_27 = {
+const _hoisted_33 = {
   class: "advanced-quran-mobile-action-grid"
 };
-const _hoisted_28 = ["disabled"];
-const _hoisted_29 = {
+const _hoisted_34 = {
+  class: "advanced-quran-mobile-action-label"
+};
+const _hoisted_35 = ["disabled"];
+const _hoisted_36 = {
   key: 0,
   type: "button",
   class: "btn advanced-quran-mobile-action-btn",
@@ -709,127 +736,98 @@ const _hoisted_29 = {
   "aria-label": "View tajweed rules",
   title: "Open the tajweed color guide to understand pronunciation and reading rules."
 };
-const _hoisted_30 = {
+const _hoisted_37 = {
   class: "advanced-quran-mobile-action-btn-state"
 };
-const _hoisted_31 = ["disabled", "aria-label", "title"];
-const _hoisted_32 = {
-  key: 0,
-  class: "quran-toolbar-surah-identity quran-toolbar-surah-identity-mobile ltr-text",
-  role: "status",
-  "aria-live": "polite",
-  "aria-atomic": "true"
-};
-const _hoisted_33 = {
-  class: "quran-toolbar-surah-identity-inner d-flex align-items-center flex-nowrap"
-};
-const _hoisted_34 = {
-  key: 0,
-  class: "quran-toolbar-surah-identity-ar text-end",
-  dir: "rtl"
-};
-const _hoisted_35 = {
-  class: "quran-toolbar-surah-identity-en d-flex flex-column text-start flex-grow-1"
-};
-const _hoisted_36 = {
-  class: "quran-toolbar-surah-identity-en-main d-inline-flex align-items-center"
-};
-const _hoisted_37 = {
-  key: 0,
-  class: "quran-toolbar-surah-identity-number"
-};
-const _hoisted_38 = {
-  class: "quran-toolbar-surah-identity-title"
-};
+const _hoisted_38 = ["disabled", "aria-label", "title"];
 const _hoisted_39 = {
-  key: 0,
-  class: "quran-toolbar-surah-identity-en-sub"
-};
-const _hoisted_40 = {
   key: 4,
   id: "advancedQuranSearchPanel",
   class: "advanced-quran-search-panel"
 };
-const _hoisted_41 = {
+const _hoisted_40 = {
   class: "advanced-quran-search-meta",
   "aria-live": "polite"
 };
-const _hoisted_42 = {
+const _hoisted_41 = {
   key: 0
 };
-const _hoisted_43 = {
+const _hoisted_42 = {
   key: 1,
   class: "text-danger"
 };
-const _hoisted_44 = {
+const _hoisted_43 = {
   key: 2
 };
-const _hoisted_45 = {
+const _hoisted_44 = {
   key: 0
 };
-const _hoisted_46 = {
+const _hoisted_45 = {
   key: 3
 };
-const _hoisted_47 = {
+const _hoisted_46 = {
   key: 0,
   class: "advanced-quran-search-speech-error",
   "aria-live": "polite"
 };
-const _hoisted_48 = {
+const _hoisted_47 = {
   key: 1,
   class: "advanced-quran-search-results",
   role: "list",
   "aria-label": "Advanced Quran search results by surah"
 };
-const _hoisted_49 = {
+const _hoisted_48 = {
   class: "advanced-quran-search-surah-head"
 };
-const _hoisted_50 = {
+const _hoisted_49 = {
   class: "advanced-quran-search-surah-ref"
 };
-const _hoisted_51 = {
+const _hoisted_50 = {
   class: "advanced-quran-search-result-chip"
 };
-const _hoisted_52 = {
+const _hoisted_51 = {
   class: "advanced-quran-search-result-surah"
 };
-const _hoisted_53 = {
+const _hoisted_52 = {
   key: 0,
   class: "advanced-quran-search-result-arabic-name"
 };
-const _hoisted_54 = {
+const _hoisted_53 = {
   class: "advanced-quran-search-result-meta"
 };
-const _hoisted_55 = ["onClick", "aria-expanded"];
-const _hoisted_56 = {
+const _hoisted_54 = ["onClick", "aria-expanded"];
+const _hoisted_55 = {
   class: "advanced-quran-search-result-head"
 };
-const _hoisted_57 = {
+const _hoisted_56 = {
   class: "advanced-quran-search-result-ref"
 };
-const _hoisted_58 = {
+const _hoisted_57 = {
   class: "advanced-quran-search-result-chip"
 };
-const _hoisted_59 = {
+const _hoisted_58 = {
   key: 0,
   class: "advanced-quran-search-result-meta"
 };
-const _hoisted_60 = {
+const _hoisted_59 = {
   key: 1,
   class: "advanced-quran-search-result-meta"
 };
-const _hoisted_61 = ["onClick", "aria-label"];
-const _hoisted_62 = ["innerHTML"];
-const _hoisted_63 = {
+const _hoisted_60 = ["onClick", "aria-label"];
+const _hoisted_61 = ["innerHTML"];
+const _hoisted_62 = {
   class: "advanced-quran-search-detail-grid"
 };
-const _hoisted_64 = {
+const _hoisted_63 = {
   class: "advanced-quran-search-detail"
 };
-const _hoisted_65 = ["innerHTML"];
-const _hoisted_66 = {
+const _hoisted_64 = ["innerHTML"];
+const _hoisted_65 = {
   key: 0,
   class: "quran-toolbar"
+};
+const _hoisted_66 = {
+  class: "quran-toolbar-btn-text"
 };
 const _hoisted_67 = {
   class: "quran-toolbar-reciter"
@@ -860,202 +858,143 @@ const _hoisted_76 = ["aria-label", "title"];
 const _hoisted_77 = ["disabled"];
 const _hoisted_78 = ["disabled", "aria-label", "title"];
 const _hoisted_79 = {
-  key: 1,
-  class: "quran-toolbar-surah-identity ltr-text reading-fullscreen-chrome",
-  role: "status",
-  "aria-live": "polite",
-  "aria-atomic": "true"
+  class: "quran-toolbar memorisation-toolbar-purple"
 };
-const _hoisted_80 = {
-  key: 0,
-  class: "quran-toolbar-surah-identity-ar text-end",
-  dir: "rtl"
-};
+const _hoisted_80 = ["title"];
 const _hoisted_81 = {
-  class: "quran-toolbar-surah-identity-en d-flex flex-column text-start flex-grow-1"
+  class: "quran-toolbar-reciter"
 };
-const _hoisted_82 = {
-  class: "quran-toolbar-surah-identity-en-main d-inline-flex align-items-center"
-};
+const _hoisted_82 = ["value"];
 const _hoisted_83 = {
-  key: 0,
-  class: "quran-toolbar-surah-identity-number"
+  class: "quran-toolbar-reciter"
 };
-const _hoisted_84 = {
-  class: "quran-toolbar-surah-identity-title"
-};
+const _hoisted_84 = ["value"];
 const _hoisted_85 = {
-  key: 0,
-  class: "quran-toolbar-surah-identity-en-sub"
-};
-const _hoisted_86 = {
-  key: 2,
-  class: "desktop-surah-context-wrapper ltr-text"
-};
-const _hoisted_87 = {
-  class: "desktop-surah-context-header"
-};
-const _hoisted_88 = {
-  class: "desktop-surah-context-main"
-};
-const _hoisted_89 = {
-  class: "desktop-surah-context-number"
-};
-const _hoisted_90 = {
-  class: "desktop-surah-context-names"
-};
-const _hoisted_91 = {
-  class: "desktop-surah-context-name"
-};
-const _hoisted_92 = {
-  key: 0,
-  class: "desktop-surah-context-translation"
-};
-const _hoisted_93 = {
-  key: 0,
-  class: "desktop-surah-context-arabic"
-};
-const _hoisted_94 = {
-  class: "desktop-surah-context-meta"
-};
-const _hoisted_95 = {
-  key: 0,
-  class: "desktop-surah-context-chip"
-};
-const _hoisted_96 = {
-  key: 1,
-  class: "desktop-surah-context-chip"
-};
-const _hoisted_97 = {
-  key: 1,
-  class: "desktop-sticky-restore ltr-text reading-fullscreen-chrome"
-};
-const _hoisted_98 = {
   key: 2,
   class: "pinned-ayahs-restore ltr-text reading-fullscreen-chrome"
 };
-const _hoisted_99 = {
+const _hoisted_86 = {
   class: "pinned-ayahs-header"
 };
-const _hoisted_100 = {
+const _hoisted_87 = {
   class: "pinned-ayahs-header-actions"
 };
-const _hoisted_101 = ["aria-label", "title"];
-const _hoisted_102 = {
+const _hoisted_88 = ["aria-label", "title"];
+const _hoisted_89 = {
   class: "pinned-ayahs-scroll",
   role: "region",
   "aria-label": "Pinned ayat horizontal list"
 };
-const _hoisted_103 = {
+const _hoisted_90 = {
   class: "pinned-ayahs-list",
   role: "list"
 };
-const _hoisted_104 = ["onClick", "aria-label"];
-const _hoisted_105 = {
+const _hoisted_91 = ["onClick", "aria-label"];
+const _hoisted_92 = {
   class: "pinned-ayah-ref"
 };
-const _hoisted_106 = {
+const _hoisted_93 = {
   class: "pinned-ayah-name"
 };
-const _hoisted_107 = {
+const _hoisted_94 = {
   class: "pinned-ayah-preview mb-0"
 };
-const _hoisted_108 = ["onClick"];
-const _hoisted_109 = {
+const _hoisted_95 = ["onClick"];
+const _hoisted_96 = {
   class: "surah-layout"
 };
-const _hoisted_110 = {
+const _hoisted_97 = {
   class: "sidebar-toggle mt-3 mb-2 px-3"
 };
-const _hoisted_111 = ["aria-expanded", "aria-label"];
-const _hoisted_112 = {
+const _hoisted_98 = ["aria-expanded", "aria-label"];
+const _hoisted_99 = {
   key: 0
 };
-const _hoisted_113 = {
+const _hoisted_100 = {
   id: "surat-filters",
   class: "row g-3"
 };
-const _hoisted_114 = {
+const _hoisted_101 = {
   class: "col-12 col-md-12 filter-item surah-list p-0"
 };
-const _hoisted_115 = {
+const _hoisted_102 = {
   class: "sidebar-dark-content d-flex flex-column h-100"
 };
-const _hoisted_116 = {
+const _hoisted_103 = {
   class: "sidebar-header pt-3 px-3 pb-2 sidebar-header-sticky"
 };
-const _hoisted_117 = {
+const _hoisted_104 = {
   class: "sidebar-tabs d-flex gap-2 mb-3 align-items-center"
 };
-const _hoisted_118 = {
+const _hoisted_105 = {
   class: "search-container"
 };
-const _hoisted_119 = ["placeholder"];
-const _hoisted_120 = {
+const _hoisted_106 = ["placeholder"];
+const _hoisted_107 = {
   class: "sidebar-list-container flex-grow-1 px-0 pb-5"
 };
-const _hoisted_121 = {
+const _hoisted_108 = {
   key: 0,
   class: "list-group list-group-flush"
 };
-const _hoisted_122 = ["onClick"];
-const _hoisted_123 = {
+const _hoisted_109 = ["onClick"];
+const _hoisted_110 = {
   class: "d-flex align-items-center w-100"
 };
-const _hoisted_124 = {
+const _hoisted_111 = {
   class: "item-number me-3"
 };
-const _hoisted_125 = {
+const _hoisted_112 = {
   class: "flex-grow-1 text-start"
 };
-const _hoisted_126 = {
+const _hoisted_113 = {
   class: "item-title-en"
 };
-const _hoisted_127 = {
+const _hoisted_114 = {
   class: "sidebar-item-meta"
 };
-const _hoisted_128 = {
+const _hoisted_115 = {
   key: 0
 };
-const _hoisted_129 = {
+const _hoisted_116 = {
   key: 1
 };
-const _hoisted_130 = {
+const _hoisted_117 = {
   key: 0,
   class: "sidebar-item-extra"
 };
-const _hoisted_131 = {
+const _hoisted_118 = {
   key: 0
 };
-const _hoisted_132 = {
+const _hoisted_119 = {
   class: "surah-info-group ms-auto"
 };
-const _hoisted_133 = {
+const _hoisted_120 = {
   class: "item-title-ar text-end"
 };
-const _hoisted_134 = ["onClick"];
-const _hoisted_135 = {
+const _hoisted_121 = ["onClick"];
+const _hoisted_122 = {
   key: 1,
   class: "list-group list-group-flush"
 };
-const _hoisted_136 = {
+const _hoisted_123 = {
   key: 0,
   class: "p-3 text-white-50 small text-center border-bottom border-white-10"
 };
-const _hoisted_137 = ["onClick"];
-const _hoisted_138 = {
+const _hoisted_124 = ["onClick"];
+const _hoisted_125 = {
   class: "d-flex w-100 align-items-center"
 };
-const _hoisted_139 = {
+const _hoisted_126 = {
   class: "item-number-container me-2"
 };
-const _hoisted_140 = {
+const _hoisted_127 = {
   class: "item-number"
 };
-const _hoisted_141 = {
+const _hoisted_128 = {
   class: "flex-grow-1 overflow-hidden d-flex align-items-center py-2"
 };
-const _hoisted_142 = {
+const _hoisted_129 = {
   class: "items-text-preview text-start text-truncate pe-2 border-end border-white-10",
   style: {
     "color": "#ffffff",
@@ -1065,7 +1004,7 @@ const _hoisted_142 = {
     "max-width": "50%"
   }
 };
-const _hoisted_143 = {
+const _hoisted_130 = {
   class: "item-title-ar text-end text-truncate ps-2",
   style: {
     "font-size": "1.2rem",
@@ -1076,152 +1015,181 @@ const _hoisted_143 = {
     "font-family": "var(--ic-quran-arabic-font) !important"
   }
 };
-const _hoisted_144 = {
+const _hoisted_131 = {
   key: 1,
   class: "text-center text-white-50 py-4"
 };
-const _hoisted_145 = {
+const _hoisted_132 = {
   key: 2,
   class: "list-group list-group-flush"
 };
-const _hoisted_146 = ["onClick"];
-const _hoisted_147 = {
+const _hoisted_133 = ["onClick"];
+const _hoisted_134 = {
   class: "d-flex w-100 align-items-center justify-content-between"
 };
-const _hoisted_148 = {
+const _hoisted_135 = {
   class: "text-start"
 };
-const _hoisted_149 = {
+const _hoisted_136 = {
   class: "item-title-en"
 };
-const _hoisted_150 = {
+const _hoisted_137 = {
   class: "small text-white-50",
   style: {
     "font-size": "0.75rem"
   }
 };
-const _hoisted_151 = {
+const _hoisted_138 = {
   class: "surah-offcanvas-trigger"
 };
-const _hoisted_152 = {
+const _hoisted_139 = {
   class: "offcanvas offcanvas-start surah-offcanvas",
   tabindex: "-1",
   id: "surahOffcanvas",
   ref: "surahOffcanvas",
   "aria-labelledby": "surahOffcanvasLabel"
 };
-const _hoisted_153 = {
+const _hoisted_140 = {
   class: "offcanvas-body"
 };
-const _hoisted_154 = {
+const _hoisted_141 = {
   key: 0,
   class: "surah-offcanvas-section surah-offcanvas-search"
 };
-const _hoisted_155 = {
+const _hoisted_142 = {
   key: 0,
   class: "surah-offcanvas-title"
 };
-const _hoisted_156 = {
+const _hoisted_143 = {
   key: 1,
   class: "surah-offcanvas-title"
 };
-const _hoisted_157 = {
+const _hoisted_144 = {
   key: 2,
   class: "surah-offcanvas-badge"
 };
-const _hoisted_158 = {
+const _hoisted_145 = {
   class: "surah-offcanvas-section"
 };
-const _hoisted_159 = ["value"];
-const _hoisted_160 = {
+const _hoisted_146 = ["value"];
+const _hoisted_147 = {
   class: "surah-offcanvas-section"
 };
-const _hoisted_161 = ["value"];
-const _hoisted_162 = {
+const _hoisted_148 = ["value"];
+const _hoisted_149 = {
   class: "surah-offcanvas-row mt-3"
 };
-const _hoisted_163 = {
+const _hoisted_150 = {
   class: "surah-offcanvas-field"
 };
-const _hoisted_164 = ["value"];
-const _hoisted_165 = ["disabled"];
-const _hoisted_166 = {
+const _hoisted_151 = ["value"];
+const _hoisted_152 = ["disabled"];
+const _hoisted_153 = {
   key: 0,
   class: "loading-placeholder"
 };
-const _hoisted_167 = ["id", "data-ayah-number", "onClick", "onKeydown", "onDragstart"];
-const _hoisted_168 = {
+const _hoisted_154 = ["id", "data-ayah-number", "onClick", "onKeydown", "onDragstart"];
+const _hoisted_155 = {
   class: "ayah-surface rtl-text d-flex flex-column"
 };
-const _hoisted_169 = {
+const _hoisted_156 = {
   class: "d-flex justify-content-between text-muted ltr-text ayah-card-header"
 };
-const _hoisted_170 = {
+const _hoisted_157 = {
   class: "d-flex align-items-center gap-2"
 };
-const _hoisted_171 = {
+const _hoisted_158 = {
   key: 0,
   class: "saved-pill"
 };
-const _hoisted_172 = {
+const _hoisted_159 = {
   key: 0,
   class: "now-playing-tag"
 };
-const _hoisted_173 = {
+const _hoisted_160 = {
   class: "ayah-card-header-actions"
 };
-const _hoisted_174 = {
+const _hoisted_161 = {
   class: "form-check form-switch translation-toggle ayah-translation-toggle"
 };
-const _hoisted_175 = ["checked", "id", "aria-label", "onChange"];
-const _hoisted_176 = ["for"];
-const _hoisted_177 = {
+const _hoisted_162 = ["checked", "id", "aria-label", "onChange"];
+const _hoisted_163 = ["for"];
+const _hoisted_164 = {
   class: "form-check form-switch translation-toggle ayah-transliteration-toggle"
 };
-const _hoisted_178 = ["checked", "id", "aria-label", "onChange"];
-const _hoisted_179 = ["for"];
-const _hoisted_180 = {
+const _hoisted_165 = ["checked", "id", "aria-label", "onChange"];
+const _hoisted_166 = ["for"];
+const _hoisted_167 = {
   class: "ayah-pin-feedback-group"
 };
-const _hoisted_181 = ["onClick", "aria-label", "title"];
-const _hoisted_182 = ["onClick", "disabled", "aria-label", "title"];
-const _hoisted_183 = {
+const _hoisted_168 = ["onClick", "aria-label", "title"];
+const _hoisted_169 = ["onClick", "disabled", "aria-label", "title"];
+const _hoisted_170 = {
   key: 0,
   class: "bi bi-check-circle-fill feedback-badge-icon"
 };
-const _hoisted_184 = {
+const _hoisted_171 = {
   key: 1,
   class: "bi bi-trash-fill feedback-badge-icon"
 };
-const _hoisted_185 = {
+const _hoisted_172 = {
   key: 2,
   class: "bi bi-exclamation-triangle-fill feedback-badge-icon"
 };
-const _hoisted_186 = ["href"];
-const _hoisted_187 = ["aria-hidden"];
-const _hoisted_188 = {
+const _hoisted_173 = ["href"];
+const _hoisted_174 = ["aria-hidden"];
+const _hoisted_175 = {
   class: "col-md-11"
 };
-const _hoisted_189 = {
+const _hoisted_176 = {
   style: {
     "padding": "4px"
   }
 };
-const _hoisted_190 = ["innerHTML"];
-const _hoisted_191 = {
+const _hoisted_177 = ["innerHTML"];
+const _hoisted_178 = {
   key: 0,
   class: "translation-header pt-2 ltr-text hide-on-mobile-tablet ml-2"
 };
-const _hoisted_192 = {
+const _hoisted_179 = {
   class: "translation-copy flex-grow-1"
 };
-const _hoisted_193 = {
+const _hoisted_180 = {
   key: 0
+};
+const _hoisted_181 = ["innerHTML"];
+const _hoisted_182 = {
+  key: 2,
+  class: "transliteration-header pt-2 ltr-text hide-on-mobile-tablet ml-2"
+};
+const _hoisted_183 = ["innerHTML"];
+const _hoisted_184 = {
+  class: "ayah-quick-actions ltr-text",
+  role: "group",
+  "aria-label": "Quick actions"
+};
+const _hoisted_185 = ["onClick"];
+const _hoisted_186 = ["onClick"];
+const _hoisted_187 = {
+  class: "col-md-1 text-center"
+};
+const _hoisted_188 = {
+  class: "d-flex flex-column align-items-center"
+};
+const _hoisted_189 = ["onClick", "aria-label", "title"];
+const _hoisted_190 = ["aria-hidden"];
+const _hoisted_191 = ["innerHTML"];
+const _hoisted_192 = {
+  key: 0,
+  class: "d-flex align-items-center fw-bold pt-2 ltr-text ml-2"
+};
+const _hoisted_193 = {
+  key: 1
 };
 const _hoisted_194 = ["innerHTML"];
 const _hoisted_195 = {
-  key: 2,
-  class: "transliteration-header pt-2 ltr-text hide-on-mobile-tablet ml-2"
+  key: 3,
+  class: "d-flex align-items-center fw-bold pt-2 ltr-text ml-2 transliteration-header"
 };
 const _hoisted_196 = ["innerHTML"];
 const _hoisted_197 = {
@@ -1231,37 +1199,8 @@ const _hoisted_197 = {
 };
 const _hoisted_198 = ["onClick"];
 const _hoisted_199 = ["onClick"];
-const _hoisted_200 = {
-  class: "col-md-1 text-center"
-};
+const _hoisted_200 = ["onClick", "aria-label", "title"];
 const _hoisted_201 = {
-  class: "d-flex flex-column align-items-center"
-};
-const _hoisted_202 = ["onClick", "aria-label", "title"];
-const _hoisted_203 = ["aria-hidden"];
-const _hoisted_204 = ["innerHTML"];
-const _hoisted_205 = {
-  key: 0,
-  class: "d-flex align-items-center fw-bold pt-2 ltr-text ml-2"
-};
-const _hoisted_206 = {
-  key: 1
-};
-const _hoisted_207 = ["innerHTML"];
-const _hoisted_208 = {
-  key: 3,
-  class: "d-flex align-items-center fw-bold pt-2 ltr-text ml-2 transliteration-header"
-};
-const _hoisted_209 = ["innerHTML"];
-const _hoisted_210 = {
-  class: "ayah-quick-actions ltr-text",
-  role: "group",
-  "aria-label": "Quick actions"
-};
-const _hoisted_211 = ["onClick"];
-const _hoisted_212 = ["onClick"];
-const _hoisted_213 = ["onClick", "aria-label", "title"];
-const _hoisted_214 = {
   class: "row card-teal mb-3 py-2 ayah-inline-controls",
   style: {
     "display": "flex",
@@ -1270,113 +1209,113 @@ const _hoisted_214 = {
     "margin": "0 -5px"
   }
 };
-const _hoisted_215 = {
+const _hoisted_202 = {
   class: "col text-center",
   style: {
     "padding": "2px"
   }
 };
-const _hoisted_216 = {
+const _hoisted_203 = {
   class: "col text-center",
   style: {
     "padding": "2px"
   }
 };
-const _hoisted_217 = {
+const _hoisted_204 = {
   class: "col text-center",
   style: {
     "padding": "2px"
   }
 };
-const _hoisted_218 = ["onClick"];
-const _hoisted_219 = {
+const _hoisted_205 = ["onClick"];
+const _hoisted_206 = {
   class: "col text-center",
   style: {
     "padding": "2px"
   }
 };
-const _hoisted_220 = ["onClick", "aria-label", "title"];
-const _hoisted_221 = {
+const _hoisted_207 = ["onClick", "aria-label", "title"];
+const _hoisted_208 = {
   class: "ayah-inline-control-label"
 };
-const _hoisted_222 = {
+const _hoisted_209 = {
   class: "col text-center",
   style: {
     "padding": "2px"
   }
 };
-const _hoisted_223 = ["onClick"];
-const _hoisted_224 = {
+const _hoisted_210 = ["onClick"];
+const _hoisted_211 = {
   class: "col text-center",
   style: {
     "padding": "2px"
   }
 };
-const _hoisted_225 = ["onClick", "title"];
-const _hoisted_226 = {
+const _hoisted_212 = ["onClick", "title"];
+const _hoisted_213 = {
   class: "ayah-inline-control-label"
 };
-const _hoisted_227 = {
+const _hoisted_214 = {
   class: "visually-hidden",
   "aria-live": "polite",
   "aria-atomic": "true"
 };
-const _hoisted_228 = {
+const _hoisted_215 = {
   key: 1,
   class: "empty-state text-center text-muted py-4"
 };
-const _hoisted_229 = ["id"];
-const _hoisted_230 = {
+const _hoisted_216 = ["id"];
+const _hoisted_217 = {
   class: "modal-dialog modal-dialog-centered modal-dialog-scrollable modal-2xl"
 };
-const _hoisted_231 = {
+const _hoisted_218 = {
   class: "modal-content surat-onboarding-modal"
 };
-const _hoisted_232 = {
+const _hoisted_219 = {
   class: "modal-header"
 };
-const _hoisted_233 = {
+const _hoisted_220 = {
   class: "surat-onboarding-header-actions"
 };
-const _hoisted_234 = ["disabled"];
-const _hoisted_235 = ["disabled"];
-const _hoisted_236 = {
+const _hoisted_221 = ["disabled"];
+const _hoisted_222 = ["disabled"];
+const _hoisted_223 = {
   class: "surat-onboarding-search-wrap"
 };
-const _hoisted_237 = {
+const _hoisted_224 = {
   class: "surat-onboarding-meta mb-3"
 };
-const _hoisted_238 = {
+const _hoisted_225 = {
   key: 0,
   class: "surat-onboarding-grid"
 };
-const _hoisted_239 = {
+const _hoisted_226 = {
   class: "surat-onboarding-card-top"
 };
-const _hoisted_240 = {
+const _hoisted_227 = {
   class: "surat-onboarding-card-meta"
 };
-const _hoisted_241 = {
+const _hoisted_228 = {
   class: "surat-onboarding-icon",
   "aria-hidden": "true"
 };
-const _hoisted_242 = {
+const _hoisted_229 = {
   class: "surat-onboarding-area"
 };
-const _hoisted_243 = {
+const _hoisted_230 = {
   class: "surat-onboarding-rank"
 };
-const _hoisted_244 = ["innerHTML"];
-const _hoisted_245 = ["innerHTML"];
-const _hoisted_246 = {
+const _hoisted_231 = ["innerHTML"];
+const _hoisted_232 = ["innerHTML"];
+const _hoisted_233 = {
   class: "surat-onboarding-how mb-0"
 };
-const _hoisted_247 = ["innerHTML"];
-const _hoisted_248 = {
+const _hoisted_234 = ["innerHTML"];
+const _hoisted_235 = {
   key: 1,
   class: "surat-onboarding-empty"
 };
-const _hoisted_249 = {
+const _hoisted_236 = {
   class: "modal fade",
   id: "tajweedRulesModal",
   tabindex: "-1",
@@ -1384,54 +1323,54 @@ const _hoisted_249 = {
   "aria-hidden": "true",
   "data-bs-backdrop": "true"
 };
-const _hoisted_250 = {
+const _hoisted_237 = {
   class: "modal-dialog modal-dialog-centered modal-lg modal-modern"
 };
-const _hoisted_251 = {
+const _hoisted_238 = {
   class: "modal-content tajweed-modal"
 };
-const _hoisted_252 = {
+const _hoisted_239 = {
   class: "modal-body"
 };
-const _hoisted_253 = {
+const _hoisted_240 = {
   key: 0,
   class: "tajweed-rules-grid"
 };
-const _hoisted_254 = {
+const _hoisted_241 = {
   class: "tajweed-rule-en"
 };
-const _hoisted_255 = {
+const _hoisted_242 = {
   class: "tajweed-rule-title"
 };
-const _hoisted_256 = {
+const _hoisted_243 = {
   class: "tajweed-rule-code"
 };
-const _hoisted_257 = {
+const _hoisted_244 = {
   class: "tajweed-rule-label"
 };
-const _hoisted_258 = {
+const _hoisted_245 = {
   key: 0,
   class: "tajweed-rule-desc"
 };
-const _hoisted_259 = {
+const _hoisted_246 = {
   class: "tajweed-rule-color"
 };
-const _hoisted_260 = {
+const _hoisted_247 = {
   key: 0,
   class: "tajweed-rule-ar"
 };
-const _hoisted_261 = {
+const _hoisted_248 = {
   class: "tajweed-rule-ar-title"
 };
-const _hoisted_262 = {
+const _hoisted_249 = {
   key: 0,
   class: "tajweed-rule-ar-desc"
 };
-const _hoisted_263 = {
+const _hoisted_250 = {
   key: 1,
   class: "text-muted small"
 };
-const _hoisted_264 = {
+const _hoisted_251 = {
   class: "modal fade",
   id: "surahInfoModal",
   tabindex: "-1",
@@ -1439,71 +1378,71 @@ const _hoisted_264 = {
   "aria-hidden": "true",
   "data-bs-backdrop": "true"
 };
-const _hoisted_265 = {
+const _hoisted_252 = {
   class: "modal-dialog modal-dialog-centered modal-lg modal-modern"
 };
-const _hoisted_266 = {
+const _hoisted_253 = {
   class: "modal-content surah-info-modal"
 };
-const _hoisted_267 = {
+const _hoisted_254 = {
   class: "modal-header"
 };
-const _hoisted_268 = {
+const _hoisted_255 = {
   class: "surah-info-actions"
 };
-const _hoisted_269 = ["disabled"];
-const _hoisted_270 = ["disabled"];
-const _hoisted_271 = {
+const _hoisted_256 = ["disabled"];
+const _hoisted_257 = ["disabled"];
+const _hoisted_258 = {
   class: "modal-body"
 };
-const _hoisted_272 = {
+const _hoisted_259 = {
   class: "surah-info-hero"
 };
-const _hoisted_273 = {
+const _hoisted_260 = {
   key: 0,
   class: "surah-info-arabic-large"
 };
-const _hoisted_274 = {
+const _hoisted_261 = {
   class: "surah-info-english"
 };
-const _hoisted_275 = {
+const _hoisted_262 = {
   class: "surah-info-meta"
 };
-const _hoisted_276 = {
+const _hoisted_263 = {
   class: "surah-info-chip"
 };
-const _hoisted_277 = {
+const _hoisted_264 = {
   class: "surah-info-chip"
 };
-const _hoisted_278 = ["innerHTML"];
-const _hoisted_279 = {
+const _hoisted_265 = ["innerHTML"];
+const _hoisted_266 = {
   key: 1,
   class: "surah-info-loading"
 };
-const _hoisted_280 = {
+const _hoisted_267 = {
   key: 2,
   class: "surah-info-error"
 };
-const _hoisted_281 = ["innerHTML"];
-const _hoisted_282 = {
+const _hoisted_268 = ["innerHTML"];
+const _hoisted_269 = {
   key: 4,
   class: "surah-info-empty"
 };
-const _hoisted_283 = {
+const _hoisted_270 = {
   class: "surah-info-source"
 };
-const _hoisted_284 = ["href"];
-const _hoisted_285 = {
+const _hoisted_271 = ["href"];
+const _hoisted_272 = {
   key: 1
 };
-const _hoisted_286 = {
+const _hoisted_273 = {
   key: 2
 };
-const _hoisted_287 = {
+const _hoisted_274 = {
   key: 1,
   class: "text-muted small"
 };
-const _hoisted_288 = {
+const _hoisted_275 = {
   class: "modal fade",
   id: "surahSettingsModal",
   tabindex: "-1",
@@ -1511,150 +1450,150 @@ const _hoisted_288 = {
   "aria-hidden": "true",
   "data-bs-backdrop": "true"
 };
-const _hoisted_289 = {
+const _hoisted_276 = {
   class: "modal-dialog modal-dialog-centered modal-md modal-modern"
 };
-const _hoisted_290 = {
+const _hoisted_277 = {
   class: "modal-content surah-settings-modal"
 };
-const _hoisted_291 = {
+const _hoisted_278 = {
   class: "modal-body"
 };
-const _hoisted_292 = {
+const _hoisted_279 = {
   class: "surah-settings-group"
 };
-const _hoisted_293 = ["value"];
-const _hoisted_294 = {
+const _hoisted_280 = ["value"];
+const _hoisted_281 = {
   class: "surah-settings-group"
 };
-const _hoisted_295 = ["value"];
-const _hoisted_296 = {
+const _hoisted_282 = ["value"];
+const _hoisted_283 = {
   class: "surah-settings-group"
 };
-const _hoisted_297 = {
+const _hoisted_284 = {
   class: "surah-settings-group"
 };
-const _hoisted_298 = ["value"];
-const _hoisted_299 = {
+const _hoisted_285 = ["value"];
+const _hoisted_286 = {
   key: 0,
   class: "text-muted d-block mt-1"
 };
-const _hoisted_300 = {
+const _hoisted_287 = {
   key: 1,
   class: "text-muted d-block mt-1"
 };
-const _hoisted_301 = {
+const _hoisted_288 = {
   class: "surah-settings-group"
 };
-const _hoisted_302 = {
+const _hoisted_289 = {
   class: "surah-settings-group"
 };
-const _hoisted_303 = {
+const _hoisted_290 = {
   class: "modal-footer border-0"
 };
-const _hoisted_304 = ["id"];
-const _hoisted_305 = {
+const _hoisted_291 = ["id"];
+const _hoisted_292 = {
   class: "offcanvas-body"
 };
-const _hoisted_306 = {
+const _hoisted_293 = {
   class: "quran-font-panel"
+};
+const _hoisted_294 = {
+  key: 0,
+  class: "quran-font-loading"
+};
+const _hoisted_295 = {
+  key: 1
+};
+const _hoisted_296 = {
+  key: 0,
+  class: "quran-font-error"
+};
+const _hoisted_297 = {
+  class: "quran-font-list"
+};
+const _hoisted_298 = ["onClick"];
+const _hoisted_299 = {
+  class: "quran-font-option-header"
+};
+const _hoisted_300 = {
+  class: "form-check"
+};
+const _hoisted_301 = ["id", "value"];
+const _hoisted_302 = ["for"];
+const _hoisted_303 = {
+  key: 0,
+  class: "quran-font-source"
+};
+const _hoisted_304 = {
+  key: 0,
+  class: "quran-font-preview-loading"
+};
+const _hoisted_305 = ["innerHTML"];
+const _hoisted_306 = {
+  key: 2,
+  class: "alert alert-soft-success quran-font-alert",
+  role: "status"
 };
 const _hoisted_307 = {
-  key: 0,
-  class: "quran-font-loading"
-};
-const _hoisted_308 = {
-  key: 1
-};
-const _hoisted_309 = {
-  key: 0,
-  class: "quran-font-error"
-};
-const _hoisted_310 = {
-  class: "quran-font-list"
-};
-const _hoisted_311 = ["onClick"];
-const _hoisted_312 = {
-  class: "quran-font-option-header"
-};
-const _hoisted_313 = {
-  class: "form-check"
-};
-const _hoisted_314 = ["id", "value"];
-const _hoisted_315 = ["for"];
-const _hoisted_316 = {
-  key: 0,
-  class: "quran-font-source"
-};
-const _hoisted_317 = {
-  key: 0,
-  class: "quran-font-preview-loading"
-};
-const _hoisted_318 = ["innerHTML"];
-const _hoisted_319 = {
-  key: 2,
-  class: "alert alert-soft-success quran-font-alert",
-  role: "status"
-};
-const _hoisted_320 = {
   class: "quran-font-actions"
 };
-const _hoisted_321 = ["disabled"];
-const _hoisted_322 = ["id"];
-const _hoisted_323 = {
+const _hoisted_308 = ["disabled"];
+const _hoisted_309 = ["id"];
+const _hoisted_310 = {
   class: "modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable modal-fullscreen-sm-down"
 };
-const _hoisted_324 = {
+const _hoisted_311 = {
   class: "modal-content quran-font-modal-content"
 };
-const _hoisted_325 = {
+const _hoisted_312 = {
   class: "modal-body"
 };
-const _hoisted_326 = {
+const _hoisted_313 = {
   class: "quran-font-panel"
 };
-const _hoisted_327 = {
+const _hoisted_314 = {
   key: 0,
   class: "quran-font-loading"
 };
-const _hoisted_328 = {
+const _hoisted_315 = {
   key: 1
 };
-const _hoisted_329 = {
+const _hoisted_316 = {
   key: 0,
   class: "quran-font-error"
 };
-const _hoisted_330 = {
+const _hoisted_317 = {
   class: "quran-font-list"
 };
-const _hoisted_331 = ["onClick"];
-const _hoisted_332 = {
+const _hoisted_318 = ["onClick"];
+const _hoisted_319 = {
   class: "quran-font-option-header"
 };
-const _hoisted_333 = {
+const _hoisted_320 = {
   class: "form-check"
 };
-const _hoisted_334 = ["id", "value"];
-const _hoisted_335 = ["for"];
-const _hoisted_336 = {
+const _hoisted_321 = ["id", "value"];
+const _hoisted_322 = ["for"];
+const _hoisted_323 = {
   key: 0,
   class: "quran-font-source"
 };
-const _hoisted_337 = {
+const _hoisted_324 = {
   key: 0,
   class: "quran-font-preview-loading"
 };
-const _hoisted_338 = ["innerHTML"];
-const _hoisted_339 = {
+const _hoisted_325 = ["innerHTML"];
+const _hoisted_326 = {
   key: 2,
   class: "alert alert-soft-success quran-font-alert",
   role: "status"
 };
-const _hoisted_340 = {
+const _hoisted_327 = {
   class: "quran-font-actions"
 };
-const _hoisted_341 = ["disabled"];
-const _hoisted_342 = {
+const _hoisted_328 = ["disabled"];
+const _hoisted_329 = {
   class: "modal fade",
   id: "ayahReflectionModal",
   tabindex: "-1",
@@ -1662,136 +1601,135 @@ const _hoisted_342 = {
   "aria-hidden": "true",
   "data-bs-backdrop": "true"
 };
-const _hoisted_343 = {
+const _hoisted_330 = {
   class: "modal-dialog modal-dialog-centered modal-lg modal-modern modal-fullscreen-md-down"
 };
-const _hoisted_344 = {
+const _hoisted_331 = {
   class: "modal-content reflection-modal"
 };
-const _hoisted_345 = {
+const _hoisted_332 = {
   class: "modal-header"
 };
-const _hoisted_346 = {
+const _hoisted_333 = {
   class: "modal-body pt-0"
 };
-const _hoisted_347 = {
+const _hoisted_334 = {
   key: 0,
   class: "reflection-success-banner reflection-success-top"
 };
-const _hoisted_348 = ["minlength"];
-const _hoisted_349 = {
+const _hoisted_335 = ["minlength"];
+const _hoisted_336 = {
   class: "d-flex justify-content-between align-items-center mt-2"
 };
-const _hoisted_350 = {
+const _hoisted_337 = {
   class: "text-muted"
 };
-const _hoisted_351 = {
+const _hoisted_338 = {
   class: "text-muted small"
 };
-const _hoisted_352 = {
+const _hoisted_339 = {
   key: 1,
   class: "alert alert-info d-flex justify-content-between align-items-center small"
 };
-const _hoisted_353 = {
+const _hoisted_340 = {
   class: "note-suggestions-header d-flex justify-content-between align-items-center mb-3"
 };
-const _hoisted_354 = {
+const _hoisted_341 = {
   class: "suggestion-marquee-stack"
 };
-const _hoisted_355 = {
+const _hoisted_342 = {
   class: "suggestion-marquee"
 };
-const _hoisted_356 = {
+const _hoisted_343 = {
   class: "suggestion-track-group",
   "aria-hidden": false
 };
-const _hoisted_357 = ["onClick"];
-const _hoisted_358 = {
+const _hoisted_344 = ["onClick"];
+const _hoisted_345 = {
   class: "lead"
 };
-const _hoisted_359 = {
+const _hoisted_346 = {
   key: 2,
   class: "note-suggestions-collapsed d-flex justify-content-between align-items-center"
 };
-const _hoisted_360 = {
+const _hoisted_347 = {
   key: 3,
   class: "alert alert-danger py-2 small"
 };
-const _hoisted_361 = {
+const _hoisted_348 = {
   key: 4,
   class: "reflection-history reflection-history-card mt-4"
 };
-const _hoisted_362 = {
+const _hoisted_349 = {
   class: "reflection-history-header"
 };
-const _hoisted_363 = {
+const _hoisted_350 = {
   class: "reflection-history-count"
 };
-const _hoisted_364 = {
+const _hoisted_351 = {
   class: "reflection-history-list"
 };
-const _hoisted_365 = {
+const _hoisted_352 = {
   class: "reflection-history-subject"
 };
-const _hoisted_366 = {
+const _hoisted_353 = {
   class: "reflection-history-message"
 };
-const _hoisted_367 = {
+const _hoisted_354 = {
   class: "reflection-history-entry-actions"
 };
-const _hoisted_368 = ["onClick"];
-const _hoisted_369 = ["onClick"];
-const _hoisted_370 = {
+const _hoisted_355 = ["onClick"];
+const _hoisted_356 = ["onClick"];
+const _hoisted_357 = {
   class: "modal-footer justify-content-end border-0 p-0 mt-2 gap-2 small-actions"
 };
-const _hoisted_371 = ["disabled"];
-const _hoisted_372 = {
+const _hoisted_358 = ["disabled"];
+const _hoisted_359 = {
   key: 0,
   class: "spinner-border spinner-border-sm me-2",
   role: "status",
   "aria-hidden": "true"
 };
-const _hoisted_373 = {
+const _hoisted_360 = {
   key: 0,
   class: "audio-player-container"
 };
-const _hoisted_374 = {
+const _hoisted_361 = {
   class: "custom-audio-player"
 };
-const _hoisted_375 = {
+const _hoisted_362 = {
   class: "controls"
 };
-const _hoisted_376 = ["title"];
-const _hoisted_377 = {
+const _hoisted_363 = ["title"];
+const _hoisted_364 = {
   class: "speed-indicator"
 };
-const _hoisted_378 = ["title", "aria-pressed"];
-const _hoisted_379 = {
+const _hoisted_365 = ["title", "aria-pressed"];
+const _hoisted_366 = {
   key: 0,
   class: "volume-bar-container"
 };
-const _hoisted_380 = {
+const _hoisted_367 = {
   class: "time",
   "aria-live": "polite"
 };
-const _hoisted_381 = ["aria-valuenow", "aria-valuetext"];
-const _hoisted_382 = {
+const _hoisted_368 = ["aria-valuenow", "aria-valuetext"];
+const _hoisted_369 = {
   class: "audio-visualizer",
   ref: "visualizer"
 };
-const _hoisted_383 = {
+const _hoisted_370 = {
   key: 0,
   class: "ayah-scrollbar",
   role: "group",
   "aria-label": "Surah verse navigator"
 };
-const _hoisted_384 = ["max", "value", "aria-valuemax", "aria-valuenow", "aria-valuetext"];
-const _hoisted_385 = {
+const _hoisted_371 = ["max", "value", "aria-valuemax", "aria-valuenow", "aria-valuetext"];
+const _hoisted_372 = {
   class: "ayah-scrollbar-count"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _ctx$surahDetails1, _ctx$audioElements$_c, _ctx$audioElements$_c2;
-  const _component_ContinueReadingCard = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("ContinueReadingCard");
   const _component_bookmark_modal = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("bookmark-modal");
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["container surat-premium", {
@@ -1801,12 +1739,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       'mobile-toolbar-pinned': _ctx.isTabletOrMobile && _ctx.isToolbarPinned,
       'mobile-toolbar-expanded': _ctx.isTabletOrMobile && _ctx.isToolbarPinned && _ctx.isMobileToolbarExpanded,
       'reading-fullscreen': _ctx.isReadingFullscreen,
-      'deep-focus-mode': _ctx.isDeepFocusMode
+      'deep-focus-mode': _ctx.isDeepFocusMode,
+      'blur-next-ayah-enabled': _ctx.isBlurNextAyahEnabled
     }]),
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)(_ctx.quranFontStyle),
     role: "main",
     "aria-label": "Quran Explorer"
-  }, [_cache[233] || (_cache[233] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, [_cache[258] || (_cache[258] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "row justify-content-center text-center mb-3 reading-fullscreen-chrome quran-reader-hero"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "col-lg-10 col-xl-10"
@@ -1814,20 +1753,20 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "display-5 fw-bold"
   }, "The Holy Quran"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "holy-book-description mb-0"
-  }, "Explore the Holy Quran with clear recitations, trusted translations, and practical tools that help you read with focus, listen with understanding, and reflect on each ayah in your daily life.")])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_ContinueReadingCard)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", {
+  }, "Explore the Holy Quran with clear recitations, trusted translations, and practical tools that help you read with focus, listen with understanding, and reflect on each ayah in your daily life.")])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"row justify-content-center mb-4\">\n             <div class=\"col-md-6\">\n                 <ContinueReadingCard />\n             </div>\n        </div> "), _ctx.desktopSurahContext.englishName || _ctx.desktopSurahContext.arabicName ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [_ctx.desktopSurahContext.arabicName ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.desktopSurahContext.arabicName), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_5, [_ctx.desktopSurahContext.number ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.desktopSurahContext.number) + ". ", 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.desktopSurahContext.englishName), 1 /* TEXT */)]), _ctx.desktopSurahContext.translationName ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_8, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.desktopSurahContext.translationName), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["advanced-quran-search ltr-text", {
       'is-panel-hidden': !_ctx.isAdvancedSearchPanelVisible,
       'is-search-hidden': !_ctx.isAdvancedSearchVisible
     }]),
     role: "search",
     "aria-label": "Advanced Quran search"
-  }, [_ctx.isAdvancedSearchVisible && !(_ctx.isDeepFocusMode && _ctx.isTabletOrMobile) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_5, [_cache[105] || (_cache[105] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, [_ctx.isAdvancedSearchVisible && !(_ctx.isDeepFocusMode && _ctx.isTabletOrMobile) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_11, [_cache[114] || (_cache[114] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "advanced-quran-search-head"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
     class: "advanced-quran-search-title mb-0"
   }, "Search Quran"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "advanced-quran-search-subtitle mb-0"
-  }, " Ayah matches with translation. ")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, " Ayah matches with translation. ")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "btn btn-link advanced-quran-search-visibility-btn advanced-quran-search-top-pill",
     "aria-expanded": _ctx.isAdvancedSearchVisible ? 'true' : 'false',
@@ -1836,16 +1775,16 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", _ctx.isAdvancedSearchVisible ? 'bi-eye-slash' : 'bi-eye']),
     "aria-hidden": "true"
-  }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.isAdvancedSearchVisible ? "Hide search" : "Show search"), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_8)]), _ctx.isAdvancedSearchVisible && _ctx.isAdvancedSearchPanelVisible && _ctx.hasAdvancedSearchPanelContent ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+  }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.isAdvancedSearchVisible ? "Hide search" : "Show search"), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_14)]), _ctx.isAdvancedSearchVisible && _ctx.isAdvancedSearchPanelVisible && _ctx.hasAdvancedSearchPanelContent ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
     key: 0,
     type: "button",
     class: "btn btn-link advanced-quran-search-close-panel",
     onClick: _cache[1] || (_cache[1] = (...args) => _ctx.closeAdvancedSearchPanel && _ctx.closeAdvancedSearchPanel(...args)),
     "aria-label": "Close and clear search results panel"
-  }, [...(_cache[104] || (_cache[104] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[113] || (_cache[113] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-x-lg",
     "aria-hidden": "true"
-  }, null, -1 /* CACHED */)]))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), !(_ctx.isDeepFocusMode && _ctx.isTabletOrMobile) && _ctx.isAdvancedSearchVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_9, [_cache[107] || (_cache[107] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, null, -1 /* CACHED */)]))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), !(_ctx.isDeepFocusMode && _ctx.isTabletOrMobile) && _ctx.isAdvancedSearchVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_15, [_cache[116] || (_cache[116] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-search advanced-quran-search-icon",
     "aria-hidden": "true",
     style: {
@@ -1861,7 +1800,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onKeydown: [_cache[3] || (_cache[3] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)((0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)($event => _ctx.runAdvancedSearch({
       force: true
     }), ["prevent"]), ["enter"])), _cache[4] || (_cache[4] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)((0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)($event => _ctx.clearAdvancedSearch(), ["prevent"]), ["esc"]))]
-  }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, _ctx.advancedSearchQuery]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [_ctx.speechRecognitionSupported ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+  }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, _ctx.advancedSearchQuery]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [_ctx.speechRecognitionSupported ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
     key: 0,
     type: "button",
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["btn btn-link advanced-quran-search-voice", {
@@ -1872,18 +1811,18 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", _ctx.speechRecognitionListening ? 'bi-mic-fill' : 'bi-mic']),
     "aria-hidden": "true"
-  }, null, 2 /* CLASS */)], 10 /* CLASS, PROPS */, _hoisted_11)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.advancedSearchQuery ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+  }, null, 2 /* CLASS */)], 10 /* CLASS, PROPS */, _hoisted_17)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.advancedSearchQuery ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
     key: 1,
     type: "button",
     class: "btn btn-link advanced-quran-search-clear",
     onClick: _cache[6] || (_cache[6] = $event => _ctx.clearAdvancedSearch()),
     "aria-label": "Clear advanced search"
-  }, [...(_cache[106] || (_cache[106] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[115] || (_cache[115] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-x-circle",
     "aria-hidden": "true"
   }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "advanced-quran-search-clear-text"
-  }, "Clear", -1 /* CACHED */)]))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.isTabletOrMobile && _ctx.isDeepFocusMode ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, "Clear", -1 /* CACHED */)]))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.isTabletOrMobile && _ctx.isDeepFocusMode ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["btn advanced-quran-mobile-action-btn advanced-quran-mobile-action-btn-deep-focus", {
       'is-enabled': _ctx.isDeepFocusMode
@@ -1891,14 +1830,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[7] || (_cache[7] = (...args) => _ctx.toggleDeepFocusMode && _ctx.toggleDeepFocusMode(...args)),
     "aria-label": _ctx.isDeepFocusMode ? 'Turn deep focus mode off' : 'Turn deep focus mode on',
     title: _ctx.isDeepFocusMode ? 'Turn deep focus mode off' : 'Turn deep focus mode on'
-  }, [_cache[108] || (_cache[108] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [_cache[117] || (_cache[117] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-bullseye",
     "aria-hidden": "true"
-  }, null, -1 /* CACHED */)), _cache[109] || (_cache[109] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, null, -1 /* CACHED */)), _cache[118] || (_cache[118] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "advanced-quran-mobile-action-label"
-  }, "Deep focus mode", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_14, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.isDeepFocusMode ? "On" : "Off"), 1 /* TEXT */)], 10 /* CLASS, PROPS */, _hoisted_13)])) : _ctx.isTabletOrMobile ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
-    key: 3
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, "Deep focus mode", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_20, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.isDeepFocusMode ? "On" : "Off"), 1 /* TEXT */)], 10 /* CLASS, PROPS */, _hoisted_19)])) : _ctx.isTabletOrMobile ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+    key: 3,
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["advanced-quran-mobile-controls", {
       'is-pinned': _ctx.isToolbarPinned,
       'is-expanded': _ctx.isMobileToolbarExpanded
@@ -1909,7 +1847,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["advanced-quran-mobile-main-row", {
       'has-search-toggle': !_ctx.isAdvancedSearchVisible
     }])
-  }, [_cache[112] || (_cache[112] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, [_cache[121] || (_cache[121] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     class: "visually-hidden",
     for: "searchSurahDropdown"
   }, " Select surah ", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
@@ -1918,11 +1856,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "onUpdate:modelValue": _cache[8] || (_cache[8] = $event => _ctx.selectedSurah = $event),
     onChange: _cache[9] || (_cache[9] = $event => _ctx.selectSurah(_ctx.selectedSurah)),
     "aria-label": "Select surah"
-  }, [!_ctx.surahs.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", _hoisted_15, "Loading surahs...")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.surahs, surah => {
+  }, [!_ctx.surahs.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", _hoisted_21, "Loading surahs...")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.surahs, surah => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
       key: surah.number,
       value: String(surah.number)
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(surah.number) + ". " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(surah.englishName), 9 /* TEXT, PROPS */, _hoisted_16);
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(surah.number) + ". " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(surah.englishName), 9 /* TEXT, PROPS */, _hoisted_22);
   }), 128 /* KEYED_FRAGMENT */))], 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, _ctx.selectedSurah]]),  false ? (0) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "btn advanced-quran-mobile-icon-btn",
@@ -1931,7 +1869,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[11] || (_cache[11] = (...args) => _ctx.prepareSettingsDraft && _ctx.prepareSettingsDraft(...args)),
     "aria-label": "Open display settings",
     title: "Display settings"
-  }, [...(_cache[111] || (_cache[111] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[120] || (_cache[120] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-gear",
     "aria-hidden": "true"
   }, null, -1 /* CACHED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
@@ -1945,7 +1883,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", _ctx.isMobileToolbarExpanded ? 'bi-chevron-up' : 'bi-chevron-down']),
     "aria-hidden": "true"
-  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_17)], 2 /* CLASS */), _ctx.isMobileToolbarExpanded ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [_cache[114] || (_cache[114] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_23)], 2 /* CLASS */), _ctx.isMobileToolbarExpanded ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_24, [_cache[137] || (_cache[137] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    class: "advanced-quran-mobile-label-row d-flex align-items-center"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    class: "quran-toolbar-label"
+  }, "Reader Controls"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    class: "quran-toolbar-separator"
+  })], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [_cache[123] || (_cache[123] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     class: "visually-hidden",
     for: "mobileToolbarReciterSelect"
   }, " Select audio reciter ", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
@@ -1953,15 +1897,15 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "form-select advanced-quran-mobile-select",
     "onUpdate:modelValue": _cache[13] || (_cache[13] = $event => _ctx.selectedReciter = $event),
     "aria-label": "Select audio reciter"
-  }, [_cache[113] || (_cache[113] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+  }, [_cache[122] || (_cache[122] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: "",
     disabled: ""
   }, "Select reciter", -1 /* CACHED */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.recitersSorted, reciter => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
       key: reciter.identifier,
       value: reciter.identifier
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(reciter.englishName), 9 /* TEXT, PROPS */, _hoisted_21);
-  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, _ctx.selectedReciter]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(reciter.englishName), 9 /* TEXT, PROPS */, _hoisted_27);
+  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, _ctx.selectedReciter]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_28, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["btn advanced-quran-mobile-action-btn advanced-quran-mobile-action-btn-toggle", {
       'is-enabled': _ctx.isTranslationAllEnabled
@@ -1969,12 +1913,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[14] || (_cache[14] = (...args) => _ctx.toggleToolbarTranslation && _ctx.toggleToolbarTranslation(...args)),
     title: _ctx.isTranslationAllEnabled ? 'Turn translation off for all visible ayahs.' : 'Turn translation on for all visible ayahs.',
     "aria-label": _ctx.isTranslationAllEnabled ? 'Turn translation off for all ayahs' : 'Turn translation on for all ayahs'
-  }, [_cache[115] || (_cache[115] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [_cache[124] || (_cache[124] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-translate",
     "aria-hidden": "true"
-  }, null, -1 /* CACHED */)), _cache[116] || (_cache[116] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, null, -1 /* CACHED */)), _cache[125] || (_cache[125] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "advanced-quran-mobile-action-label"
-  }, "Translation", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_24, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.isTranslationAllEnabled ? "On" : "Off"), 1 /* TEXT */)], 10 /* CLASS, PROPS */, _hoisted_23), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, "Translation", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_30, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.isTranslationAllEnabled ? "On" : "Off"), 1 /* TEXT */)], 10 /* CLASS, PROPS */, _hoisted_29), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["btn advanced-quran-mobile-action-btn advanced-quran-mobile-action-btn-toggle", {
       'is-enabled': _ctx.isTransliterationAllEnabled
@@ -1982,35 +1926,35 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[15] || (_cache[15] = (...args) => _ctx.toggleToolbarTransliteration && _ctx.toggleToolbarTransliteration(...args)),
     title: _ctx.isTransliterationAllEnabled ? 'Turn transliteration off for all visible ayahs.' : 'Turn transliteration on for all visible ayahs.',
     "aria-label": _ctx.isTransliterationAllEnabled ? 'Turn transliteration off for all ayahs' : 'Turn transliteration on for all ayahs'
-  }, [_cache[117] || (_cache[117] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [_cache[126] || (_cache[126] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-input-cursor-text",
     "aria-hidden": "true"
-  }, null, -1 /* CACHED */)), _cache[118] || (_cache[118] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, null, -1 /* CACHED */)), _cache[127] || (_cache[127] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "advanced-quran-mobile-action-label"
-  }, "Transliteration", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_26, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.isTransliterationAllEnabled ? "On" : "Off"), 1 /* TEXT */)], 10 /* CLASS, PROPS */, _hoisted_25)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, "Transliteration", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_32, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.isTransliterationAllEnabled ? "On" : "Off"), 1 /* TEXT */)], 10 /* CLASS, PROPS */, _hoisted_31)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_33, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
-    class: "btn advanced-quran-mobile-action-btn advanced-quran-mobile-action-btn-memorisation",
-    onClick: _cache[16] || (_cache[16] = (...args) => _ctx.openSuratOnboarding && _ctx.openSuratOnboarding(...args)),
+    class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["btn advanced-quran-mobile-action-btn advanced-quran-mobile-action-btn-memorisation", {
+      'is-active': _ctx.isMemorisationToolbarVisible
+    }]),
+    onClick: _cache[16] || (_cache[16] = (...args) => _ctx.toggleMemorisationToolbar && _ctx.toggleMemorisationToolbar(...args)),
     "aria-label": "Open memorisation tools",
     title: "Open memorisation tools to support repetition, focus, and revision."
-  }, [...(_cache[119] || (_cache[119] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [_cache[128] || (_cache[128] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-journal-bookmark-fill",
     "aria-hidden": "true"
-  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    class: "advanced-quran-mobile-action-label"
-  }, "Memorisation Tools", -1 /* CACHED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_34, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.isMemorisationToolbarVisible ? 'Close Memorisation Tools' : 'Memorisation Tools'), 1 /* TEXT */)], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "btn advanced-quran-mobile-action-btn",
     onClick: _cache[17] || (_cache[17] = $event => _ctx.openSurahInfo(_ctx.currentSurahInfo)),
     disabled: !_ctx.currentSurahInfo,
     "aria-label": "Open surah information",
     title: "Open surah information"
-  }, [...(_cache[120] || (_cache[120] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[129] || (_cache[129] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-info-circle-fill",
     "aria-hidden": "true"
   }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "advanced-quran-mobile-action-label"
-  }, "Surah info", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_28), _ctx.showTajweed ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", _hoisted_29, [...(_cache[121] || (_cache[121] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, "Surah info", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_35), _ctx.showTajweed ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", _hoisted_36, [...(_cache[130] || (_cache[130] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-palette-fill",
     "aria-hidden": "true"
   }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
@@ -2021,18 +1965,18 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[18] || (_cache[18] = (...args) => _ctx.toggleDeepFocusMode && _ctx.toggleDeepFocusMode(...args)),
     "aria-label": "Toggle deep focus mode",
     title: "Toggle deep focus mode"
-  }, [_cache[122] || (_cache[122] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [_cache[131] || (_cache[131] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-bullseye",
     "aria-hidden": "true"
-  }, null, -1 /* CACHED */)), _cache[123] || (_cache[123] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, null, -1 /* CACHED */)), _cache[132] || (_cache[132] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "advanced-quran-mobile-action-label"
-  }, "Deep focus mode", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_30, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.isDeepFocusMode ? "On" : "Off"), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, "Deep focus mode", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_37, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.isDeepFocusMode ? "On" : "Off"), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "btn advanced-quran-mobile-action-btn",
     onClick: _cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)((...args) => _ctx.openFontPicker && _ctx.openFontPicker(...args), ["stop"])),
     "aria-label": "Choose Quranic fonts",
     title: "Open Quran font options to change how Arabic text is displayed."
-  }, [...(_cache[124] || (_cache[124] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[133] || (_cache[133] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "fas fa-font",
     "aria-hidden": "true"
   }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
@@ -2043,7 +1987,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[20] || (_cache[20] = (...args) => _ctx.openSuratOnboarding && _ctx.openSuratOnboarding(...args)),
     "aria-label": "Open surat onboarding guide",
     title: "Open onboarding guide"
-  }, [...(_cache[125] || (_cache[125] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[134] || (_cache[134] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "fas fa-compass",
     "aria-hidden": "true"
   }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
@@ -2060,73 +2004,77 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi advanced-quran-mobile-download-icon", _ctx.isSurahAudioDownloading ? 'bi-arrow-repeat ic-spin' : _ctx.isSurahAudioDownloaded ? 'bi-check-circle-fill' : 'bi-cloud-arrow-down-fill']),
     "aria-hidden": "true"
-  }, null, 2 /* CLASS */), _cache[126] || (_cache[126] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, null, 2 /* CLASS */), _cache[135] || (_cache[135] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "advanced-quran-mobile-action-label"
-  }, "Download", -1 /* CACHED */))], 10 /* CLASS, PROPS */, _hoisted_31), _ctx.hasPinnedAyahs && _ctx.isPinnedSectionHidden ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+  }, "Download", -1 /* CACHED */))], 10 /* CLASS, PROPS */, _hoisted_38), _ctx.hasPinnedAyahs && _ctx.isPinnedSectionHidden ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
     key: 1,
     type: "button",
     class: "btn advanced-quran-mobile-action-btn",
     onClick: _cache[22] || (_cache[22] = (...args) => _ctx.showPinnedSection && _ctx.showPinnedSection(...args)),
     "aria-label": "Show pinned favourite ayat",
     title: "Show pinned favourite ayat"
-  }, [...(_cache[127] || (_cache[127] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[136] || (_cache[136] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-pin-angle-fill",
     "aria-hidden": "true"
   }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "advanced-quran-mobile-action-label"
-  }, "Pins", -1 /* CACHED */)]))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 2 /* CLASS */), _ctx.desktopSurahContext.englishName || _ctx.desktopSurahContext.arabicName ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_32, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_33, [_ctx.desktopSurahContext.arabicName ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_34, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.desktopSurahContext.arabicName), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_35, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_36, [_ctx.desktopSurahContext.number ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_37, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.desktopSurahContext.number) + ". ", 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_38, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.desktopSurahContext.englishName), 1 /* TEXT */)]), _ctx.desktopSurahContext.translationName ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_39, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.desktopSurahContext.translationName), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 64 /* STABLE_FRAGMENT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.isAdvancedSearchVisible && _ctx.isAdvancedSearchPanelVisible && !(_ctx.isDeepFocusMode && _ctx.isTabletOrMobile) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_40, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_41, [_ctx.advancedSearchLoading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_42, " Searching ayahs... ")) : _ctx.advancedSearchError ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_43, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.advancedSearchError), 1 /* TEXT */)) : _ctx.hasAdvancedSearchQuery && _ctx.hasAdvancedSearchResults ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_44, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Showing " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.advancedSearchResults.length) + " of " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.advancedSearchTotalMatches) + " matches across " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.advancedSearchMatchedSurahCount) + " surahs. ", 1 /* TEXT */), _ctx.isAdvancedSearchResultCapReached ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_45, " Refine your query to view fewer matches. ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : _ctx.hasAdvancedSearchQuery && !_ctx.advancedSearchLoading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_46, " No matches found for \"" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.advancedSearchTrimmedQuery) + "\". ", 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), _ctx.speechRecognitionError ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_47, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.speechRecognitionError), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.hasAdvancedSearchResults ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_48, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.advancedSearchGroupedResults, group => {
+  }, "Pins", -1 /* CACHED */)]))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 2 /* CLASS */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.isAdvancedSearchVisible && _ctx.isAdvancedSearchPanelVisible && !(_ctx.isDeepFocusMode && _ctx.isTabletOrMobile) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_39, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_40, [_ctx.advancedSearchLoading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_41, " Searching ayahs... ")) : _ctx.advancedSearchError ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_42, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.advancedSearchError), 1 /* TEXT */)) : _ctx.hasAdvancedSearchQuery && _ctx.hasAdvancedSearchResults ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_43, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Showing " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.advancedSearchResults.length) + " of " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.advancedSearchTotalMatches) + " matches across " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.advancedSearchMatchedSurahCount) + " surahs. ", 1 /* TEXT */), _ctx.isAdvancedSearchResultCapReached ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_44, " Refine your query to view fewer matches. ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : _ctx.hasAdvancedSearchQuery && !_ctx.advancedSearchLoading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_45, " No matches found for \"" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.advancedSearchTrimmedQuery) + "\". ", 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), _ctx.speechRecognitionError ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_46, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.speechRecognitionError), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.hasAdvancedSearchResults ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_47, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.advancedSearchGroupedResults, group => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("section", {
       key: `advanced-surah-${group.surahNumber}`,
       class: "advanced-quran-search-surah-group",
       role: "listitem"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_49, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_50, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_51, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(group.surahNumber), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_52, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(group.surahEnglishName), 1 /* TEXT */), group.surahArabicName ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_53, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(group.surahArabicName), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_54, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(group.results.length) + " match" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(group.results.length === 1 ? "" : "es"), 1 /* TEXT */)]), group.results.length > _ctx.advancedSearchSurahPreviewLimit ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_48, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_49, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_50, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(group.surahNumber), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_51, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(group.surahEnglishName), 1 /* TEXT */), group.surahArabicName ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_52, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(group.surahArabicName), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_53, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(group.results.length) + " match" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(group.results.length === 1 ? "" : "es"), 1 /* TEXT */)]), group.results.length > _ctx.advancedSearchSurahPreviewLimit ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
       key: 0,
       type: "button",
       class: "btn btn-sm advanced-quran-search-expand-surah",
       onClick: $event => _ctx.toggleAdvancedSearchSurahExpansion(group.surahNumber),
       "aria-expanded": _ctx.isAdvancedSearchSurahExpanded(group.surahNumber) ? 'true' : 'false'
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.isAdvancedSearchSurahExpanded(group.surahNumber) ? "Collapse" : "Expand (" + group.results.length + ")"), 9 /* TEXT, PROPS */, _hoisted_55)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.getVisibleAdvancedSearchMatchesForSurah(group), result => {
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.isAdvancedSearchSurahExpanded(group.surahNumber) ? "Collapse" : "Expand (" + group.results.length + ")"), 9 /* TEXT, PROPS */, _hoisted_54)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.getVisibleAdvancedSearchMatchesForSurah(group), result => {
       return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("article", {
         key: result.key,
         class: "advanced-quran-search-result"
-      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_56, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_57, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_58, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(result.surahNumber) + ":" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(result.ayahNumber), 1 /* TEXT */), result.page ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_59, " Page " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(result.page), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), result.juz ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_60, " Juz " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(result.juz), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_55, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_56, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_57, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(result.surahNumber) + ":" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(result.ayahNumber), 1 /* TEXT */), result.page ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_58, " Page " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(result.page), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), result.juz ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_59, " Juz " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(result.juz), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
         type: "button",
         class: "btn btn-sm advanced-quran-search-open",
         onClick: $event => _ctx.openAdvancedSearchResult(result),
         "aria-label": `Open Surah ${result.surahNumber}, Ayah ${result.ayahNumber}`
-      }, [...(_cache[128] || (_cache[128] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      }, [...(_cache[138] || (_cache[138] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
         class: "bi bi-box-arrow-up-right me-1",
         "aria-hidden": "true"
-      }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Open ", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_61)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+      }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Open ", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_60)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
         class: "advanced-quran-search-arabic mb-2",
         innerHTML: _ctx.highlightAdvancedSearchText(result.text)
-      }, null, 8 /* PROPS */, _hoisted_62), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_63, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_64, [_cache[129] || (_cache[129] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+      }, null, 8 /* PROPS */, _hoisted_61), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_62, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_63, [_cache[139] || (_cache[139] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
         class: "advanced-quran-search-detail-label"
       }, "Translation", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
         class: "advanced-quran-search-translation mb-0",
         innerHTML: _ctx.highlightAdvancedSearchText(result.translation)
-      }, null, 8 /* PROPS */, _hoisted_65)])])]);
+      }, null, 8 /* PROPS */, _hoisted_64)])])]);
     }), 128 /* KEYED_FRAGMENT */))]);
   }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 2 /* CLASS */)])], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.isAdvancedSearchVisible || _ctx.isTabletOrMobile]]), (_ctx.surahDetails || _ctx.currentSurahInfo) && !_ctx.isTabletOrMobile && (_ctx.showDesktopToolbar || _ctx.showDesktopSurahContext) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
-    key: 0,
+    key: 1,
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["quran-toolbar-sticky ltr-text", {
       'quran-toolbar-fixed-shell': _ctx.showDesktopToolbar,
       'is-pinned': _ctx.showDesktopToolbar && _ctx.isToolbarPinned
     }]),
     role: "region",
     "aria-label": "Quran quick controls"
-  }, [_ctx.showDesktopToolbar ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_66, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, [_ctx.showDesktopToolbar ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_65, [_cache[155] || (_cache[155] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    class: "quran-toolbar-label"
+  }, "Reader Controls", -1 /* CACHED */)), _cache[156] || (_cache[156] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    class: "quran-toolbar-separator"
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
-    class: "quran-toolbar-btn quran-toolbar-btn-memorisation",
-    onClick: _cache[23] || (_cache[23] = (...args) => _ctx.openSuratOnboarding && _ctx.openSuratOnboarding(...args)),
+    class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["quran-toolbar-btn quran-toolbar-btn-memorisation", {
+      'is-active': _ctx.isMemorisationToolbarVisible
+    }]),
+    onClick: _cache[23] || (_cache[23] = (...args) => _ctx.toggleMemorisationToolbar && _ctx.toggleMemorisationToolbar(...args)),
     "aria-label": "Open memorisation tools",
     title: "Open memorisation tools to support repetition, focus, and revision."
-  }, [...(_cache[130] || (_cache[130] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [_cache[140] || (_cache[140] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-journal-bookmark-fill",
     "aria-hidden": "true"
-  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    class: "quran-toolbar-btn-text"
-  }, "Memorisation Tools", -1 /* CACHED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_67, [_cache[132] || (_cache[132] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_66, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.isMemorisationToolbarVisible ? 'Close Memorisation Tools' : 'Memorisation Tools'), 1 /* TEXT */)], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_67, [_cache[142] || (_cache[142] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     class: "visually-hidden",
     for: "toolbarReciterSelect"
   }, " Select audio reciter ", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
@@ -2135,7 +2083,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "onUpdate:modelValue": _cache[24] || (_cache[24] = $event => _ctx.selectedReciter = $event),
     title: "Choose which reciter's voice will be used for the surah audio.",
     "aria-label": "Select audio reciter"
-  }, [_cache[131] || (_cache[131] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+  }, [_cache[141] || (_cache[141] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: "",
     disabled: ""
   }, "Select reciter", -1 /* CACHED */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.recitersSorted, reciter => {
@@ -2143,7 +2091,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       key: reciter.identifier,
       value: reciter.identifier
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(reciter.englishName), 9 /* TEXT, PROPS */, _hoisted_68);
-  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, _ctx.selectedReciter]])]), _ctx.showTajweed ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", _hoisted_69, [...(_cache[133] || (_cache[133] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, _ctx.selectedReciter]])]), _ctx.showTajweed ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", _hoisted_69, [...(_cache[143] || (_cache[143] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-palette-fill",
     "aria-hidden": "true"
   }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
@@ -2156,10 +2104,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[25] || (_cache[25] = (...args) => _ctx.toggleToolbarTranslation && _ctx.toggleToolbarTranslation(...args)),
     title: _ctx.isTranslationAllEnabled ? 'Turn translation off for all visible ayahs.' : 'Turn translation on for all visible ayahs.',
     "aria-label": _ctx.isTranslationAllEnabled ? 'Turn translation off for all ayahs' : 'Turn translation on for all ayahs'
-  }, [_cache[134] || (_cache[134] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [_cache[144] || (_cache[144] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-translate",
     "aria-hidden": "true"
-  }, null, -1 /* CACHED */)), _cache[135] || (_cache[135] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, null, -1 /* CACHED */)), _cache[145] || (_cache[145] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "quran-toolbar-btn-text"
   }, "Translation", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_71, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.isTranslationAllEnabled ? "On" : "Off"), 1 /* TEXT */)], 10 /* CLASS, PROPS */, _hoisted_70), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
@@ -2169,10 +2117,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[26] || (_cache[26] = (...args) => _ctx.toggleToolbarTransliteration && _ctx.toggleToolbarTransliteration(...args)),
     title: _ctx.isTransliterationAllEnabled ? 'Turn transliteration off for all visible ayahs.' : 'Turn transliteration on for all visible ayahs.',
     "aria-label": _ctx.isTransliterationAllEnabled ? 'Turn transliteration off for all ayahs' : 'Turn transliteration on for all ayahs'
-  }, [_cache[136] || (_cache[136] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [_cache[146] || (_cache[146] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-input-cursor-text",
     "aria-hidden": "true"
-  }, null, -1 /* CACHED */)), _cache[137] || (_cache[137] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, null, -1 /* CACHED */)), _cache[147] || (_cache[147] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "quran-toolbar-btn-text"
   }, "Transliteration", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_73, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.isTransliterationAllEnabled ? "On" : "Off"), 1 /* TEXT */)], 10 /* CLASS, PROPS */, _hoisted_72), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
@@ -2182,10 +2130,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[27] || (_cache[27] = (...args) => _ctx.toggleDeepFocusMode && _ctx.toggleDeepFocusMode(...args)),
     "aria-label": _ctx.isDeepFocusMode ? 'Exit deep focus mode' : 'Enter deep focus mode',
     title: _ctx.isDeepFocusMode ? 'Exit deep focus mode and restore tools' : 'Enter deep focus mode for distraction-free reading'
-  }, [_cache[138] || (_cache[138] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [_cache[148] || (_cache[148] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-bullseye",
     "aria-hidden": "true"
-  }, null, -1 /* CACHED */)), _cache[139] || (_cache[139] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, null, -1 /* CACHED */)), _cache[149] || (_cache[149] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "quran-toolbar-btn-text"
   }, "Deep focus mode", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_75, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.isDeepFocusMode ? "On" : "Off"), 1 /* TEXT */)], 10 /* CLASS, PROPS */, _hoisted_74), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <button\n                    v-if=\"!isAdvancedSearchVisible && !isTabletOrMobile\"\n                    type=\"button\"\n                    class=\"quran-toolbar-btn quran-toolbar-btn-search-toggle quran-toolbar-btn-icon\"\n                    @click=\"toggleAdvancedSearchVisibility\"\n                    aria-label=\"Show search\"\n                    title=\"Show search\">\n                    <i class=\"fas fa-magnifying-glass quran-toolbar-search-icon\" aria-hidden=\"true\"></i>\n                </button> "), !_ctx.isTabletOrMobile ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
     key: 1,
@@ -2206,7 +2154,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[29] || (_cache[29] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)((...args) => _ctx.openFontPicker && _ctx.openFontPicker(...args), ["stop"])),
     "aria-label": "Choose Quranic fonts",
     title: "Open Quran font options to change how Arabic text is displayed."
-  }, [...(_cache[140] || (_cache[140] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[150] || (_cache[150] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "fas fa-font",
     "aria-hidden": "true"
   }, null, -1 /* CACHED */)]))]), _ctx.hasPinnedAyahs && _ctx.isPinnedSectionHidden ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
@@ -2216,7 +2164,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[30] || (_cache[30] = (...args) => _ctx.showPinnedSection && _ctx.showPinnedSection(...args)),
     "aria-label": "Show pinned favourite ayat",
     title: "Show pinned favourite ayat"
-  }, [...(_cache[141] || (_cache[141] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[151] || (_cache[151] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-pin-angle-fill",
     "aria-hidden": "true"
   }, null, -1 /* CACHED */)]))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
@@ -2226,7 +2174,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     disabled: !_ctx.currentSurahInfo,
     "aria-label": "Open surah information",
     title: "View this surah's details, including its name, origin, and total ayah count."
-  }, [...(_cache[142] || (_cache[142] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[152] || (_cache[152] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-info-circle-fill",
     "aria-hidden": "true"
   }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_77), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
@@ -2247,7 +2195,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[33] || (_cache[33] = (...args) => _ctx.openSuratOnboarding && _ctx.openSuratOnboarding(...args)),
     "aria-label": "Open surat onboarding guide",
     title: "Open onboarding guide"
-  }, [...(_cache[143] || (_cache[143] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[153] || (_cache[153] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "fas fa-compass",
     "aria-hidden": "true"
   }, null, -1 /* CACHED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
@@ -2258,66 +2206,168 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[34] || (_cache[34] = (...args) => _ctx.prepareSettingsDraft && _ctx.prepareSettingsDraft(...args)),
     "aria-label": "Open display settings",
     title: "Open reading and display settings such as layout, card style, and typography."
-  }, [...(_cache[144] || (_cache[144] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[154] || (_cache[154] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-gear-fill",
     "aria-hidden": "true"
-  }, null, -1 /* CACHED */)]))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.showDesktopToolbar && (_ctx.desktopSurahContext.englishName || _ctx.desktopSurahContext.arabicName) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_79, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
-    name: "surah-context-fade",
-    mode: "out-in"
+  }, null, -1 /* CACHED */)]))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 2 /* CLASS */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Memorisation Toolbar "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
+    name: "mem-toolbar-slide"
   }, {
-    default: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(() => [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
-      key: _ctx.desktopSurahContextKey,
-      class: "quran-toolbar-surah-identity-inner d-flex align-items-center flex-nowrap"
-    }, [_ctx.desktopSurahContext.arabicName ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_80, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.desktopSurahContext.arabicName), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_81, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_82, [_ctx.desktopSurahContext.number ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_83, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.desktopSurahContext.number) + ". ", 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_84, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.desktopSurahContext.englishName), 1 /* TEXT */)]), _ctx.desktopSurahContext.translationName ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_85, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.desktopSurahContext.translationName), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]))]),
-    _: 1 /* STABLE */
-  })])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.showDesktopSurahContext ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_86, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
-    name: "surah-context-fade",
-    mode: "out-in"
-  }, {
-    default: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(() => [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
-      key: _ctx.desktopSurahContextKey,
-      class: "desktop-surah-context-card",
-      role: "status",
-      "aria-live": "polite",
-      "aria-atomic": "true"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_87, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    default: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(() => [_ctx.isMemorisationToolbarVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+      key: 0,
+      class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["quran-toolbar-sticky memorisation-toolbar-sticky memorisation-toolbar-active ltr-text", {
+        'is-pinned': _ctx.isToolbarPinned
+      }]),
+      role: "group",
+      "aria-label": "Memorisation tools expanded"
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_79, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Close Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       type: "button",
-      class: "desktop-surah-context-close",
-      onClick: _cache[35] || (_cache[35] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)($event => _ctx.showDesktopSurahContext = false, ["stop"])),
-      "aria-label": "Close surah context",
-      title: "Close surah context"
-    }, [...(_cache[145] || (_cache[145] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      class: "quran-toolbar-btn quran-toolbar-btn-icon quran-toolbar-close-btn-purple",
+      onClick: _cache[35] || (_cache[35] = (...args) => _ctx.toggleMemorisationToolbar && _ctx.toggleMemorisationToolbar(...args)),
+      title: "Close Memorisation Tools"
+    }, [...(_cache[157] || (_cache[157] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-x-lg",
       "aria-hidden": "true"
-    }, null, -1 /* CACHED */)]))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_88, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_89, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.desktopSurahContext.number || "—"), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_90, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_91, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.desktopSurahContext.englishName), 1 /* TEXT */), _ctx.desktopSurahContext.translationName ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_92, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.desktopSurahContext.translationName), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), _ctx.desktopSurahContext.arabicName ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_93, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.desktopSurahContext.arabicName), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_94, [_ctx.desktopSurahContext.ayahCount ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_95, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.desktopSurahContext.ayahCount) + " ayahs ", 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.desktopSurahContext.origin ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_96, " Origin: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.desktopSurahContext.origin), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]))]),
+    }, null, -1 /* CACHED */)]))]), _cache[169] || (_cache[169] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+      class: "quran-toolbar-label quran-toolbar-label-purple"
+    }, "Memorisation Tools", -1 /* CACHED */)), _cache[170] || (_cache[170] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+      class: "quran-toolbar-separator quran-toolbar-separator-purple"
+    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Audio Controls "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      type: "button",
+      class: "quran-toolbar-btn",
+      onClick: _cache[36] || (_cache[36] = $event => _ctx.toggleAudioPlayer(_ctx.currentlyPlayingIndex)),
+      title: _ctx.isAnyAudioPlaying ? 'Pause' : 'Play'
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", _ctx.isAnyAudioPlaying ? 'bi-pause-fill' : 'bi-play-fill']),
+      "aria-hidden": "true"
+    }, null, 2 /* CLASS */), _cache[158] || (_cache[158] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+      class: "quran-toolbar-btn-text"
+    }, "Audio", -1 /* CACHED */))], 8 /* PROPS */, _hoisted_80), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Playback Speed "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_81, [_cache[159] || (_cache[159] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+      class: "visually-hidden"
+    }, "Select playback speed", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+      class: "form-select quran-toolbar-select",
+      "onUpdate:modelValue": _cache[37] || (_cache[37] = $event => _ctx.playbackSpeed = $event),
+      "aria-label": "Select playback speed"
+    }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.playbackSpeeds, speed => {
+      return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
+        key: speed,
+        value: speed
+      }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(speed) + "x Speed", 9 /* TEXT, PROPS */, _hoisted_82);
+    }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, _ctx.playbackSpeed]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Playback Mode "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_83, [_cache[160] || (_cache[160] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+      class: "visually-hidden"
+    }, "Select playback mode", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+      class: "form-select quran-toolbar-select",
+      "onUpdate:modelValue": _cache[38] || (_cache[38] = $event => _ctx.playbackMode = $event),
+      "aria-label": "Select playback mode"
+    }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.playbackModeOptions, option => {
+      return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
+        key: option.value,
+        value: option.value
+      }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(option.value === 'continuous' ? 'Continuous Mode' : option.value === 'repeat' ? 'Repeat Ayah' : 'Manual Mode'), 9 /* TEXT, PROPS */, _hoisted_84);
+    }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, _ctx.playbackMode]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Tajweed Toggle "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      type: "button",
+      class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["quran-toolbar-btn quran-toolbar-btn-toggle", {
+        'is-enabled': _ctx.showTajweed
+      }]),
+      onClick: _cache[39] || (_cache[39] = $event => _ctx.showTajweed = !_ctx.showTajweed),
+      title: "Toggle Tajweed Colors"
+    }, [...(_cache[161] || (_cache[161] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      class: "bi bi-palette-fill",
+      "aria-hidden": "true"
+    }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+      class: "quran-toolbar-btn-text"
+    }, "Tajweed", -1 /* CACHED */)]))], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Word Highlight Toggle "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      type: "button",
+      class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["quran-toolbar-btn quran-toolbar-btn-toggle", {
+        'is-enabled': _ctx.showRealtimeHighlighting
+      }]),
+      onClick: _cache[40] || (_cache[40] = $event => _ctx.showRealtimeHighlighting = !_ctx.showRealtimeHighlighting),
+      title: "Toggle Word Highlighting"
+    }, [...(_cache[162] || (_cache[162] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      class: "bi bi-highlighter",
+      "aria-hidden": "true"
+    }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+      class: "quran-toolbar-btn-text"
+    }, "Word Highlight", -1 /* CACHED */)]))], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Word Translation Toggle "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      type: "button",
+      class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["quran-toolbar-btn quran-toolbar-btn-toggle", {
+        'is-enabled': _ctx.showWordTranslation
+      }]),
+      onClick: _cache[41] || (_cache[41] = $event => _ctx.showWordTranslation = !_ctx.showWordTranslation),
+      title: "Toggle Word Translation"
+    }, [...(_cache[163] || (_cache[163] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      class: "bi bi-translate",
+      "aria-hidden": "true"
+    }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+      class: "quran-toolbar-btn-text"
+    }, "Word Translation", -1 /* CACHED */)]))], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Blur Next Toggle "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      type: "button",
+      class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["quran-toolbar-btn quran-toolbar-btn-toggle", {
+        'is-enabled': _ctx.isBlurNextAyahEnabled
+      }]),
+      onClick: _cache[42] || (_cache[42] = (...args) => _ctx.toggleBlurNextAyah && _ctx.toggleBlurNextAyah(...args)),
+      title: "Toggle Blur Next Ayah"
+    }, [...(_cache[164] || (_cache[164] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      class: "bi bi-eye-slash-fill",
+      "aria-hidden": "true"
+    }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+      class: "quran-toolbar-btn-text"
+    }, "Blur Next", -1 /* CACHED */)]))], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Translation Toggle "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      type: "button",
+      class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["quran-toolbar-btn quran-toolbar-btn-toggle", {
+        'is-enabled': _ctx.isTranslationVisible
+      }]),
+      onClick: _cache[43] || (_cache[43] = $event => _ctx.isTranslationVisible = !_ctx.isTranslationVisible),
+      title: "Toggle Translations"
+    }, [...(_cache[165] || (_cache[165] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      class: "bi bi-chat-left-text",
+      "aria-hidden": "true"
+    }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+      class: "quran-toolbar-btn-text"
+    }, "Translation", -1 /* CACHED */)]))], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Font Size Controls "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      type: "button",
+      class: "quran-toolbar-btn quran-toolbar-btn-icon",
+      onClick: _cache[44] || (_cache[44] = (...args) => _ctx.decreaseFontSize && _ctx.decreaseFontSize(...args)),
+      title: "Decrease Font Size"
+    }, [...(_cache[166] || (_cache[166] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      class: "bi bi-dash",
+      "aria-hidden": "true"
+    }, null, -1 /* CACHED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      type: "button",
+      class: "quran-toolbar-btn quran-toolbar-btn-icon",
+      onClick: _cache[45] || (_cache[45] = (...args) => _ctx.increaseFontSize && _ctx.increaseFontSize(...args)),
+      title: "Increase Font Size"
+    }, [...(_cache[167] || (_cache[167] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      class: "bi bi-plus",
+      "aria-hidden": "true"
+    }, null, -1 /* CACHED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Screen Controls "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      type: "button",
+      class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["quran-toolbar-btn quran-toolbar-btn-icon", {
+        'is-active': _ctx.isDeepFocusMode
+      }]),
+      onClick: _cache[46] || (_cache[46] = (...args) => _ctx.toggleDeepFocusMode && _ctx.toggleDeepFocusMode(...args)),
+      title: "Deep Focus Mode"
+    }, [...(_cache[168] || (_cache[168] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      class: "bi bi-bullseye",
+      "aria-hidden": "true"
+    }, null, -1 /* CACHED */)]))], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      type: "button",
+      class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["quran-toolbar-btn quran-toolbar-btn-icon", {
+        'is-active': _ctx.isReadingFullscreen
+      }]),
+      onClick: _cache[47] || (_cache[47] = (...args) => _ctx.toggleReadingFullscreen && _ctx.toggleReadingFullscreen(...args)),
+      title: "Full Screen"
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", _ctx.isReadingFullscreen ? 'bi-fullscreen-exit' : 'bi-arrows-fullscreen']),
+      "aria-hidden": "true"
+    }, null, 2 /* CLASS */)], 2 /* CLASS */)])], 2 /* CLASS */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]),
     _: 1 /* STABLE */
-  })])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 2 /* CLASS */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), !_ctx.isTabletOrMobile && (_ctx.surahDetails || _ctx.currentSurahInfo) && (!_ctx.showDesktopToolbar || !_ctx.showDesktopSurahContext) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_97, [!_ctx.showDesktopToolbar && !_ctx.showDesktopSurahContext ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
-    key: 0,
-    type: "button",
-    class: "desktop-sticky-restore-btn",
-    onClick: _cache[36] || (_cache[36] = $event => {
-      _ctx.showDesktopToolbar = true;
-      _ctx.showDesktopSurahContext = true;
-    })
-  }, " Show toolbar and surah context ")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
-    key: 1
-  }, [!_ctx.showDesktopToolbar ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
-    key: 0,
-    type: "button",
-    class: "desktop-sticky-restore-btn",
-    onClick: _cache[37] || (_cache[37] = $event => _ctx.showDesktopToolbar = true)
-  }, " Show toolbar ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), !_ctx.showDesktopSurahContext ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
-    key: 1,
-    type: "button",
-    class: "desktop-sticky-restore-btn",
-    onClick: _cache[38] || (_cache[38] = $event => _ctx.showDesktopSurahContext = true)
-  }, " Show surah context ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 64 /* STABLE_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.hasPinnedAyahs && _ctx.isPinnedSectionHidden && !_ctx.isMobile && (_ctx.isTabletOrMobile || !_ctx.showDesktopToolbar) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_98, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }), _ctx.hasPinnedAyahs && _ctx.isPinnedSectionHidden && !_ctx.isMobile && (_ctx.isTabletOrMobile || !_ctx.showDesktopToolbar) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_85, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "pinned-ayahs-icon-btn",
-    onClick: _cache[39] || (_cache[39] = (...args) => _ctx.showPinnedSection && _ctx.showPinnedSection(...args)),
+    onClick: _cache[48] || (_cache[48] = (...args) => _ctx.showPinnedSection && _ctx.showPinnedSection(...args)),
     "aria-label": "Show pinned favourite ayat",
     title: "Show pinned favourite ayat"
-  }, [...(_cache[146] || (_cache[146] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[171] || (_cache[171] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-pin-angle-fill",
     "aria-hidden": "true"
   }, null, -1 /* CACHED */)]))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.hasPinnedAyahs && !_ctx.isPinnedSectionHidden ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("section", {
@@ -2327,29 +2377,29 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }]),
     role: "region",
     "aria-label": "Pinned favourite ayahs"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_99, [_cache[148] || (_cache[148] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_86, [_cache[173] || (_cache[173] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
     class: "pinned-ayahs-title mb-1"
   }, "Pinned favourite ayat"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "pinned-ayahs-description mb-0"
-  }, " Quick access to the verses you marked for reflection. ")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_100, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, " Quick access to the verses you marked for reflection. ")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_87, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "pinned-ayahs-icon-btn",
-    onClick: _cache[40] || (_cache[40] = (...args) => _ctx.togglePinnedSectionCollapsed && _ctx.togglePinnedSectionCollapsed(...args)),
+    onClick: _cache[49] || (_cache[49] = (...args) => _ctx.togglePinnedSectionCollapsed && _ctx.togglePinnedSectionCollapsed(...args)),
     "aria-label": _ctx.isPinnedSectionCollapsed ? 'Expand pinned section' : 'Collapse pinned section',
     title: _ctx.isPinnedSectionCollapsed ? 'Expand pinned section' : 'Collapse pinned section'
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", _ctx.isPinnedSectionCollapsed ? 'bi-chevron-down' : 'bi-chevron-up']),
     "aria-hidden": "true"
-  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_101), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_88), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "pinned-ayahs-icon-btn pinned-ayahs-icon-btn-close",
-    onClick: _cache[41] || (_cache[41] = (...args) => _ctx.hidePinnedSection && _ctx.hidePinnedSection(...args)),
+    onClick: _cache[50] || (_cache[50] = (...args) => _ctx.hidePinnedSection && _ctx.hidePinnedSection(...args)),
     "aria-label": "Hide pinned section",
     title: "Hide pinned section"
-  }, [...(_cache[147] || (_cache[147] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[172] || (_cache[172] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-x-lg",
     "aria-hidden": "true"
-  }, null, -1 /* CACHED */)]))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_102, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_103, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.pinnedAyahsList, pinned => {
+  }, null, -1 /* CACHED */)]))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_89, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_90, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.pinnedAyahsList, pinned => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("article", {
       key: pinned.key,
       class: "pinned-ayah-item",
@@ -2359,48 +2409,48 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       class: "pinned-ayah-open",
       onClick: $event => _ctx.openPinnedAyah(pinned),
       "aria-label": `Open pinned ayah ${pinned.surahNumber}:${pinned.ayahNumber}`
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_105, [_cache[149] || (_cache[149] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_92, [_cache[174] || (_cache[174] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-pin-angle-fill",
       "aria-hidden": "true"
-    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(pinned.surahNumber) + ":" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(pinned.ayahNumber) + " ", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_106, "· " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.getPinnedSurahName(pinned)), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_107, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.getPinnedAyahPreview(pinned)), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_104), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(pinned.surahNumber) + ":" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(pinned.ayahNumber) + " ", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_93, "· " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.getPinnedSurahName(pinned)), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_94, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.getPinnedAyahPreview(pinned)), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_91), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       type: "button",
       class: "pinned-ayah-remove",
       onClick: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)($event => _ctx.removePinnedAyahByKey(pinned.key), ["stop"]),
       "aria-label": "Remove pinned ayah",
       title: "Remove pin"
-    }, [...(_cache[150] || (_cache[150] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [...(_cache[175] || (_cache[175] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-x-lg",
       "aria-hidden": "true"
-    }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_108)]);
-  }), 128 /* KEYED_FRAGMENT */))])], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, !_ctx.isPinnedSectionCollapsed]])], 2 /* CLASS */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div v-show=\"showNextStep\" class=\"next-step-wrapper\">\n            <div class=\"mx-auto mb-4 next-step-card\">\n                <button v-if=\"canMinimizeNextStep\" type=\"button\" :title=\"isNextStepMinimized ? 'Restore' : 'Minimize'\" :aria-label=\"isNextStepMinimized\n                    ? 'Restore next step'\n                    : 'Minimize next step'\n                    \" @click=\"toggleNextStepMinimized\" class=\"next-step-toggle\">\n                    <i class=\"fas\" :class=\"isNextStepMinimized\n                        ? 'fa-expand-alt'\n                        : 'fa-compress-alt'\n                        \" aria-hidden=\"true\"></i>\n                </button>\n                <div class=\"d-flex align-items-start gap-3 text-start\">\n                    <div class=\"flex-shrink-0 mt-1\">\n                        <div class=\"next-step-icon-circle\">\n                            <i class=\"fas fa-quran\"></i>\n                        </div>\n                    </div>\n                    <div class=\"flex-grow-1\">\n                        <p class=\"mb-2 fw-semibold text-uppercase next-step-eyebrow\">\n                            NEXT STEP\n                        </p>\n                        <div v-show=\"isNextStepMinimized\" class=\"mb-2 next-step-teaser\">\n                            <a href=\"/history\" class=\"fw-semibold text-decoration-none next-step-link\">\n                                Explore the Seerah timeline\n                            </a>\n                            <i class=\"fas fa-arrow-up-right-from-square ms-1 next-step-link-icon\"></i>\n                        </div>\n                        <p v-show=\"!isNextStepMinimized\" class=\"mb-3 next-step-text\">\n                            Learning how the Qur’an was preserved is a beautiful beginning. When you’re ready, gently\n                            continue with the life of the Messenger who lived its message. Walk through a simple,\n                            welcoming\n                            <a href=\"/mission\" class=\"fw-semibold text-decoration-none next-step-link\">\n                                Seerah timeline\n                            </a>\n                            to see the journey unfold.\n                        </p>\n                        <a v-show=\"!isNextStepMinimized\" href=\"/mission\"\n                            class=\"btn btn-sm fw-semibold text-white px-3 py-2 next-step-cta\">\n                            Explore Seerah\n                            <i class=\"fas fa-arrow-up-right-from-square ms-2\"></i>\n                        </a>\n                    </div>\n                    \n                </div>\n            </div>\n        </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_109, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_95)]);
+  }), 128 /* KEYED_FRAGMENT */))])], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, !_ctx.isPinnedSectionCollapsed]])], 2 /* CLASS */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div v-show=\"showNextStep\" class=\"next-step-wrapper\">\n            <div class=\"mx-auto mb-4 next-step-card\">\n                <button v-if=\"canMinimizeNextStep\" type=\"button\" :title=\"isNextStepMinimized ? 'Restore' : 'Minimize'\" :aria-label=\"isNextStepMinimized\n                    ? 'Restore next step'\n                    : 'Minimize next step'\n                    \" @click=\"toggleNextStepMinimized\" class=\"next-step-toggle\">\n                    <i class=\"fas\" :class=\"isNextStepMinimized\n                        ? 'fa-expand-alt'\n                        : 'fa-compress-alt'\n                        \" aria-hidden=\"true\"></i>\n                </button>\n                <div class=\"d-flex align-items-start gap-3 text-start\">\n                    <div class=\"flex-shrink-0 mt-1\">\n                        <div class=\"next-step-icon-circle\">\n                            <i class=\"fas fa-quran\"></i>\n                        </div>\n                    </div>\n                    <div class=\"flex-grow-1\">\n                        <p class=\"mb-2 fw-semibold text-uppercase next-step-eyebrow\">\n                            NEXT STEP\n                        </p>\n                        <div v-show=\"isNextStepMinimized\" class=\"mb-2 next-step-teaser\">\n                            <a href=\"/history\" class=\"fw-semibold text-decoration-none next-step-link\">\n                                Explore the Seerah timeline\n                            </a>\n                            <i class=\"fas fa-arrow-up-right-from-square ms-1 next-step-link-icon\"></i>\n                        </div>\n                        <p v-show=\"!isNextStepMinimized\" class=\"mb-3 next-step-text\">\n                            Learning how the Qur’an was preserved is a beautiful beginning. When you’re ready, gently\n                            continue with the life of the Messenger who lived its message. Walk through a simple,\n                            welcoming\n                            <a href=\"/mission\" class=\"fw-semibold text-decoration-none next-step-link\">\n                                Seerah timeline\n                            </a>\n                            to see the journey unfold.\n                        </p>\n                        <a v-show=\"!isNextStepMinimized\" href=\"/mission\"\n                            class=\"btn btn-sm fw-semibold text-white px-3 py-2 next-step-cta\">\n                            Explore Seerah\n                            <i class=\"fas fa-arrow-up-right-from-square ms-2\"></i>\n                        </a>\n                    </div>\n                    \n                </div>\n            </div>\n        </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_96, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["sticky-dropdown", {
       collapsed: !_ctx.isVisible
     }]),
     ref: "stickyDropdown"
-  }, [_cache[153] || (_cache[153] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, [_cache[178] || (_cache[178] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "filter-header"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "filter-actions"
-  })], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_110, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  })], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_97, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "btn btn-sm btn-outline-light w-100 d-flex align-items-center justify-content-center gap-2",
-    onClick: _cache[42] || (_cache[42] = (...args) => _ctx.toggleSidebar && _ctx.toggleSidebar(...args)),
+    onClick: _cache[51] || (_cache[51] = (...args) => _ctx.toggleSidebar && _ctx.toggleSidebar(...args)),
     "aria-expanded": !_ctx.sidebarCollapsed,
     "aria-label": _ctx.sidebarCollapsed ? 'Expand sidebar' : 'Collapse sidebar'
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", _ctx.sidebarCollapsed ? 'bi-chevron-double-right' : 'bi-chevron-double-left'])
-  }, null, 2 /* CLASS */), !_ctx.sidebarCollapsed ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_112, "Collapse Custom Sidebar")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 8 /* PROPS */, _hoisted_111)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_113, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_114, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Dark Sidebar Content "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_115, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Sidebar Header: Tabs & Search "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_116, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Navigation Tabs "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_117, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, 2 /* CLASS */), !_ctx.sidebarCollapsed ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_99, "Collapse Custom Sidebar")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 8 /* PROPS */, _hoisted_98)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_100, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_101, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Dark Sidebar Content "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_102, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Sidebar Header: Tabs & Search "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_103, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Navigation Tabs "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_104, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["tab-btn flex-fill", {
       active: _ctx.activeSidebarTab === 'surah'
     }]),
-    onClick: _cache[43] || (_cache[43] = $event => _ctx.setActiveSidebarTab('surah'))
-  }, "Surah", 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <button class=\"tab-btn flex-fill\" \n                                        :class=\"{ active: activeSidebarTab === 'verse' }\"\n                                        @click=\"setActiveSidebarTab('verse')\">Verse</button>\n                                    <button class=\"tab-btn flex-fill\" \n                                        :class=\"{ active: activeSidebarTab === 'juz' }\"\n                                        @click=\"setActiveSidebarTab('juz')\">Juz</button> ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search Input "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_118, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    onClick: _cache[52] || (_cache[52] = $event => _ctx.setActiveSidebarTab('surah'))
+  }, "Surah", 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <button class=\"tab-btn flex-fill\" \n                                        :class=\"{ active: activeSidebarTab === 'verse' }\"\n                                        @click=\"setActiveSidebarTab('verse')\">Verse</button>\n                                    <button class=\"tab-btn flex-fill\" \n                                        :class=\"{ active: activeSidebarTab === 'juz' }\"\n                                        @click=\"setActiveSidebarTab('juz')\">Juz</button> ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search Input "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_105, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     type: "search",
     class: "form-control sidebar-search-input",
-    "onUpdate:modelValue": _cache[44] || (_cache[44] = $event => _ctx.sidebarSearchQuery = $event),
+    "onUpdate:modelValue": _cache[53] || (_cache[53] = $event => _ctx.sidebarSearchQuery = $event),
     placeholder: `Search ${_ctx.activeSidebarTab}...`,
     "aria-label": "Search content"
-  }, null, 8 /* PROPS */, _hoisted_119), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, _ctx.sidebarSearchQuery]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Lists Container "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_120, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Surah List "), _ctx.activeSidebarTab === 'surah' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_121, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.filteredSurahs_sidebar, surah => {
+  }, null, 8 /* PROPS */, _hoisted_106), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, _ctx.sidebarSearchQuery]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Lists Container "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_107, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Surah List "), _ctx.activeSidebarTab === 'surah' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_108, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.filteredSurahs_sidebar, surah => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["sidebar-item", {
         active: String(_ctx.selectedSurah) === String(surah.number)
@@ -2408,45 +2458,45 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       key: surah.number,
       role: "button",
       onClick: $event => _ctx.selectSurah(surah.number)
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_123, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_124, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(surah.number), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_125, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_126, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(surah.englishName), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_127, [surah.numberOfAyahs || surah.number_ayahs ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_128, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(surah.numberOfAyahs || surah.number_ayahs) + " ayahs ", 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), surah.revelationType ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_129, " · Origin: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(surah.revelationType), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), surah.englishNameTranslation ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_130, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(surah.englishNameTranslation), 1 /* TEXT */), surah.numberOfAyahs || surah.number_ayahs ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_131, " · " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(surah.numberOfAyahs || surah.number_ayahs) + " total verses ", 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_132, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_133, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(surah.name), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_110, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_111, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(surah.number), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_112, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_113, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(surah.englishName), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_114, [surah.numberOfAyahs || surah.number_ayahs ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_115, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(surah.numberOfAyahs || surah.number_ayahs) + " ayahs ", 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), surah.revelationType ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_116, " · Origin: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(surah.revelationType), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), surah.englishNameTranslation ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_117, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(surah.englishNameTranslation), 1 /* TEXT */), surah.numberOfAyahs || surah.number_ayahs ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_118, " · " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(surah.numberOfAyahs || surah.number_ayahs) + " total verses ", 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_119, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_120, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(surah.name), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       type: "button",
       class: "btn btn-link text-white p-0 opacity-50 hover-opacity-100 sidebar-info-button",
       onClick: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)($event => _ctx.openSurahInfo(surah), ["stop"]),
       "aria-label": "View surah information"
-    }, [...(_cache[151] || (_cache[151] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [...(_cache[176] || (_cache[176] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-info-circle-fill"
-    }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_134)])])], 10 /* CLASS, PROPS */, _hoisted_122);
-  }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Verse List "), _ctx.activeSidebarTab === 'verse' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_135, [_ctx.surahDetails ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_136, " Surah " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.surahDetails.englishName), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.filteredVersesList, verse => {
+    }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_121)])])], 10 /* CLASS, PROPS */, _hoisted_109);
+  }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Verse List "), _ctx.activeSidebarTab === 'verse' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_122, [_ctx.surahDetails ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_123, " Surah " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.surahDetails.englishName), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.filteredVersesList, verse => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["sidebar-item", {
         active: _ctx.activeAyahIndex === verse.number - 1
       }]),
       key: verse.key,
       onClick: $event => _ctx.selectVerseFromSidebar(verse.number)
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_138, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_139, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_140, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(verse.number), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_141, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" English (Left) (50%) "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_142, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(verse.translation || 'Loading...'), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Arabic (Right) (50%) "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_143, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(verse.text), 1 /* TEXT */)])])], 10 /* CLASS, PROPS */, _hoisted_137);
-  }), 128 /* KEYED_FRAGMENT */)), _ctx.filteredVersesList.length === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_144, " No verses found. ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Juz List "), _ctx.activeSidebarTab === 'juz' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_145, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.filteredJuzs, juz => {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_125, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_126, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_127, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(verse.number), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_128, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" English (Left) (50%) "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_129, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(verse.translation || 'Loading...'), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Arabic (Right) (50%) "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_130, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(verse.text), 1 /* TEXT */)])])], 10 /* CLASS, PROPS */, _hoisted_124);
+  }), 128 /* KEYED_FRAGMENT */)), _ctx.filteredVersesList.length === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_131, " No verses found. ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Juz List "), _ctx.activeSidebarTab === 'juz' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_132, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.filteredJuzs, juz => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["sidebar-item", {
         active: _ctx.selectedJuz === juz.number
       }]),
       key: juz.number,
       onClick: $event => _ctx.selectJuz(juz.number)
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_147, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_148, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_149, "Juz " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(juz.number), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_150, " Starts at: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(juz.surahName) + ":" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(juz.ayahNumber), 1 /* TEXT */)]), _cache[152] || (_cache[152] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_134, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_135, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_136, "Juz " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(juz.number), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_137, " Starts at: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(juz.surahName) + ":" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(juz.ayahNumber), 1 /* TEXT */)]), _cache[177] || (_cache[177] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-chevron-right text-white-50 small"
-    }, null, -1 /* CACHED */))])], 10 /* CLASS, PROPS */, _hoisted_146);
-  }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col-12 col-md-4 filter-item\"></div>\n                    <div class=\"col-12 col-md-4 filter-item\"></div> ")], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.isVisible && !_ctx.sidebarCollapsed]])], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_151, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, null, -1 /* CACHED */))])], 10 /* CLASS, PROPS */, _hoisted_133);
+  }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col-12 col-md-4 filter-item\"></div>\n                    <div class=\"col-12 col-md-4 filter-item\"></div> ")], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.isVisible && !_ctx.sidebarCollapsed]])], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_138, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "btn btn-primary surah-offcanvas-toggle icon-only",
     "data-bs-toggle": "offcanvas",
     "data-bs-target": "#surahOffcanvas",
     "aria-controls": "surahOffcanvas",
-    onClick: _cache[45] || (_cache[45] = (...args) => _ctx.prepareSettingsDraft && _ctx.prepareSettingsDraft(...args))
-  }, [...(_cache[154] || (_cache[154] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    onClick: _cache[54] || (_cache[54] = (...args) => _ctx.prepareSettingsDraft && _ctx.prepareSettingsDraft(...args))
+  }, [...(_cache[179] || (_cache[179] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-sliders",
     "aria-hidden": "true"
   }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "visually-hidden"
-  }, "Filters & info", -1 /* CACHED */)]))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_152, [_cache[164] || (_cache[164] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, "Filters & info", -1 /* CACHED */)]))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_139, [_cache[189] || (_cache[189] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "offcanvas-header"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
     class: "offcanvas-title",
@@ -2456,60 +2506,60 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "btn-close text-reset",
     "data-bs-dismiss": "offcanvas",
     "aria-label": "Close"
-  })], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_153, [ false ? (0) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_158, [_cache[156] || (_cache[156] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  })], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_140, [ false ? (0) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_145, [_cache[181] || (_cache[181] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     class: "form-label surah-offcanvas-label"
   }, "Select surah", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     class: "form-select surah-offcanvas-select",
-    "onUpdate:modelValue": _cache[46] || (_cache[46] = $event => _ctx.selectedSurah = $event),
-    onChange: _cache[47] || (_cache[47] = $event => _ctx.selectSurah(_ctx.selectedSurah)),
+    "onUpdate:modelValue": _cache[55] || (_cache[55] = $event => _ctx.selectedSurah = $event),
+    onChange: _cache[56] || (_cache[56] = $event => _ctx.selectSurah(_ctx.selectedSurah)),
     "aria-label": "Select surah"
-  }, [_cache[155] || (_cache[155] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+  }, [_cache[180] || (_cache[180] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: "",
     disabled: ""
   }, "Select surah", -1 /* CACHED */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.filteredSurahs, surah => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
       key: surah.number,
       value: String(surah.number)
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(surah.number) + " · " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(surah.englishName), 9 /* TEXT, PROPS */, _hoisted_159);
-  }), 128 /* KEYED_FRAGMENT */))], 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, _ctx.selectedSurah]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_160, [_cache[163] || (_cache[163] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(surah.number) + " · " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(surah.englishName), 9 /* TEXT, PROPS */, _hoisted_146);
+  }), 128 /* KEYED_FRAGMENT */))], 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, _ctx.selectedSurah]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_147, [_cache[188] || (_cache[188] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     class: "form-label surah-offcanvas-label"
   }, "Select reciter", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     class: "form-select surah-offcanvas-select",
-    "onUpdate:modelValue": _cache[48] || (_cache[48] = $event => _ctx.selectedReciter = $event),
+    "onUpdate:modelValue": _cache[57] || (_cache[57] = $event => _ctx.selectedReciter = $event),
     "aria-label": "Select reciter"
-  }, [_cache[157] || (_cache[157] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+  }, [_cache[182] || (_cache[182] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: "",
     disabled: ""
   }, "Select a reciter", -1 /* CACHED */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.recitersSorted, reciter => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
       key: reciter.identifier,
       value: reciter.identifier
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(reciter.englishName), 9 /* TEXT, PROPS */, _hoisted_161);
-  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, _ctx.selectedReciter]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_162, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_163, [_cache[159] || (_cache[159] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(reciter.englishName), 9 /* TEXT, PROPS */, _hoisted_148);
+  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, _ctx.selectedReciter]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_149, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_150, [_cache[184] || (_cache[184] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     class: "form-label surah-offcanvas-label"
   }, "Select translation", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     class: "form-select surah-offcanvas-select",
-    "onUpdate:modelValue": _cache[49] || (_cache[49] = $event => _ctx.selectedTranslation = $event),
+    "onUpdate:modelValue": _cache[58] || (_cache[58] = $event => _ctx.selectedTranslation = $event),
     "aria-label": "Select translation"
-  }, [_cache[158] || (_cache[158] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+  }, [_cache[183] || (_cache[183] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: "",
     disabled: ""
   }, "Select Translation", -1 /* CACHED */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.translationsSorted, translation => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
       key: translation.identifier,
       value: translation.identifier
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(`${translation.flag} ${translation.englishName} (${translation.language})`), 9 /* TEXT, PROPS */, _hoisted_164);
-  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, _ctx.selectedTranslation]])]), _cache[160] || (_cache[160] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(`${translation.flag} ${translation.englishName} (${translation.language})`), 9 /* TEXT, PROPS */, _hoisted_151);
+  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, _ctx.selectedTranslation]])]), _cache[185] || (_cache[185] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "surah-offcanvas-toggle-group"
   }, null, -1 /* CACHED */))]),  false ? (0) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "btn btn-outline-primary surah-offcanvas-submit",
-    onClick: _cache[51] || (_cache[51] = (...args) => _ctx.closeOffcanvas && _ctx.closeOffcanvas(...args)),
+    onClick: _cache[60] || (_cache[60] = (...args) => _ctx.closeOffcanvas && _ctx.closeOffcanvas(...args)),
     "aria-label": "Close filters and info"
-  }, [...(_cache[162] || (_cache[162] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[187] || (_cache[187] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-check me-2",
     "aria-hidden": "true"
-  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Done ", -1 /* CACHED */)]))])])])], 512 /* NEED_PATCH */), _ctx.isLoading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_166, "Loading Surah...")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Done ", -1 /* CACHED */)]))])])])], 512 /* NEED_PATCH */), _ctx.isLoading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_153, "Loading Surah...")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "row rtl-text",
     ref: "listContainer",
     role: "list",
@@ -2541,35 +2591,35 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       draggable: "true",
       tabindex: "0",
       onDragstart: $event => _ctx.onAyahDragStart(item.ayah, $event)
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_168, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Surah and Ayah Number "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_169, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_170, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", null, [_cache[165] || (_cache[165] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_155, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Surah and Ayah Number "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_156, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_157, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", null, [_cache[190] || (_cache[190] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
       src: "/images/art.png",
       width: "35px",
       alt: "Art Icon"
-    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_ctx$surahDetails = _ctx.surahDetails) === null || _ctx$surahDetails === void 0 ? void 0 : _ctx$surahDetails.surahNumber) + " : " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.index + 1) + " ", 1 /* TEXT */), _ctx.isAyahSaved(item.ayah) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_171, "Saved")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), _ctx.isAudioPlaying[item.index] ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_172, " Now playing ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_173, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_174, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_ctx$surahDetails = _ctx.surahDetails) === null || _ctx$surahDetails === void 0 ? void 0 : _ctx$surahDetails.surahNumber) + " : " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.index + 1) + " ", 1 /* TEXT */), _ctx.isAyahSaved(item.ayah) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_158, "Saved")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), _ctx.isAudioPlaying[item.index] ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_159, " Now playing ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_160, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_161, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
       class: "form-check-input",
       type: "checkbox",
       checked: _ctx.isTranslationVisibleFor(item),
       id: `surat-translation-toggle-${item.index}`,
       "aria-label": _ctx.isTranslationVisibleFor(item) ? 'Hide translation' : 'Show translation',
       onChange: $event => _ctx.onTranslationToggle(item, $event),
-      onClick: _cache[52] || (_cache[52] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(() => {}, ["stop"]))
-    }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_175), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+      onClick: _cache[61] || (_cache[61] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(() => {}, ["stop"]))
+    }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_162), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
       class: "form-check-label",
       for: `surat-translation-toggle-${item.index}`,
-      onClick: _cache[53] || (_cache[53] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(() => {}, ["stop"]))
-    }, " Translation ", 8 /* PROPS */, _hoisted_176)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_177, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+      onClick: _cache[62] || (_cache[62] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(() => {}, ["stop"]))
+    }, " Translation ", 8 /* PROPS */, _hoisted_163)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_164, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
       class: "form-check-input",
       type: "checkbox",
       checked: _ctx.isTransliterationVisibleFor(item),
       id: `surat-transliteration-toggle-${item.index}`,
       "aria-label": _ctx.isTransliterationVisibleFor(item) ? 'Hide transliteration' : 'Show transliteration',
       onChange: $event => _ctx.onTransliterationToggle(item, $event),
-      onClick: _cache[54] || (_cache[54] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(() => {}, ["stop"]))
-    }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_178), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+      onClick: _cache[63] || (_cache[63] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(() => {}, ["stop"]))
+    }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_165), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
       class: "form-check-label",
       for: `surat-transliteration-toggle-${item.index}`,
-      onClick: _cache[55] || (_cache[55] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(() => {}, ["stop"]))
-    }, " Transliteration ", 8 /* PROPS */, _hoisted_179)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_180, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      onClick: _cache[64] || (_cache[64] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(() => {}, ["stop"]))
+    }, " Transliteration ", 8 /* PROPS */, _hoisted_166)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_167, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       type: "button",
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["icon-btn ayah-pin-btn", {
         'is-pinned': _ctx.isAyahPinned(item.ayah)
@@ -2580,7 +2630,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", _ctx.isAyahPinned(item.ayah) ? 'bi-pin-angle-fill' : 'bi-pin-angle']),
       "aria-hidden": "true"
-    }, null, 2 /* CLASS */)], 10 /* CLASS, PROPS */, _hoisted_181), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, null, 2 /* CLASS */)], 10 /* CLASS, PROPS */, _hoisted_168), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       type: "button",
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["icon-btn ayah-download-btn", {
         'is-downloaded': _ctx.isAyahAudioDownloaded(item.ayah)
@@ -2592,7 +2642,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", _ctx.isAyahAudioDownloading(item.ayah) ? 'bi-arrow-repeat ic-spin' : _ctx.isAyahAudioDownloaded(item.ayah) ? 'bi-check-circle-fill' : 'bi-cloud-arrow-down-fill']),
       "aria-hidden": "true"
-    }, null, 2 /* CLASS */)], 10 /* CLASS, PROPS */, _hoisted_182)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
+    }, null, 2 /* CLASS */)], 10 /* CLASS, PROPS */, _hoisted_169)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
       name: "feedback-fade"
     }, {
       default: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(() => {
@@ -2600,12 +2650,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         return [_ctx.feedbackMessages[_ctx.buildAyahKey((_ctx$surahDetails2 = _ctx.surahDetails) === null || _ctx$surahDetails2 === void 0 ? void 0 : _ctx$surahDetails2.surahNumber, item.ayah.numberInSurah || item.ayah.number)] ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", {
           key: 0,
           class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["badge rounded-pill feedback-badge ayah-feedback-message", _ctx.feedbackMessages[_ctx.buildAyahKey((_ctx$surahDetails3 = _ctx.surahDetails) === null || _ctx$surahDetails3 === void 0 ? void 0 : _ctx$surahDetails3.surahNumber, item.ayah.numberInSurah || item.ayah.number)].class])
-        }, [_ctx.feedbackMessages[_ctx.buildAyahKey((_ctx$surahDetails4 = _ctx.surahDetails) === null || _ctx$surahDetails4 === void 0 ? void 0 : _ctx$surahDetails4.surahNumber, item.ayah.numberInSurah || item.ayah.number)].icon === 'check' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_183)) : _ctx.feedbackMessages[_ctx.buildAyahKey((_ctx$surahDetails5 = _ctx.surahDetails) === null || _ctx$surahDetails5 === void 0 ? void 0 : _ctx$surahDetails5.surahNumber, item.ayah.numberInSurah || item.ayah.number)].icon === 'trash' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_184)) : _ctx.feedbackMessages[_ctx.buildAyahKey((_ctx$surahDetails6 = _ctx.surahDetails) === null || _ctx$surahDetails6 === void 0 ? void 0 : _ctx$surahDetails6.surahNumber, item.ayah.numberInSurah || item.ayah.number)].icon === 'warning' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_185)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.feedbackMessages[_ctx.buildAyahKey((_ctx$surahDetails7 = _ctx.surahDetails) === null || _ctx$surahDetails7 === void 0 ? void 0 : _ctx$surahDetails7.surahNumber, item.ayah.numberInSurah || item.ayah.number)].text) + " ", 1 /* TEXT */), _ctx.feedbackMessages[_ctx.buildAyahKey((_ctx$surahDetails8 = _ctx.surahDetails) === null || _ctx$surahDetails8 === void 0 ? void 0 : _ctx$surahDetails8.surahNumber, item.ayah.numberInSurah || item.ayah.number)].link ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("a", {
+        }, [_ctx.feedbackMessages[_ctx.buildAyahKey((_ctx$surahDetails4 = _ctx.surahDetails) === null || _ctx$surahDetails4 === void 0 ? void 0 : _ctx$surahDetails4.surahNumber, item.ayah.numberInSurah || item.ayah.number)].icon === 'check' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_170)) : _ctx.feedbackMessages[_ctx.buildAyahKey((_ctx$surahDetails5 = _ctx.surahDetails) === null || _ctx$surahDetails5 === void 0 ? void 0 : _ctx$surahDetails5.surahNumber, item.ayah.numberInSurah || item.ayah.number)].icon === 'trash' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_171)) : _ctx.feedbackMessages[_ctx.buildAyahKey((_ctx$surahDetails6 = _ctx.surahDetails) === null || _ctx$surahDetails6 === void 0 ? void 0 : _ctx$surahDetails6.surahNumber, item.ayah.numberInSurah || item.ayah.number)].icon === 'warning' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_172)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.feedbackMessages[_ctx.buildAyahKey((_ctx$surahDetails7 = _ctx.surahDetails) === null || _ctx$surahDetails7 === void 0 ? void 0 : _ctx$surahDetails7.surahNumber, item.ayah.numberInSurah || item.ayah.number)].text) + " ", 1 /* TEXT */), _ctx.feedbackMessages[_ctx.buildAyahKey((_ctx$surahDetails8 = _ctx.surahDetails) === null || _ctx$surahDetails8 === void 0 ? void 0 : _ctx$surahDetails8.surahNumber, item.ayah.numberInSurah || item.ayah.number)].link ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("a", {
           key: 3,
           class: "auth-alert-link ms-1",
           href: _ctx.feedbackMessages[_ctx.buildAyahKey((_ctx$surahDetails9 = _ctx.surahDetails) === null || _ctx$surahDetails9 === void 0 ? void 0 : _ctx$surahDetails9.surahNumber, item.ayah.numberInSurah || item.ayah.number)].link,
-          onClick: _cache[56] || (_cache[56] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(() => {}, ["stop"]))
-        }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.feedbackMessages[_ctx.buildAyahKey((_ctx$surahDetails0 = _ctx.surahDetails) === null || _ctx$surahDetails0 === void 0 ? void 0 : _ctx$surahDetails0.surahNumber, item.ayah.numberInSurah || item.ayah.number)].linkText || "Log in"), 9 /* TEXT, PROPS */, _hoisted_186)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 2 /* CLASS */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)];
+          onClick: _cache[65] || (_cache[65] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(() => {}, ["stop"]))
+        }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.feedbackMessages[_ctx.buildAyahKey((_ctx$surahDetails0 = _ctx.surahDetails) === null || _ctx$surahDetails0 === void 0 ? void 0 : _ctx$surahDetails0.surahNumber, item.ayah.numberInSurah || item.ayah.number)].linkText || "Log in"), 9 /* TEXT, PROPS */, _hoisted_173)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 2 /* CLASS */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)];
       }),
       _: 2 /* DYNAMIC */
     }, 1024 /* DYNAMIC_SLOTS */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Desktop Layout: Icons on Left "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
@@ -2613,7 +2663,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       role: "group",
       "aria-label": "Ayah controls (desktop)",
       "aria-hidden": _ctx.isMobile
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_188, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_189, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_175, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_176, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(['arabic-text rtl-text text-end mb-3', {
         'arabic-text--active': _ctx.currentlyPlayingIndex === item.index && _ctx.isAudioPlaying[item.index]
       }]),
@@ -2621,13 +2671,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
         fontSize: _ctx.effectiveArabicFontSize + 'px'
       })
-    }, null, 14 /* CLASS, STYLE, PROPS */, _hoisted_190), _ctx.isTranslationVisibleFor(item) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_191, [...(_cache[166] || (_cache[166] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
+    }, null, 14 /* CLASS, STYLE, PROPS */, _hoisted_177), _ctx.isTranslationVisibleFor(item) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_178, [...(_cache[191] || (_cache[191] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
       class: "mb-0"
     }, " Translation: ", -1 /* CACHED */)]))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["translation-row", {
         'translation-row--collapsed': !_ctx.isTranslationVisibleFor(item)
       }])
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_192, [_ctx.isTranslationVisibleFor(item) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_193, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_179, [_ctx.isTranslationVisibleFor(item) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_180, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(['fw-regular ltr-text flex-grow-1 translation-text', {
         'translation-text--active': _ctx.currentlyPlayingIndex === item.index && _ctx.isAudioPlaying[item.index]
       }]),
@@ -2635,9 +2685,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
         fontSize: _ctx.effectiveAyahBodyFontSize + 'px'
       })
-    }, null, 14 /* CLASS, STYLE, PROPS */, _hoisted_194)])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+    }, null, 14 /* CLASS, STYLE, PROPS */, _hoisted_181)])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
       key: 1
-    }, [], 64 /* STABLE_FRAGMENT */)), _ctx.isTransliterationVisibleFor(item) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_195, [...(_cache[167] || (_cache[167] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
+    }, [], 64 /* STABLE_FRAGMENT */)), _ctx.isTransliterationVisibleFor(item) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_182, [...(_cache[192] || (_cache[192] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
       class: "mb-0"
     }, " Transliteration: ", -1 /* CACHED */)]))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.isTransliterationVisibleFor(item) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", {
       key: 3,
@@ -2648,25 +2698,25 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
         fontSize: _ctx.effectiveAyahBodyFontSize + 'px'
       })
-    }, null, 14 /* CLASS, STYLE, PROPS */, _hoisted_196)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_197, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, null, 14 /* CLASS, STYLE, PROPS */, _hoisted_183)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_184, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       type: "button",
       class: "action-pill",
       onClick: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)($event => _ctx.copyAyah(item.ayah), ["stop"]),
       "aria-label": "Copy ayah",
       title: "Copy ayah"
-    }, [...(_cache[168] || (_cache[168] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [...(_cache[193] || (_cache[193] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-clipboard",
       "aria-hidden": "true"
-    }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Copy", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_198), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Copy", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_185), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       type: "button",
       class: "action-pill",
       onClick: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)($event => _ctx.shareOnWhatsApp(item.ayah), ["stop"]),
       "aria-label": "Share ayah",
       title: "Share ayah"
-    }, [...(_cache[169] || (_cache[169] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [...(_cache[194] || (_cache[194] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-send",
       "aria-hidden": "true"
-    }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Share", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_199)])])], 2 /* CLASS */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_200, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_201, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Share", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_186)])])], 2 /* CLASS */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_187, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_188, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       class: "icon-btn mb-3",
       onClick: $event => _ctx.toggleAudioPlayer(item.index),
       "aria-label": _ctx.isAudioPlaying[item.index] ? 'Pause ayah ' + (item.index + 1) : 'Play ayah ' + (item.index + 1),
@@ -2674,7 +2724,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", _ctx.isAudioPlaying[item.index] ? 'bi-pause-circle-fill' : 'bi-play-circle-fill']),
       "aria-hidden": "true"
-    }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_202)])])], 8 /* PROPS */, _hoisted_187), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Mobile/Tablet Layout: Text then Icons "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_189)])])], 8 /* PROPS */, _hoisted_174), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Mobile/Tablet Layout: Text then Icons "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       style: {},
       class: "d-block d-md-none",
       role: "group",
@@ -2688,9 +2738,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
         fontSize: _ctx.effectiveArabicFontSize + 'px'
       })
-    }, null, 14 /* CLASS, STYLE, PROPS */, _hoisted_204), _ctx.isTranslationVisibleFor(item) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_205, [...(_cache[170] || (_cache[170] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
+    }, null, 14 /* CLASS, STYLE, PROPS */, _hoisted_191), _ctx.isTranslationVisibleFor(item) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_192, [...(_cache[195] || (_cache[195] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
       class: "mb-0"
-    }, " Translation: ", -1 /* CACHED */)]))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.isTranslationVisibleFor(item) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_206, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    }, " Translation: ", -1 /* CACHED */)]))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.isTranslationVisibleFor(item) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_193, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(['fw-regular ltr-text flex-grow-1 translation-text', {
         'translation-text--active': _ctx.currentlyPlayingIndex === item.index && _ctx.isAudioPlaying[item.index]
       }]),
@@ -2698,9 +2748,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
         fontSize: _ctx.effectiveAyahBodyFontSize + 'px'
       })
-    }, null, 14 /* CLASS, STYLE, PROPS */, _hoisted_207)])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+    }, null, 14 /* CLASS, STYLE, PROPS */, _hoisted_194)])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
       key: 2
-    }, [], 64 /* STABLE_FRAGMENT */)), _ctx.isTransliterationVisibleFor(item) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_208, [...(_cache[171] || (_cache[171] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
+    }, [], 64 /* STABLE_FRAGMENT */)), _ctx.isTransliterationVisibleFor(item) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_195, [...(_cache[196] || (_cache[196] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
       class: "mb-0"
     }, " Transliteration: ", -1 /* CACHED */)]))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.isTransliterationVisibleFor(item) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", {
       key: 4,
@@ -2711,25 +2761,25 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
         fontSize: _ctx.effectiveAyahBodyFontSize + 'px'
       })
-    }, null, 14 /* CLASS, STYLE, PROPS */, _hoisted_209)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_210, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, null, 14 /* CLASS, STYLE, PROPS */, _hoisted_196)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_197, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       type: "button",
       class: "action-pill",
       onClick: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)($event => _ctx.copyAyah(item.ayah), ["stop"]),
       "aria-label": "Copy ayah",
       title: "Copy ayah"
-    }, [...(_cache[172] || (_cache[172] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [...(_cache[197] || (_cache[197] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-clipboard",
       "aria-hidden": "true"
-    }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Copy", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_211), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Copy", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_198), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       type: "button",
       class: "action-pill",
       onClick: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)($event => _ctx.shareOnWhatsApp(item.ayah), ["stop"]),
       "aria-label": "Share ayah",
       title: "Share ayah"
-    }, [...(_cache[173] || (_cache[173] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [...(_cache[198] || (_cache[198] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-send",
       "aria-hidden": "true"
-    }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Share", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_212), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Share", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_199), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       type: "button",
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["action-pill reflection-pill-fill", {
         'has-reflection': _ctx.hasReflection(item.ayah)
@@ -2737,15 +2787,15 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onClick: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)($event => _ctx.openReflectionModal(item.ayah), ["stop"]),
       "aria-label": _ctx.hasReflection(item.ayah) ? 'Edit reflection' : 'Add reflection',
       title: _ctx.hasReflection(item.ayah) ? 'Edit reflection' : 'Add reflection'
-    }, [_cache[174] || (_cache[174] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [_cache[199] || (_cache[199] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-journal-text",
       "aria-hidden": "true"
-    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.hasReflection(item.ayah) ? 'Reflected' : 'Reflect'), 1 /* TEXT */)], 10 /* CLASS, PROPS */, _hoisted_213)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_214, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_215, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.hasReflection(item.ayah) ? 'Reflected' : 'Reflect'), 1 /* TEXT */)], 10 /* CLASS, PROPS */, _hoisted_200)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_201, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_202, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       class: "icon-btn ayah-inline-btn ayah-inline-btn--font-down",
-      onClick: _cache[57] || (_cache[57] = (...args) => _ctx.decreaseFontSize && _ctx.decreaseFontSize(...args)),
+      onClick: _cache[66] || (_cache[66] = (...args) => _ctx.decreaseFontSize && _ctx.decreaseFontSize(...args)),
       "aria-label": "Decrease font size",
       title: "Decrease Font Size"
-    }, [...(_cache[175] || (_cache[175] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [...(_cache[200] || (_cache[200] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-dash-circle-fill",
       style: {
         "font-size": "1.6rem"
@@ -2753,12 +2803,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "aria-hidden": "true"
     }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       class: "ayah-inline-control-label"
-    }, "Decrease font size", -1 /* CACHED */)]))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_216, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, "Decrease font size", -1 /* CACHED */)]))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_203, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       class: "icon-btn ayah-inline-btn ayah-inline-btn--font-up",
-      onClick: _cache[58] || (_cache[58] = (...args) => _ctx.increaseFontSize && _ctx.increaseFontSize(...args)),
+      onClick: _cache[67] || (_cache[67] = (...args) => _ctx.increaseFontSize && _ctx.increaseFontSize(...args)),
       "aria-label": "Increase font size",
       title: "Increase Font Size"
-    }, [...(_cache[176] || (_cache[176] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [...(_cache[201] || (_cache[201] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-plus-circle-fill",
       style: {
         "font-size": "1.6rem"
@@ -2766,12 +2816,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "aria-hidden": "true"
     }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       class: "ayah-inline-control-label"
-    }, "Increase font size", -1 /* CACHED */)]))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_217, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, "Increase font size", -1 /* CACHED */)]))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_204, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       class: "icon-btn ayah-inline-btn ayah-inline-btn--rewind",
       onClick: $event => _ctx.rewindAudio(item.index),
       "aria-label": "Rewind 15 seconds",
       title: "Rewind"
-    }, [...(_cache[177] || (_cache[177] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [...(_cache[202] || (_cache[202] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-skip-backward-circle-fill",
       style: {
         "font-size": "1.6rem"
@@ -2779,7 +2829,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "aria-hidden": "true"
     }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       class: "ayah-inline-control-label"
-    }, "Rewind 15 seconds", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_218)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_219, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, "Rewind 15 seconds", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_205)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_206, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["icon-btn ayah-inline-btn ayah-inline-btn--play", {
         'is-active': _ctx.isAudioPlaying[item.index]
       }]),
@@ -2792,12 +2842,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "font-size": "1.8rem"
       },
       "aria-hidden": "true"
-    }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_221, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.isAudioPlaying[item.index] ? "Pause current verse" : "Play current verse"), 1 /* TEXT */)], 10 /* CLASS, PROPS */, _hoisted_220)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_222, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_208, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.isAudioPlaying[item.index] ? "Pause current verse" : "Play current verse"), 1 /* TEXT */)], 10 /* CLASS, PROPS */, _hoisted_207)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_209, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       class: "icon-btn ayah-inline-btn ayah-inline-btn--forward",
       onClick: $event => _ctx.fastForwardAudio(item.index),
       "aria-label": "Fast forward 20 seconds",
       title: "Fast Forward"
-    }, [...(_cache[178] || (_cache[178] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [...(_cache[203] || (_cache[203] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-skip-forward-circle-fill",
       style: {
         "font-size": "1.6rem"
@@ -2805,7 +2855,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "aria-hidden": "true"
     }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       class: "ayah-inline-control-label"
-    }, "Fast forward 20 seconds", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_223)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col text-center\" style=\"padding: 2px\">\n                                    <button class=\"icon-btn reflection-btn\"\n                                        :class=\"{ 'has-reflection': hasReflection(item.ayah) }\"\n                                        @click.stop=\"openReflectionModal(item.ayah)\"\n                                        :aria-label=\"hasReflection(item.ayah)\n                                            ? 'Edit reflection'\n                                            : 'Add reflection'\"\n                                        :title=\"hasReflection(item.ayah)\n                                            ? 'Edit reflection'\n                                            : 'Add reflection'\">\n                                        <i class=\"bi bi-journal-text\" style=\"font-size: 1.6rem\" aria-hidden=\"true\"></i>\n                                    </button>\n                                </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_224, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, "Fast forward 20 seconds", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_210)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col text-center\" style=\"padding: 2px\">\n                                    <button class=\"icon-btn reflection-btn\"\n                                        :class=\"{ 'has-reflection': hasReflection(item.ayah) }\"\n                                        @click.stop=\"openReflectionModal(item.ayah)\"\n                                        :aria-label=\"hasReflection(item.ayah)\n                                            ? 'Edit reflection'\n                                            : 'Add reflection'\"\n                                        :title=\"hasReflection(item.ayah)\n                                            ? 'Edit reflection'\n                                            : 'Add reflection'\">\n                                        <i class=\"bi bi-journal-text\" style=\"font-size: 1.6rem\" aria-hidden=\"true\"></i>\n                                    </button>\n                                </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_211, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["icon-btn ayah-inline-btn ayah-inline-btn--bookmark", {
         'is-saved': _ctx.isAyahSaved(item.ayah)
       }]),
@@ -2817,8 +2867,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "font-size": "1.6rem"
       },
       "aria-hidden": "true"
-    }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_226, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.isAyahSaved(item.ayah) ? "Remove verse bookmark" : "Save verse bookmark"), 1 /* TEXT */)], 10 /* CLASS, PROPS */, _hoisted_225)])])], 8 /* PROPS */, _hoisted_203)])], 42 /* CLASS, PROPS, NEED_HYDRATION */, _hoisted_167);
-  }), 128 /* KEYED_FRAGMENT */))], 4 /* STYLE */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Screen reader live region "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_227, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.screenReaderMessage), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Empty state "), !_ctx.isLoading && _ctx.surahDetails && _ctx.filteredAyahs.length === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_228, " No verses match your current search or filters. ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_bookmark_modal, {
+    }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_213, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.isAyahSaved(item.ayah) ? "Remove verse bookmark" : "Save verse bookmark"), 1 /* TEXT */)], 10 /* CLASS, PROPS */, _hoisted_212)])])], 8 /* PROPS */, _hoisted_190)])], 42 /* CLASS, PROPS, NEED_HYDRATION */, _hoisted_154);
+  }), 128 /* KEYED_FRAGMENT */))], 4 /* STYLE */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Screen reader live region "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_214, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.screenReaderMessage), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Empty state "), !_ctx.isLoading && _ctx.surahDetails && _ctx.filteredAyahs.length === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_215, " No verses match your current search or filters. ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_bookmark_modal, {
     ayah: _ctx.activeAyah,
     onSaved: _ctx.onBookmarkSaved
   }, null, 8 /* PROPS */, ["ayah", "onSaved"]), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Teleport, {
@@ -2830,7 +2880,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "aria-labelledby": "suratOnboardingLabel",
     "aria-hidden": "true",
     "data-bs-backdrop": "true"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_230, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_231, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_232, [_cache[182] || (_cache[182] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_217, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_218, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_219, [_cache[207] || (_cache[207] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
     class: "modal-title",
     id: "suratOnboardingLabel"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
@@ -2838,27 +2888,27 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "aria-hidden": "true"
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Surat onboarding guide")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "surat-onboarding-subtitle mb-0"
-  }, " Most important features first, with simple explanations. ")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_233, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, " Most important features first, with simple explanations. ")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_220, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "surat-onboarding-font-btn",
-    onClick: _cache[59] || (_cache[59] = (...args) => _ctx.decreaseSuratOnboardingFontSize && _ctx.decreaseSuratOnboardingFontSize(...args)),
+    onClick: _cache[68] || (_cache[68] = (...args) => _ctx.decreaseSuratOnboardingFontSize && _ctx.decreaseSuratOnboardingFontSize(...args)),
     disabled: _ctx.suratOnboardingFontSize <= _ctx.suratOnboardingFontSizeMin,
     "aria-label": "Decrease onboarding font size",
     title: "Decrease font size"
-  }, [...(_cache[179] || (_cache[179] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[204] || (_cache[204] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "fas fa-minus",
     "aria-hidden": "true"
-  }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_234), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_221), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "surat-onboarding-font-btn",
-    onClick: _cache[60] || (_cache[60] = (...args) => _ctx.increaseSuratOnboardingFontSize && _ctx.increaseSuratOnboardingFontSize(...args)),
+    onClick: _cache[69] || (_cache[69] = (...args) => _ctx.increaseSuratOnboardingFontSize && _ctx.increaseSuratOnboardingFontSize(...args)),
     disabled: _ctx.suratOnboardingFontSize >= _ctx.suratOnboardingFontSizeMax,
     "aria-label": "Increase onboarding font size",
     title: "Increase font size"
-  }, [...(_cache[180] || (_cache[180] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[205] || (_cache[205] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "fas fa-plus",
     "aria-hidden": "true"
-  }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_235), _cache[181] || (_cache[181] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_222), _cache[206] || (_cache[206] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "btn-close",
     "data-bs-dismiss": "modal",
@@ -2868,45 +2918,45 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
       '--surat-onboarding-font-size': _ctx.suratOnboardingFontSize + 'px'
     })
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_236, [_cache[184] || (_cache[184] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_223, [_cache[209] || (_cache[209] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "fas fa-search surat-onboarding-search-icon",
     "aria-hidden": "true"
   }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     type: "search",
     class: "form-control surat-onboarding-search-input",
-    "onUpdate:modelValue": _cache[61] || (_cache[61] = $event => _ctx.suratOnboardingSearchQuery = $event),
+    "onUpdate:modelValue": _cache[70] || (_cache[70] = $event => _ctx.suratOnboardingSearchQuery = $event),
     placeholder: "Search onboarding features...",
     "aria-label": "Search surat onboarding features"
   }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, _ctx.suratOnboardingSearchQuery]]), _ctx.suratOnboardingSearchQuery ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
     key: 0,
     type: "button",
     class: "btn btn-link surat-onboarding-search-clear",
-    onClick: _cache[62] || (_cache[62] = (...args) => _ctx.clearSuratOnboardingSearch && _ctx.clearSuratOnboardingSearch(...args)),
+    onClick: _cache[71] || (_cache[71] = (...args) => _ctx.clearSuratOnboardingSearch && _ctx.clearSuratOnboardingSearch(...args)),
     "aria-label": "Clear onboarding search"
-  }, [...(_cache[183] || (_cache[183] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[208] || (_cache[208] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "fas fa-times",
     "aria-hidden": "true"
-  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Clear ", -1 /* CACHED */)]))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_237, " Showing " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.filteredSuratOnboardingFeatures.length) + " of " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.suratOnboardingFeatures.length) + " features ", 1 /* TEXT */), _ctx.filteredSuratOnboardingFeatures.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_238, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.filteredSuratOnboardingFeatures, feature => {
+  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Clear ", -1 /* CACHED */)]))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_224, " Showing " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.filteredSuratOnboardingFeatures.length) + " of " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.suratOnboardingFeatures.length) + " features ", 1 /* TEXT */), _ctx.filteredSuratOnboardingFeatures.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_225, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.filteredSuratOnboardingFeatures, feature => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("article", {
       key: feature.id,
       class: "surat-onboarding-card"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_239, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_240, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_241, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_226, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_227, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_228, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["fas", feature.iconClass || 'fa-info-circle'])
-    }, null, 2 /* CLASS */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_242, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(feature.area), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_243, "#" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(feature.priority), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+    }, null, 2 /* CLASS */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_229, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(feature.area), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_230, "#" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(feature.priority), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
       class: "surat-onboarding-title",
       innerHTML: _ctx.highlightSuratOnboardingText(feature.title)
-    }, null, 8 /* PROPS */, _hoisted_244), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    }, null, 8 /* PROPS */, _hoisted_231), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
       class: "surat-onboarding-summary mb-2",
       innerHTML: _ctx.highlightSuratOnboardingText(feature.summary)
-    }, null, 8 /* PROPS */, _hoisted_245), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_246, [_cache[185] || (_cache[185] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    }, null, 8 /* PROPS */, _hoisted_232), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_233, [_cache[210] || (_cache[210] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       class: "surat-onboarding-how-label"
     }, "How to use:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       innerHTML: _ctx.highlightSuratOnboardingText(feature.howTo)
-    }, null, 8 /* PROPS */, _hoisted_247)])]);
-  }), 128 /* KEYED_FRAGMENT */))])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_248, " No features matched \"" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.suratOnboardingSearchQuery) + "\". ", 1 /* TEXT */))], 4 /* STYLE */)])])], 8 /* PROPS */, _hoisted_229)])), _ctx.showTajweed ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Teleport, {
+    }, null, 8 /* PROPS */, _hoisted_234)])]);
+  }), 128 /* KEYED_FRAGMENT */))])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_235, " No features matched \"" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.suratOnboardingSearchQuery) + "\". ", 1 /* TEXT */))], 4 /* STYLE */)])])], 8 /* PROPS */, _hoisted_216)])), _ctx.showTajweed ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Teleport, {
     key: 4,
     to: "body"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_249, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_250, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_251, [_cache[186] || (_cache[186] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_236, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_237, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_238, [_cache[211] || (_cache[211] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "modal-header"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", {
     class: "modal-title",
@@ -2916,65 +2966,65 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "btn-close",
     "data-bs-dismiss": "modal",
     "aria-label": "Close"
-  })], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_252, [_ctx.tajweedLegend.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_253, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.tajweedLegend, item => {
+  })], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_239, [_ctx.tajweedLegend.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_240, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.tajweedLegend, item => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: item.name,
       class: "tajweed-rule-row"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_254, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_255, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_256, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.code), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_257, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.label), 1 /* TEXT */)]), item.desc ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_258, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.desc), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_259, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_241, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_242, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_243, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.code), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_244, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.label), 1 /* TEXT */)]), item.desc ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_245, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.desc), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_246, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["tajweed-swatch", `tajweed-${item.name}`]),
       "aria-hidden": "true"
-    }, null, 2 /* CLASS */)]), item.ar ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_260, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_261, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.ar), 1 /* TEXT */), item.arDesc ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_262, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.arDesc), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
-  }), 128 /* KEYED_FRAGMENT */))])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_263, "Tajweed rules will appear once a surah loads."))])])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Teleport, {
+    }, null, 2 /* CLASS */)]), item.ar ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_247, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_248, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.ar), 1 /* TEXT */), item.arDesc ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_249, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.arDesc), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
+  }), 128 /* KEYED_FRAGMENT */))])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_250, "Tajweed rules will appear once a surah loads."))])])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Teleport, {
     to: "body"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_264, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_265, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_266, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_267, [_cache[190] || (_cache[190] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_251, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_252, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_253, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_254, [_cache[215] || (_cache[215] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
     class: "modal-title",
     id: "surahInfoLabel"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Surah information")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_268, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Surah information")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_255, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "surah-info-font-btn",
-    onClick: _cache[63] || (_cache[63] = (...args) => _ctx.decreaseSurahInfoFontSize && _ctx.decreaseSurahInfoFontSize(...args)),
+    onClick: _cache[72] || (_cache[72] = (...args) => _ctx.decreaseSurahInfoFontSize && _ctx.decreaseSurahInfoFontSize(...args)),
     disabled: _ctx.surahInfoFontSize <= _ctx.surahInfoFontSizeMin,
     "aria-label": "Decrease surah info font size",
     title: "Decrease font size"
-  }, [...(_cache[187] || (_cache[187] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[212] || (_cache[212] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-dash-lg",
     "aria-hidden": "true"
-  }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_269), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_256), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "surah-info-font-btn",
-    onClick: _cache[64] || (_cache[64] = (...args) => _ctx.increaseSurahInfoFontSize && _ctx.increaseSurahInfoFontSize(...args)),
+    onClick: _cache[73] || (_cache[73] = (...args) => _ctx.increaseSurahInfoFontSize && _ctx.increaseSurahInfoFontSize(...args)),
     disabled: _ctx.surahInfoFontSize >= _ctx.surahInfoFontSizeMax,
     "aria-label": "Increase surah info font size",
     title: "Increase font size"
-  }, [...(_cache[188] || (_cache[188] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[213] || (_cache[213] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-plus-lg",
     "aria-hidden": "true"
-  }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_270), _cache[189] || (_cache[189] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_257), _cache[214] || (_cache[214] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "btn-close",
     "data-bs-dismiss": "modal",
     "aria-label": "Close"
-  }, null, -1 /* CACHED */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_271, [_ctx.surahInfo ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+  }, null, -1 /* CACHED */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_258, [_ctx.surahInfo ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
     key: 0,
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
       '--surah-info-font-size': _ctx.surahInfoFontSize + 'px'
     })
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_272, [_ctx.surahInfo.name ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_273, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.surahInfo.name), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_274, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.surahInfo.englishName), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_275, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_276, " Ayahs: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.surahInfo.numberOfAyahs || ((_ctx$surahDetails1 = _ctx.surahDetails) === null || _ctx$surahDetails1 === void 0 || (_ctx$surahDetails1 = _ctx$surahDetails1.ayahs) === null || _ctx$surahDetails1 === void 0 ? void 0 : _ctx$surahDetails1.length) || "Unknown"), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_277, " Revelation Place: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.surahInfo.revelationType || "Unknown"), 1 /* TEXT */)])]), _ctx.surahInfoShortText ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_259, [_ctx.surahInfo.name ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_260, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.surahInfo.name), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_261, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.surahInfo.englishName), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_262, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_263, " Ayahs: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.surahInfo.numberOfAyahs || ((_ctx$surahDetails1 = _ctx.surahDetails) === null || _ctx$surahDetails1 === void 0 || (_ctx$surahDetails1 = _ctx$surahDetails1.ayahs) === null || _ctx$surahDetails1 === void 0 ? void 0 : _ctx$surahDetails1.length) || "Unknown"), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_264, " Revelation Place: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.surahInfo.revelationType || "Unknown"), 1 /* TEXT */)])]), _ctx.surahInfoShortText ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
     key: 0,
     class: "surah-info-lead",
     innerHTML: _ctx.surahInfoShortText
-  }, null, 8 /* PROPS */, _hoisted_278)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.surahInfoLoading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_279, " Loading surah details... ")) : _ctx.surahInfoError ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_280, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.surahInfoError), 1 /* TEXT */)) : _ctx.surahInfoText ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+  }, null, 8 /* PROPS */, _hoisted_265)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.surahInfoLoading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_266, " Loading surah details... ")) : _ctx.surahInfoError ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_267, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.surahInfoError), 1 /* TEXT */)) : _ctx.surahInfoText ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
     key: 3,
     class: "surah-info-content",
     innerHTML: _ctx.surahInfoText
-  }, null, 8 /* PROPS */, _hoisted_281)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_282, " Detailed info is not available yet. ")), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_283, [_cache[191] || (_cache[191] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Reference: ", -1 /* CACHED */)), _ctx.surahInfoSourceUrl ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("a", {
+  }, null, 8 /* PROPS */, _hoisted_268)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_269, " Detailed info is not available yet. ")), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_270, [_cache[216] || (_cache[216] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Reference: ", -1 /* CACHED */)), _ctx.surahInfoSourceUrl ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("a", {
     key: 0,
     href: _ctx.surahInfoSourceUrl,
     target: "_blank",
     rel: "noopener noreferrer"
-  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.surahInfoSourceLabel), 9 /* TEXT, PROPS */, _hoisted_284)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_285, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.surahInfoSourceLabel), 1 /* TEXT */)), _ctx.surahInfoSourceHost ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_286, "(" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.surahInfoSourceHost) + ")", 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])], 4 /* STYLE */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_287, " Surah details are not available yet. Please try again in a moment. "))])])])])])), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Teleport, {
+  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.surahInfoSourceLabel), 9 /* TEXT, PROPS */, _hoisted_271)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_272, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.surahInfoSourceLabel), 1 /* TEXT */)), _ctx.surahInfoSourceHost ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_273, "(" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.surahInfoSourceHost) + ")", 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])], 4 /* STYLE */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_274, " Surah details are not available yet. Please try again in a moment. "))])])])])])), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Teleport, {
     to: "body"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_288, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_289, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_290, [_cache[208] || (_cache[208] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_275, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_276, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_277, [_cache[233] || (_cache[233] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "modal-header"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
     class: "modal-title",
@@ -2984,89 +3034,89 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "btn-close",
     "data-bs-dismiss": "modal",
     "aria-label": "Close"
-  })], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_291, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_292, [_cache[193] || (_cache[193] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  })], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_278, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_279, [_cache[218] || (_cache[218] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     class: "form-label"
   }, "Audio reciter", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     class: "form-select",
-    "onUpdate:modelValue": _cache[65] || (_cache[65] = $event => _ctx.selectedReciter = $event),
+    "onUpdate:modelValue": _cache[74] || (_cache[74] = $event => _ctx.selectedReciter = $event),
     "aria-label": "Select reciter"
-  }, [_cache[192] || (_cache[192] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+  }, [_cache[217] || (_cache[217] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: "",
     disabled: ""
   }, "Select a reciter", -1 /* CACHED */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.recitersSorted, reciter => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
       key: reciter.identifier,
       value: reciter.identifier
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(reciter.englishName), 9 /* TEXT, PROPS */, _hoisted_293);
-  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, _ctx.selectedReciter]]), _cache[194] || (_cache[194] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", {
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(reciter.englishName), 9 /* TEXT, PROPS */, _hoisted_280);
+  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, _ctx.selectedReciter]]), _cache[219] || (_cache[219] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", {
     class: "text-muted d-block mt-1"
-  }, " Pick the reciter voice for audio playback. ", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_294, [_cache[196] || (_cache[196] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, " Pick the reciter voice for audio playback. ", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_281, [_cache[221] || (_cache[221] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     class: "form-label"
   }, "Translation", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     class: "form-select",
-    "onUpdate:modelValue": _cache[66] || (_cache[66] = $event => _ctx.selectedTranslation = $event),
+    "onUpdate:modelValue": _cache[75] || (_cache[75] = $event => _ctx.selectedTranslation = $event),
     "aria-label": "Select translation"
-  }, [_cache[195] || (_cache[195] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+  }, [_cache[220] || (_cache[220] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: "",
     disabled: ""
   }, "Select translation", -1 /* CACHED */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.translationsSorted, translation => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
       key: translation.identifier,
       value: translation.identifier
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(translation.flag) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(translation.englishName), 9 /* TEXT, PROPS */, _hoisted_295);
-  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, _ctx.selectedTranslation]]), _cache[197] || (_cache[197] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", {
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(translation.flag) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(translation.englishName), 9 /* TEXT, PROPS */, _hoisted_282);
+  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, _ctx.selectedTranslation]]), _cache[222] || (_cache[222] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", {
     class: "text-muted d-block mt-1"
-  }, " Choose the translation shown under each ayah. ", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_296, [_cache[199] || (_cache[199] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, " Choose the translation shown under each ayah. ", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_283, [_cache[224] || (_cache[224] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     class: "form-label"
   }, "Tajweed colors & rules", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     class: "form-select",
-    "onUpdate:modelValue": _cache[67] || (_cache[67] = $event => _ctx.settingsDraft.showTajweed = $event),
+    "onUpdate:modelValue": _cache[76] || (_cache[76] = $event => _ctx.settingsDraft.showTajweed = $event),
     "aria-label": "Enable tajweed colors and rules"
-  }, [...(_cache[198] || (_cache[198] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+  }, [...(_cache[223] || (_cache[223] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: true
   }, "Enabled", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: false
-  }, "Disabled", -1 /* CACHED */)]))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, _ctx.settingsDraft.showTajweed]]), _cache[200] || (_cache[200] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", {
+  }, "Disabled", -1 /* CACHED */)]))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, _ctx.settingsDraft.showTajweed]]), _cache[225] || (_cache[225] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", {
     class: "text-muted d-block mt-1"
-  }, " Toggle the tajweed-colored text in the Quran and access the tajweed rules legend. ", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_297, [_cache[201] || (_cache[201] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, " Toggle the tajweed-colored text in the Quran and access the tajweed rules legend. ", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_284, [_cache[226] || (_cache[226] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     class: "form-label"
   }, "Audio playback mode", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     class: "form-select",
-    "onUpdate:modelValue": _cache[68] || (_cache[68] = $event => _ctx.settingsDraft.playbackMode = $event),
+    "onUpdate:modelValue": _cache[77] || (_cache[77] = $event => _ctx.settingsDraft.playbackMode = $event),
     "aria-label": "Select audio playback mode"
   }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.playbackModeOptions, option => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
       key: option.value,
       value: option.value
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(option.label), 9 /* TEXT, PROPS */, _hoisted_298);
-  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, _ctx.settingsDraft.playbackMode]]), _ctx.draftPlaybackModeOption && _ctx.draftPlaybackModeOption.description ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("small", _hoisted_299, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.draftPlaybackModeOption.description), 1 /* TEXT */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("small", _hoisted_300, " Decide whether audio plays continuously, repeats, or stays manual. "))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_301, [_cache[203] || (_cache[203] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(option.label), 9 /* TEXT, PROPS */, _hoisted_285);
+  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, _ctx.settingsDraft.playbackMode]]), _ctx.draftPlaybackModeOption && _ctx.draftPlaybackModeOption.description ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("small", _hoisted_286, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.draftPlaybackModeOption.description), 1 /* TEXT */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("small", _hoisted_287, " Decide whether audio plays continuously, repeats, or stays manual. "))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_288, [_cache[228] || (_cache[228] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     class: "form-label"
   }, "Word-for-word highlighting", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     class: "form-select",
-    "onUpdate:modelValue": _cache[69] || (_cache[69] = $event => _ctx.settingsDraft.showRealtimeHighlighting = $event),
+    "onUpdate:modelValue": _cache[78] || (_cache[78] = $event => _ctx.settingsDraft.showRealtimeHighlighting = $event),
     "aria-label": "Word-for-word highlighting"
-  }, [...(_cache[202] || (_cache[202] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+  }, [...(_cache[227] || (_cache[227] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: true
   }, "Enabled", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: false
-  }, "Disabled", -1 /* CACHED */)]))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, _ctx.settingsDraft.showRealtimeHighlighting]]), _cache[204] || (_cache[204] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", {
+  }, "Disabled", -1 /* CACHED */)]))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, _ctx.settingsDraft.showRealtimeHighlighting]]), _cache[229] || (_cache[229] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", {
     class: "text-muted d-block mt-1"
-  }, " Highlight each word as it is recited. ", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_302, [_cache[206] || (_cache[206] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, " Highlight each word as it is recited. ", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_289, [_cache[231] || (_cache[231] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     class: "form-label"
   }, "Word-for-word translation", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     class: "form-select",
-    "onUpdate:modelValue": _cache[70] || (_cache[70] = $event => _ctx.settingsDraft.showWordTranslation = $event),
+    "onUpdate:modelValue": _cache[79] || (_cache[79] = $event => _ctx.settingsDraft.showWordTranslation = $event),
     "aria-label": "Word-for-word translation"
-  }, [...(_cache[205] || (_cache[205] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+  }, [...(_cache[230] || (_cache[230] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: true
   }, "Enabled", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: false
-  }, "Disabled", -1 /* CACHED */)]))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, _ctx.settingsDraft.showWordTranslation]]), _cache[207] || (_cache[207] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", {
+  }, "Disabled", -1 /* CACHED */)]))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, _ctx.settingsDraft.showWordTranslation]]), _cache[232] || (_cache[232] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", {
     class: "text-muted d-block mt-1"
-  }, " Show a brief translation beneath each Arabic word. ", -1 /* CACHED */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_303, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, " Show a brief translation beneath each Arabic word. ", -1 /* CACHED */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_290, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "btn surah-settings-submit",
-    onClick: _cache[71] || (_cache[71] = (...args) => _ctx.applySettingsModal && _ctx.applySettingsModal(...args)),
+    onClick: _cache[80] || (_cache[80] = (...args) => _ctx.applySettingsModal && _ctx.applySettingsModal(...args)),
     "aria-label": "Apply settings"
   }, " Submit ")])])])])])), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Teleport, {
     to: "body"
@@ -3077,7 +3127,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     id: _ctx.fontPickerOffcanvasId,
     ref: "fontPickerOffcanvas",
     "aria-labelledby": "quranFontOffcanvasLabel"
-  }, [_cache[210] || (_cache[210] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, [_cache[235] || (_cache[235] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "offcanvas-header"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
     class: "offcanvas-title",
@@ -3089,48 +3139,48 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "btn-close text-reset",
     "data-bs-dismiss": "offcanvas",
     "aria-label": "Close"
-  })], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_305, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_306, [_ctx.quranFontsLoading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_307, " Loading Quran fonts... ")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_308, [_ctx.quranFontsError ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_309, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.quranFontsError), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_310, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.quranFonts, font => {
+  })], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_292, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_293, [_ctx.quranFontsLoading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_294, " Loading Quran fonts... ")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_295, [_ctx.quranFontsError ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_296, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.quranFontsError), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_297, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.quranFonts, font => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: font.id,
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["quran-font-option", {
         selected: _ctx.quranFontDraftId === font.id
       }]),
       onClick: $event => _ctx.selectQuranFontDraft(font.id)
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_312, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_313, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_299, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_300, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
       class: "form-check-input",
       type: "radio",
       id: `quran-font-${font.inputId}`,
       value: font.id,
-      "onUpdate:modelValue": _cache[72] || (_cache[72] = $event => _ctx.quranFontDraftId = $event),
-      onClick: _cache[73] || (_cache[73] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(() => {}, ["stop"]))
-    }, null, 8 /* PROPS */, _hoisted_314), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, _ctx.quranFontDraftId]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+      "onUpdate:modelValue": _cache[81] || (_cache[81] = $event => _ctx.quranFontDraftId = $event),
+      onClick: _cache[82] || (_cache[82] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(() => {}, ["stop"]))
+    }, null, 8 /* PROPS */, _hoisted_301), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, _ctx.quranFontDraftId]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
       class: "form-check-label",
       for: `quran-font-${font.inputId}`,
       style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
         fontFamily: font.cssStack
       })
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(font.label), 13 /* TEXT, STYLE, PROPS */, _hoisted_315)]), font.source ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_316, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(font.source), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(font.label), 13 /* TEXT, STYLE, PROPS */, _hoisted_302)]), font.source ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_303, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(font.source), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       class: "quran-font-preview",
       style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
         fontFamily: font.cssStack
       })
-    }, [_ctx.fontPreviewLoading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_317, " Loading preview... ")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+    }, [_ctx.fontPreviewLoading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_304, " Loading preview... ")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: 1,
       class: "quran-font-preview-text",
       innerHTML: _ctx.getFontPreviewHtml(font)
-    }, null, 8 /* PROPS */, _hoisted_318))], 4 /* STYLE */)], 10 /* CLASS, PROPS */, _hoisted_311);
-  }), 128 /* KEYED_FRAGMENT */))])])), _ctx.fontPickerAlert ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_319, [_cache[209] || (_cache[209] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, null, 8 /* PROPS */, _hoisted_305))], 4 /* STYLE */)], 10 /* CLASS, PROPS */, _hoisted_298);
+  }), 128 /* KEYED_FRAGMENT */))])])), _ctx.fontPickerAlert ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_306, [_cache[234] || (_cache[234] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-check-circle-fill"
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.fontPickerAlert), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_320, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.fontPickerAlert), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_307, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "btn btn-outline-secondary",
-    onClick: _cache[74] || (_cache[74] = (...args) => _ctx.closeFontPicker && _ctx.closeFontPicker(...args))
+    onClick: _cache[83] || (_cache[83] = (...args) => _ctx.closeFontPicker && _ctx.closeFontPicker(...args))
   }, " Cancel "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "btn surah-settings-submit",
     disabled: !_ctx.quranFontDraftId,
-    onClick: _cache[75] || (_cache[75] = (...args) => _ctx.applyQuranFontSelection && _ctx.applyQuranFontSelection(...args))
-  }, " Submit ", 8 /* PROPS */, _hoisted_321)])])])], 8 /* PROPS */, _hoisted_304)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Teleport, {
+    onClick: _cache[84] || (_cache[84] = (...args) => _ctx.applyQuranFontSelection && _ctx.applyQuranFontSelection(...args))
+  }, " Submit ", 8 /* PROPS */, _hoisted_308)])])])], 8 /* PROPS */, _hoisted_291)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Teleport, {
     to: "body"
   }, [_ctx.isMobile ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
     key: 0,
@@ -3140,7 +3190,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "aria-labelledby": "quranFontModalLabel",
     "aria-hidden": "true",
     "data-bs-backdrop": "true"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_323, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_324, [_cache[213] || (_cache[213] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_310, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_311, [_cache[238] || (_cache[238] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "modal-header"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
     class: "modal-title",
@@ -3150,60 +3200,60 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "btn-close",
     "data-bs-dismiss": "modal",
     "aria-label": "Close"
-  })], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_325, [_cache[212] || (_cache[212] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  })], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_312, [_cache[237] || (_cache[237] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "quran-font-subtitle"
-  }, " Select a Quranic script. Preview uses Al-Fatiha 1 with tajweed colors. ", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_326, [_ctx.quranFontsLoading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_327, " Loading Quran fonts... ")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_328, [_ctx.quranFontsError ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_329, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.quranFontsError), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_330, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.quranFonts, font => {
+  }, " Select a Quranic script. Preview uses Al-Fatiha 1 with tajweed colors. ", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_313, [_ctx.quranFontsLoading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_314, " Loading Quran fonts... ")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_315, [_ctx.quranFontsError ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_316, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.quranFontsError), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_317, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.quranFonts, font => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: font.id,
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["quran-font-option", {
         selected: _ctx.quranFontDraftId === font.id
       }]),
       onClick: $event => _ctx.selectQuranFontDraft(font.id)
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_332, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_333, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_319, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_320, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
       class: "form-check-input",
       type: "radio",
       id: `quran-font-mobile-${font.inputId}`,
       value: font.id,
-      "onUpdate:modelValue": _cache[76] || (_cache[76] = $event => _ctx.quranFontDraftId = $event),
-      onClick: _cache[77] || (_cache[77] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(() => {}, ["stop"]))
-    }, null, 8 /* PROPS */, _hoisted_334), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, _ctx.quranFontDraftId]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+      "onUpdate:modelValue": _cache[85] || (_cache[85] = $event => _ctx.quranFontDraftId = $event),
+      onClick: _cache[86] || (_cache[86] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(() => {}, ["stop"]))
+    }, null, 8 /* PROPS */, _hoisted_321), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, _ctx.quranFontDraftId]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
       class: "form-check-label",
       for: `quran-font-mobile-${font.inputId}`,
       style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
         fontFamily: font.cssStack
       })
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(font.label), 13 /* TEXT, STYLE, PROPS */, _hoisted_335)]), font.source ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_336, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(font.source), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(font.label), 13 /* TEXT, STYLE, PROPS */, _hoisted_322)]), font.source ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_323, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(font.source), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       class: "quran-font-preview",
       style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
         fontFamily: font.cssStack
       })
-    }, [_ctx.fontPreviewLoading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_337, " Loading preview... ")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+    }, [_ctx.fontPreviewLoading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_324, " Loading preview... ")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: 1,
       class: "quran-font-preview-text",
       innerHTML: _ctx.getFontPreviewHtml(font)
-    }, null, 8 /* PROPS */, _hoisted_338))], 4 /* STYLE */)], 10 /* CLASS, PROPS */, _hoisted_331);
-  }), 128 /* KEYED_FRAGMENT */))])])), _ctx.fontPickerAlert ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_339, [_cache[211] || (_cache[211] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, null, 8 /* PROPS */, _hoisted_325))], 4 /* STYLE */)], 10 /* CLASS, PROPS */, _hoisted_318);
+  }), 128 /* KEYED_FRAGMENT */))])])), _ctx.fontPickerAlert ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_326, [_cache[236] || (_cache[236] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-check-circle-fill"
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.fontPickerAlert), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_340, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.fontPickerAlert), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_327, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "btn btn-outline-secondary",
-    onClick: _cache[78] || (_cache[78] = (...args) => _ctx.closeFontPicker && _ctx.closeFontPicker(...args))
+    onClick: _cache[87] || (_cache[87] = (...args) => _ctx.closeFontPicker && _ctx.closeFontPicker(...args))
   }, " Cancel "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "btn surah-settings-submit",
     disabled: !_ctx.quranFontDraftId,
-    onClick: _cache[79] || (_cache[79] = (...args) => _ctx.applyQuranFontSelection && _ctx.applyQuranFontSelection(...args))
-  }, " Submit ", 8 /* PROPS */, _hoisted_341)])])])])])], 8 /* PROPS */, _hoisted_322)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Notes & Reflections Modal "), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Teleport, {
+    onClick: _cache[88] || (_cache[88] = (...args) => _ctx.applyQuranFontSelection && _ctx.applyQuranFontSelection(...args))
+  }, " Submit ", 8 /* PROPS */, _hoisted_328)])])])])])], 8 /* PROPS */, _hoisted_309)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Notes & Reflections Modal "), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Teleport, {
     to: "body"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_342, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_343, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_344, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_345, [_cache[214] || (_cache[214] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_329, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_330, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_331, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_332, [_cache[239] || (_cache[239] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", {
     class: "modal-title",
     id: "reflectionModalLabel"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Reflect and Save a Thought")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "btn-close",
-    onClick: _cache[80] || (_cache[80] = (...args) => _ctx.hideReflectionModal && _ctx.hideReflectionModal(...args)),
+    onClick: _cache[89] || (_cache[89] = (...args) => _ctx.hideReflectionModal && _ctx.hideReflectionModal(...args)),
     "aria-label": "Close reflection modal"
-  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_346, [_cache[226] || (_cache[226] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_333, [_cache[251] || (_cache[251] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "reflection-intro"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "reflection-intro-title"
@@ -3211,141 +3261,141 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "reflection-intro-copy"
   }, " Capturing what moves you about this verse keeps its guidance fresh, anchors your spiritual growth, and helps the community spot inspirations worth sharing. ")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
     class: "d-flex flex-column gap-3 mt-3",
-    onSubmit: _cache[87] || (_cache[87] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)((...args) => _ctx.submitReflectionForm && _ctx.submitReflectionForm(...args), ["prevent"])),
+    onSubmit: _cache[96] || (_cache[96] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)((...args) => _ctx.submitReflectionForm && _ctx.submitReflectionForm(...args), ["prevent"])),
     novalidate: ""
-  }, [_ctx.reflectionSuccessMessage ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_347, [_cache[215] || (_cache[215] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [_ctx.reflectionSuccessMessage ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_334, [_cache[240] || (_cache[240] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-check-circle-fill"
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.reflectionSuccessMessage), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[216] || (_cache[216] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.reflectionSuccessMessage), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[241] || (_cache[241] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     class: "form-label fw-bold mb-1 medium-label"
   }, "Title", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     type: "text",
     class: "form-control form-control-lg",
-    "onUpdate:modelValue": _cache[81] || (_cache[81] = $event => _ctx.reflectionForm.subject = $event),
+    "onUpdate:modelValue": _cache[90] || (_cache[90] = $event => _ctx.reflectionForm.subject = $event),
     placeholder: "Give this reflection a guiding intention",
     required: ""
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, _ctx.reflectionForm.subject]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[217] || (_cache[217] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, _ctx.reflectionForm.subject]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[242] || (_cache[242] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     class: "form-label fw-bold mb-1 medium-label"
   }, "Message", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("textarea", {
     class: "form-control form-control-lg",
-    "onUpdate:modelValue": _cache[82] || (_cache[82] = $event => _ctx.reflectionForm.message = $event),
+    "onUpdate:modelValue": _cache[91] || (_cache[91] = $event => _ctx.reflectionForm.message = $event),
     rows: "5",
     minlength: _ctx.reflectionMessageMinLength,
     placeholder: "Type how this verse moved you today...",
     required: ""
-  }, null, 8 /* PROPS */, _hoisted_348), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, _ctx.reflectionForm.message]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_349, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_350, "Message must be at least " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.reflectionMessageMinLength) + " characters.", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_351, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_ctx.reflectionForm.message || '').trim().length) + " characters", 1 /* TEXT */)])]), _ctx.editingReflectionId ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_352, [_cache[218] || (_cache[218] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Editing saved reflection", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, 8 /* PROPS */, _hoisted_335), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, _ctx.reflectionForm.message]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_336, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_337, "Message must be at least " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.reflectionMessageMinLength) + " characters.", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_338, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_ctx.reflectionForm.message || '').trim().length) + " characters", 1 /* TEXT */)])]), _ctx.editingReflectionId ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_339, [_cache[243] || (_cache[243] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Editing saved reflection", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "btn btn-link btn-sm text-decoration-underline p-0 small",
-    onClick: _cache[83] || (_cache[83] = (...args) => _ctx.cancelReflectionEdit && _ctx.cancelReflectionEdit(...args))
+    onClick: _cache[92] || (_cache[92] = (...args) => _ctx.cancelReflectionEdit && _ctx.cancelReflectionEdit(...args))
   }, "Cancel edit")])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["note-suggestions", {
       collapsed: _ctx.carouselCollapsed
     }])
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_353, [_cache[219] || (_cache[219] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_340, [_cache[244] || (_cache[244] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "fw-semibold text-dark me-2"
   }, "Message prompts"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", {
     class: "text-muted"
   }, "Tap to adapt")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "btn btn-ghost p-0 small",
-    onClick: _cache[84] || (_cache[84] = $event => _ctx.carouselCollapsed = !_ctx.carouselCollapsed)
+    onClick: _cache[93] || (_cache[93] = $event => _ctx.carouselCollapsed = !_ctx.carouselCollapsed)
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", _ctx.carouselCollapsed ? 'bi-chevron-up' : 'bi-chevron-down'])
-  }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.carouselCollapsed ? 'show prompts' : 'collapse'), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_354, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.reflectionMessagePromptRows, (rowPrompts, rowIndex) => {
+  }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.carouselCollapsed ? 'show prompts' : 'collapse'), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_341, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.reflectionMessagePromptRows, (rowPrompts, rowIndex) => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: `row-${rowIndex}`,
       class: "suggestion-marquee-row"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_355, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_342, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["suggestion-track", {
         'is-paused': _ctx.carouselCollapsed
       }]),
       style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)(_ctx.suggestionTrackStyle(rowIndex + 1))
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_356, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(rowPrompts, (prompt, idx) => {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_343, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(rowPrompts, (prompt, idx) => {
       return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
         type: "button",
         class: "suggestion-pill light",
         key: `msg-${rowIndex}-${idx}`,
         onClick: $event => _ctx.applyMessageSuggestion(prompt.text)
-      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_358, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(prompt.icon), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(prompt.text), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_357);
+      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_345, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(prompt.icon), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(prompt.text), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_344);
     }), 128 /* KEYED_FRAGMENT */))])], 6 /* CLASS, STYLE */)])]);
-  }), 128 /* KEYED_FRAGMENT */))])], 2 /* CLASS */), _ctx.carouselCollapsed ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_359, [_cache[221] || (_cache[221] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }), 128 /* KEYED_FRAGMENT */))])], 2 /* CLASS */), _ctx.carouselCollapsed ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_346, [_cache[246] || (_cache[246] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "text-muted small"
   }, "Message prompts are hidden", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "btn note-suggestions-toggle p-0",
-    onClick: _cache[85] || (_cache[85] = $event => _ctx.carouselCollapsed = false)
-  }, [...(_cache[220] || (_cache[220] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    onClick: _cache[94] || (_cache[94] = $event => _ctx.carouselCollapsed = false)
+  }, [...(_cache[245] || (_cache[245] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-chevron-down me-1"
-  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Show prompts ", -1 /* CACHED */)]))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.reflectionErrorMessage ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_360, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.reflectionErrorMessage), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.currentAyahReflections.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_361, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_362, [_cache[222] || (_cache[222] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Show prompts ", -1 /* CACHED */)]))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.reflectionErrorMessage ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_347, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.reflectionErrorMessage), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.currentAyahReflections.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_348, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_349, [_cache[247] || (_cache[247] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "reflection-history-title"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-journal-text me-1 reflection-title-icon",
     "aria-hidden": "true"
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Saved reflections ")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_363, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currentAyahReflections.length) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currentAyahReflections.length === 1 ? 'reflection' : 'reflections'), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_364, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.currentAyahReflections, (note, index) => {
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Saved reflections ")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_350, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currentAyahReflections.length) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currentAyahReflections.length === 1 ? 'reflection' : 'reflections'), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_351, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.currentAyahReflections, (note, index) => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("article", {
       key: note.id || index,
       class: "reflection-history-entry"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_365, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(note.subject || 'Untitled reflection'), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_366, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(note.message), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_367, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_352, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(note.subject || 'Untitled reflection'), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_353, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(note.message), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_354, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       type: "button",
       class: "btn reflection-action edit-action",
       onClick: $event => _ctx.startEditingReflection(note, index)
-    }, [...(_cache[223] || (_cache[223] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [...(_cache[248] || (_cache[248] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-pencil",
       "aria-hidden": "true"
-    }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Edit", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_368), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Edit", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_355), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       type: "button",
       class: "btn reflection-action delete-action",
       onClick: $event => _ctx.deleteReflection(note, index)
-    }, [...(_cache[224] || (_cache[224] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [...(_cache[249] || (_cache[249] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-trash",
       "aria-hidden": "true"
-    }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Delete", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_369)])]);
-  }), 128 /* KEYED_FRAGMENT */))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_370, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Delete", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_356)])]);
+  }), 128 /* KEYED_FRAGMENT */))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_357, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "btn btn-outline-secondary btn-lg",
-    onClick: _cache[86] || (_cache[86] = (...args) => _ctx.hideReflectionModal && _ctx.hideReflectionModal(...args))
+    onClick: _cache[95] || (_cache[95] = (...args) => _ctx.hideReflectionModal && _ctx.hideReflectionModal(...args))
   }, " Cancel "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "submit",
     class: "btn btn-lg btn-primary ms-2",
     disabled: !_ctx.canSubmitReflection || _ctx.isSavingReflection
-  }, [_ctx.isSavingReflection ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_372)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _cache[225] || (_cache[225] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Save reflection ", -1 /* CACHED */))], 8 /* PROPS */, _hoisted_371)])], 32 /* NEED_HYDRATION */)])])])])])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Global Custom Audio Player "), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Teleport, {
+  }, [_ctx.isSavingReflection ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_359)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _cache[250] || (_cache[250] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Save reflection ", -1 /* CACHED */))], 8 /* PROPS */, _hoisted_358)])], 32 /* NEED_HYDRATION */)])])])])])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Global Custom Audio Player "), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Teleport, {
     to: "body"
-  }, [_ctx.showAudioPlayer ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_373, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_374, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_375, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: _cache[88] || (_cache[88] = $event => _ctx.rewindAudio(_ctx.currentlyPlayingIndex)),
+  }, [_ctx.showAudioPlayer ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_360, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_361, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_362, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onClick: _cache[97] || (_cache[97] = $event => _ctx.rewindAudio(_ctx.currentlyPlayingIndex)),
     class: "control-btn",
     title: "Rewind",
     "aria-label": "Rewind 15 seconds"
-  }, [...(_cache[227] || (_cache[227] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[252] || (_cache[252] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-skip-backward-fill"
   }, null, -1 /* CACHED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: _cache[89] || (_cache[89] = $event => _ctx.toggleAudioPlayer(_ctx.currentlyPlayingIndex)),
+    onClick: _cache[98] || (_cache[98] = $event => _ctx.toggleAudioPlayer(_ctx.currentlyPlayingIndex)),
     class: "control-btn play-pause",
     title: "Play/Pause",
     "aria-label": "Play or Pause"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(_ctx.isAudioPlaying[_ctx.currentlyPlayingIndex] ? 'bi bi-pause-fill' : 'bi bi-play-fill')
   }, null, 2 /* CLASS */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: _cache[90] || (_cache[90] = $event => _ctx.fastForwardAudio(_ctx.currentlyPlayingIndex)),
+    onClick: _cache[99] || (_cache[99] = $event => _ctx.fastForwardAudio(_ctx.currentlyPlayingIndex)),
     class: "control-btn",
     title: "Fast Forward",
     "aria-label": "Fast forward 20 seconds"
-  }, [...(_cache[228] || (_cache[228] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[253] || (_cache[253] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-skip-forward-fill"
   }, null, -1 /* CACHED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: _cache[91] || (_cache[91] = $event => _ctx.stopAudio(_ctx.currentlyPlayingIndex)),
+    onClick: _cache[100] || (_cache[100] = $event => _ctx.stopAudio(_ctx.currentlyPlayingIndex)),
     class: "control-btn",
     title: "Stop",
     "aria-label": "Stop"
-  }, [...(_cache[229] || (_cache[229] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[254] || (_cache[254] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-stop-fill"
   }, null, -1 /* CACHED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: _cache[92] || (_cache[92] = (...args) => _ctx.toggleVolume && _ctx.toggleVolume(...args)),
+    onClick: _cache[101] || (_cache[101] = (...args) => _ctx.toggleVolume && _ctx.toggleVolume(...args)),
     class: "control-btn",
     title: "Volume",
     "aria-label": "Toggle volume slider"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", `bi-volume-${_ctx.volume > 0.5 ? 'up' : _ctx.volume > 0 ? 'down' : 'mute'}-fill`])
   }, null, 2 /* CLASS */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: _cache[93] || (_cache[93] = (...args) => _ctx.cyclePlaybackSpeed && _ctx.cyclePlaybackSpeed(...args)),
+    onClick: _cache[102] || (_cache[102] = (...args) => _ctx.cyclePlaybackSpeed && _ctx.cyclePlaybackSpeed(...args)),
     class: "control-btn speed-control",
     title: 'Speed: ' + _ctx.playbackSpeed + 'x'
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
@@ -3353,8 +3403,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
       color: _ctx.playbackSpeed !== 1 ? '#ff6b6b' : '#ccc'
     })
-  }, null, 4 /* STYLE */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_377, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.playbackSpeed) + "x", 1 /* TEXT */)], 8 /* PROPS */, _hoisted_376), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: _cache[94] || (_cache[94] = (...args) => _ctx.toggleRepeat && _ctx.toggleRepeat(...args)),
+  }, null, 4 /* STYLE */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_364, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.playbackSpeed) + "x", 1 /* TEXT */)], 8 /* PROPS */, _hoisted_363), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onClick: _cache[103] || (_cache[103] = (...args) => _ctx.toggleRepeat && _ctx.toggleRepeat(...args)),
     class: "control-btn repeat-control",
     title: _ctx.repeatCurrent ? 'Repeat current ayah: on' : 'Repeat current ayah: off',
     "aria-pressed": _ctx.repeatCurrent,
@@ -3364,23 +3414,23 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
       color: _ctx.repeatCurrent ? '#00bfa6' : '#ccc'
     })
-  }, null, 4 /* STYLE */)], 8 /* PROPS */, _hoisted_378), _ctx.showVolumeBar ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_379, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  }, null, 4 /* STYLE */)], 8 /* PROPS */, _hoisted_365), _ctx.showVolumeBar ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_366, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     type: "range",
-    "onUpdate:modelValue": _cache[95] || (_cache[95] = $event => _ctx.volume = $event),
+    "onUpdate:modelValue": _cache[104] || (_cache[104] = $event => _ctx.volume = $event),
     min: "0",
     max: "1",
     step: "0.1",
-    onInput: _cache[96] || (_cache[96] = (...args) => _ctx.updateVolume && _ctx.updateVolume(...args)),
+    onInput: _cache[105] || (_cache[105] = (...args) => _ctx.updateVolume && _ctx.updateVolume(...args)),
     class: "volume-slider"
-  }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, _ctx.volume]])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_380, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.formatTime(((_ctx$audioElements$_c = _ctx.audioElements[_ctx.currentlyPlayingIndex]) === null || _ctx$audioElements$_c === void 0 ? void 0 : _ctx$audioElements$_c.currentTime) || 0)) + " / " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.formatTime(((_ctx$audioElements$_c2 = _ctx.audioElements[_ctx.currentlyPlayingIndex]) === null || _ctx$audioElements$_c2 === void 0 ? void 0 : _ctx$audioElements$_c2.duration) || 0)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: _cache[97] || (_cache[97] = (...args) => _ctx.closeAudioPlayer && _ctx.closeAudioPlayer(...args)),
+  }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, _ctx.volume]])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_367, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.formatTime(((_ctx$audioElements$_c = _ctx.audioElements[_ctx.currentlyPlayingIndex]) === null || _ctx$audioElements$_c === void 0 ? void 0 : _ctx$audioElements$_c.currentTime) || 0)) + " / " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.formatTime(((_ctx$audioElements$_c2 = _ctx.audioElements[_ctx.currentlyPlayingIndex]) === null || _ctx$audioElements$_c2 === void 0 ? void 0 : _ctx$audioElements$_c2.duration) || 0)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onClick: _cache[106] || (_cache[106] = (...args) => _ctx.closeAudioPlayer && _ctx.closeAudioPlayer(...args)),
     class: "control-btn",
     title: "Close",
     "aria-label": "Close player",
     style: {
       "margin-left": "auto"
     }
-  }, [...(_cache[230] || (_cache[230] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[255] || (_cache[255] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-x-lg mb-2"
   }, null, -1 /* CACHED */)]))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "progress-bar",
@@ -3390,16 +3440,16 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "aria-valuemax": 100,
     "aria-valuenow": _ctx.progress[_ctx.currentlyPlayingIndex] || 0,
     "aria-valuetext": `Progress ${Math.round(_ctx.progress[_ctx.currentlyPlayingIndex] || 0)} percent`,
-    onClick: _cache[98] || (_cache[98] = (...args) => _ctx.seekToPosition && _ctx.seekToPosition(...args)),
-    onMousedown: _cache[99] || (_cache[99] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)((...args) => _ctx.onProgressDown && _ctx.onProgressDown(...args), ["prevent"])),
-    onTouchstartPassive: _cache[100] || (_cache[100] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)((...args) => _ctx.onProgressDown && _ctx.onProgressDown(...args), ["prevent"])),
+    onClick: _cache[107] || (_cache[107] = (...args) => _ctx.seekToPosition && _ctx.seekToPosition(...args)),
+    onMousedown: _cache[108] || (_cache[108] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)((...args) => _ctx.onProgressDown && _ctx.onProgressDown(...args), ["prevent"])),
+    onTouchstartPassive: _cache[109] || (_cache[109] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)((...args) => _ctx.onProgressDown && _ctx.onProgressDown(...args), ["prevent"])),
     ref: "progressBar"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "progress",
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
       width: _ctx.progress[_ctx.currentlyPlayingIndex] + '%'
     })
-  }, null, 4 /* STYLE */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_382, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.visualizerBars, (bar, index) => {
+  }, null, 4 /* STYLE */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_369, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.visualizerBars, (bar, index) => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: index,
       class: "visualizer-bar",
@@ -3408,11 +3458,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         animationDelay: index * 0.1 + 's'
       })
     }, null, 4 /* STYLE */);
-  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */)], 40 /* PROPS, NEED_HYDRATION */, _hoisted_381),  false ? (0) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: _cache[103] || (_cache[103] = (...args) => _ctx.scrollToTop && _ctx.scrollToTop(...args)),
+  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */)], 40 /* PROPS, NEED_HYDRATION */, _hoisted_368),  false ? (0) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onClick: _cache[112] || (_cache[112] = (...args) => _ctx.scrollToTop && _ctx.scrollToTop(...args)),
     class: "surah-scroll-top",
     "aria-label": "Scroll to top"
-  }, [...(_cache[232] || (_cache[232] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[257] || (_cache[257] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-arrow-up"
   }, null, -1 /* CACHED */)]))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.showScrollTop]])], 6 /* CLASS, STYLE */);
 }
@@ -4251,7 +4301,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       arabicFontSize: 28,
       translationFontSize: 18,
       transliterationFallbackText: "Transliteration not available",
-      isTranslationVisible: true,
+      isTranslationVisible: false,
       translationVisibility: {},
       isTransliterationVisible: true,
       transliterationVisibility: {},
@@ -4453,6 +4503,8 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       sidebarSearchQuery: "",
       selectedJuz: null,
       sidebarCollapsed: false,
+      isMemorisationToolbarVisible: false,
+      isBlurNextAyahEnabled: false,
       settingsDraft: {
         showTajweed: false,
         showRealtimeHighlighting: false,
@@ -5190,6 +5242,25 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       try {
         localStorage.setItem("suratShowWordTranslation", next ? "1" : "0");
       } catch (_) {}
+    },
+    isMemorisationToolbarVisible(newVal) {
+      this.persistLocalSetting("suratIsMemorisationToolbarVisible", newVal ? "1" : "0");
+      // Mutual exclusion: Hide main toolbar when memorisation is active
+      if (newVal) {
+        this.showDesktopToolbar = false;
+        this.isMobileToolbarExpanded = false;
+      } else {
+        this.showDesktopToolbar = true;
+      }
+    },
+    isBlurNextAyahEnabled(newVal) {
+      this.persistLocalSetting("suratIsBlurNextAyahEnabled", newVal ? "1" : "0");
+    },
+    isTranslationVisible(newVal) {
+      this.persistLocalSetting("suratIsTranslationVisible", newVal ? "1" : "0");
+    },
+    playbackSpeed(newVal) {
+      this.persistLocalSetting("playbackSpeed", newVal);
     }
   },
   created() {
@@ -5332,6 +5403,24 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
     try {
       const storedRealtimeHighlighting = localStorage.getItem("suratShowRealtimeHighlighting");
       if (storedRealtimeHighlighting !== null) this.showRealtimeHighlighting = storedRealtimeHighlighting === "1";
+    } catch (_) {}
+    try {
+      const storedMemToolbarVisible = localStorage.getItem("suratIsMemorisationToolbarVisible");
+      if (storedMemToolbarVisible !== null) {
+        const isMemVisible = storedMemToolbarVisible === "1";
+        this.isMemorisationToolbarVisible = isMemVisible;
+        if (isMemVisible) {
+          this.showDesktopToolbar = false;
+        }
+      }
+    } catch (_) {}
+    try {
+      const storedBlurNextAyah = localStorage.getItem("suratIsBlurNextAyahEnabled");
+      if (storedBlurNextAyah !== null) this.isBlurNextAyahEnabled = storedBlurNextAyah === "1";
+    } catch (_) {}
+    try {
+      const storedTranslationVisible = localStorage.getItem("suratIsTranslationVisible");
+      if (storedTranslationVisible !== null) this.isTranslationVisible = storedTranslationVisible === "1";
     } catch (_) {}
     Promise.all([this.fetchReciters(), this.fetchSurahs(), this.fetchTranslations(), this.fetchSurahDetails(), this.fetchQuranFonts(), this.fetchFontPreviewAyah()]).then(() => {
       this.isInitialLoad = false;
@@ -5664,6 +5753,18 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
         return;
       }
       await this.enterReadingFullscreen();
+    },
+    toggleMemorisationToolbar() {
+      this.isMemorisationToolbarVisible = !this.isMemorisationToolbarVisible;
+      if (this.isMemorisationToolbarVisible) {
+        this.showDesktopToolbar = false;
+        this.isMobileToolbarExpanded = false;
+      } else {
+        this.showDesktopToolbar = true;
+      }
+    },
+    toggleBlurNextAyah() {
+      this.isBlurNextAyahEnabled = !this.isBlurNextAyahEnabled;
     },
     showToast(message, timeout = 3500, action = null) {
       this.bookmarkToast = message;

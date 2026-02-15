@@ -41759,7 +41759,7 @@ h1.display-5[data-v-637d02d8] {
     width: 100%;
     padding: 10px 12px;
     border-radius: 16px;
-    border: 1px solid rgba(15, 110, 99, 0.3);
+    border: none;
     background: #ffffff !important;
     background-color: #ffffff !important;
     opacity: 1 !important;
@@ -41771,6 +41771,64 @@ h1.display-5[data-v-637d02d8] {
     scrollbar-width: thin;
     scrollbar-color: rgba(15, 110, 99, 0.34) transparent;
     -webkit-overflow-scrolling: touch;
+}
+.memorisation-toolbar-purple {
+    border: none !important;
+}
+.quran-toolbar-label {
+    font-size: 0.78rem;
+    font-weight: 950;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #064e3b;
+    padding: 0 4px 0 0;
+    opacity: 1;
+    white-space: nowrap;
+    user-select: none;
+    text-shadow: 0.2px 0 0 currentColor;
+    display: flex;
+    align-items: center;
+    line-height: 1;
+    margin-right: 2px;
+}
+.quran-toolbar-separator {
+    width: 1.5px;
+    height: 16px;
+    background: rgba(6, 78, 59, 0.2);
+    margin: 0 6px;
+    flex-shrink: 0;
+}
+.quran-toolbar-label-purple {
+    background: transparent;
+    color: #7e22ce;
+    text-shadow: 0.2px 0 0 currentColor;
+}
+.quran-toolbar-separator-purple {
+    background: rgba(88, 28, 135, 0.25);
+}
+/* Mobile specific label styling */
+@media (max-width: 991.98px) {
+    .quran-toolbar-label {
+        font-size: 0.68rem;
+        padding: 0 4px 0 0;
+        letter-spacing: 0.04em;
+    }
+    .quran-toolbar-separator {
+        height: 12px;
+        margin: 0 4px;
+    }
+    .advanced-quran-mobile-label-row {
+        grid-column: 1 / -1;
+        margin-top: 0.2rem;
+        margin-bottom: 0.1rem;
+        display: flex;
+        align-items: center;
+    }
+    .memorisation-toolbar-sticky .quran-toolbar-btn {
+        min-height: 38px;
+        padding: 0.35rem 0.55rem;
+        font-size: 0.78rem;
+    }
 }
 .quran-toolbar[data-v-637d02d8]::-webkit-scrollbar {
     height: 6px;

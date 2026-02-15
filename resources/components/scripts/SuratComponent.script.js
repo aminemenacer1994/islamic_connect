@@ -441,7 +441,7 @@ export default {
             arabicFontSize: 28,
             translationFontSize: 18,
             transliterationFallbackText: "Transliteration not available",
-            isTranslationVisible: true,
+            isTranslationVisible: false,
             translationVisibility: {},
             isTransliterationVisible: true,
             transliterationVisibility: {},
@@ -629,6 +629,8 @@ export default {
             sidebarSearchQuery: "",
             selectedJuz: null,
             sidebarCollapsed: false,
+            isMemorisationToolbarVisible: false,
+            isBlurNextAyahEnabled: false,
             settingsDraft: {
                 showTajweed: false,
                 showRealtimeHighlighting: false,
@@ -1539,6 +1541,25 @@ export default {
                 );
             } catch (_) { }
         },
+        isMemorisationToolbarVisible(newVal) {
+            this.persistLocalSetting("suratIsMemorisationToolbarVisible", newVal ? "1" : "0");
+            // Mutual exclusion: Hide main toolbar when memorisation is active
+            if (newVal) {
+                this.showDesktopToolbar = false;
+                this.isMobileToolbarExpanded = false;
+            } else {
+                this.showDesktopToolbar = true;
+            }
+        },
+        isBlurNextAyahEnabled(newVal) {
+            this.persistLocalSetting("suratIsBlurNextAyahEnabled", newVal ? "1" : "0");
+        },
+        isTranslationVisible(newVal) {
+            this.persistLocalSetting("suratIsTranslationVisible", newVal ? "1" : "0");
+        },
+        playbackSpeed(newVal) {
+            this.persistLocalSetting("playbackSpeed", newVal);
+        },
     },
     created() {
         // postpone loading until we know the authentication status
@@ -1704,6 +1725,26 @@ export default {
             if (storedRealtimeHighlighting !== null)
                 this.showRealtimeHighlighting = storedRealtimeHighlighting === "1";
         } catch (_) { }
+        try {
+            const storedMemToolbarVisible = localStorage.getItem("suratIsMemorisationToolbarVisible");
+            if (storedMemToolbarVisible !== null) {
+                const isMemVisible = storedMemToolbarVisible === "1";
+                this.isMemorisationToolbarVisible = isMemVisible;
+                if (isMemVisible) {
+                    this.showDesktopToolbar = false;
+                }
+            }
+        } catch (_) {}
+        try {
+            const storedBlurNextAyah = localStorage.getItem("suratIsBlurNextAyahEnabled");
+            if (storedBlurNextAyah !== null)
+                this.isBlurNextAyahEnabled = storedBlurNextAyah === "1";
+        } catch (_) {}
+        try {
+            const storedTranslationVisible = localStorage.getItem("suratIsTranslationVisible");
+            if (storedTranslationVisible !== null)
+                this.isTranslationVisible = storedTranslationVisible === "1";
+        } catch (_) {}
         Promise.all([
             this.fetchReciters(),
             this.fetchSurahs(),
@@ -2114,6 +2155,18 @@ export default {
                 return;
             }
             await this.enterReadingFullscreen();
+        },
+        toggleMemorisationToolbar() {
+            this.isMemorisationToolbarVisible = !this.isMemorisationToolbarVisible;
+            if (this.isMemorisationToolbarVisible) {
+                this.showDesktopToolbar = false;
+                this.isMobileToolbarExpanded = false;
+            } else {
+                this.showDesktopToolbar = true;
+            }
+        },
+        toggleBlurNextAyah() {
+            this.isBlurNextAyahEnabled = !this.isBlurNextAyahEnabled;
         },
         showToast(message, timeout = 3500, action = null) {
             this.bookmarkToast = message;

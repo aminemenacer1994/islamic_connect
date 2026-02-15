@@ -7,7 +7,8 @@
             'mobile-toolbar-pinned': isTabletOrMobile && isToolbarPinned,
             'mobile-toolbar-expanded': isTabletOrMobile && isToolbarPinned && isMobileToolbarExpanded,
             'reading-fullscreen': isReadingFullscreen,
-            'deep-focus-mode': isDeepFocusMode
+            'deep-focus-mode': isDeepFocusMode,
+            'blur-next-ayah-enabled': isBlurNextAyahEnabled
         }"
         :style="quranFontStyle"
         role="main" aria-label="Quran Explorer">
@@ -18,13 +19,44 @@
             </div>
         </div>
         
-        <div class="row justify-content-center mb-4">
+        <!-- <div class="row justify-content-center mb-4">
              <div class="col-md-6">
                  <ContinueReadingCard />
              </div>
-        </div>
-
-        <div
+        </div> -->
+            <div
+                v-if="desktopSurahContext.englishName || desktopSurahContext.arabicName"
+                class="quran-toolbar-surah-identity quran-toolbar-surah-identity-mobile ltr-text pb-3"
+                role="status"
+                aria-live="polite"
+                aria-atomic="true">
+                <div class="quran-toolbar-surah-identity-inner d-flex align-items-center flex-nowrap">
+                    <span
+                        v-if="desktopSurahContext.arabicName"
+                        class="quran-toolbar-surah-identity-ar text-end"
+                        dir="rtl">
+                        {{ desktopSurahContext.arabicName }}
+                    </span>
+                    <div class="quran-toolbar-surah-identity-en d-flex flex-column text-start flex-grow-1">
+                        <span class="quran-toolbar-surah-identity-en-main d-inline-flex align-items-center">
+                            <span
+                                v-if="desktopSurahContext.number"
+                                class="quran-toolbar-surah-identity-number">
+                                {{ desktopSurahContext.number }}.
+                            </span>
+                            <span class="quran-toolbar-surah-identity-title">
+                                {{ desktopSurahContext.englishName }}
+                            </span>
+                        </span>
+                        <span
+                            v-if="desktopSurahContext.translationName"
+                            class="quran-toolbar-surah-identity-en-sub">
+                            {{ desktopSurahContext.translationName }}
+                        </span>
+                    </div>
+                </div>
+              </div>
+            <div
             id="advancedQuranSearchSection"
             v-show="isAdvancedSearchVisible || isTabletOrMobile"
             class="row justify-content-center mb-4">
@@ -184,9 +216,11 @@
                         <div
                             v-if="isMobileToolbarExpanded"
                             id="advancedQuranMobileExpandedControls"
-                            class="advanced-quran-mobile-expanded"
-                            role="group"
                             aria-label="Extended surah controls">
+                            <div class="advanced-quran-mobile-label-row d-flex align-items-center">
+                                <span class="quran-toolbar-label">Reader Controls</span>
+                                <div class="quran-toolbar-separator"></div>
+                            </div>
                             <div class="advanced-quran-mobile-select-grid">
                                 <div class="advanced-quran-mobile-select-field">
                                     <label class="visually-hidden" for="mobileToolbarReciterSelect">
@@ -249,11 +283,12 @@
                                 <button
                                     type="button"
                                     class="btn advanced-quran-mobile-action-btn advanced-quran-mobile-action-btn-memorisation"
-                                    @click="openSuratOnboarding"
+                                    @click="toggleMemorisationToolbar"
                                     aria-label="Open memorisation tools"
+                                    :class="{ 'is-active': isMemorisationToolbarVisible }"
                                     title="Open memorisation tools to support repetition, focus, and revision.">
                                     <i class="bi bi-journal-bookmark-fill" aria-hidden="true"></i>
-                                    <span class="advanced-quran-mobile-action-label">Memorisation Tools</span>
+                                    <span class="advanced-quran-mobile-action-label">{{ isMemorisationToolbarVisible ? 'Close Memorisation Tools' : 'Memorisation Tools' }}</span>
                                 </button>
                                 <button
                                     type="button"
@@ -349,38 +384,6 @@
                             </div>
                         </div>
                     </div>
-                        <div
-                            v-if="desktopSurahContext.englishName || desktopSurahContext.arabicName"
-                            class="quran-toolbar-surah-identity quran-toolbar-surah-identity-mobile ltr-text"
-                            role="status"
-                            aria-live="polite"
-                            aria-atomic="true">
-                            <div class="quran-toolbar-surah-identity-inner d-flex align-items-center flex-nowrap">
-                                <span
-                                    v-if="desktopSurahContext.arabicName"
-                                    class="quran-toolbar-surah-identity-ar text-end"
-                                    dir="rtl">
-                                    {{ desktopSurahContext.arabicName }}
-                                </span>
-                                <div class="quran-toolbar-surah-identity-en d-flex flex-column text-start flex-grow-1">
-                                    <span class="quran-toolbar-surah-identity-en-main d-inline-flex align-items-center">
-                                        <span
-                                            v-if="desktopSurahContext.number"
-                                            class="quran-toolbar-surah-identity-number">
-                                            {{ desktopSurahContext.number }}.
-                                        </span>
-                                        <span class="quran-toolbar-surah-identity-title">
-                                            {{ desktopSurahContext.englishName }}
-                                        </span>
-                                    </span>
-                                    <span
-                                        v-if="desktopSurahContext.translationName"
-                                        class="quran-toolbar-surah-identity-en-sub">
-                                        {{ desktopSurahContext.translationName }}
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
                     </template>
 
                     <div
@@ -491,14 +494,17 @@
             role="region"
             aria-label="Quran quick controls">
             <div v-if="showDesktopToolbar" class="quran-toolbar">
+                <span class="quran-toolbar-label">Reader Controls</span>
+                <div class="quran-toolbar-separator"></div>
                 <button
                     type="button"
                     class="quran-toolbar-btn quran-toolbar-btn-memorisation"
-                    @click="openSuratOnboarding"
+                    @click="toggleMemorisationToolbar"
+                    :class="{ 'is-active': isMemorisationToolbarVisible }"
                     aria-label="Open memorisation tools"
                     title="Open memorisation tools to support repetition, focus, and revision.">
                     <i class="bi bi-journal-bookmark-fill" aria-hidden="true"></i>
-                    <span class="quran-toolbar-btn-text">Memorisation Tools</span>
+                    <span class="quran-toolbar-btn-text">{{ isMemorisationToolbarVisible ? 'Close Memorisation Tools' : 'Memorisation Tools' }}</span>
                 </button>
 
                 <div class="quran-toolbar-reciter">
@@ -681,119 +687,132 @@
                     <i class="bi bi-gear-fill" aria-hidden="true"></i>
                 </button>
             </div>
-            <div
-                v-if="showDesktopToolbar && (desktopSurahContext.englishName || desktopSurahContext.arabicName)"
-                class="quran-toolbar-surah-identity ltr-text reading-fullscreen-chrome"
-                role="status"
-                aria-live="polite"
-                aria-atomic="true">
-                <transition name="surah-context-fade" mode="out-in">
-                    <div
-                        :key="desktopSurahContextKey"
-                        class="quran-toolbar-surah-identity-inner d-flex align-items-center flex-nowrap">
-                        <span
-                            v-if="desktopSurahContext.arabicName"
-                            class="quran-toolbar-surah-identity-ar text-end"
-                            dir="rtl">
-                            {{ desktopSurahContext.arabicName }}
-                        </span>
-                        <div class="quran-toolbar-surah-identity-en d-flex flex-column text-start flex-grow-1">
-                            <span class="quran-toolbar-surah-identity-en-main d-inline-flex align-items-center">
-                                <span
-                                    v-if="desktopSurahContext.number"
-                                    class="quran-toolbar-surah-identity-number">
-                                    {{ desktopSurahContext.number }}.
-                                </span>
-                                <span class="quran-toolbar-surah-identity-title">
-                                    {{ desktopSurahContext.englishName }}
-                                </span>
-                            </span>
-                            <span
-                                v-if="desktopSurahContext.translationName"
-                                class="quran-toolbar-surah-identity-en-sub">
-                                {{ desktopSurahContext.translationName }}
-                            </span>
-                        </div>
-                    </div>
-                </transition>
-            </div>
-            <div v-if="showDesktopSurahContext" class="desktop-surah-context-wrapper ltr-text">
-                <transition name="surah-context-fade" mode="out-in">
-                    <div
-                        :key="desktopSurahContextKey"
-                        class="desktop-surah-context-card"
-                        role="status"
-                        aria-live="polite"
-                        aria-atomic="true">
-                        <div class="desktop-surah-context-header">
-                            <button
-                                type="button"
-                                class="desktop-surah-context-close"
-                                @click.stop="showDesktopSurahContext = false"
-                                aria-label="Close surah context"
-                                title="Close surah context">
-                                <i class="bi bi-x-lg" aria-hidden="true"></i>
-                            </button>
-                        </div>
-                        <div class="desktop-surah-context-main">
-                            <span class="desktop-surah-context-number">
-                                {{ desktopSurahContext.number || "—" }}
-                            </span>
-                            <div class="desktop-surah-context-names">
-                                <span class="desktop-surah-context-name">
-                                    {{ desktopSurahContext.englishName }}
-                                </span>
-                                <span
-                                    v-if="desktopSurahContext.translationName"
-                                    class="desktop-surah-context-translation">
-                                    {{ desktopSurahContext.translationName }}
-                                </span>
-                            </div>
-                            <span
-                                v-if="desktopSurahContext.arabicName"
-                                class="desktop-surah-context-arabic">
-                                {{ desktopSurahContext.arabicName }}
-                            </span>
-                        </div>
-                        <div class="desktop-surah-context-meta">
-                            <span v-if="desktopSurahContext.ayahCount" class="desktop-surah-context-chip">
-                                {{ desktopSurahContext.ayahCount }} ayahs
-                            </span>
-                            <span v-if="desktopSurahContext.origin" class="desktop-surah-context-chip">
-                                Origin: {{ desktopSurahContext.origin }}
-                            </span>
-                        </div>
-                    </div>
-                </transition>
-            </div>
         </div>
-        <div
-            v-if="!isTabletOrMobile && (surahDetails || currentSurahInfo) && (!showDesktopToolbar || !showDesktopSurahContext)"
-            class="desktop-sticky-restore ltr-text reading-fullscreen-chrome">
-            <button
-                v-if="!showDesktopToolbar && !showDesktopSurahContext"
-                type="button"
-                class="desktop-sticky-restore-btn"
-                @click="showDesktopToolbar = true; showDesktopSurahContext = true">
-                Show toolbar and surah context
-            </button>
-            <template v-else>
-                <button
-                    v-if="!showDesktopToolbar"
-                    type="button"
-                    class="desktop-sticky-restore-btn"
-                    @click="showDesktopToolbar = true">
-                    Show toolbar
-                </button>
-                <button
-                    v-if="!showDesktopSurahContext"
-                    type="button"
-                    class="desktop-sticky-restore-btn"
-                    @click="showDesktopSurahContext = true">
-                    Show surah context
-                </button>
-            </template>
-        </div>
+
+        <!-- Memorisation Toolbar -->
+        <transition name="mem-toolbar-slide">
+            <div v-if="isMemorisationToolbarVisible" 
+                 class="quran-toolbar-sticky memorisation-toolbar-sticky memorisation-toolbar-active ltr-text" 
+                 :class="{ 'is-pinned': isToolbarPinned }"
+                 role="group" 
+                 aria-label="Memorisation tools expanded">
+                <div class="quran-toolbar memorisation-toolbar-purple">
+                    
+                    <!-- Close Button -->
+                    <button type="button" 
+                            class="quran-toolbar-btn quran-toolbar-btn-icon quran-toolbar-close-btn-purple" 
+                            @click="toggleMemorisationToolbar" 
+                            title="Close Memorisation Tools">
+                        <i class="bi bi-x-lg" aria-hidden="true"></i>
+                    </button>
+
+                    <span class="quran-toolbar-label quran-toolbar-label-purple">Memorisation Tools</span>
+                    <div class="quran-toolbar-separator quran-toolbar-separator-purple"></div>
+
+                    <!-- Audio Controls -->
+                    <button type="button" 
+                            class="quran-toolbar-btn" 
+                            @click="toggleAudioPlayer(currentlyPlayingIndex)" 
+                            :title="isAnyAudioPlaying ? 'Pause' : 'Play'">
+                        <i class="bi" :class="isAnyAudioPlaying ? 'bi-pause-fill' : 'bi-play-fill'" aria-hidden="true"></i>
+                        <span class="quran-toolbar-btn-text">Audio</span>
+                    </button>
+
+                    <!-- Playback Speed -->
+                    <div class="quran-toolbar-reciter">
+                        <label class="visually-hidden">Select playback speed</label>
+                        <select class="form-select quran-toolbar-select" v-model="playbackSpeed" aria-label="Select playback speed">
+                            <option v-for="speed in playbackSpeeds" :key="speed" :value="speed">{{ speed }}x Speed</option>
+                        </select>
+                    </div>
+
+                    <!-- Playback Mode -->
+                    <div class="quran-toolbar-reciter">
+                        <label class="visually-hidden">Select playback mode</label>
+                        <select class="form-select quran-toolbar-select" v-model="playbackMode" aria-label="Select playback mode">
+                            <option v-for="option in playbackModeOptions" :key="option.value" :value="option.value">
+                                {{ option.value === 'continuous' ? 'Continuous Mode' : option.value === 'repeat' ? 'Repeat Ayah' : 'Manual Mode' }}
+                            </option>
+                        </select>
+                    </div>
+
+                    <!-- Tajweed Toggle -->
+                    <button type="button" 
+                            class="quran-toolbar-btn quran-toolbar-btn-toggle" 
+                            :class="{ 'is-enabled': showTajweed }" 
+                            @click="showTajweed = !showTajweed"
+                            title="Toggle Tajweed Colors">
+                        <i class="bi bi-palette-fill" aria-hidden="true"></i>
+                        <span class="quran-toolbar-btn-text">Tajweed</span>
+                    </button>
+
+                    <!-- Word Highlight Toggle -->
+                    <button type="button" 
+                            class="quran-toolbar-btn quran-toolbar-btn-toggle" 
+                            :class="{ 'is-enabled': showRealtimeHighlighting }" 
+                            @click="showRealtimeHighlighting = !showRealtimeHighlighting"
+                            title="Toggle Word Highlighting">
+                        <i class="bi bi-highlighter" aria-hidden="true"></i>
+                        <span class="quran-toolbar-btn-text">Word Highlight</span>
+                    </button>
+
+                    <!-- Word Translation Toggle -->
+                    <button type="button" 
+                            class="quran-toolbar-btn quran-toolbar-btn-toggle" 
+                            :class="{ 'is-enabled': showWordTranslation }" 
+                            @click="showWordTranslation = !showWordTranslation"
+                            title="Toggle Word Translation">
+                        <i class="bi bi-translate" aria-hidden="true"></i>
+                        <span class="quran-toolbar-btn-text">Word Translation</span>
+                    </button>
+
+                    <!-- Blur Next Toggle -->
+                    <button type="button" 
+                            class="quran-toolbar-btn quran-toolbar-btn-toggle" 
+                            :class="{ 'is-enabled': isBlurNextAyahEnabled }" 
+                            @click="toggleBlurNextAyah"
+                            title="Toggle Blur Next Ayah">
+                        <i class="bi bi-eye-slash-fill" aria-hidden="true"></i>
+                        <span class="quran-toolbar-btn-text">Blur Next</span>
+                    </button>
+
+                    <!-- Translation Toggle -->
+                    <button type="button" 
+                            class="quran-toolbar-btn quran-toolbar-btn-toggle" 
+                            :class="{ 'is-enabled': isTranslationVisible }" 
+                            @click="isTranslationVisible = !isTranslationVisible"
+                            title="Toggle Translations">
+                        <i class="bi bi-chat-left-text" aria-hidden="true"></i>
+                        <span class="quran-toolbar-btn-text">Translation</span>
+                    </button>
+
+                    <!-- Font Size Controls -->
+                    <button type="button" class="quran-toolbar-btn quran-toolbar-btn-icon" @click="decreaseFontSize" title="Decrease Font Size">
+                        <i class="bi bi-dash" aria-hidden="true"></i>
+                    </button>
+                    <button type="button" class="quran-toolbar-btn quran-toolbar-btn-icon" @click="increaseFontSize" title="Increase Font Size">
+                        <i class="bi bi-plus" aria-hidden="true"></i>
+                    </button>
+
+                    <!-- Screen Controls -->
+                    <button type="button" 
+                            class="quran-toolbar-btn quran-toolbar-btn-icon" 
+                            :class="{ 'is-active': isDeepFocusMode }" 
+                            @click="toggleDeepFocusMode"
+                            title="Deep Focus Mode">
+                        <i class="bi bi-bullseye" aria-hidden="true"></i>
+                    </button>
+                    <button type="button" 
+                            class="quran-toolbar-btn quran-toolbar-btn-icon" 
+                            :class="{ 'is-active': isReadingFullscreen }" 
+                            @click="toggleReadingFullscreen" 
+                            title="Full Screen">
+                        <i class="bi" :class="isReadingFullscreen ? 'bi-fullscreen-exit' : 'bi-arrows-fullscreen'" aria-hidden="true"></i>
+                    </button>
+                </div>
+            </div>
+        </transition>
+
         <div
             v-if="hasPinnedAyahs && isPinnedSectionHidden && !isMobile && (isTabletOrMobile || !showDesktopToolbar)"
             class="pinned-ayahs-restore ltr-text reading-fullscreen-chrome">
