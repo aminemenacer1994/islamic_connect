@@ -2,11 +2,13 @@ import axios from "axios";
 import { JUZ_START_MAPPING, PAGE_START_MAPPING, getJuzStart, getPageStart } from "../utils/quran-mappings";
 import { Modal } from "bootstrap";
 import BookmarkModal from "../vue/bookmarks/BookmarkModal.vue";
+import ContinueReadingCard from "../vue/search/ContinueReadingCard.vue";
 import { fetchUserIdFromApi } from "../utils/bookmarkAuth";
 export default {
     name: "SuratComponent",
     components: {
         BookmarkModal,
+        ContinueReadingCard,
     },
     data: function () {
         return {
@@ -21,6 +23,7 @@ export default {
             readingFullscreenPreferenceBaseKey: "surat_reading_fullscreen_mode",
             readingFullscreenLastFocusedEl: null,
             fullscreenChangeHandler: null,
+            userId: null,
             // a11y
             selectedCardIndex: 0,
             screenReaderMessage: "",
@@ -90,8 +93,10 @@ export default {
             advancedSearchLoading: false,
             advancedSearchError: "",
             advancedSearchTotalMatches: 0,
-            advancedSearchMaxResults: 18,
+            advancedSearchMaxResults: Number.MAX_SAFE_INTEGER,
             advancedSearchHydrationSurahLimit: 10,
+            advancedSearchSurahPreviewLimit: Number.MAX_SAFE_INTEGER,
+            advancedSearchExpandedSurahs: {},
             advancedSearchMinLength: 2,
             isAdvancedSearchVisible: false,
             isAdvancedSearchPanelVisible: true,
@@ -102,6 +107,7 @@ export default {
             speechRecognitionLocale: "en-US",
             suratOnboardingModalId: "suratOnboardingModal",
             suratOnboardingModalInstance: null,
+            _saveProgressTimer: null,
             suratOnboardingSearchQuery: "",
             suratOnboardingFontSize: 15,
             suratOnboardingFontSizeMin: 13,
@@ -934,6 +940,44 @@ export default {
                 this.advancedSearchResults.length > 0
             );
         },
+        advancedSearchGroupedResults() {
+            if (!this.hasAdvancedSearchResults) return [];
+            const grouped = new Map();
+            this.advancedSearchResults.forEach((result) => {
+                const surahNumber = Number(result?.surahNumber || 0);
+                const key = surahNumber || 0;
+                if (!grouped.has(key)) {
+                    grouped.set(key, {
+                        surahNumber,
+                        surahEnglishName:
+                            result?.surahEnglishName ||
+                            (surahNumber ? `Surah ${surahNumber}` : "Surah"),
+                        surahArabicName: result?.surahArabicName || "",
+                        surahTranslationName:
+                            result?.surahTranslationName || "",
+                        results: [],
+                    });
+                }
+                grouped.get(key).results.push(result);
+            });
+            return Array.from(grouped.values()).sort((a, b) => {
+                const left = Number(a?.surahNumber || 0);
+                const right = Number(b?.surahNumber || 0);
+                if (!left && !right) return 0;
+                if (!left) return 1;
+                if (!right) return -1;
+                return left - right;
+            });
+        },
+        advancedSearchMatchedSurahCount() {
+            return this.advancedSearchGroupedResults.length;
+        },
+        isAdvancedSearchResultCapReached() {
+            return (
+                Number(this.advancedSearchTotalMatches || 0) >
+                Number(this.advancedSearchResults.length || 0)
+            );
+        },
         hasAdvancedSearchPanelContent() {
             return (
                 this.advancedSearchLoading ||
@@ -1291,6 +1335,15 @@ export default {
         },
     },
     watch: {
+        selectedSurah(newVal) {
+            // ... existing if any
+            this.saveReadingProgress(newVal, 1);
+        },
+        currentlyPlayingIndex(newVal) {
+             if (this.surahDetails && this.surahDetails.ayahs && this.surahDetails.ayahs[newVal]) {
+                this.saveReadingProgress(this.selectedSurah, this.surahDetails.ayahs[newVal].numberInSurah);
+            }
+        },
         savedAyahKeys: {
             deep: true,
             handler(next) {
@@ -1548,6 +1601,7 @@ export default {
         await this.initializeFontSizePreferences();
         await this.initializeDeepFocusModePreference();
         await this.initializeReadingFullscreenPreference();
+        this.fetchUserId(); // Initialize user ID for reading progress
         this.bookmarkEventHandler = (event) =>
             this.handleBookmarksUpdated(event);
         this.bookmarkStorageHandler = (event) =>
@@ -1833,6 +1887,89 @@ export default {
             }
         },
     methods: {
+        async fetchUserId() {
+             try {
+                if (window.Laravel && window.Laravel.userId) {
+                    this.userId = window.Laravel.userId;
+                }
+            } catch (e) {
+                console.error("Failed to fetch user ID", e);
+            }
+        },
+        saveReadingProgress(surahId, ayahId) {
+            const storageKey = this.userId ? `continue_reading_${this.userId}` : 'continue_reading_guest';
+            
+            let surahNameEn = "Surah " + surahId;
+            let surahNameAr = "";
+            
+            if (this.surahDetails && this.surahDetails.surahNumber == surahId) {
+                 surahNameEn = this.surahDetails.englishName;
+                 surahNameAr = this.surahDetails.name;
+            } else if (this.surahs && this.surahs.length) {
+                const s = this.surahs.find(x => x.number == surahId);
+                if (s) {
+                    surahNameEn = s.englishName;
+                    surahNameAr = s.name;
+                }
+            }
+
+            const data = {
+                surahId,
+                ayahId,
+                surahNameEn,
+                surahNameAr,
+                timestamp: Date.now()
+            };
+            try {
+                localStorage.setItem(storageKey, JSON.stringify(data));
+            } catch (e) {
+                console.error("Error saving reading progress", e);
+            }
+            // Dispatch storage event to update other tabs/components immediately
+            window.dispatchEvent(new Event("storage"));
+        },
+        saveReadingProgressDebounced(surahId, ayahId) {
+            clearTimeout(this._saveProgressTimer);
+            this._saveProgressTimer = setTimeout(() => {
+                this.saveReadingProgress(surahId, ayahId);
+            }, 1000);
+        },
+        detectAndSaveVisibleAyah(fallbackIndex) {
+            // Debounce the detection itself slightly to avoid layout thrashing too often
+            if (this._detectionTimer) clearTimeout(this._detectionTimer);
+            this._detectionTimer = setTimeout(() => {
+                const headerOffset = this.getScrollTopOffset() + 50; // Increased buffer
+                const cards = document.querySelectorAll(".ayah-card");
+                
+                let found = null;
+                for (let i = 0; i < cards.length; i++) {
+                    const card = cards[i];
+                    const rect = card.getBoundingClientRect();
+                    // First card that starts closely below header or crosses the header line
+                    if (rect.bottom > headerOffset) {
+                         found = card;
+                         break;
+                    }
+                }
+
+                if (found) {
+                    const ayahNumberStr = found.getAttribute("data-ayah-number");
+                    if (ayahNumberStr) {
+                         this.saveReadingProgress(this.selectedSurah, Number(ayahNumberStr));
+                         return;
+                    }
+                }
+
+                // Fallback to approximate index if DOM detection fails
+                if (typeof fallbackIndex === 'number' && this.filteredAyahs && this.filteredAyahs[fallbackIndex]) {
+                    const ayah = this.filteredAyahs[fallbackIndex];
+                    const num = ayah.numberInSurah || ayah.number; // Robust fallback
+                    if (num) {
+                        this.saveReadingProgress(this.selectedSurah, Number(num));
+                    }
+                }
+            }, 200); 
+        },
         syncReadingFullscreenBodyClass(enabled = this.isReadingFullscreen) {
             if (typeof document === "undefined") return;
             const body = document.body;
@@ -2006,6 +2143,7 @@ export default {
             this.advancedSearchLoading = false;
             this.advancedSearchError = "";
             this.advancedSearchTotalMatches = 0;
+            this.advancedSearchExpandedSurahs = {};
         },
         toggleAdvancedSearchVisibility() {
             const nextState = !this.isAdvancedSearchVisible;
@@ -2431,6 +2569,8 @@ export default {
                         transliterationSnippet: isTransliterationEdition
                             ? snippet
                             : "",
+                        page: Number(raw?.page || raw?.pageNumber || 0) || null,
+                        juz: Number(raw?.juz || raw?.juzNumber || 0) || null,
                     };
                 })
                 .filter(Boolean);
@@ -2464,6 +2604,8 @@ export default {
                         transliterationSnippet:
                             existing.transliterationSnippet ||
                             match.transliterationSnippet,
+                        page: existing.page || match.page || null,
+                        juz: existing.juz || match.juz || null,
                     });
                 });
             });
@@ -2472,6 +2614,44 @@ export default {
                     return a.surahNumber - b.surahNumber;
                 return a.ayahNumber - b.ayahNumber;
             });
+        },
+        selectAdvancedSearchMatchesAcrossSurahs(matches, limit) {
+            if (!Array.isArray(matches) || !matches.length) return [];
+            const safeLimit = Math.max(
+                1,
+                Number(limit) || Number(matches.length) || 1
+            );
+            if (matches.length <= safeLimit) {
+                return matches.slice();
+            }
+
+            const grouped = new Map();
+            matches.forEach((match) => {
+                const surahNumber = Number(match?.surahNumber || 0) || 0;
+                if (!grouped.has(surahNumber)) {
+                    grouped.set(surahNumber, []);
+                }
+                grouped.get(surahNumber).push(match);
+            });
+
+            const buckets = Array.from(grouped.values());
+            const selected = [];
+            let round = 0;
+
+            while (selected.length < safeLimit) {
+                let addedInRound = false;
+                for (let idx = 0; idx < buckets.length; idx++) {
+                    const bucket = buckets[idx];
+                    if (round < bucket.length) {
+                        selected.push(bucket[round]);
+                        addedInRound = true;
+                        if (selected.length >= safeLimit) break;
+                    }
+                }
+                if (!addedInRound) break;
+                round += 1;
+            }
+            return selected;
         },
         buildAdvancedSearchResult(match, surahPayload, translationId) {
             const editions = Array.isArray(surahPayload?.data?.data)
@@ -2531,8 +2711,9 @@ export default {
                 text: arabicText,
                 translation: translationText,
                 transliteration: transliterationText,
-                page: Number(arabicAyah?.page || 0) || null,
-                juz: Number(arabicAyah?.juz || 0) || null,
+                page:
+                    Number(arabicAyah?.page || match?.page || 0) || null,
+                juz: Number(arabicAyah?.juz || match?.juz || 0) || null,
             };
         },
         async hydrateAdvancedSearchMatches(
@@ -2600,8 +2781,6 @@ export default {
 
             const normalizedQuery = query.toLowerCase();
             const translationId = this.selectedTranslation || "en.ahmedali";
-            const transliterationId =
-                this.transliterationEditionIdentifier || "en.transliteration";
 
             if (!force && this.advancedSearchLoading) {
                 this.abortAdvancedSearchRequest();
@@ -2615,87 +2794,63 @@ export default {
             this.advancedSearchError = "";
             this.advancedSearchResults = [];
             this.advancedSearchTotalMatches = 0;
+            this.advancedSearchExpandedSurahs = {};
 
             try {
-                const editions = this.getAdvancedSearchEditions(query);
-                const requests = editions.map(async (edition) => {
-                    const endpoint =
-                        `https://api.alquran.cloud/v1/search/` +
-                        `${encodeURIComponent(query)}/all/${edition}`;
-                    let payload = null;
-                    try {
-                        payload = await this.fetchAdvancedSearchJSON(
-                            endpoint,
-                            `cache:advanced-search:query:${edition}:${normalizedQuery}`,
-                            3 * 60 * 60 * 1000,
-                            signal
-                        );
-                    } catch (error) {
-                        const status = this.getHttpStatusFromError(error);
-                        if (status === 404) {
-                            payload = {
-                                data: {
-                                    matches: [],
-                                    edition: { identifier: edition },
-                                },
-                            };
-                        } else {
-                            throw error;
-                        }
-                    }
-                    return { edition, payload };
+                // Use local database search instead of external API
+                const response = await axios.get('/search-translations', {
+                    params: { query },
+                    signal
                 });
 
-                const searchResponses = await Promise.allSettled(requests);
                 if (signal.aborted) return;
 
-                const parsedCollections = searchResponses
-                    .filter((result) => result.status === "fulfilled")
-                    .map((result) =>
-                        this.parseAdvancedSearchMatches(
-                            result.value.payload,
-                            result.value.edition
-                        )
-                    );
+                const results = response.data.results || [];
+                this.advancedSearchTotalMatches = results.length;
 
-                if (!parsedCollections.length) {
-                    const rejected = searchResponses.filter(
-                        (result) => result.status === "rejected"
-                    );
-                    const hasRateLimit = rejected.some(
-                        (result) =>
-                            this.getHttpStatusFromError(result.reason) === 429
-                    );
-                    if (hasRateLimit) {
-                        throw new Error("RATE_LIMIT");
-                    }
-                    throw new Error("NO_SUCCESSFUL_RESPONSES");
-                }
-
-                const mergedMatches = this.mergeAdvancedSearchMatches(
-                    ...parsedCollections
-                );
-                this.advancedSearchTotalMatches = mergedMatches.length;
-
-                if (!mergedMatches.length) {
+                if (!results.length) {
                     this.advancedSearchResults = [];
                     return;
                 }
 
-                const limitedMatches = mergedMatches.slice(
-                    0,
-                    this.advancedSearchMaxResults
-                );
+                // Transform local API results to match the expected format
+                const transformedResults = results.map((item) => {
+                    const ayah = item.ayah || {};
+                    const surah = ayah.surah || {};
+                    
+                    return {
+                        key: `${ayah.surah_id}-${ayah.ayah_id}`,
+                        surahNumber: Number(ayah.surah_id) || 0,
+                        ayahNumber: Number(ayah.ayah_id) || 0,
+                        text: ayah.ayah_text || '',
+                        translation: item.translation || '',
+                        transliteration: item.transliteration || '',
+                        surahEnglishName: surah.name_en || `Surah ${ayah.surah_id}`,
+                        surahArabicName: surah.name_ar || '',
+                        surahTranslationName: surah.name_en || '',
+                        arabicSnippet: ayah.ayah_text || '',
+                        translationSnippet: item.translation || '',
+                        transliterationSnippet: item.transliteration || '',
+                        page: null, // Not available in current database
+                        juz: null,  // Not available in current database
+                    };
+                });
 
-                const hydrated = await this.hydrateAdvancedSearchMatches(
-                    limitedMatches,
-                    translationId,
-                    transliterationId,
-                    signal
-                );
-
+                // Apply the max results limit if needed
+                const limitedResults = transformedResults.slice(0, this.advancedSearchMaxResults);
+                
                 if (signal.aborted) return;
-                this.advancedSearchResults = hydrated;
+                this.advancedSearchResults = limitedResults;
+                
+                // Auto-expand all Surahs to show all search results by default
+                const expandedSurahs = {};
+                limitedResults.forEach((result) => {
+                    const surahNumber = String(result?.surahNumber || '');
+                    if (surahNumber) {
+                        expandedSurahs[surahNumber] = true;
+                    }
+                });
+                this.advancedSearchExpandedSurahs = expandedSurahs;
             } catch (error) {
                 if (error?.name === "AbortError") return;
                 console.error("Advanced search failed:", error);
@@ -2721,6 +2876,30 @@ export default {
                     this.advancedSearchLoading = false;
                 }
             }
+        },
+        isAdvancedSearchSurahExpanded(surahNumber) {
+            return !!this.advancedSearchExpandedSurahs[String(surahNumber)];
+        },
+        toggleAdvancedSearchSurahExpansion(surahNumber) {
+            const key = String(surahNumber || "");
+            if (!key) return;
+            const nextState = !this.isAdvancedSearchSurahExpanded(surahNumber);
+            this.advancedSearchExpandedSurahs = {
+                ...this.advancedSearchExpandedSurahs,
+                [key]: nextState,
+            };
+        },
+        getVisibleAdvancedSearchMatchesForSurah(group) {
+            const results = Array.isArray(group?.results) ? group.results : [];
+            if (!results.length) return [];
+            if (this.isAdvancedSearchSurahExpanded(group?.surahNumber)) {
+                return results;
+            }
+            const previewLimit = Math.max(
+                1,
+                Number(this.advancedSearchSurahPreviewLimit) || 1
+            );
+            return results.slice(0, previewLimit);
         },
         alignAyahCardAfterSearch(index, behavior = "auto") {
             if (
@@ -5547,6 +5726,13 @@ export default {
         },
         updateToolbarPinState() {
             if (typeof window === "undefined") return;
+            
+            // Disable pinning on mobile screen sizes as requested
+            if (this.isTabletOrMobile) {
+                if (this.isToolbarPinned) this.isToolbarPinned = false;
+                return;
+            }
+
             const firstCard = document.getElementById("ayah-card-0");
             if (firstCard && firstCard.getBoundingClientRect) {
                 const rect = firstCard.getBoundingClientRect();
@@ -5560,7 +5746,8 @@ export default {
                 return;
             }
             const triggerOffset = this.getToolbarPinTriggerOffset();
-            const shouldPin = window.scrollY >= Math.max(0, triggerTop - triggerOffset);
+            const shouldPin =
+                window.scrollY >= Math.max(0, triggerTop - triggerOffset);
             if (this.isToolbarPinned !== shouldPin) {
                 this.isToolbarPinned = shouldPin;
             }
@@ -5667,6 +5854,10 @@ export default {
                     this.isHighlighted = true;
                     this.selectedJuz = this.filteredAyahs[approxIndex].juz;
                 }
+                
+                // Track reading progress on scroll using DOM detection for accuracy with fallback
+                this.detectAndSaveVisibleAyah(start || approxIndex);
+
                 if (!this.itemHeightCalibrated) {
                     this.scheduleHeightCalibration(true);
                 }
@@ -7509,7 +7700,7 @@ export default {
                         this.surahDetails = {
                             surahNumber: this.selectedSurah,
                             englishName: arabicText?.englishName,
-                            name: arabicText?.name,
+                            name: tajweed?.name || arabicText?.name,
                             ayahs: (arabicText?.ayahs || []).map(
                                 (ayah, index) => {
                                     const tajweedText =
@@ -7625,7 +7816,7 @@ export default {
                     this.surahDetails = {
                         surahNumber: this.selectedSurah,
                         englishName: arabicText?.englishName,
-                        name: arabicText?.name,
+                        name: tajweed?.name || arabicText?.name,
                         ayahs: (arabicText?.ayahs || []).map((ayah, index) => {
                             const tajweedText =
                                 tajweed?.ayahs?.[index]?.text || "";
@@ -7669,6 +7860,7 @@ export default {
                         }),
                     };
                     this.syncPinnedAyahsForCurrentSurah();
+                    this.saveReadingProgress(this.selectedSurah, 1);
                     console.log("Surah details fetched:", this.surahDetails);
                     this.isLoading = false;
                     this.fetchSurahTransliteration(this.selectedSurah);

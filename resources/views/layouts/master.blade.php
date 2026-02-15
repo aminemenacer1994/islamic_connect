@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="{{ mix('css/app.css') }}">
     @stack('styles')
     <style>
-        :root { --sidebar-width: 260px; --sidebar-collapsed: 72px; --accent: #00aaff; --frame-radius: 18px; --frame-shadow: 0 8px 30px rgba(0,0,0,.08); --card-radius: 12px; --card-border: #e8ecef; --muted:#6b7280; --nav-offset: 3.5rem; }
+        :root { --sidebar-width: 260px; --sidebar-collapsed: 72px; --accent: #00aaff; --frame-radius: 18px; --frame-shadow: 0 8px 30px rgba(0,0,0,.08); --card-radius: 12px; --card-border: #e8ecef; --muted:#6b7280; --nav-offset: 4.75rem; }
         body { font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif; background: radial-gradient(1200px 600px at -10% -10%, #e8f7ef 0%, transparent 60%), radial-gradient(1200px 600px at 110% 110%, #e7f3ff 0%, transparent 60%), #f6f8f9; }
         /* App frame */
         .layout { display:flex; min-height:100vh; padding: 20px; }
@@ -83,7 +83,7 @@
         @media (max-width: 640px){ .grid-12 { grid-template-columns: repeat(1, minmax(0,1fr)); } }
 
         @media (max-width: 768px) {
-            :root { --nav-offset: 3.75rem; }
+            :root { --nav-offset: 4.25rem; }
             .main-navbar .navbar-collapse.show,
             .main-navbar .navbar-collapse.collapsing {
                 margin-top: 8px;
@@ -104,7 +104,7 @@
         }
 
         @media (max-width: 576px) {
-            :root { --nav-offset: 3.25rem; }
+            :root { --nav-offset: 4rem; }
             .navbar-brand img { height: 40px; }
         }
     </style>

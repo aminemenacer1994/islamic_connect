@@ -17,6 +17,13 @@
                 <p class="holy-book-description mb-0">Explore the Holy Quran with clear recitations, trusted translations, and practical tools that help you read with focus, listen with understanding, and reflect on each ayah in your daily life.</p>
             </div>
         </div>
+        
+        <div class="row justify-content-center mb-4">
+             <div class="col-md-6">
+                 <ContinueReadingCard />
+             </div>
+        </div>
+
         <div
             id="advancedQuranSearchSection"
             v-show="isAdvancedSearchVisible || isTabletOrMobile"
@@ -62,7 +69,7 @@
                     </div>
                 
                     <div v-if="!(isDeepFocusMode && isTabletOrMobile) && isAdvancedSearchVisible" class="advanced-quran-search-input-wrap">
-                        <i class="bi bi-search advanced-quran-search-icon" aria-hidden="true"></i>
+                        <i class="bi bi-search advanced-quran-search-icon" aria-hidden="true" style="display:none;"></i>
                         <input type="search" class="form-control advanced-quran-search-input"
                             ref="advancedSearchInput"
                             v-model="advancedSearchQuery"
@@ -139,7 +146,7 @@
                                 </option>
                             </select>
                             <button
-                                v-if="!isAdvancedSearchVisible"
+                                v-if="false"
                                 type="button"
                                 class="btn advanced-quran-mobile-icon-btn advanced-quran-mobile-search-toggle-btn"
                                 @click="toggleAdvancedSearchVisibility"
@@ -239,6 +246,15 @@
                             </div>
 
                             <div class="advanced-quran-mobile-action-grid">
+                                <button
+                                    type="button"
+                                    class="btn advanced-quran-mobile-action-btn advanced-quran-mobile-action-btn-memorisation"
+                                    @click="openSuratOnboarding"
+                                    aria-label="Open memorisation tools"
+                                    title="Open memorisation tools to support repetition, focus, and revision.">
+                                    <i class="bi bi-journal-bookmark-fill" aria-hidden="true"></i>
+                                    <span class="advanced-quran-mobile-action-label">Memorisation Tools</span>
+                                </button>
                                 <button
                                     type="button"
                                     class="btn advanced-quran-mobile-action-btn"
@@ -379,7 +395,10 @@
                                 {{ advancedSearchError }}
                             </span>
                             <span v-else-if="hasAdvancedSearchQuery && hasAdvancedSearchResults">
-                                Showing {{ advancedSearchResults.length }} of {{ advancedSearchTotalMatches }} matches
+                                Showing {{ advancedSearchResults.length }} of {{ advancedSearchTotalMatches }} matches across {{ advancedSearchMatchedSurahCount }} surahs.
+                                <span v-if="isAdvancedSearchResultCapReached">
+                                    Refine your query to view fewer matches.
+                                </span>
                             </span>
                             <span v-else-if="hasAdvancedSearchQuery && !advancedSearchLoading">
                                 No matches found for "{{ advancedSearchTrimmedQuery }}".
@@ -390,45 +409,73 @@
                         </div>
 
                         <div v-if="hasAdvancedSearchResults" class="advanced-quran-search-results"
-                            role="list" aria-label="Advanced Quran search results">
-                            <article v-for="result in advancedSearchResults" :key="result.key"
-                                class="advanced-quran-search-result" role="listitem">
-                                <div class="advanced-quran-search-result-head">
-                                    <div class="advanced-quran-search-result-ref">
+                            role="list" aria-label="Advanced Quran search results by surah">
+                            <section
+                                v-for="group in advancedSearchGroupedResults"
+                                :key="`advanced-surah-${group.surahNumber}`"
+                                class="advanced-quran-search-surah-group"
+                                role="listitem">
+                                <div class="advanced-quran-search-surah-head">
+                                    <div class="advanced-quran-search-surah-ref">
                                         <span class="advanced-quran-search-result-chip">
-                                            {{ result.surahNumber }}:{{ result.ayahNumber }}
+                                            {{ group.surahNumber }}
                                         </span>
                                         <span class="advanced-quran-search-result-surah">
-                                            {{ result.surahEnglishName }}
+                                            {{ group.surahEnglishName }}
                                         </span>
-                                        <span v-if="result.surahArabicName"
+                                        <span v-if="group.surahArabicName"
                                             class="advanced-quran-search-result-arabic-name">
-                                            {{ result.surahArabicName }}
+                                            {{ group.surahArabicName }}
                                         </span>
-                                        <span v-if="result.page" class="advanced-quran-search-result-meta">
-                                            Page {{ result.page }}
-                                        </span>
-                                        <span v-if="result.juz" class="advanced-quran-search-result-meta">
-                                            Juz {{ result.juz }}
+                                        <span class="advanced-quran-search-result-meta">
+                                            {{ group.results.length }} match{{ group.results.length === 1 ? "" : "es" }}
                                         </span>
                                     </div>
-                                    <button type="button" class="btn btn-sm advanced-quran-search-open"
-                                        @click="openAdvancedSearchResult(result)"
-                                        :aria-label="`Open Surah ${result.surahNumber}, Ayah ${result.ayahNumber}`">
-                                        <i class="bi bi-box-arrow-up-right me-1" aria-hidden="true"></i>
-                                        Open
+                                    <button
+                                        v-if="group.results.length > advancedSearchSurahPreviewLimit"
+                                        type="button"
+                                        class="btn btn-sm advanced-quran-search-expand-surah"
+                                        @click="toggleAdvancedSearchSurahExpansion(group.surahNumber)"
+                                        :aria-expanded="isAdvancedSearchSurahExpanded(group.surahNumber) ? 'true' : 'false'">
+                                        {{ isAdvancedSearchSurahExpanded(group.surahNumber)
+                                            ? "Collapse"
+                                            : "Expand (" + group.results.length + ")" }}
                                     </button>
                                 </div>
-                                <p class="advanced-quran-search-arabic mb-2"
-                                    v-html="highlightAdvancedSearchText(result.text)"></p>
-                                <div class="advanced-quran-search-detail-grid">
-                                    <div class="advanced-quran-search-detail">
-                                        <span class="advanced-quran-search-detail-label">Translation</span>
-                                        <p class="advanced-quran-search-translation mb-0"
-                                            v-html="highlightAdvancedSearchText(result.translation)"></p>
+                                <article
+                                    v-for="result in getVisibleAdvancedSearchMatchesForSurah(group)"
+                                    :key="result.key"
+                                    class="advanced-quran-search-result">
+                                    <div class="advanced-quran-search-result-head">
+                                        <div class="advanced-quran-search-result-ref">
+                                            <span class="advanced-quran-search-result-chip">
+                                                {{ result.surahNumber }}:{{ result.ayahNumber }}
+                                            </span>
+                                            <span v-if="result.page" class="advanced-quran-search-result-meta">
+                                                Page {{ result.page }}
+                                            </span>
+                                            <span v-if="result.juz" class="advanced-quran-search-result-meta">
+                                                Juz {{ result.juz }}
+                                            </span>
+                                        </div>
+                                        <button type="button" class="btn btn-sm advanced-quran-search-open"
+                                            @click="openAdvancedSearchResult(result)"
+                                            :aria-label="`Open Surah ${result.surahNumber}, Ayah ${result.ayahNumber}`">
+                                            <i class="bi bi-box-arrow-up-right me-1" aria-hidden="true"></i>
+                                            Open
+                                        </button>
                                     </div>
-                                </div>
-                            </article>
+                                    <p class="advanced-quran-search-arabic mb-2"
+                                        v-html="highlightAdvancedSearchText(result.text)"></p>
+                                    <div class="advanced-quran-search-detail-grid">
+                                        <div class="advanced-quran-search-detail">
+                                            <span class="advanced-quran-search-detail-label">Translation</span>
+                                            <p class="advanced-quran-search-translation mb-0"
+                                                v-html="highlightAdvancedSearchText(result.translation)"></p>
+                                        </div>
+                                    </div>
+                                </article>
+                            </section>
                         </div>
                     </div>
                    
@@ -446,13 +493,12 @@
             <div v-if="showDesktopToolbar" class="quran-toolbar">
                 <button
                     type="button"
-                    class="quran-toolbar-btn quran-toolbar-btn-info"
-                    @click="openSurahInfo(currentSurahInfo)"
-                    :disabled="!currentSurahInfo"
-                    aria-label="Open surah information"
-                    title="View this surah's details, including its name, origin, and total ayah count.">
-                    <i class="bi bi-info-circle-fill" aria-hidden="true"></i>
-                    <span class="quran-toolbar-btn-text">Surah info</span>
+                    class="quran-toolbar-btn quran-toolbar-btn-memorisation"
+                    @click="openSuratOnboarding"
+                    aria-label="Open memorisation tools"
+                    title="Open memorisation tools to support repetition, focus, and revision.">
+                    <i class="bi bi-journal-bookmark-fill" aria-hidden="true"></i>
+                    <span class="quran-toolbar-btn-text">Memorisation Tools</span>
                 </button>
 
                 <div class="quran-toolbar-reciter">
@@ -528,7 +574,7 @@
                     <span class="quran-toolbar-btn-state">{{ isDeepFocusMode ? "On" : "Off" }}</span>
                 </button>
 
-                <button
+                <!-- <button
                     v-if="!isAdvancedSearchVisible && !isTabletOrMobile"
                     type="button"
                     class="quran-toolbar-btn quran-toolbar-btn-search-toggle quran-toolbar-btn-icon"
@@ -536,7 +582,7 @@
                     aria-label="Show search"
                     title="Show search">
                     <i class="fas fa-magnifying-glass quran-toolbar-search-icon" aria-hidden="true"></i>
-                </button>
+                </button> -->
 
                 <button
                     v-if="!isTabletOrMobile"
@@ -573,6 +619,16 @@
                     aria-label="Show pinned favourite ayat"
                     title="Show pinned favourite ayat">
                     <i class="bi bi-pin-angle-fill" aria-hidden="true"></i>
+                </button>
+
+                <button
+                    type="button"
+                    class="quran-toolbar-btn quran-toolbar-btn-info quran-toolbar-btn-icon"
+                    @click="openSurahInfo(currentSurahInfo)"
+                    :disabled="!currentSurahInfo"
+                    aria-label="Open surah information"
+                    title="View this surah's details, including its name, origin, and total ayah count.">
+                    <i class="bi bi-info-circle-fill" aria-hidden="true"></i>
                 </button>
 
                 <button
@@ -1092,8 +1148,8 @@
             <div class="row rtl-text" ref="listContainer" role="list" aria-label="Ayah cards list"
                 :style="{ paddingTop: topSpacerHeight + 'px', paddingBottom: bottomSpacerHeight + 'px' }">
                 <div style="padding: 12px; border-radius: 8px" ref="audioCard" v-for="item in visibleWindow"
-                    :key="item.ayah.number" class="col-md-12 mb-2 mt-2 ayah-card-container shadow-md" role="listitem"
-                    :id="`ayah-card-${item.index}`" @click="selectCard(item.index)"
+                    :key="item.ayah.number" class="col-md-12 mb-2 mt-2 ayah-card ayah-card-container shadow-md" role="listitem"
+                    :id="`ayah-card-${item.index}`" :data-ayah-number="item.ayah.numberInSurah" @click="selectCard(item.index)"
                     @keydown.enter.prevent="toggleAudioPlayer(item.index)"
                     @keydown.space.prevent="toggleAudioPlayer(item.index)" draggable="true" tabindex="0"
                     @dragstart="onAyahDragStart(item.ayah, $event)" :class="{
