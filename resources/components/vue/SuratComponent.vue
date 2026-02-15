@@ -709,6 +709,49 @@
                     <span class="quran-toolbar-label quran-toolbar-label-purple">Memorisation Tools</span>
                     <div class="quran-toolbar-separator quran-toolbar-separator-purple"></div>
 
+                    <!-- Refined Range Selector -->
+                    <div class="d-flex align-items-center gap-3 px-2">
+                        <div class="d-flex align-items-center gap-2">
+                            <span class="quran-toolbar-label" style="color: #064e3b; margin-right: 0;">Range</span>
+                            
+                            <div class="d-flex align-items-center gap-1">
+                                <input type="number" 
+                                       v-model.number="memorisationRangeStart" 
+                                       class="quran-toolbar-select text-center" 
+                                       style="width: 55px; padding: 0; background-image: none !important; border-color: rgba(6, 78, 59, 0.2);"
+                                       @keyup.enter="applyMemorisationRange"
+                                       title="Start Verse">
+                                <span class="opacity-50" style="color: #064e3b; font-weight: 900;">-</span>
+                                <input type="number" 
+                                       v-model.number="memorisationRangeEnd" 
+                                       class="quran-toolbar-select text-center" 
+                                       style="width: 55px; padding: 0; background-image: none !important; border-color: rgba(6, 78, 59, 0.2);"
+                                       @keyup.enter="applyMemorisationRange"
+                                       :placeholder="totalAyahs"
+                                       title="End Verse">
+                            </div>
+                        </div>
+
+                        <div class="d-flex align-items-center gap-2">
+                            <button type="button" 
+                                    class="quran-toolbar-btn quran-toolbar-btn-sm" 
+                                    @click="applyMemorisationRange"
+                                    title="Apply Range">
+                                <i class="bi bi-check-lg"></i>
+                                <span class="quran-toolbar-btn-text">Apply</span>
+                            </button>
+
+                            <button type="button" 
+                                    class="quran-toolbar-btn quran-toolbar-btn-icon" 
+                                    @click="resetMemorisationRange"
+                                    title="Reset Range (Show All)">
+                                <i class="bi bi-arrow-counterclockwise"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="quran-toolbar-separator quran-toolbar-separator-purple"></div>
+
                     <!-- Audio Controls -->
                     <button type="button" 
                             class="quran-toolbar-btn" 

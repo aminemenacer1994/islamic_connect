@@ -630,6 +630,8 @@ export default {
             selectedJuz: null,
             sidebarCollapsed: false,
             isMemorisationToolbarVisible: false,
+            memorisationRangeStart: 1,
+            memorisationRangeEnd: null,
             isBlurNextAyahEnabled: false,
             settingsDraft: {
                 showTajweed: false,
@@ -748,6 +750,9 @@ export default {
             return Array.isArray(this.isAudioPlaying)
                 ? this.isAudioPlaying.some(Boolean)
                 : false;
+        },
+        totalAyahs() {
+            return this.surahDetails?.ayahs?.length || 0;
         },
         activeAyahIndex() {
             return this.isAnyAudioPlaying
@@ -916,9 +921,18 @@ export default {
         },
         filteredAyahs: function () {
             if (!this.surahDetails) return [];
-            if (!this.debouncedQuery) return this.surahDetails.ayahs;
+            let ayahs = this.surahDetails.ayahs || [];
+
+            // Apply memorisation range if visible
+            if (this.isMemorisationToolbarVisible) {
+                const start = this.memorisationRangeStart || 1;
+                const end = this.memorisationRangeEnd || ayahs.length;
+                ayahs = ayahs.filter(a => a.numberInSurah >= start && a.numberInSurah <= end);
+            }
+
+            if (!this.debouncedQuery) return ayahs;
             const query = this.debouncedQuery.toLowerCase();
-            return this.surahDetails.ayahs.filter(
+            return ayahs.filter(
                 (ayah) =>
                     (ayah.lowerText && ayah.lowerText.includes(query)) ||
                     (ayah.lowerTranslation &&
@@ -1482,6 +1496,16 @@ export default {
             if (typeof next !== "number" || next < 0) return;
             this.ayahScrubValue = next + 1;
             this.syncPlaybackScroll(next);
+        },
+        memorisationRangeStart(newVal) {
+            if (this.memorisationRangeEnd && newVal > this.memorisationRangeEnd) {
+                this.memorisationRangeEnd = newVal;
+            }
+        },
+        memorisationRangeEnd(newVal) {
+            if (newVal && newVal < this.memorisationRangeStart) {
+                this.memorisationRangeStart = newVal;
+            }
         },
         showTajweed(next) {
             try {
@@ -3060,6 +3084,25 @@ export default {
             this.settingsDraft.showRealtimeHighlighting = !!this.showRealtimeHighlighting;
             this.settingsDraft.showWordTranslation = !!this.showWordTranslation;
             this.settingsDraft.playbackMode = this.playbackMode;
+        },
+        applyMemorisationRange() {
+            if (!this.memorisationRangeStart) this.memorisationRangeStart = 1;
+            if (!this.memorisationRangeEnd) this.memorisationRangeEnd = this.totalAyahs;
+            
+            // Scroll to the first ayah of the range
+            this.$nextTick(() => {
+                const startIdx = this.filteredAyahs.findIndex(a => a.numberInSurah === this.memorisationRangeStart);
+                if (startIdx !== -1) {
+                    this.scrollToAyahIndex(startIdx);
+                }
+            });
+            
+            this.announce(`Range applied: Verses ${this.memorisationRangeStart} to ${this.memorisationRangeEnd}`);
+        },
+        resetMemorisationRange() {
+            this.memorisationRangeStart = 1;
+            this.memorisationRangeEnd = null;
+            this.announce("Memorisation range reset.");
         },
         applySettingsDraft() {
             if (!this.settingsDraft) return;
@@ -8143,6 +8186,8 @@ export default {
                 // Reset state
                 this.currentlyPlayingIndex = 0;
                 this.isHighlighted = false;
+                this.memorisationRangeStart = 1;
+                this.memorisationRangeEnd = null;
                 
                 if (!skipScroll) {
                     window.scrollTo({ top: 0, behavior: "smooth" });
