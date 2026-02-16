@@ -3562,6 +3562,51 @@
     }
 }
 
+.ayah-card-container.memorisation-repetition-active .ayah-surface {
+    box-shadow: 0 0 0 2px rgba(6, 78, 59, 0.5);
+}
+
+/* Memorisation countdown overlay – theme-aligned */
+.memorisation-countdown-overlay {
+    background: rgba(248, 255, 253, 0.96);
+    backdrop-filter: blur(6px);
+    z-index: 100;
+}
+
+.memorisation-countdown-pill {
+    background: linear-gradient(135deg, #0b6b59 0%, #064e3b 100%);
+    border: 1px solid rgba(6, 78, 59, 0.4);
+    box-shadow: 0 8px 24px rgba(6, 78, 59, 0.25);
+}
+
+.memorisation-countdown-text {
+    color: rgba(255, 255, 255, 0.95);
+    font-size: 0.9rem;
+}
+
+.memorisation-countdown-number {
+    display: inline-block;
+    min-width: 1.25rem;
+    text-align: center;
+    font-weight: 800;
+}
+
+.memorisation-countdown-spinner {
+    color: rgba(255, 255, 255, 0.9) !important;
+}
+
+.memorisation-countdown-cancel {
+    color: rgba(255, 255, 255, 0.85) !important;
+}
+
+.memorisation-countdown-cancel:hover {
+    color: #ffffff !important;
+}
+
+.memorisation-repetition-progress .quran-toolbar-label {
+    min-width: 2.5rem;
+}
+
 .now-playing-tag {
     font-size: 0.68rem;
     text-transform: uppercase;
@@ -6430,9 +6475,9 @@ h1.display-5 {
     box-shadow: 0 12px 24px rgba(37, 99, 235, 0.16);
 }
 
-/* Focus Mode button: dark rose */
+/* Focus Mode button: OFF = dark rose bg, white text; ON = white bg, dark rose outline + text */
 .quran-toolbar-btn-focus-mode {
-    border-color: rgba(136, 19, 55, 0.5);
+    border: 2px solid #881337;
     background: linear-gradient(
         132deg,
         #b91c4c 0%,
@@ -6449,7 +6494,7 @@ h1.display-5 {
 
 .quran-toolbar-btn-focus-mode:hover,
 .quran-toolbar-btn-focus-mode:focus-visible {
-    border-color: rgba(190, 18, 60, 0.6);
+    border-color: #be123c;
     background: linear-gradient(
         132deg,
         #be123c 0%,
@@ -6459,9 +6504,30 @@ h1.display-5 {
     color: #ffffff !important;
 }
 
+/* ON (enabled): dark rose outline, white bg, dark rose text */
 .quran-toolbar-btn-focus-mode.is-enabled {
-    border-color: rgba(136, 19, 55, 0.7);
-    box-shadow: 0 10px 22px rgba(136, 19, 55, 0.25);
+    border: 2px solid #881337 !important;
+    background: #ffffff !important;
+    color: #881337 !important;
+}
+
+.quran-toolbar-btn-focus-mode.is-enabled i,
+.quran-toolbar-btn-focus-mode.is-enabled .quran-toolbar-btn-text {
+    color: #881337 !important;
+}
+
+.quran-toolbar-btn-focus-mode.is-enabled:hover,
+.quran-toolbar-btn-focus-mode.is-enabled:focus-visible {
+    border-color: #9f1239 !important;
+    background: #fef2f6 !important;
+    color: #9f1239 !important;
+}
+
+.quran-toolbar-btn-focus-mode.is-enabled:hover i,
+.quran-toolbar-btn-focus-mode.is-enabled:hover .quran-toolbar-btn-text,
+.quran-toolbar-btn-focus-mode.is-enabled:focus-visible i,
+.quran-toolbar-btn-focus-mode.is-enabled:focus-visible .quran-toolbar-btn-text {
+    color: #9f1239 !important;
 }
 
 .quran-toolbar-btn-memorisation {

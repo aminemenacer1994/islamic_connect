@@ -635,6 +635,10 @@ export default {
             memorisationRangeStart: 1,
             memorisationRangeEnd: null,
             memorisationVerseDelay: 0,
+            memorisationRepetitionCount: 3,
+            memorisationRepetitionPause: 0,
+            memorisationRepetitionCurrent: 1,
+            memorisationRepetitionPauseTimeout: null,
             countdownSeconds: 0,
             isCountdownActive: false,
             countdownInterval: null,
@@ -756,6 +760,22 @@ export default {
             return Array.isArray(this.isAudioPlaying)
                 ? this.isAudioPlaying.some(Boolean)
                 : false;
+        },
+        isMemorisationRepetitionActive() {
+            return this.isMemorisationToolbarVisible &&
+                this.memorisationRepetitionCount > 1 &&
+                this.isAnyAudioPlaying;
+        },
+        memorisationPlayIndex() {
+            if (this.isMemorisationToolbarVisible &&
+                this.memorisationRepetitionCount > 1 &&
+                !this.isAnyAudioPlaying) {
+                return 0;
+            }
+            var idx = this.currentlyPlayingIndex;
+            var len = this.filteredAyahs ? this.filteredAyahs.length : 0;
+            if (idx < 0 || idx >= len) return 0;
+            return idx;
         },
         totalAyahs() {
             return this.surahDetails?.ayahs?.length || 0;
@@ -3129,6 +3149,7 @@ export default {
         resetMemorisationRange() {
             this.memorisationRangeStart = 1;
             this.memorisationRangeEnd = null;
+            this.memorisationRepetitionCurrent = 1;
             this.announce("Memorisation range reset.");
         },
         toggleMemorisationMode() {
@@ -7305,6 +7326,11 @@ export default {
         toggleAudioPlayer: function (index) {
             console.log("Toggling audio player for index:", index);
             if (!this.isAudioPlaying[index]) {
+                if (this.isMemorisationToolbarVisible &&
+                    this.memorisationRepetitionCount > 1 &&
+                    !this.isAnyAudioPlaying) {
+                    this.memorisationRepetitionCurrent = 1;
+                }
                 this.playAudio(index);
             } else {
                 this.pauseAudio(index);
@@ -7313,8 +7339,13 @@ export default {
         stopAudio: function (index) {
             if (this.countdownInterval) {
                 clearInterval(this.countdownInterval);
+                this.countdownInterval = null;
                 this.isCountdownActive = false;
                 this.countdownSeconds = 0;
+            }
+            if (this.memorisationRepetitionPauseTimeout) {
+                clearTimeout(this.memorisationRepetitionPauseTimeout);
+                this.memorisationRepetitionPauseTimeout = null;
             }
             if (this.audioElements[index]) {
                 console.log(`Stopping audio for ayah ${index + 1}`);
@@ -8072,13 +8103,95 @@ export default {
             localStorage.setItem(key, JSON.stringify(value));
         },
         handleAyahEnd: function (index) {
+            var self = this;
+            var inRepetitionMode = self.isMemorisationToolbarVisible &&
+                self.memorisationRepetitionCount > 1 &&
+                Array.isArray(self.filteredAyahs) &&
+                self.filteredAyahs.length > 0;
+
+            if (inRepetitionMode) {
+                if (self.memorisationRepetitionCurrent < self.memorisationRepetitionCount) {
+                    self.memorisationRepetitionCurrent++;
+                    self.stopAudio(index);
+                    if (self.memorisationRepetitionPause > 0) {
+                        self.isCountdownActive = true;
+                        self.countdownSeconds = self.memorisationRepetitionPause;
+                        if (self.countdownInterval) clearInterval(self.countdownInterval);
+                        self.countdownInterval = setInterval(function () {
+                            self.countdownSeconds--;
+                            if (self.countdownSeconds <= 0) {
+                                clearInterval(self.countdownInterval);
+                                self.countdownInterval = null;
+                                self.isCountdownActive = false;
+                                self.playAudio(index);
+                                if (self.isMemorisationMode) {
+                                    self.memorisationFocusIndex = index;
+                                    self.selectCard(index);
+                                }
+                                self.scrollToAyahIndex(index);
+                            }
+                        }, 1000);
+                    } else {
+                        setTimeout(function () {
+                            self.playAudio(index);
+                            if (self.isMemorisationMode) {
+                                self.memorisationFocusIndex = index;
+                                self.selectCard(index);
+                            }
+                            self.scrollToAyahIndex(index);
+                        }, 50);
+                    }
+                    return;
+                }
+                var nextIndex = index + 1;
+                if (nextIndex < self.filteredAyahs.length) {
+                    self.memorisationRepetitionCurrent = 1;
+                    self.stopAudio(index);
+                    if (self.memorisationVerseDelay > 0) {
+                        self.isCountdownActive = true;
+                        self.countdownSeconds = self.memorisationVerseDelay;
+                        if (self.countdownInterval) clearInterval(self.countdownInterval);
+                        self.countdownInterval = setInterval(function () {
+                            self.countdownSeconds--;
+                            if (self.countdownSeconds <= 0) {
+                                clearInterval(self.countdownInterval);
+                                self.countdownInterval = null;
+                                self.isCountdownActive = false;
+                                self.playAudio(nextIndex);
+                                if (self.isMemorisationMode) {
+                                    self.memorisationFocusIndex = nextIndex;
+                                    self.selectCard(nextIndex);
+                                }
+                                self.scrollToAyahIndex(nextIndex);
+                            }
+                        }, 1000);
+                    } else {
+                        self.stopAudio(index);
+                        setTimeout(function () {
+                            self.playAudio(nextIndex);
+                            if (self.isMemorisationMode) {
+                                self.memorisationFocusIndex = nextIndex;
+                                self.selectCard(nextIndex);
+                            }
+                            self.scrollToAyahIndex(nextIndex);
+                        }, 50);
+                    }
+                    return;
+                }
+                self.stopAudio(index);
+                self.memorisationRepetitionCurrent = 1;
+                self.showAudioPlayer = false;
+                self.currentlyPlayingIndex = -1;
+                return;
+            }
+
             this.stopAudio(index);
             if (this.playbackMode === "repeat") {
                 this.playAudio(index);
                 return;
             }
             if (this.playbackMode === "continuous") {
-                const nextIndex = index + 1;
+                var nextIndex = index + 1;
                 if (nextIndex < this.filteredAyahs.length) {
                     if (this.isMemorisationMode) {
                         this.memorisationFocusIndex = nextIndex;
@@ -8087,20 +8200,17 @@ export default {
                     if (this.memorisationVerseDelay > 0) {
                         this.isCountdownActive = true;
                         this.countdownSeconds = this.memorisationVerseDelay;
-                        
-                        // Clear any existing interval
                         if (this.countdownInterval) clearInterval(this.countdownInterval);
-                        
-                        this.countdownInterval = setInterval(() => {
+                        this.countdownInterval = setInterval(function () {
                             this.countdownSeconds--;
                             if (this.countdownSeconds <= 0) {
                                 clearInterval(this.countdownInterval);
                                 this.isCountdownActive = false;
                                 this.playAudio(nextIndex);
                             }
-                        }, 1000);
+                        }.bind(this), 1000);
                     } else {
-                        setTimeout(() => this.playAudio(nextIndex), 50);
+                        setTimeout(function () { this.playAudio(nextIndex); }.bind(this), 50);
                     }
                     return;
                 }

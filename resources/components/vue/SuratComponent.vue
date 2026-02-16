@@ -219,7 +219,7 @@
                             id="advancedQuranMobileExpandedControls"
                             aria-label="Extended surah controls">
                             <div class="advanced-quran-mobile-label-row d-flex align-items-center">
-                                <span class="quran-toolbar-label">Reader Controls</span>
+                                <span class="quran-toolbar-label"><b>Reader Controls</b></span>
                                 <div class="quran-toolbar-separator"></div>
                             </div>
                             <div class="advanced-quran-mobile-select-grid">
@@ -495,7 +495,7 @@
             role="region"
             aria-label="Quran quick controls">
             <div v-if="showDesktopToolbar" class="quran-toolbar">
-                <span class="quran-toolbar-label">Reader Controls</span>
+                <span class="quran-toolbar-label"><b>Reader Controls</b></span>
                 <div class="quran-toolbar-separator"></div>
                 <button
                     type="button"
@@ -701,14 +701,13 @@
                 <!-- Countdown Overlay -->
                 <transition name="fade">
                     <div v-if="isCountdownActive" 
-                         class="position-absolute w-100 h-100 d-flex align-items-center justify-content-center rounded-4" 
-                         style="background: rgba(255, 255, 255, 0.95); z-index: 100; backdrop-filter: blur(4px);">
-                        <div class="alert alert-success border-0 shadow-sm mb-0 d-flex align-items-center gap-3 px-4 py-2 rounded-pill">
-                            <div class="spinner-grow spinner-grow-sm text-success" role="status"></div>
-                            <span class="fw-bold" style="color: #15803d; font-size: 0.9rem;">
-                                Next ayah will play in <span class="d-inline-block text-center fw-900" style="width: 20px;">{{ countdownSeconds }}</span> seconds...
+                         class="memorisation-countdown-overlay position-absolute w-100 h-100 d-flex align-items-center justify-content-center rounded-4">
+                        <div class="memorisation-countdown-pill d-flex align-items-center gap-3 px-4 py-3 rounded-pill">
+                            <div class="memorisation-countdown-spinner spinner-grow spinner-grow-sm" role="status"></div>
+                            <span class="memorisation-countdown-text fw-bold">
+                                Next ayah in <span class="memorisation-countdown-number">{{ countdownSeconds }}</span> sec
                             </span>
-                            <button @click="isCountdownActive = false; stopAudio()" class="btn btn-sm btn-link text-success p-0 ms-2" title="Cancel Playback">
+                            <button @click="isCountdownActive = false; stopAudio()" class="memorisation-countdown-cancel btn btn-sm btn-link p-0 ms-1" title="Cancel Playback" aria-label="Cancel playback">
                                 <i class="bi bi-x-circle-fill"></i>
                             </button>
                         </div>
@@ -725,7 +724,7 @@
                         <i class="bi bi-x-lg" aria-hidden="true"></i>
                     </button>
 
-                    <span class="quran-toolbar-label quran-toolbar-label-purple">Memorisation Tools</span>
+                    <span class="quran-toolbar-label quran-toolbar-label-purple"><b>Memorisation Tools</b></span>
                     <div class="quran-toolbar-separator quran-toolbar-separator-purple"></div>
 
                     <!-- Refined Range Selector -->
@@ -788,15 +787,49 @@
 
                     <div class="quran-toolbar-separator quran-toolbar-separator-purple"></div>
 
-                    <!-- Focus Mode Toggle (Memorisation) - left of Play -->
+                    <!-- Repetition Logic -->
+                    <div class="d-flex align-items-center gap-2 px-2">
+                        <span class="quran-toolbar-label d-none d-sm-inline-block" style="color: #064e3b; margin-right: 0;">Reps</span>
+                        <div class="d-flex align-items-center gap-1">
+                            <input type="number" 
+                                   v-model.number="memorisationRepetitionCount" 
+                                   class="quran-toolbar-select text-center" 
+                                   style="width: 45px; padding: 0; background-image: none !important; border-color: rgba(6, 78, 59, 0.2);"
+                                   min="1"
+                                   max="99"
+                                   title="Repetitions per ayah">
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center gap-2 px-2">
+                        <span class="quran-toolbar-label d-none d-sm-inline-block" style="color: #064e3b; margin-right: 0;">Pause</span>
+                        <div class="d-flex align-items-center gap-1">
+                            <input type="number" 
+                                   v-model.number="memorisationRepetitionPause" 
+                                   class="quran-toolbar-select text-center" 
+                                   style="width: 45px; padding: 0; background-image: none !important; border-color: rgba(6, 78, 59, 0.2);"
+                                   min="0"
+                                   max="30"
+                                   title="Pause between repetitions (seconds) for self-recitation">
+                            <span class="opacity-50" style="color: #064e3b; font-size: 0.75rem; font-weight: 700;">sec</span>
+                        </div>
+                    </div>
+                    <div v-if="isMemorisationRepetitionActive" class="d-flex align-items-center px-2 memorisation-repetition-progress">
+                        <span class="quran-toolbar-label" style="color: #064e3b; font-weight: 700;" aria-live="polite">
+                            {{ memorisationRepetitionCurrent }} / {{ memorisationRepetitionCount }}
+                        </span>
+                    </div>
+
+                    <div class="quran-toolbar-separator quran-toolbar-separator-purple"></div>
+
+                    <!-- Verse Focus Toggle (Memorisation) - left of Play -->
                     <button type="button" 
                             class="quran-toolbar-btn quran-toolbar-btn-focus-mode" 
                             :class="{ 'is-enabled': isMemorisationMode }" 
                             @click="toggleMemorisationMode"
-                            title="Toggle single-ayah focus mode for memorisation"
-                            aria-label="Toggle focus mode for memorisation">
+                            :title="isMemorisationMode ? 'Exit verse focus mode' : 'Enter verse focus mode — show one ayah at a time for memorisation'"
+                            :aria-label="isMemorisationMode ? 'Exit verse focus mode' : 'Enter verse focus mode for memorisation'">
                         <i class="bi bi-bullseye" aria-hidden="true"></i>
-                        <span class="quran-toolbar-btn-text d-none d-md-inline">Focus</span>
+                        <span class="quran-toolbar-btn-text">Verse Focus</span>
                     </button>
 
                     <!-- Next Ayah (when in memorisation mode) -->
@@ -808,13 +841,13 @@
                             title="Advance to next ayah"
                             aria-label="Advance to next ayah">
                         <i class="bi bi-arrow-right" aria-hidden="true"></i>
-                        <span class="quran-toolbar-btn-text d-none d-md-inline">Next</span>
+                        <span class="quran-toolbar-btn-text">Next Ayah</span>
                     </button>
 
                     <!-- Audio Controls -->
                     <button type="button" 
                             class="quran-toolbar-btn" 
-                            @click="toggleAudioPlayer(currentlyPlayingIndex)" 
+                            @click="toggleAudioPlayer(memorisationPlayIndex)" 
                             :title="isAnyAudioPlaying ? 'Pause' : 'Play'">
                         <i class="bi" :class="isAnyAudioPlaying ? 'bi-pause-fill' : 'bi-play-fill'" aria-hidden="true"></i>
                         <span class="quran-toolbar-btn-text d-none d-md-inline">Audio</span>
@@ -1277,6 +1310,7 @@
                         highlighted:
                             isHighlighted && activeAyahIndex === item.index,
                         'currently-playing': isAudioPlaying[item.index],
+                        'memorisation-repetition-active': isMemorisationRepetitionActive && item.index === currentlyPlayingIndex,
                         'is-pinned': isAyahPinned(item.ayah),
                         'memorisation-past': isMemorisationMode && item.role === 'past',
                         'memorisation-current': isMemorisationMode && item.role === 'current',
