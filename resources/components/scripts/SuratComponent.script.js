@@ -630,8 +630,14 @@ export default {
             selectedJuz: null,
             sidebarCollapsed: false,
             isMemorisationToolbarVisible: false,
+            isMemorisationMode: false,
+            memorisationFocusIndex: 0,
             memorisationRangeStart: 1,
             memorisationRangeEnd: null,
+            memorisationVerseDelay: 0,
+            countdownSeconds: 0,
+            isCountdownActive: false,
+            countdownInterval: null,
             isBlurNextAyahEnabled: false,
             settingsDraft: {
                 showTajweed: false,
@@ -1285,6 +1291,19 @@ export default {
             return this.getScrollTopOffset();
         },
         visibleWindow() {
+            if (this.isMemorisationMode && this.filteredAyahs?.length) {
+                const focus = Math.min(
+                    Math.max(0, this.memorisationFocusIndex),
+                    this.filteredAyahs.length - 1
+                );
+                const out = [];
+                if (focus > 0)
+                    out.push({ index: focus - 1, ayah: this.filteredAyahs[focus - 1], role: "past" });
+                out.push({ index: focus, ayah: this.filteredAyahs[focus], role: "current" });
+                if (focus + 1 < this.filteredAyahs.length)
+                    out.push({ index: focus + 1, ayah: this.filteredAyahs[focus + 1], role: "next" });
+                return out;
+            }
             const start = Math.max(
                 0,
                 Math.min(this.visibleStart, this.totalItems)
@@ -1301,9 +1320,11 @@ export default {
             return out;
         },
         topSpacerHeight() {
+            if (this.isMemorisationMode) return 0;
             return Math.max(0, this.visibleStart * this.itemHeight);
         },
         bottomSpacerHeight() {
+            if (this.isMemorisationMode) return 0;
             const end = Math.max(this.visibleEnd, this.visibleStart);
             const remaining = Math.max(0, this.totalItems - end);
             return remaining * this.itemHeight;
@@ -1571,12 +1592,17 @@ export default {
             if (newVal) {
                 this.showDesktopToolbar = false;
                 this.isMobileToolbarExpanded = false;
+                this.memorisationFocusIndex = this.activeAyahIndex;
             } else {
                 this.showDesktopToolbar = true;
+                this.isMemorisationMode = false;
             }
         },
         isBlurNextAyahEnabled(newVal) {
             this.persistLocalSetting("suratIsBlurNextAyahEnabled", newVal ? "1" : "0");
+        },
+        isMemorisationMode(newVal) {
+            this.persistMemorisationModeSetting();
         },
         isTranslationVisible(newVal) {
             this.persistLocalSetting("suratIsTranslationVisible", newVal ? "1" : "0");
@@ -1764,6 +1790,7 @@ export default {
             if (storedBlurNextAyah !== null)
                 this.isBlurNextAyahEnabled = storedBlurNextAyah === "1";
         } catch (_) {}
+        this.loadMemorisationModePreference();
         try {
             const storedTranslationVisible = localStorage.getItem("suratIsTranslationVisible");
             if (storedTranslationVisible !== null)
@@ -3104,6 +3131,33 @@ export default {
             this.memorisationRangeEnd = null;
             this.announce("Memorisation range reset.");
         },
+        toggleMemorisationMode() {
+            this.isMemorisationMode = !this.isMemorisationMode;
+            if (this.isMemorisationMode) {
+                this.memorisationFocusIndex = this.activeAyahIndex;
+            }
+            this.persistMemorisationModeSetting();
+        },
+        persistMemorisationModeSetting() {
+            const key = this.getMemorisationModeStorageKey();
+            if (key) this.persistLocalSetting(key, this.isMemorisationMode ? "1" : "0");
+        },
+        loadMemorisationModePreference() {
+            try {
+                const key = this.getMemorisationModeStorageKey();
+                if (key) {
+                    const stored = localStorage.getItem(key);
+                    if (stored !== null) this.isMemorisationMode = stored === "1";
+                }
+            } catch (_) {}
+        },
+        advanceMemorisationFocus() {
+            if (this.memorisationFocusIndex + 1 >= this.filteredAyahs.length) return;
+            this.memorisationFocusIndex++;
+            this.selectCard(this.memorisationFocusIndex);
+            this.scrollToAyahIndex(this.memorisationFocusIndex);
+            this.announce(`Advanced to verse ${this.memorisationFocusIndex + 1}.`);
+        },
         applySettingsDraft() {
             if (!this.settingsDraft) return;
             this.showTajweed = !!this.settingsDraft.showTajweed;
@@ -3590,6 +3644,9 @@ export default {
             }
             const anonId = this.getOrCreateSuratPreferenceAnonId();
             return `${baseKey}_anon_${anonId || "local"}`;
+        },
+        getMemorisationModeStorageKey() {
+            return this.buildScopedFontPreferenceKey("suratIsMemorisationMode");
         },
         readScopedFontPreference(baseKey, options = {}) {
             const { json = false } = options;
@@ -5534,6 +5591,7 @@ export default {
                 this.bookmarkStorageUserId = userId;
                 await this.initializeDeepFocusModePreference();
                 await this.initializeReadingFullscreenPreference();
+                this.loadMemorisationModePreference();
                 await this.initializePinnedAyahStorageKey();
                 await this.loadPinnedAyahs();
                 await this.initializePinnedSectionUiStorageKey();
@@ -5545,6 +5603,7 @@ export default {
             this.bookmarkStorageUserId = null;
             await this.initializeDeepFocusModePreference();
             await this.initializeReadingFullscreenPreference();
+            this.loadMemorisationModePreference();
             this.pinnedAyahs = {};
             this.pinnedAyahStorageKey = "";
             this.pinnedSectionUiStateStorageKey = "";
@@ -6473,6 +6532,7 @@ export default {
         selectCard(index) {
             this.selectedCardIndex = index;
             this.currentlyPlayingIndex = index;
+            if (this.isMemorisationMode) this.memorisationFocusIndex = index;
             this.isHighlighted = true;
             // ensure card is visible
             // removed programmatic scrolling
@@ -7251,6 +7311,11 @@ export default {
             }
         },
         stopAudio: function (index) {
+            if (this.countdownInterval) {
+                clearInterval(this.countdownInterval);
+                this.isCountdownActive = false;
+                this.countdownSeconds = 0;
+            }
             if (this.audioElements[index]) {
                 console.log(`Stopping audio for ayah ${index + 1}`);
                 this.audioElements[index].pause();
@@ -8015,7 +8080,28 @@ export default {
             if (this.playbackMode === "continuous") {
                 const nextIndex = index + 1;
                 if (nextIndex < this.filteredAyahs.length) {
-                    setTimeout(() => this.playAudio(nextIndex), 50);
+                    if (this.isMemorisationMode) {
+                        this.memorisationFocusIndex = nextIndex;
+                        this.selectCard(nextIndex);
+                    }
+                    if (this.memorisationVerseDelay > 0) {
+                        this.isCountdownActive = true;
+                        this.countdownSeconds = this.memorisationVerseDelay;
+                        
+                        // Clear any existing interval
+                        if (this.countdownInterval) clearInterval(this.countdownInterval);
+                        
+                        this.countdownInterval = setInterval(() => {
+                            this.countdownSeconds--;
+                            if (this.countdownSeconds <= 0) {
+                                clearInterval(this.countdownInterval);
+                                this.isCountdownActive = false;
+                                this.playAudio(nextIndex);
+                            }
+                        }, 1000);
+                    } else {
+                        setTimeout(() => this.playAudio(nextIndex), 50);
+                    }
                     return;
                 }
             }
