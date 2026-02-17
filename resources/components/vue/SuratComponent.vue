@@ -954,7 +954,7 @@
                         <div class="modal-header">
                             <div>
                                 <h5 class="modal-title" id="hifdhPlanModalLabel">Today's Hifdh Plan</h5>
-                                <p class="hifdh-plan-modal-subtitle mb-0">Simple daily flow for memorisation and review.</p>
+                                <p class="hifdh-plan-modal-subtitle mb-0">A guided daily routine for memorisation, review, and progress tracking.</p>
                                 <span v-if="isHifdhDemoModeActive" class="memorisation-demo-badge">Demo ON (dates overridden)</span>
                             </div>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -966,26 +966,31 @@
                                 <span class="hifdh-summary-pill">{{ hifdhCompletionSummary }}</span>
                             </div>
 
+                            <div class="hifdh-onboarding-head">
+                                <h6 class="hifdh-onboarding-title mb-0">How today's plan works</h6>
+                                <p class="hifdh-onboarding-copy mb-0">Set your ayah range once, run your due session, then rate each segment to schedule the next review automatically.</p>
+                            </div>
+
                             <div class="hifdh-onboarding-steps" role="list" aria-label="Hifdh quick onboarding steps">
                                 <div class="hifdh-step-card" role="listitem">
                                     <span class="hifdh-step-index">1</span>
                                     <div>
                                         <p class="hifdh-step-title mb-0">Add your ayah range</p>
-                                        <small class="hifdh-step-copy">Enter start/end, then tap Add Range.</small>
+                                        <small class="hifdh-step-copy">Choose a start and end ayah, then tap Add Range to create today's items.</small>
                                     </div>
                                 </div>
                                 <div class="hifdh-step-card" role="listitem">
                                     <span class="hifdh-step-index">2</span>
                                     <div>
                                         <p class="hifdh-step-title mb-0">Start your session</p>
-                                        <small class="hifdh-step-copy">Tap Start Session to begin today’s due items.</small>
+                                        <small class="hifdh-step-copy">Tap Start Session to open each due segment and recite with focus.</small>
                                     </div>
                                 </div>
                                 <div class="hifdh-step-card" role="listitem">
                                     <span class="hifdh-step-index">3</span>
                                     <div>
                                         <p class="hifdh-step-title mb-0">Submit feedback</p>
-                                        <small class="hifdh-step-copy">Mark Strong, Minor Mistakes, or Weak after each segment.</small>
+                                        <small class="hifdh-step-copy">Mark Strong, Minor Mistakes, or Weak so the next due date is adjusted for you.</small>
                                     </div>
                                 </div>
                             </div>
@@ -1016,7 +1021,7 @@
                                     </button>
                                 </div>
                                 <small class="memorisation-simple-help">
-                                    Add a range first, then tap Start Session. Use demo buttons for fast testing.
+                                    Add your first range, then press Start Session to begin a guided flow. Quick Demo and Due Now are optional testing shortcuts.
                                 </small>
                             </div>
 
