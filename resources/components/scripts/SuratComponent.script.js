@@ -1,6 +1,6 @@
 import axios from "axios";
 import { JUZ_START_MAPPING, PAGE_START_MAPPING, getJuzStart, getPageStart } from "../utils/quran-mappings";
-import { Modal } from "bootstrap";
+import { Modal, Tooltip } from "bootstrap";
 import BookmarkModal from "../vue/bookmarks/BookmarkModal.vue";
 import ContinueReadingCard from "../vue/search/ContinueReadingCard.vue";
 import { fetchUserIdFromApi } from "../utils/bookmarkAuth";
@@ -29,7 +29,7 @@ export default {
             screenReaderMessage: "",
             isComponentAlive: true,
             isInitialLoad: true,
-            selectedSurah: "1",
+            selectedSurah: "2",
             selectedReciter: "ar.alafasy",
             selectedTranslation: "en.ahmedali",
             transliterationEditionIdentifier: "en.transliteration",
@@ -643,6 +643,25 @@ export default {
             isCountdownActive: false,
             countdownInterval: null,
             isBlurNextAyahEnabled: false,
+            hifdhSchedulerStorageKey: "ic_hifdh_scheduler_v1",
+            hifdhCheckpointDays: [1, 3, 7, 14, 30],
+            hifdhPlanSets: [],
+            hifdhReviewQueue: [],
+            hifdhNewRangeStart: null,
+            hifdhNewRangeEnd: null,
+            hifdhSessionStarted: false,
+            hifdhActiveItemId: null,
+            hifdhPlanUiStorageKeyBase: "ic_hifdh_plan_ui_v1",
+            isHifdhPlanCollapsed: false,
+            isHifdhPlanHidden: false,
+            isHifdhDemoModeActive: false,
+            hifdhTooltipInstances: [],
+            hifdhPlanModalShownHandler: null,
+            hifdhFeedbackChoices: [
+                { value: "strong", label: "Strong" },
+                { value: "minor", label: "Minor Mistakes" },
+                { value: "weak", label: "Weak" },
+            ],
             settingsDraft: {
                 showTajweed: false,
                 showRealtimeHighlighting: false,
@@ -766,7 +785,15 @@ export default {
                 this.memorisationRepetitionCount > 1 &&
                 this.isAnyAudioPlaying;
         },
+        memorisationFocusIndexSafe() {
+            const len = Array.isArray(this.filteredAyahs) ? this.filteredAyahs.length : 0;
+            if (!len) return 0;
+            return Math.min(Math.max(0, this.memorisationFocusIndex), len - 1);
+        },
         memorisationPlayIndex() {
+            if (this.isMemorisationMode) {
+                return this.memorisationFocusIndexSafe;
+            }
             if (this.isMemorisationToolbarVisible &&
                 this.memorisationRepetitionCount > 1 &&
                 !this.isAnyAudioPlaying) {
@@ -784,6 +811,107 @@ export default {
             return this.isAnyAudioPlaying
                 ? this.currentlyPlayingIndex
                 : this.selectedCardIndex;
+        },
+        todayHifdhPlan() {
+            const grouped = {
+                newMemorisation: [],
+                recentReinforcement: [],
+                strengtheningMemory: [],
+                longTermProtection: [],
+            };
+            const todayKey = this.toDateKey(new Date());
+            const dueItems = (this.hifdhReviewQueue || [])
+                .filter((item) =>
+                    item &&
+                    item.status !== "completed" &&
+                    String(item.scheduledDate || "") <= todayKey
+                )
+                .sort((a, b) => {
+                    const left = String(a?.scheduledDate || "");
+                    const right = String(b?.scheduledDate || "");
+                    if (left !== right) return left.localeCompare(right);
+                    return Number(a?.checkpointDay || 0) - Number(b?.checkpointDay || 0);
+                });
+
+            dueItems.forEach((item) => {
+                const bucket = this.classifyHifdhEntry(item);
+                if (bucket === "new") grouped.newMemorisation.push(item);
+                else if (bucket === "recent")
+                    grouped.recentReinforcement.push(item);
+                else if (bucket === "strengthening")
+                    grouped.strengtheningMemory.push(item);
+                else grouped.longTermProtection.push(item);
+            });
+
+            return grouped;
+        },
+        todayHifdhPlanItemsOrdered() {
+            const plan = this.todayHifdhPlan;
+            return []
+                .concat(plan.newMemorisation)
+                .concat(plan.recentReinforcement)
+                .concat(plan.strengtheningMemory)
+                .concat(plan.longTermProtection);
+        },
+        hasTodayHifdhPlan() {
+            return this.todayHifdhPlanItemsOrdered.length > 0;
+        },
+        isHifdhPlanCompactControlsEnabled() {
+            return !!this.isTabletOrMobile;
+        },
+        effectiveIsHifdhPlanHidden() {
+            if (!this.isHifdhPlanCompactControlsEnabled) return false;
+            return !!this.isHifdhPlanHidden;
+        },
+        effectiveIsHifdhPlanCollapsed() {
+            return !!this.isHifdhPlanCollapsed;
+        },
+        hifdhPendingCount() {
+            return (this.hifdhReviewQueue || []).filter(
+                (item) => item && item.status !== "completed"
+            ).length;
+        },
+        canRunHifdhDemo() {
+            return this.hifdhPendingCount > 0;
+        },
+        hifdhCompletionSummary() {
+            const total = (this.hifdhReviewQueue || []).length;
+            const completed = Math.max(total - this.hifdhPendingCount, 0);
+            return `${completed}/${total} completed`;
+        },
+        activeHifdhSessionItem() {
+            if (!this.hifdhActiveItemId) return null;
+            return (
+                this.todayHifdhPlanItemsOrdered.find(
+                    (item) => item.id === this.hifdhActiveItemId
+                ) || null
+            );
+        },
+        hifdhSessionCompletedCount() {
+            return (this.hifdhReviewQueue || []).filter(
+                (item) =>
+                    item &&
+                    item.status === "completed" &&
+                    item.completedOn === this.toDateKey(new Date())
+            ).length;
+        },
+        nextHifdhDueItem() {
+            const pending = (this.hifdhReviewQueue || [])
+                .filter((item) => item && item.status !== "completed")
+                .sort((a, b) => {
+                    const left = String(a?.scheduledDate || "");
+                    const right = String(b?.scheduledDate || "");
+                    if (left !== right) return left.localeCompare(right);
+                    return Number(a?.checkpointDay || 0) - Number(b?.checkpointDay || 0);
+                });
+            return pending[0] || null;
+        },
+        nextHifdhDueSummary() {
+            const next = this.nextHifdhDueItem;
+            if (!next) return "No upcoming scheduled reviews.";
+            const label = this.hifdhCheckpointLabel(next);
+            const when = this.formatDateKey(next.scheduledDate);
+            return `Next review: ${this.hifdhEntrySummary(next)} (${label}) on ${when}.`;
         },
         filteredJuzs() {
             const query = (this.sidebarSearchQuery || "").trim().toLowerCase();
@@ -1312,10 +1440,7 @@ export default {
         },
         visibleWindow() {
             if (this.isMemorisationMode && this.filteredAyahs?.length) {
-                const focus = Math.min(
-                    Math.max(0, this.memorisationFocusIndex),
-                    this.filteredAyahs.length - 1
-                );
+                const focus = this.memorisationFocusIndexSafe;
                 const out = [];
                 if (focus > 0)
                     out.push({ index: focus - 1, ayah: this.filteredAyahs[focus - 1], role: "past" });
@@ -1529,6 +1654,16 @@ export default {
             if (!this.isNavigating) {
                 this.visibleStart = 0;
                 this.visibleEnd = Math.min(this.windowSize + this.buffer * 2, n);
+            }
+            if (n === 0) {
+                this.selectedCardIndex = 0;
+                this.currentlyPlayingIndex = 0;
+                this.memorisationFocusIndex = 0;
+            } else {
+                const lastIndex = n - 1;
+                this.selectedCardIndex = Math.min(Math.max(this.selectedCardIndex, 0), lastIndex);
+                this.currentlyPlayingIndex = Math.min(Math.max(this.currentlyPlayingIndex, 0), lastIndex);
+                this.memorisationFocusIndex = Math.min(Math.max(this.memorisationFocusIndex, 0), lastIndex);
             }
             this.ayahScrubValue = Math.min(Math.max(1, this.ayahScrubValue), Math.max(n, 1));
             this.$nextTick(this.updateVirtualWindow);
@@ -1747,7 +1882,7 @@ export default {
         try {
             storedFontStack = localStorage.getItem(this.quranFontStackPreferenceKey);
         } catch (_) {}
-        this.selectedSurah = storedSurah || "1";
+        this.selectedSurah = storedSurah || "2";
         this.selectedReciter = storedReciter || "ar.alafasy";
         this.selectedTranslation = storedTranslation || "en.ahmedali";
         this.selectedQuranFontId = this.coerceLegacyFontId(storedFont) || "";
@@ -1838,6 +1973,18 @@ export default {
             this.selectedReciter
         );
         this.prepareSettingsDraft();
+        this.initializeHifdhScheduler();
+        this.$nextTick(() => {
+            const modalEl = document.getElementById("hifdhPlanModal");
+            if (!modalEl) return;
+            this.hifdhPlanModalShownHandler = () => {
+                this.initializeHifdhTooltips();
+            };
+            modalEl.addEventListener(
+                "shown.bs.modal",
+                this.hifdhPlanModalShownHandler
+            );
+        });
     },
         beforeUnmount() {
             this.isComponentAlive = false;
@@ -1929,6 +2076,15 @@ export default {
             window.cancelAnimationFrame(this._heightMeasureRaf);
             this._heightMeasureRaf = null;
         }
+        const hifdhModalEl = document.getElementById("hifdhPlanModal");
+        if (hifdhModalEl && this.hifdhPlanModalShownHandler) {
+            hifdhModalEl.removeEventListener(
+                "shown.bs.modal",
+                this.hifdhPlanModalShownHandler
+            );
+            this.hifdhPlanModalShownHandler = null;
+        }
+        this.disposeHifdhTooltips();
     },
         beforeDestroy() {
             this.stopHighlightLoop();
@@ -3146,6 +3302,527 @@ export default {
             
             this.announce(`Range applied: Verses ${this.memorisationRangeStart} to ${this.memorisationRangeEnd}`);
         },
+        initializeHifdhScheduler() {
+            this.loadHifdhSchedulerState();
+            this.loadHifdhPlanUiState();
+            if (!this.hifdhNewRangeStart) {
+                this.hifdhNewRangeStart = this.memorisationRangeStart || 1;
+            }
+            if (!this.hifdhNewRangeEnd) {
+                this.hifdhNewRangeEnd =
+                    this.memorisationRangeEnd ||
+                    this.memorisationRangeStart ||
+                    1;
+            }
+        },
+        loadHifdhSchedulerState() {
+            try {
+                const raw = localStorage.getItem(this.hifdhSchedulerStorageKey);
+                if (!raw) return;
+                const parsed = JSON.parse(raw);
+                this.hifdhPlanSets = Array.isArray(parsed?.sets) ? parsed.sets : [];
+                this.hifdhReviewQueue = Array.isArray(parsed?.entries)
+                    ? parsed.entries
+                    : [];
+            } catch (_) {
+                this.hifdhPlanSets = [];
+                this.hifdhReviewQueue = [];
+            }
+        },
+        persistHifdhSchedulerState() {
+            try {
+                localStorage.setItem(
+                    this.hifdhSchedulerStorageKey,
+                    JSON.stringify({
+                        sets: this.hifdhPlanSets,
+                        entries: this.hifdhReviewQueue,
+                    })
+                );
+            } catch (_) {}
+        },
+        loadHifdhPlanUiState() {
+            try {
+                const raw = localStorage.getItem(this.hifdhPlanUiStorageKeyBase);
+                if (!raw) return;
+                const parsed = JSON.parse(raw);
+                this.isHifdhPlanCollapsed = !!parsed?.collapsed;
+                this.isHifdhPlanHidden = !!parsed?.hidden;
+                this.isHifdhDemoModeActive = !!parsed?.demoMode;
+            } catch (_) {
+                this.isHifdhPlanCollapsed = false;
+                this.isHifdhPlanHidden = false;
+                this.isHifdhDemoModeActive = false;
+            }
+        },
+        persistHifdhPlanUiState() {
+            try {
+                localStorage.setItem(
+                    this.hifdhPlanUiStorageKeyBase,
+                    JSON.stringify({
+                        collapsed: !!this.isHifdhPlanCollapsed,
+                        hidden: !!this.isHifdhPlanHidden,
+                        demoMode: !!this.isHifdhDemoModeActive,
+                    })
+                );
+            } catch (_) {}
+        },
+        toggleHifdhPlanCollapsed() {
+            this.isHifdhPlanCollapsed = !this.isHifdhPlanCollapsed;
+            this.persistHifdhPlanUiState();
+        },
+        hideHifdhPlan() {
+            if (!this.isHifdhPlanCompactControlsEnabled) {
+                this.isHifdhPlanHidden = false;
+                return;
+            }
+            this.isHifdhPlanHidden = true;
+            this.persistHifdhPlanUiState();
+        },
+        showHifdhPlan() {
+            this.isHifdhPlanHidden = false;
+            this.persistHifdhPlanUiState();
+        },
+        toDateKey(input) {
+            const date = input instanceof Date ? input : new Date(input);
+            if (Number.isNaN(date.getTime())) return "";
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, "0");
+            const day = String(date.getDate()).padStart(2, "0");
+            return `${year}-${month}-${day}`;
+        },
+        addDaysToDateKey(dateKey, daysToAdd) {
+            if (!dateKey) return "";
+            const base = new Date(`${dateKey}T12:00:00`);
+            if (Number.isNaN(base.getTime())) return "";
+            base.setDate(base.getDate() + Number(daysToAdd || 0));
+            return this.toDateKey(base);
+        },
+        formatDateKey(dateKey) {
+            if (!dateKey) return "";
+            const date = new Date(`${dateKey}T12:00:00`);
+            if (Number.isNaN(date.getTime())) return dateKey;
+            return date.toLocaleDateString(undefined, {
+                month: "short",
+                day: "numeric",
+                year: "numeric",
+            });
+        },
+        getSurahNameByNumber(surahNumber) {
+            const match = Array.isArray(this.surahs)
+                ? this.surahs.find((surah) => Number(surah.number) === Number(surahNumber))
+                : null;
+            return (
+                match?.englishName ||
+                this.surahDetails?.englishName ||
+                `Surah ${surahNumber}`
+            );
+        },
+        createHifdhQueueEntry({
+            setId,
+            kind = "review",
+            checkpointDay = 0,
+            scheduledDate,
+            surahNumber,
+            startAyah,
+            endAyah,
+            recurring = false,
+        }) {
+            return {
+                id: `hifdh_${Date.now()}_${Math.random().toString(36).slice(2, 9)}`,
+                setId,
+                kind,
+                checkpointDay,
+                scheduledDate,
+                surahNumber: Number(surahNumber || this.selectedSurah || 1),
+                surahName: this.getSurahNameByNumber(surahNumber || this.selectedSurah),
+                startAyah: Number(startAyah || 1),
+                endAyah: Number(endAyah || startAyah || 1),
+                recurring: !!recurring,
+                status: "pending",
+                completedOn: null,
+                feedback: "",
+            };
+        },
+        addCurrentRangeToHifdhPlan() {
+            const startRaw = Number(
+                this.hifdhNewRangeStart || this.memorisationRangeStart || 1
+            );
+            const endRaw = Number(
+                this.hifdhNewRangeEnd ||
+                    this.memorisationRangeEnd ||
+                    this.hifdhNewRangeStart ||
+                    this.memorisationRangeStart ||
+                    1
+            );
+            const total = Number(this.totalAyahs || endRaw || startRaw || 1);
+            const startAyah = Math.min(Math.max(1, startRaw), Math.max(total, 1));
+            const endAyah = Math.min(
+                Math.max(startAyah, endRaw || startAyah),
+                Math.max(total, startAyah)
+            );
+            const surahNumber = Number(this.selectedSurah || 1);
+            const memorisedOn = this.toDateKey(new Date());
+            const hasMatchingSetToday = (this.hifdhPlanSets || []).some(
+                (set) =>
+                    Number(set?.surahNumber) === surahNumber &&
+                    Number(set?.startAyah) === startAyah &&
+                    Number(set?.endAyah) === endAyah &&
+                    String(set?.memorisedOn || "") === memorisedOn
+            );
+            if (hasMatchingSetToday) {
+                this.announce(
+                    `This range is already queued today: Surah ${surahNumber}, Ayah ${startAyah}-${endAyah}.`
+                );
+                return;
+            }
+            const setId = `hset_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
+
+            this.hifdhPlanSets.push({
+                id: setId,
+                memorisedOn,
+                surahNumber,
+                surahName: this.getSurahNameByNumber(surahNumber),
+                startAyah,
+                endAyah,
+                status: "active",
+            });
+
+            const entries = [
+                this.createHifdhQueueEntry({
+                    setId,
+                    kind: "new",
+                    checkpointDay: 0,
+                    scheduledDate: memorisedOn,
+                    surahNumber,
+                    startAyah,
+                    endAyah,
+                }),
+                ...this.hifdhCheckpointDays.map((day) =>
+                    this.createHifdhQueueEntry({
+                        setId,
+                        kind: "review",
+                        checkpointDay: day,
+                        scheduledDate: this.addDaysToDateKey(memorisedOn, day),
+                        surahNumber,
+                        startAyah,
+                        endAyah,
+                    })
+                ),
+            ];
+
+            this.hifdhReviewQueue.push(...entries);
+            this.persistHifdhSchedulerState();
+            this.announce(
+                `Daily review plan created for Surah ${surahNumber}, Ayah ${startAyah}-${endAyah}.`
+            );
+        },
+        markAllPendingHifdhDueToday() {
+            const todayKey = this.toDateKey(new Date());
+            let updatedCount = 0;
+            (this.hifdhReviewQueue || []).forEach((item) => {
+                if (!item || item.status === "completed") return;
+                if (String(item.scheduledDate || "") > todayKey) {
+                    item.scheduledDate = todayKey;
+                    updatedCount++;
+                }
+            });
+            this.persistHifdhSchedulerState();
+            this.isHifdhDemoModeActive = true;
+            this.persistHifdhPlanUiState();
+            if (updatedCount > 0) {
+                this.announce(`${updatedCount} review segments moved to today for demo.`);
+            } else {
+                this.announce("All pending review segments are already due today.");
+            }
+        },
+        resetPendingHifdhToDemoTimeline() {
+            const todayKey = this.toDateKey(new Date());
+            let updatedCount = 0;
+            (this.hifdhReviewQueue || []).forEach((item) => {
+                if (!item || item.status === "completed") return;
+                const checkpoint = Number(item.checkpointDay || 0);
+                const offset = Math.max(0, checkpoint);
+                item.scheduledDate = this.addDaysToDateKey(todayKey, offset);
+                updatedCount++;
+            });
+            this.persistHifdhSchedulerState();
+            this.isHifdhDemoModeActive = false;
+            this.persistHifdhPlanUiState();
+            if (updatedCount > 0) {
+                this.announce("Demo timeline reset. Reviews now follow spaced days from today.");
+            } else {
+                this.announce("No pending segments to reset.");
+            }
+        },
+        resetHifdhPlan() {
+            const shouldReset = window.confirm(
+                "Reset Hifdh plan? This will remove all queued ranges and review progress."
+            );
+            if (!shouldReset) return;
+            this.hifdhPlanSets = [];
+            this.hifdhReviewQueue = [];
+            this.hifdhSessionStarted = false;
+            this.hifdhActiveItemId = null;
+            this.isHifdhDemoModeActive = false;
+            this.persistHifdhSchedulerState();
+            this.persistHifdhPlanUiState();
+            this.announce("Hifdh plan reset.");
+        },
+        initializeHifdhTooltips() {
+            this.disposeHifdhTooltips();
+            if (typeof document === "undefined") return;
+            const modalEl = document.getElementById("hifdhPlanModal");
+            if (!modalEl) return;
+            const nodes = modalEl.querySelectorAll("[data-hifdh-tooltip]");
+            this.hifdhTooltipInstances = Array.from(nodes)
+                .map((node) => {
+                    try {
+                        return new Tooltip(node, {
+                            trigger: "hover focus",
+                            container: "body",
+                        });
+                    } catch (_) {
+                        return null;
+                    }
+                })
+                .filter(Boolean);
+        },
+        disposeHifdhTooltips() {
+            if (!Array.isArray(this.hifdhTooltipInstances)) {
+                this.hifdhTooltipInstances = [];
+                return;
+            }
+            this.hifdhTooltipInstances.forEach((instance) => {
+                try {
+                    instance.dispose();
+                } catch (_) {}
+            });
+            this.hifdhTooltipInstances = [];
+        },
+        async quickStartSurahTwoDemoRange() {
+            const surahNumber = 2;
+            const rangeStart = 1;
+            const rangeEnd = 10;
+            const todayKey = this.toDateKey(new Date());
+            try {
+                await this.selectSurah(surahNumber, { skipScroll: true });
+                const existingSet = (this.hifdhPlanSets || []).some(
+                    (set) =>
+                        Number(set?.surahNumber) === surahNumber &&
+                        Number(set?.startAyah) === rangeStart &&
+                        Number(set?.endAyah) === rangeEnd &&
+                        String(set?.memorisedOn || "") === todayKey
+                );
+                if (existingSet) {
+                    this.announce(
+                        "Surah 2 demo range (Ayah 1-10) is already queued for today."
+                    );
+                    return;
+                }
+                this.hifdhNewRangeStart = rangeStart;
+                this.hifdhNewRangeEnd = Math.min(
+                    rangeEnd,
+                    Number(this.totalAyahs || rangeEnd)
+                );
+                this.addCurrentRangeToHifdhPlan();
+                this.announce(
+                    "Demo ready: jumped to Surah 2 and queued Ayah 1-10."
+                );
+            } catch (_) {
+                this.announce("Unable to prepare Surah 2 demo right now.");
+            }
+        },
+        classifyHifdhEntry(item) {
+            if (!item) return "longterm";
+            if (item.kind === "new") return "new";
+            const checkpoint = Number(item.checkpointDay || 0);
+            if (checkpoint <= 1) return "recent";
+            if (checkpoint <= 7) return "strengthening";
+            return "longterm";
+        },
+        hifdhCategoryTitle(key) {
+            if (key === "new") return "New Memorisation";
+            if (key === "recent") return "Recent Reinforcement";
+            if (key === "strengthening") return "Strengthening Memory";
+            return "Long-Term Protection";
+        },
+        hifdhCheckpointLabel(item) {
+            if (!item) return "";
+            if (item.kind === "new") return "Today";
+            if (item.kind === "adaptive") return "Adaptive Catch-up";
+            const checkpoint = Number(item.checkpointDay || 0);
+            if (checkpoint >= 30 && item.recurring) return "Monthly review";
+            return `Day ${checkpoint}`;
+        },
+        hifdhEntrySummary(item) {
+            if (!item) return "";
+            return `${item.surahName || this.getSurahNameByNumber(item.surahNumber)} · ${item.startAyah}-${item.endAyah}`;
+        },
+        getPreferredHifdhStartItem() {
+            const dueItems = this.todayHifdhPlanItemsOrdered || [];
+            if (!dueItems.length) return null;
+            const active = this.hifdhActiveItemId
+                ? dueItems.find((item) => item.id === this.hifdhActiveItemId)
+                : null;
+            if (active) return active;
+            const currentSurahMatch = dueItems.find(
+                (item) =>
+                    String(item?.surahNumber || "") ===
+                    String(this.selectedSurah || "")
+            );
+            if (currentSurahMatch) return currentSurahMatch;
+            return dueItems[0];
+        },
+        async startTodayHifdhSession() {
+            if (!this.hasTodayHifdhPlan) {
+                this.announce("No review segments are due today.");
+                return;
+            }
+            this.isHifdhPlanHidden = false;
+            this.hifdhSessionStarted = true;
+            const startItem = this.getPreferredHifdhStartItem();
+            this.hifdhActiveItemId = startItem?.id || null;
+            if (startItem) {
+                await this.openHifdhPlanItem(startItem);
+            }
+            this.persistHifdhPlanUiState();
+        },
+        async startTodayHifdhSessionAndCloseModal() {
+            if (!this.hasTodayHifdhPlan) {
+                await this.startTodayHifdhSession();
+                return;
+            }
+            await this.startTodayHifdhSession();
+            this.$nextTick(() => {
+                const modalEl = document.getElementById("hifdhPlanModal");
+                if (!modalEl) return;
+                const instance =
+                    Modal.getInstance(modalEl) || new Modal(modalEl);
+                instance.hide();
+            });
+        },
+        async openHifdhPlanItem(item) {
+            if (!item) return;
+            try {
+                if (String(this.selectedSurah) !== String(item.surahNumber)) {
+                    await this.selectSurah(item.surahNumber, { skipScroll: true });
+                }
+                this.isMemorisationToolbarVisible = true;
+                this.hifdhActiveItemId = item.id;
+                this.memorisationRangeStart = Number(item.startAyah || 1);
+                this.memorisationRangeEnd = Number(item.endAyah || item.startAyah || 1);
+                this.applyMemorisationRange();
+            } catch (_) {}
+        },
+        applyHifdhFeedbackAdjustments(entry, feedback) {
+            if (!entry) return;
+            const todayKey = this.toDateKey(new Date());
+            const pendingSameSet = (this.hifdhReviewQueue || [])
+                .filter(
+                    (item) =>
+                        item &&
+                        item.status !== "completed" &&
+                        item.setId === entry.setId &&
+                        item.id !== entry.id
+                )
+                .sort((a, b) =>
+                    String(a?.scheduledDate || "").localeCompare(
+                        String(b?.scheduledDate || "")
+                    )
+                );
+            const nextPending = pendingSameSet[0] || null;
+
+            if (feedback === "strong" && nextPending) {
+                nextPending.scheduledDate = this.addDaysToDateKey(
+                    nextPending.scheduledDate,
+                    1
+                );
+            } else if (feedback === "minor" && nextPending) {
+                const tomorrow = this.addDaysToDateKey(todayKey, 1);
+                if (String(nextPending.scheduledDate) > tomorrow) {
+                    nextPending.scheduledDate = tomorrow;
+                }
+            } else if (feedback === "weak") {
+                const tomorrow = this.addDaysToDateKey(todayKey, 1);
+                const alreadyHasCatchup = pendingSameSet.some(
+                    (item) =>
+                        item.kind === "adaptive" && String(item.scheduledDate) <= tomorrow
+                );
+                if (!alreadyHasCatchup) {
+                    this.hifdhReviewQueue.push(
+                        this.createHifdhQueueEntry({
+                            setId: entry.setId,
+                            kind: "adaptive",
+                            checkpointDay: 2,
+                            scheduledDate: tomorrow,
+                            surahNumber: entry.surahNumber,
+                            startAyah: entry.startAyah,
+                            endAyah: entry.endAyah,
+                        })
+                    );
+                }
+                if (nextPending) {
+                    const soonDate = this.addDaysToDateKey(todayKey, 2);
+                    if (String(nextPending.scheduledDate) > soonDate) {
+                        nextPending.scheduledDate = soonDate;
+                    }
+                }
+            }
+        },
+        ensureMonthlyReviewContinuation(entry) {
+            if (!entry) return;
+            if (Number(entry.checkpointDay || 0) < 30) return;
+            const hasFutureMonthly = (this.hifdhReviewQueue || []).some(
+                (item) =>
+                    item &&
+                    item.status !== "completed" &&
+                    item.setId === entry.setId &&
+                    Number(item.checkpointDay || 0) > Number(entry.checkpointDay || 0)
+            );
+            if (hasFutureMonthly) return;
+            const nextCheckpoint = Number(entry.checkpointDay || 30) + 30;
+            const nextDate = this.addDaysToDateKey(
+                this.toDateKey(new Date()),
+                30
+            );
+            this.hifdhReviewQueue.push(
+                this.createHifdhQueueEntry({
+                    setId: entry.setId,
+                    kind: "review",
+                    checkpointDay: nextCheckpoint,
+                    scheduledDate: nextDate,
+                    surahNumber: entry.surahNumber,
+                    startAyah: entry.startAyah,
+                    endAyah: entry.endAyah,
+                    recurring: true,
+                })
+            );
+        },
+        completeActiveHifdhItem(feedback) {
+            const item = this.activeHifdhSessionItem;
+            if (!item) return;
+            const queueItem = this.hifdhReviewQueue.find(
+                (entry) => entry.id === item.id
+            );
+            if (!queueItem) return;
+            queueItem.status = "completed";
+            queueItem.feedback = feedback || "";
+            queueItem.completedOn = this.toDateKey(new Date());
+            this.applyHifdhFeedbackAdjustments(queueItem, feedback);
+            this.ensureMonthlyReviewContinuation(queueItem);
+            this.persistHifdhSchedulerState();
+
+            const next = this.todayHifdhPlanItemsOrdered.find(
+                (entry) => entry.id !== item.id
+            );
+            this.hifdhActiveItemId = next?.id || null;
+            if (next) {
+                this.openHifdhPlanItem(next);
+            } else {
+                this.announce("Today’s Hifdh session is complete.");
+            }
+            this.persistHifdhPlanUiState();
+        },
         resetMemorisationRange() {
             this.memorisationRangeStart = 1;
             this.memorisationRangeEnd = null;
@@ -3156,6 +3833,11 @@ export default {
             this.isMemorisationMode = !this.isMemorisationMode;
             if (this.isMemorisationMode) {
                 this.memorisationFocusIndex = this.activeAyahIndex;
+                this.selectCard(this.memorisationFocusIndexSafe);
+                this.scrollToAyahIndex(this.memorisationFocusIndexSafe);
+                this.announce(`Verse mode enabled. Focused on verse ${this.memorisationFocusIndexSafe + 1}.`);
+            } else {
+                this.announce("Verse mode disabled.");
             }
             this.persistMemorisationModeSetting();
         },
@@ -3173,11 +3855,16 @@ export default {
             } catch (_) {}
         },
         advanceMemorisationFocus() {
-            if (this.memorisationFocusIndex + 1 >= this.filteredAyahs.length) return;
-            this.memorisationFocusIndex++;
-            this.selectCard(this.memorisationFocusIndex);
-            this.scrollToAyahIndex(this.memorisationFocusIndex);
-            this.announce(`Advanced to verse ${this.memorisationFocusIndex + 1}.`);
+            const current = this.memorisationFocusIndexSafe;
+            if (current + 1 >= this.filteredAyahs.length) {
+                this.announce("You are already at the last verse in this range.");
+                return;
+            }
+            const next = current + 1;
+            this.memorisationFocusIndex = next;
+            this.selectCard(next);
+            this.scrollToAyahIndex(next);
+            this.announce(`Advanced to verse ${next + 1}.`);
         },
         applySettingsDraft() {
             if (!this.settingsDraft) return;
