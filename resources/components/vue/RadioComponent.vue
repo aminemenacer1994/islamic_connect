@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="container py-5">
+    <div class="container py-5 radio-shell">
       <div class="row justify-content-center text-center mb-3">
         <div class="col-lg-10 col-xl-10">
           <h1 class="display-5 fw-bold" style="color:#0b1320;letter-spacing:-.02em;margin-bottom:.25rem;">The World of Quranic Recitation</h1>
@@ -146,30 +146,34 @@
                 style="border-radius:20px;background:#ffffff;border:1px solid rgba(6,182,172,.18);box-shadow:0 6px 14px rgba(0,0,0,.06);transition:transform .12s ease, box-shadow .12s ease;"
                 @mouseenter="$event.currentTarget.style.boxShadow = '0 14px 28px rgba(6,182,172,.22)'; $event.currentTarget.style.transform = 'translateY(-2px)';"
                 @mouseleave="$event.currentTarget.style.boxShadow = '0 6px 14px rgba(0,0,0,.06)'; $event.currentTarget.style.transform = '';">
-                <div class="d-flex justify-content-between align-items-center p-4 card-teal">
-                  <div class="station-info">
+                <div class="d-flex justify-content-between align-items-start p-4 card-teal station-content">
+                  <div class="station-info d-flex align-items-start gap-3">
+                    <img
+                      :src="station.imageUrl"
+                      :alt="`${station.name} image`"
+                      class="station-avatar"
+                      loading="lazy"
+                      decoding="async"
+                      @error="handleStationImageError(station)"
+                    />
+                    <div>
                     <div v-if="loginWarnings[station.id]" class="alert alert-warning station-login-warning" role="alert">
                       <i class="bi bi-shield-lock-fill" aria-hidden="true"></i>
                       <span>{{ loginWarnings[station.id] }}</span>
                       <a class="station-login-cta" href="/login">Log in</a>
                     </div>
-                    <h5 class="card-title mb-1 fw-bold" :id="'station-title-' + station.id"
+                    <h5 class="card-title station-title mb-1 fw-bold" :id="'station-title-' + station.id"
                       v-html="highlightSearch(station.name)" style="color:#0b1320"></h5>
-                    <p class="text-muted mb-1 fs-sm">
+                    <p class="text-muted mb-1 fs-sm recitation-meta">
                       {{ station.category || 'Recitation' }}
                       <span v-if="station.country" class="ms-1">· {{ station.country }}</span>
                     </p>
-                    <p class="mb-0" style="color:#64748B">{{ station.category || 'Recitation' }}</p>
-                    <div style="margin-top:.35rem;display:flex;gap:.4rem;align-items:center;">
-                      <span
-                        style="display:inline-flex;align-items:center;gap:.35rem;padding:.15rem .5rem;border-radius:999px;background:#f0fdfa;border:1px solid rgba(6,182,172,.25);color:#334155;">
-                        <i class="bi bi-headphones" style="color:#0bb39a"></i>{{ station.listeners || 0 }}
-                      </span>
-                      <span v-if="station.online !== false"
-                        style="display:inline-flex;align-items:center;padding:.15rem .5rem;border-radius:999px;background:#e6fffb;color:#04786b;border:1px solid rgba(6,182,172,.3);">live</span>
-                      <span v-else
-                        style="display:inline-flex;align-items:center;padding:.15rem .5rem;border-radius:999px;background:#fee2e2;color:#7f1d1d;border:1px solid #fecaca;">offline</span>
-                    </div>
+                    <p v-if="station.shortInfo" class="mb-0 station-short-info">{{ station.shortInfo }}</p>
+                    <p class="station-meta-line mt-2 mb-0">
+                      <i class="bi bi-headphones me-1" aria-hidden="true"></i>{{ station.listeners || 0 }} listeners
+                      <span class="ms-2">{{ station.online !== false ? 'Live' : 'Offline' }}</span>
+                    </p>
+                  </div>
                   </div>
                   <div class="d-flex align-items-center gap-2">
                     <button v-if="station.online !== false" @click="togglePlay(station.id)"
@@ -189,6 +193,10 @@
                       style="border-radius:12px;border:1px solid #e2e8f0;box-shadow:0 2px 6px rgba(0,0,0,.04);">
                       <i :class="{ 'bi-heart-fill text-danger': isLiked(station.id), 'bi-heart': !isLiked(station.id) }"
                         class="like-icon fs-5"></i>
+                    </button>
+                    <button class="btn btn-icon station-info-btn p-2" @click="openStationInfo(station)"
+                      :aria-label="`More info about ${station.name}`" title="More info">
+                      <i class="bi bi-info-circle"></i>
                     </button>
                     <div class="audio-player d-none">
                       <audio :ref="(el) => audioRefs[station.id] = el" :src="station.url"
@@ -255,42 +263,45 @@
                     <span>{{ loginWarnings[station.id] }}</span>
                     <a class="station-login-cta" href="/login">Log in</a>
                   </div>
-                  <div class="d-flex align-items-center gap-3">
+                  <div class="d-flex align-items-start gap-3">
+                    <img
+                      :src="station.imageUrl"
+                      :alt="`${station.name} image`"
+                      class="station-avatar"
+                      loading="lazy"
+                      decoding="async"
+                      @error="handleStationImageError(station)"
+                    />
                     <div class="flex-grow-1">
                       <div class="d-flex justify-content-between align-items-start">
                         <div>
-                          <h5 class="card-title mb-1 fw-semibold" :id="'station-title-' + station.id"
+                          <h5 class="card-title station-title mb-1 fw-semibold" :id="'station-title-' + station.id"
                             v-html="highlightSearch(station.name)"></h5>
-                          <p class="text-muted mb-1 fs-sm">
+                          <p class="text-muted mb-1 fs-sm recitation-meta">
                             {{ station.category || 'Recitation' }}
                             <span v-if="station.country" class="ms-1">· {{ station.country }}</span>
                           </p>
-                          <!-- Debug: Show online status -->
-                          <p class="text-muted mb-1 fs-sm">Status: {{ station.online === false ? 'Offline' : 'Online' }}
-                          </p>
+                          <p v-if="station.shortInfo" class="station-short-info mb-2">{{ station.shortInfo }}</p>
+                          <p class="station-meta-line mb-2">{{ station.style || 'Murattal' }}</p>
                         </div>
-                        <button class="btn btn-icon like-button p-2" @click="toggleLike(station)"
-                          :aria-label="isLiked(station.id) ? 'Unlike station' : 'Like station'"
-                          :aria-pressed="isLiked(station.id)">
-                          <i :class="isLiked(station.id) ? 'bi bi-heart-fill text-danger' : 'bi bi-heart'"
-                            class="like-icon fs-5"></i>
-                        </button>
+                        <div class="d-flex align-items-center gap-2">
+                          <button class="btn btn-icon like-button p-2" @click="toggleLike(station)"
+                            :aria-label="isLiked(station.id) ? 'Unlike station' : 'Like station'"
+                            :aria-pressed="isLiked(station.id)">
+                            <i :class="isLiked(station.id) ? 'bi bi-heart-fill text-danger' : 'bi bi-heart'"
+                              class="like-icon fs-5"></i>
+                          </button>
+                          <button class="btn btn-icon station-info-btn p-2" @click="openStationInfo(station)"
+                            :aria-label="`More info about ${station.name}`" title="More info">
+                            <i class="bi bi-info-circle"></i>
+                          </button>
+                        </div>
                       </div>
                       <div class="d-flex align-items-center justify-content-between">
-                        <div class="d-flex align-items-center gap-2 fs-sm" style="color:#334155;">
-                          <span :title="`${station.listeners} listeners`"
-                            style="display:inline-flex;align-items:center;gap:.35rem;padding:.15rem .5rem;border-radius:999px;background:#f0fdfa;border:1px solid rgba(6,182,172,.25);">
-                            <i class="bi bi-headphones" style="color:#0bb39a"></i> {{ station.listeners }}
-                          </span>
-                          <span v-if="currentPlayingStationId === station.id && isPlaying(station.id)"
-                            class="fw-semibold"
-                            style="display:inline-flex;align-items:center;gap:.35rem;padding:.15rem .5rem;border-radius:999px;background:#e6fffb;color:#04786b;border:1px solid rgba(6,182,172,.3);">
-                            <i class="bi bi-music-note-beamed"></i> Live
-                          </span>
-                          <span class="badge" :class="getStationStatus(station.id).class"
-                            style="display:inline-flex;align-items:center;padding:.15rem .5rem;border-radius:999px;background:#e6fffb;color:#04786b;border:1px solid rgba(6,182,172,.3);">
-                            {{ getStationStatus(station.id).text }}
-                          </span>
+                        <div class="d-flex align-items-center gap-2 fs-sm station-meta-line">
+                          <span :title="`${station.listeners} listeners`"><i class="bi bi-headphones me-1" aria-hidden="true"></i>{{ station.listeners }}</span>
+                          <span v-if="currentPlayingStationId === station.id && isPlaying(station.id)" class="fw-semibold">Now Playing</span>
+                          <span>{{ getStationStatus(station.id).text }}</span>
                         </div>
                         <button v-if="station.online !== false" @click="togglePlay(station.id)"
                           class="control-btn play-pause p-0"
@@ -340,41 +351,45 @@
                         <span>{{ loginWarnings[station.id] }}</span>
                         <a class="station-login-cta" href="/login">Log in</a>
                       </div>
-                      <div class="d-flex align-items-center gap-3">
+                      <div class="d-flex align-items-start gap-3">
+                  <img
+                    :src="station.imageUrl"
+                    :alt="`${station.name} image`"
+                    class="station-avatar"
+                    loading="lazy"
+                    decoding="async"
+                    @error="handleStationImageError(station)"
+                  />
                   <div class="flex-grow-1">
                     <div class="d-flex justify-content-between align-items-start">
                       <div>
-                        <h5 class="card-title mb-1 fw-semibold" :id="'station-title-' + station.id"
+                        <h5 class="card-title station-title mb-1 fw-semibold" :id="'station-title-' + station.id"
                           v-html="highlightSearch(station.name)"></h5>
-                        <p class="text-muted mb-1 fs-sm">
+                        <p class="text-muted mb-1 fs-sm recitation-meta">
                           {{ station.category || 'Recitation' }}
                           <span v-if="station.country" class="ms-1">· {{ station.country }}</span>
                         </p>
-                        <!-- Debug: Show online status -->
-                        <p class="text-muted mb-1 fs-sm">Status: {{ station.online === false ? 'Offline' : 'Online' }}
-                        </p>
+                        <p v-if="station.shortInfo" class="station-short-info mb-2">{{ station.shortInfo }}</p>
+                        <p class="station-meta-line mb-2">{{ station.style || 'Murattal' }}</p>
                       </div>
-                      <button class="btn btn-icon like-button p-2" @click="toggleLike(station)"
-                        :aria-label="isLiked(station.id) ? 'Unlike station' : 'Like station'"
-                        :aria-pressed="isLiked(station.id)">
-                        <i :class="isLiked(station.id) ? 'bi bi-heart-fill text-danger' : 'bi bi-heart'"
-                          class="like-icon fs-5"></i>
-                      </button>
+                      <div class="d-flex align-items-center gap-2">
+                        <button class="btn btn-icon like-button p-2" @click="toggleLike(station)"
+                          :aria-label="isLiked(station.id) ? 'Unlike station' : 'Like station'"
+                          :aria-pressed="isLiked(station.id)">
+                          <i :class="isLiked(station.id) ? 'bi bi-heart-fill text-danger' : 'bi bi-heart'"
+                            class="like-icon fs-5"></i>
+                        </button>
+                        <button class="btn btn-icon station-info-btn p-2" @click="openStationInfo(station)"
+                          :aria-label="`More info about ${station.name}`" title="More info">
+                          <i class="bi bi-info-circle"></i>
+                        </button>
+                      </div>
                     </div>
                     <div class="d-flex align-items-center justify-content-between mt-2">
-                      <div class="d-flex align-items-center gap-2 fs-sm" style="color:#334155;">
-                        <span :title="`${station.listeners} listeners`"
-                          style="display:inline-flex;align-items:center;gap:.35rem;padding:.15rem .5rem;border-radius:999px;background:#f0fdfa;border:1px solid rgba(6,182,172,.25);">
-                          <i class="bi bi-headphones" style="color:#0bb39a"></i> {{ station.listeners }}
-                        </span>
-                        <span v-if="currentPlayingStationId === station.id && isPlaying(station.id)" class="fw-semibold"
-                          style="display:inline-flex;align-items:center;gap:.35rem;padding:.15rem .5rem;border-radius:999px;background:#e6fffb;color:#04786b;border:1px solid rgba(6,182,172,.3);">
-                          <i class="bi bi-music-note-beamed"></i> Live
-                        </span>
-                        <span class="badge" :class="getStationStatus(station.id).class"
-                          style="display:inline-flex;align-items:center;padding:.15rem .5rem;border-radius:999px;background:#e6fffb;color:#04786b;border:1px solid rgba(6,182,172,.3);">
-                          {{ getStationStatus(station.id).text }}
-                        </span>
+                      <div class="d-flex align-items-center gap-2 fs-sm station-meta-line">
+                        <span :title="`${station.listeners} listeners`"><i class="bi bi-headphones me-1" aria-hidden="true"></i>{{ station.listeners }}</span>
+                        <span v-if="currentPlayingStationId === station.id && isPlaying(station.id)" class="fw-semibold">Now Playing</span>
+                        <span>{{ getStationStatus(station.id).text }}</span>
                       </div>
                       <button v-if="station.online !== false" @click="togglePlay(station.id)"
                         class="control-btn play-pause p-0"
@@ -419,6 +434,41 @@
       </section>
 
     </div>
+
+    <transition name="fade">
+      <div
+        v-if="selectedStationForInfo"
+        class="imam-modal-backdrop"
+        @click.self="closeStationInfo"
+      >
+        <div class="imam-modal" role="dialog" aria-modal="true" :aria-label="`About ${selectedStationForInfo.name}`">
+          <div class="d-flex align-items-start justify-content-between gap-3 mb-3">
+            <div class="d-flex align-items-start gap-3">
+              <img
+                :src="selectedStationForInfo.imageUrl"
+                :alt="`${selectedStationForInfo.name} image`"
+                class="station-avatar station-avatar-lg"
+                @error="handleStationImageError(selectedStationForInfo)"
+              />
+              <div>
+                <h4 class="mb-1">{{ selectedStationForInfo.name }}</h4>
+                <p class="text-muted mb-2 recitation-meta">
+                  {{ selectedStationForInfo.category || 'Recitation' }}
+                  <span v-if="selectedStationForInfo.country" class="ms-1">· {{ selectedStationForInfo.country }}</span>
+                </p>
+                <p class="station-meta-line mb-0">{{ selectedStationForInfo.style || 'Murattal' }}</p>
+              </div>
+            </div>
+            <button class="btn btn-sm btn-outline-secondary" @click="closeStationInfo" aria-label="Close imam details">
+              <i class="bi bi-x-lg"></i>
+            </button>
+          </div>
+          <p class="mb-0 imam-long-info">
+            {{ selectedStationForInfo.longInfo || selectedStationForInfo.shortInfo || 'Biography is not available yet for this reciter.' }}
+          </p>
+        </div>
+      </div>
+    </transition>
 
     <!-- Global Audio Player -->
     <transition name="global-audio-player">
@@ -484,6 +534,111 @@ const storageUserId = ref(resolveClientUserId());
 const isAuthenticated = ref(!!storageUserId.value);
 const loginWarnings = reactive({});
 const warningTimers = {};
+const selectedStationForInfo = ref(null);
+
+const sanitizeName = (value = '') => value.toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
+const DEFAULT_IMAM_IMAGE_URL = 'https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png';
+const buildReciterImageUrl = () => DEFAULT_IMAM_IMAGE_URL;
+const wikiImageCache = reactive({});
+const wikiTitleMap = markRaw({
+  'mishary rashid alafasy': 'Mishary_Rashid_Alafasy',
+  'yasser al dosari': 'Yasser_Al_Dosari',
+  'abdul basit abdul samad': 'Abdul_Basit_%27Abd_us-Samad',
+  'saad al ghamdi': 'Saad_Al-Ghamdi',
+  'maher al muaiqly': 'Maher_Al_Muaiqly',
+  'abdul rahman al sudais': 'Abdul_Rahman_Al-Sudais',
+  'saud al shuraim': 'Saud_Al-Shuraim',
+  'ahmad al ajmi': 'Ahmed_Al-Ajmi',
+  'mahmoud khalil al hussary': 'Mahmoud_Khalil_Al-Hussary',
+  'nasser al qatami': 'Nasser_Al-Qatami',
+  'ali jaber': 'Ali_bin_Abdul_Rahman_Al_Huthaify',
+  'muhammad al luhaidan': 'Muhammad_Ayyub'
+});
+
+const fetchWikipediaImage = async (name) => {
+  const normalized = sanitizeName(name);
+  if (!normalized) return DEFAULT_IMAM_IMAGE_URL;
+  if (wikiImageCache[normalized]) return wikiImageCache[normalized];
+
+  const title = wikiTitleMap[normalized] || encodeURIComponent(name.trim().replace(/\s+/g, '_'));
+  try {
+    const res = await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${title}`);
+    if (!res.ok) throw new Error(`Wikipedia ${res.status}`);
+    const data = await res.json();
+    const image = data?.thumbnail?.source || DEFAULT_IMAM_IMAGE_URL;
+    wikiImageCache[normalized] = image;
+    return image;
+  } catch {
+    wikiImageCache[normalized] = DEFAULT_IMAM_IMAGE_URL;
+    return DEFAULT_IMAM_IMAGE_URL;
+  }
+};
+
+const imamProfileIndex = markRaw({
+  'mishary rashid alafasy': {
+    imageUrl: buildReciterImageUrl('Mishary Rashid Alafasy'),
+    shortInfo: 'Kuwaiti reciter known for clear articulation and balanced murattal flow.',
+    longInfo: 'Mishary Rashid Alafasy is widely recognized for precise tajwid and a steady pace that supports memorization and attentive listening. His recitation style is often used by students who want consistent rhythm and clear pronunciation.'
+  },
+  'yasser al dosari': {
+    imageUrl: buildReciterImageUrl('Yasser Al-Dosari'),
+    shortInfo: 'Saudi reciter with emotive, reflective delivery.',
+    longInfo: 'Yasser Al-Dosari is known for expressive recitation that blends clarity with emotional depth. His station is often preferred for reflective listening and focused revision sessions.'
+  },
+  'abdul basit abdul samad': {
+    imageUrl: buildReciterImageUrl('Abdul Basit Abdul Samad'),
+    shortInfo: 'Legendary Egyptian reciter with a classic mujawwad tradition.',
+    longInfo: 'Abdul Basit Abdul Samad remains one of the most influential Qur an reciters globally. His powerful breath control and distinct tonal style shaped generations of recitation practice.'
+  },
+  'saad al ghamdi': {
+    imageUrl: buildReciterImageUrl('Saad Al-Ghamdi'),
+    shortInfo: 'Saudi reciter known for smooth pacing and classroom-friendly style.',
+    longInfo: 'Saad Al-Ghamdi is frequently chosen for daily review and repetition because his recitation is stable and easy to follow over longer sessions.'
+  },
+  'maher al muaiqly': {
+    imageUrl: buildReciterImageUrl('Maher Al-Muaiqly'),
+    shortInfo: 'Saudi imam with measured, calm, and highly structured recitation.',
+    longInfo: 'Maher Al-Muaiqly is known for balanced tempo and clean articulation. Many learners use his recordings to support tajwid correction and consistent memorization cycles.'
+  },
+  'abdul rahman al sudais': {
+    imageUrl: buildReciterImageUrl('Abdul Rahman Al-Sudais'),
+    shortInfo: 'Makkah imam with recognizable tone and strong cadence.',
+    longInfo: 'Abdul Rahman Al-Sudais is globally recognized through his leadership in the Haram. His recitation style emphasizes strong cadence and clear phrase boundaries.'
+  },
+  'saud al shuraim': {
+    imageUrl: buildReciterImageUrl('Saud Al-Shuraim'),
+    shortInfo: 'Saudi reciter with deliberate timing and well-marked stops.',
+    longInfo: 'Saud Al-Shuraim is known for disciplined pacing and a recitation pattern that helps listeners identify waqf points and verse structure.'
+  },
+  'ahmad al ajmi': {
+    imageUrl: buildReciterImageUrl('Ahmad Al-Ajmi'),
+    shortInfo: 'Saudi reciter with soft, melodic murattal delivery.',
+    longInfo: 'Ahmad Al-Ajmi is appreciated for a calm voice profile and smooth transitions, making his station useful for both passive listening and active review.'
+  },
+  'mahmoud khalil al hussary': {
+    imageUrl: buildReciterImageUrl('Mahmoud Khalil Al-Hussary'),
+    shortInfo: 'Egyptian master reciter famous for tajwid precision.',
+    longInfo: 'Mahmoud Khalil Al-Hussary is often used as a reference for tajwid accuracy. His recitation is methodical and widely trusted for pronunciation training.'
+  },
+  'nasser al qatami': {
+    imageUrl: buildReciterImageUrl('Nasser Al Qatami'),
+    shortInfo: 'Saudi reciter with strong vocal texture and clear rhythm.',
+    longInfo: 'Nasser Al-Qatami combines clear rhythm with expressive tone, making his station suitable for users who prefer energetic yet controlled delivery.'
+  },
+  'ali jaber': {
+    imageUrl: buildReciterImageUrl('Ali Jaber'),
+    shortInfo: 'Classic Makkah style with composed and dignified cadence.',
+    longInfo: 'Ali Jaber remains highly respected for his elegant, measured recitation style. His recordings are often revisited for traditional cadence and clarity.'
+  },
+  'muhammad al luhaidan': {
+    imageUrl: buildReciterImageUrl('Muhammad Al-Luhaidan'),
+    shortInfo: 'Saudi reciter with reflective tone and balanced tempo.',
+    longInfo: 'Muhammad Al-Luhaidan is known for reflective pacing and smooth tonal movement across longer passages, useful for sustained listening sessions.'
+  }
+});
+
+const alquranMetaByIdentifier = ref({});
+const alquranMetaByName = ref({});
 
 const defaultPopularReciters = markRaw([
   {
@@ -493,7 +648,7 @@ const defaultPopularReciters = markRaw([
     fallbackUrl: 'https://backup.qurango.net/mishary_alafasy.mp3',
     style: 'Murattal',
     country: 'Kuwait',
-    imageUrl: 'images/mra.jpeg',
+    imageUrl: buildReciterImageUrl('Mishary Rashid Alafasy'),
     imageLoaded: true
   },
   {
@@ -503,7 +658,7 @@ const defaultPopularReciters = markRaw([
     fallbackUrl: 'https://backup.qurango.net/yasser_aldosari.mp3',
     style: 'Murattal',
     country: 'Saudi Arabia',
-    imageUrl: 'images/yad.webp',
+    imageUrl: buildReciterImageUrl('Yasser Al-Dosari'),
     imageLoaded: true
   },
   {
@@ -513,7 +668,7 @@ const defaultPopularReciters = markRaw([
     fallbackUrl: 'https://backup.qurango.net/abdulbasit_abdulsamad.mp3',
     style: 'Mujawwad',
     country: 'Egypt',
-    imageUrl: 'images/abas.jpeg',
+    imageUrl: buildReciterImageUrl('Abdul Basit Abdul Samad'),
     imageLoaded: true
   },
   {
@@ -523,7 +678,7 @@ const defaultPopularReciters = markRaw([
     fallbackUrl: 'https://backup.qurango.net/saad_alghamdi.mp3',
     style: 'Murattal',
     country: 'Saudi Arabia',
-    imageUrl: 'images/sag.webp',
+    imageUrl: buildReciterImageUrl('Saad Al-Ghamdi'),
     imageLoaded: true
   },
   {
@@ -533,7 +688,7 @@ const defaultPopularReciters = markRaw([
     fallbackUrl: 'https://backup.qurango.net/maher_almuaiqly.mp3',
     style: 'Murattal',
     country: 'Saudi Arabia',
-    imageUrl: 'images/mam.webp',
+    imageUrl: buildReciterImageUrl('Maher Al-Muaiqly'),
     imageLoaded: true
   },
   {
@@ -543,7 +698,7 @@ const defaultPopularReciters = markRaw([
     fallbackUrl: 'https://backup.qurango.net/abdurrahman_alsudais.mp3',
     style: 'Murattal',
     country: 'Saudi Arabia',
-    imageUrl: 'images/asds.jpeg',
+    imageUrl: buildReciterImageUrl('Abdul Rahman Al-Sudais'),
     imageLoaded: true
   },
   {
@@ -553,7 +708,7 @@ const defaultPopularReciters = markRaw([
     fallbackUrl: 'https://backup.qurango.net/saud_alshuraim.mp3',
     style: 'Murattal',
     country: 'Saudi Arabia',
-    imageUrl: 'images/sas.jpeg',
+    imageUrl: buildReciterImageUrl('Saud Al-Shuraim'),
     imageLoaded: true
   },
   {
@@ -563,7 +718,7 @@ const defaultPopularReciters = markRaw([
     fallbackUrl: 'https://backup.qurango.net/ahmad_alajmi.mp3',
     style: 'Murattal',
     country: 'Saudi Arabia',
-    imageUrl: 'images/aaa.webp',
+    imageUrl: buildReciterImageUrl('Ahmad Al-Ajmi'),
     imageLoaded: true
   },
   {
@@ -573,7 +728,7 @@ const defaultPopularReciters = markRaw([
     fallbackUrl: 'https://backup.qurango.net/mahmoud_khalil_alhussary.mp3',
     style: 'Murattal',
     country: 'Egypt',
-    imageUrl: 'images/mkh.webp',
+    imageUrl: buildReciterImageUrl('Mahmoud Khalil Al-Hussary'),
     imageLoaded: true
   },
   {
@@ -583,7 +738,7 @@ const defaultPopularReciters = markRaw([
     fallbackUrl: 'https://backup.qurango.net/nasser_alqatami.mp3',
     style: 'Murattal',
     country: 'Saudi Arabia',
-    imageUrl: 'images/naq.webp',
+    imageUrl: buildReciterImageUrl('Nasser Al Qatami'),
     imageLoaded: true
   },
   {
@@ -593,7 +748,7 @@ const defaultPopularReciters = markRaw([
     fallbackUrl: 'https://backup.qurango.net/ali_jaber.mp3',
     style: 'Murattal',
     country: 'Saudi Arabia',
-    imageUrl: 'images/aj.webp',
+    imageUrl: buildReciterImageUrl('Ali Jaber'),
     imageLoaded: true
   },
   {
@@ -603,7 +758,7 @@ const defaultPopularReciters = markRaw([
     fallbackUrl: 'https://backup.qurango.net/muhammad_alluhaidan.mp3',
     style: 'Murattal',
     country: 'Saudi Arabia',
-    imageUrl: 'images/mal.webp',
+    imageUrl: buildReciterImageUrl('Muhammad Al-Luhaidan'),
     imageLoaded: true
   }
 ]);
@@ -856,6 +1011,115 @@ const initializeAudio = async (id) => {
   }
 };
 
+const resolveProfile = (name) => {
+  const normalized = sanitizeName(name);
+  if (!normalized) return null;
+  if (imamProfileIndex[normalized]) return imamProfileIndex[normalized];
+  const foundKey = Object.keys(imamProfileIndex).find((key) => normalized.includes(key) || key.includes(normalized));
+  return foundKey ? imamProfileIndex[foundKey] : null;
+};
+
+const resolveAlquranMeta = (station) => {
+  const normalized = sanitizeName(station.name);
+  if (!normalized) return null;
+  if (alquranMetaByName.value[normalized]) return alquranMetaByName.value[normalized];
+  const foundKey = Object.keys(alquranMetaByName.value).find((key) => normalized.includes(key) || key.includes(normalized));
+  return foundKey ? alquranMetaByName.value[foundKey] : null;
+};
+
+const enrichStation = (station) => {
+  const profile = resolveProfile(station.name);
+  const meta = resolveAlquranMeta(station);
+  const primaryImage =
+    typeof station.imageUrl === 'string' && station.imageUrl.startsWith('http')
+      ? station.imageUrl
+      : buildReciterImageUrl(station.name);
+  const metadata = {
+    source: 'Quran Radio',
+    identifier: (meta?.identifier || 'reciter').replace(/^ar\./i, ''),
+    language: meta?.language || 'ar',
+    format: meta?.format || 'audio',
+    type: meta?.type || station.category || 'recitation'
+  };
+
+  return {
+    ...station,
+    imageUrl: primaryImage || profile?.imageUrl || buildReciterImageUrl(station.name),
+    shortInfo: profile?.shortInfo || '',
+    longInfo: profile?.longInfo || 'No long biography is currently available for this reciter.',
+    metadata
+  };
+};
+
+const hydrateStationImages = async (stationList = []) => {
+  await Promise.all(
+    stationList.map(async (station) => {
+      if (!station?.name) return;
+      const image = await fetchWikipediaImage(station.name);
+      if (image) {
+        station.imageUrl = image;
+      }
+    })
+  );
+};
+
+const fetchAlquranReciterMetadata = async () => {
+  try {
+    const response = await fetch('https://api.alquran.cloud/v1/edition/format/audio');
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    const payload = await response.json();
+    const editions = Array.isArray(payload?.data) ? payload.data : [];
+    const identifierMap = {};
+    const nameMap = {};
+
+    editions.forEach((edition) => {
+      if (!edition?.identifier) return;
+      const item = {
+        identifier: edition.identifier,
+        englishName: edition.englishName || edition.name || 'Unknown',
+        language: edition.language || 'ar',
+        format: edition.format || 'audio',
+        type: edition.type || 'recitation'
+      };
+      identifierMap[item.identifier] = item;
+      const nameKey = sanitizeName(item.englishName);
+      if (nameKey && !nameMap[nameKey]) {
+        nameMap[nameKey] = item;
+      }
+    });
+
+    alquranMetaByIdentifier.value = identifierMap;
+    alquranMetaByName.value = nameMap;
+  } catch (error) {
+    console.warn('Unable to fetch reciter metadata', error);
+  }
+};
+
+const openStationInfo = (station) => {
+  const enriched = enrichStation(station);
+  selectedStationForInfo.value = enriched;
+  fetchWikipediaImage(enriched.name).then((image) => {
+    if (!image || !selectedStationForInfo.value) return;
+    if (selectedStationForInfo.value.id === enriched.id) {
+      selectedStationForInfo.value.imageUrl = image;
+    }
+  });
+};
+
+const closeStationInfo = () => {
+  selectedStationForInfo.value = null;
+};
+
+const onGlobalKeydown = (event) => {
+  if (event.key === 'Escape' && selectedStationForInfo.value) {
+    closeStationInfo();
+  }
+};
+
+const handleStationImageError = (station) => {
+  station.imageUrl = DEFAULT_IMAM_IMAGE_URL;
+};
+
 const pauseAllAudio = () => {
   if (currentAudio.value) {
     // Find id of current audio
@@ -973,6 +1237,7 @@ const fetchStations = async () => {
   isLoading.value = true;
   fetchError.value = null;
   try {
+    await fetchAlquranReciterMetadata();
     const response = await fetch('https://mp3quran.net/api/v3/radios?language=eng');
     if (!response.ok) throw new Error(`HTTP error: ${response.status}`);
     const data = await response.json();
@@ -981,19 +1246,20 @@ const fetchStations = async () => {
       name: radio.name,
       url: radio.url,
       category: radio.category || assignCategory(radio.name),
-      imageUrl: radio.image || 'https://via.placeholder.com/80',
+      imageUrl: radio.image || buildReciterImageUrl(radio.name),
       imageLoaded: true,
       listeners: Math.floor(Math.random() * (1500 - 50) + 50) // Simulated listeners
-    }));
+    })).map(enrichStation);
     const defaultStationsWithListeners = defaultPopularReciters.map(station => ({
       ...station,
       listeners: Math.floor(Math.random() * (2500 - 200) + 200) // Higher listener count for popular ones
-    }));
+    })).map(enrichStation);
 
     stations.value = [
       ...defaultStationsWithListeners,
       ...apiStations.filter(apiStation => !defaultStationsWithListeners.some(pr => pr.id === apiStation.id)),
     ].filter(station => isValidUrl(station.url));
+    await hydrateStationImages(stations.value.slice(0, 40));
 
     filteredStations.value = stations.value;
     initializeVolumes();
@@ -1002,7 +1268,8 @@ const fetchStations = async () => {
   } catch (error) {
     console.error('Failed to fetch stations:', error);
     fetchError.value = 'Failed to load stations. Using default reciters.';
-    stations.value = [...defaultPopularReciters].filter(station => isValidUrl(station.url));
+    stations.value = [...defaultPopularReciters].map(enrichStation).filter(station => isValidUrl(station.url));
+    await hydrateStationImages(stations.value.slice(0, 40));
     filteredStations.value = stations.value;
     initializeVolumes();
   } finally {
@@ -1398,6 +1665,7 @@ const nextStation = () => {
 onMounted(() => {
   resolveStorageScope();
   fetchStations();
+  window.addEventListener('keydown', onGlobalKeydown);
   // Initialize infinite scroll observer after initial fetch completes
   // A slight delay ensures the sentinel is in the DOM
   setTimeout(() => setupObserver(), 0);
@@ -1406,6 +1674,7 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
   clearInterval(listenerInterval);
+  window.removeEventListener('keydown', onGlobalKeydown);
   Object.values(warningTimers).forEach((timerId) => clearTimeout(timerId));
   if (observer) observer.disconnect();
 });
@@ -1439,6 +1708,136 @@ const playAudio = (index) => {
 .slide-fade-leave-active {
   transition: all 0.35s ease;
   overflow: hidden;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.2s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+.radio-shell {
+  border-radius: 28px;
+  background:
+    radial-gradient(1200px 420px at 12% -18%, rgba(16, 185, 129, 0.12), transparent 52%),
+    radial-gradient(980px 380px at 95% -26%, rgba(14, 165, 233, 0.12), transparent 58%),
+    linear-gradient(180deg, #f8fbff 0%, #f6fffc 48%, #f7fafc 100%);
+  border: 1px solid rgba(148, 163, 184, 0.24);
+  box-shadow: 0 18px 44px rgba(15, 23, 42, 0.08);
+}
+
+.station-content {
+  gap: 0.75rem;
+}
+
+.station-title {
+  display: block;
+  line-height: 1.2;
+  margin-bottom: 0.28rem;
+  color: #0b1320;
+  font-weight: 800 !important;
+  letter-spacing: -0.01em;
+}
+
+.station-avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  object-fit: cover;
+  border: 1px solid rgba(6, 182, 172, 0.2);
+  box-shadow: 0 8px 18px rgba(15, 23, 42, 0.12);
+  flex-shrink: 0;
+}
+
+.station-avatar-lg {
+  width: 74px;
+  height: 74px;
+}
+
+.station-short-info {
+  font-size: 0.9rem;
+  color: #475569;
+  line-height: 1.35;
+}
+
+.recitation-meta {
+  display: block;
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: 600;
+}
+
+.station-meta-line {
+  font-size: 0.8rem;
+  color: #64748b;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.station-info-btn {
+  border-radius: 12px;
+  border: 1px solid #dbe3ef;
+  color: #0f766e;
+}
+
+.station-info-btn:hover {
+  background: #ecfdf5;
+}
+
+.station-list-item,
+.station-card-focusable {
+  border-radius: 20px !important;
+  border: 1px solid rgba(14, 116, 144, 0.2) !important;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.98) 0%, rgba(247, 255, 252, 0.98) 100%) !important;
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08) !important;
+  transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease !important;
+}
+
+.station-list-item:hover,
+.station-card-focusable:hover {
+  transform: translateY(-3px);
+  border-color: rgba(20, 184, 166, 0.35) !important;
+  box-shadow: 0 20px 35px rgba(2, 44, 34, 0.14) !important;
+}
+
+.station-list-item.active-card,
+.station-card-focusable.active-card {
+  border-color: rgba(13, 148, 136, 0.58) !important;
+  box-shadow: 0 0 0 2px rgba(13, 148, 136, 0.14), 0 16px 30px rgba(2, 44, 34, 0.16) !important;
+}
+
+.imam-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1500;
+  background: rgba(2, 6, 23, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.imam-modal {
+  width: min(720px, 100%);
+  max-height: 88vh;
+  overflow-y: auto;
+  border-radius: 18px;
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  background: linear-gradient(155deg, #ffffff 0%, #f8fffe 55%, #eefcf9 100%);
+  box-shadow: 0 24px 45px rgba(2, 6, 23, 0.3);
+  padding: 1.2rem;
+}
+
+.imam-long-info {
+  color: #1e293b;
+  line-height: 1.6;
 }
 
 .slide-fade-enter-from,
@@ -2184,6 +2583,33 @@ mark {
 
   .container {
     padding: 1rem 0.5rem;
+  }
+
+  .radio-shell {
+    border-radius: 18px;
+  }
+
+  .station-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+  }
+
+  .station-avatar-lg {
+    width: 60px;
+    height: 60px;
+  }
+
+  .station-short-info {
+    font-size: 0.84rem;
+  }
+
+  .station-meta-line {
+    font-size: 0.72rem;
+  }
+
+  .imam-modal {
+    padding: 0.9rem;
   }
 
   .radio-card {

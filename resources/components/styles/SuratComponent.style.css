@@ -5578,10 +5578,68 @@
 
 :deep(.ayah-word) {
     display: inline-block;
+    position: relative;
     text-align: center;
     vertical-align: top;
     margin: 0 4px;
     white-space: nowrap;
+    cursor: default;
+    transition: transform 0.14s ease, filter 0.14s ease;
+    will-change: transform;
+}
+
+:deep(.ayah-word.has-tooltip) {
+    cursor: pointer;
+}
+
+:deep(.ayah-word.has-tooltip:hover) {
+    transform: translateY(-1px);
+}
+
+:deep(.ayah-word.has-tooltip)::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%) translateY(4px) scale(0.98);
+    max-width: min(300px, 88vw);
+    padding: 8px 12px;
+    border-radius: 10px;
+    background: rgba(15, 32, 45, 0.95);
+    color: #fff;
+    font-size: 14px;
+    line-height: 1.35;
+    font-weight: 600;
+    white-space: normal;
+    text-align: center;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 25;
+    transition: opacity 0.14s ease, transform 0.14s ease;
+    box-shadow: 0 8px 18px rgba(10, 20, 30, 0.25);
+}
+
+:deep(.ayah-word.has-tooltip)::before {
+    content: "";
+    position: absolute;
+    bottom: calc(100% + 2px);
+    left: 50%;
+    transform: translateX(-50%) translateY(4px);
+    border-width: 6px 6px 0 6px;
+    border-style: solid;
+    border-color: rgba(15, 32, 45, 0.95) transparent transparent transparent;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 24;
+    transition: opacity 0.14s ease, transform 0.14s ease;
+}
+
+:deep(.ayah-word.has-tooltip:hover)::after,
+:deep(.ayah-word.has-tooltip:hover)::before,
+:deep(.ayah-word.has-tooltip:focus-visible)::after,
+:deep(.ayah-word.has-tooltip:focus-visible)::before {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0) scale(1);
 }
 
 :deep(.ayah-word-ar) {
@@ -5592,10 +5650,10 @@
     direction: ltr;
     unicode-bidi: plaintext;
     display: block;
-    font-size: 0.5em;
-    font-weight: 400;
-    line-height: 1.2;
-    margin-top: 2px;
+    font-size: 0.64em;
+    font-weight: 500;
+    line-height: 1.3;
+    margin-top: 3px;
     text-align: center;
 }
 
@@ -5625,6 +5683,13 @@
     :deep(.ayah-word-translation) {
         white-space: normal;
         word-break: break-word;
+    }
+}
+
+@media (hover: none) {
+    :deep(.ayah-word.has-tooltip)::after,
+    :deep(.ayah-word.has-tooltip)::before {
+        display: none;
     }
 }
 
@@ -6504,6 +6569,7 @@ h1.display-5 {
         min-width: 100%;
         flex: 1 1 100%;
     }
+
 }
 
 .quran-toolbar-surah-identity {
@@ -6739,6 +6805,7 @@ h1.display-5 {
     background: rgba(11, 128, 111, 0.14);
     color: #0b6b59;
 }
+
 
 .quran-toolbar-btn-search-toggle {
     border-color: rgba(11, 107, 89, 0.34);

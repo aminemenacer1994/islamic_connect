@@ -1,7 +1,7 @@
 <template>
     <div class="container  surat-premium"
         :class="{
-            'has-audio-player': showAudioPlayer,
+            'has-audio-player': bottomAudioPlayerEnabled && showAudioPlayer && !isSingleWordPreviewActive,
             'has-sidebar': true,
             'sidebar-collapsed': sidebarCollapsed,
             'mobile-toolbar-pinned': isTabletOrMobile && isToolbarPinned,
@@ -831,13 +831,6 @@
                                 </option>
                             </select>
                         </div>
-                        <div class="quran-toolbar-reciter memorisation-reciter-group">
-                            <label class="memorisation-inline-label" for="memorisationPlaybackSpeedSelect">Playback speed</label>
-                            <select id="memorisationPlaybackSpeedSelect" class="form-select quran-toolbar-select" v-model="playbackSpeed" aria-label="Select playback speed">
-                                <option v-for="speed in playbackSpeeds" :key="speed" :value="speed">{{ speed }}x Speed</option>
-                            </select>
-                        </div>
-
                         <button type="button" 
                                 class="quran-toolbar-btn quran-toolbar-btn-focus-mode" 
                                 :class="{ 'is-enabled': isMemorisationMode }" 
@@ -908,6 +901,26 @@
                             <i class="bi bi-translate" aria-hidden="true"></i>
                             <span class="quran-toolbar-btn-text">Word Translation</span>
                         </button>
+                        <button
+                                type="button"
+                                class="quran-toolbar-btn quran-toolbar-btn-toggle"
+                                :class="{ 'is-enabled': showWordTranslationTooltip }"
+                                @click="showWordTranslationTooltip = !showWordTranslationTooltip"
+                                :title="showWordTranslationTooltip
+                                    ? 'Disable word tooltip and single-word tap audio'
+                                    : 'Enable word tooltip and single-word tap audio'">
+                            <i class="bi bi-info-circle" aria-hidden="true"></i>
+                            <span class="quran-toolbar-btn-text">Word Audio</span>
+                        </button>
+                        <button
+                            type="button"
+                            class="quran-toolbar-btn quran-toolbar-btn-sm"
+                            data-bs-toggle="modal"
+                            data-bs-target="#hifdhPlanModal">
+                            <i class="bi bi-calendar-check-fill" aria-hidden="true"></i>
+                            <span class="quran-toolbar-btn-text">Today's Hifdh Plan</span>
+                            <span class="memorisation-plan-group-count ms-1">{{ todayHifdhPlanItemsOrdered.length }}</span>
+                        </button>
 
                         <div class="quran-toolbar-separator quran-toolbar-separator-purple"></div>
 
@@ -938,17 +951,6 @@
                         </button>
                     </div>
 
-                    <div class="hifdh-plan-launcher">
-                        <button
-                            type="button"
-                            class="quran-toolbar-btn quran-toolbar-btn-sm"
-                            data-bs-toggle="modal"
-                            data-bs-target="#hifdhPlanModal">
-                            <i class="bi bi-calendar-check-fill" aria-hidden="true"></i>
-                            <span class="quran-toolbar-btn-text">Today's Hifdh Plan</span>
-                            <span class="memorisation-plan-group-count ms-1">{{ todayHifdhPlanItemsOrdered.length }}</span>
-                        </button>
-                    </div>
                 </div>
             </div>
         </transition>
@@ -1650,6 +1652,7 @@
                                         },
                                     ]"
                                     v-html="highlightedText(item.ayah)"
+                                    @click="onAyahWordClick(item, $event)"
                                     :style="{ fontSize: effectiveArabicFontSize + 'px' }"
                                 ></p>
                                 <div v-if="isTranslationVisibleFor(item)" class="translation-header pt-2 ltr-text hide-on-mobile-tablet ml-2">
@@ -1745,6 +1748,7 @@
                                         },
                                     ]"
                                     v-html="highlightedText(item.ayah)"
+                                    @click="onAyahWordClick(item, $event)"
                                     :style="{ fontSize: effectiveArabicFontSize + 'px' }"
                                 ></p>
                                 <div v-if="isTranslationVisibleFor(item)" class="d-flex align-items-center fw-bold pt-2 ltr-text ml-2">
@@ -2223,6 +2227,19 @@
                                     Show a brief translation beneath each Arabic word.
                                 </small>
                             </div>
+                            <div class="surah-settings-group">
+                                <label class="form-label">Word tooltip + tap audio</label>
+                                <select
+                                    class="form-select"
+                                    v-model="settingsDraft.showWordTranslationTooltip"
+                                    aria-label="Word tooltip and tap audio">
+                                    <option :value="true">Enabled</option>
+                                    <option :value="false">Disabled</option>
+                                </select>
+                                <small class="text-muted d-block mt-1">
+                                    When enabled, hovering shows word translation and tapping a word plays only that word.
+                                </small>
+                            </div>
                         </div>
                         <div class="modal-footer border-0">
                             <button type="button" class="btn surah-settings-submit"
@@ -2537,7 +2554,7 @@
 
         <!-- Global Custom Audio Player -->
         <teleport to="body">
-            <div v-if="showAudioPlayer" class="audio-player-container">
+            <div v-if="bottomAudioPlayerEnabled && showAudioPlayer && !isSingleWordPreviewActive" class="audio-player-container">
                 <div class="custom-audio-player">
                     <div class="controls">
                         <button @click="rewindAudio(currentlyPlayingIndex)" class="control-btn" title="Rewind"

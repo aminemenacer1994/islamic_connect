@@ -448,14 +448,19 @@ export default {
             showTajweed: false,
             showRealtimeHighlighting: false,
             showWordTranslation: false,
+            showWordTranslationTooltip: false,
             realtimeHighlightPreferenceKey: "surat_realtime_highlighting",
             wordTranslationPreferenceKey: "surat_show_word_translation",
+            wordTranslationTooltipPreferenceKey:
+                "surat_show_word_translation_tooltip",
             progress: [],
             audioElements: [],
             playbackSpeed: 1.0,
             volume: 1.0,
             showVolumeBar: false,
             showAudioPlayer: false,
+            bottomAudioPlayerEnabled: true,
+            isSingleWordPreviewActive: false,
             isHighlighted: false,
             showScrollTop: false,
             // scrubbing state
@@ -475,8 +480,8 @@ export default {
             mobileSurahInfoCardStorageKey: "suratMobileSurahInfoCardHidden",
             continuousPlayback: false, // Legacy flag; new playbackMode supersedes it
             visualizerBars: Array(20).fill(10),
-            playbackSpeeds: [0.5, 0.75, 1, 1.25, 1.5, 2, 2.5],
-            currentSpeedIndex: 2,
+            playbackSpeeds: [1],
+            currentSpeedIndex: 0,
             playbackMode: "continuous",
             preferredPlaybackMode: "continuous",
             playbackModeOptions: [
@@ -545,6 +550,7 @@ export default {
             _surahAborter: null,
             // delayed spinner timers per index
             loadingTimers: [],
+            wordPreviewStopTimer: null,
             // virtualization
             itemHeight: 280,
             windowSize: 22,
@@ -666,6 +672,7 @@ export default {
                 showTajweed: false,
                 showRealtimeHighlighting: false,
                 showWordTranslation: false,
+                showWordTranslationTooltip: false,
                 playbackMode: "continuous",
             },
             tajweedRuleMap: {
@@ -1741,6 +1748,19 @@ export default {
                 );
             } catch (_) { }
         },
+        showWordTranslationTooltip(next) {
+            try {
+                localStorage.setItem(
+                    "suratShowWordTranslationTooltip",
+                    next ? "1" : "0"
+                );
+            } catch (_) {}
+            if (this.bookmarkAuthenticated) {
+                this.savePreference(this.wordTranslationTooltipPreferenceKey, {
+                    enabled: !!next,
+                });
+            }
+        },
         isMemorisationToolbarVisible(newVal) {
             this.persistLocalSetting("suratIsMemorisationToolbarVisible", newVal ? "1" : "0");
             // Mutual exclusion: Hide main toolbar when memorisation is active
@@ -1763,7 +1783,11 @@ export default {
             this.persistLocalSetting("suratIsTranslationVisible", newVal ? "1" : "0");
         },
         playbackSpeed(newVal) {
-            this.persistLocalSetting("playbackSpeed", newVal);
+            if (newVal !== 1) {
+                this.playbackSpeed = 1;
+                return;
+            }
+            this.persistLocalSetting("playbackSpeed", 1);
         },
     },
     created() {
@@ -1779,7 +1803,7 @@ export default {
         }
         window.addEventListener("keydown", this.onKeydown);
         this._keydownHandler = (e) => {
-            if (!this.showAudioPlayer) return;
+            if (!this.bottomAudioPlayerEnabled || !this.showAudioPlayer) return;
             if (["INPUT", "TEXTAREA"].includes((e.target || {}).tagName))
                 return;
             switch (e.key) {
@@ -1894,8 +1918,8 @@ export default {
         this.isHighlighted = false;
         this.continuousPlayback =
             JSON.parse(localStorage.getItem("continuousPlayback")) ?? false;
-        this.playbackSpeed =
-            JSON.parse(localStorage.getItem("playbackSpeed")) ?? 1;
+        this.playbackSpeed = 1;
+        this.currentSpeedIndex = 0;
         let storedPreferredPlaybackMode = null;
         let storedPlaybackMode = null;
         try {
@@ -1923,6 +1947,15 @@ export default {
             if (storedWordTranslation !== null)
                 this.showWordTranslation = storedWordTranslation === "1";
         } catch (_) { }
+        try {
+            const storedWordTranslationTooltip = localStorage.getItem(
+                "suratShowWordTranslationTooltip"
+            );
+            if (storedWordTranslationTooltip !== null) {
+                this.showWordTranslationTooltip =
+                    storedWordTranslationTooltip === "1";
+            }
+        } catch (_) {}
         try {
             const storedRealtimeHighlighting = localStorage.getItem(
                 "suratShowRealtimeHighlighting"
@@ -1989,64 +2022,65 @@ export default {
         beforeUnmount() {
             this.isComponentAlive = false;
             this.stopHighlightLoop();
-        this.syncReadingFullscreenBodyClass(false);
-        this.exitReadingFullscreen({
-            restoreFocus: false,
-            skipNativeExit: false,
-            persistPreference: false,
-        });
-        window.removeEventListener("keydown", this.onKeydown);
-        if (this._keydownHandler)
-            window.removeEventListener("keydown", this._keydownHandler);
-        if (typeof document !== "undefined" && this.fullscreenChangeHandler) {
-            document.removeEventListener(
-                "fullscreenchange",
-                this.fullscreenChangeHandler
-            );
-            document.removeEventListener(
-                "webkitfullscreenchange",
-                this.fullscreenChangeHandler
-            );
-            this.fullscreenChangeHandler = null;
-        }
-        window.removeEventListener("resize", this.updateIsMobile);
-        window.removeEventListener("scroll", this.onScrollVirtual);
-        window.removeEventListener("resize", this.computeListTop);
-        window.removeEventListener("resize", this.calibrateItemHeight);
-        if (this._boundMove) {
-            window.removeEventListener("mousemove", this._boundMove);
-            window.removeEventListener("touchmove", this._boundMove);
-        }
-        if (this._boundUp) {
-            window.removeEventListener("mouseup", this._boundUp);
-            window.removeEventListener("touchend", this._boundUp);
-        }
-        if (this.bookmarkEventHandler)
-            window.removeEventListener(
-                "bookmarks-updated",
-                this.bookmarkEventHandler
-            );
-        if (this.bookmarkStorageHandler)
-            window.removeEventListener("storage", this.bookmarkStorageHandler);
-        if (this.visibilityHandler)
-            window.removeEventListener(
-                "visibilitychange",
-                this.visibilityHandler
-            );
-        if (this.audioElements && this.audioElements.forEach) {
-            this.audioElements.forEach((audio) => {
-                if (audio && audio.pause) audio.pause();
-                if (audio && audio.remove) audio.remove();
+            this.clearWordPreviewStopTimer();
+            this.syncReadingFullscreenBodyClass(false);
+            this.exitReadingFullscreen({
+                restoreFocus: false,
+                skipNativeExit: false,
+                persistPreference: false,
             });
-        }
-        this.teardownSpeechRecognition();
-        clearTimeout(this.advancedSearchDebounceTimer);
-        this.abortAdvancedSearchRequest();
-        clearTimeout(this.savedAyahClearTimer);
-        clearTimeout(this.surahAudioDownloadedTimer);
-        this.surahAudioDownloadedTimer = null;
-        clearTimeout(this.bookmarkToastTimer);
-        this.bookmarkToastAction = null;
+            window.removeEventListener("keydown", this.onKeydown);
+            if (this._keydownHandler)
+                window.removeEventListener("keydown", this._keydownHandler);
+            if (typeof document !== "undefined" && this.fullscreenChangeHandler) {
+                document.removeEventListener(
+                    "fullscreenchange",
+                    this.fullscreenChangeHandler
+                );
+                document.removeEventListener(
+                    "webkitfullscreenchange",
+                    this.fullscreenChangeHandler
+                );
+                this.fullscreenChangeHandler = null;
+            }
+            window.removeEventListener("resize", this.updateIsMobile);
+            window.removeEventListener("scroll", this.onScrollVirtual);
+            window.removeEventListener("resize", this.computeListTop);
+            window.removeEventListener("resize", this.calibrateItemHeight);
+            if (this._boundMove) {
+                window.removeEventListener("mousemove", this._boundMove);
+                window.removeEventListener("touchmove", this._boundMove);
+            }
+            if (this._boundUp) {
+                window.removeEventListener("mouseup", this._boundUp);
+                window.removeEventListener("touchend", this._boundUp);
+            }
+            if (this.bookmarkEventHandler)
+                window.removeEventListener(
+                    "bookmarks-updated",
+                    this.bookmarkEventHandler
+                );
+            if (this.bookmarkStorageHandler)
+                window.removeEventListener("storage", this.bookmarkStorageHandler);
+            if (this.visibilityHandler)
+                window.removeEventListener(
+                    "visibilitychange",
+                    this.visibilityHandler
+                );
+            if (this.audioElements && this.audioElements.forEach) {
+                this.audioElements.forEach((audio) => {
+                    if (audio && audio.pause) audio.pause();
+                    if (audio && audio.remove) audio.remove();
+                });
+            }
+            this.teardownSpeechRecognition();
+            clearTimeout(this.advancedSearchDebounceTimer);
+            this.abortAdvancedSearchRequest();
+            clearTimeout(this.savedAyahClearTimer);
+            clearTimeout(this.surahAudioDownloadedTimer);
+            this.surahAudioDownloadedTimer = null;
+            clearTimeout(this.bookmarkToastTimer);
+            this.bookmarkToastAction = null;
         clearTimeout(this.fontPickerAlertTimer);
         this.fontPickerAlertTimer = null;
         clearTimeout(this.authAlertTimer);
@@ -3286,6 +3320,8 @@ export default {
             this.settingsDraft.showTajweed = !!this.showTajweed;
             this.settingsDraft.showRealtimeHighlighting = !!this.showRealtimeHighlighting;
             this.settingsDraft.showWordTranslation = !!this.showWordTranslation;
+            this.settingsDraft.showWordTranslationTooltip =
+                !!this.showWordTranslationTooltip;
             this.settingsDraft.playbackMode = this.playbackMode;
         },
         applyMemorisationRange() {
@@ -3871,6 +3907,8 @@ export default {
             this.showTajweed = !!this.settingsDraft.showTajweed;
             this.showRealtimeHighlighting = !!this.settingsDraft.showRealtimeHighlighting;
             this.showWordTranslation = !!this.settingsDraft.showWordTranslation;
+            this.showWordTranslationTooltip =
+                !!this.settingsDraft.showWordTranslationTooltip;
             if (this.settingsDraft.playbackMode) {
                 this.setPlaybackMode(this.settingsDraft.playbackMode);
             }
@@ -7124,7 +7162,8 @@ export default {
             }, delay);
         },
         getAudioPlayerHeight() {
-            if (!this.showAudioPlayer) return 0;
+            if (!this.bottomAudioPlayerEnabled || !this.showAudioPlayer)
+                return 0;
             if (typeof document !== "undefined") {
                 const container = document.querySelector(".audio-player-container");
                 if (container) {
@@ -7373,6 +7412,19 @@ export default {
                     const content = useTajweed
                         ? this.formatTajweedText(word)
                         : this.escapeHtml(word);
+                    const tooltipText = wordTranslations.length
+                        ? this.cleanWordTranslation(wordTranslations[index] || "")
+                        : "";
+                    const hasTooltip =
+                        this.showWordTranslationTooltip && !!tooltipText;
+                    const tooltipAttr = hasTooltip
+                        ? ` data-tooltip="${this.escapeHtmlAttribute(
+                            tooltipText
+                        )}" aria-label="${this.escapeHtmlAttribute(
+                            tooltipText
+                        )}"`
+                        : "";
+                    const tooltipClass = hasTooltip ? " has-tooltip" : "";
                     const translation = this.showWordTranslation && wordTranslations.length
                         ? this.escapeHtml(
                             this.cleanWordTranslation(
@@ -7380,7 +7432,7 @@ export default {
                             )
                         )
                         : "";
-                    return `<span class="ayah-word" data-word-index="${index}"><span class="ayah-word-ar">${content}</span>${translation ? `<span class="ayah-word-translation text-muted">${translation}</span>` : ""}</span>`;
+                    return `<span class="ayah-word${tooltipClass}" data-word-index="${index}"${tooltipAttr}><span class="ayah-word-ar">${content}</span>${translation ? `<span class="ayah-word-translation text-muted">${translation}</span>` : ""}</span>`;
                 })
                 .join(" ");
         },
@@ -7812,11 +7864,166 @@ export default {
             matches.forEach((el) => el.classList.add("highlighted-word"));
             this._lastHighlightEls = matches;
         },
+        async onAyahWordClick(item, event) {
+            const wordEl = event?.target?.closest?.("[data-word-index]");
+            if (!wordEl) return;
+            if (!this.showWordTranslationTooltip) return;
+            const displayWordIndex = Number(wordEl.getAttribute("data-word-index"));
+            if (!Number.isFinite(displayWordIndex) || displayWordIndex < 0) return;
+            event.stopPropagation();
+            await this.seekToAyahWord(item?.index, item?.ayah, displayWordIndex);
+        },
+        getAudioWordIndexFromDisplayIndex(ayah, displayWordIndex, audioWordCount) {
+            const baseWords = this.getAyahBaseWords(ayah);
+            const introCount = this.getAyahIntroWordCount(ayah, baseWords);
+            const displayCount = this.getAyahDisplayWords(ayah).length;
+            if (displayWordIndex < 0 || displayWordIndex >= displayCount) return null;
+            if (!introCount) return displayWordIndex;
+            if (displayCount === audioWordCount + introCount) {
+                const mapped = displayWordIndex - introCount;
+                return mapped >= 0 ? mapped : null;
+            }
+            return displayWordIndex;
+        },
+        async waitForAyahAudioMetadata(index, timeoutMs = 5000) {
+            const audio = this.audioElements?.[index];
+            if (!audio) return null;
+            if (Number.isFinite(audio.duration) && audio.duration > 0) {
+                return audio;
+            }
+            return new Promise((resolve) => {
+                let done = false;
+                const finish = (value) => {
+                    if (done) return;
+                    done = true;
+                    cleanup();
+                    resolve(value);
+                };
+                const onLoaded = () => finish(audio);
+                const onError = () => finish(null);
+                const timer = setTimeout(() => finish(null), timeoutMs);
+                const cleanup = () => {
+                    clearTimeout(timer);
+                    audio.removeEventListener("loadedmetadata", onLoaded);
+                    audio.removeEventListener("error", onError);
+                };
+                audio.addEventListener("loadedmetadata", onLoaded, { once: true });
+                audio.addEventListener("error", onError, { once: true });
+            });
+        },
+        getWordSeekTimeFromSegments(segments, audioWordIndex) {
+            if (!Array.isArray(segments) || !segments.length) return null;
+            let selected = null;
+            for (let i = 0; i < segments.length; i += 1) {
+                const seg = segments[i];
+                if (typeof seg?.wordIndex !== "number") continue;
+                if (seg.wordIndex < audioWordIndex) continue;
+                if (!selected || seg.wordIndex < selected.wordIndex) {
+                    selected = seg;
+                }
+                if (seg.wordIndex === audioWordIndex) break;
+            }
+            if (!selected || typeof selected.start !== "number") return null;
+            return Math.max(0, selected.start);
+        },
+        getWordEndTimeFromSegments(segments, audioWordIndex) {
+            if (!Array.isArray(segments) || !segments.length) return null;
+            let selected = null;
+            for (let i = 0; i < segments.length; i += 1) {
+                const seg = segments[i];
+                if (typeof seg?.wordIndex !== "number") continue;
+                if (seg.wordIndex < audioWordIndex) continue;
+                if (!selected || seg.wordIndex < selected.wordIndex) {
+                    selected = seg;
+                }
+                if (seg.wordIndex === audioWordIndex) break;
+            }
+            if (!selected || typeof selected.end !== "number") return null;
+            return Math.max(0, selected.end);
+        },
+        clearWordPreviewStopTimer() {
+            if (this.wordPreviewStopTimer) {
+                clearTimeout(this.wordPreviewStopTimer);
+                this.wordPreviewStopTimer = null;
+            }
+        },
+        scheduleWordPreviewStop(index, startTime, endTime, fallbackStep = 0.45) {
+            const audio = this.audioElements?.[index];
+            if (!audio) return;
+            this.clearWordPreviewStopTimer();
+            const safeStart = Number.isFinite(startTime) ? startTime : 0;
+            const safeEnd = Number.isFinite(endTime)
+                ? endTime
+                : safeStart + fallbackStep;
+            const delta = Math.max(0.08, safeEnd - safeStart + 0.03);
+            this.wordPreviewStopTimer = setTimeout(() => {
+                const active = this.audioElements?.[index];
+                if (!active) return;
+                active.pause();
+                this.isAudioPlaying[index] = false;
+                this.isAudioLoading[index] = false;
+                this.stopHighlightLoop();
+                this.isSingleWordPreviewActive = false;
+                this.wordPreviewStopTimer = null;
+            }, Math.max(80, Math.round((delta / 1) * 1000)));
+        },
+        async seekToAyahWord(index, ayah, displayWordIndex) {
+            if (!Number.isInteger(index) || index < 0) return;
+            const targetAyah = ayah || this.filteredAyahs?.[index];
+            if (!targetAyah || !targetAyah.audio) return;
+            this.isSingleWordPreviewActive = true;
+            this.showAudioPlayer = false;
+            const audioWordCount = this.getAyahAudioWordCount(targetAyah);
+            if (!audioWordCount) return;
+            const audioWordIndex = this.getAudioWordIndexFromDisplayIndex(
+                targetAyah,
+                displayWordIndex,
+                audioWordCount
+            );
+            if (audioWordIndex == null || audioWordIndex >= audioWordCount) return;
+            if (!this.isAudioPlaying[index] || this.currentlyPlayingIndex !== index) {
+                this.playAudio(index, { singleWordPreview: true });
+            }
+            const audio = await this.waitForAyahAudioMetadata(index);
+            if (!audio) return;
+            const duration = Number(audio.duration) || 0;
+            if (!duration) return;
+            const segmentStart = this.getWordSeekTimeFromSegments(
+                targetAyah.audioSegments,
+                audioWordIndex
+            );
+            const segmentEnd = this.getWordEndTimeFromSegments(
+                targetAyah.audioSegments,
+                audioWordIndex
+            );
+            let seekTo = segmentStart;
+            if (!Number.isFinite(seekTo)) {
+                seekTo = (audioWordIndex / audioWordCount) * duration;
+            }
+            const maxTime = Math.max(0, duration - 0.05);
+            const clampedStart = Math.min(maxTime, Math.max(0, seekTo));
+            audio.currentTime = clampedStart;
+            this.currentAudioIndex = index;
+            this._lastHighlightIndex = -1;
+            this.applyWordHighlight(displayWordIndex);
+            const fallbackStep = duration / Math.max(1, audioWordCount);
+            this.scheduleWordPreviewStop(
+                index,
+                clampedStart,
+                Number.isFinite(segmentEnd) ? segmentEnd : null,
+                fallbackStep
+            );
+        },
         escapeHtml(value) {
             return String(value)
                 .replace(/&/g, "&amp;")
                 .replace(/</g, "&lt;")
                 .replace(/>/g, "&gt;");
+        },
+        escapeHtmlAttribute(value) {
+            return this.escapeHtml(value)
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#39;");
         },
         formatTajweedText(value) {
             if (!value) return "";
@@ -7863,9 +8070,14 @@ export default {
             return output;
         },
         // removed bulk initialization and preloading for performance
-        playAudio: function (index) {
+        playAudio: function (index, options = {}) {
+            const isSingleWordPreview = !!options.singleWordPreview;
             console.log("Attempting to play audio for index:", index);
             if (index < 0 || index >= this.filteredAyahs.length) return;
+            if (!isSingleWordPreview) {
+                this.isSingleWordPreviewActive = false;
+            }
+            this.clearWordPreviewStopTimer();
             this._lastHighlightIndex = -1;
             this._lastSegmentIndex = -1;
             this.clearActiveWordHighlight();
@@ -7926,7 +8138,7 @@ export default {
                 } catch (_) { }
                 audio.src = ayah.audio || "";
             }
-            audio.playbackRate = this.playbackSpeed;
+            audio.playbackRate = 1;
             audio.volume = this.volume;
 
             // Update playing states
@@ -7962,7 +8174,8 @@ export default {
                 this.isAudioPlaying[index] = true;
                 this.isAudioLoading[index] = false;
                 this.isHighlighted = true;
-                this.showAudioPlayer = true;
+                this.showAudioPlayer =
+                    this.bottomAudioPlayerEnabled && !isSingleWordPreview;
                 if (this.showRealtimeHighlighting) {
                     this.startHighlightLoop();
                 } else {
@@ -8003,6 +8216,8 @@ export default {
         pauseAudio: function (index) {
             if (this.audioElements[index]) {
                 console.log(`Pausing audio for ayah ${index + 1}`);
+                this.clearWordPreviewStopTimer();
+                this.isSingleWordPreviewActive = false;
                 this.audioElements[index].pause();
                 clearTimeout(this.loadingTimers[index]);
                 this.isAudioPlaying[index] = false;
@@ -8024,6 +8239,8 @@ export default {
             }
         },
         stopAudio: function (index) {
+            this.clearWordPreviewStopTimer();
+            this.isSingleWordPreviewActive = false;
             if (this.countdownInterval) {
                 clearInterval(this.countdownInterval);
                 this.countdownInterval = null;
@@ -8089,7 +8306,7 @@ export default {
                 } catch (_) { }
             }
             a.volume = this.volume;
-            a.playbackRate = this.playbackSpeed;
+            a.playbackRate = 1;
         },
         updateProgress: function (index) {
             if (
@@ -9167,6 +9384,7 @@ export default {
             if (this.currentlyPlayingIndex !== null) {
                 this.stopAudio(this.currentlyPlayingIndex);
             }
+            this.clearWordPreviewStopTimer();
             this.showAudioPlayer = false;
             this.currentlyPlayingIndex = 0;
             this.currentlyPlaying = null;
@@ -9252,19 +9470,14 @@ export default {
             this.updateProgress(this.currentlyPlayingIndex);
         },
         cyclePlaybackSpeed: function () {
-            this.currentSpeedIndex =
-                (this.currentSpeedIndex + 1) % this.playbackSpeeds.length;
-            this.playbackSpeed = this.playbackSpeeds[this.currentSpeedIndex];
-
-            // Update all audio elements
+            this.currentSpeedIndex = 0;
+            this.playbackSpeed = 1;
             if (this.audioElements && this.audioElements.forEach) {
                 this.audioElements.forEach((audio) => {
-                    if (audio) audio.playbackRate = this.playbackSpeed;
+                    if (audio) audio.playbackRate = 1;
                 });
             }
-
-            this.savePreference("playbackSpeed", this.playbackSpeed);
-            console.log(`Playback speed set to ${this.playbackSpeed}x`);
+            this.savePreference("playbackSpeed", 1);
         },
         animateVisualizer: function () {
             if (!this.isAudioPlaying[this.currentlyPlayingIndex]) return;
