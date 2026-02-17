@@ -27,7 +27,7 @@
     --bs-info: #228B22;
     --bs-warning: #f59e0b;
     --bs-danger: #ef4444;
-    --ic-title-font-family: "Manrope", "Inter", "Segoe UI", sans-serif;
+    --ic-title-font-family: "Fraunces", "Playfair Display", Georgia, serif;
 }
 
 body {
@@ -61,6 +61,15 @@ h6,
 .section-title,
 .card-title,
 .modal-title {
+    font-family: var(--ic-title-font-family);
+}
+
+.display-1,
+.display-2,
+.display-3,
+.display-4,
+.display-5,
+.display-6 {
     font-family: var(--ic-title-font-family);
 }
 
