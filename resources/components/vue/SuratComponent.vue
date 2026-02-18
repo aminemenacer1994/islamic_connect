@@ -500,6 +500,43 @@
                 </section> 
             </div>
         </div>
+        <div
+            v-if="continueProgress && !continueProgressHidden"
+            class="continue-progress-banner ltr-text"
+            role="status"
+            aria-live="polite"
+            aria-atomic="true">
+            <div class="continue-progress-banner-main">
+                <span class="continue-progress-banner-eyebrow">Continue {{ continueProgress?.mode === "listening" ? "Listening" : "Reading" }}</span>
+                <div class="continue-progress-banner-title">
+                    Surah {{ continueProgress?.surahNumber }} · {{ getContinueProgressSurahName() }} · Ayah {{ continueProgress?.ayahNumber }}
+                </div>
+            </div>
+            <div class="continue-progress-banner-actions">
+                <button
+                    type="button"
+                    class="btn continue-progress-banner-btn"
+                    @click="resumeContinueProgress({ autoplay: continueProgress?.mode === 'listening' })">
+                    Continue now
+                </button>
+                <button
+                    type="button"
+                    class="btn continue-progress-banner-btn-secondary"
+                    @click="hideContinueProgressBanner()">
+                    Hide
+                </button>
+            </div>
+        </div>
+        <div
+            v-else-if="continueProgress && continueProgressHidden"
+            class="continue-progress-restore-wrap ltr-text">
+            <button
+                type="button"
+                class="btn continue-progress-restore-btn"
+                @click="showContinueProgressBanner()">
+                Show continue card
+            </button>
+        </div>
         <div v-if="(surahDetails || currentSurahInfo) && !isTabletOrMobile && (showDesktopToolbar || showDesktopSurahContext)"
             class="quran-toolbar-sticky ltr-text"
             :class="{
@@ -713,8 +750,9 @@
                  aria-label="Memorisation tools expanded">
                 
                 <div class="quran-toolbar memorisation-toolbar-purple memorisation-toolbar-two-rows">
-                    <!-- Row 1: Range, timing, repetition & playback (core memorisation flow) -->
+                    <!-- Row 1: Memorisation session setup -->
                     <div class="memorisation-toolbar-row memorisation-toolbar-row-1">
+                        <div class="memorisation-row-title">Memorisation Session Setup</div>
                         <div class="memorisation-toolbar-group memorisation-toolbar-group--header">
                             <button type="button" 
                                     class="quran-toolbar-btn quran-toolbar-btn-icon quran-toolbar-close-btn-purple" 
@@ -815,6 +853,11 @@
                             </div>
                         </div>
 
+                    </div>
+
+                    <!-- Row 2: Playback focus and mode -->
+                    <div class="memorisation-toolbar-row memorisation-toolbar-row-2">
+                        <div class="memorisation-row-title">Playback Focus &amp; Mode</div>
                         <div class="memorisation-toolbar-group memorisation-toolbar-group--playback">
                             <div class="quran-toolbar-reciter memorisation-reciter-group">
                                 <label class="memorisation-inline-label" for="memorisationPlaybackModeSelect">Playback mode</label>
@@ -860,8 +903,9 @@
                         </div>
                     </div>
 
-                    <!-- Row 2: Display toggles & view (text aids, translation, font, fullscreen) -->
-                    <div class="memorisation-toolbar-row memorisation-toolbar-row-2">
+                    <!-- Row 3: Study aids and reading controls -->
+                    <div class="memorisation-toolbar-row memorisation-toolbar-row-3">
+                        <div class="memorisation-row-title">Study Aids &amp; Reading Controls</div>
                         <div class="memorisation-toolbar-group memorisation-toolbar-group--toggles">
                             <button type="button" 
                                     class="quran-toolbar-btn quran-toolbar-btn-toggle" 
@@ -1279,7 +1323,21 @@
                                         <div class="d-flex align-items-center w-100">
                                             <span class="item-number me-3">{{ surah.number }}</span>
                                             <div class="flex-grow-1 text-start">
-                                                <div class="item-title-en">{{ surah.englishName }}</div>
+                                                <div class="sidebar-surah-title-row">
+                                                    <button
+                                                        v-if="shouldShowContinueCardForSurah(surah)"
+                                                        type="button"
+                                                        class="continue-progress-chip"
+                                                        @click.stop="resumeContinueProgress()"
+                                                        :aria-label="`Continue reading or listening from Surah ${continueProgress?.surahNumber}, Ayah ${continueProgress?.ayahNumber}`"
+                                                        :title="`Continue reading/listening from Surah ${continueProgress?.surahNumber}, Ayah ${continueProgress?.ayahNumber}`">
+                                                        <i class="bi bi-play-circle-fill" aria-hidden="true"></i>
+                                                        <span>
+                                                            Continue {{ continueProgress?.mode === "listening" ? "listening" : "reading" }} · Ayah {{ continueProgress?.ayahNumber }}
+                                                        </span>
+                                                    </button>
+                                                    <div class="item-title-en">{{ surah.englishName }}</div>
+                                                </div>
                                                 <div class="sidebar-item-meta">
                                                     <span v-if="surah.numberOfAyahs || surah.number_ayahs">
                                                         {{ surah.numberOfAyahs || surah.number_ayahs }} ayahs
