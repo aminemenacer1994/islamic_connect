@@ -51,6 +51,26 @@
                     </div>
                 </div>
               </div>
+            <transition name="fade">
+                <div
+                    v-if="bookmarkToast"
+                    class="alert mode-toggle-toast bookmark-toast shadow-lg d-flex align-items-center justify-content-between"
+                    role="status"
+                    aria-live="polite"
+                    aria-atomic="true">
+                    <div class="d-inline-flex align-items-center gap-2">
+                        <i class="bi bi-check-circle-fill" aria-hidden="true"></i>
+                        <span>{{ bookmarkToast }}</span>
+                    </div>
+                    <button
+                        v-if="bookmarkToastAction && bookmarkToastAction.text"
+                        type="button"
+                        class="btn btn-sm btn-light mode-toggle-toast-action"
+                        @click="handleBookmarkToastAction">
+                        {{ bookmarkToastAction.text }}
+                    </button>
+                </div>
+            </transition>
             <div
                 id="advancedQuranSearchSection"
                 v-show="isAdvancedSearchVisible || isTabletOrMobile"
@@ -754,6 +774,7 @@
                                            style="width: 45px; width: 50px; padding: 0; background-image: none !important; border-color: rgba(6, 78, 59, 0.2);"
                                            min="0"
                                            max="60"
+                                           @change="notifyAyahDelayChange"
                                            aria-label="Delay in seconds before moving to the next ayah"
                                            title="Delay before next ayah (seconds)">
                                     <span class="opacity-50" style="color: #064e3b; font-size: 0.75rem; font-weight: 700;">sec</span>
@@ -878,7 +899,7 @@
                                     type="button"
                                     class="quran-toolbar-btn quran-toolbar-btn-toggle"
                                     :class="{ 'is-enabled': showWordTranslationTooltip }"
-                                    @click="showWordTranslationTooltip = !showWordTranslationTooltip"
+                                    @click="toggleWordAudioMode"
                                     :title="showWordTranslationTooltip
                                         ? 'Disable word tooltip and single-word tap audio'
                                         : 'Enable word tooltip and single-word tap audio'">

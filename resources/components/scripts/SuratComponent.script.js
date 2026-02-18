@@ -2339,9 +2339,17 @@ export default {
             } else {
                 this.showDesktopToolbar = true;
             }
+            this.showModeToggleToast(
+                "Memorisation tools",
+                this.isMemorisationToolbarVisible
+            );
         },
         toggleBlurNextAyah() {
             this.isBlurNextAyahEnabled = !this.isBlurNextAyahEnabled;
+            this.showModeToggleToast(
+                "Blur next ayah",
+                this.isBlurNextAyahEnabled
+            );
         },
         showToast(message, timeout = 3500, action = null) {
             this.bookmarkToast = message;
@@ -2351,6 +2359,27 @@ export default {
                 this.bookmarkToast = "";
                 this.bookmarkToastAction = null;
             }, timeout);
+        },
+        handleBookmarkToastAction() {
+            const action = this.bookmarkToastAction;
+            if (!action || typeof action.handler !== "function") return;
+            try {
+                action.handler();
+            } finally {
+                this.bookmarkToast = "";
+                this.bookmarkToastAction = null;
+            }
+        },
+        showModeToggleToast(label, enabled) {
+            this.showToast(`${label}: ${enabled ? "On" : "Off"}`, 3200);
+        },
+        notifyAyahDelayChange() {
+            let value = Number(this.memorisationVerseDelay);
+            if (!Number.isFinite(value)) value = 0;
+            value = Math.max(0, Math.min(60, Math.round(value)));
+            this.memorisationVerseDelay = value;
+            this.showToast(`Ayah delay: ${value}s`, 3200);
+            this.announce(`Ayah delay set to ${value} seconds.`);
         },
         abortAdvancedSearchRequest() {
             if (!this.advancedSearchAbortController) return;
@@ -3789,7 +3818,15 @@ export default {
             } else {
                 this.announce("Verse mode disabled.");
             }
+            this.showModeToggleToast("Verse focus", this.isMemorisationMode);
             this.persistMemorisationModeSetting();
+        },
+        toggleWordAudioMode() {
+            this.showWordTranslationTooltip = !this.showWordTranslationTooltip;
+            this.showModeToggleToast(
+                "Word audio",
+                this.showWordTranslationTooltip
+            );
         },
         persistMemorisationModeSetting() {
             const key = this.getMemorisationModeStorageKey();
@@ -8363,6 +8400,7 @@ export default {
                     ? "Translation enabled for all ayahs."
                     : "Translation disabled for all ayahs."
             );
+            this.showModeToggleToast("Translation", checked);
         },
         toggleToolbarTransliteration() {
             const checked = !this.isTransliterationAllEnabled;
@@ -8375,6 +8413,7 @@ export default {
                     ? "Transliteration enabled for all ayahs."
                     : "Transliteration disabled for all ayahs."
             );
+            this.showModeToggleToast("Transliteration", checked);
         },
         setDeepFocusMode(enabled, options = {}) {
             const { announce = true } = options;
@@ -8396,6 +8435,7 @@ export default {
                         : "Deep focus mode disabled."
                 );
             }
+            this.showModeToggleToast("Deep focus", nextState);
         },
         toggleDeepFocusMode() {
             this.setDeepFocusMode(!this.isDeepFocusMode);
