@@ -164,9 +164,10 @@
                     </div>
                     <h5 class="card-title station-title mb-1 fw-bold" :id="'station-title-' + station.id"
                       v-html="highlightSearch(station.name)" style="color:#0b1320"></h5>
-                    <p class="text-muted mb-1 fs-sm recitation-meta">
-                      {{ station.category || 'Recitation' }}
-                      <span v-if="station.country" class="ms-1">· {{ station.country }}</span>
+                    <p v-if="station.category || station.country" class="text-muted mb-1 fs-sm recitation-meta">
+                      <span v-if="station.category">{{ station.category }}</span>
+                      <span v-if="station.category && station.country" class="ms-1">·</span>
+                      <span v-if="station.country" :class="{ 'ms-1': station.category }">{{ station.country }}</span>
                     </p>
                     <p v-if="station.shortInfo" class="mb-0 station-short-info">{{ station.shortInfo }}</p>
                     <p class="station-meta-line mt-2 mb-0">
@@ -277,9 +278,10 @@
                         <div>
                           <h5 class="card-title station-title mb-1 fw-semibold" :id="'station-title-' + station.id"
                             v-html="highlightSearch(station.name)"></h5>
-                          <p class="text-muted mb-1 fs-sm recitation-meta">
-                            {{ station.category || 'Recitation' }}
-                            <span v-if="station.country" class="ms-1">· {{ station.country }}</span>
+                          <p v-if="station.category || station.country" class="text-muted mb-1 fs-sm recitation-meta">
+                            <span v-if="station.category">{{ station.category }}</span>
+                            <span v-if="station.category && station.country" class="ms-1">·</span>
+                            <span v-if="station.country" :class="{ 'ms-1': station.category }">{{ station.country }}</span>
                           </p>
                           <p v-if="station.shortInfo" class="station-short-info mb-2">{{ station.shortInfo }}</p>
                           <p class="station-meta-line mb-2">{{ station.style || 'Murattal' }}</p>
@@ -365,9 +367,10 @@
                       <div>
                         <h5 class="card-title station-title mb-1 fw-semibold" :id="'station-title-' + station.id"
                           v-html="highlightSearch(station.name)"></h5>
-                        <p class="text-muted mb-1 fs-sm recitation-meta">
-                          {{ station.category || 'Recitation' }}
-                          <span v-if="station.country" class="ms-1">· {{ station.country }}</span>
+                        <p v-if="station.category || station.country" class="text-muted mb-1 fs-sm recitation-meta">
+                          <span v-if="station.category">{{ station.category }}</span>
+                          <span v-if="station.category && station.country" class="ms-1">·</span>
+                          <span v-if="station.country" :class="{ 'ms-1': station.category }">{{ station.country }}</span>
                         </p>
                         <p v-if="station.shortInfo" class="station-short-info mb-2">{{ station.shortInfo }}</p>
                         <p class="station-meta-line mb-2">{{ station.style || 'Murattal' }}</p>
@@ -452,9 +455,10 @@
               />
               <div>
                 <h4 class="mb-1">{{ selectedStationForInfo.name }}</h4>
-                <p class="text-muted mb-2 recitation-meta">
-                  {{ selectedStationForInfo.category || 'Recitation' }}
-                  <span v-if="selectedStationForInfo.country" class="ms-1">· {{ selectedStationForInfo.country }}</span>
+                <p v-if="selectedStationForInfo.category || selectedStationForInfo.country" class="text-muted mb-2 recitation-meta">
+                  <span v-if="selectedStationForInfo.category">{{ selectedStationForInfo.category }}</span>
+                  <span v-if="selectedStationForInfo.category && selectedStationForInfo.country" class="ms-1">·</span>
+                  <span v-if="selectedStationForInfo.country" :class="{ 'ms-1': selectedStationForInfo.category }">{{ selectedStationForInfo.country }}</span>
                 </p>
                 <p class="station-meta-line mb-0">{{ selectedStationForInfo.style || 'Murattal' }}</p>
               </div>
@@ -463,9 +467,7 @@
               <i class="bi bi-x-lg"></i>
             </button>
           </div>
-          <p class="mb-0 imam-long-info">
-            {{ selectedStationForInfo.longInfo || selectedStationForInfo.shortInfo || 'Biography is not available yet for this reciter.' }}
-          </p>
+          <p class="mb-0 imam-long-info">{{ selectedStationLongInfo }}</p>
         </div>
       </div>
     </transition>
@@ -537,41 +539,58 @@ const warningTimers = {};
 const selectedStationForInfo = ref(null);
 
 const sanitizeName = (value = '') => value.toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
-const DEFAULT_IMAM_IMAGE_URL = 'https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png';
-const buildReciterImageUrl = () => DEFAULT_IMAM_IMAGE_URL;
-const wikiImageCache = reactive({});
-const wikiTitleMap = markRaw({
-  'mishary rashid alafasy': 'Mishary_Rashid_Alafasy',
-  'yasser al dosari': 'Yasser_Al_Dosari',
-  'abdul basit abdul samad': 'Abdul_Basit_%27Abd_us-Samad',
-  'saad al ghamdi': 'Saad_Al-Ghamdi',
-  'maher al muaiqly': 'Maher_Al_Muaiqly',
-  'abdul rahman al sudais': 'Abdul_Rahman_Al-Sudais',
-  'saud al shuraim': 'Saud_Al-Shuraim',
-  'ahmad al ajmi': 'Ahmed_Al-Ajmi',
-  'mahmoud khalil al hussary': 'Mahmoud_Khalil_Al-Hussary',
-  'nasser al qatami': 'Nasser_Al-Qatami',
-  'ali jaber': 'Ali_bin_Abdul_Rahman_Al_Huthaify',
-  'muhammad al luhaidan': 'Muhammad_Ayyub'
+const RECITER_IMAGE_PLACEHOLDER = 'https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg';
+const buildReciterImageUrl = () => RECITER_IMAGE_PLACEHOLDER;
+const imageLookupCache = new Map();
+const reciterWikipediaTitles = markRaw({
+  'mishary rashid alafasy': ['Mishary_Rashid_Alafasy'],
+  'yasser al dosari': ['Yasser_Al-Dosari'],
+  'abdul basit abdul samad': ["Abdul_Basit_'Abd_us-Samad"],
+  'saad al ghamdi': ['Saad_Al-Ghamdi'],
+  'maher al muaiqly': ['Maher_Al_Muaiqly'],
+  'abdul rahman al sudais': ['Abdul-Rahman_Al-Sudais'],
+  'saud al shuraim': ['Saud_Al-Shuraim'],
+  'ahmad al ajmi': ['Ahmed_bin_Ali_Al-Ajmi'],
+  'mahmoud khalil al hussary': ['Mahmoud_Khalil_Al-Hussary'],
+  'nasser al qatami': ['Nasser_Al-Qatami'],
+  'ali jaber': ['Ali_Jaber'],
+  'muhammad al luhaidan': ['Muhammad_Al-Luhaidan']
 });
 
-const fetchWikipediaImage = async (name) => {
+const buildWikipediaTitleCandidates = (name = '') => {
   const normalized = sanitizeName(name);
-  if (!normalized) return DEFAULT_IMAM_IMAGE_URL;
-  if (wikiImageCache[normalized]) return wikiImageCache[normalized];
+  const mapped = reciterWikipediaTitles[normalized] || [];
+  const generic = [
+    name.trim().replace(/\s+/g, '_'),
+    name.trim().replace(/\s+/g, '_').replace(/-/g, '_')
+  ].filter(Boolean);
+  return [...new Set([...mapped, ...generic])];
+};
 
-  const title = wikiTitleMap[normalized] || encodeURIComponent(name.trim().replace(/\s+/g, '_'));
-  try {
-    const res = await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${title}`);
-    if (!res.ok) throw new Error(`Wikipedia ${res.status}`);
-    const data = await res.json();
-    const image = data?.thumbnail?.source || DEFAULT_IMAM_IMAGE_URL;
-    wikiImageCache[normalized] = image;
-    return image;
-  } catch {
-    wikiImageCache[normalized] = DEFAULT_IMAM_IMAGE_URL;
-    return DEFAULT_IMAM_IMAGE_URL;
+const fetchWikipediaImage = async (title) => {
+  const endpoint = `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(title)}`;
+  const { data } = await axios.get(endpoint, { timeout: 5000 });
+  return data?.thumbnail?.source || data?.originalimage?.source || '';
+};
+
+const resolveImamImageUrl = async (name = '') => {
+  const key = sanitizeName(name);
+  if (!key) return RECITER_IMAGE_PLACEHOLDER;
+  if (imageLookupCache.has(key)) return imageLookupCache.get(key);
+  const titles = buildWikipediaTitleCandidates(name);
+  for (const title of titles) {
+    try {
+      const imageUrl = await fetchWikipediaImage(title);
+      if (imageUrl) {
+        imageLookupCache.set(key, imageUrl);
+        return imageUrl;
+      }
+    } catch (error) {
+      // keep trying next candidate title
+    }
   }
+  imageLookupCache.set(key, RECITER_IMAGE_PLACEHOLDER);
+  return RECITER_IMAGE_PLACEHOLDER;
 };
 
 const imamProfileIndex = markRaw({
@@ -925,6 +944,11 @@ const currentlyPlayingStation = computed(() => {
   if (!currentPlayingStationId.value) return null;
   return stations.value.find(s => s.id === currentPlayingStationId.value);
 });
+const selectedStationLongInfo = computed(() => {
+  const station = selectedStationForInfo.value;
+  if (!station) return '';
+  return station.longInfo || station.shortInfo || 'Biography is not available yet for this reciter.';
+});
 
 // Infinite scroll helpers
 const loadMore = () => {
@@ -1033,7 +1057,7 @@ const enrichStation = (station) => {
   const primaryImage =
     typeof station.imageUrl === 'string' && station.imageUrl.startsWith('http')
       ? station.imageUrl
-      : buildReciterImageUrl(station.name);
+      : profile?.imageUrl || buildReciterImageUrl();
   const metadata = {
     source: 'Quran Radio',
     identifier: (meta?.identifier || 'reciter').replace(/^ar\./i, ''),
@@ -1044,9 +1068,9 @@ const enrichStation = (station) => {
 
   return {
     ...station,
-    imageUrl: primaryImage || profile?.imageUrl || buildReciterImageUrl(station.name),
-    shortInfo: profile?.shortInfo || '',
-    longInfo: profile?.longInfo || 'No long biography is currently available for this reciter.',
+    imageUrl: primaryImage || buildReciterImageUrl(),
+    shortInfo: profile?.shortInfo || station.shortInfo || '',
+    longInfo: profile?.longInfo || station.longInfo || '',
     metadata
   };
 };
@@ -1055,10 +1079,8 @@ const hydrateStationImages = async (stationList = []) => {
   await Promise.all(
     stationList.map(async (station) => {
       if (!station?.name) return;
-      const image = await fetchWikipediaImage(station.name);
-      if (image) {
-        station.imageUrl = image;
-      }
+      const resolvedImage = await resolveImamImageUrl(station.name);
+      if (resolvedImage) station.imageUrl = resolvedImage;
     })
   );
 };
@@ -1095,15 +1117,21 @@ const fetchAlquranReciterMetadata = async () => {
   }
 };
 
-const openStationInfo = (station) => {
+const openStationInfo = async (station) => {
   const enriched = enrichStation(station);
-  selectedStationForInfo.value = enriched;
-  fetchWikipediaImage(enriched.name).then((image) => {
-    if (!image || !selectedStationForInfo.value) return;
-    if (selectedStationForInfo.value.id === enriched.id) {
-      selectedStationForInfo.value.imageUrl = image;
-    }
-  });
+  selectedStationForInfo.value = {
+    ...enriched,
+    longInfo: enriched.longInfo || enriched.shortInfo || 'Biography is not available yet for this reciter.'
+  };
+  const resolvedImage = await resolveImamImageUrl(enriched.name);
+  if (!resolvedImage) return;
+  station.imageUrl = resolvedImage;
+  if (selectedStationForInfo.value && selectedStationForInfo.value.id === station.id) {
+    selectedStationForInfo.value = {
+      ...selectedStationForInfo.value,
+      imageUrl: resolvedImage
+    };
+  }
 };
 
 const closeStationInfo = () => {
@@ -1117,7 +1145,7 @@ const onGlobalKeydown = (event) => {
 };
 
 const handleStationImageError = (station) => {
-  station.imageUrl = DEFAULT_IMAM_IMAGE_URL;
+  station.imageUrl = RECITER_IMAGE_PLACEHOLDER;
 };
 
 const pauseAllAudio = () => {
@@ -1259,9 +1287,9 @@ const fetchStations = async () => {
       ...defaultStationsWithListeners,
       ...apiStations.filter(apiStation => !defaultStationsWithListeners.some(pr => pr.id === apiStation.id)),
     ].filter(station => isValidUrl(station.url));
-    await hydrateStationImages(stations.value.slice(0, 40));
 
     filteredStations.value = stations.value;
+    await hydrateStationImages(stations.value);
     initializeVolumes();
     loadLikedStations();
     loadRecentlyPlayed();
@@ -1269,8 +1297,8 @@ const fetchStations = async () => {
     console.error('Failed to fetch stations:', error);
     fetchError.value = 'Failed to load stations. Using default reciters.';
     stations.value = [...defaultPopularReciters].map(enrichStation).filter(station => isValidUrl(station.url));
-    await hydrateStationImages(stations.value.slice(0, 40));
     filteredStations.value = stations.value;
+    await hydrateStationImages(stations.value);
     initializeVolumes();
   } finally {
     isLoading.value = false;

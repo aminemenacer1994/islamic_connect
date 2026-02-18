@@ -2742,166 +2742,6 @@
     }
 }
 
-/* ========== Memorisation Mode: Three-Card Layout ========== */
-.surat-premium.memorisation-mode .surah-layout > .row.rtl-text {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    justify-content: center;
-    min-height: 50vh;
-    padding-top: 0.75rem !important;
-    padding-bottom: 1.5rem !important;
-    width: 100%;
-}
-
-.surat-premium.memorisation-mode .ayah-card-container {
-    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
-                opacity 0.35s ease,
-                filter 0.35s ease;
-    width: 100% !important;
-    max-width: 100% !important;
-}
-
-/* Past (previous) ayahs: blurred, show all content, compact */
-.surat-premium.memorisation-mode .ayah-card-container.memorisation-past {
-    opacity: 0.45;
-    transform: scale(0.92);
-    filter: blur(4px);
-    order: -1;
-    z-index: 1;
-    pointer-events: none;
-}
-
-.surat-premium.memorisation-mode .ayah-card-container.memorisation-past .ayah-surface {
-    padding: 0.4rem 0.75rem !important;
-}
-
-.surat-premium.memorisation-mode .ayah-card-container.memorisation-past .arabic-text,
-.surat-premium.memorisation-mode .ayah-card-container.memorisation-past .translation-text {
-    font-size: 0.75em !important;
-    line-height: 1.5 !important;
-}
-
-.surat-premium.memorisation-mode .ayah-card-container.memorisation-past .ayah-card-header,
-.surat-premium.memorisation-mode .ayah-card-container.memorisation-past .ayah-inline-controls,
-.surat-premium.memorisation-mode .ayah-card-container.memorisation-past .ayah-card-header-actions {
-    display: none !important;
-}
-
-/* Current ayah: large, prominent */
-.surat-premium.memorisation-mode .ayah-card-container.memorisation-current {
-    opacity: 1;
-    transform: scale(1);
-    filter: none;
-    order: 0;
-    z-index: 2;
-    margin: 0.5rem 0 !important;
-    box-shadow: 0 20px 48px rgba(11, 61, 46, 0.14),
-                0 8px 16px rgba(15, 53, 48, 0.08);
-    border: 2px solid rgba(11, 107, 89, 0.2);
-}
-
-.surat-premium.memorisation-mode .ayah-card-container.memorisation-current .ayah-surface {
-    padding: 1.25rem 1.5rem !important;
-}
-
-.surat-premium.memorisation-mode .ayah-card-container.memorisation-current .arabic-text {
-    font-size: clamp(1.4rem, 3.5vw, 2rem) !important;
-    line-height: 2.2 !important;
-}
-
-.surat-premium.memorisation-mode .ayah-card-container.memorisation-current .translation-text {
-    font-size: clamp(0.9rem, 2vw, 1.1rem) !important;
-}
-
-/* Next ayah: blurred preview, smaller */
-.surat-premium.memorisation-mode .ayah-card-container.memorisation-next {
-    opacity: 0.5;
-    transform: scale(0.92);
-    filter: blur(4px);
-    order: 1;
-    z-index: 1;
-}
-
-.surat-premium.memorisation-mode .ayah-card-container.memorisation-next .ayah-surface {
-    padding: 0.4rem 0.75rem !important;
-}
-
-.surat-premium.memorisation-mode .ayah-card-container.memorisation-next .arabic-text,
-.surat-premium.memorisation-mode .ayah-card-container.memorisation-next .translation-text {
-    font-size: 0.75em !important;
-    line-height: 1.5 !important;
-}
-
-.surat-premium.memorisation-mode .ayah-card-container.memorisation-next .ayah-card-header,
-.surat-premium.memorisation-mode .ayah-card-container.memorisation-next .ayah-inline-controls,
-.surat-premium.memorisation-mode .ayah-card-container.memorisation-next .ayah-card-header-actions {
-    display: none !important;
-}
-
-/* Order: past → current → next (visual stacking) */
-.surat-premium.memorisation-mode .row.rtl-text {
-    flex-direction: column;
-}
-
-.surat-premium.memorisation-mode .ayah-card-container.memorisation-past { order: -1; }
-.surat-premium.memorisation-mode .ayah-card-container.memorisation-current { order: 0; }
-.surat-premium.memorisation-mode .ayah-card-container.memorisation-next { order: 1; }
-
-/* Mobile: compact layout */
-@media (max-width: 991.98px) {
-    .surat-premium.memorisation-mode .surah-layout > .row.rtl-text {
-        min-height: 45vh;
-        padding-top: 0.5rem !important;
-        padding-bottom: 1rem !important;
-    }
-
-    .surat-premium.memorisation-mode .ayah-card-container.memorisation-current .ayah-surface {
-        padding: 0.9rem 1rem !important;
-    }
-
-    .surat-premium.memorisation-mode .ayah-card-container.memorisation-current .arabic-text {
-        font-size: clamp(1.2rem, 5vw, 1.6rem) !important;
-    }
-
-    .surat-premium.memorisation-mode .ayah-card-container.memorisation-current .translation-text {
-        font-size: clamp(0.85rem, 2.5vw, 1rem) !important;
-    }
-
-    .surat-premium.memorisation-mode .ayah-card-container.memorisation-past .ayah-surface,
-    .surat-premium.memorisation-mode .ayah-card-container.memorisation-next .ayah-surface {
-        padding: 0.35rem 0.6rem !important;
-    }
-
-    .surat-premium.memorisation-mode .ayah-card-container.memorisation-past .arabic-text,
-    .surat-premium.memorisation-mode .ayah-card-container.memorisation-past .translation-text,
-    .surat-premium.memorisation-mode .ayah-card-container.memorisation-next .arabic-text,
-    .surat-premium.memorisation-mode .ayah-card-container.memorisation-next .translation-text {
-        font-size: 0.7em !important;
-    }
-}
-
-@media (max-width: 575.98px) {
-    .surat-premium.memorisation-mode .surah-layout > .row.rtl-text {
-        min-height: 40vh;
-    }
-
-    .surat-premium.memorisation-mode .ayah-card-container.memorisation-current .ayah-surface {
-        padding: 0.75rem 0.85rem !important;
-    }
-
-    .surat-premium.memorisation-mode .ayah-card-container.memorisation-current .arabic-text {
-        font-size: clamp(1.1rem, 6vw, 1.45rem) !important;
-    }
-}
-
-/* Respect reduced motion */
-@media (prefers-reduced-motion: reduce) {
-    .surat-premium.memorisation-mode .ayah-card-container {
-        transition: none;
-    }
-}
-
 /* .surah-layout {
     display: grid;
     grid-template-columns: 1fr;
@@ -3564,43 +3404,6 @@
 
 .ayah-card-container.memorisation-repetition-active .ayah-surface {
     box-shadow: 0 0 0 2px rgba(6, 78, 59, 0.5);
-}
-
-/* Memorisation countdown overlay – theme-aligned */
-.memorisation-countdown-overlay {
-    background: rgba(248, 255, 253, 0.96);
-    backdrop-filter: blur(6px);
-    z-index: 100;
-}
-
-.memorisation-countdown-pill {
-    background: linear-gradient(135deg, #0b6b59 0%, #064e3b 100%);
-    border: 1px solid rgba(6, 78, 59, 0.4);
-    box-shadow: 0 8px 24px rgba(6, 78, 59, 0.25);
-}
-
-.memorisation-countdown-text {
-    color: rgba(255, 255, 255, 0.95);
-    font-size: 0.9rem;
-}
-
-.memorisation-countdown-number {
-    display: inline-block;
-    min-width: 1.25rem;
-    text-align: center;
-    font-weight: 800;
-}
-
-.memorisation-countdown-spinner {
-    color: rgba(255, 255, 255, 0.9) !important;
-}
-
-.memorisation-countdown-cancel {
-    color: rgba(255, 255, 255, 0.85) !important;
-}
-
-.memorisation-countdown-cancel:hover {
-    color: #ffffff !important;
 }
 
 .memorisation-repetition-progress .quran-toolbar-label {
@@ -6273,6 +6076,7 @@ h1.display-5 {
 
 /* Memorisation toolbar: high-impact v2 styling for live markup */
 .memorisation-toolbar-sticky.memorisation-toolbar-active {
+    position: relative;
     padding: 0.4rem 0 0.8rem;
     animation: mem-toolbar-pop-in 280ms cubic-bezier(0.22, 1, 0.36, 1);
 }
@@ -9186,15 +8990,6 @@ h1.display-5 {
         box-shadow: 0 10px 22px rgba(15, 53, 48, 0.09) !important;
     }
 
-    .surat-premium .advanced-quran-mobile-controls.is-pinned::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        border-radius: inherit;
-        background: #ffffff;
-        z-index: 0;
-    }
-
     .surat-premium .advanced-quran-mobile-controls.is-pinned > * {
         position: relative;
         z-index: 1;
@@ -10560,5 +10355,113 @@ h1.display-5 {
         border-top: 1px solid rgba(11, 107, 89, 0.22);
         padding-left: 0.12rem;
         padding-top: 0.46rem;
+    }
+}
+
+/* UI polish pass: spacing rhythm + positioning + coordinated palette */
+.surat-premium .quran-reader-hero,
+.surat-premium .quran-toolbar-surah-identity,
+.surat-premium #advancedQuranSearchSection,
+.surat-premium .quran-toolbar-sticky,
+.surat-premium .surah-layout > .row.rtl-text {
+    width: min(1320px, 100%);
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.surat-premium .quran-reader-hero {
+    margin-top: 0.55rem;
+    margin-bottom: 0.8rem !important;
+}
+
+.surat-premium .quran-toolbar-surah-identity {
+    margin-top: 0.18rem;
+    margin-bottom: 0.35rem;
+}
+
+.surat-premium #advancedQuranSearchSection {
+    margin-bottom: 0.95rem !important;
+}
+
+.surat-premium .quran-toolbar-sticky {
+    margin-top: 0.2rem;
+    margin-bottom: 0.78rem;
+}
+
+.surat-premium .quran-toolbar {
+    padding: 0.66rem 0.74rem;
+    gap: 0.48rem;
+}
+
+.surat-premium .quran-toolbar-btn {
+    min-height: 38px;
+    padding: 0.42rem 0.72rem;
+}
+
+.surat-premium .quran-toolbar-select {
+    min-height: 38px;
+}
+
+.surat-premium .surah-layout > .row.rtl-text {
+    row-gap: 0.15rem;
+}
+
+.surat-premium .ayah-card-container.mb-2.mt-2 {
+    margin-top: 0.25rem !important;
+    margin-bottom: 0.45rem !important;
+}
+
+.surat-premium .ayah-surface {
+    border-color: rgba(15, 118, 110, 0.1);
+    box-shadow: 0 8px 18px rgba(10, 36, 32, 0.08);
+    padding: 16px 18px;
+}
+
+.surat-premium .ayah-card-header h4 {
+    color: #173f38;
+}
+
+.surat-premium .translation-text,
+.surat-premium .transliteration-text {
+    color: #3f5d57;
+}
+
+.surat-premium .quran-toolbar-btn-memorisation,
+.surat-premium .quran-toolbar-btn-memorisation.is-active {
+    border-color: rgba(15, 118, 110, 0.58) !important;
+    background: linear-gradient(132deg, #0f8a80 0%, #0f766e 55%, #0b5f58 100%) !important;
+    box-shadow: 0 12px 24px rgba(10, 89, 83, 0.28) !important;
+}
+
+.surat-premium .quran-toolbar-btn-memorisation:hover,
+.surat-premium .quran-toolbar-btn-memorisation:focus-visible,
+.surat-premium .quran-toolbar-btn-memorisation.is-active:hover,
+.surat-premium .quran-toolbar-btn-memorisation.is-active:focus-visible {
+    border-color: rgba(20, 184, 166, 0.8) !important;
+    background: linear-gradient(132deg, #14b8a6 0%, #0f8a80 55%, #0f766e 100%) !important;
+    box-shadow: 0 16px 28px rgba(10, 89, 83, 0.34) !important;
+}
+
+@media (max-width: 991.98px) {
+    .surat-premium .quran-reader-hero {
+        margin-top: 0.32rem;
+        margin-bottom: 0.65rem !important;
+    }
+
+    .surat-premium #advancedQuranSearchSection {
+        margin-bottom: 0.72rem !important;
+    }
+
+    .surat-premium .quran-toolbar-sticky {
+        margin-bottom: 0.62rem;
+    }
+
+    .surat-premium .quran-toolbar {
+        padding: 0.58rem 0.62rem;
+        gap: 0.42rem;
+    }
+
+    .surat-premium .ayah-surface {
+        padding: 14px 14px;
     }
 }

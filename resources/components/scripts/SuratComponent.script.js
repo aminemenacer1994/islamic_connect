@@ -2,13 +2,11 @@ import axios from "axios";
 import { JUZ_START_MAPPING, PAGE_START_MAPPING, getJuzStart, getPageStart } from "../utils/quran-mappings";
 import { Modal, Tooltip } from "bootstrap";
 import BookmarkModal from "../vue/bookmarks/BookmarkModal.vue";
-import ContinueReadingCard from "../vue/search/ContinueReadingCard.vue";
 import { fetchUserIdFromApi } from "../utils/bookmarkAuth";
 export default {
     name: "SuratComponent",
     components: {
         BookmarkModal,
-        ContinueReadingCard,
     },
     data: function () {
         return {
@@ -107,7 +105,6 @@ export default {
             speechRecognitionLocale: "en-US",
             suratOnboardingModalId: "suratOnboardingModal",
             suratOnboardingModalInstance: null,
-            _saveProgressTimer: null,
             suratOnboardingSearchQuery: "",
             suratOnboardingFontSize: 15,
             suratOnboardingFontSizeMin: 13,
@@ -1524,15 +1521,6 @@ export default {
         },
     },
     watch: {
-        selectedSurah(newVal) {
-            // ... existing if any
-            this.saveReadingProgress(newVal, 1);
-        },
-        currentlyPlayingIndex(newVal) {
-             if (this.surahDetails && this.surahDetails.ayahs && this.surahDetails.ayahs[newVal]) {
-                this.saveReadingProgress(this.selectedSurah, this.surahDetails.ayahs[newVal].numberInSurah);
-            }
-        },
         savedAyahKeys: {
             deep: true,
             handler(next) {
@@ -2197,80 +2185,6 @@ export default {
             } catch (e) {
                 console.error("Failed to fetch user ID", e);
             }
-        },
-        saveReadingProgress(surahId, ayahId) {
-            const storageKey = this.userId ? `continue_reading_${this.userId}` : 'continue_reading_guest';
-            
-            let surahNameEn = "Surah " + surahId;
-            let surahNameAr = "";
-            
-            if (this.surahDetails && this.surahDetails.surahNumber == surahId) {
-                 surahNameEn = this.surahDetails.englishName;
-                 surahNameAr = this.surahDetails.name;
-            } else if (this.surahs && this.surahs.length) {
-                const s = this.surahs.find(x => x.number == surahId);
-                if (s) {
-                    surahNameEn = s.englishName;
-                    surahNameAr = s.name;
-                }
-            }
-
-            const data = {
-                surahId,
-                ayahId,
-                surahNameEn,
-                surahNameAr,
-                timestamp: Date.now()
-            };
-            try {
-                localStorage.setItem(storageKey, JSON.stringify(data));
-            } catch (e) {
-                console.error("Error saving reading progress", e);
-            }
-            // Dispatch storage event to update other tabs/components immediately
-            window.dispatchEvent(new Event("storage"));
-        },
-        saveReadingProgressDebounced(surahId, ayahId) {
-            clearTimeout(this._saveProgressTimer);
-            this._saveProgressTimer = setTimeout(() => {
-                this.saveReadingProgress(surahId, ayahId);
-            }, 1000);
-        },
-        detectAndSaveVisibleAyah(fallbackIndex) {
-            // Debounce the detection itself slightly to avoid layout thrashing too often
-            if (this._detectionTimer) clearTimeout(this._detectionTimer);
-            this._detectionTimer = setTimeout(() => {
-                const headerOffset = this.getScrollTopOffset() + 50; // Increased buffer
-                const cards = document.querySelectorAll(".ayah-card");
-                
-                let found = null;
-                for (let i = 0; i < cards.length; i++) {
-                    const card = cards[i];
-                    const rect = card.getBoundingClientRect();
-                    // First card that starts closely below header or crosses the header line
-                    if (rect.bottom > headerOffset) {
-                         found = card;
-                         break;
-                    }
-                }
-
-                if (found) {
-                    const ayahNumberStr = found.getAttribute("data-ayah-number");
-                    if (ayahNumberStr) {
-                         this.saveReadingProgress(this.selectedSurah, Number(ayahNumberStr));
-                         return;
-                    }
-                }
-
-                // Fallback to approximate index if DOM detection fails
-                if (typeof fallbackIndex === 'number' && this.filteredAyahs && this.filteredAyahs[fallbackIndex]) {
-                    const ayah = this.filteredAyahs[fallbackIndex];
-                    const num = ayah.numberInSurah || ayah.number; // Robust fallback
-                    if (num) {
-                        this.saveReadingProgress(this.selectedSurah, Number(num));
-                    }
-                }
-            }, 200); 
         },
         syncReadingFullscreenBodyClass(enabled = this.isReadingFullscreen) {
             if (typeof document === "undefined") return;
@@ -6756,9 +6670,6 @@ export default {
                     this.selectedJuz = this.filteredAyahs[approxIndex].juz;
                 }
                 
-                // Track reading progress on scroll using DOM detection for accuracy with fallback
-                this.detectAndSaveVisibleAyah(start || approxIndex);
-
                 if (!this.itemHeightCalibrated) {
                     this.scheduleHeightCalibration(true);
                 }
@@ -8956,7 +8867,6 @@ export default {
                         }),
                     };
                     this.syncPinnedAyahsForCurrentSurah();
-                    this.saveReadingProgress(this.selectedSurah, 1);
                     console.log("Surah details fetched:", this.surahDetails);
                     this.isLoading = false;
                     this.fetchSurahTransliteration(this.selectedSurah);

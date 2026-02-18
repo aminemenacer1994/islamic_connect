@@ -19,12 +19,6 @@
                 <p class="holy-book-description mb-0">Explore the Holy Quran with clear recitations, trusted translations, and practical tools that help you read with focus, listen with understanding, and reflect on each ayah in your daily life.</p>
             </div>
         </div>
-        
-            <!-- <div class="row justify-content-center mb-4">
-                <div class="col-md-6">
-                    <ContinueReadingCard />
-                </div>
-            </div> -->
             <div
                 v-if="desktopSurahContext.englishName || desktopSurahContext.arabicName"
                 class="quran-toolbar-surah-identity quran-toolbar-surah-identity-mobile ltr-text pb-3"
@@ -698,22 +692,6 @@
                  role="group"
                  aria-label="Memorisation tools expanded">
                 
-                <!-- Countdown Overlay -->
-                <transition name="fade">
-                    <div v-if="isCountdownActive"
-                         class="memorisation-countdown-overlay position-absolute w-100 h-100 d-flex align-items-center justify-content-center rounded-4">
-                        <div class="memorisation-countdown-pill d-flex align-items-center gap-3 px-4 py-3 rounded-pill">
-                            <div class="memorisation-countdown-spinner spinner-grow spinner-grow-sm" role="status"></div>
-                            <span class="memorisation-countdown-text fw-bold">
-                                Next ayah in <span class="memorisation-countdown-number">{{ countdownSeconds }}</span> sec
-                            </span>
-                            <button @click="isCountdownActive = false; stopAudio()" class="btn btn-sm btn-link p-0 ms-1" title="Cancel Playback" aria-label="Cancel playback">
-                                <i class="bi bi-x-circle-fill"></i>
-                            </button>
-                        </div>
-                    </div>
-                </transition>
-
                 <div class="quran-toolbar memorisation-toolbar-purple memorisation-toolbar-two-rows">
                     <!-- Row 1: Range, timing, repetition & playback (core memorisation flow) -->
                     <div class="memorisation-toolbar-row memorisation-toolbar-row-1">
@@ -1444,7 +1422,9 @@
             <div v-if="isLoading" class="loading-placeholder">Loading Surah...</div>
 
             <div class="row rtl-text" ref="listContainer" role="list" aria-label="Ayah cards list"
-                :style="{ paddingTop: topSpacerHeight + 'px', paddingBottom: bottomSpacerHeight + 'px' }">
+                :style="enableVirtualization && !isMemorisationMode
+                    ? { paddingTop: topSpacerHeight + 'px', paddingBottom: bottomSpacerHeight + 'px' }
+                    : null">
                 <div style="padding: 12px; border-radius: 8px" ref="audioCard" v-for="item in visibleWindow"
                     :key="item.ayah.number" class="col-md-12 mb-2 mt-2 ayah-card ayah-card-container shadow-md" role="listitem"
                     :id="`ayah-card-${item.index}`" :data-ayah-number="item.ayah.numberInSurah" @click="selectCard(item.index)"
