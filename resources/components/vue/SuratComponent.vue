@@ -19,38 +19,94 @@
                 <p class="holy-book-description mb-0">Explore the Holy Quran with clear recitations, trusted translations, and practical tools that help you read with focus, listen with understanding, and reflect on each ayah in your daily life.</p>
             </div>
         </div>
-            <div
-                v-if="desktopSurahContext.englishName || desktopSurahContext.arabicName"
-                class="quran-toolbar-surah-identity quran-toolbar-surah-identity-mobile ltr-text pb-3"
-                role="status"
-                aria-live="polite"
-                aria-atomic="true">
-                <div class="quran-toolbar-surah-identity-inner d-flex align-items-center flex-nowrap">
-                    <span
-                        v-if="desktopSurahContext.arabicName"
-                        class="quran-toolbar-surah-identity-ar text-end"
-                        dir="rtl">
-                        {{ desktopSurahContext.arabicName }}
-                    </span>
-                    <div class="quran-toolbar-surah-identity-en d-flex flex-column text-start flex-grow-1">
-                        <span class="quran-toolbar-surah-identity-en-main d-inline-flex align-items-center">
-                            <span
-                                v-if="desktopSurahContext.number"
-                                class="quran-toolbar-surah-identity-number">
-                                {{ desktopSurahContext.number }}.
-                            </span>
-                            <span class="quran-toolbar-surah-identity-title">
-                                {{ desktopSurahContext.englishName }}
-                            </span>
-                        </span>
-                        <span
-                            v-if="desktopSurahContext.translationName"
-                            class="quran-toolbar-surah-identity-en-sub">
-                            {{ desktopSurahContext.translationName }}
-                        </span>
+        <div
+            v-if="continueProgress || desktopSurahContext.englishName || desktopSurahContext.arabicName"
+            class="continue-surah-container mb-3">
+            <div class="row g-3 align-items-stretch continue-surah-row">
+            <div class="col-12 col-md-6">
+                <div
+                    v-if="continueProgress && !continueProgressHidden"
+                    class="continue-progress-banner ltr-text h-100"
+                    role="status"
+                    aria-live="polite"
+                    aria-atomic="true">
+                    <div class="continue-progress-banner-icon" aria-hidden="true">
+                        <i class="bi" :class="continueProgress?.mode === 'listening' ? 'bi-headphones' : 'bi-book-half'"></i>
+                    </div>
+                    <div class="continue-progress-banner-main">
+                        <div class="continue-progress-banner-topline">
+                            <span class="continue-progress-banner-eyebrow">Continue</span>
+                            <span class="continue-progress-banner-mode">{{ continueProgress?.mode === "listening" ? "Listening" : "Reading" }}</span>
+                        </div>
+                        <div class="continue-progress-banner-title">
+                            Surah {{ continueProgress?.surahNumber }} · {{ getContinueProgressSurahName() }} · Ayah {{ continueProgress?.ayahNumber }}
+                        </div>
+                        <div class="continue-progress-banner-subtitle">
+                            Jump back exactly where you paused.
+                        </div>
+                    </div>
+                    <div class="continue-progress-banner-actions">
+                        <button
+                            type="button"
+                            class="btn continue-progress-banner-btn"
+                            @click="resumeContinueProgress({ autoplay: continueProgress?.mode === 'listening' })">
+                            Resume now
+                        </button>
+                        <button
+                            type="button"
+                            class="btn continue-progress-banner-btn-secondary"
+                            @click="hideContinueProgressBanner()">
+                            Hide
+                        </button>
                     </div>
                 </div>
-              </div>
+                <div
+                    v-else-if="continueProgress && continueProgressHidden"
+                    class="continue-progress-restore-wrap ltr-text">
+                    <button
+                        type="button"
+                        class="btn continue-progress-restore-btn"
+                        @click="showContinueProgressBanner()">
+                        Show continue card
+                    </button>
+                </div>
+            </div>
+            <div class="col-12 col-md-6">
+                <div
+                    v-if="desktopSurahContext.englishName || desktopSurahContext.arabicName"
+                    class="quran-toolbar-surah-identity quran-toolbar-surah-identity-mobile ltr-text pb-0"
+                    role="status"
+                    aria-live="polite"
+                    aria-atomic="true">
+                    <div class="quran-toolbar-surah-identity-inner d-flex align-items-center flex-nowrap">
+                        <span
+                            v-if="desktopSurahContext.arabicName"
+                            class="quran-toolbar-surah-identity-ar text-end"
+                            dir="rtl">
+                            {{ desktopSurahContext.arabicName }}
+                        </span>
+                        <div class="quran-toolbar-surah-identity-en d-flex flex-column text-start flex-grow-1">
+                            <span class="quran-toolbar-surah-identity-en-main d-inline-flex align-items-center">
+                                <span
+                                    v-if="desktopSurahContext.number"
+                                    class="quran-toolbar-surah-identity-number">
+                                    {{ desktopSurahContext.number }}.
+                                </span>
+                                <span class="quran-toolbar-surah-identity-title">
+                                    {{ desktopSurahContext.englishName }}
+                                </span>
+                            </span>
+                            <span
+                                v-if="desktopSurahContext.translationName"
+                                class="quran-toolbar-surah-identity-en-sub">
+                                {{ desktopSurahContext.translationName }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
             <transition name="fade">
                 <div
                     v-if="bookmarkToast"
@@ -499,43 +555,6 @@
                    
                 </section> 
             </div>
-        </div>
-        <div
-            v-if="continueProgress && !continueProgressHidden"
-            class="continue-progress-banner ltr-text"
-            role="status"
-            aria-live="polite"
-            aria-atomic="true">
-            <div class="continue-progress-banner-main">
-                <span class="continue-progress-banner-eyebrow">Continue {{ continueProgress?.mode === "listening" ? "Listening" : "Reading" }}</span>
-                <div class="continue-progress-banner-title">
-                    Surah {{ continueProgress?.surahNumber }} · {{ getContinueProgressSurahName() }} · Ayah {{ continueProgress?.ayahNumber }}
-                </div>
-            </div>
-            <div class="continue-progress-banner-actions">
-                <button
-                    type="button"
-                    class="btn continue-progress-banner-btn"
-                    @click="resumeContinueProgress({ autoplay: continueProgress?.mode === 'listening' })">
-                    Continue now
-                </button>
-                <button
-                    type="button"
-                    class="btn continue-progress-banner-btn-secondary"
-                    @click="hideContinueProgressBanner()">
-                    Hide
-                </button>
-            </div>
-        </div>
-        <div
-            v-else-if="continueProgress && continueProgressHidden"
-            class="continue-progress-restore-wrap ltr-text">
-            <button
-                type="button"
-                class="btn continue-progress-restore-btn"
-                @click="showContinueProgressBanner()">
-                Show continue card
-            </button>
         </div>
         <div v-if="(surahDetails || currentSurahInfo) && !isTabletOrMobile && (showDesktopToolbar || showDesktopSurahContext)"
             class="quran-toolbar-sticky ltr-text"
