@@ -179,18 +179,6 @@
           </div>
           <div class="category-actions">
             <button
-              v-if="viewMode === 'all'"
-              type="button"
-              class="category-like-toggle"
-              @click="toggleAllInCategory(category.id)">
-              <i class="bi" :class="allDuasLikedInCategory(category.id) ? 'bi-heart-fill' : 'bi-heart'"></i>
-              <span>
-                {{ allDuasLikedInCategory(category.id)
-                  ? 'Liked'
-                  : (actionFeedback[category.id] ? 'Saved!' : 'Like Category') }}
-              </span>
-            </button>
-            <button
               type="button"
               class="category-toggle"
               :class="{ expanded: !category.collapsed }"
@@ -224,7 +212,7 @@
                   class="dua-card-arabic mb-2 font-arabic"
                   lang="ar"
                   dir="rtl"
-                  :style="{ fontSize: 'calc(var(--font-size-base) * 1.5)', lineHeight: '2.5' }"
+                  :style="{ fontSize: 'calc(var(--font-size-base) * 1.42)', lineHeight: '2.05' }"
                   v-html="highlightText(dua.arabic)"
                   aria-label="Dua in Arabic"></p>
                 <p

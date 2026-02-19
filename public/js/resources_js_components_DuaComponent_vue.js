@@ -136,58 +136,57 @@ const _hoisted_35 = {
 const _hoisted_36 = {
   class: "category-actions"
 };
-const _hoisted_37 = ["onClick"];
-const _hoisted_38 = ["onClick", "aria-expanded", "title"];
-const _hoisted_39 = {
+const _hoisted_37 = ["onClick", "aria-expanded", "title"];
+const _hoisted_38 = {
   key: 0,
   class: "row g-3 dua-card-grid",
   role: "list"
 };
-const _hoisted_40 = ["aria-labelledby"];
-const _hoisted_41 = {
+const _hoisted_39 = ["aria-labelledby"];
+const _hoisted_40 = {
   class: "dua-card-content"
 };
-const _hoisted_42 = {
+const _hoisted_41 = {
   key: 0,
   class: "alert alert-warning dua-login-warning",
   role: "alert"
 };
-const _hoisted_43 = ["id"];
+const _hoisted_42 = ["id"];
+const _hoisted_43 = ["innerHTML"];
 const _hoisted_44 = ["innerHTML"];
 const _hoisted_45 = ["innerHTML"];
 const _hoisted_46 = ["innerHTML"];
-const _hoisted_47 = ["innerHTML"];
-const _hoisted_48 = {
+const _hoisted_47 = {
   class: "dua-card-meta mt-auto"
 };
-const _hoisted_49 = ["innerHTML"];
-const _hoisted_50 = {
+const _hoisted_48 = ["innerHTML"];
+const _hoisted_49 = {
   class: "dua-card-actions"
 };
-const _hoisted_51 = {
+const _hoisted_50 = {
   class: "dua-font-controls me-auto"
 };
+const _hoisted_51 = ["disabled"];
 const _hoisted_52 = ["disabled"];
-const _hoisted_53 = ["disabled"];
-const _hoisted_54 = {
+const _hoisted_53 = {
   class: "dua-action-group"
 };
-const _hoisted_55 = ["onClick", "aria-label"];
+const _hoisted_54 = ["onClick", "aria-label"];
+const _hoisted_55 = ["onClick"];
 const _hoisted_56 = ["onClick"];
-const _hoisted_57 = ["onClick"];
-const _hoisted_58 = {
+const _hoisted_57 = {
   key: 1,
   class: "d-flex justify-content-center mt-4"
 };
-const _hoisted_59 = {
+const _hoisted_58 = {
   "aria-label": "Dua pagination"
 };
-const _hoisted_60 = {
+const _hoisted_59 = {
   class: "pagination dua-pagination"
 };
+const _hoisted_60 = ["onClick"];
 const _hoisted_61 = ["onClick"];
 const _hoisted_62 = ["onClick"];
-const _hoisted_63 = ["onClick"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("main", _hoisted_1, [_cache[42] || (_cache[42] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<section class=\"container dua-hero mb-4\" data-v-4b4cde72><div class=\"dua-hero-text\" data-v-4b4cde72><p class=\"dua-kicker mb-2\" data-v-4b4cde72>Dua Collection</p><h1 id=\"dua-title\" class=\"fw-bold mb-2 dua-title\" data-v-4b4cde72>Dua Library</h1><p class=\"dua-hero-subtitle mb-0 dua-lead\" data-v-4b4cde72> Find authentic duas by theme, then save or share what you need. </p></div></section>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     id: "tab-all",
@@ -352,14 +351,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_33, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
       class: "category-title fw-bold mb-1",
       id: `category-title-${category.id}`
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(category.name), 9 /* TEXT, PROPS */, _hoisted_34), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_35, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(category.duas.length) + " duas in this section", 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_36, [_ctx.viewMode === 'all' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
-      key: 0,
-      type: "button",
-      class: "category-like-toggle",
-      onClick: $event => _ctx.toggleAllInCategory(category.id)
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", _ctx.allDuasLikedInCategory(category.id) ? 'bi-heart-fill' : 'bi-heart'])
-    }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.allDuasLikedInCategory(category.id) ? 'Liked' : _ctx.actionFeedback[category.id] ? 'Saved!' : 'Like Category'), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_37)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(category.name), 9 /* TEXT, PROPS */, _hoisted_34), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_35, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(category.duas.length) + " duas in this section", 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_36, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       type: "button",
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["category-toggle", {
         expanded: !category.collapsed
@@ -369,7 +361,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       title: category.collapsed ? 'Expand category' : 'Collapse category'
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(category.collapsed ? 'bi bi-chevron-down' : 'bi bi-chevron-up')
-    }, null, 2 /* CLASS */)], 10 /* CLASS, PROPS */, _hoisted_38)])]), !category.collapsed ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_39, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.getPaginatedDuas(category.duas), dua => {
+    }, null, 2 /* CLASS */)], 10 /* CLASS, PROPS */, _hoisted_37)])]), !category.collapsed ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_38, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.getPaginatedDuas(category.duas), dua => {
       return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
         key: dua.id,
         class: "col-12 col-md-6"
@@ -382,7 +374,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         }),
         role: "listitem",
         "aria-labelledby": `dua-title-${dua.id}`
-      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_41, [_ctx.loginWarnings[dua.id] ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_42, [_cache[34] || (_cache[34] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_40, [_ctx.loginWarnings[dua.id] ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_41, [_cache[34] || (_cache[34] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
         class: "bi bi-shield-lock-fill me-2",
         "aria-hidden": "true"
       }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.loginWarnings[dua.id]), 1 /* TEXT */), _cache[35] || (_cache[35] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
@@ -393,66 +385,66 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         id: `dua-title-${dua.id}`
       }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
         innerHTML: _ctx.highlightText(dua.title)
-      }, null, 8 /* PROPS */, _hoisted_44)], 8 /* PROPS */, _hoisted_43), dua.arabic ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", {
+      }, null, 8 /* PROPS */, _hoisted_43)], 8 /* PROPS */, _hoisted_42), dua.arabic ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", {
         key: 1,
         class: "dua-card-arabic mb-2 font-arabic",
         lang: "ar",
         dir: "rtl",
         style: {
-          fontSize: 'calc(var(--font-size-base) * 1.5)',
-          lineHeight: '2.5'
+          fontSize: 'calc(var(--font-size-base) * 1.42)',
+          lineHeight: '2.05'
         },
         innerHTML: _ctx.highlightText(dua.arabic),
         "aria-label": "Dua in Arabic"
-      }, null, 8 /* PROPS */, _hoisted_45)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), dua.transliteration ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", {
+      }, null, 8 /* PROPS */, _hoisted_44)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), dua.transliteration ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", {
         key: 2,
         class: "dua-card-transliteration mb-1 fst-italic text-muted",
         innerHTML: _ctx.highlightText(dua.transliteration),
         "aria-label": "Dua transliteration"
-      }, null, 8 /* PROPS */, _hoisted_46)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+      }, null, 8 /* PROPS */, _hoisted_45)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
         class: "dua-card-translation mb-1",
         style: {
           fontSize: 'calc(var(--font-size-base) * 0.98)'
         },
         innerHTML: _ctx.highlightText(dua.translation),
         "aria-label": "Dua translation"
-      }, null, 8 /* PROPS */, _hoisted_47), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_48, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+      }, null, 8 /* PROPS */, _hoisted_46), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_47, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
         class: "dua-card-reference",
         innerHTML: _ctx.highlightText(dua.reference)
-      }, null, 8 /* PROPS */, _hoisted_49)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_50, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_51, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      }, null, 8 /* PROPS */, _hoisted_48)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_49, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_50, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
         class: "dua-font-btn",
         onClick: _cache[17] || (_cache[17] = $event => _ctx.changeFontSize('decrease')),
         disabled: _ctx.fontSize <= 14,
         "aria-label": "Decrease font size"
       }, [...(_cache[36] || (_cache[36] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
         class: "bi bi-dash-circle-fill"
-      }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_52), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_51), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
         class: "dua-font-btn",
         onClick: _cache[18] || (_cache[18] = $event => _ctx.changeFontSize('increase')),
         disabled: _ctx.fontSize >= 28,
         "aria-label": "Increase font size"
       }, [...(_cache[37] || (_cache[37] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
         class: "bi bi-plus-circle-fill"
-      }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_53)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_54, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_52)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_53, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
         class: "dua-action-btn",
         onClick: $event => _ctx.toggleLike(dua.id),
         "aria-label": _ctx.likedDuas.includes(dua.id) ? 'Unlike Dua' : 'Like Dua'
       }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
         class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(_ctx.likedDuas.includes(dua.id) ? 'bi bi-heart-fill text-danger' : 'bi bi-heart')
-      }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_55), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_54), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
         class: "dua-action-btn",
         onClick: $event => _ctx.shareOnWhatsApp(dua),
         "aria-label": "Share on WhatsApp"
       }, [...(_cache[38] || (_cache[38] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
         class: "bi bi-share-fill"
-      }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_56), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_55), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
         class: "dua-action-btn",
         onClick: $event => _ctx.copyContent(dua),
         "aria-label": "Copy Content"
       }, [...(_cache[39] || (_cache[39] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
         class: "bi bi-clipboard-fill"
-      }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_57)])])], 14 /* CLASS, STYLE, PROPS */, _hoisted_40)]);
-    }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), !category.collapsed && category.duas.length > _ctx.duasPerPage ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_58, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("nav", _hoisted_59, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_60, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", {
+      }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_56)])])], 14 /* CLASS, STYLE, PROPS */, _hoisted_39)]);
+    }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), !category.collapsed && category.duas.length > _ctx.duasPerPage ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_57, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("nav", _hoisted_58, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_59, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", {
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["page-item", {
         disabled: _ctx.currentPage[category.id] === 1
       }])
@@ -462,7 +454,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "aria-label": "Previous page"
     }, [...(_cache[40] || (_cache[40] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       "aria-hidden": "true"
-    }, "« Previous", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_61)], 2 /* CLASS */), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.totalPages(category.duas), page => {
+    }, "« Previous", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_60)], 2 /* CLASS */), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.totalPages(category.duas), page => {
       return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
         key: page,
         class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["page-item", {
@@ -471,7 +463,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
         class: "page-link",
         onClick: $event => _ctx.currentPage[category.id] = page
-      }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(page), 9 /* TEXT, PROPS */, _hoisted_62)], 2 /* CLASS */);
+      }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(page), 9 /* TEXT, PROPS */, _hoisted_61)], 2 /* CLASS */);
     }), 128 /* KEYED_FRAGMENT */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", {
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["page-item", {
         disabled: _ctx.currentPage[category.id] === _ctx.totalPages(category.duas)
@@ -482,7 +474,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "aria-label": "Next page"
     }, [...(_cache[41] || (_cache[41] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       "aria-hidden": "true"
-    }, "Next »", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_63)], 2 /* CLASS */)])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 8 /* PROPS */, _hoisted_32);
+    }, "Next »", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_62)], 2 /* CLASS */)])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 8 /* PROPS */, _hoisted_32);
   }), 128 /* KEYED_FRAGMENT */))], 8 /* PROPS */, _hoisted_31)]);
 }
 
