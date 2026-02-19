@@ -539,8 +539,21 @@ const warningTimers = {};
 const selectedStationForInfo = ref(null);
 
 const sanitizeName = (value = '') => value.toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
+const simplifyReciterName = (value = '') =>
+  value
+    .replace(/\b(radio|live|quran|station|channel|fm|fatwa|translation|tafsir|lecture)\b/gi, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
 const RECITER_IMAGE_PLACEHOLDER = 'https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg';
-const buildReciterImageUrl = () => RECITER_IMAGE_PLACEHOLDER;
+const buildReciterImageUrl = (name = '') => {
+  const seed = encodeURIComponent(name || 'quran-radio');
+  return `https://api.dicebear.com/9.x/initials/svg?seed=${seed}&backgroundType=gradientLinear`;
+};
+const isGeneratedOrPlaceholderImage = (url = '') => {
+  if (!url || typeof url !== 'string') return true;
+  return url.includes('api.dicebear.com') || url === RECITER_IMAGE_PLACEHOLDER;
+};
+const isRealFaceImage = (url = '') => !isGeneratedOrPlaceholderImage(url);
 const imageLookupCache = new Map();
 const reciterWikipediaTitles = markRaw({
   'mishary rashid alafasy': ['Mishary_Rashid_Alafasy'],
@@ -559,25 +572,70 @@ const reciterWikipediaTitles = markRaw({
 
 const buildWikipediaTitleCandidates = (name = '') => {
   const normalized = sanitizeName(name);
-  const mapped = reciterWikipediaTitles[normalized] || [];
-  const generic = [
-    name.trim().replace(/\s+/g, '_'),
-    name.trim().replace(/\s+/g, '_').replace(/-/g, '_')
-  ].filter(Boolean);
-  return [...new Set([...mapped, ...generic])];
+  return reciterWikipediaTitles[normalized] || [];
 };
 
 const fetchWikipediaImage = async (title) => {
   const endpoint = `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(title)}`;
-  const { data } = await axios.get(endpoint, { timeout: 5000 });
+  const response = await fetch(endpoint, {
+    method: 'GET',
+    mode: 'cors',
+    credentials: 'omit'
+  });
+  if (!response.ok) return '';
+  const data = await response.json();
   return data?.thumbnail?.source || data?.originalimage?.source || '';
 };
 
+const fetchWikipediaImageFromSearch = async (query) => {
+  const params = new URLSearchParams({
+    action: 'query',
+    generator: 'search',
+    gsrsearch: query,
+    gsrlimit: '1',
+    prop: 'pageimages',
+    piprop: 'thumbnail',
+    pithumbsize: '600',
+    format: 'json',
+    origin: '*'
+  });
+  const endpoint = `https://en.wikipedia.org/w/api.php?${params.toString()}`;
+  const response = await fetch(endpoint, {
+    method: 'GET',
+    mode: 'cors',
+    credentials: 'omit'
+  });
+  if (!response.ok) return '';
+  const data = await response.json();
+  const pages = data?.query?.pages ? Object.values(data.query.pages) : [];
+  return pages[0]?.thumbnail?.source || '';
+};
+
 const resolveImamImageUrl = async (name = '') => {
-  const key = sanitizeName(name);
-  if (!key) return RECITER_IMAGE_PLACEHOLDER;
+  const cleanName = simplifyReciterName(name);
+  const key = sanitizeName(cleanName || name);
+  if (!key) return buildReciterImageUrl(name);
   if (imageLookupCache.has(key)) return imageLookupCache.get(key);
-  const titles = buildWikipediaTitleCandidates(name);
+
+  const searchQueries = [
+    `${cleanName} quran reciter`,
+    `${cleanName} imam`,
+    cleanName
+  ].filter(Boolean);
+
+  for (const query of searchQueries) {
+    try {
+      const imageUrl = await fetchWikipediaImageFromSearch(query);
+      if (imageUrl) {
+        imageLookupCache.set(key, imageUrl);
+        return imageUrl;
+      }
+    } catch (error) {
+      // keep trying next query
+    }
+  }
+
+  const titles = buildWikipediaTitleCandidates(cleanName || name);
   for (const title of titles) {
     try {
       const imageUrl = await fetchWikipediaImage(title);
@@ -589,8 +647,10 @@ const resolveImamImageUrl = async (name = '') => {
       // keep trying next candidate title
     }
   }
-  imageLookupCache.set(key, RECITER_IMAGE_PLACEHOLDER);
-  return RECITER_IMAGE_PLACEHOLDER;
+
+  const fallbackImage = buildReciterImageUrl(cleanName || name);
+  imageLookupCache.set(key, fallbackImage);
+  return fallbackImage;
 };
 
 const imamProfileIndex = markRaw({
@@ -1075,14 +1135,60 @@ const enrichStation = (station) => {
   };
 };
 
+const dedupeStationsByReciterName = (stationList = []) => {
+  const bestByName = new Map();
+  stationList.forEach((station) => {
+    if (!station?.name) return;
+    const key = sanitizeName(simplifyReciterName(station.name) || station.name);
+    if (!key) return;
+    const current = bestByName.get(key);
+    if (!current) {
+      bestByName.set(key, station);
+      return;
+    }
+
+    const score = (entry) => {
+      const hasRealFace = isRealFaceImage(entry?.imageUrl) ? 1000 : 0;
+      const hasValidUrl = isValidUrl(entry?.url) ? 100 : 0;
+      const listenerScore = Number(entry?.listeners || 0);
+      return hasRealFace + hasValidUrl + listenerScore;
+    };
+
+    if (score(station) > score(current)) {
+      bestByName.set(key, station);
+    }
+  });
+  return Array.from(bestByName.values());
+};
+
 const hydrateStationImages = async (stationList = []) => {
-  await Promise.all(
-    stationList.map(async (station) => {
-      if (!station?.name) return;
-      const resolvedImage = await resolveImamImageUrl(station.name);
-      if (resolvedImage) station.imageUrl = resolvedImage;
-    })
-  );
+  const batchSize = 6;
+  for (let i = 0; i < stationList.length; i += batchSize) {
+    const batch = stationList.slice(i, i + batchSize);
+    await Promise.all(
+      batch.map(async (station) => {
+        if (!station?.name) return;
+        const resolvedImage = await resolveImamImageUrl(station.name);
+        if (resolvedImage) station.imageUrl = resolvedImage;
+      })
+    );
+  }
+  return stationList.filter((station) => isRealFaceImage(station?.imageUrl));
+};
+
+const hydrateStationImagesInBackground = (stationList = []) => {
+  if (!Array.isArray(stationList) || !stationList.length) return;
+  setTimeout(() => {
+    hydrateStationImages(stationList)
+      .then((faceStations) => {
+        const faceOnlyStations = dedupeStationsByReciterName(Array.isArray(faceStations) ? faceStations : []);
+        stations.value = faceOnlyStations;
+        runSearch();
+        likedStations.value = likedStations.value.filter((s) => faceOnlyStations.some((station) => station.id === s.id));
+        recentlyPlayed.value = recentlyPlayed.value.filter((s) => faceOnlyStations.some((station) => station.id === s.id));
+      })
+      .catch(() => {});
+  }, 0);
 };
 
 const fetchAlquranReciterMetadata = async () => {
@@ -1145,7 +1251,8 @@ const onGlobalKeydown = (event) => {
 };
 
 const handleStationImageError = (station) => {
-  station.imageUrl = RECITER_IMAGE_PLACEHOLDER;
+  const generatedFallback = buildReciterImageUrl(station?.name || '');
+  station.imageUrl = station?.imageUrl === generatedFallback ? RECITER_IMAGE_PLACEHOLDER : generatedFallback;
 };
 
 const pauseAllAudio = () => {
@@ -1265,7 +1372,6 @@ const fetchStations = async () => {
   isLoading.value = true;
   fetchError.value = null;
   try {
-    await fetchAlquranReciterMetadata();
     const response = await fetch('https://mp3quran.net/api/v3/radios?language=eng');
     if (!response.ok) throw new Error(`HTTP error: ${response.status}`);
     const data = await response.json();
@@ -1283,23 +1389,27 @@ const fetchStations = async () => {
       listeners: Math.floor(Math.random() * (2500 - 200) + 200) // Higher listener count for popular ones
     })).map(enrichStation);
 
-    stations.value = [
+    stations.value = dedupeStationsByReciterName([
       ...defaultStationsWithListeners,
       ...apiStations.filter(apiStation => !defaultStationsWithListeners.some(pr => pr.id === apiStation.id)),
-    ].filter(station => isValidUrl(station.url));
+    ].filter(station => isValidUrl(station.url)));
 
     filteredStations.value = stations.value;
-    await hydrateStationImages(stations.value);
     initializeVolumes();
     loadLikedStations();
     loadRecentlyPlayed();
+    hydrateStationImagesInBackground(stations.value);
+    fetchAlquranReciterMetadata().catch(() => {});
   } catch (error) {
     console.error('Failed to fetch stations:', error);
     fetchError.value = 'Failed to load stations. Using default reciters.';
-    stations.value = [...defaultPopularReciters].map(enrichStation).filter(station => isValidUrl(station.url));
+    stations.value = dedupeStationsByReciterName(
+      [...defaultPopularReciters].map(enrichStation).filter(station => isValidUrl(station.url))
+    );
     filteredStations.value = stations.value;
-    await hydrateStationImages(stations.value);
     initializeVolumes();
+    hydrateStationImagesInBackground(stations.value);
+    fetchAlquranReciterMetadata().catch(() => {});
   } finally {
     isLoading.value = false;
   }
