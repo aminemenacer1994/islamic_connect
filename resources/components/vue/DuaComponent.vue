@@ -2,6 +2,7 @@
   <main class="container-fluid dua-shell py-4" role="main" aria-labelledby="dua-title">
     <section class="container dua-hero mb-4">
       <div class="dua-hero-text">
+        <p class="dua-kicker mb-2">Dua Collection</p>
         <h1 id="dua-title" class="fw-bold mb-2 dua-title">Dua Library</h1>
         <p class="dua-hero-subtitle mb-0 dua-lead">
           Find authentic duas by theme, then save or share what you need.
@@ -12,6 +13,7 @@
     <section class="container dua-tab-panel mb-3">
       <div class="dua-tab-row">
         <button
+          id="tab-all"
           type="button"
           class="dua-tab-btn"
           :class="{ active: viewMode === 'all' }"
@@ -23,6 +25,7 @@
           All Duas
         </button>
         <button
+          id="tab-liked"
           type="button"
           class="dua-tab-btn"
           :class="{ active: viewMode === 'liked' }"
@@ -53,6 +56,19 @@
 
     <section class="container mb-3 dua-search-wrapper" role="search">
       <div class="dua-search-card p-3">
+        <div class="d-flex justify-content-between align-items-center gap-2 mb-3 flex-wrap">
+          <p class="dua-results-note mb-0">
+            <strong>{{ visibleDuasCount }}</strong>
+            {{ visibleDuasCount === 1 ? 'dua matches your current view' : 'duas match your current view' }}
+          </p>
+          <button
+            v-if="hasActiveFilters"
+            type="button"
+            class="btn btn-sm btn-outline-secondary rounded-pill px-3"
+            @click="clearSearch">
+            Reset filters
+          </button>
+        </div>
         <div class="row g-3 align-items-stretch">
           <div class="col-md-6">
             <label class="form-label visually-hidden" for="dua-search-input">Search duas</label>
@@ -105,17 +121,17 @@
       </div>
     </section>
 
-    <section class="container mb-4" aria-label="Suggested topics">
-      <div class="dua-tag-list">
+    <section v-if="activeFilterPills.length" class="container mb-5" aria-label="Active filters">
+      <div class="dua-active-filters">
+        <span class="dua-active-filters-label">Active filters:</span>
         <button
-          v-for="tag in searchTags"
-          :key="tag"
+          v-for="pill in activeFilterPills"
+          :key="pill.key"
           type="button"
-          class="dua-tag"
-          :class="{ active: tag === 'All' ? !selectedTag : selectedTag === tag }"
-          @click="selectedTag = tag === 'All' ? '' : (selectedTag === tag ? '' : tag); resetPagination();">
-          <i :class="getTagIcon(tag)" aria-hidden="true"></i>
-          <span>{{ tag }}</span>
+          class="dua-filter-pill"
+          @click="removeFilter(pill.key)">
+          <span>{{ pill.label }}</span>
+          <i class="bi bi-x"></i>
         </button>
       </div>
     </section>
@@ -130,7 +146,7 @@
     <div class="container">
       <div v-if="isLoading && !errorMessage" class="text-center my-5">
         <div class="spinner-border text-success" role="status" aria-label="Loading"></div>
-        <div class="mt-2 text-muted">Loading duas…</div>
+        <div class="mt-2 text-muted">Loading duas...</div>
       </div>
 
       <div v-if="errorMessage" class="alert alert-danger text-center" role="alert">
@@ -158,17 +174,32 @@
         :aria-labelledby="`category-title-${category.id}`">
         <div class="dua-category-heading mb-3">
           <div>
-            <h2 class="category-title fw-bold mb-0" :id="`category-title-${category.id}`">{{ category.name }}</h2>
+            <h2 class="category-title fw-bold mb-1" :id="`category-title-${category.id}`">{{ category.name }}</h2>
+            <p class="category-meta mb-0">{{ category.duas.length }} duas in this section</p>
           </div>
-          <button
-            type="button"
-            class="category-toggle"
-            :class="{ expanded: !category.collapsed }"
-            @click="toggleCategoryCollapse(category.id)"
-            :aria-expanded="!category.collapsed"
-            :title="category.collapsed ? 'Expand category' : 'Collapse category'">
-            <i :class="category.collapsed ? 'bi bi-chevron-down' : 'bi bi-chevron-up'"></i>
-          </button>
+          <div class="category-actions">
+            <button
+              v-if="viewMode === 'all'"
+              type="button"
+              class="category-like-toggle"
+              @click="toggleAllInCategory(category.id)">
+              <i class="bi" :class="allDuasLikedInCategory(category.id) ? 'bi-heart-fill' : 'bi-heart'"></i>
+              <span>
+                {{ allDuasLikedInCategory(category.id)
+                  ? 'Liked'
+                  : (actionFeedback[category.id] ? 'Saved!' : 'Like Category') }}
+              </span>
+            </button>
+            <button
+              type="button"
+              class="category-toggle"
+              :class="{ expanded: !category.collapsed }"
+              @click="toggleCategoryCollapse(category.id)"
+              :aria-expanded="!category.collapsed"
+              :title="category.collapsed ? 'Expand category' : 'Collapse category'">
+              <i :class="category.collapsed ? 'bi bi-chevron-down' : 'bi bi-chevron-up'"></i>
+            </button>
+          </div>
         </div>
 
         <div v-if="!category.collapsed" class="row g-3 dua-card-grid" role="list">

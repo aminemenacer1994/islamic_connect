@@ -63,6 +63,32 @@ export default {
     };
   },
   computed: {
+    visibleDuasCount() {
+      return this.filteredDuas.reduce((sum, category) => sum + (category.duas?.length || 0), 0);
+    },
+    activeFilterPills() {
+      const pills = [];
+      if (this.searchQuery.trim()) {
+        pills.push({ key: 'query', label: `Search: ${this.searchQuery.trim()}` });
+      }
+      if (this.selectedCategory) {
+        const category = this.duaCollection.find(item => item.id === parseInt(this.selectedCategory));
+        pills.push({
+          key: 'category',
+          label: `Category: ${category ? category.name : this.selectedCategory}`,
+        });
+      }
+      if (this.selectedReference) {
+        pills.push({ key: 'reference', label: `Reference: ${this.selectedReference}` });
+      }
+      if (this.selectedTag) {
+        pills.push({ key: 'tag', label: `Tag: ${this.selectedTag}` });
+      }
+      if (this.viewMode === 'liked') {
+        pills.push({ key: 'view', label: 'View: Liked' });
+      }
+      return pills;
+    },
     uniqueReferences() {
       const references = new Set();
       this.duaCollection.forEach(category => {
@@ -178,6 +204,14 @@ export default {
     },
   },
   methods: {
+    removeFilter(filterType) {
+      if (filterType === 'query') this.searchQuery = '';
+      if (filterType === 'category') this.selectedCategory = '';
+      if (filterType === 'reference') this.selectedReference = '';
+      if (filterType === 'tag') this.selectedTag = '';
+      if (filterType === 'view') this.viewMode = 'all';
+      this.resetPagination();
+    },
     async resolveStorageScope() {
       const resolvedId = await fetchUserIdFromApi();
       this.storageUserId = resolvedId;
