@@ -637,6 +637,12 @@ export default {
             surahSearchQuery: "",
             activeSidebarTab: "surah",
             sidebarSearchQuery: "",
+            sidebarDebouncedQuery: "",
+            sidebarSearchDebounceTimer: null,
+            sidebarVerseRenderInitial: 100,
+            sidebarVerseRenderStep: 100,
+            sidebarVerseRenderCount: 100,
+            sidebarListScrollRaf: null,
             selectedJuz: null,
             sidebarCollapsed: false,
             isMemorisationToolbarVisible: false,
@@ -924,74 +930,99 @@ export default {
             const when = this.formatDateKey(next.scheduledDate);
             return `Next review: ${this.hifdhEntrySummary(next)} (${label}) on ${when}.`;
         },
-        filteredJuzs() {
-            const query = (this.sidebarSearchQuery || "").trim().toLowerCase();
-            const allJuz = Array.from({ length: 30 }, (_, i) => i + 1);
-            
-            // Map to objects with metadata
-            const juzWithMetadata = allJuz.map(j => {
-                const start = JUZ_START_MAPPING[j];
-                let surahName = "";
-                if (start && this.surahs.length > 0) {
-                    const s = this.surahs.find(s => s.number === start.surah);
-                    surahName = s ? s.englishName : `Surah ${start.surah}`;
-                }
+        sidebarNormalizedQuery() {
+            return (this.sidebarDebouncedQuery || "").trim().toLowerCase();
+        },
+        surahNameByNumber() {
+            const lookup = {};
+            if (!Array.isArray(this.surahs)) return lookup;
+            this.surahs.forEach((surah) => {
+                const number = Number(surah?.number);
+                if (!number) return;
+                lookup[number] = surah?.englishName || `Surah ${number}`;
+            });
+            return lookup;
+        },
+        juzMetadata() {
+            const surahLookup = this.surahNameByNumber;
+            return Array.from({ length: 30 }, (_, i) => i + 1).map((number) => {
+                const start = JUZ_START_MAPPING[number];
+                const surahNumber = Number(start?.surah || 0);
+                const ayahNumber = Number(start?.ayah || 0);
                 return {
-                    number: j,
-                    surahNumber: start ? start.surah : 0,
-                    ayahNumber: start ? start.ayah : 0,
-                    surahName: surahName
+                    number,
+                    surahNumber,
+                    ayahNumber,
+                    surahName: surahLookup[surahNumber] || `Surah ${surahNumber}`,
                 };
             });
-
-            if (!query) return juzWithMetadata;
-
-            return juzWithMetadata.filter(j => 
-                j.number.toString().includes(query) || 
-                `juz ${j.number}`.includes(query) ||
-                j.surahName.toLowerCase().includes(query)
-            );
+        },
+        sidebarVerseRows() {
+            const ayahs = this.surahDetails?.ayahs;
+            if (!Array.isArray(ayahs)) return [];
+            return ayahs.map((ayah) => {
+                const number = Number(ayah.numberInSurah || ayah.number || 0);
+                return {
+                    number,
+                    text: ayah.text,
+                    translation: ayah.translation,
+                    key: number,
+                    searchIndex: [
+                        String(number),
+                        ayah.lowerText || String(ayah.text || "").toLowerCase(),
+                        ayah.lowerTranslation ||
+                            String(ayah.translation || "").toLowerCase(),
+                        ayah.lowerTransliteration ||
+                            String(ayah.transliteration || "").toLowerCase(),
+                    ]
+                        .join(" ")
+                        .trim(),
+                };
+            });
+        },
+        filteredJuzs() {
+            const query = this.sidebarNormalizedQuery;
+            if (!query) return this.juzMetadata;
+            return this.juzMetadata.filter((juz) => {
+                const ref = `${juz.surahNumber}:${juz.ayahNumber}`;
+                return (
+                    String(juz.number).includes(query) ||
+                    `juz ${juz.number}`.includes(query) ||
+                    ref.includes(query) ||
+                    String(juz.surahNumber).includes(query) ||
+                    String(juz.surahName || "")
+                        .toLowerCase()
+                        .includes(query)
+                );
+            });
         },
         filteredPages() {
-             const query = (this.sidebarSearchQuery || "").trim().toLowerCase();
-             const allPages = Array.from({ length: 604 }, (_, i) => i + 1);
-             if (!query) return allPages;
-             return allPages.filter(p => 
-                 p.toString().includes(query) || 
-                 `page ${p}`.includes(query)
-             );
+            const query = this.sidebarNormalizedQuery;
+            const allPages = Array.from({ length: 604 }, (_, i) => i + 1);
+            if (!query) return allPages;
+            return allPages.filter(
+                (pageNumber) =>
+                    String(pageNumber).includes(query) ||
+                    `page ${pageNumber}`.includes(query)
+            );
         },
         filteredVersesList() {
-             if (!this.surahDetails || !this.surahDetails.ayahs) return [];
-             const query = (this.sidebarSearchQuery || "").trim().toLowerCase();
-             
-             if (!query) {
-                 return this.surahDetails.ayahs.map(a => ({
-                     number: a.numberInSurah,
-                     text: a.text,
-                     translation: a.translation,
-                     key: a.numberInSurah
-                 }));
-             }
-
-             return this.surahDetails.ayahs
-                .filter(a => 
-                    String(a.numberInSurah).includes(query) ||
-                    (a.lowerText && a.lowerText.includes(query)) ||
-                    (a.lowerTranslation && a.lowerTranslation.includes(query)) ||
-                    (a.lowerTransliteration &&
-                        a.lowerTransliteration.includes(query))
-                )
-                .map(a => ({
-                     number: a.numberInSurah,
-                     text: a.text,
-                     translation: a.translation,
-                     key: a.numberInSurah
-                 }));
+            const rows = this.sidebarVerseRows;
+            const query = this.sidebarNormalizedQuery;
+            if (!query) return rows;
+            return rows.filter((row) => row.searchIndex.includes(query));
+        },
+        visibleFilteredVersesList() {
+            return this.filteredVersesList.slice(0, this.sidebarVerseRenderCount);
+        },
+        hasMoreFilteredVerses() {
+            return (
+                this.visibleFilteredVersesList.length < this.filteredVersesList.length
+            );
         },
         filteredSurahs_sidebar() {
              if (!Array.isArray(this.surahs)) return [];
-             const raw = (this.sidebarSearchQuery || "").trim().toLowerCase();
+             const raw = this.sidebarNormalizedQuery;
              if (!raw) return this.surahs;
              return this.surahs.filter((surah) => {
                  const english = (surah.englishName || "").toLowerCase();
@@ -1544,6 +1575,18 @@ export default {
                 this.persistPinnedAyahs(next);
             },
         },
+        sidebarSearchQuery(value) {
+            clearTimeout(this.sidebarSearchDebounceTimer);
+            this.sidebarSearchDebounceTimer = setTimeout(() => {
+                this.sidebarDebouncedQuery = value || "";
+            }, 140);
+        },
+        sidebarDebouncedQuery() {
+            this.resetSidebarVerseRenderCount();
+        },
+        activeSidebarTab() {
+            this.resetSidebarVerseRenderCount();
+        },
         searchQuery: function (val) {
             clearTimeout(this.debounceTimer);
             this.debounceTimer = setTimeout(() => {
@@ -2076,6 +2119,7 @@ export default {
             }
             this.teardownSpeechRecognition();
             clearTimeout(this.advancedSearchDebounceTimer);
+            clearTimeout(this.sidebarSearchDebounceTimer);
             this.abortAdvancedSearchRequest();
             clearTimeout(this.savedAyahClearTimer);
             clearTimeout(this.surahAudioDownloadedTimer);
@@ -2110,6 +2154,10 @@ export default {
         if (this._heightMeasureRaf && typeof window !== "undefined") {
             window.cancelAnimationFrame(this._heightMeasureRaf);
             this._heightMeasureRaf = null;
+        }
+        if (this.sidebarListScrollRaf && typeof window !== "undefined") {
+            window.cancelAnimationFrame(this.sidebarListScrollRaf);
+            this.sidebarListScrollRaf = null;
         }
         const hifdhModalEl = document.getElementById("hifdhPlanModal");
         if (hifdhModalEl && this.hifdhPlanModalShownHandler) {
@@ -2149,6 +2197,7 @@ export default {
         window.removeEventListener("resize", this.calibrateItemHeight);
         this.teardownSpeechRecognition();
         clearTimeout(this.advancedSearchDebounceTimer);
+        clearTimeout(this.sidebarSearchDebounceTimer);
         this.abortAdvancedSearchRequest();
         clearTimeout(this.savedAyahClearTimer);
         clearTimeout(this.surahAudioDownloadedTimer);
@@ -2183,6 +2232,10 @@ export default {
             if (this._heightMeasureRaf && typeof window !== "undefined") {
                 window.cancelAnimationFrame(this._heightMeasureRaf);
                 this._heightMeasureRaf = null;
+            }
+            if (this.sidebarListScrollRaf && typeof window !== "undefined") {
+                window.cancelAnimationFrame(this.sidebarListScrollRaf);
+                this.sidebarListScrollRaf = null;
             }
             if (this._virtualWindowRaf && typeof window !== "undefined") {
                 window.cancelAnimationFrame(this._virtualWindowRaf);
@@ -2345,6 +2398,7 @@ export default {
             await this.enterReadingFullscreen();
         },
         toggleMemorisationToolbar() {
+            this.scrollToTop();
             this.isMemorisationToolbarVisible = !this.isMemorisationToolbarVisible;
             if (this.isMemorisationToolbarVisible) {
                 this.showDesktopToolbar = false;
@@ -6971,22 +7025,6 @@ export default {
                 this.visibleStart = start;
                 this.visibleEnd = end;
                 
-                // UX Improvement: Sync sidebar highlights on scroll (if not playing)
-                const isPlayingAny = Object.values(this.isAudioPlaying).some(v => v);
-                if (
-                    !this.isNavigating &&
-                    !this.isAutoSyncLocked() &&
-                    this.isManualScrolling &&
-                    !isPlayingAny &&
-                    this.filteredAyahs?.[approxIndex]
-                ) {
-                    // Critical: Use a silent update or check isManualScrolling 
-                    // to prevent syncPlaybackScroll from snap-jumping during user scroll.
-                    this.currentlyPlayingIndex = approxIndex;
-                    this.isHighlighted = true;
-                    this.selectedJuz = this.filteredAyahs[approxIndex].juz;
-                }
-                
                 if (!this.itemHeightCalibrated) {
                     this.scheduleHeightCalibration(true);
                 }
@@ -7510,6 +7548,10 @@ export default {
             if (this.isMemorisationMode) this.memorisationFocusIndex = index;
             this.isHighlighted = true;
             const selectedAyah = this.filteredAyahs?.[index];
+            const selectedAyahJuz = Number(selectedAyah?.juz || 0);
+            if (selectedAyahJuz) {
+                this.selectedJuz = selectedAyahJuz;
+            }
             const selectedAyahNumber = Number(
                 selectedAyah?.numberInSurah || selectedAyah?.number
             );
@@ -9428,42 +9470,140 @@ export default {
             this.selectCard(startIndex);
             this.playAudio(startIndex);
         },
+        resetSidebarVerseRenderCount() {
+            this.sidebarVerseRenderCount = Math.max(
+                40,
+                Number(this.sidebarVerseRenderInitial) || 100
+            );
+        },
+        loadMoreSidebarVerses() {
+            if (!this.hasMoreFilteredVerses) return;
+            this.sidebarVerseRenderCount = Math.min(
+                this.filteredVersesList.length,
+                this.sidebarVerseRenderCount +
+                    Math.max(40, Number(this.sidebarVerseRenderStep) || 100)
+            );
+        },
+        handleSidebarListScroll(event) {
+            if (this.activeSidebarTab !== "verse" || !this.hasMoreFilteredVerses) {
+                return;
+            }
+            if (typeof window === "undefined" || this.sidebarListScrollRaf) return;
+            const host = event?.target;
+            if (!host) return;
+            this.sidebarListScrollRaf = window.requestAnimationFrame(() => {
+                this.sidebarListScrollRaf = null;
+                const remaining =
+                    host.scrollHeight - host.scrollTop - host.clientHeight;
+                if (remaining <= 220) {
+                    this.loadMoreSidebarVerses();
+                }
+            });
+        },
+        clearMainAyahSearchFilter() {
+            clearTimeout(this.debounceTimer);
+            this.searchQuery = "";
+            this.debouncedQuery = "";
+        },
+        resolveAyahIndexByNumber(ayahNumber) {
+            const target = Number(ayahNumber);
+            if (!target || !Array.isArray(this.filteredAyahs)) return -1;
+            return this.filteredAyahs.findIndex(
+                (ayah) => Number(ayah?.numberInSurah || ayah?.number) === target
+            );
+        },
+        navigateToAyahNumber(ayahNumber, options = {}) {
+            const { clearMainFilter = false, precise = false } = options;
+            const targetAyah = Number(ayahNumber);
+            if (!targetAyah) {
+                this.isNavigating = false;
+                return false;
+            }
+            if (clearMainFilter) {
+                this.clearMainAyahSearchFilter();
+            }
+            const total = Array.isArray(this.filteredAyahs)
+                ? this.filteredAyahs.length
+                : 0;
+            if (!total) {
+                this.isNavigating = false;
+                return false;
+            }
+
+            let targetIndex = this.resolveAyahIndexByNumber(targetAyah);
+            if (targetIndex < 0 && targetAyah <= total) {
+                targetIndex = Math.max(0, targetAyah - 1);
+            }
+            if (targetIndex < 0 || targetIndex >= total) {
+                this.isNavigating = false;
+                return false;
+            }
+
+            const start = Math.max(0, targetIndex - this.buffer);
+            this.visibleStart = start;
+            this.visibleEnd = Math.min(
+                total,
+                start + this.windowSize + this.buffer * 2
+            );
+
+            this.$nextTick(() => {
+                this.scrollToAyahIndex(targetIndex, {
+                    settle: !!precise,
+                    settleDelay: precise ? 260 : null,
+                    force: true,
+                    behavior: "auto",
+                    lock: !!precise,
+                });
+                if (precise) {
+                    this.alignAyahCardAfterSearch(targetIndex, "auto");
+                }
+            });
+            return true;
+        },
+        selectSurahFromSidebar(number) {
+            this.clearMainAyahSearchFilter();
+            return this.selectSurah(number, { skipScroll: true }).then(() => {
+                if (typeof window !== "undefined") {
+                    window.scrollTo({ top: 0, behavior: "auto" });
+                }
+            });
+        },
         setActiveSidebarTab(tab) {
+            clearTimeout(this.sidebarSearchDebounceTimer);
             this.activeSidebarTab = tab;
             this.sidebarSearchQuery = "";
+            this.sidebarDebouncedQuery = "";
         },
         async selectJuz(juzNumber) {
             this.isNavigating = true;
             this.lastManualNavigationAt = Date.now();
-            this.selectedJuz = juzNumber;
-            const start = getJuzStart(juzNumber);
+            const normalizedJuz = Number(juzNumber) || null;
+            this.selectedJuz = normalizedJuz;
+            const start = getJuzStart(normalizedJuz);
             if (start) {
                 // Ensure surah is loaded first (selectSurah returns a promise)
                 await this.selectSurah(start.surah, { skipScroll: true });
-                // No search clearing needed here as we are jumping to a specific Juz start
-                this.selectCard(start.ayah - 1);
-                this.scrollToAyahIndex(start.ayah - 1, {
-                    settle: true,
-                    force: true,
-                    behavior: "smooth",
-                    lock: true,
+                this.navigateToAyahNumber(start.ayah, {
+                    clearMainFilter: true,
+                    precise: true,
                 });
+                return;
             }
+            this.isNavigating = false;
         },
         async selectPage(pageNumber) {
             this.isNavigating = true;
             this.lastManualNavigationAt = Date.now();
-            const start = getPageStart(pageNumber);
+            const normalizedPage = Number(pageNumber) || null;
+            const start = getPageStart(normalizedPage);
             if (start) {
                 // Ensure surah is loaded first (selectSurah returns a promise)
                 await this.selectSurah(start.surah, { skipScroll: true });
-                this.selectCard(start.ayah - 1);
-                this.scrollToAyahIndex(start.ayah - 1, {
-                    settle: true,
-                    force: true,
-                    behavior: "smooth",
-                    lock: true,
+                this.navigateToAyahNumber(start.ayah, {
+                    clearMainFilter: true,
+                    precise: true,
                 });
+                return;
             } else {
                  console.log("Page navigation mapping incomplete");
                  this.isNavigating = false;
@@ -9472,18 +9612,13 @@ export default {
         selectVerseFromSidebar(verseIndex) {
             this.isNavigating = true;
             this.lastManualNavigationAt = Date.now();
-            // Clear main view search to ensure verse is visible
-            this.searchQuery = "";
-            this.debouncedQuery = "";
-            this.selectCard(verseIndex - 1);
+            this.clearMainAyahSearchFilter();
             
             const runScroll = () => {
                 this.$nextTick(() => {
-                    this.scrollToAyahIndex(verseIndex - 1, {
-                        settle: true,
-                        force: true,
-                        behavior: "smooth",
-                        lock: true,
+                    this.navigateToAyahNumber(verseIndex, {
+                        clearMainFilter: false,
+                        precise: true,
                     });
                 });
             };

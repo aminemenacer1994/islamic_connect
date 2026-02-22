@@ -59,7 +59,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
 const _hoisted_1 = {
-  class: "container py-4"
+  class: "container py-4 media-center-page"
 };
 const _hoisted_2 = {
   class: "row g-4"
@@ -68,7 +68,7 @@ const _hoisted_3 = {
   class: "col-md-6 col-lg-4"
 };
 const _hoisted_4 = {
-  class: "card custom-card rounded-4 overflow-hidden"
+  class: "card custom-card podcast-card rounded-4 overflow-hidden"
 };
 const _hoisted_5 = {
   class: "p-3"
@@ -121,24 +121,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "text-center fw-bold display-5 mb-4"
   }, "Media Center", -1 /* CACHED */)), _cache[26] || (_cache[26] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "text-center mb-4 lead"
-  }, "The Media Center at Islamic Connect is a central hub for inspiring and educational Islamic content. It brings together voices, stories, and teachings from across the Muslim world, helping you stay connected, informed, and uplifted.", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <span class=\"badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2\">New</span> "), _cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+  }, "The Media Center at Islamic Connect is a central hub for inspiring and educational Islamic content. It brings together voices, stories, and teachings from across the Muslim world, helping you stay connected, informed, and uplifted.", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [_cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    class: "podcast-card-badge"
+  }, "Featured Audio", -1 /* CACHED */)), _cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: "/images/ap.avif",
-    alt: "Qibla finder",
-    class: "w-90 mt-1",
-    style: {
-      "object-fit": "contain",
-      "padding": "20px"
-    }
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [_cache[6] || (_cache[6] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
-    class: "mb-2 fw-bold text-dark text-center"
-  }, "Audio Podcasts", -1 /* CACHED */)), _cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    class: "card-text text-muted text-wrap text-center",
-    style: {
-      "overflow": "hidden",
-      "text-overflow": "ellipsis",
-      "max-height": "4.5em"
-    }
-  }, " Islamic podcasts offer insightful discussions and teachings from speakers on various aspects of Islamic faith, history, and daily life. ", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <button class=\"form-control\" onclick=\"window.location.href='/content'\" type=\"submit\">\n                            <span class=\"text-center w-100\"><b>Stream Podcasts</b></span>\n                        </button>  "), $props.isAuthenticated && $props.isSubscribed ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+    alt: "Audio Podcasts",
+    class: "w-90 mt-1 podcast-card-image"
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [_cache[6] || (_cache[6] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<h1 class=\"mb-2 fw-bold text-dark text-center\" data-v-44b8ea5a>Audio Podcasts</h1><p class=\"card-text text-muted text-wrap text-center\" data-v-44b8ea5a> Islamic podcasts offer insightful discussions and teachings from speakers on various aspects of Islamic faith, history, and daily life. </p><ul class=\"podcast-features\" data-v-44b8ea5a><li data-v-44b8ea5a><i class=\"bi bi-check2-circle\" data-v-44b8ea5a></i> Curated scholars and topics</li><li data-v-44b8ea5a><i class=\"bi bi-check2-circle\" data-v-44b8ea5a></i> Continue listening and favorites</li><li data-v-44b8ea5a><i class=\"bi bi-check2-circle\" data-v-44b8ea5a></i> Mobile-friendly audio controls</li></ul>", 3)), $props.isAuthenticated && $props.isSubscribed ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
     key: 0,
     class: "form-control",
     onClick: _cache[0] || (_cache[0] = $event => $options.goTo('/content')),

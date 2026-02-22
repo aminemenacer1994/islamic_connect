@@ -1,11 +1,11 @@
 <template>
-  <div class="container py-4">
+  <div class="container py-4 podcast-page">
     <!-- Header Section -->
-    <div class="row justify-content-center text-center mb-3">
+    <div class="row justify-content-center text-center mb-3 podcast-hero">
       <div class="col-lg-10 col-xl-10">
-        <h1 class="display-5 fw-bold">Audio Podcasts</h1>
+        <h1 class="display-5 fw-bold podcast-hero__title">Audio Podcasts</h1>
       </div>
-      <p class="lead">
+      <p class="lead podcast-hero__lead">
         Tune into thoughtfully curated Islamic audio that brings together scholars, storytellers, and community voices.
       </p>
     </div>
@@ -30,33 +30,21 @@
     </div>
 
     <!-- Selected Podcast Details -->
-    <div class="selected-podcast-section card-teal" v-if="selectedPodcast" ref="podcastDetailSection"
-      :style="'position:relative;overflow:hidden;padding:2rem;box-shadow:0 10px 40px rgba(0,0,0,.12);border:2px solid rgba(11,179,154,.12)'">
-      <div class="selected-podcast-header" :style="'display:flex;align-items:center;gap:1.5rem;margin-bottom:1rem'">
+    <div class="selected-podcast-section selected-podcast-shell card-teal" v-if="selectedPodcast" ref="podcastDetailSection">
+      <div class="selected-podcast-header">
         <div class="selected-podcast-info">
-          <h3 class="selected-podcast-title" :style="'font-size:2rem;font-weight:800;color:#0b1320;margin:0 0 .5rem'">{{
-            selectedPodcast.name }}</h3>
-          <div class="selected-podcast-meta" :style="'display:flex;gap:.75rem;flex-wrap:wrap'">
-            <span class="episode-count meta-pill">
-              <i class="bi bi-collection-play"></i>
-              {{ formatEpisodeCount(selectedPodcast.episodeCount) }} Episodes Available
-            </span>
-            <span class="episode-count meta-pill">
-              <i class="bi bi-clock-history"></i>
-              {{ formatTotalDuration(totalListeningMinutes) }} total
-            </span>
-            <span class="episode-count meta-pill">
-              <i class="bi bi-eye"></i>
-              {{ formatNumber(totalViews) }} views
-            </span>
-          </div>
+          <h3 class="selected-podcast-title">{{ selectedPodcast.name }}</h3>
+          <p class="selected-podcast-stats">
+            {{ formatEpisodeCount(selectedPodcast.episodeCount) }} episodes ·
+            {{ formatTotalDuration(totalListeningMinutes) }} total ·
+            {{ formatNumber(totalViews) }} views
+          </p>
         </div>
         <div class="selected-podcast-image-container">
-          <img :src="selectedPodcast.image" :alt="selectedPodcast.name" class="selected-podcast-image" loading="lazy"
-            :style="'width:120px;height:120px;object-fit:cover;border-radius:20px;border:3px solid #fff;box-shadow:0 10px 30px rgba(0,0,0,.2)'">
+          <img :src="selectedPodcast.image" :alt="selectedPodcast.name" class="selected-podcast-image" loading="lazy">
         </div>
       </div>
-      <div class="selected-podcast-description" :style="'color:#495057;line-height:1.7;font-size:1.05rem'">
+      <div class="selected-podcast-description">
         <p>{{ selectedPodcast.desc }}</p>
       </div>
     </div>
@@ -68,9 +56,9 @@
           Listening</h2>
         <p class="section-subtitle">Pick up where you left off</p>
       </div>
-      <div class="podcast-cards-grid border-md card-teal" style="padding: 5px;">
+      <div class="podcast-cards-grid border-md card-teal continue-grid">
         <div v-for="(item, idx) in continueListening" :key="item.title" class="podcast-card-wrapper">
-          <div class="podcast-card" style="padding: 1.2rem;">
+          <div class="podcast-card continue-card">
             <div class="card-body">
               <div class="podcast-card-top">
                 <img v-if="selectedPodcast && selectedPodcast.image" :src="selectedPodcast.image"
@@ -153,50 +141,48 @@
 
     <!-- Podcast Episodes Section -->
     <div v-if="selectedPodcast" class="episodes-section">
-      <div class="section-header">
-        <h2 class="section-title" style="background-image:none;-webkit-text-fill-color:initial;color:#0b1320;">Episodes
-        </h2>
+      <div class="section-header episodes-header">
+        <h2 class="section-title section-title-plain">Episodes</h2>
         <p class="section-subtitle">Press play to experience each episode’s rich audio storytelling.</p>
+        <div class="episodes-header__meta">
+          <span class="episodes-total">{{ filteredAndSearchedPodcasts.length }} results</span>
+          <button v-if="hasActiveFilters" type="button" class="clear-filters-btn" @click="clearEpisodeFilters">
+            Clear filters
+          </button>
+        </div>
       </div>
       <div v-if="fetchError" class="alert alert-danger" role="alert">
         {{ fetchError }}
       </div>
-      <div class="episodes-filters-bar-wrapper"
-        :style="'background:linear-gradient(135deg,#f5fff1 0%,#e0f6ec 60%,#d3edf5 100%);border:1px solid rgba(11,179,154,0.25);border-radius:10px;padding:.5rem .75rem;margin-bottom:1rem;position:sticky;top:8px;z-index:50'">
+      <div class="episodes-filters-bar-wrapper">
         <div class="row g-2 align-items-center">
           <!-- Search -->
           <div class="col-12 col-md-6 order-2 order-md-1">
-            <div class="input-group"
-              :style="'display:flex;align-items:center;background:#fff;border:1px solid #dbe5e8;border-radius:10px;height:40px'">
-              <span class="input-group-text bg-white border-end-0"
-                :style="'border:0;border-right:1px solid #eef2f4;border-radius:10px 0 0 10px;color:#06b6ac;font-size:1rem'">
+            <div class="input-group podcast-search-input">
+              <span class="input-group-text bg-white border-end-0">
                 <i class="bi bi-search"></i>
               </span>
               <input v-model="searchInput" @input="onSearchInput" type="text" class="form-control border-start-0"
-                placeholder="Search episodes..."
-                :style="'border:0;border-radius:0 10px 10px 0;padding:6px 10px;font-size:.95rem'" />
+                placeholder="Search episodes..." />
             </div>
           </div>
 
           <!-- Inline filters on md+, compact -->
           <div class="col-md-6 d-none d-md-flex order-1 order-md-2 justify-content-end gap-2">
-            <select v-model="durationFilter" class="form-select" aria-label="Filter by duration"
-              :style="'max-width:160px;height:40px;border:1px solid #dbe5e8;border-radius:10px;font-size:.95rem'">
+            <select v-model="durationFilter" class="form-select filter-select" aria-label="Filter by duration">
               <option value="" disabled selected hidden>Duration</option>
               <option value="0-10">0-10 min</option>
               <option value="10-30">10-30 min</option>
               <option value="30-60">30-60 min</option>
               <option value="more-than-60">60+ min</option>
             </select>
-            <select v-model="languageFilter" class="form-select" aria-label="Filter by language"
-              :style="'max-width:150px;height:40px;border:1px solid #dbe5e8;border-radius:10px;font-size:.95rem'">
+            <select v-model="languageFilter" class="form-select filter-select" aria-label="Filter by language">
               <option value="">Languages</option>
               <option value="English">English</option>
               <option value="Arabic">Arabic</option>
               <option value="Unknown">Unknown</option>
             </select>
-            <select v-model="sortOption" class="form-select" aria-label="Sort episodes"
-              :style="'max-width:150px;height:40px;border:1px solid #dbe5e8;border-radius:10px;font-size:.95rem'">
+            <select v-model="sortOption" class="form-select filter-select" aria-label="Sort episodes">
               <option value="mostViewed">Most Viewed</option>
               <option value="leastViewed">Least Viewed</option>
               <option value="newest">Newest</option>
@@ -206,8 +192,7 @@
 
           <!-- Mobile toggle button -->
           <div class="col-12 d-flex d-md-none justify-content-between order-1">
-            <button type="button" class="btn btn-light w-100" @click="showFilters = !showFilters"
-              :style="'border:1px solid #dbe5e8;border-radius:10px;height:40px'">
+            <button type="button" class="btn btn-light w-100 filter-toggle-btn" @click="showFilters = !showFilters">
               <i class="bi bi-funnel me-2"></i> Filters
             </button>
           </div>
@@ -217,23 +202,20 @@
         <transition name="fade">
           <div v-if="showFilters" class="mt-2 d-md-none">
             <div class="d-grid gap-2">
-              <select v-model="durationFilter" class="form-select" aria-label="Filter by duration"
-                :style="'height:40px;border:1px solid #dbe5e8;border-radius:10px;font-size:.95rem'">
+              <select v-model="durationFilter" class="form-select filter-select" aria-label="Filter by duration">
                 <option value="" disabled selected hidden>Duration</option>
                 <option value="0-10">0-10 min</option>
                 <option value="10-30">10-30 min</option>
                 <option value="30-60">30-60 min</option>
                 <option value="more-than-60">60+ min</option>
               </select>
-              <select v-model="languageFilter" class="form-select" aria-label="Filter by language"
-                :style="'height:40px;border:1px solid #dbe5e8;border-radius:10px;font-size:.95rem'">
+              <select v-model="languageFilter" class="form-select filter-select" aria-label="Filter by language">
                 <option value="">Languages</option>
                 <option value="English">English</option>
                 <option value="Arabic">Arabic</option>
                 <option value="Unknown">Unknown</option>
               </select>
-              <select v-model="sortOption" class="form-select" aria-label="Sort episodes"
-                :style="'height:40px;border:1px solid #dbe5e8;border-radius:10px;font-size:.95rem'">
+              <select v-model="sortOption" class="form-select filter-select" aria-label="Sort episodes">
                 <option value="mostViewed">Most Viewed</option>
                 <option value="leastViewed">Least Viewed</option>
                 <option value="newest">Newest</option>
@@ -252,56 +234,44 @@
         <p class="loading-text">Loading episodes, please wait...</p>
         <p class="loading-subtext">This may take a few moments</p>
       </div>
-      <div v-else class="podcast-cards-grid border-md" style="padding: 5px;">
+      <div v-else class="podcast-cards-grid border-md episodes-grid">
         <div v-for="(podcast, index) in visiblePodcasts" :key="podcast.title" class="podcast-card-wrapper">
-          <div :class="['podcast-card', { 'highlighted': playingIndex === index }]"
-            :style="((playingIndex === index) ? 'outline:2px solid #0bb39a;background:linear-gradient(135deg,#f0fffb 0%,#ddfff5 100%);box-shadow:0 14px 30px rgba(11,179,154,.26),0 1.5px 8px rgba(0,0,0,.06);' : '') + 'padding:1.2rem;border-radius:20px;background:linear-gradient(135deg,#ffffff,#eefef9);border:1px solid rgba(11,179,154,.18);box-shadow:0 8px 18px rgba(0,0,0,.08);transition:transform .12s ease-out, box-shadow .12s ease-out'">
-            <div class="card-header" :style="'border-bottom:1px solid rgba(0,0,0,.06);padding-bottom:.5rem'">
+          <div :class="['podcast-card', 'episode-card', { 'highlighted': playingIndex === index }]">
+            <div class="card-header">
               <div v-if="loginWarnings[getEpisodeKey(podcast)]" class="alert alert-warning episode-warning"
                 role="alert">
                 <i class="bi bi-shield-lock-fill" aria-hidden="true"></i>
                 <span class="episode-warning-text">{{ loginWarnings[getEpisodeKey(podcast)] }}</span>
                 <a class="episode-warning-cta" href="/login">Log in</a>
               </div>
-              <div class="podcast-meta"
-                :style="'display:flex;justify-content:space-between;align-items:center;gap:' + (smallScreen ? '8px' : '16px')">
-                <div class="views-badge" :title="'Views'"
-                  :style="'display:flex;align-items:center;gap:8px;padding:' + (smallScreen ? '6px 10px' : '8px 14px') + ';background:#fff;border-radius:20px;border:1px solid rgba(11,179,154,.18);box-shadow:0 4px 10px rgba(0,0,0,.06)'">
-                  <i class="bi bi-eye-fill"
-                    :style="'font-size:' + (smallScreen ? '1rem' : '1.1rem') + ';color:#0bb39a'"></i>
-                  <span class="meta-text" :style="'color:#0b1320;font-weight:600'">{{ podcast.views }} views</span>
+              <div class="podcast-meta">
+                <div class="views-badge" :title="'Views'">
+                  <i class="bi bi-eye-fill"></i>
+                  <span class="meta-text">{{ podcast.views }} views</span>
                 </div>
-                <div class="date-badge" :title="'Published date'"
-                  :style="'display:flex;align-items:center;gap:8px;padding:' + (smallScreen ? '6px 10px' : '8px 14px') + ';background:#fff;border-radius:20px;border:1px solid rgba(11,179,154,.18);box-shadow:0 4px 10px rgba(0,0,0,.06)'">
-                  <i class="bi bi-calendar3"
-                    :style="'font-size:' + (smallScreen ? '1rem' : '1.1rem') + ';color:#0bb39a'"></i>
-                  <span class="meta-text" :style="'color:#0b1320;font-weight:600'">{{ formatDate(podcast.pubDate)
-                    }}</span>
+                <div class="date-badge" :title="'Published date'">
+                  <i class="bi bi-calendar3"></i>
+                  <span class="meta-text">{{ formatDate(podcast.pubDate) }}</span>
                   <span v-if="isNewEpisode(podcast.pubDate)" class="new-badge" aria-label="New episode">NEW</span>
 
                 </div>
               </div>
             </div>
-            <div class="card-body" :style="'padding-top:1rem'">
-              <div class="podcast-card-top"
-                :style="'display:flex;align-items:center;gap:' + (smallScreen ? '.5rem' : '1rem') + ';justify-content:space-between;' + (smallScreen ? 'flex-direction:column;align-items:stretch;' : '')">
+            <div class="card-body">
+              <div class="podcast-card-top episode-card-top">
                 <img v-if="selectedPodcast && selectedPodcast.image" :src="selectedPodcast.image"
                   :alt="selectedPodcast.name" class="episode-avatar podcast-image-clickable"
-                  :style="'width:100px;height:100px;object-fit:cover;margin-right:1rem;border:2px solid #e9ecef;border-radius:20px;box-shadow:0 8px 22px rgba(0,0,0,.10);background:#fff'"
                   decoding="async" fetchpriority="low" @click="scrollToFirstEpisode" style="cursor:pointer;"
                   loading="lazy" />
                 <div class="podcast-card-info">
-                  <h4 class="podcast-title" v-html="highlightText(podcast.title)"
-                    :style="'color:#0b1320;font-weight:800'"></h4>
+                  <h4 class="podcast-title" v-html="highlightText(podcast.title)"></h4>
                   <div class="podcast-extra-info">
-                    <!-- <span class="duration-badge" :title="'Duration'">
-                      <i class="bi bi-clock" style="font-size:1.1rem;"></i>
-                      {{ podcast.duration ? podcast.duration + ' min' : 'N/A' }}
-                    </span> -->
-                    <span class="lang-badge" :title="'Language'"
-                      :style="'display:flex;align-items:center;gap:.35rem;background:#f8f9fa;border-radius:20px;padding:2px 10px;box-shadow:0 1px 4px rgba(0,0,0,.04);border:1px solid rgba(11,179,154,.18);color:#0b1320;font-weight:600'">
-                      <i class="bi bi-translate" :style="'font-size:1.05rem;color:#0bb39a'"></i>
-                      <span>{{ podcast.language }}</span>
+                    {{ podcast.duration ? podcast.duration + ' min' : 'N/A' }} · {{ podcast.language }}
+                  </div>
+                  <div class="episode-metadata-grid">
+                    <span class="meta-chip" :title="'File size'">
+                      <i class="bi bi-hdd-network"></i>
+                      {{ formatAudioSize(podcast.audioSizeBytes) }}
                     </span>
                   </div>
 
@@ -311,7 +281,7 @@
                     :class="{ 'playing': isAudioPlaying[index] }"
                     :aria-label="isAudioPlaying[index] ? 'Pause' : 'Play'">
                     <i class="bi" :class="isAudioPlaying[index] ? 'bi-pause-fill' : 'bi-play-fill'"
-                      style="font-size:1.5rem; cursor:pointer;color:#0b1320"></i>
+                      style="font-size:1.5rem; cursor:pointer;"></i>
                   </button>
                   <button class="control-button" :aria-pressed="isFavourite(podcast) ? 'true' : 'false'"
                     :title="isFavourite(podcast) ? 'Unfavorite' : 'Favorite'"
@@ -342,10 +312,8 @@
     <!-- empty state hidden by request -->
 
     <!-- Audio Player -->
-    <div v-if="showAudioPlayer" class="audio-player-container"
-      :style="'border-radius:20px 20px 0 0;position:fixed;bottom:0;left:0;width:100%;background:linear-gradient(180deg,#2b3a3f 0%,#1e262a 100%);box-shadow:0 -10px 30px rgba(0,0,0,.35);z-index:1000;padding:12px 16px;border-top:1px solid rgba(255,255,255,.06)'">
-      <div class="custom-audio-player" :class="{ minimized: isPlayerMinimized }"
-        :style="'max-width:100%;margin:0 auto;padding:12px;color:#e8f0f2;display:flex;flex-direction:column;gap:10px'">
+    <div v-if="showAudioPlayer" class="audio-player-container">
+      <div class="custom-audio-player" :class="{ minimized: isPlayerMinimized }">
         <div class="controls">
           <div class="controls-left">
             <div class="artwork" v-if="selectedPodcast && selectedPodcast.image">
@@ -405,13 +373,12 @@
           </div>
 
         </div>
-        <div class="progress-bar" @mousedown="startSeek" @click="seekAudio"
-          :style="'width:100%;height:6px;background:linear-gradient(90deg,rgba(255,255,255,.18),rgba(255,255,255,.08));cursor:pointer;position:relative;margin:6px 0;border-radius:999px'">
+        <div class="progress-bar" @mousedown="startSeek" @click="seekAudio">
           <div class="progress"
-            :style="{ width: progress[currentlyPlayingIndex] + '%', height: '100%', background: 'linear-gradient(90deg,#0bb39a,#0a9bd1)', position: 'absolute', borderRadius: '999px' }">
+            :style="{ width: progress[currentlyPlayingIndex] + '%' }">
           </div>
           <div class="progress-handle"
-            :style="{ left: progress[currentlyPlayingIndex] + '%', position: 'absolute', top: '50%', transform: 'translate(-50%, -50%)', width: '14px', height: '14px', borderRadius: '50%', background: '#fff', boxShadow: '0 0 0 3px rgba(11,179,154,.25)', pointerEvents: 'none' }">
+            :style="{ left: progress[currentlyPlayingIndex] + '%' }">
           </div>
         </div>
       </div>

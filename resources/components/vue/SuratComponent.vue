@@ -990,13 +990,6 @@
 
                             <button type="button" 
                                     class="quran-toolbar-btn quran-toolbar-btn-icon" 
-                                    :class="{ 'is-active': isDeepFocusMode }" 
-                                    @click="toggleDeepFocusMode"
-                                    title="Deep Focus Mode">
-                                <i class="bi bi-bullseye" aria-hidden="true"></i>
-                            </button>
-                            <button type="button" 
-                                    class="quran-toolbar-btn quran-toolbar-btn-icon" 
                                     :class="{ 'is-active': isReadingFullscreen }" 
                                     @click="toggleReadingFullscreen" 
                                     title="Full Screen">
@@ -1322,6 +1315,7 @@
 
                                 
 
+                                
                                 <!-- Search Input -->
                                 <div class="search-container">
                                     <input type="search" class="form-control sidebar-search-input" 
@@ -1332,13 +1326,15 @@
                             </div>
 
                             <!-- Lists Container -->
-                            <div class="sidebar-list-container flex-grow-1 px-0 pb-5">
+                            <div
+                                class="sidebar-list-container flex-grow-1 px-0 pb-5"
+                                @scroll.passive="handleSidebarListScroll">
                                 
                                 <!-- Surah List -->
                                 <div v-if="activeSidebarTab === 'surah'" class="list-group list-group-flush">
                                     <div class="sidebar-item" v-for="surah in filteredSurahs_sidebar" :key="surah.number"
                                         :class="{ active: String(selectedSurah) === String(surah.number) }"
-                                        role="button" @click="selectSurah(surah.number)">
+                                        role="button" @click="selectSurahFromSidebar(surah.number)">
                                         <div class="d-flex align-items-center w-100">
                                             <span class="item-number me-3">{{ surah.number }}</span>
                                             <div class="flex-grow-1 text-start">
@@ -1392,7 +1388,7 @@
                                     <div class="p-3 text-white-50 small text-center border-bottom border-white-10" v-if="surahDetails">
                                         Surah {{ surahDetails.englishName }}
                                     </div>
-                                    <div class="sidebar-item" v-for="verse in filteredVersesList" :key="verse.key"
+                                    <div class="sidebar-item" v-for="verse in visibleFilteredVersesList" :key="verse.key"
                                          :class="{ active: activeAyahIndex === (verse.number - 1) }"
                                          @click="selectVerseFromSidebar(verse.number)">
                                          <div class="d-flex w-100 align-items-center">
@@ -1416,6 +1412,13 @@
                                     <div v-if="filteredVersesList.length === 0" class="text-center text-white-50 py-4">
                                         No verses found.
                                     </div>
+                                    <button
+                                        v-else-if="hasMoreFilteredVerses"
+                                        type="button"
+                                        class="btn sidebar-load-more-btn"
+                                        @click="loadMoreSidebarVerses">
+                                        Load more verses ({{ visibleFilteredVersesList.length }}/{{ filteredVersesList.length }})
+                                    </button>
                                 </div>
 
                                 <!-- Juz List -->

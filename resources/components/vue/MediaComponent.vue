@@ -1,24 +1,25 @@
 <template>
-  <div class="container py-4">
+  <div class="container py-4 media-center-page">
     <h1 class="text-center fw-bold display-5 mb-4">Media Center</h1>
     <p class="text-center mb-4 lead">The Media Center at Islamic Connect is a central hub for inspiring and educational
       Islamic content. It brings together voices, stories, and teachings from across the Muslim world, helping you stay
       connected, informed, and uplifted.</p>
     <div class="row g-4">
       <div class="col-md-6 col-lg-4">
-        <div class="card custom-card rounded-4 overflow-hidden">
-          <!-- <span class="badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2">New</span> -->
-          <img src="/images/ap.avif" alt="Qibla finder" class="w-90 mt-1" style="object-fit: contain; padding: 20px;" />
+        <div class="card custom-card podcast-card rounded-4 overflow-hidden">
+          <span class="podcast-card-badge">Featured Audio</span>
+          <img src="/images/ap.avif" alt="Audio Podcasts" class="w-90 mt-1 podcast-card-image" />
           <div class="p-3">
             <h1 class="mb-2 fw-bold text-dark text-center">Audio Podcasts</h1>
-            <p class="card-text text-muted text-wrap text-center"
-              style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">
+            <p class="card-text text-muted text-wrap text-center">
               Islamic podcasts offer insightful discussions and teachings from speakers on various aspects of Islamic
               faith, history, and daily life.
             </p>
-            <!-- <button class="form-control" onclick="window.location.href='/content'" type="submit">
-                            <span class="text-center w-100"><b>Stream Podcasts</b></span>
-                        </button>  -->
+            <ul class="podcast-features">
+              <li><i class="bi bi-check2-circle"></i> Curated scholars and topics</li>
+              <li><i class="bi bi-check2-circle"></i> Continue listening and favorites</li>
+              <li><i class="bi bi-check2-circle"></i> Mobile-friendly audio controls</li>
+            </ul>
             <button v-if="isAuthenticated && isSubscribed" class="form-control" @click="goTo('/content')" type="button">
               <span class="text-center w-100"><b>Stream Podcasts</b></span>
             </button>
@@ -153,6 +154,61 @@ export default {
   --card-shadow: 0 12px 28px rgba(12, 43, 47, 0.1), 0 4px 10px rgba(12, 43, 47, 0.06);
   --card-shadow-hover: 0 20px 45px rgba(12, 43, 47, 0.16), 0 8px 16px rgba(12, 43, 47, 0.1);
   --card-glow: rgba(11, 93, 75, 0.22);
+}
+
+.media-center-page {
+  position: relative;
+}
+
+.podcast-card {
+  border-color: rgba(11, 93, 75, 0.26);
+  box-shadow: 0 16px 36px rgba(11, 93, 75, 0.2), 0 8px 16px rgba(12, 43, 47, 0.1);
+}
+
+.podcast-card::after {
+  transform: scaleX(1);
+}
+
+.podcast-card-badge {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  z-index: 2;
+  border-radius: 999px;
+  padding: 0.2rem 0.65rem;
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: #083b33;
+  background: linear-gradient(135deg, #aef4d0, #f2e6ad);
+  border: 1px solid rgba(8, 59, 51, 0.18);
+}
+
+.podcast-card-image {
+  object-fit: contain;
+  padding: 20px;
+}
+
+.podcast-features {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1rem;
+  display: grid;
+  gap: 0.35rem;
+}
+
+.podcast-features li {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #1f3d3f;
+}
+
+.podcast-features i {
+  color: #0b5d4b;
 }
 
 .container>h1.display-5 {

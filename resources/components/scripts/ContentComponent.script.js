@@ -223,6 +223,9 @@ export default {
         return sum + (Number.isFinite(views) ? views : 0);
       }, 0);
     },
+    hasActiveFilters() {
+      return !!(this.searchQuery || this.durationFilter || this.languageFilter || (this.sortOption && this.sortOption !== 'mostViewed'));
+    },
   },
 
   async mounted() {
@@ -685,16 +688,35 @@ export default {
         // Process and sort podcasts
         this.podcasts = Array.from(items)
           .map(item => {
-            const pubDate = item.getElementsByTagName('pubDate')[0]?.textContent || 'Unknown';
-            console.log('Raw pubDate:', pubDate); // Log raw value
+            const title = this.getXmlTagText(item, ['title']) || 'No title';
+            const pubDate = this.getXmlTagText(item, ['pubDate']) || 'Unknown';
+            const description = this.getXmlTagText(item, ['description']) || 'No description available.';
+            const enclosure = item.getElementsByTagName('enclosure')[0];
+            const rawDuration = this.getXmlTagText(item, ['itunes:duration', 'duration']);
+            const duration = this.parseDurationToMinutes(rawDuration);
+            const category = this.getXmlTagText(item, ['itunes:category', 'category']) || '';
+            const author = this.getXmlTagText(item, ['itunes:author', 'dc:creator', 'author']) || this.selectedPodcast?.name || 'Unknown';
+            const episodeType = this.getXmlTagText(item, ['itunes:episodeType']) || 'full';
+            const explicit = this.getXmlTagText(item, ['itunes:explicit']) || '';
+            const audioUrl = enclosure?.getAttribute('url') || null;
+            const audioType = enclosure?.getAttribute('type') || '';
+            const audioSizeBytes = Number(enclosure?.getAttribute('length') || 0);
+
             return {
-              title: item.getElementsByTagName('title')[0]?.textContent || 'No title',
+              title,
               pubDate,
-              description: item.getElementsByTagName('description')[0]?.textContent || 'No description available.',
-              audioUrl: item.getElementsByTagName('enclosure')[0]?.getAttribute('url') || null,
+              description,
+              audioUrl,
               views: Math.floor(Math.random() * 1000),
-              duration: Math.floor(Math.random() * 60) + 5,
-              language: this.detectLanguage(item.getElementsByTagName('title')[0]?.textContent || '')
+              duration,
+              durationRaw: rawDuration || '',
+              language: this.detectLanguage(title),
+              category,
+              author,
+              episodeType,
+              explicit,
+              audioType,
+              audioSizeBytes: Number.isFinite(audioSizeBytes) ? audioSizeBytes : 0,
             };
           })
           .filter(podcast => podcast.audioUrl)
@@ -730,6 +752,41 @@ export default {
       const options = { year: 'numeric', month: 'long', day: 'numeric' };
       const date = new Date(dateString);
       return date.toLocaleDateString('en-GB', options); // Using 'en-GB' for British date format
+    },
+    getXmlTagText(item, tagNames = []) {
+      for (const tagName of tagNames) {
+        const node = item.getElementsByTagName(tagName)[0];
+        const value = node?.textContent?.trim();
+        if (value) return value;
+      }
+      return '';
+    },
+    parseDurationToMinutes(value) {
+      if (!value) return null;
+      const cleaned = String(value).trim();
+      if (!cleaned) return null;
+      if (/^\d+$/.test(cleaned)) {
+        const totalSeconds = Number(cleaned);
+        if (!Number.isFinite(totalSeconds)) return null;
+        return Math.max(1, Math.round(totalSeconds / 60));
+      }
+      const parts = cleaned.split(':').map((part) => Number(part));
+      if (parts.some((part) => !Number.isFinite(part))) return null;
+      let totalSeconds = 0;
+      if (parts.length === 3) {
+        totalSeconds = (parts[0] * 3600) + (parts[1] * 60) + parts[2];
+      } else if (parts.length === 2) {
+        totalSeconds = (parts[0] * 60) + parts[1];
+      } else {
+        return null;
+      }
+      return Math.max(1, Math.round(totalSeconds / 60));
+    },
+    formatAudioSize(bytes) {
+      const size = Number(bytes);
+      if (!Number.isFinite(size) || size <= 0) return 'N/A';
+      if (size < 1024 * 1024) return `${Math.max(1, Math.round(size / 1024))} KB`;
+      return `${(size / (1024 * 1024)).toFixed(1)} MB`;
     },
 
     applyFilters() {
@@ -862,6 +919,15 @@ export default {
       if (hrs <= 0) return `${mins} min`;
       if (mins === 0) return `${hrs} hr`;
       return `${hrs} hr ${mins} min`;
+    },
+    clearEpisodeFilters() {
+      this.searchInput = '';
+      this.searchQuery = '';
+      this.durationFilter = '';
+      this.languageFilter = '';
+      this.sortOption = 'mostViewed';
+      this.showFilters = false;
+      this.applyFilters();
     },
 
     highlightText(title) {
