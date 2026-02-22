@@ -1723,13 +1723,27 @@ export default {
             this.syncPlaybackScroll(next);
         },
         memorisationRangeStart(newVal) {
-            if (this.memorisationRangeEnd && newVal > this.memorisationRangeEnd) {
-                this.memorisationRangeEnd = newVal;
+            if (newVal === null || newVal === undefined || newVal === "") return;
+            const total = Math.max(Number(this.totalAyahs || 1), 1);
+            const safeStart = Math.min(Math.max(1, Number(newVal) || 1), total);
+            if (safeStart !== newVal) {
+                this.memorisationRangeStart = safeStart;
+                return;
+            }
+            if (this.memorisationRangeEnd && safeStart > this.memorisationRangeEnd) {
+                this.memorisationRangeEnd = safeStart;
             }
         },
         memorisationRangeEnd(newVal) {
-            if (newVal && newVal < this.memorisationRangeStart) {
-                this.memorisationRangeStart = newVal;
+            if (newVal === null || newVal === undefined || newVal === "") return;
+            const total = Math.max(Number(this.totalAyahs || 1), 1);
+            const safeEnd = Math.min(Math.max(1, Number(newVal) || 1), total);
+            if (safeEnd !== newVal) {
+                this.memorisationRangeEnd = safeEnd;
+                return;
+            }
+            if (safeEnd < this.memorisationRangeStart) {
+                this.memorisationRangeStart = safeEnd;
             }
         },
         showTajweed(next) {
@@ -3335,12 +3349,20 @@ export default {
             this.settingsDraft.playbackMode = this.playbackMode;
         },
         applyMemorisationRange() {
-            if (!this.memorisationRangeStart) this.memorisationRangeStart = 1;
-            if (!this.memorisationRangeEnd) this.memorisationRangeEnd = this.totalAyahs;
+            const totalAyahs = Math.max(Number(this.totalAyahs || 1), 1);
+            const startRaw = Number(this.memorisationRangeStart || 1);
+            const endRaw = Number(this.memorisationRangeEnd || totalAyahs);
+            const start = Math.min(Math.max(1, startRaw || 1), totalAyahs);
+            const end = Math.min(Math.max(start, endRaw || start), totalAyahs);
+
+            this.memorisationRangeStart = start;
+            this.memorisationRangeEnd = end;
             
             // Scroll to the first ayah of the range
             this.$nextTick(() => {
-                const startIdx = this.filteredAyahs.findIndex(a => a.numberInSurah === this.memorisationRangeStart);
+                const startIdx = this.filteredAyahs.findIndex(
+                    (a) => a.numberInSurah === this.memorisationRangeStart
+                );
                 if (startIdx !== -1) {
                     this.scrollToAyahIndex(startIdx);
                 }

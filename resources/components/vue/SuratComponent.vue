@@ -790,6 +790,8 @@
                                            v-model.number="memorisationRangeStart" 
                                            class="quran-toolbar-select text-center" 
                                            style="width: 45px; width: 55px; padding: 0; background-image: none !important; border-color: rgba(6, 78, 59, 0.2);"
+                                           min="1"
+                                           :max="totalAyahs || 1"
                                            @keyup.enter="applyMemorisationRange"
                                            aria-label="Start ayah number for memorisation range"
                                            title="Start ayah number">
@@ -798,6 +800,8 @@
                                            v-model.number="memorisationRangeEnd" 
                                            class="quran-toolbar-select text-center" 
                                            style="width: 45px; width: 55px; padding: 0; background-image: none !important; border-color: rgba(6, 78, 59, 0.2);"
+                                           min="1"
+                                           :max="totalAyahs || 1"
                                            @keyup.enter="applyMemorisationRange"
                                            :placeholder="totalAyahs"
                                            aria-label="End ayah number for memorisation range"
