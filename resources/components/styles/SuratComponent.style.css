@@ -1012,6 +1012,114 @@
     }
 }
 
+@media (max-width: 575.98px) {
+    .surat-premium .memorisation-toolbar-sticky.memorisation-toolbar-active .quran-toolbar.memorisation-toolbar-two-rows {
+        padding: 0.72rem 0.62rem 0.66rem !important;
+        border-radius: 16px !important;
+        gap: 0.56rem !important;
+    }
+
+    .surat-premium .memorisation-row-clean-header {
+        gap: 0.5rem;
+        padding-bottom: 0.12rem;
+    }
+
+    .surat-premium .memorisation-row-clean-header .memorisation-toolbar-group--header {
+        gap: 0.48rem;
+        align-items: center;
+    }
+
+    .surat-premium .memorisation-row-clean-header .quran-toolbar-label-purple {
+        font-size: 1.02rem !important;
+        line-height: 1.1;
+    }
+
+    .surat-premium .memorisation-clean-subtitle {
+        display: block;
+        font-size: 0.72rem;
+        line-height: 1.32;
+    }
+
+    .surat-premium .memorisation-close-action.quran-toolbar-close-btn-purple {
+        padding: 0.34rem 0.58rem !important;
+    }
+
+    .surat-premium .memorisation-close-action.quran-toolbar-close-btn-purple .quran-toolbar-btn-text {
+        font-size: 0.72rem !important;
+    }
+
+    .surat-premium .memorisation-customise-link {
+        width: 100%;
+        margin-left: 0 !important;
+        margin-top: 0.12rem;
+        padding: 0.26rem 0.06rem;
+        font-size: 0.76rem;
+    }
+
+    .surat-premium .memorisation-row-clean-core {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 0.46rem;
+        padding: 0.58rem 0.56rem;
+    }
+
+    .surat-premium .memorisation-core-slot,
+    .surat-premium .memorisation-core-slot--status {
+        justify-content: flex-start;
+    }
+
+    .surat-premium .memorisation-switch-control,
+    .surat-premium .memorisation-inline-action {
+        width: 100%;
+        justify-content: flex-start;
+    }
+
+    .surat-premium .memorisation-core-slot .memorisation-reciter-group-inline {
+        min-width: 100%;
+    }
+
+    .surat-premium .memorisation-core-slot .memorisation-reciter-group-inline .quran-toolbar-select {
+        width: 100%;
+    }
+
+    .surat-premium .memorisation-row-clean-settings .memorisation-row-title {
+        font-size: 0.82rem;
+        margin-bottom: 0.2rem;
+    }
+
+    .surat-premium .memorisation-toolbar-row-advanced {
+        gap: 0.46rem;
+        padding-top: 0.54rem;
+    }
+
+    .surat-premium .memorisation-toolbar-row-clean-settings .memorisation-toolbar-group,
+    .surat-premium .memorisation-row-clean-settings .memorisation-toolbar-group {
+        min-width: 100%;
+    }
+
+    .surat-premium .memorisation-advanced-reading-content.is-open {
+        gap: 0.34rem;
+    }
+
+    .surat-premium .memorisation-icon-text-grid {
+        gap: 0.34rem;
+        padding: 0.18rem 0.04rem 0.32rem;
+    }
+
+    .surat-premium .memorisation-icon-text-action {
+        min-width: 120px;
+        min-height: 38px;
+        padding: 0.34rem 0.42rem;
+        font-size: 0.71rem;
+    }
+
+    .surat-premium .memorisation-icon-text-action--compact {
+        min-width: 92px;
+        min-height: 34px;
+        padding: 0.24rem 0.32rem;
+        font-size: 0.67rem;
+    }
+}
+
 @media (max-width: 479.98px) {
     .advanced-quran-search-visibility-btn {
         font-size: 0.72rem;
@@ -3658,6 +3766,21 @@
 
 .ayah-card-container.memorisation-repetition-active .ayah-surface {
     box-shadow: 0 0 0 2px rgba(6, 78, 59, 0.5);
+}
+
+.ayah-card-container.auto-next-fade-in .ayah-surface {
+    animation: ayahAutoNextFadeIn 0.5s ease-out;
+}
+
+@keyframes ayahAutoNextFadeIn {
+    0% {
+        opacity: 0.3;
+        transform: translateY(5px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .memorisation-repetition-progress .quran-toolbar-label {
@@ -9710,6 +9833,22 @@ h1.display-5 {
     font-size: 1.12rem;
 }
 
+.hifdh-plan-modal .memorisation-session-actions .hifdh-feedback-strong-btn {
+    border-color: rgba(16, 185, 129, 0.34);
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.35);
+    animation: strongFeedbackSoftGlow 2.4s ease-in-out infinite;
+}
+
+@keyframes strongFeedbackSoftGlow {
+    0%,
+    100% {
+        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.32);
+    }
+    50% {
+        box-shadow: 0 0 0 7px rgba(16, 185, 129, 0.08);
+    }
+}
+
 .memorisation-review-add-controls .quran-toolbar-select {
     width: 84px;
     min-height: 50px;
@@ -10668,10 +10807,493 @@ h1.display-5 {
     min-width: 320px;
 }
 
+.surat-premium .memorisation-toolbar-group--range .quran-toolbar-select {
+    height: 34px;
+    min-height: 34px;
+}
+
+.surat-premium .memorisation-range-reset-link {
+    padding: 0.2rem 0.3rem;
+    border: 0;
+    font-size: 0.78rem;
+    font-weight: 700;
+    line-height: 1.1;
+    color: #0b6b59;
+    text-decoration: none;
+}
+
+.surat-premium .memorisation-range-reset-link:hover,
+.surat-premium .memorisation-range-reset-link:focus-visible {
+    color: #075444;
+    text-decoration: underline;
+}
+
+.surat-premium .memorisation-advanced-toggle {
+    margin-left: auto;
+}
+
+.surat-premium .memorisation-toolbar-row-advanced {
+    border-top: 1px dashed rgba(11, 107, 89, 0.24);
+    padding-top: 0.72rem;
+    margin-top: 0.2rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.72rem;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(13, 110, 95, 0.35) transparent;
+}
+
+.surat-premium .memorisation-toolbar-row-advanced::-webkit-scrollbar {
+    height: 6px;
+}
+
+.surat-premium .memorisation-toolbar-row-advanced::-webkit-scrollbar-thumb {
+    border-radius: 999px;
+    background: rgba(13, 110, 95, 0.35);
+}
+
+.surat-premium .memorisation-toolbar-group--playback-mode {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.48rem;
+}
+
+.surat-premium .memorisation-toolbar-row-1 .memorisation-toolbar-group--playback {
+    margin-left: auto;
+}
+
+.surat-premium .memorisation-toolbar-row-1 {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: thin;
+    padding-bottom: 0.2rem;
+}
+
+.surat-premium .memorisation-toolbar-row-1 .memorisation-toolbar-group {
+    flex: 0 0 auto;
+}
+
+.surat-premium .memorisation-customise-link {
+    margin-left: 0.2rem;
+    padding: 0.32rem 0.48rem;
+    border: 0;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: #0b6b59;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.surat-premium .memorisation-customise-link:hover,
+.surat-premium .memorisation-customise-link:focus-visible {
+    color: #075444;
+    text-decoration: underline;
+}
+
+/* Clean 3-row memorisation layout */
+.surat-premium .memorisation-row-clean-header,
+.surat-premium .memorisation-row-clean-core,
+.surat-premium .memorisation-row-clean-settings {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.78rem;
+    width: 100%;
+    flex-wrap: nowrap;
+}
+
+.surat-premium .memorisation-clean-title-wrap {
+    display: inline-flex;
+    flex-direction: column;
+    gap: 0.16rem;
+    min-width: 0;
+    padding-top: 0.16rem;
+}
+
+.surat-premium .memorisation-row-clean-header {
+    align-items: flex-start;
+    flex-wrap: wrap;
+}
+
+.surat-premium .memorisation-row-clean-header .memorisation-toolbar-group--header {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.58rem;
+    min-width: 0;
+    flex: 1 1 auto;
+}
+
+.surat-premium .memorisation-row-clean-header .memorisation-close-action {
+    flex: 0 0 auto;
+}
+
+.surat-premium .memorisation-row-clean-header .memorisation-customise-link {
+    margin-left: auto;
+    align-self: flex-start;
+    flex: 0 0 auto;
+}
+
+.surat-premium .memorisation-clean-subtitle {
+    color: #3f5f57;
+    font-size: 0.78rem;
+    line-height: 1.35;
+    font-weight: 600;
+}
+
+.surat-premium .memorisation-row-clean-header .quran-toolbar-label-purple {
+    font-size: 1.18rem !important;
+    font-weight: 900 !important;
+    letter-spacing: 0.02em !important;
+    color: #074639 !important;
+    line-height: 1.1;
+}
+
+.surat-premium .memorisation-row-clean-core {
+    border-top: 1px solid rgba(11, 107, 89, 0.14);
+    border-bottom: 1px solid rgba(11, 107, 89, 0.14);
+    padding: 0.78rem 0.86rem;
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    align-items: center;
+    gap: 0.56rem;
+    background: linear-gradient(135deg, rgba(245, 252, 249, 0.82) 0%, rgba(238, 249, 245, 0.9) 100%);
+    border-radius: 12px;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.75);
+}
+
+.surat-premium .memorisation-core-slot {
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.surat-premium .memorisation-core-slot .memorisation-reciter-group-inline {
+    min-width: 220px;
+    width: 100%;
+}
+
+.surat-premium .memorisation-core-slot .memorisation-reciter-group-inline .quran-toolbar-select {
+    min-height: 36px;
+    height: 36px;
+    border-radius: 10px;
+    border-color: rgba(11, 107, 89, 0.24);
+    box-shadow: 0 3px 10px rgba(11, 61, 46, 0.08);
+}
+
+.surat-premium .memorisation-core-slot .memorisation-reciter-group-inline .memorisation-inline-label {
+    font-size: 0.7rem;
+    margin-bottom: 0.16rem;
+}
+
+.surat-premium .memorisation-core-slot--status {
+    justify-content: flex-end;
+}
+
+.surat-premium .memorisation-core-slot:empty::before {
+    content: "\00a0";
+}
+
+.surat-premium .memorisation-switch-control {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.42rem 0.56rem;
+    border-radius: 12px;
+    border: 1px solid rgba(11, 107, 89, 0.24);
+    background: #ffffff;
+    min-height: 42px;
+    margin: 0;
+    flex: 0 0 auto;
+}
+
+.surat-premium .memorisation-switch-label {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: #0b5f54;
+    white-space: nowrap;
+}
+
+.surat-premium .memorisation-switch-input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.surat-premium .memorisation-switch-ui {
+    width: 34px;
+    height: 20px;
+    border-radius: 999px;
+    background: #d4e4de;
+    position: relative;
+    transition: background-color 0.18s ease;
+}
+
+.surat-premium .memorisation-switch-ui::after {
+    content: "";
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: #ffffff;
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.18);
+    transition: transform 0.18s ease;
+}
+
+.surat-premium .memorisation-switch-input:checked + .memorisation-switch-ui {
+    background: #0b6b59;
+}
+
+.surat-premium .memorisation-switch-input:checked + .memorisation-switch-ui::after {
+    transform: translateX(14px);
+}
+
+.surat-premium .memorisation-switch-state {
+    font-size: 0.74rem;
+    font-weight: 800;
+    color: #0b6b59;
+    min-width: 28px;
+    text-align: center;
+}
+
+.surat-premium .memorisation-inline-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.34rem;
+    padding: 0.3rem 0.42rem;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: #0b6b59;
+    text-decoration: none;
+    border: 0;
+    min-height: 40px;
+    white-space: nowrap;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.7);
+    border: 1px solid rgba(11, 107, 89, 0.2);
+    box-shadow: 0 5px 12px rgba(11, 61, 46, 0.08);
+}
+
+.surat-premium .memorisation-inline-action:hover,
+.surat-premium .memorisation-inline-action:focus-visible {
+    color: #075444;
+    text-decoration: none;
+    border-color: rgba(11, 107, 89, 0.35);
+    box-shadow: 0 8px 18px rgba(11, 61, 46, 0.12);
+}
+
+.surat-premium .memorisation-close-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.36rem;
+    white-space: nowrap;
+}
+
+.surat-premium .memorisation-close-action.quran-toolbar-close-btn-purple {
+    width: auto !important;
+    min-width: unset !important;
+    height: auto !important;
+    border-radius: 999px !important;
+    padding: 0.44rem 0.72rem !important;
+    border: 1px solid rgba(11, 107, 89, 0.28) !important;
+    background: linear-gradient(145deg, #ffffff 0%, #f3fbf8 100%) !important;
+    box-shadow: 0 6px 14px rgba(11, 61, 46, 0.1);
+}
+
+.surat-premium .memorisation-close-action.quran-toolbar-close-btn-purple .quran-toolbar-btn-text {
+    display: inline !important;
+    font-size: 0.78rem;
+    font-weight: 800;
+}
+
+.surat-premium .memorisation-close-action.quran-toolbar-close-btn-purple .bi {
+    font-size: 0.86rem;
+}
+
+.surat-premium .memorisation-view-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.28rem;
+    white-space: nowrap;
+}
+
+.surat-premium .memorisation-repetition-inline {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 34px;
+    text-align: center;
+    border-radius: 10px;
+    background: rgba(11, 107, 89, 0.1);
+}
+
+.surat-premium .memorisation-settings-hint {
+    width: 100%;
+    font-size: 0.76rem;
+    color: #3f5f57;
+    background: rgba(255, 255, 255, 0.62);
+    border: 1px dashed rgba(11, 107, 89, 0.26);
+    border-radius: 11px;
+    padding: 0.52rem 0.66rem;
+}
+
+.surat-premium .memorisation-row-clean-settings {
+    align-items: stretch;
+}
+
+.surat-premium .memorisation-row-clean-settings .memorisation-toolbar-row-advanced {
+    width: 100%;
+}
+
+.surat-premium .memorisation-row-clean-settings .memorisation-row-title {
+    flex: 1 0 100%;
+    width: 100%;
+    white-space: normal;
+    margin: 0 0 0.3rem;
+    font-size: 0.92rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    color: #0a6252;
+    text-transform: uppercase;
+}
+
+.surat-premium .memorisation-row-clean-settings .memorisation-toolbar-row-advanced .memorisation-toolbar-group {
+    flex: 0 0 auto;
+    width: auto;
+}
+
+.surat-premium .memorisation-advanced-reading {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.44rem;
+    grid-column: 1 / -1;
+    align-items: start;
+    width: 100%;
+}
+
+.surat-premium .memorisation-advanced-reading-content {
+    display: grid;
+    gap: 0.38rem;
+    width: 100%;
+}
+
+.surat-premium .memorisation-mobile-dropdown-btn {
+    display: none;
+}
+
+.surat-premium .memorisation-icon-text-grid {
+    display: flex;
+    align-items: stretch;
+    flex-wrap: nowrap;
+    gap: 0.5rem;
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 0.24rem 0.12rem 0.38rem;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(13, 110, 95, 0.35) transparent;
+}
+
+.surat-premium .memorisation-icon-text-grid::-webkit-scrollbar {
+    height: 6px;
+}
+
+.surat-premium .memorisation-icon-text-grid::-webkit-scrollbar-thumb {
+    border-radius: 999px;
+    background: rgba(13, 110, 95, 0.35);
+}
+
+.surat-premium .memorisation-icon-text-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.34rem;
+    min-height: 42px;
+    min-width: 132px;
+    border-radius: 12px;
+    border: 1px solid rgba(11, 107, 89, 0.24);
+    background: linear-gradient(150deg, #ffffff 0%, #f2fbf8 100%);
+    color: #0e5e53;
+    padding: 0.42rem 0.52rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    line-height: 1.1;
+    user-select: none;
+    cursor: pointer;
+    transition: border-color 0.2s ease, background-color 0.2s ease,
+        box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.surat-premium .memorisation-icon-text-action--compact {
+    min-width: 104px;
+    min-height: 36px;
+    padding: 0.28rem 0.4rem;
+    font-size: 0.7rem;
+}
+
+.surat-premium .memorisation-icon-text-action--compact i {
+    font-size: 0.76rem;
+}
+
+.surat-premium .memorisation-icon-text-action i {
+    color: #0b7765;
+    font-size: 0.84rem;
+    flex: 0 0 auto;
+}
+
+.surat-premium .memorisation-icon-text-label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    min-width: 0;
+}
+
+.surat-premium .memorisation-icon-text-state {
+    margin-left: auto;
+    flex: 0 0 auto;
+    font-size: 0.67rem;
+    font-weight: 800;
+    color: #0a5d4f;
+    background: rgba(11, 107, 89, 0.12);
+    border: 1px solid rgba(11, 107, 89, 0.2);
+    border-radius: 999px;
+    padding: 0.1rem 0.36rem;
+}
+
+.surat-premium .memorisation-icon-text-action.is-enabled {
+    border-color: rgba(11, 107, 89, 0.5);
+    background: linear-gradient(150deg, #ecfaf5 0%, #dbf3eb 100%);
+    box-shadow: 0 10px 20px rgba(11, 107, 89, 0.16);
+}
+
+.surat-premium .memorisation-icon-text-action:hover,
+.surat-premium .memorisation-icon-text-action:focus-visible {
+    border-color: rgba(11, 107, 89, 0.45);
+    background: linear-gradient(150deg, #f5fdf9 0%, #e7f7f1 100%);
+    box-shadow: 0 8px 18px rgba(11, 107, 89, 0.12);
+    transform: translateY(-1px);
+}
+
+.surat-premium .memorisation-icon-text-action:focus-visible {
+    outline: 2px solid rgba(11, 107, 89, 0.44);
+    outline-offset: 2px;
+}
+
+.surat-premium .memorisation-row-clean-settings .memorisation-toolbar-group {
+    width: auto;
+    margin: 0;
+}
+
 @media (max-width: 1199.98px) {
     .surat-premium .memorisation-toolbar-group {
         min-height: 44px;
-        padding: 0.26rem 0.4rem;
+        padding: 0.22rem 0.34rem;
     }
 
     .surat-premium .memorisation-toolbar-group--playback {
@@ -10685,10 +11307,137 @@ h1.display-5 {
 }
 
 @media (max-width: 767.98px) {
+    .surat-premium .memorisation-row-clean-header,
+    .surat-premium .memorisation-row-clean-core,
+    .surat-premium .memorisation-row-clean-settings {
+        gap: 0.54rem;
+    }
+
+    .surat-premium .memorisation-row-clean-core {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .surat-premium .memorisation-row-clean-settings .memorisation-toolbar-row-advanced {
+        width: 100%;
+    }
+
+    .surat-premium .memorisation-advanced-reading {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .surat-premium .memorisation-mobile-dropdown-btn {
+        width: 100%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.5rem;
+        border: 0;
+        border-radius: 0;
+        background: transparent;
+        color: #0b5f54;
+        padding: 0.12rem 0.08rem;
+        font-weight: 800;
+        font-size: 0.78rem;
+        line-height: 1.2;
+        text-align: left;
+        box-shadow: none;
+    }
+
+    .surat-premium .memorisation-mobile-dropdown-label {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        min-width: 0;
+    }
+
+    .surat-premium .memorisation-mobile-dropdown-label .bi {
+        color: #0b6b59;
+        font-size: 0.86rem;
+    }
+
+    .surat-premium .memorisation-mobile-dropdown-title {
+        letter-spacing: 0.02em;
+        text-transform: uppercase;
+    }
+
+    .surat-premium .memorisation-mobile-dropdown-caret {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 16px;
+        height: 16px;
+        color: #0b6b59;
+    }
+
+    .surat-premium .memorisation-mobile-dropdown-btn .bi {
+        transition: transform 0.2s ease;
+    }
+
+    .surat-premium .memorisation-mobile-dropdown-btn.is-open .bi {
+        transform: rotate(180deg);
+    }
+
+    .surat-premium .memorisation-advanced-reading-content {
+        display: none;
+    }
+
+    .surat-premium .memorisation-advanced-reading-content.is-open {
+        display: grid;
+        gap: 0.42rem;
+    }
+
+    .surat-premium .memorisation-icon-text-grid {
+        gap: 0.42rem;
+    }
+
+    .surat-premium .memorisation-clean-subtitle {
+        display: none;
+    }
+
+    .surat-premium .memorisation-switch-control {
+        padding: 0.34rem 0.45rem;
+        min-height: 36px;
+    }
+
+    .surat-premium .memorisation-switch-label {
+        font-size: 0.74rem;
+    }
+
+    .surat-premium .memorisation-inline-action {
+        font-size: 0.74rem;
+        padding: 0.18rem 0.3rem;
+        min-height: 34px;
+    }
+
+    .surat-premium .memorisation-view-action .quran-toolbar-btn-text,
+    .surat-premium .memorisation-close-action .quran-toolbar-btn-text {
+        font-size: 0.76rem;
+    }
+
+    .surat-premium .memorisation-core-slot {
+        justify-content: flex-start;
+    }
+
+    .surat-premium .memorisation-core-slot .memorisation-reciter-group-inline {
+        min-width: 100%;
+    }
+
+    .surat-premium .memorisation-toolbar-row-1 .memorisation-toolbar-group--playback {
+        margin-left: 0;
+    }
+
+    .surat-premium .memorisation-toolbar-row-advanced {
+        padding-top: 0.48rem;
+    }
+
     .surat-premium .memorisation-toolbar-group {
         width: 100%;
         justify-content: flex-start;
         border-radius: 11px;
+    }
+
+    .surat-premium .memorisation-row-clean-settings .memorisation-toolbar-group {
+        width: 100%;
     }
 
     .surat-premium .memorisation-toolbar-group + .memorisation-toolbar-group {
@@ -10700,9 +11449,30 @@ h1.display-5 {
         width: 100%;
     }
 
+    .surat-premium .memorisation-toolbar-row-1 {
+        gap: 0.42rem;
+    }
+
+    .surat-premium .memorisation-toolbar-row-1 .memorisation-toolbar-group,
+    .surat-premium .memorisation-toolbar-row-1 .memorisation-customise-link {
+        width: auto;
+        margin-left: 0;
+    }
+
+    .surat-premium .memorisation-toolbar-row-1 .memorisation-toolbar-group--header,
+    .surat-premium .memorisation-toolbar-row-1 .memorisation-toolbar-group--playback {
+        width: auto;
+    }
+
+    .surat-premium .memorisation-customise-link {
+        font-size: 0.78rem;
+        padding: 0.24rem 0.4rem;
+    }
+
     .surat-premium .memorisation-toolbar-group--range,
     .surat-premium .memorisation-toolbar-group--timing,
     .surat-premium .memorisation-toolbar-group--playback,
+    .surat-premium .memorisation-toolbar-group--playback-mode,
     .surat-premium .memorisation-toolbar-group--toggles,
     .surat-premium .memorisation-toolbar-group--view {
         margin-left: 0;

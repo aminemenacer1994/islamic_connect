@@ -646,6 +646,8 @@ export default {
             selectedJuz: null,
             sidebarCollapsed: false,
             isMemorisationToolbarVisible: false,
+            isMemorisationAdvancedOpen: false,
+            isMemorisationReadingAidsOpen: false,
             isMemorisationMode: false,
             memorisationFocusIndex: 0,
             memorisationRangeStart: 1,
@@ -658,6 +660,8 @@ export default {
             countdownSeconds: 0,
             isCountdownActive: false,
             countdownInterval: null,
+            autoNextAnimatedIndex: null,
+            autoNextAnimationTimer: null,
             isBlurNextAyahEnabled: false,
             hifdhSchedulerStorageKey: "ic_hifdh_scheduler_v1",
             hifdhCheckpointDays: [1, 3, 7, 14, 30],
@@ -1824,9 +1828,13 @@ export default {
                 this.showDesktopToolbar = false;
                 this.isMobileToolbarExpanded = false;
                 this.memorisationFocusIndex = this.activeAyahIndex;
+                this.isMemorisationAdvancedOpen = false;
+                this.isMemorisationReadingAidsOpen = false;
             } else {
                 this.showDesktopToolbar = true;
                 this.isMemorisationMode = false;
+                this.isMemorisationAdvancedOpen = false;
+                this.isMemorisationReadingAidsOpen = false;
             }
         },
         isBlurNextAyahEnabled(newVal) {
@@ -2142,7 +2150,9 @@ export default {
             this.bookmarkToastAction = null;
         clearTimeout(this.fontPickerAlertTimer);
         this.fontPickerAlertTimer = null;
-        clearTimeout(this.authAlertTimer);
+            clearTimeout(this.authAlertTimer);
+        clearTimeout(this.autoNextAnimationTimer);
+        this.autoNextAnimationTimer = null;
         clearTimeout(this._scrollCorrectionTimer);
         this._scrollCorrectionTimer = null;
         clearTimeout(this._navigationSettleTimer);
@@ -2209,6 +2219,8 @@ export default {
         window.removeEventListener("scroll", this.onScrollVirtual);
         window.removeEventListener("resize", this.computeListTop);
         window.removeEventListener("resize", this.calibrateItemHeight);
+        clearTimeout(this.autoNextAnimationTimer);
+        this.autoNextAnimationTimer = null;
         this.teardownSpeechRecognition();
         clearTimeout(this.advancedSearchDebounceTimer);
         clearTimeout(this.sidebarSearchDebounceTimer);
@@ -2417,13 +2429,26 @@ export default {
             if (this.isMemorisationToolbarVisible) {
                 this.showDesktopToolbar = false;
                 this.isMobileToolbarExpanded = false;
+                this.isMemorisationAdvancedOpen = false;
+                this.isMemorisationReadingAidsOpen = false;
             } else {
                 this.showDesktopToolbar = true;
+                this.isMemorisationAdvancedOpen = false;
+                this.isMemorisationReadingAidsOpen = false;
             }
             this.showModeToggleToast(
                 "Memorisation tools",
                 this.isMemorisationToolbarVisible
             );
+        },
+        toggleMemorisationAdvanced() {
+            this.isMemorisationAdvancedOpen = !this.isMemorisationAdvancedOpen;
+            if (!this.isMemorisationAdvancedOpen) {
+                this.isMemorisationReadingAidsOpen = false;
+            }
+        },
+        toggleMemorisationReadingAidsDropdown() {
+            this.isMemorisationReadingAidsOpen = !this.isMemorisationReadingAidsOpen;
         },
         toggleBlurNextAyah() {
             this.isBlurNextAyahEnabled = !this.isBlurNextAyahEnabled;
@@ -3949,6 +3974,15 @@ export default {
             this.selectCard(next);
             this.scrollToAyahIndex(next);
             this.announce(`Advanced to verse ${next + 1}.`);
+        },
+        triggerAutoNextAyahAnimation(index) {
+            if (typeof index !== "number" || index < 0) return;
+            clearTimeout(this.autoNextAnimationTimer);
+            this.autoNextAnimatedIndex = index;
+            this.autoNextAnimationTimer = setTimeout(() => {
+                this.autoNextAnimatedIndex = null;
+                this.autoNextAnimationTimer = null;
+            }, 520);
         },
         applySettingsDraft() {
             if (!this.settingsDraft) return;
@@ -7628,6 +7662,9 @@ export default {
             if (!this.isTabletOrMobile && this.isMobileToolbarExpanded) {
                 this.isMobileToolbarExpanded = false;
             }
+            if (!this.isTabletOrMobile && this.isMemorisationReadingAidsOpen) {
+                this.isMemorisationReadingAidsOpen = false;
+            }
             if (!this.isDesktopWide && this.isReadingFullscreen) {
                 this.exitReadingFullscreen({
                     restoreFocus: false,
@@ -9377,6 +9414,7 @@ export default {
                                 clearInterval(self.countdownInterval);
                                 self.countdownInterval = null;
                                 self.isCountdownActive = false;
+                                self.triggerAutoNextAyahAnimation(nextIndex);
                                 self.playAudio(nextIndex);
                                 if (self.isMemorisationMode) {
                                     self.memorisationFocusIndex = nextIndex;
@@ -9388,6 +9426,7 @@ export default {
                     } else {
                         self.stopAudio(index);
                         setTimeout(function () {
+                            self.triggerAutoNextAyahAnimation(nextIndex);
                             self.playAudio(nextIndex);
                             if (self.isMemorisationMode) {
                                 self.memorisationFocusIndex = nextIndex;
@@ -9426,11 +9465,15 @@ export default {
                             if (this.countdownSeconds <= 0) {
                                 clearInterval(this.countdownInterval);
                                 this.isCountdownActive = false;
+                                this.triggerAutoNextAyahAnimation(nextIndex);
                                 this.playAudio(nextIndex);
                             }
                         }.bind(this), 1000);
                     } else {
-                        setTimeout(function () { this.playAudio(nextIndex); }.bind(this), 50);
+                        setTimeout(function () {
+                            this.triggerAutoNextAyahAnimation(nextIndex);
+                            this.playAudio(nextIndex);
+                        }.bind(this), 50);
                     }
                     return;
                 }

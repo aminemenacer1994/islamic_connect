@@ -84,12 +84,25 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     </noscript>
     <!-- App CSS last so it overrides vendor defaults -->
-    <link rel="preload" href="{{ mix('css/app.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet';">
-    <link rel="preload" href="{{ mix('css/layout.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet';">
+    @php
+        $appCssMix = mix('css/app.css');
+        $layoutCssMix = mix('css/layout.css');
+        $manifestJsMix = mix('js/manifest.js');
+        $vendorJsMix = mix('js/vendor.js');
+        $appJsMix = mix('js/app.js');
+
+        $appCssHref = $appCssMix . (str_contains($appCssMix, '?') ? '&' : '?') . 'v=' . @filemtime(public_path('css/app.css'));
+        $layoutCssHref = $layoutCssMix . (str_contains($layoutCssMix, '?') ? '&' : '?') . 'v=' . @filemtime(public_path('css/layout.css'));
+        $manifestJsSrc = $manifestJsMix . (str_contains($manifestJsMix, '?') ? '&' : '?') . 'v=' . @filemtime(public_path('js/manifest.js'));
+        $vendorJsSrc = $vendorJsMix . (str_contains($vendorJsMix, '?') ? '&' : '?') . 'v=' . @filemtime(public_path('js/vendor.js'));
+        $appJsSrc = $appJsMix . (str_contains($appJsMix, '?') ? '&' : '?') . 'v=' . @filemtime(public_path('js/app.js'));
+    @endphp
+    <link rel="preload" href="{{ $appCssHref }}" as="style" onload="this.onload=null;this.rel='stylesheet';">
+    <link rel="preload" href="{{ $layoutCssHref }}" as="style" onload="this.onload=null;this.rel='stylesheet';">
     <link rel="preload" href="{{ asset('css/vue-styles.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet';">
     <noscript>
-        <link rel="stylesheet" href="{{ mix('css/app.css') }}">
-        <link rel="stylesheet" href="{{ mix('css/layout.css') }}">
+        <link rel="stylesheet" href="{{ $appCssHref }}">
+        <link rel="stylesheet" href="{{ $layoutCssHref }}">
         <link rel="stylesheet" href="{{ asset('css/vue-styles.css') }}">
     </noscript>
     <link rel="icon" type="image/png" sizes="256x256" href="{{ asset('images/logo_main.png') }}">
@@ -436,9 +449,9 @@
     </div>
 
     <!-- Scripts -->
-    <script defer src="{{ mix('js/manifest.js') }}"></script>
-    <script defer src="{{ mix('js/vendor.js') }}"></script>
-    <script defer src="{{ mix('js/app.js') }}"></script>
+    <script defer src="{{ $manifestJsSrc }}"></script>
+    <script defer src="{{ $vendorJsSrc }}"></script>
+    <script defer src="{{ $appJsSrc }}"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             // No theme toggle (removed on request)
