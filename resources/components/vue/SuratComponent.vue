@@ -777,7 +777,7 @@
                             </button>
                             <div class="memorisation-clean-title-wrap">
                                 <span class="quran-toolbar-label quran-toolbar-label-purple"><b>Memorisation Session</b></span>
-                                <small class="memorisation-clean-subtitle">Core controls first. Fine-tune only when needed.</small>
+                                <small class="memorisation-clean-subtitle">3 controls first. Use More only if needed.</small>
                             </div>
                         </div>
                         <button
@@ -786,10 +786,11 @@
                             @click="toggleMemorisationAdvanced"
                             :aria-expanded="isMemorisationAdvancedOpen ? 'true' : 'false'"
                             aria-controls="memorisationAdvancedSettings"
-                            :title="isMemorisationAdvancedOpen ? 'Hide session setup and pacing settings' : 'Open session setup and pacing settings'">
-                            <i class="bi me-1" :class="isMemorisationAdvancedOpen ? 'bi-chevron-up-circle' : 'bi-sliders'" aria-hidden="true"></i>
-                            {{ isMemorisationAdvancedOpen ? "Hide Settings" : "Session Settings" }}
+                            :title="isMemorisationAdvancedOpen ? 'Hide extra controls' : 'Open extra controls'">
+                            <i class="bi me-1" :class="isMemorisationAdvancedOpen ? 'bi-chevron-up-circle' : 'bi-three-dots-circle'" aria-hidden="true"></i>
+                            {{ isMemorisationAdvancedOpen ? "Less" : "More" }}
                         </button>
+                        <small class="memorisation-row-helper">Row 1: Start/stop session and open more settings.</small>
                     </div>
 
                     <div class="memorisation-toolbar-row memorisation-toolbar-row-2 memorisation-row-clean-core">
@@ -821,37 +822,15 @@
 
                         <div class="memorisation-core-slot">
                             <div class="quran-toolbar-reciter memorisation-reciter-group memorisation-reciter-group-inline">
-                                <label class="memorisation-inline-label" for="memorisationPlaybackModeSelectInline">Auto-play</label>
-                                <select id="memorisationPlaybackModeSelectInline" class="form-select quran-toolbar-select" v-model="playbackMode" aria-label="Select playback mode">
+                                <select id="memorisationPlaybackModeSelectInline" class="form-select quran-toolbar-select" v-model="playbackMode" aria-label="Playback mode">
                                     <option v-for="option in playbackModeOptions" :key="option.value" :value="option.value">
-                                        {{ option.value === "continuous" ? "Continuous (Auto Next)" : option.value === "repeat" ? "Repeat Current Ayah" : "Manual (No Auto Next)" }}
+                                        {{ option.value === "continuous" ? "Continuous" : option.value === "repeat" ? "Repeat Current Ayah" : "Manual" }}
                                     </option>
                                 </select>
                             </div>
                         </div>
 
-                        <div class="memorisation-core-slot">
-                            <button
-                                v-if="isMemorisationMode"
-                                type="button"
-                                class="btn btn-link memorisation-inline-action"
-                                @click="advanceMemorisationFocus"
-                                :disabled="memorisationFocusIndexSafe >= filteredAyahs.length - 1"
-                                title="Move focus to the next ayah"
-                                aria-label="Move focus to the next ayah">
-                                <i class="bi bi-skip-forward-fill" aria-hidden="true"></i>
-                                <span>Next Ayah</span>
-                            </button>
-                        </div>
-
-                        <div v-if="isMemorisationRepetitionActive" class="memorisation-core-slot memorisation-core-slot--status">
-                            <span
-                                class="quran-toolbar-label memorisation-repetition-inline"
-                                style="color: #064e3b; font-weight: 700;"
-                                aria-live="polite">
-                                Repetition {{ memorisationRepetitionCurrent }} / {{ memorisationRepetitionCount }}
-                            </span>
-                        </div>
+                        <small class="memorisation-row-helper memorisation-row-helper--core">Row 2: Focus toggle, play/pause, and playback mode.</small>
                     </div>
 
                     <div class="memorisation-toolbar-row memorisation-toolbar-row-3 memorisation-row-clean-settings">
@@ -863,6 +842,27 @@
                                 role="group"
                                 aria-label="Session setup and pacing settings">
                                 <div class="memorisation-row-title">Session setup</div>
+                            <small class="memorisation-row-helper memorisation-row-helper--advanced">Row 3: Optional tools like range, review helpers, and Hifdh features.</small>
+                            <div class="memorisation-advanced-quick mb-1">
+                                <button
+                                    v-if="isMemorisationMode"
+                                    type="button"
+                                    class="btn btn-link memorisation-inline-action"
+                                    @click="advanceMemorisationFocus"
+                                    :disabled="memorisationFocusIndexSafe >= filteredAyahs.length - 1"
+                                    title="Move focus to the next ayah"
+                                    aria-label="Move focus to the next ayah">
+                                    <i class="bi bi-skip-forward-fill" aria-hidden="true"></i>
+                                    <span>Next Ayah</span>
+                                </button>
+                                <span
+                                    v-if="isMemorisationRepetitionActive"
+                                    class="quran-toolbar-label memorisation-repetition-inline"
+                                    style="color: #064e3b; font-weight: 700;"
+                                    aria-live="polite">
+                                    Repetition {{ memorisationRepetitionCurrent }} / {{ memorisationRepetitionCount }}
+                                </span>
+                            </div>
                             <div class="memorisation-toolbar-group memorisation-toolbar-group--range">
                                 <div class="d-flex align-items-center gap-2">
                                     <span class="quran-toolbar-label d-none d-sm-inline-block" style="color: #064e3b; margin-right: 0;">Ayah range</span>
@@ -902,203 +902,67 @@
                                     Use full surah
                                 </button>
                             </div>
-                            <div class="memorisation-toolbar-group memorisation-toolbar-group--timing">
-                                <div class="d-flex align-items-center gap-2">
-                                    <span class="quran-toolbar-label d-none d-sm-inline-block" style="color: #064e3b; margin-right: 0;">Ayah delay</span>
-                                    <div class="d-flex align-items-center gap-1">
-                                        <input
-                                            type="number"
-                                            v-model.number="memorisationVerseDelay"
-                                            class="quran-toolbar-select text-center"
-                                            style="width: 50px; padding: 0; background-image: none !important; border-color: rgba(6, 78, 59, 0.2);"
-                                            min="0"
-                                            max="60"
-                                            @change="notifyAyahDelayChange"
-                                            aria-label="Delay in seconds before moving to the next ayah"
-                                            title="Delay before next ayah (seconds)">
-                                        <span class="opacity-50" style="color: #064e3b; font-size: 0.75rem; font-weight: 700;">sec</span>
-                                    </div>
-                                </div>
-
-                                <div class="d-flex align-items-center gap-2">
-                                    <span class="quran-toolbar-label d-none d-sm-inline-block" style="color: #064e3b; margin-right: 0;">Repetitions</span>
-                                    <div class="d-flex align-items-center gap-1">
-                                        <input
-                                            type="number"
-                                            v-model.number="memorisationRepetitionCount"
-                                            class="quran-toolbar-select text-center"
-                                            style="width: 45px; padding: 0; background-image: none !important; border-color: rgba(6, 78, 59, 0.2);"
-                                            min="1"
-                                            max="99"
-                                            aria-label="Number of repetitions for each ayah"
-                                            title="Repetitions per ayah">
-                                    </div>
-                                </div>
-                                <div class="d-flex align-items-center gap-2">
-                                    <span class="quran-toolbar-label d-none d-sm-inline-block" style="color: #064e3b; margin-right: 0;">Repetition pause</span>
-                                    <div class="d-flex align-items-center gap-1">
-                                        <input
-                                            type="number"
-                                            v-model.number="memorisationRepetitionPause"
-                                            class="quran-toolbar-select text-center"
-                                            style="width: 45px; padding: 0; background-image: none !important; border-color: rgba(6, 78, 59, 0.2);"
-                                            min="0"
-                                            max="30"
-                                            aria-label="Pause in seconds between repetitions"
-                                            title="Pause between repetitions (seconds) for self-recitation">
-                                        <span class="opacity-50" style="color: #064e3b; font-size: 0.75rem; font-weight: 700;">sec</span>
-                                    </div>
-                                </div>
-                            </div>
                             <div class="memorisation-advanced-reading">
-                                <div v-if="isTabletOrMobile" class="dropdown memorisation-mobile-reading-dropdown">
+                                <div class="memorisation-feature-row memorisation-feature-row--controls">
                                     <button
                                         type="button"
-                                        class="btn dropdown-toggle memorisation-mobile-dropdown-btn"
-                                        :aria-expanded="isMemorisationReadingAidsOpen ? 'true' : 'false'"
-                                        aria-label="Open reading aids and display options"
-                                        @click="toggleMemorisationReadingAidsDropdown">
-                                        <span class="memorisation-mobile-dropdown-label">
-                                            <i class="bi bi-sliders2" aria-hidden="true"></i>
-                                            <span class="memorisation-mobile-dropdown-title">Reading Aids &amp; Display</span>
-                                        </span>
+                                        class="memorisation-icon-text-action memorisation-icon-text-action--compact"
+                                        @click="advanceMemorisationFocus"
+                                        :disabled="!isMemorisationMode || memorisationFocusIndexSafe >= filteredAyahs.length - 1"
+                                        title="Move focus to the next ayah">
+                                        <i class="bi bi-skip-forward-fill" aria-hidden="true"></i>
+                                        <span class="memorisation-icon-text-label">Next Ayah</span>
                                     </button>
-                                    <ul class="dropdown-menu memorisation-mobile-dropdown-menu w-100 shadow-sm" :class="{ 'show': isMemorisationReadingAidsOpen }">
-                                        <li>
-                                            <button type="button" class="dropdown-item memorisation-mobile-dropdown-item" @click="isTranslationVisible = !isTranslationVisible; isMemorisationReadingAidsOpen = false">
-                                                <span class="memorisation-mobile-dropdown-item-left">
-                                                    <i class="bi bi-chat-quote-fill" aria-hidden="true"></i>
-                                                    Translation
-                                                </span>
-                                                <span class="memorisation-mobile-dropdown-state">{{ isTranslationVisible ? "On" : "Off" }}</span>
-                                            </button>
-                                        </li>
-                                        <li>
-                                            <button type="button" class="dropdown-item memorisation-mobile-dropdown-item" @click="showTajweed = !showTajweed; isMemorisationReadingAidsOpen = false">
-                                                <span class="memorisation-mobile-dropdown-item-left">
-                                                    <i class="bi bi-palette-fill" aria-hidden="true"></i>
-                                                    Tajweed
-                                                </span>
-                                                <span class="memorisation-mobile-dropdown-state">{{ showTajweed ? "On" : "Off" }}</span>
-                                            </button>
-                                        </li>
-                                        <li>
-                                            <button type="button" class="dropdown-item memorisation-mobile-dropdown-item" @click="showRealtimeHighlighting = !showRealtimeHighlighting; isMemorisationReadingAidsOpen = false">
-                                                <span class="memorisation-mobile-dropdown-item-left">
-                                                    <i class="bi bi-highlighter" aria-hidden="true"></i>
-                                                    Word Highlight
-                                                </span>
-                                                <span class="memorisation-mobile-dropdown-state">{{ showRealtimeHighlighting ? "On" : "Off" }}</span>
-                                            </button>
-                                        </li>
-                                        <li>
-                                            <button type="button" class="dropdown-item memorisation-mobile-dropdown-item" @click="showWordTranslation = !showWordTranslation; isMemorisationReadingAidsOpen = false">
-                                                <span class="memorisation-mobile-dropdown-item-left">
-                                                    <i class="bi bi-translate" aria-hidden="true"></i>
-                                                    Word Meanings
-                                                </span>
-                                                <span class="memorisation-mobile-dropdown-state">{{ showWordTranslation ? "On" : "Off" }}</span>
-                                            </button>
-                                        </li>
-                                        <li>
-                                            <button type="button" class="dropdown-item memorisation-mobile-dropdown-item" @click="toggleWordAudioMode(); isMemorisationReadingAidsOpen = false">
-                                                <span class="memorisation-mobile-dropdown-item-left">
-                                                    <i class="bi bi-volume-up-fill" aria-hidden="true"></i>
-                                                    Word Tap Audio
-                                                </span>
-                                                <span class="memorisation-mobile-dropdown-state">{{ showWordTranslationTooltip ? "On" : "Off" }}</span>
-                                            </button>
-                                        </li>
-                                        <li>
-                                            <button type="button" class="dropdown-item memorisation-mobile-dropdown-item" data-bs-toggle="modal" data-bs-target="#hifdhPlanModal" @click="isMemorisationReadingAidsOpen = false">
-                                                <span class="memorisation-mobile-dropdown-item-left">
-                                                    <i class="bi bi-journal-check" aria-hidden="true"></i>
-                                                    Hifdh Plan
-                                                </span>
-                                                <span class="memorisation-mobile-dropdown-state">{{ todayHifdhPlanItemsOrdered.length }}</span>
-                                            </button>
-                                        </li>
-                                        <li><hr class="dropdown-divider"></li>
-                                        <li>
-                                            <button type="button" class="dropdown-item memorisation-mobile-dropdown-item" @click="decreaseFontSize(); isMemorisationReadingAidsOpen = false" title="Decrease reading text size">
-                                                <span class="memorisation-mobile-dropdown-item-left">
-                                                    <i class="bi bi-zoom-out" aria-hidden="true"></i>
-                                                    Smaller
-                                                </span>
-                                            </button>
-                                        </li>
-                                        <li>
-                                            <button type="button" class="dropdown-item memorisation-mobile-dropdown-item" @click="increaseFontSize(); isMemorisationReadingAidsOpen = false" title="Increase reading text size">
-                                                <span class="memorisation-mobile-dropdown-item-left">
-                                                    <i class="bi bi-zoom-in" aria-hidden="true"></i>
-                                                    Larger
-                                                </span>
-                                            </button>
-                                        </li>
-                                        <li>
-                                            <button type="button" class="dropdown-item memorisation-mobile-dropdown-item" @click="toggleReadingFullscreen(); isMemorisationReadingAidsOpen = false">
-                                                <span class="memorisation-mobile-dropdown-item-left">
-                                                    <i class="bi" :class="isReadingFullscreen ? 'bi-fullscreen-exit' : 'bi-fullscreen'" aria-hidden="true"></i>
-                                                    {{ isReadingFullscreen ? "Exit Full Screen" : "Full Screen" }}
-                                                </span>
-                                                <span class="memorisation-mobile-dropdown-state">{{ isReadingFullscreen ? "On" : "Off" }}</span>
-                                            </button>
-                                        </li>
-                                    </ul>
+                                    <label class="memorisation-inline-field mb-0" title="Delay before next ayah">
+                                        <span>Delay</span>
+                                        <input type="number" v-model.number="memorisationVerseDelay" class="quran-toolbar-select text-center" min="0" max="60" @change="notifyAyahDelayChange" aria-label="Ayah delay in seconds">
+                                    </label>
+                                    <label class="memorisation-inline-field mb-0" title="Repetitions per ayah">
+                                        <span>Reps</span>
+                                        <input type="number" v-model.number="memorisationRepetitionCount" class="quran-toolbar-select text-center" min="1" max="99" aria-label="Repetitions per ayah">
+                                    </label>
+                                    <span
+                                        v-if="isMemorisationRepetitionActive"
+                                        class="quran-toolbar-label memorisation-repetition-inline"
+                                        aria-live="polite">
+                                        Repetition {{ memorisationRepetitionCurrent }} / {{ memorisationRepetitionCount }}
+                                    </span>
                                 </div>
 
-                                <div v-else class="memorisation-advanced-reading-content is-open">
-                                    <div class="memorisation-row-title">Reading tools</div>
-                                    <div class="memorisation-icon-text-grid">
-                                        <div class="memorisation-icon-text-action" :class="{ 'is-enabled': isTranslationVisible }" role="button" tabindex="0" @click="isTranslationVisible = !isTranslationVisible" @keydown.enter.prevent="isTranslationVisible = !isTranslationVisible" @keydown.space.prevent="isTranslationVisible = !isTranslationVisible" :title="isTranslationVisible ? 'Hide translation under the focused ayah' : 'Show translation under the focused ayah'">
-                                            <i class="bi bi-chat-quote-fill" aria-hidden="true"></i>
-                                            <span class="memorisation-icon-text-label">Translation</span>
-                                            <span class="memorisation-icon-text-state">{{ isTranslationVisible ? "On" : "Off" }}</span>
-                                        </div>
-                                        <div class="memorisation-icon-text-action" :class="{ 'is-enabled': showTajweed }" role="button" tabindex="0" @click="showTajweed = !showTajweed" @keydown.enter.prevent="showTajweed = !showTajweed" @keydown.space.prevent="showTajweed = !showTajweed" :title="showTajweed ? 'Hide tajweed colour guidance' : 'Show tajweed colour guidance'">
-                                            <i class="bi bi-palette-fill" aria-hidden="true"></i>
-                                            <span class="memorisation-icon-text-label">Tajweed</span>
-                                        </div>
-                                        <div class="memorisation-icon-text-action" :class="{ 'is-enabled': showRealtimeHighlighting }" role="button" tabindex="0" @click="showRealtimeHighlighting = !showRealtimeHighlighting" @keydown.enter.prevent="showRealtimeHighlighting = !showRealtimeHighlighting" @keydown.space.prevent="showRealtimeHighlighting = !showRealtimeHighlighting" :title="showRealtimeHighlighting ? 'Hide word-by-word highlighting during playback' : 'Show word-by-word highlighting during playback'">
-                                            <i class="bi bi-highlighter" aria-hidden="true"></i>
-                                            <span class="memorisation-icon-text-label">Word Highlight</span>
-                                            <span class="memorisation-icon-text-state">{{ showRealtimeHighlighting ? "On" : "Off" }}</span>
-                                        </div>
-                                        <div class="memorisation-icon-text-action" :class="{ 'is-enabled': showWordTranslation }" role="button" tabindex="0" @click="showWordTranslation = !showWordTranslation" @keydown.enter.prevent="showWordTranslation = !showWordTranslation" @keydown.space.prevent="showWordTranslation = !showWordTranslation" :title="showWordTranslation ? 'Hide word-by-word translation hints' : 'Show word-by-word translation hints'">
-                                            <i class="bi bi-translate" aria-hidden="true"></i>
-                                            <span class="memorisation-icon-text-label">Word Meanings</span>
-                                            <span class="memorisation-icon-text-state">{{ showWordTranslation ? "On" : "Off" }}</span>
-                                        </div>
-                                        <div class="memorisation-icon-text-action" :class="{ 'is-enabled': showWordTranslationTooltip }" role="button" tabindex="0" @click="toggleWordAudioMode" @keydown.enter.prevent="toggleWordAudioMode" @keydown.space.prevent="toggleWordAudioMode" :title="showWordTranslationTooltip ? 'Disable word tap audio and tooltip' : 'Enable word tap audio and tooltip'">
-                                            <i class="bi bi-volume-up-fill" aria-hidden="true"></i>
-                                            <span class="memorisation-icon-text-label">Word Tap Audio</span>
-                                            <span class="memorisation-icon-text-state">{{ showWordTranslationTooltip ? "On" : "Off" }}</span>
-                                        </div>
-                                        <div class="memorisation-icon-text-action" role="button" tabindex="0" data-bs-toggle="modal" data-bs-target="#hifdhPlanModal" @keydown.enter.prevent="$event.currentTarget.click()" @keydown.space.prevent="$event.currentTarget.click()">
-                                            <i class="bi bi-journal-check" aria-hidden="true"></i>
-                                            <span class="memorisation-icon-text-label">Hifdh Plan</span>
-                                            <span class="memorisation-icon-text-state">{{ todayHifdhPlanItemsOrdered.length }}</span>
-                                        </div>
-                                        <div class="memorisation-icon-text-action memorisation-icon-text-action--compact" role="button" tabindex="0" @click="decreaseFontSize" @keydown.enter.prevent="decreaseFontSize" @keydown.space.prevent="decreaseFontSize" title="Decrease reading text size">
-                                            <i class="bi bi-zoom-out" aria-hidden="true"></i>
-                                            <span class="memorisation-icon-text-label">Smaller</span>
-                                        </div>
-                                        <div class="memorisation-icon-text-action memorisation-icon-text-action--compact" role="button" tabindex="0" @click="increaseFontSize" @keydown.enter.prevent="increaseFontSize" @keydown.space.prevent="increaseFontSize" title="Increase reading text size">
-                                            <i class="bi bi-zoom-in" aria-hidden="true"></i>
-                                            <span class="memorisation-icon-text-label">Larger</span>
-                                        </div>
-                                        <div class="memorisation-icon-text-action" :class="{ 'is-enabled': isReadingFullscreen }" role="button" tabindex="0" @click="toggleReadingFullscreen" @keydown.enter.prevent="toggleReadingFullscreen" @keydown.space.prevent="toggleReadingFullscreen" :title="isReadingFullscreen ? 'Exit full-screen reading' : 'Enter full-screen reading'">
-                                            <i class="bi" :class="isReadingFullscreen ? 'bi-fullscreen-exit' : 'bi-fullscreen'" aria-hidden="true"></i>
-                                            <span class="memorisation-icon-text-label">{{ isReadingFullscreen ? "Exit Full" : "Full Screen" }}</span>
-                                        </div>
-                                    </div>
+                                <div class="memorisation-feature-row" role="group" aria-label="Reading and memorisation features">
+                                    <button type="button" class="memorisation-icon-text-action" :class="{ 'is-enabled': isTranslationVisible }" @click="isTranslationVisible = !isTranslationVisible" :aria-pressed="isTranslationVisible ? 'true' : 'false'" title="Toggle translation">
+                                        <i class="bi bi-chat-quote-fill" aria-hidden="true"></i>
+                                        <span class="memorisation-icon-text-label">Translation</span>
+                                        <span class="memorisation-icon-text-state">{{ isTranslationVisible ? "On" : "Off" }}</span>
+                                    </button>
+                                    <button type="button" class="memorisation-icon-text-action" :class="{ 'is-enabled': showTajweed }" @click="showTajweed = !showTajweed" :aria-pressed="showTajweed ? 'true' : 'false'" title="Toggle tajweed guidance">
+                                        <i class="bi bi-palette-fill" aria-hidden="true"></i>
+                                        <span class="memorisation-icon-text-label">Tajweed</span>
+                                    </button>
+                                    <button type="button" class="memorisation-icon-text-action" :class="{ 'is-enabled': showRealtimeHighlighting }" @click="showRealtimeHighlighting = !showRealtimeHighlighting" :aria-pressed="showRealtimeHighlighting ? 'true' : 'false'" title="Toggle word highlight">
+                                        <i class="bi bi-highlighter" aria-hidden="true"></i>
+                                        <span class="memorisation-icon-text-label">Word Highlight</span>
+                                        <span class="memorisation-icon-text-state">{{ showRealtimeHighlighting ? "On" : "Off" }}</span>
+                                    </button>
+                                    <button type="button" class="memorisation-icon-text-action" :class="{ 'is-enabled': showWordTranslation }" @click="showWordTranslation = !showWordTranslation" :aria-pressed="showWordTranslation ? 'true' : 'false'" title="Toggle word meanings">
+                                        <i class="bi bi-translate" aria-hidden="true"></i>
+                                        <span class="memorisation-icon-text-label">Word Meanings</span>
+                                        <span class="memorisation-icon-text-state">{{ showWordTranslation ? "On" : "Off" }}</span>
+                                    </button>
+                                    <button type="button" class="memorisation-icon-text-action" :class="{ 'is-enabled': showWordTranslationTooltip }" @click="toggleWordAudioMode" :aria-pressed="showWordTranslationTooltip ? 'true' : 'false'" title="Toggle word tap audio">
+                                        <i class="bi bi-volume-up-fill" aria-hidden="true"></i>
+                                        <span class="memorisation-icon-text-label">Word Tap Audio</span>
+                                        <span class="memorisation-icon-text-state">{{ showWordTranslationTooltip ? "On" : "Off" }}</span>
+                                    </button>
+                                    <button type="button" class="memorisation-icon-text-action" @click="openHifdhPlanModalGuarded" title="Open Hifdh plan">
+                                        <i class="bi bi-journal-check" aria-hidden="true"></i>
+                                        <span class="memorisation-icon-text-label">Hifdh Plan</span>
+                                        <span class="memorisation-icon-text-state">{{ todayHifdhPlanItemsOrdered.length }}</span>
+                                    </button>
                                 </div>
                             </div>
                             </div>
                         </transition>
-                        <div v-if="!isMemorisationAdvancedOpen" class="memorisation-settings-hint">
-                            Open <b>Session Settings</b> to set ayah range, repetition pacing, and reading aids.
-                        </div>
                     </div>
                 </div>
             </div>
@@ -1146,7 +1010,7 @@
                                     </span>
                                 </summary>
                                 <div class="hifdh-onboarding-panel">
-                                    <p class="hifdh-onboarding-copy mb-0">Set your ayah range once, run your due session, then rate each segment to schedule the next review automatically.</p>
+                                    <p class="hifdh-onboarding-copy mb-0">Add your range, recite due items, then rate each segment to auto-schedule the next review.</p>
                                     <div class="hifdh-onboarding-steps" role="list" aria-label="Hifdh quick onboarding steps">
                                         <div class="hifdh-step-card" role="listitem" title="Create today's review segments from your memorisation range" data-hifdh-tooltip="true">
                                             <span class="hifdh-step-index">1</span>
@@ -1155,7 +1019,7 @@
                                                     <i class="bi bi-collection-play hifdh-step-icon" aria-hidden="true"></i>
                                                     Add your ayah range
                                                 </p>
-                                                <small class="hifdh-step-copy d-block">Choose a start and end ayah, then tap Add Range to create today's items.</small>
+                                                <small class="hifdh-step-copy d-block">Choose a start and end ayah, then tap Add &amp; Start.</small>
                                             </div>
                                         </div>
                                         <div class="hifdh-step-card" role="listitem" title="Open each due segment and recite with focus" data-hifdh-tooltip="true">
@@ -1165,7 +1029,7 @@
                                                     <i class="bi bi-play-circle hifdh-step-icon" aria-hidden="true"></i>
                                                     Start your session
                                                 </p>
-                                                <small class="hifdh-step-copy d-block">Tap Start Session to open each due segment and recite with focus.</small>
+                                                <small class="hifdh-step-copy d-block">Open each due segment and recite with focus.</small>
                                             </div>
                                         </div>
                                         <div class="hifdh-step-card" role="listitem" title="Your feedback automatically adjusts the next due date" data-hifdh-tooltip="true">
@@ -1175,7 +1039,7 @@
                                                     <i class="bi bi-check2-square hifdh-step-icon" aria-hidden="true"></i>
                                                     Submit feedback
                                                 </p>
-                                                <small class="hifdh-step-copy d-block">Mark Strong, Minor Mistakes, or Weak so the next due date is adjusted for you.</small>
+                                                <small class="hifdh-step-copy d-block">Mark Strong, Minor, or Weak so the next due date adjusts automatically.</small>
                                             </div>
                                         </div>
                                     </div>

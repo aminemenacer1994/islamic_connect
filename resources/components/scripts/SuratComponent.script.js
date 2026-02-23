@@ -106,9 +106,9 @@ export default {
             suratOnboardingModalId: "suratOnboardingModal",
             suratOnboardingModalInstance: null,
             suratOnboardingSearchQuery: "",
-            suratOnboardingFontSize: 15,
-            suratOnboardingFontSizeMin: 13,
-            suratOnboardingFontSizeMax: 20,
+            suratOnboardingFontSize: 17,
+            suratOnboardingFontSizeMin: 15,
+            suratOnboardingFontSizeMax: 22,
             suratOnboardingFontSizePreferenceBaseKey: "surat_onboarding_font_size",
             suratReaderFontSizePreferenceBaseKey: "surat_reader_font_sizes",
             suratPreferenceAnonStorageKey: "ic_surat_pref_anon_id",
@@ -663,6 +663,7 @@ export default {
             autoNextAnimatedIndex: null,
             autoNextAnimationTimer: null,
             isBlurNextAyahEnabled: false,
+            hifdhAuthStorageKey: "ic_hifdh_auth_user_v1",
             hifdhSchedulerStorageKey: "ic_hifdh_scheduler_v1",
             hifdhCheckpointDays: [1, 3, 7, 14, 30],
             hifdhPlanSets: [],
@@ -1985,6 +1986,7 @@ export default {
                 this.showNextStep = false;
         } catch (_) { }
         await this.initializeBookmarkAuth();
+        this.syncHifdhAuthStorage();
         this.loadContinueProgress();
         this.loadContinueProgressHiddenState();
         await this.initializeFontSizePreferences();
@@ -6082,7 +6084,55 @@ export default {
             const userId = await fetchUserIdFromApi();
             this.bookmarkStorageUserId = userId || null;
             this.bookmarkAuthenticated = !!userId;
+            this.syncHifdhAuthStorage();
             return this.bookmarkAuthenticated;
+        },
+        syncHifdhAuthStorage() {
+            if (typeof window === "undefined") return;
+            try {
+                if (this.bookmarkAuthenticated && this.bookmarkStorageUserId) {
+                    localStorage.setItem(
+                        this.hifdhAuthStorageKey,
+                        String(this.bookmarkStorageUserId)
+                    );
+                } else {
+                    localStorage.removeItem(this.hifdhAuthStorageKey);
+                }
+            } catch (_) {}
+        },
+        canAccessHifdhPlanByStorage() {
+            if (!this.bookmarkAuthenticated || !this.bookmarkStorageUserId) {
+                return false;
+            }
+            if (typeof window === "undefined") return false;
+            try {
+                const stored = localStorage.getItem(this.hifdhAuthStorageKey);
+                return String(stored || "") === String(this.bookmarkStorageUserId);
+            } catch (_) {
+                return false;
+            }
+        },
+        async ensureHifdhPlanAccess() {
+            if (this.canAccessHifdhPlanByStorage()) return true;
+            const isAuthed = await this.ensureAuthenticated(
+                "Please log in to use Hifdh Plan."
+            );
+            if (!isAuthed) return false;
+            this.syncHifdhAuthStorage();
+            return this.canAccessHifdhPlanByStorage();
+        },
+        async openHifdhPlanModalGuarded(event) {
+            if (event && typeof event.preventDefault === "function") {
+                event.preventDefault();
+            }
+            const allowed = await this.ensureHifdhPlanAccess();
+            if (!allowed) return;
+            this.$nextTick(() => {
+                const modalEl = document.getElementById("hifdhPlanModal");
+                if (!modalEl) return;
+                const modal = Modal.getInstance(modalEl) || new Modal(modalEl);
+                modal.show();
+            });
         },
         clearSavedBookmarks() {
             this.savedAyahKeys = {};
@@ -6784,10 +6834,12 @@ export default {
                 await this.initializePinnedSectionUiStorageKey();
                 await this.loadPinnedSectionUiPreference();
                 await this.initializeReflectionCacheKey();
+                this.syncHifdhAuthStorage();
                 return true;
             }
             this.bookmarkAuthenticated = false;
             this.bookmarkStorageUserId = null;
+            this.syncHifdhAuthStorage();
             this.loadContinueProgress();
             this.loadContinueProgressHiddenState();
             await this.initializeDeepFocusModePreference();
