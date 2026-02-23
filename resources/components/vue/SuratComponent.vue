@@ -777,7 +777,7 @@
                             </button>
                             <div class="memorisation-clean-title-wrap">
                                 <span class="quran-toolbar-label quran-toolbar-label-purple"><b>Memorisation Session</b></span>
-                                <small class="memorisation-clean-subtitle">Keep this row for core actions, use session settings below for setup.</small>
+                                <small class="memorisation-clean-subtitle">Core controls first. Fine-tune only when needed.</small>
                             </div>
                         </div>
                         <button
@@ -788,7 +788,7 @@
                             aria-controls="memorisationAdvancedSettings"
                             :title="isMemorisationAdvancedOpen ? 'Hide session setup and pacing settings' : 'Open session setup and pacing settings'">
                             <i class="bi me-1" :class="isMemorisationAdvancedOpen ? 'bi-chevron-up-circle' : 'bi-sliders'" aria-hidden="true"></i>
-                            {{ isMemorisationAdvancedOpen ? "Hide Session Settings" : "Open Session Settings" }}
+                            {{ isMemorisationAdvancedOpen ? "Hide Settings" : "Session Settings" }}
                         </button>
                     </div>
 
@@ -821,7 +821,7 @@
 
                         <div class="memorisation-core-slot">
                             <div class="quran-toolbar-reciter memorisation-reciter-group memorisation-reciter-group-inline">
-                                <label class="memorisation-inline-label" for="memorisationPlaybackModeSelectInline">Auto-play behaviour</label>
+                                <label class="memorisation-inline-label" for="memorisationPlaybackModeSelectInline">Auto-play</label>
                                 <select id="memorisationPlaybackModeSelectInline" class="form-select quran-toolbar-select" v-model="playbackMode" aria-label="Select playback mode">
                                     <option v-for="option in playbackModeOptions" :key="option.value" :value="option.value">
                                         {{ option.value === "continuous" ? "Continuous (Auto Next)" : option.value === "repeat" ? "Repeat Current Ayah" : "Manual (No Auto Next)" }}
@@ -844,9 +844,8 @@
                             </button>
                         </div>
 
-                        <div class="memorisation-core-slot memorisation-core-slot--status">
+                        <div v-if="isMemorisationRepetitionActive" class="memorisation-core-slot memorisation-core-slot--status">
                             <span
-                                v-if="isMemorisationRepetitionActive"
                                 class="quran-toolbar-label memorisation-repetition-inline"
                                 style="color: #064e3b; font-weight: 700;"
                                 aria-live="polite">
@@ -858,12 +857,12 @@
                     <div class="memorisation-toolbar-row memorisation-toolbar-row-3 memorisation-row-clean-settings">
                         <transition name="fade">
                             <div
-                                v-show="isMemorisationAdvancedOpen"
+                                v-if="isMemorisationAdvancedOpen"
                                 id="memorisationAdvancedSettings"
                                 class="memorisation-toolbar-row memorisation-toolbar-row-advanced"
                                 role="group"
                                 aria-label="Session setup and pacing settings">
-                                <div class="memorisation-row-title">Session Setup &amp; Pacing</div>
+                                <div class="memorisation-row-title">Session setup</div>
                             <div class="memorisation-toolbar-group memorisation-toolbar-group--range">
                                 <div class="d-flex align-items-center gap-2">
                                     <span class="quran-toolbar-label d-none d-sm-inline-block" style="color: #064e3b; margin-right: 0;">Ayah range</span>
@@ -1002,7 +1001,7 @@
                                             </button>
                                         </li>
                                         <li>
-                                            <button type="button" class="dropdown-item memorisation-mobile-dropdown-item" @click="toggleWordAudioMode; isMemorisationReadingAidsOpen = false">
+                                            <button type="button" class="dropdown-item memorisation-mobile-dropdown-item" @click="toggleWordAudioMode(); isMemorisationReadingAidsOpen = false">
                                                 <span class="memorisation-mobile-dropdown-item-left">
                                                     <i class="bi bi-volume-up-fill" aria-hidden="true"></i>
                                                     Word Tap Audio
@@ -1021,7 +1020,7 @@
                                         </li>
                                         <li><hr class="dropdown-divider"></li>
                                         <li>
-                                            <button type="button" class="dropdown-item memorisation-mobile-dropdown-item" @click="decreaseFontSize; isMemorisationReadingAidsOpen = false" title="Decrease reading text size">
+                                            <button type="button" class="dropdown-item memorisation-mobile-dropdown-item" @click="decreaseFontSize(); isMemorisationReadingAidsOpen = false" title="Decrease reading text size">
                                                 <span class="memorisation-mobile-dropdown-item-left">
                                                     <i class="bi bi-zoom-out" aria-hidden="true"></i>
                                                     Smaller
@@ -1029,7 +1028,7 @@
                                             </button>
                                         </li>
                                         <li>
-                                            <button type="button" class="dropdown-item memorisation-mobile-dropdown-item" @click="increaseFontSize; isMemorisationReadingAidsOpen = false" title="Increase reading text size">
+                                            <button type="button" class="dropdown-item memorisation-mobile-dropdown-item" @click="increaseFontSize(); isMemorisationReadingAidsOpen = false" title="Increase reading text size">
                                                 <span class="memorisation-mobile-dropdown-item-left">
                                                     <i class="bi bi-zoom-in" aria-hidden="true"></i>
                                                     Larger
@@ -1037,7 +1036,7 @@
                                             </button>
                                         </li>
                                         <li>
-                                            <button type="button" class="dropdown-item memorisation-mobile-dropdown-item" @click="toggleReadingFullscreen; isMemorisationReadingAidsOpen = false">
+                                            <button type="button" class="dropdown-item memorisation-mobile-dropdown-item" @click="toggleReadingFullscreen(); isMemorisationReadingAidsOpen = false">
                                                 <span class="memorisation-mobile-dropdown-item-left">
                                                     <i class="bi" :class="isReadingFullscreen ? 'bi-fullscreen-exit' : 'bi-fullscreen'" aria-hidden="true"></i>
                                                     {{ isReadingFullscreen ? "Exit Full Screen" : "Full Screen" }}
@@ -1049,7 +1048,7 @@
                                 </div>
 
                                 <div v-else class="memorisation-advanced-reading-content is-open">
-                                    <div class="memorisation-row-title">Reading Aids &amp; Display</div>
+                                    <div class="memorisation-row-title">Reading tools</div>
                                     <div class="memorisation-icon-text-grid">
                                         <div class="memorisation-icon-text-action" :class="{ 'is-enabled': isTranslationVisible }" role="button" tabindex="0" @click="isTranslationVisible = !isTranslationVisible" @keydown.enter.prevent="isTranslationVisible = !isTranslationVisible" @keydown.space.prevent="isTranslationVisible = !isTranslationVisible" :title="isTranslationVisible ? 'Hide translation under the focused ayah' : 'Show translation under the focused ayah'">
                                             <i class="bi bi-chat-quote-fill" aria-hidden="true"></i>
@@ -1120,22 +1119,15 @@
                         <div class="modal-body">
                             <div class="hifdh-modal-summary">
                                 <span class="hifdh-summary-pill">Due Today: {{ todayHifdhPlanItemsOrdered.length }}</span>
-                                <span class="hifdh-summary-pill">Pending: {{ hifdhPendingCount }}</span>
-                                <span class="hifdh-summary-pill">{{ hifdhCompletionSummary }}</span>
-                                <span
-                                    class="hifdh-summary-pill hifdh-summary-pill-streak"
-                                    :class="{ 'is-active': hifdhConsistencyStreakDays > 0 }"
-                                    :title="hifdhConsistencyTooltip"
-                                    data-hifdh-tooltip="true">
-                                    <i class="bi" :class="hifdhConsistencyStreakDays > 0 ? 'bi-fire' : 'bi-calendar2-heart'" aria-hidden="true"></i>
-                                    <span>{{ hifdhConsistencyPillLabel }}</span>
-                                </span>
+                                <p class="hifdh-streak-micro mb-0">
+                                    <i class="bi" :class="hifdhConsistencyStreakDays > 0 ? 'bi-fire' : 'bi-heart'" aria-hidden="true"></i>
+                                    <span v-if="hifdhConsistencyStreakDays > 0">{{ hifdhConsistencyStreakDays }} days consistent — mashaAllah!</span>
+                                    <span v-else>{{ hifdhConsistencyNudge }}</span>
+                                </p>
                             </div>
-                            <p
-                                class="hifdh-consistency-nudge mb-0"
-                                :class="{ 'is-celebrating': hifdhConsistencyStreakDays >= 3 }">
-                                <i class="bi" :class="hifdhConsistencyStreakDays > 0 ? 'bi-stars' : 'bi-lightbulb'" aria-hidden="true"></i>
-                                <span>{{ hifdhConsistencyNudge }}</span>
+                            <p class="hifdh-next-step-inline mb-0">
+                                <i class="bi bi-arrow-right-circle" aria-hidden="true"></i>
+                                <span>{{ nextHifdhDueSummary }}</span>
                             </p>
 
                             <details class="hifdh-onboarding-disclosure">
@@ -1163,7 +1155,7 @@
                                                     <i class="bi bi-collection-play hifdh-step-icon" aria-hidden="true"></i>
                                                     Add your ayah range
                                                 </p>
-                                                <small class="hifdh-step-copy">Choose a start and end ayah, then tap Add Range to create today's items.</small>
+                                                <small class="hifdh-step-copy d-block">Choose a start and end ayah, then tap Add Range to create today's items.</small>
                                             </div>
                                         </div>
                                         <div class="hifdh-step-card" role="listitem" title="Open each due segment and recite with focus" data-hifdh-tooltip="true">
@@ -1173,7 +1165,7 @@
                                                     <i class="bi bi-play-circle hifdh-step-icon" aria-hidden="true"></i>
                                                     Start your session
                                                 </p>
-                                                <small class="hifdh-step-copy">Tap Start Session to open each due segment and recite with focus.</small>
+                                                <small class="hifdh-step-copy d-block">Tap Start Session to open each due segment and recite with focus.</small>
                                             </div>
                                         </div>
                                         <div class="hifdh-step-card" role="listitem" title="Your feedback automatically adjusts the next due date" data-hifdh-tooltip="true">
@@ -1183,7 +1175,7 @@
                                                     <i class="bi bi-check2-square hifdh-step-icon" aria-hidden="true"></i>
                                                     Submit feedback
                                                 </p>
-                                                <small class="hifdh-step-copy">Mark Strong, Minor Mistakes, or Weak so the next due date is adjusted for you.</small>
+                                                <small class="hifdh-step-copy d-block">Mark Strong, Minor Mistakes, or Weak so the next due date is adjusted for you.</small>
                                             </div>
                                         </div>
                                     </div>
@@ -1196,32 +1188,61 @@
                                     <input type="number" class="quran-toolbar-select text-center" v-model.number="hifdhNewRangeStart" min="1" :max="totalAyahs || 1" aria-label="Start ayah" title="Start ayah number for the memorisation range" data-hifdh-tooltip="true">
                                     <span class="opacity-50">-</span>
                                     <input type="number" class="quran-toolbar-select text-center" v-model.number="hifdhNewRangeEnd" min="1" :max="totalAyahs || 1" aria-label="End ayah" title="End ayah number for the memorisation range" data-hifdh-tooltip="true">
-                                    <button type="button" class="quran-toolbar-btn quran-toolbar-btn-sm" @click="addCurrentRangeToHifdhPlan" title="Add this range to your spaced review schedule" data-hifdh-tooltip="true">
-                                        <i class="bi bi-plus-lg" aria-hidden="true"></i>
-                                        <span class="quran-toolbar-btn-text">Add Range</span>
+                                    <button type="button" class="quran-toolbar-btn quran-toolbar-btn-sm hifdh-add-start-btn" @click="addRangeAndStartHifdhSession" title="Add this range and immediately start today's guided session" data-hifdh-tooltip="true">
+                                        <i class="bi bi-play-circle-fill" aria-hidden="true"></i>
+                                        <span class="quran-toolbar-btn-text">Add &amp; Start</span>
                                     </button>
                                 </div>
-                                <div class="memorisation-review-add-controls hifdh-control-secondary">
-                                    <button type="button" class="quran-toolbar-btn quran-toolbar-btn-sm" @click="quickStartSurahTwoDemoRange" title="Load Surah 2 and queue a demo range instantly" data-hifdh-tooltip="true">
-                                        <i class="bi bi-stars" aria-hidden="true"></i>
-                                        <span class="quran-toolbar-btn-text">Quick Demo</span>
-                                    </button>
-                                    <button type="button" class="quran-toolbar-btn quran-toolbar-btn-sm" :disabled="!canRunHifdhDemo" @click="markAllPendingHifdhDueToday" title="Bring future pending items into today for demo testing" data-hifdh-tooltip="true">
-                                        <i class="bi bi-lightning-charge-fill" aria-hidden="true"></i>
-                                        <span class="quran-toolbar-btn-text">Due Now</span>
-                                    </button>
-                                    <button type="button" class="quran-toolbar-btn quran-toolbar-btn-sm" @click="resetHifdhPlan" title="Clear all queued ranges and restart from scratch" data-hifdh-tooltip="true">
-                                        <i class="bi bi-trash3" aria-hidden="true"></i>
-                                        <span class="quran-toolbar-btn-text">Reset Plan</span>
-                                    </button>
-                                </div>
+                                <details class="hifdh-onboarding-disclosure hifdh-secondary-disclosure">
+                                    <summary
+                                        class="hifdh-onboarding-summary"
+                                        title="Optional demo and reset tools"
+                                        data-hifdh-tooltip="true">
+                                        <span class="hifdh-onboarding-summary-main">
+                                            <i class="bi bi-sliders" aria-hidden="true"></i>
+                                            <span class="hifdh-onboarding-title">Advanced actions</span>
+                                        </span>
+                                        <span class="hifdh-onboarding-summary-meta">
+                                            <span class="hifdh-onboarding-meta-closed">Show optional tools</span>
+                                            <span class="hifdh-onboarding-meta-open">Hide optional tools</span>
+                                            <i class="bi bi-chevron-down hifdh-onboarding-summary-caret" aria-hidden="true"></i>
+                                        </span>
+                                    </summary>
+                                    <div class="hifdh-onboarding-panel hifdh-secondary-panel">
+                                        <div class="memorisation-review-add-controls hifdh-control-secondary">
+                                            <button type="button" class="quran-toolbar-btn quran-toolbar-btn-sm" @click="quickStartSurahTwoDemoRange" title="Load Surah 2 and queue a demo range instantly" data-hifdh-tooltip="true">
+                                                <i class="bi bi-stars" aria-hidden="true"></i>
+                                                <span class="quran-toolbar-btn-text">Quick Demo</span>
+                                            </button>
+                                            <button type="button" class="quran-toolbar-btn quran-toolbar-btn-sm" :disabled="!canRunHifdhDemo" @click="markAllPendingHifdhDueToday" title="Bring future pending items into today for demo testing" data-hifdh-tooltip="true">
+                                                <i class="bi bi-lightning-charge-fill" aria-hidden="true"></i>
+                                                <span class="quran-toolbar-btn-text">Due Now</span>
+                                            </button>
+                                            <button type="button" class="quran-toolbar-btn quran-toolbar-btn-sm" @click="isHifdhResetConfirmVisible = !isHifdhResetConfirmVisible" title="Clear all queued ranges and restart from scratch" data-hifdh-tooltip="true">
+                                                <i class="bi bi-trash3" aria-hidden="true"></i>
+                                                <span class="quran-toolbar-btn-text">Reset Plan</span>
+                                            </button>
+                                        </div>
+                                        <div v-if="isHifdhResetConfirmVisible" class="hifdh-reset-confirm mb-0" role="alert">
+                                            <p class="mb-2">Reset Hifdh plan? This removes all queued ranges and review progress.</p>
+                                            <div class="d-flex gap-2 flex-wrap">
+                                                <button type="button" class="btn btn-sm btn-outline-secondary" @click="isHifdhResetConfirmVisible = false">Cancel</button>
+                                                <button type="button" class="btn btn-sm btn-danger" @click="confirmResetHifdhPlan">Reset plan</button>
+                                            </div>
+                                        </div>
+                                        <small class="memorisation-simple-help mb-0">
+                                            Optional testing shortcuts for demo runs and fast plan cleanup.
+                                        </small>
+                                    </div>
+                                </details>
                                 <small class="memorisation-simple-help">
-                                    Add your first range, then press Start Session to begin a guided flow. Quick Demo and Due Now are optional testing shortcuts.
+                                    Add once and start immediately. Use Advanced actions only when needed.
                                 </small>
                             </div>
 
                             <div class="memorisation-simple-list">
-                                <h6 class="hifdh-list-title mb-0">Due Segments</h6>
+                                <h6 class="hifdh-list-title mb-0">Due Segments ({{ todayHifdhPlanItemsOrdered.length }})</h6>
+                                <small class="memorisation-simple-help">Tap <strong>Open</strong> to jump to the segment and close this modal.</small>
                                 <div v-if="!hasTodayHifdhPlan" class="hifdh-empty-state">
                                     <i class="bi bi-calendar2-check" aria-hidden="true"></i>
                                     <p class="memorisation-plan-empty mb-0">No segments due right now. Add a range or use Quick Demo.</p>
@@ -1232,7 +1253,7 @@
                                     type="button"
                                     class="memorisation-plan-item"
                                     :class="{ 'is-active': hifdhActiveItemId === item.id }"
-                                    @click="openHifdhPlanItem(item)">
+                                    @click="openHifdhPlanItemAndCloseModal(item)">
                                     <span class="hifdh-item-main">
                                         <span class="memorisation-plan-item-title">{{ hifdhEntrySummary(item) }}</span>
                                         <span class="memorisation-plan-item-meta">
@@ -1255,7 +1276,7 @@
                                     {{ hifdhCheckpointLabel(activeHifdhSessionItem) }} · Due {{ formatDateKey(activeHifdhSessionItem.scheduledDate) }}
                                 </p>
                                 <div class="memorisation-session-actions">
-                                    <button type="button" class="quran-toolbar-btn quran-toolbar-btn-sm" @click="openHifdhPlanItem(activeHifdhSessionItem)">
+                                    <button type="button" class="quran-toolbar-btn quran-toolbar-btn-sm" @click="openHifdhPlanItemAndCloseModal(activeHifdhSessionItem)">
                                         <i class="bi bi-eye-fill" aria-hidden="true"></i>
                                         <span class="quran-toolbar-btn-text">Open Segment</span>
                                     </button>
@@ -1277,9 +1298,6 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-success" :disabled="!hasTodayHifdhPlan" @click="startTodayHifdhSessionAndCloseModal" title="Begin the guided review session for due items" data-hifdh-tooltip="true">
-                                Start Session
-                            </button>
                         </div>
                     </div>
                 </div>

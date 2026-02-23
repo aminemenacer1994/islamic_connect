@@ -677,6 +677,7 @@ export default {
             isHifdhDemoModeActive: false,
             hifdhTooltipInstances: [],
             hifdhPlanModalShownHandler: null,
+            isHifdhResetConfirmVisible: false,
             hifdhFeedbackChoices: [
                 { value: "strong", label: "Strong" },
                 { value: "minor", label: "Minor Mistakes" },
@@ -3703,6 +3704,13 @@ export default {
                 `Daily review plan created for Surah ${surahNumber}, Ayah ${startAyah}-${endAyah}.`
             );
         },
+        async addRangeAndStartHifdhSession() {
+            this.addCurrentRangeToHifdhPlan();
+            await this.$nextTick();
+            if (this.hasTodayHifdhPlan) {
+                await this.startTodayHifdhSessionAndCloseModal();
+            }
+        },
         markAllPendingHifdhDueToday() {
             const todayKey = this.toDateKey(new Date());
             let updatedCount = 0;
@@ -3741,16 +3749,13 @@ export default {
                 this.announce("No pending segments to reset.");
             }
         },
-        resetHifdhPlan() {
-            const shouldReset = window.confirm(
-                "Reset Hifdh plan? This will remove all queued ranges and review progress."
-            );
-            if (!shouldReset) return;
+        confirmResetHifdhPlan() {
             this.hifdhPlanSets = [];
             this.hifdhReviewQueue = [];
             this.hifdhSessionStarted = false;
             this.hifdhActiveItemId = null;
             this.isHifdhDemoModeActive = false;
+            this.isHifdhResetConfirmVisible = false;
             this.persistHifdhSchedulerState();
             this.persistHifdhPlanUiState();
             this.announce("Hifdh plan reset.");
@@ -3900,6 +3905,16 @@ export default {
                 this.memorisationRangeEnd = Number(item.endAyah || item.startAyah || 1);
                 this.applyMemorisationRange();
             } catch (_) {}
+        },
+        async openHifdhPlanItemAndCloseModal(item) {
+            if (!item) return;
+            await this.openHifdhPlanItem(item);
+            this.$nextTick(() => {
+                const modalEl = document.getElementById("hifdhPlanModal");
+                if (!modalEl) return;
+                const instance = Modal.getInstance(modalEl) || new Modal(modalEl);
+                instance.hide();
+            });
         },
         applyHifdhFeedbackAdjustments(entry, feedback) {
             if (!entry) return;

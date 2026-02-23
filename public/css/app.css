@@ -22289,8 +22289,8 @@ article.card[data-v-07c158c8] { margin: 0; display: flex; flex-direction: column
 .zakat-calculator[data-v-94077780] {
   min-height: 100vh;
   padding-bottom: 4rem;
+  background: #f7f9fc;
 }
-
 .premium-panel[data-v-94077780] {
   border-radius: 20px;
   padding: 12px;
@@ -45426,17 +45426,43 @@ to {
     padding: 1rem 1.1rem;
 }
 .hifdh-control-panel-title[data-v-637d02d8] {
-    font-size: 1.2rem;
+    font-size: 1rem;
     font-weight: 700;
     color: #065f46;
     margin-bottom: 0.4rem;
+}
+.hifdh-flow-hint[data-v-637d02d8] {
+    font-size: 0.84rem;
+    color: #475569;
+    line-height: 1.4;
 }
 .hifdh-control-primary[data-v-637d02d8],
 .hifdh-control-secondary[data-v-637d02d8] {
     margin-bottom: 0.2rem;
 }
+.hifdh-secondary-disclosure[data-v-637d02d8] {
+    margin-top: 0.3rem;
+}
+.hifdh-secondary-disclosure .hifdh-onboarding-title[data-v-637d02d8] {
+    font-size: 1.02rem;
+}
+.hifdh-secondary-panel[data-v-637d02d8] {
+    gap: 0.52rem;
+}
+.hifdh-secondary-panel .memorisation-simple-help[data-v-637d02d8] {
+    font-size: 0.92rem;
+    color: #475569;
+}
+.hifdh-reset-confirm[data-v-637d02d8] {
+    font-size: 0.82rem;
+    padding: 0.6rem 0.68rem;
+    border: 1px solid rgba(220, 38, 38, 0.26);
+    border-radius: 10px;
+    background: rgba(254, 242, 242, 0.95);
+    color: #7f1d1d;
+}
 .memorisation-simple-help[data-v-637d02d8] {
-    font-size: 1.1rem;
+    font-size: 0.92rem;
     line-height: 1.45;
     color: #4b5563;
     font-family: "Manrope", "Inter", "Segoe UI", "Helvetica Neue", Arial,
@@ -45447,7 +45473,7 @@ to {
     gap: 0.6rem;
 }
 .hifdh-list-title[data-v-637d02d8] {
-    font-size: 1.35rem;
+    font-size: 1rem;
     font-weight: 700;
     color: #065f46;
 }
@@ -45483,12 +45509,12 @@ to {
         "Helvetica Neue", Arial, sans-serif;
     color: #065f46;
     font-weight: 700;
-    font-size: clamp(1.8rem, 1.5vw, 2.2rem);
+    font-size: clamp(1.3rem, 1.3vw, 1.65rem);
     letter-spacing: -0.02em;
     line-height: 1.1;
 }
 .hifdh-plan-modal-subtitle[data-v-637d02d8] {
-    font-size: 1.24rem;
+    font-size: 0.95rem;
     max-width: 58ch;
     line-height: 1.42;
     color: #4b5563;
@@ -45500,15 +45526,63 @@ to {
     gap: 1rem;
     padding: 1.25rem 1.55rem 1.4rem;
 }
+.hifdh-plan-explainer[data-v-637d02d8],
+.hifdh-next-step-callout[data-v-637d02d8] {
+    border: 1px solid rgba(6, 78, 59, 0.16);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.88);
+    padding: 0.62rem 0.72rem;
+}
+.hifdh-plan-explainer-title[data-v-637d02d8],
+.hifdh-next-step-title[data-v-637d02d8] {
+    font-size: 0.82rem;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: #065f46;
+}
+.hifdh-plan-explainer-copy[data-v-637d02d8],
+.hifdh-next-step-copy[data-v-637d02d8] {
+    font-size: 0.88rem;
+    color: #475569;
+    line-height: 1.45;
+}
+.hifdh-plan-explainer-copy strong[data-v-637d02d8] {
+    color: #064e3b;
+    font-weight: 700;
+}
+.hifdh-next-step-inline[data-v-637d02d8] {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.38rem;
+    font-size: 0.84rem;
+    color: #475569;
+    line-height: 1.4;
+    border: 1px solid rgba(6, 78, 59, 0.14);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.8);
+    padding: 0.48rem 0.62rem;
+}
+.hifdh-streak-micro[data-v-637d02d8] {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.76rem;
+    color: #64748b;
+}
+.hifdh-streak-micro i[data-v-637d02d8] {
+    color: #b45309;
+    font-size: 0.72rem;
+}
 .hifdh-onboarding-title[data-v-637d02d8] {
-    font-size: 1.16rem;
+    font-size: 0.98rem;
     font-weight: 800;
     color: #064e3b;
     font-family: "Plus Jakarta Sans", "Manrope", "Inter", "Segoe UI",
         "Helvetica Neue", Arial, sans-serif;
 }
 .hifdh-onboarding-copy[data-v-637d02d8] {
-    font-size: 1rem;
+    font-size: 0.9rem;
     line-height: 1.5;
     color: #4b5563;
     font-family: "Manrope", "Inter", "Segoe UI", "Helvetica Neue", Arial,
@@ -45527,7 +45601,7 @@ to {
     border-radius: 999px;
     background: rgba(255, 255, 255, 0.9);
     color: #065f46;
-    font-size: 1.08rem;
+    font-size: 0.84rem;
     font-weight: 700;
     padding: 0.42rem 0.9rem;
 }
@@ -45548,7 +45622,7 @@ to {
     align-items: center;
     gap: 0.42rem;
     color: #4b5563;
-    font-size: 0.94rem;
+    font-size: 0.84rem;
     line-height: 1.42;
     border-radius: 10px;
     background: rgba(255, 255, 255, 0.72);
@@ -45606,6 +45680,7 @@ to {
     font-size: 0.86rem;
     font-weight: 600;
     white-space: nowrap;
+    max-width: 100%;
 }
 .hifdh-onboarding-meta-open[data-v-637d02d8] {
     display: none;
@@ -45662,7 +45737,7 @@ to {
     display: inline-flex;
     align-items: center;
     gap: 0.4rem;
-    font-size: 1.3rem;
+    font-size: 0.9rem;
     line-height: 1.2;
     color: #065f46;
     font-weight: 700;
@@ -45672,7 +45747,9 @@ to {
     font-size: 0.94rem;
 }
 .hifdh-step-copy[data-v-637d02d8] {
-    font-size: 1.08rem;
+    display: block;
+    margin-top: 0.24rem;
+    font-size: 0.82rem;
     line-height: 1.45;
     color: #4b5563;
 }
@@ -45681,16 +45758,16 @@ to {
     padding: 1.25rem 1.55rem 1.45rem;
 }
 .hifdh-plan-modal .modal-footer .btn[data-v-637d02d8] {
-    font-size: 1.25rem;
+    font-size: 0.92rem;
     padding: 0.66rem 1.35rem;
     border-radius: 14px;
-    min-width: 160px;
+    min-width: 130px;
 }
 .hifdh-plan-modal .quran-toolbar-btn[data-v-637d02d8] {
-    font-size: 1.12rem;
+    font-size: 0.9rem;
 }
 .hifdh-plan-modal .quran-toolbar-btn .quran-toolbar-btn-text[data-v-637d02d8] {
-    font-size: 1.12rem;
+    font-size: 0.88rem;
 }
 .hifdh-plan-modal .memorisation-session-actions .hifdh-feedback-strong-btn[data-v-637d02d8] {
     border-color: rgba(16, 185, 129, 0.34);
@@ -45707,9 +45784,9 @@ to {
 }
 }
 .memorisation-review-add-controls .quran-toolbar-select[data-v-637d02d8] {
-    width: 84px;
-    min-height: 50px;
-    font-size: 1.2rem;
+    width: 74px;
+    min-height: 42px;
+    font-size: 0.92rem;
     font-weight: 700;
     background-image: none !important;
 }
@@ -45760,7 +45837,7 @@ to {
     padding: 0 0.35rem;
 }
 .memorisation-plan-empty[data-v-637d02d8] {
-    font-size: 1.1rem;
+    font-size: 0.9rem;
     line-height: 1.45;
     color: #6b7280;
     font-family: "Manrope", "Inter", "Segoe UI", "Helvetica Neue", Arial,
@@ -45785,14 +45862,14 @@ to {
     background: #ecfdf5;
 }
 .memorisation-plan-item-title[data-v-637d02d8] {
-    font-size: 1.16rem;
+    font-size: 0.9rem;
     font-weight: 600;
     color: #0f172a;
     font-family: "Plus Jakarta Sans", "Manrope", "Inter", "Segoe UI",
         "Helvetica Neue", Arial, sans-serif;
 }
 .memorisation-plan-item-meta[data-v-637d02d8] {
-    font-size: 0.98rem;
+    font-size: 0.78rem;
     color: #4b5563;
     font-family: "Manrope", "Inter", "Segoe UI", "Helvetica Neue", Arial,
         sans-serif;
@@ -45801,6 +45878,7 @@ to {
     display: grid;
     gap: 0.14rem;
     min-width: 0;
+    overflow-wrap: anywhere;
 }
 .hifdh-item-open[data-v-637d02d8] {
     border: 1px solid rgba(6, 95, 70, 0.28);
@@ -45844,14 +45922,14 @@ to {
     padding: 0.95rem 1rem;
 }
 .memorisation-session-heading[data-v-637d02d8] {
-    font-size: 1.18rem;
+    font-size: 0.92rem;
     font-weight: 700;
     color: #064e3b;
     font-family: "Plus Jakarta Sans", "Manrope", "Inter", "Segoe UI",
         "Helvetica Neue", Arial, sans-serif;
 }
 .memorisation-session-meta[data-v-637d02d8] {
-    font-size: 1.02rem;
+    font-size: 0.82rem;
     color: #4b5563;
     font-family: "Manrope", "Inter", "Segoe UI", "Helvetica Neue", Arial,
         sans-serif;
@@ -45863,7 +45941,7 @@ to {
     flex-wrap: wrap;
 }
 .memorisation-session-done[data-v-637d02d8] {
-    font-size: 1.1rem;
+    font-size: 0.9rem;
     font-weight: 600;
     color: #065f46;
     border: 1px solid rgba(6, 95, 70, 0.22);
@@ -45896,14 +45974,15 @@ to {
         grid-template-columns: minmax(0, 1fr);
 }
 .hifdh-summary-pill[data-v-637d02d8] {
-        font-size: 0.92rem;
+        font-size: 0.8rem;
 }
 .hifdh-consistency-nudge[data-v-637d02d8] {
-        font-size: 0.88rem;
+        font-size: 0.8rem;
         padding: 0.46rem 0.58rem;
 }
 .hifdh-onboarding-summary[data-v-637d02d8] {
         padding: 0.68rem 0.78rem;
+        align-items: flex-start;
 }
 .hifdh-onboarding-panel[data-v-637d02d8] {
         padding: 0 0.78rem 0.75rem;
@@ -45939,7 +46018,7 @@ to {
         padding: 0.45rem 0.72rem;
 }
 .memorisation-simple-help[data-v-637d02d8] {
-        font-size: 0.95rem;
+        font-size: 0.82rem;
 }
 .memorisation-plan-grid[data-v-637d02d8] {
         grid-template-columns: minmax(0, 1fr);
@@ -45959,38 +46038,95 @@ to {
 }
 }
 @media (max-width: 767.98px) {
+.hifdh-modal-summary[data-v-637d02d8] {
+        gap: 0.36rem;
+}
+.hifdh-summary-pill[data-v-637d02d8] {
+        font-size: 0.74rem;
+        padding: 0.34rem 0.56rem;
+        line-height: 1.15;
+}
+.hifdh-next-step-inline[data-v-637d02d8] {
+        font-size: 0.76rem;
+        padding: 0.42rem 0.5rem;
+}
+.hifdh-next-step-inline i[data-v-637d02d8] {
+        font-size: 0.74rem;
+}
+.hifdh-streak-micro[data-v-637d02d8] {
+        font-size: 0.72rem;
+}
+.hifdh-control-primary[data-v-637d02d8] {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.46rem;
+        align-items: stretch;
+}
+.hifdh-control-primary .opacity-50[data-v-637d02d8] {
+        display: none;
+}
+.hifdh-control-primary .quran-toolbar-select[data-v-637d02d8] {
+        width: 100% !important;
+        min-width: 0;
+}
+.hifdh-control-primary .hifdh-add-start-btn[data-v-637d02d8] {
+        grid-column: 1 / -1;
+        width: 100%;
+        justify-content: center;
+        min-height: 44px;
+}
+.hifdh-control-secondary .quran-toolbar-btn[data-v-637d02d8] {
+        flex: 1 1 100%;
+        width: 100%;
+        justify-content: center;
+}
+.memorisation-plan-item[data-v-637d02d8] {
+        align-items: flex-start;
+}
+.hifdh-item-open[data-v-637d02d8] {
+        align-self: center;
+}
 .hifdh-plan-modal .modal-title[data-v-637d02d8] {
-        font-size: 1.45rem;
+        font-size: 1.18rem;
 }
 .hifdh-plan-modal-subtitle[data-v-637d02d8] {
-        font-size: 1rem;
+        font-size: 0.86rem;
 }
 .hifdh-onboarding-title[data-v-637d02d8] {
-        font-size: 1.02rem;
+        font-size: 0.9rem;
 }
 .hifdh-onboarding-summary-meta[data-v-637d02d8] {
-        font-size: 0.74rem;
+        font-size: 0.68rem;
         gap: 0.3rem;
+        white-space: normal;
+        text-align: right;
 }
 .hifdh-onboarding-copy[data-v-637d02d8] {
-        font-size: 0.92rem;
+        font-size: 0.84rem;
 }
 .hifdh-consistency-nudge[data-v-637d02d8] {
-        font-size: 0.84rem;
+        font-size: 0.78rem;
 }
 .hifdh-step-card[data-v-637d02d8] {
         min-height: 0;
         padding: 0.72rem;
 }
 .hifdh-step-title[data-v-637d02d8] {
-        font-size: 1rem;
+        font-size: 0.86rem;
 }
 .hifdh-step-copy[data-v-637d02d8] {
-        font-size: 0.88rem;
+        font-size: 0.78rem;
 }
 .hifdh-plan-modal .modal-footer .btn[data-v-637d02d8] {
-        font-size: 1rem;
+        font-size: 0.86rem;
         min-width: 132px;
+}
+.hifdh-plan-explainer-copy[data-v-637d02d8],
+    .hifdh-next-step-copy[data-v-637d02d8] {
+        font-size: 0.8rem;
+}
+.hifdh-flow-hint[data-v-637d02d8] {
+        font-size: 0.78rem;
 }
 .memorisation-review-title[data-v-637d02d8] {
         font-size: 0.92rem;
@@ -46664,7 +46800,7 @@ to {
     border-bottom: 1px solid rgba(11, 107, 89, 0.14);
     padding: 0.78rem 0.86rem;
     display: grid;
-    grid-template-columns: repeat(5, minmax(0, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     align-items: center;
     gap: 0.56rem;
     background: linear-gradient(135deg, rgba(245, 252, 249, 0.82) 0%, rgba(238, 249, 245, 0.9) 100%);
@@ -46694,9 +46830,6 @@ to {
 }
 .surat-premium .memorisation-core-slot--status[data-v-637d02d8] {
     justify-content: flex-end;
-}
-.surat-premium .memorisation-core-slot[data-v-637d02d8]:empty::before {
-    content: "\00a0";
 }
 .surat-premium .memorisation-switch-control[data-v-637d02d8] {
     display: inline-flex;
@@ -46838,11 +46971,15 @@ to {
     width: 100%;
     white-space: normal;
     margin: 0 0 0.3rem;
-    font-size: 0.92rem;
-    font-weight: 900;
-    letter-spacing: 0.08em;
+    font-size: 0.82rem;
+    font-weight: 800;
+    letter-spacing: 0.01em;
     color: #0a6252;
-    text-transform: uppercase;
+    text-transform: none;
+}
+.surat-premium .memorisation-row-clean-header .memorisation-clean-subtitle[data-v-637d02d8] {
+    font-size: 0.7rem;
+    color: #54726b;
 }
 .surat-premium .memorisation-row-clean-settings .memorisation-toolbar-row-advanced .memorisation-toolbar-group[data-v-637d02d8] {
     flex: 0 0 auto;
@@ -46984,7 +47121,7 @@ to {
         gap: 0.54rem;
 }
 .surat-premium .memorisation-row-clean-core[data-v-637d02d8] {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-template-columns: minmax(0, 1fr);
 }
 .surat-premium .memorisation-row-clean-settings .memorisation-toolbar-row-advanced[data-v-637d02d8] {
         width: 100%;
@@ -47035,6 +47172,7 @@ to {
         background: #ffffff;
         max-height: 56vh;
         overflow-y: auto;
+        z-index: 1100;
 }
 .surat-premium .memorisation-mobile-dropdown-item[data-v-637d02d8] {
         display: flex;
@@ -47482,6 +47620,8 @@ to {
 }
 .surat-premium .memorisation-mobile-reading-dropdown[data-v-637d02d8] {
     display: none !important;
+    position: relative;
+    z-index: 30;
 }
 @media (max-width: 991.98px) {
 .surat-premium .memorisation-row-clean-core[data-v-637d02d8] {
