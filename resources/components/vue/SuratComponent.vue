@@ -993,6 +993,86 @@
                                 <i class="bi bi-arrow-right-circle" aria-hidden="true"></i>
                                 <span>{{ nextHifdhDueSummary }}</span>
                             </p>
+                            <div class="hifdh-history-strip" role="status" aria-live="polite">
+                                <span class="hifdh-history-title">Last {{ hifdhRecentPerformance.windowDays }} days</span>
+                                <span class="hifdh-history-chip">
+                                    <i class="bi bi-check2-circle" aria-hidden="true"></i>
+                                    {{ hifdhRecentPerformance.completedCount }}/{{ hifdhRecentPerformance.dueCount }} done
+                                </span>
+                                <span class="hifdh-history-chip">
+                                    <i class="bi bi-graph-up-arrow" aria-hidden="true"></i>
+                                    {{ hifdhRecentPerformance.completionRate }}% completion
+                                </span>
+                                <span class="hifdh-history-chip">
+                                    Strong {{ hifdhRecentPerformance.feedbackCounts.strong }}
+                                </span>
+                                <span class="hifdh-history-chip">
+                                    Minor {{ hifdhRecentPerformance.feedbackCounts.minor }}
+                                </span>
+                                <span class="hifdh-history-chip">
+                                    Weak {{ hifdhRecentPerformance.feedbackCounts.weak }}
+                                </span>
+                            </div>
+                            <section class="hifdh-performance-dashboard" aria-label="Performance dashboard">
+                                <div class="hifdh-performance-card">
+                                    <div class="hifdh-performance-card-head">
+                                        <h6 class="hifdh-performance-title mb-0">Progress over time</h6>
+                                        <small>{{ hifdhStreakTracking.consistencyRate }}% active days</small>
+                                    </div>
+                                    <div class="hifdh-performance-bars" role="list" aria-label="14 day progress bars">
+                                        <div
+                                            v-for="day in hifdhPerformanceTimeline"
+                                            :key="day.key"
+                                            class="hifdh-performance-bar-item"
+                                            :class="{ 'is-today': day.isToday }"
+                                            role="listitem">
+                                            <div
+                                                class="hifdh-performance-bar-fill"
+                                                :style="{ height: `${day.barHeight}%` }"
+                                                :title="`${day.label}: ${day.completedCount}/${day.dueCount} completed`"></div>
+                                            <small>{{ day.label }}</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="hifdh-performance-card">
+                                    <div class="hifdh-performance-card-head">
+                                        <h6 class="hifdh-performance-title mb-0">Weak spots</h6>
+                                        <small>Needs extra review</small>
+                                    </div>
+                                    <div v-if="hifdhWeakSpots.length" class="hifdh-weak-list">
+                                        <div v-for="spot in hifdhWeakSpots" :key="spot.label" class="hifdh-weak-item">
+                                            <span class="hifdh-weak-item-main">{{ spot.label }}</span>
+                                            <span class="hifdh-weak-item-meta">{{ spot.weakCount }} weak · {{ spot.lastSeenLabel }}</span>
+                                        </div>
+                                    </div>
+                                    <p v-else class="hifdh-weak-empty mb-0">No weak segments logged yet. Keep going.</p>
+                                </div>
+                                <div class="hifdh-performance-card">
+                                    <div class="hifdh-performance-card-head">
+                                        <h6 class="hifdh-performance-title mb-0">Streak tracking</h6>
+                                        <small>Consistency matters</small>
+                                    </div>
+                                    <div class="hifdh-streak-grid">
+                                        <div class="hifdh-streak-stat">
+                                            <span>Current</span>
+                                            <strong>{{ hifdhStreakTracking.currentStreak }}d</strong>
+                                        </div>
+                                        <div class="hifdh-streak-stat">
+                                            <span>Best</span>
+                                            <strong>{{ hifdhStreakTracking.bestStreak }}d</strong>
+                                        </div>
+                                        <div class="hifdh-streak-stat">
+                                            <span>Active</span>
+                                            <strong>{{ hifdhStreakTracking.activeDays }}/{{ hifdhStreakTracking.windowDays }}</strong>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                            <div class="hifdh-flow-quick" role="list" aria-label="Quick Hifdh plan flow">
+                                <span class="hifdh-flow-step" role="listitem"><b>1.</b> Add range</span>
+                                <span class="hifdh-flow-step" role="listitem"><b>2.</b> Open due segment</span>
+                                <span class="hifdh-flow-step" role="listitem"><b>3.</b> Mark Strong/Minor/Weak</span>
+                            </div>
 
                             <details class="hifdh-onboarding-disclosure">
                                 <summary
@@ -1001,7 +1081,7 @@
                                     data-hifdh-tooltip="true">
                                     <span class="hifdh-onboarding-summary-main">
                                         <i class="bi bi-journal-check" aria-hidden="true"></i>
-                                        <span class="hifdh-onboarding-title">How today's plan works</span>
+                                        <span class="hifdh-onboarding-title">How today's plan works (details)</span>
                                     </span>
                                     <span class="hifdh-onboarding-summary-meta">
                                         <span class="hifdh-onboarding-meta-closed">Show 3 quick steps</span>

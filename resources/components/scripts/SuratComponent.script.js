@@ -902,6 +902,184 @@ export default {
             const completed = Math.max(total - this.hifdhPendingCount, 0);
             return `${completed}/${total} completed`;
         },
+        hifdhRecentPerformance() {
+            const windowDays = 14;
+            const today = new Date();
+            const todayKey = this.toDateKey(today);
+            const startDate = new Date(today);
+            startDate.setDate(startDate.getDate() - (windowDays - 1));
+            const startKey = this.toDateKey(startDate);
+
+            const entries = Array.isArray(this.hifdhReviewQueue)
+                ? this.hifdhReviewQueue
+                : [];
+
+            const dueInWindow = entries.filter((item) => {
+                const scheduled = String(item?.scheduledDate || "");
+                return (
+                    item &&
+                    /^\d{4}-\d{2}-\d{2}$/.test(scheduled) &&
+                    scheduled >= startKey &&
+                    scheduled <= todayKey
+                );
+            });
+
+            const completedInWindow = entries.filter((item) => {
+                const completedOn = String(item?.completedOn || "");
+                return (
+                    item &&
+                    item.status === "completed" &&
+                    /^\d{4}-\d{2}-\d{2}$/.test(completedOn) &&
+                    completedOn >= startKey &&
+                    completedOn <= todayKey
+                );
+            });
+
+            const feedbackCounts = { strong: 0, minor: 0, weak: 0 };
+            completedInWindow.forEach((item) => {
+                const key = String(item?.feedback || "").toLowerCase();
+                if (key in feedbackCounts) feedbackCounts[key] += 1;
+            });
+
+            const dueCount = dueInWindow.length;
+            const completedCount = completedInWindow.length;
+            const completionRate = dueCount
+                ? Math.round((completedCount / dueCount) * 100)
+                : 0;
+
+            return {
+                windowDays,
+                dueCount,
+                completedCount,
+                completionRate,
+                feedbackCounts,
+            };
+        },
+        hifdhPerformanceTimeline() {
+            const windowDays = this.hifdhRecentPerformance.windowDays || 14;
+            const today = new Date();
+            const startDate = new Date(today);
+            startDate.setDate(startDate.getDate() - (windowDays - 1));
+
+            const entries = Array.isArray(this.hifdhReviewQueue)
+                ? this.hifdhReviewQueue
+                : [];
+
+            return Array.from({ length: windowDays }, (_, index) => {
+                const dayDate = new Date(startDate);
+                dayDate.setDate(startDate.getDate() + index);
+                const dayKey = this.toDateKey(dayDate);
+
+                const dueCount = entries.filter((item) => {
+                    const scheduled = String(item?.scheduledDate || "");
+                    return item && scheduled === dayKey;
+                }).length;
+
+                const completedCount = entries.filter((item) => {
+                    const completedOn = String(item?.completedOn || "");
+                    return (
+                        item &&
+                        item.status === "completed" &&
+                        completedOn === dayKey
+                    );
+                }).length;
+
+                const completionRate = dueCount
+                    ? Math.round((completedCount / dueCount) * 100)
+                    : completedCount > 0
+                    ? 100
+                    : 0;
+
+                return {
+                    key: dayKey,
+                    label: dayDate.toLocaleDateString("en-US", { weekday: "short" }),
+                    dueCount,
+                    completedCount,
+                    completionRate,
+                    barHeight: Math.max(12, Math.min(100, completionRate)),
+                    isToday: dayKey === this.toDateKey(today),
+                };
+            });
+        },
+        hifdhWeakSpots() {
+            const weakEntries = (this.hifdhReviewQueue || []).filter((item) => {
+                return (
+                    item &&
+                    item.status === "completed" &&
+                    String(item.feedback || "").toLowerCase() === "weak"
+                );
+            });
+
+            const grouped = weakEntries.reduce((acc, item) => {
+                const key = this.hifdhEntrySummary(item);
+                if (!acc[key]) {
+                    acc[key] = {
+                        label: key,
+                        weakCount: 0,
+                        lastSeenOn: "",
+                    };
+                }
+                acc[key].weakCount += 1;
+                const completedOn = String(item.completedOn || "");
+                if (completedOn && completedOn > acc[key].lastSeenOn) {
+                    acc[key].lastSeenOn = completedOn;
+                }
+                return acc;
+            }, {});
+
+            return Object.values(grouped)
+                .sort((a, b) => {
+                    if (b.weakCount !== a.weakCount) return b.weakCount - a.weakCount;
+                    return String(b.lastSeenOn || "").localeCompare(
+                        String(a.lastSeenOn || "")
+                    );
+                })
+                .slice(0, 4)
+                .map((item) => ({
+                    ...item,
+                    lastSeenLabel: item.lastSeenOn
+                        ? this.formatDateKey(item.lastSeenOn)
+                        : "",
+                }));
+        },
+        hifdhStreakTracking() {
+            const completionKeys = this.hifdhCompletionDateKeys
+                .slice()
+                .sort((a, b) => a.localeCompare(b));
+
+            let bestStreak = 0;
+            let currentRun = 0;
+            let previousDate = null;
+            completionKeys.forEach((key) => {
+                const currentDate = new Date(`${key}T00:00:00`);
+                if (!previousDate) {
+                    currentRun = 1;
+                } else {
+                    const dayDiff = Math.round(
+                        (currentDate.getTime() - previousDate.getTime()) /
+                            (1000 * 60 * 60 * 24)
+                    );
+                    currentRun = dayDiff === 1 ? currentRun + 1 : 1;
+                }
+                bestStreak = Math.max(bestStreak, currentRun);
+                previousDate = currentDate;
+            });
+
+            const activeDays = this.hifdhPerformanceTimeline.filter(
+                (day) => day.completedCount > 0
+            ).length;
+            const consistencyRate = Math.round(
+                (activeDays / this.hifdhPerformanceTimeline.length) * 100
+            );
+
+            return {
+                currentStreak: this.hifdhConsistencyStreakDays,
+                bestStreak,
+                activeDays,
+                windowDays: this.hifdhPerformanceTimeline.length,
+                consistencyRate,
+            };
+        },
         hifdhCompletionDateKeys() {
             return Array.from(
                 new Set(
