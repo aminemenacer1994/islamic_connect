@@ -952,29 +952,104 @@
                                 </div>
                             </div>
                             <div class="memorisation-advanced-reading">
-                                <div
-                                    v-if="isTabletOrMobile"
-                                    class="memorisation-mobile-dropdown-btn"
-                                    :class="{ 'is-open': isMemorisationReadingAidsOpen }"
-                                    role="button"
-                                    tabindex="0"
-                                    :aria-expanded="isMemorisationReadingAidsOpen ? 'true' : 'false'"
-                                    @click="toggleMemorisationReadingAidsDropdown"
-                                    @keydown.enter.prevent="toggleMemorisationReadingAidsDropdown"
-                                    @keydown.space.prevent="toggleMemorisationReadingAidsDropdown">
-                                    <span class="memorisation-mobile-dropdown-label">
-                                        <i class="bi bi-sliders2" aria-hidden="true"></i>
-                                        <span class="memorisation-mobile-dropdown-title">Reading Aids &amp; Display</span>
-                                    </span>
-                                    <span class="memorisation-mobile-dropdown-caret">
-                                        <i class="bi bi-chevron-down" aria-hidden="true"></i>
-                                    </span>
+                                <div v-if="isTabletOrMobile" class="dropdown memorisation-mobile-reading-dropdown">
+                                    <button
+                                        type="button"
+                                        class="btn dropdown-toggle memorisation-mobile-dropdown-btn"
+                                        :aria-expanded="isMemorisationReadingAidsOpen ? 'true' : 'false'"
+                                        aria-label="Open reading aids and display options"
+                                        @click="toggleMemorisationReadingAidsDropdown">
+                                        <span class="memorisation-mobile-dropdown-label">
+                                            <i class="bi bi-sliders2" aria-hidden="true"></i>
+                                            <span class="memorisation-mobile-dropdown-title">Reading Aids &amp; Display</span>
+                                        </span>
+                                    </button>
+                                    <ul class="dropdown-menu memorisation-mobile-dropdown-menu w-100 shadow-sm" :class="{ 'show': isMemorisationReadingAidsOpen }">
+                                        <li>
+                                            <button type="button" class="dropdown-item memorisation-mobile-dropdown-item" @click="isTranslationVisible = !isTranslationVisible; isMemorisationReadingAidsOpen = false">
+                                                <span class="memorisation-mobile-dropdown-item-left">
+                                                    <i class="bi bi-chat-quote-fill" aria-hidden="true"></i>
+                                                    Translation
+                                                </span>
+                                                <span class="memorisation-mobile-dropdown-state">{{ isTranslationVisible ? "On" : "Off" }}</span>
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button type="button" class="dropdown-item memorisation-mobile-dropdown-item" @click="showTajweed = !showTajweed; isMemorisationReadingAidsOpen = false">
+                                                <span class="memorisation-mobile-dropdown-item-left">
+                                                    <i class="bi bi-palette-fill" aria-hidden="true"></i>
+                                                    Tajweed
+                                                </span>
+                                                <span class="memorisation-mobile-dropdown-state">{{ showTajweed ? "On" : "Off" }}</span>
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button type="button" class="dropdown-item memorisation-mobile-dropdown-item" @click="showRealtimeHighlighting = !showRealtimeHighlighting; isMemorisationReadingAidsOpen = false">
+                                                <span class="memorisation-mobile-dropdown-item-left">
+                                                    <i class="bi bi-highlighter" aria-hidden="true"></i>
+                                                    Word Highlight
+                                                </span>
+                                                <span class="memorisation-mobile-dropdown-state">{{ showRealtimeHighlighting ? "On" : "Off" }}</span>
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button type="button" class="dropdown-item memorisation-mobile-dropdown-item" @click="showWordTranslation = !showWordTranslation; isMemorisationReadingAidsOpen = false">
+                                                <span class="memorisation-mobile-dropdown-item-left">
+                                                    <i class="bi bi-translate" aria-hidden="true"></i>
+                                                    Word Meanings
+                                                </span>
+                                                <span class="memorisation-mobile-dropdown-state">{{ showWordTranslation ? "On" : "Off" }}</span>
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button type="button" class="dropdown-item memorisation-mobile-dropdown-item" @click="toggleWordAudioMode; isMemorisationReadingAidsOpen = false">
+                                                <span class="memorisation-mobile-dropdown-item-left">
+                                                    <i class="bi bi-volume-up-fill" aria-hidden="true"></i>
+                                                    Word Tap Audio
+                                                </span>
+                                                <span class="memorisation-mobile-dropdown-state">{{ showWordTranslationTooltip ? "On" : "Off" }}</span>
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button type="button" class="dropdown-item memorisation-mobile-dropdown-item" data-bs-toggle="modal" data-bs-target="#hifdhPlanModal" @click="isMemorisationReadingAidsOpen = false">
+                                                <span class="memorisation-mobile-dropdown-item-left">
+                                                    <i class="bi bi-journal-check" aria-hidden="true"></i>
+                                                    Hifdh Plan
+                                                </span>
+                                                <span class="memorisation-mobile-dropdown-state">{{ todayHifdhPlanItemsOrdered.length }}</span>
+                                            </button>
+                                        </li>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li>
+                                            <button type="button" class="dropdown-item memorisation-mobile-dropdown-item" @click="decreaseFontSize; isMemorisationReadingAidsOpen = false" title="Decrease reading text size">
+                                                <span class="memorisation-mobile-dropdown-item-left">
+                                                    <i class="bi bi-zoom-out" aria-hidden="true"></i>
+                                                    Smaller
+                                                </span>
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button type="button" class="dropdown-item memorisation-mobile-dropdown-item" @click="increaseFontSize; isMemorisationReadingAidsOpen = false" title="Increase reading text size">
+                                                <span class="memorisation-mobile-dropdown-item-left">
+                                                    <i class="bi bi-zoom-in" aria-hidden="true"></i>
+                                                    Larger
+                                                </span>
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button type="button" class="dropdown-item memorisation-mobile-dropdown-item" @click="toggleReadingFullscreen; isMemorisationReadingAidsOpen = false">
+                                                <span class="memorisation-mobile-dropdown-item-left">
+                                                    <i class="bi" :class="isReadingFullscreen ? 'bi-fullscreen-exit' : 'bi-fullscreen'" aria-hidden="true"></i>
+                                                    {{ isReadingFullscreen ? "Exit Full Screen" : "Full Screen" }}
+                                                </span>
+                                                <span class="memorisation-mobile-dropdown-state">{{ isReadingFullscreen ? "On" : "Off" }}</span>
+                                            </button>
+                                        </li>
+                                    </ul>
                                 </div>
 
-                                <div
-                                    class="memorisation-advanced-reading-content"
-                                    :class="{ 'is-open': !isTabletOrMobile || isMemorisationReadingAidsOpen }">
-                                    <div v-if="!isTabletOrMobile" class="memorisation-row-title">Reading Aids &amp; Display</div>
+                                <div v-else class="memorisation-advanced-reading-content is-open">
+                                    <div class="memorisation-row-title">Reading Aids &amp; Display</div>
                                     <div class="memorisation-icon-text-grid">
                                         <div class="memorisation-icon-text-action" :class="{ 'is-enabled': isTranslationVisible }" role="button" tabindex="0" @click="isTranslationVisible = !isTranslationVisible" @keydown.enter.prevent="isTranslationVisible = !isTranslationVisible" @keydown.space.prevent="isTranslationVisible = !isTranslationVisible" :title="isTranslationVisible ? 'Hide translation under the focused ayah' : 'Show translation under the focused ayah'">
                                             <i class="bi bi-chat-quote-fill" aria-hidden="true"></i>
@@ -1047,36 +1122,73 @@
                                 <span class="hifdh-summary-pill">Due Today: {{ todayHifdhPlanItemsOrdered.length }}</span>
                                 <span class="hifdh-summary-pill">Pending: {{ hifdhPendingCount }}</span>
                                 <span class="hifdh-summary-pill">{{ hifdhCompletionSummary }}</span>
+                                <span
+                                    class="hifdh-summary-pill hifdh-summary-pill-streak"
+                                    :class="{ 'is-active': hifdhConsistencyStreakDays > 0 }"
+                                    :title="hifdhConsistencyTooltip"
+                                    data-hifdh-tooltip="true">
+                                    <i class="bi" :class="hifdhConsistencyStreakDays > 0 ? 'bi-fire' : 'bi-calendar2-heart'" aria-hidden="true"></i>
+                                    <span>{{ hifdhConsistencyPillLabel }}</span>
+                                </span>
                             </div>
+                            <p
+                                class="hifdh-consistency-nudge mb-0"
+                                :class="{ 'is-celebrating': hifdhConsistencyStreakDays >= 3 }">
+                                <i class="bi" :class="hifdhConsistencyStreakDays > 0 ? 'bi-stars' : 'bi-lightbulb'" aria-hidden="true"></i>
+                                <span>{{ hifdhConsistencyNudge }}</span>
+                            </p>
 
-                            <div class="hifdh-onboarding-head">
-                                <h6 class="hifdh-onboarding-title mb-0">How today's plan works</h6>
-                                <p class="hifdh-onboarding-copy mb-0">Set your ayah range once, run your due session, then rate each segment to schedule the next review automatically.</p>
-                            </div>
-
-                            <div class="hifdh-onboarding-steps" role="list" aria-label="Hifdh quick onboarding steps">
-                                <div class="hifdh-step-card" role="listitem">
-                                    <span class="hifdh-step-index">1</span>
-                                    <div>
-                                        <p class="hifdh-step-title mb-0">Add your ayah range</p>
-                                        <small class="hifdh-step-copy">Choose a start and end ayah, then tap Add Range to create today's items.</small>
+                            <details class="hifdh-onboarding-disclosure">
+                                <summary
+                                    class="hifdh-onboarding-summary"
+                                    title="Quick explanation of the 3-step daily flow"
+                                    data-hifdh-tooltip="true">
+                                    <span class="hifdh-onboarding-summary-main">
+                                        <i class="bi bi-journal-check" aria-hidden="true"></i>
+                                        <span class="hifdh-onboarding-title">How today's plan works</span>
+                                    </span>
+                                    <span class="hifdh-onboarding-summary-meta">
+                                        <span class="hifdh-onboarding-meta-closed">Show 3 quick steps</span>
+                                        <span class="hifdh-onboarding-meta-open">Hide steps</span>
+                                        <i class="bi bi-chevron-down hifdh-onboarding-summary-caret" aria-hidden="true"></i>
+                                    </span>
+                                </summary>
+                                <div class="hifdh-onboarding-panel">
+                                    <p class="hifdh-onboarding-copy mb-0">Set your ayah range once, run your due session, then rate each segment to schedule the next review automatically.</p>
+                                    <div class="hifdh-onboarding-steps" role="list" aria-label="Hifdh quick onboarding steps">
+                                        <div class="hifdh-step-card" role="listitem" title="Create today's review segments from your memorisation range" data-hifdh-tooltip="true">
+                                            <span class="hifdh-step-index">1</span>
+                                            <div>
+                                                <p class="hifdh-step-title mb-0">
+                                                    <i class="bi bi-collection-play hifdh-step-icon" aria-hidden="true"></i>
+                                                    Add your ayah range
+                                                </p>
+                                                <small class="hifdh-step-copy">Choose a start and end ayah, then tap Add Range to create today's items.</small>
+                                            </div>
+                                        </div>
+                                        <div class="hifdh-step-card" role="listitem" title="Open each due segment and recite with focus" data-hifdh-tooltip="true">
+                                            <span class="hifdh-step-index">2</span>
+                                            <div>
+                                                <p class="hifdh-step-title mb-0">
+                                                    <i class="bi bi-play-circle hifdh-step-icon" aria-hidden="true"></i>
+                                                    Start your session
+                                                </p>
+                                                <small class="hifdh-step-copy">Tap Start Session to open each due segment and recite with focus.</small>
+                                            </div>
+                                        </div>
+                                        <div class="hifdh-step-card" role="listitem" title="Your feedback automatically adjusts the next due date" data-hifdh-tooltip="true">
+                                            <span class="hifdh-step-index">3</span>
+                                            <div>
+                                                <p class="hifdh-step-title mb-0">
+                                                    <i class="bi bi-check2-square hifdh-step-icon" aria-hidden="true"></i>
+                                                    Submit feedback
+                                                </p>
+                                                <small class="hifdh-step-copy">Mark Strong, Minor Mistakes, or Weak so the next due date is adjusted for you.</small>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="hifdh-step-card" role="listitem">
-                                    <span class="hifdh-step-index">2</span>
-                                    <div>
-                                        <p class="hifdh-step-title mb-0">Start your session</p>
-                                        <small class="hifdh-step-copy">Tap Start Session to open each due segment and recite with focus.</small>
-                                    </div>
-                                </div>
-                                <div class="hifdh-step-card" role="listitem">
-                                    <span class="hifdh-step-index">3</span>
-                                    <div>
-                                        <p class="hifdh-step-title mb-0">Submit feedback</p>
-                                        <small class="hifdh-step-copy">Mark Strong, Minor Mistakes, or Weak so the next due date is adjusted for you.</small>
-                                    </div>
-                                </div>
-                            </div>
+                            </details>
 
                             <div class="memorisation-simple-controls hifdh-control-panel">
                                 <div class="hifdh-control-panel-title">Plan Actions</div>

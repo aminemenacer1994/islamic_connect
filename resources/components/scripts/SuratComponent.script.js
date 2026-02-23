@@ -900,6 +900,77 @@ export default {
             const completed = Math.max(total - this.hifdhPendingCount, 0);
             return `${completed}/${total} completed`;
         },
+        hifdhCompletionDateKeys() {
+            return Array.from(
+                new Set(
+                    (this.hifdhReviewQueue || [])
+                        .map((item) => String(item?.completedOn || ""))
+                        .filter((dateKey) => /^\d{4}-\d{2}-\d{2}$/.test(dateKey))
+                )
+            );
+        },
+        hifdhConsistencyStreakDays() {
+            if (!this.hifdhCompletionDateKeys.length) return 0;
+            const completedDates = new Set(this.hifdhCompletionDateKeys);
+            const cursor = new Date();
+            let streak = 0;
+            while (true) {
+                const key = this.toDateKey(cursor);
+                if (!completedDates.has(key)) break;
+                streak++;
+                cursor.setDate(cursor.getDate() - 1);
+            }
+            return streak;
+        },
+        hifdhRecentStreakDays() {
+            if (this.hifdhConsistencyStreakDays > 0) return 0;
+            if (!this.hifdhCompletionDateKeys.length) return 0;
+            const completedDates = new Set(this.hifdhCompletionDateKeys);
+            const cursor = new Date();
+            cursor.setDate(cursor.getDate() - 1);
+            let streak = 0;
+            while (true) {
+                const key = this.toDateKey(cursor);
+                if (!completedDates.has(key)) break;
+                streak++;
+                cursor.setDate(cursor.getDate() - 1);
+            }
+            return streak;
+        },
+        hifdhConsistencyPillLabel() {
+            if (this.hifdhConsistencyStreakDays > 0) {
+                return `${this.hifdhConsistencyStreakDays}-day streak`;
+            }
+            if (this.hifdhRecentStreakDays > 0) {
+                return `Keep ${this.hifdhRecentStreakDays}-day flow`;
+            }
+            return "Start your streak";
+        },
+        hifdhConsistencyNudge() {
+            const streak = this.hifdhConsistencyStreakDays;
+            if (streak >= 3) {
+                return `${streak} days consistent - mashaAllah!`;
+            }
+            if (streak === 2) {
+                return "2 days consistent. One more today makes it 3.";
+            }
+            if (streak === 1) {
+                return "Day 1 complete. A short review tomorrow keeps the rhythm.";
+            }
+            if (this.hifdhRecentStreakDays >= 3) {
+                return `You had ${this.hifdhRecentStreakDays} consistent days. One segment today brings it back.`;
+            }
+            if (this.hifdhRecentStreakDays > 0) {
+                return "A small session today keeps your memorisation momentum alive.";
+            }
+            return "Complete one due segment today to begin your consistency streak.";
+        },
+        hifdhConsistencyTooltip() {
+            if (this.hifdhConsistencyStreakDays > 0) {
+                return this.hifdhConsistencyNudge;
+            }
+            return "Consistency improves retention. Even one segment counts.";
+        },
         activeHifdhSessionItem() {
             if (!this.hifdhActiveItemId) return null;
             return (
@@ -1835,6 +1906,7 @@ export default {
                 this.isMemorisationMode = false;
                 this.isMemorisationAdvancedOpen = false;
                 this.isMemorisationReadingAidsOpen = false;
+                this.clearMemorisationAutomationState();
             }
         },
         isBlurNextAyahEnabled(newVal) {
@@ -2423,6 +2495,19 @@ export default {
             }
             await this.enterReadingFullscreen();
         },
+        clearMemorisationAutomationState() {
+            if (this.countdownInterval) {
+                clearInterval(this.countdownInterval);
+                this.countdownInterval = null;
+            }
+            if (this.memorisationRepetitionPauseTimeout) {
+                clearTimeout(this.memorisationRepetitionPauseTimeout);
+                this.memorisationRepetitionPauseTimeout = null;
+            }
+            this.isCountdownActive = false;
+            this.countdownSeconds = 0;
+            this.memorisationRepetitionCurrent = 1;
+        },
         toggleMemorisationToolbar() {
             this.scrollToTop();
             this.isMemorisationToolbarVisible = !this.isMemorisationToolbarVisible;
@@ -2435,6 +2520,7 @@ export default {
                 this.showDesktopToolbar = true;
                 this.isMemorisationAdvancedOpen = false;
                 this.isMemorisationReadingAidsOpen = false;
+                this.clearMemorisationAutomationState();
             }
             this.showModeToggleToast(
                 "Memorisation tools",
@@ -3927,7 +4013,8 @@ export default {
         resetMemorisationRange() {
             this.memorisationRangeStart = 1;
             this.memorisationRangeEnd = null;
-            this.memorisationRepetitionCurrent = 1;
+            this.clearMemorisationAutomationState();
+            this.applyMemorisationRange();
             this.announce("Memorisation range reset.");
         },
         toggleMemorisationMode() {

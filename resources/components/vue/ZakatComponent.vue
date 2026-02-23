@@ -1,5 +1,5 @@
 <template>
-  <div class="zakat-calculator">
+  <div class="zakat-calculator" ref="zakatCalculator" tabindex="-1">
     <!-- Hero Section -->
     <h2 class="mb-2 text-center py-4 fw-bold display-5 ">Zakat Calculator</h2>
     <p class="text-center container text-dark mb-4 hero-subtitle">
@@ -172,6 +172,13 @@
                       v-model="agriculturalProduceType">
                     <label class="form-check-label" for="rain-fed">Rain-fed (10% Zakat)</label>
                   </div>
+                  <div class="form-check mt-2">
+                    <input class="form-check-input" type="checkbox" id="agri-nisab-met"
+                      v-model="agriculturalNisabMet">
+                    <label class="form-check-label" for="agri-nisab-met">
+                      Produce reached Nisab (about 653kg / 5 wasq)
+                    </label>
+                  </div>
                 </div>
               </div>
 
@@ -317,7 +324,8 @@
                 <div class="summary-item mb-4">
                   <div class="d-flex justify-content-between mb-2">
                     <span class="text-muted">Nisab Threshold ({{ nisabTypeLabel }}):</span>
-                    <strong>{{ currencySymbol }}{{ nisabThreshold.toLocaleString() }}</strong>
+                    <strong v-if="nisabThreshold !== null">{{ currencySymbol }}{{ nisabThreshold.toLocaleString() }}</strong>
+                    <strong v-else class="text-muted">Enter {{ nisabType }} price</strong>
                   </div>
                 </div>
 
@@ -410,6 +418,7 @@ export default {
       otherAssets: 0,
       agriculturalProduce: 0,
       agriculturalProduceType: 'irrigated',
+      agriculturalNisabMet: false,
       liabilities: 0,
       otherLiabilities: 0,
       selectedCurrency: 'GBP',
@@ -485,10 +494,10 @@ export default {
       return amount > 0 ? amount : 0;
     },
     wealthZakat() {
-      return this.zakatableAmount * 0.025;
+      return this.isWealthEligible ? this.zakatableAmount * 0.025 : 0;
     },
     agriculturalZakat() {
-      if (this.agriculturalProduce <= 0) return 0;
+      if (this.agriculturalProduce <= 0 || !this.agriculturalNisabMet) return 0;
       const rate = this.agriculturalProduceType === 'rain-fed' ? 0.10 : 0.05;
       return this.agriculturalProduce * rate;
     },
@@ -501,13 +510,16 @@ export default {
       } else if (this.nisabType === 'silver' && this.silverPrice > 0) {
         return 595 * this.silverPrice;
       }
-      return 0;
+      return null;
     },
     nisabTypeLabel() {
       return this.nisabType === 'gold' ? 'Based on Gold (85g)' : 'Based on Silver (595g)';
     },
+    isWealthEligible() {
+      return this.nisabThreshold !== null && this.zakatableAmount >= this.nisabThreshold;
+    },
     isEligible() {
-      return this.zakatableAmount >= this.nisabThreshold || this.agriculturalZakat > 0;
+      return this.isWealthEligible || this.agriculturalZakat > 0;
     },
     isFormValid() {
       const values = [
@@ -524,7 +536,7 @@ export default {
         this.liabilities,
         this.otherLiabilities,
       ];
-      return values.every(v => typeof v === 'number' && v >= 0);
+      return values.every(v => Number.isFinite(v) && v >= 0);
     },
     assetBreakdown() {
       return {
@@ -534,7 +546,6 @@ export default {
         'Investments': this.investments,
         'Business Assets': this.businessAssets,
         'Real Estate': this.realEstate,
-        'Agricultural Produce': this.agriculturalProduce,
         'Other Assets': this.otherAssets,
       };
     },
@@ -544,59 +555,38 @@ export default {
       this.errors = {};
       let isValid = true;
 
-      if (this.goldGrams < 0) {
-        this.errors.goldGrams = 'Grams cannot be negative';
-        isValid = false;
-      }
-      if (this.goldPrice < 0) {
-        this.errors.goldPrice = 'Price cannot be negative';
-        isValid = false;
-      }
-      if (this.silverGrams < 0) {
-        this.errors.silverGrams = 'Grams cannot be negative';
-        isValid = false;
-      }
-      if (this.silverPrice < 0) {
-        this.errors.silverPrice = 'Price cannot be negative';
-        isValid = false;
-      }
-      if (this.cash < 0) {
-        this.errors.cash = 'Amount cannot be negative';
-        isValid = false;
-      }
-      if (this.investments < 0) {
-        this.errors.investments = 'Amount cannot be negative';
-        isValid = false;
-      }
-      if (this.businessAssets < 0) {
-        this.errors.businessAssets = 'Amount cannot be negative';
-        isValid = false;
-      }
-      if (this.realEstate < 0) {
-        this.errors.realEstate = 'Amount cannot be negative';
-        isValid = false;
-      }
-      if (this.otherAssets < 0) {
-        this.errors.otherAssets = 'Amount cannot be negative';
-        isValid = false;
-      }
-      if (this.agriculturalProduce < 0) {
-        this.errors.agriculturalProduce = 'Amount cannot be negative';
-        isValid = false;
-      }
-      if (this.liabilities < 0) {
-        this.errors.liabilities = 'Amount cannot be negative';
-        isValid = false;
-      }
-      if (this.otherLiabilities < 0) {
-        this.errors.otherLiabilities = 'Amount cannot be negative';
-        isValid = false;
+      const fields = [
+        ['goldGrams', this.goldGrams, 'Grams'],
+        ['goldPrice', this.goldPrice, 'Price'],
+        ['silverGrams', this.silverGrams, 'Grams'],
+        ['silverPrice', this.silverPrice, 'Price'],
+        ['cash', this.cash, 'Amount'],
+        ['investments', this.investments, 'Amount'],
+        ['businessAssets', this.businessAssets, 'Amount'],
+        ['realEstate', this.realEstate, 'Amount'],
+        ['otherAssets', this.otherAssets, 'Amount'],
+        ['agriculturalProduce', this.agriculturalProduce, 'Amount'],
+        ['liabilities', this.liabilities, 'Amount'],
+        ['otherLiabilities', this.otherLiabilities, 'Amount'],
+      ];
+
+      for (const [key, value, label] of fields) {
+        if (!Number.isFinite(value) || value < 0) {
+          this.errors[key] = `${label} must be a non-negative number`;
+          isValid = false;
+        }
       }
 
       return isValid;
     },
     calculateZakat() {
       if (!this.validateForm()) return;
+      const wealthAssetsEntered = this.totalAssets > 0 || this.totalLiabilities > 0;
+      if (wealthAssetsEntered && this.nisabThreshold === null) {
+        const nisabPriceKey = this.nisabType === 'gold' ? 'goldPrice' : 'silverPrice';
+        this.errors[nisabPriceKey] = `Enter ${this.nisabType} price to calculate Nisab`;
+        return;
+      }
 
       this.zakatCalculated = true;
 
@@ -913,6 +903,7 @@ export default {
       this.otherAssets = 0;
       this.agriculturalProduce = 0;
       this.agriculturalProduceType = 'irrigated';
+      this.agriculturalNisabMet = false;
       this.liabilities = 0;
       this.otherLiabilities = 0;
       this.selectedCurrency = 'GBP';
@@ -964,14 +955,10 @@ export default {
     },
   },
   mounted() {
-    // Restore charts preference
     try {
       const saved = localStorage.getItem('zakat_show_charts');
       if (saved === 'true') this.showCharts = true;
     } catch (_) { }
-    this.$refs.zakatCalculator?.focus();
-  },
-  mounted() {
     this.$refs.zakatCalculator?.focus();
   },
 };
