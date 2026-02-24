@@ -77,6 +77,16 @@ export default {
       hifdhDueTodayCount: 0,
       hifdhStorageSyncHandler: null,
       currentUserId: null,
+      hifdhDashboard: {
+        timeline: [],
+        weakSpots: [],
+        streak: {
+          current: 0,
+          best: 0,
+          activeDays: 0,
+          windowDays: 14,
+        },
+      },
     };
   },
   computed: {
@@ -147,21 +157,25 @@ export default {
     refreshHifdhDueTodayCount() {
       if (typeof window === "undefined") {
         this.hifdhDueTodayCount = 0;
+        this.resetHifdhDashboard();
         return;
       }
       if (!this.isAuthenticated) {
         this.hifdhDueTodayCount = 0;
+        this.resetHifdhDashboard();
         return;
       }
       try {
         const ownerId = window.localStorage.getItem(this.hifdhAuthStorageKey);
         if (String(ownerId || "") !== String(this.currentUserId)) {
           this.hifdhDueTodayCount = 0;
+          this.resetHifdhDashboard();
           return;
         }
         const raw = window.localStorage.getItem(this.hifdhSchedulerStorageKey);
         if (!raw) {
           this.hifdhDueTodayCount = 0;
+          this.resetHifdhDashboard();
           return;
         }
         const parsed = JSON.parse(raw);
@@ -171,9 +185,113 @@ export default {
           if (!entry || entry.status === "completed") return false;
           return String(entry.scheduledDate || "") <= todayKey;
         }).length;
+        this.hifdhDashboard = this.computeHifdhDashboard(entries);
       } catch (_) {
         this.hifdhDueTodayCount = 0;
+        this.resetHifdhDashboard();
       }
+    },
+    resetHifdhDashboard() {
+      this.hifdhDashboard = {
+        timeline: [],
+        weakSpots: [],
+        streak: {
+          current: 0,
+          best: 0,
+          activeDays: 0,
+          windowDays: 14,
+        },
+      };
+    },
+    addDaysToDateKey(dateKey, daysToAdd) {
+      if (!dateKey) return "";
+      const base = new Date(`${dateKey}T12:00:00`);
+      if (Number.isNaN(base.getTime())) return "";
+      base.setDate(base.getDate() + Number(daysToAdd || 0));
+      return this.toDateKey(base);
+    },
+    formatWeekdayShort(dateKey) {
+      if (!dateKey) return "";
+      const date = new Date(`${dateKey}T12:00:00`);
+      if (Number.isNaN(date.getTime())) return "";
+      return date.toLocaleDateString(undefined, { weekday: "short" }).slice(0, 2);
+    },
+    computeHifdhDashboard(entries) {
+      const safeEntries = Array.isArray(entries) ? entries : [];
+      const todayKey = this.toDateKey(new Date());
+      const windowDays = 7;
+      const dayKeys = [];
+      for (let i = windowDays - 1; i >= 0; i -= 1) {
+        dayKeys.push(this.addDaysToDateKey(todayKey, -i));
+      }
+
+      const completionMap = Object.create(null);
+      const weakSpotMap = Object.create(null);
+      const completionDaySet = new Set();
+
+      safeEntries.forEach((entry) => {
+        if (!entry) return;
+        const completedOn = String(entry.completedOn || "");
+        const isCompleted = String(entry.status || "") === "completed" && completedOn;
+        if (isCompleted) {
+          completionMap[completedOn] = (completionMap[completedOn] || 0) + 1;
+          completionDaySet.add(completedOn);
+        }
+        if (String(entry.feedback || "").toLowerCase() === "weak") {
+          const label = `${entry.surahName || `Surah ${entry.surahNumber || "?"}`} · ${entry.startAyah || "?"}-${entry.endAyah || "?"}`;
+          weakSpotMap[label] = (weakSpotMap[label] || 0) + 1;
+        }
+      });
+
+      const maxDaily = Math.max(
+        1,
+        ...dayKeys.map((dateKey) => Number(completionMap[dateKey] || 0))
+      );
+      const timeline = dayKeys.map((dateKey) => {
+        const done = Number(completionMap[dateKey] || 0);
+        return {
+          dateKey,
+          shortLabel: this.formatWeekdayShort(dateKey),
+          done,
+          heightPct: Math.max(8, Math.round((done / maxDaily) * 100)),
+        };
+      });
+
+      const weakSpots = Object.entries(weakSpotMap)
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 3)
+        .map(([label, count]) => ({ label, count }));
+
+      let current = 0;
+      let cursor = todayKey;
+      while (completionDaySet.has(cursor)) {
+        current += 1;
+        cursor = this.addDaysToDateKey(cursor, -1);
+      }
+
+      let best = 0;
+      let running = 0;
+      dayKeys.forEach((dateKey) => {
+        if (completionDaySet.has(dateKey)) {
+          running += 1;
+          best = Math.max(best, running);
+        } else {
+          running = 0;
+        }
+      });
+
+      const activeDays = dayKeys.filter((dateKey) => completionDaySet.has(dateKey)).length;
+
+      return {
+        timeline,
+        weakSpots,
+        streak: {
+          current,
+          best,
+          activeDays,
+          windowDays,
+        },
+      };
     },
     goTo(path) {
       if (typeof window !== 'undefined' && window?.location) {

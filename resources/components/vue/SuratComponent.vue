@@ -776,8 +776,8 @@
                                 <span class="quran-toolbar-btn-text">Close</span>
                             </button>
                             <div class="memorisation-clean-title-wrap">
-                                <span class="quran-toolbar-label quran-toolbar-label-purple"><b>Memorisation Session</b></span>
-                                <small class="memorisation-clean-subtitle">3 controls first. Use More only if needed.</small>
+                                <span class="quran-toolbar-label quran-toolbar-label-purple"><b>Memorisation Ritual</b></span>
+                                <small class="memorisation-clean-subtitle">Begin with intention, recite with presence, then review with calm consistency.</small>
                             </div>
                         </div>
                         <button
@@ -790,7 +790,7 @@
                             <i class="bi me-1" :class="isMemorisationAdvancedOpen ? 'bi-chevron-up-circle' : 'bi-three-dots-circle'" aria-hidden="true"></i>
                             {{ isMemorisationAdvancedOpen ? "Less" : "More" }}
                         </button>
-                        <small class="memorisation-row-helper">Row 1: Start/stop session and open more settings.</small>
+                        <small class="memorisation-row-helper">Step 1: Enter focus mode and prepare your recitation.</small>
                     </div>
 
                     <div class="memorisation-toolbar-row memorisation-toolbar-row-2 memorisation-row-clean-core">
@@ -897,7 +897,7 @@
                             </div>
                         </div>
 
-                        <small class="memorisation-row-helper memorisation-row-helper--core">Row 2: Focus toggle, play/pause, and playback mode.</small>
+                        <small class="memorisation-row-helper memorisation-row-helper--core">Step 2: Recite with focus using audio rhythm and ayah pacing.</small>
                     </div>
 
                     <div
@@ -908,8 +908,8 @@
                                 class="memorisation-toolbar-row memorisation-toolbar-row-advanced"
                                 role="group"
                                 aria-label="Session setup and pacing settings">
-                                <div class="memorisation-row-title">Session setup</div>
-                            <small class="memorisation-row-helper memorisation-row-helper--advanced">Row 3: Optional tools like range, review helpers, and Hifdh features.</small>
+                                <div class="memorisation-row-title">Ritual guidance</div>
+                            <small class="memorisation-row-helper memorisation-row-helper--advanced">Step 3: Refine your range, aids, and Hifdh review flow.</small>
                             <div class="memorisation-advanced-quick mb-1">
                                 <button
                                     v-if="isMemorisationMode"
@@ -976,7 +976,7 @@
                         <div class="modal-header">
                             <div>
                                 <h5 class="modal-title" id="hifdhPlanModalLabel">Today's Hifdh Plan</h5>
-                                <p class="hifdh-plan-modal-subtitle mb-0">A guided daily routine for memorisation, review, and progress tracking.</p>
+                                <p class="hifdh-plan-modal-subtitle mb-0">A gentle daily ritual to preserve what you memorise and return with consistency.</p>
                                 <span v-if="isHifdhDemoModeActive" class="memorisation-demo-badge">Demo ON (dates overridden)</span>
                             </div>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -1020,20 +1020,23 @@
                                         <h6 class="hifdh-performance-title mb-0">Progress over time</h6>
                                         <small>{{ hifdhStreakTracking.consistencyRate }}% active days</small>
                                     </div>
-                                    <div class="hifdh-performance-bars" role="list" aria-label="14 day progress bars">
-                                        <div
-                                            v-for="day in hifdhPerformanceTimeline"
-                                            :key="day.key"
-                                            class="hifdh-performance-bar-item"
-                                            :class="{ 'is-today': day.isToday }"
-                                            role="listitem">
+                                    <div class="hifdh-performance-bars-wrap">
+                                        <div class="hifdh-performance-bars" role="list" aria-label="14 day progress bars">
                                             <div
-                                                class="hifdh-performance-bar-fill"
-                                                :style="{ height: `${day.barHeight}%` }"
-                                                :title="`${day.label}: ${day.completedCount}/${day.dueCount} completed`"></div>
-                                            <small>{{ day.label }}</small>
+                                                v-for="day in hifdhPerformanceTimeline"
+                                                :key="day.key"
+                                                class="hifdh-performance-bar-item"
+                                                :class="{ 'is-today': day.isToday }"
+                                                role="listitem">
+                                                <div
+                                                    class="hifdh-performance-bar-fill"
+                                                    :style="{ height: `${day.barHeight}%` }"
+                                                    :title="`${day.label}: ${day.completedCount}/${day.dueCount} completed`"></div>
+                                                <small>{{ day.label }}</small>
+                                            </div>
                                         </div>
                                     </div>
+                                    <p class="hifdh-performance-chart-help mb-0">Each bar shows completed reviews for that day in your 14-day window.</p>
                                 </div>
                                 <div class="hifdh-performance-card">
                                     <div class="hifdh-performance-card-head">
@@ -1069,66 +1072,45 @@
                                     </div>
                                 </div>
                             </section>
-                            <div class="hifdh-flow-quick" role="list" aria-label="Quick Hifdh plan flow">
-                                <span class="hifdh-flow-step" role="listitem"><b>1.</b> Add range</span>
-                                <span class="hifdh-flow-step" role="listitem"><b>2.</b> Open due segment</span>
-                                <span class="hifdh-flow-step" role="listitem"><b>3.</b> Mark Strong/Minor/Weak</span>
-                            </div>
-
-                            <details class="hifdh-onboarding-disclosure">
-                                <summary
-                                    class="hifdh-onboarding-summary"
-                                    title="Quick explanation of the 3-step daily flow"
-                                    data-hifdh-tooltip="true">
-                                    <span class="hifdh-onboarding-summary-main">
-                                        <i class="bi bi-journal-check" aria-hidden="true"></i>
-                                        <span class="hifdh-onboarding-title">How today's plan works (details)</span>
-                                    </span>
-                                    <span class="hifdh-onboarding-summary-meta">
-                                        <span class="hifdh-onboarding-meta-closed">Show 3 quick steps</span>
-                                        <span class="hifdh-onboarding-meta-open">Hide steps</span>
-                                        <i class="bi bi-chevron-down hifdh-onboarding-summary-caret" aria-hidden="true"></i>
-                                    </span>
-                                </summary>
-                                <div class="hifdh-onboarding-panel">
-                                    <p class="hifdh-onboarding-copy mb-0">Add your range, recite due items, then rate each segment to auto-schedule the next review.</p>
-                                    <div class="hifdh-onboarding-steps" role="list" aria-label="Hifdh quick onboarding steps">
-                                        <div class="hifdh-step-card" role="listitem" title="Create today's review segments from your memorisation range" data-hifdh-tooltip="true">
-                                            <span class="hifdh-step-index">1</span>
-                                            <div>
-                                                <p class="hifdh-step-title mb-0">
-                                                    <i class="bi bi-collection-play hifdh-step-icon" aria-hidden="true"></i>
-                                                    Add your ayah range
-                                                </p>
-                                                <small class="hifdh-step-copy d-block">Choose a start and end ayah, then tap Add &amp; Start.</small>
-                                            </div>
-                                        </div>
-                                        <div class="hifdh-step-card" role="listitem" title="Open each due segment and recite with focus" data-hifdh-tooltip="true">
-                                            <span class="hifdh-step-index">2</span>
-                                            <div>
-                                                <p class="hifdh-step-title mb-0">
-                                                    <i class="bi bi-play-circle hifdh-step-icon" aria-hidden="true"></i>
-                                                    Start your session
-                                                </p>
-                                                <small class="hifdh-step-copy d-block">Open each due segment and recite with focus.</small>
-                                            </div>
-                                        </div>
-                                        <div class="hifdh-step-card" role="listitem" title="Your feedback automatically adjusts the next due date" data-hifdh-tooltip="true">
-                                            <span class="hifdh-step-index">3</span>
-                                            <div>
-                                                <p class="hifdh-step-title mb-0">
-                                                    <i class="bi bi-check2-square hifdh-step-icon" aria-hidden="true"></i>
-                                                    Submit feedback
-                                                </p>
-                                                <small class="hifdh-step-copy d-block">Mark Strong, Minor, or Weak so the next due date adjusts automatically.</small>
-                                            </div>
-                                        </div>
+                            <section class="hifdh-onboarding-invite" aria-label="Hifdh onboarding invitation">
+                                <div class="hifdh-onboarding-ring-wrap">
+                                    <div
+                                        class="hifdh-onboarding-ring"
+                                        :style="{ '--hifdh-progress': `${hifdhCompletionPercent}%` }"
+                                        role="img"
+                                        :aria-label="`${hifdhCompletionPercent}% completed`">
+                                        <span>{{ hifdhCompletionPercent }}%</span>
                                     </div>
                                 </div>
-                            </details>
+                                <div class="hifdh-onboarding-invite-content">
+                                    <p class="hifdh-onboarding-invite-title mb-1">What will you memorise today?</p>
+                                    <p class="hifdh-onboarding-invite-copy mb-2">Start with one short range, then keep your rhythm by reviewing what is due.</p>
+                                    <div class="hifdh-onboarding-suggestions">
+                                        <button
+                                            type="button"
+                                            class="quran-toolbar-btn quran-toolbar-btn-sm"
+                                            @click="quickStartAlFatihaToday"
+                                            title="Start with Surah Al-Fatiha"
+                                            data-hifdh-tooltip="true">
+                                            <i class="bi bi-bookmark-heart" aria-hidden="true"></i>
+                                            <span class="quran-toolbar-btn-text">Start with Al-Fatiha</span>
+                                        </button>
+                                        <button
+                                            v-if="continueProgress"
+                                            type="button"
+                                            class="quran-toolbar-btn quran-toolbar-btn-sm"
+                                            @click="resumeContinueProgress({ autoplay: continueProgress?.mode === 'listening' })"
+                                            title="Continue from your last read position"
+                                            data-hifdh-tooltip="true">
+                                            <i class="bi bi-arrow-repeat" aria-hidden="true"></i>
+                                            <span class="quran-toolbar-btn-text">Continue where I left off</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </section>
 
                             <div class="memorisation-simple-controls hifdh-control-panel">
-                                <div class="hifdh-control-panel-title">Plan Actions</div>
+                                <div class="hifdh-control-panel-title">Begin Today's Ritual</div>
                                 <div class="memorisation-review-add-controls hifdh-control-primary">
                                     <input type="number" class="quran-toolbar-select text-center" v-model.number="hifdhNewRangeStart" min="1" :max="totalAyahs || 1" aria-label="Start ayah" title="Start ayah number for the memorisation range" data-hifdh-tooltip="true">
                                     <span class="opacity-50">-</span>
@@ -1136,6 +1118,10 @@
                                     <button type="button" class="quran-toolbar-btn quran-toolbar-btn-sm hifdh-add-start-btn" @click="addRangeAndStartHifdhSession" title="Add this range and immediately start today's guided session" data-hifdh-tooltip="true">
                                         <i class="bi bi-play-circle-fill" aria-hidden="true"></i>
                                         <span class="quran-toolbar-btn-text">Add &amp; Start</span>
+                                    </button>
+                                    <button type="button" class="quran-toolbar-btn quran-toolbar-btn-sm" @click="quickStartSurahTwoDemoRange" title="Load Surah 2 and queue a demo range instantly" data-hifdh-tooltip="true">
+                                        <i class="bi bi-stars" aria-hidden="true"></i>
+                                        <span class="quran-toolbar-btn-text">Quick Demo</span>
                                     </button>
                                 </div>
                                 <details class="hifdh-onboarding-disclosure hifdh-secondary-disclosure">
@@ -1155,10 +1141,6 @@
                                     </summary>
                                     <div class="hifdh-onboarding-panel hifdh-secondary-panel">
                                         <div class="memorisation-review-add-controls hifdh-control-secondary">
-                                            <button type="button" class="quran-toolbar-btn quran-toolbar-btn-sm" @click="quickStartSurahTwoDemoRange" title="Load Surah 2 and queue a demo range instantly" data-hifdh-tooltip="true">
-                                                <i class="bi bi-stars" aria-hidden="true"></i>
-                                                <span class="quran-toolbar-btn-text">Quick Demo</span>
-                                            </button>
                                             <button type="button" class="quran-toolbar-btn quran-toolbar-btn-sm" :disabled="!canRunHifdhDemo" @click="markAllPendingHifdhDueToday" title="Bring future pending items into today for demo testing" data-hifdh-tooltip="true">
                                                 <i class="bi bi-lightning-charge-fill" aria-hidden="true"></i>
                                                 <span class="quran-toolbar-btn-text">Due Now</span>
@@ -1181,7 +1163,7 @@
                                     </div>
                                 </details>
                                 <small class="memorisation-simple-help">
-                                    Add once and start immediately. Use Advanced actions only when needed.
+                                    Start with one range and continue calmly. Keep advanced tools for occasional adjustments.
                                 </small>
                             </div>
 
@@ -1227,7 +1209,7 @@
                                 role="group"
                                 aria-label="Current hifdh review segment">
                                 <p class="memorisation-session-heading mb-1">
-                                    Current segment: {{ hifdhEntrySummary(activeHifdhSessionItem) }}
+                                    Current recitation: {{ hifdhEntrySummary(activeHifdhSessionItem) }}
                                 </p>
                                 <p class="memorisation-session-meta mb-2">
                                     {{ hifdhCheckpointLabel(activeHifdhSessionItem) }} · Due {{ formatDateKey(activeHifdhSessionItem.scheduledDate) }}
@@ -1250,7 +1232,7 @@
                             <p
                                 v-else-if="hifdhSessionStarted && !activeHifdhSessionItem"
                                 class="memorisation-session-done mb-0">
-                                Session complete for today. {{ nextHifdhDueSummary }}
+                                Ritual complete for today. {{ nextHifdhDueSummary }}
                             </p>
                         </div>
                         <div class="modal-footer">
@@ -2596,18 +2578,17 @@
                     <div class="modal-content reflection-modal">
                         <div class="modal-header">
                             <h6 class="modal-title" id="reflectionModalLabel">
-                                <b>Reflect and Save a Thought</b>
+                                <b>Sacred Reflection</b>
                             </h6>
                             <button type="button" class="btn-close" @click="hideReflectionModal"
                                 aria-label="Close reflection modal"></button>
                         </div>
                         <div class="modal-body pt-0">
                             <div class="reflection-intro">
-                                <p class="reflection-intro-title">Why reflections matter</p>
+                                <p class="reflection-intro-title">Why reflection matters</p>
                                 <p class="reflection-intro-copy">
-                                    Capturing what moves you about this verse keeps its guidance fresh, anchors your
-                                    spiritual
-                                    growth, and helps the community spot inspirations worth sharing.
+                                    Capture what the ayah stirs in your heart. Returning to these notes keeps guidance
+                                    close, deepens remembrance, and turns reading into lived practice.
                                 </p>
                             </div>
                             <form class="d-flex flex-column gap-3 mt-3" @submit.prevent="submitReflectionForm"

@@ -902,6 +902,15 @@ export default {
             const completed = Math.max(total - this.hifdhPendingCount, 0);
             return `${completed}/${total} completed`;
         },
+        hifdhCompletedCount() {
+            const total = (this.hifdhReviewQueue || []).length;
+            return Math.max(total - this.hifdhPendingCount, 0);
+        },
+        hifdhCompletionPercent() {
+            const total = (this.hifdhReviewQueue || []).length;
+            if (!total) return 0;
+            return Math.round((this.hifdhCompletedCount / total) * 100);
+        },
         hifdhRecentPerformance() {
             const windowDays = 14;
             const today = new Date();

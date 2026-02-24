@@ -78,6 +78,64 @@
             </div>
 
           </div>
+          <section v-if="isAuthenticated" class="container-fluid ic-hero__hifdh-zone" aria-label="Hifdh performance">
+            <div class="row g-3 align-items-stretch hifdh-hero-layout">
+              <div class="col-12 col-lg-4">
+                <a
+                  href="/surat?open=hifdh-plan"
+                  class="hifdh-home-widget text-decoration-none d-flex align-items-center justify-content-between h-100"
+                  aria-label="Open Quran page and review today's Hifdh due items">
+                  <div class="hifdh-home-widget__copy">
+                    <span class="hifdh-home-widget__eyebrow">Hifdh Plan</span>
+                    <h3 class="h6 fw-semibold mb-1">Due Today</h3>
+                    <p class="small mb-0">Personal review queue for your account. Tap to open Hifdh Plan now.</p>
+                  </div>
+                  <div class="hifdh-home-widget__count" role="status" aria-live="polite">
+                    {{ hifdhDueTodayCount }}
+                  </div>
+                </a>
+              </div>
+              <div class="col-12 col-lg-8">
+                <div class="hifdh-home-dashboard h-100">
+                  <div class="hifdh-home-dashboard__card">
+                    <p class="hifdh-home-dashboard__title mb-2">Progress over time</p>
+                    <p class="hifdh-home-dashboard__subtitle mb-2">Last 7 days</p>
+                    <div class="hifdh-home-bars" role="list" aria-label="7 day hifdh progress">
+                      <div v-for="day in hifdhDashboard.timeline" :key="day.dateKey" class="hifdh-home-bar" role="listitem">
+                        <span class="hifdh-home-bar__fill" :style="{ height: `${day.heightPct}%` }"></span>
+                        <small>{{ day.shortLabel }}</small>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="hifdh-home-dashboard__card">
+                    <p class="hifdh-home-dashboard__title mb-2">Weak spots</p>
+                    <div v-if="hifdhDashboard.weakSpots.length" class="hifdh-home-weak-list">
+                      <div v-for="spot in hifdhDashboard.weakSpots" :key="spot.label" class="hifdh-home-weak-item">
+                        <span class="hifdh-home-weak-item__label">{{ spot.label }}</span>
+                        <span class="hifdh-home-weak-item__count">{{ spot.count }} weak</span>
+                      </div>
+                    </div>
+                    <p v-else class="small text-muted mb-0">No weak segments recorded yet.</p>
+                  </div>
+                  <div class="hifdh-home-dashboard__card">
+                    <p class="hifdh-home-dashboard__title mb-2">Streak tracking</p>
+                    <div class="hifdh-home-streak">
+                      <span>Current</span>
+                      <strong>{{ hifdhDashboard.streak.current }}d</strong>
+                    </div>
+                    <div class="hifdh-home-streak">
+                      <span>Best</span>
+                      <strong>{{ hifdhDashboard.streak.best }}d</strong>
+                    </div>
+                    <div class="hifdh-home-streak">
+                      <span>Active</span>
+                      <strong>{{ hifdhDashboard.streak.activeDays }}/{{ hifdhDashboard.streak.windowDays }}</strong>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
           <!-- <section id="ai-persona-section" class="container ic-hero__ai ic-reveal" style="--ic-delay: 0.6s;" aria-label="Islamic chatbot preview">
             <div class="welcome-chat-frame">
               <ai-component></ai-component>
@@ -111,20 +169,6 @@
             </div>
           </div>
           <div class="col-lg-6">
-            <a
-              v-if="isAuthenticated"
-              href="/surat?open=hifdh-plan"
-              class="hifdh-home-widget text-decoration-none d-flex align-items-center justify-content-between mb-3"
-              aria-label="Open Quran page and review today's Hifdh due items">
-              <div class="hifdh-home-widget__copy">
-                <span class="hifdh-home-widget__eyebrow">Hifdh Plan</span>
-                <h3 class="h6 fw-semibold mb-1">Due Today</h3>
-                <p class="small mb-0">Personal review queue for your account. Tap to open Hifdh Plan now.</p>
-              </div>
-              <div class="hifdh-home-widget__count" role="status" aria-live="polite">
-                {{ hifdhDueTodayCount }}
-              </div>
-            </a>
             <div class="row row-cols-1 row-cols-md-2 g-3">
               <div class="col" v-for="card in seoCards" :key="card.title">
                 <article class="premium-card h-100 d-flex flex-column">
@@ -807,6 +851,15 @@
   /* box-shadow: 0 18px 36px rgba(15, 53, 48, 0.12); */
 }
 
+.ic-hero__hifdh-zone {
+  margin-top: 1.55rem;
+  padding: 0.45rem 0 0.45rem;
+}
+
+.ic-hero__hifdh-zone .hifdh-hero-layout {
+  padding: 0 0.35rem;
+}
+
 .ic-seo {
   position: relative;
   padding: 4rem 0;
@@ -864,35 +917,37 @@
   box-shadow: var(--ic-shadow);
 }
 
-.ic-seo .hifdh-home-widget {
+.ic-hero .hifdh-home-widget {
   border-radius: 22px;
-  border: 1px solid rgba(13, 122, 111, 0.32);
+  border: 1px solid rgba(13, 122, 111, 0.38);
   background:
-    radial-gradient(circle at 88% 12%, rgba(16, 185, 129, 0.26), transparent 38%),
-    linear-gradient(135deg, #ecfdf5 0%, #f0fdfa 44%, #fff7ed 100%);
-  box-shadow: 0 16px 30px rgba(15, 53, 48, 0.16);
-  padding: 1.15rem 1.2rem;
-  min-height: 110px;
+    radial-gradient(circle at 88% 12%, rgba(16, 185, 129, 0.34), transparent 42%),
+    linear-gradient(135deg, #ecfdf5 0%, #f0fdfa 42%, #fff7ed 100%);
+  box-shadow: 0 18px 30px rgba(15, 53, 48, 0.2);
+  padding: 1.2rem 1.3rem;
+  min-height: 168px;
   transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
 }
 
-.ic-seo .hifdh-home-widget:hover {
+.ic-hero .hifdh-home-widget:hover {
   transform: translateY(-5px);
   box-shadow: 0 20px 34px rgba(15, 53, 48, 0.2);
   border-color: rgba(13, 122, 111, 0.52);
 }
 
-.ic-seo .hifdh-home-widget__copy h3 {
+.ic-hero .hifdh-home-widget__copy h3 {
   color: #0f172a;
-  font-size: 1.18rem;
+  font-size: 1.36rem;
 }
 
-.ic-seo .hifdh-home-widget__copy p {
+.ic-hero .hifdh-home-widget__copy p {
   color: #334155;
-  max-width: 38ch;
+  max-width: 40ch;
+  font-size: 0.94rem;
+  line-height: 1.45;
 }
 
-.ic-seo .hifdh-home-widget__eyebrow {
+.ic-hero .hifdh-home-widget__eyebrow {
   display: inline-flex;
   align-items: center;
   font-size: 0.73rem;
@@ -902,36 +957,154 @@
   letter-spacing: 0.04em;
 }
 
-.ic-seo .hifdh-home-widget__count {
-  min-width: 74px;
-  height: 74px;
-  border-radius: 18px;
+.ic-hero .hifdh-home-widget__count {
+  min-width: 84px;
+  height: 84px;
+  border-radius: 20px;
   background: #0f766e;
   color: #ffffff;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-size: 2rem;
+  font-size: 2.15rem;
   font-weight: 800;
   line-height: 1;
   padding: 0.35rem;
-  box-shadow: 0 10px 18px rgba(15, 118, 110, 0.32);
+  box-shadow: 0 12px 22px rgba(15, 118, 110, 0.34);
+}
+
+.ic-hero .hifdh-home-dashboard {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.72rem;
+}
+
+.ic-hero .hifdh-home-dashboard__card {
+  border: 1px solid rgba(13, 122, 111, 0.26);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.95);
+  padding: 0.82rem;
+  box-shadow: 0 10px 18px rgba(15, 53, 48, 0.1);
+}
+
+.ic-hero .hifdh-home-dashboard__title {
+  font-size: 0.88rem;
+  font-weight: 800;
+  color: #0b4f44;
+  letter-spacing: 0.01em;
+}
+
+.ic-hero .hifdh-home-dashboard__subtitle {
+  font-size: 0.74rem;
+  color: #64748b;
+  font-weight: 600;
+}
+
+.ic-hero .hifdh-home-bars {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  align-items: end;
+  gap: 0.28rem;
+  min-height: 108px;
+}
+
+.ic-hero .hifdh-home-bar {
+  display: grid;
+  justify-items: center;
+  gap: 0.12rem;
+}
+
+.ic-hero .hifdh-home-bar__fill {
+  width: 100%;
+  min-height: 8px;
+  border-radius: 10px 10px 4px 4px;
+  background: linear-gradient(180deg, #10b981 0%, #0f766e 100%);
+  border: 1px solid rgba(6, 95, 70, 0.28);
+}
+
+.ic-hero .hifdh-home-bar small {
+  font-size: 0.66rem;
+  color: #334155;
+  font-weight: 700;
+}
+
+.ic-hero .hifdh-home-weak-list {
+  display: grid;
+  gap: 0.28rem;
+}
+
+.ic-hero .hifdh-home-weak-item {
+  border: 1px solid rgba(180, 83, 9, 0.2);
+  border-radius: 8px;
+  background: rgba(255, 247, 237, 0.76);
+  padding: 0.32rem 0.42rem;
+  display: grid;
+  gap: 0.08rem;
+}
+
+.ic-hero .hifdh-home-weak-item__label {
+  font-size: 0.7rem;
+  color: #7c2d12;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.ic-hero .hifdh-home-weak-item__count {
+  font-size: 0.64rem;
+  color: #9a3412;
+  font-weight: 700;
+}
+
+.ic-hero .hifdh-home-streak {
+  border: 1px solid rgba(6, 95, 70, 0.14);
+  border-radius: 8px;
+  background: rgba(236, 253, 245, 0.7);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.36rem;
+  padding: 0.26rem 0.4rem;
+  margin-bottom: 0.26rem;
+}
+
+.ic-hero .hifdh-home-streak span {
+  font-size: 0.7rem;
+  color: #065f46;
+  font-weight: 700;
+}
+
+.ic-hero .hifdh-home-streak strong {
+  font-size: 0.82rem;
+  color: #064e3b;
 }
 
 @media (max-width: 991.98px) {
-  .ic-seo .hifdh-home-widget {
+  .ic-hero__hifdh-zone .hifdh-hero-layout {
+    padding: 0;
+  }
+
+  .ic-hero .hifdh-home-widget {
+    min-height: 126px;
+    padding: 0.92rem 1rem;
+  }
+
+  .ic-hero .hifdh-home-widget__copy h3 {
+    font-size: 1.1rem;
+  }
+
+  .ic-hero .hifdh-home-widget__count {
+    min-width: 70px;
+    height: 70px;
+    font-size: 1.75rem;
+  }
+
+  .ic-hero .hifdh-home-dashboard {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .ic-hero .hifdh-home-bars {
     min-height: 96px;
-    padding: 0.95rem 1rem;
-  }
-
-  .ic-seo .hifdh-home-widget__copy h3 {
-    font-size: 1.02rem;
-  }
-
-  .ic-seo .hifdh-home-widget__count {
-    min-width: 62px;
-    height: 62px;
-    font-size: 1.65rem;
+    gap: 0.22rem;
   }
 }
 

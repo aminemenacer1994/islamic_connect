@@ -1961,152 +1961,203 @@ const _hoisted_1 = {
   class: "ic-home"
 };
 const _hoisted_2 = {
-  class: "container-fluid premium-seo px-0 ic-seo",
-  "aria-labelledby": "seo-heading"
+  class: "jumbotron ic-hero"
 };
 const _hoisted_3 = {
-  class: "container position-relative"
+  class: "container-fluid",
+  style: {
+    "position": "relative"
+  }
 };
 const _hoisted_4 = {
-  class: "row gy-4 align-items-center"
+  class: "container-fluid hero-wrapper text-center ic-hero__frame"
 };
 const _hoisted_5 = {
-  class: "col-lg-6 text-center text-lg-start"
+  key: 0,
+  class: "container-fluid ic-hero__hifdh-zone",
+  "aria-label": "Hifdh performance"
 };
 const _hoisted_6 = {
-  class: "row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-3"
+  class: "row g-3 align-items-stretch hifdh-hero-layout"
 };
 const _hoisted_7 = {
-  class: "p-4 premium-stat h-100 text-center"
+  class: "col-12 col-lg-4"
 };
 const _hoisted_8 = {
-  class: "h3 fw-bold mb-1"
-};
-const _hoisted_9 = {
-  class: "text-muted"
-};
-const _hoisted_10 = {
-  class: "col-lg-6"
-};
-const _hoisted_11 = {
-  key: 0,
   href: "/surat?open=hifdh-plan",
-  class: "hifdh-home-widget text-decoration-none d-flex align-items-center justify-content-between mb-3",
+  class: "hifdh-home-widget text-decoration-none d-flex align-items-center justify-content-between h-100",
   "aria-label": "Open Quran page and review today's Hifdh due items"
 };
-const _hoisted_12 = {
+const _hoisted_9 = {
   class: "hifdh-home-widget__count",
   role: "status",
   "aria-live": "polite"
 };
+const _hoisted_10 = {
+  class: "col-12 col-lg-8"
+};
+const _hoisted_11 = {
+  class: "hifdh-home-dashboard h-100"
+};
+const _hoisted_12 = {
+  class: "hifdh-home-dashboard__card"
+};
 const _hoisted_13 = {
-  class: "row row-cols-1 row-cols-md-2 g-3"
+  class: "hifdh-home-bars",
+  role: "list",
+  "aria-label": "7 day hifdh progress"
 };
 const _hoisted_14 = {
-  class: "premium-card h-100 d-flex flex-column"
+  class: "hifdh-home-dashboard__card"
 };
 const _hoisted_15 = {
-  class: "h6 fw-semibold mb-2"
+  key: 0,
+  class: "hifdh-home-weak-list"
 };
 const _hoisted_16 = {
+  class: "hifdh-home-weak-item__label"
+};
+const _hoisted_17 = {
+  class: "hifdh-home-weak-item__count"
+};
+const _hoisted_18 = {
+  key: 1,
+  class: "small text-muted mb-0"
+};
+const _hoisted_19 = {
+  class: "hifdh-home-dashboard__card"
+};
+const _hoisted_20 = {
+  class: "hifdh-home-streak"
+};
+const _hoisted_21 = {
+  class: "hifdh-home-streak"
+};
+const _hoisted_22 = {
+  class: "hifdh-home-streak"
+};
+const _hoisted_23 = {
+  class: "container-fluid premium-seo px-0 ic-seo",
+  "aria-labelledby": "seo-heading"
+};
+const _hoisted_24 = {
+  class: "container position-relative"
+};
+const _hoisted_25 = {
+  class: "row gy-4 align-items-center"
+};
+const _hoisted_26 = {
+  class: "col-lg-6 text-center text-lg-start"
+};
+const _hoisted_27 = {
+  class: "row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-3"
+};
+const _hoisted_28 = {
+  class: "p-4 premium-stat h-100 text-center"
+};
+const _hoisted_29 = {
+  class: "h3 fw-bold mb-1"
+};
+const _hoisted_30 = {
+  class: "text-muted"
+};
+const _hoisted_31 = {
+  class: "col-lg-6"
+};
+const _hoisted_32 = {
+  class: "row row-cols-1 row-cols-md-2 g-3"
+};
+const _hoisted_33 = {
+  class: "premium-card h-100 d-flex flex-column"
+};
+const _hoisted_34 = {
+  class: "h6 fw-semibold mb-2"
+};
+const _hoisted_35 = {
   class: "small text-muted mb-3"
 };
-const _hoisted_17 = ["title", "href"];
-const _hoisted_18 = {
+const _hoisted_36 = ["title", "href"];
+const _hoisted_37 = {
   class: "py-5 contact-section position-relative",
   "aria-labelledby": "contact-heading"
 };
-const _hoisted_19 = {
+const _hoisted_38 = {
   class: "container px-lg-4"
 };
-const _hoisted_20 = {
+const _hoisted_39 = {
   class: "row justify-content-center mt-4"
 };
-const _hoisted_21 = {
+const _hoisted_40 = {
   class: "col-xl-10"
 };
-const _hoisted_22 = {
+const _hoisted_41 = {
   class: "contact-card shadow-lg rounded-4"
 };
-const _hoisted_23 = {
+const _hoisted_42 = {
   class: "row g-3"
 };
-const _hoisted_24 = {
+const _hoisted_43 = {
   class: "col-md-6"
 };
-const _hoisted_25 = {
+const _hoisted_44 = {
   class: "col-md-6"
 };
-const _hoisted_26 = {
+const _hoisted_45 = {
   class: "col-md-6"
 };
-const _hoisted_27 = {
+const _hoisted_46 = {
   class: "col-md-6"
 };
-const _hoisted_28 = ["value"];
-const _hoisted_29 = {
+const _hoisted_47 = ["value"];
+const _hoisted_48 = {
   class: "col-12"
 };
-const _hoisted_30 = {
+const _hoisted_49 = {
   class: "col-12"
 };
-const _hoisted_31 = {
+const _hoisted_50 = {
   class: "d-grid"
 };
-const _hoisted_32 = ["disabled"];
-const _hoisted_33 = {
+const _hoisted_51 = ["disabled"];
+const _hoisted_52 = {
   class: "d-flex align-items-center justify-content-center gap-2"
 };
-const _hoisted_34 = {
+const _hoisted_53 = {
   key: 0,
   class: "premium-dialog-overlay"
 };
-const _hoisted_35 = {
+const _hoisted_54 = {
   class: "premium-dialog-card"
 };
-const _hoisted_36 = {
+const _hoisted_55 = {
   class: "premium-dialog-title"
 };
-const _hoisted_37 = {
+const _hoisted_56 = {
   class: "premium-dialog-message"
 };
-const _hoisted_38 = {
+const _hoisted_57 = {
   class: "d-flex align-items-center justify-content-end gap-2 mt-3"
 };
-const _hoisted_39 = ["disabled"];
-const _hoisted_40 = ["disabled"];
-const _hoisted_41 = {
+const _hoisted_58 = ["disabled"];
+const _hoisted_59 = ["disabled"];
+const _hoisted_60 = {
   class: "mb-0 fw-bold"
 };
-const _hoisted_42 = {
+const _hoisted_61 = {
   class: "text-muted"
 };
-const _hoisted_43 = {
+const _hoisted_62 = {
   class: "ic-footer text-white",
   role: "contentinfo"
 };
-const _hoisted_44 = {
+const _hoisted_63 = {
   class: "container-fluid footer-inner d-flex flex-column flex-md-row align-items-center justify-content-between gap-2"
 };
-const _hoisted_45 = {
+const _hoisted_64 = {
   class: "copyright text-center text-md-start"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" header "), _cache[30] || (_cache[30] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"jumbotron ic-hero\" data-v-0dc90d45><!-- Content --><div class=\"container-fluid\" style=\"position:relative;\" data-v-0dc90d45><!-- Enhanced Hero Section --><div class=\"container-fluid hero-wrapper text-center ic-hero__frame\" data-v-0dc90d45><!-- Background Elements --><div class=\"ic-hero__orb ic-hero__orb--primary\" data-v-0dc90d45></div><div class=\"ic-hero__orb ic-hero__orb--secondary\" data-v-0dc90d45></div><div class=\"row align-items-center ic-hero__grid\" data-v-0dc90d45><div class=\"col-md-6\" data-v-0dc90d45><div class=\"text-left\" data-v-0dc90d45><!-- Badge --><div class=\"ic-hero__badge ic-reveal\" style=\"--ic-delay:0.1s;\" data-v-0dc90d45><i class=\"fas fa-star me-2\" data-v-0dc90d45></i>Trusted by thousands of Muslims worldwide </div><h1 class=\"display-4 mt-1 fw-bold text-left hero-title ic-hero__title ic-reveal\" style=\"--ic-delay:0.2s;\" data-v-0dc90d45> Connecting You to Islamic Knowledge Seamlessly and Accessibly </h1><div class=\"lead pt-3 text-left ic-hero__lead ic-reveal\" style=\"--ic-delay:0.3s;\" data-v-0dc90d45><p data-v-0dc90d45> Connecting you to Islamic knowledge seamlessly and accessibly, your all-in-one platform to explore the Quran, learn from trusted content, and access AI-powered tools for a transformative spiritual experience anytime, anywhere. </p></div><div class=\"row mb-3\" data-v-0dc90d45><div class=\"col-12\" data-v-0dc90d45><div class=\"controls d-flex flex-row justify-content-start text-left ic-hero__actions ic-reveal\" style=\"--ic-delay:0.4s;\" data-v-0dc90d45><a href=\"/surat\" class=\"btn btn-lg btn-teal rounded-20 fw-bold px-4 ic-btn ic-btn--primary\" data-v-0dc90d45><i class=\"fas fa-rocket me-2\" data-v-0dc90d45></i>Get Started </a><!-- &lt;a href=&quot;/subscribe&quot; class=&quot;btn btn-lg rounded-20 fw-bold pt-2 px-4 ic-btn ic-btn--ghost&quot;&gt;\n                        &lt;i class=&quot;fas fa-heart me-2&quot;&gt;&lt;/i&gt;Support Our Mission\n                      &lt;/a&gt; --></div><!-- Trust Indicators --><div class=\"mt-3 d-flex align-items-center ic-trust ic-reveal\" style=\"--ic-delay:0.5s;\" data-v-0dc90d45><div class=\"d-flex align-items-center\" data-v-0dc90d45><i class=\"fas fa-shield-alt text-success me-2\" data-v-0dc90d45></i><small style=\"color:#4a5568;font-weight:800;\" data-v-0dc90d45>Secure Platform</small></div><div class=\"d-flex align-items-center\" data-v-0dc90d45><i class=\"fas fa-clock text-warning me-2\" data-v-0dc90d45></i><small style=\"color:#4a5568;font-weight:800;\" data-v-0dc90d45>Instant Access</small></div><div class=\"d-flex align-items-center\" data-v-0dc90d45><i class=\"fas fa-user-check text-info me-2\" data-v-0dc90d45></i><small style=\"color:#4a5568;font-weight:800;\" data-v-0dc90d45>No Registration</small></div></div></div></div></div></div><div class=\"col-md-6\" data-v-0dc90d45><div class=\"text-center\" data-v-0dc90d45><picture data-v-0dc90d45><source srcset=\"/images/banner-photo.png 800w\" type=\"image/png\" data-v-0dc90d45><img src=\"/images/banner-photo.png\" srcset=\"/images/banner-photo.png 800w\" sizes=\"(min-width: 992px) 50vw, (min-width: 768px) 60vw, 90vw\" class=\"img-fluid hero-image ic-hero__image ic-reveal\" style=\"--ic-delay:0.35s;\" alt=\"Islamic Connect platform showcasing Quran exploration and AI-powered tools\" loading=\"lazy\" width=\"800\" height=\"800\" data-v-0dc90d45></picture></div></div></div><!-- &lt;section id=&quot;ai-persona-section&quot; class=&quot;container ic-hero__ai ic-reveal&quot; style=&quot;--ic-delay: 0.6s;&quot; aria-label=&quot;Islamic chatbot preview&quot;&gt;\n            &lt;div class=&quot;welcome-chat-frame&quot;&gt;\n              &lt;ai-component&gt;&lt;/ai-component&gt;\n            &lt;/div&gt;\n          &lt;/section&gt; --></div></div></div>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" HERO / SEO SECTION "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_2, [_cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    class: "premium-seo__backdrop"
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [_cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
-    id: "seo-heading",
-    class: "display-5 fw-bold mb-3"
-  }, "Discover Quran, Knowledge & Accessible Tools", -1 /* CACHED */)), _cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    class: "text-muted mb-3"
-  }, "Study the Quran with reliable references, clear recitations, and practical tools designed for everyday worship and learning.", -1 /* CACHED */)), _cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    class: "text-muted mb-4"
-  }, "Start with guided pathways, then move at your own pace using search, audio, and accessibility features built for consistency.", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.seoStats, stat => {
-    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
-      class: "col",
-      key: stat.label
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_8, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(stat.value), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(stat.label), 1 /* TEXT */)])]);
-  }), 128 /* KEYED_FRAGMENT */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [_ctx.isAuthenticated ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("a", _hoisted_11, [_cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" header "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Content "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Enhanced Hero Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Background Elements "), _cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"ic-hero__orb ic-hero__orb--primary\" data-v-0dc90d45></div><div class=\"ic-hero__orb ic-hero__orb--secondary\" data-v-0dc90d45></div><div class=\"row align-items-center ic-hero__grid\" data-v-0dc90d45><div class=\"col-md-6\" data-v-0dc90d45><div class=\"text-left\" data-v-0dc90d45><!-- Badge --><div class=\"ic-hero__badge ic-reveal\" style=\"--ic-delay:0.1s;\" data-v-0dc90d45><i class=\"fas fa-star me-2\" data-v-0dc90d45></i>Trusted by thousands of Muslims worldwide </div><h1 class=\"display-4 mt-1 fw-bold text-left hero-title ic-hero__title ic-reveal\" style=\"--ic-delay:0.2s;\" data-v-0dc90d45> Connecting You to Islamic Knowledge Seamlessly and Accessibly </h1><div class=\"lead pt-3 text-left ic-hero__lead ic-reveal\" style=\"--ic-delay:0.3s;\" data-v-0dc90d45><p data-v-0dc90d45> Connecting you to Islamic knowledge seamlessly and accessibly, your all-in-one platform to explore the Quran, learn from trusted content, and access AI-powered tools for a transformative spiritual experience anytime, anywhere. </p></div><div class=\"row mb-3\" data-v-0dc90d45><div class=\"col-12\" data-v-0dc90d45><div class=\"controls d-flex flex-row justify-content-start text-left ic-hero__actions ic-reveal\" style=\"--ic-delay:0.4s;\" data-v-0dc90d45><a href=\"/surat\" class=\"btn btn-lg btn-teal rounded-20 fw-bold px-4 ic-btn ic-btn--primary\" data-v-0dc90d45><i class=\"fas fa-rocket me-2\" data-v-0dc90d45></i>Get Started </a><!-- &lt;a href=&quot;/subscribe&quot; class=&quot;btn btn-lg rounded-20 fw-bold pt-2 px-4 ic-btn ic-btn--ghost&quot;&gt;\n                        &lt;i class=&quot;fas fa-heart me-2&quot;&gt;&lt;/i&gt;Support Our Mission\n                      &lt;/a&gt; --></div><!-- Trust Indicators --><div class=\"mt-3 d-flex align-items-center ic-trust ic-reveal\" style=\"--ic-delay:0.5s;\" data-v-0dc90d45><div class=\"d-flex align-items-center\" data-v-0dc90d45><i class=\"fas fa-shield-alt text-success me-2\" data-v-0dc90d45></i><small style=\"color:#4a5568;font-weight:800;\" data-v-0dc90d45>Secure Platform</small></div><div class=\"d-flex align-items-center\" data-v-0dc90d45><i class=\"fas fa-clock text-warning me-2\" data-v-0dc90d45></i><small style=\"color:#4a5568;font-weight:800;\" data-v-0dc90d45>Instant Access</small></div><div class=\"d-flex align-items-center\" data-v-0dc90d45><i class=\"fas fa-user-check text-info me-2\" data-v-0dc90d45></i><small style=\"color:#4a5568;font-weight:800;\" data-v-0dc90d45>No Registration</small></div></div></div></div></div></div><div class=\"col-md-6\" data-v-0dc90d45><div class=\"text-center\" data-v-0dc90d45><picture data-v-0dc90d45><source srcset=\"/images/banner-photo.png 800w\" type=\"image/png\" data-v-0dc90d45><img src=\"/images/banner-photo.png\" srcset=\"/images/banner-photo.png 800w\" sizes=\"(min-width: 992px) 50vw, (min-width: 768px) 60vw, 90vw\" class=\"img-fluid hero-image ic-hero__image ic-reveal\" style=\"--ic-delay:0.35s;\" alt=\"Islamic Connect platform showcasing Quran exploration and AI-powered tools\" loading=\"lazy\" width=\"800\" height=\"800\" data-v-0dc90d45></picture></div></div></div>", 3)), _ctx.isAuthenticated ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("section", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", _hoisted_8, [_cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "hifdh-home-widget__copy"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "hifdh-home-widget__eyebrow"
@@ -2114,20 +2165,58 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "h6 fw-semibold mb-1"
   }, "Due Today"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "small mb-0"
-  }, "Personal review queue for your account. Tap to open Hifdh Plan now.")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.hifdhDueTodayCount), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.seoCards, card => {
+  }, "Personal review queue for your account. Tap to open Hifdh Plan now.")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.hifdhDueTodayCount), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [_cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    class: "hifdh-home-dashboard__title mb-2"
+  }, "Progress over time", -1 /* CACHED */)), _cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    class: "hifdh-home-dashboard__subtitle mb-2"
+  }, "Last 7 days", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.hifdhDashboard.timeline, day => {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+      key: day.dateKey,
+      class: "hifdh-home-bar",
+      role: "listitem"
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+      class: "hifdh-home-bar__fill",
+      style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
+        height: `${day.heightPct}%`
+      })
+    }, null, 4 /* STYLE */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(day.shortLabel), 1 /* TEXT */)]);
+  }), 128 /* KEYED_FRAGMENT */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [_cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    class: "hifdh-home-dashboard__title mb-2"
+  }, "Weak spots", -1 /* CACHED */)), _ctx.hifdhDashboard.weakSpots.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_15, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.hifdhDashboard.weakSpots, spot => {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+      key: spot.label,
+      class: "hifdh-home-weak-item"
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_16, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(spot.label), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_17, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(spot.count) + " weak", 1 /* TEXT */)]);
+  }), 128 /* KEYED_FRAGMENT */))])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_18, "No weak segments recorded yet."))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [_cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    class: "hifdh-home-dashboard__title mb-2"
+  }, "Streak tracking", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [_cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Current", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.hifdhDashboard.streak.current) + "d", 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [_cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Best", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.hifdhDashboard.streak.best) + "d", 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [_cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Active", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.hifdhDashboard.streak.activeDays) + "/" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.hifdhDashboard.streak.windowDays), 1 /* TEXT */)])])])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <section id=\"ai-persona-section\" class=\"container ic-hero__ai ic-reveal\" style=\"--ic-delay: 0.6s;\" aria-label=\"Islamic chatbot preview\">\n            <div class=\"welcome-chat-frame\">\n              <ai-component></ai-component>\n            </div>\n          </section> ")])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" HERO / SEO SECTION "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_23, [_cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    class: "premium-seo__backdrop"
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [_cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
+    id: "seo-heading",
+    class: "display-5 fw-bold mb-3"
+  }, "Discover Quran, Knowledge & Accessible Tools", -1 /* CACHED */)), _cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    class: "text-muted mb-3"
+  }, "Study the Quran with reliable references, clear recitations, and practical tools designed for everyday worship and learning.", -1 /* CACHED */)), _cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    class: "text-muted mb-4"
+  }, "Start with guided pathways, then move at your own pace using search, audio, and accessibility features built for consistency.", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.seoStats, stat => {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+      class: "col",
+      key: stat.label
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_28, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_29, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(stat.value), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_30, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(stat.label), 1 /* TEXT */)])]);
+  }), 128 /* KEYED_FRAGMENT */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_31, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_32, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.seoCards, card => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       class: "col",
       key: card.title
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("article", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_15, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(card.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_16, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(card.desc), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("article", _hoisted_33, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_34, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(card.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_35, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(card.desc), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
       title: card.title,
       class: "mt-auto fw-semibold text-teal",
       href: card.href
-    }, "Explore →", 8 /* PROPS */, _hoisted_17)])]);
-  }), 128 /* KEYED_FRAGMENT */))])])])])]), _cache[31] || (_cache[31] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<section aria-labelledby=\"services-heading\" data-v-0dc90d45><div class=\"py-5 ic-services\" data-v-0dc90d45><div class=\"container\" data-v-0dc90d45><div class=\"row justify-content-center text-center mb-5\" data-v-0dc90d45><div class=\"col-lg-8 col-xl-7\" data-v-0dc90d45><h2 id=\"services-heading\" class=\"display-4 mb-3 fw-bold\" data-v-0dc90d45>What We Offer</h2><p class=\"lead text-muted\" data-v-0dc90d45>Comprehensive Islamic resources designed for modern learners</p></div></div><div class=\"row g-4\" data-v-0dc90d45><!-- Card 1: Explore with Ease --><div class=\"col-md-6 col-lg-4\" data-v-0dc90d45><article class=\"card h-100 border-0 card-20 card-float shadow-sm ic-service-card\" data-v-0dc90d45><div class=\"card-body text-center p-4\" data-v-0dc90d45><div class=\"my-3\" data-v-0dc90d45><img src=\"images/galaxy.png\" width=\"80\" height=\"80\" alt=\"Magnifying glass exploring Islamic content\" loading=\"lazy\" data-v-0dc90d45></div><h3 class=\"h3 fw-bold\" data-v-0dc90d45>Explore with Ease</h3><p class=\"mb-4 text-muted\" style=\"font-size:16px;line-height:1.6;\" data-v-0dc90d45> Search the Quran, Duas, and Seerah effortlessly using simple keywords or topics. Find meaningful content instantly for your spiritual journey. </p></div></article></div><!-- Card 2: Listen, Watch, Reflect --><div class=\"col-md-6 col-lg-4\" data-v-0dc90d45><article class=\"card h-100 border-0 card-20 card-float shadow-sm ic-service-card\" data-v-0dc90d45><div class=\"card-body text-center p-4\" data-v-0dc90d45><div class=\"my-3\" data-v-0dc90d45><img src=\"images/watching.png\" width=\"80\" height=\"80\" alt=\"Headphones for audio content\" loading=\"lazy\" data-v-0dc90d45></div><h3 class=\"h3 fw-bold\" data-v-0dc90d45>Listen, Watch, Reflect</h3><p class=\"mb-4 text-muted\" style=\"font-size:16px;line-height:1.6;\" data-v-0dc90d45> Enjoy Quran recitations, insightful podcasts, and Islamic art galleries. Engage spiritually through multimedia content anywhere, anytime. </p></div></article></div><!-- Card 3: Learn Your Way --><div class=\"col-md-6 col-lg-4\" data-v-0dc90d45><article class=\"card h-100 border-0 card-20 card-float shadow-sm ic-service-card\" data-v-0dc90d45><div class=\"card-body text-center p-4\" data-v-0dc90d45><div class=\"my-3\" data-v-0dc90d45><img src=\"images/school.png\" width=\"80\" height=\"80\" alt=\"Graduation cap for learning\" loading=\"lazy\" data-v-0dc90d45></div><h3 class=\"h3 fw-bold\" data-v-0dc90d45>Learn Your Way</h3><p class=\"mb-4 text-muted\" style=\"font-size:16px;line-height:1.6;\" data-v-0dc90d45> Text-to-speech, screen reader and keyboard navigator support, and bookmarking ensure accessible learning for everyone, regardless of ability. </p></div></article></div></div></div></div></section><section class=\"container pt-3 pb-3 ic-features\" aria-label=\"Islamic Connect Features\" data-v-0dc90d45><!-- First Row - Quran Companion --><div class=\"row py-4 py-lg-5 align-items-center ic-feature-row\" data-v-0dc90d45><div class=\"col-lg-6 order-2 order-lg-1\" data-v-0dc90d45><h2 class=\"h1 fw-bold text-center text-lg-start mb-4\" data-v-0dc90d45> Quran Companion: AI-Powered &amp; Accessible </h2><p class=\"lead text-muted text-center text-lg-start mb-4\" style=\"line-height:1.7;\" data-v-0dc90d45> Experience the Quran with advanced AI tools for reading, listening, and understanding. Featuring text-to-speech, screen reader support, and voice search for an accessible, intelligent connection to the Divine. </p><div class=\"d-grid gap-2 d-md-flex justify-content-center justify-content-lg-center\" data-v-0dc90d45><a href=\"/quran\" class=\"btn btn-lg px-4 py-3 fw-semibold text-decoration-none btn-teal rounded-20\" style=\"min-width:160px;\" data-v-0dc90d45> Explore Quran </a></div></div><div class=\"col-lg-6 order-1 order-lg-2 mb-4 mb-lg-0\" data-v-0dc90d45><img src=\"/images/slide1.png\" class=\"img-fluid rounded-20 shadow-sm\" alt=\"Quran Companion interface showing AI-powered features and accessibility tools\" loading=\"lazy\" width=\"600\" height=\"400\" data-v-0dc90d45></div></div><!-- Second Row - Audio Content --><div class=\"row py-4 py-lg-5 align-items-center ic-feature-row\" data-v-0dc90d45><div class=\"col-lg-6 mb-4 mb-lg-0\" data-v-0dc90d45><img src=\"/images/slide4.png\" class=\"img-fluid rounded-20 shadow-sm\" alt=\"Islamic podcasts and audio content streaming interface\" loading=\"lazy\" width=\"600\" height=\"400\" data-v-0dc90d45></div><div class=\"col-lg-6\" data-v-0dc90d45><h2 class=\"h1 fw-bold text-center text-lg-start mb-4\" data-v-0dc90d45> Spiritual Content On-The-Go </h2><p class=\"lead text-muted text-center text-lg-start mb-4\" style=\"line-height:1.7;\" data-v-0dc90d45> Access uplifting Islamic podcasts, inspiring audio series, and live radio in one place. Stay spiritually connected through sound and reflection wherever you are. </p><div class=\"d-grid gap-2 d-md-flex justify-content-center justify-content-lg-center\" data-v-0dc90d45><a href=\"/media\" class=\"btn btn-lg px-4 py-3 fw-semibold text-decoration-none btn-teal rounded-20\" style=\"min-width:160px;\" data-v-0dc90d45> Browse Content </a></div></div></div><!-- Third Row - Quran Explorer --><div class=\"row py-4 py-lg-5 align-items-center ic-feature-row\" data-v-0dc90d45><div class=\"col-lg-6 order-2 order-lg-1\" data-v-0dc90d45><h2 class=\"h1 fw-bold text-center text-lg-start mb-4\" data-v-0dc90d45> Deep Quran Exploration </h2><p class=\"lead text-muted text-center text-lg-start mb-4\" style=\"line-height:1.7;\" data-v-0dc90d45> Search, explore, and engage with every verse effortlessly. Discover tafsir, translations, and recitations with tools designed for simplicity and spiritual growth. </p><div class=\"d-grid gap-2 d-md-flex justify-content-center justify-content-lg-center\" data-v-0dc90d45><a href=\"/surat\" class=\"btn btn-lg px-4 py-3 fw-semibold text-decoration-none btn-teal rounded-20\" style=\"min-width:160px;\" data-v-0dc90d45> Start Exploring </a></div></div><div class=\"col-lg-6 order-1 order-lg-2 mb-4 mb-lg-0\" data-v-0dc90d45><img src=\"/images/slide2.png\" class=\"img-fluid rounded-20 shadow-sm\" alt=\"Quran exploration interface with search and translation features\" loading=\"lazy\" width=\"600\" height=\"400\" data-v-0dc90d45></div></div></section>", 2)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Stats Section "), _cache[32] || (_cache[32] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<section class=\"stats-section\" data-v-0dc90d45><div class=\"container\" data-v-0dc90d45><div class=\"row justify-content-center\" data-v-0dc90d45><div class=\"col-lg-10 text-center\" data-v-0dc90d45><h2 class=\"section-title\" data-v-0dc90d45>Our Impact in Numbers</h2><p class=\"section-lead\" data-v-0dc90d45>Measurable results showing how we&#39;re making Islamic knowledge accessible to all</p><div class=\"row container-fluid stats-grid\" data-v-0dc90d45><div class=\"col-md-3 col-6 mb-4\" data-v-0dc90d45><div class=\"stat-card\" data-v-0dc90d45><h3 data-v-0dc90d45>100%</h3><p data-v-0dc90d45>Accessibility score</p><small data-v-0dc90d45>Trusted by Google Lighthouse</small></div></div><div class=\"col-md-3 col-6 mb-4\" data-v-0dc90d45><div class=\"stat-card\" data-v-0dc90d45><h3 data-v-0dc90d45>85+</h3><p data-v-0dc90d45>Countries</p><small data-v-0dc90d45>Global reach</small></div></div><div class=\"col-md-3 col-6 mb-4\" data-v-0dc90d45><div class=\"stat-card\" data-v-0dc90d45><h3 data-v-0dc90d45>650+</h3><p data-v-0dc90d45>Cities/Towns</p><small data-v-0dc90d45>Worldwide presence</small></div></div><div class=\"col-md-3 col-6 mb-4\" data-v-0dc90d45><div class=\"stat-card\" data-v-0dc90d45><h3 data-v-0dc90d45>1090%</h3><p data-v-0dc90d45>Growth</p><small data-v-0dc90d45>Returning users</small></div></div></div></div></div></div></section>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" AI Tools & Features Section - Optimized "), _cache[33] || (_cache[33] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<section class=\"py-5 ic-ai\" aria-labelledby=\"ai-tools-title\" data-v-0dc90d45><div class=\"container pt-3\" data-v-0dc90d45><div class=\"row justify-content-center text-center mb-3\" data-v-0dc90d45><div class=\"col-lg-8 col-xl-7\" data-v-0dc90d45></div><h2 id=\"ai-tools-title\" class=\"h2 mb-3 fw-bold\" data-v-0dc90d45>AI-Powered Tools for Enhanced Islamic Learning</h2></div><div class=\"row pt-3 g-4 g-md-5\" data-v-0dc90d45><div class=\"col-12\" data-v-0dc90d45><p class=\"lead text-center mb-4\" style=\"line-height:1.7;\" data-v-0dc90d45> At Islamic Connect, we leverage advanced AI technology to make Quranic knowledge accessible to everyone. Our tools are designed to empower individuals through inclusive, personalized learning experiences that adapt to diverse abilities and learning preferences. </p></div><!-- Feature 4: Text Summarization --><div class=\"col-md-6\" data-v-0dc90d45><div class=\"d-flex h-100\" data-v-0dc90d45><div class=\"flex-shrink-0 me-4\" data-v-0dc90d45><img src=\"images/content.png\" width=\"60\" height=\"60\" alt=\"Content icon for text summarization feature\" loading=\"lazy\" data-v-0dc90d45></div><div class=\"flex-grow-1\" data-v-0dc90d45><h3 class=\"h5 mb-2 fw-bold\" data-v-0dc90d45>AI Text Summarization</h3><p class=\"mb-0\" data-v-0dc90d45> Quickly understand complex Islamic texts with AI-powered summaries. Extract key insights from lengthy content to enhance your learning efficiency. </p></div></div></div><!-- Feature 1: Speech-to-Text --><div class=\"col-md-6 mb-3\" data-v-0dc90d45><div class=\"d-flex h-100\" data-v-0dc90d45><div class=\"flex-shrink-0 me-4\" data-v-0dc90d45><img src=\"images/podcasting.png\" width=\"60\" height=\"60\" alt=\"Microphone icon representing speech-to-text feature\" loading=\"lazy\" data-v-0dc90d45></div><div class=\"flex-grow-1\" data-v-0dc90d45><h3 class=\"h5 mb-2 fw-bold\" data-v-0dc90d45>Speech-to-Text for Islamic Notes</h3><p class=\"mb-0\" data-v-0dc90d45> Capture your spoken reflections and thoughts on Islamic teachings effortlessly. Perfect for documenting insights and ensuring accessibility for those who prefer audio input. </p></div></div></div><!-- Feature 5: Audio Sync --><div class=\"col-md-6\" data-v-0dc90d45><div class=\"d-flex h-100\" data-v-0dc90d45><div class=\"flex-shrink-0 me-4\" data-v-0dc90d45><img src=\"images/highlighter.png\" width=\"60\" height=\"60\" alt=\"Highlighter icon for audio synchronization feature\" loading=\"lazy\" data-v-0dc90d45></div><div class=\"flex-grow-1\" data-v-0dc90d45><h3 class=\"h5 mb-2 fw-bold\" data-v-0dc90d45>Word-by-Word Quran Highlighting</h3><p class=\"mb-0\" data-v-0dc90d45> Follow Quranic recitations with synchronized text highlighting. Each word lights up as it&#39;s recited, improving pronunciation and comprehension. </p></div></div></div><!-- Feature 6: Text-to-Speech --><div class=\"col-md-6\" data-v-0dc90d45><div class=\"d-flex h-100\" data-v-0dc90d45><div class=\"flex-shrink-0 me-4\" data-v-0dc90d45><img src=\"images/chat.png\" width=\"60\" height=\"60\" alt=\"Chat icon for text-to-speech feature\" loading=\"lazy\" data-v-0dc90d45></div><div class=\"flex-grow-1\" data-v-0dc90d45><h3 class=\"h5 mb-2 fw-bold\" data-v-0dc90d45>Text-to-Speech for Translations</h3><p class=\"mb-0\" data-v-0dc90d45> Listen to Quran translations and Tafsir explanations. High-quality audio delivery makes Islamic knowledge accessible while multitasking or for visual impairments. </p></div></div></div></div></div></section>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Enhanced Quick Join Section "), _cache[34] || (_cache[34] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<section class=\"py-5 quick-join-section ic-join\" data-v-0dc90d45><!-- Background Elements --><div class=\"ic-join__orb ic-join__orb--one\" data-v-0dc90d45></div><div class=\"ic-join__orb ic-join__orb--two\" data-v-0dc90d45></div><div class=\"ic-join__orb ic-join__orb--three\" data-v-0dc90d45></div><div class=\"container ic-join__inner\" data-v-0dc90d45><div class=\"row align-items-center\" data-v-0dc90d45><div class=\"col-lg-7 text-center text-lg-start\" data-v-0dc90d45><h2 class=\"text-white fw-bold mb-3 ic-join__title\" data-v-0dc90d45>Ready to Transform Your Daily Spiritual Journey?</h2><p class=\"text-white mb-4 ic-join__lead\" data-v-0dc90d45>Join now and receive your first spiritual reminder within minutes. Start your day with divine inspiration! </p></div><div class=\"col-lg-5 text-center\" data-v-0dc90d45><!-- Join Cards --><div class=\"row g-3\" data-v-0dc90d45><div class=\"col-12\" data-v-0dc90d45><div class=\"join-card-hover rounded-20 ic-join-card\" data-v-0dc90d45><!-- WhatsApp Card --><div class=\"d-flex align-items-center mb-3\" data-v-0dc90d45><div class=\"ic-join-icon ic-join-icon--whatsapp\" data-v-0dc90d45><i class=\"fab fa-whatsapp text-white\" style=\"font-size:1.5rem;\" data-v-0dc90d45></i></div><div class=\"text-start\" data-v-0dc90d45><h3 class=\"fw-bold mb-1\" style=\"color:#1a5f7a;\" data-v-0dc90d45>WhatsApp Channel</h3><small class=\"text-muted\" data-v-0dc90d45>Daily verses &amp; instant reminders</small></div></div><a href=\"https://whatsapp.com/channel/0029VbAsOvp59PwIp2zwyB1m\" class=\"btn w-100 rounded-20 ic-join-btn ic-join-btn--whatsapp\" target=\"_blank\" rel=\"noopener noreferrer\" data-v-0dc90d45><i class=\"fab fa-whatsapp me-2\" data-v-0dc90d45></i>Join WhatsApp Channel <span class=\"ic-join-btn__arrow\" data-v-0dc90d45>→</span></a></div></div><div class=\"col-12\" data-v-0dc90d45><div class=\"join-card-hover rounded-20 ic-join-card\" data-v-0dc90d45><!-- Telegram Card --><div class=\"d-flex align-items-center mb-3\" data-v-0dc90d45><div class=\"ic-join-icon ic-join-icon--telegram\" data-v-0dc90d45><i class=\"fab fa-telegram text-white\" style=\"font-size:1.5rem;\" data-v-0dc90d45></i></div><div class=\"text-start\" data-v-0dc90d45><h3 class=\"fw-bold mb-1\" style=\"color:#1a5f7a;\" data-v-0dc90d45>Telegram Community</h3><small class=\"text-muted\" data-v-0dc90d45>In-depth content &amp; discussions</small></div></div><a href=\"https://t.me/+r81Q3SEAa-M5ZWI0\" class=\"btn w-100 rounded-20 ic-join-btn ic-join-btn--telegram\" target=\"_blank\" rel=\"noopener noreferrer\" data-v-0dc90d45><i class=\"fab fa-telegram me-2\" data-v-0dc90d45></i>Join Telegram Community <span class=\"ic-join-btn__arrow\" data-v-0dc90d45>→</span></a></div></div></div><!-- Trust Badge --><div class=\"mt-3 ic-join__badge\" data-v-0dc90d45><div class=\"d-flex align-items-center\" style=\"gap:0.5rem;\" data-v-0dc90d45><i class=\"fas fa-shield-alt text-white\" style=\"font-size:1.1rem;\" data-v-0dc90d45></i><small class=\"text-white fw-bold\" data-v-0dc90d45>100% Free • Easy Subscribe</small></div></div></div></div></div><!-- Floating Icons --><div class=\"ic-join__icon\" data-v-0dc90d45><i class=\"fas fa-quran\" data-v-0dc90d45></i></div></section>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" contact "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_18, [_cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, "Explore →", 8 /* PROPS */, _hoisted_36)])]);
+  }), 128 /* KEYED_FRAGMENT */))])])])])]), _cache[38] || (_cache[38] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<section aria-labelledby=\"services-heading\" data-v-0dc90d45><div class=\"py-5 ic-services\" data-v-0dc90d45><div class=\"container\" data-v-0dc90d45><div class=\"row justify-content-center text-center mb-5\" data-v-0dc90d45><div class=\"col-lg-8 col-xl-7\" data-v-0dc90d45><h2 id=\"services-heading\" class=\"display-4 mb-3 fw-bold\" data-v-0dc90d45>What We Offer</h2><p class=\"lead text-muted\" data-v-0dc90d45>Comprehensive Islamic resources designed for modern learners</p></div></div><div class=\"row g-4\" data-v-0dc90d45><!-- Card 1: Explore with Ease --><div class=\"col-md-6 col-lg-4\" data-v-0dc90d45><article class=\"card h-100 border-0 card-20 card-float shadow-sm ic-service-card\" data-v-0dc90d45><div class=\"card-body text-center p-4\" data-v-0dc90d45><div class=\"my-3\" data-v-0dc90d45><img src=\"images/galaxy.png\" width=\"80\" height=\"80\" alt=\"Magnifying glass exploring Islamic content\" loading=\"lazy\" data-v-0dc90d45></div><h3 class=\"h3 fw-bold\" data-v-0dc90d45>Explore with Ease</h3><p class=\"mb-4 text-muted\" style=\"font-size:16px;line-height:1.6;\" data-v-0dc90d45> Search the Quran, Duas, and Seerah effortlessly using simple keywords or topics. Find meaningful content instantly for your spiritual journey. </p></div></article></div><!-- Card 2: Listen, Watch, Reflect --><div class=\"col-md-6 col-lg-4\" data-v-0dc90d45><article class=\"card h-100 border-0 card-20 card-float shadow-sm ic-service-card\" data-v-0dc90d45><div class=\"card-body text-center p-4\" data-v-0dc90d45><div class=\"my-3\" data-v-0dc90d45><img src=\"images/watching.png\" width=\"80\" height=\"80\" alt=\"Headphones for audio content\" loading=\"lazy\" data-v-0dc90d45></div><h3 class=\"h3 fw-bold\" data-v-0dc90d45>Listen, Watch, Reflect</h3><p class=\"mb-4 text-muted\" style=\"font-size:16px;line-height:1.6;\" data-v-0dc90d45> Enjoy Quran recitations, insightful podcasts, and Islamic art galleries. Engage spiritually through multimedia content anywhere, anytime. </p></div></article></div><!-- Card 3: Learn Your Way --><div class=\"col-md-6 col-lg-4\" data-v-0dc90d45><article class=\"card h-100 border-0 card-20 card-float shadow-sm ic-service-card\" data-v-0dc90d45><div class=\"card-body text-center p-4\" data-v-0dc90d45><div class=\"my-3\" data-v-0dc90d45><img src=\"images/school.png\" width=\"80\" height=\"80\" alt=\"Graduation cap for learning\" loading=\"lazy\" data-v-0dc90d45></div><h3 class=\"h3 fw-bold\" data-v-0dc90d45>Learn Your Way</h3><p class=\"mb-4 text-muted\" style=\"font-size:16px;line-height:1.6;\" data-v-0dc90d45> Text-to-speech, screen reader and keyboard navigator support, and bookmarking ensure accessible learning for everyone, regardless of ability. </p></div></article></div></div></div></div></section><section class=\"container pt-3 pb-3 ic-features\" aria-label=\"Islamic Connect Features\" data-v-0dc90d45><!-- First Row - Quran Companion --><div class=\"row py-4 py-lg-5 align-items-center ic-feature-row\" data-v-0dc90d45><div class=\"col-lg-6 order-2 order-lg-1\" data-v-0dc90d45><h2 class=\"h1 fw-bold text-center text-lg-start mb-4\" data-v-0dc90d45> Quran Companion: AI-Powered &amp; Accessible </h2><p class=\"lead text-muted text-center text-lg-start mb-4\" style=\"line-height:1.7;\" data-v-0dc90d45> Experience the Quran with advanced AI tools for reading, listening, and understanding. Featuring text-to-speech, screen reader support, and voice search for an accessible, intelligent connection to the Divine. </p><div class=\"d-grid gap-2 d-md-flex justify-content-center justify-content-lg-center\" data-v-0dc90d45><a href=\"/quran\" class=\"btn btn-lg px-4 py-3 fw-semibold text-decoration-none btn-teal rounded-20\" style=\"min-width:160px;\" data-v-0dc90d45> Explore Quran </a></div></div><div class=\"col-lg-6 order-1 order-lg-2 mb-4 mb-lg-0\" data-v-0dc90d45><img src=\"/images/slide1.png\" class=\"img-fluid rounded-20 shadow-sm\" alt=\"Quran Companion interface showing AI-powered features and accessibility tools\" loading=\"lazy\" width=\"600\" height=\"400\" data-v-0dc90d45></div></div><!-- Second Row - Audio Content --><div class=\"row py-4 py-lg-5 align-items-center ic-feature-row\" data-v-0dc90d45><div class=\"col-lg-6 mb-4 mb-lg-0\" data-v-0dc90d45><img src=\"/images/slide4.png\" class=\"img-fluid rounded-20 shadow-sm\" alt=\"Islamic podcasts and audio content streaming interface\" loading=\"lazy\" width=\"600\" height=\"400\" data-v-0dc90d45></div><div class=\"col-lg-6\" data-v-0dc90d45><h2 class=\"h1 fw-bold text-center text-lg-start mb-4\" data-v-0dc90d45> Spiritual Content On-The-Go </h2><p class=\"lead text-muted text-center text-lg-start mb-4\" style=\"line-height:1.7;\" data-v-0dc90d45> Access uplifting Islamic podcasts, inspiring audio series, and live radio in one place. Stay spiritually connected through sound and reflection wherever you are. </p><div class=\"d-grid gap-2 d-md-flex justify-content-center justify-content-lg-center\" data-v-0dc90d45><a href=\"/media\" class=\"btn btn-lg px-4 py-3 fw-semibold text-decoration-none btn-teal rounded-20\" style=\"min-width:160px;\" data-v-0dc90d45> Browse Content </a></div></div></div><!-- Third Row - Quran Explorer --><div class=\"row py-4 py-lg-5 align-items-center ic-feature-row\" data-v-0dc90d45><div class=\"col-lg-6 order-2 order-lg-1\" data-v-0dc90d45><h2 class=\"h1 fw-bold text-center text-lg-start mb-4\" data-v-0dc90d45> Deep Quran Exploration </h2><p class=\"lead text-muted text-center text-lg-start mb-4\" style=\"line-height:1.7;\" data-v-0dc90d45> Search, explore, and engage with every verse effortlessly. Discover tafsir, translations, and recitations with tools designed for simplicity and spiritual growth. </p><div class=\"d-grid gap-2 d-md-flex justify-content-center justify-content-lg-center\" data-v-0dc90d45><a href=\"/surat\" class=\"btn btn-lg px-4 py-3 fw-semibold text-decoration-none btn-teal rounded-20\" style=\"min-width:160px;\" data-v-0dc90d45> Start Exploring </a></div></div><div class=\"col-lg-6 order-1 order-lg-2 mb-4 mb-lg-0\" data-v-0dc90d45><img src=\"/images/slide2.png\" class=\"img-fluid rounded-20 shadow-sm\" alt=\"Quran exploration interface with search and translation features\" loading=\"lazy\" width=\"600\" height=\"400\" data-v-0dc90d45></div></div></section>", 2)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Stats Section "), _cache[39] || (_cache[39] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<section class=\"stats-section\" data-v-0dc90d45><div class=\"container\" data-v-0dc90d45><div class=\"row justify-content-center\" data-v-0dc90d45><div class=\"col-lg-10 text-center\" data-v-0dc90d45><h2 class=\"section-title\" data-v-0dc90d45>Our Impact in Numbers</h2><p class=\"section-lead\" data-v-0dc90d45>Measurable results showing how we&#39;re making Islamic knowledge accessible to all</p><div class=\"row container-fluid stats-grid\" data-v-0dc90d45><div class=\"col-md-3 col-6 mb-4\" data-v-0dc90d45><div class=\"stat-card\" data-v-0dc90d45><h3 data-v-0dc90d45>100%</h3><p data-v-0dc90d45>Accessibility score</p><small data-v-0dc90d45>Trusted by Google Lighthouse</small></div></div><div class=\"col-md-3 col-6 mb-4\" data-v-0dc90d45><div class=\"stat-card\" data-v-0dc90d45><h3 data-v-0dc90d45>85+</h3><p data-v-0dc90d45>Countries</p><small data-v-0dc90d45>Global reach</small></div></div><div class=\"col-md-3 col-6 mb-4\" data-v-0dc90d45><div class=\"stat-card\" data-v-0dc90d45><h3 data-v-0dc90d45>650+</h3><p data-v-0dc90d45>Cities/Towns</p><small data-v-0dc90d45>Worldwide presence</small></div></div><div class=\"col-md-3 col-6 mb-4\" data-v-0dc90d45><div class=\"stat-card\" data-v-0dc90d45><h3 data-v-0dc90d45>1090%</h3><p data-v-0dc90d45>Growth</p><small data-v-0dc90d45>Returning users</small></div></div></div></div></div></div></section>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" AI Tools & Features Section - Optimized "), _cache[40] || (_cache[40] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<section class=\"py-5 ic-ai\" aria-labelledby=\"ai-tools-title\" data-v-0dc90d45><div class=\"container pt-3\" data-v-0dc90d45><div class=\"row justify-content-center text-center mb-3\" data-v-0dc90d45><div class=\"col-lg-8 col-xl-7\" data-v-0dc90d45></div><h2 id=\"ai-tools-title\" class=\"h2 mb-3 fw-bold\" data-v-0dc90d45>AI-Powered Tools for Enhanced Islamic Learning</h2></div><div class=\"row pt-3 g-4 g-md-5\" data-v-0dc90d45><div class=\"col-12\" data-v-0dc90d45><p class=\"lead text-center mb-4\" style=\"line-height:1.7;\" data-v-0dc90d45> At Islamic Connect, we leverage advanced AI technology to make Quranic knowledge accessible to everyone. Our tools are designed to empower individuals through inclusive, personalized learning experiences that adapt to diverse abilities and learning preferences. </p></div><!-- Feature 4: Text Summarization --><div class=\"col-md-6\" data-v-0dc90d45><div class=\"d-flex h-100\" data-v-0dc90d45><div class=\"flex-shrink-0 me-4\" data-v-0dc90d45><img src=\"images/content.png\" width=\"60\" height=\"60\" alt=\"Content icon for text summarization feature\" loading=\"lazy\" data-v-0dc90d45></div><div class=\"flex-grow-1\" data-v-0dc90d45><h3 class=\"h5 mb-2 fw-bold\" data-v-0dc90d45>AI Text Summarization</h3><p class=\"mb-0\" data-v-0dc90d45> Quickly understand complex Islamic texts with AI-powered summaries. Extract key insights from lengthy content to enhance your learning efficiency. </p></div></div></div><!-- Feature 1: Speech-to-Text --><div class=\"col-md-6 mb-3\" data-v-0dc90d45><div class=\"d-flex h-100\" data-v-0dc90d45><div class=\"flex-shrink-0 me-4\" data-v-0dc90d45><img src=\"images/podcasting.png\" width=\"60\" height=\"60\" alt=\"Microphone icon representing speech-to-text feature\" loading=\"lazy\" data-v-0dc90d45></div><div class=\"flex-grow-1\" data-v-0dc90d45><h3 class=\"h5 mb-2 fw-bold\" data-v-0dc90d45>Speech-to-Text for Islamic Notes</h3><p class=\"mb-0\" data-v-0dc90d45> Capture your spoken reflections and thoughts on Islamic teachings effortlessly. Perfect for documenting insights and ensuring accessibility for those who prefer audio input. </p></div></div></div><!-- Feature 5: Audio Sync --><div class=\"col-md-6\" data-v-0dc90d45><div class=\"d-flex h-100\" data-v-0dc90d45><div class=\"flex-shrink-0 me-4\" data-v-0dc90d45><img src=\"images/highlighter.png\" width=\"60\" height=\"60\" alt=\"Highlighter icon for audio synchronization feature\" loading=\"lazy\" data-v-0dc90d45></div><div class=\"flex-grow-1\" data-v-0dc90d45><h3 class=\"h5 mb-2 fw-bold\" data-v-0dc90d45>Word-by-Word Quran Highlighting</h3><p class=\"mb-0\" data-v-0dc90d45> Follow Quranic recitations with synchronized text highlighting. Each word lights up as it&#39;s recited, improving pronunciation and comprehension. </p></div></div></div><!-- Feature 6: Text-to-Speech --><div class=\"col-md-6\" data-v-0dc90d45><div class=\"d-flex h-100\" data-v-0dc90d45><div class=\"flex-shrink-0 me-4\" data-v-0dc90d45><img src=\"images/chat.png\" width=\"60\" height=\"60\" alt=\"Chat icon for text-to-speech feature\" loading=\"lazy\" data-v-0dc90d45></div><div class=\"flex-grow-1\" data-v-0dc90d45><h3 class=\"h5 mb-2 fw-bold\" data-v-0dc90d45>Text-to-Speech for Translations</h3><p class=\"mb-0\" data-v-0dc90d45> Listen to Quran translations and Tafsir explanations. High-quality audio delivery makes Islamic knowledge accessible while multitasking or for visual impairments. </p></div></div></div></div></div></section>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Enhanced Quick Join Section "), _cache[41] || (_cache[41] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<section class=\"py-5 quick-join-section ic-join\" data-v-0dc90d45><!-- Background Elements --><div class=\"ic-join__orb ic-join__orb--one\" data-v-0dc90d45></div><div class=\"ic-join__orb ic-join__orb--two\" data-v-0dc90d45></div><div class=\"ic-join__orb ic-join__orb--three\" data-v-0dc90d45></div><div class=\"container ic-join__inner\" data-v-0dc90d45><div class=\"row align-items-center\" data-v-0dc90d45><div class=\"col-lg-7 text-center text-lg-start\" data-v-0dc90d45><h2 class=\"text-white fw-bold mb-3 ic-join__title\" data-v-0dc90d45>Ready to Transform Your Daily Spiritual Journey?</h2><p class=\"text-white mb-4 ic-join__lead\" data-v-0dc90d45>Join now and receive your first spiritual reminder within minutes. Start your day with divine inspiration! </p></div><div class=\"col-lg-5 text-center\" data-v-0dc90d45><!-- Join Cards --><div class=\"row g-3\" data-v-0dc90d45><div class=\"col-12\" data-v-0dc90d45><div class=\"join-card-hover rounded-20 ic-join-card\" data-v-0dc90d45><!-- WhatsApp Card --><div class=\"d-flex align-items-center mb-3\" data-v-0dc90d45><div class=\"ic-join-icon ic-join-icon--whatsapp\" data-v-0dc90d45><i class=\"fab fa-whatsapp text-white\" style=\"font-size:1.5rem;\" data-v-0dc90d45></i></div><div class=\"text-start\" data-v-0dc90d45><h3 class=\"fw-bold mb-1\" style=\"color:#1a5f7a;\" data-v-0dc90d45>WhatsApp Channel</h3><small class=\"text-muted\" data-v-0dc90d45>Daily verses &amp; instant reminders</small></div></div><a href=\"https://whatsapp.com/channel/0029VbAsOvp59PwIp2zwyB1m\" class=\"btn w-100 rounded-20 ic-join-btn ic-join-btn--whatsapp\" target=\"_blank\" rel=\"noopener noreferrer\" data-v-0dc90d45><i class=\"fab fa-whatsapp me-2\" data-v-0dc90d45></i>Join WhatsApp Channel <span class=\"ic-join-btn__arrow\" data-v-0dc90d45>→</span></a></div></div><div class=\"col-12\" data-v-0dc90d45><div class=\"join-card-hover rounded-20 ic-join-card\" data-v-0dc90d45><!-- Telegram Card --><div class=\"d-flex align-items-center mb-3\" data-v-0dc90d45><div class=\"ic-join-icon ic-join-icon--telegram\" data-v-0dc90d45><i class=\"fab fa-telegram text-white\" style=\"font-size:1.5rem;\" data-v-0dc90d45></i></div><div class=\"text-start\" data-v-0dc90d45><h3 class=\"fw-bold mb-1\" style=\"color:#1a5f7a;\" data-v-0dc90d45>Telegram Community</h3><small class=\"text-muted\" data-v-0dc90d45>In-depth content &amp; discussions</small></div></div><a href=\"https://t.me/+r81Q3SEAa-M5ZWI0\" class=\"btn w-100 rounded-20 ic-join-btn ic-join-btn--telegram\" target=\"_blank\" rel=\"noopener noreferrer\" data-v-0dc90d45><i class=\"fab fa-telegram me-2\" data-v-0dc90d45></i>Join Telegram Community <span class=\"ic-join-btn__arrow\" data-v-0dc90d45>→</span></a></div></div></div><!-- Trust Badge --><div class=\"mt-3 ic-join__badge\" data-v-0dc90d45><div class=\"d-flex align-items-center\" style=\"gap:0.5rem;\" data-v-0dc90d45><i class=\"fas fa-shield-alt text-white\" style=\"font-size:1.1rem;\" data-v-0dc90d45></i><small class=\"text-white fw-bold\" data-v-0dc90d45>100% Free • Easy Subscribe</small></div></div></div></div></div><!-- Floating Icons --><div class=\"ic-join__icon\" data-v-0dc90d45><i class=\"fas fa-quran\" data-v-0dc90d45></i></div></section>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" contact "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_37, [_cache[33] || (_cache[33] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "contact-section__blur contact-section__blur--left"
-  }, null, -1 /* CACHED */)), _cache[26] || (_cache[26] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, -1 /* CACHED */)), _cache[34] || (_cache[34] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "contact-section__blur contact-section__blur--right"
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [_cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_38, [_cache[32] || (_cache[32] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "row justify-content-center text-center"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "col-xl-8 col-lg-9"
@@ -2136,7 +2225,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "display-5 fw-bold mb-3"
   }, "Let’s Keep the Conversation Going"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "lead fw-semibold text-muted mb-4"
-  }, " Share your thoughts, ask about our resources, or flag a bug. Picking the right topic helps us route your request to the right team immediately. ")])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [_cache[23] || (_cache[23] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, " Share your thoughts, ask about our resources, or flag a bug. Picking the right topic helps us route your request to the right team immediately. ")])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_39, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_40, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_41, [_cache[31] || (_cache[31] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "d-flex flex-column flex-md-row align-items-start justify-content-between gap-3 mb-3"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
     class: "fw-bold mb-1"
@@ -2147,7 +2236,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onSubmit: _cache[6] || (_cache[6] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)($event => _ctx.sendMessage(), ["prevent"])),
     role: "form",
     "aria-label": "Contact form"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [_cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_42, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_43, [_cache[23] || (_cache[23] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     for: "firstname",
     class: "form-label visually-hidden"
   }, "First Name", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
@@ -2159,7 +2248,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     type: "text",
     "aria-required": "true",
     required: ""
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, _ctx.form.firstname]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [_cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, _ctx.form.firstname]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_44, [_cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     for: "lastname",
     class: "form-label visually-hidden"
   }, "Last Name", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
@@ -2171,7 +2260,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     type: "text",
     "aria-required": "true",
     required: ""
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, _ctx.form.lastname]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [_cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, _ctx.form.lastname]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_45, [_cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     for: "email",
     class: "form-label visually-hidden"
   }, "Email Address", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
@@ -2183,7 +2272,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     type: "email",
     "aria-required": "true",
     required: ""
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, _ctx.form.email]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [_cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, _ctx.form.email]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_46, [_cache[27] || (_cache[27] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     for: "subject",
     class: "form-label visually-hidden"
   }, "Subject", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
@@ -2193,17 +2282,17 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     name: "subject",
     "aria-required": "true",
     required: ""
-  }, [_cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+  }, [_cache[26] || (_cache[26] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: "",
     disabled: ""
   }, "Select a subject", -1 /* CACHED */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.subjectOptions, option => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
       key: option.value,
       value: option.value
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(option.label), 9 /* TEXT, PROPS */, _hoisted_28);
-  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, _ctx.form.subject]]), _cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", {
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(option.label), 9 /* TEXT, PROPS */, _hoisted_47);
+  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, _ctx.form.subject]]), _cache[28] || (_cache[28] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", {
     class: "text-muted d-block mt-1"
-  }, "Choose whichever topic matches your message.", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_29, [_cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, "Choose whichever topic matches your message.", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_48, [_cache[29] || (_cache[29] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     for: "message",
     class: "form-label visually-hidden"
   }, "Your Message", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("textarea", {
@@ -2215,25 +2304,25 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     rows: "5",
     "aria-required": "true",
     required: ""
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, _ctx.form.message]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_30, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_31, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, _ctx.form.message]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_49, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_50, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "submit",
     class: "btn btn-teal btn-lg fw-semibold contact-card__btn",
     disabled: _ctx.isSubmitting
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_33, [_cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_52, [_cache[30] || (_cache[30] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "fas fa-paper-plane",
     "aria-hidden": "true"
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.isSubmitting ? "Sending..." : "Send Message"), 1 /* TEXT */)])], 8 /* PROPS */, _hoisted_32)])])])], 32 /* NEED_HYDRATION */)])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.isSubmitting ? "Sending..." : "Send Message"), 1 /* TEXT */)])], 8 /* PROPS */, _hoisted_51)])])])], 32 /* NEED_HYDRATION */)])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
     name: "premium-dialog"
   }, {
-    default: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(() => [_ctx.confirmDialog.visible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_34, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_35, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_36, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.confirmDialog.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_37, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.confirmDialog.message), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_38, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    default: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(() => [_ctx.confirmDialog.visible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_53, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_54, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_55, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.confirmDialog.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_56, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.confirmDialog.message), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_57, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       class: "btn btn-outline-secondary",
       onClick: _cache[7] || (_cache[7] = (...args) => _ctx.handleCancel && _ctx.handleCancel(...args)),
       disabled: _ctx.isSubmitting
-    }, "Cancel", 8 /* PROPS */, _hoisted_39), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, "Cancel", 8 /* PROPS */, _hoisted_58), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       class: "btn btn-teal contact-card__btn",
       onClick: _cache[8] || (_cache[8] = (...args) => _ctx.handleConfirm && _ctx.handleConfirm(...args)),
       disabled: _ctx.isSubmitting
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.confirmDialog.confirmLabel), 9 /* TEXT, PROPS */, _hoisted_40)])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]),
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.confirmDialog.confirmLabel), 9 /* TEXT, PROPS */, _hoisted_59)])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]),
     _: 1 /* STABLE */
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
     name: "premium-toast"
@@ -2243,17 +2332,17 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["premium-toast", `premium-toast--${_ctx.toast.type}`]),
       role: "status",
       "aria-live": "polite"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_41, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.toast.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_42, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.toast.message), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_60, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.toast.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_61, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.toast.message), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       class: "btn-close btn-close-white",
       onClick: _cache[9] || (_cache[9] = (...args) => _ctx.dismissToast && _ctx.dismissToast(...args))
     })], 2 /* CLASS */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]),
     _: 1 /* STABLE */
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Remove the container if you want to extend the Footer to full width. "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("footer", _hoisted_43, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_44, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_45, [_cache[27] || (_cache[27] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Remove the container if you want to extend the Footer to full width. "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("footer", _hoisted_62, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_63, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_64, [_cache[35] || (_cache[35] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "me-2"
-  }, "©", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currentYear) + " Copyright: ", 1 /* TEXT */), _cache[28] || (_cache[28] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+  }, "©", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currentYear) + " Copyright: ", 1 /* TEXT */), _cache[36] || (_cache[36] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
     href: "https://islamiconnect.com/",
     class: "text-white text-decoration-none fw-bold"
-  }, "islamiconnect.com", -1 /* CACHED */))]), _cache[29] || (_cache[29] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"social text-center text-md-end\" data-v-0dc90d45><a href=\"https://www.facebook.com/profile.php?id=61560313385599\" aria-label=\"Visit our Facebook page\" data-v-0dc90d45><i class=\"fab fa-facebook-f\" aria-hidden=\"true\" data-v-0dc90d45></i></a><a href=\"https://x.com/islamiconnect24\" aria-label=\"Visit our X (Twitter) profile\" data-v-0dc90d45><i class=\"fab fa-twitter\" aria-hidden=\"true\" data-v-0dc90d45></i></a><a href=\"https://www.linkedin.com/company/islamic-connect/\" aria-label=\"Visit our LinkedIn page\" data-v-0dc90d45><i class=\"fab fa-linkedin\" aria-hidden=\"true\" data-v-0dc90d45></i></a><a href=\"https://www.instagram.com/islamicconnect24/\" aria-label=\"Visit our Instagram profile\" data-v-0dc90d45><i class=\"fab fa-instagram\" aria-hidden=\"true\" data-v-0dc90d45></i></a></div>", 1))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" End of .container ")]);
+  }, "islamiconnect.com", -1 /* CACHED */))]), _cache[37] || (_cache[37] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"social text-center text-md-end\" data-v-0dc90d45><a href=\"https://www.facebook.com/profile.php?id=61560313385599\" aria-label=\"Visit our Facebook page\" data-v-0dc90d45><i class=\"fab fa-facebook-f\" aria-hidden=\"true\" data-v-0dc90d45></i></a><a href=\"https://x.com/islamiconnect24\" aria-label=\"Visit our X (Twitter) profile\" data-v-0dc90d45><i class=\"fab fa-twitter\" aria-hidden=\"true\" data-v-0dc90d45></i></a><a href=\"https://www.linkedin.com/company/islamic-connect/\" aria-label=\"Visit our LinkedIn page\" data-v-0dc90d45><i class=\"fab fa-linkedin\" aria-hidden=\"true\" data-v-0dc90d45></i></a><a href=\"https://www.instagram.com/islamicconnect24/\" aria-label=\"Visit our Instagram profile\" data-v-0dc90d45><i class=\"fab fa-instagram\" aria-hidden=\"true\" data-v-0dc90d45></i></a></div>", 1))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" End of .container ")]);
 }
 
 /***/ }),
@@ -2387,7 +2476,17 @@ const AyahOfTheDay = (0,vue__WEBPACK_IMPORTED_MODULE_1__.defineAsyncComponent)((
       hifdhAuthStorageKey: "ic_hifdh_auth_user_v1",
       hifdhDueTodayCount: 0,
       hifdhStorageSyncHandler: null,
-      currentUserId: null
+      currentUserId: null,
+      hifdhDashboard: {
+        timeline: [],
+        weakSpots: [],
+        streak: {
+          current: 0,
+          best: 0,
+          activeDays: 0,
+          windowDays: 14
+        }
+      }
     };
   },
   computed: {
@@ -2459,21 +2558,25 @@ const AyahOfTheDay = (0,vue__WEBPACK_IMPORTED_MODULE_1__.defineAsyncComponent)((
     refreshHifdhDueTodayCount() {
       if (typeof window === "undefined") {
         this.hifdhDueTodayCount = 0;
+        this.resetHifdhDashboard();
         return;
       }
       if (!this.isAuthenticated) {
         this.hifdhDueTodayCount = 0;
+        this.resetHifdhDashboard();
         return;
       }
       try {
         const ownerId = window.localStorage.getItem(this.hifdhAuthStorageKey);
         if (String(ownerId || "") !== String(this.currentUserId)) {
           this.hifdhDueTodayCount = 0;
+          this.resetHifdhDashboard();
           return;
         }
         const raw = window.localStorage.getItem(this.hifdhSchedulerStorageKey);
         if (!raw) {
           this.hifdhDueTodayCount = 0;
+          this.resetHifdhDashboard();
           return;
         }
         const parsed = JSON.parse(raw);
@@ -2483,9 +2586,104 @@ const AyahOfTheDay = (0,vue__WEBPACK_IMPORTED_MODULE_1__.defineAsyncComponent)((
           if (!entry || entry.status === "completed") return false;
           return String(entry.scheduledDate || "") <= todayKey;
         }).length;
+        this.hifdhDashboard = this.computeHifdhDashboard(entries);
       } catch (_) {
         this.hifdhDueTodayCount = 0;
+        this.resetHifdhDashboard();
       }
+    },
+    resetHifdhDashboard() {
+      this.hifdhDashboard = {
+        timeline: [],
+        weakSpots: [],
+        streak: {
+          current: 0,
+          best: 0,
+          activeDays: 0,
+          windowDays: 14
+        }
+      };
+    },
+    addDaysToDateKey(dateKey, daysToAdd) {
+      if (!dateKey) return "";
+      const base = new Date(`${dateKey}T12:00:00`);
+      if (Number.isNaN(base.getTime())) return "";
+      base.setDate(base.getDate() + Number(daysToAdd || 0));
+      return this.toDateKey(base);
+    },
+    formatWeekdayShort(dateKey) {
+      if (!dateKey) return "";
+      const date = new Date(`${dateKey}T12:00:00`);
+      if (Number.isNaN(date.getTime())) return "";
+      return date.toLocaleDateString(undefined, {
+        weekday: "short"
+      }).slice(0, 2);
+    },
+    computeHifdhDashboard(entries) {
+      const safeEntries = Array.isArray(entries) ? entries : [];
+      const todayKey = this.toDateKey(new Date());
+      const windowDays = 7;
+      const dayKeys = [];
+      for (let i = windowDays - 1; i >= 0; i -= 1) {
+        dayKeys.push(this.addDaysToDateKey(todayKey, -i));
+      }
+      const completionMap = Object.create(null);
+      const weakSpotMap = Object.create(null);
+      const completionDaySet = new Set();
+      safeEntries.forEach(entry => {
+        if (!entry) return;
+        const completedOn = String(entry.completedOn || "");
+        const isCompleted = String(entry.status || "") === "completed" && completedOn;
+        if (isCompleted) {
+          completionMap[completedOn] = (completionMap[completedOn] || 0) + 1;
+          completionDaySet.add(completedOn);
+        }
+        if (String(entry.feedback || "").toLowerCase() === "weak") {
+          const label = `${entry.surahName || `Surah ${entry.surahNumber || "?"}`} · ${entry.startAyah || "?"}-${entry.endAyah || "?"}`;
+          weakSpotMap[label] = (weakSpotMap[label] || 0) + 1;
+        }
+      });
+      const maxDaily = Math.max(1, ...dayKeys.map(dateKey => Number(completionMap[dateKey] || 0)));
+      const timeline = dayKeys.map(dateKey => {
+        const done = Number(completionMap[dateKey] || 0);
+        return {
+          dateKey,
+          shortLabel: this.formatWeekdayShort(dateKey),
+          done,
+          heightPct: Math.max(8, Math.round(done / maxDaily * 100))
+        };
+      });
+      const weakSpots = Object.entries(weakSpotMap).sort((a, b) => b[1] - a[1]).slice(0, 3).map(([label, count]) => ({
+        label,
+        count
+      }));
+      let current = 0;
+      let cursor = todayKey;
+      while (completionDaySet.has(cursor)) {
+        current += 1;
+        cursor = this.addDaysToDateKey(cursor, -1);
+      }
+      let best = 0;
+      let running = 0;
+      dayKeys.forEach(dateKey => {
+        if (completionDaySet.has(dateKey)) {
+          running += 1;
+          best = Math.max(best, running);
+        } else {
+          running = 0;
+        }
+      });
+      const activeDays = dayKeys.filter(dateKey => completionDaySet.has(dateKey)).length;
+      return {
+        timeline,
+        weakSpots,
+        streak: {
+          current,
+          best,
+          activeDays,
+          windowDays
+        }
+      };
     },
     goTo(path) {
       var _window2;

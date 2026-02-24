@@ -9673,6 +9673,73 @@ h1.display-5 {
     margin-bottom: 0.4rem;
 }
 
+.hifdh-onboarding-invite {
+    border: 1px solid rgba(6, 95, 70, 0.18);
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.88);
+    padding: 0.9rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+}
+
+.hifdh-onboarding-ring-wrap {
+    flex: 0 0 auto;
+}
+
+.hifdh-onboarding-ring {
+    --hifdh-progress: 0%;
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: conic-gradient(#0f766e var(--hifdh-progress), rgba(15, 118, 110, 0.16) 0);
+    display: grid;
+    place-items: center;
+    position: relative;
+}
+
+.hifdh-onboarding-ring::after {
+    content: "";
+    position: absolute;
+    inset: 7px;
+    border-radius: 50%;
+    background: #f8fffc;
+    border: 1px solid rgba(6, 95, 70, 0.12);
+}
+
+.hifdh-onboarding-ring span {
+    position: relative;
+    z-index: 1;
+    font-size: 0.88rem;
+    font-weight: 800;
+    color: #065f46;
+    font-family: "Plus Jakarta Sans", "Manrope", "Inter", "Segoe UI",
+        "Helvetica Neue", Arial, sans-serif;
+}
+
+.hifdh-onboarding-invite-content {
+    min-width: 0;
+}
+
+.hifdh-onboarding-invite-title {
+    font-size: 1.02rem;
+    font-weight: 700;
+    color: #065f46;
+}
+
+.hifdh-onboarding-invite-copy {
+    font-size: 0.88rem;
+    color: #4b5563;
+    line-height: 1.4;
+}
+
+.hifdh-onboarding-suggestions {
+    display: flex;
+    align-items: center;
+    gap: 0.44rem;
+    flex-wrap: wrap;
+}
+
 .hifdh-flow-hint {
     font-size: 0.84rem;
     color: #475569;
@@ -9915,23 +9982,41 @@ h1.display-5 {
 
 .hifdh-performance-bars {
     display: grid;
-    grid-template-columns: repeat(14, minmax(0, 1fr));
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(28px, 1fr);
     align-items: end;
-    gap: 0.2rem;
-    min-height: 84px;
+    gap: 0.28rem;
+    min-height: 124px;
+}
+
+.hifdh-performance-bars-wrap {
+    overflow-x: auto;
+    padding-bottom: 0.3rem;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(15, 118, 110, 0.35) transparent;
+}
+
+.hifdh-performance-bars-wrap::-webkit-scrollbar {
+    height: 6px;
+}
+
+.hifdh-performance-bars-wrap::-webkit-scrollbar-thumb {
+    background: rgba(15, 118, 110, 0.32);
+    border-radius: 999px;
 }
 
 .hifdh-performance-bar-item {
     display: grid;
     justify-items: center;
-    gap: 0.18rem;
+    gap: 0.24rem;
 }
 
 .hifdh-performance-bar-fill {
     width: 100%;
-    min-height: 6px;
-    border-radius: 999px;
+    min-height: 8px;
+    border-radius: 10px 10px 5px 5px;
     background: linear-gradient(180deg, #10b981 0%, #047857 100%);
+    border: 1px solid rgba(6, 95, 70, 0.24);
 }
 
 .hifdh-performance-bar-item.is-today .hifdh-performance-bar-fill {
@@ -9939,10 +10024,16 @@ h1.display-5 {
 }
 
 .hifdh-performance-bar-item small {
-    font-size: 0.6rem;
-    color: #64748b;
+    font-size: 0.64rem;
+    color: #334155;
     font-weight: 700;
     text-transform: uppercase;
+}
+
+.hifdh-performance-chart-help {
+    font-size: 0.72rem;
+    color: #64748b;
+    line-height: 1.45;
 }
 
 .hifdh-weak-list {
@@ -10512,8 +10603,19 @@ h1.display-5 {
         grid-template-columns: minmax(0, 1fr);
     }
 
+    .hifdh-performance-card {
+        padding: 0.72rem;
+        gap: 0.52rem;
+    }
+
     .hifdh-performance-bars {
-        gap: 0.16rem;
+        min-height: 112px;
+        grid-auto-columns: minmax(26px, 1fr);
+        gap: 0.24rem;
+    }
+
+    .hifdh-performance-bar-item small {
+        font-size: 0.66rem;
     }
 
     .hifdh-consistency-nudge {
@@ -10528,6 +10630,11 @@ h1.display-5 {
 
     .hifdh-onboarding-panel {
         padding: 0 0.78rem 0.75rem;
+    }
+
+    .hifdh-onboarding-invite {
+        flex-direction: column;
+        align-items: flex-start;
     }
 
     .memorisation-review-scheduler {
@@ -13076,4 +13183,72 @@ h1.display-5 {
     .surat-premium .memorisation-icon-text-action {
         transition: none !important;
     }
+}
+
+/* Ritual tone pass: carry reflection warmth into memorisation setup */
+.surat-premium .memorisation-row-clean-header,
+.surat-premium .memorisation-row-clean-core,
+.surat-premium .memorisation-row-clean-settings {
+    background:
+        radial-gradient(circle at 12% 8%, rgba(251, 191, 36, 0.18), transparent 42%),
+        linear-gradient(165deg, rgba(252, 253, 248, 0.96), rgba(236, 247, 241, 0.98)) !important;
+}
+
+.surat-premium .memorisation-row-helper {
+    color: #355a52;
+    font-size: 0.74rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+}
+
+.surat-premium .memorisation-row-clean-header .quran-toolbar-label-purple {
+    color: #0b3b33 !important;
+}
+
+.surat-premium .memorisation-clean-subtitle {
+    color: #3f5f58 !important;
+    max-width: 62ch;
+}
+
+.hifdh-plan-modal .modal-content {
+    background:
+        radial-gradient(circle at 6% 0%, rgba(245, 158, 11, 0.16), transparent 40%),
+        radial-gradient(circle at 95% 5%, rgba(16, 185, 129, 0.16), transparent 38%),
+        linear-gradient(145deg, #f9fdf8 0%, #f3faf7 56%, #ffffff 100%);
+}
+
+.hifdh-control-panel {
+    border: 1px solid rgba(180, 134, 44, 0.28);
+    background:
+        radial-gradient(circle at 100% 0%, rgba(251, 191, 36, 0.16), transparent 46%),
+        rgba(255, 255, 255, 0.9);
+}
+
+.hifdh-control-panel-title {
+    color: #0b4f44;
+}
+
+.memorisation-session-card {
+    border-color: rgba(180, 134, 44, 0.32);
+    background:
+        radial-gradient(circle at 0% 0%, rgba(250, 204, 21, 0.14), transparent 44%),
+        rgba(236, 253, 245, 0.82);
+}
+
+.reflection-modal .modal-content {
+    background:
+        radial-gradient(circle at 88% 0%, rgba(251, 191, 36, 0.18), transparent 40%),
+        linear-gradient(145deg, #ffffff 0%, #f7fbf9 55%, #fefcf5 100%);
+}
+
+.reflection-modal .modal-title b {
+    color: #0b4f44;
+    letter-spacing: 0.01em;
+}
+
+.reflection-modal .reflection-intro {
+    border: 1px solid rgba(180, 134, 44, 0.24);
+    background: rgba(255, 252, 242, 0.82);
+    border-radius: 12px;
+    padding: 0.72rem 0.82rem;
 }
