@@ -72,9 +72,17 @@ export default {
       },
       toastTimer: null,
       isSubmitting: false,
+      hifdhSchedulerStorageKey: "ic_hifdh_scheduler_v1",
+      hifdhAuthStorageKey: "ic_hifdh_auth_user_v1",
+      hifdhDueTodayCount: 0,
+      hifdhStorageSyncHandler: null,
+      currentUserId: null,
     };
   },
   computed: {
+    isAuthenticated() {
+      return !!this.currentUserId;
+    },
     chunkedPartners() {
       const chunks = [];
       for (let i = 0; i < this.partners.length; i += this.chunkSize) {
@@ -104,16 +112,69 @@ export default {
   },
   mounted() {
     if (typeof window !== "undefined") {
+      const userIdFromLaravel = window?.Laravel?.userId;
+      this.currentUserId = userIdFromLaravel ? Number(userIdFromLaravel) : null;
       requestAnimationFrame(() => {
         setTimeout(() => {
           this.carouselReady = true;
         }, 400);
       });
+      this.refreshHifdhDueTodayCount();
+      this.hifdhStorageSyncHandler = () => this.refreshHifdhDueTodayCount();
+      window.addEventListener("storage", this.hifdhStorageSyncHandler);
+      window.addEventListener("focus", this.hifdhStorageSyncHandler);
+      document.addEventListener("visibilitychange", this.hifdhStorageSyncHandler);
     } else {
       this.carouselReady = true;
     }
   },
+  beforeUnmount() {
+    if (typeof window !== "undefined" && this.hifdhStorageSyncHandler) {
+      window.removeEventListener("storage", this.hifdhStorageSyncHandler);
+      window.removeEventListener("focus", this.hifdhStorageSyncHandler);
+      document.removeEventListener("visibilitychange", this.hifdhStorageSyncHandler);
+    }
+  },
   methods: {
+    toDateKey(input) {
+      const date = input instanceof Date ? input : new Date(input);
+      if (Number.isNaN(date.getTime())) return "";
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const day = String(date.getDate()).padStart(2, "0");
+      return `${year}-${month}-${day}`;
+    },
+    refreshHifdhDueTodayCount() {
+      if (typeof window === "undefined") {
+        this.hifdhDueTodayCount = 0;
+        return;
+      }
+      if (!this.isAuthenticated) {
+        this.hifdhDueTodayCount = 0;
+        return;
+      }
+      try {
+        const ownerId = window.localStorage.getItem(this.hifdhAuthStorageKey);
+        if (String(ownerId || "") !== String(this.currentUserId)) {
+          this.hifdhDueTodayCount = 0;
+          return;
+        }
+        const raw = window.localStorage.getItem(this.hifdhSchedulerStorageKey);
+        if (!raw) {
+          this.hifdhDueTodayCount = 0;
+          return;
+        }
+        const parsed = JSON.parse(raw);
+        const entries = Array.isArray(parsed?.entries) ? parsed.entries : [];
+        const todayKey = this.toDateKey(new Date());
+        this.hifdhDueTodayCount = entries.filter((entry) => {
+          if (!entry || entry.status === "completed") return false;
+          return String(entry.scheduledDate || "") <= todayKey;
+        }).length;
+      } catch (_) {
+        this.hifdhDueTodayCount = 0;
+      }
+    },
     goTo(path) {
       if (typeof window !== 'undefined' && window?.location) {
         window.location.href = path;

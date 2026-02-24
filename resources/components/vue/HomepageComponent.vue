@@ -111,6 +111,20 @@
             </div>
           </div>
           <div class="col-lg-6">
+            <a
+              v-if="isAuthenticated"
+              href="/surat?open=hifdh-plan"
+              class="hifdh-home-widget text-decoration-none d-flex align-items-center justify-content-between mb-3"
+              aria-label="Open Quran page and review today's Hifdh due items">
+              <div class="hifdh-home-widget__copy">
+                <span class="hifdh-home-widget__eyebrow">Hifdh Plan</span>
+                <h3 class="h6 fw-semibold mb-1">Due Today</h3>
+                <p class="small mb-0">Personal review queue for your account. Tap to open Hifdh Plan now.</p>
+              </div>
+              <div class="hifdh-home-widget__count" role="status" aria-live="polite">
+                {{ hifdhDueTodayCount }}
+              </div>
+            </a>
             <div class="row row-cols-1 row-cols-md-2 g-3">
               <div class="col" v-for="card in seoCards" :key="card.title">
                 <article class="premium-card h-100 d-flex flex-column">
@@ -848,6 +862,77 @@
 .ic-seo .premium-card:hover {
   transform: translateY(-4px);
   box-shadow: var(--ic-shadow);
+}
+
+.ic-seo .hifdh-home-widget {
+  border-radius: 22px;
+  border: 1px solid rgba(13, 122, 111, 0.32);
+  background:
+    radial-gradient(circle at 88% 12%, rgba(16, 185, 129, 0.26), transparent 38%),
+    linear-gradient(135deg, #ecfdf5 0%, #f0fdfa 44%, #fff7ed 100%);
+  box-shadow: 0 16px 30px rgba(15, 53, 48, 0.16);
+  padding: 1.15rem 1.2rem;
+  min-height: 110px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.ic-seo .hifdh-home-widget:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 34px rgba(15, 53, 48, 0.2);
+  border-color: rgba(13, 122, 111, 0.52);
+}
+
+.ic-seo .hifdh-home-widget__copy h3 {
+  color: #0f172a;
+  font-size: 1.18rem;
+}
+
+.ic-seo .hifdh-home-widget__copy p {
+  color: #334155;
+  max-width: 38ch;
+}
+
+.ic-seo .hifdh-home-widget__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.73rem;
+  font-weight: 700;
+  color: #0f766e;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.ic-seo .hifdh-home-widget__count {
+  min-width: 74px;
+  height: 74px;
+  border-radius: 18px;
+  background: #0f766e;
+  color: #ffffff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  font-weight: 800;
+  line-height: 1;
+  padding: 0.35rem;
+  box-shadow: 0 10px 18px rgba(15, 118, 110, 0.32);
+}
+
+@media (max-width: 991.98px) {
+  .ic-seo .hifdh-home-widget {
+    min-height: 96px;
+    padding: 0.95rem 1rem;
+  }
+
+  .ic-seo .hifdh-home-widget__copy h3 {
+    font-size: 1.02rem;
+  }
+
+  .ic-seo .hifdh-home-widget__count {
+    min-width: 62px;
+    height: 62px;
+    font-size: 1.65rem;
+  }
 }
 
 .ic-services {

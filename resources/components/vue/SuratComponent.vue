@@ -830,39 +830,7 @@
                             </div>
                         </div>
 
-                        <small class="memorisation-row-helper memorisation-row-helper--core">Row 2: Focus toggle, play/pause, and playback mode.</small>
-                    </div>
-
-                    <div class="memorisation-toolbar-row memorisation-toolbar-row-3 memorisation-row-clean-settings">
-                        <transition name="fade">
-                            <div
-                                v-if="isMemorisationAdvancedOpen"
-                                id="memorisationAdvancedSettings"
-                                class="memorisation-toolbar-row memorisation-toolbar-row-advanced"
-                                role="group"
-                                aria-label="Session setup and pacing settings">
-                                <div class="memorisation-row-title">Session setup</div>
-                            <small class="memorisation-row-helper memorisation-row-helper--advanced">Row 3: Optional tools like range, review helpers, and Hifdh features.</small>
-                            <div class="memorisation-advanced-quick mb-1">
-                                <button
-                                    v-if="isMemorisationMode"
-                                    type="button"
-                                    class="btn btn-link memorisation-inline-action"
-                                    @click="advanceMemorisationFocus"
-                                    :disabled="memorisationFocusIndexSafe >= filteredAyahs.length - 1"
-                                    title="Move focus to the next ayah"
-                                    aria-label="Move focus to the next ayah">
-                                    <i class="bi bi-skip-forward-fill" aria-hidden="true"></i>
-                                    <span>Next Ayah</span>
-                                </button>
-                                <span
-                                    v-if="isMemorisationRepetitionActive"
-                                    class="quran-toolbar-label memorisation-repetition-inline"
-                                    style="color: #064e3b; font-weight: 700;"
-                                    aria-live="polite">
-                                    Repetition {{ memorisationRepetitionCurrent }} / {{ memorisationRepetitionCount }}
-                                </span>
-                            </div>
+                        <div class="memorisation-row2-secondary">
                             <div class="memorisation-toolbar-group memorisation-toolbar-group--range">
                                 <div class="d-flex align-items-center gap-2">
                                     <span class="quran-toolbar-label d-none d-sm-inline-block" style="color: #064e3b; margin-right: 0;">Ayah range</span>
@@ -902,34 +870,68 @@
                                     Use full surah
                                 </button>
                             </div>
-                            <div class="memorisation-advanced-reading">
-                                <div class="memorisation-feature-row memorisation-feature-row--controls">
-                                    <button
-                                        type="button"
-                                        class="memorisation-icon-text-action memorisation-icon-text-action--compact"
-                                        @click="advanceMemorisationFocus"
-                                        :disabled="!isMemorisationMode || memorisationFocusIndexSafe >= filteredAyahs.length - 1"
-                                        title="Move focus to the next ayah">
-                                        <i class="bi bi-skip-forward-fill" aria-hidden="true"></i>
-                                        <span class="memorisation-icon-text-label">Next Ayah</span>
-                                    </button>
-                                    <label class="memorisation-inline-field mb-0" title="Delay before next ayah">
-                                        <span>Delay</span>
-                                        <input type="number" v-model.number="memorisationVerseDelay" class="quran-toolbar-select text-center" min="0" max="60" @change="notifyAyahDelayChange" aria-label="Ayah delay in seconds">
-                                    </label>
-                                    <label class="memorisation-inline-field mb-0" title="Repetitions per ayah">
-                                        <span>Reps</span>
-                                        <input type="number" v-model.number="memorisationRepetitionCount" class="quran-toolbar-select text-center" min="1" max="99" aria-label="Repetitions per ayah">
-                                    </label>
-                                    <span
-                                        v-if="isMemorisationRepetitionActive"
-                                        class="quran-toolbar-label memorisation-repetition-inline"
-                                        aria-live="polite">
-                                        Repetition {{ memorisationRepetitionCurrent }} / {{ memorisationRepetitionCount }}
-                                    </span>
-                                </div>
+                            <div class="memorisation-feature-row memorisation-feature-row--controls">
+                                <button
+                                    type="button"
+                                    class="memorisation-icon-text-action memorisation-icon-text-action--compact"
+                                    @click="advanceMemorisationFocus"
+                                    :disabled="!isMemorisationMode || memorisationFocusIndexSafe >= filteredAyahs.length - 1"
+                                    title="Move focus to the next ayah">
+                                    <i class="bi bi-skip-forward-fill" aria-hidden="true"></i>
+                                    <span class="memorisation-icon-text-label">Next Ayah</span>
+                                </button>
+                                <label class="memorisation-inline-field mb-0" title="Delay before next ayah">
+                                    <span>Delay</span>
+                                    <input type="number" v-model.number="memorisationVerseDelay" class="quran-toolbar-select text-center" min="0" max="60" @change="notifyAyahDelayChange" aria-label="Ayah delay in seconds">
+                                </label>
+                                <label class="memorisation-inline-field mb-0" title="Repetitions per ayah">
+                                    <span>Reps</span>
+                                    <input type="number" v-model.number="memorisationRepetitionCount" class="quran-toolbar-select text-center" min="1" max="99" aria-label="Repetitions per ayah">
+                                </label>
+                                <span
+                                    v-if="isMemorisationRepetitionActive"
+                                    class="quran-toolbar-label memorisation-repetition-inline"
+                                    aria-live="polite">
+                                    Repetition {{ memorisationRepetitionCurrent }} / {{ memorisationRepetitionCount }}
+                                </span>
+                            </div>
+                        </div>
 
-                                <div class="memorisation-feature-row" role="group" aria-label="Reading and memorisation features">
+                        <small class="memorisation-row-helper memorisation-row-helper--core">Row 2: Focus toggle, play/pause, and playback mode.</small>
+                    </div>
+
+                    <div
+                        v-if="isMemorisationAdvancedOpen"
+                        class="memorisation-toolbar-row memorisation-toolbar-row-3 memorisation-row-clean-settings">
+                            <div
+                                id="memorisationAdvancedSettings"
+                                class="memorisation-toolbar-row memorisation-toolbar-row-advanced"
+                                role="group"
+                                aria-label="Session setup and pacing settings">
+                                <div class="memorisation-row-title">Session setup</div>
+                            <small class="memorisation-row-helper memorisation-row-helper--advanced">Row 3: Optional tools like range, review helpers, and Hifdh features.</small>
+                            <div class="memorisation-advanced-quick mb-1">
+                                <button
+                                    v-if="isMemorisationMode"
+                                    type="button"
+                                    class="btn btn-link memorisation-inline-action"
+                                    @click="advanceMemorisationFocus"
+                                    :disabled="memorisationFocusIndexSafe >= filteredAyahs.length - 1"
+                                    title="Move focus to the next ayah"
+                                    aria-label="Move focus to the next ayah">
+                                    <i class="bi bi-skip-forward-fill" aria-hidden="true"></i>
+                                    <span>Next Ayah</span>
+                                </button>
+                                <span
+                                    v-if="isMemorisationRepetitionActive"
+                                    class="quran-toolbar-label memorisation-repetition-inline"
+                                    style="color: #064e3b; font-weight: 700;"
+                                    aria-live="polite">
+                                    Repetition {{ memorisationRepetitionCurrent }} / {{ memorisationRepetitionCount }}
+                                </span>
+                            </div>
+                            <div class="memorisation-advanced-reading">
+                                <div class="memorisation-feature-row memorisation-feature-row--feature-panel" role="group" aria-label="Reading and memorisation features">
                                     <button type="button" class="memorisation-icon-text-action" :class="{ 'is-enabled': isTranslationVisible }" @click="isTranslationVisible = !isTranslationVisible" :aria-pressed="isTranslationVisible ? 'true' : 'false'" title="Toggle translation">
                                         <i class="bi bi-chat-quote-fill" aria-hidden="true"></i>
                                         <span class="memorisation-icon-text-label">Translation</span>
@@ -962,7 +964,6 @@
                                 </div>
                             </div>
                             </div>
-                        </transition>
                     </div>
                 </div>
             </div>
@@ -1189,7 +1190,19 @@
                                 <small class="memorisation-simple-help">Tap <strong>Open</strong> to jump to the segment and close this modal.</small>
                                 <div v-if="!hasTodayHifdhPlan" class="hifdh-empty-state">
                                     <i class="bi bi-calendar2-check" aria-hidden="true"></i>
-                                    <p class="memorisation-plan-empty mb-0">No segments due right now. Add a range or use Quick Demo.</p>
+                                    <div class="hifdh-empty-state-content">
+                                        <p class="memorisation-plan-empty mb-1">No segments due right now.</p>
+                                        <p class="memorisation-plan-empty-note mb-0">Try a guided first step to start momentum.</p>
+                                        <button
+                                            type="button"
+                                            class="quran-toolbar-btn quran-toolbar-btn-sm hifdh-empty-state-cta"
+                                            @click="quickStartAlFatihaToday"
+                                            title="Jump to Surah Al-Fatiha and start memorising today"
+                                            data-hifdh-tooltip="true">
+                                            <i class="bi bi-lightning-charge-fill" aria-hidden="true"></i>
+                                            <span class="quran-toolbar-btn-text">Try memorising Al-Fatiha today</span>
+                                        </button>
+                                    </div>
                                 </div>
                                 <button
                                     v-for="item in todayHifdhPlanItemsOrdered"

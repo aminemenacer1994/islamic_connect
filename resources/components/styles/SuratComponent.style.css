@@ -9734,7 +9734,7 @@ h1.display-5 {
     border-radius: 14px;
     padding: 1rem 1rem;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 0.8rem;
     background: rgba(248, 255, 252, 0.75);
 }
@@ -9742,6 +9742,25 @@ h1.display-5 {
 .hifdh-empty-state i {
     font-size: 1.3rem;
     color: #0f766e;
+}
+
+.hifdh-empty-state-content {
+    display: grid;
+    gap: 0.35rem;
+    flex: 1 1 auto;
+}
+
+.memorisation-plan-empty-note {
+    font-size: 0.8rem;
+    line-height: 1.4;
+    color: #4b5563;
+    font-family: "Manrope", "Inter", "Segoe UI", "Helvetica Neue", Arial,
+        sans-serif;
+}
+
+.hifdh-empty-state-cta {
+    justify-self: start;
+    margin-top: 0.2rem;
 }
 
 .hifdh-plan-launcher {
@@ -12688,192 +12707,336 @@ h1.display-5 {
 
 /* Premium memorisation surface refresh */
 .surat-premium .memorisation-toolbar-sticky.memorisation-toolbar-active {
-    --mem-accent: #0e766a;
-    --mem-accent-strong: #0b5f55;
-    --mem-ink: #0f2f2a;
-    --mem-muted: #4e6b66;
-    --mem-shell: #f4fbf8;
-    --mem-card: #ffffff;
-    --mem-border: rgba(14, 118, 106, 0.2);
+    --mem-accent: #0a5f53;
+    --mem-accent-strong: #084d44;
+    --mem-accent-soft: #0f766e;
+    --mem-ink: #0d2b26;
+    --mem-muted: #4b6360;
+    --mem-shell: #ecf5f1;
+    --mem-card: #f3faf7;
+    --mem-border: rgba(8, 79, 68, 0.24);
+    --mem-gold: #c99c52;
 }
 
 .surat-premium .memorisation-toolbar-sticky.memorisation-toolbar-active .quran-toolbar.memorisation-toolbar-two-rows {
-    border-radius: 22px !important;
-    border: 1px solid var(--mem-border) !important;
-    background:
-        radial-gradient(1200px 200px at 20% -10%, rgba(16, 185, 129, 0.14), transparent 48%),
-        radial-gradient(1000px 200px at 90% -20%, rgba(20, 184, 166, 0.12), transparent 50%),
-        var(--mem-shell) !important;
-    box-shadow:
-        0 20px 45px rgba(10, 47, 40, 0.14),
-        inset 0 1px 0 rgba(255, 255, 255, 0.8) !important;
-    padding: 1rem !important;
-    backdrop-filter: blur(4px);
+    border-radius: 16px !important;
+    border: 1px solid rgba(8, 79, 68, 0.38) !important;
+    background: var(--mem-shell) !important;
+    box-shadow: 0 12px 26px rgba(10, 47, 40, 0.16) !important;
+    padding: 0.62rem !important;
+    backdrop-filter: none;
+    position: relative;
+    overflow: hidden;
+}
+
+.surat-premium .memorisation-toolbar-sticky.memorisation-toolbar-active .quran-toolbar.memorisation-toolbar-two-rows::before {
+    content: none !important;
 }
 
 .surat-premium .memorisation-row-clean-header,
 .surat-premium .memorisation-row-clean-core,
 .surat-premium .memorisation-row-clean-settings {
-    border-radius: 18px !important;
-    border: 1px solid var(--mem-border) !important;
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(245, 252, 248, 0.95)) !important;
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.92);
-    padding: 0.9rem 1rem !important;
+    border-radius: 12px !important;
+    border: 1px solid rgba(8, 79, 68, 0.36) !important;
+    background: linear-gradient(180deg, rgba(238, 249, 244, 0.98), rgba(227, 243, 236, 0.98)) !important;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45), 0 4px 10px rgba(8, 58, 47, 0.1);
+    padding: 0.48rem 0.58rem !important;
 }
 
 .surat-premium .memorisation-row-clean-header .quran-toolbar-label-purple {
     color: var(--mem-ink) !important;
-    font-size: clamp(1.9rem, 2.3vw, 3.05rem) !important;
+    font-size: clamp(1.22rem, 1.7vw, 1.78rem) !important;
     font-weight: 900 !important;
     letter-spacing: -0.02em;
+    text-shadow: none;
 }
 
 .surat-premium .memorisation-clean-subtitle {
     color: var(--mem-muted) !important;
-    font-size: 0.88rem !important;
-    font-weight: 700;
+    font-size: 0.72rem !important;
+    font-weight: 800;
 }
 
 .surat-premium .memorisation-customise-link {
     border: 1px solid rgba(14, 118, 106, 0.3);
     border-radius: 999px;
-    background: rgba(255, 255, 255, 0.8);
+    background: rgba(227, 244, 237, 0.95);
     color: var(--mem-accent-strong) !important;
     font-weight: 800 !important;
-    min-height: 40px;
-    padding: 0.38rem 0.88rem !important;
+    min-height: 30px;
+    padding: 0.2rem 0.62rem !important;
 }
 
 .surat-premium .memorisation-customise-link:hover,
 .surat-premium .memorisation-customise-link:focus-visible {
-    background: #ffffff;
+    background: #f1f8f5;
     border-color: rgba(14, 118, 106, 0.5);
-    box-shadow: 0 8px 18px rgba(14, 118, 106, 0.16);
+    box-shadow: none;
 }
 
 .surat-premium .memorisation-close-action {
     border-radius: 999px !important;
-    min-height: 54px !important;
-    padding-inline: 1rem !important;
+    min-height: 38px !important;
+    padding-inline: 0.66rem !important;
     border: 1px solid rgba(14, 118, 106, 0.28) !important;
-    background: #ffffff !important;
+    background: #edf8f3 !important;
     color: var(--mem-accent-strong) !important;
     font-weight: 800 !important;
+    box-shadow: 0 4px 10px rgba(11, 95, 85, 0.12);
 }
 
 .surat-premium .memorisation-core-slot .memorisation-switch-control,
 .surat-premium .memorisation-core-slot .memorisation-inline-action,
 .surat-premium .memorisation-core-slot .memorisation-reciter-group-inline .quran-toolbar-select {
-    border: 1px solid var(--mem-border) !important;
-    background: var(--mem-card) !important;
-    border-radius: 15px !important;
-    min-height: 56px !important;
-    color: var(--mem-accent-strong) !important;
+    border: 1px solid rgba(8, 79, 68, 0.26) !important;
+    background: #ffffff !important;
+    border-radius: 8px !important;
+    min-height: 40px !important;
+    color: #0b3b33 !important;
     font-weight: 800 !important;
-    box-shadow: 0 6px 14px rgba(11, 95, 85, 0.07);
+    box-shadow: 0 1px 3px rgba(11, 95, 85, 0.08);
+    transition: transform 0.2s ease, box-shadow 0.22s ease, border-color 0.2s ease, background-color 0.2s ease;
 }
 
 .surat-premium .memorisation-switch-ui {
-    width: 44px !important;
-    height: 30px !important;
+    width: 34px !important;
+    height: 22px !important;
     background: rgba(11, 95, 85, 0.16) !important;
 }
 
 .surat-premium .memorisation-switch-ui::after {
-    width: 22px !important;
-    height: 22px !important;
-    top: 4px !important;
+    width: 14px !important;
+    height: 14px !important;
+    top: 3px !important;
     left: 4px !important;
 }
 
 .surat-premium .memorisation-inline-action i {
-    font-size: 1.08rem !important;
+    font-size: 0.9rem !important;
 }
 
 .surat-premium .memorisation-toolbar-row-advanced {
-    border-radius: 16px !important;
-    border: 1px solid var(--mem-border) !important;
-    padding: 0.9rem !important;
-    background: linear-gradient(180deg, #ffffff, #f7fdf9) !important;
+    border-radius: 10px !important;
+    border: 1px solid rgba(8, 79, 68, 0.16) !important;
+    padding: 0.58rem !important;
+    background: linear-gradient(180deg, #f5fcf8, #eaf6f1) !important;
+    box-shadow: 0 2px 6px rgba(9, 57, 46, 0.08);
 }
 
 .surat-premium .memorisation-row-clean-settings .memorisation-row-title {
-    font-size: 1.8rem !important;
+    font-size: 1.18rem !important;
     font-weight: 900 !important;
     color: var(--mem-ink) !important;
     letter-spacing: -0.02em;
 }
 
+.surat-premium .memorisation-row-clean-settings .memorisation-row-title,
+.surat-premium .memorisation-row-clean-settings .memorisation-row-helper {
+    margin-bottom: 0.2rem !important;
+}
+
 .surat-premium .memorisation-toolbar-group--range {
-    border-radius: 16px !important;
-    border: 1px solid var(--mem-border) !important;
-    background: #ffffff !important;
-    padding: 0.7rem !important;
+    border-radius: 9px !important;
+    border: 1px solid rgba(8, 79, 68, 0.24) !important;
+    background: #deefe7 !important;
+    padding: 0.46rem !important;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.42), 0 1px 3px rgba(9, 57, 46, 0.08);
 }
 
 .surat-premium .memorisation-inline-field {
-    min-height: 54px !important;
-    border-radius: 14px !important;
-    border: 1px solid var(--mem-border) !important;
+    min-height: 42px !important;
+    border-radius: 8px !important;
+    border: 1px solid rgba(8, 79, 68, 0.24) !important;
     background: #ffffff !important;
-    font-size: 1.05rem !important;
-    color: var(--mem-accent-strong) !important;
+    font-size: 0.9rem !important;
+    color: #0d3a34 !important;
+    font-weight: 800 !important;
 }
 
 .surat-premium .memorisation-inline-field .quran-toolbar-select {
-    min-height: 42px !important;
-    height: 42px !important;
-    border-radius: 12px !important;
-    font-size: 1.08rem !important;
+    min-height: 32px !important;
+    height: 32px !important;
+    border-radius: 8px !important;
+    font-size: 0.92rem !important;
     font-weight: 800 !important;
+    border: 1px solid rgba(8, 79, 68, 0.24) !important;
+    background: #ffffff !important;
+    color: #0b3b33 !important;
 }
 
 .surat-premium .memorisation-icon-text-action {
-    min-height: 58px !important;
-    border-radius: 15px !important;
-    border: 1px solid var(--mem-border) !important;
-    background: #ffffff !important;
-    color: var(--mem-accent-strong) !important;
+    min-height: 42px !important;
+    border-radius: 8px !important;
+    border: 1px solid rgba(8, 79, 68, 0.22) !important;
+    background: #edf8f3 !important;
+    color: #0d3a34 !important;
     font-weight: 800 !important;
-    box-shadow: 0 6px 14px rgba(11, 95, 85, 0.07);
+    box-shadow: 0 1px 3px rgba(11, 95, 85, 0.08);
 }
 
 .surat-premium .memorisation-icon-text-action i {
-    font-size: 1rem !important;
+    font-size: 0.9rem !important;
 }
 
 .surat-premium .memorisation-icon-text-action.is-enabled {
-    border-color: rgba(16, 185, 129, 0.5) !important;
-    background: linear-gradient(180deg, #ecfdf5, #dff7ed) !important;
-    color: #065f46 !important;
+    border-color: rgba(16, 185, 129, 0.28) !important;
+    background: #c8e9d9 !important;
+    color: #063f34 !important;
+    box-shadow: 0 2px 6px rgba(5, 150, 105, 0.12);
 }
 
 .surat-premium .memorisation-icon-text-action:hover,
 .surat-premium .memorisation-icon-text-action:focus-visible,
 .surat-premium .memorisation-core-slot .memorisation-inline-action:hover,
 .surat-premium .memorisation-core-slot .memorisation-inline-action:focus-visible {
-    transform: translateY(-1px);
-    border-color: rgba(14, 118, 106, 0.5) !important;
-    box-shadow: 0 12px 22px rgba(11, 95, 85, 0.14);
+    transform: none;
+    border-color: rgba(8, 79, 68, 0.42) !important;
+    background: #dcefe6 !important;
+    box-shadow: 0 2px 6px rgba(11, 95, 85, 0.1);
 }
 
 .surat-premium .memorisation-row-helper {
     color: #5d7771 !important;
-    font-size: 0.9rem !important;
+    font-size: 0.78rem !important;
     font-weight: 600 !important;
+    margin-top: 0.32rem !important;
+}
+
+.surat-premium .memorisation-row2-secondary {
+    grid-column: 1 / -1;
+    display: grid;
+    gap: 0.62rem;
+}
+
+.surat-premium .memorisation-row2-secondary .memorisation-toolbar-group--range {
+    background: #e4f3ec !important;
+    border-color: rgba(8, 79, 68, 0.24) !important;
+}
+
+.surat-premium .memorisation-row2-secondary .memorisation-feature-row--controls {
+    margin-bottom: 0 !important;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0.56rem;
+}
+
+.surat-premium .memorisation-row2-secondary .memorisation-inline-field {
+    min-height: 40px !important;
+}
+
+.surat-premium .memorisation-feature-row--feature-panel {
+    gap: 0.62rem !important;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)) !important;
+    background: #d8eae1;
+    border: 1px solid rgba(13, 43, 38, 0.22);
+    border-radius: 10px;
+    padding: 0.28rem;
+}
+
+.surat-premium .memorisation-feature-row--feature-panel .memorisation-icon-text-action {
+    min-height: 44px !important;
+    border-color: transparent !important;
+    border-radius: 6px !important;
+    background: transparent !important;
+    box-shadow: none;
+    border-right: 1px solid rgba(13, 43, 38, 0.18) !important;
+    padding: 0.44rem 0.66rem !important;
+}
+
+.surat-premium .memorisation-feature-row--feature-panel .memorisation-icon-text-label {
+    font-size: 0.84rem !important;
+    font-weight: 900 !important;
+}
+
+.surat-premium .memorisation-feature-row--feature-panel .memorisation-icon-text-state {
+    font-size: 0.72rem !important;
+    font-weight: 800 !important;
+    opacity: 1;
+    color: #25524a;
+}
+
+.surat-premium .memorisation-feature-row--feature-panel .memorisation-icon-text-action.is-enabled {
+    background: #cfe5da !important;
+    color: #0d2b26 !important;
+    border-color: transparent !important;
+    box-shadow: inset 0 0 0 1px rgba(13, 43, 38, 0.22);
+}
+
+.surat-premium .memorisation-feature-row--feature-panel .memorisation-icon-text-action:hover,
+.surat-premium .memorisation-feature-row--feature-panel .memorisation-icon-text-action:focus-visible {
+    background: rgba(255, 255, 255, 0.42) !important;
+}
+
+.surat-premium .memorisation-feature-row--feature-panel .memorisation-icon-text-action:last-child {
+    border-right: none !important;
+}
+
+.surat-premium .memorisation-row2-secondary .memorisation-feature-row--controls {
+    background: #e7f1ed;
+    border: 1px solid rgba(13, 43, 38, 0.22);
+    border-radius: 10px;
+    padding: 0.28rem;
+}
+
+.surat-premium .memorisation-row2-secondary .memorisation-feature-row--controls .memorisation-icon-text-action,
+.surat-premium .memorisation-row2-secondary .memorisation-feature-row--controls .memorisation-inline-field {
+    background: transparent !important;
+    border: 1px solid transparent !important;
+    box-shadow: none !important;
+}
+
+.surat-premium .memorisation-row2-secondary .memorisation-feature-row--controls .memorisation-inline-field {
+    border-left: 1px solid rgba(13, 43, 38, 0.2) !important;
+    border-radius: 0 !important;
+}
+
+.surat-premium .memorisation-row2-secondary .memorisation-feature-row--controls .memorisation-inline-field:first-of-type {
+    border-left: 1px solid rgba(13, 43, 38, 0.2) !important;
+}
+
+.surat-premium .memorisation-row2-secondary .memorisation-feature-row--controls .memorisation-inline-field .quran-toolbar-select {
+    background: #edf5f1 !important;
+    border: 1px solid rgba(13, 43, 38, 0.24) !important;
+    min-height: 30px !important;
+    height: 30px !important;
+}
+
+.surat-premium .memorisation-row2-secondary .memorisation-feature-row--controls .memorisation-icon-text-action {
+    min-height: 40px !important;
+    border-right: 1px solid rgba(13, 43, 38, 0.2) !important;
+    padding: 0.38rem 0.56rem !important;
+}
+
+.surat-premium .memorisation-core-slot .quran-toolbar-select:focus,
+.surat-premium .memorisation-inline-field .quran-toolbar-select:focus {
+    border-color: #0f766e !important;
+    box-shadow: 0 0 0 2px rgba(15, 118, 110, 0.18) !important;
+    outline: none !important;
+}
+
+.surat-premium .memorisation-row2-secondary .memorisation-feature-row--controls .memorisation-icon-text-action:last-of-type {
+    border-right: none !important;
+}
+
+.surat-premium .memorisation-inline-action:focus-visible,
+.surat-premium .memorisation-icon-text-action:focus-visible,
+.surat-premium .memorisation-switch-control:focus-within,
+.surat-premium .memorisation-customise-link:focus-visible,
+.surat-premium .memorisation-close-action:focus-visible {
+    outline: 3px solid color-mix(in srgb, var(--mem-accent-soft) 62%, white 38%) !important;
+    outline-offset: 2px !important;
 }
 
 @media (max-width: 991.98px) {
     .surat-premium .memorisation-toolbar-sticky.memorisation-toolbar-active .quran-toolbar.memorisation-toolbar-two-rows {
-        border-radius: 16px !important;
-        padding: 0.7rem !important;
+        border-radius: 12px !important;
+        padding: 0.5rem !important;
     }
 
     .surat-premium .memorisation-row-clean-header,
     .surat-premium .memorisation-row-clean-core,
     .surat-premium .memorisation-row-clean-settings {
-        border-radius: 14px !important;
-        padding: 0.65rem !important;
+        border-radius: 10px !important;
+        padding: 0.44rem !important;
     }
 
     .surat-premium .memorisation-row-clean-core {
@@ -12883,6 +13046,34 @@ h1.display-5 {
     .surat-premium .memorisation-core-slot .memorisation-switch-control,
     .surat-premium .memorisation-core-slot .memorisation-inline-action,
     .surat-premium .memorisation-core-slot .memorisation-reciter-group-inline .quran-toolbar-select {
-        min-height: 50px !important;
+        min-height: 36px !important;
+    }
+
+    .surat-premium .memorisation-row2-secondary .memorisation-feature-row--controls {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.5rem;
+    }
+
+    .surat-premium .memorisation-feature-row--feature-panel {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 0.5rem !important;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .surat-premium .memorisation-row2-secondary .memorisation-feature-row--controls,
+    .surat-premium .memorisation-feature-row--feature-panel {
+        grid-template-columns: minmax(0, 1fr) !important;
+        gap: 0.44rem !important;
+        padding: 0.22rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .surat-premium .memorisation-core-slot .memorisation-switch-control,
+    .surat-premium .memorisation-core-slot .memorisation-inline-action,
+    .surat-premium .memorisation-core-slot .memorisation-reciter-group-inline .quran-toolbar-select,
+    .surat-premium .memorisation-icon-text-action {
+        transition: none !important;
     }
 }

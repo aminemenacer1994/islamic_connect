@@ -2337,6 +2337,12 @@ export default {
                 this.hifdhPlanModalShownHandler
             );
         });
+        if (this.shouldAutoOpenHifdhPlanFromQuery()) {
+            this.$nextTick(async () => {
+                await this.openHifdhPlanModalGuarded();
+                this.clearHifdhPlanAutoOpenQuery();
+            });
+        }
     },
         beforeUnmount() {
             this.isComponentAlive = false;
@@ -4002,6 +4008,43 @@ export default {
                 );
             } catch (_) {
                 this.announce("Unable to prepare Surah 2 demo right now.");
+            }
+        },
+        async quickStartAlFatihaToday() {
+            const surahNumber = 1;
+            const rangeStart = 1;
+            const rangeEnd = 7;
+            const todayKey = this.toDateKey(new Date());
+            try {
+                await this.selectSurah(surahNumber, { skipScroll: true });
+                const existingSet = (this.hifdhPlanSets || []).some(
+                    (set) =>
+                        Number(set?.surahNumber) === surahNumber &&
+                        Number(set?.startAyah) === rangeStart &&
+                        Number(set?.endAyah) === rangeEnd &&
+                        String(set?.memorisedOn || "") === todayKey
+                );
+                if (existingSet) {
+                    this.announce(
+                        "Al-Fatiha is already queued for today. Opening your due segment."
+                    );
+                    await this.$nextTick();
+                    if (this.hasTodayHifdhPlan) {
+                        await this.startTodayHifdhSessionAndCloseModal();
+                    }
+                    return;
+                }
+                this.hifdhNewRangeStart = rangeStart;
+                this.hifdhNewRangeEnd = Math.min(
+                    rangeEnd,
+                    Number(this.totalAyahs || rangeEnd)
+                );
+                await this.addRangeAndStartHifdhSession();
+                this.announce(
+                    "Quick start ready: Al-Fatiha queued and session started."
+                );
+            } catch (_) {
+                this.announce("Unable to start Al-Fatiha quick start right now.");
             }
         },
         classifyHifdhEntry(item) {
@@ -7439,6 +7482,24 @@ export default {
             const ayah = Number(params.get("ayah"));
             if (!surah) return null;
             return { surah, ayah: ayah || null };
+        },
+        shouldAutoOpenHifdhPlanFromQuery() {
+            if (typeof window === "undefined") return false;
+            const params = new URLSearchParams(window.location.search || "");
+            const openParam = String(params.get("open") || "").toLowerCase();
+            return openParam === "hifdh-plan";
+        },
+        clearHifdhPlanAutoOpenQuery() {
+            if (typeof window === "undefined") return;
+            try {
+                const url = new URL(window.location.href);
+                if (url.searchParams.get("open") !== "hifdh-plan") return;
+                url.searchParams.delete("open");
+                const nextUrl = `${url.pathname}${url.search}${url.hash}`;
+                window.history.replaceState({}, "", nextUrl);
+            } catch (_) {
+                // ignore malformed URL states
+            }
         },
         maybeScrollToDeepLink() {
             if (
