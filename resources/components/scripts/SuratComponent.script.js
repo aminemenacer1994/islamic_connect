@@ -911,6 +911,70 @@ export default {
             if (!total) return 0;
             return Math.round((this.hifdhCompletedCount / total) * 100);
         },
+        hifdhCoverageStats() {
+            const entries = Array.isArray(this.hifdhReviewQueue)
+                ? this.hifdhReviewQueue
+                : [];
+            const quranTotalAyahs = 6236;
+            const currentSurahNumber = Number(this.selectedSurah || 0);
+            const currentSurahTotal = Math.max(Number(this.totalAyahs || 0), 0);
+
+            const overallPlanned = new Set();
+            const overallReviewed = new Set();
+            const surahPlanned = new Set();
+            const surahReviewed = new Set();
+
+            entries.forEach((entry) => {
+                const surah = Number(entry?.surahNumber || 0);
+                const start = Number(entry?.startAyah || 0);
+                const end = Number(entry?.endAyah || 0);
+                if (!surah || !start || !end) return;
+                const from = Math.min(start, end);
+                const to = Math.max(start, end);
+                for (let ayah = from; ayah <= to; ayah += 1) {
+                    const key = `${surah}:${ayah}`;
+                    overallPlanned.add(key);
+                    if (surah === currentSurahNumber) surahPlanned.add(ayah);
+                    if (String(entry?.status || "") === "completed") {
+                        overallReviewed.add(key);
+                        if (surah === currentSurahNumber) surahReviewed.add(ayah);
+                    }
+                }
+            });
+
+            const surahPlannedCount = surahPlanned.size;
+            const surahReviewedCount = surahReviewed.size;
+            const surahRemainingCount = Math.max(
+                (currentSurahTotal || surahPlannedCount) - surahReviewedCount,
+                0
+            );
+            const surahPctBase = Math.max(currentSurahTotal || surahPlannedCount, 0);
+            const surahPercent = surahPctBase
+                ? Math.round((surahReviewedCount / surahPctBase) * 100)
+                : 0;
+
+            const overallReviewedCount = overallReviewed.size;
+            const overallRemainingCount = Math.max(
+                quranTotalAyahs - overallReviewedCount,
+                0
+            );
+            const overallPercent = Math.round(
+                (overallReviewedCount / quranTotalAyahs) * 100
+            );
+
+            return {
+                quranTotalAyahs,
+                surahTotalAyahs: currentSurahTotal,
+                surahPlannedCount,
+                surahReviewedCount,
+                surahRemainingCount,
+                surahPercent,
+                overallPlannedCount: overallPlanned.size,
+                overallReviewedCount,
+                overallRemainingCount,
+                overallPercent,
+            };
+        },
         hifdhRecentPerformance() {
             const windowDays = 14;
             const today = new Date();

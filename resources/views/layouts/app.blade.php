@@ -155,6 +155,50 @@
     </script>
     @yield('critical')
     @stack('critical')
+    <style>
+        /* Critical runtime override for Surat memorisation controls */
+        .surat-premium .memorisation-inline-action--play {
+            background: linear-gradient(135deg, #0f766e, #0b5f53) !important;
+            border: 1px solid #065f46 !important;
+            color: #ecfdf5 !important;
+            box-shadow: 0 12px 26px rgba(6, 95, 70, 0.32) !important;
+            font-weight: 800 !important;
+        }
+        .surat-premium .memorisation-inline-action--play i,
+        .surat-premium .memorisation-inline-action--play span {
+            color: #ecfdf5 !important;
+        }
+        .surat-premium .memorisation-inline-action--play:hover,
+        .surat-premium .memorisation-inline-action--play:focus-visible {
+            background: linear-gradient(135deg, #0b5f53, #084e45) !important;
+            border-color: #047857 !important;
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.25), 0 14px 30px rgba(6, 95, 70, 0.35) !important;
+        }
+        .surat-premium .memorisation-icon-text-action--hifdhplan {
+            background: linear-gradient(135deg, rgba(15, 118, 110, 0.28), rgba(15, 118, 110, 0.14)) !important;
+            border: 1px solid #0b5f53 !important;
+            box-shadow: 0 10px 20px rgba(8, 79, 68, 0.2) !important;
+        }
+        .surat-premium .memorisation-icon-text-action--hifdhplan .memorisation-icon-text-label,
+        .surat-premium .memorisation-icon-text-action--hifdhplan i,
+        .surat-premium .memorisation-icon-text-action--hifdhplan .memorisation-icon-text-state {
+            color: #083b33 !important;
+            font-weight: 800 !important;
+        }
+        .surat-premium .memorisation-icon-text-action--hifdhplan:hover,
+        .surat-premium .memorisation-icon-text-action--hifdhplan:focus-visible {
+            background: linear-gradient(135deg, rgba(15, 118, 110, 0.36), rgba(15, 118, 110, 0.2)) !important;
+            border-color: #065f46 !important;
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2), 0 12px 24px rgba(8, 79, 68, 0.22) !important;
+        }
+        .surat-premium .memorisation-inline-action:hover,
+        .surat-premium .memorisation-inline-action:focus-visible,
+        .surat-premium .memorisation-feature-row--feature-panel .memorisation-icon-text-action:hover,
+        .surat-premium .memorisation-feature-row--feature-panel .memorisation-icon-text-action:focus-visible {
+            border-color: rgba(8, 79, 68, 0.46) !important;
+            box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.18), 0 10px 18px rgba(8, 79, 68, 0.14) !important;
+        }
+    </style>
     @php
         $structuredData = [
             '@context' => 'https://schema.org',

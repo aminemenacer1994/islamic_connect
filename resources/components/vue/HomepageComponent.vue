@@ -691,7 +691,7 @@
   --ic-teal: #0f6e63;
   --ic-teal-dark: #0a4b45;
   --ic-teal-deep: #08362f;
-  --ic-gold: #d2a24b;
+  --ic-gold: #0f766e;
   --ic-sand: #fff7ea;
   --ic-mist: #f1f7f4;
   --ic-card: #ffffff;
@@ -721,7 +721,7 @@
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(circle at 15% 15%, rgba(210, 162, 75, 0.2), transparent 50%),
+    radial-gradient(circle at 15% 15%, rgba(15, 118, 110, 0.2), transparent 50%),
     radial-gradient(circle at 80% 0%, rgba(15, 110, 99, 0.16), transparent 45%);
   opacity: 0.9;
   z-index: 0;
@@ -758,7 +758,7 @@
   left: -8%;
   width: 320px;
   height: 320px;
-  background: radial-gradient(circle, rgba(226, 179, 86, 0.22), rgba(226, 179, 86, 0.02));
+  background: radial-gradient(circle, rgba(15, 118, 110, 0.22), rgba(15, 118, 110, 0.02));
   animation: float-hero 8s ease-in-out infinite 1s;
 }
 
@@ -871,7 +871,7 @@
   inset: 0;
   background:
     radial-gradient(circle at 10% 20%, rgba(15, 110, 99, 0.16), transparent 55%),
-    radial-gradient(circle at 90% 10%, rgba(210, 162, 75, 0.18), transparent 45%);
+    radial-gradient(circle at 90% 10%, rgba(15, 118, 110, 0.18), transparent 45%);
   z-index: 0;
   pointer-events: none;
 }
@@ -1157,7 +1157,7 @@
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(circle at 20% 20%, rgba(210, 162, 75, 0.2), transparent 55%),
+    radial-gradient(circle at 20% 20%, rgba(15, 118, 110, 0.2), transparent 55%),
     radial-gradient(circle at 80% 0%, rgba(255, 255, 255, 0.12), transparent 45%);
   opacity: 0.6;
 }
@@ -1243,7 +1243,7 @@
 }
 
 .ic-support .quote-glow {
-  background: radial-gradient(circle, rgba(210, 162, 75, 0.22), transparent 70%);
+  background: radial-gradient(circle, rgba(15, 118, 110, 0.22), transparent 70%);
 }
 
 .ic-join {
@@ -1552,7 +1552,7 @@
 .quote-divider {
   width: 70px;
   height: 3px;
-  background: linear-gradient(90deg, #0f6e63, #d2a24b);
+  background: linear-gradient(90deg, #0f6e63, #0b5f53);
   margin: 0.8rem auto 1.4rem auto;
   border-radius: 2px;
 }
