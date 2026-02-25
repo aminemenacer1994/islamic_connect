@@ -464,6 +464,20 @@ export default {
             showVolumeBar: false,
             showAudioPlayer: false,
             bottomAudioPlayerEnabled: true,
+            isAudioPlayerVisible: true,
+            showAudioPlayerQueuePanel: false,
+            showCustomPlaylistPanel: false,
+            customPlaylistStorageKeyBase: "ic_surat_custom_playlist_v1",
+            playlists: [],
+            activePlaylistId: "",
+            playlistEditorName: "",
+            playlistEditorDescription: "",
+            showCreatePlaylistModal: false,
+            createPlaylistName: "",
+            createPlaylistDescription: "",
+            pendingAyahForNewPlaylist: null,
+            openAyahPlaylistMenuKey: "",
+            showActivePlaylistContent: true,
             isSingleWordPreviewActive: false,
             isHighlighted: false,
             showScrollTop: false,
@@ -1889,6 +1903,57 @@ export default {
             const message = (this.reflectionForm.message || "").trim();
             return subject.length > 0 && message.length >= this.reflectionMessageMinLength;
         },
+        activePlaylist() {
+            const id = String(this.activePlaylistId || "");
+            return (
+                (this.playlists || []).find(
+                    (playlist) => String(playlist?.id || "") === id
+                ) || null
+            );
+        },
+        customPlaylistSurahItems() {
+            return (this.activePlaylist?.items || []).filter(
+                (item) => item && item.type === "surah"
+            );
+        },
+        customPlaylistAyahItems() {
+            return (this.activePlaylist?.items || []).filter(
+                (item) => item && item.type === "ayah"
+            );
+        },
+        customPlaylistItemCount() {
+            return Array.isArray(this.activePlaylist?.items)
+                ? this.activePlaylist.items.length
+                : 0;
+        },
+        customPlaylistContext() {
+            const surahNumber = Number(
+                this.surahDetails?.surahNumber || this.selectedSurah || 0
+            );
+            const surahName =
+                this.surahDetails?.englishName ||
+                this.currentSurahInfo?.englishName ||
+                this.surahDetails?.name ||
+                (surahNumber ? `Surah ${surahNumber}` : "Surah");
+            const reciterName =
+                this.recitersSorted.find(
+                    (item) => item.identifier === this.selectedReciter
+                )?.englishName || "Reciter";
+            return {
+                surah: surahNumber
+                    ? `Current: ${surahNumber}. ${surahName}`
+                    : `Current: ${surahName}`,
+                reciter: `Reciter: ${reciterName}`,
+            };
+        },
+        hasAnyPlaylist() {
+            return Array.isArray(this.playlists) && this.playlists.length > 0;
+        },
+        sortedCustomPlaylists() {
+            return [...(this.playlists || [])].sort((a, b) =>
+                String(a?.name || "").localeCompare(String(b?.name || ""))
+            );
+        },
     },
     watch: {
         savedAyahKeys: {
@@ -2376,6 +2441,7 @@ export default {
             if (storedTranslationVisible !== null)
                 this.isTranslationVisible = storedTranslationVisible === "1";
         } catch (_) {}
+        this.loadCustomPlaylist();
         Promise.all([
             this.fetchReciters(),
             this.fetchSurahs(),
@@ -4346,6 +4412,23 @@ export default {
             this.showModeToggleToast(
                 "Word audio",
                 this.showWordTranslationTooltip
+            );
+        },
+        toggleAudioPlayerVisibility() {
+            this.isAudioPlayerVisible = !this.isAudioPlayerVisible;
+            if (!this.isAudioPlayerVisible) {
+                this.showAudioPlayer = false;
+                this.showAudioPlayerQueuePanel = false;
+            } else if (
+                this.bottomAudioPlayerEnabled &&
+                this.currentlyPlaying &&
+                !this.isSingleWordPreviewActive
+            ) {
+                this.showAudioPlayer = true;
+            }
+            this.showModeToggleToast(
+                "Audio player",
+                this.isAudioPlayerVisible
             );
         },
         persistMemorisationModeSetting() {
@@ -8992,7 +9075,9 @@ export default {
                 this.isAudioLoading[index] = false;
                 this.isHighlighted = true;
                 this.showAudioPlayer =
-                    this.bottomAudioPlayerEnabled && !isSingleWordPreview;
+                    this.bottomAudioPlayerEnabled &&
+                    this.isAudioPlayerVisible &&
+                    !isSingleWordPreview;
                 if (this.showRealtimeHighlighting) {
                     this.startHighlightLoop();
                 } else {
@@ -10304,10 +10389,407 @@ export default {
             }
             this.clearWordPreviewStopTimer();
             this.showAudioPlayer = false;
+            this.showAudioPlayerQueuePanel = false;
             this.currentlyPlayingIndex = 0;
             this.currentlyPlaying = null;
             this.currentAudioIndex = -1;
             this.isHighlighted = false;
+        },
+        toggleAudioPlayerQueuePanel() {
+            this.showAudioPlayerQueuePanel = !this.showAudioPlayerQueuePanel;
+        },
+        toggleCustomPlaylistPanel() {
+            this.showCustomPlaylistPanel = !this.showCustomPlaylistPanel;
+        },
+        getCustomPlaylistStorageKey() {
+            const base = this.customPlaylistStorageKeyBase || "ic_surat_custom_playlist_v1";
+            if (this.bookmarkStorageUserId) {
+                return `${base}_user_${this.bookmarkStorageUserId}`;
+            }
+            if (this.userId) {
+                return `${base}_user_${this.userId}`;
+            }
+            const anonId = this.getOrCreateSuratPreferenceAnonId();
+            return `${base}_anon_${anonId || "local"}`;
+        },
+        createDefaultPlaylist(options = {}) {
+            const { name = "Untitled Playlist", description = "" } = options;
+            return {
+                id: `playlist-${Date.now()}-${Math.random()
+                    .toString(36)
+                    .slice(2, 7)}`,
+                name,
+                description,
+                items: [],
+            };
+        },
+        syncPlaylistEditorFromActive() {
+            this.playlistEditorName = this.activePlaylist?.name || "";
+            this.playlistEditorDescription =
+                this.activePlaylist?.description || "";
+        },
+        selectPlaylist(playlistId) {
+            const nextId = String(playlistId || "");
+            if (String(this.activePlaylistId || "") === nextId) {
+                this.showActivePlaylistContent = !this.showActivePlaylistContent;
+                return;
+            }
+            this.activePlaylistId = nextId;
+            this.showActivePlaylistContent = true;
+            this.syncPlaylistEditorFromActive();
+            this.persistCustomPlaylist();
+        },
+        onPlaylistPickerChange(event) {
+            const nextId = String(event?.target?.value || "");
+            if (!nextId) return;
+            this.selectPlaylist(nextId);
+        },
+        addNewPlaylist() {
+            const next = this.createDefaultPlaylist({ name: "", description: "" });
+            this.playlists = [...(this.playlists || []), next];
+            this.selectPlaylist(next.id);
+            this.playlistEditorName = "";
+            this.playlistEditorDescription = "";
+            this.persistCustomPlaylist();
+        },
+        removeActivePlaylist() {
+            const id = String(this.activePlaylistId || "");
+            if (!id) return;
+            this.playlists = (this.playlists || []).filter(
+                (playlist) => String(playlist?.id || "") !== id
+            );
+            if (!this.playlists.length) {
+                this.activePlaylistId = "";
+                this.playlistEditorName = "";
+                this.playlistEditorDescription = "";
+                this.showActivePlaylistContent = true;
+                this.persistCustomPlaylist();
+                return;
+            }
+            this.selectPlaylist(this.playlists[0].id);
+            this.persistCustomPlaylist();
+        },
+        saveAllPlaylistChanges() {
+            if (!this.activePlaylist) return;
+            this.activePlaylist.name = String(
+                this.playlistEditorName || ""
+            ).trim() || "Untitled Playlist";
+            this.activePlaylist.description = String(
+                this.playlistEditorDescription || ""
+            ).trim();
+            this.persistCustomPlaylist();
+            this.announce("Playlist changes saved.");
+        },
+        buildCustomPlaylistItemId(type, surahNumber, ayahNumber = null) {
+            const ts = Date.now();
+            return `${type}-${surahNumber}-${ayahNumber || "all"}-${ts}-${Math.random()
+                .toString(36)
+                .slice(2, 7)}`;
+        },
+        addCurrentSurahToCustomPlaylist() {
+            if (!this.activePlaylist) return;
+            const surahNumber = Number(
+                this.surahDetails?.surahNumber || this.selectedSurah || 0
+            );
+            if (!surahNumber) return;
+            const duplicate = (this.activePlaylist?.items || []).some(
+                (item) =>
+                    item &&
+                    item.type === "surah" &&
+                    Number(item.surahNumber) === surahNumber
+            );
+            if (duplicate) {
+                this.announce(`Surah ${surahNumber} is already in your playlist.`);
+                return;
+            }
+            const surahName =
+                this.surahDetails?.englishName ||
+                this.currentSurahInfo?.englishName ||
+                this.surahDetails?.name ||
+                `Surah ${surahNumber}`;
+            const totalAyahs = Array.isArray(this.filteredAyahs)
+                ? this.filteredAyahs.length
+                : 0;
+            this.activePlaylist.items.push({
+                id: this.buildCustomPlaylistItemId("surah", surahNumber),
+                type: "surah",
+                surahNumber,
+                ayahNumber: null,
+                title: `Surah ${surahNumber} - ${surahName}`,
+                description: `${totalAyahs} ayahs`,
+                createdAt: Date.now(),
+            });
+            this.persistCustomPlaylist();
+            this.announce(`Added Surah ${surahNumber} to playlist.`);
+        },
+        addSelectedAyahToCustomPlaylist() {
+            const ayah =
+                this.filteredAyahs?.[this.selectedCardIndex] ||
+                this.filteredAyahs?.[this.currentlyPlayingIndex];
+            this.addAyahToCustomPlaylist(ayah, { announceAction: true });
+        },
+        addAyahToCustomPlaylist(ayah, options = {}) {
+            const { announceAction = false } = options;
+            if (!ayah) return false;
+            const surahNumber = Number(
+                this.surahDetails?.surahNumber || this.selectedSurah || 0
+            );
+            const ayahNumber = Number(ayah?.numberInSurah || ayah?.number || 0);
+            if (!surahNumber || !ayahNumber) return false;
+            if (!this.activePlaylist) return false;
+            const duplicate = (this.activePlaylist?.items || []).some(
+                (item) =>
+                    item &&
+                    item.type === "ayah" &&
+                    Number(item.surahNumber) === surahNumber &&
+                    Number(item.ayahNumber) === ayahNumber
+            );
+            if (duplicate) {
+                if (announceAction) {
+                    this.announce(
+                        `Surah ${surahNumber}, Ayah ${ayahNumber} is already in your playlist.`
+                    );
+                }
+                return false;
+            }
+            const surahName =
+                this.surahDetails?.englishName ||
+                this.currentSurahInfo?.englishName ||
+                `Surah ${surahNumber}`;
+            const ayahKey = this.buildAyahKey(surahNumber, ayahNumber);
+            this.activePlaylist.items.push({
+                id: this.buildCustomPlaylistItemId(
+                    "ayah",
+                    surahNumber,
+                    ayahNumber
+                ),
+                type: "ayah",
+                surahNumber,
+                ayahNumber,
+                title: `Surah ${surahNumber}:${ayahNumber}`,
+                description: surahName,
+                createdAt: Date.now(),
+            });
+            this.persistCustomPlaylist();
+            this.triggerAyahFeedback(
+                ayahKey,
+                "Added to playlist",
+                "feedback-pin-saved",
+                "check",
+                "",
+                "",
+                2200
+            );
+            if (announceAction) {
+                this.announce(`Added Surah ${surahNumber}, Ayah ${ayahNumber} to playlist.`);
+            }
+            return true;
+        },
+        isAyahInCustomPlaylist(ayah) {
+            if (!this.activePlaylist) return false;
+            const surahNumber = Number(
+                this.surahDetails?.surahNumber || this.selectedSurah || 0
+            );
+            const ayahNumber = Number(ayah?.numberInSurah || ayah?.number || 0);
+            if (!surahNumber || !ayahNumber) return false;
+            return (this.activePlaylist?.items || []).some(
+                (item) =>
+                    item &&
+                    item.type === "ayah" &&
+                    Number(item.surahNumber) === surahNumber &&
+                    Number(item.ayahNumber) === ayahNumber
+            );
+        },
+        toggleAyahInCustomPlaylist(ayah) {
+            const surahNumber = Number(
+                this.surahDetails?.surahNumber || this.selectedSurah || 0
+            );
+            const ayahNumber = Number(ayah?.numberInSurah || ayah?.number || 0);
+            if (!surahNumber || !ayahNumber) return;
+            const match = (this.activePlaylist?.items || []).find(
+                (item) =>
+                    item &&
+                    item.type === "ayah" &&
+                    Number(item.surahNumber) === surahNumber &&
+                    Number(item.ayahNumber) === ayahNumber
+            );
+            const ayahKey = this.buildAyahKey(surahNumber, ayahNumber);
+            if (match) {
+                this.removeCustomPlaylistItem(match.id);
+                this.triggerAyahFeedback(
+                    ayahKey,
+                    "Removed from playlist",
+                    "feedback-pin-removed",
+                    "trash",
+                    "",
+                    "",
+                    2200
+                );
+                return;
+            }
+            this.addAyahToCustomPlaylist(ayah);
+        },
+        removeCustomPlaylistItem(itemId) {
+            if (!this.activePlaylist) return;
+            this.activePlaylist.items = (this.activePlaylist.items || []).filter(
+                (item) => item.id !== itemId
+            );
+            this.persistCustomPlaylist();
+        },
+        clearCustomPlaylist() {
+            if (!this.activePlaylist) return;
+            this.activePlaylist.items = [];
+            this.persistCustomPlaylist();
+        },
+        persistCustomPlaylist() {
+            try {
+                localStorage.setItem(
+                    this.getCustomPlaylistStorageKey(),
+                    JSON.stringify({
+                        playlists: this.playlists || [],
+                        activePlaylistId: this.activePlaylistId || "",
+                    })
+                );
+            } catch (_) {}
+        },
+        loadCustomPlaylist() {
+            try {
+                const raw = localStorage.getItem(this.getCustomPlaylistStorageKey());
+                if (!raw) {
+                    this.playlists = [];
+                    this.activePlaylistId = "";
+                    this.playlistEditorName = "";
+                    this.playlistEditorDescription = "";
+                    return;
+                }
+                const parsed = JSON.parse(raw);
+                if (Array.isArray(parsed?.playlists) && parsed.playlists.length) {
+                    this.playlists = parsed.playlists.map((playlist) => ({
+                        id:
+                            String(playlist?.id || "").trim() ||
+                            this.createDefaultPlaylist().id,
+                        name: (() => {
+                            const rawName = String(playlist?.name || "").trim();
+                            if (!rawName) return "Untitled Playlist";
+                            return rawName.toLowerCase() === "my playlist"
+                                ? "Untitled Playlist"
+                                : rawName;
+                        })(),
+                        description: String(playlist?.description || ""),
+                        items: Array.isArray(playlist?.items) ? playlist.items : [],
+                    }));
+                    this.activePlaylistId =
+                        String(parsed?.activePlaylistId || "") ||
+                        String(this.playlists[0].id);
+                    if (
+                        !this.playlists.some(
+                            (playlist) =>
+                                String(playlist.id) === String(this.activePlaylistId)
+                        )
+                    ) {
+                        this.activePlaylistId = String(this.playlists[0].id);
+                    }
+                    this.syncPlaylistEditorFromActive();
+                    return;
+                }
+                this.playlists = [];
+                this.activePlaylistId = "";
+                this.playlistEditorName = "";
+                this.playlistEditorDescription = "";
+            } catch (_) {}
+        },
+        openCreatePlaylistModal(ayah = null) {
+            this.createPlaylistName = "";
+            this.createPlaylistDescription = "";
+            this.pendingAyahForNewPlaylist = ayah || null;
+            this.closeAyahPlaylistMenu();
+            this.showCreatePlaylistModal = true;
+        },
+        closeCreatePlaylistModal() {
+            this.showCreatePlaylistModal = false;
+            this.pendingAyahForNewPlaylist = null;
+        },
+        createPlaylistFromModal() {
+            const next = this.createDefaultPlaylist();
+            next.name =
+                String(this.createPlaylistName || "").trim() || "Untitled Playlist";
+            next.description = String(this.createPlaylistDescription || "");
+            this.playlists = [...(this.playlists || []), next];
+            this.selectPlaylist(next.id);
+            if (this.pendingAyahForNewPlaylist) {
+                this.addAyahToCustomPlaylist(this.pendingAyahForNewPlaylist, {
+                    announceAction: true,
+                });
+            }
+            this.showCreatePlaylistModal = false;
+            this.pendingAyahForNewPlaylist = null;
+            this.persistCustomPlaylist();
+        },
+        toggleAyahPlaylistMenu(ayah) {
+            const surahNumber = Number(
+                this.surahDetails?.surahNumber || this.selectedSurah || 0
+            );
+            const ayahNumber = Number(ayah?.numberInSurah || ayah?.number || 0);
+            if (!surahNumber || !ayahNumber) return;
+            const key = this.buildAyahKey(surahNumber, ayahNumber);
+            this.openAyahPlaylistMenuKey =
+                this.openAyahPlaylistMenuKey === key ? "" : key;
+        },
+        closeAyahPlaylistMenu() {
+            this.openAyahPlaylistMenuKey = "";
+        },
+        saveAyahToActivePlaylist(ayah) {
+            if (!this.activePlaylist) {
+                const next = this.createDefaultPlaylist({ name: "", description: "" });
+                this.playlists = [...(this.playlists || []), next];
+                this.selectPlaylist(next.id);
+            }
+            this.addAyahToCustomPlaylist(ayah, { announceAction: true });
+            this.closeAyahPlaylistMenu();
+        },
+        saveAyahToCustomPlaylist(ayah, playlistId) {
+            const currentId = this.activePlaylistId;
+            this.selectPlaylist(playlistId);
+            this.addAyahToCustomPlaylist(ayah, { announceAction: true });
+            if (currentId) {
+                this.selectPlaylist(currentId);
+            }
+            this.closeAyahPlaylistMenu();
+        },
+        removeAyahFromActivePlaylist(ayah) {
+            const surahNumber = Number(
+                this.surahDetails?.surahNumber || this.selectedSurah || 0
+            );
+            const ayahNumber = Number(ayah?.numberInSurah || ayah?.number || 0);
+            if (!surahNumber || !ayahNumber || !this.activePlaylist) return;
+            const match = (this.activePlaylist.items || []).find(
+                (item) =>
+                    item?.type === "ayah" &&
+                    Number(item?.surahNumber) === surahNumber &&
+                    Number(item?.ayahNumber) === ayahNumber
+            );
+            if (match) this.removeCustomPlaylistItem(match.id);
+            this.closeAyahPlaylistMenu();
+        },
+        async playCustomPlaylistItem(item) {
+            if (!item) return;
+            const surahNumber = Number(item.surahNumber || 0);
+            if (!surahNumber) return;
+            const targetAyah = Number(item.ayahNumber || 0);
+            await this.selectSurah(String(surahNumber), { skipScroll: true });
+            if (item.type === "ayah" && targetAyah > 0) {
+                const index = this.resolveAyahIndexByNumber(targetAyah);
+                const safeIndex = index >= 0 ? index : Math.max(0, targetAyah - 1);
+                this.selectCard(safeIndex);
+                this.scrollToAyahIndex(safeIndex, {
+                    settle: true,
+                    force: true,
+                    behavior: "smooth",
+                });
+                this.playAudio(safeIndex);
+                return;
+            }
+            this.playSurahContinuously();
         },
         seekToPosition: function (event) {
             const audio = this.audioElements[this.currentlyPlayingIndex];

@@ -649,6 +649,16 @@
                     <span class="quran-toolbar-btn-text">Deep focus mode</span>
                     <span class="quran-toolbar-btn-state">{{ isDeepFocusMode ? "On" : "Off" }}</span>
                 </button>
+                <button
+                    type="button"
+                    class="quran-toolbar-btn"
+                    @click="toggleCustomPlaylistPanel"
+                    :aria-expanded="showCustomPlaylistPanel ? 'true' : 'false'"
+                    aria-label="Open custom playlist library"
+                    title="Open custom playlist library">
+                    <i class="bi bi-music-note-list" aria-hidden="true"></i>
+                    <span class="quran-toolbar-btn-text">Playlist</span>
+                </button>
 
                 <!-- <button
                     v-if="!isAdvancedSearchVisible && !isTabletOrMobile"
@@ -756,6 +766,106 @@
                     title="Open reading and display settings such as layout, card style, and typography.">
                     <i class="bi bi-gear-fill" aria-hidden="true"></i>
                 </button>
+            </div>
+            <div v-if="showDesktopToolbar && showCustomPlaylistPanel" class="reader-custom-playlist-panel">
+                <div class="reader-custom-playlist-header">
+                    <div>
+                        <h3 class="reader-custom-playlist-title mb-0">Custom Playlist Library</h3>
+                        <p class="reader-custom-playlist-subtitle mb-0">Build and manage multiple playlists.</p>
+                    </div>
+                    <div class="reader-custom-playlist-header-actions">
+                        <span class="reader-custom-playlist-count">{{ customPlaylistItemCount }} items</span>
+                        <button
+                            type="button"
+                            class="reader-custom-playlist-close"
+                            @click="toggleCustomPlaylistPanel"
+                            aria-label="Close custom playlist panel"
+                            title="Close playlist">
+                            <i class="bi bi-x-lg" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="reader-custom-playlist-top-actions">
+                    <button type="button" class="reader-custom-playlist-btn is-add-surah" @click="addNewPlaylist">
+                        <i class="bi bi-plus-circle me-1" aria-hidden="true"></i>
+                        Add playlist
+                    </button>
+                    <button
+                        type="button"
+                        class="reader-custom-playlist-btn is-clear"
+                        :disabled="!hasAnyPlaylist"
+                        @click="removeActivePlaylist">
+                        <i class="bi bi-trash3 me-1" aria-hidden="true"></i>
+                        Remove playlist
+                    </button>
+                </div>
+
+                <div class="reader-custom-playlist-tabs">
+                    <label class="reader-custom-playlist-field-label mb-0">Playlists</label>
+                    <div class="reader-custom-playlist-pill-row reader-custom-playlist-pill-row-scroll">
+                        <button
+                            v-for="playlist in sortedCustomPlaylists"
+                            :key="`playlist-pill-${playlist.id}`"
+                            type="button"
+                            class="reader-custom-playlist-pill"
+                            :class="{ 'is-active': String(activePlaylistId) === String(playlist.id) }"
+                            @click="selectPlaylist(playlist.id)">
+                            {{ playlist.name || "Untitled Playlist" }}
+                        </button>
+                        <span v-if="!sortedCustomPlaylists.length" class="reader-custom-playlist-empty-inline">
+                            No playlists yet. Add one to get started.
+                        </span>
+                    </div>
+                </div>
+
+                <div v-if="showActivePlaylistContent" class="reader-custom-playlist-section">
+                    <article
+                        v-for="item in customPlaylistSurahItems"
+                        :key="item.id"
+                        class="reader-custom-playlist-item">
+                        <div class="reader-custom-playlist-item-text">
+                            <span class="reader-custom-playlist-item-title">{{ item.title }}</span>
+                            <span class="reader-custom-playlist-item-desc">{{ item.description }}</span>
+                        </div>
+                        <div class="reader-custom-playlist-item-actions">
+                            <button type="button" class="reader-custom-playlist-btn is-play" @click="playCustomPlaylistItem(item)">
+                                <i class="bi bi-play-fill me-1" aria-hidden="true"></i>
+                                Play
+                            </button>
+                            <button type="button" class="reader-custom-playlist-btn is-remove" @click="removeCustomPlaylistItem(item.id)">
+                                <i class="bi bi-x-lg me-1" aria-hidden="true"></i>
+                                Remove
+                            </button>
+                        </div>
+                    </article>
+                </div>
+
+                <div v-if="showActivePlaylistContent" class="reader-custom-playlist-section">
+                    <article
+                        v-for="item in customPlaylistAyahItems"
+                        :key="item.id"
+                        class="reader-custom-playlist-item">
+                        <div class="reader-custom-playlist-item-text">
+                            <span class="reader-custom-playlist-item-title">{{ item.title }}</span>
+                            <span class="reader-custom-playlist-item-desc">{{ item.description }}</span>
+                        </div>
+                        <div class="reader-custom-playlist-item-actions">
+                            <button type="button" class="reader-custom-playlist-btn is-play" @click="playCustomPlaylistItem(item)">
+                                <i class="bi bi-play-fill me-1" aria-hidden="true"></i>
+                                Play
+                            </button>
+                            <button type="button" class="reader-custom-playlist-btn is-remove" @click="removeCustomPlaylistItem(item.id)">
+                                <i class="bi bi-x-lg me-1" aria-hidden="true"></i>
+                                Remove
+                            </button>
+                        </div>
+                    </article>
+                </div>
+
+                <div v-if="!showActivePlaylistContent" class="reader-custom-playlist-collapsed-note">
+                    Playlist items hidden. Click the selected playlist tab to open again.
+                </div>
             </div>
         </div>
 
@@ -935,6 +1045,11 @@
                                             <span class="memorisation-icon-text-label">Word Tap Audio</span>
                                             <span class="memorisation-icon-text-state">{{ showWordTranslationTooltip ? "On" : "Off" }}</span>
                                         </button>
+                                        <button type="button" class="memorisation-icon-text-action" :class="{ 'is-enabled': isAudioPlayerVisible }" @click="toggleAudioPlayerVisibility" :aria-pressed="isAudioPlayerVisible ? 'true' : 'false'" title="Turn bottom audio player on or off">
+                                            <i class="bi bi-music-player-fill" aria-hidden="true"></i>
+                                            <span class="memorisation-icon-text-label">Audio Player</span>
+                                            <span class="memorisation-icon-text-state">{{ isAudioPlayerVisible ? "On" : "Off" }}</span>
+                                        </button>
                                     </template>
                                     <div v-else class="dropdown memorisation-aids-dropdown">
                                         <button
@@ -963,6 +1078,12 @@
                                                 <button type="button" class="dropdown-item" @click="toggleWordAudioMode">
                                                     <i class="bi bi-volume-up-fill me-2" aria-hidden="true"></i>
                                                     Word Tap Audio: {{ showWordTranslationTooltip ? "On" : "Off" }}
+                                                </button>
+                                            </li>
+                                            <li>
+                                                <button type="button" class="dropdown-item" @click="toggleAudioPlayerVisibility">
+                                                    <i class="bi bi-music-player-fill me-2" aria-hidden="true"></i>
+                                                    Audio Player: {{ isAudioPlayerVisible ? "On" : "Off" }}
                                                 </button>
                                             </li>
                                         </ul>
@@ -1364,6 +1485,57 @@
                 </div>
             </div>
         </section>
+        <div
+            v-if="showCreatePlaylistModal"
+            class="playlist-modal-backdrop"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Create playlist"
+            @click.self="closeCreatePlaylistModal">
+            <div class="playlist-modal-card ltr-text" @click.stop>
+                <div class="playlist-modal-header">
+                    <div>
+                        <h5 class="mb-1">Create Playlist</h5>
+                        <p class="mb-0 text-muted">Title and description can be updated later.</p>
+                    </div>
+                    <button
+                        type="button"
+                        class="reader-custom-playlist-close"
+                        @click="closeCreatePlaylistModal"
+                        aria-label="Close create playlist modal">
+                        <i class="bi bi-x-lg" aria-hidden="true"></i>
+                    </button>
+                </div>
+                <div class="reader-custom-playlist-meta">
+                    <div class="reader-custom-playlist-field">
+                        <label class="reader-custom-playlist-field-label">Title</label>
+                        <input
+                            v-model="createPlaylistName"
+                            type="text"
+                            class="form-control reader-custom-playlist-input"
+                            placeholder="Playlist title">
+                    </div>
+                    <div class="reader-custom-playlist-field">
+                        <label class="reader-custom-playlist-field-label">Description</label>
+                        <input
+                            v-model="createPlaylistDescription"
+                            type="text"
+                            class="form-control reader-custom-playlist-input"
+                            placeholder="Playlist description">
+                    </div>
+                    <div class="reader-custom-playlist-field reader-custom-playlist-field-save">
+                        <label class="reader-custom-playlist-field-label visually-hidden">Create</label>
+                        <button
+                            type="button"
+                            class="reader-custom-playlist-btn is-play reader-custom-playlist-save-btn"
+                            @click="createPlaylistFromModal">
+                            <i class="bi bi-plus-circle me-1" aria-hidden="true"></i>
+                            Create playlist
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
         <!-- <div v-show="showNextStep" class="next-step-wrapper">
             <div class="mx-auto mb-4 next-step-card">
                 <button v-if="canMinimizeNextStep" type="button" :title="isNextStepMinimized ? 'Restore' : 'Minimize'" :aria-label="isNextStepMinimized
@@ -1716,6 +1888,19 @@
                                 <div class="ayah-pin-feedback-group">
                                     <button
                                         type="button"
+                                        class="icon-btn ayah-playlist-btn"
+                                        :class="{ 'is-in-playlist': isAyahInCustomPlaylist(item.ayah) }"
+                                        @click.stop="toggleAyahPlaylistMenu(item.ayah)"
+                                        :aria-label="isAyahInCustomPlaylist(item.ayah)
+                                            ? 'Ayah saved in playlist'
+                                            : 'Open playlist options'"
+                                        :title="isAyahInCustomPlaylist(item.ayah)
+                                            ? 'Saved in playlist'
+                                            : 'Save to playlist'">
+                                        <i class="bi bi-music-note-list" aria-hidden="true"></i>
+                                    </button>
+                                    <button
+                                        type="button"
                                         class="icon-btn ayah-pin-btn"
                                         :class="{ 'is-pinned': isAyahPinned(item.ayah) }"
                                         @click.stop="togglePinnedAyah(item.ayah)"
@@ -1761,6 +1946,34 @@
                                                     : 'bi-cloud-arrow-down-fill'"
                                             aria-hidden="true"></i>
                                     </button>
+                                    <div
+                                        v-if="openAyahPlaylistMenuKey === buildAyahKey(
+                                            surahDetails?.surahNumber,
+                                            item.ayah.numberInSurah || item.ayah.number
+                                        )"
+                                        class="ayah-playlist-menu"
+                                        @click.stop>
+                                        <button
+                                            v-if="!isAyahInCustomPlaylist(item.ayah)"
+                                            type="button"
+                                            class="ayah-playlist-menu-item"
+                                            @click.stop="saveAyahToActivePlaylist(item.ayah)">
+                                            Save to playlist
+                                        </button>
+                                        <button
+                                            type="button"
+                                            class="ayah-playlist-menu-item"
+                                            @click.stop="openCreatePlaylistModal(item.ayah)">
+                                            Save to new playlist
+                                        </button>
+                                        <button
+                                            v-if="isAyahInCustomPlaylist(item.ayah)"
+                                            type="button"
+                                            class="ayah-playlist-menu-item is-danger"
+                                            @click.stop="removeAyahFromActivePlaylist(item.ayah)">
+                                            Remove from playlist
+                                        </button>
+                                    </div>
                                 </div>
                                 <transition name="feedback-fade">
                                     <span v-if="
