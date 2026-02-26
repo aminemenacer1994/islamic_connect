@@ -41137,26 +41137,82 @@ body.quran-reading-fullscreen-active .navbar,body.quran-reading-fullscreen-activ
 }
 .tajweed-modal .modal-content[data-v-637d02d8] {
     border-radius: 18px;
+    min-height: 78vh;
 }
 .tajweed-modal .modal-body[data-v-637d02d8] {
-    max-height: 72vh;
-    padding: 24px;
+    max-height: 80vh;
+    padding: 28px;
     overflow-y: auto;
+}
+.tajweed-rules-modal-dialog[data-v-637d02d8] {
+    max-width: min(1320px, 96vw);
 }
 .tajweed-rules-grid[data-v-637d02d8] {
     display: grid;
-    grid-template-columns: 1fr;
-    gap: 12px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
 }
-.tajweed-rule-row[data-v-637d02d8] {
-    display: grid;
-    grid-template-columns: minmax(160px, 1fr) auto minmax(140px, 1fr);
-    align-items: start;
+.tajweed-rule-card[data-v-637d02d8] {
+    display: flex;
+    flex-direction: column;
     gap: 12px;
-    padding: 10px 12px;
-    border-radius: 12px;
-    background: rgba(248, 250, 249, 0.9);
-    border: 1px solid rgba(15, 110, 99, 0.12);
+    padding: 18px;
+    border-radius: 16px;
+    background: #f8fbfa;
+    border: 1px solid rgba(15, 110, 99, 0.14);
+    box-shadow: 0 10px 22px rgba(15, 110, 99, 0.1);
+}
+.tajweed-rule-card-header[data-v-637d02d8] {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 10px;
+}
+.tajweed-rule-card-title[data-v-637d02d8] {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #0f2f2b;
+}
+.tajweed-rule-card-ref[data-v-637d02d8] {
+    font-size: 0.9rem;
+    letter-spacing: 0.04em;
+    color: #356257;
+}
+.tajweed-rule-example-text[data-v-637d02d8] {
+    padding: 16px 18px;
+    border-radius: 14px;
+    background: rgba(11, 92, 83, 0.08);
+    color: #0f2f2b;
+    font-size: clamp(1.45rem, 2.2vw, 2rem);
+    line-height: 1.9;
+    text-align: right;
+    direction: rtl;
+    unicode-bidi: plaintext;
+}
+.tajweed-rule-audio-btn[data-v-637d02d8] {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: -moz-fit-content;
+    width: fit-content;
+    min-height: 42px;
+    border: 1px solid rgba(11, 92, 83, 0.3);
+    border-radius: 999px;
+    padding: 0 16px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #0b5c53;
+    background: rgba(11, 92, 83, 0.1);
+}
+.tajweed-rule-audio-btn[data-v-637d02d8]:hover:not(:disabled) {
+    color: #08433e;
+    background: rgba(11, 92, 83, 0.16);
+    border-color: rgba(11, 92, 83, 0.4);
+}
+.tajweed-rule-audio-btn[data-v-637d02d8]:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
 }
 .tajweed-rule-en[data-v-637d02d8] {
     display: flex;
@@ -41211,9 +41267,14 @@ body.quran-reading-fullscreen-active .navbar,body.quran-reading-fullscreen-activ
     line-height: 1.25;
 }
 @media (max-width: 576px) {
-.tajweed-rule-row[data-v-637d02d8] {
-        grid-template-columns: minmax(140px, 1fr) auto minmax(120px, 1fr);
-        gap: 10px;
+.tajweed-rules-grid[data-v-637d02d8] {
+        grid-template-columns: 1fr;
+}
+.tajweed-modal .modal-body[data-v-637d02d8] {
+        padding: 18px;
+}
+.tajweed-rule-card[data-v-637d02d8] {
+        padding: 14px;
 }
 }
 @media (max-width: 1200px) {
@@ -41772,292 +41833,503 @@ body.quran-reading-fullscreen-active .navbar,body.quran-reading-fullscreen-activ
     display: none;
 }
 .reader-custom-playlist-panel[data-v-637d02d8] {
-    margin-top: 14px;
-    border: 1px solid rgba(11, 107, 89, 0.2);
-    border-radius: 18px;
-    background: linear-gradient(180deg, #f9fffd 0%, #f4fbf8 100%);
-    box-shadow: 0 14px 30px rgba(11, 61, 46, 0.08);
-    padding: 14px;
+    margin-top: 12px;
+    border: 1px solid #93aea5;
+    border-radius: 12px;
+    background: #dce9e4;
+    padding: 12px;
 }
 .reader-custom-playlist-header[data-v-637d02d8] {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: space-between;
-    gap: 10px;
-    margin-bottom: 10px;
+    gap: 12px;
+    margin-bottom: 12px;
 }
 .reader-custom-playlist-title[data-v-637d02d8] {
-    font-size: 1.12rem;
-    color: #0b3d2e;
+    font-size: 1.1rem;
+    color: #082f27;
     font-weight: 700;
-    letter-spacing: -0.01em;
+    line-height: 1.2;
 }
 .reader-custom-playlist-subtitle[data-v-637d02d8] {
-    font-size: 0.84rem;
-    color: #4b5563;
+    font-size: 0.82rem;
+    color: #2f4c44;
+    line-height: 1.4;
+    margin-top: 2px;
 }
 .reader-custom-playlist-count[data-v-637d02d8] {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    min-width: 78px;
-    min-height: 30px;
+    min-height: 32px;
     border-radius: 999px;
-    padding: 0 10px;
-    font-size: 0.76rem;
+    padding: 0 11px;
+    font-size: 0.8rem;
     font-weight: 700;
-    color: #0b6b59;
-    background: rgba(11, 107, 89, 0.1);
-    border: 1px solid rgba(11, 107, 89, 0.22);
+    color: #0f4a3d;
+    background: #d7e8e2;
+    border: 1px solid #9fbdb3;
+    white-space: nowrap;
 }
 .reader-custom-playlist-header-actions[data-v-637d02d8] {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
 }
 .reader-custom-playlist-close[data-v-637d02d8] {
-    width: 34px;
-    height: 34px;
+    width: 36px;
+    height: 36px;
     border-radius: 10px;
-    border: 1px solid rgba(11, 61, 46, 0.2);
-    background: #ffffff;
-    color: #0b3d2e;
+    border: 1px solid #9db6ae;
+    background: #f8fcfa;
+    color: #173d34;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    transition: transform 0.18s ease, background-color 0.18s ease,
-        border-color 0.18s ease, color 0.18s ease;
+    transition: background-color 0.16s ease, border-color 0.16s ease, color 0.16s ease;
 }
 .reader-custom-playlist-close[data-v-637d02d8]:hover,
 .reader-custom-playlist-close[data-v-637d02d8]:focus-visible {
-    background: #ecfdf5;
-    border-color: rgba(11, 107, 89, 0.45);
-    color: #0b6b59;
-    transform: translateY(-1px);
+    background: #e9f3ef;
+    border-color: #7f9f95;
+    color: #0f342c;
 }
-.reader-custom-playlist-top-actions[data-v-637d02d8] {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-    margin-bottom: 10px;
-}
-.reader-custom-playlist-tabs[data-v-637d02d8] {
+.reader-custom-playlist-layout[data-v-637d02d8] {
     display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    gap: 6px;
-    margin-bottom: 12px;
+    grid-template-columns: minmax(220px, 260px) minmax(0, 1fr);
+    gap: 10px;
 }
-.reader-custom-playlist-pill-row[data-v-637d02d8] {
+.reader-custom-playlist-nav[data-v-637d02d8] {
+    border: 1px solid #aac2b9;
+    border-radius: 12px;
+    background: #f2f8f5;
+    padding: 8px;
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
+    gap: 8px;
+    min-height: 100%;
+}
+.reader-custom-playlist-nav-header[data-v-637d02d8] {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     gap: 8px;
 }
-.reader-custom-playlist-pill-row-scroll[data-v-637d02d8] {
-    max-height: 92px;
+.reader-custom-playlist-nav-add[data-v-637d02d8] {
+    min-height: 34px;
+    padding: 0.36rem 0.72rem;
+    font-size: 0.83rem;
+}
+.reader-custom-playlist-nav-list[data-v-637d02d8] {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    max-height: 300px;
     overflow-y: auto;
     padding-right: 2px;
-    align-content: flex-start;
 }
-.reader-custom-playlist-pill[data-v-637d02d8] {
-    border: 1px solid rgba(11, 61, 46, 0.2);
-    border-radius: 999px;
+.reader-custom-playlist-nav-item[data-v-637d02d8] {
+    border: 1px solid #b8ccc4;
+    border-radius: 10px;
     background: #ffffff;
-    color: #0b3d2e;
-    font-size: 0.8rem;
-    font-weight: 700;
-    min-height: 34px;
-    padding: 0.3rem 0.8rem;
-    transition: background-color 0.18s ease, border-color 0.18s ease, color 0.18s ease;
+    color: #163b33;
+    min-height: 40px;
+    padding: 0.42rem 0.55rem;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    transition: background-color 0.16s ease, border-color 0.16s ease, color 0.16s ease;
 }
-.reader-custom-playlist-pill.is-active[data-v-637d02d8] {
-    background: #0b6e63;
-    border-color: #0b6e63;
+.reader-custom-playlist-nav-item[data-v-637d02d8]:hover,
+.reader-custom-playlist-nav-item[data-v-637d02d8]:focus-visible {
+    border-color: #89aa9e;
+    background: #ebf4f0;
+}
+.reader-custom-playlist-nav-item.is-active[data-v-637d02d8] {
+    border-color: #0b6b59;
+    background: #0b6b59;
     color: #ffffff;
+}
+.reader-custom-playlist-nav-item-name[data-v-637d02d8] {
+    font-size: 0.84rem;
+    font-weight: 700;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.reader-custom-playlist-nav-item-count[data-v-637d02d8] {
+    min-width: 22px;
+    height: 22px;
+    border-radius: 999px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #edf7f4;
+    color: #15574a;
+    border: 1px solid #cfe4dc;
+}
+.reader-custom-playlist-nav-item.is-active .reader-custom-playlist-nav-item-count[data-v-637d02d8] {
+    background: rgba(255, 255, 255, 0.18);
+    color: #ffffff;
+    border-color: rgba(255, 255, 255, 0.34);
+}
+.reader-custom-playlist-content[data-v-637d02d8] {
+    border: 1px solid #aabfb7;
+    border-radius: 12px;
+    background: #e2ede9;
+    padding: 10px;
+    display: grid;
+    gap: 10px;
+}
+.reader-custom-playlist-content-header[data-v-637d02d8] {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
+}
+.reader-custom-playlist-content-actions[data-v-637d02d8] {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+.reader-custom-playlist-content-title[data-v-637d02d8] {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #0f2f28;
+    line-height: 1.25;
+}
+.reader-custom-playlist-content-subtitle[data-v-637d02d8] {
+    font-size: 0.8rem;
+    color: #405f56;
+    margin-top: 2px;
+    line-height: 1.35;
+}
+.reader-custom-playlist-editor-card[data-v-637d02d8],
+.reader-custom-playlist-items-card[data-v-637d02d8] {
+    border: 1px solid #b8ccc4;
+    border-radius: 12px;
+    background: #f9fcfb;
+    padding: 8px;
+}
+.reader-custom-playlist-items-card[data-v-637d02d8] {
+    display: grid;
+    gap: 8px;
+}
+.reader-custom-playlist-content-empty[data-v-637d02d8] {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.reader-custom-playlist-empty-state[data-v-637d02d8] {
+    width: 100%;
+    border: 1px dashed #c8d7d2;
+    border-radius: 10px;
+    padding: 16px;
+    text-align: center;
+    color: #5a6964;
+}
+.reader-custom-playlist-empty-state h4[data-v-637d02d8] {
+    font-size: 0.98rem;
+    color: #1f3f36;
+    font-weight: 700;
 }
 .reader-custom-playlist-empty-inline[data-v-637d02d8] {
     font-size: 0.8rem;
-    color: #4b5563;
-    padding: 0.2rem 0.1rem;
+    color: #5d6b67;
+    padding: 0.35rem 0.2rem;
 }
 .reader-custom-playlist-meta[data-v-637d02d8] {
     display: grid;
-    grid-template-columns: 3fr 3fr 3fr 3fr;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto;
     gap: 10px;
-    margin-bottom: 12px;
 }
 .reader-custom-playlist-field[data-v-637d02d8] {
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 4px;
 }
 .reader-custom-playlist-field-label[data-v-637d02d8] {
     font-size: 0.8rem;
     font-weight: 700;
-    color: #0b3d2e;
+    color: #22453c;
     margin: 0;
 }
 .reader-custom-playlist-field-save[data-v-637d02d8] {
     justify-content: flex-end;
+    display: inline-flex;
+    align-items: flex-end;
+    gap: 8px;
 }
 .reader-custom-playlist-save-btn[data-v-637d02d8] {
-    width: 100%;
+    min-width: 120px;
+}
+.reader-custom-playlist-confirm-btn[data-v-637d02d8] {
+    border-color: #90c9bb;
+    color: #0f5f4f;
+    background: #eaf8f3;
+}
+.reader-custom-playlist-confirm-btn[data-v-637d02d8]:hover,
+.reader-custom-playlist-confirm-btn[data-v-637d02d8]:focus-visible {
+    border-color: #6daea0;
+    color: #0a4a3d;
+    background: #ddf3ec;
 }
 .reader-custom-playlist-input[data-v-637d02d8] {
-    min-height: 42px;
-    border-radius: 12px;
-    border-color: rgba(11, 61, 46, 0.2);
-    background: #ffffff;
+    min-height: 38px;
+    border-radius: 10px;
+    border: 1px solid #bfcfc9;
+    background: #fbfefd;
     font-weight: 600;
+    font-size: 0.88rem;
+    color: #173a31;
+    box-shadow: inset 0 1px 0 rgba(15, 47, 40, 0.04);
 }
 .reader-custom-playlist-input[data-v-637d02d8]:focus {
-    border-color: rgba(11, 107, 89, 0.58);
-    box-shadow: 0 0 0 0.18rem rgba(11, 107, 89, 0.12);
-}
-.reader-custom-playlist-actions[data-v-637d02d8] {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-    margin-bottom: 12px;
+    border-color: #2e8b79;
+    background: #ffffff;
+    box-shadow: 0 0 0 0.2rem rgba(46, 139, 121, 0.15);
 }
 .reader-custom-playlist-btn[data-v-637d02d8] {
-    border-radius: 12px;
-    padding: 0.42rem 0.9rem;
+    border-radius: 10px;
+    padding: 0.44rem 0.88rem;
     font-weight: 700;
+    font-size: 0.86rem;
     min-height: 38px;
-    border: 1px solid transparent;
+    border: 1px solid #cfdad5;
+    background: #ffffff;
+    color: #1f3f36;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 0.2rem;
-    transition: transform 0.18s ease, box-shadow 0.18s ease,
-        background-color 0.18s ease, border-color 0.18s ease,
-        color 0.18s ease;
+    gap: 0.3rem;
+    white-space: nowrap;
+    transition: background-color 0.16s ease, border-color 0.16s ease, color 0.16s ease;
 }
 .reader-custom-playlist-btn[data-v-637d02d8]:hover,
 .reader-custom-playlist-btn[data-v-637d02d8]:focus-visible {
-    transform: translateY(-1px);
+    border-color: #b7c9c2;
+    background: #f3f7f5;
+}
+.reader-custom-playlist-btn[data-v-637d02d8]:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
 }
 .reader-custom-playlist-btn.is-add-surah[data-v-637d02d8] {
-    background: rgba(11, 107, 89, 0.1);
-    border-color: rgba(11, 107, 89, 0.34);
-    color: #0b6b59;
+    background: #0f7662;
+    border-color: #0f7662;
+    color: #ffffff;
 }
 .reader-custom-playlist-btn.is-add-surah[data-v-637d02d8]:hover,
 .reader-custom-playlist-btn.is-add-surah[data-v-637d02d8]:focus-visible {
-    background: rgba(11, 107, 89, 0.16);
-    box-shadow: 0 8px 16px rgba(11, 107, 89, 0.14);
-}
-.reader-custom-playlist-btn.is-add-ayah[data-v-637d02d8] {
-    background: rgba(14, 116, 144, 0.1);
-    border-color: rgba(14, 116, 144, 0.34);
-    color: #0f5f77;
-}
-.reader-custom-playlist-btn.is-add-ayah[data-v-637d02d8]:hover,
-.reader-custom-playlist-btn.is-add-ayah[data-v-637d02d8]:focus-visible {
-    background: rgba(14, 116, 144, 0.18);
-    box-shadow: 0 8px 16px rgba(14, 116, 144, 0.16);
+    background: #0c6654;
+    border-color: #0c6654;
+    color: #ffffff;
 }
 .reader-custom-playlist-btn.is-clear[data-v-637d02d8] {
-    background: rgba(190, 24, 93, 0.08);
-    border-color: rgba(190, 24, 93, 0.26);
-    color: #be185d;
+    background: #ffffff;
+    border-color: #edc9d6;
+    color: #b91c45;
 }
 .reader-custom-playlist-btn.is-clear[data-v-637d02d8]:hover,
 .reader-custom-playlist-btn.is-clear[data-v-637d02d8]:focus-visible {
-    background: rgba(190, 24, 93, 0.14);
-    box-shadow: 0 8px 16px rgba(190, 24, 93, 0.15);
+    background: #fff4f8;
+    border-color: #e7b1c4;
+    color: #9f1239;
 }
-.reader-custom-playlist-section + .reader-custom-playlist-section[data-v-637d02d8] {
-    margin-top: 12px;
+.reader-custom-playlist-bulk-bar[data-v-637d02d8] {
+    border: 1px solid #b8cbc4;
+    border-radius: 10px;
+    background: #e3eeea;
+    padding: 6px 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
 }
-.reader-custom-playlist-section[data-v-637d02d8] {
+.reader-custom-playlist-bulk-bar.is-bottom[data-v-637d02d8] {
+    margin-top: 2px;
+}
+.reader-custom-playlist-bulk-meta[data-v-637d02d8] {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.78rem;
+    color: #35574e;
+    font-weight: 700;
+}
+.reader-custom-playlist-bulk-selected[data-v-637d02d8] {
+    border-radius: 999px;
+    padding: 0.18rem 0.52rem;
+    background: #d7e8e2;
+    border: 1px solid #adc7be;
+    color: #20493f;
+}
+.reader-custom-playlist-bulk-actions[data-v-637d02d8] {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+.reader-custom-playlist-icon-btn[data-v-637d02d8] {
+    width: 30px;
+    min-width: 30px;
+    height: 30px;
+    padding: 0;
+}
+.reader-custom-playlist-icon-btn i[data-v-637d02d8] {
+    font-size: 0.92rem;
+}
+.reader-custom-playlist-list-scroll[data-v-637d02d8] {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 10px;
+    gap: 6px;
+    align-content: flex-start;
+    grid-auto-rows: min-content;
 }
-.reader-custom-playlist-tier-label[data-v-637d02d8] {
-    font-size: 0.79rem;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: #0b6b59;
-    font-weight: 800;
+.reader-custom-playlist-list-scroll.is-scroll-limited[data-v-637d02d8] {
+    max-height: 236px;
+    overflow-y: auto;
+    padding-right: 2px;
+}
+.reader-custom-playlist-list-collapsed-note[data-v-637d02d8] {
+    border: 1px dashed #c7d6d1;
+    border-radius: 10px;
+    background: #f7fbf9;
+    color: #4f5d58;
+    font-size: 0.8rem;
+    padding: 10px;
+    text-align: center;
 }
 .reader-custom-playlist-empty[data-v-637d02d8] {
-    font-size: 0.86rem;
-    color: #4b5563;
-    border: 1px dashed rgba(11, 107, 89, 0.25);
-    border-radius: 12px;
-    padding: 10px 12px;
+    font-size: 0.8rem;
+    color: #5a6964;
+    border: 1px dashed #c8d7d2;
+    border-radius: 10px;
+    padding: 10px;
     background: #ffffff;
-    grid-column: 1 / -1;
+    margin: 0;
 }
 .reader-custom-playlist-item[data-v-637d02d8] {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 10px;
-    border: 1px solid rgba(11, 107, 89, 0.18);
-    border-radius: 12px;
-    background: #ffffff;
-    padding: 10px 12px;
-    margin-bottom: 8px;
-    box-shadow: 0 4px 14px rgba(11, 61, 46, 0.06);
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 6px;
+    border: 1px solid #bfd0c9;
+    border-radius: 10px;
+    background: #f8fbfa;
+    padding: 0.42rem 0.5rem;
+    min-height: 46px;
+    cursor: pointer;
+    transition: border-color 0.16s ease, background-color 0.16s ease, box-shadow 0.16s ease;
 }
-.reader-custom-playlist-tier-label[data-v-637d02d8] {
-    grid-column: 1 / -1;
+.reader-custom-playlist-item[data-v-637d02d8]:hover {
+    border-color: #96b3a9;
+    background: #f1f7f4;
+}
+.reader-custom-playlist-item.is-selected[data-v-637d02d8] {
+    border-color: #1f7f6b;
+    background: #e7f5ef;
+    box-shadow: inset 0 0 0 1px rgba(31, 127, 107, 0.18);
+}
+.reader-custom-playlist-item.is-now-playing[data-v-637d02d8] {
+    border-color: #0b6b59;
+    background: #dff1e9;
+}
+.reader-custom-playlist-item-select[data-v-637d02d8] {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+.reader-custom-playlist-checkbox[data-v-637d02d8] {
+    width: 0.96rem;
+    height: 0.96rem;
+    margin: 0;
+    cursor: pointer;
+}
+.reader-custom-playlist-checkbox[data-v-637d02d8]:checked {
+    background-color: #0f7662;
+    border-color: #0f7662;
 }
 .reader-custom-playlist-item-text[data-v-637d02d8] {
     display: flex;
     flex-direction: column;
     min-width: 0;
+    gap: 2px;
+}
+.reader-custom-playlist-item-primary[data-v-637d02d8] {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
 }
 .reader-custom-playlist-item-title[data-v-637d02d8] {
-    font-size: 0.95rem;
-    color: #0b3d2e;
-    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.82rem;
+    color: #173a31;
+    font-weight: 700;
+    line-height: 1.2;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-width: 0;
+}
+.reader-custom-playlist-now-playing-icon[data-v-637d02d8] {
+    color: #0f7662;
+    font-size: 0.8rem;
+    flex-shrink: 0;
+}
+.reader-custom-playlist-item-arabic[data-v-637d02d8] {
+    margin-left: auto;
+    font-size: 0.86rem;
+    font-weight: 700;
+    color: #0f4f42;
+    white-space: nowrap;
+    padding-left: 8px;
 }
 .reader-custom-playlist-item-desc[data-v-637d02d8] {
-    font-size: 0.76rem;
-    color: #4b5563;
+    font-size: 0.74rem;
+    color: #4f5d58;
+    line-height: 1.3;
 }
 .reader-custom-playlist-item-actions[data-v-637d02d8] {
-    display: inline-flex;
+    display: flex;
     gap: 6px;
     align-items: center;
+    flex-shrink: 0;
 }
-.reader-custom-playlist-item-actions .btn[data-v-637d02d8] {
-    min-height: 34px;
-    border-radius: 10px;
-    font-weight: 700;
+.reader-custom-playlist-item-actions .reader-custom-playlist-btn[data-v-637d02d8] {
+    min-height: 30px;
+}
+.reader-custom-playlist-item-actions .reader-custom-playlist-btn.is-play i[data-v-637d02d8] {
+    font-size: 1rem;
+    line-height: 1;
 }
 .reader-custom-playlist-btn.is-play[data-v-637d02d8] {
-    background: linear-gradient(140deg, #059669 0%, #047857 100%);
+    background: #0f7662;
     color: #ffffff;
-    border-color: rgba(5, 150, 105, 0.8);
+    border-color: #0f7662;
 }
 .reader-custom-playlist-btn.is-play[data-v-637d02d8]:hover,
 .reader-custom-playlist-btn.is-play[data-v-637d02d8]:focus-visible {
-    background: linear-gradient(140deg, #10b981 0%, #047857 100%);
+    background: #0c6654;
+    border-color: #0c6654;
     color: #ffffff;
 }
 .reader-custom-playlist-btn.is-remove[data-v-637d02d8] {
-    background: rgba(127, 29, 29, 0.05);
-    border-color: rgba(185, 28, 28, 0.24);
-    color: #b91c1c;
+    background: #ffffff;
+    border-color: #f0cfd0;
+    color: #b4232f;
 }
 .reader-custom-playlist-btn.is-remove[data-v-637d02d8]:hover,
 .reader-custom-playlist-btn.is-remove[data-v-637d02d8]:focus-visible {
-    background: rgba(185, 28, 28, 0.12);
-    color: #9f1239;
-}
-.reader-custom-playlist-collapsed-note[data-v-637d02d8] {
-    margin-top: 6px;
-    font-size: 0.85rem;
-    color: #4b5563;
-    border: 1px dashed rgba(11, 107, 89, 0.24);
-    border-radius: 12px;
-    background: #ffffff;
-    padding: 10px 12px;
+    background: #fdf4f4;
+    border-color: #e6b4b6;
+    color: #9b1c27;
 }
 .ayah-pin-feedback-group[data-v-637d02d8] {
     position: relative;
@@ -42073,6 +42345,9 @@ body.quran-reading-fullscreen-active .navbar,body.quran-reading-fullscreen-activ
     background: #ffffff;
     box-shadow: 0 16px 28px rgba(11, 61, 46, 0.16);
     padding: 6px;
+    display: grid;
+    gap: 6px;
+    overflow: visible;
 }
 .ayah-playlist-menu-item[data-v-637d02d8] {
     width: 100%;
@@ -42085,13 +42360,45 @@ body.quran-reading-fullscreen-active .navbar,body.quran-reading-fullscreen-activ
     padding: 0.4rem 0.55rem;
     font-size: 0.83rem;
     font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
 }
 .ayah-playlist-menu-item[data-v-637d02d8]:hover,
 .ayah-playlist-menu-item[data-v-637d02d8]:focus-visible {
     background: #f0fdfa;
 }
+.ayah-playlist-menu-row[data-v-637d02d8] {
+    position: relative;
+}
+.ayah-playlist-menu-item-submenu.is-open[data-v-637d02d8] {
+    background: #e7f8f2;
+    color: #0b6b59;
+}
+.ayah-playlist-menu-item-submenu.is-danger.is-open[data-v-637d02d8] {
+    background: #fceff2;
+    color: #9f1239;
+}
+.ayah-playlist-submenu[data-v-637d02d8] {
+    position: absolute;
+    top: 0;
+    right: calc(100% + 8px);
+    min-width: 230px;
+    border: 1px solid rgba(11, 61, 46, 0.18);
+    border-radius: 12px;
+    background: #ffffff;
+    box-shadow: 0 16px 28px rgba(11, 61, 46, 0.16);
+    padding: 6px;
+    display: grid;
+    gap: 4px;
+}
 .ayah-playlist-menu-item.is-danger[data-v-637d02d8] {
     color: #9f1239;
+}
+.ayah-playlist-menu-item.is-danger[data-v-637d02d8]:hover,
+.ayah-playlist-menu-item.is-danger[data-v-637d02d8]:focus-visible {
+    background: #fdecef;
 }
 .ayah-playlist-menu-group[data-v-637d02d8] {
     display: grid;
@@ -42124,6 +42431,13 @@ body.quran-reading-fullscreen-active .navbar,body.quran-reading-fullscreen-activ
     font-weight: 700;
     min-height: 30px;
     padding: 0.2rem 0.65rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+.ayah-playlist-pill[data-v-637d02d8]:disabled {
+    opacity: 0.78;
+    cursor: not-allowed;
 }
 .ayah-playlist-pill.is-active[data-v-637d02d8] {
     background: #0b6e63;
@@ -42134,25 +42448,26 @@ body.quran-reading-fullscreen-active .navbar,body.quran-reading-fullscreen-activ
     position: fixed;
     inset: 0;
     z-index: 1090;
-    background: rgba(5, 24, 22, 0.42);
+    background: rgba(11, 31, 26, 0.5);
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 20px;
 }
 .playlist-modal-card[data-v-637d02d8] {
-    width: min(760px, 100%);
-    border-radius: 16px;
-    border: 1px solid rgba(11, 107, 89, 0.2);
-    background: linear-gradient(180deg, #f9fffd 0%, #f4fbf8 100%);
-    box-shadow: 0 18px 36px rgba(11, 61, 46, 0.2);
-    padding: 14px;
+    width: min(620px, 100%);
+    border-radius: 14px;
+    border: 1px solid #d7e3de;
+    background: #ffffff;
+    box-shadow: 0 18px 34px rgba(9, 28, 23, 0.24);
+    padding: 16px;
 }
 .playlist-modal-header[data-v-637d02d8] {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: space-between;
-    margin-bottom: 10px;
+    gap: 12px;
+    margin-bottom: 12px;
 }
 .playlist-modal-actions[data-v-637d02d8] {
     display: flex;
@@ -42204,35 +42519,69 @@ body.quran-reading-fullscreen-active .navbar,body.quran-reading-fullscreen-activ
     align-items: center;
     gap: 6px;
 }
+@media (max-width: 991.98px) {
+.reader-custom-playlist-layout[data-v-637d02d8] {
+        grid-template-columns: 1fr;
+}
+.reader-custom-playlist-nav-list[data-v-637d02d8] {
+        max-height: 180px;
+}
+}
 @media (max-width: 768px) {
 .reader-custom-playlist-meta[data-v-637d02d8] {
         grid-template-columns: 1fr;
 }
-.reader-custom-playlist-header[data-v-637d02d8] {
-        align-items: flex-start;
-        flex-direction: column;
-}
-.reader-custom-playlist-actions[data-v-637d02d8] {
-        gap: 8px;
-}
-.reader-custom-playlist-btn[data-v-637d02d8] {
+.reader-custom-playlist-header-actions[data-v-637d02d8] {
         width: 100%;
-        justify-content: flex-start;
+        justify-content: space-between;
+}
+.reader-custom-playlist-content-header[data-v-637d02d8] {
+        flex-direction: column;
+        align-items: flex-start;
+}
+.reader-custom-playlist-content-actions[data-v-637d02d8] {
+        width: 100%;
 }
 .reader-custom-playlist-field-save[data-v-637d02d8] {
         justify-content: stretch;
+        align-items: stretch;
+        display: grid;
 }
 .reader-custom-playlist-save-btn[data-v-637d02d8] {
         min-width: 0;
+        width: 100%;
+}
+.reader-custom-playlist-bulk-bar[data-v-637d02d8] {
+        flex-wrap: wrap;
+}
+.reader-custom-playlist-list-scroll.is-scroll-limited[data-v-637d02d8] {
+        max-height: 220px;
+}
+.reader-custom-playlist-item[data-v-637d02d8] {
+        grid-template-columns: auto minmax(0, 1fr) auto;
+        gap: 8px;
+}
+.reader-custom-playlist-item-primary[data-v-637d02d8] {
+        gap: 6px;
+}
+.reader-custom-playlist-item-arabic[data-v-637d02d8] {
+        font-size: 0.8rem;
+}
+.reader-custom-playlist-item-actions[data-v-637d02d8] {
         width: auto;
 }
-.reader-custom-playlist-section[data-v-637d02d8] {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+.ayah-playlist-submenu[data-v-637d02d8] {
+        position: static;
+        margin-top: 6px;
+        box-shadow: none;
 }
 }
 @media (max-width: 576px) {
-.reader-custom-playlist-section[data-v-637d02d8] {
-        grid-template-columns: minmax(0, 1fr);
+.reader-custom-playlist-header[data-v-637d02d8] {
+        flex-direction: column;
+}
+.reader-custom-playlist-header-actions[data-v-637d02d8] {
+        width: 100%;
 }
 }
 @media (max-width: 768px) {
@@ -42323,26 +42672,29 @@ body.quran-reading-fullscreen-active .navbar,body.quran-reading-fullscreen-activ
     width: 36px;
     height: 36px;
     border-radius: 10px;
-    color: #0b6e63;
-    background: rgba(15, 110, 99, 0.06);
-    border-color: rgba(15, 110, 99, 0.16);
+    color: #0b5f52;
+    background: #eef4f1;
+    border-color: #b9cec6;
 }
 .ayah-playlist-btn[data-v-637d02d8]:hover,
 .ayah-playlist-btn[data-v-637d02d8]:focus-visible {
-    color: #0b6e63;
-    background: rgba(15, 110, 99, 0.14);
-    border-color: rgba(11, 110, 99, 0.28);
+    color: #0a5a4d;
+    background: #dfece7;
+    border-color: #89aa9e;
 }
 .ayah-playlist-btn.is-in-playlist[data-v-637d02d8] {
-    background: linear-gradient(140deg, #0b8f7e 0%, #0b6b59 100%);
-    border-color: rgba(11, 143, 126, 0.95);
+    background: linear-gradient(140deg, #0f9f8a 0%, #0b6b59 100%);
+    border-color: rgba(11, 107, 89, 0.95);
     color: #ffffff;
-    box-shadow: 0 10px 18px rgba(11, 143, 126, 0.28);
+    box-shadow: 0 10px 18px rgba(11, 107, 89, 0.3);
 }
 .ayah-playlist-btn.is-in-playlist[data-v-637d02d8]:hover,
 .ayah-playlist-btn.is-in-playlist[data-v-637d02d8]:focus-visible {
-    background: linear-gradient(140deg, #10a18f 0%, #0b6b59 100%);
+    background: linear-gradient(140deg, #12b099 0%, #0b6b59 100%);
     color: #ffffff;
+}
+.ayah-playlist-btn.is-in-active-playlist[data-v-637d02d8] {
+    box-shadow: 0 0 0 2px rgba(15, 159, 138, 0.24);
 }
 .ayah-pin-btn.is-pinned[data-v-637d02d8] {
     background: linear-gradient(140deg, #0b8f7e 0%, #0b6b59 100%);
@@ -45537,6 +45889,10 @@ h1.display-5[data-v-637d02d8] {
 }
 .ayah-card-container .icon-btn.ayah-playlist-btn.is-in-playlist[data-v-637d02d8],
 .ayah-card-container .icon-btn.ayah-playlist-btn.is-in-playlist i[data-v-637d02d8] {
+    color: #ffffff !important;
+}
+.ayah-card-container .icon-btn.ayah-playlist-btn.is-in-active-playlist[data-v-637d02d8],
+.ayah-card-container .icon-btn.ayah-playlist-btn.is-in-active-playlist i[data-v-637d02d8] {
     color: #ffffff !important;
 }
 .ayah-card-container .bookmark-btn[data-v-637d02d8] {
@@ -50805,6 +51161,15 @@ to {
 .surat-premium .memorisation-toolbar-sticky.memorisation-toolbar-active[data-v-637d02d8] {
         margin-bottom: 0.85rem !important;
 }
+}
+.surat-premium .memorisation-icon-text-action.memorisation-icon-text-action--hifdhplan[data-v-637d02d8],
+.surat-premium .memorisation-icon-text-action.memorisation-icon-text-action--hifdhplan.is-enabled[data-v-637d02d8] {
+    background: linear-gradient(135deg, #0f766e, #115e59) !important;
+    border-color: #115e59 !important;
+    color: #f8fafc !important;
+}
+.surat-premium .memorisation-icon-text-action.memorisation-icon-text-action--hifdhplan .memorisation-icon-text-state[data-v-637d02d8] {
+    color: #ccfbf1 !important;
 }
 
 
