@@ -41144,6 +41144,12 @@ body.quran-reading-fullscreen-active .navbar,body.quran-reading-fullscreen-activ
     padding: 28px;
     overflow-y: auto;
 }
+.tajweed-modal .modal-title[data-v-637d02d8],
+.tajweed-modal .modal-title b[data-v-637d02d8] {
+    font-size: clamp(1.35rem, 1.7vw, 1.75rem);
+    font-weight: 800;
+    line-height: 1.2;
+}
 .tajweed-rules-modal-dialog[data-v-637d02d8] {
     max-width: min(1320px, 96vw);
 }

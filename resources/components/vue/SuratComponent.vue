@@ -2663,20 +2663,6 @@
                                         <span class="tajweed-rule-card-ref">Ayah {{ rule.exampleRef }}</span>
                                     </div>
                                     <div class="tajweed-rule-example-text" dir="rtl" v-html="formatTajweedText(rule.exampleTajweedText || rule.exampleText)"></div>
-                                    <button
-                                        type="button"
-                                        class="tajweed-rule-audio-btn"
-                                        @click="toggleTajweedRuleAudio(rule)"
-                                        :disabled="tajweedLoadingRuleId === rule.id"
-                                        :aria-pressed="tajweedPlayingRuleId === rule.id ? 'true' : 'false'"
-                                        :aria-label="`${tajweedPlayingRuleId === rule.id ? 'Pause' : 'Play'} audio example for ${rule.name}`">
-                                        <i
-                                            class="fas"
-                                            :class="tajweedPlayingRuleId === rule.id ? 'fa-pause' : 'fa-play'"
-                                            aria-hidden="true"></i>
-                                        <span v-if="tajweedLoadingRuleId === rule.id">Loading audio...</span>
-                                        <span v-else>{{ tajweedPlayingRuleId === rule.id ? "Pause example" : "Play example" }}</span>
-                                    </button>
                                 </article>
                             </div>
                             <div v-else class="text-muted small">Tajweed rules are currently unavailable.</div>
