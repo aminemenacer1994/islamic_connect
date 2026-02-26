@@ -473,8 +473,13 @@ export default {
             playlists: [],
             activePlaylistId: "",
             selectedPlaylistItemIds: [],
+            playlistSearchQuery: "",
+            playlistAyahSearchQuery: "",
+            playlistAyahFilterMode: "all",
             isPlaylistAyahListCollapsed: false,
-            playlistAyahSortOrder: "asc",
+            playlistDragItemId: "",
+            playlistDragOverItemId: "",
+            playlistLastDragAt: 0,
             isPlaylistEditorVisible: false,
             playlistEditorName: "",
             playlistEditorDescription: "",
@@ -2030,7 +2035,36 @@ export default {
             return Array.isArray(this.playlists) && this.playlists.length > 0;
         },
         sortedCustomPlaylists() {
-            return [...(this.playlists || [])];
+            return [...(this.playlists || [])].sort((a, b) => {
+                const first = String(a?.name || "").trim().toLowerCase();
+                const second = String(b?.name || "").trim().toLowerCase();
+                if (first && second && first !== second) {
+                    return first.localeCompare(second);
+                }
+                if (first && !second) return -1;
+                if (!first && second) return 1;
+                return String(a?.id || "").localeCompare(String(b?.id || ""));
+            });
+        },
+        filteredCustomPlaylists() {
+            const query = String(this.playlistSearchQuery || "")
+                .trim()
+                .toLowerCase();
+            const playlists = this.sortedCustomPlaylists || [];
+            if (!query) return playlists;
+            return playlists.filter((playlist) => {
+                const name = String(playlist?.name || "").toLowerCase();
+                const description = String(playlist?.description || "").toLowerCase();
+                const itemCount = String(
+                    Array.isArray(playlist?.items) ? playlist.items.length : 0
+                );
+                return `${name} ${description} ${itemCount}`.includes(query);
+            });
+        },
+        activePlaylistSubtitle() {
+            const description = String(this.activePlaylist?.description || "").trim();
+            if (description) return description;
+            return "Add a description or cover style from Edit playlist.";
         },
         activePlaylistItems() {
             return [...(this.customPlaylistAyahItems || [])];
@@ -2050,17 +2084,35 @@ export default {
             return nextName !== currentName || nextDescription !== currentDescription;
         },
         orderedCustomPlaylistAyahItems() {
-            const items = [...(this.customPlaylistAyahItems || [])];
-            items.sort((a, b) => {
-                const surahA = Number(a?.surahNumber || 0);
-                const surahB = Number(b?.surahNumber || 0);
-                if (surahA !== surahB) return surahA - surahB;
-                const ayahA = Number(a?.ayahNumber || 0);
-                const ayahB = Number(b?.ayahNumber || 0);
-                return ayahA - ayahB;
-            });
-            if (this.playlistAyahSortOrder === "desc") {
-                items.reverse();
+            return [...(this.customPlaylistAyahItems || [])];
+        },
+        filteredOrderedCustomPlaylistAyahItems() {
+            let items = [...(this.orderedCustomPlaylistAyahItems || [])];
+            const query = String(this.playlistAyahSearchQuery || "")
+                .trim()
+                .toLowerCase();
+            if (query) {
+                items = items.filter((item) => {
+                    const surahNumber = Number(item?.surahNumber || 0);
+                    const ayahNumber = Number(item?.ayahNumber || 0);
+                    const ref = surahNumber && ayahNumber
+                        ? `${surahNumber}:${ayahNumber}`
+                        : "";
+                    const main = String(this.getCustomPlaylistItemMain(item) || "").toLowerCase();
+                    const arabic = String(this.getCustomPlaylistItemArabicName(item) || "").toLowerCase();
+                    const meta = String(this.getCustomPlaylistItemMeta(item) || "").toLowerCase();
+                    return `${ref} ${main} ${arabic} ${meta}`.includes(query);
+                });
+            }
+            const mode = String(this.playlistAyahFilterMode || "all");
+            if (mode === "selected") {
+                items = items.filter((item) =>
+                    this.isPlaylistItemSelected(item?.id)
+                );
+            } else if (mode === "now-playing") {
+                items = items.filter((item) =>
+                    this.isCustomPlaylistItemNowPlaying(item)
+                );
             }
             return items;
         },
@@ -2143,6 +2195,10 @@ export default {
             this.syncSelectedPlaylistItems();
             this.isPlaylistEditorVisible = false;
             this.showPlaylistEditorConfirmAction = false;
+            this.playlistAyahSearchQuery = "";
+            this.playlistAyahFilterMode = "all";
+            this.playlistDragItemId = "";
+            this.playlistDragOverItemId = "";
             this.openAyahPlaylistMenuKey = "";
             this.openAyahPlaylistExistingSubmenuKey = "";
         },
@@ -11019,8 +11075,30 @@ export default {
             if (!this.showCustomPlaylistPanel) {
                 this.isPlaylistEditorVisible = false;
                 this.showPlaylistEditorConfirmAction = false;
+                this.playlistAyahSearchQuery = "";
+                this.playlistAyahFilterMode = "all";
+                this.playlistDragItemId = "";
+                this.playlistDragOverItemId = "";
                 this.closeAyahPlaylistMenu();
             }
+        },
+        getPlaylistAccentColor(playlist) {
+            const palette = [
+                "#0f7662",
+                "#0b6b59",
+                "#1d4ed8",
+                "#7c3aed",
+                "#be123c",
+                "#b45309",
+                "#0369a1",
+                "#166534",
+            ];
+            const token = String(playlist?.id || playlist?.name || "playlist");
+            let hash = 0;
+            for (let idx = 0; idx < token.length; idx++) {
+                hash = (hash * 31 + token.charCodeAt(idx)) >>> 0;
+            }
+            return palette[hash % palette.length];
         },
         getCustomPlaylistStorageKey() {
             const base = this.customPlaylistStorageKeyBase || "ic_surat_custom_playlist_v1";
@@ -11085,6 +11163,7 @@ export default {
             return (this.selectedPlaylistItemIds || []).includes(id);
         },
         togglePlaylistItemSelection(itemId) {
+            if (Date.now() - Number(this.playlistLastDragAt || 0) < 180) return;
             const id = String(itemId || "");
             if (!id) return;
             if (this.isPlaylistItemSelected(id)) {
@@ -11108,12 +11187,74 @@ export default {
                 .map((item) => String(item?.id || ""))
                 .filter(Boolean);
         },
-        togglePlaylistAyahSortOrder() {
-            this.playlistAyahSortOrder =
-                this.playlistAyahSortOrder === "asc" ? "desc" : "asc";
-        },
         togglePlaylistAyahListCollapsed() {
             this.isPlaylistAyahListCollapsed = !this.isPlaylistAyahListCollapsed;
+        },
+        onPlaylistItemDragStart(item, event) {
+            const itemId = String(item?.id || "");
+            if (!itemId || !this.activePlaylist) return;
+            this.playlistDragItemId = itemId;
+            this.playlistDragOverItemId = itemId;
+            this.playlistLastDragAt = Date.now();
+            if (event?.dataTransfer) {
+                event.dataTransfer.effectAllowed = "move";
+                event.dataTransfer.setData("text/plain", itemId);
+            }
+        },
+        onPlaylistItemDragOver(item, event) {
+            const itemId = String(item?.id || "");
+            if (!itemId || !this.playlistDragItemId) return;
+            if (itemId === this.playlistDragItemId) return;
+            if (event?.dataTransfer) {
+                event.dataTransfer.dropEffect = "move";
+            }
+            this.playlistDragOverItemId = itemId;
+        },
+        onPlaylistItemDragLeave(item, event) {
+            const itemId = String(item?.id || "");
+            if (!itemId) return;
+            const related = event?.relatedTarget;
+            if (related && event?.currentTarget?.contains?.(related)) return;
+            if (this.playlistDragOverItemId === itemId) {
+                this.playlistDragOverItemId = "";
+            }
+        },
+        onPlaylistItemDrop(targetItem, event) {
+            if (!this.activePlaylist) {
+                this.onPlaylistItemDragEnd();
+                return;
+            }
+            const sourceId =
+                String(this.playlistDragItemId || "") ||
+                String(event?.dataTransfer?.getData("text/plain") || "");
+            const targetId = String(targetItem?.id || "");
+            if (!sourceId || !targetId || sourceId === targetId) {
+                this.onPlaylistItemDragEnd();
+                return;
+            }
+            const items = [...(this.activePlaylist.items || [])];
+            const sourceIndex = items.findIndex(
+                (item) => String(item?.id || "") === sourceId
+            );
+            const targetIndex = items.findIndex(
+                (item) => String(item?.id || "") === targetId
+            );
+            if (sourceIndex < 0 || targetIndex < 0) {
+                this.onPlaylistItemDragEnd();
+                return;
+            }
+            const [moved] = items.splice(sourceIndex, 1);
+            const insertIndex = Math.max(0, targetIndex);
+            items.splice(insertIndex, 0, moved);
+            this.activePlaylist.items = items;
+            this.persistCustomPlaylist();
+            this.onPlaylistItemDragEnd();
+            this.announce("Playlist order updated.");
+        },
+        onPlaylistItemDragEnd() {
+            this.playlistDragItemId = "";
+            this.playlistDragOverItemId = "";
+            this.playlistLastDragAt = Date.now();
         },
         removeSelectedPlaylistItems() {
             if (!this.activePlaylist || !this.hasSelectedPlaylistItems) return;
@@ -11126,6 +11267,8 @@ export default {
             );
             const removed = Math.max(0, before - this.activePlaylist.items.length);
             this.selectedPlaylistItemIds = [];
+            this.playlistDragItemId = "";
+            this.playlistDragOverItemId = "";
             this.persistCustomPlaylist();
             if (removed) {
                 this.announce(
@@ -11207,6 +11350,10 @@ export default {
             this.activePlaylistId = nextId;
             this.syncPlaylistEditorFromActive();
             this.isPlaylistAyahListCollapsed = false;
+            this.playlistAyahSearchQuery = "";
+            this.playlistAyahFilterMode = "all";
+            this.playlistDragItemId = "";
+            this.playlistDragOverItemId = "";
             this.isPlaylistEditorVisible = false;
             this.showPlaylistEditorConfirmAction = false;
             this.persistCustomPlaylist();
@@ -11541,9 +11688,35 @@ export default {
                         })(),
                         description: String(playlist?.description || ""),
                         items: Array.isArray(playlist?.items)
-                            ? playlist.items.filter(
-                                  (item) => String(item?.type || "") === "ayah"
-                              )
+                            ? playlist.items
+                                  .filter(
+                                      (item) =>
+                                          String(item?.type || "") === "ayah"
+                                  )
+                                  .map((item) => {
+                                      const surahNumber = Number(
+                                          item?.surahNumber || 0
+                                      );
+                                      const ayahNumber = Number(
+                                          item?.ayahNumber || 0
+                                      );
+                                      return {
+                                          ...item,
+                                          id:
+                                              String(item?.id || "").trim() ||
+                                              this.buildCustomPlaylistItemId(
+                                                  "ayah",
+                                                  surahNumber || "x",
+                                                  ayahNumber || "x"
+                                              ),
+                                          type: "ayah",
+                                          surahNumber,
+                                          ayahNumber,
+                                          createdAt:
+                                              Number(item?.createdAt) ||
+                                              Date.now(),
+                                      };
+                                  })
                             : [],
                     }));
                     this.activePlaylistId =

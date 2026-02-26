@@ -800,24 +800,50 @@
                                 New playlist
                             </button>
                         </div>
+                        <div class="reader-custom-playlist-nav-tools">
+                            <div class="reader-custom-playlist-search-wrap">
+                                <i class="bi bi-search reader-custom-playlist-search-icon" aria-hidden="true"></i>
+                                <input
+                                    v-model.trim="playlistSearchQuery"
+                                    type="search"
+                                    class="form-control reader-custom-playlist-search-input"
+                                    placeholder="Search playlists"
+                                    aria-label="Search playlists">
+                                <button
+                                    v-if="playlistSearchQuery"
+                                    type="button"
+                                    class="reader-custom-playlist-search-clear"
+                                    @click="playlistSearchQuery = ''"
+                                    aria-label="Clear playlist search">
+                                    <i class="bi bi-x-lg" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                        </div>
                         <div class="reader-custom-playlist-nav-list" role="tablist" aria-label="Saved playlists">
                             <button
-                                v-for="playlist in sortedCustomPlaylists"
+                                v-for="playlist in filteredCustomPlaylists"
                                 :key="`playlist-pill-${playlist.id}`"
                                 type="button"
                                 class="reader-custom-playlist-nav-item"
                                 :class="{ 'is-active': String(activePlaylistId) === String(playlist.id) }"
                                 :aria-selected="String(activePlaylistId) === String(playlist.id) ? 'true' : 'false'"
                                 @click="selectPlaylist(playlist.id)">
-                                <span class="reader-custom-playlist-nav-item-name">
-                                    {{ playlist.name || "Untitled Playlist" }}
+                                <span class="reader-custom-playlist-nav-item-main">
+                                    <span
+                                        class="reader-custom-playlist-nav-item-accent"
+                                        :style="{ backgroundColor: getPlaylistAccentColor(playlist) }"
+                                        aria-hidden="true"></span>
+                                    <i class="bi bi-music-note-list reader-custom-playlist-nav-item-icon" aria-hidden="true"></i>
+                                    <span class="reader-custom-playlist-nav-item-name">
+                                        {{ playlist.name || "Untitled Playlist" }}
+                                    </span>
                                 </span>
                                 <span class="reader-custom-playlist-nav-item-count">
                                     {{ Array.isArray(playlist.items) ? playlist.items.length : 0 }}
                                 </span>
                             </button>
-                            <span v-if="!sortedCustomPlaylists.length" class="reader-custom-playlist-empty-inline">
-                                No playlists yet.
+                            <span v-if="!filteredCustomPlaylists.length" class="reader-custom-playlist-empty-inline">
+                                {{ playlistSearchQuery ? "No playlists match your search." : "No playlists yet." }}
                             </span>
                         </div>
                     </aside>
@@ -829,7 +855,7 @@
                                     {{ activePlaylist.name || "Untitled Playlist" }}
                                 </h4>
                                 <p class="reader-custom-playlist-content-subtitle mb-0">
-                                    {{ activePlaylist.description || "No description yet." }}
+                                    {{ activePlaylistSubtitle }}
                                 </p>
                             </div>
                             <div class="reader-custom-playlist-content-actions">
@@ -924,19 +950,58 @@
                                 </button>
                             </div>
                             <template v-else>
+                                <div class="reader-custom-playlist-list-tools">
+                                    <div class="reader-custom-playlist-search-wrap reader-custom-playlist-search-wrap--items">
+                                        <i class="bi bi-search reader-custom-playlist-search-icon" aria-hidden="true"></i>
+                                        <input
+                                            v-model.trim="playlistAyahSearchQuery"
+                                            type="search"
+                                            class="form-control reader-custom-playlist-search-input"
+                                            placeholder="Search ayahs in this playlist"
+                                            aria-label="Search ayahs in active playlist">
+                                        <button
+                                            v-if="playlistAyahSearchQuery"
+                                            type="button"
+                                            class="reader-custom-playlist-search-clear"
+                                            @click="playlistAyahSearchQuery = ''"
+                                            aria-label="Clear ayah search">
+                                            <i class="bi bi-x-lg" aria-hidden="true"></i>
+                                        </button>
+                                    </div>
+                                    <div class="reader-custom-playlist-filter-wrap">
+                                        <label class="reader-custom-playlist-filter-label mb-0" for="playlistAyahFilterMode">Filter</label>
+                                        <select
+                                            id="playlistAyahFilterMode"
+                                            v-model="playlistAyahFilterMode"
+                                            class="form-select reader-custom-playlist-filter-select"
+                                            aria-label="Filter playlist ayahs">
+                                            <option value="all">All</option>
+                                            <option value="selected">Selected</option>
+                                            <option value="now-playing">Now playing</option>
+                                        </select>
+                                    </div>
+                                </div>
                                 <div
                                     v-if="!isPlaylistAyahListCollapsed"
                                     class="reader-custom-playlist-list-scroll"
                                     :class="{ 'is-scroll-limited': shouldLimitPlaylistAyahListScroll }">
                                     <article
-                                        v-for="item in orderedCustomPlaylistAyahItems"
+                                        v-for="item in filteredOrderedCustomPlaylistAyahItems"
                                         :key="item.id"
                                         class="reader-custom-playlist-item"
                                         :class="{
                                             'is-selected': isPlaylistItemSelected(item.id),
-                                            'is-now-playing': isCustomPlaylistItemNowPlaying(item)
+                                            'is-now-playing': isCustomPlaylistItemNowPlaying(item),
+                                            'is-dragging': playlistDragItemId === String(item.id),
+                                            'is-drag-over': playlistDragOverItemId === String(item.id)
                                         }"
-                                        @click="togglePlaylistItemSelection(item.id)">
+                                        draggable="true"
+                                        @click="togglePlaylistItemSelection(item.id)"
+                                        @dragstart="onPlaylistItemDragStart(item, $event)"
+                                        @dragover.prevent="onPlaylistItemDragOver(item, $event)"
+                                        @dragleave="onPlaylistItemDragLeave(item, $event)"
+                                        @drop.prevent="onPlaylistItemDrop(item, $event)"
+                                        @dragend="onPlaylistItemDragEnd">
                                         <div class="reader-custom-playlist-item-select">
                                             <input
                                                 type="checkbox"
@@ -963,6 +1028,9 @@
                                             </span>
                                         </div>
                                         <div class="reader-custom-playlist-item-actions">
+                                            <span class="reader-custom-playlist-drag-handle" aria-hidden="true" title="Drag to reorder">
+                                                <i class="bi bi-grip-vertical"></i>
+                                            </span>
                                             <button
                                                 type="button"
                                                 class="reader-custom-playlist-btn is-play reader-custom-playlist-icon-btn"
@@ -973,6 +1041,11 @@
                                             </button>
                                         </div>
                                     </article>
+                                    <div
+                                        v-if="!filteredOrderedCustomPlaylistAyahItems.length"
+                                        class="reader-custom-playlist-empty reader-custom-playlist-empty-filtered">
+                                        <p class="mb-0">No ayahs match the current search or filter.</p>
+                                    </div>
                                 </div>
                                 <div v-else class="reader-custom-playlist-list-collapsed-note">
                                     Ayah list is collapsed.
