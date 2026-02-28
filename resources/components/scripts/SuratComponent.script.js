@@ -513,7 +513,7 @@ export default {
             mobileSurahInfoCardStorageKey: "suratMobileSurahInfoCardHidden",
             continuousPlayback: false, // Legacy flag; new playbackMode supersedes it
             visualizerBars: Array(20).fill(10),
-            playbackSpeeds: [1],
+            playbackSpeeds: [0.5, 0.75, 1, 1.25, 1.5],
             currentSpeedIndex: 0,
             playbackMode: "continuous",
             preferredPlaybackMode: "continuous",
@@ -707,6 +707,7 @@ export default {
             isHifdhDemoModeActive: false,
             hifdhTooltipInstances: [],
             hifdhPlanModalShownHandler: null,
+            hifdhConfettiTimeouts: [],
             isHifdhResetConfirmVisible: false,
             hifdhFeedbackChoices: [
                 { value: "strong", label: "Strong" },
@@ -909,6 +910,62 @@ export default {
             if (idx < 0 || idx >= len) return 0;
             return idx;
         },
+        memorisationCurrentAyah() {
+            const ayahs = Array.isArray(this.filteredAyahs)
+                ? this.filteredAyahs
+                : [];
+            if (!ayahs.length) return null;
+            const index = Math.min(
+                Math.max(0, Number(this.memorisationPlayIndex) || 0),
+                ayahs.length - 1
+            );
+            return ayahs[index] || null;
+        },
+        memorisationCurrentAyahNumber() {
+            const ayah = this.memorisationCurrentAyah;
+            if (!ayah) return 1;
+            const fallback = this.memorisationPlayIndex + 1;
+            return Number(ayah.numberInSurah || ayah.number || fallback);
+        },
+        memorisationProgressPercent() {
+            const total = Number(this.totalAyahs || 0);
+            if (!total) return 0;
+            const rawStart = Number(this.memorisationRangeStart || 1);
+            const rawEnd = Number(this.memorisationRangeEnd || total);
+            const start = Math.min(
+                total,
+                Math.max(1, Math.min(rawStart, rawEnd))
+            );
+            const end = Math.min(
+                total,
+                Math.max(start, Math.max(rawStart, rawEnd))
+            );
+            const current = Math.min(
+                end,
+                Math.max(start, Number(this.memorisationCurrentAyahNumber || start))
+            );
+            const span = Math.max(1, end - start + 1);
+            const completed = current - start + 1;
+            return Math.max(0, Math.min(100, Math.round((completed / span) * 100)));
+        },
+        memorisationProgressLabel() {
+            const total = Number(this.totalAyahs || 0);
+            if (!total) return "No ayahs loaded";
+            const rawStart = Number(this.memorisationRangeStart || 1);
+            const rawEnd = Number(this.memorisationRangeEnd || total);
+            const start = Math.min(
+                total,
+                Math.max(1, Math.min(rawStart, rawEnd))
+            );
+            const end = Math.min(
+                total,
+                Math.max(start, Math.max(rawStart, rawEnd))
+            );
+            return `Range ${start} to ${end}, ${this.memorisationProgressPercent}% completed`;
+        },
+        isMemorisationCurrentAyahSaved() {
+            return this.isAyahSaved(this.memorisationCurrentAyah);
+        },
         totalAyahs() {
             return this.surahDetails?.ayahs?.length || 0;
         },
@@ -1058,7 +1115,7 @@ export default {
             };
         },
         hifdhRecentPerformance() {
-            const windowDays = 14;
+            const windowDays = 7;
             const today = new Date();
             const todayKey = this.toDateKey(today);
             const startDate = new Date(today);
@@ -1111,7 +1168,7 @@ export default {
             };
         },
         hifdhPerformanceTimeline() {
-            const windowDays = this.hifdhRecentPerformance.windowDays || 14;
+            const windowDays = this.hifdhRecentPerformance.windowDays || 7;
             const today = new Date();
             const startDate = new Date(today);
             startDate.setDate(startDate.getDate() - (windowDays - 1));
@@ -1148,11 +1205,47 @@ export default {
                 return {
                     key: dayKey,
                     label: dayDate.toLocaleDateString("en-US", { weekday: "short" }),
+                    shortDate: dayDate.toLocaleDateString("en-US", {
+                        month: "short",
+                        day: "numeric",
+                    }),
                     dueCount,
                     completedCount,
                     completionRate,
                     barHeight: Math.max(12, Math.min(100, completionRate)),
                     isToday: dayKey === this.toDateKey(today),
+                };
+            });
+        },
+        hifdhTrackerCards() {
+            return (this.hifdhPerformanceTimeline || []).map((day) => {
+                const dueCount = Number(day?.dueCount || 0);
+                const completedCount = Number(day?.completedCount || 0);
+                const completionRate = Number(day?.completionRate || 0);
+                const progressPercent =
+                    dueCount > 0
+                        ? Math.max(8, Math.min(100, completionRate))
+                        : completedCount > 0
+                        ? 100
+                        : 8;
+
+                let statusLabel = "No due";
+                if (dueCount > 0 && completionRate >= 100) {
+                    statusLabel = "Complete";
+                } else if (dueCount > 0 && completionRate > 0) {
+                    statusLabel = "In progress";
+                } else if (dueCount > 0) {
+                    statusLabel = "Pending";
+                } else if (completedCount > 0) {
+                    statusLabel = "Extra";
+                }
+
+                return {
+                    ...day,
+                    progressPercent,
+                    statusLabel,
+                    isComplete: dueCount > 0 && completionRate >= 100,
+                    isEmpty: dueCount === 0 && completedCount === 0,
                 };
             });
         },
@@ -2496,11 +2589,22 @@ export default {
             this.persistLocalSetting("suratIsTranslationVisible", newVal ? "1" : "0");
         },
         playbackSpeed(newVal) {
-            if (newVal !== 1) {
-                this.playbackSpeed = 1;
+            const speed = Number(newVal);
+            const allowed = Array.isArray(this.playbackSpeeds) && this.playbackSpeeds.length
+                ? this.playbackSpeeds
+                : [1];
+            const safeSpeed = allowed.includes(speed) ? speed : 1;
+            if (safeSpeed !== speed) {
+                this.playbackSpeed = safeSpeed;
                 return;
             }
-            this.persistLocalSetting("playbackSpeed", 1);
+            this.currentSpeedIndex = Math.max(0, allowed.indexOf(safeSpeed));
+            if (Array.isArray(this.audioElements)) {
+                this.audioElements.forEach((audio) => {
+                    if (audio) audio.playbackRate = safeSpeed;
+                });
+            }
+            this.persistLocalSetting("playbackSpeed", String(safeSpeed));
         },
     },
     created() {
@@ -2635,8 +2739,18 @@ export default {
         this.isHighlighted = false;
         this.continuousPlayback =
             JSON.parse(localStorage.getItem("continuousPlayback")) ?? false;
-        this.playbackSpeed = 1;
-        this.currentSpeedIndex = 0;
+        let storedPlaybackSpeed = null;
+        try {
+            storedPlaybackSpeed = Number(localStorage.getItem("playbackSpeed"));
+        } catch (_) {}
+        const defaultSpeed = 1;
+        this.playbackSpeed = this.playbackSpeeds.includes(storedPlaybackSpeed)
+            ? storedPlaybackSpeed
+            : defaultSpeed;
+        this.currentSpeedIndex = Math.max(
+            0,
+            this.playbackSpeeds.indexOf(this.playbackSpeed)
+        );
         let storedPreferredPlaybackMode = null;
         let storedPlaybackMode = null;
         try {
@@ -2852,6 +2966,7 @@ export default {
             this.hifdhPlanModalShownHandler = null;
         }
         this.disposeHifdhTooltips();
+        this.clearHifdhConfettiLayers();
     },
         beforeDestroy() {
             this.stopHighlightLoop();
@@ -2927,6 +3042,7 @@ export default {
                 window.cancelAnimationFrame(this._virtualWindowRaf);
                 this._virtualWindowRaf = null;
             }
+            this.clearHifdhConfettiLayers();
         },
     methods: {
         async fetchUserId() {
@@ -3102,7 +3218,7 @@ export default {
             if (this.isMemorisationToolbarVisible) {
                 this.showDesktopToolbar = false;
                 this.isMobileToolbarExpanded = false;
-                this.isMemorisationAdvancedOpen = false;
+                this.isMemorisationAdvancedOpen = !!this.isTabletOrMobile;
                 this.isMemorisationReadingAidsOpen = false;
             } else {
                 this.showDesktopToolbar = true;
@@ -3117,12 +3233,15 @@ export default {
         },
         toggleMemorisationAdvanced() {
             this.isMemorisationAdvancedOpen = !this.isMemorisationAdvancedOpen;
-            if (!this.isMemorisationAdvancedOpen) {
+            if (this.isTabletOrMobile && this.isMemorisationAdvancedOpen) {
                 this.isMemorisationReadingAidsOpen = false;
             }
         },
         toggleMemorisationReadingAidsDropdown() {
             this.isMemorisationReadingAidsOpen = !this.isMemorisationReadingAidsOpen;
+            if (this.isTabletOrMobile && this.isMemorisationReadingAidsOpen) {
+                this.isMemorisationAdvancedOpen = false;
+            }
         },
         toggleBlurNextAyah() {
             this.isBlurNextAyahEnabled = !this.isBlurNextAyahEnabled;
@@ -4296,6 +4415,7 @@ export default {
             await this.$nextTick();
             if (this.hasTodayHifdhPlan) {
                 await this.startTodayHifdhSessionAndCloseModal();
+                this.triggerHifdhConfetti({ burst: "soft" });
             }
         },
         markAllPendingHifdhDueToday() {
@@ -4377,6 +4497,79 @@ export default {
                 } catch (_) {}
             });
             this.hifdhTooltipInstances = [];
+        },
+        triggerHifdhConfetti({ burst = "soft" } = {}) {
+            if (typeof document === "undefined") return;
+            if (
+                typeof window !== "undefined" &&
+                window.matchMedia &&
+                window.matchMedia("(prefers-reduced-motion: reduce)").matches
+            ) {
+                return;
+            }
+            const host =
+                document.querySelector("#hifdhPlanModal.show .modal-content") ||
+                document.querySelector("#hifdhPlanModal .modal-content");
+            if (!host) return;
+
+            const layer = document.createElement("div");
+            layer.className = "hifdh-confetti-layer";
+            layer.setAttribute("aria-hidden", "true");
+
+            const palette = ["#10b981", "#14b8a6", "#22c55e", "#f59e0b", "#60a5fa"];
+            const isFullBurst = burst === "full";
+            const particleCount = isFullBurst ? 48 : 26;
+            const spread = isFullBurst ? 380 : 240;
+
+            for (let i = 0; i < particleCount; i += 1) {
+                const piece = document.createElement("span");
+                piece.className = "hifdh-confetti-piece";
+                piece.style.setProperty(
+                    "--hifdh-confetti-x",
+                    `${Math.round((Math.random() - 0.5) * spread)}px`
+                );
+                piece.style.setProperty(
+                    "--hifdh-confetti-delay",
+                    `${(Math.random() * 0.22).toFixed(2)}s`
+                );
+                piece.style.setProperty(
+                    "--hifdh-confetti-duration",
+                    `${(0.9 + Math.random() * 1.05).toFixed(2)}s`
+                );
+                piece.style.setProperty(
+                    "--hifdh-confetti-rotation",
+                    `${Math.round(Math.random() * 420)}deg`
+                );
+                piece.style.setProperty(
+                    "--hifdh-confetti-color",
+                    palette[Math.floor(Math.random() * palette.length)]
+                );
+                layer.appendChild(piece);
+            }
+
+            host.appendChild(layer);
+
+            const timeoutId = setTimeout(() => {
+                if (layer && layer.parentNode) {
+                    layer.parentNode.removeChild(layer);
+                }
+            }, 2300);
+            this.hifdhConfettiTimeouts.push(timeoutId);
+        },
+        clearHifdhConfettiLayers() {
+            if (typeof document !== "undefined") {
+                document.querySelectorAll(".hifdh-confetti-layer").forEach((node) => {
+                    if (node && node.parentNode) {
+                        node.parentNode.removeChild(node);
+                    }
+                });
+            }
+            if (Array.isArray(this.hifdhConfettiTimeouts)) {
+                this.hifdhConfettiTimeouts.forEach((timeoutId) => {
+                    clearTimeout(timeoutId);
+                });
+            }
+            this.hifdhConfettiTimeouts = [];
         },
         async quickStartSurahTwoDemoRange() {
             const surahNumber = 2;
@@ -4644,7 +4837,11 @@ export default {
             this.hifdhActiveItemId = next?.id || null;
             if (next) {
                 this.openHifdhPlanItem(next);
+                if (String(feedback || "").toLowerCase() === "strong") {
+                    this.triggerHifdhConfetti({ burst: "soft" });
+                }
             } else {
+                this.triggerHifdhConfetti({ burst: "full" });
                 this.announce("Today’s Hifdh session is complete.");
             }
             this.persistHifdhPlanUiState();
@@ -4675,6 +4872,25 @@ export default {
                 "Word audio",
                 this.showWordTranslationTooltip
             );
+        },
+        async toggleCurrentMemorisationBookmark() {
+            const ayah = this.memorisationCurrentAyah;
+            if (!ayah) {
+                this.showToast("No ayah selected to bookmark.", 2500);
+                return;
+            }
+            await this.toggleBookmark(ayah);
+        },
+        setPlaybackSpeed(speed) {
+            const numeric = Number(speed);
+            if (!Number.isFinite(numeric)) return;
+            const allowed = Array.isArray(this.playbackSpeeds) && this.playbackSpeeds.length
+                ? this.playbackSpeeds
+                : [1];
+            const resolved = allowed.includes(numeric) ? numeric : 1;
+            this.playbackSpeed = resolved;
+            this.currentSpeedIndex = Math.max(0, allowed.indexOf(resolved));
+            this.showToast(`Playback speed: ${resolved}x`, 2200);
         },
         toggleAudioPlayerVisibility() {
             this.isAudioPlayerVisible = !this.isAudioPlayerVisible;
@@ -9597,7 +9813,7 @@ export default {
                 } catch (_) { }
                 audio.src = ayah.audio || "";
             }
-            audio.playbackRate = 1;
+            audio.playbackRate = Number(this.playbackSpeed) || 1;
             audio.volume = this.volume;
 
             // Update playing states
@@ -9776,7 +9992,7 @@ export default {
                 } catch (_) { }
             }
             a.volume = this.volume;
-            a.playbackRate = 1;
+            a.playbackRate = Number(this.playbackSpeed) || 1;
         },
         updateProgress: function (index) {
             if (
@@ -11072,6 +11288,9 @@ export default {
         },
         toggleCustomPlaylistPanel() {
             this.showCustomPlaylistPanel = !this.showCustomPlaylistPanel;
+            if (this.showCustomPlaylistPanel && this.isTabletOrMobile) {
+                this.isMobileToolbarExpanded = false;
+            }
             if (!this.showCustomPlaylistPanel) {
                 this.isPlaylistEditorVisible = false;
                 this.showPlaylistEditorConfirmAction = false;
@@ -11925,14 +12144,15 @@ export default {
             this.updateProgress(this.currentlyPlayingIndex);
         },
         cyclePlaybackSpeed: function () {
-            this.currentSpeedIndex = 0;
-            this.playbackSpeed = 1;
-            if (this.audioElements && this.audioElements.forEach) {
-                this.audioElements.forEach((audio) => {
-                    if (audio) audio.playbackRate = 1;
-                });
-            }
-            this.savePreference("playbackSpeed", 1);
+            const speeds = Array.isArray(this.playbackSpeeds) && this.playbackSpeeds.length
+                ? this.playbackSpeeds
+                : [1];
+            const currentIndex = Math.max(0, speeds.indexOf(Number(this.playbackSpeed) || 1));
+            const nextIndex = (currentIndex + 1) % speeds.length;
+            const nextSpeed = speeds[nextIndex];
+            this.currentSpeedIndex = nextIndex;
+            this.playbackSpeed = nextSpeed;
+            this.showToast(`Playback speed: ${nextSpeed}x`, 2200);
         },
         animateVisualizer: function () {
             if (!this.isAudioPlaying[this.currentlyPlayingIndex]) return;
