@@ -3218,7 +3218,7 @@ export default {
             if (this.isMemorisationToolbarVisible) {
                 this.showDesktopToolbar = false;
                 this.isMobileToolbarExpanded = false;
-                this.isMemorisationAdvancedOpen = !!this.isTabletOrMobile;
+                this.isMemorisationAdvancedOpen = false;
                 this.isMemorisationReadingAidsOpen = false;
             } else {
                 this.showDesktopToolbar = true;
@@ -3233,13 +3233,13 @@ export default {
         },
         toggleMemorisationAdvanced() {
             this.isMemorisationAdvancedOpen = !this.isMemorisationAdvancedOpen;
-            if (this.isTabletOrMobile && this.isMemorisationAdvancedOpen) {
+            if (this.isMemorisationAdvancedOpen) {
                 this.isMemorisationReadingAidsOpen = false;
             }
         },
         toggleMemorisationReadingAidsDropdown() {
             this.isMemorisationReadingAidsOpen = !this.isMemorisationReadingAidsOpen;
-            if (this.isTabletOrMobile && this.isMemorisationReadingAidsOpen) {
+            if (this.isMemorisationReadingAidsOpen) {
                 this.isMemorisationAdvancedOpen = false;
             }
         },
@@ -8688,9 +8688,6 @@ export default {
             }
             if (!this.isTabletOrMobile && this.isMobileToolbarExpanded) {
                 this.isMobileToolbarExpanded = false;
-            }
-            if (!this.isTabletOrMobile && this.isMemorisationReadingAidsOpen) {
-                this.isMemorisationReadingAidsOpen = false;
             }
             if (!this.isDesktopWide && this.isReadingFullscreen) {
                 this.exitReadingFullscreen({

@@ -1,6 +1,14 @@
 /* Local fonts with swap to improve FOIT */
 @import url('https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;600;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&family=Cairo:wght@400;600;700&family=Lateef:wght@400;700&family=Noto+Naskh+Arabic:wght@400;600;700&family=Noto+Nastaliq+Urdu:wght@400;600;700&family=Reem+Kufi:wght@400;600;700&display=swap');
+@import "@fortawesome/fontawesome-free/css/all.min.css";
+
+/* Global theme variables (light/dark + high contrast) */
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@400;600;700&display=swap');
+@import './themes.css';
+@import './premium.css';
+@import '../../node_modules/bootstrap/dist/css/bootstrap.css';
+@import './layout.css';
 
 @font-face {
   font-family: 'Amiri';
@@ -24,8 +32,8 @@
 
 @font-face {
   font-family: 'IndoPak';
-  src: url('https://verses.quran.foundation/fonts/quran/hafs/indopak/indopak.woff2') format('woff2'),
-       url('https://verses.quran.foundation/fonts/quran/hafs/indopak/indopak.woff') format('woff');
+  src: url('/fonts/UthmanicHafs-Regular.woff2') format('woff2'),
+       url('/fonts/UthmanicHafs-Regular.woff') format('woff');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -67,17 +75,6 @@
   font-style: normal;
   font-display: swap;
 }
-
-@import "@fortawesome/fontawesome-free/css/all.min.css";
-
-/* Global theme variables (light/dark + high contrast) */
-@import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@400;600;700&display=swap');
-@import './themes.css';
-
-@import './premium.css';
-
-@import '../../node_modules/bootstrap/dist/css/bootstrap.css';
-@import './layout.css';
 
 /* Custom brand action colors override (teal primary) */
 :root {

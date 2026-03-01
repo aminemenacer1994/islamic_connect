@@ -1,6 +1,7 @@
 
 import axios from 'axios';
 import { fetchUserIdFromApi, resolveClientUserId } from '../utils/bookmarkAuth';
+import duaCollectionData from '../vue/duaCollection.json';
 const { createDuaMetadata } = require('../utils/duaSlugs');
 export default {
   data() {
@@ -204,6 +205,35 @@ export default {
     },
   },
   methods: {
+    hydrateDuaCollection(data) {
+      if (!data || !Array.isArray(data.categories)) {
+        throw new Error('Invalid JSON structure: categories not found or not an array');
+      }
+      try { console.debug('[DuaComponent] loaded categories:', data.categories.length); } catch (e) { }
+      this.duaCollection = data.categories.map(category => ({
+        ...category,
+        collapsed: false,
+        duas: category.duas.map((dua, index) => {
+          const originalId = dua.id || index + 1;
+          return {
+            ...dua,
+            id: `${category.id}-${originalId}`,
+            originalId,
+          };
+        }),
+      }));
+      const ids = new Set();
+      this.duaCollection.forEach(category => {
+        category.duas.forEach(dua => {
+          if (ids.has(dua.id)) {
+            console.warn(`Duplicate dua ID found: ${dua.id}`);
+          }
+          ids.add(dua.id);
+        });
+      });
+      this.resetPagination();
+      this.applyStaticDuaSlug();
+    },
     removeFilter(filterType) {
       if (filterType === 'query') this.searchQuery = '';
       if (filterType === 'category') this.selectedCategory = '';
@@ -571,51 +601,14 @@ export default {
   created() {
     try { console.debug('[DuaComponent] created()'); } catch (e) { }
     this.resolveStorageScope();
-
-    // Robust path for JSON under public/
-    fetch(`${window.location.origin}/duaCollection.json`)
-      .then(response => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        return response.json();
-      })
-      .then(data => {
-        if (!data.categories || !Array.isArray(data.categories)) {
-          throw new Error('Invalid JSON structure: categories not found or not an array');
-        }
-        try { console.debug('[DuaComponent] loaded categories:', data.categories.length); } catch (e) { }
-        this.duaCollection = data.categories.map(category => ({
-          ...category,
-          collapsed: false,
-          duas: category.duas.map((dua, index) => {
-            const originalId = dua.id || index + 1;
-            return {
-              ...dua,
-              id: `${category.id}-${originalId}`,
-              originalId,
-            };
-          }),
-        }));
-        const ids = new Set();
-        this.duaCollection.forEach(category => {
-          category.duas.forEach(dua => {
-            if (ids.has(dua.id)) {
-              console.warn(`Duplicate dua ID found: ${dua.id}`);
-            }
-            ids.add(dua.id);
-          });
-        });
-        this.resetPagination();
-        this.applyStaticDuaSlug();
-      })
-      .catch(error => {
-        console.error('Error loading dua collection:', error);
-        this.errorMessage = 'Failed to load dua collection. Please try again later.';
-      })
-      .finally(() => {
-        this.isLoading = false;
-      });
+    try {
+      this.hydrateDuaCollection(duaCollectionData);
+    } catch (error) {
+      console.error('Error loading dua collection:', error);
+      this.errorMessage = 'Failed to load dua collection. Please try again later.';
+    } finally {
+      this.isLoading = false;
+    }
     window.addEventListener('scroll', this.handleScroll, { passive: true });
     this.initializeSpeechVoices();
   },

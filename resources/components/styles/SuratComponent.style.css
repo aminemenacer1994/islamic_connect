@@ -7843,27 +7843,23 @@ h1.display-5 {
     top: auto;
 }
 
-/* Force desktop toolbar to stay pinned even in sticky-hostile layouts. */
+/* Keep desktop toolbar pinned without detaching it from document flow. */
 @media (min-width: 992px) {
     .quran-toolbar-sticky.quran-toolbar-fixed-shell {
-        position: relative;
-        top: auto;
-        min-height: 84px;
+        position: -webkit-sticky;
+        position: sticky;
+        top: calc(var(--nav-offset, var(--navbar-h, 72px)) + 10px);
+        min-height: 0;
     }
 
-    .quran-toolbar-sticky.quran-toolbar-fixed-shell .quran-toolbar {
-        position: static;
-        margin: 0;
-    }
-
+    .quran-toolbar-sticky.quran-toolbar-fixed-shell .quran-toolbar,
     .quran-toolbar-sticky.quran-toolbar-fixed-shell.is-pinned .quran-toolbar {
-        position: fixed;
-        top: calc(var(--nav-offset, var(--navbar-h, 72px)) + 12px);
-        left: 16px;
-        right: 16px;
-        width: auto;
-        z-index: 2000;
-        background: #ffffff !important;
+        position: static;
+        top: auto;
+        left: auto;
+        right: auto;
+        width: 100%;
+        margin: 0;
     }
 }
 
@@ -18717,5 +18713,586 @@ h1.display-5 {
     .surat-premium .memorisation-core-slot-note {
         min-height: 0;
         font-size: 0.66rem;
+    }
+}
+
+/* Consistency lock: unify typography, spacing, colors, control sizing, and component rhythm */
+.surat-premium .memorisation-toolbar-sticky.memorisation-toolbar-active {
+    --mc-display: "Fraunces", "Playfair Display", serif;
+    --mc-body: "Manrope", "Inter", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    --mc-ink: #123f36;
+    --mc-muted: #4f6d66;
+    --mc-border: #c6d8d2;
+    --mc-surface: #f7fbfa;
+    --mc-surface-strong: #eef5f2;
+    --mc-accent: #0f6f5f;
+    --mc-accent-strong: #0c5b4e;
+    --mc-accent-soft: #e8f5f0;
+    --mc-radius: 14px;
+    --mc-control-h: 46px;
+    --mc-row-pad-y: 0.72rem;
+    --mc-row-pad-x: 0.82rem;
+}
+
+.surat-premium .memorisation-toolbar-sticky.memorisation-toolbar-active .quran-toolbar.memorisation-toolbar-two-rows {
+    background: #ffffff !important;
+    border: 1px solid var(--mc-border) !important;
+    border-radius: 18px !important;
+    box-shadow: none !important;
+    padding: 0.7rem !important;
+    gap: 0.56rem !important;
+    font-family: var(--mc-body) !important;
+    color: var(--mc-ink) !important;
+}
+
+.surat-premium .memorisation-row-clean-header,
+.surat-premium .memorisation-row-clean-core,
+.surat-premium .memorisation-row-clean-settings {
+    background: var(--mc-surface) !important;
+    border: 1px solid var(--mc-border) !important;
+    border-radius: var(--mc-radius) !important;
+    box-shadow: none !important;
+    padding: var(--mc-row-pad-y) var(--mc-row-pad-x) !important;
+}
+
+.surat-premium .memorisation-clean-title-wrap .quran-toolbar-label-purple {
+    font-family: var(--mc-display) !important;
+    font-size: clamp(1.64rem, 2.45vw, 2.08rem) !important;
+    line-height: 1.04 !important;
+    font-weight: 800 !important;
+    color: var(--mc-ink) !important;
+}
+
+.surat-premium .memorisation-clean-subtitle,
+.surat-premium .memorisation-row-section-subtitle,
+.surat-premium .memorisation-row-subtitle,
+.surat-premium .memorisation-aids-section-subtitle,
+.surat-premium .memorisation-core-slot-note,
+.surat-premium .memorisation-step-help {
+    font-family: var(--mc-body) !important;
+    color: var(--mc-muted) !important;
+    font-size: 0.78rem !important;
+    line-height: 1.34 !important;
+    font-weight: 600 !important;
+}
+
+.surat-premium .memorisation-row-section-title,
+.surat-premium .memorisation-row-title {
+    font-family: var(--mc-display) !important;
+    font-size: clamp(1.34rem, 1.8vw, 1.62rem) !important;
+    line-height: 1.08 !important;
+    font-weight: 800 !important;
+    color: var(--mc-ink) !important;
+    margin-bottom: 0.16rem !important;
+}
+
+.surat-premium .memorisation-row-section-heading--core .memorisation-row-section-title {
+    font-size: clamp(1.34rem, 1.8vw, 1.62rem) !important;
+}
+
+.surat-premium .memorisation-aids-section-title {
+    font-family: var(--mc-display) !important;
+    font-size: clamp(1.06rem, 1.32vw, 1.24rem) !important;
+    line-height: 1.14 !important;
+    font-weight: 800 !important;
+    color: var(--mc-ink) !important;
+    margin-bottom: 0.1rem !important;
+}
+
+.surat-premium .memorisation-core-slot {
+    gap: 0.22rem !important;
+}
+
+.surat-premium .memorisation-row-clean-core {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 0.62rem !important;
+    align-items: start !important;
+}
+
+.surat-premium .memorisation-core-slot--flow .memorisation-reciter-group-inline {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.22rem !important;
+}
+
+.surat-premium .memorisation-playback-label,
+.surat-premium .memorisation-switch-label,
+.surat-premium .memorisation-inline-field > span {
+    font-family: var(--mc-body) !important;
+    color: var(--mc-ink) !important;
+    font-size: 0.9rem !important;
+    font-weight: 700 !important;
+    line-height: 1.2;
+}
+
+.surat-premium .memorisation-switch-control,
+.surat-premium .memorisation-inline-action,
+.surat-premium .memorisation-core-slot .memorisation-reciter-group-inline .quran-toolbar-select,
+.surat-premium .memorisation-inline-field .quran-toolbar-select,
+.surat-premium .memorisation-icon-text-action,
+.surat-premium .memorisation-mobile-section-toggle,
+.surat-premium .memorisation-range-inputs .quran-toolbar-select {
+    min-height: var(--mc-control-h) !important;
+    border-radius: 12px !important;
+    border: 1px solid var(--mc-border) !important;
+    background: #ffffff !important;
+    color: var(--mc-ink) !important;
+    box-shadow: none !important;
+    font-family: var(--mc-body) !important;
+    font-weight: 700 !important;
+}
+
+.surat-premium .memorisation-inline-field {
+    border: 1px solid var(--mc-border) !important;
+    border-radius: 12px !important;
+    background: #ffffff !important;
+    padding: 0.36rem 0.46rem !important;
+}
+
+.surat-premium .memorisation-range-inputs .quran-toolbar-select {
+    width: 64px !important;
+    min-width: 64px !important;
+}
+
+.surat-premium .memorisation-range-reset-link {
+    color: var(--mc-ink) !important;
+    font-size: 0.86rem !important;
+    font-weight: 700 !important;
+}
+
+.surat-premium .memorisation-inline-action--play {
+    background: var(--mc-accent) !important;
+    border-color: var(--mc-accent) !important;
+    color: #ffffff !important;
+}
+
+.surat-premium .memorisation-inline-action--play:hover,
+.surat-premium .memorisation-inline-action--play:focus-visible {
+    background: var(--mc-accent-strong) !important;
+    border-color: var(--mc-accent-strong) !important;
+}
+
+.surat-premium .memorisation-inline-action--play i,
+.surat-premium .memorisation-inline-action--play span {
+    color: inherit !important;
+}
+
+.surat-premium .memorisation-switch-control,
+.surat-premium .memorisation-icon-text-action,
+.surat-premium .memorisation-inline-action,
+.surat-premium .memorisation-mobile-section-toggle {
+    transition: none !important;
+}
+
+.surat-premium .memorisation-switch-control:hover,
+.surat-premium .memorisation-icon-text-action:hover,
+.surat-premium .memorisation-inline-action:hover,
+.surat-premium .memorisation-mobile-section-toggle:hover,
+.surat-premium .memorisation-switch-control:focus-within,
+.surat-premium .memorisation-icon-text-action:focus-visible,
+.surat-premium .memorisation-inline-action:focus-visible,
+.surat-premium .memorisation-mobile-section-toggle:focus-visible {
+    transform: none !important;
+    box-shadow: none !important;
+}
+
+.surat-premium .memorisation-mobile-sections {
+    gap: 0.5rem !important;
+}
+
+.surat-premium .memorisation-mobile-section-toggle-copy {
+    gap: 0.08rem !important;
+}
+
+.surat-premium .memorisation-mobile-section-toggle-label {
+    font-family: var(--mc-body) !important;
+    font-size: 0.84rem !important;
+    font-weight: 700 !important;
+    color: var(--mc-ink) !important;
+}
+
+.surat-premium .memorisation-mobile-section-toggle-desc {
+    font-family: var(--mc-body) !important;
+    font-size: 0.72rem !important;
+    font-weight: 600 !important;
+    color: var(--mc-muted) !important;
+}
+
+.surat-premium .memorisation-row-section-heading--core,
+.surat-premium .memorisation-row-section-heading--setup {
+    margin: 0.04rem 0 0.2rem !important;
+}
+
+.surat-premium .memorisation-row2-secondary {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    grid-template-areas:
+        "range audio"
+        "pacing pacing";
+    gap: 0.62rem !important;
+    margin-top: 0 !important;
+}
+
+.surat-premium .memorisation-session-card,
+.surat-premium .memorisation-toolbar-group--range,
+.surat-premium .memorisation-feature-row--feature-panel {
+    border: 1px solid var(--mc-border) !important;
+    border-radius: var(--mc-radius) !important;
+    background: var(--mc-surface-strong) !important;
+    box-shadow: none !important;
+    padding: 0.56rem 0.6rem !important;
+}
+
+.surat-premium .memorisation-feature-row--setup {
+    gap: 0.54rem !important;
+}
+
+.surat-premium .memorisation-feature-row--controls {
+    gap: 0.54rem !important;
+}
+
+.surat-premium .memorisation-feature-row--feature-panel {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)) !important;
+    gap: 0.48rem !important;
+}
+
+.surat-premium .memorisation-icon-text-action {
+    padding: 0.44rem 0.6rem !important;
+}
+
+.surat-premium .memorisation-icon-text-label {
+    font-family: var(--mc-body) !important;
+    font-size: 0.97rem !important;
+    font-weight: 700 !important;
+    color: var(--mc-ink) !important;
+}
+
+.surat-premium .memorisation-icon-text-state {
+    border: 1px solid var(--mc-border) !important;
+    border-radius: 999px !important;
+    background: #f8fcfa !important;
+    color: var(--mc-muted) !important;
+    font-family: var(--mc-body) !important;
+    font-size: 0.74rem !important;
+    font-weight: 700 !important;
+    min-width: 60px !important;
+    text-align: center;
+}
+
+.surat-premium .memorisation-icon-text-action.is-enabled {
+    background: var(--mc-accent-soft) !important;
+    border-color: #96cfc0 !important;
+    color: var(--mc-ink) !important;
+}
+
+.surat-premium .memorisation-icon-text-action.is-enabled .memorisation-icon-text-state {
+    background: #def2ea !important;
+    border-color: #9fd3c5 !important;
+    color: #0e5d4d !important;
+}
+
+.surat-premium .memorisation-icon-text-action.memorisation-icon-text-action--hifdhplan,
+.surat-premium .memorisation-icon-text-action.memorisation-icon-text-action--hifdhplan.is-enabled {
+    background: var(--mc-accent-soft) !important;
+    border-color: #96cfc0 !important;
+    color: var(--mc-ink) !important;
+}
+
+.surat-premium .memorisation-icon-text-action.memorisation-icon-text-action--hifdhplan .memorisation-icon-text-state {
+    background: #def2ea !important;
+    border-color: #9fd3c5 !important;
+    color: #0e5d4d !important;
+}
+
+@media (max-width: 991.98px) {
+    .surat-premium .memorisation-toolbar-sticky.memorisation-toolbar-active .quran-toolbar.memorisation-toolbar-two-rows {
+        padding: 0.56rem !important;
+    }
+
+    .surat-premium .memorisation-row-clean-header,
+    .surat-premium .memorisation-row-clean-core,
+    .surat-premium .memorisation-row-clean-settings {
+        padding: 0.58rem !important;
+    }
+
+    .surat-premium .memorisation-row-clean-core {
+        grid-template-columns: minmax(0, 1fr) !important;
+        gap: 0.5rem !important;
+    }
+
+    .surat-premium .memorisation-row2-secondary {
+        grid-template-columns: minmax(0, 1fr) !important;
+        grid-template-areas:
+            "range"
+            "audio"
+            "pacing";
+        gap: 0.5rem !important;
+    }
+
+    .surat-premium .memorisation-feature-row--feature-panel {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    }
+
+    .surat-premium .memorisation-row-section-title,
+    .surat-premium .memorisation-row-title {
+        font-size: 1.18rem !important;
+    }
+
+    .surat-premium .memorisation-row-section-subtitle,
+    .surat-premium .memorisation-row-subtitle,
+    .surat-premium .memorisation-aids-section-subtitle,
+    .surat-premium .memorisation-core-slot-note {
+        font-size: 0.72rem !important;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .surat-premium .memorisation-clean-title-wrap .quran-toolbar-label-purple {
+        font-size: 1.34rem !important;
+    }
+
+    .surat-premium .memorisation-feature-row--feature-panel {
+        grid-template-columns: minmax(0, 1fr) !important;
+    }
+
+    .surat-premium .memorisation-switch-control,
+    .surat-premium .memorisation-inline-action,
+    .surat-premium .memorisation-core-slot .memorisation-reciter-group-inline .quran-toolbar-select,
+    .surat-premium .memorisation-inline-field .quran-toolbar-select,
+    .surat-premium .memorisation-icon-text-action,
+    .surat-premium .memorisation-mobile-section-toggle {
+        min-height: 42px !important;
+    }
+}
+
+/* Width fix: reciter/speed dropdowns should fill their field containers */
+.surat-premium .memorisation-feature-row--setup .memorisation-inline-field {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    align-items: start !important;
+    gap: 0.28rem;
+}
+
+.surat-premium .memorisation-feature-row--setup .memorisation-inline-field select.quran-toolbar-select {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    display: block !important;
+    margin: 0 !important;
+}
+
+/* Compact UX mode: keep memorisation tools powerful but stop them dominating the ayah viewport */
+.surat-premium .memorisation-toolbar-sticky.memorisation-toolbar-active {
+    max-height: min(62vh, 560px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+}
+
+.surat-premium .memorisation-toolbar-sticky.memorisation-toolbar-active .quran-toolbar.memorisation-toolbar-two-rows {
+    padding: 0.5rem !important;
+    gap: 0.42rem !important;
+}
+
+.surat-premium .memorisation-row-clean-header,
+.surat-premium .memorisation-row-clean-core,
+.surat-premium .memorisation-row-clean-settings {
+    padding: 0.48rem 0.56rem !important;
+    border-radius: 12px !important;
+}
+
+.surat-premium .memorisation-clean-title-wrap .quran-toolbar-label-purple {
+    font-size: clamp(1.28rem, 1.9vw, 1.56rem) !important;
+}
+
+.surat-premium .memorisation-clean-subtitle {
+    font-size: 0.74rem !important;
+}
+
+.surat-premium .memorisation-header-progress {
+    height: 6px !important;
+    margin-top: 0.24rem !important;
+}
+
+.surat-premium .memorisation-row-section-title,
+.surat-premium .memorisation-row-title {
+    font-size: clamp(1.02rem, 1.3vw, 1.18rem) !important;
+    margin-bottom: 0.08rem !important;
+}
+
+.surat-premium .memorisation-row-section-subtitle,
+.surat-premium .memorisation-row-subtitle,
+.surat-premium .memorisation-aids-section-subtitle {
+    font-size: 0.72rem !important;
+    line-height: 1.3 !important;
+}
+
+.surat-premium .memorisation-row-clean-core {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 0.44rem !important;
+}
+
+.surat-premium .memorisation-core-slot-note {
+    display: none !important;
+}
+
+.surat-premium .memorisation-switch-control,
+.surat-premium .memorisation-inline-action,
+.surat-premium .memorisation-core-slot .memorisation-reciter-group-inline .quran-toolbar-select,
+.surat-premium .memorisation-inline-field .quran-toolbar-select,
+.surat-premium .memorisation-icon-text-action,
+.surat-premium .memorisation-mobile-section-toggle {
+    min-height: 40px !important;
+}
+
+.surat-premium .memorisation-icon-text-label {
+    font-size: 0.9rem !important;
+}
+
+.surat-premium .memorisation-icon-text-state {
+    font-size: 0.7rem !important;
+}
+
+.surat-premium .memorisation-desktop-section-toggles {
+    grid-column: 1 / -1;
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.4rem !important;
+    margin-top: 0.02rem;
+}
+
+.surat-premium .memorisation-desktop-section-toggles .memorisation-mobile-section-toggle {
+    min-height: 38px !important;
+    padding: 0.32rem 0.46rem !important;
+    background: #f3f8f6 !important;
+}
+
+.surat-premium .memorisation-desktop-section-toggles .memorisation-mobile-section-toggle-label {
+    font-size: 0.8rem !important;
+}
+
+.surat-premium .memorisation-desktop-section-toggles .memorisation-mobile-section-toggle-desc {
+    display: none !important;
+}
+
+.surat-premium .memorisation-row-section-heading--setup {
+    margin: 0.06rem 0 0.1rem !important;
+}
+
+.surat-premium .memorisation-row2-secondary {
+    gap: 0.46rem !important;
+}
+
+.surat-premium .memorisation-session-card,
+.surat-premium .memorisation-toolbar-group--range,
+.surat-premium .memorisation-feature-row--feature-panel {
+    padding: 0.44rem 0.5rem !important;
+}
+
+.surat-premium .memorisation-feature-row--feature-panel {
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)) !important;
+}
+
+@media (max-width: 991.98px) {
+    .surat-premium .memorisation-toolbar-sticky.memorisation-toolbar-active {
+        max-height: min(72vh, 620px);
+    }
+
+    .surat-premium .memorisation-row-clean-core {
+        grid-template-columns: minmax(0, 1fr) !important;
+    }
+
+    .surat-premium .memorisation-desktop-section-toggles {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .surat-premium .memorisation-desktop-section-toggles .memorisation-mobile-section-toggle-desc {
+        display: block !important;
+    }
+
+    .surat-premium .memorisation-core-slot-note {
+        display: block !important;
+    }
+}
+
+/* Critical layout + alignment fix: prevent ayah overlap and clean icon spacing */
+.surat-premium .quran-toolbar-sticky.memorisation-toolbar-sticky.memorisation-toolbar-active {
+    position: static !important;
+    top: auto !important;
+    z-index: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+    margin: 0 0 0.9rem !important;
+}
+
+.surat-premium .quran-toolbar-sticky.memorisation-toolbar-sticky.memorisation-toolbar-active::before {
+    pointer-events: none !important;
+}
+
+.surat-premium .memorisation-close-action {
+    width: 38px !important;
+    min-width: 38px !important;
+    height: 38px !important;
+    padding: 0 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.surat-premium .memorisation-close-action .bi {
+    font-size: 0.96rem !important;
+    line-height: 1 !important;
+    margin: 0 !important;
+}
+
+.surat-premium .memorisation-inline-action,
+.surat-premium .memorisation-icon-text-action,
+.surat-premium .memorisation-mobile-section-toggle {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 0.42rem !important;
+}
+
+.surat-premium .memorisation-inline-action i,
+.surat-premium .memorisation-icon-text-action i,
+.surat-premium .memorisation-mobile-section-toggle i {
+    font-size: 0.9rem !important;
+    line-height: 1 !important;
+    margin: 0 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.surat-premium .memorisation-icon-text-label,
+.surat-premium .memorisation-mobile-section-toggle-label {
+    line-height: 1.15 !important;
+}
+
+.surat-premium .memorisation-mobile-section-toggle i {
+    margin-left: auto !important;
+}
+
+.surat-premium .memorisation-feature-row--controls {
+    align-items: center !important;
+}
+
+/* Compact pacing row after removing always-disabled "Next Ayah" action */
+.surat-premium .memorisation-session-card--pacing.memorisation-feature-row--controls {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 0.34rem !important;
+    min-height: 0 !important;
+    padding: 0.28rem 0.34rem !important;
+}
+
+.surat-premium .memorisation-session-card--pacing .memorisation-inline-field {
+    margin: 0 !important;
+}
+
+.surat-premium .memorisation-session-card--pacing .memorisation-inline-field .quran-toolbar-select {
+    min-height: 38px !important;
+}
+
+@media (max-width: 767.98px) {
+    .surat-premium .memorisation-session-card--pacing.memorisation-feature-row--controls {
+        grid-template-columns: minmax(0, 1fr) !important;
     }
 }

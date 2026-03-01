@@ -297,6 +297,7 @@ import { fetchUserIdFromApi } from '../../utils/bookmarkAuth';
 
 export default {
   name: 'BookmarkModal',
+  emits: ['saved'],
   props: {
     ayah: {
       type: Object,

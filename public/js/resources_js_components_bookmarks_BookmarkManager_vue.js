@@ -885,6 +885,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'BookmarkModal',
+  emits: ['saved'],
   props: {
     ayah: {
       type: Object,

@@ -1143,10 +1143,10 @@
         </div>
 
         <!-- Memorisation Toolbar -->
-        <transition name="mem-toolbar-slide mb-4">
+        <transition name="mem-toolbar-slide">
             <div
                 v-if="isMemorisationToolbarVisible"
-                class="quran-toolbar-sticky memorisation-toolbar-sticky memorisation-toolbar-active ltr-text"
+                class="quran-toolbar-sticky memorisation-toolbar-sticky memorisation-toolbar-active ltr-text mb-4"
                 :class="{ 'is-pinned': isToolbarPinned }"
                 role="group"
                 aria-label="Memorisation tools expanded">
@@ -1195,19 +1195,6 @@
                             <div class="memorisation-row-section-title">Live Session Controls</div>
                             <p class="memorisation-row-section-subtitle mb-0">These controls affect playback immediately while you recite.</p>
                         </div>
-                        <div class="memorisation-core-slot memorisation-core-slot--primary memorisation-core-slot--focus">
-                            <label class="memorisation-switch-control" :title="isMemorisationMode ? 'Turn off single-ayah focus' : 'Turn on single-ayah focus'">
-                                <span class="memorisation-switch-label">Single ayah focus</span>
-                                <input
-                                    type="checkbox"
-                                    class="memorisation-switch-input"
-                                    :checked="isMemorisationMode"
-                                    @change="toggleMemorisationMode"
-                                    :aria-label="isMemorisationMode ? 'Turn off single ayah focus' : 'Turn on single ayah focus'">
-                                <span class="memorisation-switch-ui" aria-hidden="true"></span>
-                            </label>
-                            <small class="memorisation-core-slot-note mb-0">Keep repetition centered on one ayah before moving forward.</small>
-                        </div>
 
                         <div class="memorisation-core-slot memorisation-core-slot--primary memorisation-core-slot--play">
                             <button
@@ -1226,27 +1213,11 @@
                             <small class="memorisation-core-slot-note mb-0">{{ isAnyAudioPlaying ? "Pause to review quietly, then resume when ready." : "Play the currently selected ayah with your active settings." }}</small>
                         </div>
 
-                        <div class="memorisation-core-slot memorisation-core-slot--primary memorisation-core-slot--flow">
-                            <div class="quran-toolbar-reciter memorisation-reciter-group memorisation-reciter-group-inline">
-                                <select
-                                    id="memorisationPlaybackModeSelectInline"
-                                    class="form-select quran-toolbar-select"
-                                    v-model="playbackMode"
-                                    aria-label="Playback flow mode"
-                                    title="Auto-advance moves to the next ayah, Repeat loops one ayah, and Manual waits for your next tap.">
-                                    <option v-for="option in playbackModeOptions" :key="option.value" :value="option.value">
-                                        {{ option.value === "continuous" ? "Auto-advance" : option.value === "repeat" ? "Repeat ayah" : "Manual tap" }}
-                                    </option>
-                                </select>
-                                <small class="memorisation-core-slot-note mb-0">{{ currentPlaybackModeOption && currentPlaybackModeOption.description ? currentPlaybackModeOption.description : "Choose what happens after each ayah." }}</small>
-                            </div>
-                        </div>
-
                         <p v-if="isTabletOrMobile" class="memorisation-step-help mb-0">
-                            Start with these live controls, then open Session Setup for range and pacing.
+                            Start with these live controls, then open Session Setup for focus, playback mode, range, and pacing.
                         </p>
 
-                        <div v-if="isTabletOrMobile" class="memorisation-mobile-sections memorisation-mobile-sections--secondary">
+                        <div class="memorisation-mobile-sections memorisation-mobile-sections--secondary memorisation-desktop-section-toggles">
                             <button
                                 type="button"
                                 class="memorisation-mobile-section-toggle"
@@ -1268,6 +1239,7 @@
                                 :aria-expanded="isMemorisationReadingAidsOpen ? 'true' : 'false'"
                                 aria-controls="memorisationMobileAidsPanel">
                                 <span class="memorisation-mobile-section-toggle-copy">
+                                    <span class="memorisation-mobile-section-toggle-label">Progress Tools</span>
                                     <span class="memorisation-mobile-section-toggle-desc">Display helpers, audio aids, and tools</span>
                                 </span>
                                 <i class="bi" :class="isMemorisationReadingAidsOpen ? 'bi-chevron-up' : 'bi-chevron-down'" aria-hidden="true"></i>
@@ -1275,16 +1247,41 @@
                         </div>
 
                         <div
-                            v-if="!isTabletOrMobile || isMemorisationAdvancedOpen"
+                            v-if="isMemorisationAdvancedOpen"
                             class="memorisation-row-section-heading memorisation-row-section-heading--setup">
                             <div class="memorisation-row-section-title">Session Setup</div>
-                            <p class="memorisation-row-section-subtitle mb-0">Set range, reciter, speed, and pacing before your memorisation run starts.</p>
+                            <p class="memorisation-row-section-subtitle mb-0">Set focus mode, playback flow, range, reciter, speed, and pacing before your memorisation run starts.</p>
                         </div>
 
                         <div
                             id="memorisationMobileSessionPanel"
-                            v-if="!isTabletOrMobile || isMemorisationAdvancedOpen"
+                            v-if="isMemorisationAdvancedOpen"
                             class="memorisation-row2-secondary">
+                            <div class="memorisation-feature-row memorisation-feature-row--setup memorisation-session-card memorisation-session-card--mode" role="group" aria-label="Focus and playback setup">
+                                <label class="memorisation-switch-control mb-0" :title="isMemorisationMode ? 'Turn off single-ayah focus' : 'Turn on single-ayah focus'">
+                                    <span class="memorisation-switch-label">Single ayah focus</span>
+                                    <input
+                                        type="checkbox"
+                                        class="memorisation-switch-input"
+                                        :checked="isMemorisationMode"
+                                        @change="toggleMemorisationMode"
+                                        :aria-label="isMemorisationMode ? 'Turn off single ayah focus' : 'Turn on single ayah focus'">
+                                    <span class="memorisation-switch-ui" aria-hidden="true"></span>
+                                </label>
+                                <label class="memorisation-inline-field mb-0" title="Set playback flow after each ayah">
+                                    <span>Playback mode</span>
+                                    <select
+                                        id="memorisationPlaybackModeSelectInline"
+                                        class="form-select quran-toolbar-select"
+                                        v-model="playbackMode"
+                                        aria-label="Playback flow mode"
+                                        title="Auto-advance moves to the next ayah, Repeat loops one ayah, and Manual waits for your next tap.">
+                                        <option v-for="option in playbackModeOptions" :key="option.value" :value="option.value">
+                                            {{ option.value === "continuous" ? "Auto-advance" : option.value === "repeat" ? "Repeat ayah" : "Manual tap" }}
+                                        </option>
+                                    </select>
+                                </label>
+                            </div>
                             <div class="memorisation-toolbar-group memorisation-toolbar-group--range memorisation-session-card memorisation-session-card--range">
                                 <div class="d-flex align-items-center gap-2 memorisation-range-main">
                                     <span class="quran-toolbar-label d-none d-sm-inline-block" style="color: #064e3b; margin-right: 0;">Range</span>
@@ -1349,16 +1346,10 @@
                                     </select>
                                 </label>
                             </div>
-                            <div class="memorisation-feature-row memorisation-feature-row--controls memorisation-session-card memorisation-session-card--pacing">
-                                <button
-                                    type="button"
-                                    class="memorisation-icon-text-action memorisation-icon-text-action--compact memorisation-icon-text-action--next"
-                                    @click="advanceMemorisationFocus"
-                                    :disabled="!isMemorisationMode || memorisationFocusIndexSafe >= filteredAyahs.length - 1"
-                                    title="Move focus to the next ayah">
-                                    <i class="bi bi-skip-forward-fill" aria-hidden="true"></i>
-                                    <span class="memorisation-icon-text-label">Next Ayah</span>
-                                </button>
+                            <div
+                                class="memorisation-feature-row memorisation-feature-row--controls memorisation-session-card memorisation-session-card--pacing"
+                                role="group"
+                                aria-label="Pacing controls">
                                 <template v-if="!isTabletOrMobile">
                                     <label class="memorisation-inline-field mb-0" title="Delay before next ayah">
                                         <span>Delay (sec)</span>
@@ -1395,7 +1386,7 @@
 
                     <div
                         id="memorisationMobileAidsPanel"
-                        v-if="!isTabletOrMobile || isMemorisationReadingAidsOpen"
+                        v-if="isMemorisationReadingAidsOpen"
                         class="memorisation-toolbar-row memorisation-toolbar-row-3 memorisation-row-clean-settings">
                             <div
                                 id="memorisationAdvancedSettings"
@@ -1445,7 +1436,7 @@
                                         </button>
                                     </div>
                                 </section>
-                                <section class="memorisation-aids-section memorisation-aids-section--session" aria-label="Session tools">
+                                <!-- <section class="memorisation-aids-section memorisation-aids-section--session" aria-label="Session tools">
                                     <p class="memorisation-aids-section-subtitle mb-0">Track your plan and save your exact ayah checkpoint.</p>
                                     <div class="memorisation-feature-row memorisation-feature-row--feature-panel" role="group" aria-label="Session tools">
                                         <button type="button" class="memorisation-icon-text-action memorisation-icon-text-action--hifdhplan is-enabled" @click="openHifdhPlanModalGuarded" title="Open Hifdh review plan">
@@ -1465,7 +1456,7 @@
                                             <span class="memorisation-icon-text-state">{{ isMemorisationCurrentAyahSaved ? "Bookmarked" : "Save" }}</span>
                                         </button>
                                     </div>
-                                </section>
+                                </section> -->
                                 </div>
                             </div>
                             </div>
@@ -2216,7 +2207,7 @@
             <div v-if="isLoading" class="loading-placeholder">Loading Surah...</div>
 
             <div class="row rtl-text" ref="listContainer" role="list" aria-label="Ayah cards list"
-                :style="enableVirtualization && !isMemorisationMode
+                :style="!isMemorisationMode
                     ? { paddingTop: topSpacerHeight + 'px', paddingBottom: bottomSpacerHeight + 'px' }
                     : null">
                 <div style="padding: 12px; border-radius: 8px" ref="audioCard" v-for="item in visibleWindow"
