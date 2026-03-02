@@ -1,9 +1,41 @@
 
 import axios from 'axios';
+import { ref } from 'vue';
 import { fetchUserIdFromApi, resolveClientUserId } from '../utils/bookmarkAuth';
+import { useDuaRecommender } from '../../js/composables/useDuaRecommender';
 import duaCollectionData from '../vue/duaCollection.json';
 const { createDuaMetadata } = require('../utils/duaSlugs');
 export default {
+  setup() {
+    const recommendationInput = ref('');
+    const {
+      matchedDuas: recommendationDuas,
+      matchedKeywords: recommendationKeywords,
+      loading: recommendationLoading,
+      error: recommendationError,
+      recommend,
+      clearResults,
+    } = useDuaRecommender(duaCollectionData);
+
+    const runDuaRecommendation = async () => {
+      await recommend(recommendationInput.value);
+    };
+
+    const clearDuaRecommendation = () => {
+      recommendationInput.value = '';
+      clearResults();
+    };
+
+    return {
+      recommendationInput,
+      recommendationDuas,
+      recommendationKeywords,
+      recommendationLoading,
+      recommendationError,
+      runDuaRecommendation,
+      clearDuaRecommendation,
+    };
+  },
   data() {
     const initialUserId = resolveClientUserId();
     return {
@@ -56,6 +88,7 @@ export default {
       nextStepMinimized: false,
       staticDuaSlug: typeof window !== 'undefined' ? window.__duaSlug || '' : '',
       staticDuaMatch: null,
+      showDuaRecommender: false,
       currentlyPlayingAudioId: null,
       audioElement: null,
       speechUtterance: null,

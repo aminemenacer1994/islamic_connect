@@ -130,6 +130,80 @@
       </div>
     </section>
 
+    <section
+      v-if="showDuaRecommender"
+      class="container-fluid dua-content-shell mb-4"
+      aria-labelledby="dua-recommender-title">
+      <div class="dua-recommender-panel">
+        <div class="d-flex justify-content-between align-items-center gap-2 flex-wrap mb-2">
+          <div>
+            <h2 id="dua-recommender-title" class="dua-recommender-title mb-1">Dua Recommender</h2>
+            <p class="dua-recommender-subtitle mb-0">
+              Share how you feel and get relevant duas you can read right away.
+            </p>
+          </div>
+          <button
+            v-if="recommendationInput || recommendationDuas.length || recommendationError"
+            type="button"
+            class="btn btn-sm btn-outline-secondary rounded-pill px-3"
+            @click="clearDuaRecommendation">
+            Clear
+          </button>
+        </div>
+
+        <div class="row g-2">
+          <div class="col-12 col-md-9">
+            <input
+              v-model="recommendationInput"
+              type="text"
+              class="form-control dua-recommender-input"
+              placeholder="Example: I'm really stressed about my exams"
+              aria-label="Describe how you feel"
+              @keydown.enter.prevent="runDuaRecommendation" />
+          </div>
+          <div class="col-12 col-md-3 d-grid">
+            <button
+              type="button"
+              class="btn dua-recommender-btn"
+              :disabled="recommendationLoading"
+              @click="runDuaRecommendation">
+              <span v-if="recommendationLoading" class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>
+              {{ recommendationLoading ? 'Finding...' : 'Find Recommendations' }}
+            </button>
+          </div>
+        </div>
+
+        <div v-if="recommendationKeywords.length" class="d-flex flex-wrap gap-2 mt-3">
+          <span class="dua-keyword-chip" v-for="tag in recommendationKeywords" :key="tag">{{ tag }}</span>
+        </div>
+
+        <div v-if="recommendationError" class="alert alert-warning mt-3 mb-0" role="alert">
+          {{ recommendationError }}
+        </div>
+
+        <div
+          v-if="!recommendationLoading"
+          class="mt-2 dua-recommender-results">
+          <h3 class="dua-recommender-group-title">
+            Recommended Duas <span class="text-muted">({{ recommendationDuas.length }})</span>
+          </h3>
+          <ul v-if="recommendationDuas.length" class="dua-recommender-list dua-recommender-dua-grid mb-0">
+            <li v-for="dua in recommendationDuas" :key="dua.id" class="dua-recommender-item">
+              <p class="dua-recommender-item-title mb-1">{{ dua.title }}</p>
+              <p class="dua-recommender-item-meta mb-1">{{ dua.categoryName }}</p>
+              <p class="dua-recommender-item-text mb-2">{{ dua.translation }}</p>
+              <p class="dua-recommender-item-reference mb-0">
+                <span>Reference:</span> {{ dua.reference || 'Not available' }}
+              </p>
+            </li>
+          </ul>
+          <p v-else class="dua-recommender-empty mb-0">
+            No local dua tags matched this feeling.
+          </p>
+        </div>
+      </div>
+    </section>
+
     <section v-if="activeFilterPills.length" class="container-fluid dua-content-shell mb-5" aria-label="Active filters">
       <div class="dua-active-filters">
         <span class="dua-active-filters-label">Active filters:</span>

@@ -285,6 +285,137 @@
   border-color: rgba(13, 92, 74, 0.28);
 }
 
+.dua-recommender-panel {
+  background: #ffffff;
+  border: 1px solid rgba(15, 23, 42, 0.1);
+  border-radius: 16px;
+  padding: 1.05rem;
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.05);
+}
+
+.dua-recommender-title {
+  font-size: 1.14rem;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.dua-recommender-subtitle {
+  font-size: 0.96rem;
+  color: #4b5563;
+}
+
+.dua-recommender-input {
+  border-radius: 12px;
+  border: 1px solid #dbe3ee;
+  font-size: 0.98rem;
+  padding: 0.72rem 0.86rem;
+}
+
+.dua-recommender-input:focus {
+  border-color: rgba(17, 121, 95, 0.42);
+  box-shadow: 0 0 0 0.2rem rgba(17, 121, 95, 0.12);
+}
+
+.dua-recommender-btn {
+  border-radius: 12px;
+  border: none;
+  background: linear-gradient(120deg, var(--primary), var(--primary-2));
+  color: #f8fffc;
+  font-weight: 700;
+  font-size: 0.97rem;
+  padding: 0.72rem 0.78rem;
+}
+
+.dua-recommender-btn:hover:not(:disabled) {
+  filter: brightness(0.98);
+}
+
+.dua-recommender-btn:disabled {
+  opacity: 0.75;
+}
+
+.dua-keyword-chip {
+  border-radius: 999px;
+  border: 1px solid rgba(13, 92, 74, 0.25);
+  background: #eaf6f1;
+  color: #0f5e4a;
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-transform: capitalize;
+  padding: 0.28rem 0.65rem;
+}
+
+.dua-recommender-results {
+  border-top: 1px dashed rgba(15, 23, 42, 0.12);
+  padding-top: 0.85rem;
+}
+
+.dua-recommender-group-title {
+  font-size: 1.02rem;
+  font-weight: 800;
+  color: #0f172a;
+  margin-bottom: 0.6rem;
+}
+
+.dua-recommender-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.dua-recommender-dua-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 0.7rem;
+}
+
+.dua-recommender-item {
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  background: #ffffff;
+  padding: 0.72rem 0.78rem;
+}
+
+.dua-recommender-item-title {
+  font-size: 0.97rem;
+  font-weight: 700;
+  color: #0f172a;
+  line-height: 1.45;
+}
+
+.dua-recommender-item-meta {
+  font-size: 0.8rem;
+  color: #64748b;
+}
+
+.dua-recommender-item-text {
+  font-size: 0.93rem;
+  color: #334155;
+  line-height: 1.65;
+}
+
+.dua-recommender-item-reference {
+  font-size: 0.84rem;
+  color: #475569;
+  line-height: 1.55;
+}
+
+.dua-recommender-item-reference span {
+  color: #0d5c4a;
+  font-weight: 700;
+}
+
+.dua-recommender-empty {
+  border: 1px dashed #cbd5e1;
+  border-radius: 10px;
+  padding: 0.72rem 0.8rem;
+  font-size: 0.92rem;
+  color: #64748b;
+}
+
 .dua-category-heading {
   display: flex;
   align-items: center;
