@@ -136,73 +136,75 @@ const _hoisted_35 = {
 const _hoisted_36 = {
   class: "category-actions"
 };
-const _hoisted_37 = ["onClick", "aria-expanded", "title"];
-const _hoisted_38 = {
+const _hoisted_37 = ["onClick", "aria-label"];
+const _hoisted_38 = ["onClick", "aria-expanded", "title"];
+const _hoisted_39 = {
   key: 0,
   class: "row g-3 dua-card-grid",
   role: "list"
 };
-const _hoisted_39 = ["aria-labelledby"];
-const _hoisted_40 = {
+const _hoisted_40 = ["aria-labelledby"];
+const _hoisted_41 = {
   class: "dua-card-content"
 };
-const _hoisted_41 = {
+const _hoisted_42 = {
   key: 0,
   class: "alert alert-warning dua-login-warning",
   role: "alert"
 };
-const _hoisted_42 = ["id"];
-const _hoisted_43 = ["innerHTML"];
+const _hoisted_43 = ["id"];
 const _hoisted_44 = ["innerHTML"];
-const _hoisted_45 = {
+const _hoisted_45 = ["innerHTML"];
+const _hoisted_46 = {
   key: 2,
   class: "dua-section-block"
 };
-const _hoisted_46 = ["onClick", "aria-expanded", "aria-controls"];
-const _hoisted_47 = ["id", "innerHTML"];
-const _hoisted_48 = {
+const _hoisted_47 = ["onClick", "aria-expanded", "aria-controls"];
+const _hoisted_48 = ["id", "innerHTML"];
+const _hoisted_49 = {
   key: 3,
   class: "dua-section-block"
 };
-const _hoisted_49 = ["onClick", "aria-expanded", "aria-controls"];
-const _hoisted_50 = ["id", "innerHTML"];
-const _hoisted_51 = {
+const _hoisted_50 = ["onClick", "aria-expanded", "aria-controls"];
+const _hoisted_51 = ["id", "innerHTML"];
+const _hoisted_52 = {
   key: 4,
   class: "dua-section-block dua-section-block-reference mt-auto"
 };
-const _hoisted_52 = ["onClick", "aria-expanded", "aria-controls"];
-const _hoisted_53 = ["id"];
-const _hoisted_54 = ["innerHTML"];
-const _hoisted_55 = {
+const _hoisted_53 = ["onClick", "aria-expanded", "aria-controls"];
+const _hoisted_54 = ["id"];
+const _hoisted_55 = ["innerHTML"];
+const _hoisted_56 = {
   class: "dua-card-actions"
 };
-const _hoisted_56 = {
+const _hoisted_57 = {
   class: "dua-font-controls me-auto"
 };
-const _hoisted_57 = ["disabled"];
 const _hoisted_58 = ["disabled"];
-const _hoisted_59 = {
+const _hoisted_59 = ["disabled"];
+const _hoisted_60 = {
   class: "dua-action-group"
 };
-const _hoisted_60 = ["onClick", "aria-label"];
-const _hoisted_61 = ["onClick"];
+const _hoisted_61 = ["onClick", "aria-label"];
 const _hoisted_62 = ["onClick"];
 const _hoisted_63 = ["onClick"];
-const _hoisted_64 = {
+const _hoisted_64 = ["onClick"];
+const _hoisted_65 = ["onClick"];
+const _hoisted_66 = {
   key: 1,
   class: "d-flex justify-content-center mt-4"
 };
-const _hoisted_65 = {
+const _hoisted_67 = {
   "aria-label": "Dua pagination"
 };
-const _hoisted_66 = {
+const _hoisted_68 = {
   class: "pagination dua-pagination"
 };
-const _hoisted_67 = ["onClick"];
-const _hoisted_68 = ["onClick"];
 const _hoisted_69 = ["onClick"];
+const _hoisted_70 = ["onClick"];
+const _hoisted_71 = ["onClick"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("main", _hoisted_1, [_cache[48] || (_cache[48] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<section class=\"container-fluid dua-content-shell dua-hero mb-4\" data-v-4b4cde72><div class=\"dua-hero-text\" data-v-4b4cde72><p class=\"dua-kicker mb-2\" data-v-4b4cde72>Dua Collection</p><h1 id=\"dua-title\" class=\"fw-bold mb-2 dua-title\" data-v-4b4cde72>Dua Library</h1><p class=\"dua-hero-subtitle mb-0 dua-lead\" data-v-4b4cde72> Find authentic duas by theme, then save or share what you need. </p></div></section><section class=\"container-fluid dua-content-shell mb-3\" aria-label=\"Sources and authenticity disclaimer\" data-v-4b4cde72><div class=\"dua-disclaimer-banner\" data-v-4b4cde72><p class=\"dua-disclaimer-note mb-0\" data-v-4b4cde72><strong data-v-4b4cde72>Resources &amp; Attribution | Sources &amp; Authenticity:</strong> We do not claim ownership of this content. These duas are compiled from authentic Islamic sources including the Qur&#39;an, Sahih al-Bukhari, Sahih Muslim, and other trusted hadith collections. </p></div></section>", 2)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("main", _hoisted_1, [_cache[50] || (_cache[50] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<section class=\"container-fluid dua-content-shell dua-hero mb-4\" data-v-4b4cde72><div class=\"dua-hero-text\" data-v-4b4cde72><p class=\"dua-kicker mb-2\" data-v-4b4cde72>Dua Collection</p><h1 id=\"dua-title\" class=\"fw-bold mb-2 dua-title\" data-v-4b4cde72>Dua Library</h1><p class=\"dua-hero-subtitle mb-0 dua-lead\" data-v-4b4cde72> Find authentic duas by theme, then save or share what you need. </p></div></section><section class=\"container-fluid dua-content-shell mb-3\" aria-label=\"Sources and authenticity disclaimer\" data-v-4b4cde72><div class=\"dua-disclaimer-banner\" data-v-4b4cde72><p class=\"dua-disclaimer-note mb-0\" data-v-4b4cde72><strong data-v-4b4cde72>Resources &amp; Attribution | Sources &amp; Authenticity:</strong> We do not claim ownership of this content. These duas are compiled from authentic Islamic sources including the Qur&#39;an, Sahih al-Bukhari, Sahih Muslim, and other trusted hadith collections. </p></div></section>", 2)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     id: "tab-all",
     type: "button",
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["dua-tab-btn", {
@@ -367,6 +369,15 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       id: `category-title-${category.id}`
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(category.name), 9 /* TEXT, PROPS */, _hoisted_34), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_35, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(category.duas.length) + " duas in this section", 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_36, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       type: "button",
+      class: "category-download-btn",
+      onClick: $event => _ctx.downloadCategoryDuas(category),
+      "aria-label": `Download ${category.name} section as text`,
+      title: "Download section as text"
+    }, [...(_cache[35] || (_cache[35] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      class: "bi bi-download",
+      "aria-hidden": "true"
+    }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Download TXT", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_37), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      type: "button",
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["category-toggle", {
         expanded: !category.collapsed
       }]),
@@ -375,7 +386,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       title: category.collapsed ? 'Expand category' : 'Collapse category'
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(category.collapsed ? 'bi bi-chevron-down' : 'bi bi-chevron-up')
-    }, null, 2 /* CLASS */)], 10 /* CLASS, PROPS */, _hoisted_37)])]), !category.collapsed ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_38, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.getPaginatedDuas(category.duas), dua => {
+    }, null, 2 /* CLASS */)], 10 /* CLASS, PROPS */, _hoisted_38)])]), !category.collapsed ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_39, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.getPaginatedDuas(category.duas), dua => {
       return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
         key: dua.id,
         class: "col-12 col-md-6"
@@ -388,10 +399,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         }),
         role: "listitem",
         "aria-labelledby": `dua-title-${dua.id}`
-      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_40, [_ctx.loginWarnings[dua.id] ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_41, [_cache[35] || (_cache[35] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_41, [_ctx.loginWarnings[dua.id] ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_42, [_cache[36] || (_cache[36] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
         class: "bi bi-shield-lock-fill me-2",
         "aria-hidden": "true"
-      }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.loginWarnings[dua.id]), 1 /* TEXT */), _cache[36] || (_cache[36] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+      }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.loginWarnings[dua.id]), 1 /* TEXT */), _cache[37] || (_cache[37] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
         class: "auth-warning-cta ms-2",
         href: "/login"
       }, "Log in", -1 /* CACHED */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
@@ -399,7 +410,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         id: `dua-title-${dua.id}`
       }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
         innerHTML: _ctx.highlightText(dua.title)
-      }, null, 8 /* PROPS */, _hoisted_43)], 8 /* PROPS */, _hoisted_42), dua.arabic ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", {
+      }, null, 8 /* PROPS */, _hoisted_44)], 8 /* PROPS */, _hoisted_43), dua.arabic ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", {
         key: 1,
         class: "dua-card-arabic mb-2 font-arabic",
         lang: "ar",
@@ -410,35 +421,35 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         },
         innerHTML: _ctx.highlightText(dua.arabic),
         "aria-label": "Dua in Arabic"
-      }, null, 8 /* PROPS */, _hoisted_44)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), dua.transliteration ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("section", _hoisted_45, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      }, null, 8 /* PROPS */, _hoisted_45)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), dua.transliteration ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("section", _hoisted_46, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
         type: "button",
         class: "dua-section-toggle",
         onClick: $event => _ctx.toggleDuaSection(dua, 'transliteration'),
         "aria-expanded": !_ctx.isDuaSectionCollapsed(dua, 'transliteration'),
         "aria-controls": `dua-transliteration-${dua.id}`
-      }, [_cache[37] || (_cache[37] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+      }, [_cache[38] || (_cache[38] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
         class: "dua-section-label"
       }, "Transliteration", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
         class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(_ctx.isDuaSectionCollapsed(dua, 'transliteration') ? 'bi bi-chevron-down' : 'bi bi-chevron-up'),
         "aria-hidden": "true"
-      }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_46), !_ctx.isDuaSectionCollapsed(dua, 'transliteration') ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", {
+      }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_47), !_ctx.isDuaSectionCollapsed(dua, 'transliteration') ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", {
         key: 0,
         id: `dua-transliteration-${dua.id}`,
         class: "dua-card-transliteration fst-italic text-muted",
         innerHTML: _ctx.highlightText(dua.transliteration),
         "aria-label": "Dua transliteration"
-      }, null, 8 /* PROPS */, _hoisted_47)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), dua.translation ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("section", _hoisted_48, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      }, null, 8 /* PROPS */, _hoisted_48)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), dua.translation ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("section", _hoisted_49, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
         type: "button",
         class: "dua-section-toggle",
         onClick: $event => _ctx.toggleDuaSection(dua, 'translation'),
         "aria-expanded": !_ctx.isDuaSectionCollapsed(dua, 'translation'),
         "aria-controls": `dua-translation-${dua.id}`
-      }, [_cache[38] || (_cache[38] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+      }, [_cache[39] || (_cache[39] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
         class: "dua-section-label"
       }, "Translation", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
         class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(_ctx.isDuaSectionCollapsed(dua, 'translation') ? 'bi bi-chevron-down' : 'bi bi-chevron-up'),
         "aria-hidden": "true"
-      }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_49), !_ctx.isDuaSectionCollapsed(dua, 'translation') ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", {
+      }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_50), !_ctx.isDuaSectionCollapsed(dua, 'translation') ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", {
         key: 0,
         id: `dua-translation-${dua.id}`,
         class: "dua-card-translation",
@@ -447,64 +458,70 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         },
         innerHTML: _ctx.highlightText(dua.translation),
         "aria-label": "Dua translation"
-      }, null, 8 /* PROPS */, _hoisted_50)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), dua.reference ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("section", _hoisted_51, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      }, null, 8 /* PROPS */, _hoisted_51)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), dua.reference ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("section", _hoisted_52, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
         type: "button",
         class: "dua-section-toggle",
         onClick: $event => _ctx.toggleDuaSection(dua, 'reference'),
         "aria-expanded": !_ctx.isDuaSectionCollapsed(dua, 'reference'),
         "aria-controls": `dua-reference-${dua.id}`
-      }, [_cache[39] || (_cache[39] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+      }, [_cache[40] || (_cache[40] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
         class: "dua-section-label"
       }, "Reference", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
         class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(_ctx.isDuaSectionCollapsed(dua, 'reference') ? 'bi bi-chevron-down' : 'bi bi-chevron-up'),
         "aria-hidden": "true"
-      }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_52), !_ctx.isDuaSectionCollapsed(dua, 'reference') ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+      }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_53), !_ctx.isDuaSectionCollapsed(dua, 'reference') ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
         key: 0,
         id: `dua-reference-${dua.id}`,
         class: "dua-card-meta"
       }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
         class: "dua-card-reference",
         innerHTML: _ctx.highlightText(dua.reference)
-      }, null, 8 /* PROPS */, _hoisted_54)], 8 /* PROPS */, _hoisted_53)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_55, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_56, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      }, null, 8 /* PROPS */, _hoisted_55)], 8 /* PROPS */, _hoisted_54)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_56, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_57, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
         class: "dua-font-btn",
         onClick: _cache[17] || (_cache[17] = $event => _ctx.changeFontSize('decrease')),
         disabled: _ctx.fontSize <= 14,
         "aria-label": "Decrease font size"
-      }, [...(_cache[40] || (_cache[40] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      }, [...(_cache[41] || (_cache[41] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
         class: "bi bi-dash-circle-fill"
-      }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_57), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_58), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
         class: "dua-font-btn",
         onClick: _cache[18] || (_cache[18] = $event => _ctx.changeFontSize('increase')),
         disabled: _ctx.fontSize >= 28,
         "aria-label": "Increase font size"
-      }, [...(_cache[41] || (_cache[41] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      }, [...(_cache[42] || (_cache[42] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
         class: "bi bi-plus-circle-fill"
-      }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_58)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_59, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_59)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_60, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
         class: "dua-action-btn",
         onClick: $event => _ctx.toggleLike(dua.id),
         "aria-label": _ctx.likedDuas.includes(dua.id) ? 'Unlike Dua' : 'Like Dua'
       }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
         class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(_ctx.likedDuas.includes(dua.id) ? 'bi bi-heart-fill text-danger' : 'bi bi-heart')
-      }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_60), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_61), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
         class: "dua-action-btn",
         onClick: $event => _ctx.shareOnWhatsApp(dua),
         "aria-label": "Share on WhatsApp"
-      }, [...(_cache[42] || (_cache[42] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      }, [...(_cache[43] || (_cache[43] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
         class: "bi bi-share-fill"
-      }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_61), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_62), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
         class: "dua-action-btn",
         onClick: $event => _ctx.copyContent(dua),
         "aria-label": "Copy Content"
-      }, [...(_cache[43] || (_cache[43] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      }, [...(_cache[44] || (_cache[44] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
         class: "bi bi-clipboard-fill"
-      }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_62), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_63), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+        class: "dua-action-btn",
+        onClick: $event => _ctx.downloadSingleDua(dua, category.name),
+        "aria-label": "Download Dua as text"
+      }, [...(_cache[45] || (_cache[45] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+        class: "bi bi-download"
+      }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_64), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
         class: "dua-action-btn",
         onClick: $event => _ctx.printDua(dua),
         "aria-label": "Print Dua"
-      }, [...(_cache[44] || (_cache[44] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      }, [...(_cache[46] || (_cache[46] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
         class: "bi bi-printer-fill"
-      }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_63)])])], 14 /* CLASS, STYLE, PROPS */, _hoisted_39)]);
-    }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), !category.collapsed && category.duas.length > _ctx.duasPerPage ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_64, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("nav", _hoisted_65, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_66, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", {
+      }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_65)])])], 14 /* CLASS, STYLE, PROPS */, _hoisted_40)]);
+    }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), !category.collapsed && category.duas.length > _ctx.duasPerPage ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_66, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("nav", _hoisted_67, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_68, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", {
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["page-item", {
         disabled: _ctx.currentPage[category.id] === 1
       }])
@@ -512,9 +529,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       class: "page-link",
       onClick: $event => _ctx.changePage('prev', category.id),
       "aria-label": "Previous page"
-    }, [...(_cache[45] || (_cache[45] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    }, [...(_cache[47] || (_cache[47] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       "aria-hidden": "true"
-    }, "« Previous", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_67)], 2 /* CLASS */), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.totalPages(category.duas), page => {
+    }, "« Previous", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_69)], 2 /* CLASS */), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.totalPages(category.duas), page => {
       return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
         key: page,
         class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["page-item", {
@@ -523,7 +540,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
         class: "page-link",
         onClick: $event => _ctx.currentPage[category.id] = page
-      }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(page), 9 /* TEXT, PROPS */, _hoisted_68)], 2 /* CLASS */);
+      }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(page), 9 /* TEXT, PROPS */, _hoisted_70)], 2 /* CLASS */);
     }), 128 /* KEYED_FRAGMENT */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", {
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["page-item", {
         disabled: _ctx.currentPage[category.id] === _ctx.totalPages(category.duas)
@@ -532,9 +549,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       class: "page-link",
       onClick: $event => _ctx.changePage('next', category.id),
       "aria-label": "Next page"
-    }, [...(_cache[46] || (_cache[46] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    }, [...(_cache[48] || (_cache[48] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       "aria-hidden": "true"
-    }, "Next »", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_69)], 2 /* CLASS */)])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 8 /* PROPS */, _hoisted_32);
+    }, "Next »", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_71)], 2 /* CLASS */)])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 8 /* PROPS */, _hoisted_32);
   }), 128 /* KEYED_FRAGMENT */))], 8 /* PROPS */, _hoisted_31), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
     name: "fade"
   }, {
@@ -545,7 +562,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onClick: _cache[19] || (_cache[19] = (...args) => _ctx.scrollToTop && _ctx.scrollToTop(...args)),
       "aria-label": "Scroll to top",
       title: "Scroll to top"
-    }, [...(_cache[47] || (_cache[47] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [...(_cache[49] || (_cache[49] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-arrow-up-short",
       "aria-hidden": "true"
     }, null, -1 /* CACHED */)]))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]),
@@ -902,6 +919,56 @@ const {
       } else if (action === 'decrease' && this.fontSize > 14) {
         this.fontSize -= 2;
       }
+    },
+    sanitizeFileName(value = '') {
+      const normalized = String(value || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 80);
+      return normalized || 'dua';
+    },
+    buildDuaTextContent(dua = {}, index = null) {
+      const lines = [];
+      if (Number.isInteger(index)) {
+        lines.push(`Dua ${index + 1}`);
+      }
+      lines.push(`Title: ${dua.title || ''}`);
+      lines.push(`Arabic: ${dua.arabic || ''}`);
+      lines.push(`Transliteration: ${dua.transliteration || ''}`);
+      lines.push(`Translation: ${dua.translation || ''}`);
+      lines.push(`Reference: ${dua.reference || ''}`);
+      return lines.join('\n');
+    },
+    downloadTextFile(content = '', fileName = 'dua.txt') {
+      if (typeof window === 'undefined') return;
+      const blob = new Blob([content], {
+        type: 'text/plain;charset=utf-8'
+      });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = fileName;
+      document.body.appendChild(link);
+      link.click();
+      setTimeout(() => {
+        URL.revokeObjectURL(url);
+        if (link.parentNode) {
+          link.parentNode.removeChild(link);
+        }
+      }, 200);
+    },
+    downloadSingleDua(dua, categoryName = '') {
+      if (!dua) return;
+      const header = ['Islamic Connect - Dua Export', categoryName ? `Category: ${categoryName}` : ''].filter(Boolean).join('\n');
+      const body = this.buildDuaTextContent(dua);
+      const content = `${header}\n\n${body}\n`;
+      const fileName = `${this.sanitizeFileName(dua.title || 'dua')}.txt`;
+      this.downloadTextFile(content, fileName);
+    },
+    downloadCategoryDuas(category) {
+      if (!category || !Array.isArray(category.duas) || !category.duas.length) return;
+      const header = ['Islamic Connect - Dua Section Export', `Section: ${category.name || 'Dua Section'}`, `Total Duas: ${category.duas.length}`].join('\n');
+      const blocks = category.duas.map((dua, index) => this.buildDuaTextContent(dua, index));
+      const content = `${header}\n\n${blocks.join('\n\n------------------------------\n\n')}\n`;
+      const fileName = `${this.sanitizeFileName(category.name || 'dua-section')}-section.txt`;
+      this.downloadTextFile(content, fileName);
     },
     copyContent(dua) {
       const text = `Dua: ${dua.title}\n\n${dua.arabic}\n\n${dua.translation}\n\nReference: ${dua.reference}`;

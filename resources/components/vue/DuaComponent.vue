@@ -189,6 +189,15 @@
           <div class="category-actions">
             <button
               type="button"
+              class="category-download-btn"
+              @click="downloadCategoryDuas(category)"
+              :aria-label="`Download ${category.name} section as text`"
+              title="Download section as text">
+              <i class="bi bi-download" aria-hidden="true"></i>
+              <span>Download TXT</span>
+            </button>
+            <button
+              type="button"
               class="category-toggle"
               :class="{ expanded: !category.collapsed }"
               @click="toggleCategoryCollapse(category.id)"
@@ -302,6 +311,9 @@
                   </button>
                   <button class="dua-action-btn" @click="copyContent(dua)" aria-label="Copy Content">
                     <i class="bi bi-clipboard-fill"></i>
+                  </button>
+                  <button class="dua-action-btn" @click="downloadSingleDua(dua, category.name)" aria-label="Download Dua as text">
+                    <i class="bi bi-download"></i>
                   </button>
                   <button class="dua-action-btn" @click="printDua(dua)" aria-label="Print Dua">
                     <i class="bi bi-printer-fill"></i>

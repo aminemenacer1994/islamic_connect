@@ -346,6 +346,65 @@ export default {
         this.fontSize -= 2;
       }
     },
+    sanitizeFileName(value = '') {
+      const normalized = String(value || '')
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '')
+        .slice(0, 80);
+      return normalized || 'dua';
+    },
+    buildDuaTextContent(dua = {}, index = null) {
+      const lines = [];
+      if (Number.isInteger(index)) {
+        lines.push(`Dua ${index + 1}`);
+      }
+      lines.push(`Title: ${dua.title || ''}`);
+      lines.push(`Arabic: ${dua.arabic || ''}`);
+      lines.push(`Transliteration: ${dua.transliteration || ''}`);
+      lines.push(`Translation: ${dua.translation || ''}`);
+      lines.push(`Reference: ${dua.reference || ''}`);
+      return lines.join('\n');
+    },
+    downloadTextFile(content = '', fileName = 'dua.txt') {
+      if (typeof window === 'undefined') return;
+      const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = fileName;
+      document.body.appendChild(link);
+      link.click();
+      setTimeout(() => {
+        URL.revokeObjectURL(url);
+        if (link.parentNode) {
+          link.parentNode.removeChild(link);
+        }
+      }, 200);
+    },
+    downloadSingleDua(dua, categoryName = '') {
+      if (!dua) return;
+      const header = [
+        'Islamic Connect - Dua Export',
+        categoryName ? `Category: ${categoryName}` : '',
+      ].filter(Boolean).join('\n');
+      const body = this.buildDuaTextContent(dua);
+      const content = `${header}\n\n${body}\n`;
+      const fileName = `${this.sanitizeFileName(dua.title || 'dua')}.txt`;
+      this.downloadTextFile(content, fileName);
+    },
+    downloadCategoryDuas(category) {
+      if (!category || !Array.isArray(category.duas) || !category.duas.length) return;
+      const header = [
+        'Islamic Connect - Dua Section Export',
+        `Section: ${category.name || 'Dua Section'}`,
+        `Total Duas: ${category.duas.length}`,
+      ].join('\n');
+      const blocks = category.duas.map((dua, index) => this.buildDuaTextContent(dua, index));
+      const content = `${header}\n\n${blocks.join('\n\n------------------------------\n\n')}\n`;
+      const fileName = `${this.sanitizeFileName(category.name || 'dua-section')}-section.txt`;
+      this.downloadTextFile(content, fileName);
+    },
     copyContent(dua) {
       const text = `Dua: ${dua.title}\n\n${dua.arabic}\n\n${dua.translation}\n\nReference: ${dua.reference}`;
       navigator.clipboard.writeText(text).then(() => {
