@@ -139,3 +139,42 @@
 .lesson-pane .text-muted {
   color: #0d2831 !important;
 }
+
+.skip-link {
+  position: absolute;
+  top: -120px;
+  left: 0.85rem;
+  z-index: 1200;
+  padding: 0.55rem 0.85rem;
+  border-radius: 0.65rem;
+  border: 1px solid rgba(5, 78, 70, 0.5);
+  background: #f8fffd;
+  color: #053e39;
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: 0 10px 18px rgba(6, 28, 35, 0.22);
+  transition: top 0.2s ease;
+}
+
+.skip-link:focus-visible {
+  top: 0.85rem;
+  outline: 3px solid rgba(52, 211, 153, 0.65);
+  outline-offset: 2px;
+}
+
+.revert-error-alert {
+  position: sticky;
+  top: 0.8rem;
+  z-index: 1085;
+  margin: 0.85rem;
+  border-radius: 1rem;
+  border: 1px solid rgba(127, 29, 29, 0.3);
+  background: linear-gradient(160deg, rgba(254, 242, 242, 0.98), rgba(255, 228, 230, 0.94));
+  box-shadow: 0 12px 24px rgba(113, 63, 18, 0.15);
+}
+
+.roadmap-pill:focus-visible {
+  outline: 3px solid rgba(52, 211, 153, 0.62) !important;
+  outline-offset: 3px;
+  box-shadow: 0 0 0 5px rgba(15, 118, 110, 0.2) !important;
+}

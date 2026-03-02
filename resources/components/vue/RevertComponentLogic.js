@@ -20,6 +20,10 @@ import chapterResources from './data/chapterResources.json'
 import nextStepPrompts from './data/nextStepPrompts.json'
 import chapterPlanGuides from './data/chapterPlanGuides.json'
 import { jsPDF } from 'jspdf'
+import LessonHeader from './revert/LessonHeader.vue'
+import QuizSection from './revert/QuizSection.vue'
+import ResourcePanel from './revert/ResourcePanel.vue'
+import VideoGallery from './revert/VideoGallery.vue'
 
 const normalizeJson = (value) => {
   if (value && Array.isArray(value)) return value
@@ -404,6 +408,12 @@ const celebrateFinalChapter = (confettiFn) => {
 
 export default defineComponent({
   name: 'App',
+  components: {
+    LessonHeader,
+    QuizSection,
+    ResourcePanel,
+    VideoGallery
+  },
 
   data() {
     return {
@@ -438,6 +448,16 @@ export default defineComponent({
       duasMap: {},
       quizMap: {},
       homeworkMap: {},
+      chapterResourcesMap: {},
+      chapterKeyInsightsMap: {},
+      toneFocusMap: {},
+      guidedPathwayMap: {},
+      gentleStartMap: {},
+      sectionStatsMapByChapter: {},
+      chapterPlanMap: {},
+      dosDontsMap: {},
+      faqChapterMap: {},
+      commonQuestionChapterMap: {},
       homeworkCache: {},
       homeworkSliceCache: {},
       chapterQuizPassed: false,
@@ -502,6 +522,7 @@ export default defineComponent({
       copyAlertMessage: '',
       copyAlertType: 'info',
       showCopyAlert: false,
+      uiErrorMessage: '',
       copyAlertTimeout: null,
       lastIncorrectExplanation: null,
       activeVideoId: null,
@@ -546,7 +567,9 @@ export default defineComponent({
       touchPlaybackTriggered: false,
       touchPlaybackTimer: null,
       scrollTopRetryTimer: null,
-      scrollListenerTarget: null
+      scrollListenerTarget: null,
+      modalFocusTrapHandler: null,
+      lastFocusedElement: null
     }
   },
 
@@ -556,7 +579,7 @@ export default defineComponent({
     },
     currentChapterKeyInsights() {
       const chapterId = this.currentLesson?.chapterId
-      return this.chapterKeyInsights.find(entry => entry.chapterId === chapterId) || null
+      return chapterId == null ? null : this.chapterKeyInsightsMap[chapterId] || null
     },
     insightsToShow() {
       return this.currentChapterKeyInsights?.keyInsights?.length
@@ -566,12 +589,12 @@ export default defineComponent({
     currentLessonOverview() {
       const chapterId = this.normalizeChapterId()
       if (chapterId == null) return null
-      return this.chapterLessons.find(entry => entry.chapterId === chapterId) || null
+      return this.lessonMap[chapterId] || null
     },
     currentChapterResources() {
       const chapterId = this.selectedPill ?? this.currentLesson?.chapterId
       if (chapterId == null) return null
-      return this.chapterResources.find(entry => entry.chapterId === chapterId) || null
+      return this.chapterResourcesMap[chapterId] || null
     },
     currentChapterResourcesLayout() {
       const base = this.currentChapterResources
@@ -879,7 +902,7 @@ export default defineComponent({
     },
     currentChapterPlans() {
       const chapterId = this.currentLesson?.chapterId
-      const entry = this.chapterPlanGuides.find(guide => guide.chapterId === chapterId)
+      const entry = chapterId == null ? null : this.chapterPlanMap[chapterId]
       return entry?.plans || []
     },
     isCurrentLessonOverviewRead() {
@@ -958,13 +981,13 @@ export default defineComponent({
     chapterCommonPanels() {
       const chapterId = this.normalizeChapterId()
       if (chapterId == null) return []
-      const chapter = this.commonQuestionChapters.find(entry => entry.chapterId === chapterId)
+      const chapter = this.commonQuestionChapterMap[chapterId]
       return chapter?.faqs || []
     },
     chapterFaqPanels() {
       const chapterId = this.normalizeChapterId()
       if (chapterId == null) return []
-      const chapter = this.faqChapters.find(entry => entry.chapterId === chapterId)
+      const chapter = this.faqChapterMap[chapterId]
       return chapter?.faqs || []
     },
     progressPercentage() {
@@ -1058,12 +1081,12 @@ export default defineComponent({
     },
     currentToneFocusText() {
       const chapterId = this.currentLesson?.chapterId
-      const entry = this.toneFocusEntries.find(item => item.chapterId === chapterId)
+      const entry = chapterId == null ? null : this.toneFocusMap[chapterId]
       return entry?.toneFocus || ''
     },
     guidedPathwayCards() {
       const chapterId = this.currentLesson?.chapterId
-      const entry = this.guidedPathways.find(item => item.chapterId === chapterId)
+      const entry = chapterId == null ? null : this.guidedPathwayMap[chapterId]
       return entry?.pathway || this.guidanceCards
     },
     currentFlexibleTracks() {
@@ -1078,7 +1101,7 @@ export default defineComponent({
     },
     currentGentleStartSteps() {
       const chapterId = this.currentLesson?.chapterId
-      const entry = this.chapterGentleStarts.find(item => item.chapterId === chapterId)
+      const entry = chapterId == null ? null : this.gentleStartMap[chapterId]
       return entry?.steps || this.currentOnboardingSteps
     },
     gentleStartProgress() {
@@ -1091,7 +1114,7 @@ export default defineComponent({
     },
     sectionStatsMap() {
       const chapterId = this.currentLesson?.chapterId
-      const entry = this.sectionStatsByChapter.find(item => item.chapterId === chapterId)
+      const entry = chapterId == null ? null : this.sectionStatsMapByChapter[chapterId]
       return entry?.sectionStats || []
     },
     motivationalMessage() {
@@ -1158,7 +1181,7 @@ export default defineComponent({
     ,
     currentDosDonts() {
       const chapterId = this.currentLesson?.chapterId
-      return this.dosDontsChapters.find(entry => entry.chapterId === chapterId) || null
+      return chapterId == null ? null : this.dosDontsMap[chapterId] || null
     }
 
     ,
@@ -1274,6 +1297,15 @@ export default defineComponent({
     },
     donationStripeUrl() {
       return this.donationStripeBaseUrl
+    },
+    isAnyModalOpen() {
+      return Boolean(
+        this.showSearchInfoModal ||
+        this.showResourceModal ||
+        this.showVideoModal ||
+        this.showHelpModal ||
+        this.showCompletionModal
+      )
     }
   },
 
@@ -1319,6 +1351,13 @@ export default defineComponent({
       if (!this.confettiEnabled) return
       if (newVal >= 3 && (oldVal || 0) < 3) {
         this.launchMicroConfetti()
+      }
+    },
+    isAnyModalOpen(open) {
+      if (open) {
+        this.activateModalFocusTrap()
+      } else {
+        this.deactivateModalFocusTrap()
       }
     },
     showVideoModal(newVal) {
@@ -1417,11 +1456,17 @@ export default defineComponent({
       })
     },
 
+  errorCaptured(error, _instance, info) {
+    this.reportAsyncError(error, info || 'render update')
+    return false
+  },
+
   beforeUnmount() {
     this.unbindScrollListeners()
     this.teardownMotionPreference()
     this.teardownPreviewAutoplayPreference()
     this.teardownProgressSync()
+    this.deactivateModalFocusTrap()
     if (this.scrollTopRetryTimer) {
       clearTimeout(this.scrollTopRetryTimer)
       this.scrollTopRetryTimer = null
@@ -1433,6 +1478,101 @@ export default defineComponent({
   },
 
   methods: {
+    reportAsyncError(error, context = 'complete this action') {
+      const normalizedContext = String(context || 'complete this action').replace(/\.$/, '')
+      this.uiErrorMessage = `Unable to ${normalizedContext}. Please try again.`
+      console.error(`[RevertComponent] ${normalizedContext}`, error)
+    },
+    getActiveModalContent() {
+      if (this.showCompletionModal) return this.$refs.completionModalContent
+      if (this.showHelpModal) return this.$refs.helpModalContent
+      if (this.showVideoModal) return this.$refs.videoModalContent
+      if (this.showResourceModal) return this.$refs.resourceModalContent
+      if (this.showSearchInfoModal) return this.$refs.searchInfoModalContent
+      return null
+    },
+    getFocusableElements(root) {
+      if (!root || typeof root.querySelectorAll !== 'function') return []
+      const selector = [
+        'a[href]',
+        'button:not([disabled])',
+        'input:not([disabled])',
+        'select:not([disabled])',
+        'textarea:not([disabled])',
+        '[tabindex]:not([tabindex="-1"])'
+      ].join(',')
+      return Array.from(root.querySelectorAll(selector)).filter(el => {
+        if (!(el instanceof HTMLElement)) return false
+        if (el.getAttribute('aria-hidden') === 'true') return false
+        return el.offsetParent !== null
+      })
+    },
+    closeActiveModal() {
+      if (this.showCompletionModal) return this.closeCompletionModal()
+      if (this.showHelpModal) return this.closeHelpModal()
+      if (this.showVideoModal) return this.closeVideoModal()
+      if (this.showResourceModal) return this.closeResourceModal()
+      if (this.showSearchInfoModal) return this.closeSearchInfoModal()
+    },
+    handleModalFocusTrapKeydown(event) {
+      if (!this.isAnyModalOpen || !event) return
+      if (event.key === 'Escape') {
+        event.preventDefault()
+        this.closeActiveModal()
+        return
+      }
+      if (event.key !== 'Tab') return
+      const modalRoot = this.getActiveModalContent()
+      if (!modalRoot) return
+      const focusables = this.getFocusableElements(modalRoot)
+      if (!focusables.length) {
+        event.preventDefault()
+        modalRoot.focus()
+        return
+      }
+      const first = focusables[0]
+      const last = focusables[focusables.length - 1]
+      const active = document.activeElement
+      if (event.shiftKey && active === first) {
+        event.preventDefault()
+        last.focus()
+        return
+      }
+      if (!event.shiftKey && active === last) {
+        event.preventDefault()
+        first.focus()
+      }
+    },
+    activateModalFocusTrap() {
+      if (typeof document === 'undefined') return
+      if (this.modalFocusTrapHandler) return
+      this.lastFocusedElement = document.activeElement instanceof HTMLElement ? document.activeElement : null
+      this.modalFocusTrapHandler = (event) => this.handleModalFocusTrapKeydown(event)
+      document.addEventListener('keydown', this.modalFocusTrapHandler)
+      this.$nextTick(() => {
+        const modalRoot = this.getActiveModalContent()
+        if (!modalRoot) return
+        if (!modalRoot.hasAttribute('tabindex')) {
+          modalRoot.setAttribute('tabindex', '-1')
+        }
+        const focusables = this.getFocusableElements(modalRoot)
+        const target = focusables[0] || modalRoot
+        if (target && typeof target.focus === 'function') {
+          target.focus()
+        }
+      })
+    },
+    deactivateModalFocusTrap() {
+      if (typeof document === 'undefined') return
+      if (this.modalFocusTrapHandler) {
+        document.removeEventListener('keydown', this.modalFocusTrapHandler)
+        this.modalFocusTrapHandler = null
+      }
+      if (this.lastFocusedElement && document.contains(this.lastFocusedElement)) {
+        this.lastFocusedElement.focus()
+      }
+      this.lastFocusedElement = null
+    },
     initializeFontScaleSession() {
       if (typeof window === 'undefined') return
       this.fontScaleSessionId = this.ensureFontScaleSessionId()
@@ -1786,6 +1926,46 @@ export default defineComponent({
         if (task?.chapterId != null) map[task.chapterId] = task.homework || []
         return map
       }, {})
+      this.chapterResourcesMap = this.chapterResources.reduce((map, entry) => {
+        if (entry?.chapterId != null) map[entry.chapterId] = entry
+        return map
+      }, {})
+      this.chapterKeyInsightsMap = this.chapterKeyInsights.reduce((map, entry) => {
+        if (entry?.chapterId != null) map[entry.chapterId] = entry
+        return map
+      }, {})
+      this.toneFocusMap = this.toneFocusEntries.reduce((map, entry) => {
+        if (entry?.chapterId != null) map[entry.chapterId] = entry
+        return map
+      }, {})
+      this.guidedPathwayMap = this.guidedPathways.reduce((map, entry) => {
+        if (entry?.chapterId != null) map[entry.chapterId] = entry
+        return map
+      }, {})
+      this.gentleStartMap = this.chapterGentleStarts.reduce((map, entry) => {
+        if (entry?.chapterId != null) map[entry.chapterId] = entry
+        return map
+      }, {})
+      this.sectionStatsMapByChapter = this.sectionStatsByChapter.reduce((map, entry) => {
+        if (entry?.chapterId != null) map[entry.chapterId] = entry
+        return map
+      }, {})
+      this.chapterPlanMap = this.chapterPlanGuides.reduce((map, entry) => {
+        if (entry?.chapterId != null) map[entry.chapterId] = entry
+        return map
+      }, {})
+      this.dosDontsMap = this.dosDontsChapters.reduce((map, entry) => {
+        if (entry?.chapterId != null) map[entry.chapterId] = entry
+        return map
+      }, {})
+      this.faqChapterMap = this.faqChapters.reduce((map, entry) => {
+        if (entry?.chapterId != null) map[entry.chapterId] = entry
+        return map
+      }, {})
+      this.commonQuestionChapterMap = this.commonQuestionChapters.reduce((map, entry) => {
+        if (entry?.chapterId != null) map[entry.chapterId] = entry
+        return map
+      }, {})
       this.resetHomeworkCache()
     },
 
@@ -1802,7 +1982,7 @@ export default defineComponent({
           return map
         }, {})
       } catch (error) {
-        console.error('Unable to load chapter videos', error)
+        this.reportAsyncError(error, 'load chapter videos')
       }
     },
 
@@ -1841,7 +2021,7 @@ export default defineComponent({
           this.flexiblePlanTracks = normalizeJson(module)
         })
         .catch(error => {
-          console.error('Unable to load flexible plan tracks', error)
+          this.reportAsyncError(error, 'load flexible plan tracks')
         })
       return this.flexibleTracksRequest
     },
@@ -1852,7 +2032,7 @@ export default defineComponent({
           this.flexibleChapterNotes = normalizeJson(module)
         })
         .catch(error => {
-          console.error('Unable to load flexible chapter notes', error)
+          this.reportAsyncError(error, 'load flexible chapter notes')
         })
       return this.flexibleNotesRequest
     },
@@ -1863,7 +2043,7 @@ export default defineComponent({
           this.dailyMicroChallenges = module?.default || module || {}
         })
         .catch(error => {
-          console.error('Unable to load daily micro challenges', error)
+          this.reportAsyncError(error, 'load daily micro challenges')
         })
       return this.dailyChallengesRequest
     },
@@ -3212,7 +3392,7 @@ export default defineComponent({
           .replace(/-+$/, '')
         doc.save(`${plan.planId}-${slug || 'plan'}.pdf`)
       } catch (error) {
-        console.error('Unable to create PDF', error)
+        this.reportAsyncError(error, 'create the PDF')
         this.triggerCopyAlert('Unable to download the plan right now.', 'danger')
       }
     },

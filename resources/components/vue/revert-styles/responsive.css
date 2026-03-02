@@ -1033,7 +1033,7 @@
 
 @media (prefers-color-scheme: dark) {
   :global(:root) {
-    --brand-soft: #2b3336;
+    --brand-soft: #20272a;
   }
 }
 

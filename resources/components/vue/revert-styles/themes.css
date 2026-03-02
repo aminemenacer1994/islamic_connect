@@ -14,7 +14,7 @@
 
 :global(:root) {
   --font-body: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-display: 'Lora', 'DM Serif Display', 'Amiri', Georgia, serif;
+  --font-display: 'DM Serif Display', 'Amiri', 'Lora', Georgia, serif;
   --brand-teal: #0f6e63;
   --brand-slate: #1d2b2f;
   --brand-soft: #f7f3ea;
@@ -22,8 +22,8 @@
   --brand-border: rgba(15, 110, 99, 0.18);
   --ink-strong: #0b1f21;
   --ink-muted: #42535a;
-  --surface-glass: rgba(236, 243, 246, 0.9);
-  --surface-strong: rgba(244, 249, 251, 0.96);
+  --surface-glass: rgba(223, 236, 242, 0.92);
+  --surface-strong: rgba(238, 247, 250, 0.97);
   --video-card-border: 1px solid rgba(17, 63, 73, 0.16);
   --video-card-shadow: 0 18px 34px rgba(10, 28, 40, 0.14);
   --video-card-shadow-hover: 0 24px 46px rgba(10, 28, 40, 0.22);
@@ -226,7 +226,7 @@
 
 :global(:root) {
   --font-body: 'Manrope', 'Avenir Next', 'Segoe UI', sans-serif;
-  --font-display: 'Lora', 'DM Serif Display', 'Amiri', Georgia, serif;
+  --font-display: 'DM Serif Display', 'Amiri', 'Lora', Georgia, serif;
   --revert-ink-strong: #0e1d22;
   --revert-ink-soft: #566770;
   --revert-emerald: #0f766e;
@@ -234,8 +234,8 @@
   --revert-sand: #f4dfbf;
   --revert-slate: #19323b;
   --brand-soft: #e4d4bc;
-  --surface-glass: rgba(233, 242, 246, 0.92);
-  --surface-strong: rgba(242, 248, 250, 0.97);
+  --surface-glass: rgba(218, 233, 240, 0.93);
+  --surface-strong: rgba(233, 244, 248, 0.97);
   --revert-card: rgba(233, 243, 246, 0.9);
   --revert-card-alt: rgba(227, 238, 232, 0.9);
   --revert-card-border: rgba(13, 88, 88, 0.25);
