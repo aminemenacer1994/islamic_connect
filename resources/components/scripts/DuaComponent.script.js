@@ -363,6 +363,159 @@ export default {
       const url = `https://wa.me/?text=${encodedText}`;
       window.open(url, '_blank');
     },
+    escapePrintHtml(value = '') {
+      return String(value)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    },
+    formatPrintText(value = '') {
+      return this.escapePrintHtml(value).replace(/\r?\n/g, '<br>');
+    },
+    printDua(dua) {
+      if (!dua || typeof window === 'undefined') return;
+
+      const title = this.formatPrintText(dua.title || '');
+      const arabic = this.formatPrintText(dua.arabic || '');
+      const transliteration = this.formatPrintText(dua.transliteration || '');
+      const translation = this.formatPrintText(dua.translation || '');
+      const reference = this.formatPrintText(dua.reference || '');
+
+      const printMarkup = `
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Print Dua</title>
+    <style>
+      :root { color-scheme: light; }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        padding: 1.2rem;
+        font-family: Georgia, "Times New Roman", serif;
+        color: #111827;
+        background: #fff;
+      }
+      .sheet {
+        max-width: 900px;
+        margin: 0 auto;
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
+        padding: 1rem 1.1rem;
+      }
+      h1 {
+        margin: 0 0 0.9rem;
+        font-size: 1.32rem;
+        line-height: 1.35;
+      }
+      .section { margin-bottom: 0.95rem; }
+      .label {
+        font-size: 0.74rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: #4b5563;
+        margin-bottom: 0.28rem;
+        font-weight: 700;
+      }
+      .value {
+        font-size: 1rem;
+        line-height: 1.65;
+        white-space: normal;
+        word-break: break-word;
+      }
+      .arabic {
+        direction: rtl;
+        text-align: right;
+        font-family: "Amiri", "Noto Naskh Arabic", serif;
+        font-size: 1.2rem;
+        line-height: 2;
+      }
+      .muted {
+        color: #6b7280;
+      }
+      @media print {
+        body { padding: 0; }
+        .sheet {
+          max-width: 100%;
+          border: none;
+          border-radius: 0;
+          padding: 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <article class="sheet">
+      <h1>${title || 'Dua'}</h1>
+      <section class="section">
+        <div class="label">Arabic</div>
+        <div class="value arabic">${arabic || '<span class="muted">Not available</span>'}</div>
+      </section>
+      <section class="section">
+        <div class="label">Transliteration</div>
+        <div class="value">${transliteration || '<span class="muted">Not available</span>'}</div>
+      </section>
+      <section class="section">
+        <div class="label">Translation</div>
+        <div class="value">${translation || '<span class="muted">Not available</span>'}</div>
+      </section>
+      <section class="section">
+        <div class="label">Reference</div>
+        <div class="value">${reference || '<span class="muted">Not available</span>'}</div>
+      </section>
+    </article>
+  </body>
+</html>`;
+
+      const frame = document.createElement('iframe');
+      frame.setAttribute('aria-hidden', 'true');
+      frame.style.position = 'fixed';
+      frame.style.right = '0';
+      frame.style.bottom = '0';
+      frame.style.width = '0';
+      frame.style.height = '0';
+      frame.style.border = '0';
+      frame.style.opacity = '0';
+      document.body.appendChild(frame);
+
+      const cleanup = () => {
+        setTimeout(() => {
+          if (frame && frame.parentNode) {
+            frame.parentNode.removeChild(frame);
+          }
+        }, 400);
+      };
+
+      const win = frame.contentWindow;
+      if (!win) {
+        cleanup();
+        return;
+      }
+
+      const doc = win.document;
+      doc.open();
+      doc.write(printMarkup);
+      doc.close();
+
+      frame.onload = () => {
+        win.focus();
+        win.print();
+        cleanup();
+      };
+
+      // Fallback for browsers that may not fire iframe onload reliably.
+      setTimeout(() => {
+        try {
+          win.focus();
+          win.print();
+        } catch (e) {}
+        cleanup();
+      }, 450);
+    },
     hasRecordedAudio(dua) {
       return Boolean(dua && dua.audio);
     },

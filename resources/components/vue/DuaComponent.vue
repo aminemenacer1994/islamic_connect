@@ -303,6 +303,9 @@
                   <button class="dua-action-btn" @click="copyContent(dua)" aria-label="Copy Content">
                     <i class="bi bi-clipboard-fill"></i>
                   </button>
+                  <button class="dua-action-btn" @click="printDua(dua)" aria-label="Print Dua">
+                    <i class="bi bi-printer-fill"></i>
+                  </button>
                 </div>
               </div>
             </article>
@@ -335,6 +338,18 @@
       </div>
 
     </div>
+
+    <transition name="fade">
+      <button
+        v-if="showScrollToTop"
+        type="button"
+        class="dua-fab-scroll"
+        @click="scrollToTop"
+        aria-label="Scroll to top"
+        title="Scroll to top">
+        <i class="bi bi-arrow-up-short" aria-hidden="true"></i>
+      </button>
+    </transition>
   </main>
 </template>
 

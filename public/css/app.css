@@ -32341,6 +32341,36 @@ h1 {
   color: #0b4f40;
   font-weight: 800;
 }
+.dua-fab-scroll[data-v-4b4cde72] {
+  position: fixed;
+  right: clamp(0.9rem, 2vw, 1.8rem);
+  bottom: clamp(0.9rem, 2.2vw, 1.8rem);
+  width: 52px;
+  height: 52px;
+  border: none;
+  border-radius: 16px;
+  background: linear-gradient(140deg, var(--primary), var(--primary-2));
+  color: #f6fffb;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 12px 28px rgba(13, 92, 74, 0.32);
+  z-index: 1040;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+}
+.dua-fab-scroll i[data-v-4b4cde72] {
+  font-size: 1.55rem;
+  line-height: 1;
+}
+.dua-fab-scroll[data-v-4b4cde72]:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 32px rgba(13, 92, 74, 0.36);
+}
+.dua-fab-scroll[data-v-4b4cde72]:focus-visible {
+  outline: 3px solid rgba(255, 255, 255, 0.9);
+  outline-offset: 2px;
+}
 .auth-warning[data-v-4b4cde72],
 .dua-login-warning[data-v-4b4cde72] {
   background: linear-gradient(135deg, rgba(253, 249, 240, 0.98), rgba(255, 236, 214, 0.95));
@@ -32448,6 +32478,11 @@ mark.mark-tag[data-v-4b4cde72] {
 }
 .dua-action-btn[data-v-4b4cde72] {
     border-radius: 10px;
+}
+.dua-fab-scroll[data-v-4b4cde72] {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
 }
 }
 
