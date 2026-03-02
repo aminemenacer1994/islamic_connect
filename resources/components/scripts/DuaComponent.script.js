@@ -219,6 +219,11 @@ export default {
             ...dua,
             id: `${category.id}-${originalId}`,
             originalId,
+            collapsedSections: {
+              transliteration: false,
+              translation: false,
+              reference: false,
+            },
           };
         }),
       }));
@@ -543,6 +548,15 @@ export default {
       setTimeout(() => {
         this.actionFeedback['clearAll'] = false;
       }, 1000);
+    },
+    toggleDuaSection(dua, sectionKey) {
+      if (!dua || !dua.collapsedSections) return;
+      if (!(sectionKey in dua.collapsedSections)) return;
+      dua.collapsedSections[sectionKey] = !dua.collapsedSections[sectionKey];
+    },
+    isDuaSectionCollapsed(dua, sectionKey) {
+      if (!dua || !dua.collapsedSections) return false;
+      return !!dua.collapsedSections[sectionKey];
     },
     toggleCategoryCollapse(categoryId) {
       const category = this.duaCollection.find(c => c.id === categoryId);

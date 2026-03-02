@@ -10,13 +10,22 @@
   --accent: #c48a2b;
   --shadow-sm: 0 6px 16px rgba(7, 33, 27, 0.06);
   --shadow-md: 0 14px 28px rgba(7, 33, 27, 0.1);
+  --shell-max-width: 1200px;
   min-height: 100%;
-  background: var(--bg);
+  background:
+    radial-gradient(circle at top left, rgba(17, 121, 95, 0.08), transparent 42%),
+    radial-gradient(circle at top right, rgba(13, 92, 74, 0.06), transparent 44%),
+    var(--bg);
   color: var(--text);
 }
 
-.dua-shell .container {
-  max-width: 980px;
+.dua-content-shell {
+  width: 100%;
+  max-width: var(--shell-max-width);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: clamp(0.9rem, 2.1vw, 2.5rem);
+  padding-right: clamp(0.9rem, 2.1vw, 2.5rem);
 }
 
 .dua-hero {
@@ -24,14 +33,26 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #0d5c4a;
-  border-radius: 16px;
-  padding: 1.5rem 1.6rem;
-  box-shadow: 0 8px 18px rgba(4, 24, 20, 0.14);
+  background: linear-gradient(130deg, #0d5c4a, #11795f);
+  border-radius: 20px;
+  padding: 1.7rem 1.8rem;
+  box-shadow: 0 14px 28px rgba(4, 24, 20, 0.16);
   color: #f8fcfa;
-  min-height: 180px;
+  min-height: 200px;
   margin-left: auto;
   margin-right: auto;
+  overflow: hidden;
+}
+
+.dua-hero::after {
+  content: '';
+  position: absolute;
+  inset: auto -120px -120px auto;
+  width: 340px;
+  height: 340px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  pointer-events: none;
 }
 
 .dua-hero-text {
@@ -76,12 +97,14 @@
 }
 
 .dua-tab-panel {
-  padding: 1rem;
-  margin-bottom: 1.2rem;
+  padding: 1.05rem;
+  margin-bottom: 1rem;
 }
 
 .dua-search-wrapper .dua-search-card {
   padding: 1.1rem !important;
+  border-radius: 14px;
+  background: linear-gradient(180deg, #ffffff, #fbfdfc);
 }
 
 .dua-tab-row {
@@ -267,11 +290,20 @@
   align-items: center;
   justify-content: space-between;
   gap: 0.75rem;
-  padding: 0.45rem 0 0.15rem;
+  padding: 0.3rem 0 0.7rem;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.dua-category-panel {
+  background: #ffffff;
+  border: 1px solid rgba(15, 23, 42, 0.09);
+  border-radius: 18px;
+  box-shadow: 0 6px 20px rgba(15, 23, 42, 0.04);
+  padding: 0.95rem 1rem 1.1rem;
 }
 
 .category-title {
-  font-size: clamp(1.2rem, 2vw, 1.45rem);
+  font-size: clamp(1.15rem, 1.6vw, 1.35rem);
   color: #0f172a;
 }
 
@@ -314,7 +346,7 @@
 }
 
 .dua-card-grid {
-  margin-top: 0.95rem;
+  margin-top: 1rem;
   row-gap: 1.15rem;
 }
 
@@ -374,18 +406,63 @@
   text-align: right;
 }
 
+.dua-section-block {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.dua-section-toggle {
+  border: 1px solid #dbe3ee;
+  background: #f8fafc;
+  border-radius: 10px;
+  color: #1f2937;
+  padding: 0.4rem 0.62rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+  font-weight: 700;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.dua-section-toggle:hover {
+  border-color: #cbd5e1;
+  background: #f1f5f9;
+}
+
+.dua-section-toggle:focus-visible {
+  outline: 2px solid rgba(17, 121, 95, 0.4);
+  outline-offset: 2px;
+}
+
+.dua-section-toggle i {
+  font-size: 0.8rem;
+}
+
+.dua-section-label {
+  display: inline-flex;
+  align-items: center;
+}
+
 .dua-card-transliteration {
   color: #6b7280;
-  font-size: 0.92rem;
+  font-size: 0.84rem;
   line-height: 1.6;
   font-style: italic;
+  margin-bottom: 0;
 }
 
 .dua-card-translation {
   color: #111827;
-  font-size: 0.98rem;
+  font-size: 0.9rem;
   line-height: 1.72;
   font-weight: 500;
+  margin-bottom: 0;
 }
 
 .dua-card-meta {
@@ -397,8 +474,12 @@
   flex-wrap: wrap;
 }
 
+.dua-section-block-reference .dua-card-meta {
+  margin-top: 0;
+}
+
 .dua-card-reference {
-  font-size: 0.78rem;
+  font-size: 0.72rem;
   color: #475569;
   letter-spacing: 0.04em;
   font-weight: 700;
@@ -521,6 +602,26 @@
   justify-content: center;
 }
 
+.dua-disclaimer-banner {
+  background: linear-gradient(135deg, rgba(13, 92, 74, 0.1), rgba(17, 121, 95, 0.05));
+  border: 1px solid rgba(13, 92, 74, 0.2);
+  border-left: 4px solid var(--primary);
+  border-radius: 12px;
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.05);
+}
+
+.dua-disclaimer-note {
+  font-size: 0.96rem;
+  line-height: 1.6;
+  color: #29404e;
+  padding: 0.88rem 1rem;
+}
+
+.dua-disclaimer-note strong {
+  color: #0b4f40;
+  font-weight: 800;
+}
+
 .auth-warning,
 .dua-login-warning {
   background: linear-gradient(135deg, rgba(253, 249, 240, 0.98), rgba(255, 236, 214, 0.95));
@@ -575,6 +676,11 @@ mark.mark-tag {
 }
 
 @media (max-width: 992px) {
+  .dua-content-shell {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
   .dua-hero,
   .dua-tab-panel {
     padding: 1.1rem;
@@ -589,7 +695,7 @@ mark.mark-tag {
   }
 
   .dua-card-translation {
-    font-size: 0.95rem;
+    font-size: 0.88rem;
   }
 }
 
@@ -597,7 +703,12 @@ mark.mark-tag {
   .dua-hero {
     border-radius: 16px;
     padding: 1rem;
-    min-height: 150px;
+    min-height: 160px;
+  }
+
+  .dua-category-panel {
+    border-radius: 14px;
+    padding: 0.8rem 0.75rem 0.95rem;
   }
 
   .dua-tab-row {

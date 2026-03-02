@@ -1,6 +1,6 @@
 <template>
   <main class="container-fluid dua-shell py-4" role="main" aria-labelledby="dua-title">
-    <section class="container dua-hero mb-4">
+    <section class="container-fluid dua-content-shell dua-hero mb-4">
       <div class="dua-hero-text">
         <p class="dua-kicker mb-2">Dua Collection</p>
         <h1 id="dua-title" class="fw-bold mb-2 dua-title">Dua Library</h1>
@@ -10,7 +10,16 @@
       </div>
     </section>
 
-    <section class="container dua-tab-panel mb-3">
+    <section class="container-fluid dua-content-shell mb-3" aria-label="Sources and authenticity disclaimer">
+      <div class="dua-disclaimer-banner">
+        <p class="dua-disclaimer-note mb-0">
+          <strong>Resources & Attribution | Sources & Authenticity:</strong>
+          We do not claim ownership of this content. These duas are compiled from authentic Islamic sources including the Qur'an, Sahih al-Bukhari, Sahih Muslim, and other trusted hadith collections.
+        </p>
+      </div>
+    </section>
+
+    <section class="container-fluid dua-content-shell dua-tab-panel mb-3">
       <div class="dua-tab-row">
         <button
           id="tab-all"
@@ -54,7 +63,7 @@
       </div>
     </section>
 
-    <section class="container mb-3 dua-search-wrapper" role="search">
+    <section class="container-fluid dua-content-shell mb-3 dua-search-wrapper" role="search">
       <div class="dua-search-card p-3">
         <div class="d-flex justify-content-between align-items-center gap-2 mb-3 flex-wrap">
           <p class="dua-results-note mb-0">
@@ -121,7 +130,7 @@
       </div>
     </section>
 
-    <section v-if="activeFilterPills.length" class="container mb-5" aria-label="Active filters">
+    <section v-if="activeFilterPills.length" class="container-fluid dua-content-shell mb-5" aria-label="Active filters">
       <div class="dua-active-filters">
         <span class="dua-active-filters-label">Active filters:</span>
         <button
@@ -143,7 +152,7 @@
       </div>
     </transition>
 
-    <div class="container">
+    <div class="container-fluid dua-content-shell">
       <div v-if="isLoading && !errorMessage" class="text-center my-5">
         <div class="spinner-border text-success" role="status" aria-label="Loading"></div>
         <div class="mt-2 text-muted">Loading duas...</div>
@@ -169,8 +178,8 @@
       </div>
     </div>
 
-    <div class="container" id="dua-panel" role="tabpanel" :aria-labelledby="viewMode === 'all' ? 'tab-all' : 'tab-liked'">
-      <div v-for="category in filteredDuas" :key="category.id" class="mb-4" role="region"
+    <div class="container-fluid dua-content-shell" id="dua-panel" role="tabpanel" :aria-labelledby="viewMode === 'all' ? 'tab-all' : 'tab-liked'">
+      <div v-for="category in filteredDuas" :key="category.id" class="mb-4 dua-category-panel" role="region"
         :aria-labelledby="`category-title-${category.id}`">
         <div class="dua-category-heading mb-3">
           <div>
@@ -215,19 +224,60 @@
                   :style="{ fontSize: 'calc(var(--font-size-base) * 1.42)', lineHeight: '2.05' }"
                   v-html="highlightText(dua.arabic)"
                   aria-label="Dua in Arabic"></p>
-                <p
-                  v-if="dua.transliteration"
-                  class="dua-card-transliteration mb-1 fst-italic text-muted"
-                  v-html="highlightText(dua.transliteration)"
-                  aria-label="Dua transliteration"></p>
-                <p
-                  class="dua-card-translation mb-1"
-                  :style="{ fontSize: 'calc(var(--font-size-base) * 0.98)' }"
-                  v-html="highlightText(dua.translation)"
-                  aria-label="Dua translation"></p>
-                <div class="dua-card-meta mt-auto">
-                  <span class="dua-card-reference" v-html="highlightText(dua.reference)"></span>
-                </div>
+                <section v-if="dua.transliteration" class="dua-section-block">
+                  <button
+                    type="button"
+                    class="dua-section-toggle"
+                    @click="toggleDuaSection(dua, 'transliteration')"
+                    :aria-expanded="!isDuaSectionCollapsed(dua, 'transliteration')"
+                    :aria-controls="`dua-transliteration-${dua.id}`">
+                    <span class="dua-section-label">Transliteration</span>
+                    <i :class="isDuaSectionCollapsed(dua, 'transliteration') ? 'bi bi-chevron-down' : 'bi bi-chevron-up'" aria-hidden="true"></i>
+                  </button>
+                  <p
+                    v-if="!isDuaSectionCollapsed(dua, 'transliteration')"
+                    :id="`dua-transliteration-${dua.id}`"
+                    class="dua-card-transliteration fst-italic text-muted"
+                    v-html="highlightText(dua.transliteration)"
+                    aria-label="Dua transliteration"></p>
+                </section>
+
+                <section v-if="dua.translation" class="dua-section-block">
+                  <button
+                    type="button"
+                    class="dua-section-toggle"
+                    @click="toggleDuaSection(dua, 'translation')"
+                    :aria-expanded="!isDuaSectionCollapsed(dua, 'translation')"
+                    :aria-controls="`dua-translation-${dua.id}`">
+                    <span class="dua-section-label">Translation</span>
+                    <i :class="isDuaSectionCollapsed(dua, 'translation') ? 'bi bi-chevron-down' : 'bi bi-chevron-up'" aria-hidden="true"></i>
+                  </button>
+                  <p
+                    v-if="!isDuaSectionCollapsed(dua, 'translation')"
+                    :id="`dua-translation-${dua.id}`"
+                    class="dua-card-translation"
+                    :style="{ fontSize: 'calc(var(--font-size-base) * 0.86)' }"
+                    v-html="highlightText(dua.translation)"
+                    aria-label="Dua translation"></p>
+                </section>
+
+                <section v-if="dua.reference" class="dua-section-block dua-section-block-reference mt-auto">
+                  <button
+                    type="button"
+                    class="dua-section-toggle"
+                    @click="toggleDuaSection(dua, 'reference')"
+                    :aria-expanded="!isDuaSectionCollapsed(dua, 'reference')"
+                    :aria-controls="`dua-reference-${dua.id}`">
+                    <span class="dua-section-label">Reference</span>
+                    <i :class="isDuaSectionCollapsed(dua, 'reference') ? 'bi bi-chevron-down' : 'bi bi-chevron-up'" aria-hidden="true"></i>
+                  </button>
+                  <div
+                    v-if="!isDuaSectionCollapsed(dua, 'reference')"
+                    :id="`dua-reference-${dua.id}`"
+                    class="dua-card-meta">
+                    <span class="dua-card-reference" v-html="highlightText(dua.reference)"></span>
+                  </div>
+                </section>
               </div>
               <div class="dua-card-actions">
                 <div class="dua-font-controls me-auto">
@@ -283,6 +333,7 @@
           </nav>
         </div>
       </div>
+
     </div>
   </main>
 </template>
