@@ -82,6 +82,10 @@ const GENDER_FILTERS = [
 ]
 const SECTION_FONT_MIN = 0.8
 const SECTION_FONT_MAX = 1.6
+const DEFAULT_OVERVIEW_FONT_SCALE = 1.08
+const DEFAULT_DUA_FONT_SCALE = 1.05
+const DEFAULT_GLOBAL_FONT_SCALE = 1.08
+const DEFAULT_SECTION_FONT_SCALE = 1.05
 const BACKGROUND_TAG_PRIORITY = ['Ex-Christian', 'Family Struggle', 'Faith Journey', 'Inspiration', 'Community', 'Funny', 'Quick Win']
 
 const FEMALE_KEYWORDS = ['she', 'her', 'woman', 'women', 'sister', 'mom', 'mother', 'girl', 'lady', 'daughter', 'female']
@@ -470,26 +474,26 @@ export default defineComponent({
       confettiLauncher: null,
       lessonShareStatus: '',
       duaShareStatus: '',
-      overviewFontScale: 1,
-      duaFontScale: 1,
-      globalFontScale: 1,
+      overviewFontScale: DEFAULT_OVERVIEW_FONT_SCALE,
+      duaFontScale: DEFAULT_DUA_FONT_SCALE,
+      globalFontScale: DEFAULT_GLOBAL_FONT_SCALE,
       fontScaleSessionId: '',
       sectionFontScales: {
-        globalSearch: 1,
-        lessonFocus: 1,
-        learningPaths: 1,
-        guidedPathway: 1,
-        shareFriend: 1,
-        dosDonts: 1,
-        duas: 1,
-        revertStories: 1,
-        keyInsights: 1,
-        shareUplift: 1,
-        chapterTool: 1,
-        commonQuestions: 1,
-        motivation: 1,
-        resources: 1,
-        chapterQuiz: 1
+        globalSearch: DEFAULT_SECTION_FONT_SCALE,
+        lessonFocus: DEFAULT_SECTION_FONT_SCALE,
+        learningPaths: DEFAULT_SECTION_FONT_SCALE,
+        guidedPathway: DEFAULT_SECTION_FONT_SCALE,
+        shareFriend: DEFAULT_SECTION_FONT_SCALE,
+        dosDonts: DEFAULT_SECTION_FONT_SCALE,
+        duas: DEFAULT_SECTION_FONT_SCALE,
+        revertStories: DEFAULT_SECTION_FONT_SCALE,
+        keyInsights: DEFAULT_SECTION_FONT_SCALE,
+        shareUplift: DEFAULT_SECTION_FONT_SCALE,
+        chapterTool: DEFAULT_SECTION_FONT_SCALE,
+        commonQuestions: DEFAULT_SECTION_FONT_SCALE,
+        motivation: DEFAULT_SECTION_FONT_SCALE,
+        resources: DEFAULT_SECTION_FONT_SCALE,
+        chapterQuiz: DEFAULT_SECTION_FONT_SCALE
       },
       lessonOverviewRead: {},
       curatedHighlightCompletion: {},
@@ -1479,6 +1483,26 @@ export default defineComponent({
           })
           this.sectionFontScales = next
         }
+        const isNearLegacyDefault = value => !Number.isFinite(value) || Math.abs(value - 1) < 0.001
+        const storedSectionValues = (stored?.sectionFontScales && typeof stored.sectionFontScales === 'object')
+          ? Object.values(stored.sectionFontScales).map(Number).filter(Number.isFinite)
+          : []
+        const sectionsAreLegacyDefault = !storedSectionValues.length || storedSectionValues.every(value => Math.abs(value - 1) < 0.001)
+        const shouldUpgradeLegacyDefaults = (
+          isNearLegacyDefault(overview) &&
+          isNearLegacyDefault(dua) &&
+          isNearLegacyDefault(global) &&
+          sectionsAreLegacyDefault
+        )
+        if (shouldUpgradeLegacyDefaults) {
+          this.overviewFontScale = DEFAULT_OVERVIEW_FONT_SCALE
+          this.duaFontScale = DEFAULT_DUA_FONT_SCALE
+          this.globalFontScale = DEFAULT_GLOBAL_FONT_SCALE
+          this.sectionFontScales = Object.keys(this.sectionFontScales).reduce((acc, key) => {
+            acc[key] = DEFAULT_SECTION_FONT_SCALE
+            return acc
+          }, {})
+        }
       } catch (err) {
         console.error('Unable to restore font scale preferences', err)
       }
@@ -2090,13 +2114,23 @@ export default defineComponent({
       this.mobileNavOpen = !this.mobileNavOpen
     },
 
+    handleRoadmapPillClick(step, event) {
+      const chapterId = Number(step?.id)
+      if (!Number.isFinite(chapterId)) return
+      if (chapterId > this.maxStepReached) {
+        event?.preventDefault?.()
+        event?.stopPropagation?.()
+        return
+      }
+      this.selectPill(chapterId)
+    },
+
     selectPill(id) {
       const chapterId = Number(id)
       if (!Number.isFinite(chapterId)) return
-      if (chapterId <= this.maxStepReached) {
-        this.selectedPill = chapterId
-        this.scrollToTop()
-      }
+      if (chapterId > this.maxStepReached) return
+      this.selectedPill = chapterId
+      this.scrollToTop()
       this.mobileNavOpen = false
     },
     openChapterToolNewTab() {
@@ -2263,12 +2297,15 @@ export default defineComponent({
     },
     formatReferenceText(text = '') {
       if (!text) return ''
-      return this.linkifyOverviewContent(String(text))
+      return this.escapeHtml(String(text))
     },
     formatReferenceHtml(html = '') {
       if (!html) return ''
-      const withQuranLinks = this.linkifyQuranReferences(String(html))
-      return this.linkifyHadithReferences(withQuranLinks)
+      return this.stripAnchorTags(String(html))
+    },
+    stripAnchorTags(html = '') {
+      if (!html) return ''
+      return String(html).replace(/<a\b[^>]*>([\s\S]*?)<\/a>/gi, '$1')
     },
     linkifyQuranReferences(html = '') {
       if (!html) return ''
@@ -2436,8 +2473,7 @@ export default defineComponent({
     },
     linkifyOverviewContent(text = '') {
       if (!text) return ''
-      const withQuranLinks = this.linkifyQuranEntry(text)
-      return this.linkifyHadithReferences(withQuranLinks)
+      return this.escapeHtml(text)
     },
     highlightResourceHtml(html = '') {
       if (!html) return ''
@@ -2466,6 +2502,11 @@ export default defineComponent({
       if (normalizedLabel.includes('hadith')) {
         return this.highlightResourceHtml(this.linkifyHadithText(text))
       }
+      return this.highlightResourceHtml(this.escapeHtml(text))
+    },
+    formatResourceReferenceEntry(entry = '') {
+      const text = String(entry || '')
+      if (!text) return ''
       return this.highlightResourceHtml(this.escapeHtml(text))
     },
     splitResourceEntryText(entry = '') {
@@ -2964,7 +3005,7 @@ export default defineComponent({
       this[target] = Math.min(max, Math.max(min, this[target] + delta))
     },
     sectionFontScale(key) {
-      return this.sectionFontScales[key] ?? 1
+      return this.sectionFontScales[key] ?? DEFAULT_SECTION_FONT_SCALE
     },
     sectionFontStyle(key) {
       const scale = this.sectionFontScale(key)

@@ -83,8 +83,10 @@
                   locked: step.id > maxStepReached
                 }"
                 :data-locked="step.id > maxStepReached"
+                :disabled="step.id > maxStepReached"
                 :aria-disabled="step.id > maxStepReached"
-                @click="selectPill(step.id)">
+                :tabindex="step.id > maxStepReached ? -1 : 0"
+                @click="handleRoadmapPillClick(step, $event)">
                 <div class="dot-wrapper d-flex align-items-center gap-2">
                   <span class="dot-icon-step">
                     <i v-if="step.id < maxStepReached" class="bi bi-check-lg"></i>
@@ -150,11 +152,35 @@
                   </span>
                 </div>
                 <h1 class="fw-bold text-white text-start text-md-left mb-2">
-                  {{ currentLesson?.title }}
+                  {{ currentLesson?.title || 'Revert Journey' }}
                 </h1>
                 <p class="text-white-50 mb-0">
-                  {{ currentLesson?.summary }}
+                  {{ currentLesson?.summary || 'Build your path chapter by chapter with guided lessons and practical support.' }}
                 </p>
+                <div class="lesson-hero-meta mt-3">
+                  <span class="hero-meta-chip">
+                    <i class="bi bi-graph-up-arrow"></i>
+                    {{ Math.round(progressPercentage) }}% complete
+                  </span>
+                  <span class="hero-meta-chip">
+                    <i class="bi bi-check2-circle"></i>
+                    {{ completedChapters }}/{{ totalChapters }} chapters done
+                  </span>
+                  <span class="hero-meta-chip">
+                    <i class="bi bi-stars"></i>
+                    Current unlock: Chapter {{ maxStepReached }}
+                  </span>
+                </div>
+                <div class="lesson-hero-actions mt-3">
+                  <button
+                    type="button"
+                    class="hero-resume-btn"
+                    @click="scrollToGlobalSearchSection('Learning Paths')"
+                  >
+                    <i class="bi bi-compass-fill"></i>
+                    Continue where you left off
+                  </button>
+                </div>
               </div>
               <button
                 type="button"
@@ -393,10 +419,10 @@
                 </span>
                 <div class="d-flex flex-column">
                   <h3 class="fw-bold mb-0">Learning Paths</h3>
-                  <!-- <div v-if="learningPathsMeta.wordCount" class="section-header-meta">
+                  <div v-if="learningPathsMeta.wordCount" class="section-header-meta">
                     <span class="section-meta-pill">{{ learningPathsMeta.wordCount }} words</span>
                     <span class="section-meta-pill">{{ learningPathsMeta.readTime }} min read</span>
-                  </div> -->
+                  </div>
                 </div>
               </div>
               <div class="overview-actions d-flex align-items-center gap-2 flex-wrap">
@@ -777,10 +803,10 @@
                 </span>
                 <div class="d-flex flex-column">
                   <h3 class="fw-bold mb-0">Do's and Don'ts</h3>
-                  <!-- <div v-if="dosDontsMeta.wordCount" class="section-header-meta">
+                  <div v-if="dosDontsMeta.wordCount" class="section-header-meta">
                     <span class="section-meta-pill">{{ dosDontsMeta.wordCount }} words</span>
                     <span class="section-meta-pill">{{ dosDontsMeta.readTime }} min read</span>
-                  </div> -->
+                  </div>
                 </div>
               </div>
               <div class="section-control-stack ms-auto">
@@ -862,10 +888,10 @@
                 </span>
                 <div class="flex-grow-1">
                   <h3 class="fw-bold mb-1">Duas to Carry</h3>
-                  <!-- <div v-if="duasMeta.wordCount" class="section-header-meta">
+                  <div v-if="duasMeta.wordCount" class="section-header-meta">
                     <span class="section-meta-pill">{{ duasMeta.wordCount }} words</span>
                     <span class="section-meta-pill">{{ duasMeta.readTime }} min read</span>
-                  </div> -->
+                  </div>
                 </div>
               </div>
               <div class="lesson-focus-actions">
@@ -1060,19 +1086,19 @@
             class="content-card onboarding-card mb-4 rounded-5 shadow-lg section-typography"
             :style="sectionFontStyle('keyInsights')">
           <div class="card-header d-flex align-items-center justify-content-between py-3 gap-3 flex-wrap">
-            <div class="d-flex align-items-center gap-3 flex-grow-1">
-              <span class="card-header-icon">
-                <i class="bi bi-lightbulb-fill"></i>
-              </span>
-              <div class="d-flex flex-column">
-                <h3 class="fw-bold mb-1">Key Insights</h3>
-                <p class="text-muted small mb-0">Anchor the lesson with these quick takeaways.</p>
-                <!-- <div v-if="keyInsightsMeta.wordCount" class="section-header-meta">
-                  <span class="section-meta-pill">{{ keyInsightsMeta.wordCount }} words</span>
-                  <span class="section-meta-pill">{{ keyInsightsMeta.readTime }} min read</span>
-                </div> -->
+              <div class="d-flex align-items-center gap-3 flex-grow-1">
+                <span class="card-header-icon">
+                  <i class="bi bi-lightbulb-fill"></i>
+                </span>
+                <div class="d-flex flex-column">
+                  <h3 class="fw-bold mb-1">Key Insights</h3>
+                  <p class="text-muted small mb-0">Anchor the lesson with these quick takeaways.</p>
+                  <div v-if="keyInsightsMeta.wordCount" class="section-header-meta">
+                    <span class="section-meta-pill">{{ keyInsightsMeta.wordCount }} words</span>
+                    <span class="section-meta-pill">{{ keyInsightsMeta.readTime }} min read</span>
+                  </div>
+                </div>
               </div>
-            </div>
             <div class="section-control-stack ms-auto">
               <div class="section-font-controls" role="group" aria-label="Key insights font size">
                 <button
@@ -1299,10 +1325,10 @@
                   <div>
                     <h3 class="fw-bold mb-1">Commonly Asked Questions</h3>
                     <p class="text-muted small mb-0">Answers pulled from the chapter conversation.</p>
-                    <!-- <div v-if="commonQuestionsMeta.wordCount" class="section-header-meta">
+                    <div v-if="commonQuestionsMeta.wordCount" class="section-header-meta">
                       <span class="section-meta-pill">{{ commonQuestionsMeta.wordCount }} words</span>
                       <span class="section-meta-pill">{{ commonQuestionsMeta.readTime }} min read</span>
-                    </div> -->
+                    </div>
                   </div>
                 </div>
                 <div class="section-control-stack ms-auto">
@@ -1789,7 +1815,7 @@
                               class="resource-entry"
                             >
                               <div class="resource-entry-body">
-                                <p v-if="resourceEntryParts(entry).reference" class="resource-entry-reference" v-html="formatResourceEntry(resourceEntryParts(entry).reference, item.label)"></p>
+                                <p v-if="resourceEntryParts(entry).reference" class="resource-entry-reference" v-html="formatResourceReferenceEntry(resourceEntryParts(entry).reference)"></p>
                                 <p v-if="resourceEntryParts(entry).detail" class="resource-entry-detail" v-html="formatResourceEntry(resourceEntryParts(entry).detail, item.label)"></p>
                               </div>
                               <div class="resource-entry-actions">

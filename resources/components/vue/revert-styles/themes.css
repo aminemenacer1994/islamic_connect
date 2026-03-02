@@ -1,0 +1,479 @@
+/* Revert themes and tokens */
+
+:global(body) {
+  background:
+    radial-gradient(circle at 10% 10%, rgba(214, 165, 77, 0.2), transparent 45%),
+    radial-gradient(circle at 90% 0%, rgba(15, 110, 99, 0.18), transparent 50%),
+    linear-gradient(180deg, #fff9f1 0%, #f2f8f3 60%, #f8fbff 100%);
+  min-height: 100vh;
+  margin: 0;
+  font-family: var(--font-body);
+  color: var(--ink-strong);
+  background-attachment: fixed;
+}
+
+:global(:root) {
+  --font-body: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-display: 'Lora', 'DM Serif Display', 'Amiri', Georgia, serif;
+  --brand-teal: #0f6e63;
+  --brand-slate: #1d2b2f;
+  --brand-soft: #f7f3ea;
+  --brand-gradient: linear-gradient(140deg, rgba(15, 110, 99, 0.95), rgba(21, 120, 96, 0.7), rgba(214, 165, 77, 0.5));
+  --brand-border: rgba(15, 110, 99, 0.18);
+  --ink-strong: #0b1f21;
+  --ink-muted: #42535a;
+  --surface-glass: rgba(236, 243, 246, 0.9);
+  --surface-strong: rgba(244, 249, 251, 0.96);
+  --video-card-border: 1px solid rgba(17, 63, 73, 0.16);
+  --video-card-shadow: 0 18px 34px rgba(10, 28, 40, 0.14);
+  --video-card-shadow-hover: 0 24px 46px rgba(10, 28, 40, 0.22);
+  --accent-gold: #d6a54d;
+}
+
+.troubleshooting-steps .step-icon {
+  color: var(--brand-teal);
+  margin-top: 0.15rem;
+}
+
+.video-card {
+  cursor: pointer;
+  border-radius: 28px;
+  border: var(--video-card-border);
+  background: #fff;
+  box-shadow: var(--video-card-shadow);
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+.video-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--video-card-shadow-hover);
+}
+
+.page-sheen {
+  display: none;
+}
+
+.background-pattern {
+  display: none;
+}
+
+.mobile-chapter-select-pill i {
+  color: var(--brand-teal);
+  font-size: 1rem;
+}
+
+.resource-entry a {
+  color: var(--brand-teal);
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+}
+
+.quiz-feedback-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(15, 23, 42, 0.12);
+  color: var(--brand-teal);
+  flex-shrink: 0;
+}
+
+/* === UI refresh overrides === */
+:global(.revert-shell) {
+  font-family: var(--font-body);
+  color: var(--ink-strong);
+  background: transparent;
+}
+
+:global(.revert-shell h1),
+:global(.revert-shell h2),
+:global(.revert-shell h3),
+:global(.revert-shell h4),
+:global(.revert-shell h5),
+:global(.revert-shell h6) {
+  font-family: var(--font-display);
+  letter-spacing: -0.015em;
+}
+
+.page-sheen {
+  display: block;
+  position: fixed;
+  inset: -25% -15% 0;
+  background:
+    radial-gradient(circle at 15% 15%, rgba(214, 165, 77, 0.22), transparent 55%),
+    radial-gradient(circle at 85% 0%, rgba(15, 110, 99, 0.22), transparent 60%);
+  opacity: 0.7;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.background-pattern {
+  display: block;
+  position: fixed;
+  inset: 0;
+  background-image:
+    radial-gradient(circle, rgba(15, 110, 99, 0.08) 1px, transparent 1px),
+    radial-gradient(circle, rgba(214, 165, 77, 0.08) 1px, transparent 1px);
+  background-size: 26px 26px, 34px 34px;
+  background-position: 0 0, 12px 12px;
+  opacity: 0.35;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.mobile-nav-toggle i {
+  color: var(--brand-teal);
+}
+
+.content-card {
+  background: var(--surface-glass);
+  border: 1px solid rgba(15, 110, 99, 0.14);
+  box-shadow: 0 24px 60px rgba(11, 31, 33, 0.12);
+  backdrop-filter: blur(16px);
+}
+
+.section-content p:first-child {
+  font-size: 1.7rem;
+  font-weight: 700;
+  color: #0f2a2a;
+  line-height: 1.35;
+  font-family: var(--font-display);
+}
+
+/* === UI polish additions === */
+:global(:root) {
+  --surface-frost: rgba(255, 255, 255, 0.88);
+  --shadow-soft: 0 20px 45px rgba(11, 31, 33, 0.12);
+  --shadow-lift: 0 32px 65px rgba(9, 24, 28, 0.18);
+}
+
+.lesson-hero-content h1 {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
+  text-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+}
+
+.content-card {
+  background: var(--surface-frost);
+  border-color: rgba(15, 110, 99, 0.18);
+  box-shadow: var(--shadow-soft);
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+.section-toggle-btn {
+  background: rgba(255, 255, 255, 0.9);
+  border-color: rgba(15, 110, 99, 0.25);
+  color: var(--brand-teal);
+}
+
+.header-action i {
+  color: var(--brand-teal);
+}
+
+.overview-highlight h6 {
+  font-family: var(--font-display);
+  color: var(--ink-strong);
+}
+
+/* === Responsive layout fixes === */
+@media (max-width: 991.98px) {
+  :global(body) {
+    background-attachment: scroll;
+  }
+
+  .revert-shell,
+  .revert-content {
+    overflow-x: hidden;
+  }
+
+  .mobile-nav-toggle {
+    display: inline-flex;
+    top: calc(0.9rem + env(safe-area-inset-top));
+    right: calc(0.9rem + env(safe-area-inset-right));
+    left: auto;
+  }
+
+  .mobile-nav-backdrop {
+    display: block;
+  }
+
+  .mobile-nav-frame {
+    display: block;
+    height: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    pointer-events: auto;
+  }
+
+  .lesson-pane {
+    max-height: none;
+    height: auto;
+    overflow: visible;
+    padding-right: 0;
+  }
+
+  .lesson-pane .content-card {
+    border-radius: 24px;
+  }
+}
+
+/* ==================== 2026 Revert UX Refresh ==================== */
+
+:global(:root) {
+  --font-body: 'Manrope', 'Avenir Next', 'Segoe UI', sans-serif;
+  --font-display: 'Lora', 'DM Serif Display', 'Amiri', Georgia, serif;
+  --revert-ink-strong: #0e1d22;
+  --revert-ink-soft: #566770;
+  --revert-emerald: #0f766e;
+  --revert-emerald-deep: #0a5953;
+  --revert-sand: #f4dfbf;
+  --revert-slate: #19323b;
+  --brand-soft: #e4d4bc;
+  --surface-glass: rgba(233, 242, 246, 0.92);
+  --surface-strong: rgba(242, 248, 250, 0.97);
+  --revert-card: rgba(233, 243, 246, 0.9);
+  --revert-card-alt: rgba(227, 238, 232, 0.9);
+  --revert-card-border: rgba(13, 88, 88, 0.25);
+  --revert-glow: 0 24px 60px rgba(14, 31, 43, 0.14);
+  --revert-glow-soft: 0 14px 30px rgba(14, 31, 43, 0.09);
+}
+
+:global(body) {
+  background:
+    radial-gradient(circle at 10% 10%, rgba(240, 207, 150, 0.32), transparent 36%),
+    radial-gradient(circle at 88% 6%, rgba(20, 122, 112, 0.26), transparent 40%),
+    radial-gradient(circle at 52% 100%, rgba(26, 74, 99, 0.16), transparent 54%),
+    linear-gradient(180deg, #dce5df 0%, #cfddd8 38%, #c8d7df 66%, #c1d0de 100%);
+  color: var(--revert-ink-strong);
+  font-family: var(--font-body);
+}
+
+:global(.revert-shell h1),
+:global(.revert-shell h2),
+:global(.revert-shell h3),
+:global(.revert-shell h4) {
+  font-family: var(--font-display);
+  letter-spacing: 0.01em;
+}
+
+.revert-shell {
+  position: relative;
+  isolation: isolate;
+  color: var(--revert-ink-strong);
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 6% 8%, rgba(244, 214, 157, 0.28), transparent 34%),
+    radial-gradient(circle at 94% 0%, rgba(16, 119, 108, 0.24), transparent 38%),
+    linear-gradient(180deg, rgba(209, 222, 216, 0.92) 0%, rgba(200, 214, 221, 0.92) 100%);
+}
+
+.page-sheen {
+  background:
+    linear-gradient(120deg, rgba(255, 255, 255, 0.1), transparent 54%),
+    radial-gradient(circle at 14% 0%, rgba(255, 255, 255, 0.16), transparent 50%);
+  opacity: 0.6;
+}
+
+.background-pattern {
+  background-image:
+    radial-gradient(circle, rgba(22, 47, 58, 0.1) 0.8px, transparent 0.8px),
+    linear-gradient(125deg, rgba(224, 238, 243, 0.2), rgba(162, 187, 200, 0.05));
+  background-size: 18px 18px, cover;
+  opacity: 0.34;
+}
+
+.mobile-nav-toggle {
+  border: 1px solid rgba(255, 255, 255, 0.8) !important;
+  background: rgba(255, 255, 255, 0.95) !important;
+  color: var(--revert-emerald-deep) !important;
+  box-shadow: 0 12px 30px rgba(8, 37, 44, 0.2);
+}
+
+.navigation-card {
+  position: sticky;
+  top: 1rem;
+  border-radius: 28px !important;
+  border: 1px solid rgba(12, 85, 95, 0.26);
+  background: linear-gradient(180deg, var(--surface-strong), var(--surface-glass));
+  box-shadow: var(--revert-glow-soft);
+  backdrop-filter: blur(10px);
+}
+
+.roadmap-header .small:first-child {
+  color: var(--revert-slate);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-size: 0.66rem;
+}
+
+.roadmap-pill {
+  position: relative;
+  border: 1px solid rgba(14, 75, 85, 0.22);
+  border-radius: 16px;
+  background: var(--surface-glass);
+  box-shadow: 0 10px 22px rgba(14, 31, 43, 0.07);
+  padding: 0.8rem 0.85rem;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease, background 0.25s ease;
+}
+
+.dot-wrapper .dot-icon-step {
+  width: 2.15rem;
+  height: 2.15rem;
+  min-width: 2.15rem;
+  border-radius: 11px;
+  background: rgba(15, 118, 110, 0.13);
+  color: var(--revert-emerald-deep);
+  box-shadow: inset 0 0 0 1px rgba(15, 118, 110, 0.14);
+}
+
+.mobile-chapter-select-pill {
+  border-radius: 14px;
+  border: 1px solid rgba(15, 118, 110, 0.18);
+  background: var(--surface-glass);
+  box-shadow: 0 12px 24px rgba(12, 30, 42, 0.09);
+}
+
+.lesson-hero {
+  border-radius: 34px;
+  border: 1px solid rgba(255, 255, 255, 0.38);
+  background:
+    radial-gradient(circle at 6% 8%, rgba(255, 255, 255, 0.3), transparent 46%),
+    linear-gradient(130deg, #0b4f59 0%, #0f766e 48%, #128a7d 100%);
+  box-shadow: var(--revert-glow);
+  padding: clamp(1.25rem, 2.4vw, 2rem);
+}
+
+.resource-search-panel.global-search-panel {
+  border-radius: 26px;
+  border: 1px solid var(--revert-card-border);
+  background: linear-gradient(160deg, var(--surface-strong), var(--surface-glass));
+  box-shadow: var(--revert-glow-soft);
+}
+
+.resource-search-title {
+  font-size: 1.25rem;
+  color: var(--revert-slate);
+}
+
+.resource-search-subtitle {
+  color: var(--revert-ink-soft);
+}
+
+.global-search-group {
+  border: 1px solid rgba(17, 64, 73, 0.2);
+  border-radius: 16px;
+  background: var(--surface-glass);
+  padding: 0.8rem;
+}
+
+.global-search-group-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.65rem;
+  color: var(--revert-slate);
+}
+
+.global-search-group-count {
+  margin-left: auto;
+  border-radius: 999px;
+  padding: 0.1rem 0.48rem;
+  background: rgba(15, 118, 110, 0.14);
+  color: var(--revert-emerald-deep);
+  font-size: 0.72rem;
+}
+
+.global-search-result-button {
+  width: 100%;
+  text-align: left;
+  border: 1px solid rgba(17, 63, 73, 0.1);
+  border-radius: 12px;
+  background: var(--surface-strong);
+  padding: 0.62rem 0.72rem;
+  transition: border-color 0.2s ease, transform 0.2s ease, background 0.2s ease;
+}
+
+.global-search-result-title {
+  color: var(--revert-slate);
+}
+
+.global-search-result-snippet {
+  color: var(--revert-ink-soft);
+  line-height: 1.45;
+}
+
+.lesson-pane .content-card {
+  border-radius: 28px !important;
+  border: 1px solid var(--revert-card-border);
+  background: linear-gradient(165deg, var(--surface-strong), var(--surface-glass));
+  box-shadow: var(--revert-glow-soft);
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.lesson-pane .content-card:nth-of-type(odd) {
+  background: linear-gradient(165deg, var(--surface-strong), var(--revert-card-alt));
+}
+
+.lesson-pane .content-card:nth-of-type(even) {
+  background: linear-gradient(165deg, var(--surface-strong), var(--revert-card));
+}
+
+.lesson-pane .content-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--revert-glow);
+}
+
+.card-header-icon i {
+  color: var(--revert-emerald-deep);
+}
+
+.section-font-btn,
+.section-toggle-btn {
+  border-radius: 10px;
+  border: 1px solid rgba(17, 63, 73, 0.12);
+  background: rgba(229, 241, 244, 0.92);
+  color: var(--revert-slate);
+}
+
+.btn-outline-teal {
+  border: 1px solid rgba(15, 118, 110, 0.28);
+  color: var(--revert-emerald-deep);
+  background: rgba(15, 118, 110, 0.04);
+}
+
+.header-action {
+  border-radius: 10px;
+  padding: 0.38rem 0.62rem;
+  border: 1px solid rgba(17, 63, 73, 0.14);
+  background: var(--surface-glass);
+  transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+
+.overview-highlight {
+  position: relative;
+  border: 1px solid rgba(17, 63, 73, 0.12) !important;
+  border-radius: 16px !important;
+  background: linear-gradient(180deg, var(--surface-strong), var(--surface-glass));
+}
+
+.section-block {
+  border-radius: 20px;
+  border: 1px solid rgba(17, 63, 73, 0.13);
+  background: linear-gradient(165deg, var(--surface-glass), rgba(212, 228, 235, 0.84));
+  box-shadow: 0 14px 26px rgba(10, 28, 40, 0.07);
+  padding: 1rem 1rem 0.92rem;
+}
+
+.faq-question {
+  border-radius: 16px;
+  padding: 0.85rem 0.95rem;
+  background: transparent;
+  color: var(--revert-slate);
+}
