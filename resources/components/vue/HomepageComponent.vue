@@ -78,7 +78,7 @@
             </div>
 
           </div>
-          <section v-if="isAuthenticated" class="container-fluid ic-hero__hifdh-zone" aria-label="Hifdh performance">
+          <section v-if="false && isAuthenticated" class="container-fluid ic-hero__hifdh-zone" aria-label="Hifdh performance">
             <div class="row g-3 align-items-stretch hifdh-hero-layout">
               <div class="col-12 col-lg-4">
                 <a
@@ -184,6 +184,71 @@
         </div>
       </div>
     </section>
+    <!-- Public Benefit Objectives Section -->
+    <section class="py-5 ic-objectives" aria-labelledby="public-benefit-title">
+      <div class="container pt-3">
+        <div class="row justify-content-center text-center mb-4">
+          <div class="col-lg-9 col-xl-8">
+            <span class="ic-objectives__eyebrow">Public Benefit Mission</span>
+            <h2 id="public-benefit-title" class="h2 mb-3 fw-bold">Our Core Objectives</h2>
+            <p class="lead ic-objectives__intro mb-0">
+              Islamic Connect exists to educate, build mutual understanding, and expand inclusive digital access to
+              Islamic learning.
+            </p>
+          </div>
+        </div>
+
+        <div class="row g-4">
+          <div class="col-12 col-lg-4">
+            <article class="ic-objective-card h-100">
+              <div class="ic-objective-card__top">
+                <span class="ic-objective-card__index">01</span>
+                <span class="ic-objective-card__icon" aria-hidden="true">
+                  <i class="fas fa-book-open"></i>
+                </span>
+              </div>
+              <h3 class="h5 fw-bold mb-2">Advance Public Education About Islam</h3>
+              <p class="mb-0">
+                Advance public education about Islam, its teachings, history, and culture.
+              </p>
+            </article>
+          </div>
+
+          <div class="col-12 col-lg-4">
+            <article class="ic-objective-card h-100">
+              <div class="ic-objective-card__top">
+                <span class="ic-objective-card__index">02</span>
+                <span class="ic-objective-card__icon" aria-hidden="true">
+                  <i class="fas fa-users"></i>
+                </span>
+              </div>
+              <h3 class="h5 fw-bold mb-2">Promote Religious and Racial Harmony</h3>
+              <p class="mb-0">
+                Promote harmony for public benefit by educating Muslims and non-Muslims about Islamic virtues and by
+                challenging Islamophobia, prejudice, and discrimination.
+              </p>
+            </article>
+          </div>
+
+          <div class="col-12 col-lg-4">
+            <article class="ic-objective-card h-100">
+              <div class="ic-objective-card__top">
+                <span class="ic-objective-card__index">03</span>
+                <span class="ic-objective-card__icon" aria-hidden="true">
+                  <i class="fas fa-laptop-code"></i>
+                </span>
+              </div>
+              <h3 class="h5 fw-bold mb-2">Develop and Maintain Digital Education</h3>
+              <p class="mb-0">
+                Develop, provide, and maintain digital educational resources, tools, and programmes, including online
+                platforms, apps, and AI systems, to advance these objectives.
+              </p>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section aria-labelledby="services-heading">
       <div class="py-5 ic-services">
         <div class="container">
@@ -367,100 +432,6 @@
                   <p>Growth</p>
                   <small>Returning users</small>
                 </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-
-    <!-- AI Tools & Features Section - Optimized -->
-    <section class="py-5 ic-ai" aria-labelledby="ai-tools-title">
-      <div class="container pt-3">
-        <div class="row justify-content-center text-center mb-3">
-          <div class="col-lg-8 col-xl-7">
-          </div>
-          <h2 id="ai-tools-title" class="h2 mb-3 fw-bold">AI-Powered Tools for Enhanced Islamic Learning</h2>
-
-        </div>
-
-        <div class="row pt-3 g-4 g-md-5">
-          <div class="col-12">
-            <p class="lead text-center mb-4" style="line-height: 1.7">
-              At Islamic Connect, we leverage advanced AI technology to make Quranic knowledge accessible to everyone.
-              Our tools are designed to empower individuals through inclusive, personalized learning experiences
-              that adapt to diverse abilities and learning preferences.
-            </p>
-          </div>
-
-          <!-- Feature 4: Text Summarization -->
-          <div class="col-md-6">
-            <div class="d-flex h-100">
-              <div class="flex-shrink-0 me-4">
-                <img src="images/content.png" width="60" height="60" alt="Content icon for text summarization feature"
-                  loading="lazy">
-              </div>
-              <div class="flex-grow-1">
-                <h3 class="h5 mb-2 fw-bold">AI Text Summarization</h3>
-                <p class="mb-0">
-                  Quickly understand complex Islamic texts with AI-powered summaries.
-                  Extract key insights from lengthy content to enhance your learning efficiency.
-                </p>
-              </div>
-            </div>
-          </div>
-
-
-
-          <!-- Feature 1: Speech-to-Text -->
-          <div class="col-md-6 mb-3">
-            <div class="d-flex h-100">
-              <div class="flex-shrink-0 me-4">
-                <img src="images/podcasting.png" width="60" height="60"
-                  alt="Microphone icon representing speech-to-text feature" loading="lazy">
-              </div>
-              <div class="flex-grow-1">
-                <h3 class="h5 mb-2 fw-bold">Speech-to-Text for Islamic Notes</h3>
-                <p class="mb-0">
-                  Capture your spoken reflections and thoughts on Islamic teachings effortlessly.
-                  Perfect for documenting insights and ensuring accessibility for those who prefer audio input.
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Feature 5: Audio Sync -->
-          <div class="col-md-6">
-            <div class="d-flex h-100">
-              <div class="flex-shrink-0 me-4">
-                <img src="images/highlighter.png" width="60" height="60"
-                  alt="Highlighter icon for audio synchronization feature" loading="lazy">
-              </div>
-              <div class="flex-grow-1">
-                <h3 class="h5 mb-2 fw-bold">Word-by-Word Quran Highlighting</h3>
-                <p class="mb-0">
-                  Follow Quranic recitations with synchronized text highlighting.
-                  Each word lights up as it's recited, improving pronunciation and comprehension.
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Feature 6: Text-to-Speech -->
-          <div class="col-md-6">
-            <div class="d-flex h-100">
-              <div class="flex-shrink-0 me-4">
-                <img src="images/chat.png" width="60" height="60" alt="Chat icon for text-to-speech feature"
-                  loading="lazy">
-              </div>
-              <div class="flex-grow-1">
-                <h3 class="h5 mb-2 fw-bold">Text-to-Speech for Translations</h3>
-                <p class="mb-0">
-                  Listen to Quran translations and Tafsir explanations.
-                  High-quality audio delivery makes Islamic knowledge accessible while multitasking or for visual
-                  impairments.
-                </p>
               </div>
             </div>
           </div>
@@ -1210,22 +1181,114 @@
   opacity: 0.75;
 }
 
-.ic-ai {
-  background: linear-gradient(180deg, #fffaf1 0%, #ffffff 100%);
+.ic-objectives {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(180deg, #fffaf1 0%, #f3faf6 52%, #ffffff 100%);
 }
 
-.ic-ai .col-md-6 .d-flex {
-  border-radius: 18px;
+.ic-objectives::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 8% 30%, rgba(15, 118, 110, 0.12), transparent 46%),
+    radial-gradient(circle at 92% 15%, rgba(15, 118, 110, 0.12), transparent 42%);
+  pointer-events: none;
+}
+
+.ic-objectives .container {
+  position: relative;
+  z-index: 1;
+}
+
+.ic-objectives__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.4rem 0.95rem;
+  border-radius: 999px;
+  font-size: 0.79rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--ic-teal-dark);
+  background: rgba(15, 118, 110, 0.1);
+  border: 1px solid rgba(15, 118, 110, 0.2);
+  margin-bottom: 0.95rem;
+}
+
+.ic-objectives__intro {
+  color: var(--ic-ink-soft);
+  line-height: 1.7;
+}
+
+.ic-objective-card {
+  border-radius: 22px;
   border: 1px solid var(--ic-border);
-  padding: 1.25rem;
-  background: var(--ic-card);
+  padding: 1.4rem;
+  background: linear-gradient(160deg, #ffffff 0%, #f7fcfa 100%);
   box-shadow: var(--ic-shadow-soft);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
 }
 
-.ic-ai .col-md-6 .d-flex:hover {
+.ic-objective-card:hover {
   transform: translateY(-4px);
   box-shadow: var(--ic-shadow);
+  border-color: rgba(15, 118, 110, 0.26);
+}
+
+.ic-objective-card__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.9rem;
+}
+
+.ic-objective-card__index {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 3rem;
+  height: 2rem;
+  padding: 0 0.8rem;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--ic-teal), var(--ic-teal-dark));
+  color: #ffffff;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.ic-objective-card__icon {
+  width: 2.1rem;
+  height: 2.1rem;
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(15, 118, 110, 0.12);
+  color: var(--ic-teal-dark);
+  font-size: 0.95rem;
+}
+
+.ic-objective-card h3 {
+  color: var(--ic-teal-deep);
+}
+
+.ic-objective-card p {
+  color: #3f4f4c;
+  line-height: 1.68;
+}
+
+@media (max-width: 767.98px) {
+  .ic-objective-card {
+    padding: 1.2rem 1.1rem;
+  }
+
+  .ic-objectives__intro {
+    font-size: 1rem;
+  }
 }
 
 .ic-support {

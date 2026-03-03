@@ -174,7 +174,7 @@ export default {
       bookmarks: [],
       favourites: [],
       recentPlays: [],
-      sortOption: 'mostViewed',
+      sortOption: 'newest',
       dateFilter: 'weekly',
       durationFilter: '',
       isAudioPlaying: [],
@@ -224,7 +224,7 @@ export default {
       }, 0);
     },
     hasActiveFilters() {
-      return !!(this.searchQuery || this.durationFilter || this.languageFilter || (this.sortOption && this.sortOption !== 'mostViewed'));
+      return !!(this.searchQuery || this.durationFilter || this.languageFilter || (this.sortOption && this.sortOption !== 'newest'));
     },
   },
 
@@ -606,14 +606,36 @@ export default {
       this.filteredPodcasts = this.applyDurationFilter([...this.podcasts]);
     },
 
+    getPublishedTimestamp(pubDate) {
+      const published = new Date(pubDate);
+      const timestamp = published.getTime();
+      return Number.isFinite(timestamp) ? timestamp : -Infinity;
+    },
     applySorting(filtered) {
-      switch (this.sortBy) {
-        case "most-viewed":
-          return filtered.sort((a, b) => b.views - a.views);
-        case "least-viewed":
-          return filtered.sort((a, b) => a.views - b.views);
+      const podcasts = Array.isArray(filtered) ? filtered.slice() : [];
+      const sortNewestFirst = (a, b) => {
+        const aIsNew = this.isNewEpisode(a?.pubDate);
+        const bIsNew = this.isNewEpisode(b?.pubDate);
+        if (aIsNew !== bIsNew) return aIsNew ? -1 : 1;
+        return this.getPublishedTimestamp(b?.pubDate) - this.getPublishedTimestamp(a?.pubDate);
+      };
+
+      switch (this.sortOption) {
+        case "mostViewed":
+          return podcasts.sort((a, b) => {
+            const viewDiff = Number(b?.views || 0) - Number(a?.views || 0);
+            return viewDiff || sortNewestFirst(a, b);
+          });
+        case "leastViewed":
+          return podcasts.sort((a, b) => {
+            const viewDiff = Number(a?.views || 0) - Number(b?.views || 0);
+            return viewDiff || sortNewestFirst(a, b);
+          });
+        case "oldest":
+          return podcasts.sort((a, b) => this.getPublishedTimestamp(a?.pubDate) - this.getPublishedTimestamp(b?.pubDate));
+        case "newest":
         default:
-          return filtered;
+          return podcasts.sort(sortNewestFirst);
       }
     },
 
@@ -925,7 +947,7 @@ export default {
       this.searchQuery = '';
       this.durationFilter = '';
       this.languageFilter = '';
-      this.sortOption = 'mostViewed';
+      this.sortOption = 'newest';
       this.showFilters = false;
       this.applyFilters();
     },
@@ -1250,7 +1272,10 @@ export default {
     isNewEpisode(pubDate) {
       const now = new Date();
       const published = new Date(pubDate);
-      const diffDays = (now - published) / (1000 * 60 * 60 * 24);
+      const publishedTime = published.getTime();
+      if (!Number.isFinite(publishedTime)) return false;
+      const diffDays = (now - publishedTime) / (1000 * 60 * 60 * 24);
+      if (diffDays < 0) return false;
       return diffDays <= 7;
     },
     scrollToFirstEpisode() {

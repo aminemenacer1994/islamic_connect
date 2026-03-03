@@ -648,7 +648,6 @@
                     <i class="bi bi-input-cursor-text" aria-hidden="true"></i>
                     <span class="quran-toolbar-btn-text">Transliteration</span>
                 </button>
-
                 <button
                     type="button"
                     class="quran-toolbar-btn quran-toolbar-btn-deep-focus"
@@ -707,7 +706,6 @@
                     title="Open Quran font options to change how Arabic text is displayed.">
                     <i class="fas fa-font" aria-hidden="true"></i>
                 </button>
-
                 <button
                     v-if="hasPinnedAyahs && isPinnedSectionHidden"
                     type="button"
