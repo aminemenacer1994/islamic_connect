@@ -40,8 +40,8 @@
           </a>
         </div>
         <div class="col-md-3">
-          <div class="stat-card stat-card--disabled" aria-label="Notes coming soon">
-            <div class="stat-icon stat-icon--muted"><i class="bi bi-journal-text"></i></div>
+          <div class="stat-card stat-card--soon" aria-label="Notes coming soon">
+            <div class="stat-icon"><i class="bi bi-journal-text"></i></div>
             <div class="stat-body">
               <div class="stat-label">Notes</div>
               <div class="stat-value">{{ (notes && notes.length) || 0 }}</div>
@@ -50,8 +50,8 @@
           </div>
         </div>
         <div class="col-md-3">
-          <div class="stat-card stat-card--disabled" aria-label="Group notes coming soon">
-            <div class="stat-icon stat-icon--muted"><i class="bi bi-people"></i></div>
+          <div class="stat-card stat-card--soon" aria-label="Group notes coming soon">
+            <div class="stat-icon"><i class="bi bi-people"></i></div>
             <div class="stat-body">
               <div class="stat-label">Group Notes</div>
               <div class="stat-value">—</div>
@@ -553,16 +553,9 @@ export default {
   border: 1px solid rgba(14, 116, 144, 0.15);
 }
 
-.stat-card--disabled {
-  background: #f5f5f7;
-  border-color: rgba(15, 23, 42, 0.07);
-  color: #6c7280;
-  pointer-events: none;
-  box-shadow: none;
-}
-
-.stat-card--disabled .stat-note {
-  color: #6c7280;
+.stat-card--soon {
+  background: linear-gradient(135deg, #ffffff 0%, #f5fbfe 100%);
+  border-color: rgba(14, 116, 144, 0.25);
 }
 
 .stat-link {
@@ -570,11 +563,6 @@ export default {
   text-decoration: none;
   display: flex;
   width: 100%;
-}
-
-.stat-icon--muted {
-  background: rgba(15, 23, 42, 0.08);
-  color: rgba(15, 23, 42, 0.55);
 }
 
 .stat-card:hover {
@@ -612,12 +600,8 @@ export default {
 .stat-note {
   font-size: 0.8rem;
   margin-top: 0.35rem;
-  color: rgba(15, 23, 42, 0.65);
+  color: #0d9488;
   letter-spacing: 0.02em;
-}
-
-.stat-card--disabled .stat-value {
-  color: rgba(15, 23, 42, 0.6);
 }
 
 .section-card {

@@ -58,6 +58,11 @@ export default {
             surahInfoModalInstance: null,
             settingsModalId: "surahSettingsModal",
             settingsModalInstance: null,
+            translationCompareModalId: "translationCompareModal",
+            translationCompareModalInstance: null,
+            translationCompareModalShownHandler: null,
+            translationCompareModalHiddenHandler: null,
+            isTranslationCompareModalOpen: false,
             fontPickerOffcanvasId: "quranFontOffcanvas",
             fontPickerModalId: "quranFontModal",
             fontPickerOffcanvasInstance: null,
@@ -558,6 +563,16 @@ export default {
             },
             favoriteReciters: ["ar.alafasy", "ar.abdulbasitmurattal"],
             favoriteTranslations: ["en.ahmedali", "en.sahih"],
+            translationCompareSurahNumber: 2,
+            translationCompareAyahNumber: 1,
+            translationComparePrimaryTranslation: "",
+            translationCompareSecondaryTranslation: "",
+            translationCompareMaxSelections: 2,
+            translationCompareControlsCollapsed: true,
+            translationCompareLoading: false,
+            translationCompareError: "",
+            translationCompareEditionCache: {},
+            translationCompareRequestToken: 0,
             lastAutoScrollAt: 0,
             lastManualNavigationAt: 0,
             isManualScrolling: false,
@@ -1985,6 +2000,124 @@ export default {
             );
             return match?.englishName || "Translation";
         },
+        englishTranslationsSorted() {
+            const source = Array.isArray(this.translationsSorted)
+                ? this.translationsSorted
+                : [];
+            const english = source.filter((translation) => {
+                const language = String(translation?.language || "").toLowerCase();
+                const identifier = String(
+                    translation?.identifier || ""
+                ).toLowerCase();
+                return language.startsWith("en") || identifier.startsWith("en.");
+            });
+            return english.length ? english : source;
+        },
+        translationCompareSelectedTranslationObjects() {
+            const options = this.englishTranslationsSorted;
+            if (!Array.isArray(options) || !options.length) return [];
+            const byId = new Map(
+                options.map((translation) => [
+                    String(translation.identifier || ""),
+                    translation,
+                ])
+            );
+            const selected = [];
+            const ids = this.translationCompareSelectedTranslationIds;
+            ids.forEach((identifier) => {
+                const key = String(identifier || "");
+                if (!key || selected.some((item) => item.identifier === key))
+                    return;
+                const match = byId.get(key);
+                if (match) selected.push(match);
+            });
+            if (!selected.length && options.length) {
+                selected.push(options[0]);
+            }
+            const max = Math.max(
+                1,
+                Number(this.translationCompareMaxSelections) || 4
+            );
+            return selected.slice(0, max);
+        },
+        translationCompareSelectedTranslationIds() {
+            const available = Array.isArray(this.englishTranslationsSorted)
+                ? this.englishTranslationsSorted.map((item) =>
+                      String(item?.identifier || "")
+                  )
+                : [];
+            const availableSet = new Set(available);
+            const primary = String(this.translationComparePrimaryTranslation || "");
+            const secondary = String(
+                this.translationCompareSecondaryTranslation || ""
+            );
+            const selected = [];
+            if (primary && availableSet.has(primary)) {
+                selected.push(primary);
+            }
+            if (
+                secondary &&
+                availableSet.has(secondary) &&
+                secondary !== primary
+            ) {
+                selected.push(secondary);
+            }
+            if (selected.length < 2) {
+                available.forEach((identifier) => {
+                    if (!identifier || selected.includes(identifier)) return;
+                    selected.push(identifier);
+                });
+            }
+            return selected.slice(0, 2);
+        },
+        translationCompareSurahAyahs() {
+            const target = Number(
+                this.translationCompareSurahNumber || this.selectedSurah || 0
+            );
+            const active = Number(this.surahDetails?.surahNumber || 0);
+            if (!target || target !== active) return [];
+            const ayahs = this.surahDetails?.ayahs;
+            return Array.isArray(ayahs) ? ayahs : [];
+        },
+        translationCompareTotalAyahs() {
+            return this.translationCompareSurahAyahs.length;
+        },
+        translationCompareCurrentAyah() {
+            const ayahs = this.translationCompareSurahAyahs;
+            if (!ayahs.length) return null;
+            const index = Math.min(
+                Math.max(0, Number(this.translationCompareAyahNumber || 1) - 1),
+                ayahs.length - 1
+            );
+            return ayahs[index] || null;
+        },
+        translationCompareNearbyAyahs() {
+            const total = Number(this.translationCompareTotalAyahs || 0);
+            if (!total) return [];
+            const current = Math.min(
+                total,
+                Math.max(1, Number(this.translationCompareAyahNumber || 1))
+            );
+            const start = Math.max(1, current - 2);
+            const end = Math.min(total, current + 2);
+            const items = [];
+            for (let ayahNumber = start; ayahNumber <= end; ayahNumber += 1) {
+                items.push(ayahNumber);
+            }
+            return items;
+        },
+        translationCompareGridStyle() {
+            const count = Math.max(
+                1,
+                Math.min(
+                    Number(this.translationCompareSelectedTranslationObjects.length || 1),
+                    Number(this.translationCompareMaxSelections) || 4
+                )
+            );
+            return {
+                "--translation-compare-cols": String(count),
+            };
+        },
         currentActionAyah() {
             if (!Array.isArray(this.filteredAyahs) || this.filteredAyahs.length === 0)
                 return null;
@@ -2395,6 +2528,12 @@ export default {
                         ) {
                             this.runAdvancedSearch({ force: true });
                         }
+                        if (this.isTranslationCompareModalOpen) {
+                            this.ensureTranslationCompareSelection({
+                                includeSelectedTranslation: true,
+                            });
+                            this.refreshTranslationCompareEditions();
+                        }
                     })
                     .catch(() => {
                         this.isLoading = false;
@@ -2420,6 +2559,15 @@ export default {
                         this.resetAllAudioPlayers();
                         this.isLoading = false;
                         this.syncVirtualWindowAfterSelection();
+                        if (this.isTranslationCompareModalOpen) {
+                            this.translationCompareSurahNumber = Number(
+                                newVal || this.selectedSurah || 1
+                            );
+                            this.setTranslationCompareAyahNumber(1, {
+                                announce: false,
+                            });
+                            this.refreshTranslationCompareEditions();
+                        }
                     })
                     .catch(() => {
                         this.isLoading = false;
@@ -2729,6 +2877,8 @@ export default {
         this.selectedSurah = storedSurah || "2";
         this.selectedReciter = storedReciter || "ar.alafasy";
         this.selectedTranslation = storedTranslation || "en.ahmedali";
+        this.translationCompareSurahNumber = Number(this.selectedSurah || 2);
+        this.translationCompareAyahNumber = 1;
         this.selectedQuranFontId = this.coerceLegacyFontId(storedFont) || "";
         this.quranFontDraftId = this.selectedQuranFontId;
         this.storedQuranFontStack = storedFontStack || "";
@@ -2837,8 +2987,12 @@ export default {
         this.highlightLeadSeconds = this.getReciterLeadOffset(
             this.selectedReciter
         );
+        this.ensureTranslationCompareSelection({
+            includeSelectedTranslation: true,
+        });
         this.prepareSettingsDraft();
         this.initializeHifdhScheduler();
+        this.registerTranslationCompareModalEvents();
         this.$nextTick(() => {
             const modalEl = document.getElementById("hifdhPlanModal");
             if (!modalEl) return;
@@ -2949,6 +3103,35 @@ export default {
             }
             this.suratOnboardingModalInstance = null;
         }
+        const translationCompareModalEl = document.getElementById(
+            this.translationCompareModalId
+        );
+        if (
+            translationCompareModalEl &&
+            this.translationCompareModalShownHandler
+        ) {
+            translationCompareModalEl.removeEventListener(
+                "shown.bs.modal",
+                this.translationCompareModalShownHandler
+            );
+            this.translationCompareModalShownHandler = null;
+        }
+        if (
+            translationCompareModalEl &&
+            this.translationCompareModalHiddenHandler
+        ) {
+            translationCompareModalEl.removeEventListener(
+                "hidden.bs.modal",
+                this.translationCompareModalHiddenHandler
+            );
+            this.translationCompareModalHiddenHandler = null;
+        }
+        if (this.translationCompareModalInstance) {
+            try {
+                this.translationCompareModalInstance.hide();
+            } catch (_) {}
+            this.translationCompareModalInstance = null;
+        }
         if (this._heightMeasureRaf && typeof window !== "undefined") {
             window.cancelAnimationFrame(this._heightMeasureRaf);
             this._heightMeasureRaf = null;
@@ -3029,6 +3212,35 @@ export default {
                     // ignore modal teardown errors
                 }
                 this.suratOnboardingModalInstance = null;
+            }
+            const translationCompareModalEl = document.getElementById(
+                this.translationCompareModalId
+            );
+            if (
+                translationCompareModalEl &&
+                this.translationCompareModalShownHandler
+            ) {
+                translationCompareModalEl.removeEventListener(
+                    "shown.bs.modal",
+                    this.translationCompareModalShownHandler
+                );
+                this.translationCompareModalShownHandler = null;
+            }
+            if (
+                translationCompareModalEl &&
+                this.translationCompareModalHiddenHandler
+            ) {
+                translationCompareModalEl.removeEventListener(
+                    "hidden.bs.modal",
+                    this.translationCompareModalHiddenHandler
+                );
+                this.translationCompareModalHiddenHandler = null;
+            }
+            if (this.translationCompareModalInstance) {
+                try {
+                    this.translationCompareModalInstance.hide();
+                } catch (_) {}
+                this.translationCompareModalInstance = null;
             }
             if (this._heightMeasureRaf && typeof window !== "undefined") {
                 window.cancelAnimationFrame(this._heightMeasureRaf);
@@ -3319,6 +3531,410 @@ export default {
             this.speechRecognitionError = "";
             this.clearAdvancedSearch(false);
             this.isAdvancedSearchPanelVisible = false;
+        },
+        getDefaultTranslationCompareSelection() {
+            const options = Array.isArray(this.englishTranslationsSorted)
+                ? this.englishTranslationsSorted
+                : [];
+            const optionIds = new Set(
+                options.map((translation) => String(translation.identifier || ""))
+            );
+            const preferred = [
+                this.selectedTranslation,
+                ...(Array.isArray(this.favoriteTranslations)
+                    ? this.favoriteTranslations
+                    : []),
+                "en.sahih",
+                "en.pickthall",
+                "en.yusufali",
+                "en.ahmedali",
+            ];
+            const out = [];
+            preferred.forEach((identifier) => {
+                const key = String(identifier || "");
+                if (!key || out.includes(key) || !optionIds.has(key)) return;
+                out.push(key);
+            });
+            if (out.length < 2 && options.length) {
+                options.forEach((translation) => {
+                    const key = String(translation?.identifier || "");
+                    if (!key || out.includes(key) || !optionIds.has(key)) return;
+                    out.push(key);
+                });
+            }
+            return out.slice(0, 2);
+        },
+        ensureTranslationCompareSelection(_options = {}) {
+            const options = Array.isArray(this.englishTranslationsSorted)
+                ? this.englishTranslationsSorted
+                : [];
+            const allowed = new Set(
+                options.map((translation) => String(translation.identifier || ""))
+            );
+            const defaults = this.getDefaultTranslationCompareSelection();
+
+            let primary = String(this.translationComparePrimaryTranslation || "");
+            let secondary = String(
+                this.translationCompareSecondaryTranslation || ""
+            );
+            if (!primary || !allowed.has(primary)) {
+                primary = String(defaults[0] || "");
+            }
+            if (!secondary || !allowed.has(secondary)) {
+                secondary = String(defaults[1] || "");
+            }
+
+            if (!secondary || secondary === primary) {
+                const nextAlternative = options.find((translation) => {
+                    const key = String(translation?.identifier || "");
+                    return key && key !== primary;
+                });
+                secondary = String(nextAlternative?.identifier || "");
+            }
+
+            if (!primary && secondary) {
+                primary = secondary;
+            }
+
+            this.translationComparePrimaryTranslation = primary;
+            this.translationCompareSecondaryTranslation = secondary;
+            return [primary, secondary].filter(Boolean).slice(0, 2);
+        },
+        onTranslationComparePrimaryChange() {
+            const previousSecondary = String(
+                this.translationCompareSecondaryTranslation || ""
+            );
+            this.ensureTranslationCompareSelection();
+            if (
+                previousSecondary &&
+                previousSecondary ===
+                    String(this.translationComparePrimaryTranslation || "")
+            ) {
+                this.showToast(
+                    "Second translation auto-switched to keep both different.",
+                    2800
+                );
+            }
+            this.refreshTranslationCompareEditions();
+        },
+        onTranslationCompareSecondaryChange() {
+            const selectedPrimary = String(
+                this.translationComparePrimaryTranslation || ""
+            );
+            const selectedSecondary = String(
+                this.translationCompareSecondaryTranslation || ""
+            );
+            if (
+                selectedPrimary &&
+                selectedSecondary &&
+                selectedPrimary === selectedSecondary
+            ) {
+                this.ensureTranslationCompareSelection();
+                this.showToast(
+                    "Choose two different translations for side-by-side comparison.",
+                    2800
+                );
+            } else {
+                this.ensureTranslationCompareSelection();
+            }
+            this.refreshTranslationCompareEditions();
+        },
+        async refreshTranslationCompareEditions() {
+            const surahNumber = Number(
+                this.translationCompareSurahNumber || this.selectedSurah || 0
+            );
+            const translationIds = Array.isArray(
+                this.translationCompareSelectedTranslationIds
+            )
+                ? this.translationCompareSelectedTranslationIds
+                : [];
+            if (!surahNumber || !translationIds.length) return;
+
+            const requestToken = Number(this.translationCompareRequestToken || 0) + 1;
+            this.translationCompareRequestToken = requestToken;
+            this.translationCompareLoading = true;
+            this.translationCompareError = "";
+            const failed = [];
+
+            await Promise.all(
+                translationIds.map(async (translationId) => {
+                    const identifier = String(translationId || "");
+                    if (!identifier) return;
+                    const activeSurahNumber = Number(
+                        this.surahDetails?.surahNumber || 0
+                    );
+                    const canReuseActiveTranslation =
+                        identifier === String(this.selectedTranslation || "") &&
+                        activeSurahNumber === surahNumber &&
+                        Array.isArray(this.surahDetails?.ayahs) &&
+                        this.surahDetails.ayahs.length > 0;
+                    if (canReuseActiveTranslation) return;
+
+                    const cacheSlotKey = `${surahNumber}:${identifier}`;
+                    const cached = this.translationCompareEditionCache[cacheSlotKey];
+                    if (Array.isArray(cached) && cached.length) return;
+
+                    try {
+                        const endpoint = `https://api.alquran.cloud/v1/surah/${encodeURIComponent(
+                            surahNumber
+                        )}/${encodeURIComponent(identifier)}`;
+                        const cacheKey = `cache:surah-compare:${surahNumber}:${identifier}`;
+                        const { data } = await this.cachedFetchJSON(
+                            endpoint,
+                            cacheKey,
+                            14 * 24 * 60 * 60 * 1000
+                        );
+                        if (requestToken !== this.translationCompareRequestToken)
+                            return;
+                        const ayahs = Array.isArray(data?.data?.ayahs)
+                            ? data.data.ayahs.map((ayah) => String(ayah?.text || ""))
+                            : [];
+                        this.translationCompareEditionCache = {
+                            ...this.translationCompareEditionCache,
+                            [cacheSlotKey]: ayahs,
+                        };
+                    } catch (_) {
+                        failed.push(identifier);
+                    }
+                })
+            );
+
+            if (requestToken !== this.translationCompareRequestToken) return;
+            this.translationCompareLoading = false;
+            if (failed.length) {
+                this.translationCompareError =
+                    "Some selected translations are temporarily unavailable.";
+            }
+        },
+        toggleTranslationCompareControlsCollapsed() {
+            this.translationCompareControlsCollapsed =
+                !this.translationCompareControlsCollapsed;
+        },
+        getTranslationCompareText(translationId, ayahNumber) {
+            const identifier = String(translationId || "");
+            const surahNumber = Number(
+                this.translationCompareSurahNumber || this.selectedSurah || 0
+            );
+            const index = Math.max(0, Number(ayahNumber || 1) - 1);
+            const activeSurahNumber = Number(this.surahDetails?.surahNumber || 0);
+
+            if (
+                identifier &&
+                identifier === String(this.selectedTranslation || "") &&
+                surahNumber === activeSurahNumber
+            ) {
+                return (
+                    this.surahDetails?.ayahs?.[index]?.translation ||
+                    "Translation not available"
+                );
+            }
+
+            const cacheSlotKey = `${surahNumber}:${identifier}`;
+            const cachedAyahs = this.translationCompareEditionCache[cacheSlotKey];
+            const text = Array.isArray(cachedAyahs) ? cachedAyahs[index] : "";
+            if (text) return text;
+
+            if (this.translationCompareLoading) return "Loading...";
+            return "Translation not available";
+        },
+        setTranslationCompareAyahNumber(value, options = {}) {
+            const { announce = false } = options;
+            const total = Math.max(Number(this.translationCompareTotalAyahs || 1), 1);
+            const parsed = Number(value);
+            const safe = Math.min(total, Math.max(1, Math.round(parsed || 1)));
+            this.translationCompareAyahNumber = safe;
+            if (announce) {
+                this.announce(`Ayah ${safe}.`);
+            }
+        },
+        onTranslationCompareAyahInputChange(event) {
+            const value = Number(event?.target?.value || this.translationCompareAyahNumber);
+            this.setTranslationCompareAyahNumber(value, { announce: false });
+        },
+        stepTranslationCompareAyah(delta = 1) {
+            const step = Number(delta || 0);
+            if (!step) return;
+            this.setTranslationCompareAyahNumber(
+                Number(this.translationCompareAyahNumber || 1) + step,
+                { announce: false }
+            );
+        },
+        async applyTranslationCompareSurahSelection() {
+            const target = Math.min(
+                114,
+                Math.max(1, Number(this.translationCompareSurahNumber || 1))
+            );
+            this.translationCompareSurahNumber = target;
+            this.translationCompareError = "";
+            if (String(this.selectedSurah) !== String(target)) {
+                try {
+                    await this.selectSurah(String(target), { skipScroll: true });
+                } catch (_) {
+                    this.translationCompareError =
+                        "Unable to switch surah right now. Please try again.";
+                    return;
+                }
+            }
+            this.setTranslationCompareAyahNumber(1, { announce: false });
+            this.refreshTranslationCompareEditions();
+        },
+        async stepTranslationCompareSurah(delta = 1) {
+            const target = Math.min(
+                114,
+                Math.max(
+                    1,
+                    Number(this.translationCompareSurahNumber || this.selectedSurah || 1) +
+                        Number(delta || 0)
+                )
+            );
+            if (
+                target ===
+                Number(this.translationCompareSurahNumber || this.selectedSurah || 1)
+            ) {
+                return;
+            }
+            this.translationCompareSurahNumber = target;
+            await this.applyTranslationCompareSurahSelection();
+        },
+        getReaderContextAyahNumber() {
+            const preferredIndex =
+                this.isAnyAudioPlaying &&
+                Number.isInteger(this.currentlyPlayingIndex) &&
+                this.currentlyPlayingIndex >= 0
+                    ? this.currentlyPlayingIndex
+                    : Number.isInteger(this.selectedCardIndex) &&
+                        this.selectedCardIndex >= 0
+                      ? this.selectedCardIndex
+                      : 0;
+            const contextAyah =
+                this.filteredAyahs?.[preferredIndex] ||
+                this.currentActionAyah ||
+                this.translationCompareCurrentAyah ||
+                null;
+            return Number(contextAyah?.numberInSurah || contextAyah?.number || 1);
+        },
+        async jumpTranslationCompareToReaderContext() {
+            const targetSurah = Number(this.selectedSurah || 1);
+            this.translationCompareSurahNumber = targetSurah;
+            this.setTranslationCompareAyahNumber(this.getReaderContextAyahNumber(), {
+                announce: false,
+            });
+            await this.refreshTranslationCompareEditions();
+        },
+        async openComparedAyahInReader() {
+            const surahNumber = Number(
+                this.translationCompareSurahNumber || this.selectedSurah || 1
+            );
+            const ayahNumber = Number(this.translationCompareAyahNumber || 1);
+            try {
+                if (String(this.selectedSurah) !== String(surahNumber)) {
+                    await this.selectSurah(String(surahNumber), {
+                        skipScroll: true,
+                    });
+                }
+                this.navigateToAyahNumber(ayahNumber, {
+                    clearMainFilter: true,
+                    precise: true,
+                });
+                const index = this.resolveAyahIndexByNumber(ayahNumber);
+                if (index >= 0) {
+                    this.selectCard(index);
+                }
+                const modalEl = document.getElementById(this.translationCompareModalId);
+                if (modalEl) {
+                    this.translationCompareModalInstance =
+                        this.translationCompareModalInstance ||
+                        Modal.getInstance(modalEl) ||
+                        new Modal(modalEl);
+                    this.translationCompareModalInstance.hide();
+                }
+            } catch (_) {
+                this.translationCompareError =
+                    "Unable to open this ayah in reader right now.";
+            }
+        },
+        async prepareTranslationCompareModal(options = {}) {
+            const { useReaderContext = false } = options;
+            this.ensureTranslationCompareSelection();
+            this.translationCompareSurahNumber = Number(
+                this.selectedSurah || this.translationCompareSurahNumber || 1
+            );
+            const nextAyah = useReaderContext
+                ? this.getReaderContextAyahNumber()
+                : this.translationCompareAyahNumber;
+            this.setTranslationCompareAyahNumber(nextAyah, { announce: false });
+            await this.refreshTranslationCompareEditions();
+        },
+        registerTranslationCompareModalEvents() {
+            this.$nextTick(() => {
+                const modalEl = document.getElementById(this.translationCompareModalId);
+                if (!modalEl) return;
+                if (this.translationCompareModalShownHandler) {
+                    modalEl.removeEventListener(
+                        "shown.bs.modal",
+                        this.translationCompareModalShownHandler
+                    );
+                }
+                if (this.translationCompareModalHiddenHandler) {
+                    modalEl.removeEventListener(
+                        "hidden.bs.modal",
+                        this.translationCompareModalHiddenHandler
+                    );
+                }
+                this.translationCompareModalShownHandler = () => {
+                    this.isTranslationCompareModalOpen = true;
+                    this.prepareTranslationCompareModal({
+                        useReaderContext: true,
+                    });
+                };
+                this.translationCompareModalHiddenHandler = () => {
+                    this.isTranslationCompareModalOpen = false;
+                    this.translationCompareError = "";
+                    this.translationCompareLoading = false;
+                    this.translationCompareRequestToken =
+                        Number(this.translationCompareRequestToken || 0) + 1;
+                };
+                modalEl.addEventListener(
+                    "shown.bs.modal",
+                    this.translationCompareModalShownHandler
+                );
+                modalEl.addEventListener(
+                    "hidden.bs.modal",
+                    this.translationCompareModalHiddenHandler
+                );
+            });
+        },
+        async openTranslationCompareModal() {
+            const modalEl = document.getElementById(this.translationCompareModalId);
+            if (!modalEl) return;
+            this.translationCompareModalInstance =
+                this.translationCompareModalInstance ||
+                Modal.getInstance(modalEl) ||
+                new Modal(modalEl);
+            this.translationCompareModalInstance.show();
+            this.prepareTranslationCompareModal({
+                useReaderContext: true,
+            });
+        },
+        async onTranslationCompareWordClick(event) {
+            const wordEl = event?.target?.closest?.("[data-word-index]");
+            if (!wordEl || !this.showWordTranslationTooltip) return;
+            const displayWordIndex = Number(
+                wordEl.getAttribute("data-word-index")
+            );
+            if (!Number.isFinite(displayWordIndex) || displayWordIndex < 0) return;
+            const ayahNumber = Number(this.translationCompareAyahNumber || 1);
+            let index = this.resolveAyahIndexByNumber(ayahNumber);
+            if (index < 0) {
+                this.clearMainAyahSearchFilter();
+                await this.$nextTick();
+                index = this.resolveAyahIndexByNumber(ayahNumber);
+            }
+            if (index < 0) return;
+            const ayah = this.filteredAyahs?.[index] || null;
+            if (!ayah) return;
+            event.stopPropagation();
+            await this.seekToAyahWord(index, ayah, displayWordIndex);
         },
         openSuratOnboarding() {
             const modalEl = document.getElementById(this.suratOnboardingModalId);
@@ -10339,6 +10955,9 @@ export default {
                     return 0;
                 });
                 this.translations = translations;
+                this.ensureTranslationCompareSelection({
+                    includeSelectedTranslation: true,
+                });
                 console.log("Translations fetched:", translations);
                 this.isLoading = false;
                 if (fromCache)
@@ -10369,9 +10988,12 @@ export default {
                                             ? -1
                                             : a.englishName > b.englishName
                                                 ? 1
-                                                : 0
+                                            : 0
                             );
                             this.translations = trs;
+                            this.ensureTranslationCompareSelection({
+                                includeSelectedTranslation: true,
+                            });
                         } catch (_) { }
                     }, 0);
             } catch (error) {
@@ -11284,6 +11906,12 @@ export default {
             this.playAudio(targetIndex);
         },
         toggleCustomPlaylistPanel() {
+            if (
+                !this.showCustomPlaylistPanel &&
+                !this.ensurePlaylistAuth("Please log in to access playlists.")
+            ) {
+                return;
+            }
             this.showCustomPlaylistPanel = !this.showCustomPlaylistPanel;
             if (this.showCustomPlaylistPanel && this.isTabletOrMobile) {
                 this.isMobileToolbarExpanded = false;
@@ -11297,6 +11925,18 @@ export default {
                 this.playlistDragOverItemId = "";
                 this.closeAyahPlaylistMenu();
             }
+        },
+        ensurePlaylistAuth(
+            message = "Please log in to create, edit, or add playlists.",
+            ayah = null
+        ) {
+            if (this.bookmarkAuthenticated) return true;
+            if (ayah) {
+                this.showAyahAuthWarning(ayah, message);
+                return false;
+            }
+            this.showAuthAlert(message);
+            return false;
         },
         getPlaylistAccentColor(playlist) {
             const palette = [
@@ -11349,6 +11989,12 @@ export default {
                 typeof forceValue === "boolean"
                     ? forceValue
                     : !this.isPlaylistEditorVisible;
+            if (
+                nextState &&
+                !this.ensurePlaylistAuth("Please log in to edit playlists.")
+            ) {
+                return;
+            }
             if (nextState) {
                 this.syncPlaylistEditorFromActive();
             } else {
@@ -11440,6 +12086,10 @@ export default {
                 this.onPlaylistItemDragEnd();
                 return;
             }
+            if (!this.ensurePlaylistAuth("Please log in to edit playlists.")) {
+                this.onPlaylistItemDragEnd();
+                return;
+            }
             const sourceId =
                 String(this.playlistDragItemId || "") ||
                 String(event?.dataTransfer?.getData("text/plain") || "");
@@ -11474,6 +12124,9 @@ export default {
         },
         removeSelectedPlaylistItems() {
             if (!this.activePlaylist || !this.hasSelectedPlaylistItems) return;
+            if (!this.ensurePlaylistAuth("Please log in to edit playlists.")) {
+                return;
+            }
             const selectedIds = new Set(
                 (this.selectedPlaylistItemIds || []).map((id) => String(id || ""))
             );
@@ -11577,6 +12230,9 @@ export default {
         removeActivePlaylist() {
             const id = String(this.activePlaylistId || "");
             if (!id) return;
+            if (!this.ensurePlaylistAuth("Please log in to edit playlists.")) {
+                return;
+            }
             this.playlists = (this.playlists || []).filter(
                 (playlist) => String(playlist?.id || "") !== id
             );
@@ -11594,6 +12250,9 @@ export default {
         },
         saveAllPlaylistChanges() {
             if (!this.activePlaylist || !this.playlistEditorHasChanges) return;
+            if (!this.ensurePlaylistAuth("Please log in to edit playlists.")) {
+                return;
+            }
             this.activePlaylist.name = String(
                 this.playlistEditorName || ""
             ).trim() || "Untitled Playlist";
@@ -11634,6 +12293,14 @@ export default {
         addAyahToCustomPlaylist(ayah, options = {}) {
             const { announceAction = false, playlistId = null } = options;
             if (!ayah) return false;
+            if (
+                !this.ensurePlaylistAuth(
+                    "Please log in to add ayahs to playlists.",
+                    ayah
+                )
+            ) {
+                return false;
+            }
             const surahNumber = Number(
                 this.surahDetails?.surahNumber || this.selectedSurah || 0
             );
@@ -11747,6 +12414,15 @@ export default {
                 persist = true,
                 announceAction = true,
             } = options;
+            if (
+                !this.ensurePlaylistAuth(
+                    "Please log in to edit playlists.",
+                    ayah || null
+                )
+            ) {
+                if (closeMenu) this.closeAyahPlaylistMenu();
+                return false;
+            }
             const surahNumber = Number(
                 this.surahDetails?.surahNumber || this.selectedSurah || 0
             );
@@ -11783,6 +12459,15 @@ export default {
             return true;
         },
         removeAyahFromAllCustomPlaylists(ayah) {
+            if (
+                !this.ensurePlaylistAuth(
+                    "Please log in to edit playlists.",
+                    ayah || null
+                )
+            ) {
+                this.closeAyahPlaylistMenu();
+                return;
+            }
             const surahNumber = Number(
                 this.surahDetails?.surahNumber || this.selectedSurah || 0
             );
@@ -11822,6 +12507,14 @@ export default {
             );
         },
         toggleAyahInCustomPlaylist(ayah) {
+            if (
+                !this.ensurePlaylistAuth(
+                    "Please log in to edit playlists.",
+                    ayah || null
+                )
+            ) {
+                return;
+            }
             const surahNumber = Number(
                 this.surahDetails?.surahNumber || this.selectedSurah || 0
             );
@@ -11852,6 +12545,9 @@ export default {
         },
         removeCustomPlaylistItem(itemId) {
             if (!this.activePlaylist) return;
+            if (!this.ensurePlaylistAuth("Please log in to edit playlists.")) {
+                return;
+            }
             this.activePlaylist.items = (this.activePlaylist.items || []).filter(
                 (item) => item.id !== itemId
             );
@@ -11862,6 +12558,9 @@ export default {
         },
         clearCustomPlaylist() {
             if (!this.activePlaylist) return;
+            if (!this.ensurePlaylistAuth("Please log in to edit playlists.")) {
+                return;
+            }
             this.activePlaylist.items = [];
             this.selectedPlaylistItemIds = [];
             this.persistCustomPlaylist();
@@ -11958,6 +12657,14 @@ export default {
             } catch (_) {}
         },
         openCreatePlaylistModal(ayah = null) {
+            if (
+                !this.ensurePlaylistAuth(
+                    "Please log in to create playlists.",
+                    ayah || null
+                )
+            ) {
+                return;
+            }
             this.createPlaylistName = "";
             this.createPlaylistDescription = "";
             this.pendingAyahForNewPlaylist = ayah || null;
@@ -11969,6 +12676,14 @@ export default {
             this.pendingAyahForNewPlaylist = null;
         },
         createPlaylistFromModal() {
+            if (
+                !this.ensurePlaylistAuth(
+                    "Please log in to create playlists.",
+                    this.pendingAyahForNewPlaylist || null
+                )
+            ) {
+                return;
+            }
             const next = this.createDefaultPlaylist();
             next.name =
                 String(this.createPlaylistName || "").trim() || "Untitled Playlist";
@@ -11994,6 +12709,14 @@ export default {
         },
         onAyahPlaylistPrimaryAction(ayah) {
             if (!ayah) return;
+            if (
+                !this.ensurePlaylistAuth(
+                    "Please log in to add ayahs to playlists.",
+                    ayah
+                )
+            ) {
+                return;
+            }
             this.toggleAyahPlaylistMenu(ayah);
         },
         toggleAyahPlaylistMenu(ayah) {
@@ -12017,6 +12740,15 @@ export default {
             this.openAyahPlaylistExistingSubmenuKey = "";
         },
         saveAyahToActivePlaylist(ayah) {
+            if (
+                !this.ensurePlaylistAuth(
+                    "Please log in to add ayahs to playlists.",
+                    ayah || null
+                )
+            ) {
+                this.closeAyahPlaylistMenu();
+                return;
+            }
             if (!this.activePlaylist) {
                 const next = this.createDefaultPlaylist({ name: "", description: "" });
                 this.playlists = [...(this.playlists || []), next];
@@ -12026,6 +12758,15 @@ export default {
             this.closeAyahPlaylistMenu();
         },
         saveAyahToCustomPlaylist(ayah, playlistId) {
+            if (
+                !this.ensurePlaylistAuth(
+                    "Please log in to add ayahs to playlists.",
+                    ayah || null
+                )
+            ) {
+                this.closeAyahPlaylistMenu();
+                return;
+            }
             this.addAyahToCustomPlaylist(ayah, {
                 announceAction: true,
                 playlistId,

@@ -312,6 +312,53 @@ export default {
   text-decoration: underline;
 }
 
+@media (max-width: 991.98px) {
+  .metric-card {
+    padding: 14px 15px;
+    border-radius: 16px;
+  }
+
+  .panel-card {
+    padding: 14px;
+    border-radius: 16px;
+  }
+
+  .panel-head {
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .dash-wrap {
+    padding: 4px 0 12px;
+  }
+
+  .metric-value {
+    font-size: 1.22rem;
+  }
+
+  .metric-label {
+    font-size: 0.69rem;
+  }
+
+  .panel-head {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    align-items: center;
+  }
+
+  .list.clean li {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .pill {
+    margin-right: 0;
+  }
+}
+
 .fade-pop {
   animation: fadePop 240ms cubic-bezier(.2, .7, .2, 1) both
 }

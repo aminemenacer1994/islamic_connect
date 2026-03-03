@@ -343,6 +343,7 @@
             type="text"
             class="search-input"
             v-model="searchValue"
+            aria-label="Search users"
             placeholder="Search by name, email, or user type..."
             @input="onGlobalFilter"
           />
@@ -389,7 +390,7 @@
             </thead>
             <tbody>
               <tr v-for="user in paginatedUsers" :key="user.id">
-                <td>
+                <td data-label="First Name">
                   <div class="user-cell">
                     <div class="user-avatar">
                       {{ user.name ? user.name.charAt(0).toUpperCase() : "#" }}
@@ -400,25 +401,25 @@
                     </div>
                   </div>
                 </td>
-                <td class="user-lastname">{{ user.lastname || "—" }}</td>
-                <td>
+                <td class="user-lastname" data-label="Last Name">{{ user.lastname || "—" }}</td>
+                <td data-label="Email">
                   <div class="email-cell">
                     <i class="bi bi-envelope me-2"></i>
                     {{ user.email || "—" }}
                   </div>
                 </td>
-                <td>
+                <td data-label="Role">
                   <span :class="getRoleClass(user.user_type)">{{ user.user_type || "Member" }}</span>
                 </td>
-                <td>
+                <td data-label="Status">
                   <span :class="['status-badge', statusClass(user.status)]">
                     {{ user.status ? user.status.charAt(0).toUpperCase() + user.status.slice(1) : "Active" }}
                   </span>
                 </td>
-                <td>
+                <td data-label="Last Login">
                   <div class="last-login">{{ user.last_login || "2 hours ago" }}</div>
                 </td>
-                <td>
+                <td data-label="Actions" class="td-actions">
                   <div class="action-buttons">
                     <button
                       data-bs-toggle="modal"
@@ -1565,6 +1566,137 @@ export default {
   .action-buttons {
     flex-wrap: wrap;
     justify-content: center;
+  }
+}
+
+@media (max-width: 991.98px) {
+  .header-right .d-flex {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+
+  .header-right .btn {
+    flex: 1 1 180px;
+    min-height: 44px;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .controls-section {
+    gap: 0.85rem;
+  }
+
+  .filters-wrapper {
+    display: grid;
+    grid-template-columns: 1fr;
+    width: 100%;
+    gap: 0.65rem;
+  }
+
+  .filter-select,
+  .filters-wrapper .btn {
+    width: 100%;
+    min-height: 44px;
+  }
+
+  .users-table thead {
+    display: none;
+  }
+
+  .users-table,
+  .users-table tbody,
+  .users-table tr,
+  .users-table td {
+    display: block;
+    width: 100%;
+  }
+
+  .users-table tbody tr {
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    box-shadow: 0 8px 18px rgba(15, 23, 42, 0.06);
+    padding: 0.3rem 0.75rem;
+    margin-bottom: 0.85rem;
+    background: #fff;
+  }
+
+  .users-table tbody td {
+    display: grid;
+    grid-template-columns: minmax(95px, 35%) 1fr;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 0.25rem;
+    border-bottom: 1px solid #eef2f7;
+  }
+
+  .users-table tbody td::before {
+    content: attr(data-label);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #6b7280;
+  }
+
+  .users-table tbody td:last-child {
+    border-bottom: none;
+  }
+
+  .td-actions {
+    grid-template-columns: 1fr !important;
+  }
+
+  .td-actions::before {
+    margin-bottom: 0.2rem;
+  }
+
+  .td-actions .action-buttons {
+    justify-content: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .action-btn {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+  }
+
+  .email-cell {
+    word-break: break-word;
+  }
+
+  .table-footer {
+    align-items: stretch;
+    text-align: left;
+    padding: 1rem;
+  }
+
+  .footer-actions {
+    width: 100%;
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .rows-per-page,
+  .pagination-controls {
+    margin-right: 0;
+    justify-content: space-between;
+  }
+
+  .footer-actions > .btn {
+    width: 100%;
+    min-height: 42px;
+  }
+
+  .detail-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.35rem;
+  }
+
+  .detail-label {
+    min-width: 0;
+    font-size: 0.78rem;
   }
 }
 

@@ -5,15 +5,19 @@
       <div class="col-lg-10 col-xl-10">
         <h1 class="display-5 fw-bold podcast-hero__title">Audio Podcasts</h1>
       </div>
-      <p class="lead podcast-hero__lead">
-        Tune into thoughtfully curated Islamic audio that brings together scholars, storytellers, and community voices.
+      <p class="lead">
+        Tune into thoughtfully curated Islamic audio that brings together scholars, storytellers, and community voices.  Explore episodes on tafsir, seerah, daily reminders, and practical faith conversations to learn, reflect, and
+        stay connected.
       </p>
     </div>
 
     <!-- Podcast Selection Section -->
     <div class="selection-section">
       <div class="section-header">
-        <p class="section-subtitle">Tap on a podcast to unlock immersive audio journeys and fresh perspectives.</p>
+        <p class="section-subtitle">
+          Tap on a podcast to unlock immersive audio journeys, practical guidance, and fresh perspectives for everyday
+          Muslim life.
+        </p>
       </div>
       <div class="podcast-selection-grid">
         <button v-for="podcast in islamicPodcasts" :key="podcast.rssUrl" type="button" class="podcast-selection-item"
@@ -143,9 +147,8 @@
     <div v-if="selectedPodcast" class="episodes-section">
       <div class="section-header episodes-header">
         <h2 class="section-title section-title-plain">Episodes</h2>
-        <p class="section-subtitle">Press play to experience each episode’s rich audio storytelling.</p>
+        
         <div class="episodes-header__meta">
-          <span class="episodes-total">{{ filteredAndSearchedPodcasts.length }} results</span>
           <button v-if="hasActiveFilters" type="button" class="clear-filters-btn" @click="clearEpisodeFilters">
             Clear filters
           </button>
