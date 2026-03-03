@@ -1300,6 +1300,14 @@
     padding: 1.25rem 1.5rem;
 }
 
+.surah-settings-dialog {
+    max-width: min(1080px, calc(100vw - 1.5rem));
+}
+
+.surah-settings-grid .surah-settings-group {
+    margin-bottom: 0;
+}
+
 .surah-settings-group {
     margin-bottom: 1rem;
 }
@@ -1332,6 +1340,17 @@
     background: #168a82;
     border-color: #168a82;
     color: #ffffff;
+}
+
+@media (max-width: 767.98px) {
+    .surah-settings-dialog {
+        max-width: calc(100vw - 1rem);
+        margin: 0.5rem auto;
+    }
+
+    .surah-settings-modal .modal-body {
+        padding: 1rem 1rem 1.1rem;
+    }
 }
 
 .surah-settings-btn {
@@ -19294,5 +19313,21 @@ h1.display-5 {
 @media (max-width: 767.98px) {
     .surat-premium .memorisation-session-card--pacing.memorisation-feature-row--controls {
         grid-template-columns: minmax(0, 1fr) !important;
+    }
+}
+
+/* Utility: stronger border + XL shadow for highlighted reader sections */
+.surat-premium .border-shadow-xl {
+    border: 1px solid rgba(8, 79, 68, 0.18) !important;
+    box-shadow:
+        0 24px 48px rgba(7, 64, 54, 0.16),
+        0 10px 20px rgba(7, 64, 54, 0.1) !important;
+}
+
+@media (max-width: 767.98px) {
+    .surat-premium .border-shadow-xl {
+        box-shadow:
+            0 14px 28px rgba(7, 64, 54, 0.14),
+            0 6px 12px rgba(7, 64, 54, 0.08) !important;
     }
 }

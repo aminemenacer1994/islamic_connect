@@ -55011,6 +55011,12 @@ to {
 .surah-settings-modal .modal-body[data-v-637d02d8] {
     padding: 1.25rem 1.5rem;
 }
+.surah-settings-dialog[data-v-637d02d8] {
+    max-width: min(1080px, calc(100vw - 1.5rem));
+}
+.surah-settings-grid .surah-settings-group[data-v-637d02d8] {
+    margin-bottom: 0;
+}
 .surah-settings-group[data-v-637d02d8] {
     margin-bottom: 1rem;
 }
@@ -55039,6 +55045,15 @@ to {
     background: #168a82;
     border-color: #168a82;
     color: #ffffff;
+}
+@media (max-width: 767.98px) {
+.surah-settings-dialog[data-v-637d02d8] {
+        max-width: calc(100vw - 1rem);
+        margin: 0.5rem auto;
+}
+.surah-settings-modal .modal-body[data-v-637d02d8] {
+        padding: 1rem 1rem 1.1rem;
+}
 }
 .surah-settings-btn[data-v-637d02d8] {
     margin-left: 0.35rem;
@@ -70553,6 +70568,21 @@ to {
 @media (max-width: 767.98px) {
 .surat-premium .memorisation-session-card--pacing.memorisation-feature-row--controls[data-v-637d02d8] {
         grid-template-columns: minmax(0, 1fr) !important;
+}
+}
+
+/* Utility: stronger border + XL shadow for highlighted reader sections */
+.surat-premium .border-shadow-xl[data-v-637d02d8] {
+    border: 1px solid rgba(8, 79, 68, 0.18) !important;
+    box-shadow:
+        0 24px 48px rgba(7, 64, 54, 0.16),
+        0 10px 20px rgba(7, 64, 54, 0.1) !important;
+}
+@media (max-width: 767.98px) {
+.surat-premium .border-shadow-xl[data-v-637d02d8] {
+        box-shadow:
+            0 14px 28px rgba(7, 64, 54, 0.14),
+            0 6px 12px rgba(7, 64, 54, 0.08) !important;
 }
 }
 

@@ -224,7 +224,7 @@
                     </div>
                     <template v-else-if="isTabletOrMobile">
                         <div
-                            class="advanced-quran-mobile-controls"
+                            class="advanced-quran-mobile-controls border-shadow-xl"
                             :class="{
                                 'is-pinned': isToolbarPinned,
                                 'is-expanded': isMobileToolbarExpanded
@@ -572,7 +572,7 @@
             }"
             role="region"
             aria-label="Quran quick controls">
-            <div v-if="showDesktopToolbar && !isTabletOrMobile" class="quran-toolbar">
+            <div v-if="showDesktopToolbar && !isTabletOrMobile" class="quran-toolbar border-shadow-xl">
                 <span class="quran-toolbar-label"><b>Reader Controls</b></span>
                 <div class="quran-toolbar-separator"></div>
                 <button
@@ -3003,7 +3003,7 @@
         <teleport to="body">
             <div class="modal fade" id="surahSettingsModal" tabindex="-1" aria-labelledby="surahSettingsLabel"
                 aria-hidden="true" data-bs-backdrop="true">
-                <div class="modal-dialog modal-dialog-centered modal-md modal-modern">
+                <div class="modal-dialog modal-dialog-centered modal-xl modal-modern surah-settings-dialog">
                     <div class="modal-content surah-settings-modal">
                         <div class="modal-header">
                             <h4 class="modal-title" id="surahSettingsLabel">
@@ -3013,95 +3013,111 @@
                                 aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <div class="surah-settings-group">
-                                <label class="form-label">Audio reciter</label>
-                                <select class="form-select" v-model="selectedReciter"
-                                    aria-label="Select reciter">
-                                    <option value="" disabled>Select a reciter</option>
-                                    <option v-for="reciter in recitersSorted" :key="reciter.identifier"
-                                        :value="reciter.identifier">
-                                        {{ reciter.englishName }}
-                                    </option>
-                                </select>
-                                <small class="text-muted d-block mt-1">
-                                    Pick the reciter voice for audio playback.
-                                </small>
-                            </div>
-                            <div class="surah-settings-group">
-                                <label class="form-label">Translation</label>
-                                <select class="form-select" v-model="selectedTranslation"
-                                    aria-label="Select translation">
-                                    <option value="" disabled>Select translation</option>
-                                    <option v-for="translation in translationsSorted" :key="translation.identifier"
-                                        :value="translation.identifier">
-                                        {{ translation.flag }} {{ translation.englishName }}
-                                    </option>
-                                </select>
-                                <small class="text-muted d-block mt-1">
-                                    Choose the translation shown under each ayah.
-                                </small>
-                            </div>
-                            <div class="surah-settings-group">
-                                <label class="form-label">Tajweed colors &amp; rules</label>
-                                <select class="form-select" v-model="settingsDraft.showTajweed"
-                                    aria-label="Enable tajweed colors and rules">
-                                    <option :value="true">Enabled</option>
-                                    <option :value="false">Disabled</option>
-                                </select>
-                                <small class="text-muted d-block mt-1">
-                                    Toggle the tajweed-colored text in the Quran and access the tajweed rules legend.
-                                </small>
-                            </div>
-                            <div class="surah-settings-group">
-                                <label class="form-label">Audio playback mode</label>
-                                <select class="form-select" v-model="settingsDraft.playbackMode"
-                                    aria-label="Select audio playback mode">
-                                    <option v-for="option in playbackModeOptions" :key="option.value"
-                                        :value="option.value">
-                                        {{ option.label }}
-                                    </option>
-                                </select>
-                                <small v-if="draftPlaybackModeOption && draftPlaybackModeOption.description" class="text-muted d-block mt-1">
-                                    {{ draftPlaybackModeOption.description }}
-                                </small>
-                                <small v-else class="text-muted d-block mt-1">
-                                    Decide whether audio plays continuously, repeats, or stays manual.
-                                </small>
-                            </div>
-                            <div class="surah-settings-group">
-                                <label class="form-label">Word-for-word highlighting</label>
-                                <select class="form-select" v-model="settingsDraft.showRealtimeHighlighting"
-                                    aria-label="Word-for-word highlighting">
-                                    <option :value="true">Enabled</option>
-                                    <option :value="false">Disabled</option>
-                                </select>
-                                <small class="text-muted d-block mt-1">
-                                    Highlight each word as it is recited.
-                                </small>
-                            </div>
-                            <div class="surah-settings-group">
-                                <label class="form-label">Word-for-word translation</label>
-                                <select class="form-select" v-model="settingsDraft.showWordTranslation"
-                                    aria-label="Word-for-word translation">
-                                    <option :value="true">Enabled</option>
-                                    <option :value="false">Disabled</option>
-                                </select>
-                                <small class="text-muted d-block mt-1">
-                                    Show a brief translation beneath each Arabic word.
-                                </small>
-                            </div>
-                            <div class="surah-settings-group">
-                                <label class="form-label">Word tooltip + tap audio</label>
-                                <select
-                                    class="form-select"
-                                    v-model="settingsDraft.showWordTranslationTooltip"
-                                    aria-label="Word tooltip and tap audio">
-                                    <option :value="true">Enabled</option>
-                                    <option :value="false">Disabled</option>
-                                </select>
-                                <small class="text-muted d-block mt-1">
-                                    When enabled, hovering shows word translation and tapping a word plays only that word.
-                                </small>
+                            <div class="row g-3 surah-settings-grid">
+                                <div class="col-12 col-md-6">
+                                    <div class="surah-settings-group h-100">
+                                        <label class="form-label">Audio reciter</label>
+                                        <select class="form-select" v-model="selectedReciter"
+                                            aria-label="Select reciter">
+                                            <option value="" disabled>Select a reciter</option>
+                                            <option v-for="reciter in recitersSorted" :key="reciter.identifier"
+                                                :value="reciter.identifier">
+                                                {{ reciter.englishName }}
+                                            </option>
+                                        </select>
+                                        <small class="text-muted d-block mt-1">
+                                            Pick the reciter voice for audio playback.
+                                        </small>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <div class="surah-settings-group h-100">
+                                        <label class="form-label">Translation</label>
+                                        <select class="form-select" v-model="selectedTranslation"
+                                            aria-label="Select translation">
+                                            <option value="" disabled>Select translation</option>
+                                            <option v-for="translation in translationsSorted" :key="translation.identifier"
+                                                :value="translation.identifier">
+                                                {{ translation.flag }} {{ translation.englishName }}
+                                            </option>
+                                        </select>
+                                        <small class="text-muted d-block mt-1">
+                                            Choose the translation shown under each ayah.
+                                        </small>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <div class="surah-settings-group h-100">
+                                        <label class="form-label">Tajweed colors &amp; rules</label>
+                                        <select class="form-select" v-model="settingsDraft.showTajweed"
+                                            aria-label="Enable tajweed colors and rules">
+                                            <option :value="true">Enabled</option>
+                                            <option :value="false">Disabled</option>
+                                        </select>
+                                        <small class="text-muted d-block mt-1">
+                                            Toggle the tajweed-colored text in the Quran and access the tajweed rules legend.
+                                        </small>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <div class="surah-settings-group h-100">
+                                        <label class="form-label">Audio playback mode</label>
+                                        <select class="form-select" v-model="settingsDraft.playbackMode"
+                                            aria-label="Select audio playback mode">
+                                            <option v-for="option in playbackModeOptions" :key="option.value"
+                                                :value="option.value">
+                                                {{ option.label }}
+                                            </option>
+                                        </select>
+                                        <small v-if="draftPlaybackModeOption && draftPlaybackModeOption.description" class="text-muted d-block mt-1">
+                                            {{ draftPlaybackModeOption.description }}
+                                        </small>
+                                        <small v-else class="text-muted d-block mt-1">
+                                            Decide whether audio plays continuously, repeats, or stays manual.
+                                        </small>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <div class="surah-settings-group h-100">
+                                        <label class="form-label">Word-for-word highlighting</label>
+                                        <select class="form-select" v-model="settingsDraft.showRealtimeHighlighting"
+                                            aria-label="Word-for-word highlighting">
+                                            <option :value="true">Enabled</option>
+                                            <option :value="false">Disabled</option>
+                                        </select>
+                                        <small class="text-muted d-block mt-1">
+                                            Highlight each word as it is recited.
+                                        </small>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <div class="surah-settings-group h-100">
+                                        <label class="form-label">Word-for-word translation</label>
+                                        <select class="form-select" v-model="settingsDraft.showWordTranslation"
+                                            aria-label="Word-for-word translation">
+                                            <option :value="true">Enabled</option>
+                                            <option :value="false">Disabled</option>
+                                        </select>
+                                        <small class="text-muted d-block mt-1">
+                                            Show a brief translation beneath each Arabic word.
+                                        </small>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <div class="surah-settings-group h-100">
+                                        <label class="form-label">Word tooltip + tap audio</label>
+                                        <select
+                                            class="form-select"
+                                            v-model="settingsDraft.showWordTranslationTooltip"
+                                            aria-label="Word tooltip and tap audio">
+                                            <option :value="true">Enabled</option>
+                                            <option :value="false">Disabled</option>
+                                        </select>
+                                        <small class="text-muted d-block mt-1">
+                                            When enabled, hovering shows word translation and tapping a word plays only that word.
+                                        </small>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="modal-footer border-0">
