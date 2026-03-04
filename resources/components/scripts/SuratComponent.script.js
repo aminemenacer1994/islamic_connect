@@ -569,7 +569,7 @@ export default {
             translationCompareSecondaryTranslation: "",
             translationCompareHighlightQuery: "",
             translationCompareMaxSelections: 2,
-            translationCompareControlsCollapsed: true,
+            translationCompareControlsCollapsed: false,
             translationCompareLoading: false,
             translationCompareError: "",
             translationCompareEditionCache: {},
@@ -2107,11 +2107,119 @@ export default {
             }
             return items;
         },
+        translationComparePrimaryTranslationObject() {
+            const target = String(this.translationComparePrimaryTranslation || "");
+            if (!target) return null;
+            return (
+                this.translationCompareSelectedTranslationObjects.find(
+                    (item) => String(item?.identifier || "") === target
+                ) || null
+            );
+        },
+        translationCompareSecondaryTranslationObject() {
+            const target = String(this.translationCompareSecondaryTranslation || "");
+            if (!target) return null;
+            return (
+                this.translationCompareSelectedTranslationObjects.find(
+                    (item) => String(item?.identifier || "") === target
+                ) || null
+            );
+        },
+        translationCompareTranslatorChips() {
+            const fallbackMeta = {
+                typeLabel: "Modern",
+                typeClass: "is-modern",
+                readingLevel: "General",
+            };
+            const chips = [];
+            const primary = this.translationComparePrimaryTranslationObject;
+            const secondary = this.translationCompareSecondaryTranslationObject;
+            if (primary) {
+                const meta =
+                    this.getTranslationCompareTranslatorMeta(primary) ||
+                    fallbackMeta;
+                chips.push({
+                    key: `a:${primary.identifier}`,
+                    slotLabel: "A",
+                    name: primary.englishName || "Translation A",
+                    typeLabel: meta.typeLabel,
+                    readingLevel: meta.readingLevel,
+                    typeClass: meta.typeClass,
+                });
+            }
+            if (
+                secondary &&
+                String(secondary.identifier || "") !==
+                    String(primary?.identifier || "")
+            ) {
+                const meta =
+                    this.getTranslationCompareTranslatorMeta(secondary) ||
+                    fallbackMeta;
+                chips.push({
+                    key: `b:${secondary.identifier}`,
+                    slotLabel: "B",
+                    name: secondary.englishName || "Translation B",
+                    typeLabel: meta.typeLabel,
+                    readingLevel: meta.readingLevel,
+                    typeClass: meta.typeClass,
+                });
+            }
+            return chips;
+        },
+        translationCompareDisplayColumns() {
+            const selected = Array.isArray(
+                this.translationCompareSelectedTranslationObjects
+            )
+                ? this.translationCompareSelectedTranslationObjects
+                : [];
+            if (!selected.length) return [];
+
+            const visible = selected.slice(0, 2);
+            const ayahNumber = Number(this.translationCompareAyahNumber || 1);
+            const textById = new Map();
+            visible.forEach((translation) => {
+                const id = String(translation?.identifier || "");
+                if (!id) return;
+                textById.set(id, this.getTranslationCompareText(id, ayahNumber));
+            });
+
+            return visible.map((translation, index) => {
+                const id = String(translation?.identifier || "");
+                const variant = index === 0 ? "a" : "b";
+                const text = String(textById.get(id) || "");
+                const meta =
+                    this.getTranslationCompareTranslatorMeta(translation) || {
+                        typeLabel: "Modern",
+                        typeClass: "is-modern",
+                        philosophy: "Contemporary, reader-friendly phrasing",
+                        readingLevel: "General",
+                        perspective: "Broad mainstream audience",
+                    };
+                return {
+                    translation,
+                    variant,
+                    meta,
+                    typeClass: meta.typeClass,
+                    matchCount: this.getTranslationCompareMatchCount(text),
+                    html: this.renderTranslationCompareText(text, variant),
+                };
+            });
+        },
+        translationCompareHighlightFeedbackLabel() {
+            const query = String(this.translationCompareHighlightQuery || "").trim();
+            if (!query) return "";
+            const total = this.translationCompareDisplayColumns.reduce(
+                (sum, column) => sum + Number(column?.matchCount || 0),
+                0
+            );
+            if (!total) return "No matches";
+            return `${total} ${total === 1 ? "match" : "matches"} found`;
+        },
         translationCompareGridStyle() {
             const count = Math.max(
                 1,
                 Math.min(
-                    Number(this.translationCompareSelectedTranslationObjects.length || 1),
+                    Number(this.translationCompareDisplayColumns.length || 1),
                     Number(this.translationCompareMaxSelections) || 4
                 )
             );
@@ -2574,6 +2682,24 @@ export default {
                         this.isLoading = false;
                     });
             }
+        },
+        translationCompareAyahNumber() {
+            this.$nextTick(() => {
+                this.resetTranslationCompareScrollPositions();
+            });
+        },
+        translationCompareSurahNumber() {
+            this.$nextTick(() => {
+                this.resetTranslationCompareScrollPositions();
+            });
+        },
+        translationCompareSelectedTranslationIds: {
+            deep: true,
+            handler() {
+                this.$nextTick(() => {
+                    this.resetTranslationCompareScrollPositions();
+                });
+            },
         },
         filteredAyahs: function (newAyahs) {
             const n = newAyahs.length;
@@ -3711,6 +3837,68 @@ export default {
             this.translationCompareControlsCollapsed =
                 !this.translationCompareControlsCollapsed;
         },
+        resolveTranslationCompareTranslation(translationInput) {
+            if (!translationInput) return null;
+            if (typeof translationInput === "object") return translationInput;
+            const target = String(translationInput || "");
+            if (!target) return null;
+            return (
+                this.englishTranslationsSorted.find(
+                    (item) => String(item?.identifier || "") === target
+                ) || null
+            );
+        },
+        getTranslationCompareTranslatorMeta(translationInput) {
+            const translation = this.resolveTranslationCompareTranslation(
+                translationInput
+            );
+            const identifier = String(
+                translation?.identifier || translationInput || ""
+            ).toLowerCase();
+            const englishName = String(translation?.englishName || "").toLowerCase();
+            if (!identifier && !englishName) return null;
+
+            const traditionalProfile = {
+                typeLabel: "Traditional",
+                typeClass: "is-traditional",
+                philosophy: "Closer-to-literal with classical diction",
+                readingLevel: "Advanced",
+                perspective: "Traditional Sunni-oriented wording",
+            };
+            const academicProfile = {
+                typeLabel: "Academic",
+                typeClass: "is-academic",
+                philosophy: "Contextual, analytical wording choices",
+                readingLevel: "Intermediate-Advanced",
+                perspective: "Comparative and academic framing",
+            };
+            const modernProfile = {
+                typeLabel: "Modern",
+                typeClass: "is-modern",
+                philosophy: "Contemporary, reader-friendly phrasing",
+                readingLevel: "General",
+                perspective: "Broad mainstream audience",
+            };
+
+            if (
+                identifier.includes("pickthall") ||
+                identifier.includes("yusufali") ||
+                identifier.includes("ahmedali") ||
+                englishName.includes("pickthall") ||
+                englishName.includes("yusuf") ||
+                englishName.includes("ahmed ali")
+            ) {
+                return traditionalProfile;
+            }
+            if (
+                identifier.includes("asad") ||
+                identifier.includes("qaribullah") ||
+                englishName.includes("asad")
+            ) {
+                return academicProfile;
+            }
+            return modernProfile;
+        },
         getTranslationCompareText(translationId, ayahNumber) {
             const identifier = String(translationId || "");
             const surahNumber = Number(
@@ -3738,28 +3926,74 @@ export default {
             if (this.translationCompareLoading) return "Loading...";
             return "Translation not available";
         },
-        highlightTranslationCompareText(text) {
-            const safeText = this.escapeHtml(text || "");
-            const query = String(this.translationCompareHighlightQuery || "").trim();
-            if (!query) return safeText;
-
-            const terms = query
+        getTranslationCompareHighlightTerms() {
+            return String(this.translationCompareHighlightQuery || "")
+                .trim()
                 .split(/\s+/)
                 .map((term) => term.trim())
                 .filter(Boolean)
                 .slice(0, 12);
-            if (!terms.length) return safeText;
-
+        },
+        getTranslationCompareHighlightRegex() {
+            const terms = this.getTranslationCompareHighlightTerms();
+            if (!terms.length) return null;
             const pattern = terms
                 .map((term) => this.escapeRegExp(term))
                 .join("|");
-            if (!pattern) return safeText;
+            if (!pattern) return null;
+            return new RegExp(`(${pattern})`, "gi");
+        },
+        getTranslationCompareMatchCount(text) {
+            const source = String(text || "");
+            if (!source) return 0;
+            const terms = this.getTranslationCompareHighlightTerms();
+            if (!terms.length) return 0;
+            return terms.reduce((total, term) => {
+                const regex = new RegExp(this.escapeRegExp(term), "gi");
+                const matches = source.match(regex);
+                return total + (Array.isArray(matches) ? matches.length : 0);
+            }, 0);
+        },
+        formatTranslationCompareMatchCount(count) {
+            const safe = Math.max(0, Number(count || 0));
+            if (!safe) return "No matches";
+            return `${safe} ${safe === 1 ? "match" : "matches"} in this translation`;
+        },
+        renderTranslationCompareHighlightedText(text, variant = "a") {
+            const source = String(text || "");
+            if (!source) return "";
+            const regex = this.getTranslationCompareHighlightRegex();
+            if (!regex) return this.escapeHtml(source);
 
-            const regex = new RegExp(`(${pattern})`, "gi");
-            return safeText.replace(
-                regex,
-                '<mark class="translation-compare-highlight">$1</mark>'
-            );
+            let output = "";
+            let cursor = 0;
+            let match;
+            while ((match = regex.exec(source)) !== null) {
+                const full = String(match[0] || "");
+                const start = Number(match.index || 0);
+                output += this.escapeHtml(source.slice(cursor, start));
+                output += `<mark class="translation-compare-highlight translation-compare-highlight-${this.escapeHtmlAttribute(
+                    variant
+                )}">${this.escapeHtml(full)}</mark>`;
+                cursor = start + full.length;
+                if (regex.lastIndex === match.index) {
+                    regex.lastIndex += 1;
+                }
+            }
+            output += this.escapeHtml(source.slice(cursor));
+            return output;
+        },
+        renderTranslationCompareText(text, variant = "a") {
+            return this.renderTranslationCompareHighlightedText(text, variant);
+        },
+        resetTranslationCompareScrollPositions() {
+            const modalEl = document.getElementById(this.translationCompareModalId);
+            if (!modalEl) return;
+            const panels = modalEl.querySelectorAll("[data-compare-scroll]");
+            panels.forEach((panel) => {
+                if (!panel || typeof panel.scrollTop !== "number") return;
+                panel.scrollTop = 0;
+            });
         },
         setTranslationCompareAyahNumber(value, options = {}) {
             const { announce = false } = options;
@@ -3837,14 +4071,6 @@ export default {
                 null;
             return Number(contextAyah?.numberInSurah || contextAyah?.number || 1);
         },
-        async jumpTranslationCompareToReaderContext() {
-            const targetSurah = Number(this.selectedSurah || 1);
-            this.translationCompareSurahNumber = targetSurah;
-            this.setTranslationCompareAyahNumber(this.getReaderContextAyahNumber(), {
-                announce: false,
-            });
-            await this.refreshTranslationCompareEditions();
-        },
         async openComparedAyahInReader() {
             const surahNumber = Number(
                 this.translationCompareSurahNumber || this.selectedSurah || 1
@@ -3888,6 +4114,9 @@ export default {
                 : this.translationCompareAyahNumber;
             this.setTranslationCompareAyahNumber(nextAyah, { announce: false });
             await this.refreshTranslationCompareEditions();
+            this.$nextTick(() => {
+                this.resetTranslationCompareScrollPositions();
+            });
         },
         registerTranslationCompareModalEvents() {
             this.$nextTick(() => {

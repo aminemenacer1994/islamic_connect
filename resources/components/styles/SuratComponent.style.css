@@ -10903,17 +10903,17 @@ h1.display-5 {
 }
 
 .translation-compare-shell .modal-dialog {
-    margin: clamp(0.35rem, 1.1vh, 1rem) auto;
+    margin: clamp(0.28rem, 0.95vh, 0.92rem) auto;
 }
 
 .translation-compare-modal {
     --translation-compare-heading-font: "Sora", "Manrope", "Segoe UI", sans-serif;
-    border-radius: 18px;
-    border: 1px solid rgba(11, 61, 46, 0.24);
-    background: linear-gradient(145deg, #f8fffd 0%, #eef9f6 62%, #ffffff 100%);
-    box-shadow: 0 22px 52px rgba(15, 23, 42, 0.16);
+    border-radius: 20px;
+    border: 1px solid rgba(11, 61, 46, 0.2);
+    background: linear-gradient(145deg, #f7fffd 0%, #ecf9f5 54%, #ffffff 100%);
+    box-shadow: 0 22px 52px rgba(15, 23, 42, 0.17);
     font-family: "Manrope", "Nunito Sans", "Segoe UI", sans-serif;
-    max-height: min(90dvh, 980px);
+    max-height: none;
     min-height: 0;
     height: auto;
     display: flex;
@@ -10923,7 +10923,7 @@ h1.display-5 {
 
 .translation-compare-modal .modal-header {
     border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-    padding: 1rem 1.1rem 0.86rem;
+    padding: 1.02rem 1.15rem 0.9rem;
     background: linear-gradient(135deg, #0b3d2e 0%, #0b6b59 60%, #0b8f7e 100%);
 }
 
@@ -10938,7 +10938,7 @@ h1.display-5 {
 
 .translation-compare-modal .modal-title,
 .translation-compare-modal .modal-title b {
-    font-size: 1.28rem;
+    font-size: 1.34rem;
     font-weight: 900;
     color: #f4fffd;
     letter-spacing: 0.01em;
@@ -10958,96 +10958,76 @@ h1.display-5 {
     gap: 0.4rem;
 }
 
-.translation-compare-header-btn {
-    border: 1px solid rgba(255, 255, 255, 0.36);
-    background: rgba(255, 255, 255, 0.13);
-    color: #f4fffd;
-    border-radius: 9px;
-    font-size: 0.74rem;
-    font-weight: 800;
-    line-height: 1;
-    min-height: 34px;
-    padding: 0.36rem 0.56rem;
-}
-
-.translation-compare-header-btn:hover,
-.translation-compare-header-btn:focus-visible {
-    background: rgba(255, 255, 255, 0.24);
-    border-color: rgba(255, 255, 255, 0.5);
-    color: #ffffff;
-}
-
 .translation-compare-modal .modal-body {
     display: flex;
     flex-direction: column;
-    gap: 0.65rem;
-    padding: 0.75rem 1rem 0.9rem;
+    gap: 0.7rem;
+    padding: 0.78rem 1rem 0.92rem;
     background: linear-gradient(170deg, #f8fffd 0%, #eef9f6 62%, #ffffff 100%);
-    overflow-y: auto;
-}
-
-.translation-compare-modal .modal-body::-webkit-scrollbar {
-    width: 7px;
-}
-
-.translation-compare-modal .modal-body::-webkit-scrollbar-thumb {
-    border-radius: 999px;
-    background: rgba(11, 107, 89, 0.26);
+    overflow-y: visible;
 }
 
 .translation-compare-sticky-tools {
     position: sticky;
-    top: -0.35rem;
-    z-index: 3;
+    top: -0.42rem;
+    z-index: 6;
     border: 1px solid rgba(11, 107, 89, 0.22);
-    border-radius: 12px;
+    border-radius: 14px;
     background: linear-gradient(
         145deg,
         rgba(255, 255, 255, 0.97) 0%,
         rgba(240, 252, 247, 0.95) 100%
     );
     box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
-    padding: 0.6rem 0.66rem;
-    margin-bottom: 0.35rem;
+    padding: 0.72rem;
+    margin-bottom: 0.36rem;
 }
 
 .translation-compare-sticky-head {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.62rem;
+}
+
+.translation-compare-sticky-title-wrap {
+    display: grid;
+    gap: 0.12rem;
+    min-width: 0;
 }
 
 .translation-compare-sticky-title {
-    font-size: 0.9rem;
+    font-size: 1.02rem;
     font-weight: 900;
     color: #0f172a;
     font-family: var(--translation-compare-heading-font);
+    letter-spacing: 0.01em;
 }
 
 .translation-compare-sticky-meta {
-    margin-left: 0.2rem;
+    margin-left: 0;
     color: #475569;
-    font-size: 0.75rem;
-    font-weight: 700;
+    font-size: 0.79rem;
+    font-weight: 800;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
 .translation-compare-collapse-btn {
-    margin-left: auto;
     border: 1px solid rgba(11, 107, 89, 0.2);
     background: #ffffff;
     color: #0b6b59;
-    border-radius: 9px;
-    font-size: 0.7rem;
+    border-radius: 10px;
+    font-size: 0.86rem;
     font-weight: 800;
     line-height: 1;
-    min-height: 32px;
-    padding: 0.34rem 0.5rem;
+    min-height: 36px;
+    min-width: 36px;
+    padding: 0;
     display: inline-flex;
     align-items: center;
-    gap: 0.26rem;
+    justify-content: center;
+    margin-left: auto;
 }
 
 .translation-compare-collapse-btn:hover,
@@ -11057,43 +11037,123 @@ h1.display-5 {
     color: #075444;
 }
 
-.translation-compare-compact-grid {
-    margin-top: 0.55rem;
+.translation-compare-translator-strip {
+    margin-top: 0.62rem;
     display: grid;
-    grid-template-columns: 1.15fr 0.8fr 1fr 1fr;
-    gap: 0.5rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.46rem;
+}
+
+.translation-compare-translator-chip {
+    border: 1px solid rgba(11, 61, 46, 0.16);
+    border-radius: 11px;
+    background: #ffffff;
+    display: flex;
+    align-items: center;
+    gap: 0.52rem;
+    padding: 0.46rem 0.6rem;
+    min-width: 0;
+}
+
+.translation-compare-translator-chip.is-traditional {
+    background: linear-gradient(135deg, #fff8ec 0%, #ffffff 100%);
+}
+
+.translation-compare-translator-chip.is-academic {
+    background: linear-gradient(135deg, #eef6ff 0%, #ffffff 100%);
+}
+
+.translation-compare-translator-chip.is-modern {
+    background: linear-gradient(135deg, #effcf6 0%, #ffffff 100%);
+}
+
+.translation-compare-chip-slot {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 30px;
+    min-height: 30px;
+    border-radius: 9px;
+    border: 1px solid rgba(11, 61, 46, 0.2);
+    background: #ffffff;
+    color: #0f172a;
+    font-size: 0.74rem;
+    font-weight: 900;
+}
+
+.translation-compare-chip-copy {
+    min-width: 0;
+    display: grid;
+    gap: 0.04rem;
+}
+
+.translation-compare-chip-name {
+    color: #0f172a;
+    font-size: 0.84rem;
+    font-weight: 900;
+    line-height: 1.3;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.translation-compare-chip-meta {
+    color: #475569;
+    font-size: 0.69rem;
+    font-weight: 700;
+    line-height: 1.3;
+}
+
+.translation-compare-controls-body {
+    margin-top: 0.56rem;
+}
+
+.translation-compare-compact-grid {
+    display: grid;
+    grid-template-columns: 1.15fr 0.82fr 1fr 1fr;
+    gap: 0.56rem;
     align-items: end;
 }
 
 .translation-compare-field {
     display: grid;
-    gap: 0.2rem;
-    font-size: 0.72rem;
+    gap: 0.24rem;
+    font-size: 0.74rem;
     font-weight: 800;
     color: #0f172a;
+    position: relative;
+}
+
+.translation-compare-field-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.3rem;
 }
 
 .translation-compare-field-row {
     display: grid;
-    grid-template-columns: 32px minmax(0, 1fr) 32px;
-    gap: 0.32rem;
+    grid-template-columns: 36px minmax(0, 1fr) 36px;
+    gap: 0.36rem;
     align-items: center;
 }
 
 .translation-compare-select,
 .translation-compare-ayah-input {
-    min-height: 36px;
-    border-radius: 9px;
-    border: 1px solid rgba(11, 61, 46, 0.2);
-    font-size: 0.82rem;
+    min-height: 40px;
+    border-radius: 10px;
+    border: 1px solid rgba(11, 61, 46, 0.24);
+    font-size: 0.84rem;
     font-weight: 700;
     background: #ffffff;
+    color: #0f172a;
 }
 
 .translation-compare-ayah-input {
     text-align: center;
-    padding-left: 0.45rem;
-    padding-right: 0.45rem;
+    padding-left: 0.52rem;
+    padding-right: 0.52rem;
 }
 
 .translation-compare-select:focus,
@@ -11104,9 +11164,9 @@ h1.display-5 {
 }
 
 .translation-compare-nav-btn {
-    width: 32px;
-    height: 32px;
-    border-radius: 9px;
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
     border: 1px solid rgba(11, 61, 46, 0.2);
     background: #ffffff;
     color: #0b6b59;
@@ -11124,14 +11184,14 @@ h1.display-5 {
 .translation-compare-open-reader-btn {
     border-radius: 10px;
     min-height: 40px;
-    border: 1px solid rgba(15, 118, 110, 0.22);
+    border: 1px solid rgba(15, 118, 110, 0.28);
     background: #ffffff;
     color: #0f766e;
     font-size: 0.8rem;
     font-weight: 800;
     line-height: 1;
     white-space: nowrap;
-    padding: 0.46rem 0.78rem;
+    padding: 0.46rem 0.82rem;
 }
 
 .translation-compare-tool-row {
@@ -11139,7 +11199,7 @@ h1.display-5 {
 }
 
 .translation-compare-tool-btn {
-    border: 1px solid rgba(11, 61, 46, 0.18);
+    border: 1px solid rgba(11, 61, 46, 0.2);
     background: #ffffff;
     color: #0f172a;
     border-radius: 10px;
@@ -11161,9 +11221,6 @@ h1.display-5 {
 }
 
 .translation-compare-inline-actions {
-    margin-top: 0.48rem;
-    padding-top: 0.48rem;
-    border-top: 1px dashed rgba(11, 61, 46, 0.2);
     display: flex;
     flex-wrap: wrap;
     width: 100%;
@@ -11172,15 +11229,24 @@ h1.display-5 {
     gap: 0.5rem;
 }
 
-.translation-compare-inline-actions .translation-compare-header-btn {
-    border-radius: 10px;
-    min-height: 40px;
-    font-size: 0.8rem;
-    padding: 0.46rem 0.78rem;
+.translation-compare-inline-actions-wrap {
+    margin-top: 0.6rem;
+    padding-top: 0.54rem;
+    border-top: 1px dashed rgba(11, 61, 46, 0.2);
+}
+
+.translation-compare-inline-actions-title {
+    color: #0f172a;
+    font-size: 0.78rem;
+    font-weight: 900;
+    text-align: center;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    margin-bottom: 0.36rem !important;
 }
 
 .translation-compare-highlight-row {
-    margin-top: 0.42rem;
+    margin-top: 0.46rem;
 }
 
 .translation-compare-highlight-field {
@@ -11196,19 +11262,25 @@ h1.display-5 {
 .translation-compare-highlight-input-wrap > i {
     position: absolute;
     left: 10px;
-    font-size: 0.76rem;
+    font-size: 0.78rem;
     color: #0b6b59;
     pointer-events: none;
 }
 
 .translation-compare-highlight-input {
-    min-height: 36px;
-    border-radius: 9px;
-    border: 1px solid rgba(11, 61, 46, 0.2);
-    font-size: 0.8rem;
-    font-weight: 600;
-    padding: 0.36rem 3.1rem 0.36rem 1.9rem;
+    min-height: 40px;
+    border-radius: 10px;
+    border: 1px solid rgba(11, 61, 46, 0.22);
+    font-size: 0.82rem;
+    font-weight: 700;
+    padding: 0.44rem 3.2rem 0.44rem 1.95rem;
     background: #ffffff;
+}
+
+.translation-compare-highlight-feedback {
+    color: #0b6b59;
+    font-size: 0.7rem;
+    font-weight: 800;
 }
 
 .translation-compare-highlight-clear {
@@ -11240,66 +11312,180 @@ h1.display-5 {
 
 .translation-compare-content {
     display: grid;
-    gap: 0.7rem;
+    gap: 0.76rem;
 }
 
 .translation-compare-arabic-panel {
-    border: 1px solid rgba(11, 107, 89, 0.16);
-    border-radius: 12px;
+    border: 1px solid rgba(11, 107, 89, 0.2);
+    border-radius: 14px;
     background: #ffffff;
-    box-shadow: 0 8px 18px rgba(15, 23, 42, 0.06);
-    padding: 0.9rem 0.95rem;
+    box-shadow: 0 10px 22px rgba(15, 23, 42, 0.07);
+    padding: 0.94rem 1rem;
 }
 
 .translation-compare-meta {
     color: #0b6b59;
-    font-size: 0.85rem;
+    font-size: 0.88rem;
     font-weight: 900;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.56rem;
 }
 
 .translation-compare-arabic-text {
-    line-height: 2.05;
+    font-family: "Amiri Quran", "Amiri", "Noto Naskh Arabic", "Scheherazade New", serif;
+    line-height: 2.08;
     color: #111827;
+    letter-spacing: 0.01em;
+    margin-bottom: 0.48rem !important;
+}
+
+.translation-compare-interlinear-note {
+    color: #334155;
+    font-size: 0.72rem;
+    font-weight: 700;
+    line-height: 1.5;
+}
+
+.translation-compare-arabic-panel :deep(.ayah-word) {
+    text-align: right;
+}
+
+.translation-compare-arabic-panel :deep(.ayah-word-translation) {
+    direction: rtl;
+    unicode-bidi: plaintext;
+    text-align: right;
+    font-size: 0.62em;
+    line-height: 1.4;
+    color: #64748b !important;
 }
 
 .translation-compare-grid {
     display: grid;
     grid-template-columns: repeat(var(--translation-compare-cols, 2), minmax(0, 1fr));
-    gap: 0.62rem;
+    gap: 0.72rem;
+    position: relative;
+}
+
+.translation-compare-grid.has-two-columns::before {
+    content: "";
+    position: absolute;
+    top: 0.3rem;
+    bottom: 0.3rem;
+    left: 50%;
+    width: 1px;
+    background: linear-gradient(
+        180deg,
+        rgba(11, 61, 46, 0) 0%,
+        rgba(11, 61, 46, 0.2) 16%,
+        rgba(11, 61, 46, 0.2) 84%,
+        rgba(11, 61, 46, 0) 100%
+    );
+    transform: translateX(-0.35rem);
+    pointer-events: none;
 }
 
 .translation-compare-card {
     border: 1px solid rgba(11, 61, 46, 0.16);
-    border-radius: 12px;
+    border-radius: 14px;
     background: #ffffff;
-    box-shadow: 0 6px 15px rgba(15, 23, 42, 0.05);
-    padding: 0.86rem 0.94rem;
+    box-shadow: 0 8px 18px rgba(15, 23, 42, 0.06);
+    padding: 0.96rem 1rem;
     transition: transform 0.15s ease, box-shadow 0.15s ease;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+}
+
+.translation-compare-card.is-a {
+    background: linear-gradient(180deg, #ffffff 0%, #f8fcff 100%);
+}
+
+.translation-compare-card.is-b {
+    background: linear-gradient(180deg, #ffffff 0%, #f8fff9 100%);
 }
 
 .translation-compare-card:hover {
     transform: translateY(-1px);
-    box-shadow: 0 10px 20px rgba(15, 23, 42, 0.08);
+    box-shadow: 0 12px 22px rgba(15, 23, 42, 0.09);
 }
 
 .translation-compare-card-head {
-    margin-bottom: 0.48rem;
-    padding-bottom: 0.4rem;
+    margin-bottom: 0.5rem;
+    padding-bottom: 0.5rem;
     border-bottom: 1px solid rgba(11, 107, 89, 0.13);
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.44rem;
+}
+
+.translation-compare-card-head-copy {
+    min-width: 0;
+}
+
+.translation-compare-card-subtitle {
+    margin-top: 0.12rem;
+    color: #64748b;
+    font-size: 0.69rem;
+    font-weight: 700;
+    line-height: 1.3;
+    word-break: break-all;
+}
+
+.translation-compare-card-head-actions {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.32rem;
+}
+
+.translation-compare-type-pill {
+    display: inline-flex;
+    align-items: center;
+    border-radius: 999px;
+    border: 1px solid transparent;
+    padding: 0.2rem 0.48rem;
+    font-size: 0.64rem;
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+}
+
+.translation-compare-type-pill.is-traditional {
+    color: #9a3412;
+    background: #fff7ed;
+    border-color: rgba(154, 52, 18, 0.25);
+}
+
+.translation-compare-type-pill.is-academic {
+    color: #1d4ed8;
+    background: #eff6ff;
+    border-color: rgba(29, 78, 216, 0.25);
+}
+
+.translation-compare-type-pill.is-modern {
+    color: #047857;
+    background: #ecfdf5;
+    border-color: rgba(4, 120, 87, 0.24);
 }
 
 .translation-compare-card-head h6 {
-    font-size: 0.95rem;
+    font-size: 1.08rem;
     font-weight: 900;
     color: #0f172a;
-    line-height: 1.4;
+    line-height: 1.3;
 }
 
 .translation-compare-text {
-    color: #1e293b;
-    line-height: 1.75;
-    font-size: 0.98rem;
+    color: #1f2937;
+    line-height: 1.88;
+    font-size: 1.02rem;
+}
+
+.translation-compare-match-count {
+    color: #0b6b59;
+    font-size: 0.69rem;
+    font-weight: 800;
+    line-height: 1.4;
 }
 
 .translation-compare-highlight {
@@ -11314,16 +11500,49 @@ h1.display-5 {
     font-weight: 800;
 }
 
+.translation-compare-highlight-a {
+    background: linear-gradient(
+        180deg,
+        rgba(29, 78, 216, 0.2) 0%,
+        rgba(29, 78, 216, 0.32) 100%
+    );
+    color: #1e3a8a;
+}
+
+.translation-compare-highlight-b {
+    background: linear-gradient(
+        180deg,
+        rgba(4, 120, 87, 0.2) 0%,
+        rgba(4, 120, 87, 0.34) 100%
+    );
+    color: #065f46;
+}
+
 .translation-compare-pagination-wrap {
     margin-top: 0.15rem;
-    padding: 0.45rem 0.55rem;
-    border-radius: 12px;
+    padding: 0.6rem 0.66rem;
+    border-radius: 14px;
     border: 1px solid rgba(11, 61, 46, 0.2);
     background: linear-gradient(160deg, #ffffff 0%, #f5fcfa 100%);
+    display: grid;
+    gap: 0.44rem;
+    justify-items: center;
+}
+
+.translation-compare-pagination-label {
+    color: #334155;
+    font-size: 0.76rem;
+    font-weight: 900;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.translation-compare-pagination-row {
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0.45rem;
+    gap: 0.5rem;
     flex-wrap: wrap;
 }
 
@@ -11331,8 +11550,8 @@ h1.display-5 {
 .translation-compare-pagination-numbers {
     display: inline-flex;
     align-items: center;
-    gap: 0.34rem;
-    padding: 0.16rem;
+    gap: 0.3rem;
+    padding: 0.2rem;
     border-radius: 10px;
     border: 1px solid rgba(11, 61, 46, 0.18);
     background: #f3faf8;
@@ -11343,17 +11562,21 @@ h1.display-5 {
 }
 
 .translation-compare-pagination-btn {
-    border-radius: 9px;
+    border-radius: 10px;
     border: 1px solid rgba(11, 61, 46, 0.2);
     background: #f8fafc;
     color: #1f2937;
-    font-size: 0.78rem;
+    font-size: 0.77rem;
     font-weight: 800;
     line-height: 1;
-    min-height: 34px;
+    min-height: 36px;
     min-width: 52px;
-    padding: 0.36rem 0.58rem;
+    padding: 0.38rem 0.58rem;
     transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.3rem;
 }
 
 .translation-compare-pagination-btn:hover:not(:disabled),
@@ -11390,8 +11613,12 @@ h1.display-5 {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
+    .translation-compare-translator-strip {
+        grid-template-columns: 1fr;
+    }
+
     .translation-compare-pagination-wrap {
-        padding: 0.42rem;
+        padding: 0.46rem;
     }
 }
 
@@ -11402,12 +11629,12 @@ h1.display-5 {
     }
 
     .translation-compare-modal {
-        max-height: calc(100dvh - 0.45rem);
-        border-radius: 14px;
+        max-height: none;
+        border-radius: 16px;
     }
 
     .translation-compare-modal .modal-header {
-        padding: 0.82rem 0.8rem 0.7rem;
+        padding: 0.84rem 0.82rem 0.72rem;
     }
 
     .translation-compare-header-copy {
@@ -11416,7 +11643,7 @@ h1.display-5 {
 
     .translation-compare-modal .modal-title,
     .translation-compare-modal .modal-title b {
-        font-size: 1.06rem;
+        font-size: 1.1rem;
     }
 
     .translation-compare-subtitle {
@@ -11430,8 +11657,8 @@ h1.display-5 {
 
     .translation-compare-sticky-tools {
         top: -0.56rem;
-        border-radius: 11px;
-        padding: 0.5rem;
+        border-radius: 12px;
+        padding: 0.54rem;
     }
 
     .translation-compare-sticky-head {
@@ -11439,10 +11666,12 @@ h1.display-5 {
         row-gap: 0.32rem;
     }
 
-    .translation-compare-sticky-meta {
-        order: 3;
+    .translation-compare-sticky-title-wrap {
         width: 100%;
-        margin-left: 0;
+    }
+
+    .translation-compare-sticky-meta {
+        width: 100%;
         font-size: 0.72rem;
     }
 
@@ -11481,22 +11710,29 @@ h1.display-5 {
         right: 6px;
     }
 
-    .translation-compare-inline-actions {
-        justify-content: center;
-        gap: 0.42rem;
+    .translation-compare-inline-actions-wrap {
+        margin-top: 0.52rem;
+        padding-top: 0.5rem;
     }
 
     .translation-compare-open-reader-btn,
     .translation-compare-tool-btn,
-    .translation-compare-header-btn,
     .translation-compare-collapse-btn {
         min-height: 40px;
         font-size: 0.76rem;
     }
 
+    .translation-compare-card-head h6 {
+        font-size: 1rem;
+    }
+
     .translation-compare-grid {
         grid-template-columns: 1fr !important;
         gap: 0.5rem;
+    }
+
+    .translation-compare-grid.has-two-columns::before {
+        display: none;
     }
 
     .translation-compare-card {
@@ -11512,9 +11748,22 @@ h1.display-5 {
         padding: 0.38rem;
         border-radius: 11px;
         box-shadow: 0 8px 18px rgba(15, 23, 42, 0.1);
-        justify-content: flex-start;
-        gap: 0.36rem;
+        gap: 0.32rem;
         overflow: hidden;
+    }
+
+    .translation-compare-pagination-label {
+        width: 100%;
+        text-align: center;
+        font-size: 0.68rem;
+    }
+
+    .translation-compare-pagination-row {
+        justify-content: flex-start;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        padding-bottom: 1px;
+        width: 100%;
     }
 
     .translation-compare-pagination-group {
@@ -11522,15 +11771,7 @@ h1.display-5 {
     }
 
     .translation-compare-pagination-numbers {
-        flex: 1 1 auto;
-        min-width: 0;
-        overflow-x: auto;
-        overflow-y: hidden;
         flex-wrap: nowrap;
-        justify-content: flex-start;
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: thin;
-        padding-bottom: 2px;
     }
 
     .translation-compare-pagination-numbers::-webkit-scrollbar {
@@ -11570,6 +11811,19 @@ h1.display-5 {
         font-size: 0.68rem;
     }
 
+    .translation-compare-translator-chip {
+        padding: 0.44rem 0.52rem;
+    }
+
+    .translation-compare-chip-slot {
+        min-width: 28px;
+        min-height: 28px;
+    }
+
+    .translation-compare-chip-name {
+        font-size: 0.8rem;
+    }
+
     .translation-compare-highlight-clear {
         min-height: 26px;
         font-size: 0.64rem;
@@ -11590,7 +11844,6 @@ h1.display-5 {
         padding: 0.32rem 0.5rem;
     }
 
-    .translation-compare-inline-actions .translation-compare-header-btn,
     .translation-compare-open-reader-btn,
     .translation-compare-tool-btn {
         min-height: 38px;
