@@ -567,6 +567,7 @@ export default {
             translationCompareAyahNumber: 1,
             translationComparePrimaryTranslation: "",
             translationCompareSecondaryTranslation: "",
+            translationCompareHighlightQuery: "",
             translationCompareMaxSelections: 2,
             translationCompareControlsCollapsed: true,
             translationCompareLoading: false,
@@ -3736,6 +3737,29 @@ export default {
 
             if (this.translationCompareLoading) return "Loading...";
             return "Translation not available";
+        },
+        highlightTranslationCompareText(text) {
+            const safeText = this.escapeHtml(text || "");
+            const query = String(this.translationCompareHighlightQuery || "").trim();
+            if (!query) return safeText;
+
+            const terms = query
+                .split(/\s+/)
+                .map((term) => term.trim())
+                .filter(Boolean)
+                .slice(0, 12);
+            if (!terms.length) return safeText;
+
+            const pattern = terms
+                .map((term) => this.escapeRegExp(term))
+                .join("|");
+            if (!pattern) return safeText;
+
+            const regex = new RegExp(`(${pattern})`, "gi");
+            return safeText.replace(
+                regex,
+                '<mark class="translation-compare-highlight">$1</mark>'
+            );
         },
         setTranslationCompareAyahNumber(value, options = {}) {
             const { announce = false } = options;

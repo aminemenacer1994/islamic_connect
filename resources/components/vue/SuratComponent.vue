@@ -2918,7 +2918,7 @@
                 aria-labelledby="translationCompareLabel"
                 aria-hidden="true"
                 data-bs-backdrop="true">
-                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xxl">
+                <div class="modal-dialog modal-dialog-centered modal-xxl">
                     <div class="modal-content translation-compare-modal">
                         <div class="modal-header">
                             <div class="translation-compare-header-copy">
@@ -3046,6 +3046,29 @@
                                     </label>
                                 </div>
 
+                                <div class="translation-compare-highlight-row">
+                                    <label class="translation-compare-field translation-compare-highlight-field">
+                                        <span>Highlight In Translations</span>
+                                        <div class="translation-compare-highlight-input-wrap">
+                                            <i class="bi bi-search" aria-hidden="true"></i>
+                                            <input
+                                                type="text"
+                                                class="form-control translation-compare-highlight-input"
+                                                v-model="translationCompareHighlightQuery"
+                                                placeholder="Type a word or phrase to highlight in both translations"
+                                                aria-label="Highlight words in translation columns only" />
+                                            <button
+                                                v-if="translationCompareHighlightQuery"
+                                                type="button"
+                                                class="btn translation-compare-highlight-clear"
+                                                @click="translationCompareHighlightQuery = ''"
+                                                aria-label="Clear translation highlight search">
+                                                Clear
+                                            </button>
+                                        </div>
+                                    </label>
+                                </div>
+
                                 <div v-show="!translationCompareControlsCollapsed" class="translation-compare-inline-actions">
                                     <button
                                         type="button"
@@ -3115,7 +3138,7 @@
                                         </div>
                                         <p
                                             class="translation-compare-text mb-0"
-                                            v-html="highlightText(getTranslationCompareText(translation.identifier, translationCompareAyahNumber))"
+                                            v-html="highlightTranslationCompareText(getTranslationCompareText(translation.identifier, translationCompareAyahNumber))"
                                             :style="{ fontSize: effectiveAyahBodyFontSize + 'px' }"></p>
                                     </article>
                                 </section>
