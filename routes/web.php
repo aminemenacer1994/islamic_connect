@@ -69,6 +69,7 @@ use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\RevertController;
 use App\Http\Controllers\MuslimController;
 use App\Http\Controllers\DebugController;
+use App\Http\Controllers\DigitalLibraryController;
 use App\Http\Controllers\ReadController;
 use App\Http\Controllers\ResourcesController;
 
@@ -141,6 +142,7 @@ Route::get('/sitemap.xml', function () {
         
         // Content & Collections - medium priority
         ['loc' => url('/collection'), 'changefreq' => 'weekly', 'priority' => '0.7'],
+        ['loc' => url('/digital-library'), 'changefreq' => 'weekly', 'priority' => '0.7'],
         ['loc' => url('/updates'), 'changefreq' => 'weekly', 'priority' => '0.5'],
         ['loc' => url('/mailing_list'), 'changefreq' => 'monthly', 'priority' => '0.4'],
         ['loc' => url('/join_us'), 'changefreq' => 'monthly', 'priority' => '0.5'],
@@ -321,6 +323,7 @@ Route::get('/access', [AccessController::class, 'index'])->name('access');
 Route::get('/surat', [SuratController::class, 'index'])->name('surat');
 Route::get('/dua', [DuaController::class, 'index'])->name('dua');
 Route::get('/guide', [GuideController::class, 'index'])->name('guide');
+Route::get('/digital-library', [DigitalLibraryController::class, 'index'])->name('digital_library');
 Route::get('/toolkit', [ToolkitController::class, 'index'])->name('toolkit');
 Route::get('/zakat', [ZakatController::class, 'index'])->name('zakat');
 Route::get('/qibla', [QiblaController::class, 'index'])->name('qibla');
@@ -364,6 +367,8 @@ Route::middleware(['auth', 'web'])->group(function () {
     // Dashboard & Profile
     Route::get('/dashboard', fn() => view('dashboard'))->name('dashboard');
     Route::get('/profile', fn() => view('profile'))->name('profile');
+    Route::view('/playlist', 'playlist')->name('playlist');
+    Route::view('/pins', 'pins')->name('pins');
     Route::get('api/fetch-dashboard', [DashboardController::class, 'getDashboard'])->name('fetch_dashboard');
     Route::get('api/admin-metrics', [DashboardController::class, 'metrics'])->name('admin_metrics');
     

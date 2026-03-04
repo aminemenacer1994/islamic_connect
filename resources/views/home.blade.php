@@ -17,41 +17,29 @@
 
     body {
         margin: 0;
-        font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-        background: #fefefe;
+        background: #f7fbf9;
     }
 
-    .hero-title {
-        font-size: clamp(2.5rem, 5vw, 3.9rem);
-        letter-spacing: -0.01em;
-        color: #0f4c4c;
+    .ic-home {
+        background: linear-gradient(180deg, #f7fbf9 0%, #f2faf7 100%);
     }
 
-    .hero-subtitle p {
-        font-size: 1rem;
-        margin: 0;
-        color: #1f3b45;
+    .ic-hero {
+        padding: clamp(4.2rem, 8vw, 6rem) 0 clamp(3rem, 6vw, 4.8rem);
+        background: linear-gradient(145deg, #fff7e8 0%, #f1faf6 45%, #e8f4f0 100%);
     }
 
-    .hero-badge {
-        display: inline-flex;
-        align-items: center;
-        border-radius: 999px;
-        font-weight: 600;
-        font-size: 0.85rem;
-        background: rgba(255, 255, 255, 0.8);
-        border: 1px solid rgba(15, 76, 76, 0.1);
+    .ic-hero__title {
+        font-size: clamp(2.2rem, 5vw, 3.7rem);
+        line-height: 1.1;
+        letter-spacing: -0.02em;
+        color: #10393d;
     }
 
-    .hero-controls {
-        flex-wrap: wrap;
-        gap: 0.6rem;
-    }
-
-    .btn-teal {
-        color: #fff;
-        background: #00c4b4;
-        border: none;
+    .ic-hero__lead {
+        font-size: 1.05rem;
+        line-height: 1.7;
+        color: #4a6267;
     }
 </style>
 @endpush

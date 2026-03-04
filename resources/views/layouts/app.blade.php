@@ -381,7 +381,11 @@
                         </li>
 
                         <li class="nav-item mt-2">
-                            <a class="nav-link ml-3 pt-2 pl-3" href="/dua" data-path="/dua" data-nav-item="primary"><b>Dua Library</b></a>
+                            <a class="nav-link ml-3 pt-2 pl-3" href="/digital-library" data-path="/digital-library" data-nav-item="primary"><b>Digital Library</b></a>
+                        </li>
+
+                        <li class="nav-item mt-2">
+                            <a class="nav-link ml-3 pt-2 pl-3" href="/dua" data-path="/dua" data-nav-item="primary"><b>Dua Collection</b></a>
                         </li>                        
 
                         <!-- <button class="button" type="button" onclick="window.location.href='/ramadan-2026'" data-path="/ramadan-2026" data-nav-item="primary">
@@ -647,8 +651,8 @@
                 // Home
                 '/': '/',
                 '/home': '/',
-                '/revert': '/revert',
-                '/resource': '/resource',
+                '/revert': '/digital-library',
+                '/resource': '/digital-library',
                 '/about': '/',
                 '/welcome': '/',
                 // Quran routes
@@ -660,6 +664,7 @@
                 // Media center (user-specified)
                 '/media': '/media',
                 '/content': '/media',
+                '/digital-library': '/digital-library',
                 '/streaming': '/media',
                 '/radio': '/media',
                 '/gallery': '/media',
@@ -668,7 +673,7 @@
                 '/knowledge': '/knowledge',
                 '/mission': '/knowledge',
                 '/name': '/knowledge',
-                '/guide': '/knowledge',
+                '/guide': '/digital-library',
                 '/read': '/knowledge',
                 '/books': '/knowledge',
                 '/boos': '/knowledge',
@@ -695,7 +700,7 @@
                 '/packages': '/subscribe',
                 '/pricing': '/subscribe',
                 '/bookmarks': '/bookmarks',
-                '/muslim': '/muslim',
+                '/muslim': '/digital-library',
             };
 
             const aliasKeys = Object.keys(aliasMap);

@@ -46,6 +46,20 @@
       <span class="nav-label">Profile</span>
      </a>
     </li>
+
+    <li class="nav-item" data-search="playlist quran audio queue admin">
+     <a href="/playlist" class="nav-link {{ request()->is('playlist*') ? 'active' : '' }}">
+      <i class="bi bi-music-note-list nav-icon"></i>
+      <span class="nav-label">Playlist</span>
+     </a>
+    </li>
+
+    <li class="nav-item" data-search="pins pinned ayah favorites admin">
+     <a href="/pins" class="nav-link {{ request()->is('pins*') ? 'active' : '' }}">
+      <i class="bi bi-pin-angle-fill nav-icon"></i>
+      <span class="nav-label">Pins</span>
+     </a>
+    </li>
     
     <li class="nav-item" data-search="bookmarks saved items admin">
      <a href="/bookmarks" class="nav-link {{ request()->is('bookmarks') ? 'active' : '' }}">
