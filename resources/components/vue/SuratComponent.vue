@@ -1,11 +1,12 @@
 <template>
-    <div class="container  surat-premium"
+    <div class="container surat-premium"
         :class="{
             'has-audio-player': bottomAudioPlayerEnabled && showAudioPlayer && !isSingleWordPreviewActive,
             'has-sidebar': true,
             'sidebar-collapsed': sidebarCollapsed,
             'mobile-toolbar-pinned': isTabletOrMobile && isToolbarPinned,
             'mobile-toolbar-expanded': isTabletOrMobile && isToolbarPinned && isMobileToolbarExpanded,
+            'mobile-compact-layout': isTabletOrMobile,
             'reading-fullscreen': isReadingFullscreen,
             'deep-focus-mode': isDeepFocusMode,
             'blur-next-ayah-enabled': isBlurNextAyahEnabled,
@@ -344,6 +345,9 @@
                                         : 'Turn transliteration on for all ayahs'">
                                     <i class="bi bi-input-cursor-text" aria-hidden="true"></i>
                                     <span class="advanced-quran-mobile-action-label">Transliteration</span>
+                                    <span class="advanced-quran-mobile-action-btn-state">
+                                        {{ isTransliterationAllEnabled ? "On" : "Off" }}
+                                    </span>
                                 </button>
                             </div>
 
@@ -656,6 +660,7 @@
                         : 'Turn transliteration on for all ayahs'">
                     <i class="bi bi-input-cursor-text" aria-hidden="true"></i>
                     <span class="quran-toolbar-btn-text">Transliteration</span>
+                    <span class="quran-toolbar-btn-state">{{ isTransliterationAllEnabled ? "On" : "Off" }}</span>
                 </button>
                 <button
                     type="button"
@@ -2227,7 +2232,7 @@
                     ? { paddingTop: topSpacerHeight + 'px', paddingBottom: bottomSpacerHeight + 'px' }
                     : null">
                 <div style="padding: 12px; border-radius: 8px" ref="audioCard" v-for="item in visibleWindow"
-                    :key="item.ayah.number" class="col-md-12 mb-2 mt-2 ayah-card ayah-card-container shadow-md" role="listitem"
+                    :key="item.ayah.number" class="col-md-12 mb-2 mt-2 ayah-card ayah-card-container ayah-card-shell shadow-md" role="listitem"
                     :id="`ayah-card-${item.index}`" :data-ayah-number="item.ayah.numberInSurah" @click="selectCard(item.index)"
                     @keydown.enter.prevent="toggleAudioPlayer(item.index)"
                     @keydown.space.prevent="toggleAudioPlayer(item.index)" draggable="true" tabindex="0"
@@ -2548,7 +2553,7 @@
                                     ]"
                                     v-html="highlightedText(item.ayah)"
                                     @click="onAyahWordClick(item, $event)"
-                                    :style="{ fontSize: effectiveArabicFontSize + 'px' }"
+                                    :style="`font-size: ${effectiveArabicFontSize}px !important;`"
                                 ></p>
                                 <div v-if="isTranslationVisibleFor(item)" class="translation-header pt-2 ltr-text hide-on-mobile-tablet ml-2">
                                     <h2 class="mb-0">
@@ -2568,9 +2573,7 @@
                                                     },
                                                 ]"
                                                 v-html="highlightText(item.ayah.translation)"
-                                                :style="{
-                                                    fontSize: effectiveAyahBodyFontSize + 'px',
-                                                }"
+                                                :style="`font-size: ${effectiveAyahBodyFontSize}px !important;`"
                                             ></p>
                                         </div>
                                         <template v-else></template>
@@ -2590,9 +2593,7 @@
                                                 },
                                             ]"
                                             v-html="highlightText(item.ayah.transliteration || transliterationFallbackText)"
-                                            :style="{
-                                                fontSize: effectiveAyahBodyFontSize + 'px',
-                                            }"
+                                            :style="`font-size: ${effectiveAyahBodyFontSize}px !important;`"
                                         ></p>
                                         <div class="ayah-quick-actions ltr-text" role="group" aria-label="Quick actions">
                                             <button type="button" class="action-pill" @click.stop="copyAyah(item.ayah)"
@@ -2644,7 +2645,7 @@
                                     ]"
                                     v-html="highlightedText(item.ayah)"
                                     @click="onAyahWordClick(item, $event)"
-                                    :style="{ fontSize: effectiveArabicFontSize + 'px' }"
+                                    :style="`font-size: ${effectiveArabicFontSize}px !important;`"
                                 ></p>
                                 <div v-if="isTranslationVisibleFor(item)" class="d-flex align-items-center fw-bold pt-2 ltr-text ml-2">
                                     <h4 class="mb-0">
@@ -2662,9 +2663,7 @@
                                             },
                                         ]"
                                         v-html="highlightText(item.ayah.translation)"
-                                        :style="{
-                                            fontSize: effectiveAyahBodyFontSize + 'px',
-                                        }"
+                                        :style="`font-size: ${effectiveAyahBodyFontSize}px !important;`"
                                     ></p>
                                 </div>
                                 <template v-else></template>
@@ -2684,9 +2683,7 @@
                                         },
                                     ]"
                                     v-html="highlightText(item.ayah.transliteration || transliterationFallbackText)"
-                                    :style="{
-                                        fontSize: effectiveAyahBodyFontSize + 'px',
-                                    }"
+                                    :style="`font-size: ${effectiveAyahBodyFontSize}px !important;`"
                                 ></p>
                                 <div class="ayah-quick-actions ltr-text" role="group" aria-label="Quick actions">
                                     <button type="button" class="action-pill" @click.stop="copyAyah(item.ayah)"
@@ -2711,9 +2708,9 @@
                                 </button>
                                 </div>
                             </div>
-                            <div class="row card-teal mb-3 py-2 ayah-inline-controls">
+                            <div class="row card-teal mb-3 py-2 ayah-inline-controls ayah-inline-controls--compact">
                                 <div class="col text-center ayah-inline-control-item">
-                                    <button class="icon-btn ayah-inline-btn ayah-inline-btn--font-down" @click="decreaseFontSize" aria-label="Decrease font size"
+                                    <button class="icon-btn ayah-inline-btn ayah-inline-btn--font-down" @click.stop.prevent="decreaseFontSize" aria-label="Decrease font size"
                                         title="Decrease Font Size">
                                         <i class="bi bi-dash-circle-fill ayah-inline-icon"
                                             aria-hidden="true"></i>
@@ -2721,7 +2718,7 @@
                                     </button>
                                 </div>
                                 <div class="col text-center ayah-inline-control-item">
-                                    <button class="icon-btn ayah-inline-btn ayah-inline-btn--font-up" @click="increaseFontSize" aria-label="Increase font size"
+                                    <button class="icon-btn ayah-inline-btn ayah-inline-btn--font-up" @click.stop.prevent="increaseFontSize" aria-label="Increase font size"
                                         title="Increase Font Size">
                                         <i class="bi bi-plus-circle-fill ayah-inline-icon"
                                             aria-hidden="true"></i>
@@ -2729,7 +2726,7 @@
                                     </button>
                                 </div>
                                 <div class="col text-center ayah-inline-control-item">
-                                    <button class="icon-btn ayah-inline-btn ayah-inline-btn--rewind" @click="rewindAudio(item.index)"
+                                    <button class="icon-btn ayah-inline-btn ayah-inline-btn--rewind" @click.stop.prevent="rewindAudio(item.index)"
                                         aria-label="Rewind 15 seconds" title="Rewind">
                                         <i class="bi bi-skip-backward-circle-fill ayah-inline-icon"
                                             aria-hidden="true"></i>
@@ -2739,7 +2736,7 @@
                                 <div class="col text-center ayah-inline-control-item">
                                     <button class="icon-btn ayah-inline-btn ayah-inline-btn--play" :class="{
                                         'is-active': isAudioPlaying[item.index],
-                                    }" @click="toggleAudioPlayer(item.index)" :aria-label="isAudioPlaying[item.index]
+                                    }" @click.stop.prevent="toggleAudioPlayer(item.index)" :aria-label="isAudioPlaying[item.index]
                                         ? 'Pause ayah ' + (item.index + 1)
                                         : 'Play ayah ' + (item.index + 1)
                                         " :title="isAudioPlaying[item.index]
@@ -2757,7 +2754,7 @@
                                     </button>
                                 </div>
                                 <div class="col text-center ayah-inline-control-item">
-                                    <button class="icon-btn ayah-inline-btn ayah-inline-btn--forward" @click="fastForwardAudio(item.index)"
+                                    <button class="icon-btn ayah-inline-btn ayah-inline-btn--forward" @click.stop.prevent="fastForwardAudio(item.index)"
                                         aria-label="Fast forward 20 seconds" title="Fast Forward">
                                         <i class="bi bi-skip-forward-circle-fill ayah-inline-icon"
                                             aria-hidden="true"></i>
@@ -2949,6 +2946,7 @@
                                         class="btn translation-compare-collapse-btn"
                                         :aria-expanded="translationCompareInlineCollapsed ? 'false' : 'true'"
                                         :aria-label="translationCompareInlineCollapsed ? 'Show highlight and tools' : 'Hide highlight and tools'"
+                                        aria-controls="translationCompareInlineTools"
                                         @click="toggleTranslationCompareInlineCollapsed">
                                         <i
                                             class="bi"
@@ -3044,7 +3042,10 @@
                                     </label>
                                 </div>
 
-                                <div v-show="!translationCompareInlineCollapsed" class="translation-compare-inline-row">
+                                <div
+                                    id="translationCompareInlineTools"
+                                    v-show="!translationCompareInlineCollapsed"
+                                    class="translation-compare-inline-row">
                                     <div class="translation-compare-highlight-row">
                                         <label class="translation-compare-field translation-compare-highlight-field">
                                             <div class="translation-compare-field-head">
@@ -3118,7 +3119,7 @@
                                         dir="rtl"
                                         v-html="highlightedText(translationCompareCurrentAyah)"
                                         @click="onTranslationCompareWordClick"
-                                        :style="{ fontSize: effectiveArabicFontSize + 'px' }"></p>
+                                        :style="`font-size: ${effectiveArabicFontSize}px !important;`"></p>
                                     <p
                                         v-if="showWordTranslation"
                                         class="translation-compare-interlinear-note mb-0">
@@ -3149,7 +3150,7 @@
                                         <p
                                             class="translation-compare-text mb-0"
                                             v-html="column.html"
-                                            :style="{ fontSize: effectiveAyahBodyFontSize + 'px' }"></p>
+                                            :style="`font-size: ${effectiveAyahBodyFontSize}px !important;`"></p>
                                     </article>
                                 </section>
                             </div>
@@ -3162,10 +3163,10 @@
                                         :disabled="translationCompareAyahNumber <= 1"
                                         @click="stepTranslationCompareAyah(-1)">
                                         <i class="bi bi-chevron-left" aria-hidden="true"></i>
-                                        <span>Previous</span>
+                                        <span>Prev</span>
                                     </button>
                                     <div class="translation-compare-pagination-counter" aria-live="polite">
-                                        Ayah {{ translationCompareAyahNumber }} of {{ Math.max(translationCompareTotalAyahs, 1) }}
+                                        {{ translationCompareAyahNumber }} / {{ Math.max(translationCompareTotalAyahs, 1) }}
                                     </div>
                                     <button
                                         type="button"

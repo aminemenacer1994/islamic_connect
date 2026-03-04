@@ -10639,24 +10639,54 @@ export default {
             }
         },
         rewindAudio: function (index) {
-            if (this.audioElements[index]) {
-                console.log(`Rewinding audio for ayah ${index + 1}`);
-                this.audioElements[index].currentTime = Math.max(
-                    0,
-                    this.audioElements[index].currentTime - 15
-                );
-                // removed auto-scroll on rewind
-            }
+            const targetIndex = this.resolveSeekAudioIndex(index);
+            if (targetIndex < 0 || !this.audioElements[targetIndex]) return;
+            console.log(`Rewinding audio for ayah ${targetIndex + 1}`);
+            this.audioElements[targetIndex].currentTime = Math.max(
+                0,
+                this.audioElements[targetIndex].currentTime - 15
+            );
+            this.updateProgress(targetIndex);
+            // removed auto-scroll on rewind
         },
         fastForwardAudio: function (index) {
-            if (this.audioElements[index]) {
-                console.log(`Fast forwarding audio for ayah ${index + 1}`);
-                this.audioElements[index].currentTime = Math.min(
-                    this.audioElements[index].duration,
-                    this.audioElements[index].currentTime + 20
-                );
-                // removed auto-scroll on fast-forward
+            const targetIndex = this.resolveSeekAudioIndex(index);
+            if (targetIndex < 0 || !this.audioElements[targetIndex]) return;
+            console.log(`Fast forwarding audio for ayah ${targetIndex + 1}`);
+            const duration = Number(this.audioElements[targetIndex].duration) || 0;
+            this.audioElements[targetIndex].currentTime = Math.min(
+                duration > 0 ? duration : this.audioElements[targetIndex].currentTime + 20,
+                this.audioElements[targetIndex].currentTime + 20
+            );
+            this.updateProgress(targetIndex);
+            // removed auto-scroll on fast-forward
+        },
+        resolveSeekAudioIndex(index) {
+            const requestedIndex = Number(index);
+            if (
+                Number.isInteger(requestedIndex) &&
+                requestedIndex >= 0 &&
+                this.audioElements[requestedIndex]
+            ) {
+                return requestedIndex;
             }
+            const activeIndex = Number(this.currentAudioIndex);
+            if (
+                Number.isInteger(activeIndex) &&
+                activeIndex >= 0 &&
+                this.audioElements[activeIndex]
+            ) {
+                return activeIndex;
+            }
+            const playingIndex = Number(this.currentlyPlayingIndex);
+            if (
+                Number.isInteger(playingIndex) &&
+                playingIndex >= 0 &&
+                this.audioElements[playingIndex]
+            ) {
+                return playingIndex;
+            }
+            return -1;
         },
         // Prepare next audio element to reduce start latency on next ayah
         prepareNextAudio(nextIndex) {
