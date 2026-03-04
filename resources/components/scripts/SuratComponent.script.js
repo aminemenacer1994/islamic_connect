@@ -569,7 +569,7 @@ export default {
             translationCompareSecondaryTranslation: "",
             translationCompareHighlightQuery: "",
             translationCompareMaxSelections: 2,
-            translationCompareControlsCollapsed: false,
+            translationCompareInlineCollapsed: false,
             translationCompareLoading: false,
             translationCompareError: "",
             translationCompareEditionCache: {},
@@ -2092,80 +2092,6 @@ export default {
             );
             return ayahs[index] || null;
         },
-        translationCompareNearbyAyahs() {
-            const total = Number(this.translationCompareTotalAyahs || 0);
-            if (!total) return [];
-            const current = Math.min(
-                total,
-                Math.max(1, Number(this.translationCompareAyahNumber || 1))
-            );
-            const start = Math.max(1, current - 2);
-            const end = Math.min(total, current + 2);
-            const items = [];
-            for (let ayahNumber = start; ayahNumber <= end; ayahNumber += 1) {
-                items.push(ayahNumber);
-            }
-            return items;
-        },
-        translationComparePrimaryTranslationObject() {
-            const target = String(this.translationComparePrimaryTranslation || "");
-            if (!target) return null;
-            return (
-                this.translationCompareSelectedTranslationObjects.find(
-                    (item) => String(item?.identifier || "") === target
-                ) || null
-            );
-        },
-        translationCompareSecondaryTranslationObject() {
-            const target = String(this.translationCompareSecondaryTranslation || "");
-            if (!target) return null;
-            return (
-                this.translationCompareSelectedTranslationObjects.find(
-                    (item) => String(item?.identifier || "") === target
-                ) || null
-            );
-        },
-        translationCompareTranslatorChips() {
-            const fallbackMeta = {
-                typeLabel: "Modern",
-                typeClass: "is-modern",
-                readingLevel: "General",
-            };
-            const chips = [];
-            const primary = this.translationComparePrimaryTranslationObject;
-            const secondary = this.translationCompareSecondaryTranslationObject;
-            if (primary) {
-                const meta =
-                    this.getTranslationCompareTranslatorMeta(primary) ||
-                    fallbackMeta;
-                chips.push({
-                    key: `a:${primary.identifier}`,
-                    slotLabel: "A",
-                    name: primary.englishName || "Translation A",
-                    typeLabel: meta.typeLabel,
-                    readingLevel: meta.readingLevel,
-                    typeClass: meta.typeClass,
-                });
-            }
-            if (
-                secondary &&
-                String(secondary.identifier || "") !==
-                    String(primary?.identifier || "")
-            ) {
-                const meta =
-                    this.getTranslationCompareTranslatorMeta(secondary) ||
-                    fallbackMeta;
-                chips.push({
-                    key: `b:${secondary.identifier}`,
-                    slotLabel: "B",
-                    name: secondary.englishName || "Translation B",
-                    typeLabel: meta.typeLabel,
-                    readingLevel: meta.readingLevel,
-                    typeClass: meta.typeClass,
-                });
-            }
-            return chips;
-        },
         translationCompareDisplayColumns() {
             const selected = Array.isArray(
                 this.translationCompareSelectedTranslationObjects
@@ -2187,19 +2113,9 @@ export default {
                 const id = String(translation?.identifier || "");
                 const variant = index === 0 ? "a" : "b";
                 const text = String(textById.get(id) || "");
-                const meta =
-                    this.getTranslationCompareTranslatorMeta(translation) || {
-                        typeLabel: "Modern",
-                        typeClass: "is-modern",
-                        philosophy: "Contemporary, reader-friendly phrasing",
-                        readingLevel: "General",
-                        perspective: "Broad mainstream audience",
-                    };
                 return {
                     translation,
                     variant,
-                    meta,
-                    typeClass: meta.typeClass,
                     matchCount: this.getTranslationCompareMatchCount(text),
                     html: this.renderTranslationCompareText(text, variant),
                 };
@@ -3833,71 +3749,9 @@ export default {
                     "Some selected translations are temporarily unavailable.";
             }
         },
-        toggleTranslationCompareControlsCollapsed() {
-            this.translationCompareControlsCollapsed =
-                !this.translationCompareControlsCollapsed;
-        },
-        resolveTranslationCompareTranslation(translationInput) {
-            if (!translationInput) return null;
-            if (typeof translationInput === "object") return translationInput;
-            const target = String(translationInput || "");
-            if (!target) return null;
-            return (
-                this.englishTranslationsSorted.find(
-                    (item) => String(item?.identifier || "") === target
-                ) || null
-            );
-        },
-        getTranslationCompareTranslatorMeta(translationInput) {
-            const translation = this.resolveTranslationCompareTranslation(
-                translationInput
-            );
-            const identifier = String(
-                translation?.identifier || translationInput || ""
-            ).toLowerCase();
-            const englishName = String(translation?.englishName || "").toLowerCase();
-            if (!identifier && !englishName) return null;
-
-            const traditionalProfile = {
-                typeLabel: "Traditional",
-                typeClass: "is-traditional",
-                philosophy: "Closer-to-literal with classical diction",
-                readingLevel: "Advanced",
-                perspective: "Traditional Sunni-oriented wording",
-            };
-            const academicProfile = {
-                typeLabel: "Academic",
-                typeClass: "is-academic",
-                philosophy: "Contextual, analytical wording choices",
-                readingLevel: "Intermediate-Advanced",
-                perspective: "Comparative and academic framing",
-            };
-            const modernProfile = {
-                typeLabel: "Modern",
-                typeClass: "is-modern",
-                philosophy: "Contemporary, reader-friendly phrasing",
-                readingLevel: "General",
-                perspective: "Broad mainstream audience",
-            };
-
-            if (
-                identifier.includes("pickthall") ||
-                identifier.includes("yusufali") ||
-                identifier.includes("ahmedali") ||
-                englishName.includes("pickthall") ||
-                englishName.includes("yusuf") ||
-                englishName.includes("ahmed ali")
-            ) {
-                return traditionalProfile;
-            }
-            if (
-                identifier.includes("asad") ||
-                identifier.includes("qaribullah") ||
-                englishName.includes("asad")
-            ) {
-                return academicProfile;
-            }
-            return modernProfile;
+        toggleTranslationCompareInlineCollapsed() {
+            this.translationCompareInlineCollapsed =
+                !this.translationCompareInlineCollapsed;
         },
         getTranslationCompareText(translationId, ayahNumber) {
             const identifier = String(translationId || "");
@@ -4070,38 +3924,6 @@ export default {
                 this.translationCompareCurrentAyah ||
                 null;
             return Number(contextAyah?.numberInSurah || contextAyah?.number || 1);
-        },
-        async openComparedAyahInReader() {
-            const surahNumber = Number(
-                this.translationCompareSurahNumber || this.selectedSurah || 1
-            );
-            const ayahNumber = Number(this.translationCompareAyahNumber || 1);
-            try {
-                if (String(this.selectedSurah) !== String(surahNumber)) {
-                    await this.selectSurah(String(surahNumber), {
-                        skipScroll: true,
-                    });
-                }
-                this.navigateToAyahNumber(ayahNumber, {
-                    clearMainFilter: true,
-                    precise: true,
-                });
-                const index = this.resolveAyahIndexByNumber(ayahNumber);
-                if (index >= 0) {
-                    this.selectCard(index);
-                }
-                const modalEl = document.getElementById(this.translationCompareModalId);
-                if (modalEl) {
-                    this.translationCompareModalInstance =
-                        this.translationCompareModalInstance ||
-                        Modal.getInstance(modalEl) ||
-                        new Modal(modalEl);
-                    this.translationCompareModalInstance.hide();
-                }
-            } catch (_) {
-                this.translationCompareError =
-                    "Unable to open this ayah in reader right now.";
-            }
         },
         async prepareTranslationCompareModal(options = {}) {
             const { useReaderContext = false } = options;

@@ -2939,138 +2939,112 @@
                             tabindex="0"
                             @keydown.left.prevent="stepTranslationCompareAyah(-1)"
                             @keydown.right.prevent="stepTranslationCompareAyah(1)">
-                            <div class="translation-compare-sticky-tools">
-                                <div class="translation-compare-sticky-head">
-                                    <div class="translation-compare-sticky-title-wrap">
-                                        <h5 class="translation-compare-sticky-title mb-0">Compare workspace</h5>
-                                        <div class="translation-compare-sticky-meta" role="status" aria-live="polite">
-                                            Surah {{ translationCompareSurahNumber }} · Ayah {{ translationCompareAyahNumber }} / {{ Math.max(translationCompareTotalAyahs, 1) }}
-                                        </div>
+                            <section class="translation-compare-controls">
+                                <div class="translation-compare-controls-head">
+                                    <div class="translation-compare-controls-meta" role="status" aria-live="polite">
+                                        Surah {{ translationCompareSurahNumber }} · Ayah {{ translationCompareAyahNumber }} / {{ Math.max(translationCompareTotalAyahs, 1) }}
                                     </div>
                                     <button
                                         type="button"
                                         class="btn translation-compare-collapse-btn"
-                                        :aria-expanded="translationCompareControlsCollapsed ? 'false' : 'true'"
-                                        :aria-label="translationCompareControlsCollapsed ? 'Expand controls panel' : 'Collapse controls panel'"
-                                        @click="toggleTranslationCompareControlsCollapsed">
+                                        :aria-expanded="translationCompareInlineCollapsed ? 'false' : 'true'"
+                                        :aria-label="translationCompareInlineCollapsed ? 'Show highlight and tools' : 'Hide highlight and tools'"
+                                        @click="toggleTranslationCompareInlineCollapsed">
                                         <i
                                             class="bi"
-                                            :class="translationCompareControlsCollapsed ? 'bi-chevron-down' : 'bi-chevron-up'"
+                                            :class="translationCompareInlineCollapsed ? 'bi-chevron-down' : 'bi-chevron-up'"
                                             aria-hidden="true"></i>
                                     </button>
                                 </div>
+                                <div class="translation-compare-compact-grid">
+                                    <label class="translation-compare-field">
+                                        <span>Surah</span>
+                                        <select
+                                            class="form-select translation-compare-select"
+                                            v-model.number="translationCompareSurahNumber"
+                                            @change="applyTranslationCompareSurahSelection"
+                                            aria-label="Select surah for translation comparison">
+                                            <option
+                                                v-for="surah in surahs"
+                                                :key="`compare-surah-${surah.number}`"
+                                                :value="Number(surah.number)">
+                                                {{ surah.number }}. {{ surah.englishName }}
+                                            </option>
+                                        </select>
+                                    </label>
 
-                                <div
-                                    v-if="translationCompareTranslatorChips.length"
-                                    class="translation-compare-translator-strip">
-                                    <article
-                                        v-for="chip in translationCompareTranslatorChips"
-                                        :key="`translator-chip-${chip.key}`"
-                                        class="translation-compare-translator-chip"
-                                        :class="chip.typeClass">
-                                        <span class="translation-compare-chip-slot">{{ chip.slotLabel }}</span>
-                                        <div class="translation-compare-chip-copy">
-                                            <p class="translation-compare-chip-name mb-0">{{ chip.name }}</p>
-                                            <p class="translation-compare-chip-meta mb-0">
-                                                {{ chip.typeLabel }} · {{ chip.readingLevel }}
-                                            </p>
+                                    <label class="translation-compare-field">
+                                        <span>Ayah</span>
+                                        <div class="translation-compare-field-row">
+                                            <button
+                                                type="button"
+                                                class="btn translation-compare-nav-btn"
+                                                @click="stepTranslationCompareAyah(-1)"
+                                                :disabled="translationCompareAyahNumber <= 1"
+                                                aria-label="Go to previous ayah">
+                                                <i class="bi bi-chevron-left" aria-hidden="true"></i>
+                                            </button>
+                                            <input
+                                                type="number"
+                                                class="form-control translation-compare-ayah-input"
+                                                :value="translationCompareAyahNumber"
+                                                :min="1"
+                                                :max="Math.max(translationCompareTotalAyahs, 1)"
+                                                @change="onTranslationCompareAyahInputChange"
+                                                aria-label="Ayah number for comparison" />
+                                            <button
+                                                type="button"
+                                                class="btn translation-compare-nav-btn"
+                                                @click="stepTranslationCompareAyah(1)"
+                                                :disabled="translationCompareAyahNumber >= translationCompareTotalAyahs"
+                                                aria-label="Go to next ayah">
+                                                <i class="bi bi-chevron-right" aria-hidden="true"></i>
+                                            </button>
                                         </div>
-                                    </article>
+                                    </label>
+
+                                    <label class="translation-compare-field">
+                                        <span>Translation A</span>
+                                        <select
+                                            class="form-select translation-compare-select"
+                                            v-model="translationComparePrimaryTranslation"
+                                            @change="onTranslationComparePrimaryChange"
+                                            aria-label="Select first translation">
+                                            <option
+                                                v-for="translation in englishTranslationsSorted"
+                                                :key="`compare-primary-${translation.identifier}`"
+                                                :value="translation.identifier"
+                                                :disabled="
+                                                    translation.identifier === translationCompareSecondaryTranslation &&
+                                                    translation.identifier !== translationComparePrimaryTranslation
+                                                ">
+                                                {{ translation.englishName }}
+                                            </option>
+                                        </select>
+                                    </label>
+
+                                    <label class="translation-compare-field">
+                                        <span>Translation B</span>
+                                        <select
+                                            class="form-select translation-compare-select"
+                                            v-model="translationCompareSecondaryTranslation"
+                                            @change="onTranslationCompareSecondaryChange"
+                                            aria-label="Select second translation">
+                                            <option
+                                                v-for="translation in englishTranslationsSorted"
+                                                :key="`compare-secondary-${translation.identifier}`"
+                                                :value="translation.identifier"
+                                                :disabled="
+                                                    translation.identifier === translationComparePrimaryTranslation &&
+                                                    translation.identifier !== translationCompareSecondaryTranslation
+                                                ">
+                                                {{ translation.englishName }}
+                                            </option>
+                                        </select>
+                                    </label>
                                 </div>
 
-                                <div v-show="!translationCompareControlsCollapsed" class="translation-compare-controls-body">
-                                    <div class="translation-compare-compact-grid">
-                                        <label class="translation-compare-field">
-                                            <span>Surah</span>
-                                            <select
-                                                class="form-select translation-compare-select"
-                                                v-model.number="translationCompareSurahNumber"
-                                                @change="applyTranslationCompareSurahSelection"
-                                                aria-label="Select surah for translation comparison">
-                                                <option
-                                                    v-for="surah in surahs"
-                                                    :key="`compare-surah-${surah.number}`"
-                                                    :value="Number(surah.number)">
-                                                    {{ surah.number }}. {{ surah.englishName }}
-                                                </option>
-                                            </select>
-                                        </label>
-
-                                        <label class="translation-compare-field">
-                                            <span>Ayah</span>
-                                            <div class="translation-compare-field-row">
-                                                <button
-                                                    type="button"
-                                                    class="btn translation-compare-nav-btn"
-                                                    @click="stepTranslationCompareAyah(-1)"
-                                                    :disabled="translationCompareAyahNumber <= 1"
-                                                    aria-label="Go to previous ayah">
-                                                    <i class="bi bi-chevron-left" aria-hidden="true"></i>
-                                                </button>
-                                                <input
-                                                    type="number"
-                                                    class="form-control translation-compare-ayah-input"
-                                                    :value="translationCompareAyahNumber"
-                                                    :min="1"
-                                                    :max="Math.max(translationCompareTotalAyahs, 1)"
-                                                    @change="onTranslationCompareAyahInputChange"
-                                                    aria-label="Ayah number for comparison" />
-                                                <button
-                                                    type="button"
-                                                    class="btn translation-compare-nav-btn"
-                                                    @click="stepTranslationCompareAyah(1)"
-                                                    :disabled="translationCompareAyahNumber >= translationCompareTotalAyahs"
-                                                    aria-label="Go to next ayah">
-                                                    <i class="bi bi-chevron-right" aria-hidden="true"></i>
-                                                </button>
-                                            </div>
-                                        </label>
-
-                                        <label class="translation-compare-field">
-                                            <div class="translation-compare-field-head">
-                                                <span>Translation A</span>
-                                            </div>
-                                            <select
-                                                class="form-select translation-compare-select"
-                                                v-model="translationComparePrimaryTranslation"
-                                                @change="onTranslationComparePrimaryChange"
-                                                aria-label="Select first translation">
-                                                <option
-                                                    v-for="translation in englishTranslationsSorted"
-                                                    :key="`compare-primary-${translation.identifier}`"
-                                                    :value="translation.identifier"
-                                                    :disabled="
-                                                        translation.identifier === translationCompareSecondaryTranslation &&
-                                                        translation.identifier !== translationComparePrimaryTranslation
-                                                    ">
-                                                    {{ translation.englishName }}
-                                                </option>
-                                            </select>
-                                        </label>
-
-                                        <label class="translation-compare-field">
-                                            <div class="translation-compare-field-head">
-                                                <span>Translation B</span>
-                                            </div>
-                                            <select
-                                                class="form-select translation-compare-select"
-                                                v-model="translationCompareSecondaryTranslation"
-                                                @change="onTranslationCompareSecondaryChange"
-                                                aria-label="Select second translation">
-                                                <option
-                                                    v-for="translation in englishTranslationsSorted"
-                                                    :key="`compare-secondary-${translation.identifier}`"
-                                                    :value="translation.identifier"
-                                                    :disabled="
-                                                        translation.identifier === translationComparePrimaryTranslation &&
-                                                        translation.identifier !== translationCompareSecondaryTranslation
-                                                    ">
-                                                    {{ translation.englishName }}
-                                                </option>
-                                            </select>
-                                        </label>
-                                    </div>
-
+                                <div v-show="!translationCompareInlineCollapsed" class="translation-compare-inline-row">
                                     <div class="translation-compare-highlight-row">
                                         <label class="translation-compare-field translation-compare-highlight-field">
                                             <div class="translation-compare-field-head">
@@ -3101,44 +3075,34 @@
                                         </label>
                                     </div>
 
-                                    <div class="translation-compare-inline-actions-wrap">
-                                        <p class="translation-compare-inline-actions-title mb-0">Reader tools</p>
-                                        <div class="translation-compare-inline-actions">
-                                            <button
-                                                type="button"
-                                                class="btn translation-compare-open-reader-btn"
-                                                @click="openComparedAyahInReader">
-                                                <i class="bi bi-box-arrow-up-right me-1" aria-hidden="true"></i>
-                                                Open in reader
-                                            </button>
-                                            <button
-                                                type="button"
-                                                class="btn translation-compare-tool-btn"
-                                                :class="{ 'is-enabled': showTajweed }"
-                                                @click="showTajweed = !showTajweed">
-                                                <i class="bi bi-palette-fill" aria-hidden="true"></i>
-                                                <span>Tajweed</span>
-                                            </button>
-                                            <button
-                                                type="button"
-                                                class="btn translation-compare-tool-btn"
-                                                :class="{ 'is-enabled': showWordTranslation }"
-                                                @click="showWordTranslation = !showWordTranslation">
-                                                <i class="bi bi-translate" aria-hidden="true"></i>
-                                                <span>Word meanings</span>
-                                            </button>
-                                            <button
-                                                type="button"
-                                                class="btn translation-compare-tool-btn"
-                                                :class="{ 'is-enabled': showWordTranslationTooltip }"
-                                                @click="toggleWordAudioMode">
-                                                <i class="bi bi-volume-up-fill" aria-hidden="true"></i>
-                                                <span>Word tap audio</span>
-                                            </button>
-                                        </div>
+                                    <div class="translation-compare-tools-row" role="group" aria-label="Reader tools">
+                                        <button
+                                            type="button"
+                                            class="btn translation-compare-tool-btn"
+                                            :class="{ 'is-enabled': showTajweed }"
+                                            @click="showTajweed = !showTajweed">
+                                            <i class="bi bi-palette-fill" aria-hidden="true"></i>
+                                            <span>Tajweed</span>
+                                        </button>
+                                        <button
+                                            type="button"
+                                            class="btn translation-compare-tool-btn"
+                                            :class="{ 'is-enabled': showWordTranslation }"
+                                            @click="showWordTranslation = !showWordTranslation">
+                                            <i class="bi bi-translate" aria-hidden="true"></i>
+                                            <span>Word meanings</span>
+                                        </button>
+                                        <button
+                                            type="button"
+                                            class="btn translation-compare-tool-btn"
+                                            :class="{ 'is-enabled': showWordTranslationTooltip }"
+                                            @click="toggleWordAudioMode">
+                                            <i class="bi bi-volume-up-fill" aria-hidden="true"></i>
+                                            <span>Word tap audio</span>
+                                        </button>
                                     </div>
                                 </div>
-                            </div>
+                            </section>
 
                             <div v-if="translationCompareError" class="alert alert-warning translation-compare-alert" role="status">
                                 {{ translationCompareError }}
@@ -3170,19 +3134,11 @@
                                         v-for="column in translationCompareDisplayColumns"
                                         :key="`translation-col-${column.translation.identifier}`"
                                         class="translation-compare-card"
-                                        :class="[
-                                            `is-${column.variant}`,
-                                            column.typeClass
-                                        ]">
+                                        :class="`is-${column.variant}`">
                                         <div class="translation-compare-card-head">
                                             <div class="translation-compare-card-head-copy">
                                                 <h6 class="mb-0">{{ column.translation.englishName }}</h6>
                                                 <p class="translation-compare-card-subtitle mb-0">{{ column.translation.identifier }}</p>
-                                            </div>
-                                            <div class="translation-compare-card-head-actions">
-                                                <span class="translation-compare-type-pill" :class="column.typeClass">
-                                                    {{ column.meta.typeLabel }}
-                                                </span>
                                             </div>
                                         </div>
                                         <p
@@ -3199,55 +3155,26 @@
                             </div>
 
                             <div class="translation-compare-pagination-wrap" role="group" aria-label="Ayah pagination">
-                                <p class="translation-compare-pagination-label mb-0">Quick ayah navigation</p>
-                                <div class="translation-compare-pagination-row">
-                                    <div class="translation-compare-pagination-group">
-                                        <button
-                                            type="button"
-                                            class="btn translation-compare-pagination-btn"
-                                            :disabled="translationCompareAyahNumber <= 1"
-                                            @click="setTranslationCompareAyahNumber(1)">
-                                            <i class="bi bi-chevron-bar-left" aria-hidden="true"></i>
-                                            <span>First</span>
-                                        </button>
-                                        <button
-                                            type="button"
-                                            class="btn translation-compare-pagination-btn"
-                                            :disabled="translationCompareAyahNumber <= 1"
-                                            @click="stepTranslationCompareAyah(-1)">
-                                            <i class="bi bi-chevron-left" aria-hidden="true"></i>
-                                            <span>Prev</span>
-                                        </button>
+                                <div class="translation-compare-simple-pagination">
+                                    <button
+                                        type="button"
+                                        class="btn translation-compare-pagination-btn"
+                                        :disabled="translationCompareAyahNumber <= 1"
+                                        @click="stepTranslationCompareAyah(-1)">
+                                        <i class="bi bi-chevron-left" aria-hidden="true"></i>
+                                        <span>Previous</span>
+                                    </button>
+                                    <div class="translation-compare-pagination-counter" aria-live="polite">
+                                        Ayah {{ translationCompareAyahNumber }} of {{ Math.max(translationCompareTotalAyahs, 1) }}
                                     </div>
-                                    <div class="translation-compare-pagination-numbers">
-                                        <button
-                                            v-for="ayahNumber in translationCompareNearbyAyahs"
-                                            :key="`compare-nearby-${ayahNumber}`"
-                                            type="button"
-                                            class="btn translation-compare-pagination-btn translation-compare-pagination-btn-number"
-                                            :class="{ 'is-active': ayahNumber === translationCompareAyahNumber }"
-                                            @click="setTranslationCompareAyahNumber(ayahNumber)">
-                                            {{ ayahNumber }}
-                                        </button>
-                                    </div>
-                                    <div class="translation-compare-pagination-group">
-                                        <button
-                                            type="button"
-                                            class="btn translation-compare-pagination-btn"
-                                            :disabled="translationCompareAyahNumber >= translationCompareTotalAyahs"
-                                            @click="stepTranslationCompareAyah(1)">
-                                            <span>Next</span>
-                                            <i class="bi bi-chevron-right" aria-hidden="true"></i>
-                                        </button>
-                                        <button
-                                            type="button"
-                                            class="btn translation-compare-pagination-btn"
-                                            :disabled="translationCompareAyahNumber >= translationCompareTotalAyahs"
-                                            @click="setTranslationCompareAyahNumber(translationCompareTotalAyahs)">
-                                            <span>Last</span>
-                                            <i class="bi bi-chevron-bar-right" aria-hidden="true"></i>
-                                        </button>
-                                    </div>
+                                    <button
+                                        type="button"
+                                        class="btn translation-compare-pagination-btn"
+                                        :disabled="translationCompareAyahNumber >= translationCompareTotalAyahs"
+                                        @click="stepTranslationCompareAyah(1)">
+                                        <span>Next</span>
+                                        <i class="bi bi-chevron-right" aria-hidden="true"></i>
+                                    </button>
                                 </div>
                             </div>
 
