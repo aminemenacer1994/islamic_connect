@@ -48,20 +48,13 @@
     <div v-show="visible" class="resources-body">
       <div class="resources-intro">
         <div class="resources-intro-text">
-          <p class="resource-lead mb-0">Primary sources, classical texts, and modern tools for this chapter.</p>
+          <p class="resource-lead mb-0">Foundational references and practical tools for this chapter.</p>
           <p v-if="globalSearchActive" class="resource-filter-note mb-0">
             Showing matches for "<span class="resource-filter-term">{{ resourceSearchTerm }}</span>".
           </p>
           <p class="resource-entry-hint text-muted small mb-0">
             Tap the clipboard icon next to any entry to copy the reference or resource detail for quick notes.
           </p>
-        </div>
-        <div v-if="resourceSectionsWithKeys.length" class="resource-meta">
-          <span class="resource-meta-pill">
-            {{ resourceSectionsWithKeys.length }}
-            {{ resourceSectionsWithKeys.length === 1 ? 'collection' : 'collections' }}
-          </span>
-          <span class="resource-meta-pill">Curated references</span>
         </div>
       </div>
       <div
@@ -74,7 +67,7 @@
           class="resource-section-card"
         >
           <div class="resource-section-header">
-            <h4 class="resource-section-title" v-html="highlightResourceText(section.title)"></h4>
+            <h4 class="resource-section-title" v-html="highlightResourceText(section.displayTitle || section.title)"></h4>
             <button
               type="button"
               class="section-toggle-btn"

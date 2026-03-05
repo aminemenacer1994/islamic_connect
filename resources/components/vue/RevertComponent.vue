@@ -167,7 +167,6 @@
             :completed-chapters="completedChapters"
             :total-chapters="totalChapters"
             :max-step-reached="maxStepReached"
-            @continue-path="scrollToGlobalSearchSection('Learning Paths')"
             @open-help="openHelpModal"
           />
 
@@ -348,17 +347,6 @@
                 </div>
               </div>
               <div class="overview-actions d-flex align-items-center gap-2 flex-wrap">
-                <button
-                  type="button"
-                  class="btn btn-outline-teal btn-sm"
-                  :class="{ marked: isCurrentLessonOverviewRead }"
-                  @click="toggleLessonOverviewRead"
-                  :aria-pressed="isCurrentLessonOverviewRead"
-                  :aria-label="isCurrentLessonOverviewRead ? 'Unmark lesson overview as read' : 'Mark lesson overview as read'"
-                >
-                  <i class="bi" :class="isCurrentLessonOverviewRead ? 'bi-bookmark-x' : 'bi-bookmark'"></i>
-                  <span>{{ isCurrentLessonOverviewRead ? 'Unmark read' : 'Mark as read' }}</span>
-                </button>
                 <div class="lesson-focus-actions">
                   <span class="header-action" role="button" tabindex="0" @click="shareLessonOverview">
                     <i class="bi bi-whatsapp fs-5"></i>
@@ -549,48 +537,52 @@
             class="content-card onboarding-card mb-4 rounded-5 shadow-lg section-typography"
             :style="sectionFontStyle('guidedPathway')"
           >
-            <div class="d-flex align-items-center justify-content-between flex-wrap gap-3 p-3">
-              <div class="d-flex align-items-start gap-3">
-                <span class="card-header-icon">
-                  <i class="bi bi-controller"></i>
-                </span>
-                <div>
-                  <p class="text-teal small mb-1 fw-bold flex-grow-1">Guided Pathway</p>
-                  <h3 class="mb-1 fs-4 fw-bold">Short clips to carry the lesson forward</h3>
-                  <p class="text-muted small mb-0">Pair a quick clip with your streak to keep the learning playful.</p>
+            <div class="guided-pathway-header p-3">
+              <div class="guided-pathway-header-top d-flex align-items-start justify-content-between flex-wrap gap-3">
+                <div class="d-flex align-items-start gap-3 flex-grow-1 min-width-0">
+                  <span class="card-header-icon">
+                    <i class="bi bi-controller"></i>
+                  </span>
+                  <div class="guided-pathway-heading-text flex-grow-1 min-width-0">
+                    <p class="text-teal small mb-1 fw-bold">Guided Pathway</p>
+                    <h3 class="mb-0 fs-4 fw-bold">Short clips to carry the lesson forward</h3>
+                  </div>
+                </div>
+                <div class="section-font-controls guided-pathway-controls" role="group" aria-label="Guided pathway font size">
+                  <button
+                    type="button"
+                    class="section-font-btn"
+                    :disabled="isSectionFontMin('guidedPathway')"
+                    @click="decreaseSectionFont('guidedPathway')"
+                    aria-label="Decrease guided pathway font size"
+                  >
+                    A-
+                  </button>
+                  <button
+                    type="button"
+                    class="section-font-btn"
+                    :disabled="isSectionFontMax('guidedPathway')"
+                    @click="increaseSectionFont('guidedPathway')"
+                    aria-label="Increase guided pathway font size"
+                  >
+                    A+
+                  </button>
+                  <button
+                    type="button"
+                    class="section-toggle-btn card-toggle-btn ms-auto"
+                    @click="toggleCardVisibility('pathwayClips')"
+                    :aria-expanded="isCardVisible('pathwayClips')"
+                    :aria-label="isCardVisible('pathwayClips') ? 'Collapse pathway clips' : 'Expand pathway clips'">
+                    <i class="bi" :class="isCardVisible('pathwayClips') ? 'bi-dash-lg' : 'bi-plus-lg'"></i>
+                  </button>
                 </div>
               </div>
-              <div class="section-font-controls" role="group" aria-label="Guided pathway font size">
-                <button
-                  type="button"
-                  class="section-font-btn"
-                  :disabled="isSectionFontMin('guidedPathway')"
-                  @click="decreaseSectionFont('guidedPathway')"
-                  aria-label="Decrease guided pathway font size"
-                >
-                  A-
-                </button>
-                <button
-                  type="button"
-                  class="section-font-btn"
-                  :disabled="isSectionFontMax('guidedPathway')"
-                  @click="increaseSectionFont('guidedPathway')"
-                  aria-label="Increase guided pathway font size"
-                >
-                  A+
-                </button>
-                <button
-                  type="button"
-                  class="section-toggle-btn card-toggle-btn ms-auto"
-                  @click="toggleCardVisibility('pathwayClips')"
-                  :aria-expanded="isCardVisible('pathwayClips')"
-                  :aria-label="isCardVisible('pathwayClips') ? 'Collapse pathway clips' : 'Expand pathway clips'">
-                  <i class="bi" :class="isCardVisible('pathwayClips') ? 'bi-dash-lg' : 'bi-plus-lg'"></i>
-                </button>
-              </div>
+              <p class="text-muted small mb-0 w-100 guided-pathway-desc">
+                Pair a quick clip with your streak to keep the learning playful.
+              </p>
             </div>
 
-            <div id="pathway-clips-section" class=" animated-fade-slide mb-4 rounded-4 ">
+            <div id="pathway-clips-section" class="animated-fade-slide mb-4 rounded-4">
               <div class="card-header d-flex align-items-center gap-3">
                 <span class="card-header-icon">
                   <i class="bi bi-film"></i>
@@ -964,14 +956,8 @@
               </div>
               
             </div>
-          </div>
+            </div>
             <div v-show="isCardVisible('keyInsights')" class="card-body px-3 px-md-4 py-4">
-              <div class="insight-hero mb-3">
-                <strong class="text-dark d-block mb-1">Carry these sparks into your day</strong>
-                <p class="text-muted small mb-0">
-                  Pick the insight that feels timely and let it guide your next pause, prayer, or action.
-                </p>
-              </div>
             <div class="insight-grid-wrapper">
               <div class="insight-grid">
                   <article v-for="(insight, index) in insightsToShow" :key="`${insight}-${index}`" class="insight-card">
@@ -1327,7 +1313,7 @@
           />
 
           <!-- NAVIGATION BUTTONS -->
-          <div class="actions-card animated-fade-in">
+          <div class="actions-card">
             <div
               class="p-4 p-md-3 d-flex flex-column flex-md-row flex-wrap align-items-center justify-content-between gap-3">
 
@@ -1369,361 +1355,363 @@
       </button>
     </transition>
 
-      <div v-if="showSearchInfoModal">
-        <div class="modal-backdrop fade show custom-modal-backdrop" @click="closeSearchInfoModal"></div>
-        <div class="modal fade show d-block custom-modal-scale" tabindex="-1" role="dialog" aria-modal="true">
-          <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
-            <div ref="searchInfoModalContent" class="modal-content rounded-4 shadow-lg custom-modal-card search-info-modal">
-              <div class="modal-header border-0 pt-4 px-4">
-                <h5 class="modal-title fw-bold">About global search</h5>
-                <button type="button" class="btn-close" aria-label="Close" @click="closeSearchInfoModal"></button>
-              </div>
-              <div class="modal-body px-4 py-3">
-                <p class="search-info-lead">
-                  Global search scans the entire chapter so you can find a concept, reference, or story in seconds.
-                </p>
-                <ul class="search-info-list">
-                  <li class="search-info-card">
-                    <div class="search-info-card-title">
-                      <i class="fas fa-layer-group search-info-icon" aria-hidden="true"></i>
-                      Search coverage
-                    </div>
-                    <p class="search-info-card-text">
-                      Lesson summaries, learning paths, key insights, duas, stories, resources, and questions.
-                    </p>
-                  </li>
-                  <li class="search-info-card">
-                    <div class="search-info-card-title">
-                      <i class="fas fa-quote-left search-info-icon" aria-hidden="true"></i>
-                      Phrase matching
-                    </div>
-                    <p class="search-info-card-text">
-                      Use quotes for exact phrases, like "tawheed foundation".
-                    </p>
-                  </li>
-                  <li class="search-info-card">
-                    <div class="search-info-card-title">
-                      <i class="fas fa-filter search-info-icon" aria-hidden="true"></i>
-                      Category filter
-                    </div>
-                    <p class="search-info-card-text">
-                      Narrow results by category without leaving the search panel.
-                    </p>
-                  </li>
-                  <li class="search-info-card">
-                    <div class="search-info-card-title">
-                      <i class="fas fa-location-arrow search-info-icon" aria-hidden="true"></i>
-                      Jump to results
-                    </div>
-                    <p class="search-info-card-text">
-                      Click any result to jump directly to that section on the page.
-                    </p>
-                  </li>
-                  <li class="search-info-card">
-                    <div class="search-info-card-title">
-                      <i class="fas fa-highlighter search-info-icon" aria-hidden="true"></i>
-                      Highlighting
-                    </div>
-                    <p class="search-info-card-text">
-                      Colored highlights show exactly where your terms appear.
-                    </p>
-                  </li>
-                </ul>
-              </div>
-              <div class="modal-footer border-top px-4 py-3">
-                <button type="button" class="btn btn-teal px-4" @click="closeSearchInfoModal">
-                  Got it
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div v-if="showResourceModal">
-        <div class="modal-backdrop fade show custom-modal-backdrop"></div>
-        <div class="modal fade show d-block custom-modal-scale" tabindex="-1" role="dialog" aria-modal="true">
-          <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
-            <div ref="resourceModalContent" class="modal-content rounded-4 shadow-lg custom-modal-card">
-              <div class="modal-header border-0 pt-4 px-4">
-                <h5 class="modal-title fw-bold">{{ activeResource?.title }}</h5>
-              </div>
-              <div class="modal-body px-4 py-3">
-              
-                
-              </div>
-              <div class="modal-footer border-top px-4 py-3 flex-column flex-md-row gap-3">
-                
-                <div v-if="resourceCopyStatus" class="text-success small">
-                  {{ resourceCopyStatus }}
+      <teleport to="body">
+        <div v-if="showSearchInfoModal">
+          <div class="modal-backdrop fade show custom-modal-backdrop" @click="closeSearchInfoModal"></div>
+          <div class="modal fade show d-block custom-modal-scale" tabindex="-1" role="dialog" aria-modal="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+              <div ref="searchInfoModalContent" class="modal-content rounded-4 shadow-lg custom-modal-card search-info-modal">
+                <div class="modal-header border-0 pt-4 px-4">
+                  <h5 class="modal-title fw-bold">About global search</h5>
+                  <button type="button" class="btn-close" aria-label="Close" @click="closeSearchInfoModal"></button>
                 </div>
-                <div class="d-flex gap-2">
-                  <button type="button" class="btn btn-outline-dark px-4" @click="copyResourceLink">
-                    <i class="bi bi-link-45deg"></i>
-                    Copy Link
-                  </button>
-                  <button type="button" class="btn btn-teal px-4" @click="closeResourceModal">
-                    Close
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div v-if="showVideoModal">
-        <div class="modal-backdrop fade show custom-modal-backdrop"></div>
-        <div class="modal fade show d-block custom-modal-scale" tabindex="-1" role="dialog" aria-modal="true">
-          <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
-            <div ref="videoModalContent" class="modal-content rounded-4 shadow-lg custom-modal-card">
-              <div class="modal-header border-0 pt-4 px-4">
-                <h5 class="modal-title fw-bold">All Revert Stories</h5>
-                <button
-                  v-if="hasStoryFilters"
-                  type="button"
-                  class="btn btn-sm btn-outline-dark ms-auto d-flex align-items-center gap-2"
-                  @click="toggleVideoFilters"
-                  :aria-pressed="showVideoFilters"
-                  :aria-label="showVideoFilters ? 'Hide story filters' : 'Show story filters'">
-                  <i class="bi" :class="showVideoFilters ? 'bi-eye-slash' : 'bi-eye'"></i>
-                  <span class="d-none d-sm-inline">{{ showVideoFilters ? 'Hide filters' : 'Show filters' }}</span>
-                </button>
-              </div>
-              <div class="modal-body px-4 py-3">
-                <div v-if="hasStoryFilters" class="mb-3 video-modal-filters" v-show="showVideoFilters">
-                  <div class="filter-grid">
-                    <div class="filter-column">
-                      <label class="filter-label">Search stories</label>
-                      <input
-                        type="text"
-                        class="form-control form-control-sm"
-                        placeholder="Search by title or theme"
-                        v-model="videoSearchTerm"
-                      />
-                    </div>
-                    <div class="filter-column">
-                      <label class="filter-label">Duration</label>
-                      <select class="form-select form-select-sm" v-model="videoDurationFilter">
-                        <option v-for="option in durationFilters" :key="option.value" :value="option.value">
-                          {{ option.label }}
-                        </option>
-                      </select>
-                    </div>
-                    <div class="filter-column">
-                      <label class="filter-label">Gender</label>
-                      <select class="form-select form-select-sm" v-model="videoGenderFilter">
-                        <option v-for="option in genderFilters" :key="option.value" :value="option.value">
-                          {{ option.label }}
-                        </option>
-                      </select>
-                    </div>
-                    <div class="filter-column">
-                      <label class="filter-label">Background</label>
-                      <select class="form-select form-select-sm" v-model="videoBackgroundFilter">
-                        <option v-for="option in backgroundFilterOptions" :key="option.value" :value="option.value">
-                          {{ option.label }}
-                        </option>
-                      </select>
-                    </div>
-                  </div>
-                  <p v-if="!filteredRevertStories.length" class="filter-empty text-muted small mt-2 mb-0">
-                    No stories match those filters yet. Try resetting or broadening your search.
+                <div class="modal-body px-4 py-3">
+                  <p class="search-info-lead">
+                    Global search scans the entire chapter so you can find a concept, reference, or story in seconds.
                   </p>
+                  <ul class="search-info-list">
+                    <li class="search-info-card">
+                      <div class="search-info-card-title">
+                        <i class="fas fa-layer-group search-info-icon" aria-hidden="true"></i>
+                        Search coverage
+                      </div>
+                      <p class="search-info-card-text">
+                        Lesson summaries, learning paths, key insights, duas, stories, resources, and questions.
+                      </p>
+                    </li>
+                    <li class="search-info-card">
+                      <div class="search-info-card-title">
+                        <i class="fas fa-quote-left search-info-icon" aria-hidden="true"></i>
+                        Phrase matching
+                      </div>
+                      <p class="search-info-card-text">
+                        Use quotes for exact phrases, like "tawheed foundation".
+                      </p>
+                    </li>
+                    <li class="search-info-card">
+                      <div class="search-info-card-title">
+                        <i class="fas fa-filter search-info-icon" aria-hidden="true"></i>
+                        Category filter
+                      </div>
+                      <p class="search-info-card-text">
+                        Narrow results by category without leaving the search panel.
+                      </p>
+                    </li>
+                    <li class="search-info-card">
+                      <div class="search-info-card-title">
+                        <i class="fas fa-location-arrow search-info-icon" aria-hidden="true"></i>
+                        Jump to results
+                      </div>
+                      <p class="search-info-card-text">
+                        Click any result to jump directly to that section on the page.
+                      </p>
+                    </li>
+                    <li class="search-info-card">
+                      <div class="search-info-card-title">
+                        <i class="fas fa-highlighter search-info-icon" aria-hidden="true"></i>
+                        Highlighting
+                      </div>
+                      <p class="search-info-card-text">
+                        Colored highlights show exactly where your terms appear.
+                      </p>
+                    </li>
+                  </ul>
                 </div>
-                <div class="row g-3 video-grid-row">
-                  <div v-for="video in filteredRevertStories" :key="'modal-' + video.title" class="col-12 col-md-6">
-                    <article
-                      class="video-card shadow-sm overflow-hidden h-100"
-                      @mouseenter="startPreview(video)"
-                      @mouseleave="stopPreview"
-                      @click="handleVideoCardClick(video)"
-                      @touchstart.stop.prevent="handleVideoCardTouch(video)">
-                      <div class="video-card-media">
-                        <div
-                          v-if="isPlayingVideo(video) || isVideoPreviewing(video)"
+                <div class="modal-footer border-top px-4 py-3">
+                  <button type="button" class="btn btn-teal px-4" @click="closeSearchInfoModal">
+                    Got it
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div v-if="showResourceModal">
+          <div class="modal-backdrop fade show custom-modal-backdrop"></div>
+          <div class="modal fade show d-block custom-modal-scale" tabindex="-1" role="dialog" aria-modal="true">
+            <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+              <div ref="resourceModalContent" class="modal-content rounded-4 shadow-lg custom-modal-card">
+                <div class="modal-header border-0 pt-4 px-4">
+                  <h5 class="modal-title fw-bold">{{ activeResource?.title }}</h5>
+                </div>
+                <div class="modal-body px-4 py-3">
+                
+                  
+                </div>
+                <div class="modal-footer border-top px-4 py-3 flex-column flex-md-row gap-3">
+                  
+                  <div v-if="resourceCopyStatus" class="text-success small">
+                    {{ resourceCopyStatus }}
+                  </div>
+                  <div class="d-flex gap-2">
+                    <button type="button" class="btn btn-outline-dark px-4" @click="copyResourceLink">
+                      <i class="bi bi-link-45deg"></i>
+                      Copy Link
+                    </button>
+                    <button type="button" class="btn btn-teal px-4" @click="closeResourceModal">
+                      Close
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div v-if="showVideoModal">
+          <div class="modal-backdrop fade show custom-modal-backdrop"></div>
+          <div class="modal fade show d-block custom-modal-scale" tabindex="-1" role="dialog" aria-modal="true">
+            <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+              <div ref="videoModalContent" class="modal-content rounded-4 shadow-lg custom-modal-card">
+                <div class="modal-header border-0 pt-4 px-4">
+                  <h5 class="modal-title fw-bold">All Revert Stories</h5>
+                  <button
+                    v-if="hasStoryFilters"
+                    type="button"
+                    class="btn btn-sm btn-outline-dark ms-auto d-flex align-items-center gap-2"
+                    @click="toggleVideoFilters"
+                    :aria-pressed="showVideoFilters"
+                    :aria-label="showVideoFilters ? 'Hide story filters' : 'Show story filters'">
+                    <i class="bi" :class="showVideoFilters ? 'bi-eye-slash' : 'bi-eye'"></i>
+                    <span class="d-none d-sm-inline">{{ showVideoFilters ? 'Hide filters' : 'Show filters' }}</span>
+                  </button>
+                </div>
+                <div class="modal-body px-4 py-3">
+                  <div v-if="hasStoryFilters" class="mb-3 video-modal-filters" v-show="showVideoFilters">
+                    <div class="filter-grid">
+                      <div class="filter-column">
+                        <label class="filter-label">Search stories</label>
+                        <input
+                          type="text"
+                          class="form-control form-control-sm"
+                          placeholder="Search by title or theme"
+                          v-model="videoSearchTerm"
+                        />
+                      </div>
+                      <div class="filter-column">
+                        <label class="filter-label">Duration</label>
+                        <select class="form-select form-select-sm" v-model="videoDurationFilter">
+                          <option v-for="option in durationFilters" :key="option.value" :value="option.value">
+                            {{ option.label }}
+                          </option>
+                        </select>
+                      </div>
+                      <div class="filter-column">
+                        <label class="filter-label">Gender</label>
+                        <select class="form-select form-select-sm" v-model="videoGenderFilter">
+                          <option v-for="option in genderFilters" :key="option.value" :value="option.value">
+                            {{ option.label }}
+                          </option>
+                        </select>
+                      </div>
+                      <div class="filter-column">
+                        <label class="filter-label">Background</label>
+                        <select class="form-select form-select-sm" v-model="videoBackgroundFilter">
+                          <option v-for="option in backgroundFilterOptions" :key="option.value" :value="option.value">
+                            {{ option.label }}
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+                    <p v-if="!filteredRevertStories.length" class="filter-empty text-muted small mt-2 mb-0">
+                      No stories match those filters yet. Try resetting or broadening your search.
+                    </p>
+                  </div>
+                  <div class="row g-3 video-grid-row modal-video-grid">
+                    <div v-for="video in filteredRevertStories" :key="'modal-' + video.title" class="col-12 col-md-6">
+                      <article
+                        class="video-card shadow-sm overflow-hidden h-100"
+                        @mouseenter="startPreview(video)"
+                        @mouseleave="stopPreview"
+                        @click="handleVideoCardClick(video)"
+                        @touchstart.stop.prevent="handleVideoCardTouch(video)">
+                        <div class="video-card-media">
+                          <div
+                            v-if="isPlayingVideo(video) || isVideoPreviewing(video)"
+                            class="video-feature"
+                            :style="thumbnailStyle(video)">
+                            <iframe
+                              :src="formatVideoUrl(
+                                video.url,
+                                isPlayingVideo(video) || shouldAutoplayVideo(),
+                                isVideoPreviewing(video) || (!shouldAutoplayVideo() && isPlayingVideo(video))
+                              )"
+                              :title="video.title"
+                              frameborder="0"
+                              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                              allowfullscreen
+                              loading="lazy">
+                            </iframe>
+                          </div>
+                          <div
+                            v-else
                           class="video-feature"
                           :style="thumbnailStyle(video)">
-                          <iframe
-                            :src="formatVideoUrl(
-                              video.url,
-                              isPlayingVideo(video) || shouldAutoplayVideo(),
-                              isVideoPreviewing(video) || (!shouldAutoplayVideo() && isPlayingVideo(video))
-                            )"
-                            :title="video.title"
-                            frameborder="0"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                            allowfullscreen
-                            loading="lazy">
-                          </iframe>
-                        </div>
-                        <div
-                          v-else
-                        class="video-feature"
-                        :style="thumbnailStyle(video)">
-                          <div class="video-feature-overlay">
-                            <div class="video-feature-text">
-                              <p class="video-feature-label">Revert story</p>
-                              <h3 class="video-feature-title">{{ video.title }}</h3>
-                              <p v-if="video.description" class="video-feature-subtitle">{{ video.description }}</p>
-                              <p v-if="video.duration" class="video-feature-duration">Duration: {{ video.duration }}</p>
+                            <div class="video-feature-overlay">
+                              <div class="video-feature-text">
+                                <p class="video-feature-label">Revert story</p>
+                                <h3 class="video-feature-title">{{ video.title }}</h3>
+                                <p v-if="video.description" class="video-feature-subtitle">{{ video.description }}</p>
+                                <p v-if="video.duration" class="video-feature-duration">Duration: {{ video.duration }}</p>
+                              </div>
                             </div>
                           </div>
                         </div>
-                      </div>
-                      <div class="video-card-caption px-3 py-2">
-                        <div v-if="videoTags(video).length" class="video-card-tags mb-0">
-                          <span v-for="tag in videoTags(video)" :key="tag + '-modal'" class="video-tag-badge">{{ tag }}</span>
+                        <div class="video-card-caption px-3 py-2">
+                          <div v-if="videoTags(video).length" class="video-card-tags mb-0">
+                            <span v-for="tag in videoTags(video)" :key="tag + '-modal'" class="video-tag-badge">{{ tag }}</span>
+                          </div>
                         </div>
-                      </div>
-                    </article>
+                      </article>
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer border-top px-4 py-3 flex-column flex-md-row gap-3">
+                  <div class="d-flex gap-2 ms-auto">
+                    <button type="button" class="btn btn-outline-dark px-4" @click="closeVideoModal">
+                      Close
+                    </button>
                   </div>
                 </div>
               </div>
-              <div class="modal-footer border-top px-4 py-3 flex-column flex-md-row gap-3">
-                <div class="d-flex gap-2 ms-auto">
-                  <button type="button" class="btn btn-outline-dark px-4" @click="closeVideoModal">
-                    Close
-                  </button>
-                </div>
-              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div v-if="showHelpModal">
-        <div class="modal-backdrop fade show custom-modal-backdrop"></div>
-        <div class="modal fade show d-block custom-modal-scale" tabindex="-1" role="dialog" aria-modal="true">
-          <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
-            <div ref="helpModalContent" class="modal-content rounded-4 shadow-lg custom-modal-card">
-              <div class="modal-header border-0 pt-4 px-4">
-                <div>
-                  <h5 class="modal-title fw-bold mb-1">Reverts Corner Guide</h5>
-                  <p class="text-muted small mb-0">A quick walkthrough of how this page keeps your reflections grounded.</p>
-                </div>
-                <button type="button" class="btn-close" aria-label="Close guide" @click="closeHelpModal"></button>
-              </div>
-              <div class="modal-body px-4 pb-4">
-                <div v-for="(step, index) in helpGuideSteps" :key="step.title" class="guide-step-card">
-                  <div class="guide-step-index">Step {{ index + 1 }}</div>
-                  <h6 class="fw-semibold mb-1">{{ step.title }}</h6>
-                  <p class="text-muted mb-0">{{ step.description }}</p>
-                </div>
-              </div>
-              <div class="modal-footer border-0 px-4 pb-4 pt-2">
-                <button type="button" class="btn btn-teal px-4" @click="closeHelpModal">Got it</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div v-if="showCompletionModal">
-        <div class="modal-backdrop fade show custom-modal-backdrop"></div>
-        <div class="modal fade show d-block custom-modal-scale" tabindex="-1" role="dialog" aria-modal="true">
-          <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
-            <div ref="completionModalContent" class="modal-content rounded-4 shadow-lg custom-modal-card completion-modal-card">
-              <div class="modal-header completion-modal-header px-4 pt-4 pb-3">
-                <div class="completion-header-left">
-                  <span class="completion-icon">
-                    <i class="fas fa-star-and-crescent completion-header-icon"></i>
-                  </span>
+        <div v-if="showHelpModal">
+          <div class="modal-backdrop fade show custom-modal-backdrop"></div>
+          <div class="modal fade show d-block custom-modal-scale" tabindex="-1" role="dialog" aria-modal="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+              <div ref="helpModalContent" class="modal-content rounded-4 shadow-lg custom-modal-card">
+                <div class="modal-header border-0 pt-4 px-4">
                   <div>
-                    <p class="completion-label mb-1">Milestone</p>
-                    <h5 class="modal-title fw-bold mb-0">Beginner Path Complete</h5>
+                    <h5 class="modal-title fw-bold mb-1">Reverts Corner Guide</h5>
+                    <p class="text-muted small mb-0">A quick walkthrough of how this page keeps your reflections grounded.</p>
+                  </div>
+                  <button type="button" class="btn-close" aria-label="Close guide" @click="closeHelpModal"></button>
+                </div>
+                <div class="modal-body px-4 pb-4">
+                  <div v-for="(step, index) in helpGuideSteps" :key="step.title" class="guide-step-card">
+                    <div class="guide-step-index">Step {{ index + 1 }}</div>
+                    <h6 class="fw-semibold mb-1">{{ step.title }}</h6>
+                    <p class="text-muted mb-0">{{ step.description }}</p>
                   </div>
                 </div>
-                <button type="button" class="btn-close" aria-label="Close" @click="closeCompletionModal"></button>
-              </div>
-              <div class="modal-body completion-modal-body px-4 pb-4 pt-0">
-                <p class="completion-lead mb-2">Alhamdulillah, you've completed the Beginner path (15 chapters).</p>
-                <p class="completion-note mb-3">
-                  May Allah bless your effort, increase your knowledge, and keep your heart steady. When you are ready, choose
-                  the option that feels right to unlock the next stages. No pressure, your intention matters.
-                </p>
-                <div class="completion-divider"></div>
-                <div class="completion-options">
-                  <div class="completion-option">
-                    <div class="completion-option-text">
-                      <p class="completion-option-title d-flex align-items-center gap-2">
-                        <i class="fas fa-layer-group completion-option-icon"></i>
-                        Unlock Intermediate (15 chapters)
-                      </p>
-                      <p class="completion-option-desc">
-                        One-time £0.80 to open the Intermediate level and continue your journey.
-                      </p>
-                    </div>
-                    <a
-                      :href="intermediateUnlockStripeUrl"
-                      class="btn completion-primary-btn d-inline-flex align-items-center gap-2"
-                      target="_blank"
-                      rel="noopener">
-                      <i class="fas fa-unlock"></i>
-                      Unlock Intermediate • £0.80
-                    </a>
-                  </div>
-                  <div class="completion-option">
-                    <div class="completion-option-text">
-                      <p class="completion-option-title d-flex align-items-center gap-2">
-                        <i class="fas fa-crown completion-option-icon"></i>
-                        Unlock Intermediate + Advanced
-                      </p>
-                      <p class="completion-option-desc">
-                        One-time £1.30 to unlock both 15-chapter sections together.
-                      </p>
-                    </div>
-                    <a
-                      :href="intermediateAdvancedBundleStripeUrl"
-                      class="btn completion-secondary-btn d-inline-flex align-items-center gap-2"
-                      target="_blank"
-                      rel="noopener">
-                      <i class="fas fa-unlock"></i>
-                      Unlock Both • £1.30
-                    </a>
-                  </div>
-                  <div class="completion-option">
-                    <div class="completion-option-text">
-                      <p class="completion-option-title d-flex align-items-center gap-2">
-                        <i class="fas fa-wallet completion-option-icon"></i>
-                        Pay what you can
-                      </p>
-                      <p class="completion-option-desc">
-                        If those amounts are not easy today, choose any amount. Allah knows your intention.
-                      </p>
-                    </div>
-                    <a
-                      :href="nextPhaseFlexibleStripeUrl"
-                      class="btn completion-secondary-btn d-inline-flex align-items-center gap-2"
-                      target="_blank"
-                      rel="noopener">
-                      <i class="fas fa-coins"></i>
-                      Choose an amount
-                    </a>
-                  </div>
-                  <div class="completion-option">
-                    <div class="completion-option-text">
-                      <p class="completion-option-title d-flex align-items-center gap-2">
-                        <i class="fas fa-heart completion-option-icon"></i>
-                        Give a donation
-                      </p>
-                      <p class="completion-option-desc">
-                        Support the work with sadaqah so more learners can benefit.
-                      </p>
-                    </div>
-                    <a
-                      :href="donationStripeUrl"
-                      class="btn completion-ghost-btn d-inline-flex align-items-center gap-2"
-                      target="_blank"
-                      rel="noopener">
-                      <i class="fas fa-hand-holding-heart"></i>
-                      Give a donation
-                    </a>
-                  </div>
+                <div class="modal-footer border-0 px-4 pb-4 pt-2">
+                  <button type="button" class="btn btn-teal px-4" @click="closeHelpModal">Got it</button>
                 </div>
-                <p class="completion-footnote mb-0">Secure checkout via Stripe. May Allah reward your sincerity.</p>
               </div>
             </div>
           </div>
         </div>
-      </div>
+        <div v-if="showCompletionModal">
+          <div class="modal-backdrop fade show custom-modal-backdrop"></div>
+          <div class="modal fade show d-block custom-modal-scale" tabindex="-1" role="dialog" aria-modal="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+              <div ref="completionModalContent" class="modal-content rounded-4 shadow-lg custom-modal-card completion-modal-card">
+                <div class="modal-header completion-modal-header px-4 pt-4 pb-3">
+                  <div class="completion-header-left">
+                    <span class="completion-icon">
+                      <i class="fas fa-star-and-crescent completion-header-icon"></i>
+                    </span>
+                    <div>
+                      <p class="completion-label mb-1">Milestone</p>
+                      <h5 class="modal-title fw-bold mb-0">Beginner Path Complete</h5>
+                    </div>
+                  </div>
+                  <button type="button" class="btn-close" aria-label="Close" @click="closeCompletionModal"></button>
+                </div>
+                <div class="modal-body completion-modal-body px-4 pb-4 pt-0">
+                  <p class="completion-lead mb-2">Alhamdulillah, you've completed the Beginner path (15 chapters).</p>
+                  <p class="completion-note mb-3">
+                    May Allah bless your effort, increase your knowledge, and keep your heart steady. When you are ready, choose
+                    the option that feels right to unlock the next stages. No pressure, your intention matters.
+                  </p>
+                  <div class="completion-divider"></div>
+                  <div class="completion-options">
+                    <div class="completion-option">
+                      <div class="completion-option-text">
+                        <p class="completion-option-title d-flex align-items-center gap-2">
+                          <i class="fas fa-layer-group completion-option-icon"></i>
+                          Unlock Intermediate (15 chapters)
+                        </p>
+                        <p class="completion-option-desc">
+                          One-time £0.80 to open the Intermediate level and continue your journey.
+                        </p>
+                      </div>
+                      <a
+                        :href="intermediateUnlockStripeUrl"
+                        class="btn completion-primary-btn d-inline-flex align-items-center gap-2"
+                        target="_blank"
+                        rel="noopener">
+                        <i class="fas fa-unlock"></i>
+                        Unlock Intermediate • £0.80
+                      </a>
+                    </div>
+                    <div class="completion-option">
+                      <div class="completion-option-text">
+                        <p class="completion-option-title d-flex align-items-center gap-2">
+                          <i class="fas fa-crown completion-option-icon"></i>
+                          Unlock Intermediate + Advanced
+                        </p>
+                        <p class="completion-option-desc">
+                          One-time £1.30 to unlock both 15-chapter sections together.
+                        </p>
+                      </div>
+                      <a
+                        :href="intermediateAdvancedBundleStripeUrl"
+                        class="btn completion-secondary-btn d-inline-flex align-items-center gap-2"
+                        target="_blank"
+                        rel="noopener">
+                        <i class="fas fa-unlock"></i>
+                        Unlock Both • £1.30
+                      </a>
+                    </div>
+                    <div class="completion-option">
+                      <div class="completion-option-text">
+                        <p class="completion-option-title d-flex align-items-center gap-2">
+                          <i class="fas fa-wallet completion-option-icon"></i>
+                          Pay what you can
+                        </p>
+                        <p class="completion-option-desc">
+                          If those amounts are not easy today, choose any amount. Allah knows your intention.
+                        </p>
+                      </div>
+                      <a
+                        :href="nextPhaseFlexibleStripeUrl"
+                        class="btn completion-secondary-btn d-inline-flex align-items-center gap-2"
+                        target="_blank"
+                        rel="noopener">
+                        <i class="fas fa-coins"></i>
+                        Choose an amount
+                      </a>
+                    </div>
+                    <div class="completion-option">
+                      <div class="completion-option-text">
+                        <p class="completion-option-title d-flex align-items-center gap-2">
+                          <i class="fas fa-heart completion-option-icon"></i>
+                          Give a donation
+                        </p>
+                        <p class="completion-option-desc">
+                          Support the work with sadaqah so more learners can benefit.
+                        </p>
+                      </div>
+                      <a
+                        :href="donationStripeUrl"
+                        class="btn completion-ghost-btn d-inline-flex align-items-center gap-2"
+                        target="_blank"
+                        rel="noopener">
+                        <i class="fas fa-hand-holding-heart"></i>
+                        Give a donation
+                      </a>
+                    </div>
+                  </div>
+                  <p class="completion-footnote mb-0">Secure checkout via Stripe. May Allah reward your sincerity.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </teleport>
     </div>
 </template>
 

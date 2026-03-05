@@ -12,9 +12,13 @@
         <h1 class="fw-bold text-white text-start text-md-left mb-2">
           {{ title || 'Revert Journey' }}
         </h1>
-        <p class="text-white-50 mb-0">
-          {{ summary || 'Build your path chapter by chapter with guided lessons and practical support.' }}
-        </p>
+        <div class="row g-0">
+          <div class="col-12 w-100">
+            <p class="text-white-50 mb-0">
+              {{ summary || 'Build your path chapter by chapter with guided lessons and practical support.' }}
+            </p>
+          </div>
+        </div>
         <div class="lesson-hero-meta mt-3">
           <span class="hero-meta-chip">
             <i class="bi bi-graph-up-arrow"></i>
@@ -28,16 +32,6 @@
             <i class="bi bi-stars"></i>
             Current unlock: Chapter {{ maxStepReached }}
           </span>
-        </div>
-        <div class="lesson-hero-actions mt-3">
-          <button
-            type="button"
-            class="hero-resume-btn"
-            @click="$emit('continue-path')"
-          >
-            <i class="bi bi-compass-fill"></i>
-            Continue where you left off
-          </button>
         </div>
       </div>
       <button
@@ -86,6 +80,6 @@ export default {
       default: 1
     }
   },
-  emits: ['continue-path', 'open-help']
+  emits: ['open-help']
 }
 </script>

@@ -78,10 +78,12 @@
 
 .custom-modal-backdrop {
   backdrop-filter: blur(8px);
+  z-index: 2050 !important;
 }
 
 .custom-modal-scale {
   animation: modalEntrance 0.4s ease-out;
+  z-index: 2060 !important;
 }
 
 .custom-modal-card {

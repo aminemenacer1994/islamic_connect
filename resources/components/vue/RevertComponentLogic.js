@@ -95,7 +95,11 @@ const BACKGROUND_TAG_PRIORITY = ['Ex-Christian', 'Family Struggle', 'Faith Journ
 const FEMALE_KEYWORDS = ['she', 'her', 'woman', 'women', 'sister', 'mom', 'mother', 'girl', 'lady', 'daughter', 'female']
 const MALE_KEYWORDS = ['he', 'his', 'man', 'men', 'brother', 'dad', 'father', 'boy', 'guy', 'husband', 'male']
 
-const RESOURCE_SECTION_TITLES = ['Primary Sources', 'Classical Texts', 'Modern Resources']
+const RESOURCE_SECTION_TITLES = ['Primary Sources']
+const HIDDEN_RESOURCE_SECTION_TITLES = new Set(['classical texts', 'modern resources'])
+const RESOURCE_SECTION_TITLE_LABELS = {
+  'Primary Sources': 'Foundational References'
+}
 const RESOURCE_HIGHLIGHT_CLASSES = [
   'highlight-0',
   'highlight-1',
@@ -531,7 +535,7 @@ export default defineComponent({
       lessonDepartmentsCache: {},
       homeworkVisibleCount: 4,
       faqDisplayLimit: 4,
-      commonFaqDisplayLimit: 4,
+      commonFaqDisplayLimit: 5,
       reduceMotionEnabled: false,
       motionMediaQuery: null,
       motionMediaListener: null,
@@ -600,8 +604,12 @@ export default defineComponent({
       const base = this.currentChapterResources
       if (!base) return null
       const sections = Array.isArray(base.sections) ? base.sections : []
-      const sectionMap = new Map(sections.map(section => [section.title, section]))
-      const normalizedSections = [...sections]
+      const visibleSections = sections.filter((section) => {
+        const normalizedTitle = String(section?.title || '').trim().toLowerCase()
+        return !HIDDEN_RESOURCE_SECTION_TITLES.has(normalizedTitle)
+      })
+      const sectionMap = new Map(visibleSections.map(section => [section.title, section]))
+      const normalizedSections = [...visibleSections]
       RESOURCE_SECTION_TITLES.forEach((title) => {
         if (sectionMap.has(title)) return
         normalizedSections.push({
@@ -696,6 +704,7 @@ export default defineComponent({
       const sections = Array.isArray(layout.sections) ? layout.sections : []
       return sections.map((section, index) => ({
         ...section,
+        displayTitle: RESOURCE_SECTION_TITLE_LABELS[section.title] || section.title,
         toggleKey: this.sectionToggleId('resource', section, index)
       }))
     },
@@ -1319,7 +1328,7 @@ export default defineComponent({
       this.activeVideoId = null
       this.homeworkVisibleCount = 4
       this.faqDisplayLimit = 4
-      this.commonFaqDisplayLimit = 4
+      this.commonFaqDisplayLimit = 5
       this.sectionVisibility = {}
       this.cardVisibility = {}
       this.prepareSecondarySections()
