@@ -123,6 +123,18 @@
       </div>
     </section>
 
+    <section class="ic-section ic-section--surface" aria-labelledby="assistant-heading">
+      <div class="container ic-shell">
+        <div class="section-intro text-center">
+          <h2 id="assistant-heading" class="section-title">Ask Noor on the Homepage</h2>
+          <p class="section-lead">
+            Ask Quran and Hadith questions directly here with references from QuranEnc and HadeethEnc.
+          </p>
+        </div>
+        <ai-component></ai-component>
+      </div>
+    </section>
+
     <section class="ic-section" aria-labelledby="community-heading">
       <div class="container ic-shell">
         <article class="ic-community">

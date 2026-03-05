@@ -381,7 +381,7 @@
                         </li>
 
                         <li class="nav-item mt-2">
-                            <a class="nav-link ml-3 pt-2 pl-3" href="/digital-library" data-path="/digital-library" data-nav-item="primary"><b>Digital Library</b></a>
+                            <a class="nav-link ml-3 pt-2 pl-3" href="/digital-library" data-path="/digital-library" data-nav-item="primary"><b>Content Library</b></a>
                         </li>
 
                         <li class="nav-item mt-2">
@@ -668,6 +668,7 @@
                 '/streaming': '/media',
                 '/radio': '/media',
                 '/gallery': '/media',
+                '/ai': '/media',
                 '/video': '/media',
                 // Knowledge (user-specified)
                 '/knowledge': '/knowledge',

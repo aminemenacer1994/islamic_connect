@@ -349,6 +349,7 @@ Route::get('/history', [HistoryController::class, 'index'])->name('history');
 Route::get('/read', [ReadController::class, 'index'])->name('read');
 Route::get('/media', [MediaController::class, 'index'])->name('media');
 Route::get('/gallery', action: [AiController::class, 'index'])->name('gallery');
+Route::get('/ai', action: [AiController::class, 'index'])->name('ai');
 Route::post('/ai/chat', action: [AiController::class, 'chat'])->name('ai.chat');
 Route::get('/shared/folders/{token}', [SharedFolderController::class, 'publicView'])->name('shared.folders.view');
 Route::get('/api/shared/folders/{token}', [SharedFolderController::class, 'show'])->name('shared.folders.api');

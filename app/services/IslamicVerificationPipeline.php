@@ -406,19 +406,19 @@ class IslamicVerificationPipeline
                     continue;
                 }
 
-                $english = trim((string) (
+                $english = $this->normalizeExternalTextValue(
                     Arr::get($row, 'english')
                     ?? Arr::get($row, 'text')
                     ?? Arr::get($row, 'text_en')
                     ?? Arr::get($row, 'hadithEnglish')
                     ?? ''
-                ));
-                $arabic = trim((string) (
+                );
+                $arabic = $this->normalizeExternalTextValue(
                     Arr::get($row, 'arabic')
                     ?? Arr::get($row, 'text_ar')
                     ?? Arr::get($row, 'hadithArabic')
                     ?? ''
-                ));
+                );
                 $text = $english !== '' ? $english : $arabic;
                 if ($text === '') {
                     continue;
@@ -435,13 +435,13 @@ class IslamicVerificationPipeline
                     continue;
                 }
 
-                $number = trim((string) (
+                $number = $this->normalizeExternalTextValue(
                     Arr::get($row, 'hadith_number')
                     ?? Arr::get($row, 'hadithnumber')
                     ?? Arr::get($row, 'number')
                     ?? Arr::get($row, 'id')
                     ?? ''
-                ));
+                );
                 $label = ucfirst($collection) . ($number !== '' ? " Hadith {$number}" : ' Hadith');
                 $urlRef = $number !== '' ? "https://sunnah.com/{$collection}:{$number}" : null;
 
@@ -547,22 +547,22 @@ class IslamicVerificationPipeline
 
             $normalized = [];
             foreach (array_slice($candidates, 0, 5) as $entry) {
-                $text = trim((string) (
+                $text = $this->normalizeExternalTextValue(
                     Arr::get($entry, 'text')
                     ?? Arr::get($entry, 'body')
                     ?? Arr::get($entry, 'hadith.0.body')
                     ?? Arr::get($entry, 'hadith.0.text')
-                ));
+                );
                 if ($text === '') {
                     continue;
                 }
 
-                $collection = strtolower((string) (
+                $collection = strtolower($this->normalizeExternalTextValue(
                     Arr::get($entry, 'collection')
                     ?? Arr::get($entry, 'bookSlug')
                     ?? 'bukhari'
                 ));
-                $number = (string) (
+                $number = $this->normalizeExternalTextValue(
                     Arr::get($entry, 'hadithNumber')
                     ?? Arr::get($entry, 'number')
                     ?? Arr::get($entry, 'id')
@@ -858,6 +858,48 @@ class IslamicVerificationPipeline
     private function generateCacheKey(string $question): string
     {
         return trim(preg_replace('/\s+/', '_', strtolower(preg_replace('/[^a-z0-9\s]/i', '', $question))));
+    }
+
+    /**
+     * Safely normalizes mixed API payload values into plain text.
+     *
+     * @param mixed $value
+     */
+    private function normalizeExternalTextValue($value): string
+    {
+        if (is_string($value)) {
+            return trim($value);
+        }
+        if (is_int($value) || is_float($value) || is_bool($value)) {
+            return trim((string) $value);
+        }
+        if (!is_array($value)) {
+            return '';
+        }
+
+        foreach ([
+            'english', 'text', 'text_en', 'hadithEnglish',
+            'arabic', 'text_ar', 'hadithArabic',
+            'body', 'value', 'content',
+        ] as $key) {
+            if (!array_key_exists($key, $value)) {
+                continue;
+            }
+
+            $normalized = $this->normalizeExternalTextValue($value[$key]);
+            if ($normalized !== '') {
+                return $normalized;
+            }
+        }
+
+        foreach ($value as $entry) {
+            $normalized = $this->normalizeExternalTextValue($entry);
+            if ($normalized !== '') {
+                return $normalized;
+            }
+        }
+
+        return '';
     }
 
     private function emptyVerification(string $message): array

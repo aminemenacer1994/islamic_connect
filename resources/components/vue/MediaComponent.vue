@@ -82,16 +82,15 @@
       </div>
       <div class="col-md-6 col-lg-4">
         <div class="card custom-card overflow-hidden rounded-4">
-          <img src="/images/img_g.png" alt="Image Gallery" class="w-100" style="object-fit: contain;" />
+          <img src="/images/img_g.png" alt="AI Assistant" class="w-100" style="object-fit: contain;" />
           <div class="p-3">
-            <h1 class="mb-2 fw-bold text-dark text-center">Image Gallery</h1>
+            <h1 class="mb-2 fw-bold text-dark text-center">AI Assistant</h1>
             <p class="card-text text-muted text-wrap text-center"
               style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">
-              Explore a beautiful collection of high-quality Islamic images capturing the essence of faith, culture, and
-              tradition.
+              Ask Noor your Islamic questions and get source-backed answers from QuranEnc and HadeethEnc references.
             </p>
-            <button class="form-control" onclick="window.location.href='/gallery'" type="submit">
-              <span class="text-center w-100"><b>View Gallery</b></span>
+            <button class="form-control" onclick="window.location.href='/ai'" type="submit">
+              <span class="text-center w-100"><b>Open AI Assistant</b></span>
             </button>
           </div>
         </div>

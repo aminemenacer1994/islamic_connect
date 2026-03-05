@@ -5,41 +5,43 @@
       Browse structured Islamic guides for reverts, youth, and anyone looking to learn with clarity and confidence.
     </p>
 
-    <p class="small text-muted mb-3 library-count">
+    <p class="small text-muted mb-3 library-count" aria-live="polite">
       <i class="bi bi-collection me-2" aria-hidden="true"></i>
       <strong class="mr-1">{{ guides.length }}</strong> guides available
     </p>
 
-    <div class="row g-4">
+    <div v-if="guides.length" class="row g-4">
       <div v-for="guide in guides" :key="guide.id" class="col-12 col-md-6 col-lg-4">
         <article class="card custom-card rounded-4 overflow-hidden h-100">
           <div class="card-body d-flex flex-column p-3">
-            <div class="d-flex justify-content-between align-items-center mb-2">
-              <span class="audience-chip">{{ formatAudience(guide.audience) }}</span>
-              <small class="text-muted fw-semibold">{{ guide.level }}</small>
+            <div class="guide-meta-row mb-2">
+              <span class="audience-chip">
+                <i class="bi bi-person-badge-fill me-1" aria-hidden="true"></i>
+                {{ formatAudience(guide.audience) }}
+              </span>
+              <span class="guide-level">{{ guide.level }}</span>
             </div>
 
-            <div class="mb-2">
-              <h2 class="h5 fw-bold text-dark mb-1">{{ guide.title }}</h2>
-            </div>
+            <h2 class="h5 fw-bold text-dark mb-2 guide-title">{{ guide.title }}</h2>
 
             <p class="card-text text-muted mb-3 card-description">{{ guide.description }}</p>
 
-            <div class="mb-4 guide-topics">
-              <strong>Topics:</strong> {{ guide.tags.join(", ") }}
+            <div class="mb-4 guide-topics" aria-label="Guide topics">
+              <span v-for="tag in guide.tags" :key="`${guide.id}-${tag}`" class="topic-chip">{{ tag }}</span>
             </div>
 
             <a class="guide-cta-btn mt-auto" :href="guide.href" :aria-label="guide.cta">
               <span>{{ guide.cta }}</span>
-              <i class="bi bi-arrow-right"></i>
+              <i class="bi bi-arrow-up-right"></i>
             </a>
           </div>
         </article>
       </div>
     </div>
 
-    <div v-if="!guides.length" class="alert alert-light border mt-4 text-center">
-      No guides available right now.
+    <div v-else class="empty-state text-center">
+      <i class="bi bi-journal-x" aria-hidden="true"></i>
+      <p class="mb-0">No guides available right now.</p>
     </div>
   </div>
 </template>
@@ -72,39 +74,6 @@ export default {
           tags: ["Campus Life", "Identity", "Habits"],
         },
         {
-          id: "discover-islam",
-          title: "Discover Islam",
-          description:
-            "A welcoming introduction to Islamic beliefs, values, and worship for curious learners and new seekers.",
-          audience: "discover",
-          level: "Beginner",
-          href: "/muslim",
-          cta: "Explore Discovery Path",
-          tags: ["Belief", "Purpose", "Quran Basics"],
-        },
-        {
-          id: "knowledge-deep-dive",
-          title: "Knowledge Deep Dive",
-          description:
-            "A structured track for deeper study in Quran understanding, hadith literacy, and applied character.",
-          audience: "growth",
-          level: "Advanced",
-          href: "/knowledge",
-          cta: "Open Knowledge Hub",
-          tags: ["Quran", "Hadith", "Character"],
-        },
-        {
-          id: "resource-vault",
-          title: "Resource Vault",
-          description:
-            "Useful references, learning assets, and study-friendly tools for personal growth and community circles.",
-          audience: "growth",
-          level: "All Levels",
-          href: "/resource",
-          cta: "Browse Resources",
-          tags: ["Downloads", "References", "Study Kits"],
-        },
-        {
           id: "ramadan-guide",
           title: "Ramadan Guide",
           description:
@@ -123,8 +92,6 @@ export default {
       const audienceMap = {
         revert: "Reverts",
         youth: "Youth",
-        discover: "Discover",
-        growth: "Growth",
         seasonal: "Seasonal",
       };
       return audienceMap[audience] || "Guide";
@@ -134,7 +101,7 @@ export default {
 </script>
 
 <style scoped>
-.container {
+.digital-library-page {
   --section-ink: #1e2e33;
   --section-muted: #586a70;
   --card-accent: #0b5d4b;
@@ -145,7 +112,7 @@ export default {
   --card-shadow-hover: 0 20px 45px rgba(12, 43, 47, 0.16), 0 8px 16px rgba(12, 43, 47, 0.1);
 }
 
-.container > h1.display-5 {
+.digital-library-page > h1.display-5 {
   letter-spacing: -0.01em;
   font-weight: 700;
   color: var(--section-ink);
@@ -174,7 +141,7 @@ export default {
   box-shadow: var(--card-shadow);
   position: relative;
   z-index: 0;
-  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease, background-color 0.25s ease;
 }
 
 .custom-card::before {
@@ -207,6 +174,13 @@ export default {
   box-shadow: var(--card-shadow-hover);
 }
 
+.guide-meta-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+}
+
 .audience-chip {
   display: inline-flex;
   align-items: center;
@@ -220,19 +194,43 @@ export default {
   letter-spacing: 0.02em;
 }
 
+.guide-level {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #425965;
+  background: #f2f6f8;
+  border: 1px solid rgba(66, 89, 101, 0.16);
+}
+
+.guide-title {
+  line-height: 1.3;
+}
+
 .card-description {
-  line-height: 1.58;
+  line-height: 1.6;
+  min-height: 72px;
 }
 
 .guide-topics {
-  font-size: 0.86rem;
-  color: #4b5f5a;
-  line-height: 1.5;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
 }
 
-.guide-topics strong {
-  color: #1d2f2a;
+.topic-chip {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 0.22rem 0.58rem;
+  font-size: 0.74rem;
   font-weight: 600;
+  color: #3a5a67;
+  background: #ecf5f8;
+  border: 1px solid rgba(58, 90, 103, 0.2);
 }
 
 .guide-cta-btn {
@@ -264,9 +262,24 @@ export default {
   outline-offset: 2px;
 }
 
+.empty-state {
+  margin-top: 1rem;
+  border: 1px dashed rgba(18, 70, 65, 0.2);
+  border-radius: 16px;
+  background: #f8fbfc;
+  color: #4b5f68;
+  padding: 1.2rem 1rem;
+}
+
+.empty-state i {
+  font-size: 1.4rem;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
 @media (min-width: 992px) {
   .card-description {
-    min-height: 78px;
+    min-height: 84px;
   }
 }
 </style>

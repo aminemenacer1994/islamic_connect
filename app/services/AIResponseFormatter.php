@@ -87,7 +87,7 @@ class AIResponseFormatter
             return 'I could not produce a reliable answer text from the available sources.';
         }
 
-        $message = "In short: {$primary}";
+        $message = $primary;
         if ($supporting !== '') {
             $message .= "\n\nAlso: {$supporting}";
         }

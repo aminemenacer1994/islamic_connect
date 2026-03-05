@@ -87,6 +87,21 @@ return [
         'version' => env('ISLAMHOUSE_API_VERSION', 'v3'),
     ],
 
+    'islamic_content_api' => [
+        'base' => env('ISLAMIC_CONTENT_API_BASE'),
+        'key' => env('ISLAMIC_CONTENT_API_KEY'),
+        'key_header' => env('ISLAMIC_CONTENT_API_KEY_HEADER', 'X-API-Key'),
+        'articles_search_endpoint' => env('ISLAMIC_CONTENT_API_ARTICLES_SEARCH_ENDPOINT', '/search'),
+        'articles_endpoint' => env('ISLAMIC_CONTENT_API_ARTICLES_ENDPOINT', '/articles'),
+        'hadith_search_endpoint' => env('ISLAMIC_CONTENT_API_HADITH_SEARCH_ENDPOINT', '/hadith/search'),
+        'hadith_search_endpoints' => [
+            '/hadith/search',
+            '/hadiths/search',
+            '/api/hadith/search',
+            '/search',
+        ],
+    ],
+
     'aladhan' => [
         'base' => env('ALADHAN_API_BASE', 'https://api.aladhan.com/v1'),
         'country' => env('ALADHAN_DEFAULT_COUNTRY', 'United Kingdom'),
@@ -101,6 +116,91 @@ return [
 
     'quran_gading' => [
         'base' => env('QURAN_GADING_API_BASE', 'https://api.quran.gading.dev'),
+    ],
+
+    'quran_com' => [
+        'base' => env('QURAN_COM_API_BASE', 'https://api.quran.com/api/v4'),
+        'search_size' => env('QURAN_COM_SEARCH_SIZE', 20),
+    ],
+
+    'ktauchathuranga_quran' => [
+        'base' => env('KTAUCHATHURANGA_QURAN_API_BASE'),
+        'key' => env('KTAUCHATHURANGA_QURAN_API_KEY'),
+        'key_header' => env('KTAUCHATHURANGA_QURAN_API_KEY_HEADER', 'X-API-Key'),
+        'search_endpoint' => env('KTAUCHATHURANGA_QURAN_SEARCH_ENDPOINT', '/search'),
+        'search_endpoints' => [
+            '/search',
+            '/v1/search',
+            '/verses/search',
+        ],
+        'ayah_endpoint' => env('KTAUCHATHURANGA_QURAN_AYAH_ENDPOINT', '/ayah/{surah}/{ayah}'),
+        'ayah_endpoints' => [
+            '/ayah/{surah}/{ayah}',
+            '/ayah/{ayah_id}',
+            '/verse/{surah}/{ayah}',
+            '/verses/{ayah_id}',
+        ],
+    ],
+
+    'quran_foundation' => [
+        'base' => env('QURAN_FOUNDATION_API_BASE'),
+        'key' => env('QURAN_FOUNDATION_API_KEY'),
+        'key_header' => env('QURAN_FOUNDATION_API_KEY_HEADER', 'X-API-Key'),
+        'bearer_token' => env('QURAN_FOUNDATION_API_BEARER_TOKEN'),
+        'search_endpoint' => env('QURAN_FOUNDATION_SEARCH_ENDPOINT', '/search'),
+        'search_endpoints' => [
+            '/search',
+            '/api/search',
+            '/v1/search',
+            '/verses/search',
+        ],
+        'ayah_endpoint' => env('QURAN_FOUNDATION_AYAH_ENDPOINT', '/ayah/{surah}/{ayah}'),
+        'ayah_endpoints' => [
+            '/ayah/{surah}/{ayah}',
+            '/verses/{surah}:{ayah}',
+            '/api/ayah/{surah}/{ayah}',
+            '/v1/ayah/{surah}/{ayah}',
+        ],
+    ],
+
+    'quran_mcp' => [
+        'base' => env('QURAN_MCP_BASE'),
+        'search_endpoint' => env('QURAN_MCP_SEARCH_ENDPOINT', '/search'),
+        'ayah_endpoint' => env('QURAN_MCP_AYAH_ENDPOINT', '/ayah'),
+        'key' => env('QURAN_MCP_API_KEY'),
+        'key_header' => env('QURAN_MCP_API_KEY_HEADER', 'X-API-Key'),
+        'bearer_token' => env('QURAN_MCP_BEARER_TOKEN'),
+    ],
+
+    'quranenc' => [
+        'base' => env('QURANENC_API_BASE', 'https://quranenc.com/api/v1'),
+        'fallback_translation_key' => env('QURANENC_FALLBACK_TRANSLATION_KEY', 'english_saheeh'),
+    ],
+
+    'hadeethenc' => [
+        'base' => env('HADEETHENC_API_BASE', 'https://hadeethenc.com/api/v1'),
+        'language' => env('HADEETHENC_DEFAULT_LANGUAGE', 'en'),
+    ],
+
+    'deen_api' => [
+        'base' => env('DEEN_API_BASE'),
+        'key' => env('DEEN_API_KEY'),
+        'key_header' => env('DEEN_API_KEY_HEADER', 'X-API-Key'),
+        'hadith_search_endpoint' => env('DEEN_API_HADITH_SEARCH_ENDPOINT', '/hadith/search'),
+        'hadith_search_endpoints' => [
+            '/hadith/search',
+            '/api/hadith/search',
+            '/hadiths/search',
+            '/search',
+        ],
+    ],
+
+    'rapidapi_islamic_chatbot' => [
+        'base' => env('RAPIDAPI_ISLAMIC_CHATBOT_BASE', 'https://ai-islamic-chatbot.p.rapidapi.com'),
+        'host' => env('RAPIDAPI_ISLAMIC_CHATBOT_HOST'),
+        'key' => env('RAPIDAPI_ISLAMIC_CHATBOT_KEY'),
+        'chat_endpoint' => env('RAPIDAPI_ISLAMIC_CHATBOT_ENDPOINT', '/chat'),
+        'docs_url' => env('RAPIDAPI_ISLAMIC_CHATBOT_DOCS_URL', 'https://rapidapi.com'),
     ],
 
     'hadith_json' => [
