@@ -1,9 +1,9 @@
 <template>
   <div class="ic-home">
     <section class="ic-hero" aria-labelledby="home-hero-title">
-      <div class="container ic-shell">
+      <div class="container-fluid ic-shell">
         <div class="row align-items-center g-4">
-          <div class="col-lg-6">
+          <div class="col-md-6">
             <p class="ic-hero__badge">
               <i class="fas fa-star" aria-hidden="true"></i>
               Trusted by Muslims worldwide
@@ -33,17 +33,26 @@
             </ul>
           </div>
 
-          <div class="col-lg-6">
+          <div class="col-md-6">
             <div class="ic-hero__media">
               <picture>
-                <source srcset="/images/banner-photo.png 800w" type="image/png" />
+                <source
+                  srcset="/images/banner-photo-400.avif 400w, /images/banner-photo-800.avif 800w, /images/banner-photo-1200.avif 1200w"
+                  type="image/avif"
+                />
+                <source
+                  srcset="/images/banner-photo-400.webp 400w, /images/banner-photo-800.webp 800w, /images/banner-photo-1200.webp 1200w"
+                  type="image/webp"
+                />
                 <img
                   src="/images/banner-photo.png"
                   srcset="/images/banner-photo.png 800w"
-                  sizes="(min-width: 992px) 50vw, (min-width: 768px) 60vw, 92vw"
+                  sizes="(min-width: 768px) 50vw, 90vw"
                   class="img-fluid ic-hero__image"
                   alt="Islamic Connect platform showcasing Quran exploration and accessibility tools"
-                  loading="lazy"
+                  loading="eager"
+                  fetchpriority="high"
+                  decoding="async"
                   width="800"
                   height="800"
                 />
@@ -211,6 +220,8 @@
                       class="form-control form-control-lg"
                       placeholder="First name"
                       type="text"
+                      autocomplete="given-name"
+                      maxlength="60"
                       required
                     />
                   </div>
@@ -224,6 +235,8 @@
                       class="form-control form-control-lg"
                       placeholder="Last name"
                       type="text"
+                      autocomplete="family-name"
+                      maxlength="60"
                       required
                     />
                   </div>
@@ -237,6 +250,11 @@
                       class="form-control form-control-lg"
                       placeholder="Email address"
                       type="email"
+                      autocomplete="email"
+                      inputmode="email"
+                      autocapitalize="off"
+                      spellcheck="false"
+                      maxlength="120"
                       required
                     />
                   </div>
@@ -260,15 +278,24 @@
                       class="form-control form-control-lg"
                       placeholder="Your message"
                       rows="5"
+                      :maxlength="maxMessageLength"
                       required
                     ></textarea>
+                    <small class="contact-card__counter d-block mt-2 text-muted">
+                      {{ messageCharacterCount }}/{{ maxMessageLength }} characters
+                    </small>
                   </div>
 
                   <div class="col-12">
-                    <button type="submit" class="btn ic-btn ic-btn--solid w-100" :disabled="isSubmitting">
+                    <button
+                      type="submit"
+                      class="btn ic-btn ic-btn--solid w-100"
+                      :disabled="isSubmitting || !isContactFormValid"
+                    >
                       <i class="fas fa-paper-plane me-2" aria-hidden="true"></i>
                       {{ isSubmitting ? "Sending..." : "Send Message" }}
                     </button>
+                    <small class="d-block mt-2 text-muted">Typical response time: within 24 hours.</small>
                   </div>
                 </div>
               </form>
@@ -285,7 +312,7 @@
           <p class="premium-dialog-message">{{ confirmDialog.message }}</p>
           <div class="premium-dialog-actions">
             <button class="btn btn-outline-secondary" @click="handleCancel" :disabled="isSubmitting">Cancel</button>
-            <button class="btn ic-btn ic-btn--solid" @click="handleConfirm" :disabled="isSubmitting">
+            <button ref="confirmPrimaryButton" class="btn ic-btn ic-btn--solid" @click="handleConfirm" :disabled="isSubmitting">
               {{ confirmDialog.confirmLabel }}
             </button>
           </div>
@@ -304,7 +331,7 @@
     </transition>
 
     <footer class="ic-footer" role="contentinfo">
-      <div class="container ic-shell ic-footer__inner">
+      <div class="container-fluid ic-shell ic-footer__inner">
         <div class="ic-footer__copy text-center text-md-start">
           <span class="me-1">©</span>
           <strong>{{ currentYear }}</strong>

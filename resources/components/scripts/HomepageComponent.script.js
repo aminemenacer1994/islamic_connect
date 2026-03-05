@@ -142,20 +142,79 @@ export default {
       toast: createToast(),
       toastTimer: null,
       isSubmitting: false,
+      maxMessageLength: 1200,
     };
   },
   computed: {
     currentYear() {
       return new Date().getFullYear();
     },
+    messageCharacterCount() {
+      return String(this.form.message || "").length;
+    },
+    isContactFormValid() {
+      return (
+        this.normalizeField(this.form.firstname).length >= 2 &&
+        this.normalizeField(this.form.lastname).length >= 2 &&
+        this.validateEmail(this.form.email) &&
+        this.normalizeField(this.form.subject).length > 0 &&
+        this.normalizeField(this.form.message).length >= 10 &&
+        this.messageCharacterCount <= this.maxMessageLength
+      );
+    },
+  },
+  watch: {
+    "confirmDialog.visible"(isVisible) {
+      if (typeof document === "undefined") return;
+      document.body.classList.toggle("ic-dialog-open", isVisible);
+      if (isVisible) {
+        this.$nextTick(() => {
+          this.$refs.confirmPrimaryButton?.focus();
+        });
+      }
+    },
+  },
+  mounted() {
+    if (typeof window !== "undefined") {
+      window.addEventListener("keydown", this.handleGlobalKeydown);
+    }
   },
   beforeUnmount() {
     if (this.toastTimer) {
       clearTimeout(this.toastTimer);
       this.toastTimer = null;
     }
+    if (typeof window !== "undefined") {
+      window.removeEventListener("keydown", this.handleGlobalKeydown);
+    }
+    if (typeof document !== "undefined") {
+      document.body.classList.remove("ic-dialog-open");
+    }
   },
   methods: {
+    normalizeField(value) {
+      return String(value || "")
+        .replace(/\s+/g, " ")
+        .trim();
+    },
+    validateEmail(value) {
+      const normalized = this.normalizeField(value).toLowerCase();
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(normalized);
+    },
+    buildPayload() {
+      return {
+        firstname: this.normalizeField(this.form.firstname),
+        lastname: this.normalizeField(this.form.lastname),
+        email: this.normalizeField(this.form.email).toLowerCase(),
+        subject: this.normalizeField(this.form.subject),
+        message: this.normalizeField(this.form.message),
+      };
+    },
+    handleGlobalKeydown(event) {
+      if (event.key === "Escape" && this.confirmDialog.visible && !this.isSubmitting) {
+        this.handleCancel();
+      }
+    },
     reset() {
       this.form.reset();
       if (typeof this.form.clear === "function") {
@@ -164,6 +223,10 @@ export default {
     },
     sendMessage() {
       if (this.isSubmitting) {
+        return;
+      }
+      if (!this.isContactFormValid) {
+        this.showToast("error", "Check your details", "Please complete all required fields before sending.");
         return;
       }
 
@@ -187,7 +250,12 @@ export default {
 
       this.isSubmitting = true;
       try {
-        await axios.post(url, this.form);
+        const payload = this.buildPayload();
+        await axios.post(url, payload, {
+          headers: {
+            Accept: "application/json",
+          },
+        });
         this.showToast("success", toastTitle, toastMessage);
         this.reset();
       } catch (error) {

@@ -36,13 +36,13 @@ const _hoisted_2 = {
   "aria-labelledby": "home-hero-title"
 };
 const _hoisted_3 = {
-  class: "container ic-shell"
+  class: "container-fluid ic-shell"
 };
 const _hoisted_4 = {
   class: "row align-items-center g-4"
 };
 const _hoisted_5 = {
-  class: "col-lg-6"
+  class: "col-md-6"
 };
 const _hoisted_6 = {
   class: "ic-hero__trust list-unstyled mb-0",
@@ -182,45 +182,49 @@ const _hoisted_51 = ["value"];
 const _hoisted_52 = {
   class: "col-12"
 };
-const _hoisted_53 = {
+const _hoisted_53 = ["maxlength"];
+const _hoisted_54 = {
+  class: "contact-card__counter d-block mt-2 text-muted"
+};
+const _hoisted_55 = {
   class: "col-12"
 };
-const _hoisted_54 = ["disabled"];
-const _hoisted_55 = {
+const _hoisted_56 = ["disabled"];
+const _hoisted_57 = {
   key: 0,
   class: "premium-dialog-overlay"
 };
-const _hoisted_56 = {
+const _hoisted_58 = {
   class: "premium-dialog-card",
   role: "dialog",
   "aria-modal": "true",
   "aria-live": "polite"
 };
-const _hoisted_57 = {
+const _hoisted_59 = {
   class: "premium-dialog-title"
 };
-const _hoisted_58 = {
+const _hoisted_60 = {
   class: "premium-dialog-message"
 };
-const _hoisted_59 = {
+const _hoisted_61 = {
   class: "premium-dialog-actions"
 };
-const _hoisted_60 = ["disabled"];
-const _hoisted_61 = ["disabled"];
-const _hoisted_62 = {
+const _hoisted_62 = ["disabled"];
+const _hoisted_63 = ["disabled"];
+const _hoisted_64 = {
   class: "premium-toast__copy"
 };
-const _hoisted_63 = {
+const _hoisted_65 = {
   class: "premium-toast__title mb-0"
 };
-const _hoisted_64 = {
+const _hoisted_66 = {
   class: "ic-footer",
   role: "contentinfo"
 };
-const _hoisted_65 = {
-  class: "container ic-shell ic-footer__inner"
+const _hoisted_67 = {
+  class: "container-fluid ic-shell ic-footer__inner"
 };
-const _hoisted_66 = {
+const _hoisted_68 = {
   class: "ic-footer__copy text-center text-md-start"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
@@ -233,19 +237,24 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "aria-hidden": "true"
     }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.label), 1 /* TEXT */)]);
   }), 128 /* KEYED_FRAGMENT */))])]), _cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    class: "col-lg-6"
+    class: "col-md-6"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "ic-hero__media"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("picture", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("source", {
-    srcset: "/images/banner-photo.png 800w",
-    type: "image/png"
+    srcset: "/images/banner-photo-400.avif 400w, /images/banner-photo-800.avif 800w, /images/banner-photo-1200.avif 1200w",
+    type: "image/avif"
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("source", {
+    srcset: "/images/banner-photo-400.webp 400w, /images/banner-photo-800.webp 800w, /images/banner-photo-1200.webp 1200w",
+    type: "image/webp"
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: "/images/banner-photo.png",
     srcset: "/images/banner-photo.png 800w",
-    sizes: "(min-width: 992px) 50vw, (min-width: 768px) 60vw, 92vw",
+    sizes: "(min-width: 768px) 50vw, 90vw",
     class: "img-fluid ic-hero__image",
     alt: "Islamic Connect platform showcasing Quran exploration and accessibility tools",
-    loading: "lazy",
+    loading: "eager",
+    fetchpriority: "high",
+    decoding: "async",
     width: "800",
     height: "800"
   })])])], -1 /* CACHED */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [_cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
@@ -338,14 +347,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       class: "fas fa-arrow-right",
       "aria-hidden": "true"
     }, null, -1 /* CACHED */))])], 8 /* PROPS */, _hoisted_38)]);
-  }), 128 /* KEYED_FRAGMENT */))])])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_41, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_42, [_cache[27] || (_cache[27] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), 128 /* KEYED_FRAGMENT */))])])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_41, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_42, [_cache[28] || (_cache[28] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "section-intro text-center"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
     id: "contact-heading",
     class: "section-title"
   }, "Contact the Team"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "section-lead"
-  }, "Share feedback, report an issue, or ask a question. We read every message.")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_43, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_44, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_45, [_cache[26] || (_cache[26] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, "Share feedback, report an issue, or ask a question. We read every message.")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_43, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_44, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_45, [_cache[27] || (_cache[27] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "contact-card__note mb-4"
   }, " We route messages by topic so the right person can follow up quickly. ", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
     onReset: _cache[5] || (_cache[5] = (...args) => _ctx.reset && _ctx.reset(...args)),
@@ -362,6 +371,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "form-control form-control-lg",
     placeholder: "First name",
     type: "text",
+    autocomplete: "given-name",
+    maxlength: "60",
     required: ""
   }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, _ctx.form.firstname]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_48, [_cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     for: "lastname",
@@ -373,6 +384,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "form-control form-control-lg",
     placeholder: "Last name",
     type: "text",
+    autocomplete: "family-name",
+    maxlength: "60",
     required: ""
   }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, _ctx.form.lastname]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_49, [_cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     for: "email",
@@ -384,6 +397,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "form-control form-control-lg",
     placeholder: "Email address",
     type: "email",
+    autocomplete: "email",
+    inputmode: "email",
+    autocapitalize: "off",
+    spellcheck: "false",
+    maxlength: "120",
     required: ""
   }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, _ctx.form.email]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_50, [_cache[23] || (_cache[23] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     for: "subject",
@@ -412,26 +430,30 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "form-control form-control-lg",
     placeholder: "Your message",
     rows: "5",
+    maxlength: _ctx.maxMessageLength,
     required: ""
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, _ctx.form.message]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_53, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, 8 /* PROPS */, _hoisted_53), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, _ctx.form.message]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_54, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.messageCharacterCount) + "/" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.maxMessageLength) + " characters ", 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_55, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "submit",
     class: "btn ic-btn ic-btn--solid w-100",
-    disabled: _ctx.isSubmitting
+    disabled: _ctx.isSubmitting || !_ctx.isContactFormValid
   }, [_cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "fas fa-paper-plane me-2",
     "aria-hidden": "true"
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.isSubmitting ? "Sending..." : "Send Message"), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_54)])])], 32 /* NEED_HYDRATION */)])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.isSubmitting ? "Sending..." : "Send Message"), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_56), _cache[26] || (_cache[26] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", {
+    class: "d-block mt-2 text-muted"
+  }, "Typical response time: within 24 hours.", -1 /* CACHED */))])])], 32 /* NEED_HYDRATION */)])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
     name: "premium-dialog"
   }, {
-    default: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(() => [_ctx.confirmDialog.visible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_55, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_56, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_57, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.confirmDialog.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_58, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.confirmDialog.message), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_59, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    default: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(() => [_ctx.confirmDialog.visible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_57, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_58, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_59, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.confirmDialog.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_60, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.confirmDialog.message), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_61, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       class: "btn btn-outline-secondary",
       onClick: _cache[7] || (_cache[7] = (...args) => _ctx.handleCancel && _ctx.handleCancel(...args)),
       disabled: _ctx.isSubmitting
-    }, "Cancel", 8 /* PROPS */, _hoisted_60), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, "Cancel", 8 /* PROPS */, _hoisted_62), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      ref: "confirmPrimaryButton",
       class: "btn ic-btn ic-btn--solid",
       onClick: _cache[8] || (_cache[8] = (...args) => _ctx.handleConfirm && _ctx.handleConfirm(...args)),
       disabled: _ctx.isSubmitting
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.confirmDialog.confirmLabel), 9 /* TEXT, PROPS */, _hoisted_61)])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]),
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.confirmDialog.confirmLabel), 9 /* TEXT, PROPS */, _hoisted_63)])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]),
     _: 1 /* STABLE */
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
     name: "premium-toast"
@@ -441,18 +463,18 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["premium-toast", `premium-toast--${_ctx.toast.type}`]),
       role: "status",
       "aria-live": "polite"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_62, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_63, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.toast.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.toast.message), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_64, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_65, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.toast.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.toast.message), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       class: "btn-close btn-close-white",
       onClick: _cache[9] || (_cache[9] = (...args) => _ctx.dismissToast && _ctx.dismissToast(...args)),
       "aria-label": "Dismiss notification"
     })], 2 /* CLASS */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]),
     _: 1 /* STABLE */
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("footer", _hoisted_64, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_65, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_66, [_cache[28] || (_cache[28] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("footer", _hoisted_66, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_67, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_68, [_cache[29] || (_cache[29] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "me-1"
-  }, "©", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currentYear), 1 /* TEXT */), _cache[29] || (_cache[29] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+  }, "©", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currentYear), 1 /* TEXT */), _cache[30] || (_cache[30] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
     href: "https://islamiconnect.com/",
     class: "ic-footer__brand"
-  }, "islamiconnect.com", -1 /* CACHED */))]), _cache[30] || (_cache[30] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"ic-footer__social text-center text-md-end\" data-v-0dc90d45><a href=\"https://www.facebook.com/profile.php?id=61560313385599\" aria-label=\"Visit our Facebook page\" data-v-0dc90d45><i class=\"fab fa-facebook-f\" aria-hidden=\"true\" data-v-0dc90d45></i></a><a href=\"https://x.com/islamiconnect24\" aria-label=\"Visit our X (Twitter) profile\" data-v-0dc90d45><i class=\"fab fa-twitter\" aria-hidden=\"true\" data-v-0dc90d45></i></a><a href=\"https://www.linkedin.com/company/islamic-connect/\" aria-label=\"Visit our LinkedIn page\" data-v-0dc90d45><i class=\"fab fa-linkedin\" aria-hidden=\"true\" data-v-0dc90d45></i></a><a href=\"https://www.instagram.com/islamicconnect24/\" aria-label=\"Visit our Instagram profile\" data-v-0dc90d45><i class=\"fab fa-instagram\" aria-hidden=\"true\" data-v-0dc90d45></i></a></div>", 1))])])]);
+  }, "islamiconnect.com", -1 /* CACHED */))]), _cache[31] || (_cache[31] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"ic-footer__social text-center text-md-end\" data-v-0dc90d45><a href=\"https://www.facebook.com/profile.php?id=61560313385599\" aria-label=\"Visit our Facebook page\" data-v-0dc90d45><i class=\"fab fa-facebook-f\" aria-hidden=\"true\" data-v-0dc90d45></i></a><a href=\"https://x.com/islamiconnect24\" aria-label=\"Visit our X (Twitter) profile\" data-v-0dc90d45><i class=\"fab fa-twitter\" aria-hidden=\"true\" data-v-0dc90d45></i></a><a href=\"https://www.linkedin.com/company/islamic-connect/\" aria-label=\"Visit our LinkedIn page\" data-v-0dc90d45><i class=\"fab fa-linkedin\" aria-hidden=\"true\" data-v-0dc90d45></i></a><a href=\"https://www.instagram.com/islamicconnect24/\" aria-label=\"Visit our Instagram profile\" data-v-0dc90d45><i class=\"fab fa-instagram\" aria-hidden=\"true\" data-v-0dc90d45></i></a></div>", 1))])])]);
 }
 
 /***/ }),
@@ -608,12 +630,36 @@ const createToast = () => ({
       confirmDialog: createConfirmDialog(),
       toast: createToast(),
       toastTimer: null,
-      isSubmitting: false
+      isSubmitting: false,
+      maxMessageLength: 1200
     };
   },
   computed: {
     currentYear() {
       return new Date().getFullYear();
+    },
+    messageCharacterCount() {
+      return String(this.form.message || "").length;
+    },
+    isContactFormValid() {
+      return this.normalizeField(this.form.firstname).length >= 2 && this.normalizeField(this.form.lastname).length >= 2 && this.validateEmail(this.form.email) && this.normalizeField(this.form.subject).length > 0 && this.normalizeField(this.form.message).length >= 10 && this.messageCharacterCount <= this.maxMessageLength;
+    }
+  },
+  watch: {
+    "confirmDialog.visible"(isVisible) {
+      if (typeof document === "undefined") return;
+      document.body.classList.toggle("ic-dialog-open", isVisible);
+      if (isVisible) {
+        this.$nextTick(() => {
+          var _this$$refs$confirmPr;
+          (_this$$refs$confirmPr = this.$refs.confirmPrimaryButton) === null || _this$$refs$confirmPr === void 0 || _this$$refs$confirmPr.focus();
+        });
+      }
+    }
+  },
+  mounted() {
+    if (typeof window !== "undefined") {
+      window.addEventListener("keydown", this.handleGlobalKeydown);
     }
   },
   beforeUnmount() {
@@ -621,8 +667,35 @@ const createToast = () => ({
       clearTimeout(this.toastTimer);
       this.toastTimer = null;
     }
+    if (typeof window !== "undefined") {
+      window.removeEventListener("keydown", this.handleGlobalKeydown);
+    }
+    if (typeof document !== "undefined") {
+      document.body.classList.remove("ic-dialog-open");
+    }
   },
   methods: {
+    normalizeField(value) {
+      return String(value || "").replace(/\s+/g, " ").trim();
+    },
+    validateEmail(value) {
+      const normalized = this.normalizeField(value).toLowerCase();
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(normalized);
+    },
+    buildPayload() {
+      return {
+        firstname: this.normalizeField(this.form.firstname),
+        lastname: this.normalizeField(this.form.lastname),
+        email: this.normalizeField(this.form.email).toLowerCase(),
+        subject: this.normalizeField(this.form.subject),
+        message: this.normalizeField(this.form.message)
+      };
+    },
+    handleGlobalKeydown(event) {
+      if (event.key === "Escape" && this.confirmDialog.visible && !this.isSubmitting) {
+        this.handleCancel();
+      }
+    },
     reset() {
       this.form.reset();
       if (typeof this.form.clear === "function") {
@@ -631,6 +704,10 @@ const createToast = () => ({
     },
     sendMessage() {
       if (this.isSubmitting) {
+        return;
+      }
+      if (!this.isContactFormValid) {
+        this.showToast("error", "Check your details", "Please complete all required fields before sending.");
         return;
       }
       this.showConfirm({
@@ -648,7 +725,12 @@ const createToast = () => ({
       }
       this.isSubmitting = true;
       try {
-        await axios__WEBPACK_IMPORTED_MODULE_0__["default"].post(url, this.form);
+        const payload = this.buildPayload();
+        await axios__WEBPACK_IMPORTED_MODULE_0__["default"].post(url, payload, {
+          headers: {
+            Accept: "application/json"
+          }
+        });
         this.showToast("success", toastTitle, toastMessage);
         this.reset();
       } catch (error) {
