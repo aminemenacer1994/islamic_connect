@@ -2,63 +2,39 @@
   <div class="ic-home">
     <section class="ic-hero" aria-labelledby="home-hero-title">
       <div class="container-fluid ic-shell">
-        <div class="row align-items-center g-4">
-          <div class="col-md-6">
-            <p class="ic-hero__badge">
-              <i class="fas fa-star" aria-hidden="true"></i>
-              Trusted by Muslims worldwide
-            </p>
-            <h1 id="home-hero-title" class="ic-hero__title">
-              Learn Quran, Build Consistency, and Stay Connected in One Place
-            </h1>
-            <p class="ic-hero__lead">
-              Islamic Connect brings Quran reading, dua guidance, and practical learning tools into a single, accessible
-              homepage so daily worship feels clear and consistent.
-            </p>
-            <div class="ic-hero__actions">
-              <a href="/surat" class="btn ic-btn ic-btn--solid">
-                <i class="fas fa-book-open me-2" aria-hidden="true"></i>
-                Explore Quran
-              </a>
-              <a href="/dua" class="btn ic-btn ic-btn--outline">
-                <i class="fas fa-hands me-2" aria-hidden="true"></i>
-                Read Duas
-              </a>
-            </div>
-            <ul class="ic-hero__trust list-unstyled mb-0" aria-label="Platform highlights">
-              <li v-for="item in trustHighlights" :key="item.label" class="ic-hero__trust-item">
-                <i :class="item.icon" aria-hidden="true"></i>
-                <span>{{ item.label }}</span>
-              </li>
-            </ul>
+        <div class="row align-items-center g-4 justify-content-center">
+          <div class="col-md-8">
+            <article class="ic-hero__panel">
+              <p class="ic-hero__badge">
+                <i class="fas fa-star" aria-hidden="true"></i>
+                Trusted by Muslims worldwide
+              </p>
+              <h1 id="home-hero-title" class="ic-hero__title">
+                Learn Quran, Build Consistency, and Stay Connected in One Place
+              </h1>
+              <p class="ic-hero__lead">
+                Islamic Connect brings Quran reading, dua guidance, and practical learning tools into a single, accessible
+                homepage so daily worship feels clear and consistent.
+              </p>
+              <div class="ic-hero__actions">
+                <a href="/surat" class="btn ic-btn ic-btn--solid">
+                  <i class="fas fa-book-open me-2" aria-hidden="true"></i>
+                  Explore Quran
+                </a>
+                <a href="/dua" class="btn ic-btn ic-btn--outline">
+                  <i class="fas fa-hands me-2" aria-hidden="true"></i>
+                  Read Duas
+                </a>
+              </div>
+              <ul class="ic-hero__trust list-unstyled mb-0" aria-label="Platform highlights">
+                <li v-for="item in trustHighlights" :key="item.label" class="ic-hero__trust-item">
+                  <i :class="item.icon" aria-hidden="true"></i>
+                  <span>{{ item.label }}</span>
+                </li>
+              </ul>
+            </article>
           </div>
 
-          <div class="col-md-6">
-            <div class="ic-hero__media">
-              <picture>
-                <source
-                  srcset="/images/banner-photo-400.avif 400w, /images/banner-photo-800.avif 800w, /images/banner-photo-1200.avif 1200w"
-                  type="image/avif"
-                />
-                <source
-                  srcset="/images/banner-photo-400.webp 400w, /images/banner-photo-800.webp 800w, /images/banner-photo-1200.webp 1200w"
-                  type="image/webp"
-                />
-                <img
-                  src="/images/banner-photo.png"
-                  srcset="/images/banner-photo.png 800w"
-                  sizes="(min-width: 768px) 50vw, 90vw"
-                  class="img-fluid ic-hero__image"
-                  alt="Islamic Connect platform showcasing Quran exploration and accessibility tools"
-                  loading="eager"
-                  fetchpriority="high"
-                  decoding="async"
-                  width="800"
-                  height="800"
-                />
-              </picture>
-            </div>
-          </div>
         </div>
       </div>
     </section>

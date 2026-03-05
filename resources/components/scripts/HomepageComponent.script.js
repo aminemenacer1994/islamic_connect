@@ -102,7 +102,7 @@ export default {
         },
       ],
       communityPoints: [
-        "Daily reminders and Quran-focused updates",
+        "Regular reminders and practical Quran learning updates",
         "Quick announcements for new tools and content",
         "Free access with simple one-tap joining",
       ],
