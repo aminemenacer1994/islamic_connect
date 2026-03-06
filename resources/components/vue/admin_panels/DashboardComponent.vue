@@ -110,23 +110,60 @@ export default {
       modalType: 'feedback',
       modalTitle: '',
       modalItems: [],
+      refreshTimer: null,
+      refreshIntervalMs: 30000,
+      charts: {
+        users: null,
+        feedback: null,
+        donations: null,
+      },
       cards: [
         { key: 'users', label: 'Users', icon: 'bi bi-people-fill', href: '/users', color: 'c1' },
         { key: 'bookmarks', label: 'Bookmarks', icon: 'bi bi-bookmark-star', href: '/bookmarks', color: 'c2' },
         { key: 'notes', label: 'Notes', icon: 'bi bi-journal-text', href: '/notes', color: 'c3' },
-        { key: 'donations', label: 'Donations', icon: 'bi bi-currency-exchange', href: '/payments', color: 'c4' },
+        { key: 'pins', label: 'Pins', icon: 'bi bi-pin-angle-fill', href: '/pins', color: 'c4' },
         { key: 'feedback', label: 'Feedback', icon: 'bi bi-chat-left-text', href: '/feedback', color: 'c5' },
-        { key: 'mailing', label: 'Mailing List', icon: 'bi bi-envelope-at', href: '/mailing_list', color: 'c6' },
+        { key: 'playlists', label: 'Playlists', icon: 'bi bi-music-note-list', href: '/playlist', color: 'c6' },
       ]
     }
   },
   mounted() {
     this.fetchMetrics();
+    this.startLiveRefresh();
+  },
+  beforeUnmount() {
+    this.stopLiveRefresh();
+    this.destroyCharts();
   },
   methods: {
+    startLiveRefresh() {
+      this.stopLiveRefresh();
+      this.refreshTimer = setInterval(() => {
+        this.fetchMetrics({ silent: true });
+      }, this.refreshIntervalMs);
+    },
+    stopLiveRefresh() {
+      if (!this.refreshTimer) return;
+      clearInterval(this.refreshTimer);
+      this.refreshTimer = null;
+    },
+    destroyCharts() {
+      ['users', 'feedback', 'donations'].forEach((key) => {
+        if (this.charts[key]) {
+          this.charts[key].destroy();
+          this.charts[key] = null;
+        }
+      });
+    },
     async fetchMetrics() {
       try {
-        const res = await fetch('api/admin-metrics');
+        const res = await fetch(`/api/admin-metrics?_=${Date.now()}`, {
+          cache: 'no-store',
+          headers: { Accept: 'application/json' },
+        });
+        if (!res.ok) {
+          throw new Error(`Metrics request failed (${res.status})`);
+        }
         const data = await res.json();
         this.counts = data.counts || {};
         this.series = data.series || {};
@@ -149,10 +186,12 @@ export default {
       };
 
       const ctx1 = this.$refs.usersChart.getContext('2d');
-      new Chart(ctx1, { type: 'line', data: { labels: dLabels, datasets: [{ label: 'Users', data: uValues, ...common }] }, options: { scales: { y: { beginAtZero: true } } } });
+      if (this.charts.users) this.charts.users.destroy();
+      this.charts.users = new Chart(ctx1, { type: 'line', data: { labels: dLabels, datasets: [{ label: 'Users', data: uValues, ...common }] }, options: { scales: { y: { beginAtZero: true } } } });
 
       const ctx2 = this.$refs.feedbackChart.getContext('2d');
-      new Chart(ctx2, { type: 'bar', data: { labels: dLabels, datasets: [{ label: 'Feedback', data: fValues, backgroundColor: 'rgba(15, 110, 99, 0.2)', borderColor: accent, borderWidth: 1 }] }, options: { plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } } });
+      if (this.charts.feedback) this.charts.feedback.destroy();
+      this.charts.feedback = new Chart(ctx2, { type: 'bar', data: { labels: dLabels, datasets: [{ label: 'Feedback', data: fValues, backgroundColor: 'rgba(15, 110, 99, 0.2)', borderColor: accent, borderWidth: 1 }] }, options: { plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } } });
 
       // Pie: donations by currency
       const pie = this.$refs.donationPie.getContext('2d');
@@ -160,13 +199,18 @@ export default {
       const labels = br.map(x => x.currency || 'N/A');
       const values = br.map(x => x.c);
       const colors = ['#0f6e63', '#5bc8b9', '#f2b84b', '#2f80ed', '#ef6f6c', '#18a999'];
-      new Chart(pie, { type: 'pie', data: { labels, datasets: [{ data: values, backgroundColor: colors }] }, options: { plugins: { legend: { position: 'right' } } } });
+      if (this.charts.donations) this.charts.donations.destroy();
+      this.charts.donations = new Chart(pie, { type: 'pie', data: { labels, datasets: [{ data: values, backgroundColor: colors }] }, options: { plugins: { legend: { position: 'right' } } } });
     },
     async openModal(type) {
       this.modalType = type;
       this.modalTitle = type === 'feedback' ? 'All Feedback' : 'All Subscribers';
-      const url = type === 'feedback' ? 'api/fetch-feedbacks' : 'api/fetch-mail';
-      const res = await fetch(url); this.modalItems = await res.json();
+      const url = type === 'feedback' ? '/api/fetch-feedbacks' : '/api/fetch-mail';
+      const res = await fetch(`${url}?_=${Date.now()}`, {
+        cache: 'no-store',
+        headers: { Accept: 'application/json' },
+      });
+      this.modalItems = await res.json();
       const el = document.getElementById('viewAllModal');
       (bootstrap.Modal.getOrCreateInstance(el)).show();
     }

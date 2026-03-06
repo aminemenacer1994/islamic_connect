@@ -41,7 +41,7 @@ class DashboardController extends Controller
             return $out;
         };
 
-        return response()->json([
+        $payload = [
             'counts' => [
                 'users' => (int) DB::table('users')->count(),
                 'donations' => (int) DB::table('donation')->count(),
@@ -49,6 +49,16 @@ class DashboardController extends Controller
                 'mailing' => (int) DB::table('mailinglist')->count(),
                 'notes' => (int) DB::table('notes')->count(),
                 'bookmarks' => (int) DB::table('bookmarks')->count(),
+                // Pins represent saved ayat entries (not guide bookmarks).
+                'pins' => (int) DB::table('bookmarks')
+                    ->where(function ($query) {
+                        $query->whereNotNull('surah_number')
+                            ->orWhereNotNull('ayah_num');
+                    })
+                    ->count(),
+                'playlists' => (int) DB::table('folders')
+                    ->whereNull('deleted_at')
+                    ->count(),
             ],
             'series' => [
                 'users' => $seriesMonthly('users'),
@@ -57,14 +67,21 @@ class DashboardController extends Controller
                 'mailing' => $seriesMonthly('mailinglist'),
             ],
             'recent' => [
-                'donations' => DB::table('donation')->orderByDesc('id')->limit(5)->get(),
-                'feedback' => DB::table('feedback')->orderByDesc('id')->limit(5)->get(),
-                'mailing' => DB::table('mailinglist')->orderByDesc('id')->limit(5)->get(),
+                'donations' => DB::table('donation')->orderByDesc('created_at')->orderByDesc('id')->limit(5)->get(),
+                'feedback' => DB::table('feedback')->orderByDesc('created_at')->orderByDesc('id')->limit(5)->get(),
+                'mailing' => DB::table('mailinglist')->orderByDesc('created_at')->orderByDesc('id')->limit(5)->get(),
             ],
             'breakdown' => [
                 'donationsByCurrency' => DB::table('donation')->select('currency', DB::raw('COUNT(*) as c'))->groupBy('currency')->get(),
                 'usersByType' => DB::table('users')->select('user_type', DB::raw('COUNT(*) as c'))->groupBy('user_type')->get(),
             ],
+            'generated_at' => now()->toIso8601String(),
+        ];
+
+        return response()->json($payload)->withHeaders([
+            'Cache-Control' => 'no-store, no-cache, must-revalidate, max-age=0',
+            'Pragma' => 'no-cache',
+            'Expires' => '0',
         ]);
     }
 

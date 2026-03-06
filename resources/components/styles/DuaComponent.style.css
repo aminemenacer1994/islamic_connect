@@ -97,8 +97,11 @@
 }
 
 .dua-tab-panel {
-  padding: 1.05rem;
+  padding: 0.85rem;
   margin-bottom: 1rem;
+  background: transparent;
+  border: none;
+  box-shadow: none;
 }
 
 .dua-search-wrapper .dua-search-card {
@@ -108,32 +111,89 @@
 }
 
 .dua-tab-row {
-  display: inline-flex;
-  gap: 0.5rem;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.55rem;
 }
 
 .dua-tab-btn {
-  padding: 0.45rem 0.95rem;
-  border-radius: 999px;
-  border: 1px solid rgba(13, 92, 74, 0.22);
+  width: 100%;
+  min-height: 62px;
+  padding: 0.54rem 0.68rem;
+  border-radius: 12px;
+  border: none;
   background: #f2f7f4;
   color: var(--text);
   font-weight: 700;
   font-size: 0.93rem;
-  transition: transform 0.2s ease, background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+  transition: transform 0.2s ease, background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.62rem;
+  text-align: left;
+}
+
+.dua-tab-btn-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+  border: none;
+  background: transparent;
+  color: var(--primary);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.dua-tab-btn-icon i {
+  font-size: 0.88rem;
+  line-height: 1;
+}
+
+.dua-tab-btn-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 0.16rem;
+  min-width: 0;
+}
+
+.dua-tab-btn-label {
+  color: inherit;
+  line-height: 1.2;
+}
+
+.dua-tab-btn-meta {
+  font-size: 0.73rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #5f6f69;
 }
 
 .dua-tab-btn:hover {
   transform: translateY(-1px);
 }
 
+.dua-tab-btn:focus-visible {
+  outline: 2px solid rgba(17, 121, 95, 0.45);
+  outline-offset: 2px;
+}
+
 .dua-tab-btn.active {
   background: linear-gradient(120deg, var(--primary), var(--primary-2));
   color: #f4fffb;
   box-shadow: 0 9px 20px rgba(13, 92, 74, 0.32);
-  border-color: transparent;
+}
+
+.dua-tab-btn.active .dua-tab-btn-icon {
+  background: transparent;
+  color: #ffffff;
+}
+
+.dua-tab-btn.active .dua-tab-btn-meta {
+  color: rgba(241, 255, 250, 0.88);
 }
 
 .dua-results-note {
@@ -635,20 +695,34 @@
   flex-wrap: wrap;
 }
 
+.dua-section-block-reference .dua-section-toggle {
+  border-radius: 0;
+  border-bottom: none;
+  background: #eef3f8;
+}
+
 .dua-section-block-reference .dua-card-meta {
   margin-top: 0;
+  width: 100%;
+  border: 1px solid #dbe3ee;
+  border-top: none;
+  border-radius: 0;
+  background: #eef3f8;
+  padding: 0.52rem 0.62rem;
 }
 
 .dua-card-reference {
-  font-size: 0.72rem;
-  color: #475569;
+  display: block;
+  width: 100%;
+  font-size: 0.73rem;
+  color: #334155;
   letter-spacing: 0.04em;
   font-weight: 700;
   text-transform: uppercase;
-  background: #eef2f7;
-  border: 1px solid #dbe3ee;
-  border-radius: 999px;
-  padding: 0.3rem 0.6rem;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  padding: 0;
 }
 
 .dua-card-actions {
@@ -765,10 +839,10 @@
 }
 
 .dua-disclaimer-banner {
-  background: linear-gradient(135deg, rgba(13, 92, 74, 0.1), rgba(17, 121, 95, 0.05));
+  background: linear-gradient(180deg, rgba(13, 92, 74, 0.1), rgba(17, 121, 95, 0.05));
   border: 1px solid rgba(13, 92, 74, 0.2);
   border-left: 4px solid var(--primary);
-  border-radius: 12px;
+  border-radius: 0;
   box-shadow: 0 4px 14px rgba(15, 23, 42, 0.05);
 }
 
@@ -866,8 +940,8 @@ mark.mark-tag {
 
 @media (min-width: 992px) {
   .dua-tab-row {
-    width: 100%;
-    justify-content: center;
+    max-width: 520px;
+    margin: 0 auto;
   }
 }
 
@@ -908,14 +982,23 @@ mark.mark-tag {
   }
 
   .dua-tab-row {
-    width: 100%;
-    display: flex;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .dua-tab-btn {
-    flex: 1;
-    justify-content: center;
-    text-align: center;
+    min-height: 58px;
+    padding: 0.5rem 0.56rem;
+    gap: 0.5rem;
+  }
+
+  .dua-tab-btn-icon {
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+  }
+
+  .dua-tab-btn-meta {
+    font-size: 0.68rem;
   }
 
   .dua-card-actions {
@@ -935,6 +1018,10 @@ mark.mark-tag {
 @media (max-width: 576px) {
   .dua-title {
     font-size: 1.6rem;
+  }
+
+  .dua-tab-row {
+    grid-template-columns: 1fr;
   }
 
   .dua-action-btn,

@@ -20,31 +20,44 @@
     </section>
 
     <section class="container-fluid dua-content-shell dua-tab-panel mb-3">
-      <div class="dua-tab-row">
+      <div class="dua-tab-row" role="tablist" aria-label="Dua view">
         <button
           id="tab-all"
           type="button"
           class="dua-tab-btn"
+          role="tab"
           :class="{ active: viewMode === 'all' }"
           aria-controls="dua-panel"
           :aria-selected="viewMode === 'all'"
           @click="viewMode = 'all'; resetPagination()"
           @keydown.enter.prevent="viewMode = 'all'; resetPagination()"
           @keydown.space.prevent="viewMode = 'all'; resetPagination()">
-          All Duas
+          <span class="dua-tab-btn-icon" aria-hidden="true">
+            <i class="bi bi-collection-fill"></i>
+          </span>
+          <span class="dua-tab-btn-copy">
+            <span class="dua-tab-btn-label">All Duas</span>
+            <span class="dua-tab-btn-meta">{{ allDuasCount }} total</span>
+          </span>
         </button>
         <button
           id="tab-liked"
           type="button"
           class="dua-tab-btn"
+          role="tab"
           :class="{ active: viewMode === 'liked' }"
           aria-controls="dua-panel"
           :aria-selected="viewMode === 'liked'"
           @click="viewMode = 'liked'; resetPagination()"
           @keydown.enter.prevent="viewMode = 'liked'; resetPagination()"
           @keydown.space.prevent="viewMode = 'liked'; resetPagination()">
-          Liked Duas
-          <span v-if="likedDuasCount > 0" class="badge rounded-pill bg-danger ms-2">{{ likedDuasCount }}</span>
+          <span class="dua-tab-btn-icon" aria-hidden="true">
+            <i class="bi bi-heart-fill"></i>
+          </span>
+          <span class="dua-tab-btn-copy">
+            <span class="dua-tab-btn-label">Liked Duas</span>
+            <span class="dua-tab-btn-meta">{{ likedDuasCount }} saved</span>
+          </span>
         </button>
       </div>
       <transition name="fade">

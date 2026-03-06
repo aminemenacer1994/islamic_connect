@@ -12,30 +12,38 @@
 
     <div v-if="guides.length" class="row g-4">
       <div v-for="guide in guides" :key="guide.id" class="col-12 col-md-6 col-lg-4">
-        <article class="card custom-card rounded-4 overflow-hidden h-100">
-          <div class="card-body d-flex flex-column p-3">
-            <div class="guide-meta-row mb-2">
-              <span class="audience-chip">
-                <i class="bi bi-person-badge-fill me-1" aria-hidden="true"></i>
-                {{ formatAudience(guide.audience) }}
+        <a
+          class="guide-card-link text-decoration-none d-block h-100"
+          :href="guide.href"
+          :aria-label="guide.cta"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <article class="card custom-card rounded-4 overflow-hidden h-100">
+            <div class="card-body d-flex flex-column p-3">
+              <div class="guide-meta-row mb-2">
+                <span class="audience-chip">
+                  <i class="bi bi-person-badge-fill me-1" aria-hidden="true"></i>
+                  {{ formatAudience(guide.audience) }}
+                </span>
+                <span class="guide-level">{{ guide.level }}</span>
+              </div>
+
+              <h2 class="h5 fw-bold text-dark mb-2 guide-title">{{ guide.title }}</h2>
+
+              <p class="card-text text-muted mb-3 card-description">{{ guide.description }}</p>
+
+              <div class="mb-4 guide-topics" aria-label="Guide topics">
+                <span v-for="tag in guide.tags" :key="`${guide.id}-${tag}`" class="topic-chip">{{ tag }}</span>
+              </div>
+
+              <span class="guide-cta-btn mt-auto">
+                <span>{{ guide.cta }}</span>
+                <i class="bi bi-arrow-up-right"></i>
               </span>
-              <span class="guide-level">{{ guide.level }}</span>
             </div>
-
-            <h2 class="h5 fw-bold text-dark mb-2 guide-title">{{ guide.title }}</h2>
-
-            <p class="card-text text-muted mb-3 card-description">{{ guide.description }}</p>
-
-            <div class="mb-4 guide-topics" aria-label="Guide topics">
-              <span v-for="tag in guide.tags" :key="`${guide.id}-${tag}`" class="topic-chip">{{ tag }}</span>
-            </div>
-
-            <a class="guide-cta-btn mt-auto" :href="guide.href" :aria-label="guide.cta">
-              <span>{{ guide.cta }}</span>
-              <i class="bi bi-arrow-up-right"></i>
-            </a>
-          </div>
-        </article>
+          </article>
+        </a>
       </div>
     </div>
 
@@ -174,6 +182,12 @@ export default {
   box-shadow: var(--card-shadow-hover);
 }
 
+.guide-card-link:focus-visible {
+  outline: 3px solid rgba(21, 111, 89, 0.34);
+  outline-offset: 3px;
+  border-radius: 24px;
+}
+
 .guide-meta-row {
   display: flex;
   align-items: center;
@@ -255,11 +269,6 @@ export default {
   background: linear-gradient(90deg, #247b66, #2a705f);
   border-color: rgba(19, 96, 77, 0.45);
   color: #ffffff;
-}
-
-.guide-cta-btn:focus-visible {
-  outline: 3px solid rgba(21, 111, 89, 0.34);
-  outline-offset: 2px;
 }
 
 .empty-state {

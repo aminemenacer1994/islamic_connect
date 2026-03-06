@@ -97,6 +97,9 @@ export default {
     };
   },
   computed: {
+    allDuasCount() {
+      return this.duaCollection.reduce((sum, category) => sum + (category.duas?.length || 0), 0);
+    },
     visibleDuasCount() {
       return this.filteredDuas.reduce((sum, category) => sum + (category.duas?.length || 0), 0);
     },
