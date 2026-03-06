@@ -195,14 +195,6 @@ return [
         ],
     ],
 
-    'rapidapi_islamic_chatbot' => [
-        'base' => env('RAPIDAPI_ISLAMIC_CHATBOT_BASE', 'https://ai-islamic-chatbot.p.rapidapi.com'),
-        'host' => env('RAPIDAPI_ISLAMIC_CHATBOT_HOST'),
-        'key' => env('RAPIDAPI_ISLAMIC_CHATBOT_KEY'),
-        'chat_endpoint' => env('RAPIDAPI_ISLAMIC_CHATBOT_ENDPOINT', '/chat'),
-        'docs_url' => env('RAPIDAPI_ISLAMIC_CHATBOT_DOCS_URL', 'https://rapidapi.com'),
-    ],
-
     'hadith_json' => [
         'base' => env(
             'HADITH_JSON_API_BASE',

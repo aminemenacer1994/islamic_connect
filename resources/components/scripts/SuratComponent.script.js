@@ -569,7 +569,7 @@ export default {
             translationCompareSecondaryTranslation: "",
             translationCompareHighlightQuery: "",
             translationCompareMaxSelections: 2,
-            translationCompareInlineCollapsed: false,
+            translationCompareInlineCollapsed: true,
             translationCompareLoading: false,
             translationCompareError: "",
             translationCompareEditionCache: {},

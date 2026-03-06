@@ -1416,7 +1416,7 @@ class IslamicContentService
             return $jsonApiResult;
         }
 
-        return $this->fetchHadithFromRapidApiChatbot($keywords, $language);
+        return null;
     }
 
     protected function fetchHadithFromHadeethEnc(array $keywords, string $language = 'en'): ?array
@@ -1562,94 +1562,6 @@ class IslamicContentService
         }
 
         return null;
-    }
-
-    protected function fetchHadithFromRapidApiChatbot(array $keywords, string $language = 'en'): ?array
-    {
-        $rapidApiKey = trim((string) config('services.rapidapi_islamic_chatbot.key', ''));
-        $rapidApiHost = trim((string) config('services.rapidapi_islamic_chatbot.host', ''));
-        $baseUrl = rtrim((string) config('services.rapidapi_islamic_chatbot.base', ''), '/');
-        $endpoint = (string) config('services.rapidapi_islamic_chatbot.chat_endpoint', '/chat');
-        if ($rapidApiKey === '' || $rapidApiHost === '' || $baseUrl === '') {
-            return null;
-        }
-
-        $query = $this->buildQuranSearchQuery($keywords);
-        if ($query === '') {
-            return null;
-        }
-
-        $headers = [
-            'Accept' => 'application/json',
-            'X-RapidAPI-Key' => $rapidApiKey,
-            'X-RapidAPI-Host' => $rapidApiHost,
-        ];
-        $question = "Provide a concise Islamic answer about: {$query}. Include a Quran or Hadith reference if available.";
-        $url = $this->buildExternalApiUrl($baseUrl, $endpoint);
-
-        foreach ([
-            ['question' => $question, 'language' => $language],
-            ['query' => $question, 'language' => $language],
-            ['message' => $question, 'language' => $language],
-            ['text' => $question, 'language' => $language],
-        ] as $body) {
-            $payload = $this->requestJson(
-                'post',
-                $url,
-                [],
-                $body,
-                $headers,
-                'rapidapi_islamic_chatbot'
-            );
-            if (!is_array($payload)) {
-                continue;
-            }
-
-            $result = $this->extractHadithFromExternalPayload(
-                $payload,
-                $keywords,
-                'AI Islamic Chatbot (RapidAPI)'
-            );
-            if ($result) {
-                if (empty($result['url'])) {
-                    $docsUrl = $this->normalizeGenericUrl(
-                        (string) config('services.rapidapi_islamic_chatbot.docs_url', '')
-                    );
-                    if ($docsUrl) {
-                        $result['url'] = $docsUrl;
-                    }
-                }
-                return $result;
-            }
-        }
-
-        $payload = $this->requestJson(
-            'get',
-            $url,
-            ['q' => $question, 'language' => $language],
-            [],
-            $headers,
-            'rapidapi_islamic_chatbot'
-        );
-        if (!is_array($payload)) {
-            return null;
-        }
-
-        $result = $this->extractHadithFromExternalPayload(
-            $payload,
-            $keywords,
-            'AI Islamic Chatbot (RapidAPI)'
-        );
-        if ($result && empty($result['url'])) {
-            $docsUrl = $this->normalizeGenericUrl(
-                (string) config('services.rapidapi_islamic_chatbot.docs_url', '')
-            );
-            if ($docsUrl) {
-                $result['url'] = $docsUrl;
-            }
-        }
-
-        return $result;
     }
 
     protected function resolveHadeethEncLanguage(string $language): string

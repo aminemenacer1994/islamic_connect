@@ -1,5 +1,16 @@
 
 @extends('layouts.app')
+@section('critical')
+<style>
+    #app .auth-title,
+    #app .auth-card__footer p {
+        text-align: center !important;
+        width: 100% !important;
+        display: block !important;
+    }
+</style>
+@endsection
+
 @section('content')
 
 
@@ -13,8 +24,8 @@
             
 
             <form method="POST" action="{{ route('login') }}" novalidate>
-                <div class="mb-2">
-                    <h2 style="color:black; font-weight: bold;" class="text-center ">Login to you account</h2>
+                <div class="mb-2 auth-title-wrap">
+                    <h2 style="color:black; font-weight: bold; text-align:center !important; width:100%; display:block;" class="auth-title">Login to you account</h2>
                 </div>
                 @csrf
                 <div class="auth-field">
@@ -72,7 +83,8 @@
             </div>
 
             <div class="auth-card__footer">
-                <p>Don't have an account? <a href="/register">Create account</a></p>
+                <p class="auth-switch-label">Don't have an account?</p>
+                <a class="auth-switch-link" href="/register">Create account</a>
             </div>
         </div>
     </div>
@@ -194,6 +206,18 @@
 
     .auth-field {
         margin-bottom: 1rem;
+    }
+
+    .auth-title-wrap {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+    }
+
+    .auth-title {
+        width: 100%;
+        margin: 0 auto;
+        text-align: center !important;
     }
 
     .auth-card form {
@@ -330,6 +354,24 @@
         text-align: center;
         color: var(--auth-muted);
         font-size: 0.95rem;
+    }
+
+    .auth-card__footer p {
+        margin: 0;
+        width: 100%;
+        text-align: center !important;
+    }
+
+    .auth-switch-label {
+        margin: 0;
+        text-align: center !important;
+    }
+
+    .auth-switch-link {
+        display: block;
+        width: 100%;
+        text-align: center !important;
+        margin-top: 0.25rem;
     }
 
     .auth-card__footer a {
