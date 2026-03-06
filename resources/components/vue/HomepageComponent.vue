@@ -62,7 +62,7 @@
             <article class="ic-link-card h-100">
               <h3>{{ card.title }}</h3>
               <p>{{ card.desc }}</p>
-              <a :href="card.href" class="ic-link-card__cta">{{ card.cta }}</a>
+              <a :href="card.href" class="ic-link-card__cta" target="_blank" rel="noopener noreferrer">{{ card.cta }}</a>
             </article>
           </div>
         </div>
@@ -322,7 +322,7 @@
       <div class="container-fluid ic-shell ic-footer__inner">
         <div class="ic-footer__copy text-center text-md-start">
           <span class="me-1">©</span>
-          <strong>{{ currentYear }}</strong>
+          <b>{{ currentYear }}</b>
           <a href="https://islamiconnect.com/" class="ic-footer__brand">islamiconnect.com</a>
         </div>
         <div class="ic-footer__social text-center text-md-end">

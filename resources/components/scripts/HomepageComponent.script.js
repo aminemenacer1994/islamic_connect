@@ -26,14 +26,14 @@ export default {
       ],
       seoStats: [
         { value: "100%", label: "Accessibility score" },
-        { value: "85+", label: "Countries reached" },
-        { value: "650+", label: "Cities served" },
+        { value: "84+", label: "Countries reached" },
+        { value: "745+", label: "Cities served" },
       ],
       seoCards: [
         {
           title: "Quran Explorer",
           desc: "Read verses with translation, tafsir, and audio in one interface.",
-          href: "/quran",
+          href: "/surat",
           cta: "Open Quran",
         },
         {
@@ -45,13 +45,13 @@ export default {
         {
           title: "Knowledge Library",
           desc: "Study seerah, articles, and practical guidance from trusted sources.",
-          href: "/knowledge",
+          href: "/mission",
           cta: "Visit Library",
         },
         {
           title: "Media Center",
           desc: "Listen to podcasts and Islamic audio reflections while on the move.",
-          href: "/media",
+          href: "/content",
           cta: "Play Media",
         },
       ],
