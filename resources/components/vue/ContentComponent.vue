@@ -5,7 +5,7 @@
       <div class="col-lg-10 col-xl-10">
         <h1 class="display-5 fw-bold podcast-hero__title">Audio Podcasts</h1>
       </div>
-      <p class="lead">
+      <p class="lead podcast-hero__description">
         Tune into thoughtfully curated Islamic audio that brings together scholars, storytellers, and community voices.  Explore episodes on tafsir, seerah, daily reminders, and practical faith conversations to learn, reflect, and
         stay connected.
       </p>
@@ -48,9 +48,7 @@
           <img :src="selectedPodcast.image" :alt="selectedPodcast.name" class="selected-podcast-image" loading="lazy">
         </div>
       </div>
-      <div class="selected-podcast-description">
-        <p>{{ selectedPodcast.desc }}</p>
-      </div>
+      <p class="selected-podcast-description__text">{{ selectedPodcast.desc }}</p>
     </div>
 
     <!-- Continue Listening Section -->
@@ -98,15 +96,16 @@
         </div>
         <div class="favorites-hero__actions">
           <span class="favorites-count">{{ favourites.length }} saved</span>
-          <button class="favorites-toggle" @click="toggleVisibility">
-            <i class="fas" :class="isVisible ? 'fa-eye-slash' : 'fa-eye'"></i>
-            {{ isVisible ? 'Hide favorites' : 'Show favorites' }}
+          <button type="button" class="favorites-toggle" @click="toggleVisibility()"
+            :aria-expanded="isVisible ? 'true' : 'false'" aria-controls="favoritesGrid">
+            <i class="fas" :class="isVisible ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+            {{ isVisible ? 'Close favorites' : 'Open favorites' }}
           </button>
         </div>
       </div>
 
-      <transition name="fade">
-        <div v-show="isVisible" class="favorites-grid">
+      <transition name="favorites-collapse">
+        <div v-if="isVisible" id="favoritesGrid" class="favorites-grid">
           <div v-for="fav in favourites" :key="fav.title + fav.audioUrl" class="podcast-card-wrapper">
             <div :class="['podcast-card', 'favorite-card', { 'highlighted': isCurrentlyPlaying(fav) }]">
               <div class="card-body">
@@ -161,17 +160,27 @@
         <div class="row g-2 align-items-center">
           <!-- Search -->
           <div class="col-12 col-md-6 order-2 order-md-1">
-            <div class="input-group podcast-search-input">
-              <span class="input-group-text bg-white border-end-0">
-                <i class="bi bi-search"></i>
-              </span>
-              <input v-model="searchInput" @input="onSearchInput" type="text" class="form-control border-start-0"
-                placeholder="Search episodes..." />
+            <div class="podcast-search-shell">
+              <label class="visually-hidden" for="podcastSearchInput">Search episodes</label>
+              <div class="input-group podcast-search-input">
+                <span class="input-group-text bg-white border-end-0">
+                  <i class="bi bi-search"></i>
+                </span>
+                <input id="podcastSearchInput" v-model="searchInput" @input="onSearchInput" type="text"
+                  class="form-control border-start-0" placeholder="Search by title, topic, or keyword..." />
+                <button v-if="searchInput" type="button" class="search-clear-btn" @click="clearSearchInput"
+                  aria-label="Clear search">
+                  <i class="bi bi-x-lg"></i>
+                </button>
+              </div>
+              <p class="podcast-search-helper" :class="{ 'podcast-search-helper--active': !!searchQuery }">
+                {{ searchSummaryText }}
+              </p>
             </div>
           </div>
 
           <!-- Inline filters on md+, compact -->
-          <div class="col-md-6 d-none d-md-flex order-1 order-md-2 justify-content-end gap-2">
+          <div class="col-md-6 d-none d-md-flex order-1 order-md-2 justify-content-end align-items-stretch gap-2">
             <select v-model="durationFilter" class="form-select filter-select" aria-label="Filter by duration">
               <option value="" disabled selected hidden>Duration</option>
               <option value="0-10">0-10 min</option>
@@ -268,8 +277,15 @@
                   loading="lazy" />
                 <div class="podcast-card-info">
                   <h4 class="podcast-title" v-html="highlightText(podcast.title)"></h4>
-                  <div class="podcast-extra-info">
-                    {{ podcast.duration ? podcast.duration + ' min' : 'N/A' }} · {{ podcast.language }}
+                  <div class="podcast-extra-info podcast-extra-info--compact">
+                    <span class="duration-badge">
+                      <i class="bi bi-clock-history" aria-hidden="true"></i>
+                      {{ podcast.duration ? podcast.duration + ' min' : 'N/A' }}
+                    </span>
+                    <span class="lang-badge">
+                      <i class="bi bi-translate" aria-hidden="true"></i>
+                      {{ podcast.language }}
+                    </span>
                   </div>
                   <div class="episode-metadata-grid">
                     <span class="meta-chip" :title="'File size'">
@@ -296,7 +312,7 @@
                   <button class="download-button" type="button" @click.stop="downloadAudio(podcast)"
                     :aria-label="`Download ${podcast.title} to listen offline`">
                     <i class="bi bi-download" aria-hidden="true"></i>
-                    Download to listen offline
+                    <span class="download-button__text">Download to listen offline</span>
                   </button>
                 </div>
               </div>

@@ -55,15 +55,17 @@ function escapeHtml(value) {
       map: null,
       markers: [],
       markerByEventIndex: new Map(),
-      isMapVisible: true,
+      isMapVisible: false,
       isFullscreen: false,
       isFullscreenFallback: false,
       invalidateTimer: null
     };
   },
   mounted() {
-    this.initMap();
-    this.renderPoints();
+    if (this.isMapVisible) {
+      this.initMap();
+      this.renderPoints();
+    }
     document.addEventListener('fullscreenchange', this.onFullscreenChange);
     document.addEventListener('webkitfullscreenchange', this.onFullscreenChange);
     document.addEventListener('MSFullscreenChange', this.onFullscreenChange);
@@ -82,11 +84,13 @@ function escapeHtml(value) {
   watch: {
     points: {
       handler() {
+        if (!this.isMapVisible) return;
         this.renderPoints();
       },
       deep: true
     },
     loading(newValue) {
+      if (!this.isMapVisible) return;
       if (!newValue) {
         this.$nextTick(() => {
           this.initMap();
@@ -95,6 +99,7 @@ function escapeHtml(value) {
       }
     },
     activeIndex() {
+      if (!this.isMapVisible) return;
       this.updateActiveMarker(true);
     }
   },
@@ -146,6 +151,11 @@ function escapeHtml(value) {
       this.isMapVisible = !this.isMapVisible;
       if (!this.isMapVisible && (this.isFullscreen || this.isFullscreenFallback)) {
         this.toggleFullscreen();
+      } else if (this.isMapVisible) {
+        this.$nextTick(() => {
+          this.initMap();
+          this.renderPoints();
+        });
       }
       this.scheduleInvalidate();
     },
@@ -318,6 +328,7 @@ function escapeHtml(value) {
       this.markerByEventIndex = new Map();
     },
     renderPoints() {
+      if (!this.isMapVisible) return;
       if (!this.map) return;
       this.clearMarkers();
       const validPoints = (this.points || []).filter(point => Number.isFinite(Number(point.lat)) && Number.isFinite(Number(point.lng)));
@@ -373,6 +384,7 @@ function escapeHtml(value) {
       this.updateActiveMarker(true);
     },
     updateActiveMarker(shouldPan) {
+      if (!this.isMapVisible) return;
       if (!this.map || !this.markers.length) return;
       this.markers.forEach(({
         marker,
@@ -1366,7 +1378,7 @@ const MAP_LOCATION_RULES = Object.freeze([{
       utterance: null,
       pausedWordIndex: 0,
       currentTtsText: '',
-      synth: window.speechSynthesis,
+      synth: typeof window !== 'undefined' && window.speechSynthesis ? window.speechSynthesis : null,
       copySuccess: false,
       searchTerm: '',
       showAudioPlayer: false,
@@ -1455,8 +1467,10 @@ const MAP_LOCATION_RULES = Object.freeze([{
       passive: true
     });
     document.addEventListener('visibilitychange', this.handleVisibilityChange);
-    this.synth.onvoiceschanged = this.loadVoices;
-    this.loadVoices();
+    if (this.synth) {
+      this.synth.onvoiceschanged = this.loadVoices;
+      this.loadVoices();
+    }
     // Restore dismissal/minimized state for Next Step banner
     try {
       if (localStorage.getItem('missionNextStepDismissed') === '1') this.showNextStep = false;
@@ -1518,8 +1532,10 @@ const MAP_LOCATION_RULES = Object.freeze([{
     window.removeEventListener('resize', this.updateOffcanvasWidth);
     document.removeEventListener('visibilitychange', this.handleVisibilityChange);
     window.removeEventListener('scroll', this.handleScrollForTitle);
-    this.synth.onvoiceschanged = null;
-    if (this.utterance) {
+    if (this.synth) {
+      this.synth.onvoiceschanged = null;
+    }
+    if (this.utterance && this.synth) {
       this.synth.cancel();
     }
     if (this._filterTimer) {
@@ -1869,7 +1885,7 @@ const MAP_LOCATION_RULES = Object.freeze([{
     },
     keyboardSeek(deltaPercent) {
       const idx = this.currentlyPlayingIndex;
-      if (idx == null || !this.utterance || !this.isAudioPlaying[idx]) return;
+      if (!this.synth || idx == null || !this.utterance || !this.isAudioPlaying[idx]) return;
       const current = this.progress[idx] || 0;
       const next = Math.min(100, Math.max(0, current + deltaPercent));
       // Simulate by canceling and restarting at target percent
@@ -1917,14 +1933,17 @@ const MAP_LOCATION_RULES = Object.freeze([{
       });
     },
     loadVoices() {
+      if (!this.synth || typeof this.synth.getVoices !== 'function') return;
       const voices = this.synth.getVoices();
       if (voices.length) {
         this.selectedVoice = voices.find(voice => voice.lang === 'en-US' && (voice.name.includes('Google') || voice.name.includes('Natural') || voice.name.includes('Jenny') || voice.name.includes('Samantha'))) || voices.find(voice => voice.lang === 'en-US') || voices[0];
       }
     },
     toggleAudioPlayer(index) {
+      if (!this.synth) return;
       if (!this.selectedVoice) {
         this.loadVoices();
+        if (!this.selectedVoice) return;
         return;
       }
       this.currentlyPlayingIndex = index;
@@ -1943,6 +1962,7 @@ const MAP_LOCATION_RULES = Object.freeze([{
       }
     },
     playAudio(index, startWordIndex = 0) {
+      if (!this.synth) return;
       if (this.utterance && this.synth.speaking) {
         this.synth.cancel();
       }
@@ -1979,11 +1999,16 @@ const MAP_LOCATION_RULES = Object.freeze([{
       } catch (_) {}
     },
     stopAudio(index) {
-      if (this.synth.speaking || this.synth.paused) {
+      if (this.synth && (this.synth.speaking || this.synth.paused)) {
         this.synth.cancel();
         this.isAudioPlaying[index] = false;
         this.ttsState = 'stopped';
         this.progress[index] = 0;
+        this.currentTime = 0;
+        this.pausedWordIndex = 0;
+        this.showAudioPlayer = false;
+      } else if (!this.synth) {
+        this.ttsState = 'stopped';
         this.currentTime = 0;
         this.pausedWordIndex = 0;
         this.showAudioPlayer = false;
@@ -1993,7 +2018,7 @@ const MAP_LOCATION_RULES = Object.freeze([{
       } catch (_) {}
     },
     rewindAudio(index) {
-      if (!this.utterance || !this.isAudioPlaying[index]) return;
+      if (!this.synth || !this.utterance || !this.isAudioPlaying[index]) return;
       this.synth.cancel();
       const wordCount = this.countWords(this.currentTtsText);
       const wordsPerSecond = 150 / 60;
@@ -2023,7 +2048,7 @@ const MAP_LOCATION_RULES = Object.freeze([{
       this.pausedWordIndex = newWordIndex;
     },
     fastForwardAudio(index) {
-      if (!this.utterance || !this.isAudioPlaying[index]) return;
+      if (!this.synth || !this.utterance || !this.isAudioPlaying[index]) return;
       this.synth.cancel();
       const wordCount = this.countWords(this.currentTtsText);
       const wordsPerSecond = 150 / 60;
@@ -2053,7 +2078,7 @@ const MAP_LOCATION_RULES = Object.freeze([{
       this.pausedWordIndex = newWordIndex;
     },
     seekAudio(event, index) {
-      if (!this.utterance || !this.isAudioPlaying[index]) return;
+      if (!this.synth || !this.utterance || !this.isAudioPlaying[index]) return;
       this.synth.cancel();
       const progressBar = event.currentTarget;
       const rect = progressBar.getBoundingClientRect();
@@ -2137,7 +2162,7 @@ const MAP_LOCATION_RULES = Object.freeze([{
     selectEvent(index) {
       if (!Number.isInteger(index)) return;
       if (index < 0 || index >= this.events.length) return;
-      if (this.synth.speaking || this.synth.paused) {
+      if (this.synth && (this.synth.speaking || this.synth.paused)) {
         this.stopAudio(this.currentlyPlayingIndex);
       }
       this.currentIndex = index;
@@ -2222,7 +2247,7 @@ const MAP_LOCATION_RULES = Object.freeze([{
       this.$forceUpdate();
     },
     handleVisibilityChange() {
-      if (document.hidden && this.synth.speaking) {
+      if (document.hidden && this.synth && this.synth.speaking) {
         this.stopAudio(this.currentlyPlayingIndex);
       }
     },

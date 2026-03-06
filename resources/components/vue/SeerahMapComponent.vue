@@ -116,15 +116,17 @@ export default {
       map: null,
       markers: [],
       markerByEventIndex: new Map(),
-      isMapVisible: true,
+      isMapVisible: false,
       isFullscreen: false,
       isFullscreenFallback: false,
       invalidateTimer: null,
     };
   },
   mounted() {
-    this.initMap();
-    this.renderPoints();
+    if (this.isMapVisible) {
+      this.initMap();
+      this.renderPoints();
+    }
     document.addEventListener('fullscreenchange', this.onFullscreenChange);
     document.addEventListener('webkitfullscreenchange', this.onFullscreenChange);
     document.addEventListener('MSFullscreenChange', this.onFullscreenChange);
@@ -143,11 +145,13 @@ export default {
   watch: {
     points: {
       handler() {
+        if (!this.isMapVisible) return;
         this.renderPoints();
       },
       deep: true,
     },
     loading(newValue) {
+      if (!this.isMapVisible) return;
       if (!newValue) {
         this.$nextTick(() => {
           this.initMap();
@@ -156,6 +160,7 @@ export default {
       }
     },
     activeIndex() {
+      if (!this.isMapVisible) return;
       this.updateActiveMarker(true);
     },
   },
@@ -218,6 +223,11 @@ export default {
       this.isMapVisible = !this.isMapVisible;
       if (!this.isMapVisible && (this.isFullscreen || this.isFullscreenFallback)) {
         this.toggleFullscreen();
+      } else if (this.isMapVisible) {
+        this.$nextTick(() => {
+          this.initMap();
+          this.renderPoints();
+        });
       }
       this.scheduleInvalidate();
     },
@@ -400,6 +410,7 @@ export default {
       this.markerByEventIndex = new Map();
     },
     renderPoints() {
+      if (!this.isMapVisible) return;
       if (!this.map) return;
       this.clearMarkers();
 
@@ -460,6 +471,7 @@ export default {
       this.updateActiveMarker(true);
     },
     updateActiveMarker(shouldPan) {
+      if (!this.isMapVisible) return;
       if (!this.map || !this.markers.length) return;
 
       this.markers.forEach(({ marker, point }) => {

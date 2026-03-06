@@ -54,6 +54,7 @@ export default {
       warningTimers: {},
       localRecentPlaysKey: 'content_podcast_recent_local',
       localPlayedKey: 'content_podcast_played_local',
+      favoritesVisibilityStorageKey: 'content_podcast_favourites_visible',
       islamicPodcasts: [
         {
           name: "The Mad Mamluks",
@@ -226,6 +227,14 @@ export default {
     hasActiveFilters() {
       return !!(this.searchQuery || this.durationFilter || this.languageFilter || (this.sortOption && this.sortOption !== 'newest'));
     },
+    searchSummaryText() {
+      if (!this.searchQuery) {
+        return 'Search by title, description, or topic keyword.';
+      }
+      const total = this.filteredAndSearchedPodcasts.length;
+      const suffix = total === 1 ? '' : 's';
+      return `${total} result${suffix} for "${this.searchQuery}"`;
+    },
   },
 
   async mounted() {
@@ -257,6 +266,12 @@ export default {
     try {
       const savedSpeed = localStorage.getItem('content_speed');
       if (savedSpeed !== null) this.playbackSpeed = Number(savedSpeed) || 1.0;
+    } catch (e) {}
+    try {
+      const savedFavoritesVisibility = localStorage.getItem(this.favoritesVisibilityStorageKey);
+      if (savedFavoritesVisibility !== null) {
+        this.isVisible = savedFavoritesVisibility === 'true';
+      }
     } catch (e) {}
 
     await this.resolveStorageScope();
@@ -384,8 +399,12 @@ export default {
         } catch (e) {}
       }, 1500);
     },
-    toggleVisibility() {
-      this.isVisible = !this.isVisible;
+    toggleVisibility(nextState = null) {
+      const resolvedState = typeof nextState === 'boolean' ? nextState : !this.isVisible;
+      this.isVisible = resolvedState;
+      try {
+        localStorage.setItem(this.favoritesVisibilityStorageKey, String(resolvedState));
+      } catch (e) {}
     },
     shortDescription(text, maxLength = 90) {
       if (!text) return '';
@@ -447,6 +466,12 @@ export default {
         // Reset visible window on new search
         this.visibleCount = this.itemsPerLoad;
       }, 250);
+    },
+    clearSearchInput() {
+      if (this.searchDebounceTimer) clearTimeout(this.searchDebounceTimer);
+      this.searchInput = '';
+      this.searchQuery = '';
+      this.visibleCount = this.itemsPerLoad;
     },
     toggleVolume() {
       this.showVolumeBar = !this.showVolumeBar;
@@ -916,8 +941,6 @@ export default {
 
     onSearch() {
       this.visibleCount = this.itemsPerLoad;
-      const query = this.searchQuery.toLowerCase();
-      this.filteredPodcasts = this.podcasts.filter(podcast => podcast.title.toLowerCase().includes(query));
       this.$nextTick(() => this.setupInfiniteScroll());
     },
 

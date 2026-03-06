@@ -23,6 +23,10 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
 
 
 const RECITER_IMAGE_PLACEHOLDER = 'https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg';
+const PLAY_BUTTON_STYLE_ACTIVE = 'width:46px;height:46px;border-radius:999px;background:linear-gradient(135deg,#10b981,#06b6ac);display:inline-flex;align-items:center;justify-content:center;border:none;box-shadow:0 10px 22px rgba(6,182,172,.25);transition:transform .12s ease, box-shadow .12s ease;position:relative;overflow:hidden';
+const PLAY_BUTTON_STYLE_DISABLED = 'width:46px;height:46px;border-radius:999px;background:linear-gradient(135deg,#94a3b8,#64748b);display:inline-flex;align-items:center;justify-content:center;border:none;box-shadow:none;transition:transform .12s ease, box-shadow .12s ease;position:relative;overflow:hidden';
+const STATION_PROBE_TIMEOUT_MS = 4000;
+const STATION_PROBE_CONCURRENCY = 5;
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   __name: 'RadioComponent',
   setup(__props, {
@@ -36,6 +40,20 @@ const RECITER_IMAGE_PLACEHOLDER = 'https://upload.wikimedia.org/wikipedia/common
     const selectedStationForInfo = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(null);
     const sanitizeName = (value = '') => value.toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
     const simplifyReciterName = (value = '') => value.replace(/\b(radio|live|quran|station|channel|fm|fatwa|translation|tafsir|lecture)\b/gi, ' ').replace(/\s+/g, ' ').trim();
+    const normalizeOnlineState = value => {
+      if (typeof value === 'boolean') return value;
+      if (typeof value === 'number') return value !== 0;
+      if (typeof value === 'string') {
+        const normalized = value.trim().toLowerCase();
+        if (['0', 'false', 'offline', 'off', 'down', 'inactive', 'disconnected'].includes(normalized)) {
+          return false;
+        }
+        if (['1', 'true', 'online', 'on', 'up', 'active', 'live', 'connected'].includes(normalized)) {
+          return true;
+        }
+      }
+      return null;
+    };
     const buildReciterImageUrl = (name = '') => {
       const seed = encodeURIComponent(name || 'quran-radio');
       return `https://api.dicebear.com/9.x/initials/svg?seed=${seed}&backgroundType=gradientLinear`;
@@ -342,6 +360,142 @@ const RECITER_IMAGE_PLACEHOLDER = 'https://upload.wikimedia.org/wikipedia/common
     const audioPlayerJustOpened = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(false);
     const focusedStationId = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(null);
     const liveAnnouncement = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)('');
+    const stationAvailabilityChecks = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)({});
+    const stationProbeRunId = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(0);
+    const findStationById = id => {
+      const normalizedId = Number(id);
+      return stations.value.find(station => Number(station.id) === normalizedId) || likedStations.value.find(station => Number(station.id) === normalizedId) || recentlyPlayed.value.find(station => Number(station.id) === normalizedId) || defaultPopularReciters.find(station => Number(station.id) === normalizedId) || null;
+    };
+    const resolveStation = stationOrId => {
+      if (stationOrId && typeof stationOrId === 'object') {
+        return findStationById(stationOrId.id) || stationOrId;
+      }
+      return findStationById(stationOrId);
+    };
+    const applyOnlineStateToList = (list, id, isOnline) => {
+      if (!Array.isArray(list)) return;
+      const normalizedId = Number(id);
+      const station = list.find(item => Number(item === null || item === void 0 ? void 0 : item.id) === normalizedId);
+      if (station) station.online = isOnline;
+    };
+    const setStationOnlineState = (id, isOnline) => {
+      applyOnlineStateToList(stations.value, id, isOnline);
+      applyOnlineStateToList(likedStations.value, id, isOnline);
+      applyOnlineStateToList(recentlyPlayed.value, id, isOnline);
+      if (selectedStationForInfo.value && Number(selectedStationForInfo.value.id) === Number(id)) {
+        selectedStationForInfo.value = _objectSpread(_objectSpread({}, selectedStationForInfo.value), {}, {
+          online: isOnline
+        });
+      }
+    };
+    const isStationOffline = stationOrId => {
+      var _resolveStation;
+      return normalizeOnlineState((_resolveStation = resolveStation(stationOrId)) === null || _resolveStation === void 0 ? void 0 : _resolveStation.online) === false;
+    };
+    const isStationOnline = stationOrId => {
+      var _resolveStation2;
+      return normalizeOnlineState((_resolveStation2 = resolveStation(stationOrId)) === null || _resolveStation2 === void 0 ? void 0 : _resolveStation2.online) === true;
+    };
+    const isStationStatusPending = stationOrId => {
+      const station = resolveStation(stationOrId);
+      return !!station && !!stationAvailabilityChecks.value[station.id];
+    };
+    const isStationPlayable = stationOrId => {
+      const station = resolveStation(stationOrId);
+      if (!(station !== null && station !== void 0 && station.url)) return false;
+      if (isStationStatusPending(station)) return false;
+      return isStationOnline(station);
+    };
+    const playButtonStyle = stationOrId => isStationPlayable(stationOrId) ? PLAY_BUTTON_STYLE_ACTIVE : PLAY_BUTTON_STYLE_DISABLED;
+    const getPlayButtonTitle = stationOrId => {
+      const station = resolveStation(stationOrId);
+      if (!(station !== null && station !== void 0 && station.url)) return 'Station stream is unavailable';
+      if (isStationStatusPending(station)) return 'Checking station status...';
+      if (isStationOffline(station)) return 'Station is offline';
+      if (!isStationOnline(station)) return 'Checking station status...';
+      return '';
+    };
+    const probeStreamUrl = (url, timeoutMs = STATION_PROBE_TIMEOUT_MS) => new Promise(resolve => {
+      if (!url || typeof url !== 'string') {
+        resolve(false);
+        return;
+      }
+      const probeAudio = new Audio();
+      let settled = false;
+      let timeoutId = null;
+      const finish = isOnline => {
+        if (settled) return;
+        settled = true;
+        if (timeoutId) clearTimeout(timeoutId);
+        probeAudio.removeEventListener('loadedmetadata', onReady);
+        probeAudio.removeEventListener('canplay', onReady);
+        probeAudio.removeEventListener('canplaythrough', onReady);
+        probeAudio.removeEventListener('error', onError);
+        try {
+          probeAudio.pause();
+          probeAudio.src = '';
+          probeAudio.load();
+        } catch (_unused) {
+          // ignore cleanup errors
+        }
+        resolve(isOnline);
+      };
+      const onReady = () => finish(true);
+      const onError = () => finish(false);
+      timeoutId = setTimeout(() => finish(false), timeoutMs);
+      probeAudio.preload = 'metadata';
+      probeAudio.addEventListener('loadedmetadata', onReady);
+      probeAudio.addEventListener('canplay', onReady);
+      probeAudio.addEventListener('canplaythrough', onReady);
+      probeAudio.addEventListener('error', onError);
+      try {
+        probeAudio.src = url;
+        probeAudio.load();
+      } catch (_unused2) {
+        finish(false);
+      }
+    });
+    const probeStationAvailability = async station => {
+      if (!(station !== null && station !== void 0 && station.url)) return false;
+      const primaryIsOnline = await probeStreamUrl(station.url);
+      if (primaryIsOnline) return true;
+      if (station.fallbackUrl) {
+        return probeStreamUrl(station.fallbackUrl);
+      }
+      return false;
+    };
+    const probeStationsAvailability = async (stationList = []) => {
+      const runId = ++stationProbeRunId.value;
+      stationAvailabilityChecks.value = {};
+      const uniqueStations = [];
+      const seenIds = new Set();
+      stationList.forEach(station => {
+        if (!(station !== null && station !== void 0 && station.id) || !(station !== null && station !== void 0 && station.url)) return;
+        const normalizedId = Number(station.id);
+        if (seenIds.has(normalizedId)) return;
+        seenIds.add(normalizedId);
+        uniqueStations.push(station);
+      });
+      if (!uniqueStations.length) return;
+      let cursor = 0;
+      const workers = Array.from({
+        length: Math.min(STATION_PROBE_CONCURRENCY, uniqueStations.length)
+      }, async () => {
+        while (cursor < uniqueStations.length) {
+          const station = uniqueStations[cursor++];
+          if (!station || stationProbeRunId.value !== runId) return;
+          stationAvailabilityChecks.value[station.id] = true;
+          const isOnline = await probeStationAvailability(station);
+          if (stationProbeRunId.value !== runId) return;
+          setStationOnlineState(station.id, isOnline);
+          delete stationAvailabilityChecks.value[station.id];
+        }
+      });
+      await Promise.all(workers);
+      if (stationProbeRunId.value === runId) {
+        stationAvailabilityChecks.value = {};
+      }
+    };
 
     // Cached search helpers
     const lowerSearchQuery = (0,vue__WEBPACK_IMPORTED_MODULE_0__.computed)(() => searchQuery.value.trim().toLowerCase());
@@ -351,7 +505,7 @@ const RECITER_IMAGE_PLACEHOLDER = 'https://upload.wikimedia.org/wikipedia/common
       // Keep previous behavior: use raw query in regex (case-insensitive)
       try {
         return new RegExp(`(${raw})`, 'gi');
-      } catch (_unused) {
+      } catch (_unused3) {
         return null;
       }
     });
@@ -576,6 +730,7 @@ const RECITER_IMAGE_PLACEHOLDER = 'https://upload.wikimedia.org/wikipedia/common
         type: (meta === null || meta === void 0 ? void 0 : meta.type) || station.category || 'recitation'
       };
       return _objectSpread(_objectSpread({}, station), {}, {
+        online: normalizeOnlineState(station.online),
         imageUrl: primaryImage || buildReciterImageUrl(),
         shortInfo: (profile === null || profile === void 0 ? void 0 : profile.shortInfo) || station.shortInfo || '',
         longInfo: (profile === null || profile === void 0 ? void 0 : profile.longInfo) || station.longInfo || '',
@@ -730,7 +885,22 @@ const RECITER_IMAGE_PLACEHOLDER = 'https://upload.wikimedia.org/wikipedia/common
       if (recentlyPlayed.value.length > 10) recentlyPlayed.value.pop();
       saveRecentlyPlayed();
     };
-    const togglePlay = async id => {
+    const togglePlay = async (id, {
+      force: _force = false
+    } = {}) => {
+      const station = findStationById(id);
+      if (!station) return;
+      if (!_force && !isStationPlayable(station)) {
+        if (isStationOffline(station)) {
+          playbackErrors.value[id] = 'This station is currently offline.';
+          setStationOnlineState(id, false);
+        } else if (isStationStatusPending(station) || !isStationOnline(station)) {
+          playbackErrors.value[id] = 'Station status is being checked. Please try again in a moment.';
+        } else {
+          playbackErrors.value[id] = 'This station is currently unavailable. Please try again later.';
+        }
+        return;
+      }
       await initializeAudio(id);
       const audio = getAudioForStation(id);
       if (!audio) {
@@ -765,13 +935,14 @@ const RECITER_IMAGE_PLACEHOLDER = 'https://upload.wikimedia.org/wikipedia/common
         currentAudio.value = audio;
         currentPlayingStationId.value = id;
         playbackErrors.value[id] = null;
+        setStationOnlineState(id, true);
         addToRecentlyPlayed(id);
         applyVolume(id);
       } catch (error) {
         console.error(`Playback failed for station ${id}:`, error);
-        playbackErrors.value[id] = 'This station is currently unavailable. Please try again later.';
+        playbackErrors.value[id] = 'This station is currently offline.';
         playingStates.value[id] = false;
-        const station = defaultPopularReciters.find(s => s.id === id) || stations.value.find(s => s.id === id);
+        setStationOnlineState(id, false);
         if (station !== null && station !== void 0 && station.fallbackUrl) {
           console.log(`Trying fallback URL for station ${id}`);
           audio.src = station.fallbackUrl;
@@ -781,11 +952,13 @@ const RECITER_IMAGE_PLACEHOLDER = 'https://upload.wikimedia.org/wikipedia/common
             currentAudio.value = audio;
             currentPlayingStationId.value = id;
             playbackErrors.value[id] = null;
+            setStationOnlineState(id, true);
             addToRecentlyPlayed(id);
             applyVolume(id);
           } catch (fallbackError) {
             console.error(`Fallback playback failed for station ${id}:`, fallbackError);
-            playbackErrors.value[id] = 'This station is currently unavailable. Please try again later.';
+            playbackErrors.value[id] = 'This station is currently offline.';
+            setStationOnlineState(id, false);
           }
         }
       }
@@ -797,20 +970,25 @@ const RECITER_IMAGE_PLACEHOLDER = 'https://upload.wikimedia.org/wikipedia/common
         const response = await fetch('https://mp3quran.net/api/v3/radios?language=eng');
         if (!response.ok) throw new Error(`HTTP error: ${response.status}`);
         const data = await response.json();
-        const apiStations = data.radios.map(radio => ({
-          id: radio.id + 1000,
-          name: radio.name,
-          url: radio.url,
-          category: radio.category || assignCategory(radio.name),
-          imageUrl: radio.image || buildReciterImageUrl(radio.name),
-          imageLoaded: true,
-          listeners: Math.floor(Math.random() * (1500 - 50) + 50) // Simulated listeners
-        })).map(enrichStation);
+        const apiStations = data.radios.map(radio => {
+          var _ref, _ref2, _ref3, _radio$online;
+          return {
+            id: radio.id + 1000,
+            name: radio.name,
+            url: radio.url,
+            online: normalizeOnlineState((_ref = (_ref2 = (_ref3 = (_radio$online = radio.online) !== null && _radio$online !== void 0 ? _radio$online : radio.status) !== null && _ref3 !== void 0 ? _ref3 : radio.isLive) !== null && _ref2 !== void 0 ? _ref2 : radio.is_live) !== null && _ref !== void 0 ? _ref : radio.live),
+            category: radio.category || assignCategory(radio.name),
+            imageUrl: radio.image || buildReciterImageUrl(radio.name),
+            imageLoaded: true,
+            listeners: Math.floor(Math.random() * (1500 - 50) + 50) // Simulated listeners
+          };
+        }).map(enrichStation);
         const defaultStationsWithListeners = defaultPopularReciters.map(station => _objectSpread(_objectSpread({}, station), {}, {
           listeners: Math.floor(Math.random() * (2500 - 200) + 200) // Higher listener count for popular ones
         })).map(enrichStation);
         stations.value = dedupeStationsByReciterName([...defaultStationsWithListeners, ...apiStations.filter(apiStation => !defaultStationsWithListeners.some(pr => pr.id === apiStation.id))].filter(station => isValidUrl(station.url)));
         filteredStations.value = stations.value;
+        probeStationsAvailability(stations.value).catch(() => {});
         initializeVolumes();
         loadLikedStations();
         loadRecentlyPlayed();
@@ -821,6 +999,7 @@ const RECITER_IMAGE_PLACEHOLDER = 'https://upload.wikimedia.org/wikipedia/common
         fetchError.value = 'Failed to load stations. Using default reciters.';
         stations.value = dedupeStationsByReciterName([...defaultPopularReciters].map(enrichStation).filter(station => isValidUrl(station.url)));
         filteredStations.value = stations.value;
+        probeStationsAvailability(stations.value).catch(() => {});
         initializeVolumes();
         hydrateStationImagesInBackground(stations.value);
         fetchAlquranReciterMetadata().catch(() => {});
@@ -832,7 +1011,7 @@ const RECITER_IMAGE_PLACEHOLDER = 'https://upload.wikimedia.org/wikipedia/common
       try {
         new URL(url);
         return true;
-      } catch (_unused2) {
+      } catch (_unused4) {
         console.warn(`Invalid URL: ${url}`);
         return false;
       }
@@ -941,6 +1120,7 @@ const RECITER_IMAGE_PLACEHOLDER = 'https://upload.wikimedia.org/wikipedia/common
       currentPlayingStationId.value = id;
       playingStates.value[id] = true;
       playbackErrors.value[id] = null;
+      setStationOnlineState(id, true);
       addToRecentlyPlayed(id);
       applyVolume(id);
       try {
@@ -987,9 +1167,29 @@ const RECITER_IMAGE_PLACEHOLDER = 'https://upload.wikimedia.org/wikipedia/common
         }
       }
       playbackErrors.value[stationId] = errorMessage;
+      setStationOnlineState(stationId, false);
       console.error(`Audio error for station ${stationId}:`, error);
     };
     const getStationStatus = id => {
+      const station = findStationById(id);
+      if (!(station !== null && station !== void 0 && station.url)) {
+        return {
+          text: 'Offline',
+          class: 'bg-danger'
+        };
+      }
+      if (isStationStatusPending(station)) {
+        return {
+          text: 'Checking...',
+          class: 'bg-secondary'
+        };
+      }
+      if (isStationOffline(station)) {
+        return {
+          text: 'Offline',
+          class: 'bg-danger'
+        };
+      }
       if (playbackErrors.value[id]) {
         return {
           text: 'Offline',
@@ -998,12 +1198,18 @@ const RECITER_IMAGE_PLACEHOLDER = 'https://upload.wikimedia.org/wikipedia/common
       }
       if (isPlaying(id)) {
         return {
-          text: 'live',
+          text: 'Live',
           class: 'bg-theme-teal text-dark'
         };
       }
+      if (normalizeOnlineState(station.online) === null) {
+        return {
+          text: 'Checking...',
+          class: 'bg-secondary'
+        };
+      }
       return {
-        text: 'live',
+        text: 'Online',
         class: 'bg-theme-teal text-dark'
       };
     };
@@ -1090,7 +1296,8 @@ const RECITER_IMAGE_PLACEHOLDER = 'https://upload.wikimedia.org/wikipedia/common
       axios__WEBPACK_IMPORTED_MODULE_1__["default"].get('/api/preferences/liked_reciters').then(response => {
         var _response$data;
         const liked = Array.isArray((_response$data = response.data) === null || _response$data === void 0 ? void 0 : _response$data.value) ? response.data.value : [];
-        likedStations.value = liked.filter(s => stations.value.some(station => station.id === s.id));
+        const stationById = new Map(stations.value.map(station => [Number(station.id), station]));
+        likedStations.value = liked.map(savedStation => stationById.get(Number(savedStation === null || savedStation === void 0 ? void 0 : savedStation.id))).filter(Boolean);
       }).catch(() => {
         likedStations.value = [];
       });
@@ -1103,7 +1310,8 @@ const RECITER_IMAGE_PLACEHOLDER = 'https://upload.wikimedia.org/wikipedia/common
       axios__WEBPACK_IMPORTED_MODULE_1__["default"].get('/api/preferences/reciter_recent').then(response => {
         var _response$data2;
         const recent = Array.isArray((_response$data2 = response.data) === null || _response$data2 === void 0 ? void 0 : _response$data2.value) ? response.data.value : [];
-        recentlyPlayed.value = recent.filter(s => stations.value.some(station => station.id === s.id));
+        const stationById = new Map(stations.value.map(station => [Number(station.id), station]));
+        recentlyPlayed.value = recent.map(savedStation => stationById.get(Number(savedStation === null || savedStation === void 0 ? void 0 : savedStation.id))).filter(Boolean);
       }).catch(() => {
         recentlyPlayed.value = [];
       });
@@ -1129,7 +1337,9 @@ const RECITER_IMAGE_PLACEHOLDER = 'https://upload.wikimedia.org/wikipedia/common
     };
     const retryPlayback = id => {
       playbackErrors.value[id] = null;
-      togglePlay(id);
+      togglePlay(id, {
+        force: true
+      });
     };
 
     // Removed pagination handlers (replaced by infinite scroll)
@@ -1159,13 +1369,14 @@ const RECITER_IMAGE_PLACEHOLDER = 'https://upload.wikimedia.org/wikipedia/common
       const currentIndex = currentStations.findIndex(station => station.id === currentPlayingStationId.value);
       if (currentIndex === -1) return;
 
-      // Calculate previous index (wrap around to last if at beginning)
-      const prevIndex = currentIndex === 0 ? currentStations.length - 1 : currentIndex - 1;
-      const prevStation = currentStations[prevIndex];
-
-      // Play the previous station
-      if (prevStation) {
-        togglePlay(prevStation.id);
+      // Move backward to the first playable station (wrap once)
+      for (let step = 1; step <= currentStations.length; step += 1) {
+        const prevIndex = (currentIndex - step + currentStations.length) % currentStations.length;
+        const prevStation = currentStations[prevIndex];
+        if (prevStation && isStationPlayable(prevStation)) {
+          togglePlay(prevStation.id);
+          return;
+        }
       }
     };
     const nextStation = () => {
@@ -1176,13 +1387,14 @@ const RECITER_IMAGE_PLACEHOLDER = 'https://upload.wikimedia.org/wikipedia/common
       const currentIndex = currentStations.findIndex(station => station.id === currentPlayingStationId.value);
       if (currentIndex === -1) return;
 
-      // Calculate next index (wrap around to first if at end)
-      const nextIndex = (currentIndex + 1) % currentStations.length;
-      const nextStation = currentStations[nextIndex];
-
-      // Play the next station
-      if (nextStation) {
-        togglePlay(nextStation.id);
+      // Move forward to the first playable station (wrap once)
+      for (let step = 1; step <= currentStations.length; step += 1) {
+        const nextIndex = (currentIndex + step) % currentStations.length;
+        const candidate = currentStations[nextIndex];
+        if (candidate && isStationPlayable(candidate)) {
+          togglePlay(candidate.id);
+          return;
+        }
       }
     };
     (0,vue__WEBPACK_IMPORTED_MODULE_0__.onMounted)(() => {
@@ -1230,6 +1442,7 @@ const RECITER_IMAGE_PLACEHOLDER = 'https://upload.wikimedia.org/wikipedia/common
       selectedStationForInfo,
       sanitizeName,
       simplifyReciterName,
+      normalizeOnlineState,
       RECITER_IMAGE_PLACEHOLDER,
       buildReciterImageUrl,
       isGeneratedOrPlaceholderImage,
@@ -1287,6 +1500,25 @@ const RECITER_IMAGE_PLACEHOLDER = 'https://upload.wikimedia.org/wikipedia/common
       audioPlayerJustOpened,
       focusedStationId,
       liveAnnouncement,
+      stationAvailabilityChecks,
+      stationProbeRunId,
+      PLAY_BUTTON_STYLE_ACTIVE,
+      PLAY_BUTTON_STYLE_DISABLED,
+      STATION_PROBE_TIMEOUT_MS,
+      STATION_PROBE_CONCURRENCY,
+      findStationById,
+      resolveStation,
+      applyOnlineStateToList,
+      setStationOnlineState,
+      isStationOffline,
+      isStationOnline,
+      isStationStatusPending,
+      isStationPlayable,
+      playButtonStyle,
+      getPlayButtonTitle,
+      probeStreamUrl,
+      probeStationAvailability,
+      probeStationsAvailability,
       lowerSearchQuery,
       searchRegex,
       onStationKeydown,
@@ -1795,7 +2027,7 @@ const _hoisted_120 = {
     "justify-content": "center"
   }
 };
-const _hoisted_121 = ["aria-label", "aria-pressed"];
+const _hoisted_121 = ["aria-label", "aria-pressed", "disabled", "title"];
 const _hoisted_122 = {
   class: "progress-bar-container flex-grow-1 mx-4"
 };
@@ -2037,14 +2269,15 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(station.country), 3 /* TEXT, CLASS */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), station.shortInfo ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_35, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(station.shortInfo), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_36, [_cache[46] || (_cache[46] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-headphones me-1",
       "aria-hidden": "true"
-    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(station.listeners || 0) + " listeners ", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_37, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(station.online !== false ? 'Live' : 'Offline'), 1 /* TEXT */)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_38, [station.online !== false ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
-      key: 0,
+    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(station.listeners || 0) + " listeners ", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_37, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.getStationStatus(station.id).text), 1 /* TEXT */)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_38, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       onClick: $event => $setup.togglePlay(station.id),
-      class: "control-btn play-pause p-0",
+      class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["control-btn play-pause p-0", {
+        'is-offline': $setup.isStationOffline(station)
+      }]),
       "aria-label": $setup.isPlaying(station.id) ? 'Pause ' + station.name : 'Play ' + station.name,
-      disabled: !station.url,
-      title: station.online === false ? 'Station is offline' : '',
-      style: 'width:46px;height:46px;border-radius:999px;background:linear-gradient(135deg,#10b981,#06b6ac);display:inline-flex;align-items:center;justify-content:center;border:none;box-shadow:0 10px 22px rgba(6,182,172,.25);transition:transform .12s ease, box-shadow .12s ease;',
+      disabled: !$setup.isStationPlayable(station),
+      title: $setup.getPlayButtonTitle(station),
+      style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)($setup.playButtonStyle(station)),
       onMouseenter: _cache[12] || (_cache[12] = $event => {
         $event.currentTarget.style.boxShadow = '0 14px 28px rgba(6,182,172,.32)';
         $event.currentTarget.style.transform = 'translateY(-1px)';
@@ -2061,7 +2294,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       style: {
         "font-size": "1.4rem"
       }
-    }, null, 2 /* CLASS */)], 40 /* PROPS, NEED_HYDRATION */, _hoisted_39)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, null, 2 /* CLASS */)], 46 /* CLASS, STYLE, PROPS, NEED_HYDRATION */, _hoisted_39), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       class: "btn btn-icon like-button p-2",
       onClick: $event => $setup.toggleLike(station),
       "aria-label": $setup.isLiked(station.id) ? 'Unlike ' + station.name : 'Like ' + station.name,
@@ -2203,15 +2436,16 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }, [_cache[56] || (_cache[56] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-headphones me-1",
       "aria-hidden": "true"
-    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(station.listeners), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_71), $setup.currentPlayingStationId === station.id && $setup.isPlaying(station.id) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_72, "Now Playing")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.getStationStatus(station.id).text), 1 /* TEXT */)]), station.online !== false ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
-      key: 0,
+    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(station.listeners), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_71), $setup.currentPlayingStationId === station.id && $setup.isPlaying(station.id) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_72, "Now Playing")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.getStationStatus(station.id).text), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       onClick: $event => $setup.togglePlay(station.id),
-      class: "control-btn play-pause p-0",
+      class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["control-btn play-pause p-0", {
+        'is-offline': $setup.isStationOffline(station)
+      }]),
       "aria-label": $setup.isPlaying(station.id) ? 'Pause playback' : 'Play playback',
       "aria-pressed": $setup.isPlaying(station.id),
-      disabled: !station.url,
-      title: station.online === false ? 'Station is offline' : '',
-      style: 'width:46px;height:46px;border-radius:999px;background:linear-gradient(135deg,#10b981,#06b6ac);display:inline-flex;align-items:center;justify-content:center;border:none;box-shadow:0 10px 22px rgba(6,182,172,.25);transition:transform .12s ease, box-shadow .12s ease;position:relative;overflow:hidden',
+      disabled: !$setup.isStationPlayable(station),
+      title: $setup.getPlayButtonTitle(station),
+      style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)($setup.playButtonStyle(station)),
       onMouseenter: _cache[18] || (_cache[18] = $event => {
         $event.currentTarget.style.boxShadow = '0 14px 28px rgba(6,182,172,.32)';
         $event.currentTarget.style.transform = 'translateY(-1px)';
@@ -2228,7 +2462,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       style: {
         "font-size": "1.4rem"
       }
-    }, null, 2 /* CLASS */)], 40 /* PROPS, NEED_HYDRATION */, _hoisted_73)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_74, [$setup.audioMountForId === station.id ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("audio", {
+    }, null, 2 /* CLASS */)], 46 /* CLASS, STYLE, PROPS, NEED_HYDRATION */, _hoisted_73)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_74, [$setup.audioMountForId === station.id ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("audio", {
       key: 0,
       ref_for: true,
       ref: el => $setup.audioRefs[station.id] = el,
@@ -2315,15 +2549,16 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }, [_cache[60] || (_cache[60] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-headphones me-1",
       "aria-hidden": "true"
-    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(station.listeners), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_97), $setup.currentPlayingStationId === station.id && $setup.isPlaying(station.id) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_98, "Now Playing")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.getStationStatus(station.id).text), 1 /* TEXT */)]), station.online !== false ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
-      key: 0,
+    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(station.listeners), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_97), $setup.currentPlayingStationId === station.id && $setup.isPlaying(station.id) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_98, "Now Playing")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.getStationStatus(station.id).text), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       onClick: $event => $setup.togglePlay(station.id),
-      class: "control-btn play-pause p-0",
+      class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["control-btn play-pause p-0", {
+        'is-offline': $setup.isStationOffline(station)
+      }]),
       "aria-label": $setup.isPlaying(station.id) ? 'Pause playback' : 'Play playback',
       "aria-pressed": $setup.isPlaying(station.id),
-      disabled: !station.url,
-      title: station.online === false ? 'Station is offline' : '',
-      style: 'width:46px;height:46px;border-radius:999px;background:linear-gradient(135deg,#10b981,#06b6ac);display:inline-flex;align-items:center;justify-content:center;border:none;box-shadow:0 10px 22px rgba(6,182,172,.25);transition:transform .12s ease, box-shadow .12s ease;position:relative;overflow:hidden',
+      disabled: !$setup.isStationPlayable(station),
+      title: $setup.getPlayButtonTitle(station),
+      style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)($setup.playButtonStyle(station)),
       onMouseenter: _cache[22] || (_cache[22] = $event => {
         $event.currentTarget.style.boxShadow = '0 14px 28px rgba(6,182,172,.32)';
         $event.currentTarget.style.transform = 'translateY(-1px)';
@@ -2340,7 +2575,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       style: {
         "font-size": "1.4rem"
       }
-    }, null, 2 /* CLASS */)], 40 /* PROPS, NEED_HYDRATION */, _hoisted_99)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_100, [$setup.audioMountForId === station.id ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("audio", {
+    }, null, 2 /* CLASS */)], 46 /* CLASS, STYLE, PROPS, NEED_HYDRATION */, _hoisted_99)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_100, [$setup.audioMountForId === station.id ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("audio", {
       key: 0,
       ref_for: true,
       ref: el => $setup.audioRefs[station.id] = el,
@@ -2399,12 +2634,16 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       class: "bi bi-rewind-fill text-white"
     }, null, -1 /* CACHED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       onClick: _cache[27] || (_cache[27] = $event => $setup.togglePlay($setup.currentPlayingStationId)),
-      class: "control-btn play-pause fs-2 mx-2",
+      class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["control-btn play-pause fs-2 mx-2", {
+        'is-offline': $setup.currentPlayingStationId && !$setup.isStationPlayable($setup.currentPlayingStationId)
+      }]),
       "aria-label": $setup.isPlaying($setup.currentPlayingStationId) ? 'Pause playback' : 'Play playback',
-      "aria-pressed": $setup.isPlaying($setup.currentPlayingStationId)
+      "aria-pressed": $setup.isPlaying($setup.currentPlayingStationId),
+      disabled: $setup.currentPlayingStationId && !$setup.isStationPlayable($setup.currentPlayingStationId),
+      title: $setup.currentPlayingStationId ? $setup.getPlayButtonTitle($setup.currentPlayingStationId) : ''
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi text-white", $setup.isPlaying($setup.currentPlayingStationId) ? 'bi-pause-fill' : 'bi-play-fill'])
-    }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_121), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, null, 2 /* CLASS */)], 10 /* CLASS, PROPS */, _hoisted_121), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       onClick: $setup.nextStation,
       class: "control-btn mx-2",
       title: "Next Station"

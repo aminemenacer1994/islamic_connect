@@ -81,7 +81,7 @@ export default {
       utterance: null,
       pausedWordIndex: 0,
       currentTtsText: '',
-      synth: window.speechSynthesis,
+      synth: typeof window !== 'undefined' && window.speechSynthesis ? window.speechSynthesis : null,
       copySuccess: false,
       searchTerm: '',
       showAudioPlayer: false,
@@ -164,8 +164,10 @@ export default {
     try { this._originalTitle = document.title; } catch (_) { this._originalTitle = 'Islamic Connect'; }
     window.addEventListener('scroll', this.handleScrollForTitle, { passive: true });
     document.addEventListener('visibilitychange', this.handleVisibilityChange);
-    this.synth.onvoiceschanged = this.loadVoices;
-    this.loadVoices();
+    if (this.synth) {
+      this.synth.onvoiceschanged = this.loadVoices;
+      this.loadVoices();
+    }
     // Restore dismissal/minimized state for Next Step banner
     try {
       if (localStorage.getItem('missionNextStepDismissed') === '1') this.showNextStep = false;
@@ -216,8 +218,10 @@ export default {
     window.removeEventListener('resize', this.updateOffcanvasWidth);
     document.removeEventListener('visibilitychange', this.handleVisibilityChange);
     window.removeEventListener('scroll', this.handleScrollForTitle);
-    this.synth.onvoiceschanged = null;
-    if (this.utterance) {
+    if (this.synth) {
+      this.synth.onvoiceschanged = null;
+    }
+    if (this.utterance && this.synth) {
       this.synth.cancel();
     }
     if (this._filterTimer) {
@@ -583,7 +587,7 @@ export default {
     },
     keyboardSeek(deltaPercent) {
       const idx = this.currentlyPlayingIndex;
-      if (idx == null || !this.utterance || !this.isAudioPlaying[idx]) return;
+      if (!this.synth || idx == null || !this.utterance || !this.isAudioPlaying[idx]) return;
       const current = this.progress[idx] || 0;
       const next = Math.min(100, Math.max(0, current + deltaPercent));
       // Simulate by canceling and restarting at target percent
@@ -631,6 +635,7 @@ export default {
       });
     },
     loadVoices() {
+      if (!this.synth || typeof this.synth.getVoices !== 'function') return;
       const voices = this.synth.getVoices();
       if (voices.length) {
         this.selectedVoice = voices.find(voice =>
@@ -640,8 +645,10 @@ export default {
       }
     },
     toggleAudioPlayer(index) {
+      if (!this.synth) return;
       if (!this.selectedVoice) {
         this.loadVoices();
+        if (!this.selectedVoice) return;
         return;
       }
       this.currentlyPlayingIndex = index;
@@ -660,6 +667,7 @@ export default {
       }
     },
     playAudio(index, startWordIndex = 0) {
+      if (!this.synth) return;
       if (this.utterance && this.synth.speaking) {
         this.synth.cancel();
       }
@@ -694,7 +702,7 @@ export default {
       try { document.body.classList.add('with-audio-player'); } catch (_) { }
     },
     stopAudio(index) {
-      if (this.synth.speaking || this.synth.paused) {
+      if (this.synth && (this.synth.speaking || this.synth.paused)) {
         this.synth.cancel();
         this.isAudioPlaying[index] = false;
         this.ttsState = 'stopped';
@@ -702,11 +710,16 @@ export default {
         this.currentTime = 0;
         this.pausedWordIndex = 0;
         this.showAudioPlayer = false;
+      } else if (!this.synth) {
+        this.ttsState = 'stopped';
+        this.currentTime = 0;
+        this.pausedWordIndex = 0;
+        this.showAudioPlayer = false;
       }
       try { document.body.classList.remove('with-audio-player'); } catch (_) { }
     },
     rewindAudio(index) {
-      if (!this.utterance || !this.isAudioPlaying[index]) return;
+      if (!this.synth || !this.utterance || !this.isAudioPlaying[index]) return;
       this.synth.cancel();
       const wordCount = this.countWords(this.currentTtsText);
       const wordsPerSecond = 150 / 60;
@@ -736,7 +749,7 @@ export default {
       this.pausedWordIndex = newWordIndex;
     },
     fastForwardAudio(index) {
-      if (!this.utterance || !this.isAudioPlaying[index]) return;
+      if (!this.synth || !this.utterance || !this.isAudioPlaying[index]) return;
       this.synth.cancel();
       const wordCount = this.countWords(this.currentTtsText);
       const wordsPerSecond = 150 / 60;
@@ -766,7 +779,7 @@ export default {
       this.pausedWordIndex = newWordIndex;
     },
     seekAudio(event, index) {
-      if (!this.utterance || !this.isAudioPlaying[index]) return;
+      if (!this.synth || !this.utterance || !this.isAudioPlaying[index]) return;
       this.synth.cancel();
       const progressBar = event.currentTarget;
       const rect = progressBar.getBoundingClientRect();
@@ -846,7 +859,7 @@ export default {
     selectEvent(index) {
       if (!Number.isInteger(index)) return;
       if (index < 0 || index >= this.events.length) return;
-      if (this.synth.speaking || this.synth.paused) {
+      if (this.synth && (this.synth.speaking || this.synth.paused)) {
         this.stopAudio(this.currentlyPlayingIndex);
       }
       this.currentIndex = index;
@@ -920,7 +933,7 @@ export default {
       this.$forceUpdate();
     },
     handleVisibilityChange() {
-      if (document.hidden && this.synth.speaking) {
+      if (document.hidden && this.synth && this.synth.speaking) {
         this.stopAudio(this.currentlyPlayingIndex);
       }
     },
