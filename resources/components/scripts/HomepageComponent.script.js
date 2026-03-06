@@ -89,7 +89,7 @@ export default {
           desc: "Access recitations, podcasts, and media content for daily reflection.",
           image: "/images/watching.png",
           imageAlt: "Headphones icon for Islamic audio content",
-          href: "/media",
+          href: "/content",
           cta: "Open Media",
         },
         {
@@ -97,7 +97,7 @@ export default {
           desc: "Use keyboard-friendly, screen-reader-aware tools for consistent learning.",
           image: "/images/school.png",
           imageAlt: "Graduation cap icon for education",
-          href: "/access",
+          href: "/dua",
           cta: "View Access Tools",
         },
       ],

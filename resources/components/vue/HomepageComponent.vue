@@ -116,7 +116,7 @@
               />
               <h3>{{ feature.title }}</h3>
               <p>{{ feature.desc }}</p>
-              <a :href="feature.href" class="ic-link-card__cta">{{ feature.cta }}</a>
+              <a :href="feature.href" class="ic-link-card__cta" target="_blank" rel="noopener noreferrer">{{ feature.cta }}</a>
             </article>
           </div>
         </div>
@@ -326,16 +326,16 @@
           <a href="https://islamiconnect.com/" class="ic-footer__brand">islamiconnect.com</a>
         </div>
         <div class="ic-footer__social text-center text-md-end">
-          <a href="https://www.facebook.com/profile.php?id=61560313385599" aria-label="Visit our Facebook page">
+          <a href="https://www.facebook.com/profile.php?id=61560313385599" aria-label="Visit our Facebook page" target="_blank" rel="noopener noreferrer">
             <i class="fab fa-facebook-f" aria-hidden="true"></i>
           </a>
-          <a href="https://x.com/islamiconnect24" aria-label="Visit our X (Twitter) profile">
+          <a href="https://x.com/islamiconnect24" aria-label="Visit our X (Twitter) profile" target="_blank" rel="noopener noreferrer">
             <i class="fab fa-twitter" aria-hidden="true"></i>
           </a>
-          <a href="https://www.linkedin.com/company/islamic-connect/" aria-label="Visit our LinkedIn page">
+          <a href="https://www.linkedin.com/company/islamic-connect/" aria-label="Visit our LinkedIn page" target="_blank" rel="noopener noreferrer">
             <i class="fab fa-linkedin" aria-hidden="true"></i>
           </a>
-          <a href="https://www.instagram.com/islamicconnect24/" aria-label="Visit our Instagram profile">
+          <a href="https://www.instagram.com/islamicconnect24/" aria-label="Visit our Instagram profile" target="_blank" rel="noopener noreferrer">
             <i class="fab fa-instagram" aria-hidden="true"></i>
           </a>
         </div>

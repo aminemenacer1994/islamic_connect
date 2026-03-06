@@ -601,7 +601,7 @@ textarea.form-control:focus {
 .premium-toast {
   position: fixed;
   right: 1rem;
-  bottom: 1rem;
+  top: 1rem;
   z-index: 1200;
   min-width: min(380px, calc(100vw - 2rem));
   display: flex;
@@ -616,7 +616,10 @@ textarea.form-control:focus {
 }
 
 .premium-toast--success {
-  background: linear-gradient(135deg, #0f6e63, #0a4a44);
+  background: #fff;
+  color: #10363a;
+  border-color: rgba(15, 110, 99, 0.24);
+  box-shadow: 0 14px 30px rgba(10, 77, 70, 0.18);
 }
 
 .premium-toast--error {
@@ -634,6 +637,11 @@ textarea.form-control:focus {
 
 .premium-toast small {
   opacity: 0.9;
+}
+
+.premium-toast--success .btn-close {
+  filter: none !important;
+  opacity: 0.75;
 }
 
 .ic-footer {

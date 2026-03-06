@@ -303,7 +303,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       class: "ic-feature-card__image"
     }, null, 8 /* PROPS */, _hoisted_29), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(feature.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(feature.desc), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
       href: feature.href,
-      class: "ic-link-card__cta"
+      class: "ic-link-card__cta",
+      target: "_blank",
+      rel: "noopener noreferrer"
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(feature.cta), 9 /* TEXT, PROPS */, _hoisted_30)])]);
   }), 128 /* KEYED_FRAGMENT */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_31, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_32, [_cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "section-intro text-center"
@@ -471,7 +473,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, "©", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currentYear), 1 /* TEXT */), _cache[30] || (_cache[30] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
     href: "https://islamiconnect.com/",
     class: "ic-footer__brand"
-  }, "islamiconnect.com", -1 /* CACHED */))]), _cache[31] || (_cache[31] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"ic-footer__social text-center text-md-end\" data-v-0dc90d45><a href=\"https://www.facebook.com/profile.php?id=61560313385599\" aria-label=\"Visit our Facebook page\" data-v-0dc90d45><i class=\"fab fa-facebook-f\" aria-hidden=\"true\" data-v-0dc90d45></i></a><a href=\"https://x.com/islamiconnect24\" aria-label=\"Visit our X (Twitter) profile\" data-v-0dc90d45><i class=\"fab fa-twitter\" aria-hidden=\"true\" data-v-0dc90d45></i></a><a href=\"https://www.linkedin.com/company/islamic-connect/\" aria-label=\"Visit our LinkedIn page\" data-v-0dc90d45><i class=\"fab fa-linkedin\" aria-hidden=\"true\" data-v-0dc90d45></i></a><a href=\"https://www.instagram.com/islamicconnect24/\" aria-label=\"Visit our Instagram profile\" data-v-0dc90d45><i class=\"fab fa-instagram\" aria-hidden=\"true\" data-v-0dc90d45></i></a></div>", 1))])])]);
+  }, "islamiconnect.com", -1 /* CACHED */))]), _cache[31] || (_cache[31] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"ic-footer__social text-center text-md-end\" data-v-0dc90d45><a href=\"https://www.facebook.com/profile.php?id=61560313385599\" aria-label=\"Visit our Facebook page\" target=\"_blank\" rel=\"noopener noreferrer\" data-v-0dc90d45><i class=\"fab fa-facebook-f\" aria-hidden=\"true\" data-v-0dc90d45></i></a><a href=\"https://x.com/islamiconnect24\" aria-label=\"Visit our X (Twitter) profile\" target=\"_blank\" rel=\"noopener noreferrer\" data-v-0dc90d45><i class=\"fab fa-twitter\" aria-hidden=\"true\" data-v-0dc90d45></i></a><a href=\"https://www.linkedin.com/company/islamic-connect/\" aria-label=\"Visit our LinkedIn page\" target=\"_blank\" rel=\"noopener noreferrer\" data-v-0dc90d45><i class=\"fab fa-linkedin\" aria-hidden=\"true\" data-v-0dc90d45></i></a><a href=\"https://www.instagram.com/islamicconnect24/\" aria-label=\"Visit our Instagram profile\" target=\"_blank\" rel=\"noopener noreferrer\" data-v-0dc90d45><i class=\"fab fa-instagram\" aria-hidden=\"true\" data-v-0dc90d45></i></a></div>", 1))])])]);
 }
 
 /***/ }),
@@ -575,14 +577,14 @@ const createToast = () => ({
         desc: "Access recitations, podcasts, and media content for daily reflection.",
         image: "/images/watching.png",
         imageAlt: "Headphones icon for Islamic audio content",
-        href: "/media",
+        href: "/content",
         cta: "Open Media"
       }, {
         title: "Learn Accessibly",
         desc: "Use keyboard-friendly, screen-reader-aware tools for consistent learning.",
         image: "/images/school.png",
         imageAlt: "Graduation cap icon for education",
-        href: "/access",
+        href: "/dua",
         cta: "View Access Tools"
       }],
       communityPoints: ["Regular reminders and practical Quran learning updates", "Quick announcements for new tools and content", "Free access with simple one-tap joining"],
