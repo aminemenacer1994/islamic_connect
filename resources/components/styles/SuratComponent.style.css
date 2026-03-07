@@ -10903,6 +10903,8 @@ h1.display-5 {
 }
 
 .translation-compare-shell .modal-dialog {
+    width: min(95vw, 1700px);
+    max-width: min(95vw, 1700px);
     margin: clamp(0.28rem, 0.95vh, 0.92rem) auto;
 }
 
@@ -22442,4 +22444,53 @@ h1.display-5 {
     .translation-compare-shell .modal-dialog {
         max-width: min(95vw, 1180px) !important;
     }
+}
+
+.surat-premium .translation-text--placeholder {
+    opacity: 0.82;
+    font-style: italic;
+    color: #52606d;
+}
+
+.surat-premium .action-pill.is-active {
+    background: linear-gradient(
+        135deg,
+        rgba(2, 132, 199, 0.18),
+        rgba(14, 116, 144, 0.24)
+    );
+    border-color: rgba(14, 116, 144, 0.38);
+    color: #0f4c61;
+}
+
+.surat-premium .ayah-tafsir-panel {
+    margin-top: 0.72rem;
+    border: 1px solid rgba(14, 116, 144, 0.22);
+    border-radius: 12px;
+    background: rgba(248, 252, 255, 0.94);
+    padding: 0.62rem 0.74rem;
+}
+
+.surat-premium .ayah-tafsir-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #0f5f7d;
+}
+
+.surat-premium .ayah-tafsir-loading {
+    color: #4b5563;
+    font-size: 0.92rem;
+}
+
+.surat-premium .ayah-tafsir-error {
+    color: #b91c1c;
+    font-size: 0.92rem;
+}
+
+.surat-premium .ayah-tafsir-text {
+    color: #1f2937;
+    line-height: 1.62;
+    white-space: pre-wrap;
+    font-size: 0.95rem;
 }

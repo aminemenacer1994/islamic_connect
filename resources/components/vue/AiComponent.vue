@@ -15,43 +15,6 @@
         </div>
       </div>
 
-      <div class="ai-suggestions text-start" aria-label="Suggested questions">
-        <div class="ai-suggestions-header">
-          <h6 class="fw-bold">Need inspiration?</h6>
-          <button type="button" class="ai-suggestions-toggle" @click="toggleSuggestions"
-            :aria-expanded="suggestionsExpanded.toString()">
-            <span class="sr-only">
-              {{ suggestionsExpanded ? 'Collapse suggestion categories' : 'Expand suggestion categories' }}
-            </span>
-            <i :class="suggestionsExpanded ? 'fas fa-chevron-up' : 'fas fa-chevron-down'" aria-hidden="true"></i>
-          </button>
-        </div>
-        <div v-show="suggestionsExpanded" class="ai-suggestions-list">
-          <div class="ai-suggestion-grid">
-            <div v-for="category in suggestionCategories" :key="category.label"
-              :class="['ai-suggestion-category', { 'ai-suggestion-category--collapsed': !category.expanded }]">
-              <div class="pt-2 ai-suggestion-category-header">
-                <p class="ai-suggestion-category-label">{{ category.label }}</p>
-                <button type="button" class="ai-category-toggle" @click="toggleCategory(category)"
-                  :aria-expanded="category.expanded.toString()">
-                  <span class="sr-only">
-                    {{ category.expanded ? 'Collapse category' : 'Expand category' }}
-                  </span>
-                  <i :class="category.expanded ? 'fas fa-chevron-up' : 'fas fa-chevron-down '" aria-hidden="true"></i>
-                </button>
-              </div>
-              <div class="ai-suggestion-category-chips" v-show="category.expanded">
-                <button v-for="(question, idx) in category.questions"
-                  :key="`category-${category.label}-${idx}-${question}`" type="button" class="ai-suggestion text-start"
-                  @click="selectSuggestedQuestion(question)" :disabled="chatLoading">
-                  <span class="ai-suggestion-text">{{ question }}</span>
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
       <div class="ai-controls" role="toolbar" aria-label="Chat controls">
         <button v-if="hasAssistantResponse" type="button" class="ai-control-btn ai-control-btn--primary"
           @click="startNewChat" :disabled="!isNewChatAvailable">
@@ -226,12 +189,24 @@
                 <ul class="chat-references" role="list">
                   <li v-for="(reference, refIndex) in entry.references"
                     :key="`ref-${idx}-${refIndex}-${reference.label}`">
-                    <template v-if="reference.url">
-                      <a :href="reference.url" target="_blank" rel="noopener noreferrer">{{ reference.label }}</a>
-                    </template>
-                    <template v-else>
-                      {{ reference.label }}
-                    </template>
+                    <span class="chat-reference-main">
+                      <template v-if="reference.url">
+                        <a :href="reference.url" target="_blank" rel="noopener noreferrer">{{ reference.label }}</a>
+                      </template>
+                      <template v-else>
+                        {{ reference.label }}
+                      </template>
+                    </span>
+                    <span class="chat-reference-badges">
+                      <span :class="['chat-reference-badge', getSourceBadgeClass(reference.sourceBadge)]">
+                        {{ formatSourceBadge(reference.sourceBadge) }}
+                      </span>
+                      <span
+                        v-if="reference.isHadith"
+                        :class="['chat-reference-badge', 'chat-reference-badge--hadith', getHadithGradeBadgeClass(reference.hadithGrade)]">
+                        {{ formatHadithGrade(reference.hadithGrade) }}
+                      </span>
+                    </span>
                   </li>
                 </ul>
               </div>
@@ -262,7 +237,6 @@
           @keydown="handleComposerKeydown"></textarea>
 
         <div class="ai-form-meta pt-2 text-muted">
-          <p class="ai-input-hint mb-0">Press Ctrl+Enter (or Cmd+Enter on Mac) to send quickly.</p>
           <div class="ai-secondary-group">
             <button type="submit" class="ai-submit" :disabled="chatLoading || !chatDraft.trim()">
               <i class="fas fa-paper-plane" aria-hidden="true"></i>
@@ -293,10 +267,41 @@
           <i class="fas fa-shield-alt" aria-hidden="true"></i>
           <p class="mb-0 text-muted">
             Religious guidance needs clear boundaries. Noor is educational, so consult a qualified scholar for fatwas.
-            <a href="/trust" class="text-decoration-underline text-primary ms-1">Trust &amp; disclaimer</a>
+            <button
+              type="button"
+              class="ai-disclaimer-link text-decoration-underline text-primary ms-1"
+              @click="openDisclaimerModal">
+              Trust &amp; disclaimer
+            </button>
           </p>
         </div>
       </form>
+    </div>
+    <div
+      v-if="showDisclaimerModal"
+      class="ai-disclaimer-modal-backdrop"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="aiDisclaimerModalTitle"
+      @click.self="closeDisclaimerModal">
+      <div class="ai-disclaimer-modal-card" @click.stop>
+        <div class="ai-disclaimer-modal-head">
+          <h3 id="aiDisclaimerModalTitle" class="mb-0">Trust &amp; Disclaimer</h3>
+          <button type="button" class="ai-disclaimer-close" @click="closeDisclaimerModal" aria-label="Close disclaimer">
+            <i class="fas fa-times" aria-hidden="true"></i>
+          </button>
+        </div>
+        <div class="ai-disclaimer-modal-body">
+          <p>Noor provides educational Islamic guidance and does not replace qualified scholarly fatwa.</p>
+          <p>Verify religious rulings with trusted scholars, your local imam, or recognized institutions before acting.</p>
+          <p class="mb-0">For urgent spiritual or personal concerns, seek direct human support from knowledgeable people you trust.</p>
+        </div>
+        <div class="ai-disclaimer-modal-foot">
+          <button type="button" class="ai-disclaimer-close-btn" @click="closeDisclaimerModal">
+            Close
+          </button>
+        </div>
+      </div>
     </div>
   </section>
 </template>
@@ -317,6 +322,40 @@ import {
 const MOBILE_BREAKPOINT = 768;
 const CHAT_HISTORY_STORAGE_KEY = 'islamic-connect-chat-sessions';
 const AI_TEST_HARNESS_KEY = '__islamicAiHarness';
+const AI_ASSISTANT_SW_PATH = '/ai-assistant-sw.js';
+const AI_ASSISTANT_RESPONSE_CACHE_KEY = 'islamic-connect-ai-response-cache-v1';
+const AI_ASSISTANT_RESPONSE_CACHE_LIMIT = 40;
+const AI_ASSISTANT_RESPONSE_CACHE_TTL_MS = 1000 * 60 * 60 * 24 * 7;
+const AI_CRITICAL_VERSE_HASH_CACHE_KEY = 'islamic-connect-ai-critical-verse-hash-cache-v1';
+const AI_CRITICAL_VERSE_HASH_TTL_MS = 1000 * 60 * 60 * 24 * 30;
+const AI_VERSE_VERIFICATION_CACHE_KEY = 'islamic-connect-ai-verse-verification-cache-v1';
+const AI_VERSE_VERIFICATION_CACHE_TTL_MS = 1000 * 60 * 60 * 24;
+const AI_CRITICAL_VERSE_CANONICAL_TEXTS = Object.freeze({
+  '1:1': 'بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ',
+  '1:2': 'الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ',
+  '2:255': 'اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ لَهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ مَنْ ذَا الَّذِي يَشْفَعُ عِنْدَهُ إِلَّا بِإِذْنِهِ يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ وَلَا يُحِيطُونَ بِشَيْءٍ مِنْ عِلْمِهِ إِلَّا بِمَا شَاءَ وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالْأَرْضَ وَلَا يَؤُودُهُ حِفْظُهُمَا وَهُوَ الْعَلِيُّ الْعَظِيمُ',
+  '112:1': 'قُلْ هُوَ اللَّهُ أَحَدٌ',
+  '112:2': 'اللَّهُ الصَّمَدُ',
+  '112:3': 'لَمْ يَلِدْ وَلَمْ يُولَدْ',
+  '112:4': 'وَلَمْ يَكُنْ لَهُ كُفُوًا أَحَدٌ',
+});
+const AI_OFFICIAL_SOURCE_HOSTS = Object.freeze([
+  'quran.com',
+  'sunnah.com',
+  'hadeethenc.com',
+  'quranenc.com',
+  'api.alquran.cloud',
+  'islamqa.info',
+  'islamweb.net',
+]);
+const AI_AGGREGATED_SOURCE_HOSTS = Object.freeze([
+  'raw.githubusercontent.com',
+  'githubusercontent.com',
+  'cdn.jsdelivr.net',
+  'api.islamhouse.com',
+  'api2.islamhouse.com',
+  'api3.islamhouse.com',
+]);
 const SESSION_MEMORY_LIMIT = 30;
 const SESSION_STORAGE_COMPACTION_STEPS = [
   { maxSessions: 24, maxEntries: 40, maxTextLength: 2200, keepReferences: true, keepSummary: true },
@@ -345,46 +384,10 @@ export default {
       speechVoicesChanged: null,
       activeSpeechEntryKey: null,
       activeUtterance: null,
-      suggestionsExpanded: true,
       voiceAlertMessage: '',
       voiceAlertTimeout: null,
       pendingClearAll: false,
       pendingDeleteSessionId: '',
-      suggestionCategories: [
-        {
-          label: 'Daily worship',
-          expanded: true,
-          questions: [
-            '🕋 How can I make the five daily prayers feel more meaningful?',
-            '🤲 Share a dua from the Sunnah for asking Allah for guidance.',
-            '🕯️ Describe the etiquette of making dua after Salah.',
-            '📿 How can I increase consistency in dhikr and remembrance?',
-            '🕊️ How can I invite barakah into my daily salah and routines?',
-          ],
-        },
-        {
-          label: 'Study & exams',
-          expanded: true,
-          questions: [
-            '📚 Which hadith guides me in seeking knowledge with sincerity?',
-            '📖 Share a Quranic story that encourages hope and trust.',
-            '📜 Explain a hadith about patience and perseverance.',
-            '✨ How should I renew my intention before each salah or act of worship?',
-            '🌟 Which Quranic reminders help me stay humble during success?',
-          ],
-        },
-        {
-          label: 'Life events',
-          expanded: true,
-          questions: [
-            '🕌 What does the Quran teach about Allah’s mercy in hard times?',
-            '🌿 Which duas help me keep gratitude in everyday life?',
-            '⚖️ How can I balance worldly duties with Islamic priorities?',
-            '🛡️ Which Quranic reminders guard my heart from envy and gossip?',
-            '🤝 Explain the importance of community in Islamic life.',
-          ],
-        },
-      ],
       voiceListening: false,
       voiceRecognition: null,
       voiceStatus: '',
@@ -403,6 +406,9 @@ export default {
       questionBankCount: 0,
       questionBankMeta: null,
       latestBatchVerification: null,
+      serviceWorkerRegistration: null,
+      criticalVerseHashMap: {},
+      showDisclaimerModal: false,
     };
   },
   computed: {
@@ -436,6 +442,18 @@ export default {
     },
   },
   methods: {
+    openDisclaimerModal() {
+      this.showDisclaimerModal = true;
+      if (typeof document !== 'undefined') {
+        document.body.classList.add('ai-disclaimer-open');
+      }
+    },
+    closeDisclaimerModal() {
+      this.showDisclaimerModal = false;
+      if (typeof document !== 'undefined') {
+        document.body.classList.remove('ai-disclaimer-open');
+      }
+    },
     handleComposerKeydown(event) {
       if (!event) {
         return;
@@ -471,6 +489,9 @@ export default {
       };
     },
     getVerificationBadgeClass(verification) {
+      if (Number(verification?.criticalHashes?.failed || 0) > 0) {
+        return 'chat-verification--low';
+      }
       const confidence = verification?.confidence || 'low';
       if (confidence === 'high') return 'chat-verification--high';
       if (confidence === 'medium') return 'chat-verification--medium';
@@ -482,10 +503,199 @@ export default {
       }
       const confidence = String(verification.confidence || 'low').toUpperCase();
       const sourceCount = Number(verification.totalSources || 0);
+      const checkedHashes = Number(verification?.criticalHashes?.checked || 0);
+      const passedHashes = Number(verification?.criticalHashes?.passed || 0);
+      const unresolvedHashes = Number(verification?.criticalHashes?.unresolved || 0);
+      const failedHashes = Number(verification?.criticalHashes?.failed || 0);
       if (sourceCount > 0) {
+        if (checkedHashes > 0 || unresolvedHashes > 0 || failedHashes > 0) {
+          return `${confidence} confidence - ${sourceCount} source${sourceCount === 1 ? '' : 's'} - hash ${passedHashes}/${checkedHashes || passedHashes}${failedHashes > 0 ? ` (${failedHashes} failed)` : ''}${unresolvedHashes > 0 ? ` (${unresolvedHashes} pending)` : ''}`;
+        }
         return `${confidence} confidence - ${sourceCount} source${sourceCount === 1 ? '' : 's'}`;
       }
+      if (checkedHashes > 0 || unresolvedHashes > 0 || failedHashes > 0) {
+        return `${confidence} confidence - hash ${passedHashes}/${checkedHashes || passedHashes}${failedHashes > 0 ? ` (${failedHashes} failed)` : ''}${unresolvedHashes > 0 ? ` (${unresolvedHashes} pending)` : ''}`;
+      }
       return `${confidence} confidence`;
+    },
+    formatSourceBadge(sourceBadge) {
+      const badge = String(sourceBadge || '').toLowerCase();
+      if (badge === 'official') {
+        return 'Official';
+      }
+      if (badge === 'aggregated') {
+        return 'Aggregated';
+      }
+      return 'Verified';
+    },
+    getSourceBadgeClass(sourceBadge) {
+      const badge = String(sourceBadge || '').toLowerCase();
+      if (badge === 'official') {
+        return 'chat-reference-badge--official';
+      }
+      if (badge === 'aggregated') {
+        return 'chat-reference-badge--aggregated';
+      }
+      return 'chat-reference-badge--verified';
+    },
+    formatHadithGrade(grade) {
+      const normalized = String(grade || '').toLowerCase();
+      if (normalized === 'sahih') {
+        return 'Sahih';
+      }
+      if (normalized === 'hasan') {
+        return 'Hasan';
+      }
+      if (normalized === 'daif') {
+        return "Da'if";
+      }
+      return 'Grade pending';
+    },
+    getHadithGradeBadgeClass(grade) {
+      const normalized = String(grade || '').toLowerCase();
+      if (normalized === 'sahih') {
+        return 'chat-reference-badge--sahih';
+      }
+      if (normalized === 'hasan') {
+        return 'chat-reference-badge--hasan';
+      }
+      if (normalized === 'daif') {
+        return 'chat-reference-badge--daif';
+      }
+      return 'chat-reference-badge--ungraded';
+    },
+    extractReferenceHostname(url) {
+      if (typeof url !== 'string' || !url.trim() || typeof URL === 'undefined') {
+        return '';
+      }
+      try {
+        return new URL(url).hostname.toLowerCase();
+      } catch (error) {
+        return '';
+      }
+    },
+    hostMatchesAny(hostname, candidates = []) {
+      if (!hostname || !Array.isArray(candidates) || !candidates.length) {
+        return false;
+      }
+      return candidates.some((candidate) => hostname === candidate || hostname.endsWith(`.${candidate}`));
+    },
+    normalizeSourceBadge(sourceBadge) {
+      const normalized = String(sourceBadge || '').trim().toLowerCase();
+      if (!normalized) {
+        return '';
+      }
+      if (['official', 'verified', 'aggregated'].includes(normalized)) {
+        return normalized;
+      }
+      if (['authentic', 'canonical', 'primary', 'trusted'].includes(normalized)) {
+        return 'official';
+      }
+      if (['compiled', 'composite', 'mirror', 'community', 'api'].includes(normalized)) {
+        return 'aggregated';
+      }
+      return '';
+    },
+    inferSourceBadge(reference, label = '', url = '') {
+      const explicit = this.normalizeSourceBadge(
+        reference?.sourceBadge
+          || reference?.source_badge
+          || reference?.badge
+          || reference?.sourceType
+          || reference?.source_type
+          || '',
+      );
+      if (explicit) {
+        return explicit;
+      }
+      const hostname = this.extractReferenceHostname(url);
+      if (this.hostMatchesAny(hostname, AI_OFFICIAL_SOURCE_HOSTS)) {
+        return 'official';
+      }
+      if (this.hostMatchesAny(hostname, AI_AGGREGATED_SOURCE_HOSTS)) {
+        return 'aggregated';
+      }
+      const combined = `${label} ${hostname}`.toLowerCase();
+      if (/\b(local faq|community|compiled|summary|mirror|aggregated)\b/.test(combined)) {
+        return 'aggregated';
+      }
+      if (/\b(quran|qur'an|hadith|hadeeth|sunnah|surah|ayah)\b/.test(combined)) {
+        return 'verified';
+      }
+      return 'verified';
+    },
+    isHadithReference(reference, label = '', url = '') {
+      const typeHint = String(
+        reference?.type
+        || reference?.contentType
+        || reference?.content_type
+        || reference?.category
+        || '',
+      ).toLowerCase();
+      if (typeHint.includes('hadith') || typeHint.includes('hadeeth')) {
+        return true;
+      }
+      const combined = `${label} ${url}`.toLowerCase();
+      return /(\bhadith\b|\bhadeeth\b|\bsunnah\b|\bbukhari\b|\bmuslim\b|\btirmidhi\b|\babu[\s-]?dawud\b|\bnasai\b|\bibn[\s-]?majah\b|\bnarrated\b|حديث)/i.test(combined);
+    },
+    normalizeHadithGradeValue(value) {
+      const normalized = String(value || '').trim().toLowerCase();
+      if (!normalized) {
+        return '';
+      }
+      if (/(^|\b)(sahih|saheeh|authentic|sound)(\b|$)|صحيح/i.test(normalized)) {
+        return 'sahih';
+      }
+      if (/(^|\b)(hasan|hassan|fair)(\b|$)|حسن/i.test(normalized)) {
+        return 'hasan';
+      }
+      if (/(^|\b)(da['’`]?if|daeef|weak|not\s+authentic)(\b|$)|ضعيف/i.test(normalized)) {
+        return 'daif';
+      }
+      return '';
+    },
+    inferHadithGrade(reference, label = '', url = '', isHadith = false) {
+      const directCandidates = [
+        reference?.hadithGrade,
+        reference?.hadith_grade,
+        reference?.grade,
+        reference?.grading,
+        reference?.hukm,
+        reference?.status,
+      ];
+      for (const candidate of directCandidates) {
+        const normalized = this.normalizeHadithGradeValue(candidate);
+        if (normalized) {
+          return normalized;
+        }
+      }
+
+      const inferred = this.normalizeHadithGradeValue(`${label} ${url}`);
+      if (inferred) {
+        return inferred;
+      }
+
+      if (!isHadith) {
+        return null;
+      }
+
+      const combined = `${label} ${url}`.toLowerCase();
+      if (/\bsahih\s*(al[-\s]?)?bukhari\b/.test(combined)
+        || /\bsahih\s*muslim\b/.test(combined)
+        || /sunnah\.com\/(bukhari|muslim)/.test(combined)) {
+        return 'sahih';
+      }
+
+      return 'ungraded';
+    },
+    buildReferenceMetadata(reference, label = '', url = '') {
+      const safeUrl = typeof url === 'string' ? url : '';
+      const isHadith = this.isHadithReference(reference, label, safeUrl);
+      return {
+        sourceBadge: this.inferSourceBadge(reference, label, safeUrl),
+        isHadith,
+        hadithGrade: this.inferHadithGrade(reference, label, safeUrl, isHadith),
+      };
     },
     escapeHtml(value) {
       const map = {
@@ -521,6 +731,670 @@ export default {
       const text = wrapper.textContent || wrapper.innerText || '';
       wrapper.remove();
       return text;
+    },
+    firstNonEmptyString(values = []) {
+      if (!Array.isArray(values)) {
+        return '';
+      }
+      for (const value of values) {
+        if (typeof value !== 'string') {
+          continue;
+        }
+        const trimmed = value.trim();
+        if (trimmed) {
+          return trimmed;
+        }
+      }
+      return '';
+    },
+    safeJsonParse(value) {
+      if (typeof value !== 'string' || !value.trim()) {
+        return null;
+      }
+      try {
+        const parsed = JSON.parse(value);
+        return parsed && typeof parsed === 'object' ? parsed : null;
+      } catch (error) {
+        return null;
+      }
+    },
+    clonePlainData(value) {
+      if (value == null) {
+        return value;
+      }
+      try {
+        return JSON.parse(JSON.stringify(value));
+      } catch (error) {
+        return value;
+      }
+    },
+    normalizeResponseUrl(url) {
+      if (typeof url !== 'string') {
+        return null;
+      }
+      const trimmed = url.trim();
+      if (!trimmed) {
+        return null;
+      }
+      if (trimmed.startsWith('//')) {
+        return `https:${trimmed}`;
+      }
+      if (!trimmed.startsWith('http://') && !trimmed.startsWith('https://')) {
+        return null;
+      }
+      return trimmed;
+    },
+    normalizeReferenceList(references) {
+      if (!Array.isArray(references)) {
+        return [];
+      }
+      const normalized = [];
+      const seen = new Set();
+      references.forEach((reference) => {
+        if (typeof reference === 'string') {
+          const label = reference.trim();
+          if (!label) {
+            return;
+          }
+          const key = label.toLowerCase();
+          if (seen.has(key)) {
+            return;
+          }
+          seen.add(key);
+          const metadata = this.buildReferenceMetadata(null, label, null);
+          normalized.push({
+            label: label.slice(0, 180),
+            url: null,
+            sourceBadge: metadata.sourceBadge,
+            isHadith: metadata.isHadith,
+            hadithGrade: metadata.hadithGrade,
+          });
+          return;
+        }
+        if (!reference || typeof reference !== 'object') {
+          return;
+        }
+        const label = String(
+          reference.label
+          || reference.reference
+          || reference.title
+          || reference.name
+          || '',
+        ).trim();
+        if (!label) {
+          return;
+        }
+        const url = this.normalizeResponseUrl(reference.url || reference.link || reference.href || null);
+        const key = `${label.toLowerCase()}|${(url || '').toLowerCase()}`;
+        if (seen.has(key)) {
+          return;
+        }
+        seen.add(key);
+        const metadata = this.buildReferenceMetadata(reference, label, url);
+        normalized.push({
+          label: label.slice(0, 180),
+          url,
+          sourceBadge: metadata.sourceBadge,
+          isHadith: metadata.isHadith,
+          hadithGrade: metadata.hadithGrade,
+        });
+      });
+      return normalized.slice(0, 8);
+    },
+    normalizeSummaryList(summary) {
+      if (!Array.isArray(summary)) {
+        return [];
+      }
+      return summary
+        .map((item) => String(item || '').trim())
+        .filter(Boolean)
+        .slice(0, 4);
+    },
+    normalizeVerificationPayload(verification, fallbackSourceCount = 0) {
+      if (!verification || typeof verification !== 'object') {
+        return {
+          verified: false,
+          confidence: fallbackSourceCount > 1 ? 'medium' : 'low',
+          totalSources: Number(fallbackSourceCount || 0),
+          message: '',
+        };
+      }
+      const confidence = String(verification.confidence || 'low').toLowerCase();
+      const safeConfidence = ['high', 'medium', 'low'].includes(confidence) ? confidence : 'low';
+      const criticalHashes = verification.criticalHashes && typeof verification.criticalHashes === 'object'
+        ? {
+          checked: Number(verification.criticalHashes.checked || 0),
+          passed: Number(verification.criticalHashes.passed || 0),
+          failed: Number(verification.criticalHashes.failed || 0),
+          unresolved: Number(verification.criticalHashes.unresolved || 0),
+        }
+        : null;
+      return {
+        verified: Boolean(verification.verified),
+        confidence: safeConfidence,
+        totalSources: Number(verification.totalSources || fallbackSourceCount || 0),
+        message: String(verification.message || '').trim(),
+        criticalHashes,
+      };
+    },
+    buildNetworkErrorMessage(status, payload, rawText) {
+      const statusHint = status ? `Request failed (${status}).` : '';
+      const fallbackText = this.normalizeAssistantMessageFallback(rawText);
+      const message = this.firstNonEmptyString([
+        payload?.error,
+        payload?.message,
+        payload?.assistant?.error,
+        statusHint,
+        fallbackText,
+      ]);
+      return message || 'Noor cannot respond right now.';
+    },
+    normalizeAssistantMessageFallback(rawText) {
+      if (typeof rawText !== 'string') {
+        return '';
+      }
+      const plain = this.toPlainText(rawText).replace(/\s+/g, ' ').trim();
+      if (!plain) {
+        return '';
+      }
+      return plain.slice(0, 2800);
+    },
+    normalizeAssistantPayload(payload, rawText = '') {
+      const root = payload && typeof payload === 'object' ? payload : {};
+      const assistantCandidates = [
+        root.assistant,
+        root.data?.assistant,
+        root.result?.assistant,
+        root.response?.assistant,
+      ];
+      const assistant = assistantCandidates.find((item) => item && typeof item === 'object') || {};
+      const message = this.firstNonEmptyString([
+        assistant.message,
+        assistant.answer,
+        assistant.text,
+        root.message,
+        root.answer,
+        root.data?.message,
+        root.data?.answer,
+        this.normalizeAssistantMessageFallback(rawText),
+      ]);
+      const referenceCandidates = [
+        assistant.references,
+        assistant.sources,
+        root.references,
+        root.sources,
+        root.data?.references,
+      ];
+      let references = [];
+      for (const candidate of referenceCandidates) {
+        const normalized = this.normalizeReferenceList(candidate);
+        if (normalized.length) {
+          references = normalized;
+          break;
+        }
+      }
+      const summaryCandidates = [
+        assistant.summary,
+        root.summary,
+        root.data?.summary,
+      ];
+      let summary = [];
+      for (const candidate of summaryCandidates) {
+        const normalized = this.normalizeSummaryList(candidate);
+        if (normalized.length) {
+          summary = normalized;
+          break;
+        }
+      }
+      const verification = this.normalizeVerificationPayload(
+        assistant.verification || root.verification || root.data?.verification || null,
+        references.length,
+      );
+      return {
+        session_id: this.firstNonEmptyString([root.session_id, root.sessionId, root.data?.session_id]),
+        assistant: {
+          message,
+          references,
+          summary,
+          verification,
+        },
+      };
+    },
+    buildResponseCacheKey(message, language = 'en') {
+      const normalizedMessage = String(message || '').toLowerCase().replace(/\s+/g, ' ').trim();
+      const normalizedLanguage = String(language || 'en').toLowerCase();
+      const seed = `${normalizedLanguage}|${normalizedMessage}`;
+      let hash = 2166136261;
+      for (let index = 0; index < seed.length; index += 1) {
+        hash ^= seed.charCodeAt(index);
+        hash += (hash << 1) + (hash << 4) + (hash << 7) + (hash << 8) + (hash << 24);
+      }
+      return `k-${(hash >>> 0).toString(16)}`;
+    },
+    readAiResponseCache() {
+      if (typeof window === 'undefined') {
+        return {};
+      }
+      try {
+        const parsed = JSON.parse(window.localStorage.getItem(AI_ASSISTANT_RESPONSE_CACHE_KEY) || '{}');
+        return parsed && typeof parsed === 'object' ? parsed : {};
+      } catch (error) {
+        return {};
+      }
+    },
+    writeAiResponseCache(cache) {
+      if (typeof window === 'undefined') {
+        return;
+      }
+      try {
+        window.localStorage.setItem(AI_ASSISTANT_RESPONSE_CACHE_KEY, JSON.stringify(cache || {}));
+      } catch (error) {
+        if (!this.isQuotaExceededError(error)) {
+          console.warn('Unable to save AI response cache', error);
+        }
+      }
+    },
+    cacheAssistantPayload(message, language, payload) {
+      if (typeof window === 'undefined' || !payload?.assistant?.message) {
+        return;
+      }
+      const cacheKey = this.buildResponseCacheKey(message, language);
+      const cache = this.readAiResponseCache();
+      cache[cacheKey] = {
+        savedAt: Date.now(),
+        payload: this.clonePlainData(payload),
+      };
+      const now = Date.now();
+      const trimmedEntries = Object.entries(cache)
+        .filter(([, entry]) => {
+          const age = now - Number(entry?.savedAt || 0);
+          return age >= 0 && age <= AI_ASSISTANT_RESPONSE_CACHE_TTL_MS;
+        })
+        .sort((a, b) => Number(b[1]?.savedAt || 0) - Number(a[1]?.savedAt || 0))
+        .slice(0, AI_ASSISTANT_RESPONSE_CACHE_LIMIT);
+      const compacted = {};
+      trimmedEntries.forEach(([key, value]) => {
+        compacted[key] = value;
+      });
+      this.writeAiResponseCache(compacted);
+    },
+    getCachedAssistantPayload(message, language) {
+      if (typeof window === 'undefined') {
+        return null;
+      }
+      const cacheKey = this.buildResponseCacheKey(message, language);
+      const cache = this.readAiResponseCache();
+      const entry = cache[cacheKey];
+      if (!entry?.payload) {
+        return null;
+      }
+      const age = Date.now() - Number(entry.savedAt || 0);
+      if (age < 0 || age > AI_ASSISTANT_RESPONSE_CACHE_TTL_MS) {
+        delete cache[cacheKey];
+        this.writeAiResponseCache(cache);
+        return null;
+      }
+      return this.clonePlainData(entry.payload);
+    },
+    buildOfflineAssistantPayload(cachedPayload) {
+      if (!cachedPayload?.assistant?.message) {
+        return null;
+      }
+      const normalized = this.normalizeAssistantPayload(cachedPayload);
+      const note = 'Offline mode: showing your latest cached verified response.';
+      const verification = this.normalizeVerificationPayload(
+        normalized.assistant.verification,
+        normalized.assistant.references.length,
+      );
+      verification.message = this.firstNonEmptyString([verification.message, note]);
+      if (verification.confidence === 'low' && normalized.assistant.references.length > 0) {
+        verification.confidence = 'medium';
+      }
+      normalized.assistant.verification = verification;
+      if (!normalized.assistant.message.toLowerCase().includes('offline mode')) {
+        normalized.assistant.message = `${normalized.assistant.message}\n\n${note}`;
+      }
+      if (!normalized.session_id) {
+        normalized.session_id = this.sessionId || this.resetSession();
+      }
+      return normalized;
+    },
+    async parseFetchResponseBody(response) {
+      const contentType = (response?.headers?.get('content-type') || '').toLowerCase();
+      let rawText = '';
+      try {
+        rawText = await response.clone().text();
+      } catch (error) {
+        rawText = '';
+      }
+      const payload = this.safeJsonParse(rawText);
+      return {
+        contentType,
+        rawText,
+        payload: payload || {},
+      };
+    },
+    extractVerseKey(value = '') {
+      const stringValue = String(value || '');
+      const match = stringValue.match(/(\d{1,3})\s*[:/]\s*(\d{1,3})/);
+      if (!match) {
+        return null;
+      }
+      const surah = Number(match[1]);
+      const ayah = Number(match[2]);
+      if (!surah || !ayah) {
+        return null;
+      }
+      return `${surah}:${ayah}`;
+    },
+    extractQuranVerseKeys(references = []) {
+      const keys = new Set();
+      this.normalizeReferenceList(references).forEach((reference) => {
+        const labelKey = this.extractVerseKey(reference.label);
+        if (labelKey) {
+          keys.add(labelKey);
+        }
+        const url = String(reference.url || '');
+        const urlColonMatch = url.match(/quran\.com\/(\d{1,3}:\d{1,3})/i) || url.match(/ayah\/(\d{1,3}:\d{1,3})/i);
+        if (urlColonMatch?.[1]) {
+          const normalized = this.extractVerseKey(urlColonMatch[1]);
+          if (normalized) {
+            keys.add(normalized);
+          }
+        }
+        const urlSlashMatch = url.match(/quran\.com\/(\d{1,3})\/(\d{1,3})/i);
+        if (urlSlashMatch?.[1] && urlSlashMatch?.[2]) {
+          keys.add(`${Number(urlSlashMatch[1])}:${Number(urlSlashMatch[2])}`);
+        }
+      });
+      return Array.from(keys);
+    },
+    normalizeArabicForHash(value = '') {
+      return String(value || '')
+        .normalize('NFKD')
+        .replace(/[\u064B-\u065F\u0670\u06D6-\u06ED]/g, '')
+        .replace(/\u0640/g, '')
+        .replace(/[إأآٱ]/g, 'ا')
+        .replace(/ؤ/g, 'و')
+        .replace(/ئ/g, 'ي')
+        .replace(/ى/g, 'ي')
+        .replace(/ة/g, 'ه')
+        .replace(/[^\u0621-\u063A\u0641-\u064A0-9]/g, '')
+        .toLowerCase();
+    },
+    fallbackStringHash(value = '') {
+      const input = String(value || '');
+      let hash = 5381;
+      for (let index = 0; index < input.length; index += 1) {
+        hash = ((hash << 5) + hash) + input.charCodeAt(index);
+      }
+      return `fallback-${(hash >>> 0).toString(16)}`;
+    },
+    async hashStringSHA256(value = '') {
+      const source = String(value || '');
+      if (!source) {
+        return '';
+      }
+      if (typeof window === 'undefined' || !window.crypto?.subtle || typeof TextEncoder === 'undefined') {
+        return this.fallbackStringHash(source);
+      }
+      try {
+        const bytes = new TextEncoder().encode(source);
+        const digest = await window.crypto.subtle.digest('SHA-256', bytes);
+        return Array.from(new Uint8Array(digest))
+          .map((byte) => byte.toString(16).padStart(2, '0'))
+          .join('');
+      } catch (error) {
+        return this.fallbackStringHash(source);
+      }
+    },
+    readCriticalVerseHashCache() {
+      if (typeof window === 'undefined') {
+        return null;
+      }
+      try {
+        const parsed = JSON.parse(window.localStorage.getItem(AI_CRITICAL_VERSE_HASH_CACHE_KEY) || 'null');
+        if (!parsed || typeof parsed !== 'object') {
+          return null;
+        }
+        if (!parsed.hashes || typeof parsed.hashes !== 'object') {
+          return null;
+        }
+        return parsed;
+      } catch (error) {
+        return null;
+      }
+    },
+    writeCriticalVerseHashCache(hashes) {
+      if (typeof window === 'undefined') {
+        return;
+      }
+      try {
+        window.localStorage.setItem(
+          AI_CRITICAL_VERSE_HASH_CACHE_KEY,
+          JSON.stringify({
+            updatedAt: Date.now(),
+            hashes,
+          }),
+        );
+      } catch (error) {
+        if (!this.isQuotaExceededError(error)) {
+          console.warn('Unable to save critical hash cache', error);
+        }
+      }
+    },
+    async ensureCriticalVerseHashMap() {
+      if (Object.keys(this.criticalVerseHashMap || {}).length > 0) {
+        return this.criticalVerseHashMap;
+      }
+      const cached = this.readCriticalVerseHashCache();
+      if (cached?.updatedAt && (Date.now() - Number(cached.updatedAt) < AI_CRITICAL_VERSE_HASH_TTL_MS)) {
+        this.criticalVerseHashMap = cached.hashes || {};
+        if (Object.keys(this.criticalVerseHashMap).length > 0) {
+          return this.criticalVerseHashMap;
+        }
+      }
+      const hashes = {};
+      const entries = Object.entries(AI_CRITICAL_VERSE_CANONICAL_TEXTS);
+      for (const [verseKey, verseText] of entries) {
+        hashes[verseKey] = await this.hashStringSHA256(this.normalizeArabicForHash(verseText));
+      }
+      this.criticalVerseHashMap = hashes;
+      this.writeCriticalVerseHashCache(hashes);
+      return hashes;
+    },
+    readVerseVerificationCache() {
+      if (typeof window === 'undefined') {
+        return {};
+      }
+      try {
+        const parsed = JSON.parse(window.localStorage.getItem(AI_VERSE_VERIFICATION_CACHE_KEY) || '{}');
+        return parsed && typeof parsed === 'object' ? parsed : {};
+      } catch (error) {
+        return {};
+      }
+    },
+    writeVerseVerificationCache(cache) {
+      if (typeof window === 'undefined') {
+        return;
+      }
+      try {
+        window.localStorage.setItem(AI_VERSE_VERIFICATION_CACHE_KEY, JSON.stringify(cache || {}));
+      } catch (error) {
+        if (!this.isQuotaExceededError(error)) {
+          console.warn('Unable to save verse verification cache', error);
+        }
+      }
+    },
+    getCachedVerseVerification(verseKey) {
+      const cache = this.readVerseVerificationCache();
+      const entry = cache[verseKey];
+      if (!entry) {
+        return null;
+      }
+      const age = Date.now() - Number(entry.checkedAt || 0);
+      if (age < 0 || age > AI_VERSE_VERIFICATION_CACHE_TTL_MS) {
+        delete cache[verseKey];
+        this.writeVerseVerificationCache(cache);
+        return null;
+      }
+      return entry;
+    },
+    setCachedVerseVerification(verseKey, value) {
+      if (!verseKey || !value) {
+        return;
+      }
+      const cache = this.readVerseVerificationCache();
+      cache[verseKey] = {
+        ...value,
+        checkedAt: Date.now(),
+      };
+      this.writeVerseVerificationCache(cache);
+    },
+    resolveVerseTextFromPayload(payload, rawText = '') {
+      const candidates = [
+        payload?.verse?.text_uthmani,
+        payload?.verse?.text_uthmani_simple,
+        payload?.verse?.text_imlaei,
+        payload?.verse?.text,
+        payload?.data?.text_uthmani,
+        payload?.data?.text,
+        payload?.data?.arab,
+        payload?.data?.ayah?.text,
+        payload?.data?.text?.arab,
+        payload?.result?.text,
+      ];
+      const text = this.firstNonEmptyString(candidates);
+      if (text) {
+        return this.toPlainText(text).replace(/\s+/g, ' ').trim();
+      }
+      const plainFallback = this.normalizeAssistantMessageFallback(rawText);
+      return plainFallback || '';
+    },
+    async fetchVerseTextWithFallback(verseKey) {
+      const [surah, ayah] = String(verseKey || '').split(':');
+      if (!surah || !ayah) {
+        return null;
+      }
+      const endpoints = [
+        `https://api.quran.com/api/v4/verses/by_key/${verseKey}?words=false&fields=text_uthmani`,
+        `https://api.alquran.cloud/v1/ayah/${verseKey}`,
+        `https://api.quran.gading.dev/ayah/${surah}/${ayah}`,
+      ];
+      for (const endpoint of endpoints) {
+        try {
+          const response = await fetch(endpoint, {
+            method: 'GET',
+            headers: { Accept: 'application/json, text/plain, */*' },
+          });
+          if (!response.ok) {
+            continue;
+          }
+          const parsed = await this.parseFetchResponseBody(response);
+          const verseText = this.resolveVerseTextFromPayload(parsed.payload, parsed.rawText);
+          if (verseText) {
+            return {
+              verseText,
+              source: endpoint,
+            };
+          }
+        } catch (error) {
+          // Continue through fallback chain.
+        }
+      }
+      return null;
+    },
+    async verifyCriticalVerseHash(verseKey) {
+      if (!AI_CRITICAL_VERSE_CANONICAL_TEXTS[verseKey]) {
+        return null;
+      }
+      const cached = this.getCachedVerseVerification(verseKey);
+      if (cached && ['pass', 'fail', 'unresolved'].includes(cached.status)) {
+        return cached;
+      }
+      const expectedHashes = await this.ensureCriticalVerseHashMap();
+      const expectedHash = expectedHashes?.[verseKey];
+      if (!expectedHash) {
+        return {
+          verseKey,
+          status: 'unresolved',
+        };
+      }
+      const fetched = await this.fetchVerseTextWithFallback(verseKey);
+      if (!fetched?.verseText) {
+        const unresolved = {
+          verseKey,
+          status: 'unresolved',
+        };
+        this.setCachedVerseVerification(verseKey, unresolved);
+        return unresolved;
+      }
+      const computedHash = await this.hashStringSHA256(this.normalizeArabicForHash(fetched.verseText));
+      const status = computedHash === expectedHash ? 'pass' : 'fail';
+      const result = {
+        verseKey,
+        status,
+        source: fetched.source,
+      };
+      this.setCachedVerseVerification(verseKey, result);
+      return result;
+    },
+    async verifyEntryCriticalVerses(entry) {
+      if (!entry) {
+        return;
+      }
+      if (!Array.isArray(entry.references) || !entry.references.length) {
+        entry.verification = this.normalizeVerificationPayload(entry?.verification || null);
+        return;
+      }
+      const criticalVerseKeys = this.extractQuranVerseKeys(entry.references)
+        .filter((key) => Boolean(AI_CRITICAL_VERSE_CANONICAL_TEXTS[key]));
+      const baseVerification = this.normalizeVerificationPayload(entry.verification, entry.references.length);
+      if (!criticalVerseKeys.length) {
+        entry.verification = baseVerification;
+        return;
+      }
+      const checks = await Promise.all(
+        criticalVerseKeys.map((verseKey) => this.verifyCriticalVerseHash(verseKey)),
+      );
+      const checked = checks.filter((item) => item && (item.status === 'pass' || item.status === 'fail'));
+      const passed = checked.filter((item) => item.status === 'pass');
+      const failed = checked.filter((item) => item.status === 'fail');
+      const unresolved = checks.filter((item) => item && item.status === 'unresolved');
+      const verification = {
+        ...baseVerification,
+        criticalHashes: {
+          checked: checked.length,
+          passed: passed.length,
+          failed: failed.length,
+          unresolved: unresolved.length,
+        },
+      };
+      if (failed.length > 0) {
+        verification.verified = false;
+        verification.confidence = 'low';
+        const failureKeys = failed.map((item) => item.verseKey).join(', ');
+        const warning = `Critical verse hash check failed for ${failureKeys}.`;
+        verification.message = this.firstNonEmptyString([verification.message, warning]);
+      } else if (checked.length > 0 && verification.confidence === 'low') {
+        verification.confidence = 'medium';
+      }
+      entry.verification = verification;
+      this.syncCurrentSessionHistory();
+    },
+    async registerAiServiceWorker() {
+      if (typeof window === 'undefined' || typeof navigator === 'undefined' || !('serviceWorker' in navigator)) {
+        return;
+      }
+      const isLocalhost = ['localhost', '127.0.0.1'].includes(window.location.hostname);
+      if (!isLocalhost && window.location.protocol !== 'https:') {
+        return;
+      }
+      try {
+        this.serviceWorkerRegistration = await navigator.serviceWorker.register(AI_ASSISTANT_SW_PATH, { scope: '/' });
+      } catch (error) {
+        console.warn('AI assistant service worker registration failed', error);
+      }
     },
     sanitizeShareText(value) {
       return this.toPlainText(value).replace(/\s+/g, ' ').trim();
@@ -583,12 +1457,6 @@ export default {
         const behavior = prefersReducedMotion ? 'auto' : 'smooth';
         root.scrollIntoView({ behavior, block: 'end' });
       });
-    },
-    toggleCategory(category) {
-      category.expanded = !category.expanded;
-    },
-    toggleSuggestions() {
-      this.suggestionsExpanded = !this.suggestionsExpanded;
     },
     initializeSpeechSynthesis() {
       if (typeof window === 'undefined' || !window.speechSynthesis) {
@@ -764,19 +1632,27 @@ export default {
       try {
         const payload = await this.postChatMessage(message);
         if (!payload?.assistant?.message) {
-          throw new Error(payload?.error || 'Noor cannot respond right now.');
+          throw new Error('Noor cannot respond right now.');
         }
-        const assistantData = payload.assistant;
-        const references = Array.isArray(assistantData.references) ? assistantData.references : [];
-        this.chatHistory.push(
-          this.createChatEntry('assistant', assistantData.message.trim(), references, [], null),
+        const normalizedPayload = this.normalizeAssistantPayload(payload);
+        const assistantData = normalizedPayload.assistant;
+        const assistantEntry = this.createChatEntry(
+          'assistant',
+          assistantData.message.trim(),
+          assistantData.references,
+          assistantData.summary,
+          assistantData.verification,
         );
-        if (payload.session_id) {
-          this.sessionId = payload.session_id;
+        this.chatHistory.push(assistantEntry);
+        if (normalizedPayload.session_id) {
+          this.sessionId = normalizedPayload.session_id;
         }
         this.syncCurrentSessionHistory();
         this.scrollChatWindow();
         this.scrollComponentToBottom();
+        this.verifyEntryCriticalVerses(assistantEntry).catch((error) => {
+          console.warn('Critical verse hash verification skipped', error);
+        });
       } catch (error) {
         console.error('Chat error:', error);
         this.chatError = error?.message || 'The assistant is temporarily unavailable.';
@@ -788,32 +1664,52 @@ export default {
       if (!message) {
         return null;
       }
-      const payload = {
+      const language = this.getUserLanguage();
+      const requestPayload = {
         question: message,
         session_id: this.sessionId || this.resetSession(),
-        language: this.getUserLanguage(),
+        language,
       };
-      const response = await fetch('/api/ai/ask', {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          'X-CSRF-TOKEN': this.getCsrfToken(),
-        },
-        body: JSON.stringify(payload),
-      });
-      const contentType = (response.headers.get('content-type') || '').toLowerCase();
-      const isJson = contentType.includes('application/json');
-      const data = isJson ? await response.json().catch(() => ({})) : {};
-      if (!response.ok) {
-        const statusHint = response.status ? `Request failed (${response.status}).` : '';
-        const error = data?.error || statusHint || 'Noor cannot respond right now.';
-        throw new Error(error);
+      let response = null;
+      try {
+        response = await fetch('/api/ai/ask', {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json, text/plain, text/html, */*',
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': this.getCsrfToken(),
+          },
+          body: JSON.stringify(requestPayload),
+        });
+      } catch (networkError) {
+        const cachedPayload = this.getCachedAssistantPayload(message, language);
+        if (cachedPayload) {
+          return this.buildOfflineAssistantPayload(cachedPayload);
+        }
+        throw new Error('Noor is offline and no cached answer is available yet.');
       }
-      if (!isJson) {
+
+      const parsed = await this.parseFetchResponseBody(response);
+      const normalizedPayload = this.normalizeAssistantPayload(parsed.payload, parsed.rawText);
+      if (!response.ok) {
+        const cachedPayload = this.getCachedAssistantPayload(message, language);
+        if (cachedPayload) {
+          return this.buildOfflineAssistantPayload(cachedPayload);
+        }
+        throw new Error(this.buildNetworkErrorMessage(response.status, parsed.payload, parsed.rawText));
+      }
+      if (!normalizedPayload?.assistant?.message) {
+        const cachedPayload = this.getCachedAssistantPayload(message, language);
+        if (cachedPayload) {
+          return this.buildOfflineAssistantPayload(cachedPayload);
+        }
         throw new Error('Unexpected server response. Please refresh and try again.');
       }
-      return data;
+      if (!normalizedPayload.session_id) {
+        normalizedPayload.session_id = requestPayload.session_id;
+      }
+      this.cacheAssistantPayload(message, language, normalizedPayload);
+      return normalizedPayload;
     },
     getUserLanguage() {
       if (typeof navigator === 'undefined') {
@@ -1046,17 +1942,6 @@ export default {
         this.copyNoticeTimeout = null;
       }, 3000);
     },
-    selectSuggestedQuestion(question) {
-      if (this.chatLoading) return;
-      this.chatDraft = question;
-      this.$nextTick(() => {
-        const textarea = this.$refs.aiChatInput;
-        if (textarea) {
-          textarea.focus();
-        }
-        this.sendChatMessage();
-      });
-    },
     clearDraft() {
       this.chatDraft = '';
       this.chatError = null;
@@ -1091,9 +1976,33 @@ export default {
         return null;
       }
       const normalizedUrl = typeof reference.url === 'string' && reference.url.trim() ? reference.url.trim() : null;
+      const metadata = this.buildReferenceMetadata(reference, label, normalizedUrl);
       return {
         label: label.slice(0, 180),
         url: normalizedUrl,
+        sourceBadge: metadata.sourceBadge,
+        isHadith: metadata.isHadith,
+        hadithGrade: metadata.hadithGrade,
+      };
+    },
+    normalizeStoredVerification(verification, fallbackSourceCount = 0) {
+      if (!verification || typeof verification !== 'object') {
+        return null;
+      }
+      const normalized = this.normalizeVerificationPayload(verification, fallbackSourceCount);
+      return {
+        verified: Boolean(normalized.verified),
+        confidence: String(normalized.confidence || 'low'),
+        totalSources: Number(normalized.totalSources || 0),
+        message: String(normalized.message || ''),
+        criticalHashes: normalized.criticalHashes
+          ? {
+            checked: Number(normalized.criticalHashes.checked || 0),
+            passed: Number(normalized.criticalHashes.passed || 0),
+            failed: Number(normalized.criticalHashes.failed || 0),
+            unresolved: Number(normalized.criticalHashes.unresolved || 0),
+          }
+          : null,
       };
     },
     serializeSessionEntryForStorage(entry, options = {}) {
@@ -1117,15 +2026,7 @@ export default {
           ? entry.summaryBullets.map((item) => String(item || '').trim()).filter(Boolean).slice(0, 3)
           : this.extractSummaryBulletPoints(text))
         : [];
-      const verification =
-        entry.verification && typeof entry.verification === 'object'
-          ? {
-            verified: Boolean(entry.verification.verified),
-            confidence: String(entry.verification.confidence || 'low'),
-            totalSources: Number(entry.verification.totalSources || 0),
-            message: String(entry.verification.message || ''),
-          }
-          : null;
+      const verification = this.normalizeStoredVerification(entry.verification, references.length);
       const time = this.formatEntryTime(entry.time);
 
       return {
@@ -1193,7 +2094,7 @@ export default {
         userToggled: false,
         speechControlsVisible: false,
         speechStatus: 'stopped',
-        verification: null,
+        verification: this.normalizeStoredVerification(entry.verification, references.length),
         time: time.iso,
         displayTime: time.displayTime,
         displayDate: time.displayDate,
@@ -1731,6 +2632,10 @@ export default {
     this.updateCompactMode();
     this.initializeSpeechSynthesis();
     this.initializeQuestionBank();
+    this.registerAiServiceWorker();
+    this.ensureCriticalVerseHashMap().catch((error) => {
+      console.warn('Unable to precompute critical verse hashes', error);
+    });
     this.attachAiTestHarness();
     this.resizeListener = () => this.updateCompactMode();
     window.addEventListener('resize', this.resizeListener);
@@ -1764,6 +2669,9 @@ export default {
     }
     this.stopSpeech();
     this.detachAiTestHarness();
+    if (typeof document !== 'undefined') {
+      document.body.classList.remove('ai-disclaimer-open');
+    }
   },
 };
 </script>
@@ -1837,15 +2745,6 @@ export default {
   box-shadow: 0 16px 30px rgba(15, 53, 48, 0.12);
   text-align: left;
   gap: 0.4rem;
-}
-
-.ai-suggestions {
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.95), rgba(245, 252, 249, 0.95));
-  border: 1px solid var(--ai-border);
-  border-radius: 20px;
-  padding: 1rem;
-  margin-top: 0.75rem;
-  box-shadow: 0 14px 26px rgba(15, 53, 48, 0.12);
 }
 
 .ai-chat-shell {
@@ -2203,6 +3102,89 @@ export default {
   margin: 0;
 }
 
+.ai-disclaimer-link {
+  border: none;
+  background: transparent;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+}
+
+:global(body.ai-disclaimer-open) {
+  overflow: hidden;
+}
+
+.ai-disclaimer-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1200;
+  background: rgba(10, 26, 24, 0.58);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.ai-disclaimer-modal-card {
+  width: min(640px, 100%);
+  background: #ffffff;
+  border-radius: 16px;
+  border: 1px solid rgba(15, 110, 99, 0.24);
+  box-shadow: 0 28px 40px rgba(15, 53, 48, 0.22);
+  overflow: hidden;
+}
+
+.ai-disclaimer-modal-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+  padding: 0.9rem 1rem;
+  border-bottom: 1px solid rgba(15, 110, 99, 0.16);
+}
+
+.ai-disclaimer-modal-head h3 {
+  color: #0f4f49;
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.ai-disclaimer-close {
+  border: none;
+  background: rgba(15, 110, 99, 0.12);
+  color: #0b4b44;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.ai-disclaimer-modal-body {
+  padding: 0.9rem 1rem;
+  color: #24413f;
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
+
+.ai-disclaimer-modal-foot {
+  padding: 0 1rem 1rem;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.ai-disclaimer-close-btn {
+  border: 1px solid rgba(15, 110, 99, 0.32);
+  background: rgba(15, 110, 99, 0.1);
+  color: #0b4b44;
+  border-radius: 10px;
+  padding: 0.45rem 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
 .ai-metadata {
   display: flex;
   flex-direction: column;
@@ -2294,196 +3276,6 @@ export default {
   margin: 0.15rem 0 0;
   color: var(--ai-muted);
   line-height: 1.5;
-}
-
-.ai-suggestions {
-  margin-top: 1.5rem;
-  margin-bottom: 1rem;
-  border-radius: 20px;
-  border: 1px solid var(--ai-border);
-  background: linear-gradient(180deg, rgba(255, 253, 248, 0.95), rgba(244, 251, 247, 0.95));
-  padding: 1rem;
-  box-shadow: 0 20px 38px rgba(15, 53, 48, 0.12);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  animation: ai-rise 0.6s ease both 0.08s;
-}
-
-.ai-suggestions:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 28px 50px rgba(15, 53, 48, 0.18);
-}
-
-.ai-suggestions-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.55rem;
-  flex-wrap: wrap;
-}
-
-.ai-suggestions-header h6 {
-  margin: 0;
-  font-size: 0.95rem;
-  color: var(--ai-ink);
-}
-
-.ai-suggestions-toggle {
-  border-radius: 999px;
-  border: 1px solid rgba(15, 110, 99, 0.4);
-  background: #fff;
-  color: var(--ai-ink);
-  width: 40px;
-  height: 40px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  box-shadow: 0 6px 12px rgba(15, 53, 48, 0.16);
-  transition: border-color 0.2s ease, background 0.15s ease, transform 0.2s ease;
-}
-
-.ai-suggestions-toggle:hover {
-  border-color: rgba(15, 110, 99, 0.75);
-  transform: translateY(-1px);
-}
-
-.ai-suggestion-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 1rem;
-  align-items: start;
-}
-
-.ai-suggestions-list {
-  margin-top: 0.8rem;
-}
-
-.ai-suggestion-category {
-  border-radius: 22px;
-  padding: 1rem 1.25rem 0.9rem;
-  background: #fff;
-  border: 1px solid rgba(15, 110, 99, 0.16);
-  display: flex;
-  flex-direction: column;
-  gap: 0.45rem;
-  overflow: hidden;
-  box-shadow: 0 12px 28px rgba(15, 53, 48, 0.08);
-  transition: padding 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, max-height 0.3s ease;
-}
-
-.ai-suggestion-category-label {
-  font-size: 0.95rem;
-  font-weight: 700;
-  color: var(--ai-ink);
-  margin: 0;
-}
-
-.ai-suggestion-category-chips {
-  display: flex;
-  flex-direction: column;
-  gap: 0.45rem;
-  max-height: 1200px;
-  overflow: hidden;
-  transition: opacity 0.2s ease, transform 0.25s ease;
-}
-
-.ai-suggestion-category--collapsed {
-  padding-bottom: 0.5rem;
-  padding-top: 0;
-  box-shadow: inset 0 -1px 0 rgba(15, 110, 99, 0.2);
-  gap: 0;
-  width: 100%;
-  max-height: 76px;
-}
-
-.ai-suggestion-category--collapsed .ai-suggestion-category-chips {
-  opacity: 0;
-  pointer-events: none;
-}
-
-.ai-suggestion-category-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.5rem;
-  padding-top: 0.15rem;
-}
-
-.ai-category-toggle {
-  border-radius: 50%;
-  border: 1px solid rgba(15, 110, 99, 0.4);
-  background: #fff;
-  color: #0c4f47;
-  width: 36px;
-  height: 36px;
-  font-size: 0.9rem;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: border-color 0.2s ease, background 0.15s ease, transform 0.2s ease;
-  padding: 0;
-}
-
-.ai-category-toggle:hover {
-  border-color: rgba(15, 110, 99, 0.85);
-  background: rgba(15, 110, 99, 0.08);
-  transform: translateY(-1px);
-}
-
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
-}
-
-.ai-suggestion {
-  border: 1px solid rgba(15, 110, 99, 0.28);
-  border-radius: 999px;
-  padding: 0.45rem 1rem;
-  background: #fff;
-  font-size: 0.8rem;
-  color: var(--ai-ink);
-  cursor: pointer;
-  transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
-  display: inline-flex;
-  align-items: center;
-  justify-content: flex-start;
-  text-align: left;
-  line-height: 1.3;
-  flex: 0 0 auto;
-  white-space: normal;
-}
-
-.ai-suggestion-text {
-  font-size: 0.8rem;
-  width: 100%;
-  white-space: normal;
-}
-
-.ai-suggestion:disabled {
-  opacity: 0.55;
-  cursor: not-allowed;
-}
-
-.ai-suggestion:not(:disabled):hover {
-  background: rgba(15, 110, 99, 0.12);
-  border-color: rgba(15, 110, 99, 0.6);
-  box-shadow: 0 6px 12px rgba(15, 110, 99, 0.18);
-}
-
-@media (min-width: 992px) {
-
-  .ai-suggestion,
-  .ai-suggestion-text {
-    font-size: 0.95rem;
-  }
 }
 
 .ai-meta-chips {
@@ -2884,8 +3676,82 @@ export default {
 
 .chat-references li {
   display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.chat-reference-main {
+  display: inline-flex;
   align-items: baseline;
   gap: 0.25rem;
+}
+
+.chat-reference-badges {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.chat-reference-badge {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 0.12rem 0.45rem;
+  line-height: 1.3;
+}
+
+.chat-reference-badge--official {
+  background: rgba(15, 110, 99, 0.14);
+  color: #0b4b44;
+  border-color: rgba(15, 110, 99, 0.35);
+}
+
+.chat-reference-badge--verified {
+  background: rgba(14, 116, 144, 0.14);
+  color: #0c4a6e;
+  border-color: rgba(14, 116, 144, 0.35);
+}
+
+.chat-reference-badge--aggregated {
+  background: rgba(113, 63, 18, 0.12);
+  color: #78350f;
+  border-color: rgba(113, 63, 18, 0.35);
+}
+
+.chat-reference-badge--hadith {
+  text-transform: none;
+  letter-spacing: 0.01em;
+}
+
+.chat-reference-badge--sahih {
+  background: rgba(22, 163, 74, 0.14);
+  color: #166534;
+  border-color: rgba(22, 163, 74, 0.35);
+}
+
+.chat-reference-badge--hasan {
+  background: rgba(234, 179, 8, 0.16);
+  color: #854d0e;
+  border-color: rgba(217, 119, 6, 0.34);
+}
+
+.chat-reference-badge--daif {
+  background: rgba(220, 38, 38, 0.14);
+  color: #991b1b;
+  border-color: rgba(220, 38, 38, 0.35);
+}
+
+.chat-reference-badge--ungraded {
+  background: rgba(100, 116, 139, 0.14);
+  color: #334155;
+  border-color: rgba(100, 116, 139, 0.34);
 }
 
 .chat-references a {
@@ -3306,7 +4172,6 @@ export default {
   .ai-panel,
   .ai-panel::after,
   .ai-welcome,
-  .ai-suggestions,
   .ai-chat-shell,
   .ai-form,
   .chat-typing-dot {
@@ -3356,20 +4221,6 @@ export default {
 
   .ai-control-btn i {
     font-size: 0.95rem;
-  }
-
-  .ai-suggestions {
-    padding: 0.9rem;
-  }
-
-  .ai-suggestions-header h6 {
-    font-size: 0.82rem;
-  }
-
-  .ai-suggestions-toggle {
-    width: 32px;
-    height: 32px;
-    border-radius: 10px;
   }
 
   .ai-chat-shell {
@@ -3435,15 +4286,6 @@ export default {
 
   .ai-sidebar {
     padding: 0.75rem;
-  }
-
-  .ai-suggestions-list {
-    max-height: 260px;
-    overflow-y: auto;
-  }
-
-  .ai-suggestions-header {
-    gap: 0.35rem;
   }
 
   .ai-chat-shell {

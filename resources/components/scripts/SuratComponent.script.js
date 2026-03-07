@@ -454,6 +454,22 @@ export default {
             translationVisibility: {},
             isTransliterationVisible: true,
             transliterationVisibility: {},
+            translationLoadingText: "Loading translation...",
+            translationUnavailableText: "Translation unavailable right now.",
+            translationLazyState: {
+                surahNumber: "",
+                translationId: "",
+                loaded: false,
+                loading: false,
+                error: "",
+            },
+            translationLazyCache: {},
+            translationLazyRequestToken: 0,
+            // ayah-level tafsir lazy loading
+            tafsirVisibility: {},
+            tafsirContent: {},
+            tafsirLoading: {},
+            tafsirError: {},
             showTajweed: false,
             showRealtimeHighlighting: false,
             showWordTranslation: false,
@@ -604,6 +620,9 @@ export default {
             itemHeight: 280,
             windowSize: 22,
             buffer: 6,
+            longSurahVirtualThreshold: 140,
+            longSurahWindowSize: 14,
+            longSurahBuffer: 4,
             visibleStart: 0,
             visibleEnd: 0,
             listTop: 0,
@@ -2157,6 +2176,25 @@ export default {
                 ? this.filteredAyahs.length
                 : 0;
         },
+        isLongSurahVirtualMode() {
+            return (
+                !this.isMemorisationMode &&
+                Number(this.totalItems || 0) >=
+                    Number(this.longSurahVirtualThreshold || 140)
+            );
+        },
+        effectiveVirtualWindowSize() {
+            if (this.isLongSurahVirtualMode) {
+                return Math.max(10, Number(this.longSurahWindowSize || 14));
+            }
+            return Math.max(10, Number(this.windowSize || 22));
+        },
+        effectiveVirtualBuffer() {
+            if (this.isLongSurahVirtualMode) {
+                return Math.max(2, Number(this.longSurahBuffer || 4));
+            }
+            return Math.max(2, Number(this.buffer || 6));
+        },
         canMinimizeNextStep() {
             return this.isMobile || this.isTablet;
         },
@@ -2492,6 +2530,11 @@ export default {
                 this.debouncedQuery = val;
             }, 300);
         },
+        debouncedQuery(value) {
+            if (String(value || "").trim()) {
+                this.maybeLoadTranslationForVisibleContent({ force: true });
+            }
+        },
         advancedSearchQuery: function (val) {
             clearTimeout(this.advancedSearchDebounceTimer);
             if (!(val || "").trim()) {
@@ -2522,6 +2565,15 @@ export default {
                 this.highlightLeadSeconds = this.getReciterLeadOffset(newVal);
                 this.currentlyPlayingIndex = 0;
                 this.isHighlighted = false;
+                this.translationLazyRequestToken =
+                    Number(this.translationLazyRequestToken || 0) + 1;
+                this.setTranslationLazyState({
+                    surahNumber: String(this.selectedSurah || ""),
+                    translationId: String(this.selectedTranslation || ""),
+                    loaded: false,
+                    loading: false,
+                    error: "",
+                });
 
                 this.fetchSurahDetails()
                     .then(() => {
@@ -2537,32 +2589,37 @@ export default {
         selectedTranslation: function (newVal) {
             if (newVal && !this.isLoading) {
                 this.persistLocalSetting("suratSelectedTranslation", newVal);
-                this.isLoading = true;
                 this.savePreference("selectedTranslation", newVal);
                 this.currentlyPlayingIndex = 0;
                 this.isHighlighted = false;
+                this.translationLazyRequestToken =
+                    Number(this.translationLazyRequestToken || 0) + 1;
+                this.setTranslationLazyState({
+                    surahNumber: String(
+                        this.surahDetails?.surahNumber || this.selectedSurah || ""
+                    ),
+                    translationId: String(newVal || ""),
+                    loaded: false,
+                    loading: false,
+                    error: "",
+                });
+                this.resetAyahTranslationsForLazyLoad();
+                this.maybeLoadTranslationForVisibleContent();
 
-                this.fetchSurahDetails()
-                    .then(() => {
-                        this.isLoading = false;
-                        this.resetAllAudioPlayers();
-                        this.syncVirtualWindowAfterSelection();
-                        if (
-                            this.hasAdvancedSearchQuery &&
-                            this.isAdvancedSearchPanelVisible
-                        ) {
-                            this.runAdvancedSearch({ force: true });
-                        }
-                        if (this.isTranslationCompareModalOpen) {
-                            this.ensureTranslationCompareSelection({
-                                includeSelectedTranslation: true,
-                            });
-                            this.refreshTranslationCompareEditions();
-                        }
-                    })
-                    .catch(() => {
-                        this.isLoading = false;
+                if (
+                    this.hasAdvancedSearchQuery &&
+                    this.isAdvancedSearchPanelVisible
+                ) {
+                    this.runAdvancedSearch({ force: true });
+                }
+                if (this.isTranslationCompareModalOpen) {
+                    this.ensureTranslationCompareSelection({
+                        includeSelectedTranslation: true,
                     });
+                    this.refreshTranslationCompareEditions();
+                }
+                this.itemHeightCalibrated = false;
+                this.$nextTick(() => this.scheduleHeightCalibration(true));
             }
         },
         selectedSurah: function (newVal) {
@@ -2575,6 +2632,19 @@ export default {
                 this.isLoading = true;
                 this.translationVisibility = {};
                 this.transliterationVisibility = {};
+                this.tafsirVisibility = {};
+                this.tafsirContent = {};
+                this.tafsirLoading = {};
+                this.tafsirError = {};
+                this.translationLazyRequestToken =
+                    Number(this.translationLazyRequestToken || 0) + 1;
+                this.setTranslationLazyState({
+                    surahNumber: String(newVal || ""),
+                    translationId: String(this.selectedTranslation || ""),
+                    loaded: false,
+                    loading: false,
+                    error: "",
+                });
                 this.savePreference("selectedSurah", newVal);
                 this.currentlyPlayingIndex = 0;
                 this.isHighlighted = false;
@@ -2633,8 +2703,10 @@ export default {
             // Do not pre-create audio elements; create on-demand for faster starts
             // Reset virtualization window to top ONLY if not navigating
             if (!this.isNavigating) {
+                const size = this.effectiveVirtualWindowSize;
+                const buffer = this.effectiveVirtualBuffer;
                 this.visibleStart = 0;
-                this.visibleEnd = Math.min(this.windowSize + this.buffer * 2, n);
+                this.visibleEnd = Math.min(size + buffer * 2, n);
             }
             if (n === 0) {
                 this.selectedCardIndex = 0;
@@ -3766,10 +3838,18 @@ export default {
                 identifier === String(this.selectedTranslation || "") &&
                 surahNumber === activeSurahNumber
             ) {
-                return (
-                    this.surahDetails?.ayahs?.[index]?.translation ||
-                    "Translation not available"
-                );
+                const fromCurrentSurah =
+                    this.surahDetails?.ayahs?.[index]?.translation || "";
+                if (fromCurrentSurah) return fromCurrentSurah;
+                const selectedCacheSlotKey = `${surahNumber}:${identifier}`;
+                const selectedCachedAyahs =
+                    this.translationCompareEditionCache[selectedCacheSlotKey];
+                const selectedCachedText = Array.isArray(selectedCachedAyahs)
+                    ? selectedCachedAyahs[index]
+                    : "";
+                if (selectedCachedText) return selectedCachedText;
+                if (this.translationLazyState?.loading) return "Loading...";
+                return "Translation not available";
             }
 
             const cacheSlotKey = `${surahNumber}:${identifier}`;
@@ -4821,11 +4901,13 @@ export default {
                     targetIndex,
                     Math.max(total - 1, 0)
                 );
-                const start = Math.max(0, safeIndex - this.buffer);
+                const buffer = this.effectiveVirtualBuffer;
+                const size = this.effectiveVirtualWindowSize;
+                const start = Math.max(0, safeIndex - buffer);
                 this.visibleStart = start;
                 this.visibleEnd = Math.min(
                     total,
-                    start + this.windowSize + this.buffer * 2
+                    start + size + buffer * 2
                 );
 
                 await this.$nextTick();
@@ -8728,6 +8810,8 @@ export default {
         },
         updateVirtualWindow() {
             const n = this.filteredAyahs ? this.filteredAyahs.length : 0;
+            const size = this.effectiveVirtualWindowSize;
+            const buffer = this.effectiveVirtualBuffer;
             if (n === 0) {
                 this.visibleStart = 0;
                 this.visibleEnd = 0;
@@ -8740,8 +8824,8 @@ export default {
                 now < this.windowLockUntil &&
                 typeof this.windowLockIndex === "number"
             ) {
-                const start = Math.max(0, this.windowLockIndex - this.buffer);
-                const end = Math.min(n, start + this.windowSize + this.buffer * 2);
+                const start = Math.max(0, this.windowLockIndex - buffer);
+                const end = Math.min(n, start + size + buffer * 2);
                 if (start !== this.visibleStart || end !== this.visibleEnd) {
                     this.visibleStart = start;
                     this.visibleEnd = end;
@@ -8760,7 +8844,7 @@ export default {
                 const start = 0;
                 const end = Math.min(
                     n,
-                    this.windowSize + this.buffer * 2
+                    size + buffer * 2
                 );
                 if (start !== this.visibleStart || end !== this.visibleEnd) {
                     this.visibleStart = start;
@@ -8775,8 +8859,8 @@ export default {
                 0,
                 Math.floor(y / Math.max(1, this.itemHeight))
             );
-            const start = Math.max(0, approxIndex - this.buffer);
-            const end = Math.min(n, start + this.windowSize + this.buffer * 2);
+            const start = Math.max(0, approxIndex - buffer);
+            const end = Math.min(n, start + size + buffer * 2);
             if (start !== this.visibleStart || end !== this.visibleEnd) {
                 this.visibleStart = start;
                 this.visibleEnd = end;
@@ -8788,12 +8872,14 @@ export default {
         },
         syncVirtualWindowAfterSelection() {
             const total = this.filteredAyahs ? this.filteredAyahs.length : 0;
+            const size = this.effectiveVirtualWindowSize;
+            const buffer = this.effectiveVirtualBuffer;
             this.firstAyahTop = 0;
             this.isToolbarPinned = false;
             this.visibleStart = 0;
             this.visibleEnd = Math.min(
                 total,
-                this.windowSize + this.buffer * 2
+                size + buffer * 2
             );
             this.$nextTick(() => {
                 this.computeListTop();
@@ -8953,10 +9039,12 @@ export default {
             }
             
             // Ensure target is in visible start/end for virtual scroll
-            const start = Math.max(0, index - this.buffer);
+            const buffer = this.effectiveVirtualBuffer;
+            const size = this.effectiveVirtualWindowSize;
+            const start = Math.max(0, index - buffer);
             const end = Math.min(
                 total,
-                start + this.windowSize + this.buffer * 2
+                start + size + buffer * 2
             );
             
             if (index < this.visibleStart || index >= this.visibleEnd) {
@@ -10768,6 +10856,363 @@ export default {
             if (this.arabicFontSize > 16) this.arabicFontSize -= 2;
             if (this.translationFontSize > 12) this.translationFontSize -= 2;
         },
+        buildTranslationLazyCacheKey(
+            surahNumber = this.selectedSurah,
+            translationId = this.selectedTranslation
+        ) {
+            const surah = String(surahNumber || "").trim();
+            const translation = String(translationId || "").trim();
+            if (!surah || !translation) return "";
+            return `${surah}:${translation}`;
+        },
+        setTranslationLazyState(patch = {}) {
+            const current =
+                this.translationLazyState &&
+                typeof this.translationLazyState === "object"
+                    ? this.translationLazyState
+                    : {};
+            this.translationLazyState = {
+                surahNumber: String(current.surahNumber || ""),
+                translationId: String(current.translationId || ""),
+                loaded: !!current.loaded,
+                loading: !!current.loading,
+                error: String(current.error || ""),
+                ...patch,
+            };
+        },
+        resetAyahTranslationsForLazyLoad() {
+            if (
+                !this.surahDetails ||
+                !Array.isArray(this.surahDetails.ayahs) ||
+                !this.surahDetails.ayahs.length
+            ) {
+                return;
+            }
+            this.surahDetails.ayahs.forEach((ayah) => {
+                if (!ayah || typeof ayah !== "object") return;
+                ayah.translation = "";
+                ayah.lowerTranslation = "";
+            });
+        },
+        extractTranslationAyahsFromPayload(payload, translationId = "") {
+            if (Array.isArray(payload?.data)) {
+                const editions = payload.data;
+                const byIdentifier = editions.find(
+                    (entry) =>
+                        String(entry?.edition?.identifier || "") ===
+                        String(translationId || "")
+                );
+                const fallback = editions.find((entry) =>
+                    Array.isArray(entry?.ayahs)
+                );
+                return Array.isArray(byIdentifier?.ayahs)
+                    ? byIdentifier.ayahs
+                    : Array.isArray(fallback?.ayahs)
+                    ? fallback.ayahs
+                    : [];
+            }
+            if (Array.isArray(payload?.data?.ayahs)) {
+                return payload.data.ayahs;
+            }
+            return [];
+        },
+        applyLazyTranslationToCurrentSurah(
+            translationAyahs = [],
+            { surahNumber = this.selectedSurah, translationId = this.selectedTranslation } = {}
+        ) {
+            if (
+                !Array.isArray(translationAyahs) ||
+                !this.surahDetails ||
+                !Array.isArray(this.surahDetails.ayahs)
+            ) {
+                return;
+            }
+            const activeSurah = String(
+                this.surahDetails?.surahNumber || this.selectedSurah || ""
+            );
+            if (activeSurah !== String(surahNumber || "")) {
+                return;
+            }
+            this.surahDetails.ayahs.forEach((ayah, index) => {
+                if (!ayah || typeof ayah !== "object") return;
+                const translated = translationAyahs?.[index]?.text;
+                if (typeof translated !== "string" || !translated.trim()) {
+                    ayah.translation = ayah.translation || "";
+                    ayah.lowerTranslation = String(ayah.translation || "").toLowerCase();
+                    return;
+                }
+                ayah.translation = translated;
+                ayah.lowerTranslation = translated.toLowerCase();
+            });
+            this.setTranslationLazyState({
+                surahNumber: String(surahNumber || ""),
+                translationId: String(translationId || ""),
+                loaded: true,
+                loading: false,
+                error: "",
+            });
+            this.itemHeightCalibrated = false;
+            this.$nextTick(() => this.scheduleHeightCalibration(true));
+        },
+        shouldLoadTranslationLazily() {
+            if (this.isTranslationVisible) return true;
+            const hasLocalVisibilityOverride = Object.values(
+                this.translationVisibility || {}
+            ).some(Boolean);
+            if (hasLocalVisibilityOverride) return true;
+            return !!String(this.debouncedQuery || "").trim();
+        },
+        async fetchSurahTranslationLazy({
+            surahNumber = this.selectedSurah,
+            translationId = this.selectedTranslation,
+            force = false,
+        } = {}) {
+            const targetSurah = String(surahNumber || "").trim();
+            const targetTranslation = String(translationId || "").trim();
+            if (!targetSurah || !targetTranslation || this._isDestroyed) {
+                return null;
+            }
+
+            const activeSurah = String(
+                this.surahDetails?.surahNumber || this.selectedSurah || ""
+            );
+            if (!activeSurah || activeSurah !== targetSurah) return null;
+
+            const state = this.translationLazyState || {};
+            if (
+                !force &&
+                state.loaded &&
+                !state.loading &&
+                String(state.surahNumber || "") === targetSurah &&
+                String(state.translationId || "") === targetTranslation
+            ) {
+                return this.surahDetails?.ayahs || null;
+            }
+            if (
+                !force &&
+                !state.loading &&
+                String(state.surahNumber || "") === targetSurah &&
+                String(state.translationId || "") === targetTranslation &&
+                String(state.error || "").trim()
+            ) {
+                return null;
+            }
+
+            const cacheKey = this.buildTranslationLazyCacheKey(
+                targetSurah,
+                targetTranslation
+            );
+            const cached = cacheKey ? this.translationLazyCache[cacheKey] : null;
+            if (!force && Array.isArray(cached?.ayahs) && cached.ayahs.length) {
+                this.applyLazyTranslationToCurrentSurah(cached.ayahs, {
+                    surahNumber: targetSurah,
+                    translationId: targetTranslation,
+                });
+                return cached.ayahs;
+            }
+
+            const requestToken = Number(this.translationLazyRequestToken || 0) + 1;
+            this.translationLazyRequestToken = requestToken;
+            this.setTranslationLazyState({
+                surahNumber: targetSurah,
+                translationId: targetTranslation,
+                loaded: false,
+                loading: true,
+                error: "",
+            });
+
+            const fallbackEndpoints = [
+                {
+                    url: `https://api.alquran.cloud/v1/surah/${targetSurah}/${targetTranslation}`,
+                    cacheKey: `cache:surah-translation:${targetSurah}:${targetTranslation}`,
+                },
+                {
+                    url: `https://api.alquran.cloud/v1/surah/${targetSurah}/editions/${targetTranslation}`,
+                    cacheKey: `cache:surah-translation-editions:${targetSurah}:${targetTranslation}`,
+                },
+            ];
+
+            let translationAyahs = [];
+            let lastError = null;
+            for (const endpoint of fallbackEndpoints) {
+                try {
+                    const { data } = await this.cachedFetchJSON(
+                        endpoint.url,
+                        endpoint.cacheKey,
+                        7 * 24 * 60 * 60 * 1000
+                    );
+                    translationAyahs = this.extractTranslationAyahsFromPayload(
+                        data,
+                        targetTranslation
+                    );
+                    if (translationAyahs.length) break;
+                } catch (error) {
+                    lastError = error;
+                }
+            }
+
+            if (requestToken !== this.translationLazyRequestToken) return null;
+
+            if (translationAyahs.length) {
+                if (cacheKey) {
+                    this.translationLazyCache[cacheKey] = {
+                        cachedAt: Date.now(),
+                        ayahs: translationAyahs,
+                    };
+                }
+                this.applyLazyTranslationToCurrentSurah(translationAyahs, {
+                    surahNumber: targetSurah,
+                    translationId: targetTranslation,
+                });
+                return translationAyahs;
+            }
+
+            this.setTranslationLazyState({
+                surahNumber: targetSurah,
+                translationId: targetTranslation,
+                loaded: false,
+                loading: false,
+                error: this.translationUnavailableText,
+            });
+            if (lastError) {
+                console.warn("Unable to lazy load translation:", lastError);
+            }
+            return null;
+        },
+        maybeLoadTranslationForVisibleContent(options = {}) {
+            const { force = false } = options;
+            if (!force && !this.shouldLoadTranslationLazily()) {
+                return Promise.resolve(null);
+            }
+            return this.fetchSurahTranslationLazy({ force });
+        },
+        getTranslationText(item) {
+            const text = String(item?.ayah?.translation || "").trim();
+            if (text) return text;
+            if (this.translationLazyState?.loading) {
+                return this.translationLoadingText;
+            }
+            if (this.translationLazyState?.error) {
+                return this.translationLazyState.error;
+            }
+            return this.translationUnavailableText;
+        },
+        getTafsirVisibilityKey(item) {
+            if (!item || !item.ayah) return "";
+            return this.buildAyahKey(
+                this.surahDetails?.surahNumber,
+                item.ayah.numberInSurah || item.ayah.number
+            );
+        },
+        isTafsirVisibleFor(item) {
+            const key = this.getTafsirVisibilityKey(item);
+            if (!key) return false;
+            return !!this.tafsirVisibility[key];
+        },
+        isTafsirLoadingFor(item) {
+            const key = this.getTafsirVisibilityKey(item);
+            if (!key) return false;
+            return !!this.tafsirLoading[key];
+        },
+        getTafsirErrorFor(item) {
+            const key = this.getTafsirVisibilityKey(item);
+            if (!key) return "";
+            return String(this.tafsirError[key] || "");
+        },
+        getTafsirTextFor(item) {
+            const key = this.getTafsirVisibilityKey(item);
+            if (!key) return "";
+            return String(this.tafsirContent[key] || "");
+        },
+        resolveTafsirAyahId(ayah) {
+            const direct = Number(ayah?.globalNumber || ayah?.ayahId || 0);
+            if (direct > 0) return direct;
+            const fallback = Number(ayah?.number || 0);
+            return fallback > 0 ? fallback : null;
+        },
+        normalizeTafsirPayload(value) {
+            if (typeof value === "string") return value.trim();
+            if (value == null) return "";
+            if (typeof value === "object") {
+                const candidates = [
+                    value.tafseer,
+                    value.tafsir,
+                    value.text,
+                    value.data?.tafseer,
+                    value.data?.tafsir,
+                    value.data?.text,
+                ];
+                for (const candidate of candidates) {
+                    if (typeof candidate === "string" && candidate.trim()) {
+                        return candidate.trim();
+                    }
+                }
+            }
+            return "";
+        },
+        async loadTafsirForItem(item) {
+            const key = this.getTafsirVisibilityKey(item);
+            if (!key || !item?.ayah) return;
+            if (this.tafsirContent[key]) return;
+            const ayahId = this.resolveTafsirAyahId(item.ayah);
+            if (!ayahId) {
+                this.tafsirError[key] = "Tafsir is unavailable for this ayah.";
+                return;
+            }
+            if (typeof this.$set === "function") {
+                this.$set(this.tafsirLoading, key, true);
+                this.$set(this.tafsirError, key, "");
+            } else {
+                this.tafsirLoading[key] = true;
+                this.tafsirError[key] = "";
+            }
+
+            try {
+                const response = await axios.get(`/tafseer/${ayahId}/fetch`);
+                const text = this.normalizeTafsirPayload(response?.data);
+                if (!text) {
+                    throw new Error("Empty tafsir payload");
+                }
+                if (typeof this.$set === "function") {
+                    this.$set(this.tafsirContent, key, text);
+                } else {
+                    this.tafsirContent[key] = text;
+                }
+            } catch (error) {
+                if (typeof this.$set === "function") {
+                    this.$set(
+                        this.tafsirError,
+                        key,
+                        "Tafsir is temporarily unavailable."
+                    );
+                } else {
+                    this.tafsirError[key] = "Tafsir is temporarily unavailable.";
+                }
+            } finally {
+                if (typeof this.$set === "function") {
+                    this.$set(this.tafsirLoading, key, false);
+                } else {
+                    this.tafsirLoading[key] = false;
+                }
+                this.itemHeightCalibrated = false;
+                this.$nextTick(() => this.scheduleHeightCalibration(true));
+            }
+        },
+        toggleAyahTafsir(item) {
+            const key = this.getTafsirVisibilityKey(item);
+            if (!key) return;
+            const next = !this.isTafsirVisibleFor(item);
+            if (typeof this.$set === "function") {
+                this.$set(this.tafsirVisibility, key, next);
+            } else {
+                this.tafsirVisibility[key] = next;
+            }
+            if (next) {
+                this.loadTafsirForItem(item);
+            }
+            this.itemHeightCalibrated = false;
+            this.$nextTick(() => this.scheduleHeightCalibration(true));
+        },
         getTranslationVisibilityKey(item) {
             if (!item || !item.ayah) return "";
             return this.buildAyahKey(
@@ -10796,6 +11241,9 @@ export default {
         onTranslationToggle(item, event) {
             const checked = !!event.target.checked;
             this.setTranslationVisibleFor(item, checked);
+            if (checked) {
+                this.maybeLoadTranslationForVisibleContent({ force: true });
+            }
         },
         applyGlobalTextVisibility({
             translation = this.isTranslationVisible,
@@ -10805,6 +11253,9 @@ export default {
             this.isTransliterationVisible = !!transliteration;
             this.translationVisibility = {};
             this.transliterationVisibility = {};
+            if (this.isTranslationVisible) {
+                this.maybeLoadTranslationForVisibleContent({ force: true });
+            }
             this.itemHeightCalibrated = false;
             this.$nextTick(() => this.scheduleHeightCalibration(true));
         },
@@ -10851,6 +11302,9 @@ export default {
                 translation: checked,
                 transliteration: this.isTransliterationAllEnabled,
             });
+            if (checked) {
+                this.maybeLoadTranslationForVisibleContent({ force: true });
+            }
             this.announce(
                 checked
                     ? "Translation enabled for all ayahs."
@@ -11166,13 +11620,16 @@ export default {
         fetchSurahDetails: function () {
             if (
                 !this.selectedSurah ||
-                !this.selectedReciter ||
-                !this.selectedTranslation
+                !this.selectedReciter
             )
                 return Promise.resolve();
             this.isLoading = true;
+            this.tafsirVisibility = {};
+            this.tafsirContent = {};
+            this.tafsirLoading = {};
+            this.tafsirError = {};
             this.prefetchCurrentSurahAudioMeta();
-            const cacheKey = `cache:surah:${this.selectedSurah}:${this.selectedReciter}:${this.selectedTranslation}:tajweed`;
+            const cacheKey = `cache:surah:${this.selectedSurah}:${this.selectedReciter}:tajweed`;
 
             // Serve from cache immediately if available
             try {
@@ -11190,12 +11647,6 @@ export default {
                                     item?.edition?.identifier ===
                                     this.selectedReciter
                             ) || editions[0];
-                        const translation =
-                            editions.find(
-                                (item) =>
-                                    item?.edition?.identifier ===
-                                    this.selectedTranslation
-                            ) || editions[1];
                         const tajweed = editions.find(
                             (item) =>
                                 item?.edition?.identifier === "quran-tajweed"
@@ -11215,10 +11666,6 @@ export default {
                                     const tajweedText =
                                         tajweed?.ayahs?.[index]?.text || "";
                                     const text = ayah.text || "";
-                                    const transText =
-                                        translation?.ayahs?.[index]?.text
-                                            ? translation.ayahs[index].text
-                                            : "Translation not available";
                                     const transliterationTextRaw =
                                         transliteration?.ayahs?.[index]?.text ||
                                         "";
@@ -11237,8 +11684,8 @@ export default {
                                         globalNumber: ayah.number,
                                         text,
                                         lowerText: text.toLowerCase(),
-                                        translation: transText,
-                                        lowerTranslation: transText.toLowerCase(),
+                                        translation: "",
+                                        lowerTranslation: "",
                                         transliteration: transliterationText,
                                         lowerTransliteration:
                                             transliterationText.toLowerCase(),
@@ -11256,9 +11703,17 @@ export default {
                                 }
                             ),
                         };
+                        this.setTranslationLazyState({
+                            surahNumber: String(this.selectedSurah || ""),
+                            translationId: String(this.selectedTranslation || ""),
+                            loaded: false,
+                            loading: false,
+                            error: "",
+                        });
                         this.syncPinnedAyahsForCurrentSurah();
                         this.isLoading = false;
                         this.fetchSurahTransliteration(this.selectedSurah);
+                        this.maybeLoadTranslationForVisibleContent();
                         this.enrichSurahWithQuranSegments()
                             .finally(() => {
                                 // Pre-warm current and next from cache path as well
@@ -11278,7 +11733,7 @@ export default {
             this._surahAborter = new AbortController();
             const { signal } = this._surahAborter;
             return fetch(
-                `https://api.alquran.cloud/v1/surah/${this.selectedSurah}/editions/${this.selectedReciter},${this.selectedTranslation},quran-tajweed`,
+                `https://api.alquran.cloud/v1/surah/${this.selectedSurah}/editions/${this.selectedReciter},quran-tajweed`,
                 { signal }
             )
                 .then((response) => {
@@ -11306,12 +11761,6 @@ export default {
                                 item?.edition?.identifier ===
                                 this.selectedReciter
                         ) || editions[0];
-                    const translation =
-                        editions.find(
-                            (item) =>
-                                item?.edition?.identifier ===
-                                this.selectedTranslation
-                        ) || editions[1];
                     const tajweed = editions.find(
                         (item) =>
                             item?.edition?.identifier === "quran-tajweed"
@@ -11330,10 +11779,6 @@ export default {
                             const tajweedText =
                                 tajweed?.ayahs?.[index]?.text || "";
                             const text = ayah.text || "";
-                            const transText =
-                                translation?.ayahs?.[index]?.text
-                                    ? translation.ayahs[index].text
-                                    : "Translation not available";
                             const transliterationTextRaw =
                                 transliteration?.ayahs?.[index]?.text || "";
                             const transliterationText =
@@ -11350,8 +11795,8 @@ export default {
                                 globalNumber: ayah.number,
                                 text,
                                 lowerText: text.toLowerCase(),
-                                translation: transText,
-                                lowerTranslation: transText.toLowerCase(),
+                                translation: "",
+                                lowerTranslation: "",
                                 transliteration: transliterationText,
                                 lowerTransliteration:
                                     transliterationText.toLowerCase(),
@@ -11368,10 +11813,18 @@ export default {
                             };
                         }),
                     };
+                    this.setTranslationLazyState({
+                        surahNumber: String(this.selectedSurah || ""),
+                        translationId: String(this.selectedTranslation || ""),
+                        loaded: false,
+                        loading: false,
+                        error: "",
+                    });
                     this.syncPinnedAyahsForCurrentSurah();
                     console.log("Surah details fetched:", this.surahDetails);
                     this.isLoading = false;
                     this.fetchSurahTransliteration(this.selectedSurah);
+                    this.maybeLoadTranslationForVisibleContent();
                     this.enrichSurahWithQuranSegments()
                         .finally(() => {
                             // Pre-warm the first and next ayah for instant playback
@@ -11675,11 +12128,13 @@ export default {
                 return false;
             }
 
-            const start = Math.max(0, targetIndex - this.buffer);
+            const buffer = this.effectiveVirtualBuffer;
+            const size = this.effectiveVirtualWindowSize;
+            const start = Math.max(0, targetIndex - buffer);
             this.visibleStart = start;
             this.visibleEnd = Math.min(
                 total,
-                start + this.windowSize + this.buffer * 2
+                start + size + buffer * 2
             );
 
             this.$nextTick(() => {

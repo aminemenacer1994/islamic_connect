@@ -1,5 +1,12 @@
 <template>
-  <div class="revert-shell position-relative" v-cloak :class="{ 'reduce-motion': reduceMotionEnabled }">
+  <div
+    class="revert-shell position-relative"
+    v-cloak
+    :class="{
+      'reduce-motion': reduceMotionEnabled,
+      'mobile-nav-open': mobileNavOpen
+    }"
+  >
     <a class="skip-link" href="#revert-main-content">Skip to main content</a>
     <canvas ref="confettiCanvas" class="confetti-canvas" aria-hidden="true"></canvas>
 
@@ -9,6 +16,7 @@
 
     <!-- Mobile Nav Toggle (only visible in small screens) -->
     <button
+      ref="mobileNavToggle"
       class="mobile-nav-toggle d-lg-none btn btn-light shadow-sm rounded-circle p-3 position-fixed top-3 start-3 z-3"
       :aria-label="mobileNavOpen ? 'Close chapter navigation' : 'Open chapter navigation'"
       :aria-expanded="mobileNavOpen ? 'true' : 'false'"
@@ -158,7 +166,6 @@
               </select>
             </div>
           </div>
-
           <LessonHeader
             :chapter-id="currentLesson?.chapterId"
             :title="currentLesson?.title"
@@ -170,9 +177,33 @@
             @open-help="openHelpModal"
           />
 
+          <div class="section-jump-nav mb-4" role="navigation" aria-label="Section navigation">
+            <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-2">
+              <span class="fw-semibold small">Jump to section</span>
+              <span class="text-muted small">{{ sectionJumpLinks.length }} options</span>
+            </div>
+            <div class="section-jump-pillset">
+              <button
+                v-for="link in sectionJumpLinks"
+                :key="`inline-${link.id}`"
+                type="button"
+                class="section-jump-pill d-inline-flex align-items-center gap-2 text-start"
+                :class="{ active: activeSectionJumpId === link.id }"
+                :aria-current="activeSectionJumpId === link.id ? 'true' : 'false'"
+                :aria-label="`Jump to ${link.label}`"
+                @click="jumpToContentSection(link.id)">
+                <i class="bi" :class="link.icon" aria-hidden="true"></i>
+                <span>{{ link.label }}</span>
+              </button>
+            </div>
+          </div>
+
           <!-- Global search -->
           <div class="global-search-wrapper mb-4">
-            <div class="resource-search-panel global-search-panel section-typography" :style="sectionFontStyle('globalSearch')">
+            <div
+              id="global-search-section"
+              class="resource-search-panel global-search-panel section-typography"
+              :style="sectionFontStyle('globalSearch')">
               <div class="resource-search-header">
                 <div>
                   <h4 class="resource-search-title">Global Search</h4>
@@ -632,6 +663,7 @@
 
           <!-- Share with a friend -->
           <div
+            id="share-friend-section"
             class="content-card onboarding-card mb-4 rounded-5 shadow-lg section-typography section-share-friend"
             :style="sectionFontStyle('shareFriend')"
           >
@@ -974,6 +1006,7 @@
 
           <!-- share and uplift -->
           <div
+            id="share-uplift-section"
             v-if="currentDuas.length"
             class="content-card onboarding-card mb-4 rounded-5 shadow-lg section-typography section-share-uplift"
             :style="sectionFontStyle('shareUplift')"
@@ -1064,6 +1097,7 @@
           <!-- common asked questions -->
           <!-- chapter-specific tool -->
           <div
+            id="chapter-tool-section"
             v-if="chapterTool"
             class="content-card onboarding-card mb-4 rounded-5 shadow-lg chapter-tool-card section-typography"
             :style="sectionFontStyle('chapterTool')"
@@ -1208,6 +1242,7 @@
 
           <!-- motivation -->
           <div
+            id="motivation-section"
             class="content-card onboarding-card mb-4 rounded-5 shadow-lg section-typography section-motivation"
             :style="sectionFontStyle('motivation')"
           >

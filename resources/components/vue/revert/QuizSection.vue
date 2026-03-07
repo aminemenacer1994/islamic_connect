@@ -1,5 +1,6 @@
 <template>
   <div
+    id="chapter-quiz-section"
     class="content-card onboarding-card mb-4 rounded-5 shadow-lg section-typography section-quiz"
     :style="sectionStyle"
   >

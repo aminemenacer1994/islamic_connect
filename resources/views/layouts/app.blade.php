@@ -279,6 +279,7 @@
             background-color: transparent !important;
             border: none;
             backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
         }
 
         .navbar.navbar-transparent {
@@ -305,6 +306,36 @@
         @media (max-width: 768px) {
             body {
                 padding-top: calc(4.25rem + 1rem);
+            }
+
+            /* Keep mobile menu readable instead of blending into page content */
+            .navbar.navbar-transparent {
+                background: rgba(255, 255, 255, 0.94) !important;
+                backdrop-filter: none !important;
+                -webkit-backdrop-filter: none !important;
+            }
+
+            .navbar.navbar-transparent .navbar-collapse.show,
+            .navbar.navbar-transparent .navbar-collapse.collapsing {
+                margin-top: 0.5rem;
+                padding: 0.5rem 0.25rem;
+                border-radius: 14px;
+                background: rgba(255, 255, 255, 0.98) !important;
+                border: 1px solid rgba(15, 23, 42, 0.12);
+                box-shadow: 0 16px 34px rgba(15, 23, 42, 0.18);
+                backdrop-filter: none !important;
+                -webkit-backdrop-filter: none !important;
+            }
+
+            .navbar.navbar-transparent .navbar-collapse .nav-link {
+                color: #0f172a !important;
+                font-weight: 600;
+            }
+
+            .navbar.navbar-transparent .navbar-collapse .dropdown-menu {
+                background: #ffffff;
+                border: 1px solid rgba(15, 23, 42, 0.14);
+                box-shadow: 0 14px 28px rgba(15, 23, 42, 0.16);
             }
         }
     </style>

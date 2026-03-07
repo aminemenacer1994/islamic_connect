@@ -473,6 +473,7 @@ export default defineComponent({
       quizCorrectCount: 0,
       quizRequiredCorrect: 2,
       mobileNavOpen: false,
+      mobileNavFocusOrigin: null,
       maxStepReached: 1,
       selectedPill: 1,
       showSuccessAlert: false,
@@ -527,6 +528,7 @@ export default defineComponent({
       copyAlertType: 'info',
       showCopyAlert: false,
       uiErrorMessage: '',
+      activeSectionJumpId: '',
       copyAlertTimeout: null,
       lastIncorrectExplanation: null,
       activeVideoId: null,
@@ -573,7 +575,8 @@ export default defineComponent({
       scrollTopRetryTimer: null,
       scrollListenerTarget: null,
       modalFocusTrapHandler: null,
-      lastFocusedElement: null
+      lastFocusedElement: null,
+      scrollSafetyObserver: null
     }
   },
 
@@ -908,6 +911,30 @@ export default defineComponent({
     },
     globalSearchSectionsCount() {
       return this.globalSearchResultsFilteredByCategory.length
+    },
+    sectionJumpLinks() {
+      return [
+        { id: 'global-search-section', label: 'Global Search', icon: 'bi-search' },
+        { id: 'lesson-focus-section', label: 'Focus of Lesson', icon: 'bi-brightness-high-fill' },
+        { id: 'learning-paths-section', label: 'Learning Paths', icon: 'bi-box-seam-fill' },
+        { id: 'guided-pathway-section', label: 'Guided Pathway', icon: 'bi-controller', visible: this.pathwayClips.length > 0 },
+        { id: 'share-friend-section', label: 'Share With Friends', icon: 'bi-share-fill' },
+        { id: 'dos-donts-section', label: "Do's and Don'ts", icon: 'bi-shield-fill-check' },
+        { id: 'duas-section', label: 'Duas to Carry', icon: 'bi-bookmark-star-fill', visible: this.currentDuas.length > 0 },
+        { id: 'revert-stories-section', label: 'Revert Stories', icon: 'bi-people-fill' },
+        {
+          id: 'key-insights-section',
+          label: 'Key Insights',
+          icon: 'bi-lightbulb-fill',
+          visible: this.secondarySectionsReady && this.insightsToShow.length > 0
+        },
+        { id: 'share-uplift-section', label: 'Share & Uplift', icon: 'bi-share', visible: this.currentDuas.length > 0 },
+        { id: 'chapter-tool-section', label: 'Chapter Tool', icon: 'bi-tools', visible: Boolean(this.chapterTool) },
+        { id: 'common-questions-section', label: 'Common Questions', icon: 'bi-question-circle-fill' },
+        { id: 'motivation-section', label: 'Motivation', icon: 'bi-rocket-takeoff-fill' },
+        { id: 'resources-section', label: 'References & Resources', icon: 'bi-book' },
+        { id: 'chapter-quiz-section', label: 'Chapter Quiz', icon: 'bi-journal-check' }
+      ].filter(link => link.visible !== false)
     },
     currentChapterPlans() {
       const chapterId = this.currentLesson?.chapterId
@@ -1319,6 +1346,17 @@ export default defineComponent({
   },
 
   watch: {
+    mobileNavOpen(open) {
+      this.syncMobileNavScrollLock(open)
+      if (open) {
+        this.captureMobileNavFocusOrigin()
+        this.$nextTick(() => {
+          this.focusFirstMobileNavControl()
+        })
+        return
+      }
+      this.restoreMobileNavFocusOrigin()
+    },
     selectedPill() {
       // Reload the chapter experience whenever navigation moves to another pill.
       this.chapterQuizPassed = false
@@ -1329,6 +1367,7 @@ export default defineComponent({
       this.homeworkVisibleCount = 4
       this.faqDisplayLimit = 4
       this.commonFaqDisplayLimit = 5
+      this.activeSectionJumpId = ''
       this.sectionVisibility = {}
       this.cardVisibility = {}
       this.prepareSecondarySections()
@@ -1427,6 +1466,7 @@ export default defineComponent({
 
     mounted() {
       this.initializeFontScaleSession()
+      this.syncMobileNavScrollLock(false)
       const saved = localStorage.getItem('maxStepReached')
       if (saved) {
         const value = parseInt(saved, 10)
@@ -1454,6 +1494,8 @@ export default defineComponent({
       this.scheduleChapterToolPreload(this.selectedPill)
       this.scheduleChapterToolPreload(this.selectedPill + 1)
       this.bindProgressSync()
+      this.bindScrollSafetyObserver()
+      window.addEventListener('keydown', this.handleGlobalKeydown)
 
       window.addEventListener('beforeunload', () => {
         window.scrollTo(0, 0)
@@ -1471,6 +1513,12 @@ export default defineComponent({
   },
 
   beforeUnmount() {
+    if (typeof window !== 'undefined') {
+      window.removeEventListener('keydown', this.handleGlobalKeydown)
+    }
+    this.syncMobileNavScrollLock(false)
+    this.restoreMobileNavFocusOrigin()
+    this.teardownScrollSafetyObserver()
     this.unbindScrollListeners()
     this.teardownMotionPreference()
     this.teardownPreviewAutoplayPreference()
@@ -1822,6 +1870,11 @@ export default defineComponent({
       if (typeof window === 'undefined' || !('matchMedia' in window)) return
       const query = window.matchMedia('(min-width: 992px)')
       const handler = (event) => {
+        if (event.matches && this.mobileNavOpen) {
+          this.mobileNavOpen = false
+        } else {
+          this.syncMobileNavScrollLock()
+        }
         this.previewAutoplayEnabled = event.matches
         this.bindScrollListeners()
         this.updateScrollFab()
@@ -2299,6 +2352,102 @@ export default defineComponent({
       return Number.isFinite(numeric) ? numeric : null
     },
 
+    handleGlobalKeydown(event) {
+      if (!event || event.key !== 'Escape') return
+      if (!this.mobileNavOpen || this.isAnyModalOpen) return
+      event.preventDefault()
+      this.mobileNavOpen = false
+    },
+
+    captureMobileNavFocusOrigin() {
+      if (typeof document === 'undefined') return
+      const activeEl = document.activeElement
+      this.mobileNavFocusOrigin = activeEl instanceof HTMLElement ? activeEl : null
+    },
+
+    restoreMobileNavFocusOrigin() {
+      if (!this.mobileNavFocusOrigin || typeof document === 'undefined') {
+        this.mobileNavFocusOrigin = null
+        return
+      }
+      if (document.contains(this.mobileNavFocusOrigin) && typeof this.mobileNavFocusOrigin.focus === 'function') {
+        this.mobileNavFocusOrigin.focus()
+      }
+      this.mobileNavFocusOrigin = null
+    },
+
+    focusFirstMobileNavControl() {
+      if (typeof document === 'undefined' || typeof window === 'undefined') return
+      if (!this.mobileNavOpen || window.innerWidth >= 992) return
+      const nav = this.$el?.querySelector?.('#revert-navigation')
+      if (!nav || typeof nav.querySelector !== 'function') return
+      const firstFocusable = nav.querySelector('button:not([disabled]), a[href], [tabindex]:not([tabindex="-1"])')
+      if (firstFocusable instanceof HTMLElement && typeof firstFocusable.focus === 'function') {
+        firstFocusable.focus()
+      }
+    },
+
+    enforceRevertScrollSafety() {
+      if (typeof document === 'undefined') return
+      const body = document.body
+      const html = document.documentElement
+      if (!body || !html) return
+
+      body.classList.remove('revert-mobile-nav-lock', 'modal-open', 'sidebar-open')
+      html.classList.remove('revert-mobile-nav-lock')
+
+      if (body.style.overflow === 'hidden') {
+        body.style.overflow = ''
+      }
+      if (body.style.paddingRight) {
+        body.style.paddingRight = ''
+      }
+      if (html.style.overflow === 'hidden') {
+        html.style.overflow = ''
+      }
+
+      const sidebarEl = document.getElementById('tablet-sidebar')
+      if (sidebarEl?.classList.contains('active')) {
+        sidebarEl.classList.remove('active')
+      }
+      const sidebarBackdrop = document.getElementById('sidebar-backdrop')
+      if (sidebarBackdrop?.classList.contains('active')) {
+        sidebarBackdrop.classList.remove('active')
+      }
+    },
+
+    bindScrollSafetyObserver() {
+      if (typeof window === 'undefined' || typeof document === 'undefined') return
+      this.enforceRevertScrollSafety()
+      if (typeof window.MutationObserver !== 'function') return
+      if (this.scrollSafetyObserver) return
+
+      this.scrollSafetyObserver = new window.MutationObserver(() => {
+        this.enforceRevertScrollSafety()
+      })
+
+      this.scrollSafetyObserver.observe(document.body, {
+        attributes: true,
+        attributeFilter: ['class', 'style']
+      })
+      this.scrollSafetyObserver.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['class', 'style']
+      })
+    },
+
+    teardownScrollSafetyObserver() {
+      if (!this.scrollSafetyObserver) return
+      this.scrollSafetyObserver.disconnect()
+      this.scrollSafetyObserver = null
+    },
+
+    syncMobileNavScrollLock(shouldOpen = this.mobileNavOpen) {
+      if (typeof document === 'undefined' || typeof window === 'undefined') return
+      void shouldOpen
+      this.enforceRevertScrollSafety()
+    },
+
     toggleMobileNav() {
       this.mobileNavOpen = !this.mobileNavOpen
     },
@@ -2321,6 +2470,15 @@ export default defineComponent({
       this.selectedPill = chapterId
       this.scrollToTop()
       this.mobileNavOpen = false
+    },
+    jumpToContentSection(sectionId) {
+      const targetId = String(sectionId || '').trim()
+      if (!targetId) return
+      this.activeSectionJumpId = targetId
+      this.mobileNavOpen = false
+      this.$nextTick(() => {
+        this.scrollToSectionId(targetId)
+      })
     },
     openChapterToolNewTab() {
       const tool = this.chapterTool
@@ -3050,9 +3208,7 @@ export default defineComponent({
     scrollToGlobalSearchSection(sectionKey) {
       const sectionId = this.globalSearchSectionId(sectionKey)
       if (!sectionId) return
-      this.$nextTick(() => {
-        this.scrollToSectionId(sectionId)
-      })
+      this.jumpToContentSection(sectionId)
     },
     scrollToSectionId(sectionId) {
       if (!sectionId || typeof document === 'undefined') return
@@ -3411,6 +3567,7 @@ export default defineComponent({
     scrollToSection(target) {
       this.$nextTick(() => {
         if (typeof target === 'string') {
+          this.activeSectionJumpId = target
           const el = document.getElementById(target)
           if (el) {
             el.scrollIntoView({ behavior: 'smooth', block: 'start' })

@@ -2570,9 +2570,11 @@
                                                         'translation-text--active':
                                                             currentlyPlayingIndex === item.index &&
                                                             isAudioPlaying[item.index],
+                                                        'translation-text--placeholder':
+                                                            !item.ayah.translation,
                                                     },
                                                 ]"
-                                                v-html="highlightText(item.ayah.translation)"
+                                                v-html="highlightText(getTranslationText(item))"
                                                 :style="`font-size: ${effectiveAyahBodyFontSize}px !important;`"
                                             ></p>
                                         </div>
@@ -2607,6 +2609,32 @@
                                                 <i class="bi bi-send" aria-hidden="true"></i>
                                                 <span>Share</span>
                                             </button>
+                                            <button
+                                                type="button"
+                                                class="action-pill"
+                                                :class="{ 'is-active': isTafsirVisibleFor(item) }"
+                                                @click.stop="toggleAyahTafsir(item)"
+                                                :aria-label="isTafsirVisibleFor(item) ? 'Hide tafsir' : 'Show tafsir'"
+                                                :title="isTafsirVisibleFor(item) ? 'Hide tafsir' : 'Show tafsir'">
+                                                <i class="bi bi-journal-richtext" aria-hidden="true"></i>
+                                                <span>{{ isTafsirVisibleFor(item) ? "Hide tafsir" : "Tafsir" }}</span>
+                                            </button>
+                                        </div>
+                                        <div
+                                            v-if="isTafsirVisibleFor(item)"
+                                            class="ayah-tafsir-panel ltr-text"
+                                            role="status"
+                                            aria-live="polite">
+                                            <p class="ayah-tafsir-label mb-1">Tafsir</p>
+                                            <p v-if="isTafsirLoadingFor(item)" class="ayah-tafsir-loading mb-0">
+                                                Loading tafsir...
+                                            </p>
+                                            <p v-else-if="getTafsirErrorFor(item)" class="ayah-tafsir-error mb-0">
+                                                {{ getTafsirErrorFor(item) }}
+                                            </p>
+                                            <p v-else class="ayah-tafsir-text mb-0">
+                                                {{ getTafsirTextFor(item) || "No tafsir content available." }}
+                                            </p>
                                         </div>
                                     </div>
                                 </div>
@@ -2660,9 +2688,11 @@
                                                 'translation-text--active':
                                                     currentlyPlayingIndex === item.index &&
                                                     isAudioPlaying[item.index],
+                                                'translation-text--placeholder':
+                                                    !item.ayah.translation,
                                             },
                                         ]"
-                                        v-html="highlightText(item.ayah.translation)"
+                                        v-html="highlightText(getTranslationText(item))"
                                         :style="`font-size: ${effectiveAyahBodyFontSize}px !important;`"
                                     ></p>
                                 </div>
@@ -2696,6 +2726,16 @@
                                         <i class="bi bi-send" aria-hidden="true"></i>
                                         <span>Share</span>
                                     </button>
+                                    <button
+                                        type="button"
+                                        class="action-pill"
+                                        :class="{ 'is-active': isTafsirVisibleFor(item) }"
+                                        @click.stop="toggleAyahTafsir(item)"
+                                        :aria-label="isTafsirVisibleFor(item) ? 'Hide tafsir' : 'Show tafsir'"
+                                        :title="isTafsirVisibleFor(item) ? 'Hide tafsir' : 'Show tafsir'">
+                                        <i class="bi bi-journal-richtext" aria-hidden="true"></i>
+                                        <span>{{ isTafsirVisibleFor(item) ? "Hide tafsir" : "Tafsir" }}</span>
+                                    </button>
                                     <button type="button" class="action-pill reflection-pill-fill"
                                     :class="{ 'has-reflection': hasReflection(item.ayah) }"
                                     @click.stop="openReflectionModal(item.ayah)" :aria-label="hasReflection(item.ayah)
@@ -2706,6 +2746,22 @@
                                     <i class="bi bi-journal-text" aria-hidden="true"></i>
                                     <span>{{ hasReflection(item.ayah) ? 'Reflected' : 'Reflect' }}</span>
                                 </button>
+                                </div>
+                                <div
+                                    v-if="isTafsirVisibleFor(item)"
+                                    class="ayah-tafsir-panel ltr-text"
+                                    role="status"
+                                    aria-live="polite">
+                                    <p class="ayah-tafsir-label mb-1">Tafsir</p>
+                                    <p v-if="isTafsirLoadingFor(item)" class="ayah-tafsir-loading mb-0">
+                                        Loading tafsir...
+                                    </p>
+                                    <p v-else-if="getTafsirErrorFor(item)" class="ayah-tafsir-error mb-0">
+                                        {{ getTafsirErrorFor(item) }}
+                                    </p>
+                                    <p v-else class="ayah-tafsir-text mb-0">
+                                        {{ getTafsirTextFor(item) || "No tafsir content available." }}
+                                    </p>
                                 </div>
                             </div>
                             <div class="row card-teal mb-3 py-2 ayah-inline-controls ayah-inline-controls--compact">

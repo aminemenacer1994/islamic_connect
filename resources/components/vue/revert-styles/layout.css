@@ -658,6 +658,70 @@
   gap: 0.7rem;
 }
 
+.section-jump-nav {
+  padding: 0.95rem 1rem;
+  border-radius: 18px;
+  border: 1px solid rgba(15, 118, 110, 0.2);
+  background: linear-gradient(160deg, rgba(243, 250, 252, 0.94), rgba(225, 238, 244, 0.92));
+  box-shadow: 0 16px 32px rgba(7, 28, 40, 0.11);
+}
+
+.section-jump-pillset {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.52rem;
+}
+
+.section-jump-pill {
+  width: auto;
+  border-radius: 14px;
+  padding: 0.5rem 0.72rem;
+  border: 1px solid rgba(13, 88, 101, 0.22);
+  background: rgba(255, 255, 255, 0.78);
+  color: #10323c;
+  box-shadow: 0 8px 16px rgba(7, 28, 40, 0.08);
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.section-jump-pill i {
+  font-size: 0.95rem;
+}
+
+.section-jump-pill:hover {
+  transform: translateY(-1px);
+  border-color: rgba(15, 118, 110, 0.45);
+  background: rgba(238, 250, 247, 0.94);
+  box-shadow: 0 12px 20px rgba(7, 28, 40, 0.12);
+}
+
+.section-jump-pill.active {
+  border-color: rgba(15, 118, 110, 0.4);
+  background: linear-gradient(130deg, rgba(209, 243, 235, 0.98), rgba(224, 238, 245, 0.96));
+  box-shadow: 0 12px 24px rgba(8, 44, 58, 0.2);
+}
+
+.section-jump-pill:focus-visible {
+  outline: 3px solid rgba(52, 211, 153, 0.72);
+  outline-offset: 2px;
+}
+
+@media (max-width: 767.98px) {
+  .section-jump-nav {
+    padding: 0.8rem;
+  }
+
+  .section-jump-pillset {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.45rem;
+  }
+
+  .section-jump-pill {
+    width: 100%;
+    justify-content: flex-start;
+  }
+}
+
 .roadmap-pill:focus-visible {
   outline: 3px solid rgba(52, 211, 153, 0.6);
   outline-offset: 3px;
