@@ -38,8 +38,6 @@ const AI_CRITICAL_VERSE_CANONICAL_TEXTS = Object.freeze({
   '112:3': 'لَمْ يَلِدْ وَلَمْ يُولَدْ',
   '112:4': 'وَلَمْ يَكُنْ لَهُ كُفُوًا أَحَدٌ'
 });
-const AI_OFFICIAL_SOURCE_HOSTS = Object.freeze(['quran.com', 'sunnah.com', 'hadeethenc.com', 'quranenc.com', 'api.alquran.cloud', 'islamqa.info', 'islamweb.net']);
-const AI_AGGREGATED_SOURCE_HOSTS = Object.freeze(['raw.githubusercontent.com', 'githubusercontent.com', 'cdn.jsdelivr.net', 'api.islamhouse.com', 'api2.islamhouse.com', 'api3.islamhouse.com']);
 const SESSION_MEMORY_LIMIT = 30;
 const SESSION_STORAGE_COMPACTION_STEPS = [{
   maxSessions: 24,
@@ -66,6 +64,7 @@ const SESSION_STORAGE_COMPACTION_STEPS = [{
   keepReferences: false,
   keepSummary: false
 }];
+const CHAT_DRAFT_MAX_LENGTH = 1500;
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data() {
     return {
@@ -110,12 +109,31 @@ const SESSION_STORAGE_COMPACTION_STEPS = [{
       latestBatchVerification: null,
       serviceWorkerRegistration: null,
       criticalVerseHashMap: {},
-      showDisclaimerModal: false
+      showDisclaimerModal: false,
+      quickPrompts: [{
+        label: 'Daily Worship',
+        prompt: 'How can I stay consistent with salah when my schedule is busy?'
+      }, {
+        label: 'Quran Reflection',
+        prompt: 'Share a Quran verse about patience and how to apply it today.'
+      }, {
+        label: 'Character',
+        prompt: 'What does Islam teach about controlling anger in difficult moments?'
+      }]
     };
   },
   computed: {
     isNewChatAvailable() {
       return this.chatDraft.trim().length > 0 || this.hasAssistantResponse;
+    },
+    draftCharacterCount() {
+      return String(this.chatDraft || '').length;
+    },
+    draftCharacterLimit() {
+      return CHAT_DRAFT_MAX_LENGTH;
+    },
+    draftCharactersRemaining() {
+      return Math.max(0, CHAT_DRAFT_MAX_LENGTH - this.draftCharacterCount);
     },
     hasAssistantResponse() {
       return this.chatHistory.some(entry => entry.role === 'assistant');
@@ -165,6 +183,45 @@ const SESSION_STORAGE_COMPACTION_STEPS = [{
         event.preventDefault();
         this.sendChatMessage();
       }
+    },
+    handleDraftInput() {
+      this.autoResizeComposer();
+      if (this.chatError) {
+        this.chatError = null;
+      }
+    },
+    autoResizeComposer() {
+      const textarea = this.$refs.aiChatInput;
+      if (!textarea || !textarea.style) {
+        return;
+      }
+      textarea.style.height = 'auto';
+      const minHeight = 90;
+      const maxHeight = 210;
+      const targetHeight = Math.max(minHeight, Math.min(textarea.scrollHeight, maxHeight));
+      textarea.style.height = `${targetHeight}px`;
+      textarea.style.overflowY = textarea.scrollHeight > maxHeight ? 'auto' : 'hidden';
+    },
+    applyQuickPrompt(prompt, sendImmediately = true) {
+      if (this.chatLoading || typeof prompt !== 'string') {
+        return;
+      }
+      const cleaned = prompt.trim().slice(0, CHAT_DRAFT_MAX_LENGTH);
+      if (!cleaned) {
+        return;
+      }
+      this.chatDraft = cleaned;
+      this.chatError = null;
+      this.$nextTick(() => {
+        this.autoResizeComposer();
+        const textarea = this.$refs.aiChatInput;
+        if (textarea && typeof textarea.focus === 'function') {
+          textarea.focus();
+        }
+        if (sendImmediately) {
+          this.sendChatMessage();
+        }
+      });
     },
     createChatEntry(role, text, references = [], summaryBullets = null, verification = null) {
       const now = new Date();
@@ -225,159 +282,6 @@ const SESSION_STORAGE_COMPACTION_STEPS = [{
         return `${confidence} confidence - hash ${passedHashes}/${checkedHashes || passedHashes}${failedHashes > 0 ? ` (${failedHashes} failed)` : ''}${unresolvedHashes > 0 ? ` (${unresolvedHashes} pending)` : ''}`;
       }
       return `${confidence} confidence`;
-    },
-    formatSourceBadge(sourceBadge) {
-      const badge = String(sourceBadge || '').toLowerCase();
-      if (badge === 'official') {
-        return 'Official';
-      }
-      if (badge === 'aggregated') {
-        return 'Aggregated';
-      }
-      return 'Verified';
-    },
-    getSourceBadgeClass(sourceBadge) {
-      const badge = String(sourceBadge || '').toLowerCase();
-      if (badge === 'official') {
-        return 'chat-reference-badge--official';
-      }
-      if (badge === 'aggregated') {
-        return 'chat-reference-badge--aggregated';
-      }
-      return 'chat-reference-badge--verified';
-    },
-    formatHadithGrade(grade) {
-      const normalized = String(grade || '').toLowerCase();
-      if (normalized === 'sahih') {
-        return 'Sahih';
-      }
-      if (normalized === 'hasan') {
-        return 'Hasan';
-      }
-      if (normalized === 'daif') {
-        return "Da'if";
-      }
-      return 'Grade pending';
-    },
-    getHadithGradeBadgeClass(grade) {
-      const normalized = String(grade || '').toLowerCase();
-      if (normalized === 'sahih') {
-        return 'chat-reference-badge--sahih';
-      }
-      if (normalized === 'hasan') {
-        return 'chat-reference-badge--hasan';
-      }
-      if (normalized === 'daif') {
-        return 'chat-reference-badge--daif';
-      }
-      return 'chat-reference-badge--ungraded';
-    },
-    extractReferenceHostname(url) {
-      if (typeof url !== 'string' || !url.trim() || typeof URL === 'undefined') {
-        return '';
-      }
-      try {
-        return new URL(url).hostname.toLowerCase();
-      } catch (error) {
-        return '';
-      }
-    },
-    hostMatchesAny(hostname, candidates = []) {
-      if (!hostname || !Array.isArray(candidates) || !candidates.length) {
-        return false;
-      }
-      return candidates.some(candidate => hostname === candidate || hostname.endsWith(`.${candidate}`));
-    },
-    normalizeSourceBadge(sourceBadge) {
-      const normalized = String(sourceBadge || '').trim().toLowerCase();
-      if (!normalized) {
-        return '';
-      }
-      if (['official', 'verified', 'aggregated'].includes(normalized)) {
-        return normalized;
-      }
-      if (['authentic', 'canonical', 'primary', 'trusted'].includes(normalized)) {
-        return 'official';
-      }
-      if (['compiled', 'composite', 'mirror', 'community', 'api'].includes(normalized)) {
-        return 'aggregated';
-      }
-      return '';
-    },
-    inferSourceBadge(reference, label = '', url = '') {
-      const explicit = this.normalizeSourceBadge((reference === null || reference === void 0 ? void 0 : reference.sourceBadge) || (reference === null || reference === void 0 ? void 0 : reference.source_badge) || (reference === null || reference === void 0 ? void 0 : reference.badge) || (reference === null || reference === void 0 ? void 0 : reference.sourceType) || (reference === null || reference === void 0 ? void 0 : reference.source_type) || '');
-      if (explicit) {
-        return explicit;
-      }
-      const hostname = this.extractReferenceHostname(url);
-      if (this.hostMatchesAny(hostname, AI_OFFICIAL_SOURCE_HOSTS)) {
-        return 'official';
-      }
-      if (this.hostMatchesAny(hostname, AI_AGGREGATED_SOURCE_HOSTS)) {
-        return 'aggregated';
-      }
-      const combined = `${label} ${hostname}`.toLowerCase();
-      if (/\b(local faq|community|compiled|summary|mirror|aggregated)\b/.test(combined)) {
-        return 'aggregated';
-      }
-      if (/\b(quran|qur'an|hadith|hadeeth|sunnah|surah|ayah)\b/.test(combined)) {
-        return 'verified';
-      }
-      return 'verified';
-    },
-    isHadithReference(reference, label = '', url = '') {
-      const typeHint = String((reference === null || reference === void 0 ? void 0 : reference.type) || (reference === null || reference === void 0 ? void 0 : reference.contentType) || (reference === null || reference === void 0 ? void 0 : reference.content_type) || (reference === null || reference === void 0 ? void 0 : reference.category) || '').toLowerCase();
-      if (typeHint.includes('hadith') || typeHint.includes('hadeeth')) {
-        return true;
-      }
-      const combined = `${label} ${url}`.toLowerCase();
-      return /(\bhadith\b|\bhadeeth\b|\bsunnah\b|\bbukhari\b|\bmuslim\b|\btirmidhi\b|\babu[\s-]?dawud\b|\bnasai\b|\bibn[\s-]?majah\b|\bnarrated\b|حديث)/i.test(combined);
-    },
-    normalizeHadithGradeValue(value) {
-      const normalized = String(value || '').trim().toLowerCase();
-      if (!normalized) {
-        return '';
-      }
-      if (/(^|\b)(sahih|saheeh|authentic|sound)(\b|$)|صحيح/i.test(normalized)) {
-        return 'sahih';
-      }
-      if (/(^|\b)(hasan|hassan|fair)(\b|$)|حسن/i.test(normalized)) {
-        return 'hasan';
-      }
-      if (/(^|\b)(da['’`]?if|daeef|weak|not\s+authentic)(\b|$)|ضعيف/i.test(normalized)) {
-        return 'daif';
-      }
-      return '';
-    },
-    inferHadithGrade(reference, label = '', url = '', isHadith = false) {
-      const directCandidates = [reference === null || reference === void 0 ? void 0 : reference.hadithGrade, reference === null || reference === void 0 ? void 0 : reference.hadith_grade, reference === null || reference === void 0 ? void 0 : reference.grade, reference === null || reference === void 0 ? void 0 : reference.grading, reference === null || reference === void 0 ? void 0 : reference.hukm, reference === null || reference === void 0 ? void 0 : reference.status];
-      for (const candidate of directCandidates) {
-        const normalized = this.normalizeHadithGradeValue(candidate);
-        if (normalized) {
-          return normalized;
-        }
-      }
-      const inferred = this.normalizeHadithGradeValue(`${label} ${url}`);
-      if (inferred) {
-        return inferred;
-      }
-      if (!isHadith) {
-        return null;
-      }
-      const combined = `${label} ${url}`.toLowerCase();
-      if (/\bsahih\s*(al[-\s]?)?bukhari\b/.test(combined) || /\bsahih\s*muslim\b/.test(combined) || /sunnah\.com\/(bukhari|muslim)/.test(combined)) {
-        return 'sahih';
-      }
-      return 'ungraded';
-    },
-    buildReferenceMetadata(reference, label = '', url = '') {
-      const safeUrl = typeof url === 'string' ? url : '';
-      const isHadith = this.isHadithReference(reference, label, safeUrl);
-      return {
-        sourceBadge: this.inferSourceBadge(reference, label, safeUrl),
-        isHadith,
-        hadithGrade: this.inferHadithGrade(reference, label, safeUrl, isHadith)
-      };
     },
     escapeHtml(value) {
       const map = {
@@ -462,6 +366,179 @@ const SESSION_STORAGE_COMPACTION_STEPS = [{
       }
       return trimmed;
     },
+    extractReferenceHostname(url) {
+      if (typeof url !== 'string' || !url.trim()) {
+        return '';
+      }
+      try {
+        return new URL(url).hostname.toLowerCase().replace(/^www\./, '');
+      } catch (error) {
+        return '';
+      }
+    },
+    sanitizeReferenceLabel(label, url = null) {
+      const rawLabel = String(label || '').replace(/\s+/g, ' ').trim();
+      if (!rawLabel) {
+        return '';
+      }
+      const host = this.extractReferenceHostname(url || rawLabel);
+      const isKnownApiHost = ['api.quran.com', 'alquran.cloud', 'quran.gading.dev'].includes(host) || host.startsWith('api.');
+      const hasApiHint = /\bapi\b|\.(cloud|dev)\b|\/v\d+\//i.test(rawLabel);
+      if (!isKnownApiHost && !hasApiHint) {
+        return rawLabel.slice(0, 180);
+      }
+      const verseKey = this.extractVerseKey(`${rawLabel} ${String(url || '')}`);
+      if (verseKey) {
+        return `Quran reference ${verseKey}`;
+      }
+      if (this.isHadithReference({}, rawLabel, url)) {
+        return 'Hadith reference';
+      }
+      return 'Reference source';
+    },
+    normalizeSourceBadge(value) {
+      const normalized = String(value || '').trim().toLowerCase().replace(/[^a-z]/g, '');
+      if (!normalized) {
+        return '';
+      }
+      if (normalized === 'official') {
+        return 'official';
+      }
+      if (normalized === 'verified') {
+        return 'verified';
+      }
+      if (normalized === 'aggregated' || normalized === 'aggregate') {
+        return 'aggregated';
+      }
+      return '';
+    },
+    inferSourceBadge(reference, hostname, label) {
+      const explicit = this.normalizeSourceBadge((reference === null || reference === void 0 ? void 0 : reference.sourceBadge) || (reference === null || reference === void 0 ? void 0 : reference.source_badge) || (reference === null || reference === void 0 ? void 0 : reference.sourceType) || (reference === null || reference === void 0 ? void 0 : reference.source_type) || (reference === null || reference === void 0 ? void 0 : reference.origin) || '');
+      if (explicit) {
+        return explicit;
+      }
+      const host = String(hostname || '').toLowerCase();
+      const lowerLabel = String(label || '').toLowerCase();
+      const officialHosts = ['quran.com', 'sunnah.com', 'dorar.net', 'islamqa.info', 'binbaz.org.sa'];
+      if (officialHosts.some(domain => host === domain || host.endsWith(`.${domain}`))) {
+        return 'official';
+      }
+      const verifiedHosts = ['api.quran.com', 'alquran.cloud', 'quran.gading.dev', 'quranenc.com', 'myislam.org', 'seekersguidance.org'];
+      if (verifiedHosts.some(domain => host === domain || host.endsWith(`.${domain}`))) {
+        return 'verified';
+      }
+      if (/\b(official|verified|authentic)\b/.test(lowerLabel)) {
+        return 'verified';
+      }
+      return 'aggregated';
+    },
+    formatSourceBadge(value) {
+      const badge = this.normalizeSourceBadge(value) || 'aggregated';
+      if (badge === 'official') {
+        return 'Official';
+      }
+      if (badge === 'verified') {
+        return 'Verified';
+      }
+      return 'Aggregated';
+    },
+    getSourceBadgeClass(value) {
+      const badge = this.normalizeSourceBadge(value) || 'aggregated';
+      if (badge === 'official') {
+        return 'chat-reference-badge--official';
+      }
+      if (badge === 'verified') {
+        return 'chat-reference-badge--verified';
+      }
+      return 'chat-reference-badge--aggregated';
+    },
+    normalizeHadithGradeValue(value) {
+      const normalized = String(value || '').toLowerCase().replace(/[’`]/g, "'").replace(/[^a-z0-9'\s-]/g, ' ').replace(/\s+/g, ' ').trim();
+      if (!normalized) {
+        return '';
+      }
+      if (/\b(sahih|saheeh|authentic)\b/.test(normalized)) {
+        return 'sahih';
+      }
+      if (/\b(hasan)\b/.test(normalized)) {
+        return 'hasan';
+      }
+      if (/\b(daif|daeef|weak|munkar|fabricated|mawdu)\b/.test(normalized)) {
+        return 'daif';
+      }
+      if (/\b(ungraded|unknown|not graded|none|n\/a|na)\b/.test(normalized)) {
+        return 'ungraded';
+      }
+      return '';
+    },
+    inferHadithGrade(reference, label, url) {
+      const gradeCandidates = [reference === null || reference === void 0 ? void 0 : reference.hadithGrade, reference === null || reference === void 0 ? void 0 : reference.hadith_grade, reference === null || reference === void 0 ? void 0 : reference.grade, reference === null || reference === void 0 ? void 0 : reference.grading, reference === null || reference === void 0 ? void 0 : reference.classification, reference === null || reference === void 0 ? void 0 : reference.status];
+      for (const candidate of gradeCandidates) {
+        const normalized = this.normalizeHadithGradeValue(candidate);
+        if (normalized) {
+          return normalized;
+        }
+      }
+      const combined = `${String(label || '')} ${String(url || '')}`.toLowerCase();
+      if (/\b(sahih|saheeh|authentic)\b/.test(combined)) {
+        return 'sahih';
+      }
+      if (/\b(hasan)\b/.test(combined)) {
+        return 'hasan';
+      }
+      if (/\b(daif|daeef|weak|munkar|fabricated|mawdu)\b/.test(combined)) {
+        return 'daif';
+      }
+      return 'ungraded';
+    },
+    isHadithReference(reference, label, url) {
+      if ((reference === null || reference === void 0 ? void 0 : reference.isHadith) === true || (reference === null || reference === void 0 ? void 0 : reference.is_hadith) === true) {
+        return true;
+      }
+      if (this.normalizeHadithGradeValue((reference === null || reference === void 0 ? void 0 : reference.hadithGrade) || (reference === null || reference === void 0 ? void 0 : reference.hadith_grade) || (reference === null || reference === void 0 ? void 0 : reference.grade) || (reference === null || reference === void 0 ? void 0 : reference.grading))) {
+        return true;
+      }
+      const host = this.extractReferenceHostname(url);
+      const text = `${String(label || '')} ${host} ${String(url || '')}`.toLowerCase();
+      return /\b(hadith|bukhari|muslim|tirmidhi|nasai|abu dawud|ibn majah|muwatta|riyad)\b/.test(text) || host === 'sunnah.com' || host.endsWith('.sunnah.com') || host === 'dorar.net' || host.endsWith('.dorar.net');
+    },
+    formatHadithGrade(value) {
+      const grade = this.normalizeHadithGradeValue(value) || 'ungraded';
+      if (grade === 'sahih') {
+        return 'Sahih';
+      }
+      if (grade === 'hasan') {
+        return 'Hasan';
+      }
+      if (grade === 'daif') {
+        return "Da'if";
+      }
+      return 'Ungraded';
+    },
+    getHadithGradeBadgeClass(value) {
+      const grade = this.normalizeHadithGradeValue(value) || 'ungraded';
+      if (grade === 'sahih') {
+        return 'chat-reference-badge--sahih';
+      }
+      if (grade === 'hasan') {
+        return 'chat-reference-badge--hasan';
+      }
+      if (grade === 'daif') {
+        return 'chat-reference-badge--daif';
+      }
+      return 'chat-reference-badge--ungraded';
+    },
+    buildReferenceMetadata(reference, label, url) {
+      const hostname = this.extractReferenceHostname(url);
+      const sourceBadge = this.inferSourceBadge(reference, hostname, label);
+      const isHadith = this.isHadithReference(reference, label, url);
+      const hadithGrade = isHadith ? this.inferHadithGrade(reference, label, url) : '';
+      return {
+        sourceBadge: sourceBadge || 'aggregated',
+        isHadith,
+        hadithGrade: isHadith ? hadithGrade || 'ungraded' : ''
+      };
+    },
     normalizeReferenceList(references) {
       if (!Array.isArray(references)) {
         return [];
@@ -470,7 +547,7 @@ const SESSION_STORAGE_COMPACTION_STEPS = [{
       const seen = new Set();
       references.forEach(reference => {
         if (typeof reference === 'string') {
-          const _label = reference.trim();
+          const _label = this.sanitizeReferenceLabel(reference.trim(), null);
           if (!_label) {
             return;
           }
@@ -479,39 +556,32 @@ const SESSION_STORAGE_COMPACTION_STEPS = [{
             return;
           }
           seen.add(_key);
-          const _metadata = this.buildReferenceMetadata(null, _label, null);
-          normalized.push({
+          normalized.push(_objectSpread({
             label: _label.slice(0, 180),
-            url: null,
-            sourceBadge: _metadata.sourceBadge,
-            isHadith: _metadata.isHadith,
-            hadithGrade: _metadata.hadithGrade
-          });
+            url: null
+          }, this.buildReferenceMetadata({}, _label, null)));
           return;
         }
         if (!reference || typeof reference !== 'object') {
           return;
         }
         const label = String(reference.label || reference.reference || reference.title || reference.name || '').trim();
-        if (!label) {
+        const url = this.normalizeResponseUrl(reference.url || reference.link || reference.href || null);
+        const cleanedLabel = this.sanitizeReferenceLabel(label, url);
+        if (!cleanedLabel) {
           return;
         }
-        const url = this.normalizeResponseUrl(reference.url || reference.link || reference.href || null);
-        const key = `${label.toLowerCase()}|${(url || '').toLowerCase()}`;
+        const key = `${cleanedLabel.toLowerCase()}|${(url || '').toLowerCase()}`;
         if (seen.has(key)) {
           return;
         }
         seen.add(key);
-        const metadata = this.buildReferenceMetadata(reference, label, url);
-        normalized.push({
-          label: label.slice(0, 180),
-          url,
-          sourceBadge: metadata.sourceBadge,
-          isHadith: metadata.isHadith,
-          hadithGrade: metadata.hadithGrade
-        });
+        normalized.push(_objectSpread({
+          label: cleanedLabel.slice(0, 180),
+          url
+        }, this.buildReferenceMetadata(reference, cleanedLabel, url)));
       });
-      return normalized.slice(0, 8);
+      return normalized.slice(0, 2);
     },
     normalizeSummaryList(summary) {
       if (!Array.isArray(summary)) {
@@ -1208,13 +1278,14 @@ const SESSION_STORAGE_COMPACTION_STEPS = [{
     },
     async sendChatMessage() {
       if (this.chatLoading) return;
-      const message = this.chatDraft.trim();
+      const message = this.chatDraft.trim().slice(0, CHAT_DRAFT_MAX_LENGTH);
       if (!message) return;
       this.chatError = null;
       if (!this.isIslamicQuestion(message)) {
         this.showCopyNotice('Tip: Noor works best with Quran, Sunnah, and Islamic practice questions.');
       }
       this.chatDraft = '';
+      this.$nextTick(() => this.autoResizeComposer());
       this.chatHistory.push(this.createChatEntry('user', message));
       this.scrollChatWindow();
       this.scrollComponentToBottom();
@@ -1521,6 +1592,7 @@ const SESSION_STORAGE_COMPACTION_STEPS = [{
     clearDraft() {
       this.chatDraft = '';
       this.chatError = null;
+      this.$nextTick(() => this.autoResizeComposer());
     },
     resetVoiceTranscriptState() {
       this.voiceFinalTranscript = '';
@@ -1554,18 +1626,23 @@ const SESSION_STORAGE_COMPACTION_STEPS = [{
       if (!reference || typeof reference !== 'object') {
         return null;
       }
-      const label = String(reference.label || '').trim();
-      if (!label) {
+      const label = String(reference.label || reference.reference || reference.title || reference.name || '').trim();
+      const normalizedUrl = this.normalizeResponseUrl(reference.url || reference.link || reference.href || null);
+      const cleanedLabel = this.sanitizeReferenceLabel(label, normalizedUrl);
+      if (!cleanedLabel) {
         return null;
       }
-      const normalizedUrl = typeof reference.url === 'string' && reference.url.trim() ? reference.url.trim() : null;
-      const metadata = this.buildReferenceMetadata(reference, label, normalizedUrl);
+      const metadata = this.buildReferenceMetadata(reference, cleanedLabel, normalizedUrl);
+      const sourceBadge = this.normalizeSourceBadge(reference.sourceBadge || reference.source_badge || metadata.sourceBadge) || metadata.sourceBadge || 'aggregated';
+      const explicitGrade = this.normalizeHadithGradeValue(reference.hadithGrade || reference.hadith_grade || reference.grade || reference.grading || '');
+      const isHadith = Boolean(reference.isHadith || reference.is_hadith || metadata.isHadith || explicitGrade);
+      const hadithGrade = isHadith ? explicitGrade || metadata.hadithGrade || 'ungraded' : '';
       return {
-        label: label.slice(0, 180),
+        label: cleanedLabel.slice(0, 180),
         url: normalizedUrl,
-        sourceBadge: metadata.sourceBadge,
-        isHadith: metadata.isHadith,
-        hadithGrade: metadata.hadithGrade
+        sourceBadge,
+        isHadith,
+        hadithGrade
       };
     },
     normalizeStoredVerification(verification, fallbackSourceCount = 0) {
@@ -1595,9 +1672,8 @@ const SESSION_STORAGE_COMPACTION_STEPS = [{
       if (!rawText) {
         return null;
       }
-      const maxTextLength = Number(options.maxTextLength || 1200);
-      const text = rawText.length > maxTextLength ? `${rawText.slice(0, maxTextLength)}...` : rawText;
-      const references = options.keepReferences ? Array.isArray(entry.references) ? entry.references.map(item => this.normalizeStoredReference(item)).filter(Boolean).slice(0, 4) : [] : [];
+      const text = rawText;
+      const references = options.keepReferences ? Array.isArray(entry.references) ? entry.references.map(item => this.normalizeStoredReference(item)).filter(Boolean).slice(0, 2) : [] : [];
       const summaryBullets = options.keepSummary ? Array.isArray(entry.summaryBullets) ? entry.summaryBullets.map(item => String(item || '').trim()).filter(Boolean).slice(0, 3) : this.extractSummaryBulletPoints(text) : [];
       const verification = this.normalizeStoredVerification(entry.verification, references.length);
       const time = this.formatEntryTime(entry.time);
@@ -1638,7 +1714,7 @@ const SESSION_STORAGE_COMPACTION_STEPS = [{
         return null;
       }
       const time = this.formatEntryTime(entry.time);
-      const references = Array.isArray(entry.references) ? entry.references.map(item => this.normalizeStoredReference(item)).filter(Boolean).slice(0, 5) : [];
+      const references = Array.isArray(entry.references) ? entry.references.map(item => this.normalizeStoredReference(item)).filter(Boolean).slice(0, 2) : [];
       const summaryBullets = Array.isArray(entry.summaryBullets) ? entry.summaryBullets.map(item => String(item || '').trim()).filter(Boolean).slice(0, 4) : this.extractSummaryBulletPoints(text);
       const allowCollapse = role !== 'assistant' && summaryBullets.length > 0 && this.isLongMessage(text);
       return {
@@ -2148,6 +2224,7 @@ const SESSION_STORAGE_COMPACTION_STEPS = [{
     this.loadStoredSessions();
     this.resetSession();
     this.updateCompactMode();
+    this.$nextTick(() => this.autoResizeComposer());
     this.initializeSpeechSynthesis();
     this.initializeQuestionBank();
     this.registerAiServiceWorker();
@@ -2223,7 +2300,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
 const _hoisted_1 = {
-  class: "ai-section",
+  class: "ai-section ai-modern",
   ref: "aiRoot",
   "aria-label": "Islamic chatbot"
 };
@@ -2231,405 +2308,247 @@ const _hoisted_2 = {
   class: "ai-panel"
 };
 const _hoisted_3 = {
-  class: "ai-controls",
+  class: "ai-header-card",
+  "aria-live": "polite"
+};
+const _hoisted_4 = {
+  class: "ai-header-actions",
   role: "toolbar",
   "aria-label": "Chat controls"
 };
-const _hoisted_4 = ["disabled"];
 const _hoisted_5 = ["disabled"];
 const _hoisted_6 = ["disabled"];
-const _hoisted_7 = ["disabled"];
-const _hoisted_8 = ["disabled", "aria-expanded"];
-const _hoisted_9 = {
-  class: "ai-session-inline"
-};
-const _hoisted_10 = {
-  key: 0,
-  class: "ai-session-inline__dropdown",
-  role: "listbox",
-  "aria-label": "Recent chats"
-};
-const _hoisted_11 = {
-  key: 1,
-  class: "ai-session-inline__alert ai-session-inline__alert--danger",
-  role: "alert"
-};
-const _hoisted_12 = ["onClick", "onKeydown"];
-const _hoisted_13 = ["onClick", "onKeydown"];
-const _hoisted_14 = {
-  key: 1,
-  class: "ai-session-inline__alert ai-session-inline__alert--warning",
-  role: "alert"
-};
-const _hoisted_15 = {
-  class: "m-0"
-};
-const _hoisted_16 = {
+const _hoisted_7 = {
   key: 0,
   class: "ai-copy-notice",
   role: "status",
   "aria-live": "polite"
 };
-const _hoisted_17 = {
+const _hoisted_8 = {
   key: 1,
   class: "ai-error-banner",
   role: "alert",
   "aria-live": "assertive",
   "aria-atomic": "true"
 };
-const _hoisted_18 = {
+const _hoisted_9 = {
   class: "ai-error-message"
 };
-const _hoisted_19 = {
-  key: 2,
+const _hoisted_10 = {
   ref: "chatShell",
   class: "ai-chat-shell"
 };
-const _hoisted_20 = {
+const _hoisted_11 = {
+  class: "ai-chat-surface-head"
+};
+const _hoisted_12 = {
   class: "ai-metadata"
 };
-const _hoisted_21 = {
+const _hoisted_13 = {
   key: 0,
   class: "ai-loading-indicator",
   role: "status",
   "aria-live": "polite"
 };
-const _hoisted_22 = {
+const _hoisted_14 = {
+  key: 1,
+  class: "ai-empty-state",
+  role: "status",
+  "aria-live": "polite"
+};
+const _hoisted_15 = {
+  class: "ai-empty-prompts",
+  role: "list",
+  "aria-label": "Quick prompts"
+};
+const _hoisted_16 = ["disabled", "onClick"];
+const _hoisted_17 = {
+  class: "ai-empty-prompt__label"
+};
+const _hoisted_18 = {
+  class: "ai-empty-prompt__text"
+};
+const _hoisted_19 = {
   ref: "chatWindow",
   class: "ai-chat-window",
   role: "log",
   "aria-live": "polite"
 };
-const _hoisted_23 = {
+const _hoisted_20 = {
   class: "chat-entry-header"
 };
-const _hoisted_24 = {
+const _hoisted_21 = {
   class: "chat-role mr-2"
 };
-const _hoisted_25 = {
+const _hoisted_22 = {
   class: "chat-timestamp"
 };
-const _hoisted_26 = {
+const _hoisted_23 = {
   class: "chat-bubble-container"
 };
-const _hoisted_27 = {
-  key: 0,
-  class: "chat-section-heading"
-};
-const _hoisted_28 = ["innerHTML"];
-const _hoisted_29 = {
+const _hoisted_24 = ["innerHTML"];
+const _hoisted_25 = {
   key: 1,
-  class: "chat-entry-actions"
-};
-const _hoisted_30 = ["onClick"];
-const _hoisted_31 = ["onClick"];
-const _hoisted_32 = {
-  class: "chat-voice-wrapper ms-2"
-};
-const _hoisted_33 = ["onClick", "aria-expanded"];
-const _hoisted_34 = {
-  key: 0,
-  class: "chat-voice-controls",
-  role: "group",
-  "aria-label": "Speech controls",
-  "aria-live": "polite"
-};
-const _hoisted_35 = ["onClick", "disabled"];
-const _hoisted_36 = ["onClick", "disabled"];
-const _hoisted_37 = ["onClick", "disabled"];
-const _hoisted_38 = {
-  class: "chat-voice-status",
-  "aria-live": "polite"
-};
-const _hoisted_39 = {
-  key: 2,
-  class: "chat-summary"
-};
-const _hoisted_40 = {
-  class: "chat-summary-title"
-};
-const _hoisted_41 = ["onClick"];
-const _hoisted_42 = {
-  key: 0
-};
-const _hoisted_43 = {
-  key: 1
-};
-const _hoisted_44 = {
-  key: 5,
   class: "chat-references-wrapper",
   "aria-label": "Sources that informed this answer"
 };
-const _hoisted_45 = {
+const _hoisted_26 = {
   class: "chat-references",
   role: "list"
 };
-const _hoisted_46 = {
+const _hoisted_27 = {
   class: "chat-reference-main"
 };
-const _hoisted_47 = ["href"];
-const _hoisted_48 = {
+const _hoisted_28 = ["href"];
+const _hoisted_29 = {
   class: "chat-reference-badges"
 };
-const _hoisted_49 = {
+const _hoisted_30 = {
   key: 0,
   class: "chat-entry assistant chat-entry--typing",
   "aria-live": "polite"
 };
-const _hoisted_50 = ["disabled"];
-const _hoisted_51 = {
+const _hoisted_31 = ["disabled"];
+const _hoisted_32 = {
   class: "ai-form-meta pt-2 text-muted"
 };
-const _hoisted_52 = {
+const _hoisted_33 = {
   class: "ai-secondary-group"
 };
-const _hoisted_53 = ["disabled"];
-const _hoisted_54 = {
+const _hoisted_34 = ["disabled"];
+const _hoisted_35 = {
   key: 0,
   class: "spinner-border spinner-border-sm",
   role: "status",
   "aria-hidden": "true"
 };
-const _hoisted_55 = ["disabled", "aria-pressed"];
-const _hoisted_56 = ["disabled"];
-const _hoisted_57 = {
-  key: 0,
-  class: "ai-voice-status",
-  role: "status",
-  "aria-live": "polite"
-};
-const _hoisted_58 = {
-  key: 1,
-  class: "voice-alert",
-  role: "status",
-  "aria-live": "polite"
-};
-const _hoisted_59 = {
+const _hoisted_36 = ["disabled"];
+const _hoisted_37 = {
   class: "ai-trust-note",
   role: "note",
   "aria-live": "polite"
 };
-const _hoisted_60 = {
+const _hoisted_38 = {
   class: "mb-0 text-muted"
 };
-const _hoisted_61 = {
+const _hoisted_39 = {
   class: "ai-disclaimer-modal-head"
 };
-const _hoisted_62 = {
+const _hoisted_40 = {
   class: "ai-disclaimer-modal-foot"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("section", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [_cache[49] || (_cache[49] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"ai-welcome\" aria-live=\"polite\" data-v-077e75cb><div class=\"ai-welcome-icon\" aria-hidden=\"true\" data-v-077e75cb><i class=\"fas fa-star-and-crescent\" aria-hidden=\"true\" data-v-077e75cb></i></div><div class=\"ai-welcome-text pt-2\" data-v-077e75cb><h2 class=\"fw-bold\" data-v-077e75cb>Introducing Noor, Your AI Companion</h2><p class=\"container ai-welcome-copy\" data-v-077e75cb> Noor listens first, then gently responds with Quran rooted insight and prophetic kindness so every exchange feels like encouragement from a trusted companion. Ask for dua ideas, reminders, or reflections tuned to your day. </p></div></div>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [$options.hasAssistantResponse ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("section", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [_cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"ai-header-main\" data-v-077e75cb><span class=\"ai-header-avatar\" aria-hidden=\"true\" data-v-077e75cb><i class=\"fas fa-star-and-crescent\" data-v-077e75cb></i></span><div class=\"ai-welcome-text\" data-v-077e75cb><h2 class=\"fw-bold\" data-v-077e75cb>Noor AI Assistant</h2><p class=\"ai-welcome-copy\" data-v-077e75cb> Clear Islamic guidance, practical next steps, and trustworthy reference-backed answers. </p><p class=\"ai-header-status mb-0\" data-v-077e75cb><span class=\"ai-status-dot\" aria-hidden=\"true\" data-v-077e75cb></span> Trust-scored responses with transparent references </p></div></div>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [$options.hasAssistantResponse ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
     key: 0,
     type: "button",
     class: "ai-control-btn ai-control-btn--primary",
     onClick: _cache[0] || (_cache[0] = (...args) => $options.startNewChat && $options.startNewChat(...args)),
     disabled: !$options.isNewChatAvailable
-  }, [...(_cache[21] || (_cache[21] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[13] || (_cache[13] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "fas fa-plus-circle",
     "aria-hidden": "true"
-  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" New chat ", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_4)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" New chat ", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_5)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "ai-control-btn",
     disabled: !$data.chatHistory.length,
     onClick: _cache[1] || (_cache[1] = (...args) => $options.clearHistory && $options.clearHistory(...args))
-  }, [...(_cache[22] || (_cache[22] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[14] || (_cache[14] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "fas fa-trash-alt",
     "aria-hidden": "true"
-  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Clear history ", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_5), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    type: "button",
-    class: "ai-control-btn ai-control-btn--whatsapp",
-    disabled: !$data.chatHistory.length,
-    onClick: _cache[2] || (_cache[2] = (...args) => $options.shareConversationOnWhatsApp && $options.shareConversationOnWhatsApp(...args))
-  }, [...(_cache[23] || (_cache[23] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: "fab fa-whatsapp",
+  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Clear history ", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_6)])]), _cache[31] || (_cache[31] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    class: "ai-capability-row",
+    role: "list",
+    "aria-label": "Noor strengths"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    class: "ai-capability-pill",
+    role: "listitem"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    class: "fas fa-book-open",
     "aria-hidden": "true"
-  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Share Full Convo ", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_6), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    type: "button",
-    class: "ai-control-btn ai-control-btn--copy",
-    disabled: !$data.chatHistory.length,
-    onClick: _cache[3] || (_cache[3] = (...args) => $options.copyConversationToClipboard && $options.copyConversationToClipboard(...args))
-  }, [...(_cache[24] || (_cache[24] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: "fas fa-copy",
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Quran and Hadith grounded ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    class: "ai-capability-pill",
+    role: "listitem"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    class: "fas fa-compass",
     "aria-hidden": "true"
-  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Copy Full Convo ", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_7), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    type: "button",
-    class: "ai-control-btn ai-session-inline__button",
-    disabled: !$data.chatSessions.length,
-    onClick: _cache[4] || (_cache[4] = (...args) => $options.toggleSessionDropdown && $options.toggleSessionDropdown(...args)),
-    "aria-haspopup": "listbox",
-    "aria-expanded": $data.sessionDropdownOpen ? 'true' : 'false'
-  }, [_cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: "fas fa-clipboard-list",
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Practical daily guidance ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    class: "ai-capability-pill",
+    role: "listitem"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    class: "fas fa-shield-alt",
     "aria-hidden": "true"
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.chatSessions.length ? `Saved chats (${$data.chatSessions.length})` : 'No saved chats yet'), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_8)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [$data.sessionDropdownOpen ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_10, [$data.chatSessions.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
-    key: 0,
-    type: "button",
-    class: "ai-session-inline__clear-all",
-    onClick: _cache[5] || (_cache[5] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)((...args) => $options.prepareClearAllSessions && $options.prepareClearAllSessions(...args), ["stop", "prevent"]))
-  }, [...(_cache[26] || (_cache[26] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: "fas fa-trash-alt me-1",
-    "aria-hidden": "true"
-  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Remove all saved chats ", -1 /* CACHED */)]))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.pendingClearAll ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_11, [_cache[27] || (_cache[27] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    class: "m-0"
-  }, "Delete all saved chats?", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    type: "button",
-    class: "ai-session-inline__action-btn",
-    onClick: _cache[6] || (_cache[6] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)((...args) => $options.cancelPendingClearAll && $options.cancelPendingClearAll(...args), ["stop"]))
-  }, "Cancel"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    type: "button",
-    class: "ai-session-inline__action-btn ai-session-inline__action-btn--danger",
-    onClick: _cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)((...args) => $options.doClearAllSessions && $options.doClearAllSessions(...args), ["stop"]))
-  }, "Delete")])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.chatSessions, session => {
-    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
-      key: session.id,
-      class: "ai-session-inline__dropdown-item",
-      role: "option",
-      tabindex: "0",
-      onClick: $event => $options.selectSessionFromList(session.id),
-      onKeydown: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)((0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)($event => $options.selectSessionFromList(session.id), ["prevent"]), ["enter"])
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatSessionLabel(session)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatSessionTimestamp(session.updatedAt)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-      type: "button",
-      class: "ai-session-inline__dropdown-remove",
-      onClick: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)($event => $options.prepareDeleteSession(session.id), ["stop"]),
-      onKeydown: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)((0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)($event => $options.prepareDeleteSession(session.id), ["stop", "prevent"]), ["enter"]),
-      "aria-label": "Delete this saved chat"
-    }, [...(_cache[28] || (_cache[28] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      class: "fas fa-times",
-      "aria-hidden": "true"
-    }, null, -1 /* CACHED */)]))], 40 /* PROPS, NEED_HYDRATION */, _hoisted_13)], 40 /* PROPS, NEED_HYDRATION */, _hoisted_12);
-  }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.pendingDeleteSessionId ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_15, "Delete “" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.pendingDeleteSessionLabel) + "”?", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    type: "button",
-    class: "ai-session-inline__action-btn",
-    onClick: _cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)((...args) => $options.cancelPendingDelete && $options.cancelPendingDelete(...args), ["stop"]))
-  }, "Cancel"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    type: "button",
-    class: "ai-session-inline__action-btn ai-session-inline__action-btn--warning",
-    onClick: _cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)((...args) => $options.doDeleteSession && $options.doDeleteSession(...args), ["stop"]))
-  }, "Delete")])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), $data.copyNotice ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_16, [_cache[29] || (_cache[29] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Trust and verification signals ")])], -1 /* CACHED */)), $data.copyNotice ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_7, [_cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "fas fa-check-circle me-1",
     "aria-hidden": "true"
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.copyNotice), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.chatError ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_17, [_cache[31] || (_cache[31] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.copyNotice), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.chatError ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_8, [_cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "fas fa-exclamation-triangle ai-error-icon",
     "aria-hidden": "true"
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[30] || (_cache[30] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "ai-error-title text-left"
-  }, "Need some redirection?", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_18, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.chatError), 1 /* TEXT */), $data.sessionExpired ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+  }, "Need some redirection?", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.chatError), 1 /* TEXT */), $data.sessionExpired ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
     key: 0,
     type: "button",
     class: "ai-error-clear",
-    onClick: _cache[10] || (_cache[10] = (...args) => $options.reloadPage && $options.reloadPage(...args))
-  }, " Reload page ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.chatHistory.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [$data.chatLoading && !$data.chatHistory.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_21, [...(_cache[32] || (_cache[32] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    onClick: _cache[2] || (_cache[2] = (...args) => $options.reloadPage && $options.reloadPage(...args))
+  }, " Reload page ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [_cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    class: "mb-0"
+  }, "Conversation", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.chatHistory.length) + " message" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.chatHistory.length === 1 ? '' : 's'), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [$data.chatLoading && !$data.chatHistory.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_13, [...(_cache[20] || (_cache[20] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "spinner-border spinner-border-sm",
     "aria-hidden": "true"
   }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "mb-0 fw-semibold"
-  }, "Assistant is consulting trusted sources...", -1 /* CACHED */)]))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.chatHistory, (entry, idx) => {
+  }, "Noor is preparing a careful, reference-backed answer...", -1 /* CACHED */)]))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), !$data.chatLoading && !$data.chatHistory.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_14, [_cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    class: "ai-empty-state__title"
+  }, "Ask Noor with confidence", -1 /* CACHED */)), _cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    class: "ai-empty-state__copy"
+  }, " Get grounded Islamic guidance, practical next steps, and trustworthy references. ", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.quickPrompts, (prompt, promptIndex) => {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+      key: `quick-prompt-${promptIndex}`,
+      type: "button",
+      class: "ai-empty-prompt",
+      disabled: $data.chatLoading,
+      onClick: $event => $options.applyQuickPrompt(prompt.prompt)
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_17, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(prompt.label), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_18, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(prompt.prompt), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_16);
+  }), 128 /* KEYED_FRAGMENT */))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.chatHistory, (entry, idx) => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("article", {
       key: `chat-${idx}-${entry.role}`,
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(['chat-entry', entry.role])
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(entry.role === 'assistant' ? 'fas fa-robot chat-icon' : 'fas fa-user chat-icon'),
       "aria-hidden": "true",
       title: "Sender"
-    }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(entry.role === 'assistant' ? 'Assistant' : 'You'), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_25, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(entry.displayTime) + " · " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(entry.displayDate), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [entry.role === 'assistant' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_27, "Answer")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(entry.role === 'assistant' ? 'Assistant' : 'You'), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_22, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(entry.displayTime) + " · " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(entry.displayDate), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(['chat-bubble', entry.role, {
         'chat-bubble--collapsed': entry.role === 'assistant' && entry.collapsed
       }]),
       innerHTML: $options.formatChatText(entry.text)
-    }, null, 10 /* CLASS, PROPS */, _hoisted_28), entry.role === 'assistant' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_29, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-      type: "button",
-      class: "chat-share-btn",
-      onClick: $event => $options.shareEntryOnWhatsApp(entry),
-      "aria-label": 'Share this answer via WhatsApp'
-    }, [...(_cache[33] || (_cache[33] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      class: "fab fa-whatsapp",
-      "aria-hidden": "true"
-    }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-      class: "d-none d-md-inline ms-1"
-    }, "Share answer", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_30), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-      type: "button",
-      class: "chat-copy-btn ms-2",
-      onClick: $event => $options.copyEntryToClipboard(entry),
-      "aria-label": 'Copy this answer'
-    }, [...(_cache[34] || (_cache[34] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      class: "fas fa-copy",
-      "aria-hidden": "true"
-    }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-      class: "d-none d-md-inline ms-1"
-    }, "Copy answer", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_31), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_32, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-      type: "button",
-      class: "chat-voice-trigger",
-      onClick: $event => $options.toggleSpeechControls(entry),
-      "aria-expanded": entry.speechControlsVisible ? 'true' : 'false'
-    }, [...(_cache[35] || (_cache[35] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      class: "fas fa-volume-up",
-      "aria-hidden": "true"
-    }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-      class: "visually-hidden"
-    }, "Read this answer aloud", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_33), entry.speechControlsVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_34, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-      type: "button",
-      class: "chat-voice-control-btn",
-      onClick: $event => $options.playEntrySpeech(entry),
-      disabled: entry.speechStatus === 'loading',
-      "aria-label": "Play answer"
-    }, [...(_cache[36] || (_cache[36] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      class: "fas fa-play",
-      "aria-hidden": "true"
-    }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_35), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-      type: "button",
-      class: "chat-voice-control-btn",
-      onClick: $event => $options.pauseEntrySpeech(entry),
-      disabled: entry.speechStatus !== 'playing',
-      "aria-label": "Pause answer"
-    }, [...(_cache[37] || (_cache[37] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      class: "fas fa-pause",
-      "aria-hidden": "true"
-    }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_36), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-      type: "button",
-      class: "chat-voice-control-btn",
-      onClick: $event => $options.stopEntrySpeech(entry),
-      disabled: entry.speechStatus === 'stopped',
-      "aria-label": "Stop answer"
-    }, [...(_cache[38] || (_cache[38] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      class: "fas fa-stop",
-      "aria-hidden": "true"
-    }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_37), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_38, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(entry.speechStatus === 'loading' ? 'Preparing…' : entry.speechStatus), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), entry.collapsed && entry.summaryBullets.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_39, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_40, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(entry.role === 'assistant' ? 'Quick summary' : 'Question snapshot'), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", null, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(entry.summaryBullets, (bullet, bulletIndex) => {
-      return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
-        key: `summary-${idx}-${bulletIndex}`
-      }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(bullet), 1 /* TEXT */);
-    }), 128 /* KEYED_FRAGMENT */))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), entry.allowCollapse && $data.isCompactMode ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
-      key: 3,
-      type: "button",
-      class: "chat-collapse-toggle",
-      onClick: $event => $options.toggleEntryCollapse(entry)
-    }, [entry.collapsed ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_42, " Show full " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(entry.role === 'assistant' ? 'response' : 'question'), 1 /* TEXT */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_43, " Collapse to " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(entry.role === 'assistant' ? 'summary' : 'preview'), 1 /* TEXT */))], 8 /* PROPS */, _hoisted_41)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), entry.role === 'assistant' && entry.verification ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
-      key: 4,
+    }, null, 10 /* CLASS, PROPS */, _hoisted_24), entry.role === 'assistant' && entry.verification ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+      key: 0,
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(['chat-verification', $options.getVerificationBadgeClass(entry.verification)]),
       "aria-live": "polite"
-    }, [_cache[39] || (_cache[39] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [_cache[23] || (_cache[23] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "fas fa-check-circle",
       "aria-hidden": "true"
-    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatVerificationLabel(entry.verification)), 1 /* TEXT */)], 2 /* CLASS */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), entry.references && entry.references.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_44, [_cache[40] || (_cache[40] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatVerificationLabel(entry.verification)), 1 /* TEXT */)], 2 /* CLASS */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), entry.references && entry.references.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_25, [_cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       class: "chat-references-heading"
-    }, "Reference (Proof)", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_45, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(entry.references, (reference, refIndex) => {
+    }, "Reference (Proof)", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_26, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(entry.references, (reference, refIndex) => {
       return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
         key: `ref-${idx}-${refIndex}-${reference.label}`
-      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_46, [reference.url ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("a", {
+      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_27, [reference.url ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("a", {
         key: 0,
         href: reference.url,
         target: "_blank",
         rel: "noopener noreferrer"
-      }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(reference.label), 9 /* TEXT, PROPS */, _hoisted_47)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+      }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(reference.label), 9 /* TEXT, PROPS */, _hoisted_28)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
         key: 1
-      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(reference.label), 1 /* TEXT */)], 64 /* STABLE_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_48, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-        class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(['chat-reference-badge', $options.getSourceBadgeClass(reference.sourceBadge)])
-      }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatSourceBadge(reference.sourceBadge)), 3 /* TEXT, CLASS */), reference.isHadith ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", {
+      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(reference.label), 1 /* TEXT */)], 64 /* STABLE_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_29, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+        class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(['chat-reference-badge', $options.getSourceBadgeClass ? $options.getSourceBadgeClass(reference.sourceBadge) : 'chat-reference-badge--aggregated'])
+      }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatSourceBadge ? $options.formatSourceBadge(reference.sourceBadge) : reference.sourceBadge || 'Aggregated'), 3 /* TEXT, CLASS */), reference.isHadith ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", {
         key: 0,
-        class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(['chat-reference-badge', 'chat-reference-badge--hadith', $options.getHadithGradeBadgeClass(reference.hadithGrade)])
-      }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatHadithGrade(reference.hadithGrade)), 3 /* TEXT, CLASS */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]);
+        class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(['chat-reference-badge', 'chat-reference-badge--hadith', $options.getHadithGradeBadgeClass ? $options.getHadithGradeBadgeClass(reference.hadithGrade) : 'chat-reference-badge--ungraded'])
+      }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatHadithGrade ? $options.formatHadithGrade(reference.hadithGrade) : reference.hadithGrade || 'Ungraded'), 3 /* TEXT, CLASS */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]);
     }), 128 /* KEYED_FRAGMENT */))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])], 2 /* CLASS */);
-  }), 128 /* KEYED_FRAGMENT */)), $data.chatLoading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("article", _hoisted_49, [...(_cache[41] || (_cache[41] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), 128 /* KEYED_FRAGMENT */)), $data.chatLoading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("article", _hoisted_30, [...(_cache[25] || (_cache[25] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "chat-entry-header"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "fas fa-robot chat-icon",
@@ -2651,87 +2570,75 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "chat-typing-dot"
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "chat-typing-text"
-  }, "Noor is typing...")])], -1 /* CACHED */)]))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 512 /* NEED_PATCH */)], 512 /* NEED_PATCH */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
+  }, "Noor is typing...")])], -1 /* CACHED */)]))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 512 /* NEED_PATCH */)], 512 /* NEED_PATCH */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
     ref: "aiForm",
     class: "ai-form pt-3",
-    onSubmit: _cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)((...args) => $options.sendChatMessage && $options.sendChatMessage(...args), ["prevent"]))
-  }, [_cache[48] || (_cache[48] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    onSubmit: _cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)((...args) => $options.sendChatMessage && $options.sendChatMessage(...args), ["prevent"]))
+  }, [_cache[30] || (_cache[30] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     class: "visually-hidden",
     for: "aiChatInput"
   }, "Ask the chatbot", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("textarea", {
     id: "aiChatInput",
     ref: "aiChatInput",
-    "onUpdate:modelValue": _cache[11] || (_cache[11] = $event => $data.chatDraft = $event),
+    "onUpdate:modelValue": _cache[3] || (_cache[3] = $event => $data.chatDraft = $event),
     class: "ai-textarea",
     rows: "2",
+    maxlength: "1500",
     placeholder: "Ask something that brings you closer to Allah...",
     disabled: $data.chatLoading,
-    onKeydown: _cache[12] || (_cache[12] = (...args) => $options.handleComposerKeydown && $options.handleComposerKeydown(...args))
-  }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_50), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.chatDraft]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_51, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_52, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onInput: _cache[4] || (_cache[4] = (...args) => $options.handleDraftInput && $options.handleDraftInput(...args)),
+    onKeydown: _cache[5] || (_cache[5] = (...args) => $options.handleComposerKeydown && $options.handleComposerKeydown(...args))
+  }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_31), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.chatDraft]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_32, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_33, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "submit",
     class: "ai-submit",
     disabled: $data.chatLoading || !$data.chatDraft.trim()
-  }, [_cache[42] || (_cache[42] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [_cache[26] || (_cache[26] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "fas fa-paper-plane",
     "aria-hidden": "true"
-  }, null, -1 /* CACHED */)), $data.chatLoading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_54)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.chatLoading ? 'Noor is thinking...' : 'Ask Noor'), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_53), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    type: "button",
-    class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["ai-voice-btn text-center", {
-      'ai-voice-btn--active': $data.voiceListening
-    }]),
-    disabled: $data.chatLoading,
-    onClick: _cache[13] || (_cache[13] = (...args) => $options.toggleVoiceSearch && $options.toggleVoiceSearch(...args)),
-    "aria-pressed": $data.voiceListening.toString()
-  }, [_cache[43] || (_cache[43] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: "fas fa-microphone",
-    "aria-hidden": "true"
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.voiceListening ? 'Listening…' : 'Voice search'), 1 /* TEXT */)], 10 /* CLASS, PROPS */, _hoisted_55), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, -1 /* CACHED */)), $data.chatLoading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_35)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.chatLoading ? 'Noor is thinking...' : 'Ask Noor'), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_34), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "ai-clear-input",
     disabled: $data.chatLoading || !$data.chatDraft.trim(),
-    onClick: _cache[14] || (_cache[14] = (...args) => $options.clearDraft && $options.clearDraft(...args))
-  }, [...(_cache[44] || (_cache[44] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    onClick: _cache[6] || (_cache[6] = (...args) => $options.clearDraft && $options.clearDraft(...args))
+  }, [...(_cache[27] || (_cache[27] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "fas fa-eraser",
     "aria-hidden": "true"
-  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Clear input", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_56)])]), $data.voiceStatus ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_57, [_cache[45] || (_cache[45] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: "fas fa-microphone me-1",
-    "aria-hidden": "true"
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.voiceStatus), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.voiceAlertMessage ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_58, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.voiceAlertMessage), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_59, [_cache[47] || (_cache[47] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Clear input", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_36)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_37, [_cache[29] || (_cache[29] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "fas fa-shield-alt",
     "aria-hidden": "true"
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_60, [_cache[46] || (_cache[46] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Religious guidance needs clear boundaries. Noor is educational, so consult a qualified scholar for fatwas. ", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_38, [_cache[28] || (_cache[28] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Noor is educational, uses transparent references and confidence checks, and should not replace qualified scholarly fatwa. ", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "ai-disclaimer-link text-decoration-underline text-primary ms-1",
-    onClick: _cache[15] || (_cache[15] = (...args) => $options.openDisclaimerModal && $options.openDisclaimerModal(...args))
+    onClick: _cache[7] || (_cache[7] = (...args) => $options.openDisclaimerModal && $options.openDisclaimerModal(...args))
   }, " Trust & disclaimer ")])])], 544 /* NEED_HYDRATION, NEED_PATCH */)]), $data.showDisclaimerModal ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
     key: 0,
     class: "ai-disclaimer-modal-backdrop",
     role: "dialog",
     "aria-modal": "true",
     "aria-labelledby": "aiDisclaimerModalTitle",
-    onClick: _cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)((...args) => $options.closeDisclaimerModal && $options.closeDisclaimerModal(...args), ["self"]))
+    onClick: _cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)((...args) => $options.closeDisclaimerModal && $options.closeDisclaimerModal(...args), ["self"]))
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "ai-disclaimer-modal-card",
-    onClick: _cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(() => {}, ["stop"]))
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_61, [_cache[51] || (_cache[51] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
+    onClick: _cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(() => {}, ["stop"]))
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_39, [_cache[33] || (_cache[33] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
     id: "aiDisclaimerModalTitle",
     class: "mb-0"
   }, "Trust & Disclaimer", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "ai-disclaimer-close",
-    onClick: _cache[17] || (_cache[17] = (...args) => $options.closeDisclaimerModal && $options.closeDisclaimerModal(...args)),
+    onClick: _cache[9] || (_cache[9] = (...args) => $options.closeDisclaimerModal && $options.closeDisclaimerModal(...args)),
     "aria-label": "Close disclaimer"
-  }, [...(_cache[50] || (_cache[50] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[32] || (_cache[32] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "fas fa-times",
     "aria-hidden": "true"
-  }, null, -1 /* CACHED */)]))])]), _cache[52] || (_cache[52] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, -1 /* CACHED */)]))])]), _cache[34] || (_cache[34] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "ai-disclaimer-modal-body"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "Noor provides educational Islamic guidance and does not replace qualified scholarly fatwa."), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "Verify religious rulings with trusted scholars, your local imam, or recognized institutions before acting."), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "mb-0"
-  }, "For urgent spiritual or personal concerns, seek direct human support from knowledgeable people you trust.")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_62, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, "For urgent spiritual or personal concerns, seek direct human support from knowledgeable people you trust.")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_40, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "ai-disclaimer-close-btn",
-    onClick: _cache[18] || (_cache[18] = (...args) => $options.closeDisclaimerModal && $options.closeDisclaimerModal(...args))
+    onClick: _cache[10] || (_cache[10] = (...args) => $options.closeDisclaimerModal && $options.closeDisclaimerModal(...args))
   }, " Close ")])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 512 /* NEED_PATCH */);
 }
 

@@ -101,7 +101,6 @@ Route::get('/sitemap.xml', function () {
         
         // Media Center - high priority
         ['loc' => url('/media'), 'changefreq' => 'weekly', 'priority' => '0.8'],
-        ['loc' => url('/gallery'), 'changefreq' => 'weekly', 'priority' => '0.7'],
         
         // Islamic Knowledge - high priority
         ['loc' => url('/knowledge'), 'changefreq' => 'weekly', 'priority' => '0.8'],
@@ -348,9 +347,8 @@ Route::get('/holy', [HolyController::class, 'index'])->name('holy');
 Route::get('/history', [HistoryController::class, 'index'])->name('history');
 Route::get('/read', [ReadController::class, 'index'])->name('read');
 Route::get('/media', [MediaController::class, 'index'])->name('media');
-Route::get('/gallery', action: [AiController::class, 'index'])->name('gallery');
-Route::get('/ai', action: [AiController::class, 'index'])->name('ai');
-Route::post('/ai/chat', action: [AiController::class, 'chat'])->name('ai.chat');
+Route::get('/ai', [AiController::class, 'index'])->name('ai');
+Route::post('/ai/chat', [AiController::class, 'chat'])->name('ai.chat');
 Route::get('/shared/folders/{token}', [SharedFolderController::class, 'publicView'])->name('shared.folders.view');
 Route::get('/api/shared/folders/{token}', [SharedFolderController::class, 'show'])->name('shared.folders.api');
 

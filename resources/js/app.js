@@ -37,6 +37,7 @@ import ProfileComponent from "./components/admin_panels/ProfileComponent.vue";
 import DashboardComponent from "./components/admin_panels/DashboardComponent.vue";
 import PricingComponent from "./components/PricingComponent.vue";
 import SubscriptionForm from './components/SubscriptionForm.vue';
+import AiComponent from "./components/AiComponent.vue";
 
 import { StripePlugin } from 'vue-stripe-elements-plus';
 import { ref, onMounted } from 'vue';
@@ -149,7 +150,6 @@ const asyncComponentLoaders = {
   "notes-component": () => import("./components/admin_panels/NotesComponent.vue"),
   "group-notes-component": () => import("./components/admin_panels/GroupNotesComponent.vue"),
   "mission-component": () => import("./components/MissionComponent.vue"),
-  "ai-component": () => import("./components/AiComponent.vue"),
   "access-component": () => import("./components/AccessComponent.vue"),
   "content-component": () => import("./components/ContentComponent.vue"),
   "surat-component": () => import("./components/SuratComponent.vue"),
@@ -214,6 +214,9 @@ const registerAsyncComponent = (name, loader) => {
 };
 
 Object.entries(asyncComponentLoaders).forEach(([name, loader]) => registerAsyncComponent(name, loader));
+
+// Keep AI assistant in the main bundle so layout and template updates are not blocked by stale async chunk caches.
+app.component("ai-component", AiComponent);
 
 const mountApp = () => {
   const target = document.getElementById('app');

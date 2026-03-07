@@ -1,6 +1,6 @@
-const STATIC_CACHE = 'ic-ai-static-v1';
-const RUNTIME_CACHE = 'ic-ai-runtime-v1';
-const MEDIA_CACHE = 'ic-ai-media-v1';
+const STATIC_CACHE = 'ic-ai-static-v3';
+const RUNTIME_CACHE = 'ic-ai-runtime-v3';
+const MEDIA_CACHE = 'ic-ai-media-v3';
 const OFFLINE_FALLBACK_URL = '/offline-ai.html';
 
 const STATIC_PRECACHE_URLS = [
@@ -105,7 +105,7 @@ self.addEventListener('fetch', (event) => {
   }
 
   if (destination === 'script' || destination === 'style' || destination === 'worker') {
-    event.respondWith(staleWhileRevalidate(request, STATIC_CACHE));
+    event.respondWith(networkFirst(request, STATIC_CACHE).catch(() => caches.match(request)));
     return;
   }
 
