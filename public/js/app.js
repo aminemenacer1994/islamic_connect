@@ -29,6 +29,7 @@ const AI_CRITICAL_VERSE_HASH_CACHE_KEY = 'islamic-connect-ai-critical-verse-hash
 const AI_CRITICAL_VERSE_HASH_TTL_MS = 1000 * 60 * 60 * 24 * 30;
 const AI_VERSE_VERIFICATION_CACHE_KEY = 'islamic-connect-ai-verse-verification-cache-v1';
 const AI_VERSE_VERIFICATION_CACHE_TTL_MS = 1000 * 60 * 60 * 24;
+const AI_QURAN_ONLY_MODE = true;
 const AI_CRITICAL_VERSE_CANONICAL_TEXTS = Object.freeze({
   '1:1': 'بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ',
   '1:2': 'الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ',
@@ -184,10 +185,14 @@ const CHAT_DRAFT_MAX_LENGTH = 1500;
       if (!event) {
         return;
       }
-      if ((event.metaKey || event.ctrlKey) && event.key === 'Enter') {
-        event.preventDefault();
-        this.sendChatMessage();
+      if (event.isComposing || event.keyCode === 229) {
+        return;
       }
+      if (event.key !== 'Enter') {
+        return;
+      }
+      event.preventDefault();
+      this.sendChatMessage();
     },
     handleDraftInput() {
       this.autoResizeComposer();
@@ -298,6 +303,32 @@ const CHAT_DRAFT_MAX_LENGTH = 1500;
       };
       return value.replace(/[&<>"']/g, char => map[char]);
     },
+    detectTextDirection(value = '') {
+      const text = String(value || '').trim();
+      if (!text) {
+        return 'ltr';
+      }
+      const arabicCharacters = (text.match(/[\u0600-\u06FF]/g) || []).length;
+      const latinCharacters = (text.match(/[A-Za-z]/g) || []).length;
+      if (arabicCharacters && !latinCharacters) {
+        return 'rtl';
+      }
+      if (latinCharacters && !arabicCharacters) {
+        return 'ltr';
+      }
+      if (arabicCharacters > latinCharacters * 1.2) {
+        return 'rtl';
+      }
+      return 'ltr';
+    },
+    wrapTextWithDirection(value = '', tag = 'p') {
+      const text = String(value || '').trim();
+      if (!text) {
+        return '';
+      }
+      const dir = this.detectTextDirection(text);
+      return `<${tag} class="ai-gpt-dir-${dir}" dir="${dir}">${this.escapeHtml(text)}</${tag}>`;
+    },
     normalizeChatTextForDisplay(value = '') {
       if (!value) {
         return '';
@@ -342,7 +373,7 @@ const CHAT_DRAFT_MAX_LENGTH = 1500;
         const isOrderedList = lines.every(line => /^\d+[.)]\s+/.test(line));
         if (isUnorderedList || isOrderedList) {
           const tag = isOrderedList ? 'ol' : 'ul';
-          const items = lines.map(line => line.replace(/^([-*•]|\d+[.)])\s+/, '').trim()).filter(Boolean).map(item => `<li>${this.escapeHtml(item)}</li>`).join('');
+          const items = lines.map(line => line.replace(/^([-*•]|\d+[.)])\s+/, '').trim()).filter(Boolean).map(item => this.wrapTextWithDirection(item, 'li')).join('');
           if (items) {
             htmlBlocks.push(`<${tag}>${items}</${tag}>`);
             return;
@@ -354,7 +385,10 @@ const CHAT_DRAFT_MAX_LENGTH = 1500;
         }
         const chunks = this.splitParagraphIntoReadableChunks(paragraphText);
         chunks.forEach(chunk => {
-          htmlBlocks.push(`<p>${this.escapeHtml(chunk)}</p>`);
+          const wrapped = this.wrapTextWithDirection(chunk, 'p');
+          if (wrapped) {
+            htmlBlocks.push(wrapped);
+          }
         });
       });
       return htmlBlocks.join('');
@@ -364,7 +398,7 @@ const CHAT_DRAFT_MAX_LENGTH = 1500;
       if (!normalized) {
         return false;
       }
-      return /\b(narrated|reported|it was narrated|one day allah's messenger|allah's messenger|messenger of allah|the prophet|sahih|bukhari|muslim|tirmidhi|nasai|abu dawud|ibn majah|companion|abu hurairah|ibn 'abbas|i heard|i used to)\b/.test(normalized);
+      return /\b(narrated|reported|it was narrated|one day allah's messenger|allah's messenger|messenger of allah|the prophet|sahih|bukhari|muslim|tirmidhi|nasai|abu dawud|ibn majah|companion|abu hurairah|ibn 'abbas|i heard|i used to|while i was walking|came out \(before the people\)|knelt down before the prophet)\b/.test(normalized);
     },
     isLikelyHadithParagraph(value = '') {
       return this.hasHadithCue(value);
@@ -410,7 +444,8 @@ const CHAT_DRAFT_MAX_LENGTH = 1500;
       if (!body) {
         return '';
       }
-      return `<section class="ai-gpt-answer-section"><h4 class="ai-gpt-answer-title">${this.escapeHtml(title)}</h4><div class="ai-gpt-answer-copy">${body}</div></section>`;
+      const heading = title ? `<h4 class="ai-gpt-answer-title">${this.escapeHtml(title)}</h4>` : '';
+      return `<section class="ai-gpt-answer-section">${heading}<div class="ai-gpt-answer-copy">${body}</div></section>`;
     },
     formatAssistantSections(value = '', references = []) {
       const paragraphs = this.extractAssistantParagraphs(value);
@@ -418,10 +453,9 @@ const CHAT_DRAFT_MAX_LENGTH = 1500;
         return '';
       }
       const quranOnly = paragraphs.filter(paragraph => this.isLikelyQuranParagraph(paragraph) && !this.hasHadithCue(paragraph));
-      const quranFallback = paragraphs.filter(paragraph => this.isLikelyQuranParagraph(paragraph));
       const nonHadithFallback = paragraphs.filter(paragraph => !this.isLikelyHadithParagraph(paragraph));
-      const selectedParagraphs = quranOnly.length ? quranOnly : quranFallback.length ? quranFallback : nonHadithFallback.length ? nonHadithFallback.slice(0, 1) : paragraphs.slice(0, 1);
-      return this.buildAssistantSectionHtml('Quran verse', selectedParagraphs);
+      const selectedParagraphs = quranOnly.length ? quranOnly : nonHadithFallback.length ? nonHadithFallback.slice(0, 2) : paragraphs.slice(0, 1);
+      return this.buildAssistantSectionHtml('', selectedParagraphs);
     },
     formatChatText(text, role = 'assistant', references = []) {
       const normalized = this.normalizeChatTextForDisplay(text);
@@ -795,6 +829,88 @@ const CHAT_DRAFT_MAX_LENGTH = 1500;
       });
       return normalized.slice(0, 2);
     },
+    isLikelyQuranReference(reference = {}) {
+      if (!reference || typeof reference !== 'object') {
+        return false;
+      }
+      if (reference.isHadith) {
+        return false;
+      }
+      const label = String(reference.label || '').toLowerCase();
+      const url = String(reference.url || '').toLowerCase();
+      const host = this.extractReferenceHostname(reference.url || '');
+      if (this.extractVerseKey(`${label} ${url}`)) {
+        return true;
+      }
+      if (/\b(surah|ayah|quran|qur'an|verse)\b/.test(label)) {
+        return true;
+      }
+      const quranHosts = ['quran.com', 'api.quran.com', 'alquran.cloud', 'quran.gading.dev', 'quranenc.com'];
+      return quranHosts.some(domain => host === domain || host.endsWith(`.${domain}`));
+    },
+    filterQuranOnlyReferences(references = []) {
+      const normalized = this.normalizeReferenceList(references);
+      if (!normalized.length) {
+        return [];
+      }
+      const quranOnly = normalized.filter(reference => this.isLikelyQuranReference(reference));
+      if (quranOnly.length) {
+        return quranOnly.slice(0, 2);
+      }
+      return normalized.filter(reference => !reference.isHadith).slice(0, 1);
+    },
+    stripHadithLeakageFromMessage(message = '') {
+      const paragraphs = this.extractAssistantParagraphs(message);
+      if (!paragraphs.length) {
+        return '';
+      }
+      const sanitized = [];
+      paragraphs.forEach(paragraph => {
+        const chunks = this.splitAssistantParagraphByContentMarkers(paragraph);
+        chunks.forEach(chunk => {
+          const cleanedChunk = String(chunk || '').replace(/[ \t]{2,}/g, ' ').trim();
+          if (!cleanedChunk || this.hasHadithCue(cleanedChunk)) {
+            return;
+          }
+          const withoutLeak = cleanedChunk.replace(/\s*(["“”'`])?\s*(while i was walking|one day allah['’`]?s messenger|allah['’`]?s messenger|messenger of allah|the prophet|narrated|reported|it was narrated)\b[\s\S]*$/i, '').replace(/[ \t]{2,}/g, ' ').trim();
+          const normalized = this.cleanupTrailingFragment(withoutLeak).replace(/^["“”'`\s]+/, '').trim();
+          if (normalized && !this.hasHadithCue(normalized)) {
+            sanitized.push(normalized);
+          }
+        });
+      });
+      if (!sanitized.length) {
+        return '';
+      }
+      const deduped = [];
+      sanitized.forEach(item => {
+        const key = item.toLowerCase();
+        if (deduped.some(existing => existing.toLowerCase() === key)) {
+          return;
+        }
+        deduped.push(item);
+      });
+      return deduped.join('\n\n').trim();
+    },
+    buildQuranOnlyFallbackMessage(references = []) {
+      const firstQuranReference = this.filterQuranOnlyReferences(references)[0];
+      if (firstQuranReference !== null && firstQuranReference !== void 0 && firstQuranReference.label) {
+        return `Referenced Quran guidance: ${firstQuranReference.label}.`;
+      }
+      return '';
+    },
+    normalizeAssistantMessageForDisplay(message = '', references = []) {
+      const improved = this.improveAssistantMessageReadability(message);
+      if (!AI_QURAN_ONLY_MODE) {
+        return improved;
+      }
+      const stripped = this.stripHadithLeakageFromMessage(improved);
+      const fallback = this.buildQuranOnlyFallbackMessage(references);
+      if (!stripped && this.hasHadithCue(improved)) {
+        return fallback || 'I could not extract a Quran-only answer from the available references.';
+      }
+      return this.firstNonEmptyString([stripped, fallback, improved]).trim();
+    },
     normalizeSummaryList(summary) {
       if (!Array.isArray(summary)) {
         return [];
@@ -861,6 +977,9 @@ const CHAT_DRAFT_MAX_LENGTH = 1500;
           break;
         }
       }
+      if (AI_QURAN_ONLY_MODE) {
+        references = this.filterQuranOnlyReferences(references);
+      }
       const summaryCandidates = [assistant.summary, root.summary, (_root$data5 = root.data) === null || _root$data5 === void 0 ? void 0 : _root$data5.summary];
       let summary = [];
       for (const candidate of summaryCandidates) {
@@ -874,7 +993,7 @@ const CHAT_DRAFT_MAX_LENGTH = 1500;
       return {
         session_id: this.firstNonEmptyString([root.session_id, root.sessionId, (_root$data7 = root.data) === null || _root$data7 === void 0 ? void 0 : _root$data7.session_id]),
         assistant: {
-          message: this.improveAssistantMessageReadability(message),
+          message: this.normalizeAssistantMessageForDisplay(message, references),
           references,
           summary,
           verification
@@ -1909,8 +2028,12 @@ const CHAT_DRAFT_MAX_LENGTH = 1500;
       if (!rawText) {
         return null;
       }
-      const text = rawText;
-      const references = options.keepReferences ? Array.isArray(entry.references) ? entry.references.map(item => this.normalizeStoredReference(item)).filter(Boolean).slice(0, 2) : [] : [];
+      let references = options.keepReferences ? Array.isArray(entry.references) ? entry.references.map(item => this.normalizeStoredReference(item)).filter(Boolean).slice(0, 2) : [] : [];
+      let text = rawText;
+      if (role === 'assistant' && AI_QURAN_ONLY_MODE) {
+        references = this.filterQuranOnlyReferences(references);
+        text = this.normalizeAssistantMessageForDisplay(text, references);
+      }
       const summaryBullets = options.keepSummary ? Array.isArray(entry.summaryBullets) ? entry.summaryBullets.map(item => String(item || '').trim()).filter(Boolean).slice(0, 3) : this.extractSummaryBulletPoints(text) : [];
       const verification = this.normalizeStoredVerification(entry.verification, references.length);
       const time = this.formatEntryTime(entry.time);
@@ -1946,12 +2069,20 @@ const CHAT_DRAFT_MAX_LENGTH = 1500;
         return null;
       }
       const role = entry.role === 'assistant' ? 'assistant' : 'user';
-      const text = typeof entry.text === 'string' ? entry.text.trim() : '';
+      const rawText = typeof entry.text === 'string' ? entry.text.trim() : '';
+      let text = rawText;
       if (!text) {
         return null;
       }
       const time = this.formatEntryTime(entry.time);
-      const references = Array.isArray(entry.references) ? entry.references.map(item => this.normalizeStoredReference(item)).filter(Boolean).slice(0, 2) : [];
+      let references = Array.isArray(entry.references) ? entry.references.map(item => this.normalizeStoredReference(item)).filter(Boolean).slice(0, 2) : [];
+      if (role === 'assistant' && AI_QURAN_ONLY_MODE) {
+        references = this.filterQuranOnlyReferences(references);
+        text = this.normalizeAssistantMessageForDisplay(text, references);
+        if (!text) {
+          return null;
+        }
+      }
       const summaryBullets = Array.isArray(entry.summaryBullets) ? entry.summaryBullets.map(item => String(item || '').trim()).filter(Boolean).slice(0, 4) : this.extractSummaryBulletPoints(text);
       const allowCollapse = role !== 'assistant' && summaryBullets.length > 0 && this.isLongMessage(text);
       return {

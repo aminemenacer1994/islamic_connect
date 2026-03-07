@@ -2,8 +2,6 @@
 
 namespace App\Services;
 
-use Illuminate\Support\Str;
-
 class AIResponseFormatter
 {
     /**
@@ -18,60 +16,30 @@ class AIResponseFormatter
      */
     public function format(array $content): array
     {
-        $evidence = [];
         $references = [];
         $question = trim((string) ($content['question'] ?? ''));
-        $sourceCount = 0;
+        $quranSnippet = '';
 
         if (!empty($content['quran']) && is_array($content['quran'])) {
             $referenceLabel = trim((string) ($content['quran']['reference'] ?? 'Quran'));
-            $quranSnippet = $this->snippet((string) ($content['quran']['text'] ?? ''), 320);
-            if ($quranSnippet !== '') {
-                $evidence[] = $quranSnippet;
-                $sourceCount++;
-            }
+            $quranSnippet = $this->snippet((string) ($content['quran']['text'] ?? ''), 900);
             $this->pushReference($references, $referenceLabel, (string) ($content['quran']['url'] ?? ''));
         }
 
-        if (!empty($content['hadith']) && is_array($content['hadith'])) {
-            $referenceLabel = trim((string) ($content['hadith']['reference'] ?? 'Hadith'));
-            $hadithSnippet = $this->snippet((string) ($content['hadith']['text'] ?? ''), 300);
-            if ($hadithSnippet !== '') {
-                $evidence[] = $hadithSnippet;
-                $sourceCount++;
-            }
-            $this->pushReference($references, $referenceLabel, (string) ($content['hadith']['url'] ?? ''));
-        }
-
-        if (!empty($content['articles']) && is_array($content['articles'])) {
-            $article = $content['articles'][0] ?? null;
-            if (is_array($article)) {
-                $title = trim((string) ($article['title'] ?? 'IslamHouse insight'));
-                $description = $this->snippet((string) ($article['description'] ?? ''), 220);
-                if ($description !== '') {
-                    $evidence[] = $description;
-                    $sourceCount++;
-                }
-                $this->pushReference($references, $title, (string) ($article['url'] ?? ''));
-            }
-        }
-
         $finalMessage = '';
-        if ($sourceCount === 0) {
+        if ($quranSnippet === '') {
             $sections = [
                 $question !== ''
                     ? "I cannot verify a source-backed answer for \"{$question}\" right now."
                     : 'I cannot verify a source-backed answer right now.',
-                'Ask a narrower Quran or Hadith question and try again.',
+                'Ask a narrower Quran question and try again.',
             ];
             $finalMessage = implode("\n\n", $sections);
         } else {
-            $primary = trim((string) ($evidence[0] ?? ''));
-            $supporting = trim((string) ($evidence[1] ?? ''));
-            $finalMessage = $this->buildConversationalAnswer($primary, $supporting);
+            $finalMessage = $this->buildConversationalAnswer($quranSnippet);
         }
 
-        $shortSummary = Str::limit($finalMessage, 160, '...');
+        $shortSummary = $this->snippet($finalMessage, 160);
 
         return [
             'message' => $finalMessage,
@@ -81,18 +49,13 @@ class AIResponseFormatter
         ];
     }
 
-    protected function buildConversationalAnswer(string $primary, string $supporting = ''): string
+    protected function buildConversationalAnswer(string $primary): string
     {
         if ($primary === '') {
             return 'I could not produce a reliable answer text from the available sources.';
         }
 
-        $message = $primary;
-        if ($supporting !== '') {
-            $message .= "\n\nAlso: {$supporting}";
-        }
-
-        return $message;
+        return $primary;
     }
 
     protected function snippet(?string $text, int $limit = 240): string
@@ -102,7 +65,21 @@ class AIResponseFormatter
             return '';
         }
 
-        return Str::limit($normalized, $limit, '...');
+        if (mb_strlen($normalized) <= $limit) {
+            return $normalized;
+        }
+
+        $trimmed = trim(mb_substr($normalized, 0, $limit));
+        $sentenceEnd = max(
+            (int) mb_strrpos($trimmed, '.'),
+            (int) mb_strrpos($trimmed, '!'),
+            (int) mb_strrpos($trimmed, '?')
+        );
+        if ($sentenceEnd > (int) ($limit * 0.45)) {
+            $trimmed = trim(mb_substr($trimmed, 0, $sentenceEnd + 1));
+        }
+
+        return rtrim($trimmed, ",;: \t\n\r\0\x0B");
     }
 
     /**

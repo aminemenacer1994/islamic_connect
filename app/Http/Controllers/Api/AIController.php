@@ -59,7 +59,8 @@ class AIController extends Controller
                 $formatted['references'] ?? [],
                 $verification['references'] ?? []
             );
-            $references = array_slice($references, 0, 5);
+            $references = $this->filterQuranReferences($references);
+            $references = array_slice($references, 0, 2);
 
             $hasSourceBackedContent = $this->hasSourceBackedContent($content, $formatted, $references);
 
@@ -267,7 +268,7 @@ class AIController extends Controller
     {
         $subject = trim($question) !== '' ? "\"{$question}\"" : 'this question';
         return [
-            'message' => "I cannot verify enough trusted sources for {$subject} right now. Ask a narrower Quran or Hadith question and I will answer with direct references.",
+            'message' => "I cannot verify enough trusted sources for {$subject} right now. Ask a narrower Quran question and I will answer with direct references.",
             'summary' => [],
             'short_summary' => 'No verified sources available right now.',
             'references' => [],
@@ -278,9 +279,7 @@ class AIController extends Controller
     {
         return !empty($references)
             || !empty($formatted['references'])
-            || !empty($content['quran'])
-            || !empty($content['hadith'])
-            || (!empty($content['articles']) && is_array($content['articles']));
+            || !empty($content['quran']);
     }
 
     private function addVerificationNotice(array $formatted): array
@@ -348,5 +347,59 @@ class AIController extends Controller
             return null;
         }
         return $url;
+    }
+
+    private function filterQuranReferences(array $references): array
+    {
+        $filtered = [];
+        foreach ($references as $reference) {
+            if (!is_array($reference)) {
+                continue;
+            }
+            $label = trim((string) ($reference['label'] ?? ''));
+            $url = trim((string) ($reference['url'] ?? ''));
+            if ($label === '' && $url === '') {
+                continue;
+            }
+            if ($this->isHadithReference($label, $url)) {
+                continue;
+            }
+            if (!$this->isQuranReference($label, $url)) {
+                continue;
+            }
+            $filtered[] = [
+                'label' => $label,
+                'url' => $this->normalizeReferenceUrl($url),
+            ];
+        }
+
+        return $filtered;
+    }
+
+    private function isHadithReference(string $label, string $url): bool
+    {
+        $haystack = strtolower("{$label} {$url}");
+        if (preg_match('/\b(hadith|bukhari|muslim|tirmidhi|nasai|nasa\'i|abu dawud|ibn majah|riyad|sunnah)\b/u', $haystack)) {
+            return true;
+        }
+        $host = strtolower((string) parse_url($url, PHP_URL_HOST));
+        return str_contains($host, 'sunnah.com') || str_contains($host, 'dorar.net');
+    }
+
+    private function isQuranReference(string $label, string $url): bool
+    {
+        $haystack = strtolower("{$label} {$url}");
+        if (preg_match('/\b(surah|ayah|quran|qur\'an|verse)\b/u', $haystack)) {
+            return true;
+        }
+        if (preg_match('/\b\d{1,3}\s*[:/]\s*\d{1,3}\b/u', $haystack)) {
+            return true;
+        }
+        $host = strtolower((string) parse_url($url, PHP_URL_HOST));
+        return str_contains($host, 'quran.com')
+            || str_contains($host, 'quranenc.com')
+            || str_contains($host, 'alquran.cloud')
+            || str_contains($host, 'quran.gading.dev')
+            || str_contains($host, 'api.quran.com');
     }
 }

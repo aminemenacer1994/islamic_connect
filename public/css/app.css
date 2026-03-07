@@ -19564,6 +19564,16 @@ to {
 .ai-section.ai-gpt .ai-gpt-answer-copy p[data-v-077e75cb]:last-child {
   margin-bottom: 0;
 }
+.ai-section.ai-gpt .ai-gpt-message-body .ai-gpt-dir-ltr[data-v-077e75cb] {
+  direction: ltr;
+  text-align: left;
+  unicode-bidi: plaintext;
+}
+.ai-section.ai-gpt .ai-gpt-message-body .ai-gpt-dir-rtl[data-v-077e75cb] {
+  direction: rtl;
+  text-align: right;
+  unicode-bidi: plaintext;
+}
 .ai-section.ai-gpt .ai-gpt-message-body ul[data-v-077e75cb],
 .ai-section.ai-gpt .ai-gpt-message-body ol[data-v-077e75cb] {
   margin: 0.15rem 0 0.5rem 1.05rem;
