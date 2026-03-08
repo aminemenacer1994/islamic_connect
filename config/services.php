@@ -121,6 +121,7 @@ return [
     'quran_com' => [
         'base' => env('QURAN_COM_API_BASE', 'https://api.quran.com/api/v4'),
         'search_size' => env('QURAN_COM_SEARCH_SIZE', 20),
+        'tafsir_resource_ids' => env('QURAN_COM_TAFSIR_RESOURCE_IDS', '169,168'),
     ],
 
     'ktauchathuranga_quran' => [
@@ -175,6 +176,7 @@ return [
     'quranenc' => [
         'base' => env('QURANENC_API_BASE', 'https://quranenc.com/api/v1'),
         'fallback_translation_key' => env('QURANENC_FALLBACK_TRANSLATION_KEY', 'english_saheeh'),
+        'tafsir_key' => env('QURANENC_TAFSIR_KEY', 'english_mokhtasar'),
     ],
 
     'hadeethenc' => [

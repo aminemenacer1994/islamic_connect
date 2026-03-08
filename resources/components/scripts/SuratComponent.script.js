@@ -468,8 +468,15 @@ export default {
             // ayah-level tafsir lazy loading
             tafsirVisibility: {},
             tafsirContent: {},
+            tafsirMeta: {},
             tafsirLoading: {},
             tafsirError: {},
+            tafsirModalId: "ayahTafsirModal",
+            tafsirModalInstance: null,
+            tafsirModalAyahKey: "",
+            tafsirModalReference: "",
+            tafsirModalHiddenHandler: null,
+            isTafsirModalOpen: false,
             showTajweed: false,
             showRealtimeHighlighting: false,
             showWordTranslation: false,
@@ -2630,10 +2637,12 @@ export default {
                 this.surahAudioDownloadedTimer = null;
                 this.persistLocalSetting("suratSelectedSurah", newVal);
                 this.isLoading = true;
+                this.hideAyahTafsirModal({ reset: true });
                 this.translationVisibility = {};
                 this.transliterationVisibility = {};
                 this.tafsirVisibility = {};
                 this.tafsirContent = {};
+                this.tafsirMeta = {};
                 this.tafsirLoading = {};
                 this.tafsirError = {};
                 this.translationLazyRequestToken =
@@ -3109,6 +3118,17 @@ export default {
         this.initializeHifdhScheduler();
         this.registerTranslationCompareModalEvents();
         this.$nextTick(() => {
+            const modalEl = document.getElementById(this.tafsirModalId);
+            if (!modalEl) return;
+            this.tafsirModalHiddenHandler = () => {
+                this.isTafsirModalOpen = false;
+            };
+            modalEl.addEventListener(
+                "hidden.bs.modal",
+                this.tafsirModalHiddenHandler
+            );
+        });
+        this.$nextTick(() => {
             const modalEl = document.getElementById("hifdhPlanModal");
             if (!modalEl) return;
             this.hifdhPlanModalShownHandler = () => {
@@ -3210,6 +3230,23 @@ export default {
             }
             this.reflectionModalHiddenHandler = null;
         }
+        if (this.tafsirModalHiddenHandler) {
+            const modalEl = document.getElementById(this.tafsirModalId);
+            if (modalEl) {
+                modalEl.removeEventListener(
+                    "hidden.bs.modal",
+                    this.tafsirModalHiddenHandler
+                );
+            }
+            this.tafsirModalHiddenHandler = null;
+        }
+        if (this.tafsirModalInstance) {
+            try {
+                this.tafsirModalInstance.hide();
+            } catch (_) {}
+            this.tafsirModalInstance = null;
+        }
+        this.isTafsirModalOpen = false;
         if (this.suratOnboardingModalInstance) {
             try {
                 this.suratOnboardingModalInstance.hide();
@@ -3320,6 +3357,23 @@ export default {
                 }
                 this.reflectionModalHiddenHandler = null;
             }
+            if (this.tafsirModalHiddenHandler) {
+                const modalEl = document.getElementById(this.tafsirModalId);
+                if (modalEl) {
+                    modalEl.removeEventListener(
+                        "hidden.bs.modal",
+                        this.tafsirModalHiddenHandler
+                    );
+                }
+                this.tafsirModalHiddenHandler = null;
+            }
+            if (this.tafsirModalInstance) {
+                try {
+                    this.tafsirModalInstance.hide();
+                } catch (_) {}
+                this.tafsirModalInstance = null;
+            }
+            this.isTafsirModalOpen = false;
             if (this.suratOnboardingModalInstance) {
                 try {
                     this.suratOnboardingModalInstance.hide();
@@ -11124,17 +11178,120 @@ export default {
             if (!key) return "";
             return String(this.tafsirContent[key] || "");
         },
+        isTafsirModalOpenFor(item) {
+            if (!this.isTafsirModalOpen) return false;
+            const key = this.getTafsirVisibilityKey(item);
+            return !!key && key === this.tafsirModalAyahKey;
+        },
+        getTafsirReferenceForItem(item) {
+            const surahNumber = Number(
+                this.surahDetails?.surahNumber || this.selectedSurah || 0
+            );
+            const ayahNumber = Number(
+                item?.ayah?.numberInSurah || item?.ayah?.number || 0
+            );
+            if (!surahNumber || !ayahNumber) return "";
+            return `Surah ${surahNumber}, Ayah ${ayahNumber}`;
+        },
+        getActiveTafsirKey() {
+            return String(this.tafsirModalAyahKey || "");
+        },
+        isActiveTafsirLoading() {
+            const key = this.getActiveTafsirKey();
+            if (!key) return false;
+            return !!this.tafsirLoading[key];
+        },
+        getActiveTafsirError() {
+            const key = this.getActiveTafsirKey();
+            if (!key) return "";
+            return String(this.tafsirError[key] || "");
+        },
+        getActiveTafsirText() {
+            const key = this.getActiveTafsirKey();
+            if (!key) return "";
+            return String(this.tafsirContent[key] || "");
+        },
+        getActiveTafsirMeta() {
+            const key = this.getActiveTafsirKey();
+            if (!key) return null;
+            const value = this.tafsirMeta[key];
+            return value && typeof value === "object" ? value : null;
+        },
+        getActiveTafsirSourceLabel() {
+            return (
+                this.getActiveTafsirMeta()?.source ||
+                "Scholarly tafsir source"
+            );
+        },
+        getActiveTafsirProofLabel() {
+            const key = this.getActiveTafsirKey();
+            return (
+                this.getActiveTafsirMeta()?.proof ||
+                (key ? `Matched to ayah key ${key}` : "Ayah mapping unavailable")
+            );
+        },
+        getActiveTafsirReferenceLabel() {
+            return (
+                this.getActiveTafsirMeta()?.reference ||
+                this.tafsirModalReference ||
+                this.getActiveTafsirKey() ||
+                "N/A"
+            );
+        },
+        openAyahTafsirModal(item) {
+            const key = this.getTafsirVisibilityKey(item);
+            if (!key) return;
+
+            this.tafsirModalAyahKey = key;
+            this.tafsirModalReference = this.getTafsirReferenceForItem(item);
+            this.isTafsirModalOpen = true;
+
+            if (typeof this.$set === "function") {
+                this.$set(this.tafsirVisibility, key, true);
+            } else {
+                this.tafsirVisibility[key] = true;
+            }
+            this.loadTafsirForItem(item);
+
+            this.$nextTick(() => {
+                const modalEl = document.getElementById(this.tafsirModalId);
+                if (!modalEl) return;
+                this.tafsirModalInstance =
+                    Modal.getInstance(modalEl) || new Modal(modalEl);
+                this.tafsirModalInstance.show();
+            });
+        },
+        hideAyahTafsirModal(options = {}) {
+            const { reset = false } = options;
+            if (this.tafsirModalInstance) {
+                try {
+                    this.tafsirModalInstance.hide();
+                } catch (_) {
+                    // ignore modal hide errors
+                }
+            }
+            if (reset) {
+                this.isTafsirModalOpen = false;
+                this.tafsirModalAyahKey = "";
+                this.tafsirModalReference = "";
+            }
+        },
         resolveTafsirAyahId(ayah) {
             const direct = Number(ayah?.globalNumber || ayah?.ayahId || 0);
             if (direct > 0) return direct;
             const fallback = Number(ayah?.number || 0);
             return fallback > 0 ? fallback : null;
         },
-        normalizeTafsirPayload(value) {
-            if (typeof value === "string") return value.trim();
-            if (value == null) return "";
-            if (typeof value === "object") {
-                const candidates = [
+        normalizeTafsirPayload(value, item = null) {
+            let text = "";
+            let source = "";
+            let proof = "";
+            let reference = "";
+
+            if (typeof value === "string") {
+                text = value;
+            } else if (value && typeof value === "object") {
+                const textCandidates = [
                     value.tafseer,
                     value.tafsir,
                     value.text,
@@ -11142,13 +11299,152 @@ export default {
                     value.data?.tafsir,
                     value.data?.text,
                 ];
-                for (const candidate of candidates) {
+                for (const candidate of textCandidates) {
                     if (typeof candidate === "string" && candidate.trim()) {
-                        return candidate.trim();
+                        text = candidate;
+                        break;
+                    }
+                }
+
+                const sourceCandidates = [
+                    value.source,
+                    value.source_label,
+                    value.tafsir_source,
+                    value.data?.source,
+                    value.data?.source_label,
+                ];
+                for (const candidate of sourceCandidates) {
+                    if (typeof candidate === "string" && candidate.trim()) {
+                        source = candidate.trim();
+                        break;
+                    }
+                }
+
+                const proofCandidates = [
+                    value.proof,
+                    value.provenance,
+                    value.data?.proof,
+                    value.data?.provenance,
+                ];
+                for (const candidate of proofCandidates) {
+                    if (typeof candidate === "string" && candidate.trim()) {
+                        proof = candidate.trim();
+                        break;
+                    }
+                }
+
+                const referenceCandidates = [
+                    value.reference,
+                    value.verse_reference,
+                    value.verse_key,
+                    value.data?.reference,
+                    value.data?.verse_reference,
+                ];
+                for (const candidate of referenceCandidates) {
+                    if (typeof candidate === "string" && candidate.trim()) {
+                        reference = candidate.trim();
+                        break;
                     }
                 }
             }
-            return "";
+
+            const fallbackReference =
+                this.getTafsirReferenceForItem(item) ||
+                this.tafsirModalReference ||
+                this.getActiveTafsirKey();
+
+            const normalizedText = this.formatTafsirText(text);
+            const resolvedReference = reference || fallbackReference || "";
+            const resolvedSource = source || "Scholarly tafsir source";
+            const resolvedProof =
+                proof ||
+                (resolvedReference
+                    ? `Matched to ${resolvedReference}`
+                    : "Matched to ayah key");
+
+            return {
+                text: normalizedText,
+                meta: {
+                    source: resolvedSource,
+                    proof: resolvedProof,
+                    reference: resolvedReference,
+                },
+            };
+        },
+        formatTafsirText(rawText) {
+            let text = String(rawText || "");
+            if (!text.trim()) return "";
+
+            // Keep line breaks from HTML payloads while stripping tags.
+            text = text
+                .replace(/<br\s*\/?>/gi, "\n")
+                .replace(/<\/p>/gi, "\n\n")
+                .replace(/<[^>]+>/g, " ")
+                .replace(/&nbsp;/gi, " ")
+                .replace(/&amp;/gi, "&")
+                .replace(/\r\n?/g, "\n")
+                .replace(/[ \t]+/g, " ")
+                .replace(/\s*\n\s*/g, "\n")
+                .replace(/\n{3,}/g, "\n\n")
+                .trim();
+
+            // Improve readability for terse/classical run-on tafsir records.
+            text = text
+                .replace(/\s+(in other words)\b/gi, ". $1")
+                .replace(/\s+(that is to say)\b/gi, ". $1")
+                .replace(/\s+(for example)\b/gi, ". $1")
+                .replace(/\s+(for instance)\b/gi, ". $1")
+                .replace(/\b(noon|night|day)\s+(q[^\s]+)/giu, "$1. $2")
+                .replace(/([.!?])\s+(?=[A-Z“"‘'])/g, "$1\n\n")
+                .replace(/([.!?]\s+)q([a-zā])/giu, "$1Q$2")
+                .replace(/\bthat is\s+/gi, "that is, ")
+                .replace(/\bnamely\s+/gi, "namely, ")
+                .replace(/\bmeaning\s+/gi, "meaning ");
+
+            // Add soft line breaks for very long unbroken statements.
+            const paragraphs = text
+                .split(/\n{2,}/)
+                .map((paragraph) => this.wrapLongTafsirParagraph(paragraph))
+                .filter(Boolean);
+
+            return paragraphs
+                .join("\n\n")
+                .replace(/(^|\n)in other words\b/gm, "$1In other words")
+                .replace(/\bIn other words\b/g, "In other words,");
+        },
+        wrapLongTafsirParagraph(paragraph) {
+            const cleaned = String(paragraph || "").trim();
+            if (!cleaned) return "";
+
+            const words = cleaned.split(/\s+/);
+            if (words.length <= 70) return cleaned;
+
+            const chunks = [];
+            let bucket = [];
+            for (let index = 0; index < words.length; index += 1) {
+                const word = words[index];
+                const nextWord = words[index + 1] || "";
+                bucket.push(word);
+
+                const punctuationBreak = /[.!?;:]$/.test(word) && bucket.length >= 28;
+                const connectorBreak =
+                    bucket.length >= 62 &&
+                    /^(and|or|but|while|however|therefore|thus|so|then|whereas)$/i.test(
+                        nextWord
+                    );
+                const hardBreak = bucket.length >= 78;
+
+                if (punctuationBreak || connectorBreak || hardBreak) {
+                    chunks.push(bucket.join(" ").trim());
+                    bucket = [];
+                }
+            }
+
+            if (bucket.length) {
+                chunks.push(bucket.join(" ").trim());
+            }
+
+            return chunks.filter(Boolean).join("\n");
         },
         async loadTafsirForItem(item) {
             const key = this.getTafsirVisibilityKey(item);
@@ -11168,15 +11464,22 @@ export default {
             }
 
             try {
-                const response = await axios.get(`/tafseer/${ayahId}/fetch`);
-                const text = this.normalizeTafsirPayload(response?.data);
-                if (!text) {
+                const response = await axios.get(`/tafseer/${ayahId}/fetch`, {
+                    params: { detailed: 1 },
+                });
+                const normalized = this.normalizeTafsirPayload(
+                    response?.data,
+                    item
+                );
+                if (!normalized?.text) {
                     throw new Error("Empty tafsir payload");
                 }
                 if (typeof this.$set === "function") {
-                    this.$set(this.tafsirContent, key, text);
+                    this.$set(this.tafsirContent, key, normalized.text);
+                    this.$set(this.tafsirMeta, key, normalized.meta || {});
                 } else {
-                    this.tafsirContent[key] = text;
+                    this.tafsirContent[key] = normalized.text;
+                    this.tafsirMeta[key] = normalized.meta || {};
                 }
             } catch (error) {
                 if (typeof this.$set === "function") {
@@ -11199,19 +11502,7 @@ export default {
             }
         },
         toggleAyahTafsir(item) {
-            const key = this.getTafsirVisibilityKey(item);
-            if (!key) return;
-            const next = !this.isTafsirVisibleFor(item);
-            if (typeof this.$set === "function") {
-                this.$set(this.tafsirVisibility, key, next);
-            } else {
-                this.tafsirVisibility[key] = next;
-            }
-            if (next) {
-                this.loadTafsirForItem(item);
-            }
-            this.itemHeightCalibrated = false;
-            this.$nextTick(() => this.scheduleHeightCalibration(true));
+            this.openAyahTafsirModal(item);
         },
         getTranslationVisibilityKey(item) {
             if (!item || !item.ayah) return "";
@@ -11624,8 +11915,10 @@ export default {
             )
                 return Promise.resolve();
             this.isLoading = true;
+            this.hideAyahTafsirModal({ reset: true });
             this.tafsirVisibility = {};
             this.tafsirContent = {};
+            this.tafsirMeta = {};
             this.tafsirLoading = {};
             this.tafsirError = {};
             this.prefetchCurrentSurahAudioMeta();

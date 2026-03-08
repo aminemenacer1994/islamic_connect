@@ -76674,6 +76674,125 @@ to {
     white-space: pre-wrap;
     font-size: 0.95rem;
 }
+#ayahTafsirModal .modal-dialog[data-v-637d02d8] {
+    max-width: min(96vw, 1140px);
+}
+#ayahTafsirModal .ayah-tafsir-modal-content[data-v-637d02d8] {
+    border-radius: 18px;
+}
+#ayahTafsirModal .modal-header[data-v-637d02d8] {
+    padding: 1rem 1.35rem;
+}
+#ayahTafsirModal .ayah-tafsir-modal-title[data-v-637d02d8] {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.42rem;
+    color: #111827;
+    font-size: 1.28rem;
+    line-height: 1.3;
+}
+#ayahTafsirModal .ayah-tafsir-modal-title b[data-v-637d02d8] {
+    color: #111827;
+    font-size: 1.34rem;
+}
+#ayahTafsirModal .ayah-tafsir-modal-reference[data-v-637d02d8] {
+    color: #111827;
+    font-size: 1.02rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+}
+#ayahTafsirModal .modal-body[data-v-637d02d8] {
+    padding: 0 1.35rem 0.35rem;
+}
+#ayahTafsirModal .ayah-tafsir-modal-panel[data-v-637d02d8] {
+    margin-top: 0.35rem;
+    border: none;
+    border-radius: 0;
+    background: transparent;
+    padding: 0.35rem 0.2rem 0.2rem;
+}
+#ayahTafsirModal .ayah-tafsir-meta[data-v-637d02d8] {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.7rem;
+    margin-bottom: 0.7rem;
+}
+#ayahTafsirModal .ayah-tafsir-meta-item[data-v-637d02d8] {
+    background: rgba(148, 163, 184, 0.14);
+    border-radius: 10px;
+    padding: 0.5rem 0.6rem;
+}
+#ayahTafsirModal .ayah-tafsir-meta-label[data-v-637d02d8] {
+    display: block;
+    color: #475569;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.18rem;
+}
+#ayahTafsirModal .ayah-tafsir-meta-value[data-v-637d02d8] {
+    color: #1f2937;
+    font-size: 0.88rem;
+    line-height: 1.3;
+}
+#ayahTafsirModal .ayah-tafsir-meta-link[data-v-637d02d8] {
+    color: #0f4c81;
+    font-size: 0.88rem;
+    font-weight: 600;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 2px;
+}
+#ayahTafsirModal .ayah-tafsir-label[data-v-637d02d8] {
+    color: #111827;
+    font-size: 0.98rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+#ayahTafsirModal .ayah-tafsir-loading[data-v-637d02d8] {
+    color: #111827;
+    font-size: 1.07rem;
+}
+#ayahTafsirModal .ayah-tafsir-error[data-v-637d02d8] {
+    color: #b91c1c;
+    font-size: 1.02rem;
+}
+#ayahTafsirModal .ayah-tafsir-text[data-v-637d02d8] {
+    color: #4b5563;
+    font-size: 1.08rem;
+    line-height: 1.66;
+    font-weight: 500;
+    letter-spacing: 0.005em;
+    white-space: pre-wrap;
+    text-wrap: pretty;
+}
+#ayahTafsirModal .modal-footer[data-v-637d02d8] {
+    padding: 0 1.35rem 1.1rem;
+}
+@media (max-width: 768px) {
+#ayahTafsirModal .modal-dialog[data-v-637d02d8] {
+        max-width: 100vw;
+}
+#ayahTafsirModal .ayah-tafsir-modal-title[data-v-637d02d8] {
+        font-size: 1.16rem;
+}
+#ayahTafsirModal .ayah-tafsir-modal-title b[data-v-637d02d8] {
+        font-size: 1.22rem;
+}
+#ayahTafsirModal .ayah-tafsir-modal-reference[data-v-637d02d8] {
+        font-size: 0.95rem;
+}
+#ayahTafsirModal .ayah-tafsir-text[data-v-637d02d8] {
+        font-size: 0.98rem;
+        line-height: 1.58;
+}
+#ayahTafsirModal .ayah-tafsir-meta[data-v-637d02d8] {
+        grid-template-columns: 1fr;
+}
+}
 
 
 .bookmark-manager[data-v-e5539dca] {

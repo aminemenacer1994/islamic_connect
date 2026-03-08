@@ -2612,29 +2612,13 @@
                                             <button
                                                 type="button"
                                                 class="action-pill"
-                                                :class="{ 'is-active': isTafsirVisibleFor(item) }"
+                                                :class="{ 'is-active': isTafsirModalOpenFor(item) }"
                                                 @click.stop="toggleAyahTafsir(item)"
-                                                :aria-label="isTafsirVisibleFor(item) ? 'Hide tafsir' : 'Show tafsir'"
-                                                :title="isTafsirVisibleFor(item) ? 'Hide tafsir' : 'Show tafsir'">
+                                                aria-label="Open tafsir"
+                                                title="Open tafsir">
                                                 <i class="bi bi-journal-richtext" aria-hidden="true"></i>
-                                                <span>{{ isTafsirVisibleFor(item) ? "Hide tafsir" : "Tafsir" }}</span>
+                                                <span>Tafsir</span>
                                             </button>
-                                        </div>
-                                        <div
-                                            v-if="isTafsirVisibleFor(item)"
-                                            class="ayah-tafsir-panel ltr-text"
-                                            role="status"
-                                            aria-live="polite">
-                                            <p class="ayah-tafsir-label mb-1">Tafsir</p>
-                                            <p v-if="isTafsirLoadingFor(item)" class="ayah-tafsir-loading mb-0">
-                                                Loading tafsir...
-                                            </p>
-                                            <p v-else-if="getTafsirErrorFor(item)" class="ayah-tafsir-error mb-0">
-                                                {{ getTafsirErrorFor(item) }}
-                                            </p>
-                                            <p v-else class="ayah-tafsir-text mb-0">
-                                                {{ getTafsirTextFor(item) || "No tafsir content available." }}
-                                            </p>
                                         </div>
                                     </div>
                                 </div>
@@ -2729,12 +2713,12 @@
                                     <button
                                         type="button"
                                         class="action-pill"
-                                        :class="{ 'is-active': isTafsirVisibleFor(item) }"
+                                        :class="{ 'is-active': isTafsirModalOpenFor(item) }"
                                         @click.stop="toggleAyahTafsir(item)"
-                                        :aria-label="isTafsirVisibleFor(item) ? 'Hide tafsir' : 'Show tafsir'"
-                                        :title="isTafsirVisibleFor(item) ? 'Hide tafsir' : 'Show tafsir'">
+                                        aria-label="Open tafsir"
+                                        title="Open tafsir">
                                         <i class="bi bi-journal-richtext" aria-hidden="true"></i>
-                                        <span>{{ isTafsirVisibleFor(item) ? "Hide tafsir" : "Tafsir" }}</span>
+                                        <span>Tafsir</span>
                                     </button>
                                     <button type="button" class="action-pill reflection-pill-fill"
                                     :class="{ 'has-reflection': hasReflection(item.ayah) }"
@@ -2746,22 +2730,6 @@
                                     <i class="bi bi-journal-text" aria-hidden="true"></i>
                                     <span>{{ hasReflection(item.ayah) ? 'Reflected' : 'Reflect' }}</span>
                                 </button>
-                                </div>
-                                <div
-                                    v-if="isTafsirVisibleFor(item)"
-                                    class="ayah-tafsir-panel ltr-text"
-                                    role="status"
-                                    aria-live="polite">
-                                    <p class="ayah-tafsir-label mb-1">Tafsir</p>
-                                    <p v-if="isTafsirLoadingFor(item)" class="ayah-tafsir-loading mb-0">
-                                        Loading tafsir...
-                                    </p>
-                                    <p v-else-if="getTafsirErrorFor(item)" class="ayah-tafsir-error mb-0">
-                                        {{ getTafsirErrorFor(item) }}
-                                    </p>
-                                    <p v-else class="ayah-tafsir-text mb-0">
-                                        {{ getTafsirTextFor(item) || "No tafsir content available." }}
-                                    </p>
                                 </div>
                             </div>
                             <div class="row card-teal mb-3 py-2 ayah-inline-controls ayah-inline-controls--compact">
@@ -3620,6 +3588,70 @@
                                     </button>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </teleport>
+
+        <!-- Ayah Tafsir Modal -->
+        <teleport to="body">
+            <div
+                class="modal fade"
+                :id="tafsirModalId"
+                tabindex="-1"
+                aria-labelledby="ayahTafsirModalLabel"
+                aria-hidden="true"
+                data-bs-backdrop="true">
+                <div class="modal-dialog modal-dialog-centered modal-xl modal-dialog-scrollable modal-modern modal-fullscreen-md-down">
+                    <div class="modal-content ayah-tafsir-modal-content">
+                        <div class="modal-header">
+                            <h6 class="modal-title ayah-tafsir-modal-title" id="ayahTafsirModalLabel">
+                                <b>Tafsir</b>
+                                <span v-if="tafsirModalReference" class="ayah-tafsir-modal-reference">
+                                    • {{ tafsirModalReference }}
+                                </span>
+                            </h6>
+                            <button
+                                type="button"
+                                class="btn-close"
+                                @click="hideAyahTafsirModal"
+                                aria-label="Close tafsir modal"></button>
+                        </div>
+                        <div class="modal-body pt-0">
+                            <div class="ayah-tafsir-panel ltr-text ayah-tafsir-modal-panel" role="status" aria-live="polite">
+                                <div class="ayah-tafsir-meta">
+                                    <div class="ayah-tafsir-meta-item">
+                                        <span class="ayah-tafsir-meta-label">Source</span>
+                                        <span class="ayah-tafsir-meta-value">{{ getActiveTafsirSourceLabel() }}</span>
+                                    </div>
+                                    <div class="ayah-tafsir-meta-item">
+                                        <span class="ayah-tafsir-meta-label">Proof</span>
+                                        <span class="ayah-tafsir-meta-value">{{ getActiveTafsirProofLabel() }}</span>
+                                    </div>
+                                    <div class="ayah-tafsir-meta-item">
+                                        <span class="ayah-tafsir-meta-label">Reference</span>
+                                        <span class="ayah-tafsir-meta-value">
+                                            {{ getActiveTafsirReferenceLabel() }}
+                                        </span>
+                                    </div>
+                                </div>
+                                <p class="ayah-tafsir-label mb-1">Tafsir</p>
+                                <p v-if="isActiveTafsirLoading()" class="ayah-tafsir-loading mb-0">
+                                    Loading tafsir...
+                                </p>
+                                <p v-else-if="getActiveTafsirError()" class="ayah-tafsir-error mb-0">
+                                    {{ getActiveTafsirError() }}
+                                </p>
+                                <p v-else class="ayah-tafsir-text mb-0">
+                                    {{ getActiveTafsirText() || "No tafsir content available." }}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="modal-footer border-0 pt-0">
+                            <button type="button" class="btn btn-outline-secondary" @click="hideAyahTafsirModal">
+                                Close
+                            </button>
                         </div>
                     </div>
                 </div>
