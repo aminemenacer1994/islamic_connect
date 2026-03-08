@@ -111,6 +111,31 @@ const CHAT_DRAFT_MAX_LENGTH = 1500;
       serviceWorkerRegistration: null,
       criticalVerseHashMap: {},
       showDisclaimerModal: false,
+      showReportModal: false,
+      reportSubmitting: false,
+      reportError: '',
+      reportTargetEntryKey: '',
+      reportTargetIndex: -1,
+      reportForm: {
+        reason: '',
+        details: ''
+      },
+      reportReasons: [{
+        value: 'incorrect',
+        label: 'Incorrect or misleading'
+      }, {
+        value: 'harmful',
+        label: 'Potentially harmful'
+      }, {
+        value: 'off_topic',
+        label: 'Not relevant to question'
+      }, {
+        value: 'offensive',
+        label: 'Offensive or inappropriate'
+      }, {
+        value: 'other',
+        label: 'Other issue'
+      }],
       sidebarCollapsed: false,
       quickPrompts: [{
         label: 'Daily Worship',
@@ -162,6 +187,18 @@ const CHAT_DRAFT_MAX_LENGTH = 1500;
         return '';
       }
       return this.formatSessionLabel(session);
+    },
+    activeReportEntry() {
+      if (!this.reportTargetEntryKey) {
+        return null;
+      }
+      return this.chatHistory.find((entry, index) => this.getEntryKey(entry, index) === this.reportTargetEntryKey) || null;
+    },
+    reportPreviewText() {
+      var _this$activeReportEnt;
+      const source = ((_this$activeReportEnt = this.activeReportEntry) === null || _this$activeReportEnt === void 0 ? void 0 : _this$activeReportEnt.text) || '';
+      const preview = this.toPlainText(source).replace(/[ \t]{2,}/g, ' ').trim();
+      return preview || 'No answer selected.';
     }
   },
   methods: {
@@ -179,6 +216,128 @@ const CHAT_DRAFT_MAX_LENGTH = 1500;
       this.showDisclaimerModal = false;
       if (typeof document !== 'undefined') {
         document.body.classList.remove('ai-disclaimer-open');
+      }
+    },
+    createEntryKey(role = 'assistant', seed = null) {
+      const base = seed || `${Date.now()}`;
+      const random = Math.random().toString(36).slice(2, 8);
+      return `${role}-${base}-${random}`;
+    },
+    getEntryKey(entry, index = -1) {
+      if (!entry || typeof entry !== 'object') {
+        return `entry-${Date.now()}-${Math.max(index, 0)}`;
+      }
+      const existingKey = typeof entry.entryKey === 'string' ? entry.entryKey.trim() : '';
+      if (existingKey) {
+        return existingKey;
+      }
+      const role = entry.role === 'assistant' ? 'assistant' : 'user';
+      const seed = entry.time || `${Date.now()}-${Math.max(index, 0)}`;
+      return `${role}-${seed}`;
+    },
+    openReportModal(entry, index) {
+      if (!entry || entry.role !== 'assistant') {
+        return;
+      }
+      this.reportTargetEntryKey = this.getEntryKey(entry, index);
+      this.reportTargetIndex = Number.isInteger(index) ? index : -1;
+      this.reportForm.reason = '';
+      this.reportForm.details = '';
+      this.reportError = '';
+      this.showReportModal = true;
+    },
+    closeReportModal() {
+      this.showReportModal = false;
+      this.reportSubmitting = false;
+      this.reportError = '';
+      this.reportTargetEntryKey = '';
+      this.reportTargetIndex = -1;
+      this.reportForm.reason = '';
+      this.reportForm.details = '';
+    },
+    getReportRelatedQuestionText() {
+      let startIndex = this.reportTargetIndex;
+      if (!Number.isInteger(startIndex) || startIndex < 0) {
+        startIndex = this.chatHistory.findIndex((entry, index) => this.getEntryKey(entry, index) === this.reportTargetEntryKey);
+      }
+      if (startIndex <= 0) {
+        return '';
+      }
+      for (let cursor = startIndex - 1; cursor >= 0; cursor -= 1) {
+        const candidate = this.chatHistory[cursor];
+        if ((candidate === null || candidate === void 0 ? void 0 : candidate.role) !== 'user') {
+          continue;
+        }
+        const text = String(candidate.text || '').trim();
+        if (text) {
+          return text.slice(0, CHAT_DRAFT_MAX_LENGTH);
+        }
+      }
+      return '';
+    },
+    buildReportPayload(entry) {
+      const relatedQuestion = this.getReportRelatedQuestionText();
+      const references = Array.isArray(entry === null || entry === void 0 ? void 0 : entry.references) ? entry.references.map(item => this.normalizeStoredReference(item)).filter(Boolean).slice(0, 2) : [];
+      const verification = entry !== null && entry !== void 0 && entry.verification && typeof entry.verification === 'object' ? {
+        verified: Boolean(entry.verification.verified),
+        confidence: String(entry.verification.confidence || 'low'),
+        totalSources: Number(entry.verification.totalSources || references.length || 0),
+        message: String(entry.verification.message || '').trim().slice(0, 1000)
+      } : null;
+      return {
+        session_id: this.sessionId || '',
+        entry_key: this.getEntryKey(entry, this.reportTargetIndex),
+        reason: String(this.reportForm.reason || '').trim(),
+        details: String(this.reportForm.details || '').trim().slice(0, 1500),
+        reported_text: this.toPlainText((entry === null || entry === void 0 ? void 0 : entry.text) || '').trim().slice(0, 12000),
+        question_text: relatedQuestion,
+        references,
+        verification,
+        message_time: (entry === null || entry === void 0 ? void 0 : entry.time) || null,
+        page_url: typeof window !== 'undefined' && window.location ? window.location.href : null
+      };
+    },
+    async submitMessageReport() {
+      if (this.reportSubmitting) {
+        return;
+      }
+      const entry = this.activeReportEntry;
+      if (!entry) {
+        this.reportError = 'No answer selected for reporting.';
+        return;
+      }
+      if (!String(this.reportForm.reason || '').trim()) {
+        this.reportError = 'Please choose a reason.';
+        return;
+      }
+      const payload = this.buildReportPayload(entry);
+      if (!payload.reported_text) {
+        this.reportError = 'The selected answer is empty.';
+        return;
+      }
+      this.reportSubmitting = true;
+      this.reportError = '';
+      try {
+        const response = await fetch('/api/ai/report', {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json, text/plain, */*',
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': this.getCsrfToken()
+          },
+          body: JSON.stringify(payload)
+        });
+        const parsed = await this.parseFetchResponseBody(response);
+        if (!response.ok) {
+          var _parsed$payload, _parsed$payload2;
+          throw new Error(this.firstNonEmptyString([(_parsed$payload = parsed.payload) === null || _parsed$payload === void 0 ? void 0 : _parsed$payload.message, (_parsed$payload2 = parsed.payload) === null || _parsed$payload2 === void 0 ? void 0 : _parsed$payload2.error, 'Unable to submit your report right now. Please try again.']));
+        }
+        this.closeReportModal();
+        this.showCopyNotice('Report submitted. Thank you for helping improve Noor.');
+      } catch (error) {
+        this.reportError = (error === null || error === void 0 ? void 0 : error.message) || 'Unable to submit your report right now. Please try again.';
+      } finally {
+        this.reportSubmitting = false;
       }
     },
     handleComposerKeydown(event) {
@@ -235,10 +394,12 @@ const CHAT_DRAFT_MAX_LENGTH = 1500;
     },
     createChatEntry(role, text, references = [], summaryBullets = null, verification = null) {
       const now = new Date();
+      const entryKey = this.createEntryKey(role, `${now.getTime()}`);
       const providedSummary = Array.isArray(summaryBullets) ? summaryBullets.map(item => String(item || '').trim()).filter(Boolean).slice(0, 4) : null;
       const resolvedSummary = providedSummary !== null ? providedSummary : role === 'assistant' ? [] : this.extractSummaryBulletPoints(text);
       const allowCollapse = role !== 'assistant' && resolvedSummary.length && this.isLongMessage(text);
       return {
+        entryKey,
         role,
         text,
         references,
@@ -2038,6 +2199,7 @@ const CHAT_DRAFT_MAX_LENGTH = 1500;
       const verification = this.normalizeStoredVerification(entry.verification, references.length);
       const time = this.formatEntryTime(entry.time);
       return {
+        entryKey: this.getEntryKey(entry),
         role,
         text,
         time: time.iso,
@@ -2070,6 +2232,7 @@ const CHAT_DRAFT_MAX_LENGTH = 1500;
       }
       const role = entry.role === 'assistant' ? 'assistant' : 'user';
       const rawText = typeof entry.text === 'string' ? entry.text.trim() : '';
+      const entryKey = typeof entry.entryKey === 'string' && entry.entryKey.trim() ? entry.entryKey.trim() : this.createEntryKey(role, entry.time || `${Date.now()}`);
       let text = rawText;
       if (!text) {
         return null;
@@ -2086,6 +2249,7 @@ const CHAT_DRAFT_MAX_LENGTH = 1500;
       const summaryBullets = Array.isArray(entry.summaryBullets) ? entry.summaryBullets.map(item => String(item || '').trim()).filter(Boolean).slice(0, 4) : this.extractSummaryBulletPoints(text);
       const allowCollapse = role !== 'assistant' && summaryBullets.length > 0 && this.isLongMessage(text);
       return {
+        entryKey,
         role,
         text,
         references,
@@ -2498,6 +2662,7 @@ const CHAT_DRAFT_MAX_LENGTH = 1500;
       this.syncCurrentSessionHistory();
       this.chatHistory = [];
       this.chatDraft = '';
+      this.closeReportModal();
       this.resetSession();
     },
     handleSessionExpiry() {
@@ -4204,50 +4369,87 @@ const _hoisted_36 = {
 };
 const _hoisted_37 = ["innerHTML"];
 const _hoisted_38 = {
-  key: 1,
+  key: 0,
+  class: "ai-gpt-message-actions"
+};
+const _hoisted_39 = ["disabled", "onClick"];
+const _hoisted_40 = {
+  key: 2,
   class: "chat-references-wrapper"
 };
-const _hoisted_39 = {
+const _hoisted_41 = {
   class: "chat-references",
   role: "list"
 };
-const _hoisted_40 = {
+const _hoisted_42 = {
   class: "chat-reference-main"
 };
-const _hoisted_41 = ["href"];
-const _hoisted_42 = {
+const _hoisted_43 = ["href"];
+const _hoisted_44 = {
   class: "chat-reference-badges"
 };
-const _hoisted_43 = {
+const _hoisted_45 = {
   key: 0,
   class: "ai-gpt-message-row assistant ai-gpt-message-row--typing",
   "aria-live": "polite"
 };
-const _hoisted_44 = {
+const _hoisted_46 = {
   class: "ai-gpt-input-wrap"
 };
-const _hoisted_45 = ["disabled"];
-const _hoisted_46 = ["disabled", "aria-label"];
 const _hoisted_47 = ["disabled"];
-const _hoisted_48 = {
+const _hoisted_48 = ["disabled", "aria-label"];
+const _hoisted_49 = ["disabled"];
+const _hoisted_50 = {
   key: 0,
   class: "fas fa-paper-plane",
   "aria-hidden": "true"
 };
-const _hoisted_49 = {
+const _hoisted_51 = {
   key: 1,
   class: "spinner-border spinner-border-sm",
   role: "status",
   "aria-hidden": "true"
 };
-const _hoisted_50 = {
+const _hoisted_52 = {
   class: "visually-hidden"
 };
-const _hoisted_51 = {
+const _hoisted_53 = {
   class: "ai-disclaimer-modal-head"
 };
-const _hoisted_52 = {
+const _hoisted_54 = {
   class: "ai-disclaimer-modal-foot"
+};
+const _hoisted_55 = {
+  class: "ai-report-modal-head"
+};
+const _hoisted_56 = {
+  class: "ai-report-field"
+};
+const _hoisted_57 = ["value"];
+const _hoisted_58 = {
+  class: "ai-report-field"
+};
+const _hoisted_59 = {
+  class: "ai-report-preview-wrap"
+};
+const _hoisted_60 = {
+  class: "ai-report-preview"
+};
+const _hoisted_61 = {
+  key: 0,
+  class: "ai-report-error mb-0",
+  role: "alert"
+};
+const _hoisted_62 = {
+  class: "ai-report-modal-foot"
+};
+const _hoisted_63 = ["disabled"];
+const _hoisted_64 = ["disabled"];
+const _hoisted_65 = {
+  key: 0,
+  class: "spinner-border spinner-border-sm me-1",
+  role: "status",
+  "aria-hidden": "true"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("section", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
@@ -4267,17 +4469,17 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "ai-gpt-new-chat",
     disabled: $data.chatLoading,
     onClick: _cache[1] || (_cache[1] = (...args) => $options.startNewChat && $options.startNewChat(...args))
-  }, [...(_cache[19] || (_cache[19] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[26] || (_cache[26] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "fas fa-plus",
     "aria-hidden": "true"
-  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "New chat", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_5), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [_cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "New chat", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_5), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [_cache[27] || (_cache[27] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "mb-0"
   }, "Recent chats", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "ai-gpt-clear-all",
     disabled: !$data.chatSessions.length,
     onClick: _cache[2] || (_cache[2] = (...args) => $options.prepareClearAllSessions && $options.prepareClearAllSessions(...args))
-  }, " Clear all ", 8 /* PROPS */, _hoisted_7)]), $data.pendingClearAll ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_8, [_cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Delete all saved chats?", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, " Clear all ", 8 /* PROPS */, _hoisted_7)]), $data.pendingClearAll ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_8, [_cache[28] || (_cache[28] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Delete all saved chats?", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     onClick: _cache[3] || (_cache[3] = (...args) => $options.cancelPendingClearAll && $options.cancelPendingClearAll(...args))
   }, "Cancel"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
@@ -4299,7 +4501,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       class: "ai-gpt-session-delete",
       "aria-label": "Delete saved chat",
       onClick: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)($event => $options.prepareDeleteSession(session.id), ["stop"])
-    }, [...(_cache[22] || (_cache[22] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [...(_cache[29] || (_cache[29] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "fas fa-times",
       "aria-hidden": "true"
     }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_14)]);
@@ -4315,10 +4517,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "ai-gpt-sidebar-btn",
     disabled: !$data.chatHistory.length,
     onClick: _cache[7] || (_cache[7] = (...args) => $options.clearHistory && $options.clearHistory(...args))
-  }, [...(_cache[23] || (_cache[23] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[30] || (_cache[30] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "fas fa-trash-alt",
     "aria-hidden": "true"
-  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Clear current", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_19)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("header", _hoisted_21, [_cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Clear current", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_19)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("header", _hoisted_21, [_cache[31] || (_cache[31] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "ai-gpt-brand"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "ai-gpt-brand-icon",
@@ -4329,20 +4531,20 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     type: "button",
     class: "ai-gpt-trust-btn",
     onClick: _cache[8] || (_cache[8] = (...args) => $options.openDisclaimerModal && $options.openDisclaimerModal(...args))
-  }, " Trust & disclaimer ")]), $data.copyNotice ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_22, [_cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, " Trust & disclaimer ")]), $data.copyNotice ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_22, [_cache[32] || (_cache[32] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "fas fa-check-circle me-1",
     "aria-hidden": "true"
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.copyNotice), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.chatError ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_23, [_cache[27] || (_cache[27] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.copyNotice), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.chatError ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_23, [_cache[34] || (_cache[34] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "fas fa-exclamation-triangle ai-error-icon",
     "aria-hidden": "true"
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[26] || (_cache[26] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[33] || (_cache[33] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "ai-error-title mb-1"
   }, "Need some redirection?", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_24, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.chatError), 1 /* TEXT */), $data.sessionExpired ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
     key: 0,
     type: "button",
     class: "ai-error-clear mt-2",
     onClick: _cache[9] || (_cache[9] = (...args) => $options.reloadPage && $options.reloadPage(...args))
-  }, " Reload page ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_25, [!$data.chatHistory.length && !$data.chatLoading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_26, [_cache[28] || (_cache[28] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", null, "How can Noor help today?", -1 /* CACHED */)), _cache[29] || (_cache[29] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "Ask for Quran verses, hadith insights, and practical next steps for your day.", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.quickPrompts, (prompt, promptIndex) => {
+  }, " Reload page ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_25, [!$data.chatHistory.length && !$data.chatLoading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_26, [_cache[35] || (_cache[35] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", null, "How can Noor help today?", -1 /* CACHED */)), _cache[36] || (_cache[36] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "Ask for Quran verses, hadith insights, and practical next steps for your day.", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.quickPrompts, (prompt, promptIndex) => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
       key: `quick-prompt-${promptIndex}`,
       type: "button",
@@ -4359,31 +4561,39 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }, null, 2 /* CLASS */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_33, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_34, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_35, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(entry.role === 'assistant' ? 'Noor' : 'You'), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_36, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(entry.displayTime) + " · " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(entry.displayDate), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(['ai-gpt-message-body', entry.role]),
       innerHTML: $options.formatChatText(entry.text, entry.role, entry.references)
-    }, null, 10 /* CLASS, PROPS */, _hoisted_37), entry.role === 'assistant' && entry.verification ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
-      key: 0,
+    }, null, 10 /* CLASS, PROPS */, _hoisted_37), entry.role === 'assistant' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_38, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      type: "button",
+      class: "ai-gpt-report-btn",
+      disabled: $data.reportSubmitting && $data.reportTargetEntryKey === $options.getEntryKey(entry, idx),
+      onClick: $event => $options.openReportModal(entry, idx)
+    }, [...(_cache[37] || (_cache[37] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      class: "fas fa-flag",
+      "aria-hidden": "true"
+    }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Report", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_39)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), entry.role === 'assistant' && entry.verification ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+      key: 1,
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(['chat-verification', $options.getVerificationBadgeClass(entry.verification)]),
       "aria-live": "polite"
-    }, [_cache[30] || (_cache[30] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [_cache[38] || (_cache[38] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "fas fa-check-circle",
       "aria-hidden": "true"
-    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatVerificationLabel(entry.verification)), 1 /* TEXT */)], 2 /* CLASS */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), entry.references && entry.references.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_38, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_39, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(entry.references, (reference, refIndex) => {
+    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatVerificationLabel(entry.verification)), 1 /* TEXT */)], 2 /* CLASS */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), entry.references && entry.references.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_40, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_41, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(entry.references, (reference, refIndex) => {
       return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
         key: `ref-${idx}-${refIndex}-${reference.label}`
-      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_40, [reference.url ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("a", {
+      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_42, [reference.url ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("a", {
         key: 0,
         href: reference.url,
         target: "_blank",
         rel: "noopener noreferrer"
-      }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(reference.label), 9 /* TEXT, PROPS */, _hoisted_41)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+      }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(reference.label), 9 /* TEXT, PROPS */, _hoisted_43)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
         key: 1
-      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(reference.label), 1 /* TEXT */)], 64 /* STABLE_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_42, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(reference.label), 1 /* TEXT */)], 64 /* STABLE_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_44, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
         class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(['chat-reference-badge', $options.getSourceBadgeClass ? $options.getSourceBadgeClass(reference.sourceBadge) : 'chat-reference-badge--aggregated'])
       }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatSourceBadge ? $options.formatSourceBadge(reference.sourceBadge) : reference.sourceBadge || 'Aggregated'), 3 /* TEXT, CLASS */), reference.isHadith ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", {
         key: 0,
         class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(['chat-reference-badge', $options.getHadithGradeBadgeClass ? $options.getHadithGradeBadgeClass(reference.hadithGrade) : 'chat-reference-badge--ungraded'])
       }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatHadithGrade ? $options.formatHadithGrade(reference.hadithGrade) : reference.hadithGrade || 'Ungraded'), 3 /* TEXT, CLASS */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]);
     }), 128 /* KEYED_FRAGMENT */))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])], 2 /* CLASS */);
-  }), 128 /* KEYED_FRAGMENT */)), $data.chatLoading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("article", _hoisted_43, [...(_cache[31] || (_cache[31] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }), 128 /* KEYED_FRAGMENT */)), $data.chatLoading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("article", _hoisted_45, [...(_cache[39] || (_cache[39] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "ai-gpt-avatar",
     "aria-hidden": "true"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
@@ -4411,10 +4621,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     ref: "aiForm",
     class: "ai-gpt-composer",
     onSubmit: _cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)((...args) => $options.sendChatMessage && $options.sendChatMessage(...args), ["prevent"]))
-  }, [_cache[32] || (_cache[32] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, [_cache[40] || (_cache[40] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     class: "visually-hidden",
     for: "aiChatInput"
-  }, "Ask Noor", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_44, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("textarea", {
+  }, "Ask Noor", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_46, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("textarea", {
     id: "aiChatInput",
     ref: "aiChatInput",
     "onUpdate:modelValue": _cache[10] || (_cache[10] = $event => $data.chatDraft = $event),
@@ -4425,7 +4635,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     disabled: $data.chatLoading,
     onInput: _cache[11] || (_cache[11] = (...args) => $options.handleDraftInput && $options.handleDraftInput(...args)),
     onKeydown: _cache[12] || (_cache[12] = (...args) => $options.handleComposerKeydown && $options.handleComposerKeydown(...args))
-  }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_45), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.chatDraft]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_47), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.chatDraft]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(['ai-gpt-pill-btn ai-gpt-pill-btn--mic', {
       'is-active': $data.voiceListening
@@ -4436,11 +4646,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)($data.voiceListening ? 'fas fa-stop' : 'fas fa-microphone'),
     "aria-hidden": "true"
-  }, null, 2 /* CLASS */)], 10 /* CLASS, PROPS */, _hoisted_46), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, 2 /* CLASS */)], 10 /* CLASS, PROPS */, _hoisted_48), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "submit",
     class: "ai-gpt-send ai-gpt-send--circle",
     disabled: $data.chatLoading || !$data.chatDraft.trim()
-  }, [!$data.chatLoading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_48)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.chatLoading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_49)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_50, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.chatLoading ? 'Thinking...' : 'Send'), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_47)])], 544 /* NEED_HYDRATION, NEED_PATCH */)])], 2 /* CLASS */), $data.showDisclaimerModal ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+  }, [!$data.chatLoading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_50)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.chatLoading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_51)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_52, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.chatLoading ? 'Thinking...' : 'Send'), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_49)])], 544 /* NEED_HYDRATION, NEED_PATCH */)])], 2 /* CLASS */), $data.showDisclaimerModal ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
     key: 0,
     class: "ai-disclaimer-modal-backdrop",
     role: "dialog",
@@ -4450,7 +4660,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "ai-disclaimer-modal-card",
     onClick: _cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(() => {}, ["stop"]))
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_51, [_cache[34] || (_cache[34] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_53, [_cache[42] || (_cache[42] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
     id: "aiDisclaimerModalTitle",
     class: "mb-0"
   }, "Trust & Disclaimer", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
@@ -4458,18 +4668,81 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "ai-disclaimer-close",
     onClick: _cache[15] || (_cache[15] = (...args) => $options.closeDisclaimerModal && $options.closeDisclaimerModal(...args)),
     "aria-label": "Close disclaimer"
-  }, [...(_cache[33] || (_cache[33] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[41] || (_cache[41] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "fas fa-times",
     "aria-hidden": "true"
-  }, null, -1 /* CACHED */)]))])]), _cache[35] || (_cache[35] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, -1 /* CACHED */)]))])]), _cache[43] || (_cache[43] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "ai-disclaimer-modal-body"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "Noor provides educational Islamic guidance and does not replace qualified scholarly fatwa."), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "Verify religious rulings with trusted scholars, your local imam, or recognized institutions before acting."), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "mb-0"
-  }, "For urgent spiritual or personal concerns, seek direct human support from knowledgeable people you trust.")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_52, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, "For urgent spiritual or personal concerns, seek direct human support from knowledgeable people you trust.")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_54, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "ai-disclaimer-close-btn",
     onClick: _cache[16] || (_cache[16] = (...args) => $options.closeDisclaimerModal && $options.closeDisclaimerModal(...args))
-  }, " Close ")])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 512 /* NEED_PATCH */);
+  }, " Close ")])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.showReportModal ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+    key: 1,
+    class: "ai-report-modal-backdrop",
+    role: "dialog",
+    "aria-modal": "true",
+    "aria-labelledby": "aiReportModalTitle",
+    onClick: _cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)((...args) => $options.closeReportModal && $options.closeReportModal(...args), ["self"]))
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    class: "ai-report-modal-card",
+    onClick: _cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(() => {}, ["stop"]))
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_55, [_cache[45] || (_cache[45] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
+    id: "aiReportModalTitle",
+    class: "mb-0"
+  }, "Report answer", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    type: "button",
+    class: "ai-report-close",
+    onClick: _cache[19] || (_cache[19] = (...args) => $options.closeReportModal && $options.closeReportModal(...args)),
+    "aria-label": "Close report dialog"
+  }, [...(_cache[44] || (_cache[44] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    class: "fas fa-times",
+    "aria-hidden": "true"
+  }, null, -1 /* CACHED */)]))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
+    class: "ai-report-modal-body",
+    onSubmit: _cache[23] || (_cache[23] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)((...args) => $options.submitMessageReport && $options.submitMessageReport(...args), ["prevent"]))
+  }, [_cache[50] || (_cache[50] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    class: "ai-report-help mb-0"
+  }, " Flag this answer for review. ", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_56, [_cache[47] || (_cache[47] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    for: "aiReportReason",
+    class: "ai-report-label"
+  }, "Reason", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+    id: "aiReportReason",
+    "onUpdate:modelValue": _cache[20] || (_cache[20] = $event => $data.reportForm.reason = $event),
+    class: "ai-report-select",
+    required: ""
+  }, [_cache[46] || (_cache[46] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+    value: "",
+    disabled: ""
+  }, "Select reason", -1 /* CACHED */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.reportReasons, reason => {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
+      key: reason.value,
+      value: reason.value
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(reason.label), 9 /* TEXT, PROPS */, _hoisted_57);
+  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.reportForm.reason]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_58, [_cache[48] || (_cache[48] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    for: "aiReportDetails",
+    class: "ai-report-label"
+  }, "Details (optional)", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("textarea", {
+    id: "aiReportDetails",
+    "onUpdate:modelValue": _cache[21] || (_cache[21] = $event => $data.reportForm.details = $event),
+    class: "ai-report-textarea",
+    maxlength: "1500",
+    rows: "3",
+    placeholder: "Share what is wrong so we can review faster."
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.reportForm.details]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_59, [_cache[49] || (_cache[49] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    class: "ai-report-label mb-1"
+  }, "Reported answer", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_60, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.reportPreviewText), 1 /* TEXT */)]), $data.reportError ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_61, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.reportError), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_62, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    type: "button",
+    class: "ai-report-cancel",
+    disabled: $data.reportSubmitting,
+    onClick: _cache[22] || (_cache[22] = (...args) => $options.closeReportModal && $options.closeReportModal(...args))
+  }, " Cancel ", 8 /* PROPS */, _hoisted_63), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    type: "submit",
+    class: "ai-report-submit",
+    disabled: $data.reportSubmitting || !$data.reportForm.reason
+  }, [$data.reportSubmitting ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_65)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.reportSubmitting ? 'Submitting...' : 'Submit report'), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_64)])], 32 /* NEED_HYDRATION */)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 512 /* NEED_PATCH */);
 }
 
 /***/ }),
@@ -8131,6 +8404,7 @@ const asyncComponentLoaders = {
   "donation-component": () => Promise.resolve(/*! import() */).then(__webpack_require__.bind(__webpack_require__, /*! ./components/admin_panels/DonationComponent.vue */ "./resources/js/components/admin_panels/DonationComponent.vue")),
   "profile-component": () => Promise.resolve(/*! import() */).then(__webpack_require__.bind(__webpack_require__, /*! ./components/admin_panels/ProfileComponent.vue */ "./resources/js/components/admin_panels/ProfileComponent.vue")),
   "dashboard-component": () => Promise.resolve(/*! import() */).then(__webpack_require__.bind(__webpack_require__, /*! ./components/admin_panels/DashboardComponent.vue */ "./resources/js/components/admin_panels/DashboardComponent.vue")),
+  "ai-reports-component": () => Promise.all(/*! import() */[__webpack_require__.e("css/app"), __webpack_require__.e("resources_js_components_admin_panels_AiReportsComponent_vue")]).then(__webpack_require__.bind(__webpack_require__, /*! ./components/admin_panels/AiReportsComponent.vue */ "./resources/js/components/admin_panels/AiReportsComponent.vue")),
   "homepage-component": () => Promise.all(/*! import() */[__webpack_require__.e("css/app"), __webpack_require__.e("resources_js_components_HomepageComponent_vue")]).then(__webpack_require__.bind(__webpack_require__, /*! ./components/HomepageComponent.vue */ "./resources/js/components/HomepageComponent.vue")),
   "pricing-component": () => Promise.resolve(/*! import() */).then(__webpack_require__.bind(__webpack_require__, /*! ./components/PricingComponent.vue */ "./resources/js/components/PricingComponent.vue")),
   "contact-component": () => __webpack_require__.e(/*! import() */ "resources_js_components_ContactComponent_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/ContactComponent.vue */ "./resources/js/components/ContactComponent.vue")),

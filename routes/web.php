@@ -72,6 +72,7 @@ use App\Http\Controllers\DebugController;
 use App\Http\Controllers\DigitalLibraryController;
 use App\Http\Controllers\ReadController;
 use App\Http\Controllers\ResourcesController;
+use App\Http\Controllers\AiMessageReportController;
 
 // use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\Api\AyahBookmarkController;
@@ -445,6 +446,8 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::post('api/update-users/{id}', [UserController::class, 'updateUsers']);
     Route::delete('api/delete-users/{id}', [UserController::class, 'deleteUsers']);
     Route::delete('/delete-correction/{id}', [CorrectionController::class, 'deleteCorrections']);
+    Route::get('/ai-reports', [AiMessageReportController::class, 'index'])->name('ai_reports');
+    Route::get('api/fetch-ai-reports', [AiMessageReportController::class, 'getReports'])->name('fetch_ai_reports');
     
     // Payments & Donations
     Route::get('/payments', [PaymentController::class, 'index']);

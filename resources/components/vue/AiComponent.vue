@@ -153,6 +153,17 @@
                   :class="['ai-gpt-message-body', entry.role]"
                   v-html="formatChatText(entry.text, entry.role, entry.references)"></div>
 
+                <div v-if="entry.role === 'assistant'" class="ai-gpt-message-actions">
+                  <button
+                    type="button"
+                    class="ai-gpt-report-btn"
+                    :disabled="reportSubmitting && reportTargetEntryKey === getEntryKey(entry, idx)"
+                    @click="openReportModal(entry, idx)">
+                    <i class="fas fa-flag" aria-hidden="true"></i>
+                    <span>Report</span>
+                  </button>
+                </div>
+
                 <div
                   v-if="entry.role === 'assistant' && entry.verification"
                   :class="['chat-verification', getVerificationBadgeClass(entry.verification)]"
@@ -271,6 +282,64 @@
         </div>
       </div>
     </div>
+    <div
+      v-if="showReportModal"
+      class="ai-report-modal-backdrop"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="aiReportModalTitle"
+      @click.self="closeReportModal">
+      <div class="ai-report-modal-card" @click.stop>
+        <div class="ai-report-modal-head">
+          <h3 id="aiReportModalTitle" class="mb-0">Report answer</h3>
+          <button type="button" class="ai-report-close" @click="closeReportModal" aria-label="Close report dialog">
+            <i class="fas fa-times" aria-hidden="true"></i>
+          </button>
+        </div>
+        <form class="ai-report-modal-body" @submit.prevent="submitMessageReport">
+          <p class="ai-report-help mb-0">
+            Flag this answer for review.
+          </p>
+          <div class="ai-report-field">
+            <label for="aiReportReason" class="ai-report-label">Reason</label>
+            <select
+              id="aiReportReason"
+              v-model="reportForm.reason"
+              class="ai-report-select"
+              required>
+              <option value="" disabled>Select reason</option>
+              <option v-for="reason in reportReasons" :key="reason.value" :value="reason.value">
+                {{ reason.label }}
+              </option>
+            </select>
+          </div>
+          <div class="ai-report-field">
+            <label for="aiReportDetails" class="ai-report-label">Details (optional)</label>
+            <textarea
+              id="aiReportDetails"
+              v-model="reportForm.details"
+              class="ai-report-textarea"
+              maxlength="1500"
+              rows="3"
+              placeholder="Share what is wrong so we can review faster."></textarea>
+          </div>
+          <div class="ai-report-preview-wrap">
+            <p class="ai-report-label mb-1">Reported answer</p>
+            <div class="ai-report-preview">{{ reportPreviewText }}</div>
+          </div>
+          <p v-if="reportError" class="ai-report-error mb-0" role="alert">{{ reportError }}</p>
+          <div class="ai-report-modal-foot">
+            <button type="button" class="ai-report-cancel" :disabled="reportSubmitting" @click="closeReportModal">
+              Cancel
+            </button>
+            <button type="submit" class="ai-report-submit" :disabled="reportSubmitting || !reportForm.reason">
+              <span v-if="reportSubmitting" class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
+              <span>{{ reportSubmitting ? 'Submitting...' : 'Submit report' }}</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
   </section>
 </template>
 
@@ -362,6 +431,22 @@ export default {
       serviceWorkerRegistration: null,
       criticalVerseHashMap: {},
       showDisclaimerModal: false,
+      showReportModal: false,
+      reportSubmitting: false,
+      reportError: '',
+      reportTargetEntryKey: '',
+      reportTargetIndex: -1,
+      reportForm: {
+        reason: '',
+        details: '',
+      },
+      reportReasons: [
+        { value: 'incorrect', label: 'Incorrect or misleading' },
+        { value: 'harmful', label: 'Potentially harmful' },
+        { value: 'off_topic', label: 'Not relevant to question' },
+        { value: 'offensive', label: 'Offensive or inappropriate' },
+        { value: 'other', label: 'Other issue' },
+      ],
       sidebarCollapsed: false,
       quickPrompts: [
         {
@@ -417,6 +502,17 @@ export default {
       }
       return this.formatSessionLabel(session);
     },
+    activeReportEntry() {
+      if (!this.reportTargetEntryKey) {
+        return null;
+      }
+      return this.chatHistory.find((entry, index) => this.getEntryKey(entry, index) === this.reportTargetEntryKey) || null;
+    },
+    reportPreviewText() {
+      const source = this.activeReportEntry?.text || '';
+      const preview = this.toPlainText(source).replace(/[ \t]{2,}/g, ' ').trim();
+      return preview || 'No answer selected.';
+    },
   },
   methods: {
     toggleSidebar() {
@@ -433,6 +529,143 @@ export default {
       this.showDisclaimerModal = false;
       if (typeof document !== 'undefined') {
         document.body.classList.remove('ai-disclaimer-open');
+      }
+    },
+    createEntryKey(role = 'assistant', seed = null) {
+      const base = seed || `${Date.now()}`;
+      const random = Math.random().toString(36).slice(2, 8);
+      return `${role}-${base}-${random}`;
+    },
+    getEntryKey(entry, index = -1) {
+      if (!entry || typeof entry !== 'object') {
+        return `entry-${Date.now()}-${Math.max(index, 0)}`;
+      }
+      const existingKey = typeof entry.entryKey === 'string' ? entry.entryKey.trim() : '';
+      if (existingKey) {
+        return existingKey;
+      }
+      const role = entry.role === 'assistant' ? 'assistant' : 'user';
+      const seed = entry.time || `${Date.now()}-${Math.max(index, 0)}`;
+      return `${role}-${seed}`;
+    },
+    openReportModal(entry, index) {
+      if (!entry || entry.role !== 'assistant') {
+        return;
+      }
+      this.reportTargetEntryKey = this.getEntryKey(entry, index);
+      this.reportTargetIndex = Number.isInteger(index) ? index : -1;
+      this.reportForm.reason = '';
+      this.reportForm.details = '';
+      this.reportError = '';
+      this.showReportModal = true;
+    },
+    closeReportModal() {
+      this.showReportModal = false;
+      this.reportSubmitting = false;
+      this.reportError = '';
+      this.reportTargetEntryKey = '';
+      this.reportTargetIndex = -1;
+      this.reportForm.reason = '';
+      this.reportForm.details = '';
+    },
+    getReportRelatedQuestionText() {
+      let startIndex = this.reportTargetIndex;
+      if (!Number.isInteger(startIndex) || startIndex < 0) {
+        startIndex = this.chatHistory.findIndex(
+          (entry, index) => this.getEntryKey(entry, index) === this.reportTargetEntryKey,
+        );
+      }
+      if (startIndex <= 0) {
+        return '';
+      }
+      for (let cursor = startIndex - 1; cursor >= 0; cursor -= 1) {
+        const candidate = this.chatHistory[cursor];
+        if (candidate?.role !== 'user') {
+          continue;
+        }
+        const text = String(candidate.text || '').trim();
+        if (text) {
+          return text.slice(0, CHAT_DRAFT_MAX_LENGTH);
+        }
+      }
+      return '';
+    },
+    buildReportPayload(entry) {
+      const relatedQuestion = this.getReportRelatedQuestionText();
+      const references = Array.isArray(entry?.references)
+        ? entry.references
+          .map((item) => this.normalizeStoredReference(item))
+          .filter(Boolean)
+          .slice(0, 2)
+        : [];
+      const verification = entry?.verification && typeof entry.verification === 'object'
+        ? {
+          verified: Boolean(entry.verification.verified),
+          confidence: String(entry.verification.confidence || 'low'),
+          totalSources: Number(entry.verification.totalSources || references.length || 0),
+          message: String(entry.verification.message || '').trim().slice(0, 1000),
+        }
+        : null;
+      return {
+        session_id: this.sessionId || '',
+        entry_key: this.getEntryKey(entry, this.reportTargetIndex),
+        reason: String(this.reportForm.reason || '').trim(),
+        details: String(this.reportForm.details || '').trim().slice(0, 1500),
+        reported_text: this.toPlainText(entry?.text || '').trim().slice(0, 12000),
+        question_text: relatedQuestion,
+        references,
+        verification,
+        message_time: entry?.time || null,
+        page_url: (typeof window !== 'undefined' && window.location) ? window.location.href : null,
+      };
+    },
+    async submitMessageReport() {
+      if (this.reportSubmitting) {
+        return;
+      }
+      const entry = this.activeReportEntry;
+      if (!entry) {
+        this.reportError = 'No answer selected for reporting.';
+        return;
+      }
+      if (!String(this.reportForm.reason || '').trim()) {
+        this.reportError = 'Please choose a reason.';
+        return;
+      }
+      const payload = this.buildReportPayload(entry);
+      if (!payload.reported_text) {
+        this.reportError = 'The selected answer is empty.';
+        return;
+      }
+
+      this.reportSubmitting = true;
+      this.reportError = '';
+      try {
+        const response = await fetch('/api/ai/report', {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json, text/plain, */*',
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': this.getCsrfToken(),
+          },
+          body: JSON.stringify(payload),
+        });
+        const parsed = await this.parseFetchResponseBody(response);
+        if (!response.ok) {
+          throw new Error(
+            this.firstNonEmptyString([
+              parsed.payload?.message,
+              parsed.payload?.error,
+              'Unable to submit your report right now. Please try again.',
+            ]),
+          );
+        }
+        this.closeReportModal();
+        this.showCopyNotice('Report submitted. Thank you for helping improve Noor.');
+      } catch (error) {
+        this.reportError = error?.message || 'Unable to submit your report right now. Please try again.';
+      } finally {
+        this.reportSubmitting = false;
       }
     },
     handleComposerKeydown(event) {
@@ -489,6 +722,7 @@ export default {
     },
     createChatEntry(role, text, references = [], summaryBullets = null, verification = null) {
       const now = new Date();
+      const entryKey = this.createEntryKey(role, `${now.getTime()}`);
       const providedSummary = Array.isArray(summaryBullets)
         ? summaryBullets.map((item) => String(item || '').trim()).filter(Boolean).slice(0, 4)
         : null;
@@ -497,6 +731,7 @@ export default {
         : (role === 'assistant' ? [] : this.extractSummaryBulletPoints(text));
       const allowCollapse = role !== 'assistant' && resolvedSummary.length && this.isLongMessage(text);
       return {
+        entryKey,
         role,
         text,
         references,
@@ -2572,6 +2807,7 @@ export default {
       const time = this.formatEntryTime(entry.time);
 
       return {
+        entryKey: this.getEntryKey(entry),
         role,
         text,
         time: time.iso,
@@ -2613,6 +2849,9 @@ export default {
 
       const role = entry.role === 'assistant' ? 'assistant' : 'user';
       const rawText = typeof entry.text === 'string' ? entry.text.trim() : '';
+      const entryKey = typeof entry.entryKey === 'string' && entry.entryKey.trim()
+        ? entry.entryKey.trim()
+        : this.createEntryKey(role, entry.time || `${Date.now()}`);
       let text = rawText;
       if (!text) {
         return null;
@@ -2635,6 +2874,7 @@ export default {
       const allowCollapse = role !== 'assistant' && summaryBullets.length > 0 && this.isLongMessage(text);
 
       return {
+        entryKey,
         role,
         text,
         references,
@@ -3050,6 +3290,7 @@ export default {
       this.syncCurrentSessionHistory();
       this.chatHistory = [];
       this.chatDraft = '';
+      this.closeReportModal();
       this.resetSession();
     },
     handleSessionExpiry() {
@@ -7376,6 +7617,189 @@ export default {
   }
 }
 
+/* Reporting system */
+.ai-section.ai-gpt .ai-gpt-message-actions {
+  display: flex;
+  margin-top: 0.46rem;
+}
+
+.ai-section.ai-gpt .ai-gpt-report-btn {
+  border: 1px solid rgba(28, 126, 168, 0.24);
+  background: rgba(255, 255, 255, 0.95);
+  color: #33566b;
+  border-radius: 999px;
+  padding: 0.22rem 0.56rem;
+  font-size: 0.74rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.28rem;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+}
+
+.ai-section.ai-gpt .ai-gpt-report-btn:hover:not(:disabled) {
+  background: rgba(227, 241, 249, 0.92);
+  border-color: rgba(28, 126, 168, 0.36);
+  color: #1c4c63;
+  transform: translateY(-1px);
+}
+
+.ai-section.ai-gpt .ai-gpt-report-btn:disabled {
+  opacity: 0.62;
+  cursor: not-allowed;
+}
+
+.ai-section.ai-gpt .ai-report-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1400;
+  background: rgba(8, 28, 39, 0.52);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(0.8rem, 2.2vw, 1.2rem);
+}
+
+.ai-section.ai-gpt .ai-report-modal-card {
+  width: min(100%, 560px);
+  border-radius: 18px;
+  background: linear-gradient(180deg, #fbfefe 0%, #f2f8f8 100%);
+  border: 1px solid rgba(134, 168, 182, 0.3);
+  box-shadow: 0 22px 50px rgba(7, 35, 49, 0.26);
+  overflow: hidden;
+}
+
+.ai-section.ai-gpt .ai-report-modal-head {
+  padding: 0.92rem 1rem 0.72rem;
+  border-bottom: 1px solid rgba(98, 131, 145, 0.24);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.65rem;
+}
+
+.ai-section.ai-gpt .ai-report-modal-head h3 {
+  margin: 0;
+  font-size: 1.04rem;
+  font-weight: 700;
+  color: #14354a;
+}
+
+.ai-section.ai-gpt .ai-report-close {
+  border: 1px solid rgba(98, 131, 145, 0.28);
+  background: #ffffff;
+  color: #547186;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ai-section.ai-gpt .ai-report-modal-body {
+  padding: 0.92rem 1rem 1rem;
+  display: grid;
+  gap: 0.72rem;
+}
+
+.ai-section.ai-gpt .ai-report-help {
+  font-size: 0.86rem;
+  color: #39596b;
+}
+
+.ai-section.ai-gpt .ai-report-field {
+  display: grid;
+  gap: 0.32rem;
+}
+
+.ai-section.ai-gpt .ai-report-label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  color: #17394b;
+}
+
+.ai-section.ai-gpt .ai-report-select,
+.ai-section.ai-gpt .ai-report-textarea {
+  width: 100%;
+  border-radius: 12px;
+  border: 1px solid rgba(100, 137, 154, 0.32);
+  background: #ffffff;
+  color: #1b3f54;
+  font-size: 0.9rem;
+  padding: 0.56rem 0.64rem;
+  outline: none;
+  box-shadow: 0 8px 18px rgba(14, 37, 52, 0.06);
+}
+
+.ai-section.ai-gpt .ai-report-select:focus,
+.ai-section.ai-gpt .ai-report-textarea:focus {
+  border-color: rgba(41, 146, 175, 0.52);
+  box-shadow: 0 0 0 3px rgba(45, 160, 188, 0.16);
+}
+
+.ai-section.ai-gpt .ai-report-textarea {
+  resize: vertical;
+  min-height: 88px;
+}
+
+.ai-section.ai-gpt .ai-report-preview-wrap {
+  display: grid;
+  gap: 0.22rem;
+}
+
+.ai-section.ai-gpt .ai-report-preview {
+  border: 1px solid rgba(110, 147, 162, 0.22);
+  border-radius: 12px;
+  background: rgba(242, 250, 253, 0.85);
+  color: #2d4e61;
+  font-size: 0.84rem;
+  line-height: 1.5;
+  padding: 0.56rem 0.64rem;
+  max-height: 120px;
+  overflow: auto;
+}
+
+.ai-section.ai-gpt .ai-report-error {
+  font-size: 0.82rem;
+  color: #b53f3f;
+}
+
+.ai-section.ai-gpt .ai-report-modal-foot {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.46rem;
+}
+
+.ai-section.ai-gpt .ai-report-cancel,
+.ai-section.ai-gpt .ai-report-submit {
+  border-radius: 999px;
+  min-height: 38px;
+  padding: 0.5rem 0.92rem;
+  font-size: 0.84rem;
+  font-weight: 700;
+  border: 1px solid transparent;
+}
+
+.ai-section.ai-gpt .ai-report-cancel {
+  border-color: rgba(108, 138, 153, 0.32);
+  background: #ffffff;
+  color: #36556a;
+}
+
+.ai-section.ai-gpt .ai-report-submit {
+  background: linear-gradient(135deg, #189470, #127d8a);
+  border-color: rgba(20, 114, 126, 0.42);
+  color: #f8fefe;
+}
+
+.ai-section.ai-gpt .ai-report-submit:disabled,
+.ai-section.ai-gpt .ai-report-cancel:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
 @media (max-width: 768px) {
   .ai-section.ai-gpt .ai-gpt-brand-icon {
     display: none;
@@ -7530,6 +7954,25 @@ export default {
     padding: 0.64rem;
     font-size: 0.9rem;
     line-height: 1.55;
+  }
+
+  .ai-section.ai-gpt .ai-gpt-report-btn {
+    min-height: 30px;
+    font-size: 0.72rem;
+    padding: 0.2rem 0.52rem;
+  }
+
+  .ai-section.ai-gpt .ai-report-modal-body {
+    padding: 0.76rem 0.78rem 0.84rem;
+    gap: 0.62rem;
+  }
+
+  .ai-section.ai-gpt .ai-report-modal-head {
+    padding: 0.72rem 0.78rem 0.62rem;
+  }
+
+  .ai-section.ai-gpt .ai-report-modal-head h3 {
+    font-size: 0.96rem;
   }
 
   .ai-section.ai-gpt .ai-gpt-answer-section + .ai-gpt-answer-section {

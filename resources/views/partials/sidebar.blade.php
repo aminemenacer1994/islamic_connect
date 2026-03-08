@@ -25,6 +25,13 @@
       <span class="nav-label">Feedback</span>
      </a>
     </li>
+
+    <li class="nav-item" data-search="ai reports noor assistant moderation review">
+     <a href="/ai-reports" class="nav-link {{ request()->is('ai-reports*') ? 'active' : '' }}">
+      <i class="bi bi-flag-fill nav-icon"></i>
+      <span class="nav-label">AI Reports</span>
+     </a>
+    </li>
     
     <li class="nav-item" data-search="payments transactions finance stripe">
      <a href="/payments" class="nav-link {{ request()->is('payments') ? 'active' : '' }}">

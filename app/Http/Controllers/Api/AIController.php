@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\AiMessageReport;
 use App\Models\ChatMessage;
 use App\Models\ChatSession;
 use App\Services\AIResponseFormatter;
@@ -104,6 +105,80 @@ class AIController extends Controller
             ]);
             return response()->json([
                 'error' => 'Noor is temporarily unable to fetch guidance. Please try again in a moment.',
+            ], 500);
+        }
+    }
+
+    public function report(Request $request)
+    {
+        $validated = $request->validate([
+            'session_id' => 'nullable|string|max:64',
+            'entry_key' => 'nullable|string|max:96',
+            'reason' => 'required|string|in:incorrect,harmful,off_topic,offensive,other',
+            'details' => 'nullable|string|max:1500',
+            'reported_text' => 'required|string|max:12000',
+            'question_text' => 'nullable|string|max:1500',
+            'references' => 'nullable|array|max:2',
+            'references.*.label' => 'required_with:references|string|max:180',
+            'references.*.url' => 'nullable|url|max:2048',
+            'references.*.sourceBadge' => 'nullable|string|max:24',
+            'references.*.hadithGrade' => 'nullable|string|max:24',
+            'verification' => 'nullable|array',
+            'verification.verified' => 'nullable|boolean',
+            'verification.confidence' => 'nullable|string|max:16',
+            'verification.totalSources' => 'nullable|integer|min:0|max:50',
+            'verification.message' => 'nullable|string|max:1000',
+            'message_time' => 'nullable|date',
+            'page_url' => 'nullable|url|max:2048',
+        ]);
+
+        $sessionId = $this->validateSessionId($validated['session_id'] ?? null);
+        $chatSession = null;
+
+        if ($sessionId) {
+            try {
+                $chatSession = ChatSession::where('session_id', $sessionId)->first();
+            } catch (\Throwable $exception) {
+                Log::warning('AI report session lookup failed', [
+                    'session_id' => $sessionId,
+                    'error' => $exception->getMessage(),
+                ]);
+            }
+        }
+
+        try {
+            $report = AiMessageReport::create([
+                'chat_session_id' => $chatSession?->id,
+                'user_id' => auth()->id(),
+                'session_id' => $sessionId,
+                'entry_key' => $this->normalizeOptionalText($validated['entry_key'] ?? null),
+                'reason' => $validated['reason'],
+                'details' => $this->normalizeOptionalText($validated['details'] ?? null),
+                'reported_text' => trim((string) $validated['reported_text']),
+                'question_text' => $this->normalizeOptionalText($validated['question_text'] ?? null),
+                'message_time' => $validated['message_time'] ?? null,
+                'references' => $this->normalizeReportReferences($validated['references'] ?? []),
+                'verification' => $this->normalizeReportVerification($validated['verification'] ?? null),
+                'page_url' => $this->normalizeOptionalText($validated['page_url'] ?? null),
+                'user_agent' => $this->normalizeOptionalText($request->userAgent(), 1024),
+                'reporter_ip' => $request->ip(),
+                'status' => 'open',
+            ]);
+
+            return response()->json([
+                'message' => 'Report submitted successfully.',
+                'report_id' => $report->id,
+            ], 201);
+        } catch (\Throwable $exception) {
+            Log::error('AI report persistence failed', [
+                'session_id' => $sessionId,
+                'entry_key' => $validated['entry_key'] ?? null,
+                'reason' => $validated['reason'] ?? null,
+                'error' => $exception->getMessage(),
+            ]);
+
+            return response()->json([
+                'error' => 'Unable to submit report right now. Please try again.',
             ], 500);
         }
     }
@@ -347,6 +422,59 @@ class AIController extends Controller
             return null;
         }
         return $url;
+    }
+
+    private function normalizeOptionalText(?string $value, int $maxLength = 0): ?string
+    {
+        $text = trim((string) $value);
+        if ($text === '') {
+            return null;
+        }
+        if ($maxLength > 0 && strlen($text) > $maxLength) {
+            return substr($text, 0, $maxLength);
+        }
+        return $text;
+    }
+
+    private function normalizeReportReferences($references): ?array
+    {
+        if (!is_array($references) || empty($references)) {
+            return null;
+        }
+
+        $normalized = [];
+        foreach (array_slice($references, 0, 2) as $reference) {
+            if (!is_array($reference)) {
+                continue;
+            }
+            $label = trim((string) ($reference['label'] ?? ''));
+            if ($label === '') {
+                continue;
+            }
+
+            $normalized[] = [
+                'label' => substr($label, 0, 180),
+                'url' => $this->normalizeReferenceUrl($reference['url'] ?? null),
+                'sourceBadge' => $this->normalizeOptionalText($reference['sourceBadge'] ?? null, 24),
+                'hadithGrade' => $this->normalizeOptionalText($reference['hadithGrade'] ?? null, 24),
+            ];
+        }
+
+        return $normalized ?: null;
+    }
+
+    private function normalizeReportVerification($verification): ?array
+    {
+        if (!is_array($verification) || empty($verification)) {
+            return null;
+        }
+
+        return [
+            'verified' => (bool) ($verification['verified'] ?? false),
+            'confidence' => $this->normalizeOptionalText($verification['confidence'] ?? null, 16),
+            'totalSources' => max(0, (int) ($verification['totalSources'] ?? 0)),
+            'message' => $this->normalizeOptionalText($verification['message'] ?? null, 1000),
+        ];
     }
 
     private function filterQuranReferences(array $references): array

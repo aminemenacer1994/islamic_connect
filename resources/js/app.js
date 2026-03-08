@@ -131,6 +131,7 @@ const asyncComponentLoaders = {
   "donation-component": () => import("./components/admin_panels/DonationComponent.vue"),
   "profile-component": () => import("./components/admin_panels/ProfileComponent.vue"),
   "dashboard-component": () => import("./components/admin_panels/DashboardComponent.vue"),
+  "ai-reports-component": () => import("./components/admin_panels/AiReportsComponent.vue"),
   "homepage-component": () => import("./components/HomepageComponent.vue"),
   "pricing-component": () => import("./components/PricingComponent.vue"),
   "contact-component": () => import("./components/ContactComponent.vue"),
