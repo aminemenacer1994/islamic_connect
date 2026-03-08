@@ -33,6 +33,8 @@ export default {
                 ignore: false,
                 horizontalLocked: false,
                 wordTooltipTarget: false,
+                longPressTimer: null,
+                longPressTriggered: false,
             },
             ayahCardPointerState: {
                 active: false,
@@ -44,6 +46,8 @@ export default {
                 ignore: false,
                 horizontalLocked: false,
                 wordTooltipTarget: false,
+                longPressTimer: null,
+                longPressTriggered: false,
             },
             ayahCardSwipeMinDistance: 36,
             ayahCardSwipeMaxVerticalOffset: 68,
@@ -51,6 +55,7 @@ export default {
             ayahCardSwipeClickSuppressDurationMs: 700,
             ayahCardTapMaxMovementPx: 14,
             ayahCardTapMaxDurationMs: 320,
+            ayahCardLongPressDurationMs: 560,
             ayahCardSwipeSuppressClickUntil: 0,
             ayahCardDoubleTapWindowMs: 520,
             ayahCardLastTapAt: 0,
@@ -9552,6 +9557,50 @@ export default {
             }
             this.handleAyahCardTap(index);
         },
+        getAyahGestureItemByIndex(index) {
+            const safeIndex = Number(index);
+            if (!Number.isInteger(safeIndex) || safeIndex < 0) return null;
+            const ayah = this.filteredAyahs?.[safeIndex];
+            if (!ayah) return null;
+            return {
+                index: safeIndex,
+                ayah,
+            };
+        },
+        clearAyahCardLongPressTimer(state) {
+            if (!state) return;
+            if (state.longPressTimer) {
+                clearTimeout(state.longPressTimer);
+                state.longPressTimer = null;
+            }
+        },
+        scheduleAyahCardLongPress(state, cardIndex) {
+            if (!state || state.ignore) return;
+            const safeIndex = Number(cardIndex);
+            if (!Number.isInteger(safeIndex) || safeIndex < 0) return;
+            this.clearAyahCardLongPressTimer(state);
+            state.longPressTriggered = false;
+            const holdDelay = Math.max(
+                380,
+                Number(this.ayahCardLongPressDurationMs) || 560
+            );
+            state.longPressTimer = setTimeout(() => {
+                state.longPressTimer = null;
+                if (!state.active || state.ignore || state.horizontalLocked) return;
+                if (Number(state.cardIndex) !== safeIndex) return;
+                const targetItem = this.getAyahGestureItemByIndex(safeIndex);
+                if (!targetItem) return;
+
+                state.longPressTriggered = true;
+                this.openAyahTafsirModal(targetItem);
+                this.ayahCardSwipeSuppressClickUntil =
+                    Date.now() +
+                    Math.max(
+                        420,
+                        Number(this.ayahCardSwipeClickSuppressDurationMs) || 700
+                    );
+            }, holdDelay);
+        },
         shouldIgnoreAyahCardSwipeTarget(target) {
             if (!target || typeof target.closest !== "function") return false;
             return !!target.closest(
@@ -9593,6 +9642,8 @@ export default {
             state.ignore = this.shouldIgnoreAyahCardSwipeTarget(event?.target);
             state.horizontalLocked = false;
             state.wordTooltipTarget = isWordTooltipTap;
+            state.longPressTriggered = false;
+            this.scheduleAyahCardLongPress(state, state.cardIndex);
         },
         onAyahCardPointerDown(cardIndex, event) {
             if (!event || event.pointerType !== "mouse") return;
@@ -9612,6 +9663,8 @@ export default {
             state.ignore = this.shouldIgnoreAyahCardSwipeTarget(event?.target);
             state.horizontalLocked = false;
             state.wordTooltipTarget = isWordTooltipTap;
+            state.longPressTriggered = false;
+            this.scheduleAyahCardLongPress(state, state.cardIndex);
         },
         onAyahCardPointerMove(event) {
             const state = this.ayahCardPointerState;
@@ -9625,6 +9678,7 @@ export default {
                 Math.abs(deltaY) > this.ayahCardSwipeMaxVerticalOffset &&
                 Math.abs(deltaY) > Math.abs(deltaX)
             ) {
+                this.clearAyahCardLongPressTimer(state);
                 state.ignore = true;
                 state.horizontalLocked = false;
                 return;
@@ -9634,16 +9688,34 @@ export default {
                 Math.abs(deltaX) >= 8 &&
                 Math.abs(deltaX) > Math.abs(deltaY) * 1.05
             ) {
+                this.clearAyahCardLongPressTimer(state);
                 state.horizontalLocked = true;
                 if (event?.cancelable) {
                     event.preventDefault?.();
                 }
+                return;
+            }
+            const cancelThreshold = Math.max(
+                6,
+                Number(this.ayahCardTapMaxMovementPx) || 14
+            );
+            if (
+                Math.abs(deltaX) > cancelThreshold ||
+                Math.abs(deltaY) > cancelThreshold
+            ) {
+                this.clearAyahCardLongPressTimer(state);
             }
         },
         onAyahCardPointerUp(event) {
             const state = this.ayahCardPointerState;
             if (!state?.active) return;
             if (state.pointerId !== event.pointerId) return;
+            const longPressTriggered = !!state.longPressTriggered;
+            this.clearAyahCardLongPressTimer(state);
+            if (longPressTriggered) {
+                this.resetAyahCardPointerGesture();
+                return;
+            }
             if (state.ignore) {
                 this.resetAyahCardPointerGesture();
                 return;
@@ -9686,6 +9758,7 @@ export default {
                 Math.abs(deltaY) > this.ayahCardSwipeMaxVerticalOffset &&
                 Math.abs(deltaY) > Math.abs(deltaX)
             ) {
+                this.clearAyahCardLongPressTimer(state);
                 state.ignore = true;
                 state.horizontalLocked = false;
                 return;
@@ -9695,15 +9768,36 @@ export default {
                 Math.abs(deltaX) >= 12 &&
                 Math.abs(deltaX) > Math.abs(deltaY) * 1.1
             ) {
+                this.clearAyahCardLongPressTimer(state);
                 state.horizontalLocked = true;
                 if (event?.cancelable) {
                     event.preventDefault?.();
                 }
+                return;
+            }
+            const cancelThreshold = Math.max(
+                6,
+                Number(this.ayahCardTapMaxMovementPx) || 14
+            );
+            if (
+                Math.abs(deltaX) > cancelThreshold ||
+                Math.abs(deltaY) > cancelThreshold
+            ) {
+                this.clearAyahCardLongPressTimer(state);
             }
         },
         onAyahCardTouchEnd(event) {
             const state = this.ayahCardSwipeState;
             if (!state?.active) return;
+            const longPressTriggered = !!state.longPressTriggered;
+            this.clearAyahCardLongPressTimer(state);
+            if (longPressTriggered) {
+                if (event?.cancelable) {
+                    event.preventDefault?.();
+                }
+                this.resetAyahCardSwipeGesture();
+                return;
+            }
 
             const touch = event?.changedTouches?.[0];
             if (!touch) {
@@ -9786,6 +9880,7 @@ export default {
             const state = this.ayahCardSwipeState;
             if (!state) return;
 
+            this.clearAyahCardLongPressTimer(state);
             state.active = false;
             state.cardIndex = null;
             state.startX = 0;
@@ -9794,11 +9889,13 @@ export default {
             state.ignore = false;
             state.horizontalLocked = false;
             state.wordTooltipTarget = false;
+            state.longPressTriggered = false;
         },
         resetAyahCardPointerGesture() {
             const state = this.ayahCardPointerState;
             if (!state) return;
 
+            this.clearAyahCardLongPressTimer(state);
             state.active = false;
             state.pointerId = null;
             state.cardIndex = null;
@@ -9808,6 +9905,7 @@ export default {
             state.ignore = false;
             state.horizontalLocked = false;
             state.wordTooltipTarget = false;
+            state.longPressTriggered = false;
         },
         triggerSwipeAyahTransition(index, direction) {
             const safeIndex = Number(index);
