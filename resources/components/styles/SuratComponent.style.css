@@ -3813,6 +3813,49 @@
     }
 }
 
+.ayah-card-container.swipe-transition .ayah-surface {
+    border-color: rgba(15, 110, 99, 0.34);
+    box-shadow: 0 18px 34px rgba(15, 110, 99, 0.2);
+}
+
+.ayah-card-container.swipe-transition-next {
+    animation: ayahSwipeCardNext 0.4s cubic-bezier(0.2, 0.84, 0.32, 1) both;
+}
+
+.ayah-card-container.swipe-transition-prev {
+    animation: ayahSwipeCardPrev 0.4s cubic-bezier(0.2, 0.84, 0.32, 1) both;
+}
+
+@keyframes ayahSwipeCardNext {
+    0% {
+        opacity: 0.78;
+        transform: translate3d(16px, 0, 0) scale(0.992);
+    }
+    62% {
+        opacity: 1;
+        transform: translate3d(-2px, 0, 0) scale(1.003);
+    }
+    100% {
+        opacity: 1;
+        transform: translate3d(0, 0, 0) scale(1);
+    }
+}
+
+@keyframes ayahSwipeCardPrev {
+    0% {
+        opacity: 0.78;
+        transform: translate3d(-16px, 0, 0) scale(0.992);
+    }
+    62% {
+        opacity: 1;
+        transform: translate3d(2px, 0, 0) scale(1.003);
+    }
+    100% {
+        opacity: 1;
+        transform: translate3d(0, 0, 0) scale(1);
+    }
+}
+
 .memorisation-repetition-progress .quran-toolbar-label {
     min-width: 2.5rem;
 }
@@ -22635,5 +22678,787 @@ h1.display-5 {
 
     #ayahTafsirModal .ayah-tafsir-meta {
         grid-template-columns: 1fr;
+    }
+}
+
+/* Mobile-only ayah controls alignment requested by product */
+@media (max-width: 767.98px) {
+    .surat-premium .ayah-card-header-actions {
+        width: 100% !important;
+        display: grid !important;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto !important;
+        align-items: center !important;
+        gap: 0.28rem !important;
+    }
+
+    .surat-premium .ayah-card-header-actions .translation-toggle {
+        flex-basis: auto !important;
+        width: 100% !important;
+        min-width: 0 !important;
+    }
+
+    .surat-premium .ayah-card-header-actions .ayah-translation-toggle {
+        grid-column: 1 !important;
+        margin-right: 0 !important;
+    }
+
+    .surat-premium .ayah-card-header-actions .ayah-transliteration-toggle {
+        grid-column: 2 !important;
+        margin-right: 0 !important;
+    }
+
+    .surat-premium .ayah-card-header-actions .translation-toggle .form-check-label {
+        white-space: nowrap !important;
+        font-size: 0.66rem !important;
+    }
+
+    .surat-premium .ayah-card-header-actions .ayah-pin-feedback-group {
+        grid-column: 3 !important;
+        justify-self: end !important;
+        margin-left: 0 !important;
+        display: inline-flex !important;
+        flex-wrap: nowrap !important;
+        gap: 0.28rem !important;
+    }
+
+    .surat-premium
+        .ayah-card-header-actions
+        .ayah-pin-feedback-group
+        .icon-btn {
+        width: 34px !important;
+        height: 34px !important;
+        min-width: 34px !important;
+        min-height: 34px !important;
+    }
+
+    .surat-premium .ayah-card-header-actions .ayah-feedback-message {
+        grid-column: 1 / -1 !important;
+        width: 100% !important;
+    }
+
+    .surat-premium .ayah-quick-actions {
+        display: grid !important;
+        grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+        gap: 0.24rem !important;
+    }
+
+    .surat-premium .ayah-quick-actions .action-pill {
+        width: 100% !important;
+        justify-content: center !important;
+        min-width: 0 !important;
+        min-height: 34px !important;
+        padding: 0.28rem 0.3rem !important;
+        gap: 0.24rem !important;
+    }
+
+    .surat-premium
+        .d-block.d-md-none
+        .ayah-inline-controls
+        .ayah-inline-control-item--bookmark {
+        display: none !important;
+    }
+}
+
+/* Mobile: keep inline controls on one row, without special blue play styling */
+@media (max-width: 767.98px) {
+    .surat-premium .d-block.d-md-none .row.mb-3.ayah-inline-controls {
+        display: grid !important;
+        grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+        gap: 0.28rem !important;
+        align-items: center !important;
+    }
+
+    .surat-premium
+        .d-block.d-md-none
+        .ayah-inline-controls
+        .ayah-inline-control-item--font-down {
+        grid-column: 1;
+        grid-row: 1;
+    }
+
+    .surat-premium
+        .d-block.d-md-none
+        .ayah-inline-controls
+        .ayah-inline-control-item--font-up {
+        grid-column: 2;
+        grid-row: 1;
+    }
+
+    .surat-premium
+        .d-block.d-md-none
+        .ayah-inline-controls
+        .ayah-inline-control-item--rewind {
+        grid-column: 3;
+        grid-row: 1;
+    }
+
+    .surat-premium
+        .d-block.d-md-none
+        .ayah-inline-controls
+        .ayah-inline-control-item--play {
+        grid-column: 4;
+        grid-row: 1;
+        align-self: auto;
+    }
+
+    .surat-premium
+        .d-block.d-md-none
+        .ayah-inline-controls
+        .ayah-inline-control-item--forward {
+        grid-column: 5;
+        grid-row: 1;
+    }
+
+    .surat-premium
+        .d-block.d-md-none
+        .ayah-inline-controls
+        .ayah-inline-btn--play {
+        min-height: 36px !important;
+        height: auto !important;
+        border-radius: 9px !important;
+        border: 1px solid rgba(15, 110, 99, 0.22) !important;
+        background: #ffffff !important;
+        color: #0b5c53 !important;
+        box-shadow: 0 5px 12px rgba(15, 53, 48, 0.08) !important;
+    }
+
+    .surat-premium
+        .d-block.d-md-none
+        .ayah-inline-controls
+        .ayah-inline-btn--play
+        .ayah-inline-icon--play {
+        font-size: 1.06rem !important;
+        color: inherit !important;
+    }
+
+    .surat-premium
+        .d-block.d-md-none
+        .ayah-inline-controls
+        .ayah-inline-btn--play.is-active {
+        background: rgba(11, 107, 89, 0.14) !important;
+        border-color: rgba(11, 107, 89, 0.42) !important;
+        color: #0b6b59 !important;
+        box-shadow: 0 6px 14px rgba(11, 107, 89, 0.18) !important;
+    }
+}
+
+/* Mobile toolbar UX polish: clearer hierarchy, touch targets, and affordance */
+@media (max-width: 767.98px) {
+    .surat-premium .advanced-quran-mobile-controls {
+        margin-top: 0.5rem !important;
+        padding: 0.56rem !important;
+        border-radius: 18px !important;
+        border: 1px solid rgba(15, 110, 99, 0.24) !important;
+        background: linear-gradient(
+            150deg,
+            rgba(255, 255, 255, 0.98) 0%,
+            rgba(247, 253, 251, 0.98) 100%
+        ) !important;
+        box-shadow: 0 14px 28px rgba(15, 53, 48, 0.13) !important;
+        gap: 0.44rem !important;
+    }
+
+    .surat-premium .advanced-quran-mobile-main-row {
+        grid-template-columns: minmax(0, 1fr) 44px 44px !important;
+        gap: 0.38rem !important;
+        padding: 0.3rem !important;
+        border-radius: 14px !important;
+        border: 1px solid rgba(15, 110, 99, 0.16);
+        background: linear-gradient(
+            160deg,
+            rgba(244, 252, 250, 0.96) 0%,
+            rgba(236, 248, 245, 0.92) 100%
+        );
+    }
+
+    .surat-premium .advanced-quran-mobile-main-row.has-search-toggle {
+        grid-template-columns: minmax(0, 1fr) 44px 44px 44px !important;
+    }
+
+    .surat-premium .advanced-quran-mobile-surah-select {
+        min-height: 46px !important;
+        height: 46px !important;
+        border-radius: 14px !important;
+        border: 1px solid rgba(15, 110, 99, 0.3) !important;
+        background: linear-gradient(
+                150deg,
+                rgba(255, 255, 255, 0.99),
+                rgba(241, 249, 246, 0.96)
+            )
+            var(--bs-form-select-bg-img) no-repeat right 0.72rem center / 16px 12px !important;
+        color: #0b3d2e !important;
+        font-size: 0.95rem !important;
+        font-weight: 800 !important;
+        letter-spacing: 0.01em;
+        box-shadow: 0 4px 10px rgba(15, 53, 48, 0.08) !important;
+        padding-left: 0.72rem !important;
+        padding-right: 2.12rem !important;
+    }
+
+    .surat-premium .advanced-quran-mobile-surah-select:focus {
+        border-color: rgba(11, 107, 89, 0.62) !important;
+        box-shadow: 0 0 0 0.2rem rgba(11, 107, 89, 0.16) !important;
+    }
+
+    .surat-premium .advanced-quran-mobile-icon-btn {
+        width: 44px !important;
+        height: 44px !important;
+        flex-basis: 44px !important;
+        border-radius: 14px !important;
+        border: 1px solid rgba(15, 110, 99, 0.28) !important;
+        background: linear-gradient(
+            150deg,
+            rgba(255, 255, 255, 0.98),
+            rgba(240, 249, 246, 0.94)
+        ) !important;
+        color: #0a5d50 !important;
+        box-shadow: 0 6px 14px rgba(15, 53, 48, 0.1) !important;
+    }
+
+    .surat-premium .advanced-quran-mobile-icon-btn i {
+        font-size: 1.02rem !important;
+    }
+
+    .surat-premium .advanced-quran-mobile-controls.is-expanded .advanced-quran-mobile-expand-btn {
+        border-color: rgba(2, 132, 199, 0.72) !important;
+        background: linear-gradient(145deg, #0ea5e9 0%, #0284c7 100%) !important;
+        color: #ffffff !important;
+        box-shadow: 0 10px 20px rgba(2, 132, 199, 0.3) !important;
+    }
+
+    .surat-premium .advanced-quran-mobile-label-row .quran-toolbar-label {
+        font-size: 0.76rem !important;
+        letter-spacing: 0.045em;
+        text-transform: uppercase;
+    }
+
+    .surat-premium .advanced-quran-mobile-toggle-row {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 0.34rem !important;
+    }
+
+    .surat-premium .advanced-quran-mobile-action-btn {
+        min-height: 42px !important;
+        border-radius: 12px !important;
+        border: 1px solid rgba(15, 110, 99, 0.2) !important;
+        background: #ffffff !important;
+        justify-content: flex-start !important;
+        text-align: left !important;
+        padding: 0.44rem 0.56rem !important;
+        box-shadow: 0 5px 12px rgba(15, 53, 48, 0.07) !important;
+    }
+
+    .surat-premium .advanced-quran-mobile-action-btn .advanced-quran-mobile-action-label {
+        font-size: 0.74rem !important;
+        font-weight: 750 !important;
+    }
+
+    .surat-premium .advanced-quran-mobile-action-btn-state {
+        min-width: 34px !important;
+        font-size: 0.64rem !important;
+        border-color: rgba(11, 107, 89, 0.3) !important;
+    }
+}
+
+/* Mobile section overhaul: hero + continue + surah identity + compact quick controls */
+@media (max-width: 767.98px) {
+    .surat-premium .quran-reader-hero {
+        margin-bottom: 0.74rem !important;
+        padding: 0.86rem 0.78rem 0.9rem !important;
+        border-radius: 22px !important;
+        border: 1px solid rgba(13, 94, 83, 0.18) !important;
+        background: linear-gradient(
+            135deg,
+            rgba(255, 253, 248, 0.98) 0%,
+            rgba(240, 251, 247, 0.95) 58%,
+            rgba(236, 249, 250, 0.96) 100%
+        ) !important;
+        box-shadow: 0 12px 26px rgba(15, 53, 48, 0.12) !important;
+    }
+
+    .surat-premium .quran-reader-hero h1.display-5 {
+        margin-bottom: 0.3rem !important;
+        font-size: clamp(1.9rem, 8.1vw, 2.28rem) !important;
+        line-height: 1.04 !important;
+        letter-spacing: -0.02em !important;
+        color: #10332e !important;
+    }
+
+    .surat-premium .holy-book-description {
+        max-width: 34ch !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+        font-size: clamp(0.98rem, 4.2vw, 1.08rem) !important;
+        line-height: 1.45 !important;
+        color: #355650 !important;
+    }
+
+    .surat-premium .continue-surah-container {
+        margin-bottom: 0.78rem !important;
+        padding: 0.52rem !important;
+        border-radius: 20px !important;
+        border: 1px solid rgba(13, 94, 83, 0.17) !important;
+        background: linear-gradient(
+            145deg,
+            rgba(251, 253, 252, 0.98) 0%,
+            rgba(239, 249, 245, 0.95) 100%
+        ) !important;
+        box-shadow: 0 10px 24px rgba(15, 53, 48, 0.1) !important;
+    }
+
+    .surat-premium .continue-surah-row {
+        --bs-gutter-x: 0.56rem !important;
+        --bs-gutter-y: 0.56rem !important;
+    }
+
+    .surat-premium .continue-progress-banner {
+        display: grid !important;
+        grid-template-columns: 44px minmax(0, 1fr) !important;
+        align-items: center !important;
+        gap: 0.52rem 0.62rem !important;
+        padding: 0.68rem 0.7rem !important;
+        border-radius: 16px !important;
+        border: 1px solid rgba(13, 94, 83, 0.2) !important;
+        background: linear-gradient(
+            146deg,
+            rgba(255, 255, 255, 0.98) 0%,
+            rgba(238, 248, 244, 0.95) 100%
+        ) !important;
+        box-shadow: 0 8px 18px rgba(15, 53, 48, 0.09) !important;
+    }
+
+    .surat-premium .continue-progress-banner-icon {
+        width: 44px !important;
+        height: 44px !important;
+        border-radius: 12px !important;
+        grid-row: 1 / span 2;
+    }
+
+    .surat-premium .continue-progress-banner-main {
+        min-width: 0 !important;
+    }
+
+    .surat-premium .continue-progress-banner-topline {
+        gap: 0.34rem !important;
+        flex-wrap: wrap !important;
+    }
+
+    .surat-premium .continue-progress-banner-eyebrow {
+        font-size: 0.72rem !important;
+        letter-spacing: 0.08em !important;
+    }
+
+    .surat-premium .continue-progress-banner-mode {
+        font-size: 0.71rem !important;
+        padding: 0.14rem 0.52rem !important;
+    }
+
+    .surat-premium .continue-progress-banner-title {
+        font-size: clamp(1.14rem, 4.9vw, 1.34rem) !important;
+        line-height: 1.2 !important;
+        font-weight: 800 !important;
+        color: #123a34 !important;
+    }
+
+    .surat-premium .continue-progress-banner-subtitle {
+        font-size: 0.79rem !important;
+        line-height: 1.35 !important;
+        color: #4a6a64 !important;
+    }
+
+    .surat-premium .continue-progress-banner-actions {
+        grid-column: 1 / -1;
+        display: grid !important;
+        grid-template-columns: minmax(0, 1fr) auto !important;
+        gap: 0.48rem !important;
+        width: 100% !important;
+        margin-top: 0.14rem !important;
+    }
+
+    .surat-premium .continue-progress-banner-btn {
+        min-height: 44px !important;
+        border-radius: 999px !important;
+        padding: 0.44rem 0.94rem !important;
+        font-size: 0.99rem !important;
+        font-weight: 800 !important;
+        box-shadow: 0 8px 16px rgba(11, 107, 89, 0.24) !important;
+    }
+
+    .surat-premium .continue-progress-banner-btn-secondary {
+        min-height: 44px !important;
+        border-radius: 999px !important;
+        padding: 0.42rem 0.86rem !important;
+        font-size: 0.95rem !important;
+        font-weight: 700 !important;
+    }
+
+    .surat-premium .quran-toolbar-surah-identity-mobile {
+        margin-top: 0 !important;
+        padding-inline: 0 !important;
+    }
+
+    .surat-premium
+        .quran-toolbar-surah-identity-mobile
+        .quran-toolbar-surah-identity-inner {
+        width: 100% !important;
+        max-width: none !important;
+        gap: 0.64rem !important;
+        padding: 0.7rem 0.78rem !important;
+        border-radius: 16px !important;
+        border: 1px solid rgba(11, 107, 89, 0.2) !important;
+        background: linear-gradient(
+            145deg,
+            rgba(255, 255, 255, 0.98) 0%,
+            rgba(236, 248, 245, 0.94) 100%
+        ) !important;
+        box-shadow: 0 8px 18px rgba(15, 53, 48, 0.09) !important;
+    }
+
+    .surat-premium .quran-toolbar-surah-identity-mobile .quran-toolbar-surah-identity-ar {
+        max-width: 44% !important;
+        font-size: clamp(1.84rem, 8.8vw, 2.44rem) !important;
+        line-height: 1.15 !important;
+        color: #0e473f !important;
+    }
+
+    .surat-premium .quran-toolbar-surah-identity-mobile .quran-toolbar-surah-identity-en {
+        max-width: 56% !important;
+        gap: 0.14rem !important;
+    }
+
+    .surat-premium .quran-toolbar-surah-identity-mobile .quran-toolbar-surah-identity-en-main {
+        font-size: clamp(1.12rem, 4.6vw, 1.34rem) !important;
+        font-weight: 800 !important;
+        line-height: 1.16 !important;
+        color: #113933 !important;
+    }
+
+    .surat-premium .quran-toolbar-surah-identity-mobile .quran-toolbar-surah-identity-en-sub {
+        font-size: clamp(0.93rem, 3.8vw, 1.04rem) !important;
+        line-height: 1.2 !important;
+        color: #3f5d58 !important;
+        opacity: 0.94 !important;
+    }
+
+    .surat-premium .advanced-quran-search {
+        border-radius: 20px !important;
+        padding: 0.52rem 0.56rem 0.48rem !important;
+    }
+
+    .surat-premium .advanced-quran-mobile-controls {
+        border-radius: 20px !important;
+        padding: 0.52rem !important;
+    }
+
+    .surat-premium .advanced-quran-mobile-main-row {
+        grid-template-columns: minmax(0, 1fr) 48px 48px !important;
+        gap: 0.42rem !important;
+        padding: 0.36rem !important;
+        border-radius: 15px !important;
+    }
+
+    .surat-premium .advanced-quran-mobile-main-row.has-search-toggle {
+        grid-template-columns: minmax(0, 1fr) 48px 48px 48px !important;
+    }
+
+    .surat-premium .advanced-quran-mobile-surah-select {
+        min-height: 50px !important;
+        height: 50px !important;
+        border-radius: 15px !important;
+        font-size: 1rem !important;
+        font-weight: 800 !important;
+        padding-left: 0.82rem !important;
+        padding-right: 2.2rem !important;
+        box-shadow: 0 6px 14px rgba(15, 53, 48, 0.09) !important;
+    }
+
+    .surat-premium .advanced-quran-mobile-icon-btn {
+        width: 48px !important;
+        height: 48px !important;
+        flex-basis: 48px !important;
+        border-radius: 15px !important;
+    }
+
+    .surat-premium .advanced-quran-mobile-icon-btn i {
+        font-size: 1.12rem !important;
+    }
+}
+
+@media (max-width: 479.98px) {
+    .surat-premium .continue-progress-banner-actions {
+        grid-template-columns: 1fr !important;
+    }
+
+    .surat-premium .continue-progress-banner-btn,
+    .surat-premium .continue-progress-banner-btn-secondary {
+        width: 100% !important;
+        justify-content: center !important;
+    }
+
+    .surat-premium .quran-toolbar-surah-identity-mobile .quran-toolbar-surah-identity-ar {
+        max-width: 46% !important;
+        font-size: clamp(1.64rem, 9vw, 2.18rem) !important;
+    }
+
+    .surat-premium .quran-toolbar-surah-identity-mobile .quran-toolbar-surah-identity-en {
+        max-width: 54% !important;
+    }
+}
+
+/* Mobile density trim: reduce excess padding and use full fluid width */
+@media (max-width: 767.98px) {
+    .container.surat-premium,
+    .surat-premium,
+    .surat-premium.has-sidebar,
+    .surat-premium.sidebar-collapsed {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        padding-left: 4px !important;
+        padding-right: 4px !important;
+        border-radius: 0 !important;
+    }
+
+    .surat-premium .continue-surah-container {
+        margin-bottom: 0.52rem !important;
+        padding: 0.28rem !important;
+        border-radius: 14px !important;
+    }
+
+    .surat-premium .continue-surah-row {
+        --bs-gutter-x: 0.36rem !important;
+        --bs-gutter-y: 0.36rem !important;
+    }
+
+    .surat-premium .continue-progress-banner {
+        gap: 0.4rem 0.48rem !important;
+        padding: 0.48rem 0.52rem !important;
+        border-radius: 12px !important;
+    }
+
+    .surat-premium .continue-progress-banner-actions {
+        gap: 0.36rem !important;
+        margin-top: 0.08rem !important;
+    }
+
+    .surat-premium .continue-progress-banner-btn,
+    .surat-premium .continue-progress-banner-btn-secondary {
+        min-height: 40px !important;
+        padding: 0.34rem 0.72rem !important;
+        border-radius: 999px !important;
+    }
+
+    .surat-premium
+        .quran-toolbar-surah-identity-mobile
+        .quran-toolbar-surah-identity-inner {
+        padding: 0.5rem 0.56rem !important;
+        border-radius: 12px !important;
+    }
+
+    .surat-premium .advanced-quran-search {
+        padding: 0.34rem 0.36rem 0.34rem !important;
+        border-radius: 14px !important;
+    }
+
+    .surat-premium .advanced-quran-mobile-controls {
+        margin-top: 0.34rem !important;
+        padding: 0.34rem !important;
+        border-radius: 14px !important;
+    }
+
+    .surat-premium .advanced-quran-mobile-main-row {
+        grid-template-columns: minmax(0, 1fr) 42px 42px !important;
+        gap: 0.26rem !important;
+        padding: 0.2rem !important;
+        border-radius: 12px !important;
+    }
+
+    .surat-premium .advanced-quran-mobile-main-row.has-search-toggle {
+        grid-template-columns: minmax(0, 1fr) 42px 42px 42px !important;
+    }
+
+    .surat-premium .advanced-quran-mobile-surah-select {
+        min-height: 44px !important;
+        height: 44px !important;
+        border-radius: 12px !important;
+        padding-left: 0.62rem !important;
+        padding-right: 2rem !important;
+    }
+
+    .surat-premium .advanced-quran-mobile-icon-btn {
+        width: 42px !important;
+        height: 42px !important;
+        flex-basis: 42px !important;
+        border-radius: 12px !important;
+    }
+}
+
+/* Mobile v3: true fluid width + compact top section rhythm */
+@media (max-width: 767.98px) {
+    .container.surat-premium,
+    .surat-premium,
+    .surat-premium.has-sidebar,
+    .surat-premium.sidebar-collapsed {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin-inline: 0 !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+
+    .surat-premium .quran-reader-hero,
+    .surat-premium .continue-surah-row,
+    .surat-premium #advancedQuranSearchSection {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+    }
+
+    .surat-premium .quran-reader-hero > [class*="col-"],
+    .surat-premium .continue-surah-row > [class*="col-"],
+    .surat-premium #advancedQuranSearchSection > [class*="col-"] {
+        padding-left: 0.2rem !important;
+        padding-right: 0.2rem !important;
+    }
+
+    .surat-premium .quran-reader-hero {
+        margin-bottom: 0.5rem !important;
+        padding: 0.56rem 0.52rem 0.6rem !important;
+        border-radius: 14px !important;
+    }
+
+    .surat-premium .quran-reader-hero h1.display-5 {
+        margin-bottom: 0.18rem !important;
+        font-size: clamp(1.54rem, 6.8vw, 1.9rem) !important;
+    }
+
+    .surat-premium .holy-book-description {
+        max-width: none !important;
+        font-size: 0.92rem !important;
+        line-height: 1.38 !important;
+    }
+
+    .surat-premium .continue-surah-container {
+        margin-bottom: 0.5rem !important;
+        padding: 0.22rem !important;
+        border-radius: 12px !important;
+    }
+
+    .surat-premium .continue-surah-row {
+        --bs-gutter-x: 0.24rem !important;
+        --bs-gutter-y: 0.24rem !important;
+    }
+
+    .surat-premium .continue-progress-banner {
+        grid-template-columns: 36px minmax(0, 1fr) !important;
+        gap: 0.32rem 0.42rem !important;
+        padding: 0.4rem 0.44rem !important;
+        border-radius: 10px !important;
+    }
+
+    .surat-premium .continue-progress-banner-icon {
+        width: 36px !important;
+        height: 36px !important;
+        border-radius: 10px !important;
+    }
+
+    .surat-premium .continue-progress-banner-title {
+        font-size: clamp(1rem, 4.5vw, 1.16rem) !important;
+        line-height: 1.14 !important;
+    }
+
+    .surat-premium .continue-progress-banner-subtitle {
+        font-size: 0.74rem !important;
+        line-height: 1.28 !important;
+    }
+
+    .surat-premium .continue-progress-banner-actions {
+        grid-column: 1 / -1 !important;
+        grid-template-columns: minmax(0, 1fr) auto !important;
+        gap: 0.28rem !important;
+        margin-top: 0 !important;
+    }
+
+    .surat-premium .continue-progress-banner-btn,
+    .surat-premium .continue-progress-banner-btn-secondary {
+        min-height: 36px !important;
+        padding: 0.26rem 0.62rem !important;
+        font-size: 0.88rem !important;
+    }
+
+    .surat-premium
+        .quran-toolbar-surah-identity-mobile
+        .quran-toolbar-surah-identity-inner {
+        padding: 0.4rem 0.46rem !important;
+        border-radius: 10px !important;
+        gap: 0.44rem !important;
+    }
+
+    .surat-premium .quran-toolbar-surah-identity-mobile .quran-toolbar-surah-identity-ar {
+        font-size: clamp(1.42rem, 7.3vw, 1.86rem) !important;
+        max-width: 45% !important;
+    }
+
+    .surat-premium .quran-toolbar-surah-identity-mobile .quran-toolbar-surah-identity-en-main {
+        font-size: clamp(0.98rem, 4vw, 1.12rem) !important;
+    }
+
+    .surat-premium .quran-toolbar-surah-identity-mobile .quran-toolbar-surah-identity-en-sub {
+        font-size: clamp(0.84rem, 3.4vw, 0.95rem) !important;
+    }
+
+    .surat-premium .advanced-quran-search {
+        padding: 0.26rem !important;
+        border-radius: 12px !important;
+    }
+
+    .surat-premium .advanced-quran-mobile-controls {
+        margin-top: 0.24rem !important;
+        padding: 0.24rem !important;
+        border-radius: 12px !important;
+    }
+
+    .surat-premium .advanced-quran-mobile-main-row {
+        padding: 0.14rem !important;
+        gap: 0.2rem !important;
+        border-radius: 10px !important;
+        grid-template-columns: minmax(0, 1fr) 40px 40px !important;
+    }
+
+    .surat-premium .advanced-quran-mobile-main-row.has-search-toggle {
+        grid-template-columns: minmax(0, 1fr) 40px 40px 40px !important;
+    }
+
+    .surat-premium .advanced-quran-mobile-surah-select {
+        min-height: 40px !important;
+        height: 40px !important;
+        border-radius: 10px !important;
+        font-size: 0.9rem !important;
+        padding-left: 0.56rem !important;
+        padding-right: 1.88rem !important;
+    }
+
+    .surat-premium .advanced-quran-mobile-icon-btn {
+        width: 40px !important;
+        height: 40px !important;
+        flex-basis: 40px !important;
+        border-radius: 10px !important;
+    }
+}
+
+/* Mobile cleanup: borderless top section */
+@media (max-width: 767.98px) {
+    .surat-premium .quran-reader-hero,
+    .surat-premium .continue-surah-container,
+    .surat-premium .continue-progress-banner,
+    .surat-premium .quran-toolbar-surah-identity-mobile .quran-toolbar-surah-identity-inner,
+    .surat-premium .advanced-quran-search,
+    .surat-premium .advanced-quran-mobile-controls,
+    .surat-premium .advanced-quran-mobile-main-row,
+    .surat-premium .advanced-quran-mobile-surah-select,
+    .surat-premium .advanced-quran-mobile-icon-btn,
+    .surat-premium .continue-progress-banner-btn,
+    .surat-premium .continue-progress-banner-btn-secondary {
+        border: none !important;
     }
 }

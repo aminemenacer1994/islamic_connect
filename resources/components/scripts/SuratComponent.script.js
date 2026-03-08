@@ -24,6 +24,42 @@ export default {
             userId: null,
             // a11y
             selectedCardIndex: 0,
+            ayahCardSwipeState: {
+                active: false,
+                cardIndex: null,
+                startX: 0,
+                startY: 0,
+                startedAt: 0,
+                ignore: false,
+                horizontalLocked: false,
+                wordTooltipTarget: false,
+            },
+            ayahCardPointerState: {
+                active: false,
+                pointerId: null,
+                cardIndex: null,
+                startX: 0,
+                startY: 0,
+                startedAt: 0,
+                ignore: false,
+                horizontalLocked: false,
+                wordTooltipTarget: false,
+            },
+            ayahCardSwipeMinDistance: 36,
+            ayahCardSwipeMaxVerticalOffset: 68,
+            ayahCardSwipeMaxDurationMs: 900,
+            ayahCardSwipeClickSuppressDurationMs: 700,
+            ayahCardTapMaxMovementPx: 14,
+            ayahCardTapMaxDurationMs: 320,
+            ayahCardSwipeSuppressClickUntil: 0,
+            ayahCardDoubleTapWindowMs: 520,
+            ayahCardLastTapAt: 0,
+            ayahCardLastTapIndex: null,
+            ayahCardPausedIndex: null,
+            swipeTransitionIndex: null,
+            swipeTransitionDirection: 0,
+            swipeTransitionTimer: null,
+            swipeTransitionDurationMs: 400,
             screenReaderMessage: "",
             isComponentAlive: true,
             isInitialLoad: true,
@@ -3216,6 +3252,9 @@ export default {
             clearTimeout(this.authAlertTimer);
         clearTimeout(this.autoNextAnimationTimer);
         this.autoNextAnimationTimer = null;
+        clearTimeout(this.swipeTransitionTimer);
+        this.swipeTransitionTimer = null;
+        this.resetAyahCardPointerGesture();
         clearTimeout(this._scrollCorrectionTimer);
         this._scrollCorrectionTimer = null;
         clearTimeout(this._navigationSettleTimer);
@@ -9458,6 +9497,363 @@ export default {
                     break;
             }
         },
+        handleAyahCardTap(index) {
+            const safeIndex = Number(index);
+            const now = Date.now();
+            const isSameTapTarget =
+                Number.isInteger(safeIndex) &&
+                this.ayahCardLastTapIndex === safeIndex;
+            const isDoubleTap =
+                isSameTapTarget &&
+                now - (this.ayahCardLastTapAt || 0) <=
+                    Math.max(
+                        240,
+                        Number(this.ayahCardDoubleTapWindowMs) || 520
+                    );
+            if (
+                Number.isInteger(safeIndex) &&
+                this.isAudioPlaying?.[safeIndex]
+            ) {
+                this.pauseAudio(safeIndex);
+                this.showAudioPlayer = false;
+                this.showAudioPlayerQueuePanel = false;
+                this.ayahCardPausedIndex = safeIndex;
+                this.ayahCardLastTapAt = now;
+                this.ayahCardLastTapIndex = safeIndex;
+                return;
+            }
+            if (
+                isDoubleTap &&
+                Number.isInteger(safeIndex) &&
+                this.ayahCardPausedIndex === safeIndex &&
+                this.currentlyPlayingIndex === safeIndex &&
+                this.audioElements?.[safeIndex] &&
+                this.audioElements[safeIndex].paused
+            ) {
+                this.playAudio(safeIndex, {
+                    hideAudioPlayer: true,
+                });
+                this.ayahCardPausedIndex = null;
+                this.ayahCardLastTapAt = 0;
+                this.ayahCardLastTapIndex = null;
+                return;
+            }
+            this.ayahCardLastTapAt = now;
+            this.ayahCardLastTapIndex = Number.isInteger(safeIndex)
+                ? safeIndex
+                : null;
+            this.selectCard(index);
+        },
+        handleAyahCardClick(index, event) {
+            if (Date.now() < (this.ayahCardSwipeSuppressClickUntil || 0)) {
+                event?.preventDefault?.();
+                event?.stopPropagation?.();
+                return;
+            }
+            this.handleAyahCardTap(index);
+        },
+        shouldIgnoreAyahCardSwipeTarget(target) {
+            if (!target || typeof target.closest !== "function") return false;
+            return !!target.closest(
+                [
+                    "button",
+                    "a",
+                    "input",
+                    "select",
+                    "textarea",
+                    "label",
+                    "[role='button']",
+                    ".icon-btn",
+                    ".action-pill",
+                    ".form-check",
+                    ".form-check-input",
+                    ".form-check-label",
+                    ".ayah-inline-btn",
+                    "[data-no-ayah-swipe]",
+                ].join(",")
+            );
+        },
+        onAyahCardTouchStart(cardIndex, event) {
+            if (event?.touches?.length > 1) {
+                this.resetAyahCardSwipeGesture();
+                return;
+            }
+            const touch = event?.touches?.[0] || event?.changedTouches?.[0];
+            const state = this.ayahCardSwipeState;
+            if (!state || !touch) return;
+
+            state.active = true;
+            state.cardIndex = Number(cardIndex);
+            state.startX = touch.clientX;
+            state.startY = touch.clientY;
+            state.startedAt = Date.now();
+            const isWordTooltipTap =
+                this.showWordTranslationTooltip &&
+                !!event?.target?.closest?.(".ayah-word.has-tooltip");
+            state.ignore = this.shouldIgnoreAyahCardSwipeTarget(event?.target);
+            state.horizontalLocked = false;
+            state.wordTooltipTarget = isWordTooltipTap;
+        },
+        onAyahCardPointerDown(cardIndex, event) {
+            if (!event || event.pointerType !== "mouse") return;
+            if (event.button !== 0) return;
+            const state = this.ayahCardPointerState;
+            if (!state) return;
+
+            state.active = true;
+            state.pointerId = event.pointerId;
+            state.cardIndex = Number(cardIndex);
+            state.startX = event.clientX;
+            state.startY = event.clientY;
+            state.startedAt = Date.now();
+            const isWordTooltipTap =
+                this.showWordTranslationTooltip &&
+                !!event?.target?.closest?.(".ayah-word.has-tooltip");
+            state.ignore = this.shouldIgnoreAyahCardSwipeTarget(event?.target);
+            state.horizontalLocked = false;
+            state.wordTooltipTarget = isWordTooltipTap;
+        },
+        onAyahCardPointerMove(event) {
+            const state = this.ayahCardPointerState;
+            if (!state?.active) return;
+            if (state.pointerId !== event.pointerId) return;
+            if (state.ignore) return;
+
+            const deltaX = event.clientX - state.startX;
+            const deltaY = event.clientY - state.startY;
+            if (
+                Math.abs(deltaY) > this.ayahCardSwipeMaxVerticalOffset &&
+                Math.abs(deltaY) > Math.abs(deltaX)
+            ) {
+                state.ignore = true;
+                state.horizontalLocked = false;
+                return;
+            }
+
+            if (
+                Math.abs(deltaX) >= 8 &&
+                Math.abs(deltaX) > Math.abs(deltaY) * 1.05
+            ) {
+                state.horizontalLocked = true;
+                if (event?.cancelable) {
+                    event.preventDefault?.();
+                }
+            }
+        },
+        onAyahCardPointerUp(event) {
+            const state = this.ayahCardPointerState;
+            if (!state?.active) return;
+            if (state.pointerId !== event.pointerId) return;
+            if (state.ignore) {
+                this.resetAyahCardPointerGesture();
+                return;
+            }
+
+            const deltaX = event.clientX - state.startX;
+            const deltaY = event.clientY - state.startY;
+            const elapsed = Date.now() - (state.startedAt || 0);
+            const absX = Math.abs(deltaX);
+            const absY = Math.abs(deltaY);
+            const isHorizontalSwipe =
+                absX >= this.ayahCardSwipeMinDistance &&
+                absY <= this.ayahCardSwipeMaxVerticalOffset &&
+                absX > absY * 1.2 &&
+                elapsed <= this.ayahCardSwipeMaxDurationMs;
+
+            if (!isHorizontalSwipe) {
+                this.resetAyahCardPointerGesture();
+                return;
+            }
+
+            this.ayahCardSwipeSuppressClickUntil =
+                Date.now() +
+                Math.max(
+                    420,
+                    Number(this.ayahCardSwipeClickSuppressDurationMs) || 700
+                );
+            this.navigateAyahBySwipe(state.cardIndex, deltaX > 0 ? 1 : -1);
+            this.resetAyahCardPointerGesture();
+        },
+        onAyahCardTouchMove(event) {
+            const state = this.ayahCardSwipeState;
+            if (!state?.active || state.ignore) return;
+            const touch = event?.touches?.[0] || event?.changedTouches?.[0];
+            if (!touch) return;
+
+            const deltaX = touch.clientX - state.startX;
+            const deltaY = touch.clientY - state.startY;
+            if (
+                Math.abs(deltaY) > this.ayahCardSwipeMaxVerticalOffset &&
+                Math.abs(deltaY) > Math.abs(deltaX)
+            ) {
+                state.ignore = true;
+                state.horizontalLocked = false;
+                return;
+            }
+
+            if (
+                Math.abs(deltaX) >= 12 &&
+                Math.abs(deltaX) > Math.abs(deltaY) * 1.1
+            ) {
+                state.horizontalLocked = true;
+                if (event?.cancelable) {
+                    event.preventDefault?.();
+                }
+            }
+        },
+        onAyahCardTouchEnd(event) {
+            const state = this.ayahCardSwipeState;
+            if (!state?.active) return;
+
+            const touch = event?.changedTouches?.[0];
+            if (!touch) {
+                this.resetAyahCardSwipeGesture();
+                return;
+            }
+            if (state.ignore) {
+                this.resetAyahCardSwipeGesture();
+                return;
+            }
+
+            const deltaX = touch.clientX - state.startX;
+            const deltaY = touch.clientY - state.startY;
+            const elapsed = Date.now() - (state.startedAt || 0);
+            const absX = Math.abs(deltaX);
+            const absY = Math.abs(deltaY);
+            const isHorizontalSwipe =
+                absX >= this.ayahCardSwipeMinDistance &&
+                absY <= this.ayahCardSwipeMaxVerticalOffset &&
+                absX > absY * 1.2 &&
+                elapsed <= this.ayahCardSwipeMaxDurationMs;
+
+            if (!isHorizontalSwipe) {
+                const tapMoveThreshold = Math.max(
+                    6,
+                    Number(this.ayahCardTapMaxMovementPx) || 14
+                );
+                const tapDurationThreshold = Math.max(
+                    120,
+                    Number(this.ayahCardTapMaxDurationMs) || 320
+                );
+                const isTap =
+                    absX <= tapMoveThreshold &&
+                    absY <= tapMoveThreshold &&
+                    elapsed <= tapDurationThreshold;
+                if (isTap) {
+                    const cardIndex = Number(state.cardIndex);
+                    const audioElement = Number.isInteger(cardIndex)
+                        ? this.audioElements?.[cardIndex]
+                        : null;
+                    const shouldTreatAsWordInteraction =
+                        state.wordTooltipTarget &&
+                        !this.isAudioPlaying?.[cardIndex] &&
+                        !(
+                            this.ayahCardPausedIndex === cardIndex &&
+                            audioElement &&
+                            audioElement.paused
+                        );
+
+                    if (!shouldTreatAsWordInteraction) {
+                        this.handleAyahCardTap(state.cardIndex);
+                        if (event?.cancelable) {
+                            event.preventDefault?.();
+                        }
+                        this.ayahCardSwipeSuppressClickUntil =
+                            Date.now() +
+                            Math.max(
+                                420,
+                                Number(this.ayahCardSwipeClickSuppressDurationMs) || 700
+                            );
+                    }
+                }
+                this.resetAyahCardSwipeGesture();
+                return;
+            }
+
+            if (event?.cancelable) {
+                event.preventDefault?.();
+            }
+            this.ayahCardSwipeSuppressClickUntil =
+                Date.now() +
+                Math.max(
+                    420,
+                    Number(this.ayahCardSwipeClickSuppressDurationMs) || 700
+                );
+            this.navigateAyahBySwipe(state.cardIndex, deltaX > 0 ? 1 : -1);
+            this.resetAyahCardSwipeGesture();
+        },
+        resetAyahCardSwipeGesture() {
+            const state = this.ayahCardSwipeState;
+            if (!state) return;
+
+            state.active = false;
+            state.cardIndex = null;
+            state.startX = 0;
+            state.startY = 0;
+            state.startedAt = 0;
+            state.ignore = false;
+            state.horizontalLocked = false;
+            state.wordTooltipTarget = false;
+        },
+        resetAyahCardPointerGesture() {
+            const state = this.ayahCardPointerState;
+            if (!state) return;
+
+            state.active = false;
+            state.pointerId = null;
+            state.cardIndex = null;
+            state.startX = 0;
+            state.startY = 0;
+            state.startedAt = 0;
+            state.ignore = false;
+            state.horizontalLocked = false;
+            state.wordTooltipTarget = false;
+        },
+        triggerSwipeAyahTransition(index, direction) {
+            const safeIndex = Number(index);
+            if (!Number.isInteger(safeIndex) || safeIndex < 0) return;
+
+            clearTimeout(this.swipeTransitionTimer);
+            this.swipeTransitionIndex = safeIndex;
+            this.swipeTransitionDirection = direction > 0 ? 1 : -1;
+            this.swipeTransitionTimer = setTimeout(() => {
+                this.swipeTransitionIndex = null;
+                this.swipeTransitionDirection = 0;
+                this.swipeTransitionTimer = null;
+            }, this.swipeTransitionDurationMs);
+        },
+        navigateAyahBySwipe(currentIndex, direction) {
+            const total = Array.isArray(this.filteredAyahs)
+                ? this.filteredAyahs.length
+                : 0;
+            if (!total) return;
+
+            const numericCurrent = Number(currentIndex);
+            const hasCurrentIndex =
+                currentIndex !== null &&
+                currentIndex !== undefined &&
+                Number.isFinite(numericCurrent);
+            const safeCurrent = hasCurrentIndex
+                ? Math.min(Math.max(0, numericCurrent), total - 1)
+                : Math.min(
+                    Math.max(0, Number(this.selectedCardIndex) || 0),
+                    total - 1
+                );
+            const targetIndex = direction > 0 ? safeCurrent + 1 : safeCurrent - 1;
+
+            if (targetIndex < 0 || targetIndex >= total) return;
+
+            this.lastManualNavigationAt = Date.now();
+            this.triggerSwipeAyahTransition(targetIndex, direction);
+            this.scrollToAyahIndex(targetIndex, {
+                behavior: "smooth",
+                force: true,
+                lock: true,
+            });
+            this.playAudio(targetIndex, {
+                hideAudioPlayer: true,
+            });
+        },
         selectCard(index) {
             this.selectedCardIndex = index;
             this.currentlyPlayingIndex = index;
@@ -10064,6 +10460,11 @@ export default {
             this._lastHighlightEls = matches;
         },
         async onAyahWordClick(item, event) {
+            if (Date.now() < (this.ayahCardSwipeSuppressClickUntil || 0)) {
+                event?.preventDefault?.();
+                event?.stopPropagation?.();
+                return;
+            }
             const wordEl = event?.target?.closest?.("[data-word-index]");
             if (!wordEl) return;
             if (!this.showWordTranslationTooltip) return;
@@ -10575,11 +10976,17 @@ export default {
         playAudio: function (index, options = {}) {
             const isSingleWordPreview = !!options.singleWordPreview;
             const isPlaylistSinglePlay = !!options.playlistSinglePlay;
+            const hideAudioPlayer = !!options.hideAudioPlayer;
             console.log("Attempting to play audio for index:", index);
             if (index < 0 || index >= this.filteredAyahs.length) return;
             this.stopTajweedRuleAudio();
+            this.ayahCardPausedIndex = null;
             if (!isSingleWordPreview) {
                 this.isSingleWordPreviewActive = false;
+            }
+            if (hideAudioPlayer) {
+                this.showAudioPlayer = false;
+                this.showAudioPlayerQueuePanel = false;
             }
             this.playlistSinglePlayMode = isPlaylistSinglePlay;
             this.clearWordPreviewStopTimer();
@@ -10691,7 +11098,8 @@ export default {
                 this.showAudioPlayer =
                     this.bottomAudioPlayerEnabled &&
                     this.isAudioPlayerVisible &&
-                    !isSingleWordPreview;
+                    !isSingleWordPreview &&
+                    !hideAudioPlayer;
                 if (this.showRealtimeHighlighting) {
                     this.startHighlightLoop();
                 } else {

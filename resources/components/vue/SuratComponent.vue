@@ -2233,14 +2233,26 @@
                     : null">
                 <div style="padding: 12px; border-radius: 8px" ref="audioCard" v-for="item in visibleWindow"
                     :key="item.ayah.number" class="col-md-12 mb-2 mt-2 ayah-card ayah-card-container ayah-card-shell shadow-md" role="listitem"
-                    :id="`ayah-card-${item.index}`" :data-ayah-number="item.ayah.numberInSurah" @click="selectCard(item.index)"
+                    :id="`ayah-card-${item.index}`" :data-ayah-number="item.ayah.numberInSurah" @click="handleAyahCardClick(item.index, $event)"
+                    @touchstart.passive="onAyahCardTouchStart(item.index, $event)"
+                    @touchmove="onAyahCardTouchMove($event)"
+                    @touchend="onAyahCardTouchEnd($event)"
+                    @touchcancel="resetAyahCardSwipeGesture()"
+                    @pointerdown="onAyahCardPointerDown(item.index, $event)"
+                    @pointermove="onAyahCardPointerMove($event)"
+                    @pointerup="onAyahCardPointerUp($event)"
+                    @pointercancel="resetAyahCardPointerGesture()"
                     @keydown.enter.prevent="toggleAudioPlayer(item.index)"
-                    @keydown.space.prevent="toggleAudioPlayer(item.index)" draggable="true" tabindex="0"
+                    @keydown.space.prevent="toggleAudioPlayer(item.index)"
+                    :draggable="isPlaylistEditorVisible && !isTabletOrMobile" tabindex="0"
                     @dragstart="onAyahDragStart(item.ayah, $event)"                     :class="{
                         highlighted:
                             isHighlighted && activeAyahIndex === item.index,
                         'currently-playing': isAudioPlaying[item.index],
                         'memorisation-repetition-active': isMemorisationRepetitionActive && item.index === currentlyPlayingIndex,
+                        'swipe-transition': swipeTransitionIndex === item.index,
+                        'swipe-transition-next': swipeTransitionIndex === item.index && swipeTransitionDirection > 0,
+                        'swipe-transition-prev': swipeTransitionIndex === item.index && swipeTransitionDirection < 0,
                         'is-pinned': isAyahPinned(item.ayah),
                         'memorisation-past': isMemorisationMode && item.role === 'past',
                         'memorisation-current': isMemorisationMode && item.role === 'current',
@@ -2553,6 +2565,10 @@
                                     ]"
                                     v-html="highlightedText(item.ayah)"
                                     @click="onAyahWordClick(item, $event)"
+                                    @touchstart.passive.stop="onAyahCardTouchStart(item.index, $event)"
+                                    @touchmove.stop="onAyahCardTouchMove($event)"
+                                    @touchend.stop="onAyahCardTouchEnd($event)"
+                                    @touchcancel.stop="resetAyahCardSwipeGesture()"
                                     :style="`font-size: ${effectiveArabicFontSize}px !important;`"
                                 ></p>
                                 <div v-if="isTranslationVisibleFor(item)" class="translation-header pt-2 ltr-text hide-on-mobile-tablet ml-2">
@@ -2657,6 +2673,10 @@
                                     ]"
                                     v-html="highlightedText(item.ayah)"
                                     @click="onAyahWordClick(item, $event)"
+                                    @touchstart.passive.stop="onAyahCardTouchStart(item.index, $event)"
+                                    @touchmove.stop="onAyahCardTouchMove($event)"
+                                    @touchend.stop="onAyahCardTouchEnd($event)"
+                                    @touchcancel.stop="resetAyahCardSwipeGesture()"
                                     :style="`font-size: ${effectiveArabicFontSize}px !important;`"
                                 ></p>
                                 <div v-if="isTranslationVisibleFor(item)" class="d-flex align-items-center fw-bold pt-2 ltr-text ml-2">
@@ -2733,7 +2753,7 @@
                                 </div>
                             </div>
                             <div class="row card-teal mb-3 py-2 ayah-inline-controls ayah-inline-controls--compact">
-                                <div class="col text-center ayah-inline-control-item">
+                                <div class="col text-center ayah-inline-control-item ayah-inline-control-item--font-down">
                                     <button class="icon-btn ayah-inline-btn ayah-inline-btn--font-down" @click.stop.prevent="decreaseFontSize" aria-label="Decrease font size"
                                         title="Decrease Font Size">
                                         <i class="bi bi-dash-circle-fill ayah-inline-icon"
@@ -2741,7 +2761,7 @@
                                         <span class="ayah-inline-control-label">Text size -</span>
                                     </button>
                                 </div>
-                                <div class="col text-center ayah-inline-control-item">
+                                <div class="col text-center ayah-inline-control-item ayah-inline-control-item--font-up">
                                     <button class="icon-btn ayah-inline-btn ayah-inline-btn--font-up" @click.stop.prevent="increaseFontSize" aria-label="Increase font size"
                                         title="Increase Font Size">
                                         <i class="bi bi-plus-circle-fill ayah-inline-icon"
@@ -2749,7 +2769,7 @@
                                         <span class="ayah-inline-control-label">Text size +</span>
                                     </button>
                                 </div>
-                                <div class="col text-center ayah-inline-control-item">
+                                <div class="col text-center ayah-inline-control-item ayah-inline-control-item--rewind">
                                     <button class="icon-btn ayah-inline-btn ayah-inline-btn--rewind" @click.stop.prevent="rewindAudio(item.index)"
                                         aria-label="Rewind 15 seconds" title="Rewind">
                                         <i class="bi bi-skip-backward-circle-fill ayah-inline-icon"
@@ -2757,7 +2777,7 @@
                                         <span class="ayah-inline-control-label">Rewind 15s</span>
                                     </button>
                                 </div>
-                                <div class="col text-center ayah-inline-control-item">
+                                <div class="col text-center ayah-inline-control-item ayah-inline-control-item--play">
                                     <button class="icon-btn ayah-inline-btn ayah-inline-btn--play" :class="{
                                         'is-active': isAudioPlaying[item.index],
                                     }" @click.stop.prevent="toggleAudioPlayer(item.index)" :aria-label="isAudioPlaying[item.index]
@@ -2777,7 +2797,7 @@
                                         }}</span>
                                     </button>
                                 </div>
-                                <div class="col text-center ayah-inline-control-item">
+                                <div class="col text-center ayah-inline-control-item ayah-inline-control-item--forward">
                                     <button class="icon-btn ayah-inline-btn ayah-inline-btn--forward" @click.stop.prevent="fastForwardAudio(item.index)"
                                         aria-label="Fast forward 20 seconds" title="Fast Forward">
                                         <i class="bi bi-skip-forward-circle-fill ayah-inline-icon"
@@ -2798,7 +2818,7 @@
                                         <i class="bi bi-journal-text" style="font-size: 1.6rem" aria-hidden="true"></i>
                                     </button>
                                 </div> -->
-                                <div class="col text-center ayah-inline-control-item">
+                                <div class="col text-center ayah-inline-control-item ayah-inline-control-item--bookmark">
                                     <button class="icon-btn ayah-inline-btn ayah-inline-btn--bookmark" :class="{
                                         'is-saved': isAyahSaved(item.ayah),
                                     }" @click.stop="toggleBookmark(item.ayah)" :title="isAyahSaved(item.ayah)
