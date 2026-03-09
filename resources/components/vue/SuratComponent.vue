@@ -426,6 +426,15 @@
                                 <button
                                     type="button"
                                     class="btn advanced-quran-mobile-action-btn"
+                                    @click="openGestureGuideModal"
+                                    aria-label="Open swipe and tap gestures guide"
+                                    title="Open swipe and tap gestures guide">
+                                    <i class="bi bi-hand-index-thumb-fill" aria-hidden="true"></i>
+                                    <span class="advanced-quran-mobile-action-label">Gestures</span>
+                                </button>
+                                <button
+                                    type="button"
+                                    class="btn advanced-quran-mobile-action-btn"
                                     @click="openSuratOnboarding"
                                     aria-label="Open surat onboarding guide"
                                     title="Open onboarding guide">
@@ -786,6 +795,15 @@
                     aria-label="Open surat onboarding guide"
                     title="Open onboarding guide">
                     <i class="fas fa-compass" aria-hidden="true"></i>
+                </button>
+
+                <button
+                    type="button"
+                    class="quran-toolbar-btn quran-toolbar-btn-icon"
+                    @click="openGestureGuideModal"
+                    aria-label="Open swipe and tap gestures guide"
+                    title="Open swipe and tap gestures guide">
+                    <i class="bi bi-hand-index-thumb-fill" aria-hidden="true"></i>
                 </button>
                 
                 <button
@@ -3471,6 +3489,14 @@
                                         <small class="text-muted d-block mt-1">
                                             Swipe left or right on ayah cards to move between verses.
                                         </small>
+                                        <button
+                                            type="button"
+                                            class="btn btn-link surah-gesture-guide-link p-0 mt-2"
+                                            @click="openGestureGuideModal"
+                                            aria-label="Open swipe and tap gestures guide modal">
+                                            <i class="bi bi-info-circle me-1" aria-hidden="true"></i>
+                                            Open swipe/tap guide
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -3480,6 +3506,82 @@
                                 @click="applySettingsModal"
                                 aria-label="Apply settings">
                                 Submit
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </teleport>
+
+        <teleport to="body">
+            <div
+                class="modal fade surat-gesture-guide-shell"
+                :id="gestureGuideModalId"
+                tabindex="-1"
+                aria-labelledby="suratGestureGuideLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable surat-gesture-modal-dialog">
+                    <div class="modal-content surat-gesture-modal">
+                        <div class="modal-header">
+                            <div>
+                                <h4 class="modal-title" id="suratGestureGuideLabel">
+                                    <b>Swipe &amp; Tap Gestures Guide</b>
+                                </h4>
+                                <p class="surat-gesture-intro mb-0">
+                                    Use these gestures on ayah cards to navigate faster and control playback.
+                                </p>
+                            </div>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="surat-gesture-grid">
+                                <article class="surat-gesture-card">
+                                    <h6 class="surat-gesture-card-title">
+                                        <i class="bi bi-arrow-left-right" aria-hidden="true"></i>
+                                        Swipe Gestures
+                                    </h6>
+                                    <ul class="surat-gesture-list mb-0">
+                                        <li>
+                                            <strong>Swipe right:</strong> move to the next ayah and start its audio.
+                                        </li>
+                                        <li>
+                                            <strong>Swipe left:</strong> move to the previous ayah and start its audio.
+                                        </li>
+                                        <li>
+                                            <strong>At first/last ayah:</strong> swipe does not wrap around.
+                                        </li>
+                                    </ul>
+                                </article>
+
+                                <article class="surat-gesture-card">
+                                    <h6 class="surat-gesture-card-title">
+                                        <i class="bi bi-hand-index-thumb" aria-hidden="true"></i>
+                                        Tap &amp; Hold Gestures
+                                    </h6>
+                                    <ul class="surat-gesture-list mb-0">
+                                        <li>
+                                            <strong>Single tap ayah card:</strong> select the ayah (or pause if it is currently playing).
+                                        </li>
+                                        <li>
+                                            <strong>Double tap same paused ayah:</strong> resume playback from that ayah.
+                                        </li>
+                                        <li>
+                                            <strong>Long press ayah card:</strong> open the ayah tafsir modal.
+                                        </li>
+                                        <li>
+                                            <strong>Tap a word:</strong> when Word tooltip + tap audio is enabled, the tapped word can play with tooltip support.
+                                        </li>
+                                    </ul>
+                                </article>
+                            </div>
+                            <p class="surat-gesture-tip mb-0">
+                                Tip: You can enable or disable swipe behavior from Display settings using
+                                <strong>Gesture navigation</strong>.
+                            </p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                                Close
                             </button>
                         </div>
                     </div>

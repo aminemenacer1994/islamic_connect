@@ -23462,3 +23462,97 @@ h1.display-5 {
         border: none !important;
     }
 }
+
+:deep(.surat-gesture-modal .modal-header) {
+    align-items: flex-start;
+    border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+}
+
+:deep(.surat-gesture-intro) {
+    color: #475569;
+    font-size: 0.94rem;
+    line-height: 1.45;
+    margin-top: 0.22rem;
+}
+
+:deep(.surat-gesture-grid) {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.8rem;
+    margin-bottom: 0.9rem;
+}
+
+:deep(.surat-gesture-card) {
+    border: 1px solid rgba(15, 118, 110, 0.2);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.98);
+    padding: 0.8rem 0.86rem;
+    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.06);
+}
+
+:deep(.surat-gesture-card-title) {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.42rem;
+    color: #0f172a;
+    font-weight: 700;
+    margin-bottom: 0.52rem;
+}
+
+:deep(.surat-gesture-card-title i) {
+    color: #0f766e;
+}
+
+:deep(.surat-gesture-list) {
+    margin: 0;
+    padding-left: 1rem;
+    color: #334155;
+}
+
+:deep(.surat-gesture-list li) {
+    margin-bottom: 0.38rem;
+    line-height: 1.45;
+}
+
+:deep(.surat-gesture-list li:last-child) {
+    margin-bottom: 0;
+}
+
+:deep(.surat-gesture-tip) {
+    border: 1px dashed rgba(15, 118, 110, 0.35);
+    border-radius: 10px;
+    background: rgba(240, 253, 250, 0.72);
+    color: #0f172a;
+    padding: 0.62rem 0.72rem;
+    line-height: 1.45;
+    font-size: 0.9rem;
+}
+
+:deep(.surah-gesture-guide-link) {
+    color: #0f766e;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+:deep(.surah-gesture-guide-link:hover),
+:deep(.surah-gesture-guide-link:focus-visible) {
+    color: #0b5b55;
+    text-decoration: underline;
+}
+
+@media (max-width: 767.98px) {
+    :deep(.surat-gesture-grid) {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .surat-premium .ayah-card-container .translation-text,
+    .surat-premium .ayah-card-container .transliteration-text,
+    .surat-premium.mobile-compact-layout .ayah-card-container .translation-text,
+    .surat-premium.mobile-compact-layout .ayah-card-container .transliteration-text {
+        line-height: 1.68 !important;
+        margin-top: 0.28rem !important;
+        margin-bottom: 0.5rem !important;
+    }
+}

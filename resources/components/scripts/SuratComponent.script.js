@@ -99,6 +99,8 @@ export default {
             surahInfoModalInstance: null,
             settingsModalId: "surahSettingsModal",
             settingsModalInstance: null,
+            gestureGuideModalId: "suratGesturesGuideModal",
+            gestureGuideModalInstance: null,
             translationCompareModalId: "translationCompareModal",
             translationCompareModalInstance: null,
             translationCompareModalShownHandler: null,
@@ -3319,6 +3321,14 @@ export default {
             }
             this.suratOnboardingModalInstance = null;
         }
+        if (this.gestureGuideModalInstance) {
+            try {
+                this.gestureGuideModalInstance.hide();
+            } catch (_) {
+                // ignore modal teardown errors
+            }
+            this.gestureGuideModalInstance = null;
+        }
         const translationCompareModalEl = document.getElementById(
             this.translationCompareModalId
         );
@@ -3445,6 +3455,14 @@ export default {
                     // ignore modal teardown errors
                 }
                 this.suratOnboardingModalInstance = null;
+            }
+            if (this.gestureGuideModalInstance) {
+                try {
+                    this.gestureGuideModalInstance.hide();
+                } catch (_) {
+                    // ignore modal teardown errors
+                }
+                this.gestureGuideModalInstance = null;
             }
             const translationCompareModalEl = document.getElementById(
                 this.translationCompareModalId
@@ -4217,6 +4235,34 @@ export default {
                 Modal.getInstance(modalEl) ||
                 new Modal(modalEl);
             this.suratOnboardingModalInstance.show();
+        },
+        openGestureGuideModal() {
+            const openGuide = () => {
+                const modalEl = document.getElementById(this.gestureGuideModalId);
+                if (!modalEl) return;
+                this.gestureGuideModalInstance =
+                    this.gestureGuideModalInstance ||
+                    Modal.getInstance(modalEl) ||
+                    new Modal(modalEl);
+                this.gestureGuideModalInstance.show();
+            };
+
+            const settingsEl = document.getElementById(this.settingsModalId);
+            const settingsModal =
+                (settingsEl &&
+                    (Modal.getInstance(settingsEl) || this.settingsModalInstance)) ||
+                this.settingsModalInstance;
+            const isSettingsOpen = !!settingsEl?.classList?.contains("show");
+
+            if (isSettingsOpen && settingsModal) {
+                try {
+                    settingsModal.hide();
+                } catch (_) {}
+                setTimeout(openGuide, 180);
+                return;
+            }
+
+            openGuide();
         },
         clearSuratOnboardingSearch() {
             this.suratOnboardingSearchQuery = "";
