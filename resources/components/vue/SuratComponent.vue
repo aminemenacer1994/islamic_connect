@@ -2583,10 +2583,6 @@
                                     ]"
                                     v-html="highlightedText(item.ayah)"
                                     @click="onAyahWordClick(item, $event)"
-                                    @touchstart.passive.stop="onAyahCardTouchStart(item.index, $event)"
-                                    @touchmove.stop="onAyahCardTouchMove($event)"
-                                    @touchend.stop="onAyahCardTouchEnd($event)"
-                                    @touchcancel.stop="resetAyahCardSwipeGesture()"
                                     :style="`font-size: ${effectiveArabicFontSize}px !important;`"
                                 ></p>
                                 <div v-if="isTranslationVisibleFor(item)" class="translation-header pt-2 ltr-text hide-on-mobile-tablet ml-2">
@@ -2691,10 +2687,6 @@
                                     ]"
                                     v-html="highlightedText(item.ayah)"
                                     @click="onAyahWordClick(item, $event)"
-                                    @touchstart.passive.stop="onAyahCardTouchStart(item.index, $event)"
-                                    @touchmove.stop="onAyahCardTouchMove($event)"
-                                    @touchend.stop="onAyahCardTouchEnd($event)"
-                                    @touchcancel.stop="resetAyahCardSwipeGesture()"
                                     :style="`font-size: ${effectiveArabicFontSize}px !important;`"
                                 ></p>
                                 <div v-if="isTranslationVisibleFor(item)" class="d-flex align-items-center fw-bold pt-2 ltr-text ml-2">
