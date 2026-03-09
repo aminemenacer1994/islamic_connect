@@ -522,10 +522,12 @@ export default {
             showRealtimeHighlighting: false,
             showWordTranslation: false,
             showWordTranslationTooltip: false,
+            gestureNavigationEnabled: true,
             realtimeHighlightPreferenceKey: "surat_realtime_highlighting",
             wordTranslationPreferenceKey: "surat_show_word_translation",
             wordTranslationTooltipPreferenceKey:
                 "surat_show_word_translation_tooltip",
+            gestureNavigationPreferenceKey: "suratGestureNavigationEnabled",
             progress: [],
             audioElements: [],
             playbackSpeed: 1.0,
@@ -802,6 +804,7 @@ export default {
                 showRealtimeHighlighting: false,
                 showWordTranslation: false,
                 showWordTranslationTooltip: false,
+                gestureNavigationEnabled: true,
                 playbackMode: "continuous",
             },
             tajweedRuleMap: {
@@ -2875,6 +2878,15 @@ export default {
                 });
             }
         },
+        gestureNavigationEnabled(next) {
+            this.persistLocalSetting(
+                this.gestureNavigationPreferenceKey,
+                next ? "1" : "0"
+            );
+            if (next) return;
+            this.resetAyahCardSwipeGesture();
+            this.resetAyahCardPointerGesture();
+        },
         isMemorisationToolbarVisible(newVal) {
             this.persistLocalSetting("suratIsMemorisationToolbarVisible", newVal ? "1" : "0");
             // Mutual exclusion: Hide main toolbar when memorisation is active
@@ -3109,6 +3121,14 @@ export default {
             if (storedRealtimeHighlighting !== null)
                 this.showRealtimeHighlighting = storedRealtimeHighlighting === "1";
         } catch (_) { }
+        try {
+            const storedGestureNavigation = localStorage.getItem(
+                this.gestureNavigationPreferenceKey
+            );
+            if (storedGestureNavigation !== null) {
+                this.gestureNavigationEnabled = storedGestureNavigation === "1";
+            }
+        } catch (_) {}
         try {
             const storedMemToolbarVisible = localStorage.getItem("suratIsMemorisationToolbarVisible");
             if (storedMemToolbarVisible !== null) {
@@ -5035,6 +5055,8 @@ export default {
             this.settingsDraft.showWordTranslation = !!this.showWordTranslation;
             this.settingsDraft.showWordTranslationTooltip =
                 !!this.showWordTranslationTooltip;
+            this.settingsDraft.gestureNavigationEnabled =
+                !!this.gestureNavigationEnabled;
             this.settingsDraft.playbackMode = this.playbackMode;
         },
         applyMemorisationRange() {
@@ -5821,6 +5843,8 @@ export default {
             this.showWordTranslation = !!this.settingsDraft.showWordTranslation;
             this.showWordTranslationTooltip =
                 !!this.settingsDraft.showWordTranslationTooltip;
+            this.gestureNavigationEnabled =
+                !!this.settingsDraft.gestureNavigationEnabled;
             if (this.settingsDraft.playbackMode) {
                 this.setPlaybackMode(this.settingsDraft.playbackMode);
             }
@@ -9685,6 +9709,7 @@ export default {
             }
 
             if (
+                this.gestureNavigationEnabled &&
                 Math.abs(deltaX) >= 8 &&
                 Math.abs(deltaX) > Math.abs(deltaY) * 1.05
             ) {
@@ -9727,6 +9752,7 @@ export default {
             const absX = Math.abs(deltaX);
             const absY = Math.abs(deltaY);
             const isHorizontalSwipe =
+                this.gestureNavigationEnabled &&
                 absX >= this.ayahCardSwipeMinDistance &&
                 absY <= this.ayahCardSwipeMaxVerticalOffset &&
                 absX > absY * 1.2 &&
@@ -9765,6 +9791,7 @@ export default {
             }
 
             if (
+                this.gestureNavigationEnabled &&
                 Math.abs(deltaX) >= 12 &&
                 Math.abs(deltaX) > Math.abs(deltaY) * 1.1
             ) {
@@ -9815,6 +9842,7 @@ export default {
             const absX = Math.abs(deltaX);
             const absY = Math.abs(deltaY);
             const isHorizontalSwipe =
+                this.gestureNavigationEnabled &&
                 absX >= this.ayahCardSwipeMinDistance &&
                 absY <= this.ayahCardSwipeMaxVerticalOffset &&
                 absX > absY * 1.2 &&

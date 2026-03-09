@@ -373,6 +373,53 @@
 
 }
 
+.gesture-nav-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    border: 1px solid rgba(11, 128, 111, 0.2);
+    background: rgba(244, 251, 249, 0.9);
+    border-radius: 12px;
+    padding: 0.7rem 0.9rem;
+}
+
+.gesture-nav-toggle__copy {
+    min-width: 0;
+}
+
+.gesture-nav-toggle__title {
+    color: #0f172a;
+    font-size: 0.93rem;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.gesture-nav-toggle__hint {
+    color: #3f4d5f;
+    font-size: 0.82rem;
+    line-height: 1.25;
+}
+
+.gesture-nav-toggle__input {
+    cursor: pointer;
+}
+
+.gesture-nav-toggle__label {
+    min-width: 2rem;
+    text-align: right;
+    font-size: 0.86rem;
+    font-weight: 600;
+    color: #0f172a;
+}
+
+@media (max-width: 576px) {
+    .gesture-nav-toggle {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
 .swipe-tip {
     background-color: #e7f1ff;
     /* light blue */

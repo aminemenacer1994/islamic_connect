@@ -3458,6 +3458,21 @@
                                         </small>
                                     </div>
                                 </div>
+                                <div class="col-12 col-md-6">
+                                    <div class="surah-settings-group h-100">
+                                        <label class="form-label">Gesture navigation</label>
+                                        <select
+                                            class="form-select"
+                                            v-model="settingsDraft.gestureNavigationEnabled"
+                                            aria-label="Gesture navigation">
+                                            <option :value="true">Enabled</option>
+                                            <option :value="false">Disabled</option>
+                                        </select>
+                                        <small class="text-muted d-block mt-1">
+                                            Swipe left or right on ayah cards to move between verses.
+                                        </small>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="modal-footer border-0">

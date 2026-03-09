@@ -188,6 +188,25 @@
 
                     </div>
 
+                    <div class="gesture-nav-toggle mb-3">
+                        <div class="gesture-nav-toggle__copy text-start">
+                            <p class="gesture-nav-toggle__title mb-1">Gesture Navigation</p>
+                            <p id="gesture-navigation-hint" class="gesture-nav-toggle__hint mb-0">
+                                Swipe left or right to move between verses.
+                            </p>
+                        </div>
+                        <div class="form-check form-switch mb-0">
+                            <input id="gesture-navigation-toggle" class="form-check-input gesture-nav-toggle__input"
+                                type="checkbox" :checked="gestureNavigationEnabled"
+                                aria-describedby="gesture-navigation-hint"
+                                @change="handleGestureNavigationToggle" />
+                            <label class="form-check-label gesture-nav-toggle__label ms-2"
+                                for="gesture-navigation-toggle">
+                                {{ gestureNavigationEnabled ? 'On' : 'Off' }}
+                            </label>
+                        </div>
+                    </div>
+
                     <div class="card card-teal"
                         style="background-color:#ffffff; border-radius:18px; border:1px solid rgba(2,6,23,0.06); box-shadow: 0 14px 36px rgba(15, 23, 42, 0.08); overflow:hidden; transition: box-shadow .2s ease;">
                         <div v-if="information != null">

@@ -21,6 +21,7 @@ import HelpGuideModal from "../vue/translation/HelpGuideModal.vue";
 const STORAGE_KEYS = {
     toggle: "toggleState",
     swipeTip: "quran.swipeTipDismissed",
+    gestureNavigation: "quran.gestureNavigationEnabled",
 };
 
 const PREFETCH_OFFSETS = [-2, -1, 1, 2];
@@ -110,6 +111,8 @@ export default {
             userId: null,
 
             // Gesture tracking
+            gestureNavigationEnabled: true,
+            deviceSupportsGestures: true,
             allowGestures: true,
             activeSwipeSource: null,
             gestureHandled: false,
@@ -175,7 +178,6 @@ export default {
     mounted() {
         this.updateIsMobile();
         this.updateInputModalityGestureGate();
-        this.setupSwipeTip();
 
         this._onResize = () => {
             this.updateIsMobile();
@@ -207,6 +209,7 @@ export default {
     methods: {
         async bootstrapComponent() {
             this.restoreToggleState();
+            this.restoreGestureNavigationState();
             this.userId = this.safeGetLocalStorage("userId");
             await this.fetchSurahList();
         },
@@ -227,9 +230,36 @@ export default {
                 }
             }
         },
+        restoreGestureNavigationState() {
+            const raw = this.safeGetLocalStorage(STORAGE_KEYS.gestureNavigation);
+            if (raw === null) return;
+            if (raw === "true" || raw === "1") {
+                this.gestureNavigationEnabled = true;
+                return;
+            }
+            if (raw === "false" || raw === "0") {
+                this.gestureNavigationEnabled = false;
+                return;
+            }
+            try {
+                this.gestureNavigationEnabled = !!JSON.parse(raw);
+            } catch (error) {
+                this.gestureNavigationEnabled = raw !== "false";
+            }
+        },
+        saveGestureNavigationState() {
+            try {
+                window.localStorage.setItem(
+                    STORAGE_KEYS.gestureNavigation,
+                    JSON.stringify(this.gestureNavigationEnabled)
+                );
+            } catch (error) {
+                // ignore storage issues gracefully
+            }
+        },
         setupSwipeTip() {
             const dismissed = this.safeGetLocalStorage(STORAGE_KEYS.swipeTip);
-            this.showSwipeTip = dismissed !== "1" && (this.isMobile || this.allowGestures);
+            this.showSwipeTip = dismissed !== "1" && this.allowGestures;
         },
         async fetchSurahList() {
             try {
@@ -253,13 +283,28 @@ export default {
         updateIsMobile() {
             this.isMobile = (window.innerWidth || 0) <= 767;
         },
+        handleGestureNavigationToggle(event) {
+            this.gestureNavigationEnabled = !!event?.target?.checked;
+            this.saveGestureNavigationState();
+            this.updateInputModalityGestureGate();
+        },
         updateInputModalityGestureGate() {
+            let hasTouch = false;
             try {
-                const hasTouch = "ontouchstart" in window || (navigator.maxTouchPoints || 0) > 0;
-                this.allowGestures = hasTouch || this.isMobile;
+                hasTouch = "ontouchstart" in window || (navigator.maxTouchPoints || 0) > 0;
             } catch (error) {
-                this.allowGestures = this.isMobile;
+                hasTouch = false;
             }
+            this.deviceSupportsGestures = hasTouch || this.isMobile;
+            this.allowGestures = this.gestureNavigationEnabled;
+            if (!this.allowGestures) {
+                this.activeSwipeSource = null;
+                this.pointerActive = false;
+                this.gestureHandled = false;
+                this.wheelAccumX = 0;
+                this.showSwipeNotice = false;
+            }
+            this.setupSwipeTip();
         },
         updateSelectedSurah(id) {
             const numeric = toNumber(id);
