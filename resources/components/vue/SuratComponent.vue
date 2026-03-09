@@ -349,6 +349,31 @@
                                         {{ isTransliterationAllEnabled ? "On" : "Off" }}
                                     </span>
                                 </button>
+                                <button
+                                    type="button"
+                                    class="btn advanced-quran-mobile-action-btn advanced-quran-mobile-action-btn-toggle"
+                                    :class="{ 'is-enabled': voiceCommandsEnabled }"
+                                    @click="toggleVoiceCommands"
+                                    :disabled="!speechRecognitionSupported"
+                                    :title="!speechRecognitionSupported
+                                        ? 'Voice commands are not supported in this browser.'
+                                        : voiceCommandsEnabled
+                                            ? 'Voice commands are on. Try saying: play verse 5.'
+                                            : 'Turn on voice commands. Example: play verse 5.'"
+                                    :aria-label="voiceCommandsEnabled
+                                        ? 'Turn voice commands off'
+                                        : 'Turn voice commands on'">
+                                    <i
+                                        class="bi"
+                                        :class="voiceCommandsEnabled
+                                            ? (voiceCommandListening ? 'bi-mic-fill' : 'bi-mic')
+                                            : 'bi-mic-mute-fill'"
+                                        aria-hidden="true"></i>
+                                    <span class="advanced-quran-mobile-action-label">Voice commands</span>
+                                    <span class="advanced-quran-mobile-action-btn-state">
+                                        {{ voiceCommandsEnabled ? "On" : "Off" }}
+                                    </span>
+                                </button>
                             </div>
 
                             <div class="advanced-quran-mobile-action-grid">
@@ -670,6 +695,29 @@
                     <i class="bi bi-input-cursor-text" aria-hidden="true"></i>
                     <span class="quran-toolbar-btn-text">Transliteration</span>
                     <span class="quran-toolbar-btn-state">{{ isTransliterationAllEnabled ? "On" : "Off" }}</span>
+                </button>
+                <button
+                    type="button"
+                    class="quran-toolbar-btn quran-toolbar-btn-toggle"
+                    :class="{ 'is-enabled': voiceCommandsEnabled }"
+                    @click="toggleVoiceCommands"
+                    :disabled="!speechRecognitionSupported"
+                    :title="!speechRecognitionSupported
+                        ? 'Voice commands are not supported in this browser.'
+                        : voiceCommandsEnabled
+                            ? 'Voice commands are on. Try saying: play verse 5.'
+                            : 'Turn on voice commands. Example: play verse 5.'"
+                    :aria-label="voiceCommandsEnabled
+                        ? 'Turn voice commands off'
+                        : 'Turn voice commands on'">
+                    <i
+                        class="bi"
+                        :class="voiceCommandsEnabled
+                            ? (voiceCommandListening ? 'bi-mic-fill' : 'bi-mic')
+                            : 'bi-mic-mute-fill'"
+                        aria-hidden="true"></i>
+                    <span class="quran-toolbar-btn-text">Voice commands</span>
+                    <span class="quran-toolbar-btn-state">{{ voiceCommandsEnabled ? "On" : "Off" }}</span>
                 </button>
                 <button
                     type="button"

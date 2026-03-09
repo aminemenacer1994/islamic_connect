@@ -3,6 +3,7 @@ import { JUZ_START_MAPPING, PAGE_START_MAPPING, getJuzStart, getPageStart } from
 import { Modal, Tooltip } from "bootstrap";
 import BookmarkModal from "../vue/bookmarks/BookmarkModal.vue";
 import { fetchUserIdFromApi } from "../utils/bookmarkAuth";
+import { VOICE_COMMAND_DATA, voiceCommandMethods } from "./surat.voice-commands";
 export default {
     name: "SuratComponent",
     components: {
@@ -151,6 +152,7 @@ export default {
             speechRecognitionError: "",
             speechRecognitionInstance: null,
             speechRecognitionLocale: "en-US",
+            ...VOICE_COMMAND_DATA,
             suratOnboardingModalId: "suratOnboardingModal",
             suratOnboardingModalInstance: null,
             suratOnboardingSearchQuery: "",
@@ -2998,6 +3000,7 @@ export default {
         await this.initializeFontSizePreferences();
         await this.initializeDeepFocusModePreference();
         await this.initializeReadingFullscreenPreference();
+        await this.initializeVoiceCommandPreference();
         this.fetchUserId(); // Initialize user ID for reading progress
         this.bookmarkEventHandler = (event) =>
             this.handleBookmarksUpdated(event);
@@ -3266,6 +3269,7 @@ export default {
             this.stopTajweedRuleAudio();
             this.tajweedRuleExampleAudio = null;
             this.teardownSpeechRecognition();
+            this.teardownVoiceCommandRecognition();
             clearTimeout(this.advancedSearchDebounceTimer);
             clearTimeout(this.sidebarSearchDebounceTimer);
             this.abortAdvancedSearchRequest();
@@ -3281,6 +3285,8 @@ export default {
         this.autoNextAnimationTimer = null;
         clearTimeout(this.swipeTransitionTimer);
         this.swipeTransitionTimer = null;
+        clearTimeout(this.voiceCommandRestartTimer);
+        this.voiceCommandRestartTimer = null;
         this.resetAyahCardPointerGesture();
         clearTimeout(this._scrollCorrectionTimer);
         this._scrollCorrectionTimer = null;
@@ -3406,6 +3412,7 @@ export default {
         clearTimeout(this.autoNextAnimationTimer);
         this.autoNextAnimationTimer = null;
         this.teardownSpeechRecognition();
+        this.teardownVoiceCommandRecognition();
         clearTimeout(this.advancedSearchDebounceTimer);
         clearTimeout(this.sidebarSearchDebounceTimer);
         this.abortAdvancedSearchRequest();
@@ -3417,6 +3424,8 @@ export default {
             clearTimeout(this.fontPickerAlertTimer);
             this.fontPickerAlertTimer = null;
             clearTimeout(this.authAlertTimer);
+            clearTimeout(this.voiceCommandRestartTimer);
+            this.voiceCommandRestartTimer = null;
             clearTimeout(this._scrollCorrectionTimer);
             this._scrollCorrectionTimer = null;
             clearTimeout(this._navigationSettleTimer);
@@ -3508,6 +3517,7 @@ export default {
             this.clearHifdhConfettiLayers();
         },
     methods: {
+        ...voiceCommandMethods,
         async fetchUserId() {
              try {
                 if (window.Laravel && window.Laravel.userId) {
@@ -4296,9 +4306,9 @@ export default {
         getSpeechRecognitionErrorMessage(code = "") {
             const normalized = String(code || "").toLowerCase();
             if (normalized === "not-supported")
-                return "Voice search is not supported in this browser.";
+                return "Speech recognition is not supported in this browser.";
             if (normalized === "insecure-context")
-                return "Voice search requires HTTPS (or localhost).";
+                return "Speech recognition requires HTTPS (or localhost).";
             if (normalized === "no-speech")
                 return "No speech detected. Try speaking again.";
             if (normalized === "audio-capture")
@@ -4392,6 +4402,9 @@ export default {
 
             recognition.onend = () => {
                 this.speechRecognitionListening = false;
+                if (this.voiceCommandsEnabled && !this.voiceCommandListening) {
+                    this.startVoiceCommandListening({ silentError: true });
+                }
             };
 
             this.speechRecognitionInstance = recognition;
@@ -4419,6 +4432,9 @@ export default {
                 this.speechRecognitionError =
                     this.getSpeechRecognitionErrorMessage("not-supported");
                 return;
+            }
+            if (this.voiceCommandsEnabled) {
+                this.stopVoiceCommandListening({ keepEnabled: true });
             }
             this.speechRecognitionError = "";
             try {
@@ -7853,6 +7869,13 @@ export default {
         handleVisibilityChange() {
             if (document.visibilityState === "visible") {
                 this.syncSavedAyahsFromApi();
+                if (this.voiceCommandsEnabled && !this.voiceCommandListening) {
+                    this.startVoiceCommandListening({ silentError: true });
+                }
+                return;
+            }
+            if (this.voiceCommandsEnabled) {
+                this.stopVoiceCommandListening({ keepEnabled: true });
             }
         },
         async initializeBookmarkAuth() {
