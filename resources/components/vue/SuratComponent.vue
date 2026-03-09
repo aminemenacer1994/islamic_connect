@@ -374,6 +374,16 @@
                                         {{ voiceCommandsEnabled ? "On" : "Off" }}
                                     </span>
                                 </button>
+                                <button
+                                    type="button"
+                                    class="btn advanced-quran-mobile-action-btn voice-command-guide-control-btn"
+                                    data-bs-toggle="modal"
+                                    :data-bs-target="`#${voiceCommandGuideModalId}`"
+                                    aria-label="Open voice command guide"
+                                    title="Open voice command guide">
+                                    <i class="bi bi-question-circle" aria-hidden="true"></i>
+                                    <span class="advanced-quran-mobile-action-label">Voice guide</span>
+                                </button>
                             </div>
 
                             <div class="advanced-quran-mobile-action-grid">
@@ -718,6 +728,16 @@
                         aria-hidden="true"></i>
                     <span class="quran-toolbar-btn-text">Voice commands</span>
                     <span class="quran-toolbar-btn-state">{{ voiceCommandsEnabled ? "On" : "Off" }}</span>
+                </button>
+                <button
+                    type="button"
+                    class="quran-toolbar-btn voice-command-guide-control-btn"
+                    data-bs-toggle="modal"
+                    :data-bs-target="`#${voiceCommandGuideModalId}`"
+                    aria-label="Open voice command guide"
+                    title="Open voice command guide with all supported phrases.">
+                    <i class="bi bi-question-circle" aria-hidden="true"></i>
+                    <span class="quran-toolbar-btn-text">Voice guide</span>
                 </button>
                 <button
                     type="button"
@@ -3985,6 +4005,127 @@
                                     </button>
                                 </div>
                             </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </teleport>
+
+        <teleport to="body">
+            <div
+                class="modal fade voice-command-guide-shell"
+                :id="voiceCommandGuideModalId"
+                tabindex="-1"
+                :aria-labelledby="`${voiceCommandGuideModalId}Label`"
+                aria-hidden="true">
+                <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable voice-command-guide-dialog">
+                    <div class="modal-content voice-command-guide-modal">
+                        <div class="modal-header">
+                            <div>
+                                <h4 class="modal-title mb-1" :id="`${voiceCommandGuideModalId}Label`">
+                                    <i class="bi bi-mic me-2" aria-hidden="true"></i>
+                                    Voice Command Guide
+                                </h4>
+                                <p class="voice-command-guide-intro mb-0">
+                                    {{ voiceCommandGuide.intro }}
+                                </p>
+                            </div>
+                            <button
+                                type="button"
+                                class="btn-close"
+                                data-bs-dismiss="modal"
+                                aria-label="Close voice command guide"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="voice-command-availability-grid">
+                                <article
+                                    class="voice-command-availability-card"
+                                    :class="speechRecognitionSupported ? 'is-ready' : 'is-missing'">
+                                    <h6>Browser support</h6>
+                                    <p>{{ speechRecognitionSupported ? "Available" : "Unavailable" }}</p>
+                                    <small>
+                                        {{
+                                            speechRecognitionSupported
+                                                ? "Speech recognition API is detected."
+                                                : "Speech recognition API is not available in this browser."
+                                        }}
+                                    </small>
+                                </article>
+                                <article
+                                    class="voice-command-availability-card"
+                                    :class="isSpeechRecognitionSecureContext() ? 'is-ready' : 'is-missing'">
+                                    <h6>Secure context</h6>
+                                    <p>{{ isSpeechRecognitionSecureContext() ? "Ready" : "Needs HTTPS" }}</p>
+                                    <small>
+                                        {{
+                                            isSpeechRecognitionSecureContext()
+                                                ? "HTTPS or localhost is active."
+                                                : "Voice recognition needs HTTPS or localhost."
+                                        }}
+                                    </small>
+                                </article>
+                                <article
+                                    class="voice-command-availability-card"
+                                    :class="voiceCommandsEnabled ? 'is-ready' : 'is-neutral'">
+                                    <h6>Current status</h6>
+                                    <p>
+                                        {{
+                                            voiceCommandsEnabled
+                                                ? (voiceCommandListening ? "Listening" : "Enabled")
+                                                : "Off"
+                                        }}
+                                    </p>
+                                    <small>
+                                        Processing delay: {{ voiceCommandCommitDelayMs }}ms after speech pause.
+                                    </small>
+                                </article>
+                            </div>
+
+                            <section class="voice-command-guide-tips-section">
+                                <h5>Guidance</h5>
+                                <ul class="voice-command-guide-tip-list">
+                                    <li v-for="tip in voiceCommandGuide.tips" :key="tip">
+                                        {{ tip }}
+                                    </li>
+                                </ul>
+                            </section>
+
+                            <section
+                                v-for="group in voiceCommandGuide.groups"
+                                :key="group.id"
+                                class="voice-command-guide-group">
+                                <header class="voice-command-guide-group-header">
+                                    <h5>
+                                        <i class="bi me-2" :class="group.iconClass" aria-hidden="true"></i>
+                                        {{ group.title }}
+                                    </h5>
+                                    <p>{{ group.summary }}</p>
+                                </header>
+                                <div class="voice-command-guide-command-grid">
+                                    <article
+                                        v-for="command in group.commands"
+                                        :key="command.id"
+                                        class="voice-command-guide-command-card">
+                                        <h6>{{ command.label }}</h6>
+                                        <div class="voice-command-guide-chip-row">
+                                            <span
+                                                v-for="keyword in command.keywords"
+                                                :key="`${command.id}-${keyword}`"
+                                                class="voice-command-guide-chip">
+                                                {{ keyword }}
+                                            </span>
+                                        </div>
+                                        <p class="voice-command-guide-example mb-0">
+                                            Example: "{{ command.example }}"
+                                        </p>
+                                    </article>
+                                </div>
+                            </section>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                                Close
+                            </button>
                         </div>
                     </div>
                 </div>

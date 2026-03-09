@@ -3,7 +3,11 @@ import { JUZ_START_MAPPING, PAGE_START_MAPPING, getJuzStart, getPageStart } from
 import { Modal, Tooltip } from "bootstrap";
 import BookmarkModal from "../vue/bookmarks/BookmarkModal.vue";
 import { fetchUserIdFromApi } from "../utils/bookmarkAuth";
-import { VOICE_COMMAND_DATA, voiceCommandMethods } from "./surat.voice-commands";
+import {
+    VOICE_COMMAND_DATA,
+    VOICE_COMMAND_GUIDE,
+    voiceCommandMethods,
+} from "./surat.voice-commands";
 export default {
     name: "SuratComponent",
     components: {
@@ -153,6 +157,8 @@ export default {
             speechRecognitionInstance: null,
             speechRecognitionLocale: "en-US",
             ...VOICE_COMMAND_DATA,
+            voiceCommandGuideModalId: "voiceCommandGuideModal",
+            voiceCommandGuide: VOICE_COMMAND_GUIDE,
             suratOnboardingModalId: "suratOnboardingModal",
             suratOnboardingModalInstance: null,
             suratOnboardingSearchQuery: "",

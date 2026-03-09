@@ -4,9 +4,120 @@ export const VOICE_COMMAND_DATA = {
     voiceCommandListening: false,
     voiceCommandError: "",
     voiceCommandLastTranscript: "",
+    voiceCommandPendingTranscript: "",
+    voiceCommandProcessTimer: null,
+    voiceCommandCommitDelayMs: 1400,
     voiceCommandRecognitionInstance: null,
     voiceCommandRestartTimer: null,
     voiceCommandLocale: "en-US",
+};
+
+export const VOICE_COMMAND_GUIDE = {
+    intro:
+        "Speak naturally. The parser listens for keywords, so extra words before or after still work.",
+    tips: [
+        "Turn voice commands on from the microphone button, then wait for the mic indicator.",
+        "Say the full command, then pause briefly. Commands are processed after a short silence.",
+        "Use clear number phrases like 2, 21, twenty one, or 21st.",
+    ],
+    groups: [
+        {
+            id: "playback",
+            title: "Playback controls",
+            iconClass: "bi-play-circle",
+            summary: "Control the current ayah audio without touching playback buttons.",
+            commands: [
+                {
+                    id: "play",
+                    label: "Play or resume",
+                    keywords: ["play", "resume", "start", "continue"],
+                    example: "please continue the recitation",
+                },
+                {
+                    id: "pause",
+                    label: "Pause playback",
+                    keywords: ["pause", "hold"],
+                    example: "pause for a moment",
+                },
+                {
+                    id: "stop",
+                    label: "Stop playback",
+                    keywords: ["stop", "halt"],
+                    example: "stop now",
+                },
+            ],
+        },
+        {
+            id: "ayah-navigation",
+            title: "Ayah navigation",
+            iconClass: "bi-signpost-2",
+            summary:
+                "Move around ayahs inside the current surah or jump directly to an ayah number.",
+            commands: [
+                {
+                    id: "next-ayah",
+                    label: "Next ayah",
+                    keywords: ["next", "forward", "skip", "next ayah", "next verse"],
+                    example: "go to the next ayah",
+                },
+                {
+                    id: "previous-ayah",
+                    label: "Previous ayah",
+                    keywords: [
+                        "previous",
+                        "prev",
+                        "back",
+                        "previous ayah",
+                        "previous verse",
+                    ],
+                    example: "move me to the previous verse",
+                },
+                {
+                    id: "ayah-number",
+                    label: "Open ayah by number",
+                    keywords: ["ayah X", "verse X", "ayah number X"],
+                    example: "play verse twenty one",
+                },
+            ],
+        },
+        {
+            id: "surah-navigation",
+            title: "Surah navigation",
+            iconClass: "bi-compass",
+            summary:
+                "Switch surahs relatively or jump directly to an exact surah and ayah.",
+            commands: [
+                {
+                    id: "next-surah",
+                    label: "Next surah",
+                    keywords: ["next surah", "next chapter", "surah next"],
+                    example: "take me to the next surah",
+                },
+                {
+                    id: "previous-surah",
+                    label: "Previous surah",
+                    keywords: [
+                        "previous surah",
+                        "previous chapter",
+                        "surah previous",
+                    ],
+                    example: "go to previous chapter",
+                },
+                {
+                    id: "surah-number",
+                    label: "Open surah by number",
+                    keywords: ["surah X", "chapter X", "surah number X"],
+                    example: "open surah thirty six",
+                },
+                {
+                    id: "surah-ayah",
+                    label: "Open exact location",
+                    keywords: ["surah X ayah Y", "chapter X verse Y"],
+                    example: "take me to surah 2 ayah 255",
+                },
+            ],
+        },
+    ],
 };
 
 export const voiceCommandMethods = {
@@ -20,7 +131,7 @@ export const voiceCommandMethods = {
     parseSpokenNumber(value = "") {
         const normalized = this.normalizeVoiceCommandTranscript(value);
         if (!normalized) return null;
-        const digitMatch = normalized.match(/\b(\d{1,3})\b/);
+        const digitMatch = normalized.match(/\b(\d{1,3})(?:st|nd|rd|th)?\b/);
         if (digitMatch?.[1]) {
             const parsedDigits = Number(digitMatch[1]);
             return Number.isFinite(parsedDigits) ? parsedDigits : null;
@@ -29,34 +140,61 @@ export const voiceCommandMethods = {
         const ones = {
             zero: 0,
             one: 1,
+            first: 1,
             two: 2,
+            second: 2,
             three: 3,
+            third: 3,
             four: 4,
+            fourth: 4,
             five: 5,
+            fifth: 5,
             six: 6,
+            sixth: 6,
             seven: 7,
+            seventh: 7,
             eight: 8,
+            eighth: 8,
             nine: 9,
+            ninth: 9,
             ten: 10,
+            tenth: 10,
             eleven: 11,
+            eleventh: 11,
             twelve: 12,
+            twelfth: 12,
             thirteen: 13,
+            thirteenth: 13,
             fourteen: 14,
+            fourteenth: 14,
             fifteen: 15,
+            fifteenth: 15,
             sixteen: 16,
+            sixteenth: 16,
             seventeen: 17,
+            seventeenth: 17,
             eighteen: 18,
+            eighteenth: 18,
             nineteen: 19,
+            nineteenth: 19,
         };
         const tens = {
             twenty: 20,
+            twentieth: 20,
             thirty: 30,
+            thirtieth: 30,
             forty: 40,
+            fortieth: 40,
             fifty: 50,
+            fiftieth: 50,
             sixty: 60,
+            sixtieth: 60,
             seventy: 70,
+            seventieth: 70,
             eighty: 80,
+            eightieth: 80,
             ninety: 90,
+            ninetieth: 90,
         };
 
         const tokens = normalized
@@ -103,7 +241,7 @@ export const voiceCommandMethods = {
         if (!normalized) return null;
 
         const digitMatch = normalized.match(
-            /\b(?:verse|ayah|aya)\s*(?:number\s*)?(\d{1,3})\b/
+            /\b(?:verse|verses|ayah|ayahs|aya|ayas)\s*(?:number\s*)?(\d{1,3})(?:st|nd|rd|th)?\b/
         );
         if (digitMatch?.[1]) {
             const parsedDigits = Number(digitMatch[1]);
@@ -111,15 +249,44 @@ export const voiceCommandMethods = {
         }
 
         const phraseMatch = normalized.match(
-            /\b(?:verse|ayah|aya)\s*(?:number\s*)?([a-z0-9\s-]+)/i
+            /\b(?:verse|verses|ayah|ayahs|aya|ayas)\s*(?:number\s*)?([a-z0-9\s-]+)/i
         );
         if (!phraseMatch?.[1]) return null;
         const candidate = String(phraseMatch[1] || "")
             .split(
-                /\b(?:play|pause|stop|next|previous|prev|back|surah|chapter|resume|start|please|thanks)\b/i
+                /\b(?:play|pause|stop|next|forward|skip|previous|prev|back|surah|surahs|sura|suras|chapter|chapters|resume|start|continue|please|thanks|go|move|take|jump|open|navigate)\b/i
             )[0]
             .trim();
         return this.parseSpokenNumber(candidate);
+    },
+    extractVoiceCommandSurahNumber(transcript = "") {
+        const normalized = this.normalizeVoiceCommandTranscript(transcript);
+        if (!normalized) return null;
+
+        const digitMatch = normalized.match(
+            /\b(?:surah|surahs|sura|suras|chapter|chapters)\s*(?:number\s*)?(\d{1,3})(?:st|nd|rd|th)?\b/
+        );
+        if (digitMatch?.[1]) {
+            const parsedDigits = Number(digitMatch[1]);
+            return Number.isFinite(parsedDigits) ? parsedDigits : null;
+        }
+
+        const phraseMatch = normalized.match(
+            /\b(?:surah|surahs|sura|suras|chapter|chapters)\s*(?:number\s*)?([a-z0-9\s-]+)/i
+        );
+        if (!phraseMatch?.[1]) return null;
+        const candidate = String(phraseMatch[1] || "")
+            .split(
+                /\b(?:ayah|ayahs|aya|ayas|verse|verses|play|pause|stop|next|forward|skip|previous|prev|back|resume|start|continue|please|thanks|go|move|take|jump|open|navigate)\b/i
+            )[0]
+            .trim();
+        return this.parseSpokenNumber(candidate);
+    },
+    hasVoiceCommandPattern(transcript = "", patterns = []) {
+        if (!transcript || !Array.isArray(patterns) || !patterns.length) {
+            return false;
+        }
+        return patterns.some((pattern) => pattern.test(transcript));
     },
     getVoiceCommandCurrentIndex() {
         const total = Array.isArray(this.filteredAyahs)
@@ -256,6 +423,56 @@ export const voiceCommandMethods = {
         this.announce(`Opened Surah ${targetSurah}.`);
         return true;
     },
+    async goToVoiceCommandSurah(surahNumber, options = {}) {
+        const { ayahNumber = 1, autoplay = true } = options;
+        const targetSurah = Number(surahNumber);
+        const targetAyah = Number(ayahNumber || 1);
+        if (!targetSurah || targetSurah < 1 || targetSurah > 114) {
+            this.showToast(`Surah ${surahNumber} is invalid. Use 1 to 114.`, 2600);
+            return false;
+        }
+        if (!targetAyah || targetAyah < 1) {
+            this.showToast(`Ayah ${ayahNumber} is invalid.`, 2200);
+            return false;
+        }
+
+        await this.selectSurah(String(targetSurah), { skipScroll: true });
+
+        const totalAyahs = Number(
+            this.totalAyahs ||
+                (Array.isArray(this.filteredAyahs)
+                    ? this.filteredAyahs.length
+                    : 0)
+        );
+        if (!totalAyahs || targetAyah > totalAyahs) {
+            this.showToast(
+                `Surah ${targetSurah} does not have ayah ${targetAyah}.`,
+                2600
+            );
+            return false;
+        }
+
+        let targetIndex = this.resolveAyahIndexByNumber(targetAyah);
+        if (targetIndex < 0) {
+            targetIndex = Math.max(0, targetAyah - 1);
+        }
+
+        this.selectCard(targetIndex);
+        this.navigateToAyahNumber(targetAyah, {
+            clearMainFilter: true,
+            precise: true,
+        });
+
+        if (autoplay) {
+            this.playAudio(targetIndex);
+        }
+        this.showToast(
+            `Voice command: Surah ${targetSurah}, ayah ${targetAyah}.`,
+            2600
+        );
+        this.announce(`Opened Surah ${targetSurah}, ayah ${targetAyah}.`);
+        return true;
+    },
     handleVoiceCommandPlay() {
         const targetIndex = this.getVoiceCommandCurrentIndex();
         if (targetIndex < 0) return false;
@@ -287,24 +504,71 @@ export const voiceCommandMethods = {
         if (!normalized) return false;
         this.voiceCommandLastTranscript = normalized;
 
+        const hasStop = /\b(stop|halt)\b/.test(normalized);
+        const hasPause = /\b(pause|hold)\b/.test(normalized);
+        const hasPlay = /\b(play|resume|start|continue)\b/.test(normalized);
         const hasNext = /\b(next|forward|skip)\b/.test(normalized);
         const hasPrevious = /\b(previous|prev|back)\b/.test(normalized);
-        const hasSurahWord = /\b(surah|surahs|chapter)\b/.test(normalized);
-        const hasStop = /\bstop\b/.test(normalized);
-        const hasPause = /\bpause\b/.test(normalized);
-        const hasPlay = /\b(play|resume|start)\b/.test(normalized);
+        const hasNextSurahCommand = this.hasVoiceCommandPattern(normalized, [
+            /\b(?:next|forward|skip)\s+(?:surah|surahs|sura|suras|chapter|chapters)\b/,
+            /\b(?:surah|surahs|sura|suras|chapter|chapters)\s+(?:next|forward|skip)\b/,
+            /\b(?:go|move|jump|open|take|navigate)\s+(?:me\s+)?(?:to\s+)?(?:the\s+)?(?:next|forward|skip)\s+(?:surah|surahs|sura|suras|chapter|chapters)\b/,
+        ]);
+        const hasPreviousSurahCommand = this.hasVoiceCommandPattern(
+            normalized,
+            [
+                /\b(?:previous|prev|back)\s+(?:surah|surahs|sura|suras|chapter|chapters)\b/,
+                /\b(?:surah|surahs|sura|suras|chapter|chapters)\s+(?:previous|prev|back)\b/,
+                /\b(?:go|move|jump|open|take|navigate)\s+(?:me\s+)?(?:to\s+)?(?:the\s+)?(?:previous|prev|back)\s+(?:surah|surahs|sura|suras|chapter|chapters)\b/,
+            ]
+        );
+        const hasNextAyahCommand = this.hasVoiceCommandPattern(normalized, [
+            /\b(?:next|forward|skip)\s+(?:ayah|ayahs|aya|ayas|verse|verses)\b/,
+            /\b(?:ayah|ayahs|aya|ayas|verse|verses)\s+(?:next|forward|skip)\b/,
+            /\b(?:go|move|jump|open|take|navigate)\s+(?:me\s+)?(?:to\s+)?(?:the\s+)?(?:next|forward|skip)\s+(?:ayah|ayahs|aya|ayas|verse|verses)\b/,
+        ]);
+        const hasPreviousAyahCommand = this.hasVoiceCommandPattern(
+            normalized,
+            [
+                /\b(?:previous|prev|back)\s+(?:ayah|ayahs|aya|ayas|verse|verses)\b/,
+                /\b(?:ayah|ayahs|aya|ayas|verse|verses)\s+(?:previous|prev|back)\b/,
+                /\b(?:go|move|jump|open|take|navigate)\s+(?:me\s+)?(?:to\s+)?(?:the\s+)?(?:previous|prev|back)\s+(?:ayah|ayahs|aya|ayas|verse|verses)\b/,
+            ]
+        );
+        const surahNumber = this.extractVoiceCommandSurahNumber(normalized);
         const ayahNumber = this.extractVoiceCommandAyahNumber(normalized);
 
-        if (hasNext && hasSurahWord) {
+        if (hasStop) {
+            return this.handleVoiceCommandStop();
+        }
+        if (hasPause) {
+            return this.handleVoiceCommandPause();
+        }
+        if (hasNextSurahCommand) {
             return this.playVoiceCommandRelativeSurah(1);
         }
-        if (hasPrevious && hasSurahWord) {
+        if (hasPreviousSurahCommand) {
             return this.playVoiceCommandRelativeSurah(-1);
+        }
+        if (Number.isFinite(Number(surahNumber)) && Number(surahNumber) > 0) {
+            return this.goToVoiceCommandSurah(surahNumber, {
+                ayahNumber:
+                    Number.isFinite(Number(ayahNumber)) && Number(ayahNumber) > 0
+                        ? ayahNumber
+                        : 1,
+                autoplay: true,
+            });
         }
         if (Number.isFinite(Number(ayahNumber)) && Number(ayahNumber) > 0) {
             return this.playVoiceCommandAyahNumber(ayahNumber, {
                 autoplay: true,
             });
+        }
+        if (hasNextAyahCommand) {
+            return this.playVoiceCommandRelativeAyah(1);
+        }
+        if (hasPreviousAyahCommand) {
+            return this.playVoiceCommandRelativeAyah(-1);
         }
         if (hasNext) {
             return this.playVoiceCommandRelativeAyah(1);
@@ -312,20 +576,42 @@ export const voiceCommandMethods = {
         if (hasPrevious) {
             return this.playVoiceCommandRelativeAyah(-1);
         }
-        if (hasStop) {
-            return this.handleVoiceCommandStop();
-        }
-        if (hasPause) {
-            return this.handleVoiceCommandPause();
-        }
         if (hasPlay) {
             return this.handleVoiceCommandPlay();
         }
         this.showToast(
-            `Voice command not recognized: "${normalized}". Try "play verse 5".`,
+            `Voice command not recognized: "${normalized}". Try "next surah", "play verse 5", or "surah 2 ayah 255".`,
             2600
         );
         return false;
+    },
+    queueVoiceCommandTranscript(transcript = "") {
+        const text = String(transcript || "").trim();
+        if (!text) return;
+        this.voiceCommandPendingTranscript = String(
+            `${this.voiceCommandPendingTranscript || ""} ${text}`
+        )
+            .trim()
+            .slice(0, 520);
+        clearTimeout(this.voiceCommandProcessTimer);
+        this.voiceCommandProcessTimer = setTimeout(() => {
+            void this.flushVoiceCommandTranscriptQueue();
+        }, Number(this.voiceCommandCommitDelayMs) || 1400);
+    },
+    async flushVoiceCommandTranscriptQueue(options = {}) {
+        const { force = false } = options;
+        if (!force && !this.voiceCommandsEnabled) return false;
+        const transcript = String(this.voiceCommandPendingTranscript || "").trim();
+        clearTimeout(this.voiceCommandProcessTimer);
+        this.voiceCommandProcessTimer = null;
+        this.voiceCommandPendingTranscript = "";
+        if (!transcript) return false;
+        return this.executeVoiceCommandTranscript(transcript);
+    },
+    clearVoiceCommandTranscriptQueue() {
+        clearTimeout(this.voiceCommandProcessTimer);
+        this.voiceCommandProcessTimer = null;
+        this.voiceCommandPendingTranscript = "";
     },
     initializeVoiceCommandRecognition() {
         if (typeof window === "undefined") return false;
@@ -373,7 +659,7 @@ export const voiceCommandMethods = {
             }
             const transcript = finalTranscript.trim();
             if (!transcript) return;
-            void this.executeVoiceCommandTranscript(transcript);
+            this.queueVoiceCommandTranscript(transcript);
         };
 
         recognition.onerror = (event) => {
@@ -395,6 +681,7 @@ export const voiceCommandMethods = {
 
         recognition.onend = () => {
             this.voiceCommandListening = false;
+            void this.flushVoiceCommandTranscriptQueue({ force: true });
             if (!this.voiceCommandsEnabled || !this.isComponentAlive) return;
             if (
                 typeof document !== "undefined" &&
@@ -446,6 +733,7 @@ export const voiceCommandMethods = {
             this.stopVoiceSearch();
         }
         if (this.voiceCommandListening) return true;
+        this.clearVoiceCommandTranscriptQueue();
         this.voiceCommandError = "";
         try {
             this.voiceCommandRecognitionInstance.lang =
@@ -480,6 +768,7 @@ export const voiceCommandMethods = {
         if (!keepEnabled) {
             this.voiceCommandsEnabled = false;
         }
+        this.clearVoiceCommandTranscriptQueue();
         clearTimeout(this.voiceCommandRestartTimer);
         this.voiceCommandRestartTimer = null;
         if (!this.voiceCommandRecognitionInstance) {
@@ -513,7 +802,7 @@ export const voiceCommandMethods = {
         );
         if (announce) {
             this.showToast(
-                "Voice commands: On. Try saying: play verse 5.",
+                "Voice commands: On. Try saying: play verse 5, next surah, or surah 2 ayah 255.",
                 3600
             );
             this.announce("Voice commands enabled.");
@@ -542,6 +831,7 @@ export const voiceCommandMethods = {
         this.enableVoiceCommands();
     },
     teardownVoiceCommandRecognition() {
+        this.clearVoiceCommandTranscriptQueue();
         clearTimeout(this.voiceCommandRestartTimer);
         this.voiceCommandRestartTimer = null;
         if (!this.voiceCommandRecognitionInstance) return;
