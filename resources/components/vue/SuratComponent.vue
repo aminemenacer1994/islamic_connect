@@ -4043,6 +4043,23 @@
                             }"></i>
                         </button>
                         <button
+                            @click="toggleVoiceCommands"
+                            class="control-btn"
+                            :disabled="!speechRecognitionSupported"
+                            :title="!speechRecognitionSupported
+                                ? 'Voice commands are not supported in this browser.'
+                                : voiceCommandsEnabled
+                                    ? 'Voice commands: on'
+                                    : 'Voice commands: off'"
+                            :aria-label="voiceCommandsEnabled
+                                ? 'Turn voice commands off'
+                                : 'Turn voice commands on'">
+                            <i
+                                class="bi"
+                                :class="voiceCommandsEnabled ? 'bi-mic-fill' : 'bi-mic-mute-fill'"
+                                :style="{ color: voiceCommandsEnabled ? '#00bfa6' : '#ccc' }"></i>
+                        </button>
+                        <button
                             @click="toggleAudioPlayerQueuePanel"
                             class="control-btn"
                             :title="showAudioPlayerQueuePanel ? 'Hide queue' : 'Show queue'"
