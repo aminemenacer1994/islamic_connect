@@ -1,3 +1,11 @@
+const VOICE_COMMAND_SURAH_TOKEN =
+    "(?:surah|surahs|sura|suras|surat|sorah|soorah|chapter|chapters)";
+const VOICE_COMMAND_AYAH_TOKEN =
+    "(?:ayah|ayahs|aya|ayas|ayat|verse|verses)";
+const VOICE_COMMAND_NEXT_TOKEN = "(?:next|forward|skip|ahead)";
+const VOICE_COMMAND_PREVIOUS_TOKEN = "(?:previous|prev|back|backward)";
+const VOICE_COMMAND_NAVIGATE_TOKEN = "(?:go|move|jump|open|take|navigate)";
+
 export const VOICE_COMMAND_DATA = {
     voiceCommandsPreferenceBaseKey: "surat_voice_commands_enabled",
     voiceCommandsEnabled: false,
@@ -6,7 +14,18 @@ export const VOICE_COMMAND_DATA = {
     voiceCommandLastTranscript: "",
     voiceCommandPendingTranscript: "",
     voiceCommandProcessTimer: null,
-    voiceCommandCommitDelayMs: 1400,
+    voiceCommandInterimTranscript: "",
+    voiceCommandInterimTimer: null,
+    voiceCommandCommitDelayMs: 350,
+    voiceCommandFastCommitDelayMs: 150,
+    voiceCommandImmediateCommitDelayMs: 90,
+    voiceCommandSurahFollowupDelayMs: 520,
+    voiceCommandInterimCommitDelayMs: 560,
+    voiceCommandMaxTranscriptLength: 320,
+    voiceCommandMinIntentScore: 2,
+    voiceCommandDuplicateWindowMs: 900,
+    voiceCommandLastExecutedTranscript: "",
+    voiceCommandLastExecutedAt: 0,
     voiceCommandRecognitionInstance: null,
     voiceCommandRestartTimer: null,
     voiceCommandLocale: "en-US",
@@ -128,6 +147,222 @@ export const voiceCommandMethods = {
             .replace(/\s+/g, " ")
             .trim();
     },
+    getVoiceCommandRecognitionLocale() {
+        const configured = String(this.voiceCommandLocale || "").trim();
+        if (configured) return configured;
+        if (typeof navigator !== "undefined" && navigator.language) {
+            const browserLocale = String(navigator.language).trim();
+            if (browserLocale) return browserLocale;
+        }
+        return "en-US";
+    },
+    getVoiceCommandIntentScore(transcript = "") {
+        const normalized = this.normalizeVoiceCommandTranscript(transcript);
+        if (!normalized) return 0;
+        let score = 0;
+        if (new RegExp(`\\b${VOICE_COMMAND_SURAH_TOKEN}\\b`).test(normalized)) {
+            score += 2;
+        }
+        if (new RegExp(`\\b${VOICE_COMMAND_AYAH_TOKEN}\\b`).test(normalized)) {
+            score += 2;
+        }
+        if (new RegExp(`\\b${VOICE_COMMAND_NEXT_TOKEN}\\b`).test(normalized)) {
+            score += 2;
+        }
+        if (new RegExp(`\\b${VOICE_COMMAND_PREVIOUS_TOKEN}\\b`).test(normalized)) {
+            score += 2;
+        }
+        if (/\b(play|resume|start|continue|pause|hold|stop|halt)\b/.test(normalized)) {
+            score += 2;
+        }
+        if (/\b\d{1,3}(?:st|nd|rd|th)?\b/.test(normalized)) {
+            score += 2;
+        }
+        if (
+            new RegExp(
+                `\\b${VOICE_COMMAND_SURAH_TOKEN}\\s*(?:number\\s*)?\\d{1,3}(?:st|nd|rd|th)?\\b`
+            ).test(normalized)
+        ) {
+            score += 5;
+        }
+        if (
+            new RegExp(
+                `\\b${VOICE_COMMAND_AYAH_TOKEN}\\s*(?:number\\s*)?\\d{1,3}(?:st|nd|rd|th)?\\b`
+            ).test(normalized)
+        ) {
+            score += 4;
+        }
+        if (
+            new RegExp(
+                `\\b${VOICE_COMMAND_SURAH_TOKEN}\\b[\\s\\w-]{0,36}\\b${VOICE_COMMAND_AYAH_TOKEN}\\b`
+            ).test(normalized)
+        ) {
+            score += 5;
+        }
+        return score;
+    },
+    pickBestVoiceCommandTranscriptFromResult(result) {
+        if (!result) return "";
+        const alternatives = [];
+        const count = Number(result.length || 0);
+        for (let i = 0; i < count; i += 1) {
+            const alternative = result[i];
+            const transcript = String(alternative?.transcript || "").trim();
+            if (!transcript) continue;
+            alternatives.push({
+                transcript,
+                confidence: Number(alternative?.confidence || 0),
+                score: this.getVoiceCommandIntentScore(transcript),
+            });
+        }
+        if (!alternatives.length) return "";
+        alternatives.sort((a, b) => {
+            if (b.score !== a.score) return b.score - a.score;
+            if (b.confidence !== a.confidence) return b.confidence - a.confidence;
+            return b.transcript.length - a.transcript.length;
+        });
+        return alternatives[0].transcript;
+    },
+    mergeVoiceCommandTranscript(currentValue = "", incomingValue = "") {
+        const current = this.normalizeVoiceCommandTranscript(currentValue);
+        const incoming = this.normalizeVoiceCommandTranscript(incomingValue);
+        if (!incoming) return current;
+        if (!current) return incoming;
+        if (current === incoming) return current;
+        if (incoming.includes(current)) return incoming;
+        if (current.includes(incoming)) return current;
+
+        const currentTokens = current.split(/\s+/).filter(Boolean);
+        const incomingTokens = incoming.split(/\s+/).filter(Boolean);
+        if (!currentTokens.length) return incoming;
+        if (!incomingTokens.length) return current;
+
+        let overlap = 0;
+        const maxOverlap = Math.min(currentTokens.length, incomingTokens.length);
+        for (let size = maxOverlap; size >= 1; size -= 1) {
+            const left = currentTokens.slice(currentTokens.length - size).join(" ");
+            const right = incomingTokens.slice(0, size).join(" ");
+            if (left === right) {
+                overlap = size;
+                break;
+            }
+        }
+
+        if (!overlap) {
+            return `${current} ${incoming}`.trim();
+        }
+        return currentTokens.concat(incomingTokens.slice(overlap)).join(" ").trim();
+    },
+    isVoiceCommandLikelyDuplicate(transcript = "") {
+        const normalized = this.normalizeVoiceCommandTranscript(transcript);
+        if (!normalized) return false;
+        const previous = this.normalizeVoiceCommandTranscript(
+            this.voiceCommandLastExecutedTranscript
+        );
+        if (!previous || previous !== normalized) return false;
+        const now = Date.now();
+        const lastAt = Number(this.voiceCommandLastExecutedAt || 0);
+        const windowMs = Number(this.voiceCommandDuplicateWindowMs) || 900;
+        return lastAt > 0 && now - lastAt <= windowMs;
+    },
+    markVoiceCommandExecuted(transcript = "") {
+        const normalized = this.normalizeVoiceCommandTranscript(transcript);
+        if (!normalized) return;
+        this.voiceCommandLastExecutedTranscript = normalized;
+        this.voiceCommandLastExecutedAt = Date.now();
+    },
+    hasVoiceCommandMinIntent(transcript = "") {
+        const normalized = this.normalizeVoiceCommandTranscript(transcript);
+        if (!normalized) return false;
+        const hasCommandToken =
+            /\b(play|resume|start|continue|pause|hold|stop|halt)\b/.test(
+                normalized
+            ) ||
+            new RegExp(`\\b${VOICE_COMMAND_NEXT_TOKEN}\\b`).test(normalized) ||
+            new RegExp(`\\b${VOICE_COMMAND_PREVIOUS_TOKEN}\\b`).test(
+                normalized
+            ) ||
+            new RegExp(`\\b${VOICE_COMMAND_SURAH_TOKEN}\\b`).test(normalized) ||
+            new RegExp(`\\b${VOICE_COMMAND_AYAH_TOKEN}\\b`).test(normalized);
+        if (!hasCommandToken) return false;
+        const minScore = Number(this.voiceCommandMinIntentScore) || 2;
+        return this.getVoiceCommandIntentScore(normalized) >= minScore;
+    },
+    shouldWaitForAyahFollowup(transcript = "") {
+        const normalized = this.normalizeVoiceCommandTranscript(transcript);
+        if (!normalized) return false;
+        const hasSurahWithNumber = new RegExp(
+            `\\b${VOICE_COMMAND_SURAH_TOKEN}\\s*(?:number\\s*)?\\d{1,3}(?:st|nd|rd|th)?\\b`
+        ).test(normalized);
+        const hasAyahWithNumber = new RegExp(
+            `\\b${VOICE_COMMAND_AYAH_TOKEN}\\s*(?:number\\s*)?\\d{1,3}(?:st|nd|rd|th)?\\b`
+        ).test(normalized);
+        if (!hasSurahWithNumber || hasAyahWithNumber) return false;
+        if (/\b(play|pause|stop|resume|start|continue)\b/.test(normalized)) {
+            return false;
+        }
+        return true;
+    },
+    shouldFastTrackVoiceCommandTranscript(transcript = "") {
+        const normalized = this.normalizeVoiceCommandTranscript(transcript);
+        if (!normalized) return false;
+        if (/^(play|pause|stop|next|previous|back|resume|start|continue|halt)\b/.test(normalized)) {
+            return true;
+        }
+        if (
+            new RegExp(
+                `\\b${VOICE_COMMAND_SURAH_TOKEN}\\s*(?:number\\s*)?\\d{1,3}(?:st|nd|rd|th)?\\b`
+            ).test(normalized)
+        ) {
+            return true;
+        }
+        if (
+            new RegExp(
+                `\\b${VOICE_COMMAND_AYAH_TOKEN}\\s*(?:number\\s*)?\\d{1,3}(?:st|nd|rd|th)?\\b`
+            ).test(normalized)
+        ) {
+            return true;
+        }
+        if (
+            new RegExp(
+                `\\b${VOICE_COMMAND_NEXT_TOKEN}\\s+${VOICE_COMMAND_SURAH_TOKEN}\\b`
+            ).test(normalized)
+        ) {
+            return true;
+        }
+        if (
+            new RegExp(
+                `\\b${VOICE_COMMAND_PREVIOUS_TOKEN}\\s+${VOICE_COMMAND_SURAH_TOKEN}\\b`
+            ).test(normalized)
+        ) {
+            return true;
+        }
+        return false;
+    },
+    getVoiceCommandCommitDelayMs(transcript = "") {
+        const normalized = this.normalizeVoiceCommandTranscript(transcript);
+        if (!normalized) {
+            return Number(this.voiceCommandCommitDelayMs) || 350;
+        }
+        if (this.shouldWaitForAyahFollowup(normalized)) {
+            return Number(this.voiceCommandSurahFollowupDelayMs) || 520;
+        }
+        if (
+            /^(play|pause|stop|next|previous|back|resume|start|continue|halt)\b/.test(
+                normalized
+            ) &&
+            !new RegExp(`\\b${VOICE_COMMAND_SURAH_TOKEN}\\b`).test(normalized) &&
+            !new RegExp(`\\b${VOICE_COMMAND_AYAH_TOKEN}\\b`).test(normalized) &&
+            !/\b\d{1,3}(?:st|nd|rd|th)?\b/.test(normalized)
+        ) {
+            return Number(this.voiceCommandImmediateCommitDelayMs) || 90;
+        }
+        const normalDelay = Number(this.voiceCommandCommitDelayMs) || 350;
+        const fastDelay = Number(this.voiceCommandFastCommitDelayMs) || 150;
+        return this.shouldFastTrackVoiceCommandTranscript(transcript)
+            ? fastDelay
+            : normalDelay;
+    },
     parseSpokenNumber(value = "") {
         const normalized = this.normalizeVoiceCommandTranscript(value);
         if (!normalized) return null;
@@ -241,7 +476,9 @@ export const voiceCommandMethods = {
         if (!normalized) return null;
 
         const digitMatch = normalized.match(
-            /\b(?:verse|verses|ayah|ayahs|aya|ayas)\s*(?:number\s*)?(\d{1,3})(?:st|nd|rd|th)?\b/
+            new RegExp(
+                `\\b${VOICE_COMMAND_AYAH_TOKEN}\\s*(?:number\\s*)?(\\d{1,3})(?:st|nd|rd|th)?\\b`
+            )
         );
         if (digitMatch?.[1]) {
             const parsedDigits = Number(digitMatch[1]);
@@ -249,12 +486,18 @@ export const voiceCommandMethods = {
         }
 
         const phraseMatch = normalized.match(
-            /\b(?:verse|verses|ayah|ayahs|aya|ayas)\s*(?:number\s*)?([a-z0-9\s-]+)/i
+            new RegExp(
+                `\\b${VOICE_COMMAND_AYAH_TOKEN}\\s*(?:number\\s*)?([a-z0-9\\s-]+)`,
+                "i"
+            )
         );
         if (!phraseMatch?.[1]) return null;
         const candidate = String(phraseMatch[1] || "")
             .split(
-                /\b(?:play|pause|stop|next|forward|skip|previous|prev|back|surah|surahs|sura|suras|chapter|chapters|resume|start|continue|please|thanks|go|move|take|jump|open|navigate)\b/i
+                new RegExp(
+                    `\\b(?:play|pause|stop|next|forward|skip|ahead|previous|prev|back|backward|${VOICE_COMMAND_SURAH_TOKEN}|resume|start|continue|please|thanks|${VOICE_COMMAND_NAVIGATE_TOKEN})\\b`,
+                    "i"
+                )
             )[0]
             .trim();
         return this.parseSpokenNumber(candidate);
@@ -264,7 +507,9 @@ export const voiceCommandMethods = {
         if (!normalized) return null;
 
         const digitMatch = normalized.match(
-            /\b(?:surah|surahs|sura|suras|chapter|chapters)\s*(?:number\s*)?(\d{1,3})(?:st|nd|rd|th)?\b/
+            new RegExp(
+                `\\b${VOICE_COMMAND_SURAH_TOKEN}\\s*(?:number\\s*)?(\\d{1,3})(?:st|nd|rd|th)?\\b`
+            )
         );
         if (digitMatch?.[1]) {
             const parsedDigits = Number(digitMatch[1]);
@@ -272,12 +517,18 @@ export const voiceCommandMethods = {
         }
 
         const phraseMatch = normalized.match(
-            /\b(?:surah|surahs|sura|suras|chapter|chapters)\s*(?:number\s*)?([a-z0-9\s-]+)/i
+            new RegExp(
+                `\\b${VOICE_COMMAND_SURAH_TOKEN}\\s*(?:number\\s*)?([a-z0-9\\s-]+)`,
+                "i"
+            )
         );
         if (!phraseMatch?.[1]) return null;
         const candidate = String(phraseMatch[1] || "")
             .split(
-                /\b(?:ayah|ayahs|aya|ayas|verse|verses|play|pause|stop|next|forward|skip|previous|prev|back|resume|start|continue|please|thanks|go|move|take|jump|open|navigate)\b/i
+                new RegExp(
+                    `\\b(?:${VOICE_COMMAND_AYAH_TOKEN}|play|pause|stop|next|forward|skip|ahead|previous|prev|back|backward|resume|start|continue|please|thanks|${VOICE_COMMAND_NAVIGATE_TOKEN})\\b`,
+                    "i"
+                )
             )[0]
             .trim();
         return this.parseSpokenNumber(candidate);
@@ -347,14 +598,14 @@ export const voiceCommandMethods = {
             force: true,
             behavior: "smooth",
         });
-        this.playAudio(targetIndex);
+        this.playAudio(targetIndex, { hideAudioPlayer: true });
         const ayahNumber = this.getAyahNumberByIndex(targetIndex);
         this.showToast(`Voice command: ayah ${ayahNumber}.`, 2200);
         this.announce(`Playing ayah ${ayahNumber}.`);
         return true;
     },
     async playVoiceCommandAyahNumber(ayahNumber, options = {}) {
-        const { autoplay = true } = options;
+        const { autoplay = true, hideAudioPlayer = true } = options;
         const targetAyah = Number(ayahNumber);
         const totalAyahs = Number(
             this.totalAyahs ||
@@ -389,7 +640,7 @@ export const voiceCommandMethods = {
             precise: true,
         });
         if (autoplay) {
-            this.playAudio(targetIndex);
+            this.playAudio(targetIndex, { hideAudioPlayer });
             this.showToast(`Voice command: play ayah ${targetAyah}.`, 2400);
             this.announce(`Playing ayah ${targetAyah}.`);
         } else {
@@ -418,13 +669,14 @@ export const voiceCommandMethods = {
         }
         await this.selectSurah(String(targetSurah), { skipScroll: true });
         this.selectCard(0);
-        this.playAudio(0);
+        this.playAudio(0, { hideAudioPlayer: true });
         this.showToast(`Voice command: Surah ${targetSurah}.`, 2400);
         this.announce(`Opened Surah ${targetSurah}.`);
         return true;
     },
     async goToVoiceCommandSurah(surahNumber, options = {}) {
-        const { ayahNumber = 1, autoplay = true } = options;
+        const { ayahNumber = 1, autoplay = true, hideAudioPlayer = true } =
+            options;
         const targetSurah = Number(surahNumber);
         const targetAyah = Number(ayahNumber || 1);
         if (!targetSurah || targetSurah < 1 || targetSurah > 114) {
@@ -464,7 +716,7 @@ export const voiceCommandMethods = {
         });
 
         if (autoplay) {
-            this.playAudio(targetIndex);
+            this.playAudio(targetIndex, { hideAudioPlayer });
         }
         this.showToast(
             `Voice command: Surah ${targetSurah}, ayah ${targetAyah}.`,
@@ -478,7 +730,7 @@ export const voiceCommandMethods = {
         if (targetIndex < 0) return false;
         const ayahNumber = this.getAyahNumberByIndex(targetIndex);
         this.selectCard(targetIndex);
-        this.playAudio(targetIndex);
+        this.playAudio(targetIndex, { hideAudioPlayer: true });
         this.showToast(`Voice command: play ayah ${ayahNumber}.`, 2200);
         this.announce(`Playing ayah ${ayahNumber}.`);
         return true;
@@ -499,7 +751,8 @@ export const voiceCommandMethods = {
         this.announce("Audio stopped.");
         return true;
     },
-    async executeVoiceCommandTranscript(transcript = "") {
+    async executeVoiceCommandTranscript(transcript = "", options = {}) {
+        const { silentUnknown = false } = options;
         const normalized = this.normalizeVoiceCommandTranscript(transcript);
         if (!normalized) return false;
         this.voiceCommandLastTranscript = normalized;
@@ -507,32 +760,60 @@ export const voiceCommandMethods = {
         const hasStop = /\b(stop|halt)\b/.test(normalized);
         const hasPause = /\b(pause|hold)\b/.test(normalized);
         const hasPlay = /\b(play|resume|start|continue)\b/.test(normalized);
-        const hasNext = /\b(next|forward|skip)\b/.test(normalized);
-        const hasPrevious = /\b(previous|prev|back)\b/.test(normalized);
+        const hasNext = new RegExp(`\\b${VOICE_COMMAND_NEXT_TOKEN}\\b`).test(
+            normalized
+        );
+        const hasPrevious = new RegExp(
+            `\\b${VOICE_COMMAND_PREVIOUS_TOKEN}\\b`
+        ).test(normalized);
         const hasNextSurahCommand = this.hasVoiceCommandPattern(normalized, [
-            /\b(?:next|forward|skip)\s+(?:surah|surahs|sura|suras|chapter|chapters)\b/,
-            /\b(?:surah|surahs|sura|suras|chapter|chapters)\s+(?:next|forward|skip)\b/,
-            /\b(?:go|move|jump|open|take|navigate)\s+(?:me\s+)?(?:to\s+)?(?:the\s+)?(?:next|forward|skip)\s+(?:surah|surahs|sura|suras|chapter|chapters)\b/,
+            new RegExp(
+                `\\b${VOICE_COMMAND_NEXT_TOKEN}\\s+${VOICE_COMMAND_SURAH_TOKEN}\\b`
+            ),
+            new RegExp(
+                `\\b${VOICE_COMMAND_SURAH_TOKEN}\\s+${VOICE_COMMAND_NEXT_TOKEN}\\b`
+            ),
+            new RegExp(
+                `\\b${VOICE_COMMAND_NAVIGATE_TOKEN}\\s+(?:me\\s+)?(?:to\\s+)?(?:the\\s+)?${VOICE_COMMAND_NEXT_TOKEN}\\s+${VOICE_COMMAND_SURAH_TOKEN}\\b`
+            ),
         ]);
         const hasPreviousSurahCommand = this.hasVoiceCommandPattern(
             normalized,
             [
-                /\b(?:previous|prev|back)\s+(?:surah|surahs|sura|suras|chapter|chapters)\b/,
-                /\b(?:surah|surahs|sura|suras|chapter|chapters)\s+(?:previous|prev|back)\b/,
-                /\b(?:go|move|jump|open|take|navigate)\s+(?:me\s+)?(?:to\s+)?(?:the\s+)?(?:previous|prev|back)\s+(?:surah|surahs|sura|suras|chapter|chapters)\b/,
+                new RegExp(
+                    `\\b${VOICE_COMMAND_PREVIOUS_TOKEN}\\s+${VOICE_COMMAND_SURAH_TOKEN}\\b`
+                ),
+                new RegExp(
+                    `\\b${VOICE_COMMAND_SURAH_TOKEN}\\s+${VOICE_COMMAND_PREVIOUS_TOKEN}\\b`
+                ),
+                new RegExp(
+                    `\\b${VOICE_COMMAND_NAVIGATE_TOKEN}\\s+(?:me\\s+)?(?:to\\s+)?(?:the\\s+)?${VOICE_COMMAND_PREVIOUS_TOKEN}\\s+${VOICE_COMMAND_SURAH_TOKEN}\\b`
+                ),
             ]
         );
         const hasNextAyahCommand = this.hasVoiceCommandPattern(normalized, [
-            /\b(?:next|forward|skip)\s+(?:ayah|ayahs|aya|ayas|verse|verses)\b/,
-            /\b(?:ayah|ayahs|aya|ayas|verse|verses)\s+(?:next|forward|skip)\b/,
-            /\b(?:go|move|jump|open|take|navigate)\s+(?:me\s+)?(?:to\s+)?(?:the\s+)?(?:next|forward|skip)\s+(?:ayah|ayahs|aya|ayas|verse|verses)\b/,
+            new RegExp(
+                `\\b${VOICE_COMMAND_NEXT_TOKEN}\\s+${VOICE_COMMAND_AYAH_TOKEN}\\b`
+            ),
+            new RegExp(
+                `\\b${VOICE_COMMAND_AYAH_TOKEN}\\s+${VOICE_COMMAND_NEXT_TOKEN}\\b`
+            ),
+            new RegExp(
+                `\\b${VOICE_COMMAND_NAVIGATE_TOKEN}\\s+(?:me\\s+)?(?:to\\s+)?(?:the\\s+)?${VOICE_COMMAND_NEXT_TOKEN}\\s+${VOICE_COMMAND_AYAH_TOKEN}\\b`
+            ),
         ]);
         const hasPreviousAyahCommand = this.hasVoiceCommandPattern(
             normalized,
             [
-                /\b(?:previous|prev|back)\s+(?:ayah|ayahs|aya|ayas|verse|verses)\b/,
-                /\b(?:ayah|ayahs|aya|ayas|verse|verses)\s+(?:previous|prev|back)\b/,
-                /\b(?:go|move|jump|open|take|navigate)\s+(?:me\s+)?(?:to\s+)?(?:the\s+)?(?:previous|prev|back)\s+(?:ayah|ayahs|aya|ayas|verse|verses)\b/,
+                new RegExp(
+                    `\\b${VOICE_COMMAND_PREVIOUS_TOKEN}\\s+${VOICE_COMMAND_AYAH_TOKEN}\\b`
+                ),
+                new RegExp(
+                    `\\b${VOICE_COMMAND_AYAH_TOKEN}\\s+${VOICE_COMMAND_PREVIOUS_TOKEN}\\b`
+                ),
+                new RegExp(
+                    `\\b${VOICE_COMMAND_NAVIGATE_TOKEN}\\s+(?:me\\s+)?(?:to\\s+)?(?:the\\s+)?${VOICE_COMMAND_PREVIOUS_TOKEN}\\s+${VOICE_COMMAND_AYAH_TOKEN}\\b`
+                ),
             ]
         );
         const surahNumber = this.extractVoiceCommandSurahNumber(normalized);
@@ -579,24 +860,84 @@ export const voiceCommandMethods = {
         if (hasPlay) {
             return this.handleVoiceCommandPlay();
         }
-        this.showToast(
-            `Voice command not recognized: "${normalized}". Try "next surah", "play verse 5", or "surah 2 ayah 255".`,
-            2600
-        );
+        if (!silentUnknown) {
+            this.showToast(
+                `Voice command not recognized: "${normalized}". Try "next surah", "play verse 5", or "surah 2 ayah 255".`,
+                2600
+            );
+        }
         return false;
     },
-    queueVoiceCommandTranscript(transcript = "") {
+    queueVoiceCommandTranscript(transcript = "", options = {}) {
+        const { immediate = false } = options;
         const text = String(transcript || "").trim();
         if (!text) return;
-        this.voiceCommandPendingTranscript = String(
-            `${this.voiceCommandPendingTranscript || ""} ${text}`
-        )
+        this.clearVoiceCommandInterimQueue();
+        const merged = this.mergeVoiceCommandTranscript(
+            this.voiceCommandPendingTranscript,
+            text
+        );
+        const maxLength = Number(this.voiceCommandMaxTranscriptLength) || 320;
+        this.voiceCommandPendingTranscript = String(merged || "")
             .trim()
-            .slice(0, 520);
+            .slice(0, maxLength);
         clearTimeout(this.voiceCommandProcessTimer);
+        if (
+            immediate &&
+            !this.shouldWaitForAyahFollowup(this.voiceCommandPendingTranscript)
+        ) {
+            void this.flushVoiceCommandTranscriptQueue({ force: true });
+            return;
+        }
+        const commitDelay = this.getVoiceCommandCommitDelayMs(
+            this.voiceCommandPendingTranscript
+        );
         this.voiceCommandProcessTimer = setTimeout(() => {
             void this.flushVoiceCommandTranscriptQueue();
-        }, Number(this.voiceCommandCommitDelayMs) || 1400);
+        }, commitDelay);
+    },
+    queueVoiceCommandInterimTranscript(transcript = "") {
+        const text = String(transcript || "").trim();
+        if (!text) return;
+        const merged = this.mergeVoiceCommandTranscript(
+            this.voiceCommandInterimTranscript,
+            text
+        );
+        const normalized = this.normalizeVoiceCommandTranscript(merged);
+        if (!normalized || !this.hasVoiceCommandMinIntent(normalized)) return;
+        const maxLength = Number(this.voiceCommandMaxTranscriptLength) || 320;
+        this.voiceCommandInterimTranscript = String(normalized || "")
+            .trim()
+            .slice(0, maxLength);
+        clearTimeout(this.voiceCommandInterimTimer);
+        const baseDelay = Number(this.voiceCommandInterimCommitDelayMs) || 560;
+        const transcriptDelay = this.getVoiceCommandCommitDelayMs(
+            this.voiceCommandInterimTranscript
+        );
+        const commitDelay = Math.max(baseDelay, transcriptDelay);
+        this.voiceCommandInterimTimer = setTimeout(() => {
+            void this.flushVoiceCommandInterimTranscriptQueue();
+        }, commitDelay);
+    },
+    async flushVoiceCommandInterimTranscriptQueue(options = {}) {
+        const { force = false } = options;
+        if (!force && !this.voiceCommandsEnabled) return false;
+        const transcript = String(this.voiceCommandInterimTranscript || "").trim();
+        clearTimeout(this.voiceCommandInterimTimer);
+        this.voiceCommandInterimTimer = null;
+        this.voiceCommandInterimTranscript = "";
+        if (!transcript) return false;
+        const normalized = this.normalizeVoiceCommandTranscript(transcript);
+        if (!normalized) return false;
+        if (!this.hasVoiceCommandMinIntent(normalized)) return false;
+        if (this.isVoiceCommandLikelyDuplicate(normalized)) return false;
+        const handled = await this.executeVoiceCommandTranscript(normalized, {
+            silentUnknown: true,
+        });
+        if (handled) {
+            this.markVoiceCommandExecuted(normalized);
+        }
+        return handled;
     },
     async flushVoiceCommandTranscriptQueue(options = {}) {
         const { force = false } = options;
@@ -606,12 +947,37 @@ export const voiceCommandMethods = {
         this.voiceCommandProcessTimer = null;
         this.voiceCommandPendingTranscript = "";
         if (!transcript) return false;
-        return this.executeVoiceCommandTranscript(transcript);
+        const normalized = this.normalizeVoiceCommandTranscript(transcript);
+        if (!normalized) return false;
+        if (!this.hasVoiceCommandMinIntent(normalized)) {
+            return false;
+        }
+        if (this.isVoiceCommandLikelyDuplicate(normalized)) {
+            return false;
+        }
+        const intentScore = this.getVoiceCommandIntentScore(normalized);
+        const handled = await this.executeVoiceCommandTranscript(normalized, {
+            silentUnknown: intentScore <= Number(this.voiceCommandMinIntentScore || 2),
+        });
+        if (handled) {
+            this.markVoiceCommandExecuted(normalized);
+        }
+        return handled;
+    },
+    clearVoiceCommandInterimQueue() {
+        clearTimeout(this.voiceCommandInterimTimer);
+        this.voiceCommandInterimTimer = null;
+        this.voiceCommandInterimTranscript = "";
     },
     clearVoiceCommandTranscriptQueue() {
+        this.clearVoiceCommandInterimQueue();
         clearTimeout(this.voiceCommandProcessTimer);
         this.voiceCommandProcessTimer = null;
         this.voiceCommandPendingTranscript = "";
+    },
+    resetVoiceCommandExecutionDeduper() {
+        this.voiceCommandLastExecutedTranscript = "";
+        this.voiceCommandLastExecutedAt = 0;
     },
     initializeVoiceCommandRecognition() {
         if (typeof window === "undefined") return false;
@@ -635,13 +1001,9 @@ export const voiceCommandMethods = {
         }
 
         recognition.interimResults = false;
-        recognition.maxAlternatives = 1;
+        recognition.maxAlternatives = 3;
         recognition.continuous = true;
-        recognition.lang =
-            (typeof navigator !== "undefined" &&
-                navigator.language) ||
-            this.voiceCommandLocale ||
-            "en-US";
+        recognition.lang = this.getVoiceCommandRecognitionLocale();
 
         recognition.onstart = () => {
             this.voiceCommandListening = true;
@@ -651,15 +1013,28 @@ export const voiceCommandMethods = {
         recognition.onresult = (event) => {
             if (!this.voiceCommandsEnabled || !event?.results) return;
             let finalTranscript = "";
+            let interimTranscript = "";
             for (let i = event.resultIndex; i < event.results.length; i++) {
                 const result = event.results[i];
-                const text = result?.[0]?.transcript || "";
-                if (!text || !result?.isFinal) continue;
-                finalTranscript += `${text} `;
+                const text = this.pickBestVoiceCommandTranscriptFromResult(result);
+                if (!text) continue;
+                if (result?.isFinal) {
+                    finalTranscript += `${text} `;
+                    continue;
+                }
+                interimTranscript = this.mergeVoiceCommandTranscript(
+                    interimTranscript,
+                    text
+                );
             }
-            const transcript = finalTranscript.trim();
-            if (!transcript) return;
-            this.queueVoiceCommandTranscript(transcript);
+            const finalText = finalTranscript.trim();
+            if (finalText) {
+                this.queueVoiceCommandTranscript(finalText, { immediate: true });
+                return;
+            }
+            const interimText = interimTranscript.trim();
+            if (!interimText) return;
+            this.queueVoiceCommandInterimTranscript(interimText);
         };
 
         recognition.onerror = (event) => {
@@ -681,6 +1056,7 @@ export const voiceCommandMethods = {
 
         recognition.onend = () => {
             this.voiceCommandListening = false;
+            void this.flushVoiceCommandInterimTranscriptQueue({ force: true });
             void this.flushVoiceCommandTranscriptQueue({ force: true });
             if (!this.voiceCommandsEnabled || !this.isComponentAlive) return;
             if (
@@ -712,12 +1088,11 @@ export const voiceCommandMethods = {
             if (!silentError) this.showToast(this.voiceCommandError, 2800);
             return false;
         }
-        if (!this.isSpeechRecognitionSecureContext()) {
+        const insecureContext = !this.isSpeechRecognitionSecureContext();
+        if (insecureContext) {
             this.voiceCommandError = this.getSpeechRecognitionErrorMessage(
                 "insecure-context"
             );
-            if (!silentError) this.showToast(this.voiceCommandError, 2800);
-            return false;
         }
         if (!this.voiceCommandRecognitionInstance) {
             const initialized = this.initializeVoiceCommandRecognition();
@@ -734,13 +1109,12 @@ export const voiceCommandMethods = {
         }
         if (this.voiceCommandListening) return true;
         this.clearVoiceCommandTranscriptQueue();
-        this.voiceCommandError = "";
+        if (!insecureContext) {
+            this.voiceCommandError = "";
+        }
         try {
             this.voiceCommandRecognitionInstance.lang =
-                (typeof navigator !== "undefined" &&
-                    navigator.language) ||
-                this.voiceCommandLocale ||
-                "en-US";
+                this.getVoiceCommandRecognitionLocale();
             this.voiceCommandLocale =
                 this.voiceCommandRecognitionInstance.lang;
             this.voiceCommandRecognitionInstance.start();
@@ -769,6 +1143,7 @@ export const voiceCommandMethods = {
             this.voiceCommandsEnabled = false;
         }
         this.clearVoiceCommandTranscriptQueue();
+        this.resetVoiceCommandExecutionDeduper();
         clearTimeout(this.voiceCommandRestartTimer);
         this.voiceCommandRestartTimer = null;
         if (!this.voiceCommandRecognitionInstance) {
@@ -832,6 +1207,7 @@ export const voiceCommandMethods = {
     },
     teardownVoiceCommandRecognition() {
         this.clearVoiceCommandTranscriptQueue();
+        this.resetVoiceCommandExecutionDeduper();
         clearTimeout(this.voiceCommandRestartTimer);
         this.voiceCommandRestartTimer = null;
         if (!this.voiceCommandRecognitionInstance) return;

@@ -34,7 +34,10 @@ export default {
                 cardIndex: null,
                 startX: 0,
                 startY: 0,
+                lastX: 0,
+                lastY: 0,
                 startedAt: 0,
+                twoFinger: false,
                 ignore: false,
                 horizontalLocked: false,
                 wordTooltipTarget: false,
@@ -770,10 +773,24 @@ export default {
             selectedJuz: null,
             sidebarCollapsed: false,
             isMemorisationToolbarVisible: false,
+            isMemorisationOffcanvasVisible: false,
+            isMemorisationDraftSubmitting: false,
+            isMemorisationSubmitAlertVisible: false,
+            memorisationSubmitAlertMessage: "",
+            memorisationSubmitAlertTimer: null,
+            memorisationOffcanvasInstance: null,
+            memorisationOffcanvasShowHandler: null,
+            memorisationOffcanvasShownHandler: null,
+            memorisationOffcanvasHiddenHandler: null,
+            surahOffcanvasShowHandler: null,
+            memorisationSessionSnapshot: null,
+            isRestoringMemorisationSnapshot: false,
+            memorisationOffcanvasDockedWidth: 400,
             isMemorisationAdvancedOpen: false,
             isMemorisationReadingAidsOpen: false,
             isMemorisationMode: false,
             memorisationFocusIndex: 0,
+            memorisationLastWorkedIndex: null,
             memorisationRangeStart: 1,
             memorisationRangeEnd: null,
             memorisationVerseDelay: 0,
@@ -781,6 +798,22 @@ export default {
             memorisationRepetitionPause: 0,
             memorisationRepetitionCurrent: 1,
             memorisationRepetitionPauseTimeout: null,
+            memorisationDraft: {
+                surahNumber: "2",
+                reciterIdentifier: "ar.alafasy",
+                rangeStart: 1,
+                rangeEnd: 1,
+                playbackSpeed: 1,
+                verseDelay: 0,
+                repetitionCount: 3,
+                playbackMode: "continuous",
+                quranFontId: "",
+                singleAyahFocus: false,
+                showTajweed: false,
+                showRealtimeHighlighting: false,
+                showWordTranslation: false,
+                showWordTranslationTooltip: false,
+            },
             countdownSeconds: 0,
             isCountdownActive: false,
             countdownInterval: null,
@@ -981,6 +1014,37 @@ export default {
             return Array.isArray(this.isAudioPlaying)
                 ? this.isAudioPlaying.some(Boolean)
                 : false;
+        },
+        memorisationToolbarButtonLabel() {
+            if (this.isMemorisationToolbarVisible) {
+                return "Close Memorisation Tools";
+            }
+            return "Memorisation Tools";
+        },
+        memorisationControlsLabel() {
+            return this.isMemorisationToolbarVisible
+                ? "Memorisation controls"
+                : "Reader Controls";
+        },
+        memorisationDraftMaxAyah() {
+            const targetSurah = String(
+                this.memorisationDraft?.surahNumber || this.selectedSurah || ""
+            );
+            const selectedSurahMeta = Array.isArray(this.surahs)
+                ? this.surahs.find(
+                    (surah) => String(surah?.number || "") === targetSurah
+                )
+                : null;
+            const fromMeta = Number(
+                selectedSurahMeta?.numberOfAyahs ||
+                selectedSurahMeta?.ayahs?.length ||
+                0
+            );
+            const currentSurahCount =
+                String(this.selectedSurah || "") === targetSurah
+                    ? Number(this.totalAyahs || 0)
+                    : 0;
+            return Math.max(1, fromMeta || currentSurahCount || 1);
         },
         isMemorisationRepetitionActive() {
             return this.isMemorisationToolbarVisible &&
@@ -1670,6 +1734,15 @@ export default {
                 this.defaultQuranFontStack;
             return {
                 "--ic-quran-arabic-font": stack,
+                "--memorisation-panel-current-width": `${Math.min(
+                    640,
+                    Math.max(
+                        320,
+                        Math.round(
+                            Number(this.memorisationOffcanvasDockedWidth) || 400
+                        )
+                    )
+                )}px`,
             };
         },
         tajweedLegend() {
@@ -2898,20 +2971,21 @@ export default {
             this.resetAyahCardPointerGesture();
         },
         isMemorisationToolbarVisible(newVal) {
-            this.persistLocalSetting("suratIsMemorisationToolbarVisible", newVal ? "1" : "0");
-            // Mutual exclusion: Hide main toolbar when memorisation is active
             if (newVal) {
-                this.showDesktopToolbar = false;
-                this.isMobileToolbarExpanded = false;
                 this.memorisationFocusIndex = this.activeAyahIndex;
-                this.isMemorisationAdvancedOpen = false;
-                this.isMemorisationReadingAidsOpen = false;
-            } else {
-                this.showDesktopToolbar = true;
-                this.isMemorisationMode = false;
-                this.isMemorisationAdvancedOpen = false;
-                this.isMemorisationReadingAidsOpen = false;
-                this.clearMemorisationAutomationState();
+                this.hideSurahOffcanvasIfOpen();
+                if (this.showCustomPlaylistPanel) {
+                    this.showCustomPlaylistPanel = false;
+                }
+                this.showAudioPlayerQueuePanel = false;
+                this.audioQueueMinimized = false;
+                return;
+            }
+            this.isMemorisationAdvancedOpen = false;
+            this.isMemorisationReadingAidsOpen = false;
+            this.clearMemorisationAutomationState();
+            if (this.isMemorisationOffcanvasVisible) {
+                this.closeMemorisationOffcanvas();
             }
         },
         isBlurNextAyahEnabled(newVal) {
@@ -3141,16 +3215,6 @@ export default {
             }
         } catch (_) {}
         try {
-            const storedMemToolbarVisible = localStorage.getItem("suratIsMemorisationToolbarVisible");
-            if (storedMemToolbarVisible !== null) {
-                const isMemVisible = storedMemToolbarVisible === "1";
-                this.isMemorisationToolbarVisible = isMemVisible;
-                if (isMemVisible) {
-                    this.showDesktopToolbar = false;
-                }
-            }
-        } catch (_) {}
-        try {
             const storedBlurNextAyah = localStorage.getItem("suratIsBlurNextAyahEnabled");
             if (storedBlurNextAyah !== null)
                 this.isBlurNextAyahEnabled = storedBlurNextAyah === "1";
@@ -3187,6 +3251,7 @@ export default {
             includeSelectedTranslation: true,
         });
         this.prepareSettingsDraft();
+        this.populateMemorisationDraft();
         this.initializeHifdhScheduler();
         this.registerTranslationCompareModalEvents();
         this.$nextTick(() => {
@@ -3211,6 +3276,52 @@ export default {
                 this.hifdhPlanModalShownHandler
             );
         });
+        this.$nextTick(() => {
+            const offcanvasEl = this.$refs.memorisationOffcanvas;
+            if (!offcanvasEl) return;
+            this.memorisationOffcanvasShowHandler = () => {
+                this.isMemorisationOffcanvasVisible = true;
+                this.hideSurahOffcanvasIfOpen();
+                this.syncMemorisationOffcanvasDockedWidth();
+            };
+            this.memorisationOffcanvasShownHandler = () => {
+                this.isMemorisationOffcanvasVisible = true;
+                this.hideSurahOffcanvasIfOpen();
+                this.syncMemorisationOffcanvasDockedWidth();
+            };
+            this.memorisationOffcanvasHiddenHandler = () => {
+                this.isMemorisationOffcanvasVisible = false;
+                this.hideMemorisationSubmitAlert();
+            };
+            offcanvasEl.addEventListener(
+                "show.bs.offcanvas",
+                this.memorisationOffcanvasShowHandler
+            );
+            offcanvasEl.addEventListener(
+                "shown.bs.offcanvas",
+                this.memorisationOffcanvasShownHandler
+            );
+            offcanvasEl.addEventListener(
+                "hidden.bs.offcanvas",
+                this.memorisationOffcanvasHiddenHandler
+            );
+            this.syncMemorisationOffcanvasDockedWidth();
+        });
+        this.$nextTick(() => {
+            const surahOffcanvasEl = this.$refs.surahOffcanvas;
+            if (!surahOffcanvasEl) return;
+            this.surahOffcanvasShowHandler = (event) => {
+                if (!this.isMemorisationToolbarVisible) return;
+                if (event && typeof event.preventDefault === "function") {
+                    event.preventDefault();
+                }
+                this.hideSurahOffcanvasIfOpen();
+            };
+            surahOffcanvasEl.addEventListener(
+                "show.bs.offcanvas",
+                this.surahOffcanvasShowHandler
+            );
+        });
         if (this.shouldAutoOpenHifdhPlanFromQuery()) {
             this.$nextTick(async () => {
                 await this.openHifdhPlanModalGuarded();
@@ -3220,6 +3331,15 @@ export default {
     },
         beforeUnmount() {
             this.isComponentAlive = false;
+            this.hideMemorisationSubmitAlert();
+            try {
+                document?.documentElement?.style?.removeProperty(
+                    "--memorisation-panel-current-width"
+                );
+                document?.documentElement?.style?.removeProperty(
+                    "--memorisation-panel-absolute-top"
+                );
+            } catch (_) {}
             this.stopHighlightLoop();
             this.clearWordPreviewStopTimer();
             this.syncReadingFullscreenBodyClass(false);
@@ -3386,6 +3506,55 @@ export default {
             );
             this.hifdhPlanModalShownHandler = null;
         }
+        const memorisationOffcanvasEl =
+            this.$refs?.memorisationOffcanvas ||
+            document.getElementById("memorisationOffcanvas");
+        if (
+            memorisationOffcanvasEl &&
+            this.memorisationOffcanvasShowHandler
+        ) {
+            memorisationOffcanvasEl.removeEventListener(
+                "show.bs.offcanvas",
+                this.memorisationOffcanvasShowHandler
+            );
+            this.memorisationOffcanvasShowHandler = null;
+        }
+        if (
+            memorisationOffcanvasEl &&
+            this.memorisationOffcanvasShownHandler
+        ) {
+            memorisationOffcanvasEl.removeEventListener(
+                "shown.bs.offcanvas",
+                this.memorisationOffcanvasShownHandler
+            );
+            this.memorisationOffcanvasShownHandler = null;
+        }
+        if (
+            memorisationOffcanvasEl &&
+            this.memorisationOffcanvasHiddenHandler
+        ) {
+            memorisationOffcanvasEl.removeEventListener(
+                "hidden.bs.offcanvas",
+                this.memorisationOffcanvasHiddenHandler
+            );
+            this.memorisationOffcanvasHiddenHandler = null;
+        }
+        if (this.memorisationOffcanvasInstance) {
+            try {
+                this.memorisationOffcanvasInstance.hide();
+            } catch (_) {}
+            this.memorisationOffcanvasInstance = null;
+        }
+        const surahOffcanvasEl =
+            this.$refs?.surahOffcanvas || document.getElementById("surahOffcanvas");
+        if (surahOffcanvasEl && this.surahOffcanvasShowHandler) {
+            surahOffcanvasEl.removeEventListener(
+                "show.bs.offcanvas",
+                this.surahOffcanvasShowHandler
+            );
+            this.surahOffcanvasShowHandler = null;
+        }
+        this.isMemorisationOffcanvasVisible = false;
         this.disposeHifdhTooltips();
         this.clearHifdhConfettiLayers();
     },
@@ -3520,6 +3689,56 @@ export default {
                 window.cancelAnimationFrame(this._virtualWindowRaf);
                 this._virtualWindowRaf = null;
             }
+            const memorisationOffcanvasEl =
+                this.$refs?.memorisationOffcanvas ||
+                document.getElementById("memorisationOffcanvas");
+            if (
+                memorisationOffcanvasEl &&
+                this.memorisationOffcanvasShowHandler
+            ) {
+                memorisationOffcanvasEl.removeEventListener(
+                    "show.bs.offcanvas",
+                    this.memorisationOffcanvasShowHandler
+                );
+                this.memorisationOffcanvasShowHandler = null;
+            }
+            if (
+                memorisationOffcanvasEl &&
+                this.memorisationOffcanvasShownHandler
+            ) {
+                memorisationOffcanvasEl.removeEventListener(
+                    "shown.bs.offcanvas",
+                    this.memorisationOffcanvasShownHandler
+                );
+                this.memorisationOffcanvasShownHandler = null;
+            }
+            if (
+                memorisationOffcanvasEl &&
+                this.memorisationOffcanvasHiddenHandler
+            ) {
+                memorisationOffcanvasEl.removeEventListener(
+                    "hidden.bs.offcanvas",
+                    this.memorisationOffcanvasHiddenHandler
+                );
+                this.memorisationOffcanvasHiddenHandler = null;
+            }
+            if (this.memorisationOffcanvasInstance) {
+                try {
+                    this.memorisationOffcanvasInstance.hide();
+                } catch (_) {}
+                this.memorisationOffcanvasInstance = null;
+            }
+            const surahOffcanvasEl =
+                this.$refs?.surahOffcanvas ||
+                document.getElementById("surahOffcanvas");
+            if (surahOffcanvasEl && this.surahOffcanvasShowHandler) {
+                surahOffcanvasEl.removeEventListener(
+                    "show.bs.offcanvas",
+                    this.surahOffcanvasShowHandler
+                );
+                this.surahOffcanvasShowHandler = null;
+            }
+            this.isMemorisationOffcanvasVisible = false;
             this.clearHifdhConfettiLayers();
         },
     methods: {
@@ -3691,24 +3910,513 @@ export default {
             this.countdownSeconds = 0;
             this.memorisationRepetitionCurrent = 1;
         },
-        toggleMemorisationToolbar() {
-            this.scrollToTop();
-            this.isMemorisationToolbarVisible = !this.isMemorisationToolbarVisible;
-            if (this.isMemorisationToolbarVisible) {
-                this.showDesktopToolbar = false;
-                this.isMobileToolbarExpanded = false;
-                this.isMemorisationAdvancedOpen = false;
-                this.isMemorisationReadingAidsOpen = false;
-            } else {
-                this.showDesktopToolbar = true;
-                this.isMemorisationAdvancedOpen = false;
-                this.isMemorisationReadingAidsOpen = false;
-                this.clearMemorisationAutomationState();
+        getBootstrapOffcanvasInstance(element) {
+            if (
+                !element ||
+                !(window && window.bootstrap && window.bootstrap.Offcanvas)
+            ) {
+                return null;
             }
-            this.showModeToggleToast(
-                "Memorisation tools",
-                this.isMemorisationToolbarVisible
+            return (
+                window.bootstrap.Offcanvas.getInstance(element) ||
+                window.bootstrap.Offcanvas.getOrCreateInstance(element)
             );
+        },
+        hideSurahOffcanvasIfOpen() {
+            const instance = this.getBootstrapOffcanvasInstance(
+                this.$refs.surahOffcanvas
+            );
+            if (instance) instance.hide();
+        },
+        populateMemorisationDraft() {
+            const total = Math.max(1, Number(this.totalAyahs || 1));
+            const start = Math.min(
+                total,
+                Math.max(1, Number(this.memorisationRangeStart || 1))
+            );
+            const end = Math.min(
+                total,
+                Math.max(start, Number(this.memorisationRangeEnd || total))
+            );
+            const speed = Number(this.playbackSpeed || 1);
+            const speedOptions =
+                Array.isArray(this.playbackSpeeds) && this.playbackSpeeds.length
+                    ? this.playbackSpeeds
+                    : [1];
+
+            this.memorisationDraft = {
+                surahNumber: String(this.selectedSurah || ""),
+                reciterIdentifier: this.selectedReciter || "",
+                rangeStart: start,
+                rangeEnd: end,
+                playbackSpeed: speedOptions.includes(speed) ? speed : speedOptions[0],
+                verseDelay: Math.max(0, Number(this.memorisationVerseDelay || 0)),
+                repetitionCount: Math.max(
+                    1,
+                    Number(this.memorisationRepetitionCount || 1)
+                ),
+                playbackMode: this.playbackMode || "continuous",
+                quranFontId: this.selectedQuranFontId || "",
+                singleAyahFocus: !!this.isMemorisationMode,
+                showTajweed: !!this.showTajweed,
+                showRealtimeHighlighting: !!this.showRealtimeHighlighting,
+                showWordTranslation: !!this.showWordTranslation,
+                showWordTranslationTooltip: !!this.showWordTranslationTooltip,
+            };
+        },
+        captureMemorisationSessionSnapshot() {
+            if (this.memorisationSessionSnapshot) return;
+            const total = Math.max(1, Number(this.totalAyahs || 1));
+            const start = Math.min(
+                total,
+                Math.max(1, Number(this.memorisationRangeStart || 1))
+            );
+            const end = Math.min(
+                total,
+                Math.max(start, Number(this.memorisationRangeEnd || total))
+            );
+            this.memorisationSessionSnapshot = {
+                selectedSurah: String(this.selectedSurah || ""),
+                selectedReciter: this.selectedReciter || "",
+                memorisationRangeStart: start,
+                memorisationRangeEnd: end,
+                memorisationVerseDelay: Math.max(
+                    0,
+                    Number(this.memorisationVerseDelay || 0)
+                ),
+                memorisationRepetitionCount: Math.max(
+                    1,
+                    Number(this.memorisationRepetitionCount || 1)
+                ),
+                playbackMode: this.playbackMode || "continuous",
+                playbackSpeed: Number(this.playbackSpeed || 1),
+                selectedQuranFontId: this.selectedQuranFontId || "",
+                isMemorisationMode: !!this.isMemorisationMode,
+                showTajweed: !!this.showTajweed,
+                showRealtimeHighlighting: !!this.showRealtimeHighlighting,
+                showWordTranslation: !!this.showWordTranslation,
+                showWordTranslationTooltip: !!this.showWordTranslationTooltip,
+            };
+        },
+        clearMemorisationSessionSnapshot() {
+            this.memorisationSessionSnapshot = null;
+        },
+        async restoreMemorisationSessionSnapshot() {
+            const snapshot = this.memorisationSessionSnapshot;
+            if (!snapshot) return;
+            this.isRestoringMemorisationSnapshot = true;
+            try {
+                if (
+                    snapshot.selectedSurah &&
+                    String(this.selectedSurah || "") !== snapshot.selectedSurah
+                ) {
+                    await this.selectSurah(snapshot.selectedSurah, {
+                        skipScroll: true,
+                    });
+                }
+                if (
+                    snapshot.selectedReciter &&
+                    snapshot.selectedReciter !== this.selectedReciter
+                ) {
+                    this.selectedReciter = snapshot.selectedReciter;
+                }
+
+                const speedOptions =
+                    Array.isArray(this.playbackSpeeds) &&
+                    this.playbackSpeeds.length
+                        ? this.playbackSpeeds
+                        : [1];
+                const restoredSpeed = Number(snapshot.playbackSpeed || 1);
+                this.playbackSpeed = speedOptions.includes(restoredSpeed)
+                    ? restoredSpeed
+                    : speedOptions[0];
+                this.setPlaybackMode(snapshot.playbackMode || "continuous");
+
+                this.memorisationVerseDelay = Math.max(
+                    0,
+                    Number(snapshot.memorisationVerseDelay || 0)
+                );
+                this.memorisationRepetitionCount = Math.max(
+                    1,
+                    Number(snapshot.memorisationRepetitionCount || 1)
+                );
+
+                const total = Math.max(1, Number(this.totalAyahs || 1));
+                const rangeStart = Math.min(
+                    total,
+                    Math.max(1, Number(snapshot.memorisationRangeStart || 1))
+                );
+                const rangeEnd = Math.min(
+                    total,
+                    Math.max(
+                        rangeStart,
+                        Number(snapshot.memorisationRangeEnd || total)
+                    )
+                );
+                this.memorisationRangeStart = rangeStart;
+                this.memorisationRangeEnd = rangeEnd;
+
+                const snapshotFontId = String(
+                    snapshot.selectedQuranFontId || ""
+                );
+                if (snapshotFontId) {
+                    this.applyMemorisationDraftFont(snapshotFontId);
+                } else if (this.selectedQuranFontId) {
+                    this.selectedQuranFontId = "";
+                    this.persistLocalSetting(this.quranFontPreferenceKey, "");
+                    this.syncQuranFontStack();
+                }
+                this.isMemorisationMode = !!snapshot.isMemorisationMode;
+                this.showTajweed = !!snapshot.showTajweed;
+                this.showRealtimeHighlighting = !!snapshot.showRealtimeHighlighting;
+                this.showWordTranslation = !!snapshot.showWordTranslation;
+                this.showWordTranslationTooltip =
+                    !!snapshot.showWordTranslationTooltip;
+                this.prepareSettingsDraft();
+                if (
+                    this.showWordTranslation ||
+                    this.showWordTranslationTooltip ||
+                    this.showRealtimeHighlighting
+                ) {
+                    this.enrichSurahWithQuranSegments();
+                }
+            } catch (_) {
+                this.showToast(
+                    "Could not restore the previous reading state.",
+                    3000
+                );
+            } finally {
+                this.clearMemorisationSessionSnapshot();
+                this.populateMemorisationDraft();
+                this.isRestoringMemorisationSnapshot = false;
+            }
+        },
+        syncMemorisationDraftRangeForSurah() {
+            const maxAyah = Math.max(1, Number(this.memorisationDraftMaxAyah || 1));
+            this.memorisationDraft.rangeStart = 1;
+            this.memorisationDraft.rangeEnd = maxAyah;
+        },
+        normaliseMemorisationDraftValues() {
+            const draft = this.memorisationDraft || {};
+            const speedOptions =
+                Array.isArray(this.playbackSpeeds) && this.playbackSpeeds.length
+                    ? this.playbackSpeeds
+                    : [1];
+            const validPlaybackModes = ["continuous", "repeat", "manual"];
+            const clamp = (value, min, max) =>
+                Math.min(max, Math.max(min, Number(value) || min));
+
+            const surahNumber = String(
+                draft.surahNumber || this.selectedSurah || ""
+            );
+            const selectedSpeed = Number(draft.playbackSpeed || 1);
+            const playbackSpeed = speedOptions.includes(selectedSpeed)
+                ? selectedSpeed
+                : speedOptions[0];
+
+            return {
+                surahNumber,
+                reciterIdentifier:
+                    draft.reciterIdentifier || this.selectedReciter || "",
+                rangeStart: Math.max(1, Number(draft.rangeStart || 1)),
+                rangeEnd: Math.max(1, Number(draft.rangeEnd || 1)),
+                playbackSpeed,
+                verseDelay: clamp(draft.verseDelay, 0, 60),
+                repetitionCount: clamp(draft.repetitionCount, 1, 99),
+                playbackMode: validPlaybackModes.includes(draft.playbackMode)
+                    ? draft.playbackMode
+                    : "continuous",
+                quranFontId: String(
+                    draft.quranFontId || this.selectedQuranFontId || ""
+                ),
+                singleAyahFocus: !!draft.singleAyahFocus,
+                showTajweed: !!draft.showTajweed,
+                showRealtimeHighlighting: !!draft.showRealtimeHighlighting,
+                showWordTranslation: !!draft.showWordTranslation,
+                showWordTranslationTooltip: !!draft.showWordTranslationTooltip,
+            };
+        },
+        applyMemorisationDraftFont(fontId) {
+            const requestedId = String(fontId || "");
+            if (!requestedId) return;
+            let resolvedId = requestedId;
+            if (Array.isArray(this.quranFonts) && this.quranFonts.length) {
+                const matched = this.quranFonts.find(
+                    (font) => String(font?.id || "") === requestedId
+                );
+                if (!matched) return;
+                resolvedId = String(matched.id);
+            }
+            if (String(this.selectedQuranFontId || "") === resolvedId) {
+                this.syncQuranFontStack(resolvedId);
+                return;
+            }
+            this.selectedQuranFontId = resolvedId;
+            this.persistLocalSetting(
+                this.quranFontPreferenceKey,
+                this.selectedQuranFontId
+            );
+            this.syncQuranFontStack(resolvedId);
+        },
+        hideMemorisationSubmitAlert() {
+            if (this.memorisationSubmitAlertTimer) {
+                clearTimeout(this.memorisationSubmitAlertTimer);
+                this.memorisationSubmitAlertTimer = null;
+            }
+            this.isMemorisationSubmitAlertVisible = false;
+            this.memorisationSubmitAlertMessage = "";
+        },
+        showMemorisationSubmitAlert(
+            message = "Memorisation settings updated successfully.",
+            options = {}
+        ) {
+            const { closeOffcanvas = false } = options || {};
+            this.hideMemorisationSubmitAlert();
+            this.memorisationSubmitAlertMessage = message;
+            this.isMemorisationSubmitAlertVisible = true;
+            this.memorisationSubmitAlertTimer = setTimeout(() => {
+                this.isMemorisationSubmitAlertVisible = false;
+                this.memorisationSubmitAlertMessage = "";
+                this.memorisationSubmitAlertTimer = null;
+                if (closeOffcanvas) {
+                    this.closeMemorisationOffcanvas();
+                }
+            }, 3000);
+        },
+        async waitForReaderIdle(timeoutMs = 9000) {
+            const startedAt = Date.now();
+            while (this.isLoading && Date.now() - startedAt < timeoutMs) {
+                await new Promise((resolve) => setTimeout(resolve, 40));
+            }
+        },
+        syncMemorisationOffcanvasDockedWidth() {
+            if (typeof window === "undefined") return;
+            const panel = this.$refs?.memorisationOffcanvas;
+            if (!panel) return;
+            const measured = Math.round(
+                panel.getBoundingClientRect?.().width || panel.offsetWidth || 0
+            );
+            if (!Number.isFinite(measured) || measured <= 0) return;
+            this.memorisationOffcanvasDockedWidth = measured;
+            try {
+                const root = document?.documentElement;
+                const computedRootStyles = window.getComputedStyle(root);
+                const navOffset = Number.parseFloat(
+                    computedRootStyles.getPropertyValue("--nav-offset")
+                );
+                const scrollTop =
+                    window.pageYOffset ||
+                    window.scrollY ||
+                    document.documentElement?.scrollTop ||
+                    0;
+                const absoluteTop = Math.max(
+                    0,
+                    Math.round(scrollTop + (Number.isFinite(navOffset) ? navOffset : 72))
+                );
+                document?.documentElement?.style?.setProperty(
+                    "--memorisation-panel-current-width",
+                    `${measured}px`
+                );
+                document?.documentElement?.style?.setProperty(
+                    "--memorisation-panel-absolute-top",
+                    `${absoluteTop}px`
+                );
+            } catch (_) {}
+        },
+        resetDesktopToolbarScrollPosition() {
+            if (this.isTabletOrMobile) return;
+            this.$nextTick(() => {
+                const root = this.$el;
+                if (!root) return;
+                const toolbar = root.querySelector(
+                    ".quran-toolbar-sticky .quran-toolbar"
+                );
+                if (!toolbar) return;
+                try {
+                    toolbar.scrollTo({ left: 0, behavior: "smooth" });
+                } catch (_) {
+                    toolbar.scrollLeft = 0;
+                }
+            });
+        },
+        openMemorisationOffcanvas() {
+            this.hideSurahOffcanvasIfOpen();
+            this.syncMemorisationOffcanvasDockedWidth();
+            this.resetDesktopToolbarScrollPosition();
+            const instance = this.getBootstrapOffcanvasInstance(
+                this.$refs.memorisationOffcanvas
+            );
+            if (!instance) {
+                this.isMemorisationOffcanvasVisible = true;
+                return;
+            }
+            this.memorisationOffcanvasInstance = instance;
+            instance.show();
+        },
+        closeMemorisationOffcanvas() {
+            const instance =
+                this.getBootstrapOffcanvasInstance(this.$refs.memorisationOffcanvas) ||
+                this.memorisationOffcanvasInstance;
+            if (!instance) {
+                this.isMemorisationOffcanvasVisible = false;
+                return;
+            }
+            instance.hide();
+        },
+        async deactivateMemorisationToolbar({
+            showToast = true,
+            restoreSession = true,
+        } = {}) {
+            const wasVisible = !!this.isMemorisationToolbarVisible;
+            this.memorisationLastWorkedIndex = Number.isFinite(
+                Number(this.activeAyahIndex)
+            )
+                ? Number(this.activeAyahIndex)
+                : this.memorisationLastWorkedIndex;
+            this.isMemorisationToolbarVisible = false;
+            this.closeMemorisationOffcanvas();
+            this.resetDesktopToolbarScrollPosition();
+            if (restoreSession) {
+                await this.restoreMemorisationSessionSnapshot();
+            } else {
+                this.clearMemorisationSessionSnapshot();
+                this.populateMemorisationDraft();
+            }
+            if (wasVisible && showToast) {
+                this.showModeToggleToast("Memorisation tools", false);
+            }
+        },
+        async closeMemorisationToolsPanel() {
+            this.hideMemorisationSubmitAlert();
+            this.closeMemorisationOffcanvas();
+        },
+        resetMemorisationDraftForm() {
+            const speedOptions =
+                Array.isArray(this.playbackSpeeds) && this.playbackSpeeds.length
+                    ? this.playbackSpeeds
+                    : [1];
+            const defaultSpeed = speedOptions.includes(1) ? 1 : speedOptions[0];
+            const targetSurah = String(
+                this.memorisationDraft?.surahNumber || this.selectedSurah || ""
+            );
+            this.memorisationDraft = {
+                surahNumber: targetSurah,
+                reciterIdentifier: this.selectedReciter || "",
+                rangeStart: 1,
+                rangeEnd: 1,
+                playbackSpeed: defaultSpeed,
+                verseDelay: 0,
+                repetitionCount: 3,
+                playbackMode: "continuous",
+                quranFontId: this.selectedQuranFontId || "",
+                singleAyahFocus: false,
+                showTajweed: false,
+                showRealtimeHighlighting: false,
+                showWordTranslation: false,
+                showWordTranslationTooltip: false,
+            };
+            this.syncMemorisationDraftRangeForSurah();
+            this.hideMemorisationSubmitAlert();
+        },
+        async submitMemorisationOffcanvas() {
+            if (this.isMemorisationDraftSubmitting) return;
+            this.isMemorisationDraftSubmitting = true;
+            try {
+                const draft = this.normaliseMemorisationDraftValues();
+                this.captureMemorisationSessionSnapshot();
+                if (
+                    draft.surahNumber &&
+                    String(this.selectedSurah || "") !== draft.surahNumber
+                ) {
+                    await this.selectSurah(draft.surahNumber, { skipScroll: true });
+                }
+
+                const total = Math.max(1, Number(this.totalAyahs || 1));
+                const start = Math.min(
+                    total,
+                    Math.max(1, Number(draft.rangeStart || 1))
+                );
+                const end = Math.min(
+                    total,
+                    Math.max(start, Number(draft.rangeEnd || total))
+                );
+
+                this.isMemorisationToolbarVisible = true;
+                const requestedReciter =
+                    draft.reciterIdentifier || this.selectedReciter;
+                const reciterChanged =
+                    requestedReciter &&
+                    requestedReciter !== this.selectedReciter;
+                this.selectedReciter = requestedReciter;
+                if (reciterChanged) {
+                    await this.$nextTick();
+                    await this.waitForReaderIdle();
+                }
+                this.memorisationRangeStart = start;
+                this.memorisationRangeEnd = end;
+                this.memorisationVerseDelay = draft.verseDelay;
+                this.memorisationRepetitionCount = draft.repetitionCount;
+                this.setPlaybackMode(draft.playbackMode);
+                this.playbackSpeed = draft.playbackSpeed;
+                this.isMemorisationMode = draft.singleAyahFocus;
+                this.showTajweed = draft.showTajweed;
+                this.showRealtimeHighlighting = draft.showRealtimeHighlighting;
+                this.showWordTranslation = draft.showWordTranslation;
+                this.showWordTranslationTooltip = draft.showWordTranslationTooltip;
+                this.applyMemorisationDraftFont(draft.quranFontId);
+                this.applyMemorisationRange();
+                this.prepareSettingsDraft();
+                if (
+                    draft.showWordTranslation ||
+                    draft.showWordTranslationTooltip ||
+                    draft.showRealtimeHighlighting
+                ) {
+                    this.enrichSurahWithQuranSegments();
+                }
+                this.memorisationLastWorkedIndex = Number.isFinite(
+                    Number(this.activeAyahIndex)
+                )
+                    ? Number(this.activeAyahIndex)
+                    : this.memorisationLastWorkedIndex;
+                this.showMemorisationSubmitAlert(
+                    "Memorisation settings updated successfully.",
+                    { closeOffcanvas: true }
+                );
+            } catch (_) {
+                this.showToast(
+                    "Could not apply memorisation settings. Please try again.",
+                    3200
+                );
+            } finally {
+                this.isMemorisationDraftSubmitting = false;
+            }
+        },
+        async cancelMemorisationOffcanvas() {
+            this.hideMemorisationSubmitAlert();
+            this.closeMemorisationOffcanvas();
+        },
+        async toggleMemorisationToolbar() {
+            if (this.isMemorisationToolbarVisible) {
+                await this.deactivateMemorisationToolbar({
+                    showToast: true,
+                    restoreSession: true,
+                });
+                return;
+            }
+            this.populateMemorisationDraft();
+            this.captureMemorisationSessionSnapshot();
+            this.resetMemorisationDraftForm();
+            this.isMemorisationToolbarVisible = true;
+            const fallbackIndex = Number(this.activeAyahIndex || 0);
+            const rememberedIndex = Number(this.memorisationLastWorkedIndex);
+            const targetIndex = Number.isFinite(rememberedIndex)
+                ? rememberedIndex
+                : fallbackIndex;
+            this.memorisationFocusIndex = Math.max(0, targetIndex);
+            this.showModeToggleToast("Memorisation tools", true);
+            this.$nextTick(() => {
+                this.scrollToAyahIndex(this.memorisationFocusIndexSafe);
+            });
         },
         toggleMemorisationAdvanced() {
             this.isMemorisationAdvancedOpen = !this.isMemorisationAdvancedOpen;
@@ -4140,6 +4848,16 @@ export default {
             this.translationCompareSurahNumber = target;
             await this.applyTranslationCompareSurahSelection();
         },
+        getAyahDisplayNumber(item) {
+            const ayah = item?.ayah || item || null;
+            const fromAyah = Number(ayah?.numberInSurah || ayah?.number || 0);
+            if (Number.isFinite(fromAyah) && fromAyah > 0) return fromAyah;
+            const fromItemIndex = Number(item?.index);
+            if (Number.isFinite(fromItemIndex) && fromItemIndex >= 0) {
+                return fromItemIndex + 1;
+            }
+            return 1;
+        },
         getReaderContextAyahNumber() {
             const preferredIndex =
                 this.isAnyAudioPlaying &&
@@ -4210,6 +4928,14 @@ export default {
                     this.translationCompareModalHiddenHandler
                 );
             });
+        },
+        closeTranslationCompareModal() {
+            const modalEl = document.getElementById(this.translationCompareModalId);
+            if (!modalEl) return;
+            const instance =
+                this.translationCompareModalInstance || Modal.getInstance(modalEl);
+            if (!instance) return;
+            instance.hide();
         },
         async openTranslationCompareModal() {
             const modalEl = document.getElementById(this.translationCompareModalId);
@@ -4338,7 +5064,26 @@ export default {
             if (typeof window === "undefined") return false;
             if (window.isSecureContext) return true;
             const host = String(window.location?.hostname || "").toLowerCase();
-            return host === "localhost" || host === "127.0.0.1" || host === "[::1]";
+            if (
+                host === "localhost" ||
+                host === "127.0.0.1" ||
+                host === "[::1]" ||
+                host.endsWith(".localhost") ||
+                host.endsWith(".local") ||
+                host.endsWith(".test")
+            ) {
+                return true;
+            }
+            if (/^10\.\d{1,3}\.\d{1,3}\.\d{1,3}$/.test(host)) return true;
+            if (/^192\.168\.\d{1,3}\.\d{1,3}$/.test(host)) return true;
+            const private172 = host.match(/^172\.(\d{1,3})\.\d{1,3}\.\d{1,3}$/);
+            if (private172) {
+                const block = Number(private172[1]);
+                if (Number.isFinite(block) && block >= 16 && block <= 31) {
+                    return true;
+                }
+            }
+            return false;
         },
         initializeSpeechRecognition() {
             if (typeof window === "undefined") return;
@@ -6099,7 +6844,7 @@ export default {
                     id: "qpc-hafs",
                     label: "QPC Hafs",
                     cssStack:
-                        "'UthmanicHafs', 'Noto Naskh Arabic', 'Amiri', serif",
+                        "'UthmanicHafs', 'Scheherazade New', 'Noto Naskh Arabic', 'Amiri', serif",
                     source: "Quran.com",
                     inputId: "qpc-hafs",
                     isTajweed: false,
@@ -6108,7 +6853,7 @@ export default {
                     id: "uthmani",
                     label: "Uthmani",
                     cssStack:
-                        "'UthmanicHafs', 'Scheherazade New', 'Amiri', serif",
+                        "'Scheherazade New', 'UthmanicHafs', 'Noto Naskh Arabic', 'Amiri', serif",
                     source: "Quran.com",
                     inputId: "uthmani",
                     isTajweed: false,
@@ -6117,16 +6862,34 @@ export default {
                     id: "indopak",
                     label: "IndoPak",
                     cssStack:
-                        "'IndoPak', 'Noto Nastaliq Urdu', 'Lateef', 'Amiri', serif",
+                        "'Noto Nastaliq Urdu', 'Lateef', 'IndoPak', 'Amiri', serif",
                     source: "Quran.com",
                     inputId: "indopak",
+                    isTajweed: false,
+                },
+                {
+                    id: "amiri",
+                    label: "Amiri",
+                    cssStack:
+                        "'Amiri', 'Scheherazade New', 'Noto Naskh Arabic', serif",
+                    source: "Preset",
+                    inputId: "amiri",
+                    isTajweed: false,
+                },
+                {
+                    id: "noto-naskh-arabic",
+                    label: "Noto Naskh Arabic",
+                    cssStack:
+                        "'Noto Naskh Arabic', 'Scheherazade New', 'Amiri', serif",
+                    source: "Preset",
+                    inputId: "noto-naskh-arabic",
                     isTajweed: false,
                 },
                 {
                     id: "tajweed-mushaf",
                     label: "Tajweed Mushaf (QCF V4)",
                     cssStack:
-                        "'UthmanicHafs', 'Scheherazade New', 'Amiri', serif",
+                        "'UthmanicHafs', 'Scheherazade New', 'Noto Naskh Arabic', 'Amiri', serif",
                     source: "Quran.com",
                     inputId: "tajweed-mushaf",
                     isTajweed: true,
@@ -9721,20 +10484,58 @@ export default {
                 ].join(",")
             );
         },
+        getTouchMidpoint(touches) {
+            if (!touches || touches.length < 2) return null;
+            const first = touches[0];
+            const second = touches[1];
+            if (!first || !second) return null;
+            return {
+                x: (first.clientX + second.clientX) / 2,
+                y: (first.clientY + second.clientY) / 2,
+            };
+        },
         onAyahCardTouchStart(cardIndex, event) {
-            if (event?.touches?.length > 1) {
+            const touchCount = Number(event?.touches?.length || 0);
+            if (touchCount > 2) {
                 this.resetAyahCardSwipeGesture();
                 return;
             }
-            const touch = event?.touches?.[0] || event?.changedTouches?.[0];
             const state = this.ayahCardSwipeState;
-            if (!state || !touch) return;
+            if (!state) return;
+
+            if (touchCount === 2) {
+                const midpoint = this.getTouchMidpoint(event?.touches);
+                if (!midpoint || !this.gestureNavigationEnabled) {
+                    this.resetAyahCardSwipeGesture();
+                    return;
+                }
+                state.active = true;
+                state.cardIndex = Number(cardIndex);
+                state.startX = midpoint.x;
+                state.startY = midpoint.y;
+                state.lastX = midpoint.x;
+                state.lastY = midpoint.y;
+                state.startedAt = Date.now();
+                state.twoFinger = true;
+                state.ignore = this.shouldIgnoreAyahCardSwipeTarget(event?.target);
+                state.horizontalLocked = false;
+                state.wordTooltipTarget = false;
+                state.longPressTriggered = false;
+                this.clearAyahCardLongPressTimer(state);
+                return;
+            }
+
+            const touch = event?.touches?.[0] || event?.changedTouches?.[0];
+            if (!touch) return;
 
             state.active = true;
             state.cardIndex = Number(cardIndex);
             state.startX = touch.clientX;
             state.startY = touch.clientY;
+            state.lastX = touch.clientX;
+            state.lastY = touch.clientY;
             state.startedAt = Date.now();
+            state.twoFinger = false;
             const isWordTooltipTap =
                 this.showWordTranslationTooltip &&
                 !!event?.target?.closest?.(".ayah-word.has-tooltip");
@@ -9850,11 +10651,50 @@ export default {
         onAyahCardTouchMove(event) {
             const state = this.ayahCardSwipeState;
             if (!state?.active || state.ignore) return;
+            const touchCount = Number(event?.touches?.length || 0);
+            if (state.twoFinger) {
+                if (touchCount < 2) return;
+                const midpoint = this.getTouchMidpoint(event?.touches);
+                if (!midpoint) return;
+
+                state.lastX = midpoint.x;
+                state.lastY = midpoint.y;
+                const deltaX = midpoint.x - state.startX;
+                const deltaY = midpoint.y - state.startY;
+                if (
+                    Math.abs(deltaY) > this.ayahCardSwipeMaxVerticalOffset &&
+                    Math.abs(deltaY) > Math.abs(deltaX)
+                ) {
+                    state.ignore = true;
+                    state.horizontalLocked = false;
+                    return;
+                }
+                if (
+                    this.gestureNavigationEnabled &&
+                    Math.abs(deltaX) >= 12 &&
+                    Math.abs(deltaX) > Math.abs(deltaY) * 1.1
+                ) {
+                    state.horizontalLocked = true;
+                    if (event?.cancelable) {
+                        event.preventDefault?.();
+                    }
+                }
+                return;
+            }
+
+            if (touchCount > 1) {
+                this.clearAyahCardLongPressTimer(state);
+                state.ignore = true;
+                state.horizontalLocked = false;
+                return;
+            }
             const touch = event?.touches?.[0] || event?.changedTouches?.[0];
             if (!touch) return;
 
             const deltaX = touch.clientX - state.startX;
             const deltaY = touch.clientY - state.startY;
+            state.lastX = touch.clientX;
+            state.lastY = touch.clientY;
             if (
                 Math.abs(deltaY) > this.ayahCardSwipeMaxVerticalOffset &&
                 Math.abs(deltaY) > Math.abs(deltaX)
@@ -9897,6 +10737,40 @@ export default {
                 if (event?.cancelable) {
                     event.preventDefault?.();
                 }
+                this.resetAyahCardSwipeGesture();
+                return;
+            }
+            if (state.twoFinger) {
+                if (event?.touches?.length > 0) return;
+                if (state.ignore) {
+                    this.resetAyahCardSwipeGesture();
+                    return;
+                }
+                const deltaX = state.lastX - state.startX;
+                const deltaY = state.lastY - state.startY;
+                const elapsed = Date.now() - (state.startedAt || 0);
+                const absX = Math.abs(deltaX);
+                const absY = Math.abs(deltaY);
+                const isHorizontalSwipe =
+                    this.gestureNavigationEnabled &&
+                    absX >= this.ayahCardSwipeMinDistance &&
+                    absY <= this.ayahCardSwipeMaxVerticalOffset &&
+                    absX > absY * 1.2 &&
+                    elapsed <= this.ayahCardSwipeMaxDurationMs;
+                if (!isHorizontalSwipe) {
+                    this.resetAyahCardSwipeGesture();
+                    return;
+                }
+                if (event?.cancelable) {
+                    event.preventDefault?.();
+                }
+                this.ayahCardSwipeSuppressClickUntil =
+                    Date.now() +
+                    Math.max(
+                        420,
+                        Number(this.ayahCardSwipeClickSuppressDurationMs) || 700
+                    );
+                this.navigateSurahByTwoFingerSwipe(deltaX > 0 ? 1 : -1);
                 this.resetAyahCardSwipeGesture();
                 return;
             }
@@ -9988,7 +10862,10 @@ export default {
             state.cardIndex = null;
             state.startX = 0;
             state.startY = 0;
+            state.lastX = 0;
+            state.lastY = 0;
             state.startedAt = 0;
+            state.twoFinger = false;
             state.ignore = false;
             state.horizontalLocked = false;
             state.wordTooltipTarget = false;
@@ -10055,10 +10932,54 @@ export default {
                 hideAudioPlayer: true,
             });
         },
+        async navigateSurahByTwoFingerSwipe(direction) {
+            const step = direction > 0 ? 1 : -1;
+            const currentSurah = Number(
+                this.surahDetails?.surahNumber || this.selectedSurah || 1
+            );
+            const targetSurah = Math.max(
+                1,
+                Math.min(114, currentSurah + step)
+            );
+            if (targetSurah === currentSurah) {
+                this.showToast(
+                    step > 0
+                        ? "You are already on the last surah."
+                        : "You are already on the first surah.",
+                    2200
+                );
+                return false;
+            }
+
+            this.lastManualNavigationAt = Date.now();
+            try {
+                await this.selectSurah(String(targetSurah), { skipScroll: true });
+                this.clearMainAyahSearchFilter();
+                await this.$nextTick();
+                const targetIndex = Math.max(0, this.resolveAyahIndexByNumber(1));
+                this.selectCard(targetIndex);
+                this.scrollToAyahIndex(targetIndex, {
+                    settle: true,
+                    force: true,
+                    behavior: "smooth",
+                    lock: true,
+                });
+                this.showToast(`Surah ${targetSurah}: verse 1 selected.`, 2400);
+                this.announce(`Opened Surah ${targetSurah}. Verse 1 selected.`);
+                return true;
+            } catch (error) {
+                console.error("Unable to navigate by two-finger swipe:", error);
+                this.showToast("Unable to change surah right now.", 2400);
+                return false;
+            }
+        },
         selectCard(index) {
             this.selectedCardIndex = index;
             this.currentlyPlayingIndex = index;
             if (this.isMemorisationMode) this.memorisationFocusIndex = index;
+            if (this.isMemorisationToolbarVisible) {
+                this.memorisationLastWorkedIndex = index;
+            }
             this.isHighlighted = true;
             const selectedAyah = this.filteredAyahs?.[index];
             const selectedAyahJuz = Number(selectedAyah?.juz || 0);
@@ -10125,6 +11046,7 @@ export default {
                     persistPreference: false,
                 });
             }
+            this.syncMemorisationOffcanvasDockedWidth();
         },
         // removed ensureCardPositionsCached and fallbackCardPositions (scrollbar-related)
 
@@ -10211,13 +11133,14 @@ export default {
                     const tooltipText = wordTranslations.length
                         ? this.cleanWordTranslation(wordTranslations[index] || "")
                         : "";
-                    const hasTooltip =
-                        this.showWordTranslationTooltip && !!tooltipText;
+                    const tooltipLabel =
+                        tooltipText || "Tap to hear this word";
+                    const hasTooltip = this.showWordTranslationTooltip;
                     const tooltipAttr = hasTooltip
                         ? ` data-tooltip="${this.escapeHtmlAttribute(
-                            tooltipText
+                            tooltipLabel
                         )}" aria-label="${this.escapeHtmlAttribute(
-                            tooltipText
+                            tooltipLabel
                         )}"`
                         : "";
                     const tooltipClass = hasTooltip ? " has-tooltip" : "";
@@ -10444,6 +11367,50 @@ export default {
                 ? this.reciterTimingMap[reciterId]
                 : null;
         },
+        normalizeAudioSegments(rawSegments = []) {
+            if (!Array.isArray(rawSegments) || !rawSegments.length) return [];
+            const parsed = rawSegments
+                .filter((segment) => Array.isArray(segment) && segment.length >= 4)
+                .map((segment) => ({
+                    rawWordIndex: Number(segment[0]),
+                    start: Number(segment[2]) / 1000,
+                    end: Number(segment[3]) / 1000,
+                }))
+                .filter(
+                    (segment) =>
+                        Number.isFinite(segment.start) &&
+                        Number.isFinite(segment.end) &&
+                        segment.end > segment.start
+                )
+                .sort((a, b) => a.start - b.start || a.end - b.end);
+            if (!parsed.length) return [];
+
+            const rawToNormalized = new Map();
+            let nextIndex = 0;
+            return parsed.map((segment) => {
+                const rawIndex = Number.isFinite(segment.rawWordIndex)
+                    ? segment.rawWordIndex
+                    : null;
+                let normalizedIndex = nextIndex;
+
+                if (rawIndex !== null) {
+                    if (!rawToNormalized.has(rawIndex)) {
+                        rawToNormalized.set(rawIndex, nextIndex);
+                        nextIndex += 1;
+                    }
+                    normalizedIndex = rawToNormalized.get(rawIndex);
+                } else {
+                    nextIndex += 1;
+                }
+
+                return {
+                    wordIndex: normalizedIndex,
+                    rawWordIndex: rawIndex,
+                    start: segment.start,
+                    end: segment.end,
+                };
+            });
+        },
         async enrichSurahWithQuranSegments() {
             if (!this.surahDetails?.ayahs?.length) return;
             const recitationId = this.getQuranRecitationId(
@@ -10479,19 +11446,13 @@ export default {
                         const audioUrl = match?.audio?.url
                             ? `https://audio.qurancdn.com/${match.audio.url}`
                             : ayah.audio;
-                        const segments = Array.isArray(match?.audio?.segments)
-                            ? match.audio.segments
-                                .filter((seg) => Array.isArray(seg) && seg.length >= 4)
-                                .map((seg) => ({
-                                    wordIndex: seg[0],
-                                    start: seg[2] / 1000,
-                                    end: seg[3] / 1000,
-                                }))
-                            : null;
+                        const segments = this.normalizeAudioSegments(
+                            match?.audio?.segments || []
+                        );
                         return {
                             ...ayah,
                             audio: audioUrl,
-                            audioSegments: segments,
+                            audioSegments: segments.length ? segments : null,
                             quranWords,
                             wordTranslations,
                         };
@@ -10774,21 +11735,36 @@ export default {
             if (!targetAyah || !targetAyah.audio) return;
             this.isSingleWordPreviewActive = true;
             this.showAudioPlayer = false;
+            const stopPreviewMode = () => {
+                this.isSingleWordPreviewActive = false;
+            };
             const audioWordCount = this.getAyahAudioWordCount(targetAyah);
-            if (!audioWordCount) return;
+            if (!audioWordCount) {
+                stopPreviewMode();
+                return;
+            }
             const audioWordIndex = this.getAudioWordIndexFromDisplayIndex(
                 targetAyah,
                 displayWordIndex,
                 audioWordCount
             );
-            if (audioWordIndex == null || audioWordIndex >= audioWordCount) return;
+            if (audioWordIndex == null || audioWordIndex >= audioWordCount) {
+                stopPreviewMode();
+                return;
+            }
             if (!this.isAudioPlaying[index] || this.currentlyPlayingIndex !== index) {
                 this.playAudio(index, { singleWordPreview: true });
             }
             const audio = await this.waitForAyahAudioMetadata(index);
-            if (!audio) return;
+            if (!audio) {
+                stopPreviewMode();
+                return;
+            }
             const duration = Number(audio.duration) || 0;
-            if (!duration) return;
+            if (!duration) {
+                stopPreviewMode();
+                return;
+            }
             const segmentStart = this.getWordSeekTimeFromSegments(
                 targetAyah.audioSegments,
                 audioWordIndex
@@ -11178,6 +12154,22 @@ export default {
             const isSingleWordPreview = !!options.singleWordPreview;
             const isPlaylistSinglePlay = !!options.playlistSinglePlay;
             const hideAudioPlayer = !!options.hideAudioPlayer;
+            const normalizeAudioUrl = (rawUrl) => {
+                let url = String(rawUrl || "").trim();
+                if (!url) return "";
+                if (/^\/\//.test(url)) {
+                    const protocol =
+                        (typeof window !== "undefined" &&
+                            window.location &&
+                            window.location.protocol) ||
+                        "https:";
+                    url = `${protocol}${url}`;
+                }
+                if (/^http:\/\//i.test(url)) {
+                    url = url.replace(/^http:/i, "https:");
+                }
+                return url;
+            };
             console.log("Attempting to play audio for index:", index);
             if (index < 0 || index >= this.filteredAyahs.length) return;
             this.stopTajweedRuleAudio();
@@ -11245,11 +12237,22 @@ export default {
                     `Failed to load audio for ayah ${index + 1}`
                 );
             };
-            if (audio.src !== ayah.audio) {
+            const audioSourceUrl = normalizeAudioUrl(ayah?.audio);
+            if (!audioSourceUrl) {
+                clearTimeout(this.loadingTimers[index]);
+                this.isAudioLoading[index] = false;
+                this.isAudioPlaying[index] = false;
+                this.showToast(
+                    "Audio is unavailable for this ayah. Try changing reciter and play again.",
+                    3200
+                );
+                return;
+            }
+            if (audio.src !== audioSourceUrl) {
                 try {
                     audio.pause();
                 } catch (_) { }
-                audio.src = ayah.audio || "";
+                audio.src = audioSourceUrl;
             }
             audio.playbackRate = Number(this.playbackSpeed) || 1;
             audio.volume = this.volume;
@@ -11317,12 +12320,52 @@ export default {
                     p.then(() => {
                         markPlaying();
                     }).catch((err) => {
+                        const errorName = String(err?.name || "").toLowerCase();
+                        if (
+                            errorName === "notallowederror" ||
+                            errorName === "securityerror"
+                        ) {
+                            clearTimeout(this.loadingTimers[index]);
+                            this.isAudioLoading[index] = false;
+                            this.isAudioPlaying[index] = false;
+                            this.showToast(
+                                "Browser blocked audio playback. Tap an ayah play button once, then try again.",
+                                3600
+                            );
+                            return;
+                        }
                         // If playback fails (e.g., not enough data), wait for 'canplay' and retry once
+                        let canPlayTimeout = null;
                         const onCanPlay = () => {
+                            if (canPlayTimeout) {
+                                clearTimeout(canPlayTimeout);
+                                canPlayTimeout = null;
+                            }
                             audio.removeEventListener("canplay", onCanPlay);
                             const p2 = audio.play();
                             if (p2 && typeof p2.then === "function") {
-                                p2.then(() => markPlaying()).catch(() => { });
+                                p2.then(() => markPlaying()).catch((retryError) => {
+                                    const retryErrorName = String(
+                                        retryError?.name || ""
+                                    ).toLowerCase();
+                                    clearTimeout(this.loadingTimers[index]);
+                                    this.isAudioLoading[index] = false;
+                                    this.isAudioPlaying[index] = false;
+                                    if (
+                                        retryErrorName === "notallowederror" ||
+                                        retryErrorName === "securityerror"
+                                    ) {
+                                        this.showToast(
+                                            "Browser blocked audio playback. Tap an ayah play button once, then try again.",
+                                            3600
+                                        );
+                                        return;
+                                    }
+                                    this.showToast(
+                                        `Unable to start audio for ayah ${index + 1}. Please try again.`,
+                                        3000
+                                    );
+                                });
                             } else {
                                 markPlaying();
                             }
@@ -11330,6 +12373,16 @@ export default {
                         audio.addEventListener("canplay", onCanPlay, {
                             once: true,
                         });
+                        canPlayTimeout = setTimeout(() => {
+                            audio.removeEventListener("canplay", onCanPlay);
+                            clearTimeout(this.loadingTimers[index]);
+                            this.isAudioLoading[index] = false;
+                            this.isAudioPlaying[index] = false;
+                            this.showToast(
+                                `Unable to start audio for ayah ${index + 1}. Please try again.`,
+                                3000
+                            );
+                        }, 2600);
                     });
                 } else {
                     markPlaying();
