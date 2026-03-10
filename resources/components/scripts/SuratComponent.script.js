@@ -96,6 +96,7 @@ export default {
             reciters: [],
             translations: [],
             surahDetails: null,
+            surahDetailsReciterIdentifier: "",
             surahInfo: null,
             surahInfoText: "",
             surahInfoShortText: "",
@@ -784,6 +785,9 @@ export default {
             memorisationOffcanvasHiddenHandler: null,
             surahOffcanvasShowHandler: null,
             memorisationSessionSnapshot: null,
+            memorisationPreviousSessionSnapshot: null,
+            memorisationSessionStorageKeyBase:
+                "ic_memorisation_previous_session_v1",
             isRestoringMemorisationSnapshot: false,
             memorisationOffcanvasDockedWidth: 400,
             isMemorisationAdvancedOpen: false,
@@ -799,10 +803,10 @@ export default {
             memorisationRepetitionCurrent: 1,
             memorisationRepetitionPauseTimeout: null,
             memorisationDraft: {
-                surahNumber: "2",
+                surahNumber: "1",
                 reciterIdentifier: "ar.alafasy",
                 rangeStart: 1,
-                rangeEnd: 1,
+                rangeEnd: 7,
                 playbackSpeed: 1,
                 verseDelay: 0,
                 repetitionCount: 3,
@@ -1021,10 +1025,22 @@ export default {
             }
             return "Memorisation Tools";
         },
+        isMemorisationModeActive() {
+            return (
+                !!this.isMemorisationToolbarVisible &&
+                !!this.isMemorisationMode
+            );
+        },
         memorisationControlsLabel() {
             return this.isMemorisationToolbarVisible
                 ? "Memorisation controls"
                 : "Reader Controls";
+        },
+        hasPreviousSessionReturn() {
+            return (
+                !!this.isMemorisationToolbarVisible &&
+                !!this.memorisationPreviousSessionSnapshot
+            );
         },
         memorisationDraftMaxAyah() {
             const targetSurah = String(
@@ -1057,7 +1073,7 @@ export default {
             return Math.min(Math.max(0, this.memorisationFocusIndex), len - 1);
         },
         memorisationPlayIndex() {
-            if (this.isMemorisationMode) {
+            if (this.isMemorisationModeActive) {
                 return this.memorisationFocusIndexSafe;
             }
             if (this.isMemorisationToolbarVisible &&
@@ -2312,7 +2328,7 @@ export default {
         },
         isLongSurahVirtualMode() {
             return (
-                !this.isMemorisationMode &&
+                !this.isMemorisationModeActive &&
                 Number(this.totalItems || 0) >=
                     Number(this.longSurahVirtualThreshold || 140)
             );
@@ -2339,7 +2355,7 @@ export default {
             return this.getScrollTopOffset();
         },
         visibleWindow() {
-            if (this.isMemorisationMode && this.filteredAyahs?.length) {
+            if (this.isMemorisationModeActive && this.filteredAyahs?.length) {
                 const focus = this.memorisationFocusIndexSafe;
                 const out = [];
                 if (focus > 0)
@@ -2365,11 +2381,11 @@ export default {
             return out;
         },
         topSpacerHeight() {
-            if (this.isMemorisationMode) return 0;
+            if (this.isMemorisationModeActive) return 0;
             return Math.max(0, this.visibleStart * this.itemHeight);
         },
         bottomSpacerHeight() {
-            if (this.isMemorisationMode) return 0;
+            if (this.isMemorisationModeActive) return 0;
             const end = Math.max(this.visibleEnd, this.visibleStart);
             const remaining = Math.max(0, this.totalItems - end);
             return remaining * this.itemHeight;
@@ -2628,11 +2644,13 @@ export default {
         bookmarkStorageUserId(next, prev) {
             if (String(next || "") === String(prev || "")) return;
             this.loadCustomPlaylist();
+            this.loadPersistedMemorisationPreviousSession();
         },
         userId(next, prev) {
             if (this.bookmarkStorageUserId) return;
             if (String(next || "") === String(prev || "")) return;
             this.loadCustomPlaylist();
+            this.loadPersistedMemorisationPreviousSession();
         },
         playlistEditorName() {
             this.showPlaylistEditorConfirmAction = false;
@@ -3075,6 +3093,7 @@ export default {
         } catch (_) { }
         await this.initializeBookmarkAuth();
         this.syncHifdhAuthStorage();
+        this.loadPersistedMemorisationPreviousSession();
         this.loadContinueProgress();
         this.loadContinueProgressHiddenState();
         await this.initializeFontSizePreferences();
@@ -3992,27 +4011,116 @@ export default {
                 playbackSpeed: Number(this.playbackSpeed || 1),
                 selectedQuranFontId: this.selectedQuranFontId || "",
                 isMemorisationMode: !!this.isMemorisationMode,
+                isBlurNextAyahEnabled: !!this.isBlurNextAyahEnabled,
+                isTranslationVisible: !!this.isTranslationVisible,
+                isTransliterationVisible: !!this.isTransliterationVisible,
+                translationVisibility: {
+                    ...(this.translationVisibility || {}),
+                },
+                transliterationVisibility: {
+                    ...(this.transliterationVisibility || {}),
+                },
                 showTajweed: !!this.showTajweed,
                 showRealtimeHighlighting: !!this.showRealtimeHighlighting,
                 showWordTranslation: !!this.showWordTranslation,
                 showWordTranslationTooltip: !!this.showWordTranslationTooltip,
             };
         },
+        buildCurrentMemorisationSessionSnapshot() {
+            const total = Math.max(1, Number(this.totalAyahs || 1));
+            const start = Math.min(
+                total,
+                Math.max(1, Number(this.memorisationRangeStart || 1))
+            );
+            const end = Math.min(
+                total,
+                Math.max(start, Number(this.memorisationRangeEnd || total))
+            );
+            const focusIndex = Math.max(
+                0,
+                Number.isFinite(Number(this.activeAyahIndex))
+                    ? Number(this.activeAyahIndex)
+                    : Number(this.selectedCardIndex || 0)
+            );
+            const focusAyah = this.filteredAyahs?.[focusIndex] || null;
+            const focusAyahNumber = Number(
+                focusAyah?.numberInSurah || focusAyah?.number || start
+            );
+
+            return {
+                selectedSurah: String(this.selectedSurah || ""),
+                selectedReciter: this.selectedReciter || "",
+                memorisationRangeStart: start,
+                memorisationRangeEnd: end,
+                memorisationVerseDelay: Math.max(
+                    0,
+                    Number(this.memorisationVerseDelay || 0)
+                ),
+                memorisationRepetitionCount: Math.max(
+                    1,
+                    Number(this.memorisationRepetitionCount || 1)
+                ),
+                playbackMode: this.playbackMode || "continuous",
+                playbackSpeed: Number(this.playbackSpeed || 1),
+                selectedQuranFontId: this.selectedQuranFontId || "",
+                isMemorisationMode: !!this.isMemorisationMode,
+                isBlurNextAyahEnabled: !!this.isBlurNextAyahEnabled,
+                isTranslationVisible: !!this.isTranslationVisible,
+                isTransliterationVisible: !!this.isTransliterationVisible,
+                translationVisibility: {
+                    ...(this.translationVisibility || {}),
+                },
+                transliterationVisibility: {
+                    ...(this.transliterationVisibility || {}),
+                },
+                showTajweed: !!this.showTajweed,
+                showRealtimeHighlighting: !!this.showRealtimeHighlighting,
+                showWordTranslation: !!this.showWordTranslation,
+                showWordTranslationTooltip: !!this.showWordTranslationTooltip,
+                focusAyahNumber: Number.isFinite(focusAyahNumber)
+                    ? focusAyahNumber
+                    : start,
+            };
+        },
+        syncPreviousMemorisationSessionFocus(index = null) {
+            if (!this.memorisationPreviousSessionSnapshot) return;
+            const safeIndex = Number.isFinite(Number(index))
+                ? Number(index)
+                : Number(this.activeAyahIndex || this.selectedCardIndex || 0);
+            const ayah = this.filteredAyahs?.[Math.max(0, safeIndex)] || null;
+            const ayahNumber = Number(ayah?.numberInSurah || ayah?.number || 0);
+            if (!Number.isFinite(ayahNumber) || ayahNumber <= 0) return;
+            const nextSnapshot = {
+                ...this.memorisationPreviousSessionSnapshot,
+                focusAyahNumber: ayahNumber,
+            };
+            this.persistMemorisationPreviousSession(nextSnapshot, {
+                sessionId: nextSnapshot.sessionId,
+            });
+        },
         clearMemorisationSessionSnapshot() {
             this.memorisationSessionSnapshot = null;
         },
         async restoreMemorisationSessionSnapshot() {
             const snapshot = this.memorisationSessionSnapshot;
-            if (!snapshot) return;
+            if (!snapshot) return false;
             this.isRestoringMemorisationSnapshot = true;
+            let restored = false;
             try {
                 if (
                     snapshot.selectedSurah &&
                     String(this.selectedSurah || "") !== snapshot.selectedSurah
                 ) {
-                    await this.selectSurah(snapshot.selectedSurah, {
-                        skipScroll: true,
-                    });
+                    try {
+                        await this.selectSurah(snapshot.selectedSurah, {
+                            skipScroll: true,
+                        });
+                    } catch (error) {
+                        console.warn(
+                            "Unable to restore memorisation surah, keeping current surah:",
+                            error
+                        );
+                    }
                 }
                 if (
                     snapshot.selectedReciter &&
@@ -4067,6 +4175,27 @@ export default {
                     this.syncQuranFontStack();
                 }
                 this.isMemorisationMode = !!snapshot.isMemorisationMode;
+                this.isBlurNextAyahEnabled = !!snapshot.isBlurNextAyahEnabled;
+                this.applyGlobalTextVisibility({
+                    translation: !!snapshot.isTranslationVisible,
+                    transliteration: !!snapshot.isTransliterationVisible,
+                });
+                if (
+                    snapshot.translationVisibility &&
+                    typeof snapshot.translationVisibility === "object"
+                ) {
+                    this.translationVisibility = {
+                        ...snapshot.translationVisibility,
+                    };
+                }
+                if (
+                    snapshot.transliterationVisibility &&
+                    typeof snapshot.transliterationVisibility === "object"
+                ) {
+                    this.transliterationVisibility = {
+                        ...snapshot.transliterationVisibility,
+                    };
+                }
                 this.showTajweed = !!snapshot.showTajweed;
                 this.showRealtimeHighlighting = !!snapshot.showRealtimeHighlighting;
                 this.showWordTranslation = !!snapshot.showWordTranslation;
@@ -4080,7 +4209,9 @@ export default {
                 ) {
                     this.enrichSurahWithQuranSegments();
                 }
-            } catch (_) {
+                restored = true;
+            } catch (error) {
+                console.error("Unable to restore memorisation snapshot:", error);
                 this.showToast(
                     "Could not restore the previous reading state.",
                     3000
@@ -4090,6 +4221,7 @@ export default {
                 this.populateMemorisationDraft();
                 this.isRestoringMemorisationSnapshot = false;
             }
+            return restored;
         },
         syncMemorisationDraftRangeForSurah() {
             const maxAyah = Math.max(1, Number(this.memorisationDraftMaxAyah || 1));
@@ -4189,6 +4321,21 @@ export default {
                 await new Promise((resolve) => setTimeout(resolve, 40));
             }
         },
+        async ensureSurahReciterApplied(reciterIdentifier) {
+            const targetReciter = String(reciterIdentifier || "").trim();
+            if (!targetReciter) return;
+            await this.$nextTick();
+            await this.waitForReaderIdle();
+            if (String(this.selectedReciter || "") !== targetReciter) return;
+            if (
+                String(this.surahDetailsReciterIdentifier || "") === targetReciter
+            ) {
+                return;
+            }
+            await this.fetchSurahDetails();
+            this.resetAllAudioPlayers();
+            this.syncVirtualWindowAfterSelection();
+        },
         syncMemorisationOffcanvasDockedWidth() {
             if (typeof window === "undefined") return;
             const panel = this.$refs?.memorisationOffcanvas;
@@ -4276,11 +4423,16 @@ export default {
             this.isMemorisationToolbarVisible = false;
             this.closeMemorisationOffcanvas();
             this.resetDesktopToolbarScrollPosition();
+            let restoredSession = false;
             if (restoreSession) {
-                await this.restoreMemorisationSessionSnapshot();
+                restoredSession = await this.restoreMemorisationSessionSnapshot();
             } else {
                 this.clearMemorisationSessionSnapshot();
                 this.populateMemorisationDraft();
+            }
+            if (restoreSession && !restoredSession) {
+                this.isMemorisationMode = false;
+                this.isBlurNextAyahEnabled = false;
             }
             if (wasVisible && showToast) {
                 this.showModeToggleToast("Memorisation tools", false);
@@ -4290,32 +4442,130 @@ export default {
             this.hideMemorisationSubmitAlert();
             this.closeMemorisationOffcanvas();
         },
-        resetMemorisationDraftForm() {
+        getDefaultMemorisationReciterIdentifier() {
+            const preferredReciter = "ar.alafasy";
+            const availableReciters = Array.isArray(this.recitersSorted)
+                ? this.recitersSorted
+                : [];
+            const hasPreferred = availableReciters.some(
+                (reciter) =>
+                    String(reciter?.identifier || "") === preferredReciter
+            );
+            if (hasPreferred) return preferredReciter;
+            if (String(this.selectedReciter || "").trim()) {
+                return String(this.selectedReciter || "").trim();
+            }
+            const firstAvailable = String(
+                availableReciters?.[0]?.identifier || ""
+            ).trim();
+            return firstAvailable || preferredReciter;
+        },
+        getDefaultMemorisationState() {
             const speedOptions =
                 Array.isArray(this.playbackSpeeds) && this.playbackSpeeds.length
                     ? this.playbackSpeeds
                     : [1];
             const defaultSpeed = speedOptions.includes(1) ? 1 : speedOptions[0];
-            const targetSurah = String(
-                this.memorisationDraft?.surahNumber || this.selectedSurah || ""
-            );
-            this.memorisationDraft = {
-                surahNumber: targetSurah,
-                reciterIdentifier: this.selectedReciter || "",
+            return {
+                surahNumber: "1",
+                reciterIdentifier: this.getDefaultMemorisationReciterIdentifier(),
                 rangeStart: 1,
-                rangeEnd: 1,
+                rangeEnd: 7,
                 playbackSpeed: defaultSpeed,
                 verseDelay: 0,
                 repetitionCount: 3,
                 playbackMode: "continuous",
-                quranFontId: this.selectedQuranFontId || "",
+                quranFontId: "",
                 singleAyahFocus: false,
+                blurNextAyah: false,
+                translationVisible: false,
+                transliterationVisible: false,
                 showTajweed: false,
                 showRealtimeHighlighting: false,
                 showWordTranslation: false,
                 showWordTranslationTooltip: false,
             };
-            this.syncMemorisationDraftRangeForSurah();
+        },
+        async applyMemorisationDefaultSession(options = {}) {
+            const { syncDraft = true, scroll = true } = options || {};
+            const defaults = this.getDefaultMemorisationState();
+            try {
+                if (
+                    defaults.surahNumber &&
+                    String(this.selectedSurah || "") !== defaults.surahNumber
+                ) {
+                    await this.selectSurah(defaults.surahNumber, { skipScroll: true });
+                }
+            } catch (error) {
+                console.warn(
+                    "Unable to switch to default memorisation surah:",
+                    error
+                );
+            }
+
+            const totalAyahs = Math.max(1, Number(this.totalAyahs || 1));
+            const safeEnd = Math.min(
+                totalAyahs,
+                Math.max(defaults.rangeStart, Number(defaults.rangeEnd || 7))
+            );
+            const requestedReciter = defaults.reciterIdentifier || this.selectedReciter;
+            const reciterChanged =
+                requestedReciter && requestedReciter !== this.selectedReciter;
+
+            this.selectedReciter = requestedReciter;
+            if (reciterChanged) {
+                await this.ensureSurahReciterApplied(requestedReciter);
+            }
+            this.memorisationRangeStart = defaults.rangeStart;
+            this.memorisationRangeEnd = safeEnd;
+            this.memorisationVerseDelay = defaults.verseDelay;
+            this.memorisationRepetitionCount = defaults.repetitionCount;
+            this.setPlaybackMode(defaults.playbackMode);
+            this.playbackSpeed = defaults.playbackSpeed;
+            this.isMemorisationMode = !!defaults.singleAyahFocus;
+            this.isBlurNextAyahEnabled = !!defaults.blurNextAyah;
+            this.showTajweed = !!defaults.showTajweed;
+            this.showRealtimeHighlighting = !!defaults.showRealtimeHighlighting;
+            this.showWordTranslation = !!defaults.showWordTranslation;
+            this.showWordTranslationTooltip = !!defaults.showWordTranslationTooltip;
+            this.applyGlobalTextVisibility({
+                translation: !!defaults.translationVisible,
+                transliteration: !!defaults.transliterationVisible,
+            });
+            this.applyMemorisationDraftFont(defaults.quranFontId);
+            this.applyMemorisationRange();
+            this.prepareSettingsDraft();
+
+            const targetIndex = Math.max(
+                0,
+                this.resolveAyahIndexByNumber(defaults.rangeStart)
+            );
+            this.memorisationFocusIndex = targetIndex;
+            this.selectCard(targetIndex);
+            if (scroll) {
+                this.$nextTick(() => {
+                    this.scrollToAyahIndex(targetIndex, {
+                        settle: true,
+                        force: true,
+                        behavior: "smooth",
+                        lock: true,
+                    });
+                });
+            }
+
+            if (syncDraft) {
+                this.memorisationDraft = {
+                    ...defaults,
+                    rangeEnd: safeEnd,
+                };
+                this.hideMemorisationSubmitAlert();
+            }
+        },
+        resetMemorisationDraftForm() {
+            const defaults = this.getDefaultMemorisationState();
+            this.memorisationDraft = {
+                ...defaults,
+            };
             this.hideMemorisationSubmitAlert();
         },
         async submitMemorisationOffcanvas() {
@@ -4349,8 +4599,7 @@ export default {
                     requestedReciter !== this.selectedReciter;
                 this.selectedReciter = requestedReciter;
                 if (reciterChanged) {
-                    await this.$nextTick();
-                    await this.waitForReaderIdle();
+                    await this.ensureSurahReciterApplied(requestedReciter);
                 }
                 this.memorisationRangeStart = start;
                 this.memorisationRangeEnd = end;
@@ -4373,6 +4622,9 @@ export default {
                 ) {
                     this.enrichSurahWithQuranSegments();
                 }
+                this.persistMemorisationPreviousSession(
+                    this.buildCurrentMemorisationSessionSnapshot()
+                );
                 this.memorisationLastWorkedIndex = Number.isFinite(
                     Number(this.activeAyahIndex)
                 )
@@ -4395,6 +4647,45 @@ export default {
             this.hideMemorisationSubmitAlert();
             this.closeMemorisationOffcanvas();
         },
+        async returnToPreviousSession() {
+            if (this.isRestoringMemorisationSnapshot) return;
+            try {
+                const previousSnapshot = this.memorisationPreviousSessionSnapshot;
+                if (!previousSnapshot) {
+                    this.showToast("No previous session found.", 2400);
+                    return;
+                }
+                const workingSnapshotBackup = this.memorisationSessionSnapshot
+                    ? { ...this.memorisationSessionSnapshot }
+                    : null;
+                this.memorisationSessionSnapshot = { ...previousSnapshot };
+                const restored = await this.restoreMemorisationSessionSnapshot();
+                if (workingSnapshotBackup) {
+                    this.memorisationSessionSnapshot = workingSnapshotBackup;
+                }
+                if (!restored) {
+                    this.showToast("Could not return to previous session.", 2800);
+                    return;
+                }
+                const targetAyahNumber = Number(previousSnapshot.focusAyahNumber || 0);
+                if (targetAyahNumber > 0) {
+                    const targetIndex = this.resolveAyahIndexByNumber(targetAyahNumber);
+                    if (targetIndex >= 0) {
+                        this.selectCard(targetIndex);
+                        this.scrollToAyahIndex(targetIndex, {
+                            settle: true,
+                            force: true,
+                            behavior: "smooth",
+                            lock: true,
+                        });
+                    }
+                }
+                this.showToast("Returned to previous session.", 2600);
+            } catch (error) {
+                console.error("Unable to restore previous memorisation session:", error);
+                this.showToast("Could not return to previous session.", 2800);
+            }
+        },
         async toggleMemorisationToolbar() {
             if (this.isMemorisationToolbarVisible) {
                 await this.deactivateMemorisationToolbar({
@@ -4403,20 +4694,16 @@ export default {
                 });
                 return;
             }
+            this.hideMemorisationSubmitAlert();
             this.populateMemorisationDraft();
-            this.captureMemorisationSessionSnapshot();
-            this.resetMemorisationDraftForm();
+            this.memorisationSessionSnapshot =
+                this.buildCurrentMemorisationSessionSnapshot();
             this.isMemorisationToolbarVisible = true;
-            const fallbackIndex = Number(this.activeAyahIndex || 0);
-            const rememberedIndex = Number(this.memorisationLastWorkedIndex);
-            const targetIndex = Number.isFinite(rememberedIndex)
-                ? rememberedIndex
-                : fallbackIndex;
-            this.memorisationFocusIndex = Math.max(0, targetIndex);
-            this.showModeToggleToast("Memorisation tools", true);
-            this.$nextTick(() => {
-                this.scrollToAyahIndex(this.memorisationFocusIndexSafe);
+            await this.applyMemorisationDefaultSession({
+                syncDraft: true,
+                scroll: true,
             });
+            this.showModeToggleToast("Memorisation tools", true);
         },
         toggleMemorisationAdvanced() {
             this.isMemorisationAdvancedOpen = !this.isMemorisationAdvancedOpen;
@@ -7404,6 +7691,195 @@ export default {
                 this.getSurahNameByNumber(surahNumber || this.selectedSurah || 1)
             );
         },
+        getMemorisationSessionScopeId() {
+            if (this.bookmarkStorageUserId) {
+                return `user_${this.bookmarkStorageUserId}`;
+            }
+            const anonId = this.getOrCreateSuratPreferenceAnonId();
+            return `anon_${anonId || "local"}`;
+        },
+        getMemorisationSessionStorageKey() {
+            return this.buildScopedFontPreferenceKey(
+                this.memorisationSessionStorageKeyBase ||
+                    "ic_memorisation_previous_session_v1"
+            );
+        },
+        createMemorisationSessionId(scopeId = this.getMemorisationSessionScopeId()) {
+            const scoped = String(scopeId || "anon_local").replace(
+                /[^a-zA-Z0-9_-]/g,
+                ""
+            );
+            try {
+                if (
+                    typeof window !== "undefined" &&
+                    window.crypto &&
+                    typeof window.crypto.randomUUID === "function"
+                ) {
+                    return `mem-${scoped}-${window.crypto.randomUUID()}`;
+                }
+            } catch (_) {}
+            return `mem-${scoped}-${Date.now()}-${Math.random()
+                .toString(36)
+                .slice(2, 10)}`;
+        },
+        normalizeMemorisationSessionSnapshot(snapshot) {
+            if (!snapshot || typeof snapshot !== "object") return null;
+            const selectedSurah = String(
+                snapshot.selectedSurah || snapshot.surahNumber || ""
+            ).trim();
+            if (!selectedSurah) return null;
+            const selectedReciter = String(
+                snapshot.selectedReciter || snapshot.reciterIdentifier || ""
+            ).trim();
+            const rangeStart = Math.max(
+                1,
+                Number(snapshot.memorisationRangeStart || snapshot.rangeStart || 1)
+            );
+            const rangeEnd = Math.max(
+                rangeStart,
+                Number(snapshot.memorisationRangeEnd || snapshot.rangeEnd || rangeStart)
+            );
+            const normalized = {
+                ...snapshot,
+                selectedSurah,
+                selectedReciter,
+                memorisationRangeStart: rangeStart,
+                memorisationRangeEnd: rangeEnd,
+                memorisationVerseDelay: Math.max(
+                    0,
+                    Number(snapshot.memorisationVerseDelay || snapshot.verseDelay || 0)
+                ),
+                memorisationRepetitionCount: Math.max(
+                    1,
+                    Number(
+                        snapshot.memorisationRepetitionCount ||
+                            snapshot.repetitionCount ||
+                            1
+                    )
+                ),
+                playbackMode:
+                    snapshot.playbackMode === "repeat" ||
+                    snapshot.playbackMode === "manual"
+                        ? snapshot.playbackMode
+                        : "continuous",
+                playbackSpeed: Number(snapshot.playbackSpeed || 1) || 1,
+                selectedQuranFontId: String(snapshot.selectedQuranFontId || ""),
+                isMemorisationMode: !!snapshot.isMemorisationMode,
+                isBlurNextAyahEnabled: !!snapshot.isBlurNextAyahEnabled,
+                isTranslationVisible: !!snapshot.isTranslationVisible,
+                isTransliterationVisible: !!snapshot.isTransliterationVisible,
+                translationVisibility:
+                    snapshot.translationVisibility &&
+                    typeof snapshot.translationVisibility === "object"
+                        ? { ...snapshot.translationVisibility }
+                        : {},
+                transliterationVisibility:
+                    snapshot.transliterationVisibility &&
+                    typeof snapshot.transliterationVisibility === "object"
+                        ? { ...snapshot.transliterationVisibility }
+                        : {},
+                showTajweed: !!snapshot.showTajweed,
+                showRealtimeHighlighting: !!snapshot.showRealtimeHighlighting,
+                showWordTranslation: !!snapshot.showWordTranslation,
+                showWordTranslationTooltip: !!snapshot.showWordTranslationTooltip,
+                focusAyahNumber: Math.max(
+                    1,
+                    Number(snapshot.focusAyahNumber || rangeStart)
+                ),
+            };
+            return normalized;
+        },
+        persistMemorisationPreviousSession(snapshot, options = {}) {
+            const normalized = this.normalizeMemorisationSessionSnapshot(snapshot);
+            if (!normalized) return null;
+            const scopeId = this.getMemorisationSessionScopeId();
+            const sessionId = String(
+                options.sessionId ||
+                    normalized.sessionId ||
+                    this.createMemorisationSessionId(scopeId)
+            );
+            const updatedAt = Date.now();
+            const payload = {
+                version: 1,
+                scopeId,
+                sessionId,
+                updatedAt,
+                snapshot: {
+                    ...normalized,
+                    sessionId,
+                    scopeId,
+                    updatedAt,
+                },
+            };
+            try {
+                localStorage.setItem(
+                    this.getMemorisationSessionStorageKey(),
+                    JSON.stringify(payload)
+                );
+            } catch (_) {}
+            this.memorisationPreviousSessionSnapshot = {
+                ...payload.snapshot,
+            };
+            return this.memorisationPreviousSessionSnapshot;
+        },
+        loadPersistedMemorisationPreviousSession() {
+            if (typeof window === "undefined") {
+                this.memorisationPreviousSessionSnapshot = null;
+                return null;
+            }
+            try {
+                const raw = localStorage.getItem(
+                    this.getMemorisationSessionStorageKey()
+                );
+                if (!raw) {
+                    this.memorisationPreviousSessionSnapshot = null;
+                    return null;
+                }
+                const parsed = JSON.parse(raw);
+                const scopeId = this.getMemorisationSessionScopeId();
+                const parsedScopeId = String(parsed?.scopeId || "").trim();
+                const isLegacySnapshot =
+                    parsed &&
+                    typeof parsed === "object" &&
+                    !parsed.snapshot &&
+                    (parsed.selectedSurah || parsed.surahNumber);
+                if (!isLegacySnapshot && parsedScopeId && parsedScopeId !== scopeId) {
+                    this.memorisationPreviousSessionSnapshot = null;
+                    return null;
+                }
+                const snapshot = this.normalizeMemorisationSessionSnapshot(
+                    isLegacySnapshot ? parsed : parsed?.snapshot || null
+                );
+                if (!snapshot) {
+                    this.memorisationPreviousSessionSnapshot = null;
+                    return null;
+                }
+                const sessionId = String(
+                    parsed?.sessionId ||
+                        snapshot.sessionId ||
+                        this.createMemorisationSessionId(scopeId)
+                );
+                const updatedAt =
+                    Number(parsed?.updatedAt || snapshot.updatedAt || Date.now()) ||
+                    Date.now();
+                this.memorisationPreviousSessionSnapshot = {
+                    ...snapshot,
+                    sessionId,
+                    scopeId,
+                    updatedAt,
+                };
+                if (isLegacySnapshot) {
+                    this.persistMemorisationPreviousSession(
+                        this.memorisationPreviousSessionSnapshot,
+                        { sessionId }
+                    );
+                }
+                return this.memorisationPreviousSessionSnapshot;
+            } catch (_) {
+                this.memorisationPreviousSessionSnapshot = null;
+                return null;
+            }
+        },
         getMemorisationModeStorageKey() {
             return this.buildScopedFontPreferenceKey("suratIsMemorisationMode");
         },
@@ -8627,6 +9103,10 @@ export default {
                 this.syncSavedAyahsFromApi();
                 return;
             }
+            if (event.key === this.getMemorisationSessionStorageKey()) {
+                this.loadPersistedMemorisationPreviousSession();
+                return;
+            }
             if (event.key === this.getContinueProgressStorageKey()) {
                 this.loadContinueProgress();
                 return;
@@ -9412,6 +9892,7 @@ export default {
             if (isAuthed) {
                 this.bookmarkAuthenticated = true;
                 this.bookmarkStorageUserId = userId;
+                this.loadPersistedMemorisationPreviousSession();
                 this.loadContinueProgress();
                 this.loadContinueProgressHiddenState();
                 await this.initializeDeepFocusModePreference();
@@ -9427,6 +9908,7 @@ export default {
             }
             this.bookmarkAuthenticated = false;
             this.bookmarkStorageUserId = null;
+            this.loadPersistedMemorisationPreviousSession();
             this.syncHifdhAuthStorage();
             this.loadContinueProgress();
             this.loadContinueProgressHiddenState();
@@ -10976,9 +11458,10 @@ export default {
         selectCard(index) {
             this.selectedCardIndex = index;
             this.currentlyPlayingIndex = index;
-            if (this.isMemorisationMode) this.memorisationFocusIndex = index;
+            if (this.isMemorisationModeActive) this.memorisationFocusIndex = index;
             if (this.isMemorisationToolbarVisible) {
                 this.memorisationLastWorkedIndex = index;
+                this.syncPreviousMemorisationSessionFocus(index);
             }
             this.isHighlighted = true;
             const selectedAyah = this.filteredAyahs?.[index];
@@ -13658,6 +14141,9 @@ export default {
                                 }
                             ),
                         };
+                        this.surahDetailsReciterIdentifier = String(
+                            this.selectedReciter || ""
+                        );
                         this.setTranslationLazyState({
                             surahNumber: String(this.selectedSurah || ""),
                             translationId: String(this.selectedTranslation || ""),
@@ -13768,6 +14254,9 @@ export default {
                             };
                         }),
                     };
+                    this.surahDetailsReciterIdentifier = String(
+                        this.selectedReciter || ""
+                    );
                     this.setTranslationLazyState({
                         surahNumber: String(this.selectedSurah || ""),
                         translationId: String(this.selectedTranslation || ""),
@@ -13849,7 +14338,7 @@ export default {
                                 self.countdownInterval = null;
                                 self.isCountdownActive = false;
                                 self.playAudio(index);
-                                if (self.isMemorisationMode) {
+                                if (self.isMemorisationModeActive) {
                                     self.memorisationFocusIndex = index;
                                     self.selectCard(index);
                                 }
@@ -13859,7 +14348,7 @@ export default {
                     } else {
                         setTimeout(function () {
                             self.playAudio(index);
-                            if (self.isMemorisationMode) {
+                            if (self.isMemorisationModeActive) {
                                 self.memorisationFocusIndex = index;
                                 self.selectCard(index);
                             }
@@ -13884,7 +14373,7 @@ export default {
                                 self.isCountdownActive = false;
                                 self.triggerAutoNextAyahAnimation(nextIndex);
                                 self.playAudio(nextIndex);
-                                if (self.isMemorisationMode) {
+                                if (self.isMemorisationModeActive) {
                                     self.memorisationFocusIndex = nextIndex;
                                     self.selectCard(nextIndex);
                                 }
@@ -13896,7 +14385,7 @@ export default {
                         setTimeout(function () {
                             self.triggerAutoNextAyahAnimation(nextIndex);
                             self.playAudio(nextIndex);
-                            if (self.isMemorisationMode) {
+                            if (self.isMemorisationModeActive) {
                                 self.memorisationFocusIndex = nextIndex;
                                 self.selectCard(nextIndex);
                             }
@@ -13931,7 +14420,7 @@ export default {
             if (this.playbackMode === "continuous") {
                 var nextIndex = index + 1;
                 if (nextIndex < this.filteredAyahs.length) {
-                    if (this.isMemorisationMode) {
+                    if (this.isMemorisationModeActive) {
                         this.memorisationFocusIndex = nextIndex;
                         this.selectCard(nextIndex);
                     }

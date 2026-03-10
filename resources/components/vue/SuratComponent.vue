@@ -10,8 +10,8 @@
             'mobile-compact-layout': isTabletOrMobile,
             'reading-fullscreen': isReadingFullscreen,
             'deep-focus-mode': isDeepFocusMode,
-            'blur-next-ayah-enabled': isBlurNextAyahEnabled,
-            'memorisation-mode': isMemorisationMode
+            'blur-next-ayah-enabled': isMemorisationToolbarVisible && isBlurNextAyahEnabled,
+            'memorisation-mode': isMemorisationModeActive
         }"
         :style="quranFontStyle"
         role="main" aria-label="Quran Explorer">
@@ -235,7 +235,7 @@
                             aria-label="Surah quick controls">
                         <div
                             class="advanced-quran-mobile-main-row"
-                            :class="{ 'has-search-toggle': !isAdvancedSearchVisible }">
+                            :class="{ 'has-settings-btn': !isMemorisationToolbarVisible }">
                             <label class="visually-hidden" for="searchSurahDropdown">
                                 Select surah
                             </label>
@@ -313,13 +313,21 @@
                                 </div>
                             </div>
 
-                            <div
-                                class="advanced-quran-mobile-toggle-row"
-                                role="group"
-                                aria-label="Global translation controls">
+                            <div class="advanced-quran-mobile-action-grid">
                                 <button
                                     type="button"
-                                    class="btn advanced-quran-mobile-action-btn advanced-quran-mobile-action-btn-toggle"
+                                    class="btn advanced-quran-mobile-action-btn advanced-quran-mobile-action-btn-memorisation"
+                                    @click="toggleMemorisationToolbar"
+                                    aria-controls="memorisationOffcanvas"
+                                    :aria-label="isMemorisationOffcanvasVisible ? 'Close memorisation tools' : 'Open memorisation tools'"
+                                    :class="{ 'is-active': isMemorisationToolbarVisible }"
+                                    :title="isMemorisationOffcanvasVisible ? 'Close memorisation tools.' : 'Open memorisation tools to support repetition, focus, and revision.'">
+                                    <i class="bi bi-journal-bookmark-fill" aria-hidden="true"></i>
+                                    <span class="advanced-quran-mobile-action-label">{{ memorisationToolbarButtonLabel }}</span>
+                                </button>
+                                <button
+                                    type="button"
+                                    class="btn advanced-quran-mobile-action-btn"
                                     :class="{ 'is-enabled': isTranslationAllEnabled }"
                                     @click="toggleToolbarTranslation"
                                     :title="isTranslationAllEnabled
@@ -336,7 +344,7 @@
                                 </button>
                                 <button
                                     type="button"
-                                    class="btn advanced-quran-mobile-action-btn advanced-quran-mobile-action-btn-toggle"
+                                    class="btn advanced-quran-mobile-action-btn"
                                     :class="{ 'is-enabled': isTransliterationAllEnabled }"
                                     @click="toggleToolbarTransliteration"
                                     :title="isTransliterationAllEnabled
@@ -354,7 +362,7 @@
                                 <button
                                     v-if="!isMemorisationToolbarVisible"
                                     type="button"
-                                    class="btn advanced-quran-mobile-action-btn advanced-quran-mobile-action-btn-toggle"
+                                    class="btn advanced-quran-mobile-action-btn"
                                     :class="{ 'is-enabled': voiceCommandsEnabled }"
                                     @click="toggleVoiceCommands"
                                     :disabled="!speechRecognitionSupported"
@@ -388,19 +396,18 @@
                                     <i class="bi bi-question-circle" aria-hidden="true"></i>
                                     <span class="advanced-quran-mobile-action-label">Voice guide</span>
                                 </button>
-                            </div>
-
-                            <div class="advanced-quran-mobile-action-grid">
                                 <button
+                                    v-if="hasPreviousSessionReturn"
                                     type="button"
-                                    class="btn advanced-quran-mobile-action-btn advanced-quran-mobile-action-btn-memorisation"
-                                    @click="toggleMemorisationToolbar"
-                                    aria-controls="memorisationOffcanvas"
-                                    :aria-label="isMemorisationOffcanvasVisible ? 'Close memorisation tools' : 'Open memorisation tools'"
-                                    :class="{ 'is-active': isMemorisationToolbarVisible }"
-                                    :title="isMemorisationOffcanvasVisible ? 'Close memorisation tools.' : 'Open memorisation tools to support repetition, focus, and revision.'">
-                                    <i class="bi bi-journal-bookmark-fill" aria-hidden="true"></i>
-                                    <span class="advanced-quran-mobile-action-label">{{ memorisationToolbarButtonLabel }}</span>
+                                    class="btn advanced-quran-mobile-action-btn"
+                                    @click="returnToPreviousSession"
+                                    :disabled="isRestoringMemorisationSnapshot"
+                                    aria-label="Return to previous session"
+                                    title="Return to previous session">
+                                    <i class="bi bi-arrow-counterclockwise" aria-hidden="true"></i>
+                                    <span class="advanced-quran-mobile-action-label">
+                                        {{ isRestoringMemorisationSnapshot ? "Returning..." : "Previous session" }}
+                                    </span>
                                 </button>
                                 <button
                                     v-if="isMemorisationToolbarVisible"
@@ -666,6 +673,19 @@
                     :title="isMemorisationOffcanvasVisible ? 'Close memorisation tools.' : 'Open memorisation tools to support repetition, focus, and revision.'">
                     <i class="bi bi-journal-bookmark-fill" aria-hidden="true"></i>
                     <span class="quran-toolbar-btn-text">{{ memorisationToolbarButtonLabel }}</span>
+                </button>
+                <button
+                    v-if="hasPreviousSessionReturn"
+                    type="button"
+                    class="quran-toolbar-btn"
+                    @click="returnToPreviousSession"
+                    :disabled="isRestoringMemorisationSnapshot"
+                    aria-label="Return to previous session"
+                    title="Return to previous session">
+                    <i class="bi bi-arrow-counterclockwise" aria-hidden="true"></i>
+                    <span class="quran-toolbar-btn-text">
+                        {{ isRestoringMemorisationSnapshot ? "Returning..." : "Previous session" }}
+                    </span>
                 </button>
                 <button
                     v-if="isMemorisationToolbarVisible"
@@ -2267,7 +2287,7 @@
             <div v-if="isLoading" class="loading-placeholder">Loading Surah...</div>
 
             <div class="row rtl-text" ref="listContainer" role="list" aria-label="Ayah cards list"
-                :style="!isMemorisationMode
+                :style="!isMemorisationModeActive
                     ? { paddingTop: topSpacerHeight + 'px', paddingBottom: bottomSpacerHeight + 'px' }
                     : null">
                 <div style="padding: 12px; border-radius: 8px" ref="audioCard" v-for="item in visibleWindow"
@@ -2293,9 +2313,9 @@
                         'swipe-transition-next': swipeTransitionIndex === item.index && swipeTransitionDirection > 0,
                         'swipe-transition-prev': swipeTransitionIndex === item.index && swipeTransitionDirection < 0,
                         'is-pinned': isAyahPinned(item.ayah),
-                        'memorisation-past': isMemorisationMode && item.role === 'past',
-                        'memorisation-current': isMemorisationMode && item.role === 'current',
-                        'memorisation-next': isMemorisationMode && item.role === 'next',
+                        'memorisation-past': isMemorisationModeActive && item.role === 'past',
+                        'memorisation-current': isMemorisationModeActive && item.role === 'current',
+                        'memorisation-next': isMemorisationModeActive && item.role === 'next',
                     }">
                     <div class="ayah-surface rtl-text d-flex flex-column">
                         <!-- Surah and Ayah Number -->
