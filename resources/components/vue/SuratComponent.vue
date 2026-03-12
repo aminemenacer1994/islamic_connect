@@ -420,6 +420,16 @@
                                     <span class="advanced-quran-mobile-action-label">Open tools panel</span>
                                 </button>
                                 <button
+                                    v-if="isMemorisationToolbarVisible"
+                                    type="button"
+                                    class="btn advanced-quran-mobile-action-btn"
+                                    @click="openHifdhPlanModalGuarded"
+                                    aria-label="Open Hifz plan modal"
+                                    title="Open your Hifz plan">
+                                    <i class="bi bi-calendar-check" aria-hidden="true"></i>
+                                    <span class="advanced-quran-mobile-action-label">Hifz plan</span>
+                                </button>
+                                <button
                                     v-if="!isMemorisationToolbarVisible"
                                     type="button"
                                     class="btn advanced-quran-mobile-action-btn"
@@ -696,6 +706,16 @@
                     title="Open memorisation tools panel">
                     <i class="bi bi-layout-sidebar-inset" aria-hidden="true"></i>
                     <span class="quran-toolbar-btn-text">Open tools panel</span>
+                </button>
+                <button
+                    v-if="isMemorisationToolbarVisible"
+                    type="button"
+                    class="quran-toolbar-btn"
+                    @click="openHifdhPlanModalGuarded"
+                    aria-label="Open Hifz plan modal"
+                    title="Open your Hifz plan">
+                    <i class="bi bi-calendar-check" aria-hidden="true"></i>
+                    <span class="quran-toolbar-btn-text">Hifz plan</span>
                 </button>
 
                 <div v-if="!isMemorisationToolbarVisible" class="quran-toolbar-reciter">
@@ -1355,6 +1375,140 @@
                         </div>
                     </div>
 
+                    <section class="surah-offcanvas-section memorisation-offcanvas-panel" aria-label="Hifdh plan quick access">
+                        <button type="button" class="btn memorisation-offcanvas-btn memorisation-offcanvas-btn-submit w-100" @click="openHifdhPlanModalGuarded">
+                            <i class="bi bi-journal-check me-2" aria-hidden="true"></i>
+                            Open Hifdh Plan
+                        </button>
+                    </section>
+
+                    <section class="surah-offcanvas-section memorisation-offcanvas-panel memorisation-preset-panel" aria-label="One-click presets">
+                        <div class="memorisation-preset-panel-head">
+                            <div>
+                                <h5 class="memorisation-offcanvas-section-title">One-Click Presets</h5>
+                                <p class="memorisation-offcanvas-section-subtitle mb-0">
+                                    Save this full setup and tap any preset card to load instantly.
+                                </p>
+                            </div>
+                            <div class="memorisation-preset-panel-head-actions">
+                                <button
+                                    type="button"
+                                    class="btn memorisation-preset-collapse-btn"
+                                    @click="toggleMemorisationPresetPanelCollapsed"
+                                    :aria-label="isMemorisationPresetPanelCollapsed ? 'Expand presets' : 'Collapse presets'"
+                                    :title="isMemorisationPresetPanelCollapsed ? 'Expand presets' : 'Collapse presets'"
+                                    :aria-expanded="(!isMemorisationPresetPanelCollapsed).toString()">
+                                    <span class="memorisation-preset-count" aria-hidden="true">
+                                        {{ sortedMemorisationPresets.length }}
+                                    </span>
+                                    <i
+                                        class="bi"
+                                        :class="isMemorisationPresetPanelCollapsed ? 'bi-chevron-down' : 'bi-chevron-up'"
+                                        aria-hidden="true"></i>
+                                </button>
+                                <button
+                                    type="button"
+                                    class="btn memorisation-preset-create-icon"
+                                    @click="openMemorisationPresetNameEditor()"
+                                    aria-label="Create a new one-click preset"
+                                    title="Create preset">
+                                    <i class="bi bi-plus-lg" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div v-show="!isMemorisationPresetPanelCollapsed" class="memorisation-preset-panel-body">
+                            <div v-if="isMemorisationPresetEditorVisible" class="memorisation-preset-editor">
+                                <label class="form-label surah-offcanvas-label mb-0" for="memorisationPresetNameInput">
+                                    {{ memorisationPresetEditorMode === "rename" ? "Rename preset" : "Preset name" }}
+                                </label>
+                                <input
+                                    id="memorisationPresetNameInput"
+                                    ref="memorisationPresetNameInput"
+                                    type="text"
+                                    class="form-control surah-offcanvas-input memorisation-preset-editor-input"
+                                    v-model="memorisationPresetEditorName"
+                                    maxlength="60"
+                                    placeholder="e.g. Fajr Routine"
+                                    @keydown.enter.prevent="submitMemorisationPresetNameEditor"
+                                    @keydown.esc.prevent="closeMemorisationPresetNameEditor" />
+                                <p v-if="memorisationPresetEditorError" class="memorisation-preset-editor-error mb-0" role="status" aria-live="polite">
+                                    {{ memorisationPresetEditorError }}
+                                </p>
+                                <div class="memorisation-preset-editor-actions">
+                                    <button
+                                        type="button"
+                                        class="btn memorisation-preset-editor-btn"
+                                        @click="closeMemorisationPresetNameEditor">
+                                        Cancel
+                                    </button>
+                                    <button
+                                        type="button"
+                                        class="btn memorisation-preset-editor-btn memorisation-preset-editor-btn-submit"
+                                        @click="submitMemorisationPresetNameEditor">
+                                        {{ memorisationPresetEditorMode === "rename" ? "Update" : "Save" }}
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div v-if="hasMemorisationPresets" class="memorisation-preset-list">
+                                <article
+                                    v-for="preset in sortedMemorisationPresets"
+                                    :key="preset.id"
+                                    class="memorisation-preset-card"
+                                    :class="{
+                                        'is-favorite': preset.favorite,
+                                        'is-active': memorisationActivePresetId === preset.id
+                                    }"
+                                    role="button"
+                                    tabindex="0"
+                                    @click="loadMemorisationPreset(preset.id)"
+                                    @keydown.enter.prevent="loadMemorisationPreset(preset.id)"
+                                    @keydown.space.prevent="loadMemorisationPreset(preset.id)"
+                                    :aria-label="`Load preset ${preset.name}`">
+                                    <div class="memorisation-preset-card-head">
+                                        <strong class="memorisation-preset-card-name">{{ preset.name }}</strong>
+                                        <div class="memorisation-preset-head-actions">
+                                            <button
+                                                type="button"
+                                                class="btn memorisation-preset-icon-btn"
+                                                :class="{ 'is-favorite': preset.favorite }"
+                                                @click.stop="toggleMemorisationPresetFavorite(preset.id)"
+                                                :aria-label="preset.favorite ? `Unstar preset ${preset.name}` : `Star preset ${preset.name}`"
+                                                :title="preset.favorite ? 'Unstar preset' : 'Star preset'">
+                                                <i class="bi" :class="preset.favorite ? 'bi-star-fill' : 'bi-star'" aria-hidden="true"></i>
+                                            </button>
+                                            <button
+                                                type="button"
+                                                class="btn memorisation-preset-icon-btn"
+                                                :disabled="isMemorisationDraftSubmitting"
+                                                @click.stop="openMemorisationPresetNameEditor({ presetId: preset.id })"
+                                                :aria-label="`Rename preset ${preset.name}`"
+                                                title="Rename preset">
+                                                <i class="bi bi-pencil" aria-hidden="true"></i>
+                                            </button>
+                                            <button
+                                                type="button"
+                                                class="btn memorisation-preset-icon-btn memorisation-preset-icon-btn-delete"
+                                                :disabled="isMemorisationDraftSubmitting"
+                                                @click.stop="deleteMemorisationPreset(preset.id)"
+                                                :aria-label="`Delete preset ${preset.name}`"
+                                                title="Delete preset">
+                                                <i class="bi bi-trash3" aria-hidden="true"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <p class="memorisation-preset-card-meta mb-0">
+                                        {{ describeMemorisationPreset(preset) }}
+                                    </p>
+                                </article>
+                            </div>
+                            <p v-else class="memorisation-preset-empty mb-0">
+                                No presets saved yet. Use + to create your first routine.
+                            </p>
+                        </div>
+                    </section>
+
                     <section class="surah-offcanvas-section memorisation-offcanvas-panel" aria-label="Session setup">
                         <h5 class="memorisation-offcanvas-section-title">Session Setup</h5>
                         <p class="memorisation-offcanvas-section-subtitle mb-0">
@@ -1565,138 +1719,65 @@
                                 <i class="bi bi-arrow-right-circle" aria-hidden="true"></i>
                                 <span>{{ nextHifdhDueSummary }}</span>
                             </p>
-                            <div class="hifdh-history-strip" role="status" aria-live="polite">
-                                <span class="hifdh-history-title">Last {{ hifdhRecentPerformance.windowDays }} days</span>
-                                <span class="hifdh-history-chip">
-                                    <i class="bi bi-check2-circle" aria-hidden="true"></i>
-                                    {{ hifdhRecentPerformance.completedCount }}/{{ hifdhRecentPerformance.dueCount }} done
-                                </span>
-                                <span class="hifdh-history-chip">
+
+                            <nav class="hifdh-panel-nav" aria-label="Hifdh quick navigation">
+                                <button type="button" class="hifdh-panel-nav-btn" @click="scrollHifdhPanelTo('start')">
+                                    <i class="bi bi-play-circle" aria-hidden="true"></i>
+                                    Start
+                                </button>
+                                <button type="button" class="hifdh-panel-nav-btn" @click="scrollHifdhPanelTo('due')">
+                                    <i class="bi bi-list-check" aria-hidden="true"></i>
+                                    Due
+                                </button>
+                                <button type="button" class="hifdh-panel-nav-btn" @click="scrollHifdhPanelTo('insights')">
                                     <i class="bi bi-graph-up-arrow" aria-hidden="true"></i>
-                                    {{ hifdhRecentPerformance.completionRate }}% completion
-                                </span>
-                                <span class="hifdh-history-chip">
-                                    Strong {{ hifdhRecentPerformance.feedbackCounts.strong }}
-                                </span>
-                                <span class="hifdh-history-chip">
-                                    Minor {{ hifdhRecentPerformance.feedbackCounts.minor }}
-                                </span>
-                                <span class="hifdh-history-chip">
-                                    Weak {{ hifdhRecentPerformance.feedbackCounts.weak }}
-                                </span>
-                            </div>
-                            <section class="hifdh-analytics-panel" aria-label="Hifdh analytics and progress trackers">
-                                <article class="hifdh-analytics-card">
-                                    <div class="hifdh-analytics-head">
-                                        <h6 class="hifdh-performance-title mb-0">Current surah progress</h6>
-                                        <small>{{ hifdhCoverageStats.surahReviewedCount }}/{{ hifdhCoverageStats.surahTotalAyahs || hifdhCoverageStats.surahPlannedCount }} reviewed</small>
-                                    </div>
-                                    <div class="hifdh-analytics-track" role="img" :aria-label="`${hifdhCoverageStats.surahPercent}% completed in current surah`">
-                                        <span class="hifdh-analytics-track-fill" :style="{ width: `${hifdhCoverageStats.surahPercent}%` }"></span>
-                                    </div>
-                                    <div class="hifdh-analytics-meta">
-                                        <span>{{ hifdhCoverageStats.surahRemainingCount }} ayahs remain in this surah</span>
-                                        <strong>{{ hifdhCoverageStats.surahPercent }}%</strong>
+                                    Insights
+                                </button>
+                            </nav>
+
+                            <section class="hifdh-glance-grid" aria-label="Hifdh summary snapshot">
+                                <article class="hifdh-glance-card">
+                                    <small>Due today</small>
+                                    <strong>{{ todayHifdhPlanItemsOrdered.length }}</strong>
+                                </article>
+                                <article class="hifdh-glance-card">
+                                    <small>Plan progress</small>
+                                    <strong>{{ hifdhCompletionSummary }}</strong>
+                                </article>
+                                <article class="hifdh-glance-card">
+                                    <small>Consistency</small>
+                                    <strong>{{ hifdhConsistencyPillLabel }}</strong>
+                                </article>
+                            </section>
+
+                            <section class="hifdh-flow-overview" aria-label="Hifdh plan navigation">
+                                <article class="hifdh-flow-step-card">
+                                    <span class="hifdh-flow-step-index">1</span>
+                                    <div class="hifdh-flow-step-copy">
+                                        <strong>Pick your start</strong>
+                                        <small>Use a quick start button or set an ayah range.</small>
                                     </div>
                                 </article>
-                                <article class="hifdh-analytics-card">
-                                    <div class="hifdh-analytics-head">
-                                        <h6 class="hifdh-performance-title mb-0">Overall Quran progress</h6>
-                                        <small>{{ hifdhCoverageStats.overallReviewedCount }}/{{ hifdhCoverageStats.quranTotalAyahs }} reviewed</small>
+                                <article class="hifdh-flow-step-card">
+                                    <span class="hifdh-flow-step-index">2</span>
+                                    <div class="hifdh-flow-step-copy">
+                                        <strong>Add and begin</strong>
+                                        <small>Press <b>Add &amp; Start</b> to open today&apos;s guided recitation.</small>
                                     </div>
-                                    <div class="hifdh-analytics-track" role="img" :aria-label="`${hifdhCoverageStats.overallPercent}% completed in overall Quran tracker`">
-                                        <span class="hifdh-analytics-track-fill hifdh-analytics-track-fill-overall" :style="{ width: `${hifdhCoverageStats.overallPercent}%` }"></span>
-                                    </div>
-                                    <div class="hifdh-analytics-meta">
-                                        <span>{{ hifdhCoverageStats.overallRemainingCount }} ayahs remain overall</span>
-                                        <strong>{{ hifdhCoverageStats.overallPercent }}%</strong>
+                                </article>
+                                <article class="hifdh-flow-step-card">
+                                    <span class="hifdh-flow-step-index">3</span>
+                                    <div class="hifdh-flow-step-copy">
+                                        <strong>Review what is due</strong>
+                                        <small>Open items in <b>Due Segments</b> to continue your plan.</small>
                                     </div>
                                 </article>
                             </section>
-                            <section class="hifdh-performance-dashboard" aria-label="Performance dashboard">
-                                <div class="hifdh-performance-card hifdh-performance-card--tracker">
-                                    <div class="hifdh-performance-card-head">
-                                        <h6 class="hifdh-performance-title mb-0">7-day tracker</h6>
-                                        <small>{{ hifdhRecentPerformance.completedCount }}/{{ hifdhRecentPerformance.dueCount }} done</small>
-                                    </div>
-                                    <div class="hifdh-tracker-grid" role="list" aria-label="7 day hifdh progress tracker">
-                                        <article
-                                            v-for="day in hifdhTrackerCards"
-                                            :key="day.key"
-                                            class="hifdh-tracker-day-card"
-                                            :class="{
-                                                'is-today': day.isToday,
-                                                'is-complete': day.isComplete,
-                                                'is-empty': day.isEmpty
-                                            }"
-                                            role="listitem">
-                                            <div class="hifdh-tracker-day-head">
-                                                <span class="hifdh-tracker-day-label">{{ day.label }}</span>
-                                                <span class="hifdh-tracker-day-date">{{ day.shortDate }}</span>
-                                            </div>
-                                            <div
-                                                class="hifdh-tracker-day-progress"
-                                                role="img"
-                                                :aria-label="`${day.label}: ${day.completedCount}/${day.dueCount} completed`">
-                                                <span
-                                                    class="hifdh-tracker-day-progress-fill"
-                                                    :style="{ width: `${day.progressPercent}%` }"></span>
-                                            </div>
-                                            <div class="hifdh-tracker-day-meta">
-                                                <strong>{{ day.completedCount }}/{{ day.dueCount }}</strong>
-                                                <span>{{ day.statusLabel }}</span>
-                                            </div>
-                                        </article>
-                                    </div>
-                                    <p class="hifdh-performance-chart-help mb-0">Live over the last 7 days. Aim for one completed segment daily to keep retention strong.</p>
-                                </div>
-                                <div class="hifdh-performance-card">
-                                    <div class="hifdh-performance-card-head">
-                                        <h6 class="hifdh-performance-title mb-0">Weak spots</h6>
-                                        <small>Needs extra review</small>
-                                    </div>
-                                    <div v-if="hifdhWeakSpots.length" class="hifdh-weak-list">
-                                        <div v-for="spot in hifdhWeakSpots" :key="spot.label" class="hifdh-weak-item">
-                                            <span class="hifdh-weak-item-main">{{ spot.label }}</span>
-                                            <span class="hifdh-weak-item-meta">{{ spot.weakCount }} weak · {{ spot.lastSeenLabel }}</span>
-                                        </div>
-                                    </div>
-                                    <p v-else class="hifdh-weak-empty mb-0">No weak segments logged yet. Keep going.</p>
-                                </div>
-                                <div class="hifdh-performance-card">
-                                    <div class="hifdh-performance-card-head">
-                                        <h6 class="hifdh-performance-title mb-0">Streak tracking</h6>
-                                        <small>Consistency matters</small>
-                                    </div>
-                                    <div class="hifdh-streak-grid">
-                                        <div class="hifdh-streak-stat">
-                                            <span>Current</span>
-                                            <strong>{{ hifdhStreakTracking.currentStreak }}d</strong>
-                                        </div>
-                                        <div class="hifdh-streak-stat">
-                                            <span>Best</span>
-                                            <strong>{{ hifdhStreakTracking.bestStreak }}d</strong>
-                                        </div>
-                                        <div class="hifdh-streak-stat">
-                                            <span>Active</span>
-                                            <strong>{{ hifdhStreakTracking.activeDays }}/{{ hifdhStreakTracking.windowDays }}</strong>
-                                        </div>
-                                    </div>
-                                </div>
-                            </section>
-                            <section class="hifdh-onboarding-invite" aria-label="Hifdh onboarding invitation">
-                                <div class="hifdh-onboarding-ring-wrap">
-                                    <div
-                                        class="hifdh-onboarding-ring"
-                                        :style="{ '--hifdh-progress': `${hifdhCompletionPercent}%` }"
-                                        role="img"
-                                        :aria-label="`${hifdhCompletionPercent}% completed`">
-                                        <span>{{ hifdhCompletionPercent }}%</span>
-                                    </div>
-                                </div>
+
+                            <section ref="hifdhSectionStart" class="hifdh-onboarding-invite hifdh-onboarding-invite--compact" aria-label="Hifdh quick start">
                                 <div class="hifdh-onboarding-invite-content">
-                                    <p class="hifdh-onboarding-invite-title mb-1">What will you memorise today?</p>
-                                    <p class="hifdh-onboarding-invite-copy mb-2">Start with one short range, then keep your rhythm by reviewing what is due.</p>
+                                    <p class="hifdh-onboarding-invite-title mb-1">Quick Start</p>
+                                    <p class="hifdh-onboarding-invite-copy mb-2">Choose a shortcut or create your own range below.</p>
                                     <div class="hifdh-onboarding-suggestions">
                                         <button
                                             type="button"
@@ -1721,7 +1802,7 @@
                                 </div>
                             </section>
 
-                            <div class="memorisation-simple-controls hifdh-control-panel">
+                            <div class="memorisation-simple-controls hifdh-control-panel hifdh-primary-stack">
                                 <div class="hifdh-control-panel-title">Begin Today's Ritual</div>
                                 <div class="memorisation-review-add-controls hifdh-control-primary">
                                     <input type="number" class="quran-toolbar-select text-center" v-model.number="hifdhNewRangeStart" min="1" :max="totalAyahs || 1" aria-label="Start ayah" title="Start ayah number for the memorisation range" data-hifdh-tooltip="true">
@@ -1779,7 +1860,7 @@
                                 </small>
                             </div>
 
-                            <div class="memorisation-simple-list">
+                            <div ref="hifdhSectionDue" class="memorisation-simple-list hifdh-primary-stack">
                                 <h6 class="hifdh-list-title mb-0">Due Segments ({{ todayHifdhPlanItemsOrdered.length }})</h6>
                                 <small class="memorisation-simple-help">Tap <strong>Open</strong> to jump to the segment and close this modal.</small>
                                 <div v-if="!hasTodayHifdhPlan" class="hifdh-empty-state">
@@ -1814,6 +1895,141 @@
                                     <span class="hifdh-item-open">Open</span>
                                 </button>
                             </div>
+
+                            <details ref="hifdhSectionInsights" class="hifdh-insights-disclosure">
+                                <summary class="hifdh-insights-summary">
+                                    <span class="hifdh-insights-summary-main">
+                                        <i class="bi bi-graph-up-arrow" aria-hidden="true"></i>
+                                        Progress insights
+                                    </span>
+                                    <span class="hifdh-insights-summary-meta">
+                                        <span class="hifdh-insights-meta-closed">Show details</span>
+                                        <span class="hifdh-insights-meta-open">Hide details</span>
+                                        <i class="bi bi-chevron-down hifdh-insights-summary-caret" aria-hidden="true"></i>
+                                    </span>
+                                </summary>
+                                <div class="hifdh-insights-body">
+                                    <div class="hifdh-history-strip" role="status" aria-live="polite">
+                                        <span class="hifdh-history-title">Last {{ hifdhRecentPerformance.windowDays }} days</span>
+                                        <span class="hifdh-history-chip">
+                                            <i class="bi bi-check2-circle" aria-hidden="true"></i>
+                                            {{ hifdhRecentPerformance.completedCount }}/{{ hifdhRecentPerformance.dueCount }} done
+                                        </span>
+                                        <span class="hifdh-history-chip">
+                                            <i class="bi bi-graph-up-arrow" aria-hidden="true"></i>
+                                            {{ hifdhRecentPerformance.completionRate }}% completion
+                                        </span>
+                                        <span class="hifdh-history-chip">
+                                            Strong {{ hifdhRecentPerformance.feedbackCounts.strong }}
+                                        </span>
+                                        <span class="hifdh-history-chip">
+                                            Minor {{ hifdhRecentPerformance.feedbackCounts.minor }}
+                                        </span>
+                                        <span class="hifdh-history-chip">
+                                            Weak {{ hifdhRecentPerformance.feedbackCounts.weak }}
+                                        </span>
+                                    </div>
+                                    <section class="hifdh-analytics-panel" aria-label="Hifdh analytics and progress trackers">
+                                        <article class="hifdh-analytics-card">
+                                            <div class="hifdh-analytics-head">
+                                                <h6 class="hifdh-performance-title mb-0">Current surah progress</h6>
+                                                <small>{{ hifdhCoverageStats.surahReviewedCount }}/{{ hifdhCoverageStats.surahTotalAyahs || hifdhCoverageStats.surahPlannedCount }} reviewed</small>
+                                            </div>
+                                            <div class="hifdh-analytics-track" role="img" :aria-label="`${hifdhCoverageStats.surahPercent}% completed in current surah`">
+                                                <span class="hifdh-analytics-track-fill" :style="{ width: `${hifdhCoverageStats.surahPercent}%` }"></span>
+                                            </div>
+                                            <div class="hifdh-analytics-meta">
+                                                <span>{{ hifdhCoverageStats.surahRemainingCount }} ayahs remain in this surah</span>
+                                                <strong>{{ hifdhCoverageStats.surahPercent }}%</strong>
+                                            </div>
+                                        </article>
+                                        <article class="hifdh-analytics-card">
+                                            <div class="hifdh-analytics-head">
+                                                <h6 class="hifdh-performance-title mb-0">Overall Quran progress</h6>
+                                                <small>{{ hifdhCoverageStats.overallReviewedCount }}/{{ hifdhCoverageStats.quranTotalAyahs }} reviewed</small>
+                                            </div>
+                                            <div class="hifdh-analytics-track" role="img" :aria-label="`${hifdhCoverageStats.overallPercent}% completed in overall Quran tracker`">
+                                                <span class="hifdh-analytics-track-fill hifdh-analytics-track-fill-overall" :style="{ width: `${hifdhCoverageStats.overallPercent}%` }"></span>
+                                            </div>
+                                            <div class="hifdh-analytics-meta">
+                                                <span>{{ hifdhCoverageStats.overallRemainingCount }} ayahs remain overall</span>
+                                                <strong>{{ hifdhCoverageStats.overallPercent }}%</strong>
+                                            </div>
+                                        </article>
+                                    </section>
+                                    <section class="hifdh-performance-dashboard" aria-label="Performance dashboard">
+                                        <div class="hifdh-performance-card hifdh-performance-card--tracker">
+                                            <div class="hifdh-performance-card-head">
+                                                <h6 class="hifdh-performance-title mb-0">7-day tracker</h6>
+                                                <small>{{ hifdhRecentPerformance.completedCount }}/{{ hifdhRecentPerformance.dueCount }} done</small>
+                                            </div>
+                                            <div class="hifdh-tracker-grid" role="list" aria-label="7 day hifdh progress tracker">
+                                                <article
+                                                    v-for="day in hifdhTrackerCards"
+                                                    :key="day.key"
+                                                    class="hifdh-tracker-day-card"
+                                                    :class="{
+                                                        'is-today': day.isToday,
+                                                        'is-complete': day.isComplete,
+                                                        'is-empty': day.isEmpty
+                                                    }"
+                                                    role="listitem">
+                                                    <div class="hifdh-tracker-day-head">
+                                                        <span class="hifdh-tracker-day-label">{{ day.label }}</span>
+                                                        <span class="hifdh-tracker-day-date">{{ day.shortDate }}</span>
+                                                    </div>
+                                                    <div
+                                                        class="hifdh-tracker-day-progress"
+                                                        role="img"
+                                                        :aria-label="`${day.label}: ${day.completedCount}/${day.dueCount} completed`">
+                                                        <span
+                                                            class="hifdh-tracker-day-progress-fill"
+                                                            :style="{ width: `${day.progressPercent}%` }"></span>
+                                                    </div>
+                                                    <div class="hifdh-tracker-day-meta">
+                                                        <strong>{{ day.completedCount }}/{{ day.dueCount }}</strong>
+                                                        <span>{{ day.statusLabel }}</span>
+                                                    </div>
+                                                </article>
+                                            </div>
+                                            <p class="hifdh-performance-chart-help mb-0">Live over the last 7 days. Aim for one completed segment daily to keep retention strong.</p>
+                                        </div>
+                                        <div class="hifdh-performance-card">
+                                            <div class="hifdh-performance-card-head">
+                                                <h6 class="hifdh-performance-title mb-0">Weak spots</h6>
+                                                <small>Needs extra review</small>
+                                            </div>
+                                            <div v-if="hifdhWeakSpots.length" class="hifdh-weak-list">
+                                                <div v-for="spot in hifdhWeakSpots" :key="spot.label" class="hifdh-weak-item">
+                                                    <span class="hifdh-weak-item-main">{{ spot.label }}</span>
+                                                    <span class="hifdh-weak-item-meta">{{ spot.weakCount }} weak · {{ spot.lastSeenLabel }}</span>
+                                                </div>
+                                            </div>
+                                            <p v-else class="hifdh-weak-empty mb-0">No weak segments logged yet. Keep going.</p>
+                                        </div>
+                                        <div class="hifdh-performance-card">
+                                            <div class="hifdh-performance-card-head">
+                                                <h6 class="hifdh-performance-title mb-0">Streak tracking</h6>
+                                                <small>Consistency matters</small>
+                                            </div>
+                                            <div class="hifdh-streak-grid">
+                                                <div class="hifdh-streak-stat">
+                                                    <span>Current</span>
+                                                    <strong>{{ hifdhStreakTracking.currentStreak }}d</strong>
+                                                </div>
+                                                <div class="hifdh-streak-stat">
+                                                    <span>Best</span>
+                                                    <strong>{{ hifdhStreakTracking.bestStreak }}d</strong>
+                                                </div>
+                                                <div class="hifdh-streak-stat">
+                                                    <span>Active</span>
+                                                    <strong>{{ hifdhStreakTracking.activeDays }}/{{ hifdhStreakTracking.windowDays }}</strong>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </section>
+                                </div>
+                            </details>
 
                             <div
                                 v-if="hifdhSessionStarted && activeHifdhSessionItem"
@@ -2291,7 +2507,7 @@
                     ? { paddingTop: topSpacerHeight + 'px', paddingBottom: bottomSpacerHeight + 'px' }
                     : null">
                 <div style="padding: 12px; border-radius: 8px" ref="audioCard" v-for="item in visibleWindow"
-                    :key="item.ayah.number" class="col-md-12 mb-2 mt-2 ayah-card ayah-card-container ayah-card-shell shadow-md" role="listitem"
+                    :key="getAyahCardRenderKey(item)" class="col-md-12 mb-2 mt-2 ayah-card ayah-card-container ayah-card-shell shadow-md" role="listitem"
                     :id="`ayah-card-${item.index}`" :data-ayah-number="item.ayah.numberInSurah" @click="handleAyahCardClick(item.index, $event)"
                     @touchstart.passive="onAyahCardTouchStart(item.index, $event)"
                     @touchmove="onAyahCardTouchMove($event)"
@@ -2869,26 +3085,6 @@
                                         <i class="bi bi-journal-text" style="font-size: 1.6rem" aria-hidden="true"></i>
                                     </button>
                                 </div> -->
-                                <div class="col text-center ayah-inline-control-item ayah-inline-control-item--bookmark">
-                                    <button class="icon-btn ayah-inline-btn ayah-inline-btn--bookmark" :class="{
-                                        'is-saved': isAyahSaved(item.ayah),
-                                    }" @click.stop="toggleBookmark(item.ayah)" :title="isAyahSaved(item.ayah)
-                                        ? 'Remove bookmark'
-                                        : 'Quick save bookmark'
-                                        " :aria-label="isAyahSaved(item.ayah)
-                                            ? 'Remove verse bookmark'
-                                            : 'Save verse bookmark'">
-                                        <i class="bi ayah-inline-icon" :class="isAyahSaved(item.ayah)
-                                            ? 'bi-bookmark-check-fill'
-                                            : 'bi-bookmark-plus-fill'
-                                            " aria-hidden="true"></i>
-                                        <span class="ayah-inline-control-label">{{
-                                            isAyahSaved(item.ayah)
-                                                ? "Remove bookmark"
-                                                : "Save bookmark"
-                                        }}</span>
-                                    </button>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -3789,8 +3985,8 @@
                                 aria-label="Close tafsir modal"></button>
                         </div>
                         <div class="modal-body pt-0">
-                            <div class="ayah-tafsir-panel ltr-text ayah-tafsir-modal-panel" role="status" aria-live="polite">
-                                <div class="ayah-tafsir-meta">
+                            <div class="ayah-tafsir-panel ayah-tafsir-modal-panel" role="status" aria-live="polite">
+                                <div class="ayah-tafsir-meta ltr-text">
                                     <div class="ayah-tafsir-meta-item">
                                         <span class="ayah-tafsir-meta-label">Source</span>
                                         <span class="ayah-tafsir-meta-value">{{ getActiveTafsirSourceLabel() }}</span>
@@ -3806,15 +4002,29 @@
                                         </span>
                                     </div>
                                 </div>
-                                <p class="ayah-tafsir-label mb-1">Tafsir</p>
-                                <p v-if="isActiveTafsirLoading()" class="ayah-tafsir-loading mb-0">
+                                <p class="ayah-tafsir-label mb-1 ltr-text">Tafsir</p>
+                                <p v-if="isActiveTafsirLoading()" class="ayah-tafsir-loading mb-0 ltr-text">
                                     Loading tafsir...
                                 </p>
-                                <p v-else-if="getActiveTafsirError()" class="ayah-tafsir-error mb-0">
+                                <p v-else-if="getActiveTafsirError()" class="ayah-tafsir-error mb-0 ltr-text">
                                     {{ getActiveTafsirError() }}
                                 </p>
-                                <p v-else class="ayah-tafsir-text mb-0">
-                                    {{ getActiveTafsirText() || "No tafsir content available." }}
+                                <div v-else-if="getActiveTafsirText()" class="ayah-tafsir-text ayah-tafsir-text-stack">
+                                    <p
+                                        v-for="(paragraph, index) in getActiveTafsirParagraphs()"
+                                        :key="`tafsir-paragraph-${index}`"
+                                        class="ayah-tafsir-paragraph mb-0"
+                                        :class="[
+                                            paragraph.isArabic ? 'ayah-tafsir-paragraph--arabic' : 'ayah-tafsir-paragraph--english',
+                                            paragraph.isHeading ? 'ayah-tafsir-paragraph--heading' : ''
+                                        ]"
+                                        :dir="paragraph.direction"
+                                        :lang="paragraph.lang">
+                                        {{ paragraph.text }}
+                                    </p>
+                                </div>
+                                <p v-else class="ayah-tafsir-empty mb-0 ltr-text">
+                                    No tafsir content available.
                                 </p>
                             </div>
                         </div>

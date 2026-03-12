@@ -788,6 +788,25 @@ export default {
             memorisationPreviousSessionSnapshot: null,
             memorisationSessionStorageKeyBase:
                 "ic_memorisation_previous_session_v1",
+            memorisationPresetsStorageKeyBase:
+                "ic_memorisation_presets_v1",
+            memorisationPresetsStorageMapKey:
+                "ic_memorisation_presets_map_v1",
+            memorisationPresetsLastScopeStorageKey:
+                "ic_memorisation_presets_last_scope_v1",
+            memorisationActivePresetStorageKeyBase:
+                "ic_memorisation_active_preset_v1",
+            memorisationPresetPanelCollapsedPreferenceBaseKey:
+                "ic_memorisation_preset_panel_collapsed_v1",
+            memorisationPresetLimit: 40,
+            memorisationPresets: [],
+            memorisationActivePresetId: "",
+            isMemorisationPresetPanelCollapsed: false,
+            isMemorisationPresetEditorVisible: false,
+            memorisationPresetEditorName: "",
+            memorisationPresetEditorMode: "create",
+            memorisationPresetEditorTargetId: "",
+            memorisationPresetEditorError: "",
             isRestoringMemorisationSnapshot: false,
             memorisationOffcanvasDockedWidth: 400,
             isMemorisationAdvancedOpen: false,
@@ -838,7 +857,9 @@ export default {
             isHifdhPlanHidden: false,
             isHifdhDemoModeActive: false,
             hifdhTooltipInstances: [],
+            hifdhPlanModalInstance: null,
             hifdhPlanModalShownHandler: null,
+            hifdhPlanModalHiddenHandler: null,
             hifdhConfettiTimeouts: [],
             isHifdhResetConfirmVisible: false,
             hifdhFeedbackChoices: [
@@ -1061,6 +1082,22 @@ export default {
                     ? Number(this.totalAyahs || 0)
                     : 0;
             return Math.max(1, fromMeta || currentSurahCount || 1);
+        },
+        sortedMemorisationPresets() {
+            const list = Array.isArray(this.memorisationPresets)
+                ? [...this.memorisationPresets]
+                : [];
+            return list.sort((a, b) => {
+                const aFavorite = !!a?.favorite;
+                const bFavorite = !!b?.favorite;
+                if (aFavorite !== bFavorite) {
+                    return bFavorite ? 1 : -1;
+                }
+                return Number(b?.updatedAt || 0) - Number(a?.updatedAt || 0);
+            });
+        },
+        hasMemorisationPresets() {
+            return this.sortedMemorisationPresets.length > 0;
         },
         isMemorisationRepetitionActive() {
             return this.isMemorisationToolbarVisible &&
@@ -2645,12 +2682,22 @@ export default {
             if (String(next || "") === String(prev || "")) return;
             this.loadCustomPlaylist();
             this.loadPersistedMemorisationPreviousSession();
+            this.loadMemorisationPresets();
+            this.loadMemorisationPresetPanelCollapsedState();
+            this.loadContinueProgress();
+            this.loadContinueProgressHiddenState();
+            this.loadMemorisationModePreference();
         },
         userId(next, prev) {
             if (this.bookmarkStorageUserId) return;
             if (String(next || "") === String(prev || "")) return;
             this.loadCustomPlaylist();
             this.loadPersistedMemorisationPreviousSession();
+            this.loadMemorisationPresets();
+            this.loadMemorisationPresetPanelCollapsedState();
+            this.loadContinueProgress();
+            this.loadContinueProgressHiddenState();
+            this.loadMemorisationModePreference();
         },
         playlistEditorName() {
             this.showPlaylistEditorConfirmAction = false;
@@ -2711,7 +2758,7 @@ export default {
                 this.isSurahAudioDownloaded = false;
                 clearTimeout(this.surahAudioDownloadedTimer);
                 this.surahAudioDownloadedTimer = null;
-                this.persistLocalSetting("suratSelectedReciter", newVal);
+                this.writeScopedFontPreference("suratSelectedReciter", newVal);
                 this.isLoading = true;
                 this.savePreference("selectedReciter", newVal);
                 this.highlightLeadSeconds = this.getReciterLeadOffset(newVal);
@@ -2740,7 +2787,10 @@ export default {
         },
         selectedTranslation: function (newVal) {
             if (newVal && !this.isLoading) {
-                this.persistLocalSetting("suratSelectedTranslation", newVal);
+                this.writeScopedFontPreference(
+                    "suratSelectedTranslation",
+                    newVal
+                );
                 this.savePreference("selectedTranslation", newVal);
                 this.currentlyPlayingIndex = 0;
                 this.isHighlighted = false;
@@ -2780,7 +2830,7 @@ export default {
                 this.isSurahAudioDownloaded = false;
                 clearTimeout(this.surahAudioDownloadedTimer);
                 this.surahAudioDownloadedTimer = null;
-                this.persistLocalSetting("suratSelectedSurah", newVal);
+                this.writeScopedFontPreference("suratSelectedSurah", newVal);
                 this.isLoading = true;
                 this.hideAyahTafsirModal({ reset: true });
                 this.translationVisibility = {};
@@ -2910,7 +2960,7 @@ export default {
         },
         showTajweed(next) {
             try {
-                localStorage.setItem("suratShowTajweed", next ? "1" : "0");
+                this.writeScopedBooleanPreference("suratShowTajweed", next);
             } catch (_) { }
             const index = this.currentlyPlayingIndex;
             const audio = this.audioElements[index];
@@ -2923,9 +2973,9 @@ export default {
         },
         showRealtimeHighlighting(next) {
             try {
-                localStorage.setItem(
+                this.writeScopedBooleanPreference(
                     "suratShowRealtimeHighlighting",
-                    next ? "1" : "0"
+                    next
                 );
             } catch (_) { }
             if (this.bookmarkAuthenticated) {
@@ -2960,17 +3010,17 @@ export default {
         },
         showWordTranslation(next) {
             try {
-                localStorage.setItem(
+                this.writeScopedBooleanPreference(
                     "suratShowWordTranslation",
-                    next ? "1" : "0"
+                    next
                 );
             } catch (_) { }
         },
         showWordTranslationTooltip(next) {
             try {
-                localStorage.setItem(
+                this.writeScopedBooleanPreference(
                     "suratShowWordTranslationTooltip",
-                    next ? "1" : "0"
+                    next
                 );
             } catch (_) {}
             if (this.bookmarkAuthenticated) {
@@ -2980,7 +3030,7 @@ export default {
             }
         },
         gestureNavigationEnabled(next) {
-            this.persistLocalSetting(
+            this.writeScopedFontPreference(
                 this.gestureNavigationPreferenceKey,
                 next ? "1" : "0"
             );
@@ -3007,13 +3057,19 @@ export default {
             }
         },
         isBlurNextAyahEnabled(newVal) {
-            this.persistLocalSetting("suratIsBlurNextAyahEnabled", newVal ? "1" : "0");
+            this.writeScopedBooleanPreference(
+                "suratIsBlurNextAyahEnabled",
+                newVal
+            );
         },
         isMemorisationMode(newVal) {
             this.persistMemorisationModeSetting();
         },
         isTranslationVisible(newVal) {
-            this.persistLocalSetting("suratIsTranslationVisible", newVal ? "1" : "0");
+            this.writeScopedBooleanPreference(
+                "suratIsTranslationVisible",
+                newVal
+            );
         },
         playbackSpeed(newVal) {
             const speed = Number(newVal);
@@ -3031,7 +3087,7 @@ export default {
                     if (audio) audio.playbackRate = safeSpeed;
                 });
             }
-            this.persistLocalSetting("playbackSpeed", String(safeSpeed));
+            this.writeScopedFontPreference("playbackSpeed", String(safeSpeed));
         },
     },
     created() {
@@ -3094,6 +3150,8 @@ export default {
         await this.initializeBookmarkAuth();
         this.syncHifdhAuthStorage();
         this.loadPersistedMemorisationPreviousSession();
+        this.loadMemorisationPresets();
+        this.loadMemorisationPresetPanelCollapsedState();
         this.loadContinueProgress();
         this.loadContinueProgressHiddenState();
         await this.initializeFontSizePreferences();
@@ -3140,15 +3198,13 @@ export default {
         let storedTranslation = null;
         let storedFont = null;
         let storedFontStack = null;
-        try {
-            storedSurah = localStorage.getItem("suratSelectedSurah");
-        } catch (_) {}
-        try {
-            storedReciter = localStorage.getItem("suratSelectedReciter");
-        } catch (_) {}
-        try {
-            storedTranslation = localStorage.getItem("suratSelectedTranslation");
-        } catch (_) {}
+        storedSurah = this.readScopedPreferenceWithLegacy("suratSelectedSurah");
+        storedReciter = this.readScopedPreferenceWithLegacy(
+            "suratSelectedReciter"
+        );
+        storedTranslation = this.readScopedPreferenceWithLegacy(
+            "suratSelectedTranslation"
+        );
         try {
             storedFont = localStorage.getItem(this.quranFontPreferenceKey);
         } catch (_) {}
@@ -3168,12 +3224,19 @@ export default {
         this.ensureSelectedQuranFont();
         this.currentlyPlayingIndex = 0;
         this.isHighlighted = false;
-        this.continuousPlayback =
-            JSON.parse(localStorage.getItem("continuousPlayback")) ?? false;
-        let storedPlaybackSpeed = null;
         try {
-            storedPlaybackSpeed = Number(localStorage.getItem("playbackSpeed"));
-        } catch (_) {}
+            const storedContinuousPlayback = this.readScopedPreferenceWithLegacy(
+                "continuousPlayback"
+            );
+            this.continuousPlayback =
+                JSON.parse(storedContinuousPlayback || "false") ?? false;
+        } catch (_) {
+            this.continuousPlayback = false;
+        }
+        let storedPlaybackSpeed = null;
+        storedPlaybackSpeed = Number(
+            this.readScopedPreferenceWithLegacy("playbackSpeed")
+        );
         const defaultSpeed = 1;
         this.playbackSpeed = this.playbackSpeeds.includes(storedPlaybackSpeed)
             ? storedPlaybackSpeed
@@ -3184,66 +3247,59 @@ export default {
         );
         let storedPreferredPlaybackMode = null;
         let storedPlaybackMode = null;
-        try {
-            storedPreferredPlaybackMode = localStorage.getItem(
-                "lastNonRepeatPlaybackMode"
-            );
-        } catch (_) {}
-        try {
-            storedPlaybackMode = localStorage.getItem("playbackMode");
-        } catch (_) {}
+        storedPreferredPlaybackMode = this.readScopedPreferenceWithLegacy(
+            "lastNonRepeatPlaybackMode"
+        );
+        storedPlaybackMode = this.readScopedPreferenceWithLegacy("playbackMode");
         this.preferredPlaybackMode =
             storedPreferredPlaybackMode || this.preferredPlaybackMode;
         this.setPlaybackMode(
             storedPlaybackMode || this.preferredPlaybackMode
         );
-        try {
-            const storedTajweed = localStorage.getItem("suratShowTajweed");
-            if (storedTajweed !== null)
-                this.showTajweed = storedTajweed === "1";
-        } catch (_) {}
-        try {
-            const storedWordTranslation = localStorage.getItem(
-                "suratShowWordTranslation"
-            );
-            if (storedWordTranslation !== null)
-                this.showWordTranslation = storedWordTranslation === "1";
-        } catch (_) { }
-        try {
-            const storedWordTranslationTooltip = localStorage.getItem(
-                "suratShowWordTranslationTooltip"
-            );
-            if (storedWordTranslationTooltip !== null) {
-                this.showWordTranslationTooltip =
-                    storedWordTranslationTooltip === "1";
-            }
-        } catch (_) {}
-        try {
-            const storedRealtimeHighlighting = localStorage.getItem(
-                "suratShowRealtimeHighlighting"
-            );
-            if (storedRealtimeHighlighting !== null)
-                this.showRealtimeHighlighting = storedRealtimeHighlighting === "1";
-        } catch (_) { }
-        try {
-            const storedGestureNavigation = localStorage.getItem(
-                this.gestureNavigationPreferenceKey
-            );
-            if (storedGestureNavigation !== null) {
-                this.gestureNavigationEnabled = storedGestureNavigation === "1";
-            }
-        } catch (_) {}
-        try {
-            const storedBlurNextAyah = localStorage.getItem("suratIsBlurNextAyahEnabled");
-            if (storedBlurNextAyah !== null)
-                this.isBlurNextAyahEnabled = storedBlurNextAyah === "1";
-        } catch (_) {}
+        const storedTajweed = this.readScopedPreferenceWithLegacy(
+            "suratShowTajweed"
+        );
+        if (storedTajweed !== null) {
+            this.showTajweed = storedTajweed === "1";
+        }
+        const storedWordTranslation = this.readScopedPreferenceWithLegacy(
+            "suratShowWordTranslation"
+        );
+        if (storedWordTranslation !== null) {
+            this.showWordTranslation = storedWordTranslation === "1";
+        }
+        const storedWordTranslationTooltip = this.readScopedPreferenceWithLegacy(
+            "suratShowWordTranslationTooltip"
+        );
+        if (storedWordTranslationTooltip !== null) {
+            this.showWordTranslationTooltip =
+                storedWordTranslationTooltip === "1";
+        }
+        const storedRealtimeHighlighting = this.readScopedPreferenceWithLegacy(
+            "suratShowRealtimeHighlighting"
+        );
+        if (storedRealtimeHighlighting !== null) {
+            this.showRealtimeHighlighting = storedRealtimeHighlighting === "1";
+        }
+        const storedGestureNavigation = this.readScopedPreferenceWithLegacy(
+            this.gestureNavigationPreferenceKey
+        );
+        if (storedGestureNavigation !== null) {
+            this.gestureNavigationEnabled = storedGestureNavigation === "1";
+        }
+        const storedBlurNextAyah = this.readScopedPreferenceWithLegacy(
+            "suratIsBlurNextAyahEnabled"
+        );
+        if (storedBlurNextAyah !== null) {
+            this.isBlurNextAyahEnabled = storedBlurNextAyah === "1";
+        }
         this.loadMemorisationModePreference();
-        try {
-            const storedTranslationVisible = localStorage.getItem("suratIsTranslationVisible");
-            if (storedTranslationVisible !== null)
-                this.isTranslationVisible = storedTranslationVisible === "1";
-        } catch (_) {}
+        const storedTranslationVisible = this.readScopedPreferenceWithLegacy(
+            "suratIsTranslationVisible"
+        );
+        if (storedTranslationVisible !== null) {
+            this.isTranslationVisible = storedTranslationVisible === "1";
+        }
         this.loadCustomPlaylist();
         Promise.all([
             this.fetchReciters(),
@@ -3290,9 +3346,17 @@ export default {
             this.hifdhPlanModalShownHandler = () => {
                 this.initializeHifdhTooltips();
             };
+            this.hifdhPlanModalHiddenHandler = () => {
+                this.disposeHifdhTooltips();
+                this.isHifdhResetConfirmVisible = false;
+            };
             modalEl.addEventListener(
                 "shown.bs.modal",
                 this.hifdhPlanModalShownHandler
+            );
+            modalEl.addEventListener(
+                "hidden.bs.modal",
+                this.hifdhPlanModalHiddenHandler
             );
         });
         this.$nextTick(() => {
@@ -3525,6 +3589,19 @@ export default {
             );
             this.hifdhPlanModalShownHandler = null;
         }
+        if (hifdhModalEl && this.hifdhPlanModalHiddenHandler) {
+            hifdhModalEl.removeEventListener(
+                "hidden.bs.modal",
+                this.hifdhPlanModalHiddenHandler
+            );
+            this.hifdhPlanModalHiddenHandler = null;
+        }
+        if (this.hifdhPlanModalInstance) {
+            try {
+                this.hifdhPlanModalInstance.hide();
+            } catch (_) {}
+            this.hifdhPlanModalInstance = null;
+        }
         const memorisationOffcanvasEl =
             this.$refs?.memorisationOffcanvas ||
             document.getElementById("memorisationOffcanvas");
@@ -3708,6 +3785,27 @@ export default {
                 window.cancelAnimationFrame(this._virtualWindowRaf);
                 this._virtualWindowRaf = null;
             }
+            const hifdhModalEl = document.getElementById("hifdhPlanModal");
+            if (hifdhModalEl && this.hifdhPlanModalShownHandler) {
+                hifdhModalEl.removeEventListener(
+                    "shown.bs.modal",
+                    this.hifdhPlanModalShownHandler
+                );
+                this.hifdhPlanModalShownHandler = null;
+            }
+            if (hifdhModalEl && this.hifdhPlanModalHiddenHandler) {
+                hifdhModalEl.removeEventListener(
+                    "hidden.bs.modal",
+                    this.hifdhPlanModalHiddenHandler
+                );
+                this.hifdhPlanModalHiddenHandler = null;
+            }
+            if (this.hifdhPlanModalInstance) {
+                try {
+                    this.hifdhPlanModalInstance.hide();
+                } catch (_) {}
+                this.hifdhPlanModalInstance = null;
+            }
             const memorisationOffcanvasEl =
                 this.$refs?.memorisationOffcanvas ||
                 document.getElementById("memorisationOffcanvas");
@@ -3758,6 +3856,7 @@ export default {
                 this.surahOffcanvasShowHandler = null;
             }
             this.isMemorisationOffcanvasVisible = false;
+            this.disposeHifdhTooltips();
             this.clearHifdhConfettiLayers();
         },
     methods: {
@@ -4268,6 +4367,808 @@ export default {
                 showWordTranslationTooltip: !!draft.showWordTranslationTooltip,
             };
         },
+        normaliseMemorisationPresetName(name = "") {
+            return String(name || "")
+                .replace(/\s+/g, " ")
+                .trim()
+                .slice(0, 60);
+        },
+        createMemorisationPresetId() {
+            try {
+                if (
+                    typeof window !== "undefined" &&
+                    window.crypto &&
+                    typeof window.crypto.randomUUID === "function"
+                ) {
+                    return `mempreset-${window.crypto.randomUUID()}`;
+                }
+            } catch (_) {}
+            return `mempreset-${Date.now()}-${Math.random()
+                .toString(36)
+                .slice(2, 10)}`;
+        },
+        getMemorisationPresetScopeId() {
+            if (this.bookmarkStorageUserId) {
+                return `user_${this.bookmarkStorageUserId}`;
+            }
+            const anonId = this.getOrCreateSuratPreferenceAnonId();
+            return `anon_${anonId || "local"}`;
+        },
+        getMemorisationPresetLastScopeStorageKey() {
+            return (
+                this.memorisationPresetsLastScopeStorageKey ||
+                "ic_memorisation_presets_last_scope_v1"
+            );
+        },
+        rememberMemorisationPresetScope(scopeId = "") {
+            if (typeof window === "undefined") return;
+            const normalizedScopeId = String(scopeId || "").trim();
+            if (!normalizedScopeId) return;
+            try {
+                localStorage.setItem(
+                    this.getMemorisationPresetLastScopeStorageKey(),
+                    normalizedScopeId
+                );
+            } catch (_) {}
+        },
+        getMemorisationPresetScopeCandidates(scopeId = "") {
+            const normalizedScopeId = String(scopeId || "").trim();
+            const candidates = [];
+            const pushCandidate = (candidate) => {
+                const normalized = String(candidate || "").trim();
+                if (!normalized) return;
+                if (candidates.includes(normalized)) return;
+                candidates.push(normalized);
+            };
+
+            pushCandidate(normalizedScopeId);
+            if (normalizedScopeId.startsWith("user_")) {
+                const anonId = this.getOrCreateSuratPreferenceAnonId();
+                pushCandidate(`anon_${anonId || "local"}`);
+                pushCandidate("anon_local");
+            }
+            if (typeof window !== "undefined") {
+                try {
+                    const lastScope = localStorage.getItem(
+                        this.getMemorisationPresetLastScopeStorageKey()
+                    );
+                    pushCandidate(lastScope);
+                } catch (_) {}
+            }
+            return candidates;
+        },
+        getMemorisationPresetsStorageKey() {
+            return this.buildScopedFontPreferenceKey(
+                this.memorisationPresetsStorageKeyBase ||
+                    "ic_memorisation_presets_v1"
+            );
+        },
+        getMemorisationActivePresetStorageKey() {
+            return this.buildScopedFontPreferenceKey(
+                this.memorisationActivePresetStorageKeyBase ||
+                    "ic_memorisation_active_preset_v1"
+            );
+        },
+        getMemorisationPresetPanelCollapsedStorageKey() {
+            return this.buildScopedFontPreferenceKey(
+                this.memorisationPresetPanelCollapsedPreferenceBaseKey ||
+                    "ic_memorisation_preset_panel_collapsed_v1"
+            );
+        },
+        persistMemorisationActivePresetId(id = "") {
+            if (typeof window === "undefined") return;
+            const normalizedId = String(id || "").trim();
+            this.memorisationActivePresetId = normalizedId;
+            try {
+                this.safeLocalStorageSetItem(
+                    this.getMemorisationActivePresetStorageKey(),
+                    normalizedId,
+                    {
+                        protectedKeys: [
+                            this.getMemorisationPresetsStorageKey(),
+                            this.memorisationPresetsStorageMapKey,
+                        ],
+                    }
+                );
+            } catch (_) {}
+        },
+        loadMemorisationPresetPanelCollapsedState() {
+            if (typeof window === "undefined") {
+                this.isMemorisationPresetPanelCollapsed = false;
+                return false;
+            }
+            try {
+                const raw = localStorage.getItem(
+                    this.getMemorisationPresetPanelCollapsedStorageKey()
+                );
+                this.isMemorisationPresetPanelCollapsed = raw === "1";
+            } catch (_) {
+                this.isMemorisationPresetPanelCollapsed = false;
+            }
+            return this.isMemorisationPresetPanelCollapsed;
+        },
+        persistMemorisationPresetPanelCollapsedState(collapsed) {
+            if (typeof window === "undefined") return;
+            this.isMemorisationPresetPanelCollapsed = !!collapsed;
+            try {
+                this.safeLocalStorageSetItem(
+                    this.getMemorisationPresetPanelCollapsedStorageKey(),
+                    this.isMemorisationPresetPanelCollapsed ? "1" : "0"
+                );
+            } catch (_) {}
+        },
+        toggleMemorisationPresetPanelCollapsed() {
+            const next = !this.isMemorisationPresetPanelCollapsed;
+            if (next) {
+                this.closeMemorisationPresetNameEditor();
+            }
+            this.persistMemorisationPresetPanelCollapsedState(next);
+        },
+        normaliseMemorisationPresetConfig(config = {}) {
+            const speedOptions =
+                Array.isArray(this.playbackSpeeds) && this.playbackSpeeds.length
+                    ? this.playbackSpeeds
+                    : [1];
+            const validPlaybackModes = ["continuous", "repeat", "manual"];
+            const clamp = (value, min, max) =>
+                Math.min(max, Math.max(min, Number(value) || min));
+
+            const surahNumber = String(
+                config.surahNumber || config.selectedSurah || this.selectedSurah || ""
+            );
+            const rawStart = Number(
+                config.rangeStart ||
+                    config.memorisationRangeStart ||
+                    this.memorisationRangeStart ||
+                    1
+            );
+            const rangeStart = Math.max(1, rawStart || 1);
+            const rawEnd = Number(
+                config.rangeEnd ||
+                    config.memorisationRangeEnd ||
+                    this.memorisationRangeEnd ||
+                    rangeStart ||
+                    1
+            );
+            const rangeEnd = Math.max(rangeStart, rawEnd || rangeStart);
+            const selectedSpeed = Number(config.playbackSpeed || 1);
+            const playbackSpeed = speedOptions.includes(selectedSpeed)
+                ? selectedSpeed
+                : speedOptions[0];
+            const fallbackMode = validPlaybackModes.includes(this.playbackMode)
+                ? this.playbackMode
+                : "continuous";
+
+            return {
+                surahNumber,
+                reciterIdentifier:
+                    config.reciterIdentifier ||
+                    config.selectedReciter ||
+                    this.selectedReciter ||
+                    "",
+                rangeStart,
+                rangeEnd,
+                playbackSpeed,
+                verseDelay: clamp(
+                    config.verseDelay ?? config.memorisationVerseDelay ?? 0,
+                    0,
+                    60
+                ),
+                repetitionCount: clamp(
+                    config.repetitionCount ??
+                        config.memorisationRepetitionCount ??
+                        this.memorisationRepetitionCount ??
+                        1,
+                    1,
+                    99
+                ),
+                playbackMode: validPlaybackModes.includes(config.playbackMode)
+                    ? config.playbackMode
+                    : fallbackMode,
+                quranFontId: String(
+                    config.quranFontId || config.selectedQuranFontId || ""
+                ),
+                singleAyahFocus: !!(
+                    config.singleAyahFocus ??
+                    config.isMemorisationMode ??
+                    this.isMemorisationMode
+                ),
+                showTajweed: !!(config.showTajweed ?? this.showTajweed),
+                showRealtimeHighlighting: !!(
+                    config.showRealtimeHighlighting ?? this.showRealtimeHighlighting
+                ),
+                showWordTranslation: !!(
+                    config.showWordTranslation ?? this.showWordTranslation
+                ),
+                showWordTranslationTooltip: !!(
+                    config.showWordTranslationTooltip ??
+                    this.showWordTranslationTooltip
+                ),
+                blurNextAyah: !!(
+                    config.blurNextAyah ??
+                    config.isBlurNextAyahEnabled ??
+                    this.isBlurNextAyahEnabled
+                ),
+                translationVisible: !!(
+                    config.translationVisible ??
+                    config.isTranslationVisible ??
+                    this.isTranslationVisible
+                ),
+                transliterationVisible: !!(
+                    config.transliterationVisible ??
+                    config.isTransliterationVisible ??
+                    this.isTransliterationVisible
+                ),
+            };
+        },
+        buildCurrentMemorisationPresetConfig({ preferDraft = true } = {}) {
+            const baseConfig = preferDraft
+                ? this.normaliseMemorisationDraftValues()
+                : this.normaliseMemorisationPresetConfig({
+                      surahNumber: String(this.selectedSurah || ""),
+                      reciterIdentifier: this.selectedReciter || "",
+                      rangeStart: this.memorisationRangeStart || 1,
+                      rangeEnd: this.memorisationRangeEnd || this.totalAyahs || 1,
+                      playbackSpeed: this.playbackSpeed || 1,
+                      verseDelay: this.memorisationVerseDelay || 0,
+                      repetitionCount: this.memorisationRepetitionCount || 1,
+                      playbackMode: this.playbackMode || "continuous",
+                      quranFontId: this.selectedQuranFontId || "",
+                      singleAyahFocus: !!this.isMemorisationMode,
+                      showTajweed: !!this.showTajweed,
+                      showRealtimeHighlighting: !!this.showRealtimeHighlighting,
+                      showWordTranslation: !!this.showWordTranslation,
+                      showWordTranslationTooltip:
+                          !!this.showWordTranslationTooltip,
+                  });
+            return this.normaliseMemorisationPresetConfig({
+                ...baseConfig,
+                blurNextAyah: !!this.isBlurNextAyahEnabled,
+                translationVisible: !!this.isTranslationVisible,
+                transliterationVisible: !!this.isTransliterationVisible,
+            });
+        },
+        buildMemorisationPresetDraftFromConfig(config = {}) {
+            return {
+                surahNumber: String(config.surahNumber || ""),
+                reciterIdentifier: config.reciterIdentifier || "",
+                rangeStart: Number(config.rangeStart || 1),
+                rangeEnd: Number(config.rangeEnd || 1),
+                playbackSpeed: Number(config.playbackSpeed || 1),
+                verseDelay: Number(config.verseDelay || 0),
+                repetitionCount: Number(config.repetitionCount || 1),
+                playbackMode: config.playbackMode || "continuous",
+                quranFontId: String(config.quranFontId || ""),
+                singleAyahFocus: !!config.singleAyahFocus,
+                showTajweed: !!config.showTajweed,
+                showRealtimeHighlighting: !!config.showRealtimeHighlighting,
+                showWordTranslation: !!config.showWordTranslation,
+                showWordTranslationTooltip: !!config.showWordTranslationTooltip,
+                blurNextAyah: !!config.blurNextAyah,
+                translationVisible: !!config.translationVisible,
+                transliterationVisible: !!config.transliterationVisible,
+            };
+        },
+        normaliseMemorisationPresetEntry(entry) {
+            if (!entry || typeof entry !== "object") return null;
+            const id = String(entry.id || "").trim();
+            const name = this.normaliseMemorisationPresetName(entry.name || "");
+            if (!id || !name) return null;
+            const config = this.normaliseMemorisationPresetConfig(
+                entry.config || {}
+            );
+            const createdAt = Number(entry.createdAt || Date.now()) || Date.now();
+            const updatedAt =
+                Number(entry.updatedAt || createdAt || Date.now()) || Date.now();
+            return {
+                id,
+                name,
+                favorite: !!entry.favorite,
+                createdAt,
+                updatedAt,
+                config,
+            };
+        },
+        loadMemorisationPresets() {
+            if (typeof window === "undefined") {
+                this.memorisationPresets = [];
+                this.memorisationActivePresetId = "";
+                return [];
+            }
+            try {
+                const scopeId = this.getMemorisationPresetScopeId();
+                const scopedKey = this.getMemorisationPresetsStorageKey();
+                let raw = localStorage.getItem(scopedKey);
+                let shouldPersistScoped = false;
+
+                if (!raw) {
+                    const mapRaw = localStorage.getItem(
+                        this.memorisationPresetsStorageMapKey
+                    );
+                    const parsedMap = mapRaw ? JSON.parse(mapRaw) : null;
+                    if (parsedMap && typeof parsedMap === "object") {
+                        const scopeCandidates =
+                            this.getMemorisationPresetScopeCandidates(scopeId);
+                        let resolvedScopeId = "";
+                        for (const candidate of scopeCandidates) {
+                            if (!parsedMap[candidate]) continue;
+                            resolvedScopeId = candidate;
+                            raw = JSON.stringify(parsedMap[candidate]);
+                            break;
+                        }
+                        if (
+                            !raw &&
+                            String(scopeId || "").startsWith("anon_")
+                        ) {
+                            const anonLatest = Object.entries(parsedMap)
+                                .filter(
+                                    ([key, value]) =>
+                                        String(key || "").startsWith("anon_") &&
+                                        value &&
+                                        typeof value === "object"
+                                )
+                                .sort(
+                                    ([, left], [, right]) =>
+                                        Number(right?.updatedAt || 0) -
+                                        Number(left?.updatedAt || 0)
+                                )[0];
+                            if (anonLatest?.[1]) {
+                                resolvedScopeId = String(anonLatest[0] || "").trim();
+                                raw = JSON.stringify(anonLatest[1]);
+                            }
+                        }
+                        if (raw) {
+                            shouldPersistScoped = true;
+                            if (
+                                resolvedScopeId &&
+                                resolvedScopeId !== scopeId
+                            ) {
+                                shouldPersistScoped = true;
+                            }
+                        }
+                    }
+                }
+
+                if (!raw) {
+                    const legacyRaw = localStorage.getItem(
+                        this.memorisationPresetsStorageKeyBase
+                    );
+                    if (legacyRaw && String(legacyRaw).trim()) {
+                        raw = legacyRaw;
+                        shouldPersistScoped = true;
+                    }
+                }
+
+                if (!raw) {
+                    this.memorisationPresets = [];
+                    this.persistMemorisationActivePresetId("");
+                    return [];
+                }
+                const parsed = JSON.parse(raw);
+                const rawPresets = Array.isArray(parsed)
+                    ? parsed
+                    : Array.isArray(parsed?.presets)
+                    ? parsed.presets
+                    : [];
+                const normalized = rawPresets
+                    .map((entry) => this.normaliseMemorisationPresetEntry(entry))
+                    .filter(Boolean);
+                this.memorisationPresets = normalized;
+                let activePresetId = "";
+                try {
+                    activePresetId = String(
+                        parsed?.activePresetId ||
+                            localStorage.getItem(
+                                this.getMemorisationActivePresetStorageKey()
+                            ) ||
+                            ""
+                    ).trim();
+                } catch (_) {
+                    activePresetId = String(parsed?.activePresetId || "").trim();
+                }
+                if (!normalized.some((preset) => preset.id === activePresetId)) {
+                    activePresetId = "";
+                }
+                this.persistMemorisationActivePresetId(activePresetId);
+                if (shouldPersistScoped) {
+                    this.persistMemorisationPresets();
+                }
+                this.rememberMemorisationPresetScope(scopeId);
+                return normalized;
+            } catch (_) {
+                this.memorisationPresets = [];
+                this.persistMemorisationActivePresetId("");
+                return [];
+            }
+        },
+        persistMemorisationPresets() {
+            if (typeof window === "undefined") return;
+            const limit = Math.max(
+                1,
+                Number(this.memorisationPresetLimit || 40)
+            );
+            const trimmed = this.sortedMemorisationPresets.slice(0, limit);
+            this.memorisationPresets = trimmed;
+            try {
+                const scopeId = this.getMemorisationPresetScopeId();
+                const payload = {
+                    version: 1,
+                    scopeId,
+                    updatedAt: Date.now(),
+                    activePresetId: String(
+                        this.memorisationActivePresetId || ""
+                    ).trim(),
+                    presets: trimmed,
+                };
+                this.safeLocalStorageSetItem(
+                    this.getMemorisationPresetsStorageKey(),
+                    JSON.stringify(payload),
+                    {
+                        protectedKeys: [
+                            this.getMemorisationActivePresetStorageKey(),
+                            this.memorisationPresetsStorageMapKey,
+                        ],
+                    }
+                );
+                const mapRaw = localStorage.getItem(
+                    this.memorisationPresetsStorageMapKey
+                );
+                const parsedMap =
+                    mapRaw && typeof mapRaw === "string"
+                        ? JSON.parse(mapRaw)
+                        : {};
+                const nextMap =
+                    parsedMap && typeof parsedMap === "object"
+                        ? { ...parsedMap }
+                        : {};
+                nextMap[scopeId] = payload;
+                this.safeLocalStorageSetItem(
+                    this.memorisationPresetsStorageMapKey,
+                    JSON.stringify(nextMap),
+                    {
+                        protectedKeys: [
+                            this.getMemorisationPresetsStorageKey(),
+                            this.getMemorisationActivePresetStorageKey(),
+                        ],
+                    }
+                );
+                this.rememberMemorisationPresetScope(scopeId);
+            } catch (_) {}
+        },
+        describeMemorisationPreset(preset) {
+            const config = this.normaliseMemorisationPresetConfig(
+                preset?.config || {}
+            );
+            const surahNumber = Number(config.surahNumber || 0);
+            const surahName = this.getSurahNameByNumber(
+                surahNumber || this.selectedSurah || 1
+            );
+            const modeLabel = config.singleAyahFocus
+                ? "Test mode"
+                : config.playbackMode === "repeat"
+                ? "Repeat"
+                : config.playbackMode === "manual"
+                ? "Manual"
+                : "Auto";
+            return `${surahNumber || "?"}. ${surahName} · Ayah ${
+                config.rangeStart
+            }-${config.rangeEnd} · ${config.playbackSpeed}x · ${modeLabel}`;
+        },
+        getMemorisationPresetSuggestedName() {
+            const config = this.buildCurrentMemorisationPresetConfig({
+                preferDraft: true,
+            });
+            const surahNumber = Number(config.surahNumber || this.selectedSurah || 1);
+            const surahName = this.getSurahNameByNumber(surahNumber);
+            const suffix = config.singleAyahFocus ? "Test Mode" : "Routine";
+            return this.normaliseMemorisationPresetName(`${surahName} ${suffix}`);
+        },
+        openMemorisationPresetNameEditor(options = {}) {
+            const { presetId = "" } = options || {};
+            const preset = (this.memorisationPresets || []).find(
+                (entry) => entry.id === presetId
+            );
+            this.isMemorisationPresetPanelCollapsed = false;
+            this.persistMemorisationPresetPanelCollapsedState(false);
+            this.memorisationPresetEditorMode = preset ? "rename" : "create";
+            this.memorisationPresetEditorTargetId = preset ? preset.id : "";
+            this.memorisationPresetEditorName = this.normaliseMemorisationPresetName(
+                preset?.name || this.getMemorisationPresetSuggestedName()
+            );
+            this.memorisationPresetEditorError = "";
+            this.isMemorisationPresetEditorVisible = true;
+            this.$nextTick(() => {
+                const input = this.$refs?.memorisationPresetNameInput;
+                if (!input || typeof input.focus !== "function") return;
+                input.focus();
+                if (typeof input.select === "function") {
+                    input.select();
+                }
+            });
+        },
+        closeMemorisationPresetNameEditor() {
+            this.isMemorisationPresetEditorVisible = false;
+            this.memorisationPresetEditorName = "";
+            this.memorisationPresetEditorTargetId = "";
+            this.memorisationPresetEditorMode = "create";
+            this.memorisationPresetEditorError = "";
+        },
+        submitMemorisationPresetNameEditor() {
+            const name = this.normaliseMemorisationPresetName(
+                this.memorisationPresetEditorName
+            );
+            if (!name) {
+                this.memorisationPresetEditorError =
+                    "Enter a preset name before saving.";
+                return;
+            }
+            let saved = false;
+            if (
+                this.memorisationPresetEditorMode === "rename" &&
+                this.memorisationPresetEditorTargetId
+            ) {
+                saved = this.renameMemorisationPreset(
+                    this.memorisationPresetEditorTargetId,
+                    name
+                );
+            } else {
+                saved = this.saveCurrentAsMemorisationPreset(name);
+            }
+            if (!saved) return;
+            this.closeMemorisationPresetNameEditor();
+        },
+        saveCurrentAsMemorisationPreset(requestedNameInput = "") {
+            const requestedName = this.normaliseMemorisationPresetName(
+                requestedNameInput || this.getMemorisationPresetSuggestedName()
+            );
+            if (!requestedName) {
+                this.memorisationPresetEditorError =
+                    "Enter a preset name before saving.";
+                return false;
+            }
+
+            const now = Date.now();
+            const lowerName = requestedName.toLowerCase();
+            const existing = (this.memorisationPresets || []).find(
+                (preset) =>
+                    String(preset?.name || "").trim().toLowerCase() === lowerName
+            );
+            const config = this.buildCurrentMemorisationPresetConfig({
+                preferDraft: true,
+            });
+
+            if (existing) {
+                existing.config = { ...config };
+                existing.updatedAt = now;
+                this.persistMemorisationActivePresetId(existing.id);
+                this.persistMemorisationPresets();
+                this.showToast(`Preset "${requestedName}" updated.`, 2400);
+                return true;
+            }
+
+            const limit = Math.max(
+                1,
+                Number(this.memorisationPresetLimit || 40)
+            );
+            if ((this.memorisationPresets || []).length >= limit) {
+                this.showToast(
+                    `Preset limit reached (${limit}). Delete one to add another.`,
+                    2800
+                );
+                return false;
+            }
+
+            const nextPreset = {
+                id: this.createMemorisationPresetId(),
+                name: requestedName,
+                favorite: false,
+                createdAt: now,
+                updatedAt: now,
+                config: { ...config },
+            };
+            this.memorisationPresets = [
+                ...(Array.isArray(this.memorisationPresets)
+                    ? this.memorisationPresets
+                    : []),
+                nextPreset,
+            ];
+            this.persistMemorisationActivePresetId(nextPreset.id);
+            this.persistMemorisationPresets();
+            this.showToast(`Preset "${requestedName}" saved.`, 2400);
+            return true;
+        },
+        renameMemorisationPreset(presetId, requestedNameInput = "") {
+            const preset = (this.memorisationPresets || []).find(
+                (entry) => entry.id === presetId
+            );
+            if (!preset) return false;
+            const requestedName = this.normaliseMemorisationPresetName(
+                requestedNameInput
+            );
+            if (!requestedName) {
+                this.memorisationPresetEditorError =
+                    "Enter a preset name before updating.";
+                return false;
+            }
+            const lowerName = requestedName.toLowerCase();
+            const hasConflict = (this.memorisationPresets || []).some(
+                (entry) =>
+                    entry.id !== presetId &&
+                    String(entry?.name || "").trim().toLowerCase() === lowerName
+            );
+            if (hasConflict) {
+                this.memorisationPresetEditorError =
+                    "A preset with this name already exists.";
+                return false;
+            }
+            preset.name = requestedName;
+            preset.updatedAt = Date.now();
+            this.persistMemorisationPresets();
+            this.showToast("Preset name updated.", 2200);
+            return true;
+        },
+        deleteMemorisationPreset(presetId) {
+            const preset = (this.memorisationPresets || []).find(
+                (entry) => entry.id === presetId
+            );
+            if (!preset) return;
+            let shouldDelete = true;
+            if (
+                typeof window !== "undefined" &&
+                typeof window.confirm === "function"
+            ) {
+                shouldDelete = window.confirm(
+                    `Delete preset "${preset.name}"?`
+                );
+            }
+            if (!shouldDelete) return;
+            this.memorisationPresets = (this.memorisationPresets || []).filter(
+                (entry) => entry.id !== presetId
+            );
+            if (this.memorisationActivePresetId === presetId) {
+                this.persistMemorisationActivePresetId("");
+            }
+            if (this.memorisationPresetEditorTargetId === presetId) {
+                this.closeMemorisationPresetNameEditor();
+            }
+            this.persistMemorisationPresets();
+            this.showToast(`Preset "${preset.name}" deleted.`, 2200);
+        },
+        toggleMemorisationPresetFavorite(presetId) {
+            const preset = (this.memorisationPresets || []).find(
+                (entry) => entry.id === presetId
+            );
+            if (!preset) return;
+            preset.favorite = !preset.favorite;
+            preset.updatedAt = Date.now();
+            this.persistMemorisationPresets();
+        },
+        async applyMemorisationSessionConfig(configInput = {}, options = {}) {
+            const {
+                successMessage = "",
+                errorMessage =
+                    "Could not apply memorisation settings. Please try again.",
+                showSubmitAlert = false,
+                closeOffcanvas = false,
+                syncDraft = true,
+            } = options || {};
+            try {
+                const config = this.normaliseMemorisationPresetConfig(configInput);
+                this.captureMemorisationSessionSnapshot();
+                if (
+                    config.surahNumber &&
+                    String(this.selectedSurah || "") !== config.surahNumber
+                ) {
+                    await this.selectSurah(config.surahNumber, { skipScroll: true });
+                }
+
+                const total = Math.max(1, Number(this.totalAyahs || 1));
+                const start = Math.min(
+                    total,
+                    Math.max(1, Number(config.rangeStart || 1))
+                );
+                const end = Math.min(
+                    total,
+                    Math.max(start, Number(config.rangeEnd || total))
+                );
+
+                this.isMemorisationToolbarVisible = true;
+                const requestedReciter =
+                    config.reciterIdentifier || this.selectedReciter;
+                const reciterChanged =
+                    requestedReciter &&
+                    requestedReciter !== this.selectedReciter;
+                this.selectedReciter = requestedReciter;
+                if (reciterChanged) {
+                    await this.ensureSurahReciterApplied(requestedReciter);
+                }
+                this.memorisationRangeStart = start;
+                this.memorisationRangeEnd = end;
+                this.memorisationVerseDelay = config.verseDelay;
+                this.memorisationRepetitionCount = config.repetitionCount;
+                this.setPlaybackMode(config.playbackMode);
+                this.playbackSpeed = config.playbackSpeed;
+                this.isMemorisationMode = !!config.singleAyahFocus;
+                this.isBlurNextAyahEnabled = !!config.blurNextAyah;
+                this.showTajweed = !!config.showTajweed;
+                this.showRealtimeHighlighting = !!config.showRealtimeHighlighting;
+                this.showWordTranslation = !!config.showWordTranslation;
+                this.showWordTranslationTooltip =
+                    !!config.showWordTranslationTooltip;
+                this.applyGlobalTextVisibility({
+                    translation: !!config.translationVisible,
+                    transliteration: !!config.transliterationVisible,
+                });
+                this.applyMemorisationDraftFont(config.quranFontId);
+                this.applyMemorisationRange();
+                this.prepareSettingsDraft();
+                if (
+                    config.showWordTranslation ||
+                    config.showWordTranslationTooltip ||
+                    config.showRealtimeHighlighting
+                ) {
+                    this.enrichSurahWithQuranSegments();
+                }
+                this.persistMemorisationPreviousSession(
+                    this.buildCurrentMemorisationSessionSnapshot()
+                );
+                this.memorisationLastWorkedIndex = Number.isFinite(
+                    Number(this.activeAyahIndex)
+                )
+                    ? Number(this.activeAyahIndex)
+                    : this.memorisationLastWorkedIndex;
+                if (syncDraft) {
+                    this.memorisationDraft =
+                        this.buildMemorisationPresetDraftFromConfig({
+                            ...config,
+                            rangeStart: start,
+                            rangeEnd: end,
+                        });
+                }
+                if (showSubmitAlert) {
+                    this.showMemorisationSubmitAlert(
+                        successMessage || "Memorisation settings updated successfully.",
+                        { closeOffcanvas: !!closeOffcanvas }
+                    );
+                } else if (successMessage) {
+                    this.showToast(successMessage, 2600);
+                }
+                return true;
+            } catch (error) {
+                console.error("Unable to apply memorisation session config:", error);
+                if (errorMessage) {
+                    this.showToast(errorMessage, 3200);
+                }
+                return false;
+            }
+        },
+        async loadMemorisationPreset(presetId) {
+            const preset = (this.memorisationPresets || []).find(
+                (entry) => entry.id === presetId
+            );
+            if (!preset || this.isMemorisationDraftSubmitting) return;
+            this.isMemorisationDraftSubmitting = true;
+            try {
+                this.hideMemorisationSubmitAlert();
+                const applied = await this.applyMemorisationSessionConfig(
+                    preset.config || {},
+                    {
+                        successMessage: `Preset "${preset.name}" loaded.`,
+                        showSubmitAlert: false,
+                        closeOffcanvas: false,
+                        syncDraft: true,
+                        errorMessage:
+                            "Could not load this preset. Please try again.",
+                    }
+                );
+                if (!applied) return;
+                this.persistMemorisationActivePresetId(preset.id);
+                preset.updatedAt = Date.now();
+                this.persistMemorisationPresets();
+            } finally {
+                this.isMemorisationDraftSubmitting = false;
+            }
+        },
         applyMemorisationDraftFont(fontId) {
             const requestedId = String(fontId || "");
             if (!requestedId) return;
@@ -4380,7 +5281,7 @@ export default {
                 );
                 if (!toolbar) return;
                 try {
-                    toolbar.scrollTo({ left: 0, behavior: "smooth" });
+                    toolbar.scrollTo({ left: 0, behavior: "auto" });
                 } catch (_) {
                     toolbar.scrollLeft = 0;
                 }
@@ -4409,6 +5310,45 @@ export default {
                 return;
             }
             instance.hide();
+        },
+        getHifdhPlanPanelInstance() {
+            const modalEl = document.getElementById("hifdhPlanModal");
+            if (!modalEl) return null;
+            return Modal.getInstance(modalEl) || new Modal(modalEl);
+        },
+        openHifdhPlanPanel() {
+            const instance = this.getHifdhPlanPanelInstance();
+            if (!instance) return;
+            this.hifdhPlanModalInstance = instance;
+            instance.show();
+        },
+        closeHifdhPlanPanel() {
+            const instance =
+                this.getHifdhPlanPanelInstance() ||
+                this.hifdhPlanModalInstance;
+            if (!instance) return;
+            instance.hide();
+        },
+        scrollHifdhPanelTo(sectionKey = "") {
+            this.$nextTick(() => {
+                const key = String(sectionKey || "").toLowerCase();
+                const sectionMap = {
+                    start: this.$refs?.hifdhSectionStart,
+                    due: this.$refs?.hifdhSectionDue,
+                    insights: this.$refs?.hifdhSectionInsights,
+                };
+                const target = sectionMap[key];
+                const node = Array.isArray(target) ? target[0] : target;
+                if (!node || typeof node.scrollIntoView !== "function") return;
+                try {
+                    node.scrollIntoView({
+                        behavior: "smooth",
+                        block: "start",
+                    });
+                } catch (_) {
+                    node.scrollIntoView();
+                }
+            });
         },
         async deactivateMemorisationToolbar({
             showToast = true,
@@ -4573,71 +5513,22 @@ export default {
             this.isMemorisationDraftSubmitting = true;
             try {
                 const draft = this.normaliseMemorisationDraftValues();
-                this.captureMemorisationSessionSnapshot();
-                if (
-                    draft.surahNumber &&
-                    String(this.selectedSurah || "") !== draft.surahNumber
-                ) {
-                    await this.selectSurah(draft.surahNumber, { skipScroll: true });
-                }
-
-                const total = Math.max(1, Number(this.totalAyahs || 1));
-                const start = Math.min(
-                    total,
-                    Math.max(1, Number(draft.rangeStart || 1))
-                );
-                const end = Math.min(
-                    total,
-                    Math.max(start, Number(draft.rangeEnd || total))
-                );
-
-                this.isMemorisationToolbarVisible = true;
-                const requestedReciter =
-                    draft.reciterIdentifier || this.selectedReciter;
-                const reciterChanged =
-                    requestedReciter &&
-                    requestedReciter !== this.selectedReciter;
-                this.selectedReciter = requestedReciter;
-                if (reciterChanged) {
-                    await this.ensureSurahReciterApplied(requestedReciter);
-                }
-                this.memorisationRangeStart = start;
-                this.memorisationRangeEnd = end;
-                this.memorisationVerseDelay = draft.verseDelay;
-                this.memorisationRepetitionCount = draft.repetitionCount;
-                this.setPlaybackMode(draft.playbackMode);
-                this.playbackSpeed = draft.playbackSpeed;
-                this.isMemorisationMode = draft.singleAyahFocus;
-                this.showTajweed = draft.showTajweed;
-                this.showRealtimeHighlighting = draft.showRealtimeHighlighting;
-                this.showWordTranslation = draft.showWordTranslation;
-                this.showWordTranslationTooltip = draft.showWordTranslationTooltip;
-                this.applyMemorisationDraftFont(draft.quranFontId);
-                this.applyMemorisationRange();
-                this.prepareSettingsDraft();
-                if (
-                    draft.showWordTranslation ||
-                    draft.showWordTranslationTooltip ||
-                    draft.showRealtimeHighlighting
-                ) {
-                    this.enrichSurahWithQuranSegments();
-                }
-                this.persistMemorisationPreviousSession(
-                    this.buildCurrentMemorisationSessionSnapshot()
-                );
-                this.memorisationLastWorkedIndex = Number.isFinite(
-                    Number(this.activeAyahIndex)
-                )
-                    ? Number(this.activeAyahIndex)
-                    : this.memorisationLastWorkedIndex;
-                this.showMemorisationSubmitAlert(
-                    "Memorisation settings updated successfully.",
-                    { closeOffcanvas: true }
-                );
-            } catch (_) {
-                this.showToast(
-                    "Could not apply memorisation settings. Please try again.",
-                    3200
+                await this.applyMemorisationSessionConfig(
+                    {
+                        ...draft,
+                        blurNextAyah: this.isBlurNextAyahEnabled,
+                        translationVisible: this.isTranslationVisible,
+                        transliterationVisible: this.isTransliterationVisible,
+                    },
+                    {
+                        successMessage:
+                            "Memorisation settings updated successfully.",
+                        errorMessage:
+                            "Could not apply memorisation settings. Please try again.",
+                        showSubmitAlert: true,
+                        closeOffcanvas: true,
+                        syncDraft: true,
+                    }
                 );
             } finally {
                 this.isMemorisationDraftSubmitting = false;
@@ -4695,14 +5586,19 @@ export default {
                 return;
             }
             this.hideMemorisationSubmitAlert();
-            this.populateMemorisationDraft();
             this.memorisationSessionSnapshot =
                 this.buildCurrentMemorisationSessionSnapshot();
             this.isMemorisationToolbarVisible = true;
-            await this.applyMemorisationDefaultSession({
-                syncDraft: true,
-                scroll: true,
-            });
+            try {
+                await this.applyMemorisationDefaultSession({
+                    syncDraft: true,
+                    scroll: false,
+                });
+            } catch (error) {
+                console.error("Unable to apply default memorisation session:", error);
+                this.populateMemorisationDraft();
+            }
+            this.persistMemorisationActivePresetId("");
             this.showModeToggleToast("Memorisation tools", true);
         },
         toggleMemorisationAdvanced() {
@@ -5144,6 +6040,18 @@ export default {
                 return fromItemIndex + 1;
             }
             return 1;
+        },
+        getAyahCardRenderKey(item) {
+            const ref = this.resolveAyahReference(item?.ayah || item);
+            if (ref?.key) return ref.key;
+            const fallbackIndex = Number(item?.index);
+            const fallbackRole = String(item?.role || "").trim();
+            if (Number.isFinite(fallbackIndex) && fallbackIndex >= 0) {
+                return fallbackRole
+                    ? `ayah-${fallbackIndex}-${fallbackRole}`
+                    : `ayah-${fallbackIndex}`;
+            }
+            return fallbackRole ? `ayah-${fallbackRole}` : "ayah-unknown";
         },
         getReaderContextAyahNumber() {
             const preferredIndex =
@@ -6696,11 +7604,7 @@ export default {
             }
             await this.startTodayHifdhSession();
             this.$nextTick(() => {
-                const modalEl = document.getElementById("hifdhPlanModal");
-                if (!modalEl) return;
-                const instance =
-                    Modal.getInstance(modalEl) || new Modal(modalEl);
-                instance.hide();
+                this.closeHifdhPlanPanel();
             });
         },
         async openHifdhPlanItem(item) {
@@ -6720,10 +7624,7 @@ export default {
             if (!item) return;
             await this.openHifdhPlanItem(item);
             this.$nextTick(() => {
-                const modalEl = document.getElementById("hifdhPlanModal");
-                if (!modalEl) return;
-                const instance = Modal.getInstance(modalEl) || new Modal(modalEl);
-                instance.hide();
+                this.closeHifdhPlanPanel();
             });
         },
         applyHifdhFeedbackAdjustments(entry, feedback) {
@@ -7408,16 +8309,94 @@ export default {
             const response = await axios.get(`/api/preferences/${key}`);
             return response.data?.value ?? null;
         },
-        async savePreference(key, value) {
+        async savePreferenceApi(key, value) {
             if (!this.bookmarkAuthenticated) return;
             try {
                 await axios.put(`/api/preferences/${key}`, { value });
             } catch (_) { }
         },
+        isStorageQuotaExceeded(error) {
+            if (!error) return false;
+            const name = String(error.name || "");
+            const code = Number(error.code || 0);
+            return (
+                name === "QuotaExceededError" ||
+                name === "NS_ERROR_DOM_QUOTA_REACHED" ||
+                code === 22 ||
+                code === 1014
+            );
+        },
+        pruneLocalStorageCacheForQuota(options = {}) {
+            if (typeof window === "undefined") return 0;
+            const { protectedKeys = [] } = options || {};
+            const protectedSet = new Set(
+                (Array.isArray(protectedKeys) ? protectedKeys : [])
+                    .map((entry) => String(entry || "").trim())
+                    .filter(Boolean)
+            );
+            const removablePrefixes = [
+                "cache:",
+                "cache_",
+                "surah_audio_meta:",
+                "bookmarkRefresh",
+            ];
+            let removed = 0;
+            try {
+                const keys = [];
+                for (let index = 0; index < localStorage.length; index += 1) {
+                    const key = localStorage.key(index);
+                    if (!key) continue;
+                    keys.push(key);
+                }
+                const candidates = keys.filter((key) => {
+                    if (!key || protectedSet.has(key)) return false;
+                    return removablePrefixes.some((prefix) =>
+                        String(key).startsWith(prefix)
+                    );
+                });
+                const toRemoveCount = Math.max(
+                    1,
+                    Math.ceil(candidates.length * 0.5)
+                );
+                candidates.slice(0, toRemoveCount).forEach((key) => {
+                    try {
+                        localStorage.removeItem(key);
+                        removed += 1;
+                    } catch (_) {}
+                });
+            } catch (_) {
+                return removed;
+            }
+            return removed;
+        },
+        safeLocalStorageSetItem(key, value, options = {}) {
+            if (typeof window === "undefined") return false;
+            const {
+                pruneOnQuota = true,
+                protectedKeys = [],
+            } = options || {};
+            try {
+                localStorage.setItem(key, value);
+                return true;
+            } catch (error) {
+                if (!pruneOnQuota || !this.isStorageQuotaExceeded(error)) {
+                    return false;
+                }
+                this.pruneLocalStorageCacheForQuota({
+                    protectedKeys: [key, ...protectedKeys],
+                });
+                try {
+                    localStorage.setItem(key, value);
+                    return true;
+                } catch (_) {
+                    return false;
+                }
+            }
+        },
         persistLocalSetting(key, value) {
             if (typeof window === "undefined") return;
             try {
-                localStorage.setItem(key, value);
+                this.safeLocalStorageSetItem(key, value);
             } catch (_) {}
         },
         getOrCreateSuratPreferenceAnonId() {
@@ -7549,20 +8528,6 @@ export default {
                             : "";
                     if (scopedFromMap) {
                         raw = scopedFromMap;
-                    } else if (parsedMap && typeof parsedMap === "object") {
-                        const candidates = Object.values(parsedMap)
-                            .map((item) =>
-                                this.normalizeContinueProgressPayload(item)
-                            )
-                            .filter(Boolean)
-                            .sort(
-                                (a, b) =>
-                                    Number(b?.timestamp || 0) -
-                                    Number(a?.timestamp || 0)
-                            );
-                        if (candidates.length) {
-                            raw = JSON.stringify(candidates[0]);
-                        }
                     }
                 }
 
@@ -7902,10 +8867,41 @@ export default {
             try {
                 const key = this.buildScopedFontPreferenceKey(baseKey);
                 const payload = json ? JSON.stringify(value) : String(value);
-                localStorage.setItem(key, payload);
+                this.safeLocalStorageSetItem(key, payload);
             } catch (_) {
                 // ignore storage errors
             }
+        },
+        readScopedPreferenceWithLegacy(baseKey, options = {}) {
+            const { json = false, legacyKeys = [] } = options;
+            const scopedValue = this.readScopedFontPreference(baseKey, { json });
+            if (
+                scopedValue !== null &&
+                scopedValue !== undefined &&
+                !(typeof scopedValue === "string" && scopedValue === "")
+            ) {
+                return scopedValue;
+            }
+            if (typeof window === "undefined") return null;
+
+            const keys = [baseKey, ...legacyKeys]
+                .map((key) => String(key || "").trim())
+                .filter(Boolean);
+            const seen = new Set();
+            for (const key of keys) {
+                if (seen.has(key)) continue;
+                seen.add(key);
+                try {
+                    const raw = localStorage.getItem(key);
+                    if (raw === null || raw === undefined || raw === "") continue;
+                    const value = json ? JSON.parse(raw) : raw;
+                    this.writeScopedFontPreference(baseKey, value, { json });
+                    return value;
+                } catch (_) {
+                    continue;
+                }
+            }
+            return null;
         },
         readScopedBooleanPreference(baseKey, fallback = false) {
             const raw = this.readScopedFontPreference(baseKey);
@@ -8547,22 +9543,28 @@ export default {
                     sessionStorage.getItem(this.savedAyahStorageKey) ||
                     localStorage.getItem(this.savedAyahStorageKey);
                 if (stored) {
-                    this.savedAyahKeys = JSON.parse(stored) || {};
+                    const parsed = JSON.parse(stored) || {};
+                    this.savedAyahKeys = this.normalizeSavedAyahKeysMap(parsed);
                 } else {
                     const legacySession = sessionStorage.getItem(
                         "ic_saved_ayahs_session"
                     );
                     const legacyGlobal = localStorage.getItem("ic_saved_ayahs");
                     const fallback = legacySession || legacyGlobal;
-                    this.savedAyahKeys = fallback ? JSON.parse(fallback) : {};
+                    this.savedAyahKeys = fallback
+                        ? this.normalizeSavedAyahKeysMap(JSON.parse(fallback))
+                        : {};
                     if (fallback) {
+                        const normalizedPayload = JSON.stringify(
+                            this.savedAyahKeys
+                        );
                         sessionStorage.setItem(
                             this.savedAyahStorageKey,
-                            fallback
+                            normalizedPayload
                         );
                         localStorage.setItem(
                             this.savedAyahStorageKey,
-                            fallback
+                            normalizedPayload
                         );
                     }
                 }
@@ -8635,11 +9637,8 @@ export default {
             }
         },
         getAyahKeyForAyah(ayah) {
-            if (!this.surahDetails || !ayah) return "";
-            const surahNumber = Number(this.surahDetails.surahNumber);
-            const ayahNumber = Number(ayah.numberInSurah || ayah.number);
-            if (!surahNumber || !ayahNumber) return "";
-            return this.buildAyahKey(surahNumber, ayahNumber);
+            const ref = this.resolveAyahReference(ayah);
+            return ref?.key || "";
         },
         isAyahAudioDownloading(ayah) {
             const key = this.getAyahKeyForAyah(ayah);
@@ -9060,22 +10059,31 @@ export default {
                 const next = {};
                 bookmarks.forEach((bookmark) => {
                     const surahNumber = Number(
-                        bookmark.surah_number || bookmark.ayah?.surah_id
+                        bookmark.surah_number || bookmark.surahNumber || 0
                     );
                     const ayahNumber = Number(
-                        bookmark.ayah_number || bookmark.ayah_num
+                        bookmark.ayah_number || bookmark.ayah_num || 0
                     );
-                    const ayahInSurah = Number(bookmark.ayah?.ayah_id);
-                    if (surahNumber && ayahNumber) {
-                        next[this.buildAyahKey(surahNumber, ayahNumber)] =
-                            bookmark.id || true;
+                    if (
+                        !Number.isFinite(surahNumber) ||
+                        !Number.isFinite(ayahNumber) ||
+                        surahNumber < 1 ||
+                        surahNumber > 114 ||
+                        ayahNumber < 1
+                    ) {
+                        return;
                     }
-                    if (surahNumber && ayahInSurah) {
-                        next[this.buildAyahKey(surahNumber, ayahInSurah)] =
-                            bookmark.id || true;
-                    }
+                    const surahAyahCount =
+                        this.getSurahAyahCountByNumber(surahNumber);
+                    if (surahAyahCount && ayahNumber > surahAyahCount) return;
+                    const normalizedValue = this.normalizeSavedAyahValue(
+                        bookmark.id || true
+                    );
+                    if (normalizedValue === null) return;
+                    next[this.buildAyahKey(surahNumber, ayahNumber)] =
+                        normalizedValue;
                 });
-                this.savedAyahKeys = next;
+                this.savedAyahKeys = this.normalizeSavedAyahKeysMap(next);
             } catch (_) {
                 // Ignore sync failures; local state still works.
             }
@@ -9113,6 +10121,21 @@ export default {
             }
             if (event.key === this.getContinueProgressHiddenStorageKey()) {
                 this.loadContinueProgressHiddenState();
+                return;
+            }
+            if (
+                event.key === this.getMemorisationPresetsStorageKey() ||
+                event.key === this.memorisationPresetsStorageMapKey ||
+                event.key === this.getMemorisationActivePresetStorageKey()
+            ) {
+                this.loadMemorisationPresets();
+                return;
+            }
+            if (
+                event.key ===
+                this.getMemorisationPresetPanelCollapsedStorageKey()
+            ) {
+                this.loadMemorisationPresetPanelCollapsedState();
             }
         },
         handleVisibilityChange() {
@@ -9196,10 +10219,7 @@ export default {
             const allowed = await this.ensureHifdhPlanAccess();
             if (!allowed) return;
             this.$nextTick(() => {
-                const modalEl = document.getElementById("hifdhPlanModal");
-                if (!modalEl) return;
-                const modal = Modal.getInstance(modalEl) || new Modal(modalEl);
-                modal.show();
+                this.openHifdhPlanPanel();
             });
         },
         clearSavedBookmarks() {
@@ -9216,21 +10236,156 @@ export default {
         buildAyahKey(surahNumber, ayahNumber) {
             return `${surahNumber}:${ayahNumber}`;
         },
+        getSurahAyahCountByNumber(surahNumber) {
+            const normalizedSurah = Number(surahNumber);
+            if (!normalizedSurah) return 0;
+            const match = Array.isArray(this.surahs)
+                ? this.surahs.find(
+                    (surah) => Number(surah?.number || 0) === normalizedSurah
+                )
+                : null;
+            const count = Number(
+                match?.numberOfAyahs || match?.ayahs?.length || 0
+            );
+            return Number.isFinite(count) && count > 0 ? Math.trunc(count) : 0;
+        },
+        normalizeSavedAyahValue(value) {
+            if (value === true) return true;
+            if (typeof value === "number") {
+                return Number.isFinite(value) && value > 0
+                    ? Math.trunc(value)
+                    : null;
+            }
+            if (typeof value === "string") {
+                const trimmed = value.trim();
+                if (!trimmed) return null;
+                const lowered = trimmed.toLowerCase();
+                if (
+                    lowered === "true" ||
+                    lowered === "saved" ||
+                    lowered === "yes"
+                ) {
+                    return true;
+                }
+                const numeric = Number(trimmed);
+                return Number.isFinite(numeric) && numeric > 0
+                    ? Math.trunc(numeric)
+                    : null;
+            }
+            if (value && typeof value === "object") {
+                const candidate = Number(
+                    value.id ||
+                    value.bookmarkId ||
+                    value.bookmark_id ||
+                    value.value ||
+                    0
+                );
+                if (Number.isFinite(candidate) && candidate > 0) {
+                    return Math.trunc(candidate);
+                }
+                if (
+                    value.saved === true ||
+                    value.isSaved === true ||
+                    value.value === true
+                ) {
+                    return true;
+                }
+            }
+            return null;
+        },
+        normalizeSavedAyahKeysMap(rawMap) {
+            if (!rawMap || typeof rawMap !== "object") return {};
+            const next = {};
+            Object.entries(rawMap).forEach(([rawKey, rawValue]) => {
+                const keyMatch = /^(\d+):(\d+)$/.exec(String(rawKey || "").trim());
+                if (!keyMatch) return;
+                const surahNumber = Number(keyMatch[1]);
+                const ayahNumber = Number(keyMatch[2]);
+                if (
+                    !Number.isFinite(surahNumber) ||
+                    !Number.isFinite(ayahNumber) ||
+                    surahNumber < 1 ||
+                    surahNumber > 114 ||
+                    ayahNumber < 1
+                ) {
+                    return;
+                }
+                const surahAyahCount = this.getSurahAyahCountByNumber(surahNumber);
+                if (surahAyahCount && ayahNumber > surahAyahCount) return;
+                const normalizedValue = this.normalizeSavedAyahValue(rawValue);
+                if (normalizedValue === null) return;
+                next[this.buildAyahKey(surahNumber, ayahNumber)] = normalizedValue;
+            });
+            return next;
+        },
+        resolveAyahReference(ayah, options = {}) {
+            if (!ayah || typeof ayah !== "object") return null;
+            const normalizePositiveInt = (value) => {
+                const numeric = Number(value);
+                if (!Number.isFinite(numeric) || numeric <= 0) return 0;
+                return Math.trunc(numeric);
+            };
+
+            const resolvedSurahNumber = normalizePositiveInt(
+                options.surahNumber ||
+                    this.surahDetails?.surahNumber ||
+                    this.selectedSurah ||
+                    ayah.surahNumber ||
+                    ayah.surah_number ||
+                    ayah.surah?.number
+            );
+
+            const totalAyahsForSurah = resolvedSurahNumber
+                ? this.getSurahAyahCountByNumber(resolvedSurahNumber) ||
+                Number(this.totalAyahs || 0)
+                : 0;
+            const candidates = [
+                options.ayahNumber,
+                ayah.numberInSurah,
+                ayah.ayahNumber,
+                ayah.ayah_number,
+                ayah.number,
+                ayah.ayahId,
+                ayah.ayah_id,
+            ]
+                .map(normalizePositiveInt)
+                .filter((value) => value > 0);
+            let resolvedAyahNumber = 0;
+            if (totalAyahsForSurah > 0) {
+                resolvedAyahNumber =
+                    candidates.find((value) => value <= totalAyahsForSurah) || 0;
+            }
+            if (!resolvedAyahNumber) {
+                resolvedAyahNumber = candidates[0] || 0;
+            }
+
+            if (!resolvedSurahNumber || !resolvedAyahNumber) return null;
+
+            return {
+                surahNumber: resolvedSurahNumber,
+                ayahNumber: resolvedAyahNumber,
+                key: this.buildAyahKey(resolvedSurahNumber, resolvedAyahNumber),
+            };
+        },
         isAyahSaved(ayah) {
-            if (!ayah || !this.surahDetails) return false;
-            const surahNumber = Number(this.surahDetails.surahNumber);
-            const ayahNumber = Number(ayah.numberInSurah || ayah.number);
-            return !!this.savedAyahKeys[
-                this.buildAyahKey(surahNumber, ayahNumber)
-            ];
+            const ref = this.resolveAyahReference(ayah);
+            if (!ref) return false;
+            const map = this.savedAyahKeys;
+            if (!map || typeof map !== "object" || Array.isArray(map)) {
+                return false;
+            }
+            if (!Object.prototype.hasOwnProperty.call(map, ref.key)) {
+                return false;
+            }
+            return this.normalizeSavedAyahValue(map[ref.key]) !== null;
         },
         getBookmarkId(ayah) {
-            if (!ayah || !this.surahDetails) return null;
-            const surahNumber = Number(this.surahDetails.surahNumber);
-            const ayahNumber = Number(ayah.numberInSurah || ayah.number);
-            const val =
-                this.savedAyahKeys[this.buildAyahKey(surahNumber, ayahNumber)];
-            return val === true ? null : val; // handle historic boolean values
+            const ref = this.resolveAyahReference(ayah);
+            if (!ref) return null;
+            const val = this.savedAyahKeys?.[ref.key];
+            const normalized = this.normalizeSavedAyahValue(val);
+            if (normalized === true || normalized === null) return null;
+            return normalized;
         },
         async toggleBookmark(ayah) {
             if (!this.bookmarkAuthenticated) {
@@ -9241,9 +10396,9 @@ export default {
                 if (!isAuthed) return;
             }
             if (this.isAyahSaved(ayah)) {
-                this.removeBookmark(ayah);
+                await this.removeBookmark(ayah);
             } else {
-                this.quickSaveBookmark(ayah);
+                await this.quickSaveBookmark(ayah);
             }
         },
         triggerAyahFeedback(key, text, cssClass, icon, link = "", linkText = "", timeout = 6000) {
@@ -9260,10 +10415,9 @@ export default {
             }, timeout);
         },
         async quickSaveBookmark(ayah) {
-            if (!this.surahDetails || !ayah) return;
-            const surahNumber = Number(this.surahDetails.surahNumber);
-            const ayahNumber = Number(ayah.numberInSurah || ayah.number);
-            const key = this.buildAyahKey(surahNumber, ayahNumber);
+            const ref = this.resolveAyahReference(ayah);
+            if (!ref) return;
+            const { surahNumber, ayahNumber, key } = ref;
 
             // Optimistic update
             const prevKeys = { ...this.savedAyahKeys };
@@ -9282,9 +10436,9 @@ export default {
                     surah_number: surahNumber,
                     ayah_number: ayahNumber,
                     surah_name:
-                        this.surahDetails.englishName ||
-                        this.surahDetails.name ||
-                        "Surah",
+                        this.surahDetails?.englishName ||
+                        this.surahDetails?.name ||
+                        `Surah ${surahNumber}`,
                     ayah_verse_ar: ayah.text || "",
                     ayah_verse_en: ayah.translation || "",
                     folder_ids: [],
@@ -9330,10 +10484,9 @@ export default {
             }
         },
         async removeBookmark(ayah) {
-            if (!this.surahDetails || !ayah) return;
-            const surahNumber = Number(this.surahDetails.surahNumber);
-            const ayahNumber = Number(ayah.numberInSurah || ayah.number);
-            const key = this.buildAyahKey(surahNumber, ayahNumber);
+            const ref = this.resolveAyahReference(ayah);
+            if (!ref) return;
+            const { key } = ref;
             const bookmarkId = this.getBookmarkId(ayah);
 
             if (!bookmarkId) {
@@ -9389,7 +10542,8 @@ export default {
             }
         },
         async openBookmarkModal(ayah) {
-            if (!this.surahDetails || !ayah) return;
+            const ref = this.resolveAyahReference(ayah);
+            if (!ref) return;
             if (!this.bookmarkAuthenticated) {
                 const isAuthed = await this.ensureAuthenticated(
                     "Please log in to manage bookmarks.",
@@ -9397,13 +10551,13 @@ export default {
                 );
                 if (!isAuthed) return;
             }
-            const ayahNumber = Number(ayah.numberInSurah || ayah.number);
+            const { surahNumber, ayahNumber } = ref;
             this.activeAyah = {
-                surah_number: Number(this.surahDetails.surahNumber),
+                surah_number: surahNumber,
                 surah_name:
-                    this.surahDetails.englishName ||
-                    this.surahDetails.name ||
-                    "Surah",
+                    this.surahDetails?.englishName ||
+                    this.surahDetails?.name ||
+                    `Surah ${surahNumber}`,
                 ayah_number: ayahNumber,
                 ayah_verse_ar: ayah.text || "",
                 ayah_verse_en: ayah.translation || "",
@@ -9541,9 +10695,13 @@ export default {
             this.showToast("Bookmark saved successfully.", 4000);
 
             const next = { ...this.savedAyahKeys };
-            next[this.buildAyahKey(surahNumber, ayahNumber)] =
-                source.id || true;
-            this.savedAyahKeys = next;
+            const key = this.buildAyahKey(surahNumber, ayahNumber);
+            const normalizedValue = this.normalizeSavedAyahValue(
+                source.id || true
+            );
+            if (normalizedValue === null) return;
+            next[key] = normalizedValue;
+            this.savedAyahKeys = this.normalizeSavedAyahKeysMap(next);
         },
         async onBookmarksLinkClick() {
             const isAuthed = await this.ensureAuthenticated();
@@ -9959,7 +11117,9 @@ export default {
                 await this.initializeSavedAyahStorageKey();
                 const key =
                     this.savedAyahStorageKey || "ic_saved_ayahs_session";
-                const payload = JSON.stringify(next);
+                const payload = JSON.stringify(
+                    this.normalizeSavedAyahKeysMap(next)
+                );
                 sessionStorage.setItem(key, payload);
                 localStorage.setItem(key, payload);
             } catch (_) {
@@ -13356,6 +14516,9 @@ export default {
             if (!key) return "";
             return String(this.tafsirContent[key] || "");
         },
+        getActiveTafsirParagraphs() {
+            return this.buildTafsirParagraphs(this.getActiveTafsirText());
+        },
         getActiveTafsirMeta() {
             const key = this.getActiveTafsirKey();
             if (!key) return null;
@@ -13382,6 +14545,110 @@ export default {
                 this.getActiveTafsirKey() ||
                 "N/A"
             );
+        },
+        buildTafsirParagraphs(rawText) {
+            const text = String(rawText || "").trim();
+            if (!text) return [];
+
+            const segments = text
+                .split(/\n{2,}/)
+                .map((paragraph) => String(paragraph || "").trim())
+                .filter(Boolean)
+                .flatMap((paragraph) =>
+                    this.splitTafsirParagraphChunks(paragraph)
+                )
+                .map((paragraph) => {
+                    const cleaned = String(paragraph || "").trim();
+                    if (!cleaned) return null;
+                    const isArabic = this.isArabicDominant(cleaned);
+                    return {
+                        text: isArabic
+                            ? this.normalizeArabicTafsirParagraph(cleaned)
+                            : this.normalizeEnglishTafsirParagraph(cleaned),
+                        isArabic,
+                        direction: isArabic ? "rtl" : "ltr",
+                        lang: isArabic ? "ar" : "en",
+                    };
+                })
+                .filter((segment) => segment?.text);
+
+            return segments.map((segment, index) => ({
+                ...segment,
+                isHeading: this.isTafsirHeadingParagraph(
+                    segment.text,
+                    index,
+                    segments.length
+                ),
+            }));
+        },
+        splitTafsirParagraphChunks(paragraph) {
+            const value = String(paragraph || "").trim();
+            if (!value) return [];
+
+            let normalized = value.replace(/\n{2,}/g, "\n").trim();
+            const hasArabic = this.containsArabicScript(normalized);
+            const hasLatin = this.containsLatinScript(normalized);
+
+            if (hasArabic && hasLatin) {
+                // Break mixed-script run-ons at script transitions.
+                normalized = normalized
+                    .replace(
+                        /([\u0600-\u06FF][\u0600-\u06FF\s،؛:()'"«»\-–—]{10,})\s+(?=[A-Za-z])/g,
+                        "$1\n"
+                    )
+                    .replace(
+                        /([A-Za-z][A-Za-z0-9\s,.;:()'"\-–—]{14,})\s+(?=[\u0600-\u06FF])/g,
+                        "$1\n"
+                    );
+                return normalized
+                    .split(/\n+/)
+                    .map((line) => line.trim())
+                    .filter(Boolean);
+            }
+
+            return [normalized];
+        },
+        containsArabicScript(value) {
+            return /[\u0600-\u06FF]/.test(String(value || ""));
+        },
+        containsLatinScript(value) {
+            return /[A-Za-z]/.test(String(value || ""));
+        },
+        isArabicDominant(value) {
+            const text = String(value || "");
+            const arabicCount = (text.match(/[\u0600-\u06FF]/g) || []).length;
+            const latinCount = (text.match(/[A-Za-z]/g) || []).length;
+
+            if (!arabicCount && !latinCount) return false;
+            if (arabicCount && !latinCount) return true;
+            if (latinCount && !arabicCount) return false;
+
+            return arabicCount >= latinCount * 0.7;
+        },
+        normalizeArabicTafsirParagraph(paragraph) {
+            return String(paragraph || "")
+                .replace(/[ \t]+/g, " ")
+                .replace(/\s+([،؛:.!?؟])/g, "$1")
+                .replace(/([،؛:؟])(?=[\u0600-\u06FFA-Za-z])/g, "$1 ")
+                .replace(/\s{2,}/g, " ")
+                .trim();
+        },
+        normalizeEnglishTafsirParagraph(paragraph) {
+            return String(paragraph || "")
+                .replace(/[ \t]+/g, " ")
+                .replace(/\s+([,.;:!?])/g, "$1")
+                .replace(/([,.;:!?])(?=[A-Za-z])/g, "$1 ")
+                .replace(/\s{2,}/g, " ")
+                .trim();
+        },
+        isTafsirHeadingParagraph(text, index, total) {
+            const value = String(text || "").trim();
+            if (!value || value.length > 90) return false;
+            if (/[:：]$/.test(value)) return true;
+            if (index === 0 && total > 1 && !/[.!?؟،؛]/.test(value)) {
+                return value.length <= 58;
+            }
+            return false;
         },
         openAyahTafsirModal(item) {
             const key = this.getTafsirVisibilityKey(item);
@@ -13520,36 +14787,50 @@ export default {
             let text = String(rawText || "");
             if (!text.trim()) return "";
 
-            // Keep line breaks from HTML payloads while stripping tags.
             text = text
                 .replace(/<br\s*\/?>/gi, "\n")
                 .replace(/<\/p>/gi, "\n\n")
+                .replace(/<\/(li|ul|ol|div|section|article|h[1-6]|blockquote)>/gi, "\n")
+                .replace(/<li[^>]*>/gi, "• ")
                 .replace(/<[^>]+>/g, " ")
                 .replace(/&nbsp;/gi, " ")
                 .replace(/&amp;/gi, "&")
+                .replace(/&quot;/gi, '"')
+                .replace(/&#39;|&apos;/gi, "'")
+                .replace(/&ldquo;|&rdquo;/gi, '"')
+                .replace(/&lsquo;|&rsquo;/gi, "'")
+                .replace(/&ndash;/gi, "-")
+                .replace(/&mdash;/gi, "—")
                 .replace(/\r\n?/g, "\n")
                 .replace(/[ \t]+/g, " ")
                 .replace(/\s*\n\s*/g, "\n")
                 .replace(/\n{3,}/g, "\n\n")
                 .trim();
 
-            // Improve readability for terse/classical run-on tafsir records.
             text = text
                 .replace(/\s+(in other words)\b/gi, ". $1")
                 .replace(/\s+(that is to say)\b/gi, ". $1")
                 .replace(/\s+(for example)\b/gi, ". $1")
                 .replace(/\s+(for instance)\b/gi, ". $1")
-                .replace(/\b(noon|night|day)\s+(q[^\s]+)/giu, "$1. $2")
                 .replace(/([.!?])\s+(?=[A-Z“"‘'])/g, "$1\n\n")
-                .replace(/([.!?]\s+)q([a-zā])/giu, "$1Q$2")
                 .replace(/\bthat is\s+/gi, "that is, ")
                 .replace(/\bnamely\s+/gi, "namely, ")
                 .replace(/\bmeaning\s+/gi, "meaning ");
 
-            // Add soft line breaks for very long unbroken statements.
             const paragraphs = text
                 .split(/\n{2,}/)
-                .map((paragraph) => this.wrapLongTafsirParagraph(paragraph))
+                .map((paragraph) => String(paragraph || "").trim())
+                .filter(Boolean)
+                .flatMap((paragraph) => this.splitTafsirParagraphChunks(paragraph))
+                .map((paragraph) => {
+                    const cleaned = String(paragraph || "").trim();
+                    if (!cleaned) return "";
+                    if (this.isArabicDominant(cleaned)) {
+                        return this.normalizeArabicTafsirParagraph(cleaned);
+                    }
+                    const normalized = this.normalizeEnglishTafsirParagraph(cleaned);
+                    return this.wrapLongTafsirParagraph(normalized);
+                })
                 .filter(Boolean);
 
             return paragraphs
@@ -14312,8 +15593,27 @@ export default {
                 this.progress = new Array(this.filteredAyahs.length).fill(0);
             });
         },
-        savePreference: function (key, value) {
-            localStorage.setItem(key, JSON.stringify(value));
+        savePreference: async function (key, value, options = {}) {
+            const normalizedKey = String(key || "").trim();
+            if (!normalizedKey) return false;
+            const { localFallback = true } = options || {};
+            if (this.bookmarkAuthenticated) {
+                try {
+                    await this.savePreferenceApi(normalizedKey, value);
+                    return true;
+                } catch (_) {
+                    // fall back to local persistence when API preference save fails
+                }
+            }
+            if (!localFallback) return false;
+            try {
+                return this.safeLocalStorageSetItem(
+                    normalizedKey,
+                    JSON.stringify(value)
+                );
+            } catch (_) {
+                return false;
+            }
         },
         handleAyahEnd: function (index) {
             var self = this;
@@ -15921,12 +17221,12 @@ export default {
             const normalized = validModes.includes(mode) ? mode : "continuous";
             this.playbackMode = normalized;
             try {
-                localStorage.setItem("playbackMode", normalized);
+                this.writeScopedFontPreference("playbackMode", normalized);
             } catch (_) {}
             if (normalized !== "repeat") {
                 this.preferredPlaybackMode = normalized;
                 try {
-                    localStorage.setItem(
+                    this.writeScopedFontPreference(
                         "lastNonRepeatPlaybackMode",
                         normalized
                     );
