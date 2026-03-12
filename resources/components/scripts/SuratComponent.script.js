@@ -115,6 +115,8 @@ export default {
             translationCompareModalShownHandler: null,
             translationCompareModalHiddenHandler: null,
             isTranslationCompareModalOpen: false,
+            verseCountdownCompleteModalId: "verseCountdownCompleteModal",
+            verseCountdownCompleteModalInstance: null,
             fontPickerOffcanvasId: "quranFontOffcanvas",
             fontPickerModalId: "quranFontModal",
             fontPickerOffcanvasInstance: null,
@@ -846,6 +848,15 @@ export default {
             memorisationRepeatAfterShowTranslation: true,
             memorisationRepeatAfterVerseTextMode: "dimmed",
             memorisationRepeatAfterRecordEnabled: false,
+            memorisationVerseCountdownEnabled: false,
+            memorisationVerseCountdownDisplayStyle: "combined",
+            memorisationVerseCountdownPosition: "floating",
+            memorisationVerseCountdownConfettiEnabled: false,
+            verseCountdownHasPlaybackStarted: false,
+            verseCountdownFinalAyahRecited: false,
+            verseCountdownCompletionNotified: false,
+            isVerseCountdownCelebrating: false,
+            verseCountdownCelebrationTimer: null,
             isMemorisationRepeatAfterSettingsOpen: false,
             isMemorisationRepeatPauseActive: false,
             memorisationRepeatPauseIndex: null,
@@ -902,6 +913,10 @@ export default {
                 repeatAfterReciterShowTranslation: true,
                 repeatAfterReciterVerseTextMode: "dimmed",
                 repeatAfterReciterRecordEnabled: false,
+                verseCountdownEnabled: false,
+                verseCountdownDisplayStyle: "combined",
+                verseCountdownPosition: "floating",
+                verseCountdownConfettiEnabled: false,
             },
             countdownSeconds: 0,
             isCountdownActive: false,
@@ -1335,6 +1350,251 @@ export default {
                 Math.max(start, Math.max(rawStart, rawEnd))
             );
             return `Range ${start} to ${end}, ${this.memorisationProgressPercent}% completed`;
+        },
+        verseCountdownRangeBounds() {
+            const total = Math.max(1, Number(this.totalAyahs || 1));
+            const rawStart = Number(this.memorisationRangeStart || 1);
+            const rawEnd = Number(this.memorisationRangeEnd || total);
+            const start = Math.min(
+                total,
+                Math.max(1, Math.min(rawStart, rawEnd))
+            );
+            const end = Math.min(
+                total,
+                Math.max(start, Math.max(rawStart, rawEnd))
+            );
+            return {
+                start,
+                end,
+                span: Math.max(1, end - start + 1),
+            };
+        },
+        isVerseCountdownVisible() {
+            return (
+                !!this.isMemorisationToolbarVisible &&
+                !!this.memorisationVerseCountdownEnabled &&
+                !!this.verseCountdownHasPlaybackStarted &&
+                Array.isArray(this.filteredAyahs) &&
+                this.filteredAyahs.length > 0
+            );
+        },
+        verseCountdownSubtextLabel() {
+            if (this.verseCountdownIsCompleted) {
+                return "Session finished successfully.";
+            }
+            return `Estimated time remaining: ${this.verseCountdownEstimatedTimeLabel}`;
+        },
+        verseCountdownCompletionSummaryLabel() {
+            const { start, end } = this.verseCountdownRangeBounds;
+            const surahName =
+                this.surahDetails?.englishName ||
+                this.surahDetails?.name ||
+                `Surah ${this.selectedSurah || ""}`;
+            return `${surahName} • Verses ${start}-${end}`;
+        },
+        verseCountdownDisplayStyleResolved() {
+            return this.normaliseMemorisationVerseCountdownDisplayStyle(
+                this.memorisationVerseCountdownDisplayStyle
+            );
+        },
+        verseCountdownPositionResolved() {
+            return this.normaliseMemorisationVerseCountdownPosition(
+                this.memorisationVerseCountdownPosition
+            );
+        },
+        verseCountdownShowProgress() {
+            const style = this.verseCountdownDisplayStyleResolved;
+            return style === "combined" || style === "progress";
+        },
+        verseCountdownShowCircle() {
+            const style = this.verseCountdownDisplayStyleResolved;
+            return style === "combined" || style === "circle";
+        },
+        verseCountdownShowText() {
+            const style = this.verseCountdownDisplayStyleResolved;
+            return style === "combined" || style === "text";
+        },
+        verseCountdownShowPercentage() {
+            const style = this.verseCountdownDisplayStyleResolved;
+            return style === "combined" || style === "percentage";
+        },
+        verseCountdownTrackingAyahNumber() {
+            const { start, end } = this.verseCountdownRangeBounds;
+            const ayahs = Array.isArray(this.filteredAyahs) ? this.filteredAyahs : [];
+            const candidateIndexes = [];
+            if (
+                !!this.isAnyAudioPlaying &&
+                Number.isFinite(Number(this.currentlyPlayingIndex)) &&
+                Number(this.currentlyPlayingIndex) >= 0
+            ) {
+                candidateIndexes.push(Number(this.currentlyPlayingIndex));
+            }
+            if (
+                Number.isFinite(Number(this.memorisationLastWorkedIndex)) &&
+                Number(this.memorisationLastWorkedIndex) >= 0
+            ) {
+                candidateIndexes.push(Number(this.memorisationLastWorkedIndex));
+            }
+            if (
+                Number.isFinite(Number(this.selectedCardIndex)) &&
+                Number(this.selectedCardIndex) >= 0
+            ) {
+                candidateIndexes.push(Number(this.selectedCardIndex));
+            }
+            for (const idx of candidateIndexes) {
+                const ayah = ayahs[idx];
+                const ayahNumber = Number(ayah?.numberInSurah || ayah?.number || 0);
+                if (Number.isFinite(ayahNumber) && ayahNumber >= start && ayahNumber <= end) {
+                    return ayahNumber;
+                }
+            }
+            const fallback = Number(this.memorisationCurrentAyahNumber || start);
+            if (Number.isFinite(fallback) && fallback >= start && fallback <= end) {
+                return fallback;
+            }
+            return start;
+        },
+        verseCountdownCurrentVerseOrdinal() {
+            const { start, end, span } = this.verseCountdownRangeBounds;
+            const currentAyahNumber = Number(
+                this.verseCountdownTrackingAyahNumber || start
+            );
+            const safeCurrent = Math.min(
+                end,
+                Math.max(start, currentAyahNumber)
+            );
+            return Math.max(1, Math.min(span, safeCurrent - start + 1));
+        },
+        verseCountdownCompletedVerses() {
+            const { start, end, span } = this.verseCountdownRangeBounds;
+            const currentAyahNumber = Number(
+                this.verseCountdownTrackingAyahNumber || start
+            );
+            const safeCurrent = Math.min(
+                end,
+                Math.max(start, currentAyahNumber)
+            );
+            let completed = safeCurrent - start;
+            if (this.verseCountdownFinalAyahRecited && safeCurrent >= end) {
+                completed = span;
+            }
+            return Math.max(0, Math.min(span, completed));
+        },
+        verseCountdownTotalVerses() {
+            return this.verseCountdownRangeBounds.span;
+        },
+        verseCountdownRemainingVerses() {
+            return Math.max(
+                0,
+                this.verseCountdownTotalVerses - this.verseCountdownCompletedVerses
+            );
+        },
+        verseCountdownProgressPercent() {
+            const total = Math.max(1, this.verseCountdownTotalVerses);
+            return Math.max(
+                0,
+                Math.min(
+                    100,
+                    Math.round(
+                        (this.verseCountdownCompletedVerses / total) * 100
+                    )
+                )
+            );
+        },
+        verseCountdownIsCompleted() {
+            return (
+                this.verseCountdownTotalVerses > 0 &&
+                this.verseCountdownRemainingVerses === 0
+            );
+        },
+        verseCountdownProgressBlockText() {
+            const blockCount = Math.max(
+                10,
+                Math.min(16, Number(this.verseCountdownTotalVerses || 10))
+            );
+            const filledCount = Math.max(
+                0,
+                Math.min(
+                    blockCount,
+                    Math.round(
+                        (Number(this.verseCountdownProgressPercent || 0) / 100) *
+                            blockCount
+                    )
+                )
+            );
+            return `${"▰".repeat(filledCount)}${"▱".repeat(
+                Math.max(0, blockCount - filledCount)
+            )}`;
+        },
+        verseCountdownCircleStyle() {
+            const percentage = Number(this.verseCountdownProgressPercent || 0);
+            return {
+                background: `conic-gradient(#0f766e ${percentage}%, rgba(15, 118, 110, 0.14) ${percentage}% 100%)`,
+            };
+        },
+        verseCountdownAlmostThereMessage() {
+            if (this.verseCountdownIsCompleted) return "";
+            const remaining = Number(this.verseCountdownRemainingVerses || 0);
+            if (remaining > 0 && remaining <= 3) {
+                return `Almost there! ${remaining} verse${remaining === 1 ? "" : "s"} left.`;
+            }
+            return "";
+        },
+        verseCountdownEstimatedSecondsRemaining() {
+            const remainingVerses = Number(this.verseCountdownRemainingVerses || 0);
+            if (remainingVerses <= 0) return 0;
+            const { start, end } = this.verseCountdownRangeBounds;
+            const ayahs = Array.isArray(this.filteredAyahs)
+                ? this.filteredAyahs.filter((ayah) => {
+                    const ayahNumber = Number(
+                        ayah?.numberInSurah || ayah?.number || 0
+                    );
+                    return ayahNumber >= start && ayahNumber <= end;
+                })
+                : [];
+            const verseDurations = ayahs
+                .map((ayah) => this.estimateMemorisationVerseDurationSeconds(ayah))
+                .filter((value) => Number.isFinite(value) && value > 0);
+            const averagePerVerse = verseDurations.length
+                ? verseDurations.reduce((sum, value) => sum + value, 0) /
+                  verseDurations.length
+                : this.estimateMemorisationVerseDurationSeconds(null);
+            return Math.max(0, Math.round(remainingVerses * averagePerVerse));
+        },
+        verseCountdownEstimatedTimeLabel() {
+            return this.formatCountdownDurationLabel(
+                this.verseCountdownEstimatedSecondsRemaining
+            );
+        },
+        verseCountdownRangeKey() {
+            const { start, end } = this.verseCountdownRangeBounds;
+            return `${this.selectedSurah || ""}:${start}-${end}`;
+        },
+        verseCountdownAnchorIndex() {
+            const len = Array.isArray(this.filteredAyahs)
+                ? this.filteredAyahs.length
+                : 0;
+            if (!len) return -1;
+            const preferred = this.isMemorisationToolbarVisible
+                ? Number(this.memorisationPlayIndex)
+                : Number(this.activeAyahIndex);
+            if (!Number.isFinite(preferred)) return 0;
+            return Math.min(Math.max(0, preferred), len - 1);
+        },
+        verseCountdownAnchorVisible() {
+            const anchorIndex = Number(this.verseCountdownAnchorIndex);
+            if (anchorIndex < 0) return false;
+            return Array.isArray(this.visibleWindow)
+                ? this.visibleWindow.some(
+                    (entry) => Number(entry?.index) === anchorIndex
+                )
+                : false;
+        },
+        verseCountdownUseSideRail() {
+            return (
+                this.verseCountdownPositionResolved === "floating" &&
+                !this.isTabletOrMobile
+            );
         },
         isMemorisationCurrentAyahSaved() {
             return this.isAyahSaved(this.memorisationCurrentAyah);
@@ -3100,6 +3360,25 @@ export default {
             }
             this.syncPlaybackScroll(next);
         },
+        memorisationCurrentAyahNumber(newVal) {
+            const currentAyah = Number(newVal || 0);
+            const finalAyah = Number(this.verseCountdownRangeBounds?.end || 0);
+            const hasActivePlayback =
+                !!this.isAnyAudioPlaying &&
+                Number.isFinite(Number(this.currentlyPlayingIndex)) &&
+                Number(this.currentlyPlayingIndex) >= 0;
+            if (!Number.isFinite(currentAyah) || !Number.isFinite(finalAyah)) {
+                return;
+            }
+            if (
+                this.verseCountdownFinalAyahRecited &&
+                hasActivePlayback &&
+                currentAyah > 0 &&
+                currentAyah < finalAyah
+            ) {
+                this.verseCountdownFinalAyahRecited = false;
+            }
+        },
         memorisationRangeStart(newVal) {
             if (newVal === null || newVal === undefined || newVal === "") return;
             const total = Math.max(Number(this.totalAyahs || 1), 1);
@@ -3123,6 +3402,40 @@ export default {
             if (safeEnd < this.memorisationRangeStart) {
                 this.memorisationRangeStart = safeEnd;
             }
+        },
+        memorisationVerseCountdownEnabled(newVal) {
+            if (newVal) {
+                this.verseCountdownHasPlaybackStarted =
+                    !!this.isAnyAudioPlaying;
+                this.verseCountdownFinalAyahRecited = false;
+                this.verseCountdownCompletionNotified = false;
+                if (this.verseCountdownIsCompleted) {
+                    this.handleVerseCountdownCompletion();
+                }
+                return;
+            }
+            this.verseCountdownHasPlaybackStarted = false;
+            this.verseCountdownFinalAyahRecited = false;
+            this.verseCountdownCompletionNotified = false;
+            this.clearVerseCountdownCelebrationState();
+            this.closeVerseCountdownCompleteModal();
+        },
+        verseCountdownRangeKey() {
+            this.verseCountdownFinalAyahRecited = false;
+            this.verseCountdownCompletionNotified = false;
+            if (
+                this.memorisationVerseCountdownEnabled &&
+                this.verseCountdownIsCompleted
+            ) {
+                this.handleVerseCountdownCompletion();
+            }
+        },
+        verseCountdownIsCompleted(newVal) {
+            if (!newVal) {
+                this.verseCountdownCompletionNotified = false;
+                return;
+            }
+            this.handleVerseCountdownCompletion();
         },
         showTajweed(next) {
             try {
@@ -3219,6 +3532,11 @@ export default {
             this.isMemorisationAdvancedOpen = false;
             this.isMemorisationReadingAidsOpen = false;
             this.clearMemorisationAutomationState();
+            this.clearVerseCountdownCelebrationState();
+            this.verseCountdownHasPlaybackStarted = false;
+            this.verseCountdownFinalAyahRecited = false;
+            this.verseCountdownCompletionNotified = false;
+            this.closeVerseCountdownCompleteModal();
             if (this.isMemorisationOffcanvasVisible) {
                 this.closeMemorisationOffcanvas();
             }
@@ -3683,6 +4001,7 @@ export default {
         this.voiceCommandRestartTimer = null;
         this.clearMemorisationRangeLoopRestartState();
         this.clearMemorisationRepeatPauseState({ stopRecording: true });
+        this.clearVerseCountdownCelebrationState();
         this.clearMemorisationRepeatRecordings();
         if (
             this.memorisationRangeLoopAudioContext &&
@@ -3797,6 +4116,12 @@ export default {
             } catch (_) {}
             this.hifdhPlanModalInstance = null;
         }
+        if (this.verseCountdownCompleteModalInstance) {
+            try {
+                this.verseCountdownCompleteModalInstance.hide();
+            } catch (_) {}
+            this.verseCountdownCompleteModalInstance = null;
+        }
         const memorisationOffcanvasEl =
             this.$refs?.memorisationOffcanvas ||
             document.getElementById("memorisationOffcanvas");
@@ -3893,6 +4218,7 @@ export default {
             clearTimeout(this.voiceCommandRestartTimer);
             this.voiceCommandRestartTimer = null;
             this.clearMemorisationRepeatPauseState({ stopRecording: true });
+            this.clearVerseCountdownCelebrationState();
             this.clearMemorisationRepeatRecordings();
             clearTimeout(this._scrollCorrectionTimer);
             this._scrollCorrectionTimer = null;
@@ -4003,6 +4329,12 @@ export default {
                 } catch (_) {}
                 this.hifdhPlanModalInstance = null;
             }
+            if (this.verseCountdownCompleteModalInstance) {
+                try {
+                    this.verseCountdownCompleteModalInstance.hide();
+                } catch (_) {}
+                this.verseCountdownCompleteModalInstance = null;
+            }
             const memorisationOffcanvasEl =
                 this.$refs?.memorisationOffcanvas ||
                 document.getElementById("memorisationOffcanvas");
@@ -4058,6 +4390,13 @@ export default {
         },
     methods: {
         ...voiceCommandMethods,
+        isVerseCountdownSideAnchorItem(item) {
+            if (!this.isVerseCountdownVisible) return false;
+            if (!this.verseCountdownUseSideRail) return false;
+            const itemIndex = Number(item?.index);
+            if (!Number.isFinite(itemIndex)) return false;
+            return itemIndex === Number(this.verseCountdownAnchorIndex);
+        },
         async fetchUserId() {
              try {
                 if (window.Laravel && window.Laravel.userId) {
@@ -5430,6 +5769,10 @@ export default {
             ) {
                 return;
             }
+            this.verseCountdownFinalAyahRecited = false;
+            this.verseCountdownCompletionNotified = false;
+            this.clearVerseCountdownCelebrationState();
+            this.closeVerseCountdownCompleteModal();
             this.memorisationRepetitionCurrent = 1;
             if (this.isMemorisationModeActive) {
                 this.memorisationFocusIndex = safeStart;
@@ -5490,6 +5833,7 @@ export default {
             }
             this.clearMemorisationRangeLoopRestartState();
             this.clearMemorisationRepeatPauseState({ stopRecording: true });
+            this.clearVerseCountdownCelebrationState();
             this.isCountdownActive = false;
             this.countdownSeconds = 0;
             this.memorisationRepetitionCurrent = 1;
@@ -5511,6 +5855,170 @@ export default {
                 this.$refs.surahOffcanvas
             );
             if (instance) instance.hide();
+        },
+        normaliseMemorisationVerseCountdownDisplayStyle(value = "") {
+            const normalized = String(value || "").trim().toLowerCase();
+            const supported = [
+                "combined",
+                "progress",
+                "circle",
+                "text",
+                "percentage",
+            ];
+            return supported.includes(normalized) ? normalized : "combined";
+        },
+        normaliseMemorisationVerseCountdownPosition(value = "") {
+            const normalized = String(value || "").trim().toLowerCase();
+            return normalized === "title" ? "title" : "floating";
+        },
+        estimateMemorisationVerseDurationSeconds(ayah) {
+            const playbackSpeed = Math.max(0.5, Number(this.playbackSpeed || 1));
+            const repetitionCount = Math.max(
+                1,
+                Number(this.memorisationRepetitionCount || 1)
+            );
+            const verseDelay = Math.max(
+                0,
+                Number(this.memorisationVerseDelay || 0)
+            );
+            const pauseMode = this.normaliseMemorisationRepeatAfterPauseMode(
+                this.memorisationRepeatAfterPauseMode
+            );
+            let repeatPauseSeconds = 0;
+            if (this.memorisationRepeatAfterEnabled) {
+                if (pauseMode === "manual") {
+                    repeatPauseSeconds = 5;
+                } else {
+                    const parsed = Number(pauseMode);
+                    repeatPauseSeconds =
+                        Number.isFinite(parsed) && parsed > 0 ? parsed : 0;
+                }
+            }
+
+            let baseVerseSeconds = 0;
+            const ayahNumber = Number(ayah?.numberInSurah || ayah?.number || 0);
+            if (ayahNumber > 0) {
+                const ayahIndex = this.resolveAyahIndexByNumber(ayahNumber);
+                const loadedDuration = Number(
+                    this.audioElements?.[ayahIndex]?.duration || 0
+                );
+                if (Number.isFinite(loadedDuration) && loadedDuration > 0) {
+                    baseVerseSeconds = loadedDuration / playbackSpeed;
+                }
+            }
+
+            if (baseVerseSeconds <= 0) {
+                const wordCountFromAudio = Number(this.getAyahAudioWordCount(ayah));
+                const text = String(
+                    ayah?.text ||
+                        ayah?.text_uthmani ||
+                        ayah?.text_uthmani_simple ||
+                        ""
+                );
+                const textWordCount = text
+                    ? text.trim().split(/\s+/).filter(Boolean).length
+                    : 0;
+                const estimatedWordCount = Math.max(
+                    5,
+                    wordCountFromAudio || textWordCount || 9
+                );
+                const baseSecondsPerWord = 0.72;
+                baseVerseSeconds =
+                    (estimatedWordCount * baseSecondsPerWord) / playbackSpeed;
+            }
+
+            return Math.max(
+                1,
+                baseVerseSeconds * repetitionCount + verseDelay + repeatPauseSeconds
+            );
+        },
+        formatCountdownDurationLabel(seconds = 0) {
+            const totalSeconds = Math.max(0, Math.round(Number(seconds) || 0));
+            if (totalSeconds < 60) return `${totalSeconds}s`;
+            const minutes = Math.floor(totalSeconds / 60);
+            const secs = totalSeconds % 60;
+            if (minutes < 60) {
+                if (secs === 0) return `${minutes}m`;
+                return `${minutes}m ${String(secs).padStart(2, "0")}s`;
+            }
+            const hours = Math.floor(minutes / 60);
+            const remainingMinutes = minutes % 60;
+            if (remainingMinutes === 0) return `${hours}h`;
+            return `${hours}h ${String(remainingMinutes).padStart(2, "0")}m`;
+        },
+        markVerseCountdownAyahFullyRecited(ayahIndex) {
+            if (!this.memorisationVerseCountdownEnabled) return;
+            const index = Number(ayahIndex);
+            if (!Number.isFinite(index) || index < 0) return;
+            const ayah = Array.isArray(this.filteredAyahs)
+                ? this.filteredAyahs[index]
+                : null;
+            if (!ayah) return;
+            const ayahNumber = Number(ayah?.numberInSurah || ayah?.number || 0);
+            const { start, end } = this.verseCountdownRangeBounds;
+            if (!Number.isFinite(ayahNumber) || ayahNumber < start || ayahNumber > end) {
+                return;
+            }
+            this.verseCountdownFinalAyahRecited = ayahNumber === end;
+        },
+        replayVerseCountdownRangeFromModal() {
+            const startAyah = Number(this.verseCountdownRangeBounds?.start || 1);
+            const startIndex = this.resolveAyahIndexByNumber(startAyah);
+            this.closeVerseCountdownCompleteModal();
+            if (startIndex < 0) return;
+            this.clearMemorisationRangeLoopRestartState();
+            this.clearMemorisationRepeatPauseState({ stopRecording: true });
+            this.verseCountdownHasPlaybackStarted = true;
+            this.verseCountdownFinalAyahRecited = false;
+            this.verseCountdownCompletionNotified = false;
+            this.clearVerseCountdownCelebrationState();
+            this.memorisationRepetitionCurrent = 1;
+            if (
+                Number.isFinite(Number(this.currentlyPlayingIndex)) &&
+                Number(this.currentlyPlayingIndex) >= 0
+            ) {
+                this.stopAudio(this.currentlyPlayingIndex);
+            }
+            if (this.isMemorisationModeActive) {
+                this.memorisationFocusIndex = startIndex;
+            }
+            this.selectCard(startIndex);
+            this.scrollToAyahIndex(startIndex, {
+                behavior: "smooth",
+            });
+            this.playAudio(startIndex);
+        },
+        handleVerseCountdownCompletion() {
+            if (!this.memorisationVerseCountdownEnabled) return;
+            if (!this.verseCountdownHasPlaybackStarted) return;
+            if (!this.verseCountdownIsCompleted) return;
+            if (this.verseCountdownCompletionNotified) return;
+            this.verseCountdownCompletionNotified = true;
+            this.triggerVerseCountdownCelebration();
+            this.openVerseCountdownCompleteModal();
+        },
+        triggerVerseCountdownCelebration() {
+            if (
+                typeof window !== "undefined" &&
+                window.matchMedia &&
+                window.matchMedia("(prefers-reduced-motion: reduce)").matches
+            ) {
+                return;
+            }
+            this.clearVerseCountdownCelebrationState();
+            this.isVerseCountdownCelebrating = true;
+            const durationMs = 900;
+            this.verseCountdownCelebrationTimer = setTimeout(() => {
+                this.isVerseCountdownCelebrating = false;
+                this.verseCountdownCelebrationTimer = null;
+            }, durationMs);
+        },
+        clearVerseCountdownCelebrationState() {
+            if (this.verseCountdownCelebrationTimer) {
+                clearTimeout(this.verseCountdownCelebrationTimer);
+                this.verseCountdownCelebrationTimer = null;
+            }
+            this.isVerseCountdownCelebrating = false;
         },
         populateMemorisationDraft() {
             const total = Math.max(1, Number(this.totalAyahs || 1));
@@ -5576,6 +6084,17 @@ export default {
                     ),
                 repeatAfterReciterRecordEnabled:
                     !!this.memorisationRepeatAfterRecordEnabled,
+                verseCountdownEnabled: !!this.memorisationVerseCountdownEnabled,
+                verseCountdownDisplayStyle:
+                    this.normaliseMemorisationVerseCountdownDisplayStyle(
+                        this.memorisationVerseCountdownDisplayStyle
+                    ),
+                verseCountdownPosition:
+                    this.normaliseMemorisationVerseCountdownPosition(
+                        this.memorisationVerseCountdownPosition
+                    ),
+                verseCountdownConfettiEnabled:
+                    !!this.memorisationVerseCountdownConfettiEnabled,
             };
             this.isMemorisationRepeatAfterSettingsOpen =
                 !!this.memorisationDraft.repeatAfterReciterEnabled;
@@ -5646,6 +6165,18 @@ export default {
                     ),
                 memorisationRepeatAfterRecordEnabled:
                     !!this.memorisationRepeatAfterRecordEnabled,
+                memorisationVerseCountdownEnabled:
+                    !!this.memorisationVerseCountdownEnabled,
+                memorisationVerseCountdownDisplayStyle:
+                    this.normaliseMemorisationVerseCountdownDisplayStyle(
+                        this.memorisationVerseCountdownDisplayStyle
+                    ),
+                memorisationVerseCountdownPosition:
+                    this.normaliseMemorisationVerseCountdownPosition(
+                        this.memorisationVerseCountdownPosition
+                    ),
+                memorisationVerseCountdownConfettiEnabled:
+                    !!this.memorisationVerseCountdownConfettiEnabled,
             };
         },
         buildCurrentMemorisationSessionSnapshot() {
@@ -5724,6 +6255,18 @@ export default {
                     ),
                 memorisationRepeatAfterRecordEnabled:
                     !!this.memorisationRepeatAfterRecordEnabled,
+                memorisationVerseCountdownEnabled:
+                    !!this.memorisationVerseCountdownEnabled,
+                memorisationVerseCountdownDisplayStyle:
+                    this.normaliseMemorisationVerseCountdownDisplayStyle(
+                        this.memorisationVerseCountdownDisplayStyle
+                    ),
+                memorisationVerseCountdownPosition:
+                    this.normaliseMemorisationVerseCountdownPosition(
+                        this.memorisationVerseCountdownPosition
+                    ),
+                memorisationVerseCountdownConfettiEnabled:
+                    !!this.memorisationVerseCountdownConfettiEnabled,
                 focusAyahNumber: Number.isFinite(focusAyahNumber)
                     ? focusAyahNumber
                     : start,
@@ -5825,6 +6368,22 @@ export default {
                 this.clearMemorisationRepeatPauseState({
                     stopRecording: true,
                 });
+                this.memorisationVerseCountdownEnabled =
+                    !!snapshot.memorisationVerseCountdownEnabled;
+                this.memorisationVerseCountdownDisplayStyle =
+                    this.normaliseMemorisationVerseCountdownDisplayStyle(
+                        snapshot.memorisationVerseCountdownDisplayStyle
+                    );
+                this.memorisationVerseCountdownPosition =
+                    this.normaliseMemorisationVerseCountdownPosition(
+                        snapshot.memorisationVerseCountdownPosition
+                    );
+                this.memorisationVerseCountdownConfettiEnabled =
+                    snapshot.memorisationVerseCountdownConfettiEnabled !== false;
+                this.verseCountdownHasPlaybackStarted = false;
+                this.verseCountdownFinalAyahRecited = false;
+                this.verseCountdownCompletionNotified = false;
+                this.clearVerseCountdownCelebrationState();
 
                 const total = Math.max(1, Number(this.totalAyahs || 1));
                 const rangeStart = Math.min(
@@ -5928,6 +6487,16 @@ export default {
             )
                 .trim()
                 .toLowerCase();
+            const verseCountdownDisplayStyleRaw = String(
+                draft.verseCountdownDisplayStyle || "combined"
+            )
+                .trim()
+                .toLowerCase();
+            const verseCountdownPositionRaw = String(
+                draft.verseCountdownPosition || "floating"
+            )
+                .trim()
+                .toLowerCase();
 
             return {
                 surahNumber,
@@ -5970,6 +6539,17 @@ export default {
                     ),
                 repeatAfterReciterRecordEnabled:
                     !!draft.repeatAfterReciterRecordEnabled,
+                verseCountdownEnabled: !!draft.verseCountdownEnabled,
+                verseCountdownDisplayStyle:
+                    this.normaliseMemorisationVerseCountdownDisplayStyle(
+                        verseCountdownDisplayStyleRaw
+                    ),
+                verseCountdownPosition:
+                    this.normaliseMemorisationVerseCountdownPosition(
+                        verseCountdownPositionRaw
+                    ),
+                verseCountdownConfettiEnabled:
+                    draft.verseCountdownConfettiEnabled !== false,
             };
         },
         normaliseMemorisationPresetName(name = "") {
@@ -6169,6 +6749,22 @@ export default {
             const repeatAfterRecordEnabledSource =
                 config.repeatAfterReciterRecordEnabled ??
                 config.memorisationRepeatAfterRecordEnabled;
+            const verseCountdownEnabledSource =
+                config.verseCountdownEnabled ??
+                config.memorisationVerseCountdownEnabled;
+            const verseCountdownDisplayStyleSource =
+                config.verseCountdownDisplayStyle ??
+                config.memorisationVerseCountdownDisplayStyle ??
+                this.memorisationVerseCountdownDisplayStyle ??
+                "combined";
+            const verseCountdownPositionSource =
+                config.verseCountdownPosition ??
+                config.memorisationVerseCountdownPosition ??
+                this.memorisationVerseCountdownPosition ??
+                "floating";
+            const verseCountdownConfettiEnabledSource =
+                config.verseCountdownConfettiEnabled ??
+                config.memorisationVerseCountdownConfettiEnabled;
 
             return {
                 surahNumber,
@@ -6259,6 +6855,22 @@ export default {
                     repeatAfterRecordEnabledSource ??
                     this.memorisationRepeatAfterRecordEnabled
                 ),
+                verseCountdownEnabled: !!(
+                    verseCountdownEnabledSource ??
+                    this.memorisationVerseCountdownEnabled
+                ),
+                verseCountdownDisplayStyle:
+                    this.normaliseMemorisationVerseCountdownDisplayStyle(
+                        verseCountdownDisplayStyleSource
+                    ),
+                verseCountdownPosition:
+                    this.normaliseMemorisationVerseCountdownPosition(
+                        verseCountdownPositionSource
+                    ),
+                verseCountdownConfettiEnabled:
+                    verseCountdownConfettiEnabledSource !== undefined
+                        ? !!verseCountdownConfettiEnabledSource
+                        : !!this.memorisationVerseCountdownConfettiEnabled,
                 blurNextAyah: !!(
                     config.blurNextAyah ??
                     config.isBlurNextAyahEnabled ??
@@ -6315,6 +6927,18 @@ export default {
                           ),
                       repeatAfterReciterRecordEnabled:
                           !!this.memorisationRepeatAfterRecordEnabled,
+                      verseCountdownEnabled:
+                          !!this.memorisationVerseCountdownEnabled,
+                      verseCountdownDisplayStyle:
+                          this.normaliseMemorisationVerseCountdownDisplayStyle(
+                              this.memorisationVerseCountdownDisplayStyle
+                          ),
+                      verseCountdownPosition:
+                          this.normaliseMemorisationVerseCountdownPosition(
+                              this.memorisationVerseCountdownPosition
+                          ),
+                      verseCountdownConfettiEnabled:
+                          !!this.memorisationVerseCountdownConfettiEnabled,
                   });
             return this.normaliseMemorisationPresetConfig({
                 ...baseConfig,
@@ -6369,6 +6993,17 @@ export default {
                     ),
                 repeatAfterReciterRecordEnabled:
                     !!config.repeatAfterReciterRecordEnabled,
+                verseCountdownEnabled: !!config.verseCountdownEnabled,
+                verseCountdownDisplayStyle:
+                    this.normaliseMemorisationVerseCountdownDisplayStyle(
+                        config.verseCountdownDisplayStyle
+                    ),
+                verseCountdownPosition:
+                    this.normaliseMemorisationVerseCountdownPosition(
+                        config.verseCountdownPosition
+                    ),
+                verseCountdownConfettiEnabled:
+                    config.verseCountdownConfettiEnabled !== false,
                 blurNextAyah: !!config.blurNextAyah,
                 translationVisible: !!config.translationVisible,
                 transliterationVisible: !!config.transliterationVisible,
@@ -6846,6 +7481,22 @@ export default {
                 this.clearMemorisationRepeatPauseState({
                     stopRecording: true,
                 });
+                this.memorisationVerseCountdownEnabled =
+                    !!config.verseCountdownEnabled;
+                this.memorisationVerseCountdownDisplayStyle =
+                    this.normaliseMemorisationVerseCountdownDisplayStyle(
+                        config.verseCountdownDisplayStyle
+                    );
+                this.memorisationVerseCountdownPosition =
+                    this.normaliseMemorisationVerseCountdownPosition(
+                        config.verseCountdownPosition
+                    );
+                this.memorisationVerseCountdownConfettiEnabled =
+                    config.verseCountdownConfettiEnabled !== false;
+                this.verseCountdownHasPlaybackStarted = false;
+                this.verseCountdownFinalAyahRecited = false;
+                this.verseCountdownCompletionNotified = false;
+                this.clearVerseCountdownCelebrationState();
                 this.isBlurNextAyahEnabled = !!config.blurNextAyah;
                 this.showTajweed = !!config.showTajweed;
                 this.showRealtimeHighlighting = !!config.showRealtimeHighlighting;
@@ -6858,6 +7509,12 @@ export default {
                 });
                 this.applyMemorisationDraftFont(config.quranFontId);
                 this.applyMemorisationRange();
+                if (
+                    this.memorisationVerseCountdownEnabled &&
+                    this.verseCountdownIsCompleted
+                ) {
+                    this.handleVerseCountdownCompletion();
+                }
                 this.prepareSettingsDraft();
                 if (
                     config.showWordTranslation ||
@@ -7088,6 +7745,27 @@ export default {
             if (!instance) return;
             instance.hide();
         },
+        getVerseCountdownCompleteModalInstance() {
+            if (typeof document === "undefined") return null;
+            const modalEl = document.getElementById(
+                this.verseCountdownCompleteModalId
+            );
+            if (!modalEl) return null;
+            return Modal.getInstance(modalEl) || new Modal(modalEl);
+        },
+        openVerseCountdownCompleteModal() {
+            const instance = this.getVerseCountdownCompleteModalInstance();
+            if (!instance) return;
+            this.verseCountdownCompleteModalInstance = instance;
+            instance.show();
+        },
+        closeVerseCountdownCompleteModal() {
+            const instance =
+                this.getVerseCountdownCompleteModalInstance() ||
+                this.verseCountdownCompleteModalInstance;
+            if (!instance) return;
+            instance.hide();
+        },
         scrollHifdhPanelTo(sectionKey = "") {
             this.$nextTick(() => {
                 const key = String(sectionKey || "").toLowerCase();
@@ -7192,6 +7870,10 @@ export default {
                 repeatAfterReciterShowTranslation: true,
                 repeatAfterReciterVerseTextMode: "dimmed",
                 repeatAfterReciterRecordEnabled: false,
+                verseCountdownEnabled: false,
+                verseCountdownDisplayStyle: "combined",
+                verseCountdownPosition: "floating",
+                verseCountdownConfettiEnabled: false,
             };
         },
         async applyMemorisationDefaultSession(options = {}) {
@@ -7256,6 +7938,22 @@ export default {
             this.memorisationRepeatAfterRecordEnabled =
                 !!defaults.repeatAfterReciterRecordEnabled;
             this.clearMemorisationRepeatPauseState({ stopRecording: true });
+            this.memorisationVerseCountdownEnabled =
+                !!defaults.verseCountdownEnabled;
+            this.memorisationVerseCountdownDisplayStyle =
+                this.normaliseMemorisationVerseCountdownDisplayStyle(
+                    defaults.verseCountdownDisplayStyle
+                );
+            this.memorisationVerseCountdownPosition =
+                this.normaliseMemorisationVerseCountdownPosition(
+                    defaults.verseCountdownPosition
+                );
+            this.memorisationVerseCountdownConfettiEnabled =
+                defaults.verseCountdownConfettiEnabled !== false;
+            this.verseCountdownHasPlaybackStarted = false;
+            this.verseCountdownFinalAyahRecited = false;
+            this.verseCountdownCompletionNotified = false;
+            this.clearVerseCountdownCelebrationState();
             this.isBlurNextAyahEnabled = !!defaults.blurNextAyah;
             this.showTajweed = !!defaults.showTajweed;
             this.showRealtimeHighlighting = !!defaults.showRealtimeHighlighting;
@@ -7267,6 +7965,12 @@ export default {
             });
             this.applyMemorisationDraftFont(defaults.quranFontId);
             this.applyMemorisationRange();
+            if (
+                this.memorisationVerseCountdownEnabled &&
+                this.verseCountdownIsCompleted
+            ) {
+                this.handleVerseCountdownCompletion();
+            }
             this.prepareSettingsDraft();
 
             const targetIndex = Math.max(
@@ -8875,6 +9579,10 @@ export default {
 
             this.memorisationRangeStart = start;
             this.memorisationRangeEnd = end;
+            this.verseCountdownFinalAyahRecited = false;
+            this.verseCountdownCompletionNotified = false;
+            this.clearVerseCountdownCelebrationState();
+            this.closeVerseCountdownCompleteModal();
             
             // Scroll to the first ayah of the range
             this.$nextTick(() => {
@@ -10587,6 +11295,20 @@ export default {
             const rangeLoopShowCountdownSource =
                 snapshot.memorisationRangeLoopShowCountdown ??
                 snapshot.rangeLoopShowCountdown;
+            const verseCountdownEnabledSource =
+                snapshot.memorisationVerseCountdownEnabled ??
+                snapshot.verseCountdownEnabled;
+            const verseCountdownDisplayStyleSource =
+                snapshot.memorisationVerseCountdownDisplayStyle ??
+                snapshot.verseCountdownDisplayStyle ??
+                "combined";
+            const verseCountdownPositionSource =
+                snapshot.memorisationVerseCountdownPosition ??
+                snapshot.verseCountdownPosition ??
+                "floating";
+            const verseCountdownConfettiEnabledSource =
+                snapshot.memorisationVerseCountdownConfettiEnabled ??
+                snapshot.verseCountdownConfettiEnabled;
             const normalized = {
                 ...snapshot,
                 selectedSurah,
@@ -10675,6 +11397,19 @@ export default {
                     snapshot.repeatAfterReciterRecordEnabled ??
                     false
                 ),
+                memorisationVerseCountdownEnabled: !!(
+                    verseCountdownEnabledSource ?? false
+                ),
+                memorisationVerseCountdownDisplayStyle:
+                    this.normaliseMemorisationVerseCountdownDisplayStyle(
+                        verseCountdownDisplayStyleSource
+                    ),
+                memorisationVerseCountdownPosition:
+                    this.normaliseMemorisationVerseCountdownPosition(
+                        verseCountdownPositionSource
+                    ),
+                memorisationVerseCountdownConfettiEnabled:
+                    verseCountdownConfettiEnabledSource !== false,
                 focusAyahNumber: Math.max(
                     1,
                     Number(snapshot.focusAyahNumber || rangeStart)
@@ -15771,6 +16506,9 @@ export default {
             };
             console.log("Attempting to play audio for index:", index);
             if (index < 0 || index >= this.filteredAyahs.length) return;
+            if (this.memorisationVerseCountdownEnabled) {
+                this.verseCountdownHasPlaybackStarted = true;
+            }
             this.clearMemorisationRangeLoopRestartState();
             this.clearMemorisationRepeatPauseState({ stopRecording: true });
             this.stopTajweedRuleAudio();
@@ -15822,6 +16560,22 @@ export default {
 
             // Build or update audio element on-demand
             const ayah = this.filteredAyahs[index];
+            if (this.verseCountdownFinalAyahRecited) {
+                const ayahNumber = Number(
+                    ayah?.numberInSurah || ayah?.number || index + 1
+                );
+                const finalAyah = Number(this.verseCountdownRangeBounds?.end || 0);
+                if (
+                    Number.isFinite(ayahNumber) &&
+                    Number.isFinite(finalAyah) &&
+                    ayahNumber > 0 &&
+                    ayahNumber <= finalAyah
+                ) {
+                    this.verseCountdownFinalAyahRecited = false;
+                    this.verseCountdownCompletionNotified = false;
+                    this.clearVerseCountdownCelebrationState();
+                }
+            }
             let audio = this.audioElements[index];
             if (!audio) {
                 audio = new Audio();
@@ -17683,6 +18437,13 @@ export default {
                 Array.isArray(self.filteredAyahs) &&
                 self.filteredAyahs.length > 0 &&
                 !self.playlistSinglePlayMode;
+            var isVerseCompletionPass = !inRepetitionMode ||
+                self.memorisationRepetitionCurrent >=
+                    self.memorisationRepetitionCount;
+
+            if (isVerseCompletionPass) {
+                self.markVerseCountdownAyahFullyRecited(index);
+            }
 
             if (inRepetitionMode) {
                 if (self.memorisationRepetitionCurrent < self.memorisationRepetitionCount) {

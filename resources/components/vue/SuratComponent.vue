@@ -1657,6 +1657,50 @@
                             Choose the reading helpers that stay active while you recite.
                         </p>
                         <div class="memorisation-offcanvas-tool-list">
+                            <label class="memorisation-offcanvas-toggle-row memorisation-offcanvas-toggle-row--with-action">
+                                <span class="memorisation-offcanvas-toggle-copy">
+                                    <strong>Verse Countdown</strong>
+                                    <small>Track remaining verses with live progress, ETA, and completion feedback.</small>
+                                </span>
+                                <span class="form-check form-switch mb-0">
+                                    <input
+                                        class="form-check-input"
+                                        type="checkbox"
+                                        v-model="memorisationDraft.verseCountdownEnabled"
+                                        aria-label="Toggle verse countdown display">
+                                </span>
+                            </label>
+                            <div
+                                v-if="memorisationDraft.verseCountdownEnabled"
+                                class="memorisation-verse-countdown-settings memorisation-offcanvas-field memorisation-offcanvas-field--full">
+                                <div class="memorisation-verse-countdown-note">
+                                    <i class="bi bi-info-circle-fill" aria-hidden="true"></i>
+                                    <span>The countdown appears after you press play and follows your live session progress.</span>
+                                </div>
+                                <label class="memorisation-offcanvas-field memorisation-offcanvas-field--full">
+                                    <span class="form-label surah-offcanvas-label">Countdown display style</span>
+                                    <select
+                                        class="form-select surah-offcanvas-select"
+                                        v-model="memorisationDraft.verseCountdownDisplayStyle"
+                                        aria-label="Verse countdown display style">
+                                        <option value="combined">Combined</option>
+                                        <option value="progress">Progress bar</option>
+                                        <option value="circle">Circle counter</option>
+                                        <option value="text">Text only</option>
+                                        <option value="percentage">Percentage only</option>
+                                    </select>
+                                </label>
+                                <label class="memorisation-offcanvas-field memorisation-offcanvas-field--full">
+                                    <span class="form-label surah-offcanvas-label">Countdown position</span>
+                                    <select
+                                        class="form-select surah-offcanvas-select"
+                                        v-model="memorisationDraft.verseCountdownPosition"
+                                        aria-label="Verse countdown position">
+                                        <option value="floating">Floating widget (top right)</option>
+                                        <option value="title">Title bar (above verses)</option>
+                                    </select>
+                                </label>
+                            </div>
                             <label class="memorisation-offcanvas-toggle-row">
                                 <span class="memorisation-offcanvas-toggle-copy">
                                     <strong>Tajweed colors</strong>
@@ -2710,6 +2754,58 @@
             </div>
             <div v-if="isLoading" class="loading-placeholder">Loading Surah...</div>
 
+            <div
+                v-if="isVerseCountdownVisible && (verseCountdownPositionResolved === 'title' || (verseCountdownPositionResolved === 'floating' && (!verseCountdownUseSideRail || !verseCountdownAnchorVisible)))"
+                class="verse-countdown-host ltr-text"
+                :class="{
+                    'verse-countdown-host--floating': verseCountdownPositionResolved === 'floating',
+                    'verse-countdown-host--title': verseCountdownPositionResolved === 'title',
+                }">
+                <section
+                    class="verse-countdown-display"
+                    :class="[
+                        `verse-countdown-display--${verseCountdownDisplayStyleResolved}`,
+                        { 'is-complete': verseCountdownIsCompleted, 'is-celebrating': isVerseCountdownCelebrating },
+                    ]"
+                    role="status"
+                    aria-live="polite">
+                    <div class="verse-countdown-main">
+                        <div class="verse-countdown-main-head">
+                            <div class="verse-countdown-heading">Verse Countdown</div>
+                            <span class="verse-countdown-state-pill" :class="{ 'is-complete': verseCountdownIsCompleted }">
+                                {{ verseCountdownIsCompleted ? "Completed" : "In progress" }}
+                            </span>
+                        </div>
+                        <p v-if="verseCountdownShowText" class="verse-countdown-meta mb-0">
+                            Verse {{ verseCountdownCurrentVerseOrdinal }} of {{ verseCountdownTotalVerses }}
+                        </p>
+                        <p v-if="verseCountdownShowPercentage" class="verse-countdown-meta mb-0">
+                            {{ verseCountdownProgressPercent }}% complete
+                        </p>
+                        <p class="verse-countdown-subtext mb-0">
+                            {{ verseCountdownSubtextLabel }}
+                        </p>
+                        <p v-if="verseCountdownAlmostThereMessage" class="verse-countdown-callout mb-0">
+                            {{ verseCountdownAlmostThereMessage }}
+                        </p>
+                        <p v-if="verseCountdownIsCompleted" class="verse-countdown-complete mb-0">
+                            Range completed. Great consistency.
+                        </p>
+                    </div>
+                    <div v-if="verseCountdownShowCircle" class="verse-countdown-circle" :style="verseCountdownCircleStyle">
+                        <span>{{ verseCountdownCompletedVerses }}/{{ verseCountdownTotalVerses }}</span>
+                    </div>
+                    <div v-if="verseCountdownShowProgress" class="verse-countdown-progress">
+                        <div class="verse-countdown-progress-track">
+                            <span class="verse-countdown-progress-fill" :style="{ width: `${verseCountdownProgressPercent}%` }"></span>
+                        </div>
+                        <p class="verse-countdown-progress-blocks mb-0">
+                            {{ verseCountdownProgressBlockText }} ({{ verseCountdownCompletedVerses }}/{{ verseCountdownTotalVerses }} verses done)
+                        </p>
+                    </div>
+                </section>
+            </div>
+
             <div class="row rtl-text" ref="listContainer" role="list" aria-label="Ayah cards list"
                 :style="!isMemorisationModeActive
                     ? { paddingTop: topSpacerHeight + 'px', paddingBottom: bottomSpacerHeight + 'px' }
@@ -2740,6 +2836,7 @@
                         'memorisation-past': isMemorisationModeActive && item.role === 'past',
                         'memorisation-current': isMemorisationModeActive && item.role === 'current',
                         'memorisation-next': isMemorisationModeActive && item.role === 'next',
+                        'ayah-card-container--countdown-anchor': isVerseCountdownSideAnchorItem(item),
                     }">
                     <div class="ayah-surface rtl-text d-flex flex-column">
                         <!-- Surah and Ayah Number -->
@@ -3349,6 +3446,53 @@
                             </div>
                         </div>
                     </div>
+                    <div
+                        v-if="isVerseCountdownSideAnchorItem(item)"
+                        class="verse-countdown-side-wrap ltr-text">
+                        <section
+                            class="verse-countdown-display verse-countdown-display--side"
+                            :class="[
+                                `verse-countdown-display--${verseCountdownDisplayStyleResolved}`,
+                                { 'is-complete': verseCountdownIsCompleted, 'is-celebrating': isVerseCountdownCelebrating },
+                            ]"
+                            role="status"
+                            aria-live="polite">
+                            <div class="verse-countdown-main">
+                                <div class="verse-countdown-main-head">
+                                    <div class="verse-countdown-heading">Verse Countdown</div>
+                                    <span class="verse-countdown-state-pill" :class="{ 'is-complete': verseCountdownIsCompleted }">
+                                        {{ verseCountdownIsCompleted ? "Completed" : "In progress" }}
+                                    </span>
+                                </div>
+                                <p v-if="verseCountdownShowText" class="verse-countdown-meta mb-0">
+                                    Verse {{ verseCountdownCurrentVerseOrdinal }} of {{ verseCountdownTotalVerses }}
+                                </p>
+                                <p v-if="verseCountdownShowPercentage" class="verse-countdown-meta mb-0">
+                                    {{ verseCountdownProgressPercent }}% complete
+                                </p>
+                                <p class="verse-countdown-subtext mb-0">
+                                    {{ verseCountdownSubtextLabel }}
+                                </p>
+                                <p v-if="verseCountdownAlmostThereMessage" class="verse-countdown-callout mb-0">
+                                    {{ verseCountdownAlmostThereMessage }}
+                                </p>
+                                <p v-if="verseCountdownIsCompleted" class="verse-countdown-complete mb-0">
+                                    Range completed. Great consistency.
+                                </p>
+                            </div>
+                            <div v-if="verseCountdownShowCircle" class="verse-countdown-circle" :style="verseCountdownCircleStyle">
+                                <span>{{ verseCountdownCompletedVerses }}/{{ verseCountdownTotalVerses }}</span>
+                            </div>
+                            <div v-if="verseCountdownShowProgress" class="verse-countdown-progress">
+                                <div class="verse-countdown-progress-track">
+                                    <span class="verse-countdown-progress-fill" :style="{ width: `${verseCountdownProgressPercent}%` }"></span>
+                                </div>
+                                <p class="verse-countdown-progress-blocks mb-0">
+                                    {{ verseCountdownProgressBlockText }} ({{ verseCountdownCompletedVerses }}/{{ verseCountdownTotalVerses }} verses done)
+                                </p>
+                            </div>
+                        </section>
+                    </div>
                 </div>
 
             </div>
@@ -3365,6 +3509,58 @@
         </div>
 
         <bookmark-modal :ayah="activeAyah" @saved="onBookmarkSaved" />
+
+        <teleport to="body">
+            <div
+                class="modal fade verse-countdown-complete-modal"
+                :id="verseCountdownCompleteModalId"
+                tabindex="-1"
+                aria-labelledby="verseCountdownCompleteModalLabel"
+                aria-hidden="true"
+                data-bs-backdrop="static">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content verse-countdown-complete-modal-content">
+                        <div class="modal-header border-0 pb-0">
+                            <h5 class="modal-title" id="verseCountdownCompleteModalLabel">
+                                Success Complete
+                            </h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body pt-2">
+                            <div class="verse-countdown-complete-hero">
+                                <div class="verse-countdown-complete-icon">
+                                    <i class="bi bi-check2-circle" aria-hidden="true"></i>
+                                </div>
+                                <p class="verse-countdown-complete-title mb-1">
+                                    Session completed successfully. 100% complete.
+                                </p>
+                                <p class="verse-countdown-complete-subtitle mb-0">
+                                    {{ verseCountdownCompletionSummaryLabel }}
+                                </p>
+                            </div>
+                            <div class="verse-countdown-complete-metrics">
+                                <div class="verse-countdown-complete-metric">
+                                    <small>Verses completed</small>
+                                    <strong>{{ verseCountdownTotalVerses }}/{{ verseCountdownTotalVerses }}</strong>
+                                </div>
+                                <div class="verse-countdown-complete-metric">
+                                    <small>Playback range</small>
+                                    <strong>{{ verseCountdownRangeBounds.start }} - {{ verseCountdownRangeBounds.end }}</strong>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer border-0 pt-0">
+                            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                                Close
+                            </button>
+                            <button type="button" class="btn verse-countdown-complete-replay-btn" @click="replayVerseCountdownRangeFromModal">
+                                Replay range
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </teleport>
 
         <teleport to="body">
             <div class="modal fade surat-onboarding-shell"
