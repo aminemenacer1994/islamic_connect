@@ -1329,7 +1329,10 @@
                         </div>
                     </div>
 
-                    <section class="surah-offcanvas-section memorisation-offcanvas-panel memorisation-hifz-plan-launch" aria-label="Hifz plan quick access">
+                    <section
+                        class="surah-offcanvas-section memorisation-offcanvas-panel memorisation-hifz-plan-launch"
+                        :class="{ 'is-collapsed': isHifzPlanPanelCollapsed }"
+                        aria-label="Hifz plan quick access">
                         <div class="memorisation-hifz-plan-launch-head">
                             <div>
                                 <h5 class="memorisation-offcanvas-section-title">Hifz Plan</h5>
@@ -1337,71 +1340,95 @@
                                     Build structured memorization plans with automatic daily targets and rescheduling.
                                 </p>
                             </div>
-                            <div class="memorisation-hifz-plan-launch-actions">
+                            <div class="memorisation-hifz-plan-launch-head-actions">
                                 <button
                                     type="button"
                                     class="btn memorisation-hifz-plan-tool-btn memorisation-hifz-plan-tool-btn-primary"
-                                    @click="openHifzPlanWizard">
-                                    Create New Plan
+                                    :disabled="hasHifzPlans && (!activeHifzPlanTodayEntry || activeHifzPlanTodayEntry.isRestDay)"
+                                    @click="hasHifzPlans ? openActiveHifzTodayTarget({ closeOffcanvas: true, closeDashboard: true }) : openHifzPlanWizard()">
+                                    {{ hasHifzPlans ? "Start Today's Target" : "Create New Plan" }}
                                 </button>
                                 <button
-                                    v-if="hasHifzPlans"
                                     type="button"
-                                    class="btn memorisation-hifz-plan-tool-btn"
-                                    @click="openHifzPlanDashboard">
-                                    Open Dashboard
+                                    class="btn memorisation-hifz-plan-collapse-btn"
+                                    @click="toggleHifzPlanPanelCollapsed"
+                                    :aria-label="isHifzPlanPanelCollapsed ? 'Expand Hifz Plan' : 'Collapse Hifz Plan'"
+                                    :title="isHifzPlanPanelCollapsed ? 'Expand Hifz Plan' : 'Collapse Hifz Plan'"
+                                    :aria-expanded="(!isHifzPlanPanelCollapsed).toString()">
+                                    <span class="memorisation-preset-count" aria-hidden="true">
+                                        {{ hifzPlansSorted.length }}
+                                    </span>
+                                    <i
+                                        class="bi"
+                                        :class="isHifzPlanPanelCollapsed ? 'bi-chevron-down' : 'bi-chevron-up'"
+                                        aria-hidden="true"></i>
                                 </button>
                             </div>
                         </div>
 
-                        <div v-if="hasHifzPlans" class="memorisation-hifz-plan-summary-wrap">
-                            <label class="memorisation-offcanvas-field memorisation-offcanvas-field--full mb-0">
-                                <span class="form-label surah-offcanvas-label">Active plan</span>
-                                <select
-                                    class="form-select surah-offcanvas-select"
-                                    v-model="hifzActivePlanId"
-                                    @change="onHifzActivePlanChanged"
-                                    aria-label="Select active Hifz plan">
-                                    <option
-                                        v-for="plan in hifzPlansSorted"
-                                        :key="plan.id"
-                                        :value="plan.id">
-                                        {{ plan.name }}
-                                    </option>
-                                </select>
-                            </label>
-                            <button
-                                type="button"
-                                class="memorisation-hifz-plan-summary-card"
-                                @click="openHifzPlanDashboard"
-                                aria-label="Open current Hifz plan dashboard">
-                                <div class="memorisation-hifz-plan-summary-head">
-                                    <strong>{{ activeHifzPlan?.name || "Hifz Plan" }}</strong>
-                                    <small>{{ activeHifzPlan?.targetLabel || "" }}</small>
+                        <div v-show="!isHifzPlanPanelCollapsed" class="memorisation-hifz-plan-launch-body">
+                            <div v-if="hasHifzPlans" class="memorisation-hifz-plan-summary-wrap">
+                                <div class="memorisation-hifz-plan-plan-row">
+                                    <label class="memorisation-offcanvas-field mb-0">
+                                        <span class="form-label surah-offcanvas-label">Active plan</span>
+                                        <select
+                                            class="form-select surah-offcanvas-select"
+                                            v-model="hifzActivePlanId"
+                                            @change="onHifzActivePlanChanged"
+                                            aria-label="Select active Hifz plan">
+                                            <option
+                                                v-for="plan in hifzPlansSorted"
+                                                :key="plan.id"
+                                                :value="plan.id">
+                                                {{ plan.name }}
+                                            </option>
+                                        </select>
+                                    </label>
+                                    <button
+                                        type="button"
+                                        class="btn memorisation-hifz-plan-delete-btn"
+                                        @click="deleteActiveHifzPlan"
+                                        aria-label="Delete active Hifz plan"
+                                        title="Delete active plan">
+                                        <i class="bi bi-trash3" aria-hidden="true"></i>
+                                    </button>
                                 </div>
-                                <div class="memorisation-hifz-plan-summary-progress">
-                                    <span>{{ activeHifzPlanProgressLabel }}</span>
-                                    <span>{{ activeHifzPlanProgressPercent }}%</span>
-                                </div>
-                                <div class="progress memorisation-hifz-plan-progress-track" role="progressbar" aria-label="Hifz plan progress" :aria-valuemin="0" :aria-valuemax="100" :aria-valuenow="activeHifzPlanProgressPercent">
-                                    <div
-                                        class="progress-bar memorisation-hifz-plan-progress-bar"
-                                        :style="{ width: `${activeHifzPlanProgressPercent}%` }"></div>
-                                </div>
-                                <p class="memorisation-hifz-plan-summary-target mb-0">
-                                    {{ activeHifzPlanTodayTargetSentence }}
+                                    <button
+                                        type="button"
+                                        class="memorisation-hifz-plan-summary-card"
+                                        @click="openHifzPlanDashboard"
+                                        aria-label="Open current Hifz plan dashboard">
+                                    <div class="memorisation-hifz-plan-summary-head">
+                                        <strong>{{ activeHifzPlan?.name || "Hifz Plan" }}</strong>
+                                        <small>{{ activeHifzPlan?.targetLabel || "" }}</small>
+                                    </div>
+                                    <div class="memorisation-hifz-plan-summary-progress">
+                                        <span>{{ activeHifzPlanProgressLabel }}</span>
+                                        <span>{{ activeHifzPlanProgressPercent }}%</span>
+                                    </div>
+                                    <div class="progress memorisation-hifz-plan-progress-track" role="progressbar" aria-label="Hifz plan progress" :aria-valuemin="0" :aria-valuemax="100" :aria-valuenow="activeHifzPlanProgressPercent">
+                                        <div
+                                            class="progress-bar memorisation-hifz-plan-progress-bar"
+                                            :style="{ width: `${activeHifzPlanProgressPercent}%` }"></div>
+                                    </div>
+                                    <p class="memorisation-hifz-plan-summary-target mb-0">
+                                        {{ activeHifzPlanTodayTargetSentence }}
+                                    </p>
+                                    <p class="memorisation-hifz-plan-summary-ahead-behind mb-0">
+                                        {{ activeHifzPlanAheadBehindLabel }}
+                                    </p>
+                                </button>
+                                <p class="memorisation-hifz-plan-summary-hint mb-0">
+                                    Tap the card to manage schedule and calendar.
                                 </p>
-                                <p class="memorisation-hifz-plan-summary-ahead-behind mb-0">
-                                    {{ activeHifzPlanAheadBehindLabel }}
+                                <p class="memorisation-hifz-plan-sync-note mb-0">
+                                    Sync active: Daily Goals and Review Queue update automatically from your current plan.
                                 </p>
-                            </button>
-                            <p class="memorisation-hifz-plan-sync-note mb-0">
-                                Sync active: Daily Goals and Review Queue update automatically from your current plan.
+                            </div>
+                            <p v-else class="memorisation-hifz-plan-empty mb-0">
+                                No plans yet. Create your first plan to get daily ayah targets and automatic schedule recalculation.
                             </p>
                         </div>
-                        <p v-else class="memorisation-hifz-plan-empty mb-0">
-                            No plans yet. Create your first plan to get daily ayah targets and automatic schedule recalculation.
-                        </p>
                     </section>
 
                     <section class="surah-offcanvas-section memorisation-offcanvas-panel memorisation-preset-panel" aria-label="One-click presets">
@@ -2155,55 +2182,78 @@
                                     <span class="form-label">Number of days</span>
                                     <input type="number" min="1" max="3650" class="form-control" v-model.number="hifzWizard.deadlineDays">
                                 </label>
+                                <div v-if="hifzWizard.deadlineType === 'in-days'" class="hifz-plan-ratio-presets" role="group" aria-label="Deadline quick picks">
+                                    <button type="button" class="btn hifz-plan-ratio-preset-btn" @click="hifzWizard.deadlineDays = 30">30 days</button>
+                                    <button type="button" class="btn hifz-plan-ratio-preset-btn" @click="hifzWizard.deadlineDays = 60">60 days</button>
+                                    <button type="button" class="btn hifz-plan-ratio-preset-btn" @click="hifzWizard.deadlineDays = 90">90 days</button>
+                                </div>
                             </section>
 
                             <section class="hifz-plan-wizard-section">
-                                <h6 class="hifz-plan-wizard-title mb-0">3) Advanced Options</h6>
+                                <h6 class="hifz-plan-wizard-title mb-0">3) Optional Settings</h6>
                                 <label class="hifz-plan-wizard-field">
                                     <span class="form-label">Plan name (optional)</span>
                                     <input type="text" class="form-control" v-model.trim="hifzWizard.planName" placeholder="Example: Ramadan Hifz Sprint">
                                 </label>
-                                <label class="hifz-plan-toggle-row">
-                                    <span>
-                                        <strong>Include revision days</strong>
-                                        <small>Reserve every Nth working day for review only.</small>
-                                    </span>
-                                    <span class="form-check form-switch mb-0">
-                                        <input class="form-check-input" type="checkbox" v-model="hifzWizard.includeRevisionDays">
-                                    </span>
-                                </label>
-                                <label v-if="hifzWizard.includeRevisionDays" class="hifz-plan-wizard-field">
-                                    <span class="form-label">Revision cadence</span>
-                                    <input type="number" min="2" max="30" class="form-control" v-model.number="hifzWizard.revisionEveryDays">
-                                </label>
-                                <div class="hifz-plan-ratio-grid">
-                                    <label class="hifz-plan-wizard-field">
-                                        <span class="form-label">New verses ratio (%)</span>
-                                        <input type="number" min="1" max="100" class="form-control" v-model.number="hifzWizard.newVerseRatio">
+                                <button
+                                    type="button"
+                                    class="btn hifz-plan-inline-toggle-btn"
+                                    @click="isHifzWizardAdvancedOpen = !isHifzWizardAdvancedOpen"
+                                    :aria-expanded="isHifzWizardAdvancedOpen ? 'true' : 'false'">
+                                    <span>{{ isHifzWizardAdvancedOpen ? "Hide" : "Customize" }} schedule settings</span>
+                                    <i class="bi" :class="isHifzWizardAdvancedOpen ? 'bi-chevron-up' : 'bi-chevron-down'" aria-hidden="true"></i>
+                                </button>
+                                <div v-if="isHifzWizardAdvancedOpen" class="hifz-plan-advanced-stack">
+                                    <label class="hifz-plan-toggle-row">
+                                        <span>
+                                            <strong>Include revision days</strong>
+                                            <small>Reserve every Nth working day for review only.</small>
+                                        </span>
+                                        <span class="form-check form-switch mb-0">
+                                            <input class="form-check-input" type="checkbox" v-model="hifzWizard.includeRevisionDays">
+                                        </span>
                                     </label>
-                                    <label class="hifz-plan-wizard-field">
-                                        <span class="form-label">Review ratio (%)</span>
-                                        <input type="number" min="0" max="100" class="form-control" v-model.number="hifzWizard.reviewVerseRatio">
+                                    <label v-if="hifzWizard.includeRevisionDays" class="hifz-plan-wizard-field">
+                                        <span class="form-label">Revision cadence</span>
+                                        <input type="number" min="2" max="30" class="form-control" v-model.number="hifzWizard.revisionEveryDays">
                                     </label>
-                                </div>
-                                <fieldset class="hifz-plan-rest-days-fieldset">
-                                    <legend>Rest days</legend>
-                                    <div class="hifz-plan-rest-days-grid">
-                                        <button
-                                            v-for="option in hifzRestDayOptions"
-                                            :key="`hifz-rest-day-${option.value}`"
-                                            type="button"
-                                            class="btn hifz-plan-rest-day-pill"
-                                            :class="{ 'is-active': hifzWizard.restDays.includes(option.value) }"
-                                            @click="toggleHifzWizardRestDay(option.value)">
-                                            <span>{{ option.label }}</span>
-                                            <i
-                                                class="bi"
-                                                :class="hifzWizard.restDays.includes(option.value) ? 'bi-check-circle-fill' : 'bi-circle'"
-                                                aria-hidden="true"></i>
-                                        </button>
+                                    <div class="hifz-plan-ratio-grid">
+                                        <label class="hifz-plan-wizard-field">
+                                            <span class="form-label">New verses ratio (%)</span>
+                                            <input type="number" min="1" max="100" class="form-control" v-model.number="hifzWizard.newVerseRatio">
+                                        </label>
+                                        <label class="hifz-plan-wizard-field">
+                                            <span class="form-label">Review ratio (%)</span>
+                                            <input type="number" min="0" max="100" class="form-control" v-model.number="hifzWizard.reviewVerseRatio">
+                                        </label>
                                     </div>
-                                </fieldset>
+                                    <div class="hifz-plan-ratio-presets" role="group" aria-label="Ratio presets">
+                                        <button type="button" class="btn hifz-plan-ratio-preset-btn" @click="applyHifzWizardRatioPreset(70, 30)">Balanced 70/30</button>
+                                        <button type="button" class="btn hifz-plan-ratio-preset-btn" @click="applyHifzWizardRatioPreset(85, 15)">New-heavy 85/15</button>
+                                        <button type="button" class="btn hifz-plan-ratio-preset-btn" @click="applyHifzWizardRatioPreset(60, 40)">Review-heavy 60/40</button>
+                                    </div>
+                                    <p class="hifz-plan-ratio-helper mb-0">
+                                        {{ hifzWizardRatioStatus }}
+                                    </p>
+                                    <fieldset class="hifz-plan-rest-days-fieldset">
+                                        <legend>Rest days</legend>
+                                        <div class="hifz-plan-rest-days-grid">
+                                            <button
+                                                v-for="option in hifzRestDayOptions"
+                                                :key="`hifz-rest-day-${option.value}`"
+                                                type="button"
+                                                class="btn hifz-plan-rest-day-pill"
+                                                :class="{ 'is-active': hifzWizard.restDays.includes(option.value) }"
+                                                @click="toggleHifzWizardRestDay(option.value)">
+                                                <span>{{ option.label }}</span>
+                                                <i
+                                                    class="bi"
+                                                    :class="hifzWizard.restDays.includes(option.value) ? 'bi-check-circle-fill' : 'bi-circle'"
+                                                    aria-hidden="true"></i>
+                                            </button>
+                                        </div>
+                                    </fieldset>
+                                </div>
                             </section>
 
                             <section class="hifz-plan-wizard-preview" aria-label="Plan preview">
@@ -2272,7 +2322,7 @@
                                 <div class="hifz-plan-dashboard-topbar">
                                     <label class="hifz-plan-wizard-field mb-0">
                                         <span class="form-label">Active plan</span>
-                                        <select class="form-select" v-model="hifzActivePlanId" @change="onHifzActivePlanChanged">
+                                            <select class="form-select" v-model="hifzActivePlanId" @change="onHifzActivePlanChanged">
                                             <option
                                                 v-for="plan in hifzPlansSorted"
                                                 :key="`hifz-dashboard-${plan.id}`"
@@ -2287,10 +2337,14 @@
                                             class="btn hifz-plan-dashboard-btn hifz-plan-dashboard-btn-primary"
                                             :disabled="!activeHifzPlanTodayEntry || activeHifzPlanTodayEntry.isRestDay"
                                             @click="openActiveHifzTodayTarget">
-                                            Open Today's Target
+                                            Start Today's Target
                                         </button>
-                                        <button type="button" class="btn hifz-plan-dashboard-btn" @click="openHifzPlanWizard">
-                                            Create New Plan
+                                        <button
+                                            type="button"
+                                            class="btn hifz-plan-dashboard-btn hifz-plan-dashboard-btn-danger hifz-plan-dashboard-btn-icon"
+                                            @click="deleteActiveHifzPlan">
+                                            <i class="bi bi-trash3" aria-hidden="true"></i>
+                                            <span class="visually-hidden">Delete Active Plan</span>
                                         </button>
                                     </div>
                                 </div>
@@ -2322,12 +2376,12 @@
 
                                 <section class="hifz-plan-dashboard-calendar">
                                     <div class="hifz-plan-dashboard-calendar-head">
-                                        <h6 class="mb-0">Calendar View</h6>
+                                        <h6 class="mb-0">Calendar</h6>
                                         <div class="hifz-plan-dashboard-calendar-controls">
                                             <button type="button" class="btn hifz-plan-dashboard-calendar-btn" @click="shiftHifzDashboardMonth(-1)">
                                                 <i class="bi bi-chevron-left" aria-hidden="true"></i>
                                             </button>
-                                            <button type="button" class="btn hifz-plan-dashboard-calendar-btn hifz-plan-dashboard-calendar-btn-label" @click="setHifzDashboardMonthToToday">
+                                            <button type="button" class="btn hifz-plan-dashboard-calendar-btn hifz-plan-dashboard-calendar-btn-label" @click="setHifzDashboardMonthToToday()">
                                                 {{ hifzDashboardMonthLabel }}
                                             </button>
                                             <button type="button" class="btn hifz-plan-dashboard-calendar-btn" @click="shiftHifzDashboardMonth(1)">
@@ -2336,40 +2390,86 @@
                                         </div>
                                     </div>
 
-                                    <div v-if="!hifzDashboardCalendarEntries.length" class="hifz-plan-dashboard-calendar-empty">
-                                        No scheduled entries for this month.
-                                    </div>
+                                    <div class="hifz-plan-dashboard-calendar-layout">
+                                        <div class="hifz-plan-dashboard-calendar-month">
+                                            <div class="hifz-plan-dashboard-weekday-row">
+                                                <span
+                                                    v-for="label in hifzDashboardWeekdayLabels"
+                                                    :key="`hifz-weekday-${label}`">
+                                                    {{ label }}
+                                                </span>
+                                            </div>
+                                            <div class="hifz-plan-dashboard-month-grid">
+                                                <button
+                                                    v-for="cell in hifzDashboardCalendarCells"
+                                                    :key="`hifz-calendar-${cell.dateKey}`"
+                                                    :id="`hifz-dashboard-day-${cell.dateKey}`"
+                                                    type="button"
+                                                    class="hifz-plan-dashboard-day-cell"
+                                                    :class="{
+                                                        'is-outside': !cell.isCurrentMonth,
+                                                        'is-selected': cell.dateKey === hifzDashboardEffectiveSelectedDateKey,
+                                                        'is-today': cell.isToday,
+                                                        'is-completed': cell.entry?.completed,
+                                                        'is-rest-day': cell.entry?.isRestDay,
+                                                        'is-revision-day': cell.entry?.isRevisionDay && !cell.entry?.isRestDay,
+                                                        'has-entry': !!cell.entry
+                                                    }"
+                                                    :disabled="!cell.isCurrentMonth"
+                                                    :aria-label="formatDateKey(cell.dateKey)"
+                                                    @click="selectHifzDashboardDate(cell.dateKey)"
+                                                    @dblclick="cell.entry && openHifzScheduleEntryTarget(cell.entry)">
+                                                    <span class="hifz-plan-dashboard-day-cell-head">
+                                                        <strong>{{ cell.dayNumber }}</strong>
+                                                        <i
+                                                            v-if="cell.entry?.completed"
+                                                            class="bi bi-check-circle-fill"
+                                                            aria-hidden="true"></i>
+                                                    </span>
+                                                    <small class="hifz-plan-dashboard-day-cell-meta">
+                                                        {{ cell.entry ? formatHifzCalendarTargetBadge(cell.entry) : "No target" }}
+                                                    </small>
+                                                </button>
+                                            </div>
+                                        </div>
 
-                                    <div v-else class="hifz-plan-dashboard-calendar-grid">
-                                        <article
-                                            v-for="entry in hifzDashboardCalendarEntries"
-                                            :key="`${activeHifzPlan?.id || 'plan'}-${entry.dateKey}`"
-                                            class="hifz-plan-calendar-day-card"
-                                            :class="{
-                                                'is-today': entry.dateKey === toDateKey(new Date()),
-                                                'is-completed': entry.completed,
-                                                'is-rest-day': entry.isRestDay,
-                                                'is-revision-day': entry.isRevisionDay
-                                            }">
-                                            <div class="hifz-plan-calendar-day-head">
-                                                <div>
-                                                    <strong>{{ formatDateKey(entry.dateKey) }}</strong>
-                                                    <small>{{ formatHifzCalendarTargetBadge(entry) }}</small>
-                                                </div>
-                                                <label class="form-check mb-0 hifz-plan-calendar-day-check">
+                                        <aside class="hifz-plan-dashboard-day-panel">
+                                            <div class="hifz-plan-dashboard-day-panel-head">
+                                                <h6 class="mb-0">{{ hifzDashboardSelectedDateLabel || "Selected day" }}</h6>
+                                                <span class="hifz-plan-dashboard-day-panel-status">
+                                                    {{ hifzDashboardSelectedEntry ? getHifzScheduleEntryStatusLabel(hifzDashboardSelectedEntry) : "No target" }}
+                                                </span>
+                                            </div>
+                                            <p class="hifz-plan-dashboard-day-panel-badge mb-0">
+                                                {{ hifzDashboardSelectedEntry ? formatHifzCalendarTargetBadge(hifzDashboardSelectedEntry) : "No memorization target scheduled." }}
+                                            </p>
+                                            <p class="hifz-plan-dashboard-day-panel-target mb-0">
+                                                {{ hifzDashboardSelectedEntry ? formatHifzScheduleEntryTargetSentence(hifzDashboardSelectedEntry) : "Use this day for light review or recovery." }}
+                                            </p>
+                                            <div class="hifz-plan-dashboard-day-panel-actions">
+                                                <button
+                                                    type="button"
+                                                    class="btn hifz-plan-dashboard-btn hifz-plan-dashboard-btn-primary"
+                                                    :disabled="!canOpenHifzScheduleEntry(hifzDashboardSelectedEntry)"
+                                                    @click="openHifzScheduleEntryTarget(hifzDashboardSelectedEntry)">
+                                                    Open Target
+                                                </button>
+                                                <label class="form-check hifz-plan-dashboard-day-panel-check">
                                                     <input
                                                         class="form-check-input"
                                                         type="checkbox"
-                                                        :checked="entry.completed"
-                                                        :disabled="entry.isRestDay"
-                                                        :aria-label="`Mark ${entry.dateKey} complete`"
-                                                        @change="onHifzScheduleEntryCompletionChange(activeHifzPlan?.id, entry.dateKey, $event.target.checked)">
+                                                        :checked="!!hifzDashboardSelectedEntry?.completed"
+                                                        :disabled="!hifzDashboardSelectedEntry || hifzDashboardSelectedEntry.isRestDay"
+                                                        :aria-label="`Mark ${hifzDashboardEffectiveSelectedDateKey} complete`"
+                                                        @change="hifzDashboardSelectedEntry && onHifzScheduleEntryCompletionChange(activeHifzPlan?.id, hifzDashboardSelectedEntry.dateKey, $event.target.checked)">
+                                                    <span>Mark complete</span>
                                                 </label>
                                             </div>
-                                            <p class="hifz-plan-calendar-day-target mb-0">
-                                                {{ formatHifzScheduleEntryTargetSentence(entry) }}
-                                            </p>
-                                        </article>
+                                        </aside>
+                                    </div>
+
+                                    <div v-if="!hifzDashboardCalendarEntries.length" class="hifz-plan-dashboard-calendar-empty">
+                                        No scheduled targets in this month.
                                     </div>
                                 </section>
                             </div>

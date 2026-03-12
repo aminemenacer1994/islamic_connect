@@ -957,6 +957,8 @@ export default {
             ],
             hifzPlanToolStorageKeyBase: "ic_hifz_plan_tool_v2",
             hifzPlanToolLegacyStorageKey: "ic_hifz_plan_tool_v1",
+            hifzPlanPanelCollapsedPreferenceBaseKey:
+                "ic_hifz_plan_panel_collapsed_v1",
             hifzDailyGoalsStorageKey: "ic_hifz_daily_goals_v1",
             hifzDailyGoalsSyncEvent: "ic-daily-goals-updated",
             hifzPlans: [],
@@ -965,6 +967,9 @@ export default {
             hifzPlanDashboardModalInstance: null,
             hifzPlanWizardError: "",
             hifzPlanDashboardMonthKey: "",
+            hifzDashboardSelectedDateKey: "",
+            isHifzPlanPanelCollapsed: false,
+            isHifzWizardAdvancedOpen: false,
             hifzAutoloadedDateKey: "",
             hifzRestDayOptions: [
                 { value: 0, label: "Sun" },
@@ -2169,13 +2174,147 @@ export default {
                 year: "numeric",
             });
         },
+        hifzDashboardTodayDateKey() {
+            return this.toDateKey(new Date());
+        },
+        hifzDashboardEntryMap() {
+            const map = Object.create(null);
+            const schedule = this.activeHifzPlan?.schedule;
+            if (!Array.isArray(schedule)) return map;
+            schedule.forEach((entry) => {
+                const key = String(entry?.dateKey || "").trim();
+                if (!key) return;
+                map[key] = entry;
+            });
+            return map;
+        },
         hifzDashboardCalendarEntries() {
-            const plan = this.activeHifzPlan;
-            if (!plan || !Array.isArray(plan.schedule)) return [];
+            const entries = Object.values(this.hifzDashboardEntryMap || {});
+            if (!entries.length) return [];
             const monthKey = this.hifzPlanDashboardMonthKey || this.toMonthKey(new Date());
-            return plan.schedule.filter(
-                (entry) => String(entry?.dateKey || "").slice(0, 7) === monthKey
+            return entries
+                .filter(
+                    (entry) => String(entry?.dateKey || "").slice(0, 7) === monthKey
+                )
+                .sort((left, right) =>
+                    String(left?.dateKey || "").localeCompare(
+                        String(right?.dateKey || "")
+                    )
+                );
+        },
+        hifzDashboardWeekdayLabels() {
+            const formatter = new Intl.DateTimeFormat(undefined, {
+                weekday: "short",
+            });
+            const start = new Date("2024-01-07T12:00:00");
+            return Array.from({ length: 7 }, (_, index) => {
+                const day = new Date(start);
+                day.setDate(start.getDate() + index);
+                return formatter.format(day);
+            });
+        },
+        hifzDashboardCalendarCells() {
+            const monthKey = this.hifzPlanDashboardMonthKey || this.toMonthKey(new Date());
+            const monthDate = this.monthKeyToDate(monthKey);
+            if (!monthDate) return [];
+            const month = monthDate.getMonth();
+            const year = monthDate.getFullYear();
+            const firstWeekday = new Date(year, month, 1, 12).getDay();
+            const daysInMonth = new Date(year, month + 1, 0, 12).getDate();
+            const totalCells = Math.max(
+                35,
+                Math.ceil((firstWeekday + daysInMonth) / 7) * 7
             );
+            const cells = [];
+            const todayKey = this.hifzDashboardTodayDateKey;
+            const entryMap = this.hifzDashboardEntryMap || {};
+            for (let index = 0; index < totalCells; index += 1) {
+                const dayOffset = index - firstWeekday + 1;
+                const cellDate = new Date(year, month, dayOffset, 12);
+                const dateKey = this.toDateKey(cellDate);
+                const isCurrentMonth = cellDate.getMonth() === month;
+                const entry = isCurrentMonth ? entryMap[dateKey] || null : null;
+                cells.push({
+                    dateKey,
+                    dayNumber: cellDate.getDate(),
+                    isCurrentMonth,
+                    isToday: dateKey === todayKey,
+                    entry,
+                });
+            }
+            return cells;
+        },
+        hifzDashboardEffectiveSelectedDateKey() {
+            const explicit = String(this.hifzDashboardSelectedDateKey || "").trim();
+            const cells = this.hifzDashboardCalendarCells;
+            if (
+                explicit &&
+                cells.some(
+                    (cell) => cell.isCurrentMonth && String(cell.dateKey) === explicit
+                )
+            ) {
+                return explicit;
+            }
+            const todayKey = this.hifzDashboardTodayDateKey;
+            if (
+                cells.some(
+                    (cell) => cell.isCurrentMonth && String(cell.dateKey) === todayKey
+                )
+            ) {
+                return todayKey;
+            }
+            const firstWithEntry = cells.find(
+                (cell) => cell.isCurrentMonth && !!cell.entry
+            );
+            if (firstWithEntry?.dateKey) return firstWithEntry.dateKey;
+            const firstCurrent = cells.find((cell) => cell.isCurrentMonth);
+            return firstCurrent?.dateKey || "";
+        },
+        hifzDashboardSelectedCalendarCell() {
+            const selectedKey = this.hifzDashboardEffectiveSelectedDateKey;
+            if (!selectedKey) return null;
+            return (
+                this.hifzDashboardCalendarCells.find(
+                    (cell) =>
+                        cell.isCurrentMonth &&
+                        String(cell.dateKey || "") === String(selectedKey)
+                ) || null
+            );
+        },
+        hifzDashboardSelectedEntry() {
+            return this.hifzDashboardSelectedCalendarCell?.entry || null;
+        },
+        hifzDashboardSelectedDateLabel() {
+            const key = this.hifzDashboardEffectiveSelectedDateKey;
+            if (!key) return "";
+            return this.formatDateKey(key);
+        },
+        hifzDashboardMonthStats() {
+            const stats = {
+                completed: 0,
+                pending: 0,
+                rest: 0,
+                completionRate: 0,
+            };
+            const entries = this.hifzDashboardCalendarEntries;
+            if (!Array.isArray(entries) || !entries.length) return stats;
+            entries.forEach((entry) => {
+                if (!entry) return;
+                if (entry.isRestDay) {
+                    stats.rest += 1;
+                    return;
+                }
+                if (entry.completed) {
+                    stats.completed += 1;
+                    return;
+                }
+                stats.pending += 1;
+            });
+            const actionable = stats.completed + stats.pending;
+            stats.completionRate = actionable
+                ? Math.round((stats.completed / actionable) * 100)
+                : 0;
+            return stats;
         },
         hifzWizardPreview() {
             const totalAyahs = this.estimateHifzTargetAyahCountFromWizard(
@@ -2229,6 +2368,25 @@ export default {
                 dailyAyahs,
                 deadlineDateKey,
             };
+        },
+        hifzWizardRatioTotal() {
+            const newRatio = Math.max(0, Number(this.hifzWizard?.newVerseRatio || 0));
+            const reviewRatio = Math.max(
+                0,
+                Number(this.hifzWizard?.reviewVerseRatio || 0)
+            );
+            return newRatio + reviewRatio;
+        },
+        hifzWizardRatioStatus() {
+            const total = this.hifzWizardRatioTotal;
+            if (!total) return "Set ratios to define how new and revision ayahs are distributed.";
+            if (total === 100) {
+                return "Ratio looks balanced for predictable distribution (total 100%).";
+            }
+            if (total < 100) {
+                return `Current total is ${total}%. Remaining ${100 - total}% leaves lighter daily load.`;
+            }
+            return `Current total is ${total}%. Above 100% increases daily pressure.`;
         },
         sidebarNormalizedQuery() {
             return (this.sidebarDebouncedQuery || "").trim().toLowerCase();
@@ -10466,8 +10624,8 @@ export default {
                 restDays: [5],
             };
         },
-        getHifzPlanToolStorageKey() {
-            const base = this.hifzPlanToolStorageKeyBase || "ic_hifz_plan_tool_v2";
+        buildHifzPlanScopedStorageKey(baseKey = "ic_hifz_plan_tool_v2") {
+            const base = String(baseKey || "").trim() || "ic_hifz_plan_tool_v2";
             if (this.bookmarkStorageUserId) {
                 return `${base}_user_${this.bookmarkStorageUserId}`;
             }
@@ -10477,8 +10635,20 @@ export default {
             const anonId = this.getOrCreateSuratPreferenceAnonId();
             return `${base}_anon_${anonId || "local"}`;
         },
+        getHifzPlanToolStorageKey() {
+            return this.buildHifzPlanScopedStorageKey(
+                this.hifzPlanToolStorageKeyBase || "ic_hifz_plan_tool_v2"
+            );
+        },
+        getHifzPlanPanelCollapsedStorageKey() {
+            return this.buildHifzPlanScopedStorageKey(
+                this.hifzPlanPanelCollapsedPreferenceBaseKey ||
+                    "ic_hifz_plan_panel_collapsed_v1"
+            );
+        },
         initializeHifzPlanTool() {
             this.loadHifzPlanToolState();
+            this.loadHifzPlanPanelCollapsedState();
             if (!this.hifzPlanDashboardMonthKey) {
                 this.hifzPlanDashboardMonthKey = this.toMonthKey(new Date());
             }
@@ -10486,6 +10656,7 @@ export default {
                 this.hifzWizard = this.buildDefaultHifzWizardState();
             }
             this.refreshHifzPlanSchedules();
+            this.syncHifzDashboardSelectedDate();
             this.syncHifzIntegrations();
             if (this.hasHifzPlans) {
                 this.autoLoadTodayHifzTargetRange();
@@ -10513,12 +10684,16 @@ export default {
                     this.hifzPlans = [];
                     this.hifzActivePlanId = "";
                     this.hifzAutoloadedDateKey = "";
+                    this.hifzDashboardSelectedDateKey = "";
                     return;
                 }
                 const parsed = JSON.parse(raw);
                 this.hifzActivePlanId = String(parsed?.activePlanId || "").trim();
                 this.hifzAutoloadedDateKey = String(
                     parsed?.autoloadedDateKey || ""
+                ).trim();
+                this.hifzDashboardSelectedDateKey = String(
+                    parsed?.dashboardSelectedDateKey || ""
                 ).trim();
                 this.hifzPlans = Array.isArray(parsed?.plans)
                     ? parsed.plans
@@ -10541,6 +10716,7 @@ export default {
                 this.hifzPlans = [];
                 this.hifzActivePlanId = "";
                 this.hifzAutoloadedDateKey = "";
+                this.hifzDashboardSelectedDateKey = "";
             }
         },
         persistHifzPlanToolState() {
@@ -10551,10 +10727,39 @@ export default {
                     JSON.stringify({
                         activePlanId: this.hifzActivePlanId || "",
                         autoloadedDateKey: this.hifzAutoloadedDateKey || "",
+                        dashboardSelectedDateKey:
+                            this.hifzDashboardSelectedDateKey || "",
                         plans: this.hifzPlans || [],
                     })
                 );
             } catch (_) {}
+        },
+        loadHifzPlanPanelCollapsedState() {
+            if (typeof window === "undefined") {
+                this.isHifzPlanPanelCollapsed = false;
+                return false;
+            }
+            try {
+                this.isHifzPlanPanelCollapsed =
+                    localStorage.getItem(this.getHifzPlanPanelCollapsedStorageKey()) ===
+                    "1";
+            } catch (_) {
+                this.isHifzPlanPanelCollapsed = false;
+            }
+            return this.isHifzPlanPanelCollapsed;
+        },
+        persistHifzPlanPanelCollapsedState(collapsed) {
+            if (typeof window === "undefined") return;
+            this.isHifzPlanPanelCollapsed = !!collapsed;
+            try {
+                this.safeLocalStorageSetItem(
+                    this.getHifzPlanPanelCollapsedStorageKey(),
+                    this.isHifzPlanPanelCollapsed ? "1" : "0"
+                );
+            } catch (_) {}
+        },
+        toggleHifzPlanPanelCollapsed() {
+            this.persistHifzPlanPanelCollapsedState(!this.isHifzPlanPanelCollapsed);
         },
         normalizeHifzPlan(plan) {
             if (!plan || typeof plan !== "object") return null;
@@ -10682,6 +10887,61 @@ export default {
             if (Number.isNaN(date.getTime())) return null;
             return date;
         },
+        resolveHifzDashboardDefaultDateKey(monthKey = this.hifzPlanDashboardMonthKey) {
+            const normalizedMonth =
+                String(monthKey || "").trim() || this.toMonthKey(new Date());
+            const monthEntries = (this.hifzDashboardCalendarEntries || []).filter(
+                (entry) =>
+                    String(entry?.dateKey || "").slice(0, 7) === normalizedMonth
+            );
+            const todayKey = this.toDateKey(new Date());
+            if (
+                todayKey.slice(0, 7) === normalizedMonth &&
+                monthEntries.some((entry) => String(entry?.dateKey || "") === todayKey)
+            ) {
+                return todayKey;
+            }
+            const firstPending = monthEntries.find(
+                (entry) => !entry?.isRestDay && !entry?.completed
+            );
+            if (firstPending?.dateKey) return firstPending.dateKey;
+            if (monthEntries[0]?.dateKey) return monthEntries[0].dateKey;
+            const fallbackMonthDate = this.monthKeyToDate(normalizedMonth);
+            if (!fallbackMonthDate) return "";
+            return this.toDateKey(
+                new Date(
+                    fallbackMonthDate.getFullYear(),
+                    fallbackMonthDate.getMonth(),
+                    1,
+                    12
+                )
+            );
+        },
+        syncHifzDashboardSelectedDate() {
+            if (!this.activeHifzPlan) {
+                this.hifzDashboardSelectedDateKey = "";
+                return;
+            }
+            const current = String(this.hifzDashboardSelectedDateKey || "").trim();
+            const monthKey =
+                this.hifzPlanDashboardMonthKey || this.toMonthKey(new Date());
+            if (current && current.slice(0, 7) === monthKey) {
+                return;
+            }
+            this.hifzDashboardSelectedDateKey =
+                this.resolveHifzDashboardDefaultDateKey(monthKey);
+        },
+        selectHifzDashboardDate(dateKey) {
+            const normalized = String(dateKey || "").trim();
+            if (!/^\d{4}-\d{2}-\d{2}$/.test(normalized)) return;
+            if (
+                normalized.slice(0, 7) !==
+                String(this.hifzPlanDashboardMonthKey || "").trim()
+            ) {
+                return;
+            }
+            this.hifzDashboardSelectedDateKey = normalized;
+        },
         shiftHifzDashboardMonth(offset) {
             const baseDate = this.monthKeyToDate(
                 this.hifzPlanDashboardMonthKey || this.toMonthKey(new Date())
@@ -10689,11 +10949,13 @@ export default {
             if (!baseDate) return;
             baseDate.setMonth(baseDate.getMonth() + Number(offset || 0));
             this.hifzPlanDashboardMonthKey = this.toMonthKey(baseDate);
-            this.persistHifzPlanToolState();
+            this.hifzDashboardSelectedDateKey =
+                this.resolveHifzDashboardDefaultDateKey(this.hifzPlanDashboardMonthKey);
         },
         setHifzDashboardMonthToToday() {
             this.hifzPlanDashboardMonthKey = this.toMonthKey(new Date());
-            this.persistHifzPlanToolState();
+            this.hifzDashboardSelectedDateKey =
+                this.resolveHifzDashboardDefaultDateKey(this.hifzPlanDashboardMonthKey);
         },
         buildDateRangeKeys(startDateKey, endDateKey) {
             const start = new Date(`${startDateKey}T12:00:00`);
@@ -10891,6 +11153,13 @@ export default {
                 ? current.filter((value) => Number(value) !== day)
                 : [...current, day];
             this.hifzWizard.restDays = this.normalizeHifzRestDays(next);
+        },
+        applyHifzWizardRatioPreset(newRatio = 70, reviewRatio = 30) {
+            this.hifzWizard.newVerseRatio = Math.max(1, Number(newRatio || 0));
+            this.hifzWizard.reviewVerseRatio = Math.max(
+                0,
+                Number(reviewRatio || 0)
+            );
         },
         buildHifzTargetFromWizard(wizard = this.hifzWizard) {
             const targetType = String(wizard?.targetType || "").trim();
@@ -11348,6 +11617,7 @@ export default {
                 this.hifzWizard = this.buildDefaultHifzWizardState();
             }
             this.hifzPlanWizardError = "";
+            this.isHifzWizardAdvancedOpen = false;
             const instance = this.getHifzPlanWizardModalInstance();
             if (!instance) return;
             this.hifzPlanWizardModalInstance = instance;
@@ -11362,6 +11632,7 @@ export default {
         openHifzPlanDashboard() {
             this.refreshHifzPlanSchedules();
             this.setHifzDashboardMonthToToday();
+            this.syncHifzDashboardSelectedDate();
             const instance = this.getHifzPlanDashboardModalInstance();
             if (!instance) return;
             this.hifzPlanDashboardModalInstance = instance;
@@ -11374,11 +11645,68 @@ export default {
             if (!instance) return;
             instance.hide();
         },
+        canOpenHifzScheduleEntry(entry) {
+            if (!entry || entry.isRestDay) return false;
+            return !!this.getPrimaryHifzRangeForEntry(entry);
+        },
+        getHifzScheduleEntryStatusLabel(entry) {
+            if (!entry) return "No target";
+            if (entry.isRestDay) return "Rest day";
+            if (entry.completed) {
+                if (entry.completedAt) {
+                    return `Completed ${this.formatDateKey(entry.completedAt)}`;
+                }
+                return "Completed";
+            }
+            if (entry.isRevisionDay) return "Revision day";
+            return "Pending";
+        },
+        async openHifzScheduleEntryTarget(entry) {
+            if (!this.canOpenHifzScheduleEntry(entry)) return;
+            const range = this.getPrimaryHifzRangeForEntry(entry);
+            if (!range) return;
+            const shouldMarkAutoloaded =
+                String(entry?.dateKey || "") === this.toDateKey(new Date());
+            await this.openHifzRangeInReader(range, {
+                announce: true,
+                closeDashboard: true,
+                markAutoloaded: shouldMarkAutoloaded,
+            });
+        },
+        deleteActiveHifzPlan() {
+            const plan = this.activeHifzPlan;
+            if (!plan) return;
+            const message = `Delete "${plan.name}"? This cannot be undone.`;
+            const approved =
+                typeof window === "undefined" ? true : window.confirm(message);
+            if (!approved) return;
+            this.hifzPlans = (this.hifzPlans || []).filter(
+                (item) => String(item?.id || "") !== String(plan.id)
+            );
+            if (String(this.hifzActivePlanId || "") === String(plan.id)) {
+                this.hifzActivePlanId = this.hifzPlans[0]?.id || "";
+            }
+            if (this.hifzPlans.length) {
+                this.refreshHifzPlanSchedules();
+            } else {
+                this.persistHifzPlanToolState();
+            }
+            this.syncHifzIntegrations();
+            this.announce("Hifz plan deleted.");
+        },
         onHifzActivePlanChanged() {
             this.refreshHifzPlanSchedules();
+            this.syncHifzDashboardSelectedDate();
             this.persistHifzPlanToolState();
             this.syncHifzIntegrations();
             this.autoLoadTodayHifzTargetRange();
+        },
+        completeTodayHifzTarget() {
+            const plan = this.activeHifzPlan;
+            const entry = this.activeHifzPlanTodayEntry;
+            if (!plan || !entry || entry.isRestDay || entry.completed) return;
+            this.onHifzScheduleEntryCompletionChange(plan.id, entry.dateKey, true);
+            this.announce("Today's target marked complete.");
         },
         async createHifzPlanFromWizard() {
             this.hifzPlanWizardError = "";
@@ -11450,7 +11778,10 @@ export default {
             this.hifzWizard = this.buildDefaultHifzWizardState();
         },
         refreshHifzPlanSchedules() {
-            if (!Array.isArray(this.hifzPlans) || !this.hifzPlans.length) return;
+            if (!Array.isArray(this.hifzPlans) || !this.hifzPlans.length) {
+                this.hifzDashboardSelectedDateKey = "";
+                return;
+            }
             const todayKey = this.toDateKey(new Date());
             this.hifzPlans = this.hifzPlans
                 .map((plan) => {
@@ -11483,9 +11814,12 @@ export default {
             if (!this.hifzActivePlanId && this.hifzPlans.length) {
                 this.hifzActivePlanId = this.hifzPlans[0].id;
             }
+            this.syncHifzDashboardSelectedDate();
             this.persistHifzPlanToolState();
         },
-        async openActiveHifzTodayTarget() {
+        async openActiveHifzTodayTarget(
+            { closeDashboard = true, closeOffcanvas = false } = {}
+        ) {
             const plan = this.activeHifzPlan;
             if (!plan) {
                 this.announce("Create a Hifz plan first.");
@@ -11501,15 +11835,24 @@ export default {
                 this.announce("No ayah range found for this day.");
                 return;
             }
+            if (closeOffcanvas) {
+                this.closeMemorisationToolsPanel();
+            }
             await this.openHifzRangeInReader(range, {
                 announce: true,
-                closeDashboard: true,
+                closeDashboard,
+                closeOffcanvas: false,
                 markAutoloaded: true,
             });
         },
         async openHifzRangeInReader(
             range,
-            { announce = true, closeDashboard = false, markAutoloaded = false } = {}
+            {
+                announce = true,
+                closeDashboard = false,
+                closeOffcanvas = false,
+                markAutoloaded = false,
+            } = {}
         ) {
             if (!range) return;
             const surahNumber = Number(range?.surahNumber || 0);
@@ -11531,6 +11874,9 @@ export default {
             }
             if (closeDashboard) {
                 this.closeHifzPlanDashboard();
+            }
+            if (closeOffcanvas) {
+                this.closeMemorisationToolsPanel();
             }
             if (markAutoloaded) {
                 this.hifzAutoloadedDateKey = this.toDateKey(new Date());
@@ -14207,6 +14553,17 @@ export default {
                 this.getMemorisationPresetPanelCollapsedStorageKey()
             ) {
                 this.loadMemorisationPresetPanelCollapsedState();
+                return;
+            }
+            if (event.key === this.getHifzPlanToolStorageKey()) {
+                this.loadHifzPlanToolState();
+                this.refreshHifzPlanSchedules();
+                this.syncHifzIntegrations();
+                this.syncHifzDashboardSelectedDate();
+                return;
+            }
+            if (event.key === this.getHifzPlanPanelCollapsedStorageKey()) {
+                this.loadHifzPlanPanelCollapsedState();
             }
         },
         handleVisibilityChange() {
