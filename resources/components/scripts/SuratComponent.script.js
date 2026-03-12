@@ -581,6 +581,7 @@ export default {
             isSingleWordPreviewActive: false,
             isHighlighted: false,
             showScrollTop: false,
+            isPerformanceModeEnabled: true,
             // scrubbing state
             isScrubbing: false,
             _boundMove: null,
@@ -597,7 +598,7 @@ export default {
             showMobileSurahInfoCard: true,
             mobileSurahInfoCardStorageKey: "suratMobileSurahInfoCardHidden",
             continuousPlayback: false, // Legacy flag; new playbackMode supersedes it
-            visualizerBars: Array(20).fill(10),
+            visualizerBars: Array(12).fill(10),
             playbackSpeeds: [0.5, 0.75, 1, 1.25, 1.5],
             currentSpeedIndex: 0,
             playbackMode: "continuous",
@@ -663,6 +664,8 @@ export default {
             // perf throttles
             lastProgressAt: 0,
             lastVizAt: 0,
+            lastVirtualScrollAt: 0,
+            lastHighlightFrameAt: 0,
             // track last programmatic scroll to avoid jitter
             lastAutoScrollIndex: null,
             lastProgrammaticScrollAt: 0,
@@ -682,17 +685,19 @@ export default {
             wordPreviewStopTimer: null,
             // virtualization
             itemHeight: 280,
-            windowSize: 22,
-            buffer: 6,
+            windowSize: 16,
+            buffer: 4,
             longSurahVirtualThreshold: 140,
-            longSurahWindowSize: 14,
-            longSurahBuffer: 4,
+            longSurahWindowSize: 10,
+            longSurahBuffer: 3,
             visibleStart: 0,
             visibleEnd: 0,
             listTop: 0,
+            lastToolbarPinMeasureAt: 0,
             _heightMeasureRaf: null,
             _virtualWindowRaf: null,
             itemHeightCalibrated: false,
+            lastItemHeightCalibrationAt: 0,
             // Next-step card visibility
             showNextStep: true,
             nextStepMinimized: false,
@@ -788,6 +793,10 @@ export default {
             memorisationPreviousSessionSnapshot: null,
             memorisationSessionStorageKeyBase:
                 "ic_memorisation_previous_session_v1",
+            memorisationToolbarVisiblePreferenceBaseKey:
+                "ic_memorisation_tools_visible_v1",
+            shouldRestoreMemorisationToolbarOnLoad: false,
+            hasRestoredMemorisationToolbarOnLoad: false,
             memorisationPresetsStorageKeyBase:
                 "ic_memorisation_presets_v1",
             memorisationPresetsStorageMapKey:
@@ -832,6 +841,42 @@ export default {
             isMemorisationRangeLoopCountdownActive: false,
             memorisationRangeLoopAudioContext: null,
             memorisationRangeLoopDelayPresets: [0, 1, 2, 3, 5],
+            memorisationRepeatAfterEnabled: false,
+            memorisationRepeatAfterPauseMode: "3",
+            memorisationRepeatAfterShowTranslation: true,
+            memorisationRepeatAfterVerseTextMode: "dimmed",
+            memorisationRepeatAfterRecordEnabled: false,
+            isMemorisationRepeatAfterSettingsOpen: false,
+            isMemorisationRepeatPauseActive: false,
+            memorisationRepeatPauseIndex: null,
+            memorisationRepeatPauseNextIndex: null,
+            memorisationRepeatPauseCountdownSeconds: 0,
+            memorisationRepeatPauseInterval: null,
+            isMemorisationRepeatRecording: false,
+            memorisationRepeatRecordingAutoStopTimer: null,
+            memorisationRepeatRecordingRecorder: null,
+            memorisationRepeatRecordingStream: null,
+            memorisationRepeatRecordingChunks: [],
+            memorisationRepeatRecordingDiscardNext: false,
+            memorisationRepeatRecordingStartedAt: 0,
+            memorisationRepeatRecordingMimeType: "",
+            memorisationRepeatRecordingError: "",
+            memorisationRepeatRecordings: {},
+            memorisationRepeatRecordingSelectionKey: "",
+            memorisationRepeatRecordingPlayback: null,
+            memorisationRepeatRecordingPlaybackKey: "",
+            memorisationRepeatRecordingPlaybackMode: "",
+            memorisationRepeatRecordingsStorageKeyBase:
+                "ic_memorisation_repeat_recordings_v1",
+            memorisationRepeatRecordingsLastScopeStorageKey:
+                "ic_memorisation_repeat_recordings_last_scope_v1",
+            memorisationRepeatRecordingsKnownScopes: [],
+            memorisationRepeatRecordingsScopeScanCompleted: false,
+            memorisationRepeatRecordingsPayloadCache: Object.create(null),
+            memorisationRepeatRecordingsMaxPerAyah: 3,
+            memorisationRepeatRecordingsMaxTotal: 24,
+            memorisationRepeatRecordingsMaxPayloadChars: 1800000,
+            memorisationRepeatRecordingMaxDurationMs: 30000,
             memorisationDraft: {
                 surahNumber: "1",
                 reciterIdentifier: "ar.alafasy",
@@ -852,6 +897,11 @@ export default {
                 showRealtimeHighlighting: false,
                 showWordTranslation: false,
                 showWordTranslationTooltip: false,
+                repeatAfterReciterEnabled: false,
+                repeatAfterReciterPauseMode: "3",
+                repeatAfterReciterShowTranslation: true,
+                repeatAfterReciterVerseTextMode: "dimmed",
+                repeatAfterReciterRecordEnabled: false,
             },
             countdownSeconds: 0,
             isCountdownActive: false,
@@ -1073,12 +1123,6 @@ export default {
                 ? "Memorisation controls"
                 : "Reader Controls";
         },
-        hasPreviousSessionReturn() {
-            return (
-                !!this.isMemorisationToolbarVisible &&
-                !!this.memorisationPreviousSessionSnapshot
-            );
-        },
         memorisationDraftMaxAyah() {
             const targetSurah = String(
                 this.memorisationDraft?.surahNumber || this.selectedSurah || ""
@@ -1119,6 +1163,99 @@ export default {
             return this.isMemorisationToolbarVisible &&
                 this.memorisationRepetitionCount > 1 &&
                 this.isAnyAudioPlaying;
+        },
+        memorisationRepeatPauseStatusText() {
+            if (!this.isMemorisationRepeatPauseActive) return "";
+            if (this.memorisationRepeatAfterPauseMode === "manual") {
+                return this.memorisationRepeatAfterRecordEnabled
+                    ? "Repeat aloud. You can record first, then tap Continue."
+                    : "Repeat aloud, then tap Continue.";
+            }
+            const seconds = Math.max(
+                0,
+                Number(this.memorisationRepeatPauseCountdownSeconds || 0)
+            );
+            return `Next ayah starts in ${seconds}s`;
+        },
+        memorisationRepeatAfterRecordingCount() {
+            const groups = Object.values(this.memorisationRepeatRecordings || {});
+            return groups.reduce((total, entries) => {
+                if (!Array.isArray(entries)) return total;
+                return total + entries.length;
+            }, 0);
+        },
+        memorisationRepeatRecordingAyahOptions() {
+            const options = [];
+            Object.entries(this.memorisationRepeatRecordings || {}).forEach(
+                ([key, entries]) => {
+                    if (!key || !Array.isArray(entries) || !entries.length) return;
+                    const ref =
+                        this.parseMemorisationRepeatRecordingStorageKey(key) || null;
+                    const latest = entries[entries.length - 1] || null;
+                    const clipCount = entries.length;
+                    const labelRef = ref
+                        ? `${ref.surahNumber}:${ref.ayahNumber}`
+                        : key;
+                    options.push({
+                        key,
+                        surahNumber: Number(ref?.surahNumber || 0) || 0,
+                        ayahNumber: Number(ref?.ayahNumber || 0) || 0,
+                        clipCount,
+                        latestCreatedAt: Number(latest?.createdAt || 0) || 0,
+                        label: `Ayah ${labelRef} · ${clipCount} clip${
+                            clipCount === 1 ? "" : "s"
+                        }`,
+                    });
+                }
+            );
+            return options.sort(
+                (a, b) =>
+                    Number(b.latestCreatedAt || 0) - Number(a.latestCreatedAt || 0)
+            );
+        },
+        memorisationRepeatRecordingSelectionKeyResolved() {
+            const options = Array.isArray(this.memorisationRepeatRecordingAyahOptions)
+                ? this.memorisationRepeatRecordingAyahOptions
+                : [];
+            if (!options.length) return "";
+
+            const explicit = String(
+                this.memorisationRepeatRecordingSelectionKey || ""
+            ).trim();
+            if (explicit && options.some((option) => option.key === explicit)) {
+                return explicit;
+            }
+
+            const currentIndex = Number(this.memorisationPlayIndex || 0);
+            const currentAyahKey =
+                this.getMemorisationRepeatRecordingStorageKey(currentIndex);
+            if (
+                currentAyahKey &&
+                options.some((option) => option.key === currentAyahKey)
+            ) {
+                return currentAyahKey;
+            }
+
+            return String(options[0]?.key || "");
+        },
+        memorisationRepeatRecordingSelectedLatest() {
+            const key = this.memorisationRepeatRecordingSelectionKeyResolved;
+            if (!key) return null;
+            return this.getLatestMemorisationRepeatRecordingByKey(key);
+        },
+        memorisationRepeatRecordingPlaybackStatusText() {
+            const mode = String(this.memorisationRepeatRecordingPlaybackMode || "").trim();
+            if (!mode) return "";
+            const key = String(this.memorisationRepeatRecordingPlaybackKey || "").trim();
+            const ref = this.parseMemorisationRepeatRecordingStorageKey(key);
+            const labelRef = ref ? `${ref.surahNumber}:${ref.ayahNumber}` : key;
+            if (mode === "compare") {
+                return `Compare mode for Ayah ${labelRef}: first your clip plays, then the ayah recitation starts automatically.`;
+            }
+            if (mode === "listen") {
+                return `Listening to your saved clip for Ayah ${labelRef}.`;
+            }
+            return "";
         },
         isMemorisationRangeLoopCountdownVisible() {
             return (
@@ -2709,7 +2846,10 @@ export default {
             this.loadMemorisationPresetPanelCollapsedState();
             this.loadContinueProgress();
             this.loadContinueProgressHiddenState();
+            this.loadMemorisationRepeatRecordings();
             this.loadMemorisationModePreference();
+            this.shouldRestoreMemorisationToolbarOnLoad =
+                this.loadMemorisationToolbarVisibilityPreference();
         },
         userId(next, prev) {
             if (this.bookmarkStorageUserId) return;
@@ -2720,7 +2860,10 @@ export default {
             this.loadMemorisationPresetPanelCollapsedState();
             this.loadContinueProgress();
             this.loadContinueProgressHiddenState();
+            this.loadMemorisationRepeatRecordings();
             this.loadMemorisationModePreference();
+            this.shouldRestoreMemorisationToolbarOnLoad =
+                this.loadMemorisationToolbarVisibilityPreference();
         },
         playlistEditorName() {
             this.showPlaylistEditorConfirmAction = false;
@@ -3062,6 +3205,7 @@ export default {
             this.resetAyahCardPointerGesture();
         },
         isMemorisationToolbarVisible(newVal) {
+            this.persistMemorisationToolbarVisibilityPreference(!!newVal);
             if (newVal) {
                 this.memorisationFocusIndex = this.activeAyahIndex;
                 this.hideSurahOffcanvasIfOpen();
@@ -3095,6 +3239,10 @@ export default {
         memorisationRangeLoopShowCountdown(newVal) {
             if (newVal) return;
             this.isMemorisationRangeLoopCountdownActive = false;
+        },
+        memorisationRepeatAfterEnabled(newVal) {
+            if (newVal) return;
+            this.clearMemorisationRepeatPauseState({ stopRecording: true });
         },
         isTranslationVisible(newVal) {
             this.writeScopedBooleanPreference(
@@ -3185,6 +3333,7 @@ export default {
         this.loadMemorisationPresetPanelCollapsedState();
         this.loadContinueProgress();
         this.loadContinueProgressHiddenState();
+        this.loadMemorisationRepeatRecordings();
         await this.initializeFontSizePreferences();
         await this.initializeDeepFocusModePreference();
         await this.initializeReadingFullscreenPreference();
@@ -3325,6 +3474,10 @@ export default {
             this.isBlurNextAyahEnabled = storedBlurNextAyah === "1";
         }
         this.loadMemorisationModePreference();
+        this.shouldRestoreMemorisationToolbarOnLoad =
+            this.loadMemorisationToolbarVisibilityPreference({
+                preserveCurrentWhenMissing: false,
+            });
         const storedTranslationVisible = this.readScopedPreferenceWithLegacy(
             "suratIsTranslationVisible"
         );
@@ -3340,8 +3493,9 @@ export default {
             this.fetchQuranFonts(),
             this.fetchFontPreviewAyah(),
         ])
-            .then(() => {
+            .then(async () => {
                 this.isInitialLoad = false;
+                await this.restoreMemorisationToolbarOnLoadIfNeeded();
             })
             .finally(() => {
                 if (typeof window !== "undefined") {
@@ -3528,6 +3682,8 @@ export default {
         clearTimeout(this.voiceCommandRestartTimer);
         this.voiceCommandRestartTimer = null;
         this.clearMemorisationRangeLoopRestartState();
+        this.clearMemorisationRepeatPauseState({ stopRecording: true });
+        this.clearMemorisationRepeatRecordings();
         if (
             this.memorisationRangeLoopAudioContext &&
             typeof this.memorisationRangeLoopAudioContext.close === "function"
@@ -3736,6 +3892,8 @@ export default {
             clearTimeout(this.authAlertTimer);
             clearTimeout(this.voiceCommandRestartTimer);
             this.voiceCommandRestartTimer = null;
+            this.clearMemorisationRepeatPauseState({ stopRecording: true });
+            this.clearMemorisationRepeatRecordings();
             clearTimeout(this._scrollCorrectionTimer);
             this._scrollCorrectionTimer = null;
             clearTimeout(this._navigationSettleTimer);
@@ -4067,6 +4225,1128 @@ export default {
                 ? normalized
                 : "off";
         },
+        normaliseMemorisationRepeatAfterPauseMode(value = "3") {
+            const normalized = String(value ?? "3")
+                .trim()
+                .toLowerCase();
+            if (["2", "3", "5", "manual"].includes(normalized)) {
+                return normalized;
+            }
+            if (
+                normalized === "untiltap" ||
+                normalized === "until_tap" ||
+                normalized === "until-i-tap"
+            ) {
+                return "manual";
+            }
+            const seconds = Math.round(Number(value));
+            if ([2, 3, 5].includes(seconds)) {
+                return String(seconds);
+            }
+            return "3";
+        },
+        normaliseMemorisationRepeatAfterVerseTextMode(value = "dimmed") {
+            const normalized = String(value ?? "dimmed")
+                .trim()
+                .toLowerCase();
+            if (["show", "dimmed", "hide"].includes(normalized)) {
+                return normalized;
+            }
+            if (normalized === "no" || normalized === "test" || normalized === "test-mode") {
+                return "hide";
+            }
+            if (normalized === "yes") {
+                return "show";
+            }
+            return "dimmed";
+        },
+        resolveMemorisationRepeatAfterPauseSeconds(mode = null) {
+            const normalized = this.normaliseMemorisationRepeatAfterPauseMode(
+                mode ?? this.memorisationRepeatAfterPauseMode
+            );
+            if (normalized === "manual") return null;
+            const seconds = Number(normalized);
+            if (!Number.isFinite(seconds) || seconds <= 0) return 0;
+            return seconds;
+        },
+        onMemorisationRepeatAfterDraftToggle() {
+            if (!this.memorisationDraft?.repeatAfterReciterEnabled) {
+                this.isMemorisationRepeatAfterSettingsOpen = false;
+                return;
+            }
+            this.isMemorisationRepeatAfterSettingsOpen = true;
+        },
+        toggleMemorisationRepeatAfterDraftSettings() {
+            if (!this.memorisationDraft?.repeatAfterReciterEnabled) return;
+            this.isMemorisationRepeatAfterSettingsOpen =
+                !this.isMemorisationRepeatAfterSettingsOpen;
+        },
+        isMemorisationRepeatPauseActiveForIndex(index) {
+            if (!this.isMemorisationRepeatPauseActive) return false;
+            return Number(index) === Number(this.memorisationRepeatPauseIndex);
+        },
+        shouldShowTranslationForRepeatPause(item) {
+            const isVisible = this.isTranslationVisibleFor(item);
+            if (!this.isMemorisationRepeatPauseActiveForIndex(item?.index)) {
+                return isVisible;
+            }
+            return !!this.memorisationRepeatAfterShowTranslation;
+        },
+        shouldHideVerseTextForRepeatPause(index) {
+            return (
+                this.isMemorisationRepeatPauseActiveForIndex(index) &&
+                this.memorisationRepeatAfterVerseTextMode === "hide"
+            );
+        },
+        shouldDimVerseTextForRepeatPause(index) {
+            return (
+                this.isMemorisationRepeatPauseActiveForIndex(index) &&
+                this.memorisationRepeatAfterVerseTextMode === "dimmed"
+            );
+        },
+        shouldApplyMemorisationRepeatAfter(nextIndex) {
+            return (
+                !!this.isMemorisationToolbarVisible &&
+                !!this.memorisationRepeatAfterEnabled &&
+                this.playbackMode === "continuous" &&
+                !this.playlistSinglePlayMode &&
+                Number.isInteger(Number(nextIndex)) &&
+                Number(nextIndex) >= 0 &&
+                Number(nextIndex) < Number(this.filteredAyahs?.length || 0)
+            );
+        },
+        clearMemorisationRepeatPauseState(options = {}) {
+            const { stopRecording = true } = options || {};
+            if (this.memorisationRepeatPauseInterval) {
+                clearInterval(this.memorisationRepeatPauseInterval);
+                this.memorisationRepeatPauseInterval = null;
+            }
+            this.isMemorisationRepeatPauseActive = false;
+            this.memorisationRepeatPauseIndex = null;
+            this.memorisationRepeatPauseNextIndex = null;
+            this.memorisationRepeatPauseCountdownSeconds = 0;
+            this.memorisationRepeatRecordingError = "";
+            if (stopRecording) {
+                this.stopMemorisationRepeatAfterRecording({ save: true });
+            }
+        },
+        startMemorisationRepeatAfterPause(currentIndex, nextIndex) {
+            if (!this.shouldApplyMemorisationRepeatAfter(nextIndex)) return false;
+            const safeCurrent = Math.max(0, Number(currentIndex) || 0);
+            const safeNext = Math.max(0, Number(nextIndex) || 0);
+            this.clearMemorisationRepeatPauseState({ stopRecording: false });
+            this.isMemorisationRepeatPauseActive = true;
+            this.memorisationRepeatPauseIndex = safeCurrent;
+            this.memorisationRepeatPauseNextIndex = safeNext;
+            this.memorisationRepeatPauseCountdownSeconds = 0;
+            this.memorisationRepeatRecordingError = "";
+
+            if (this.isMemorisationModeActive) {
+                this.memorisationFocusIndex = safeCurrent;
+                this.selectCard(safeCurrent);
+            }
+            this.scrollToAyahIndex(safeCurrent, {
+                behavior: "auto",
+            });
+            this.announce("Your turn to repeat.");
+
+            const delaySeconds = this.resolveMemorisationRepeatAfterPauseSeconds();
+            if (delaySeconds === null) {
+                return true;
+            }
+            if (delaySeconds <= 0) {
+                setTimeout(() => {
+                    this.continueMemorisationRepeatAfterPause({ auto: true });
+                }, 40);
+                return true;
+            }
+
+            this.memorisationRepeatPauseCountdownSeconds = delaySeconds;
+            this.memorisationRepeatPauseInterval = setInterval(() => {
+                const remaining =
+                    Number(this.memorisationRepeatPauseCountdownSeconds || 0) - 1;
+                this.memorisationRepeatPauseCountdownSeconds = Math.max(0, remaining);
+                if (remaining > 0) return;
+                this.continueMemorisationRepeatAfterPause({ auto: true });
+            }, 1000);
+            return true;
+        },
+        continueMemorisationRepeatAfterPause() {
+            if (!this.isMemorisationRepeatPauseActive) return;
+            const safeNext = Number(this.memorisationRepeatPauseNextIndex);
+            if (this.isMemorisationRepeatRecording) {
+                this.stopMemorisationRepeatAfterRecording({ save: true });
+            }
+            this.clearMemorisationRepeatPauseState({ stopRecording: false });
+            if (
+                !Number.isInteger(safeNext) ||
+                safeNext < 0 ||
+                safeNext >= Number(this.filteredAyahs?.length || 0)
+            ) {
+                this.showAudioPlayer = false;
+                this.currentlyPlayingIndex = -1;
+                return;
+            }
+            this.triggerAutoNextAyahAnimation(safeNext);
+            this.playAudio(safeNext);
+            if (this.isMemorisationModeActive) {
+                this.memorisationFocusIndex = safeNext;
+                this.selectCard(safeNext);
+            }
+            this.scrollToAyahIndex(safeNext, {
+                behavior: "auto",
+            });
+        },
+        toggleMemorisationRepeatAfterRecording() {
+            if (this.isMemorisationRepeatRecording) {
+                this.stopMemorisationRepeatAfterRecording({ save: true });
+                return;
+            }
+            this.startMemorisationRepeatAfterRecording();
+        },
+        async startMemorisationRepeatAfterRecording() {
+            if (
+                !this.isMemorisationRepeatPauseActive ||
+                !this.memorisationRepeatAfterRecordEnabled
+            ) {
+                return;
+            }
+            if (this.isMemorisationRepeatRecording) return;
+            const MediaRecorderClass =
+                typeof window !== "undefined" ? window.MediaRecorder : null;
+            if (
+                typeof navigator === "undefined" ||
+                !navigator.mediaDevices ||
+                typeof navigator.mediaDevices.getUserMedia !== "function" ||
+                !MediaRecorderClass
+            ) {
+                this.memorisationRepeatRecordingError =
+                    "Microphone recording is not supported on this device/browser.";
+                this.showToast(this.memorisationRepeatRecordingError, 2800);
+                return;
+            }
+
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({
+                    audio: true,
+                });
+                const recorderOptions = {};
+                const supportedMimeTypeCandidates = [
+                    "audio/webm;codecs=opus",
+                    "audio/webm",
+                    "audio/mp4",
+                    "video/mp4",
+                ];
+                if (
+                    typeof MediaRecorderClass.isTypeSupported === "function"
+                ) {
+                    const preferredMimeType = supportedMimeTypeCandidates.find(
+                        (candidate) => {
+                            try {
+                                return MediaRecorderClass.isTypeSupported(candidate);
+                            } catch (_) {
+                                return false;
+                            }
+                        }
+                    );
+                    if (preferredMimeType) {
+                        recorderOptions.mimeType = preferredMimeType;
+                    }
+                }
+                recorderOptions.audioBitsPerSecond = 24000;
+                let recorder = null;
+                try {
+                    recorder = new MediaRecorderClass(stream, recorderOptions);
+                } catch (_) {
+                    recorder = new MediaRecorderClass(stream);
+                }
+                this.memorisationRepeatRecordingStream = stream;
+                this.memorisationRepeatRecordingRecorder = recorder;
+                this.memorisationRepeatRecordingChunks = [];
+                this.memorisationRepeatRecordingDiscardNext = false;
+                this.memorisationRepeatRecordingStartedAt = Date.now();
+                this.memorisationRepeatRecordingMimeType = "";
+                this.memorisationRepeatRecordingError = "";
+                const recordingTargetIndex = Number(
+                    this.memorisationRepeatPauseIndex || 0
+                );
+                const recorderMimeType = String(
+                    recorder?.mimeType || recorderOptions.mimeType || ""
+                ).trim();
+                if (recorderMimeType) {
+                    this.memorisationRepeatRecordingMimeType = recorderMimeType;
+                }
+
+                recorder.ondataavailable = (event) => {
+                    if (!event?.data || !event.data.size) return;
+                    if (
+                        !this.memorisationRepeatRecordingMimeType &&
+                        String(event.data.type || "").trim()
+                    ) {
+                        this.memorisationRepeatRecordingMimeType = String(
+                            event.data.type
+                        ).trim();
+                    }
+                    this.memorisationRepeatRecordingChunks.push(event.data);
+                };
+                recorder.onstop = () => {
+                    if (this.memorisationRepeatRecordingAutoStopTimer) {
+                        clearTimeout(this.memorisationRepeatRecordingAutoStopTimer);
+                        this.memorisationRepeatRecordingAutoStopTimer = null;
+                    }
+                    const shouldSave =
+                        !this.memorisationRepeatRecordingDiscardNext &&
+                        this.memorisationRepeatAfterRecordEnabled;
+                    const chunks = Array.isArray(this.memorisationRepeatRecordingChunks)
+                        ? [...this.memorisationRepeatRecordingChunks]
+                        : [];
+                    const recordingMimeType = String(
+                        this.memorisationRepeatRecordingMimeType ||
+                            recorder?.mimeType ||
+                            ""
+                    ).trim();
+                    const durationMs = Math.max(
+                        0,
+                        Date.now() -
+                            Number(this.memorisationRepeatRecordingStartedAt || Date.now())
+                    );
+                    this.memorisationRepeatRecordingChunks = [];
+                    this.memorisationRepeatRecordingDiscardNext = false;
+                    this.memorisationRepeatRecordingStartedAt = 0;
+                    this.memorisationRepeatRecordingMimeType = "";
+                    if (this.memorisationRepeatRecordingStream) {
+                        this.memorisationRepeatRecordingStream
+                            .getTracks()
+                            .forEach((track) => {
+                                try {
+                                    track.stop();
+                                } catch (_) {}
+                            });
+                    }
+                    this.memorisationRepeatRecordingStream = null;
+                    this.memorisationRepeatRecordingRecorder = null;
+                    this.isMemorisationRepeatRecording = false;
+
+                    if (!shouldSave || !chunks.length) return;
+                    this.storeMemorisationRepeatAfterRecording({
+                        index: recordingTargetIndex,
+                        chunks,
+                        durationMs,
+                        recordingMimeType,
+                    }).catch(() => {
+                        this.showToast(
+                            "Could not save repetition recording.",
+                            2200
+                        );
+                    });
+                };
+                recorder.onerror = () => {
+                    this.memorisationRepeatRecordingError =
+                        "Recording was interrupted. Try again.";
+                };
+                recorder.start(250);
+                this.isMemorisationRepeatRecording = true;
+                const maxDurationMs = Math.max(
+                    1000,
+                    Number(this.memorisationRepeatRecordingMaxDurationMs || 30000)
+                );
+                if (this.memorisationRepeatRecordingAutoStopTimer) {
+                    clearTimeout(this.memorisationRepeatRecordingAutoStopTimer);
+                }
+                this.memorisationRepeatRecordingAutoStopTimer = setTimeout(() => {
+                    if (!this.isMemorisationRepeatRecording) return;
+                    this.stopMemorisationRepeatAfterRecording({ save: true });
+                    this.showToast(
+                        `Recording auto-stopped at ${Math.round(
+                            maxDurationMs / 1000
+                        )}s.`,
+                        2200
+                    );
+                }, maxDurationMs + 120);
+                this.showToast("Recording started.", 1600);
+            } catch (_) {
+                this.memorisationRepeatRecordingError =
+                    "Could not access microphone. Check browser permissions.";
+                this.showToast(this.memorisationRepeatRecordingError, 3000);
+            }
+        },
+        stopMemorisationRepeatAfterRecording(options = {}) {
+            const { save = true } = options || {};
+            const recorder = this.memorisationRepeatRecordingRecorder;
+            this.memorisationRepeatRecordingDiscardNext = !save;
+            if (this.memorisationRepeatRecordingAutoStopTimer) {
+                clearTimeout(this.memorisationRepeatRecordingAutoStopTimer);
+                this.memorisationRepeatRecordingAutoStopTimer = null;
+            }
+            if (recorder && recorder.state !== "inactive") {
+                try {
+                    recorder.stop();
+                } catch (_) {}
+            } else {
+                if (this.memorisationRepeatRecordingStream) {
+                    this.memorisationRepeatRecordingStream
+                        .getTracks()
+                        .forEach((track) => {
+                            try {
+                                track.stop();
+                            } catch (_) {}
+                        });
+                }
+                this.memorisationRepeatRecordingStream = null;
+                this.memorisationRepeatRecordingRecorder = null;
+                this.memorisationRepeatRecordingChunks = [];
+                this.memorisationRepeatRecordingStartedAt = 0;
+                this.memorisationRepeatRecordingMimeType = "";
+                this.isMemorisationRepeatRecording = false;
+            }
+        },
+        parseMemorisationRepeatRecordingStorageKey(key = "") {
+            const normalized = String(key || "").trim();
+            const match = normalized.match(/^(\d+):(\d+)$/);
+            if (!match) return null;
+            const surahNumber = Number(match[1] || 0);
+            const ayahNumber = Number(match[2] || 0);
+            if (!surahNumber || !ayahNumber) return null;
+            return { surahNumber, ayahNumber };
+        },
+        getMemorisationRepeatRecordingStorageKey(index = 0) {
+            const safeIndex = Math.max(0, Number(index) || 0);
+            const ayah = this.filteredAyahs?.[safeIndex] || null;
+            const surahNumber = Number(
+                this.surahDetails?.surahNumber || this.selectedSurah || 0
+            );
+            const ayahNumber = Number(
+                ayah?.numberInSurah || ayah?.number || safeIndex + 1
+            );
+            return `${surahNumber || "surah"}:${ayahNumber || safeIndex + 1}`;
+        },
+        getMemorisationRepeatRecordingsStorageKey() {
+            return this.buildScopedFontPreferenceKey(
+                this.memorisationRepeatRecordingsStorageKeyBase
+            );
+        },
+        getMemorisationRepeatRecordingsScopeId() {
+            if (this.bookmarkStorageUserId) {
+                return `user_${this.bookmarkStorageUserId}`;
+            }
+            const anonId = this.getOrCreateSuratPreferenceAnonId();
+            return `anon_${anonId || "local"}`;
+        },
+        getMemorisationRepeatRecordingsStorageKeyForScope(scopeId = "") {
+            const normalizedScope = String(scopeId || "").trim();
+            if (!normalizedScope) {
+                return this.getMemorisationRepeatRecordingsStorageKey();
+            }
+            return `${this.memorisationRepeatRecordingsStorageKeyBase}_${normalizedScope}`;
+        },
+        rememberMemorisationRepeatRecordingsScope(scopeId = "") {
+            if (typeof window === "undefined") return;
+            const normalizedScope = String(scopeId || "").trim();
+            if (!normalizedScope) return;
+            try {
+                localStorage.setItem(
+                    this.memorisationRepeatRecordingsLastScopeStorageKey,
+                    normalizedScope
+                );
+            } catch (_) {}
+            if (
+                Array.isArray(this.memorisationRepeatRecordingsKnownScopes) &&
+                !this.memorisationRepeatRecordingsKnownScopes.includes(normalizedScope)
+            ) {
+                this.memorisationRepeatRecordingsKnownScopes = [
+                    ...this.memorisationRepeatRecordingsKnownScopes,
+                    normalizedScope,
+                ];
+            }
+        },
+        hydrateMemorisationRepeatRecordingScopesFromStorage() {
+            if (
+                typeof window === "undefined" ||
+                this.memorisationRepeatRecordingsScopeScanCompleted
+            ) {
+                return;
+            }
+            const discoveredScopes = [];
+            try {
+                const prefix = `${this.memorisationRepeatRecordingsStorageKeyBase}_`;
+                for (let index = 0; index < localStorage.length; index += 1) {
+                    const key = localStorage.key(index);
+                    if (!key || !String(key).startsWith(prefix)) continue;
+                    const scopeId = String(key).slice(prefix.length).trim();
+                    if (!scopeId) continue;
+                    if (discoveredScopes.includes(scopeId)) continue;
+                    discoveredScopes.push(scopeId);
+                }
+            } catch (_) {}
+            if (discoveredScopes.length) {
+                const existing = Array.isArray(this.memorisationRepeatRecordingsKnownScopes)
+                    ? this.memorisationRepeatRecordingsKnownScopes
+                    : [];
+                this.memorisationRepeatRecordingsKnownScopes = Array.from(
+                    new Set([...existing, ...discoveredScopes])
+                );
+            }
+            this.memorisationRepeatRecordingsScopeScanCompleted = true;
+        },
+        getMemorisationRepeatRecordingsScopeCandidates(scopeId = "") {
+            this.hydrateMemorisationRepeatRecordingScopesFromStorage();
+            const normalizedScope = String(scopeId || "").trim();
+            const candidates = [];
+            const pushCandidate = (candidate) => {
+                const normalized = String(candidate || "").trim();
+                if (!normalized) return;
+                if (candidates.includes(normalized)) return;
+                candidates.push(normalized);
+            };
+
+            pushCandidate(normalizedScope);
+            if (normalizedScope.startsWith("user_")) {
+                const anonId = this.getOrCreateSuratPreferenceAnonId();
+                pushCandidate(`anon_${anonId || "local"}`);
+                pushCandidate("anon_local");
+            }
+            const knownScopes = Array.isArray(
+                this.memorisationRepeatRecordingsKnownScopes
+            )
+                ? this.memorisationRepeatRecordingsKnownScopes
+                : [];
+            knownScopes.forEach((scope) => pushCandidate(scope));
+            if (typeof window !== "undefined") {
+                try {
+                    const lastScope = localStorage.getItem(
+                        this.memorisationRepeatRecordingsLastScopeStorageKey
+                    );
+                    pushCandidate(lastScope);
+                } catch (_) {}
+            }
+            return candidates;
+        },
+        readMemorisationRepeatRecordingsPayloadFromStorage(storageKey = "") {
+            if (typeof window === "undefined") return null;
+            const key = String(storageKey || "").trim();
+            if (!key) return null;
+            let raw = "";
+            try {
+                raw = localStorage.getItem(key) || "";
+            } catch (_) {
+                return null;
+            }
+            const cached =
+                this.memorisationRepeatRecordingsPayloadCache?.[key] || null;
+            if (cached && String(cached.raw || "") === raw) {
+                return cached.parsed || null;
+            }
+            const parsed = this.parseMemorisationRepeatRecordingsPayload(raw);
+            if (!this.memorisationRepeatRecordingsPayloadCache) {
+                this.memorisationRepeatRecordingsPayloadCache = Object.create(null);
+            }
+            this.memorisationRepeatRecordingsPayloadCache[key] = {
+                raw,
+                parsed,
+            };
+            return parsed;
+        },
+        parseMemorisationRepeatRecordingsPayload(raw = "") {
+            const normalizedRaw = String(raw || "").trim();
+            if (!normalizedRaw) return null;
+            try {
+                const parsed = JSON.parse(normalizedRaw);
+                if (!parsed || typeof parsed !== "object") return null;
+                const recordings =
+                    parsed.recordings && typeof parsed.recordings === "object"
+                        ? parsed.recordings
+                        : {};
+                return {
+                    recordings,
+                    updatedAt: Number(parsed.updatedAt || 0) || 0,
+                };
+            } catch (_) {
+                return null;
+            }
+        },
+        blobToDataUrl(blob) {
+            return new Promise((resolve, reject) => {
+                if (!blob) {
+                    reject(new Error("Missing audio blob"));
+                    return;
+                }
+                const reader = new FileReader();
+                reader.onload = () => resolve(String(reader.result || ""));
+                reader.onerror = () => reject(new Error("Unable to read recording"));
+                reader.readAsDataURL(blob);
+            });
+        },
+        normaliseMemorisationRepeatRecordingEntry(entry = {}) {
+            if (!entry || typeof entry !== "object") return null;
+            const audioDataUrl = String(
+                entry.audioDataUrl || entry.dataUrl || entry.url || ""
+            ).trim();
+            if (
+                !audioDataUrl ||
+                !(
+                    audioDataUrl.startsWith("data:audio/") ||
+                    audioDataUrl.startsWith("data:video/")
+                )
+            ) {
+                return null;
+            }
+            const createdAt = Number(entry.createdAt || Date.now()) || Date.now();
+            const durationMs = Math.max(0, Number(entry.durationMs || 0) || 0);
+            return {
+                id:
+                    String(entry.id || "").trim() ||
+                    `repeat-${createdAt}-${Math.random().toString(36).slice(2, 8)}`,
+                surahNumber: Math.max(0, Number(entry.surahNumber || 0) || 0),
+                ayahNumber: Math.max(0, Number(entry.ayahNumber || 0) || 0),
+                durationMs,
+                createdAt,
+                audioDataUrl,
+                url: audioDataUrl,
+            };
+        },
+        applyMemorisationRepeatRecordingsMap(recordings = {}) {
+            const next = {};
+            Object.entries(recordings || {}).forEach(([key, entries]) => {
+                if (!key || !Array.isArray(entries)) return;
+                const maxPerAyah = Math.max(
+                    1,
+                    Number(this.memorisationRepeatRecordingsMaxPerAyah || 3)
+                );
+                const normalised = entries
+                    .map((entry) => this.normaliseMemorisationRepeatRecordingEntry(entry))
+                    .filter(Boolean)
+                    .sort((a, b) => Number(a.createdAt || 0) - Number(b.createdAt || 0))
+                    .slice(-maxPerAyah);
+                if (!normalised.length) return;
+                next[key] = normalised;
+            });
+            this.memorisationRepeatRecordings = next;
+        },
+        buildMemorisationRepeatRecordingsPayload() {
+            const maxTotal = Math.max(
+                1,
+                Number(this.memorisationRepeatRecordingsMaxTotal || 24)
+            );
+            const maxPayloadChars = Math.max(
+                300000,
+                Number(this.memorisationRepeatRecordingsMaxPayloadChars || 1800000)
+            );
+            const flatEntries = [];
+            Object.entries(this.memorisationRepeatRecordings || {}).forEach(
+                ([key, entries]) => {
+                    if (!key || !Array.isArray(entries)) return;
+                    entries.forEach((entry) => {
+                        const normalised =
+                            this.normaliseMemorisationRepeatRecordingEntry(entry);
+                        if (!normalised) return;
+                        flatEntries.push({ key, ...normalised });
+                    });
+                }
+            );
+            flatEntries.sort(
+                (a, b) => Number(a.createdAt || 0) - Number(b.createdAt || 0)
+            );
+            let kept = flatEntries.slice(-maxTotal);
+
+            const buildGrouped = (items) => {
+                const grouped = {};
+                items.forEach((entry) => {
+                    if (!grouped[entry.key]) grouped[entry.key] = [];
+                    grouped[entry.key].push({
+                        id: entry.id,
+                        surahNumber: entry.surahNumber,
+                        ayahNumber: entry.ayahNumber,
+                        durationMs: entry.durationMs,
+                        createdAt: entry.createdAt,
+                        audioDataUrl: entry.audioDataUrl,
+                    });
+                });
+                return grouped;
+            };
+
+            let grouped = buildGrouped(kept);
+            let payload = JSON.stringify({
+                version: 1,
+                updatedAt: Date.now(),
+                recordings: grouped,
+            });
+
+            while (payload.length > maxPayloadChars && kept.length > 1) {
+                kept.shift();
+                grouped = buildGrouped(kept);
+                payload = JSON.stringify({
+                    version: 1,
+                    updatedAt: Date.now(),
+                    recordings: grouped,
+                });
+            }
+
+            return {
+                payload,
+                recordings: grouped,
+            };
+        },
+        dropOldestMemorisationRepeatRecording() {
+            let oldestKey = "";
+            let oldestIndex = -1;
+            let oldestCreatedAt = Number.POSITIVE_INFINITY;
+            Object.entries(this.memorisationRepeatRecordings || {}).forEach(
+                ([key, entries]) => {
+                    if (!key || !Array.isArray(entries)) return;
+                    entries.forEach((entry, idx) => {
+                        const createdAt = Number(entry?.createdAt || 0) || 0;
+                        if (createdAt >= oldestCreatedAt) return;
+                        oldestCreatedAt = createdAt;
+                        oldestKey = key;
+                        oldestIndex = idx;
+                    });
+                }
+            );
+            if (!oldestKey || oldestIndex < 0) return false;
+            const next = {
+                ...(this.memorisationRepeatRecordings || {}),
+            };
+            const group = Array.isArray(next[oldestKey])
+                ? [...next[oldestKey]]
+                : [];
+            group.splice(oldestIndex, 1);
+            if (group.length) {
+                next[oldestKey] = group;
+            } else {
+                delete next[oldestKey];
+            }
+            this.memorisationRepeatRecordings = next;
+            return true;
+        },
+        persistMemorisationRepeatRecordings() {
+            if (typeof window === "undefined") return false;
+            const key = this.getMemorisationRepeatRecordingsStorageKey();
+            let attempts = 0;
+            while (attempts < 14) {
+                const built = this.buildMemorisationRepeatRecordingsPayload();
+                this.applyMemorisationRepeatRecordingsMap(built.recordings);
+                const stored = this.safeLocalStorageSetItem(key, built.payload, {
+                    protectedKeys: [key],
+                });
+                if (stored) {
+                    if (!this.memorisationRepeatRecordingsPayloadCache) {
+                        this.memorisationRepeatRecordingsPayloadCache =
+                            Object.create(null);
+                    }
+                    this.memorisationRepeatRecordingsPayloadCache[key] = {
+                        raw: built.payload,
+                        parsed: {
+                            recordings: built.recordings,
+                            updatedAt: Date.now(),
+                        },
+                    };
+                    this.rememberMemorisationRepeatRecordingsScope(
+                        this.getMemorisationRepeatRecordingsScopeId()
+                    );
+                    return true;
+                }
+                const dropped = this.dropOldestMemorisationRepeatRecording();
+                if (!dropped) break;
+                attempts += 1;
+            }
+            return false;
+        },
+        loadMemorisationRepeatRecordings() {
+            if (typeof window === "undefined") {
+                this.memorisationRepeatRecordings = {};
+                return;
+            }
+            const activeScopeId = this.getMemorisationRepeatRecordingsScopeId();
+            const activeStorageKey =
+                this.getMemorisationRepeatRecordingsStorageKeyForScope(
+                    activeScopeId
+                );
+            const scopeCandidates =
+                this.getMemorisationRepeatRecordingsScopeCandidates(activeScopeId);
+            const keyCandidates = scopeCandidates.map((scopeId) => ({
+                scopeId,
+                key: this.getMemorisationRepeatRecordingsStorageKeyForScope(scopeId),
+            }));
+
+            let selected = null;
+            keyCandidates.forEach(({ key, scopeId }) => {
+                const parsed =
+                    this.readMemorisationRepeatRecordingsPayloadFromStorage(key);
+                if (!parsed) return;
+                const recordings = parsed.recordings || {};
+                const hasEntries = Object.keys(recordings).length > 0;
+                if (!hasEntries) return;
+                if (
+                    !selected ||
+                    Number(parsed.updatedAt || 0) > Number(selected.updatedAt || 0)
+                ) {
+                    selected = {
+                        key,
+                        scopeId,
+                        updatedAt: Number(parsed.updatedAt || 0) || 0,
+                        recordings,
+                    };
+                }
+            });
+
+            if (!selected) {
+                this.memorisationRepeatRecordings = {};
+                this.memorisationRepeatRecordingSelectionKey = "";
+                return;
+            }
+
+            this.applyMemorisationRepeatRecordingsMap(selected.recordings);
+            this.rememberMemorisationRepeatRecordingsScope(
+                selected.scopeId || activeScopeId
+            );
+
+            if (
+                selected.key !== activeStorageKey &&
+                Object.keys(this.memorisationRepeatRecordings || {}).length
+            ) {
+                this.persistMemorisationRepeatRecordings();
+            }
+        },
+        getLatestMemorisationRepeatRecording(index = 0) {
+            const key = this.getMemorisationRepeatRecordingStorageKey(index);
+            const entries = this.memorisationRepeatRecordings?.[key];
+            if (!Array.isArray(entries) || !entries.length) return null;
+            return entries[entries.length - 1] || null;
+        },
+        getLatestMemorisationRepeatRecordingByKey(key = "") {
+            const normalizedKey = String(key || "").trim();
+            if (!normalizedKey) return null;
+            const entries = this.memorisationRepeatRecordings?.[normalizedKey];
+            if (!Array.isArray(entries) || !entries.length) return null;
+            const latest = entries[entries.length - 1] || null;
+            if (!latest) return null;
+            return {
+                ...latest,
+                key: normalizedKey,
+            };
+        },
+        onMemorisationRepeatRecordingSelectionChange(event = null) {
+            const nextKey =
+                typeof event === "string"
+                    ? String(event || "").trim()
+                    : String(event?.target?.value || "").trim();
+            this.memorisationRepeatRecordingSelectionKey = nextKey;
+        },
+        resolveSelectedMemorisationRepeatRecordingEntry() {
+            const selectedKey = String(
+                this.memorisationRepeatRecordingSelectionKeyResolved || ""
+            ).trim();
+            if (!selectedKey) return null;
+            return this.getLatestMemorisationRepeatRecordingByKey(selectedKey);
+        },
+        playMemorisationRepeatRecordingEntry(entry = null, options = {}) {
+            const {
+                onEnded = null,
+                showErrorToast = true,
+                mode = "",
+                key = "",
+            } = options || {};
+            const safeEntry =
+                entry && typeof entry === "object" ? entry : null;
+            if (!safeEntry?.url) return false;
+            const playbackMode = String(mode || "").trim();
+            const playbackKey = String(
+                key || safeEntry.key || this.memorisationRepeatRecordingSelectionKeyResolved || ""
+            ).trim();
+            const clearPlayback = () => {
+                this.memorisationRepeatRecordingPlayback = null;
+                this.memorisationRepeatRecordingPlaybackMode = "";
+                this.memorisationRepeatRecordingPlaybackKey = "";
+            };
+            if (this.memorisationRepeatRecordingPlayback) {
+                try {
+                    this.memorisationRepeatRecordingPlayback.pause();
+                    this.memorisationRepeatRecordingPlayback.currentTime = 0;
+                } catch (_) {}
+                clearPlayback();
+            }
+            const audio = new Audio(safeEntry.url);
+            audio.onended = () => {
+                clearPlayback();
+                if (typeof onEnded === "function") {
+                    onEnded(safeEntry);
+                }
+            };
+            audio.onerror = () => {
+                clearPlayback();
+                if (showErrorToast) {
+                    this.showToast("Could not play this recording.", 2200);
+                }
+            };
+            this.memorisationRepeatRecordingPlayback = audio;
+            this.memorisationRepeatRecordingPlaybackMode = playbackMode;
+            this.memorisationRepeatRecordingPlaybackKey = playbackKey;
+            audio.play().catch(() => {
+                clearPlayback();
+                if (showErrorToast) {
+                    this.showToast("Could not play this recording.", 2200);
+                }
+            });
+            return true;
+        },
+        listenSelectedMemorisationRepeatRecording() {
+            const selectedEntry = this.resolveSelectedMemorisationRepeatRecordingEntry();
+            if (!selectedEntry?.url) {
+                this.showToast("No saved repetition clip found for this ayah.", 2200);
+                return;
+            }
+            const key = String(
+                selectedEntry.key ||
+                    this.memorisationRepeatRecordingSelectionKeyResolved ||
+                    ""
+            ).trim();
+            this.playMemorisationRepeatRecordingEntry(selectedEntry, {
+                mode: "listen",
+                key,
+            });
+        },
+        getMemorisationRepeatRecordingDownloadExtension(dataUrl = "") {
+            const normalized = String(dataUrl || "").trim();
+            const match = normalized.match(/^data:(audio|video)\/([a-z0-9.+-]+)/i);
+            const subtype = String(match?.[2] || "").toLowerCase();
+            if (!subtype) return "webm";
+            if (subtype.includes("mpeg")) return "mp3";
+            if (subtype.includes("ogg")) return "ogg";
+            if (subtype.includes("wav")) return "wav";
+            if (subtype.includes("mp4")) return "mp4";
+            if (subtype.includes("webm")) return "webm";
+            return subtype.replace(/[^a-z0-9]/g, "") || "webm";
+        },
+        downloadSelectedMemorisationRepeatRecording() {
+            const selectedEntry = this.resolveSelectedMemorisationRepeatRecordingEntry();
+            if (!selectedEntry?.url) {
+                this.showToast("No saved repetition clip found for this ayah.", 2200);
+                return;
+            }
+            if (typeof document === "undefined") return;
+            const key = String(
+                selectedEntry.key ||
+                    this.memorisationRepeatRecordingSelectionKeyResolved ||
+                    ""
+            ).trim();
+            const ref = this.parseMemorisationRepeatRecordingStorageKey(key);
+            const ext = this.getMemorisationRepeatRecordingDownloadExtension(
+                selectedEntry.url
+            );
+            const stamp = new Date(
+                Number(selectedEntry.createdAt || Date.now()) || Date.now()
+            )
+                .toISOString()
+                .replace(/[:.]/g, "-");
+            const fileName = ref
+                ? `repeat-after-${ref.surahNumber}-${ref.ayahNumber}-${stamp}.${ext}`
+                : `repeat-after-${stamp}.${ext}`;
+            const link = document.createElement("a");
+            link.href = selectedEntry.url;
+            link.download = fileName;
+            link.rel = "noopener";
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            this.showToast("Recording download started.", 2000);
+        },
+        findMemorisationRepeatAyahIndex(surahNumber = 0, ayahNumber = 0) {
+            const targetSurah = Number(surahNumber || 0);
+            const targetAyah = Number(ayahNumber || 0);
+            if (!targetSurah || !targetAyah) return -1;
+            const currentSurah = Number(
+                this.surahDetails?.surahNumber || this.selectedSurah || 0
+            );
+            if (currentSurah !== targetSurah) return -1;
+            const ayahs = Array.isArray(this.filteredAyahs) ? this.filteredAyahs : [];
+            return ayahs.findIndex((ayah, idx) => {
+                const ayahNumberInSurah = Number(
+                    ayah?.numberInSurah || ayah?.number || idx + 1
+                );
+                return ayahNumberInSurah === targetAyah;
+            });
+        },
+        compareSelectedMemorisationRepeatRecordingWithAyah() {
+            const selectedEntry = this.resolveSelectedMemorisationRepeatRecordingEntry();
+            if (!selectedEntry?.url) {
+                this.showToast("No saved repetition clip found for this ayah.", 2200);
+                return;
+            }
+            const key = String(
+                selectedEntry.key ||
+                    this.memorisationRepeatRecordingSelectionKeyResolved ||
+                    ""
+            ).trim();
+            const ref = this.parseMemorisationRepeatRecordingStorageKey(key);
+            if (!ref) {
+                this.showToast("Could not resolve ayah for this recording.", 2300);
+                return;
+            }
+            const targetIndex = this.findMemorisationRepeatAyahIndex(
+                ref.surahNumber,
+                ref.ayahNumber
+            );
+            if (targetIndex < 0) {
+                this.showToast(
+                    `Open Surah ${ref.surahNumber} to compare this clip with ayah ${ref.ayahNumber}.`,
+                    3200
+                );
+                return;
+            }
+            const currentPlayingIndex = Number(this.currentlyPlayingIndex);
+            if (
+                Number.isInteger(currentPlayingIndex) &&
+                currentPlayingIndex >= 0 &&
+                this.isAudioPlaying?.[currentPlayingIndex]
+            ) {
+                this.pauseAudio(currentPlayingIndex);
+            }
+            this.playMemorisationRepeatRecordingEntry(selectedEntry, {
+                mode: "compare",
+                key,
+                onEnded: () => {
+                    this.playAudio(targetIndex);
+                },
+            });
+        },
+        playLatestMemorisationRepeatRecording(index = null) {
+            const safeIndex = Number.isFinite(Number(index))
+                ? Number(index)
+                : Number(this.memorisationRepeatPauseIndex || 0);
+            const latest = this.getLatestMemorisationRepeatRecording(safeIndex);
+            if (!latest?.url) {
+                this.showToast("No saved repetition for this ayah yet.", 2000);
+                return;
+            }
+            const key = this.getMemorisationRepeatRecordingStorageKey(safeIndex);
+            this.playMemorisationRepeatRecordingEntry({ ...latest, key });
+        },
+        async storeMemorisationRepeatAfterRecording({
+            index = 0,
+            chunks = [],
+            durationMs = 0,
+            recordingMimeType = "",
+        } = {}) {
+            if (!Array.isArray(chunks) || !chunks.length) return;
+            const safeIndex = Math.max(0, Number(index) || 0);
+            const ayah = this.filteredAyahs?.[safeIndex] || null;
+            const surahNumber = Number(
+                this.surahDetails?.surahNumber || this.selectedSurah || 0
+            );
+            const ayahNumber = Number(
+                ayah?.numberInSurah || ayah?.number || safeIndex + 1
+            );
+            const safeDurationMs = Math.max(0, Number(durationMs) || 0);
+            const maxDurationMs = Math.max(
+                1000,
+                Number(this.memorisationRepeatRecordingMaxDurationMs || 30000)
+            );
+            if (safeDurationMs > maxDurationMs) {
+                this.showToast(
+                    `Recording too long. Keep clips under ${Math.round(
+                        maxDurationMs / 1000
+                    )}s.`,
+                    2600
+                );
+                return;
+            }
+
+            const storageKey = this.getMemorisationRepeatRecordingStorageKey(
+                safeIndex
+            );
+            const preferredType = String(recordingMimeType || "").trim();
+            const chunkType = String(chunks[0]?.type || "").trim();
+            const blobType = preferredType || chunkType || "audio/webm";
+            const blob = new Blob(chunks, { type: blobType });
+            const audioDataUrl = await this.blobToDataUrl(blob);
+            if (
+                !audioDataUrl ||
+                !(
+                    audioDataUrl.startsWith("data:audio/") ||
+                    audioDataUrl.startsWith("data:video/")
+                )
+            ) {
+                throw new Error("Unsupported recording payload");
+            }
+            const maxPayloadCharsPerClip = Math.max(
+                120000,
+                Math.round(
+                    Number(this.memorisationRepeatRecordingsMaxPayloadChars || 1800000) *
+                        0.6
+                )
+            );
+            if (audioDataUrl.length > maxPayloadCharsPerClip) {
+                this.showToast(
+                    "Recording is too large for local storage. Keep it shorter.",
+                    3000
+                );
+                return;
+            }
+
+            const existing = Array.isArray(this.memorisationRepeatRecordings?.[storageKey])
+                ? [...this.memorisationRepeatRecordings[storageKey]]
+                : [];
+            const maxPerAyah = Math.max(
+                1,
+                Number(this.memorisationRepeatRecordingsMaxPerAyah || 3)
+            );
+            while (existing.length >= maxPerAyah) {
+                existing.shift();
+            }
+            existing.push({
+                id: `${storageKey}-${Date.now()}`,
+                surahNumber,
+                ayahNumber,
+                durationMs: safeDurationMs,
+                createdAt: Date.now(),
+                audioDataUrl,
+                url: audioDataUrl,
+            });
+            const nextMap = {
+                ...(this.memorisationRepeatRecordings || {}),
+                [storageKey]: existing,
+            };
+            this.applyMemorisationRepeatRecordingsMap(nextMap);
+            const persisted = this.persistMemorisationRepeatRecordings();
+            this.showToast(
+                persisted
+                    ? `Repetition saved for ayah ${ayahNumber}.`
+                    : `Saved for now (storage full) for ayah ${ayahNumber}.`,
+                2300
+            );
+        },
+        clearMemorisationRepeatRecordings(options = {}) {
+            const { persist = false } = options || {};
+            if (this.memorisationRepeatRecordingPlayback) {
+                try {
+                    this.memorisationRepeatRecordingPlayback.pause();
+                    this.memorisationRepeatRecordingPlayback.currentTime = 0;
+                } catch (_) {}
+                this.memorisationRepeatRecordingPlayback = null;
+            }
+            this.memorisationRepeatRecordingPlaybackMode = "";
+            this.memorisationRepeatRecordingPlaybackKey = "";
+            const groups = Object.values(this.memorisationRepeatRecordings || {});
+            groups.forEach((entries) => {
+                if (!Array.isArray(entries)) return;
+                entries.forEach((entry) => {
+                    if (!entry?.url) return;
+                    if (!String(entry.url).startsWith("blob:")) return;
+                    try {
+                        URL.revokeObjectURL(entry.url);
+                    } catch (_) {}
+                });
+            });
+            this.memorisationRepeatRecordings = {};
+            this.memorisationRepeatRecordingSelectionKey = "";
+            this.memorisationRepeatRecordingsPayloadCache = Object.create(null);
+            if (persist && typeof window !== "undefined") {
+                const key = this.getMemorisationRepeatRecordingsStorageKey();
+                try {
+                    localStorage.removeItem(key);
+                } catch (_) {}
+            }
+        },
         clearMemorisationRangeLoopRestartState(options = {}) {
             const { preserveSourceIndex = false } = options || {};
             if (this.memorisationRangeLoopRestartTimeout) {
@@ -4209,6 +5489,7 @@ export default {
                 this.memorisationRepetitionPauseTimeout = null;
             }
             this.clearMemorisationRangeLoopRestartState();
+            this.clearMemorisationRepeatPauseState({ stopRecording: true });
             this.isCountdownActive = false;
             this.countdownSeconds = 0;
             this.memorisationRepetitionCurrent = 1;
@@ -4282,7 +5563,22 @@ export default {
                 showRealtimeHighlighting: !!this.showRealtimeHighlighting,
                 showWordTranslation: !!this.showWordTranslation,
                 showWordTranslationTooltip: !!this.showWordTranslationTooltip,
+                repeatAfterReciterEnabled: !!this.memorisationRepeatAfterEnabled,
+                repeatAfterReciterPauseMode:
+                    this.normaliseMemorisationRepeatAfterPauseMode(
+                        this.memorisationRepeatAfterPauseMode
+                    ),
+                repeatAfterReciterShowTranslation:
+                    !!this.memorisationRepeatAfterShowTranslation,
+                repeatAfterReciterVerseTextMode:
+                    this.normaliseMemorisationRepeatAfterVerseTextMode(
+                        this.memorisationRepeatAfterVerseTextMode
+                    ),
+                repeatAfterReciterRecordEnabled:
+                    !!this.memorisationRepeatAfterRecordEnabled,
             };
+            this.isMemorisationRepeatAfterSettingsOpen =
+                !!this.memorisationDraft.repeatAfterReciterEnabled;
         },
         captureMemorisationSessionSnapshot() {
             if (this.memorisationSessionSnapshot) return;
@@ -4336,6 +5632,20 @@ export default {
                 showRealtimeHighlighting: !!this.showRealtimeHighlighting,
                 showWordTranslation: !!this.showWordTranslation,
                 showWordTranslationTooltip: !!this.showWordTranslationTooltip,
+                memorisationRepeatAfterEnabled:
+                    !!this.memorisationRepeatAfterEnabled,
+                memorisationRepeatAfterPauseMode:
+                    this.normaliseMemorisationRepeatAfterPauseMode(
+                        this.memorisationRepeatAfterPauseMode
+                    ),
+                memorisationRepeatAfterShowTranslation:
+                    !!this.memorisationRepeatAfterShowTranslation,
+                memorisationRepeatAfterVerseTextMode:
+                    this.normaliseMemorisationRepeatAfterVerseTextMode(
+                        this.memorisationRepeatAfterVerseTextMode
+                    ),
+                memorisationRepeatAfterRecordEnabled:
+                    !!this.memorisationRepeatAfterRecordEnabled,
             };
         },
         buildCurrentMemorisationSessionSnapshot() {
@@ -4400,6 +5710,20 @@ export default {
                 showRealtimeHighlighting: !!this.showRealtimeHighlighting,
                 showWordTranslation: !!this.showWordTranslation,
                 showWordTranslationTooltip: !!this.showWordTranslationTooltip,
+                memorisationRepeatAfterEnabled:
+                    !!this.memorisationRepeatAfterEnabled,
+                memorisationRepeatAfterPauseMode:
+                    this.normaliseMemorisationRepeatAfterPauseMode(
+                        this.memorisationRepeatAfterPauseMode
+                    ),
+                memorisationRepeatAfterShowTranslation:
+                    !!this.memorisationRepeatAfterShowTranslation,
+                memorisationRepeatAfterVerseTextMode:
+                    this.normaliseMemorisationRepeatAfterVerseTextMode(
+                        this.memorisationRepeatAfterVerseTextMode
+                    ),
+                memorisationRepeatAfterRecordEnabled:
+                    !!this.memorisationRepeatAfterRecordEnabled,
                 focusAyahNumber: Number.isFinite(focusAyahNumber)
                     ? focusAyahNumber
                     : start,
@@ -4484,6 +5808,23 @@ export default {
                         snapshot.memorisationRangeLoopAlertSound
                     );
                 this.clearMemorisationRangeLoopRestartState();
+                this.memorisationRepeatAfterEnabled =
+                    !!snapshot.memorisationRepeatAfterEnabled;
+                this.memorisationRepeatAfterPauseMode =
+                    this.normaliseMemorisationRepeatAfterPauseMode(
+                        snapshot.memorisationRepeatAfterPauseMode
+                    );
+                this.memorisationRepeatAfterShowTranslation =
+                    !!snapshot.memorisationRepeatAfterShowTranslation;
+                this.memorisationRepeatAfterVerseTextMode =
+                    this.normaliseMemorisationRepeatAfterVerseTextMode(
+                        snapshot.memorisationRepeatAfterVerseTextMode
+                    );
+                this.memorisationRepeatAfterRecordEnabled =
+                    !!snapshot.memorisationRepeatAfterRecordEnabled;
+                this.clearMemorisationRepeatPauseState({
+                    stopRecording: true,
+                });
 
                 const total = Math.max(1, Number(this.totalAyahs || 1));
                 const rangeStart = Math.min(
@@ -4616,6 +5957,19 @@ export default {
                 showRealtimeHighlighting: !!draft.showRealtimeHighlighting,
                 showWordTranslation: !!draft.showWordTranslation,
                 showWordTranslationTooltip: !!draft.showWordTranslationTooltip,
+                repeatAfterReciterEnabled: !!draft.repeatAfterReciterEnabled,
+                repeatAfterReciterPauseMode:
+                    this.normaliseMemorisationRepeatAfterPauseMode(
+                        draft.repeatAfterReciterPauseMode
+                    ),
+                repeatAfterReciterShowTranslation:
+                    draft.repeatAfterReciterShowTranslation !== false,
+                repeatAfterReciterVerseTextMode:
+                    this.normaliseMemorisationRepeatAfterVerseTextMode(
+                        draft.repeatAfterReciterVerseTextMode
+                    ),
+                repeatAfterReciterRecordEnabled:
+                    !!draft.repeatAfterReciterRecordEnabled,
             };
         },
         normaliseMemorisationPresetName(name = "") {
@@ -4803,6 +6157,18 @@ export default {
             const rangeLoopShowCountdownSource =
                 config.rangeLoopShowCountdown ??
                 config.memorisationRangeLoopShowCountdown;
+            const repeatAfterEnabledSource =
+                config.repeatAfterReciterEnabled ??
+                config.memorisationRepeatAfterEnabled;
+            const repeatAfterShowTranslationSource =
+                config.repeatAfterReciterShowTranslation ??
+                config.memorisationRepeatAfterShowTranslation;
+            const repeatAfterVerseTextModeSource =
+                config.repeatAfterReciterVerseTextMode ??
+                config.memorisationRepeatAfterVerseTextMode;
+            const repeatAfterRecordEnabledSource =
+                config.repeatAfterReciterRecordEnabled ??
+                config.memorisationRepeatAfterRecordEnabled;
 
             return {
                 surahNumber,
@@ -4869,6 +6235,30 @@ export default {
                     config.showWordTranslationTooltip ??
                     this.showWordTranslationTooltip
                 ),
+                repeatAfterReciterEnabled: !!(
+                    repeatAfterEnabledSource ?? this.memorisationRepeatAfterEnabled
+                ),
+                repeatAfterReciterPauseMode:
+                    this.normaliseMemorisationRepeatAfterPauseMode(
+                        config.repeatAfterReciterPauseMode ??
+                            config.memorisationRepeatAfterPauseMode ??
+                            this.memorisationRepeatAfterPauseMode ??
+                            "3"
+                    ),
+                repeatAfterReciterShowTranslation:
+                    repeatAfterShowTranslationSource !== undefined
+                        ? !!repeatAfterShowTranslationSource
+                        : !!this.memorisationRepeatAfterShowTranslation,
+                repeatAfterReciterVerseTextMode:
+                    this.normaliseMemorisationRepeatAfterVerseTextMode(
+                        repeatAfterVerseTextModeSource ??
+                            this.memorisationRepeatAfterVerseTextMode ??
+                            "dimmed"
+                    ),
+                repeatAfterReciterRecordEnabled: !!(
+                    repeatAfterRecordEnabledSource ??
+                    this.memorisationRepeatAfterRecordEnabled
+                ),
                 blurNextAyah: !!(
                     config.blurNextAyah ??
                     config.isBlurNextAyahEnabled ??
@@ -4911,6 +6301,20 @@ export default {
                       showWordTranslation: !!this.showWordTranslation,
                       showWordTranslationTooltip:
                           !!this.showWordTranslationTooltip,
+                      repeatAfterReciterEnabled:
+                          !!this.memorisationRepeatAfterEnabled,
+                      repeatAfterReciterPauseMode:
+                          this.normaliseMemorisationRepeatAfterPauseMode(
+                              this.memorisationRepeatAfterPauseMode
+                          ),
+                      repeatAfterReciterShowTranslation:
+                          !!this.memorisationRepeatAfterShowTranslation,
+                      repeatAfterReciterVerseTextMode:
+                          this.normaliseMemorisationRepeatAfterVerseTextMode(
+                              this.memorisationRepeatAfterVerseTextMode
+                          ),
+                      repeatAfterReciterRecordEnabled:
+                          !!this.memorisationRepeatAfterRecordEnabled,
                   });
             return this.normaliseMemorisationPresetConfig({
                 ...baseConfig,
@@ -4952,6 +6356,19 @@ export default {
                 showRealtimeHighlighting: !!config.showRealtimeHighlighting,
                 showWordTranslation: !!config.showWordTranslation,
                 showWordTranslationTooltip: !!config.showWordTranslationTooltip,
+                repeatAfterReciterEnabled: !!config.repeatAfterReciterEnabled,
+                repeatAfterReciterPauseMode:
+                    this.normaliseMemorisationRepeatAfterPauseMode(
+                        config.repeatAfterReciterPauseMode
+                    ),
+                repeatAfterReciterShowTranslation:
+                    config.repeatAfterReciterShowTranslation !== false,
+                repeatAfterReciterVerseTextMode:
+                    this.normaliseMemorisationRepeatAfterVerseTextMode(
+                        config.repeatAfterReciterVerseTextMode
+                    ),
+                repeatAfterReciterRecordEnabled:
+                    !!config.repeatAfterReciterRecordEnabled,
                 blurNextAyah: !!config.blurNextAyah,
                 translationVisible: !!config.translationVisible,
                 transliterationVisible: !!config.transliterationVisible,
@@ -5412,6 +6829,23 @@ export default {
                     this.normaliseMemorisationRangeLoopAlertSound(
                         config.rangeLoopAlertSound
                     );
+                this.memorisationRepeatAfterEnabled =
+                    !!config.repeatAfterReciterEnabled;
+                this.memorisationRepeatAfterPauseMode =
+                    this.normaliseMemorisationRepeatAfterPauseMode(
+                        config.repeatAfterReciterPauseMode
+                    );
+                this.memorisationRepeatAfterShowTranslation =
+                    !!config.repeatAfterReciterShowTranslation;
+                this.memorisationRepeatAfterVerseTextMode =
+                    this.normaliseMemorisationRepeatAfterVerseTextMode(
+                        config.repeatAfterReciterVerseTextMode
+                    );
+                this.memorisationRepeatAfterRecordEnabled =
+                    !!config.repeatAfterReciterRecordEnabled;
+                this.clearMemorisationRepeatPauseState({
+                    stopRecording: true,
+                });
                 this.isBlurNextAyahEnabled = !!config.blurNextAyah;
                 this.showTajweed = !!config.showTajweed;
                 this.showRealtimeHighlighting = !!config.showRealtimeHighlighting;
@@ -5447,6 +6881,8 @@ export default {
                             rangeStart: start,
                             rangeEnd: end,
                         });
+                    this.isMemorisationRepeatAfterSettingsOpen =
+                        !!this.memorisationDraft.repeatAfterReciterEnabled;
                 }
                 if (showSubmitAlert) {
                     this.showMemorisationSubmitAlert(
@@ -5751,6 +7187,11 @@ export default {
                 showRealtimeHighlighting: false,
                 showWordTranslation: false,
                 showWordTranslationTooltip: false,
+                repeatAfterReciterEnabled: false,
+                repeatAfterReciterPauseMode: "3",
+                repeatAfterReciterShowTranslation: true,
+                repeatAfterReciterVerseTextMode: "dimmed",
+                repeatAfterReciterRecordEnabled: false,
             };
         },
         async applyMemorisationDefaultSession(options = {}) {
@@ -5800,6 +7241,21 @@ export default {
                     defaults.rangeLoopAlertSound
                 );
             this.clearMemorisationRangeLoopRestartState();
+            this.memorisationRepeatAfterEnabled =
+                !!defaults.repeatAfterReciterEnabled;
+            this.memorisationRepeatAfterPauseMode =
+                this.normaliseMemorisationRepeatAfterPauseMode(
+                    defaults.repeatAfterReciterPauseMode
+                );
+            this.memorisationRepeatAfterShowTranslation =
+                !!defaults.repeatAfterReciterShowTranslation;
+            this.memorisationRepeatAfterVerseTextMode =
+                this.normaliseMemorisationRepeatAfterVerseTextMode(
+                    defaults.repeatAfterReciterVerseTextMode
+                );
+            this.memorisationRepeatAfterRecordEnabled =
+                !!defaults.repeatAfterReciterRecordEnabled;
+            this.clearMemorisationRepeatPauseState({ stopRecording: true });
             this.isBlurNextAyahEnabled = !!defaults.blurNextAyah;
             this.showTajweed = !!defaults.showTajweed;
             this.showRealtimeHighlighting = !!defaults.showRealtimeHighlighting;
@@ -5836,6 +7292,8 @@ export default {
                     ...defaults,
                     rangeEnd: safeEnd,
                     });
+                this.isMemorisationRepeatAfterSettingsOpen =
+                    !!this.memorisationDraft.repeatAfterReciterEnabled;
                 this.hideMemorisationSubmitAlert();
             }
         },
@@ -5845,6 +7303,8 @@ export default {
                 this.buildMemorisationPresetDraftFromConfig({
                 ...defaults,
                 });
+            this.isMemorisationRepeatAfterSettingsOpen =
+                !!this.memorisationDraft.repeatAfterReciterEnabled;
             this.hideMemorisationSubmitAlert();
         },
         async submitMemorisationOffcanvas() {
@@ -8155,6 +9615,85 @@ export default {
                 }
             } catch (_) {}
         },
+        persistMemorisationToolbarVisibilityPreference(
+            value = this.isMemorisationToolbarVisible
+        ) {
+            this.writeScopedBooleanPreference(
+                this.memorisationToolbarVisiblePreferenceBaseKey,
+                !!value
+            );
+        },
+        loadMemorisationToolbarVisibilityPreference(options = {}) {
+            const { preserveCurrentWhenMissing = true } = options || {};
+            const currentValue = !!this.isMemorisationToolbarVisible;
+            const hasScopedValue =
+                this.readScopedFontPreference(
+                    this.memorisationToolbarVisiblePreferenceBaseKey
+                ) !== null;
+            const scopedValue = this.readScopedBooleanPreference(
+                this.memorisationToolbarVisiblePreferenceBaseKey,
+                currentValue
+            );
+            const resolvedValue = hasScopedValue
+                ? scopedValue
+                : preserveCurrentWhenMissing
+                ? currentValue
+                : false;
+            this.persistMemorisationToolbarVisibilityPreference(resolvedValue);
+            return !!resolvedValue;
+        },
+        async restoreMemorisationToolbarOnLoadIfNeeded() {
+            if (this.hasRestoredMemorisationToolbarOnLoad) return false;
+            this.hasRestoredMemorisationToolbarOnLoad = true;
+            if (!this.shouldRestoreMemorisationToolbarOnLoad) return false;
+            if (this.isMemorisationToolbarVisible) return true;
+
+            const persistedSnapshot =
+                this.memorisationPreviousSessionSnapshot ||
+                this.loadPersistedMemorisationPreviousSession();
+            let restored = false;
+
+            try {
+                if (persistedSnapshot) {
+                    restored = await this.applyMemorisationSessionConfig(
+                        persistedSnapshot,
+                        {
+                            successMessage: "",
+                            errorMessage: "",
+                            showSubmitAlert: false,
+                            closeOffcanvas: false,
+                            syncDraft: true,
+                        }
+                    );
+                }
+                if (!restored) {
+                    this.memorisationSessionSnapshot =
+                        this.buildCurrentMemorisationSessionSnapshot();
+                    this.isMemorisationToolbarVisible = true;
+                    await this.applyMemorisationDefaultSession({
+                        syncDraft: true,
+                        scroll: false,
+                    });
+                    restored = true;
+                }
+            } catch (error) {
+                console.error(
+                    "Unable to restore memorisation tools mode on refresh:",
+                    error
+                );
+                restored = false;
+            }
+
+            if (!restored) {
+                this.isMemorisationToolbarVisible = false;
+                this.shouldRestoreMemorisationToolbarOnLoad = false;
+                this.persistMemorisationToolbarVisibilityPreference(false);
+                return false;
+            }
+
+            this.persistMemorisationToolbarVisibilityPreference(true);
+            return true;
+        },
         advanceMemorisationFocus() {
             const current = this.memorisationFocusIndexSafe;
             if (current + 1 >= this.filteredAyahs.length) {
@@ -9109,6 +10648,33 @@ export default {
                 showRealtimeHighlighting: !!snapshot.showRealtimeHighlighting,
                 showWordTranslation: !!snapshot.showWordTranslation,
                 showWordTranslationTooltip: !!snapshot.showWordTranslationTooltip,
+                memorisationRepeatAfterEnabled: !!(
+                    snapshot.memorisationRepeatAfterEnabled ??
+                    snapshot.repeatAfterReciterEnabled ??
+                    false
+                ),
+                memorisationRepeatAfterPauseMode:
+                    this.normaliseMemorisationRepeatAfterPauseMode(
+                        snapshot.memorisationRepeatAfterPauseMode ??
+                            snapshot.repeatAfterReciterPauseMode ??
+                            "3"
+                    ),
+                memorisationRepeatAfterShowTranslation: !!(
+                    snapshot.memorisationRepeatAfterShowTranslation ??
+                    snapshot.repeatAfterReciterShowTranslation ??
+                    true
+                ),
+                memorisationRepeatAfterVerseTextMode:
+                    this.normaliseMemorisationRepeatAfterVerseTextMode(
+                        snapshot.memorisationRepeatAfterVerseTextMode ??
+                            snapshot.repeatAfterReciterVerseTextMode ??
+                            "dimmed"
+                    ),
+                memorisationRepeatAfterRecordEnabled: !!(
+                    snapshot.memorisationRepeatAfterRecordEnabled ??
+                    snapshot.repeatAfterReciterRecordEnabled ??
+                    false
+                ),
                 focusAyahNumber: Math.max(
                     1,
                     Number(snapshot.focusAyahNumber || rangeStart)
@@ -11655,8 +13221,12 @@ export default {
                 }, 0);
                 if (!maxHeight) return;
                 const candidate = Math.round(maxHeight + 24);
-                if (!force && Math.abs(this.itemHeight - candidate) < 2) return;
+                if (!force && Math.abs(this.itemHeight - candidate) < 2) {
+                    this.lastItemHeightCalibrationAt = Date.now();
+                    return;
+                }
                 this.itemHeight = candidate;
+                this.lastItemHeightCalibrationAt = Date.now();
                 this.updateVirtualWindow();
             } catch (_) { }
         },
@@ -11721,12 +13291,20 @@ export default {
                 return;
             }
 
-            const firstCard = document.getElementById("ayah-card-0");
-            if (firstCard && firstCard.getBoundingClientRect) {
-                const rect = firstCard.getBoundingClientRect();
-                this.firstAyahTop = rect.top + window.scrollY;
-            } else if (!this.firstAyahTop) {
-                this.firstAyahTop = Number(this.listTop) || 0;
+            const now = Date.now();
+            const shouldMeasureFirstAyah =
+                !this.firstAyahTop ||
+                now - Number(this.lastToolbarPinMeasureAt || 0) > 1200;
+            if (shouldMeasureFirstAyah) {
+                const firstCard = document.getElementById("ayah-card-0");
+                if (firstCard && firstCard.getBoundingClientRect) {
+                    const rect = firstCard.getBoundingClientRect();
+                    this.firstAyahTop = rect.top + window.scrollY;
+                    this.lastToolbarPinMeasureAt = now;
+                } else if (!this.firstAyahTop) {
+                    this.firstAyahTop = Number(this.listTop) || 0;
+                    this.lastToolbarPinMeasureAt = now;
+                }
             }
             const triggerTop = Number(this.firstAyahTop) || 0;
             if (!triggerTop) {
@@ -11742,21 +13320,21 @@ export default {
         },
         onScrollVirtual() {
             this.updateToolbarPinState();
+            const now = window.performance ? performance.now() : Date.now();
+            if (now - Number(this.lastVirtualScrollAt || 0) < 80) {
+                return;
+            }
+            this.lastVirtualScrollAt = now;
             const scrollY = typeof window !== "undefined" ? window.scrollY : 0;
             const listTop = Number(this.listTop) || 0;
             const threshold = listTop + Math.max(320, window.innerHeight * 0.4);
             let show = scrollY > threshold;
-            const firstCard = document.getElementById("ayah-card-0");
-            if (firstCard) {
-                const rect = firstCard.getBoundingClientRect();
-                if (rect.bottom < window.innerHeight - 24) show = true;
-            }
             if (this.showScrollTop !== show) this.showScrollTop = show;
             this.isManualScrolling = true;
             clearTimeout(this.manualScrollTimer);
             this.manualScrollTimer = setTimeout(() => {
                 this.isManualScrolling = false;
-            }, 1000);
+            }, 650);
             if (typeof window !== "undefined") {
                 if (this._virtualWindowRaf) {
                     window.cancelAnimationFrame(this._virtualWindowRaf);
@@ -11993,7 +13571,12 @@ export default {
                 force = false,
                 lock = false,
             } = options || {};
-            const resolvedBehavior = this.getScrollBehavior(behavior);
+            const isAutoMemorisationScroll =
+                !!this.isMemorisationToolbarVisible &&
+                (!!this.isAnyAudioPlaying || !!this.isMemorisationRepeatPauseActive);
+            const desiredBehavior = isAutoMemorisationScroll ? "auto" : behavior;
+            const shouldSettleScroll = !!settle && !isAutoMemorisationScroll;
+            const resolvedBehavior = this.getScrollBehavior(desiredBehavior);
             const total = Array.isArray(this.filteredAyahs)
                 ? this.filteredAyahs.length
                 : 0;
@@ -12020,7 +13603,13 @@ export default {
             this.$nextTick(() => {
                 const runScroll = () => {
                     this.computeListTop();
-                    this.calibrateItemHeight();
+                    const now = Date.now();
+                    const shouldRecalibrateHeight =
+                        !this.itemHeightCalibrated ||
+                        now - Number(this.lastItemHeightCalibrationAt || 0) > 1200;
+                    if (shouldRecalibrateHeight) {
+                        this.calibrateItemHeight();
+                    }
 
                     const offset = this.currentHeaderOffset;
                     const viewportHeight = window.innerHeight;
@@ -12167,7 +13756,7 @@ export default {
                             }
                         });
                     }
-                    if (settle) {
+                    if (shouldSettleScroll) {
                         this.scheduleScrollCorrection(index, {
                             delay: correctionDelay,
                             behavior: resolvedBehavior,
@@ -12180,7 +13769,7 @@ export default {
                         // 1000ms ensures smooth scroll completes before auto-locking resumes.
                         setTimeout(() => {
                             this.isNavigating = false;
-                        }, settle ? Math.max(1000, correctionDelay + 200) : 1000);
+                        }, shouldSettleScroll ? Math.max(1000, correctionDelay + 200) : 1000);
                     }
                 };
 
@@ -13491,7 +15080,11 @@ export default {
                     this.stopHighlightLoop();
                     return;
                 }
-                this.updateHighlightFrame();
+                const now = window.performance ? performance.now() : Date.now();
+                if (now - Number(this.lastHighlightFrameAt || 0) > 95) {
+                    this.lastHighlightFrameAt = now;
+                    this.updateHighlightFrame();
+                }
                 this._highlightRafId = requestAnimationFrame(step);
             };
             this._highlightRafId = requestAnimationFrame(step);
@@ -13502,6 +15095,7 @@ export default {
                 this._highlightRafId = null;
             }
             this._lastHighlightIndex = -1;
+            this.lastHighlightFrameAt = 0;
             this.clearActiveWordHighlight();
         },
         updateHighlightFrame() {
@@ -14178,6 +15772,7 @@ export default {
             console.log("Attempting to play audio for index:", index);
             if (index < 0 || index >= this.filteredAyahs.length) return;
             this.clearMemorisationRangeLoopRestartState();
+            this.clearMemorisationRepeatPauseState({ stopRecording: true });
             this.stopTajweedRuleAudio();
             this.ayahCardPausedIndex = null;
             if (!isSingleWordPreview) {
@@ -14283,24 +15878,58 @@ export default {
 
             // Setup metadata and word timing
             audio.onloadedmetadata = () => {
-                console.log(
-                    `Metadata loaded for ayah ${index + 1}, duration: ${this.currentlyPlaying.duration}`
-                );
                 this.updateWordTimings(ayah, this.currentlyPlaying.duration);
             };
 
             audio.ontimeupdate = () => {
                 const now = window.performance ? performance.now() : Date.now();
-                if (now - this.lastProgressAt > 100) {
-                    // ~10fps progress updates
+                if (now - this.lastProgressAt > 420) {
+                    // Keep progress updates smooth but lighter on long sessions.
                     this.lastProgressAt = now;
                     this.updateProgress(index);
                 }
                 // Removed continuous auto-scroll here to prevent jumpiness.
             };
 
-            // Optimistic immediate play, fallback to 'canplay' (faster than 'canplaythrough')
+            // Guard async retries so stale attempts (user paused/switched ayah) cannot emit false errors.
+            const playAttemptToken = `${Date.now()}-${Math.random()
+                .toString(36)
+                .slice(2)}`;
+            audio.__suratPlayAttemptToken = playAttemptToken;
+
+            const isCurrentPlayAttempt = () =>
+                !!audio &&
+                audio.__suratPlayAttemptToken === playAttemptToken &&
+                this.currentlyPlaying === audio &&
+                Number(this.currentlyPlayingIndex) === Number(index);
+
+            const clearPlaybackLoadingState = ({ markStopped = true } = {}) => {
+                if (!isCurrentPlayAttempt()) return;
+                clearTimeout(this.loadingTimers[index]);
+                this.isAudioLoading[index] = false;
+                if (markStopped) {
+                    this.isAudioPlaying[index] = false;
+                }
+            };
+
+            const showBlockedPlaybackToast = () => {
+                clearPlaybackLoadingState({ markStopped: true });
+                this.showToast(
+                    "Browser blocked audio playback. Tap an ayah play button once, then try again.",
+                    3600
+                );
+            };
+
+            const showUnableToStartToast = () => {
+                clearPlaybackLoadingState({ markStopped: true });
+                this.showToast(
+                    `Unable to start audio for ayah ${index + 1}. Please try again.`,
+                    3200
+                );
+            };
+
             const markPlaying = () => {
+                if (!isCurrentPlayAttempt()) return;
                 clearTimeout(this.loadingTimers[index]);
                 this.isAudioPlaying[index] = true;
                 this.isAudioLoading[index] = false;
@@ -14315,93 +15944,158 @@ export default {
                 } else {
                     this.stopHighlightLoop();
                 }
-                this.animateVisualizer();
+                if (!this.isMemorisationToolbarVisible && !this.isPerformanceModeEnabled) {
+                    this.animateVisualizer();
+                }
                 // Opportunistically warm next ayah
                 this.prepareNextAudio(index + 1);
             };
 
-            const tryPlay = () => {
-                const p = audio.play();
-                if (p && typeof p.then === "function") {
-                    p.then(() => {
-                        markPlaying();
-                    }).catch((err) => {
-                        const errorName = String(err?.name || "").toLowerCase();
-                        if (
-                            errorName === "notallowederror" ||
-                            errorName === "securityerror"
-                        ) {
-                            clearTimeout(this.loadingTimers[index]);
-                            this.isAudioLoading[index] = false;
-                            this.isAudioPlaying[index] = false;
-                            this.showToast(
-                                "Browser blocked audio playback. Tap an ayah play button once, then try again.",
-                                3600
-                            );
-                            return;
-                        }
-                        // If playback fails (e.g., not enough data), wait for 'canplay' and retry once
-                        let canPlayTimeout = null;
-                        const onCanPlay = () => {
-                            if (canPlayTimeout) {
-                                clearTimeout(canPlayTimeout);
-                                canPlayTimeout = null;
-                            }
-                            audio.removeEventListener("canplay", onCanPlay);
-                            const p2 = audio.play();
-                            if (p2 && typeof p2.then === "function") {
-                                p2.then(() => markPlaying()).catch((retryError) => {
-                                    const retryErrorName = String(
-                                        retryError?.name || ""
-                                    ).toLowerCase();
-                                    clearTimeout(this.loadingTimers[index]);
-                                    this.isAudioLoading[index] = false;
-                                    this.isAudioPlaying[index] = false;
-                                    if (
-                                        retryErrorName === "notallowederror" ||
-                                        retryErrorName === "securityerror"
-                                    ) {
-                                        this.showToast(
-                                            "Browser blocked audio playback. Tap an ayah play button once, then try again.",
-                                            3600
-                                        );
-                                        return;
-                                    }
-                                    this.showToast(
-                                        `Unable to start audio for ayah ${index + 1}. Please try again.`,
-                                        3000
-                                    );
-                                });
-                            } else {
-                                markPlaying();
-                            }
-                        };
-                        audio.addEventListener("canplay", onCanPlay, {
-                            once: true,
-                        });
-                        canPlayTimeout = setTimeout(() => {
-                            audio.removeEventListener("canplay", onCanPlay);
-                            clearTimeout(this.loadingTimers[index]);
-                            this.isAudioLoading[index] = false;
-                            this.isAudioPlaying[index] = false;
-                            this.showToast(
-                                `Unable to start audio for ayah ${index + 1}. Please try again.`,
-                                3000
-                            );
-                        }, 2600);
-                    });
-                } else {
-                    markPlaying();
+            const handlePlayFailure = (error) => {
+                if (!isCurrentPlayAttempt()) return;
+                const errorName = String(error?.name || "").toLowerCase();
+                if (
+                    errorName === "notallowederror" ||
+                    errorName === "securityerror"
+                ) {
+                    showBlockedPlaybackToast();
+                    return;
                 }
+                // Expected when user quickly pauses/switches ayah while play() is pending.
+                if (errorName === "aborterror") {
+                    clearPlaybackLoadingState({ markStopped: false });
+                    return;
+                }
+                showUnableToStartToast();
+            };
+
+            const waitForReadinessAndRetry = ({ allowReloadRetry = true } = {}) => {
+                if (!isCurrentPlayAttempt()) return;
+                let settled = false;
+                let readinessTimeout = null;
+                const timeoutMs = allowReloadRetry ? 7000 : 5000;
+
+                const cleanup = () => {
+                    if (settled) return;
+                    settled = true;
+                    if (readinessTimeout) {
+                        clearTimeout(readinessTimeout);
+                        readinessTimeout = null;
+                    }
+                    audio.removeEventListener("canplay", onReady);
+                    audio.removeEventListener("loadeddata", onReady);
+                    audio.removeEventListener("error", onAudioError);
+                };
+
+                const retryPlay = () => {
+                    if (!isCurrentPlayAttempt()) {
+                        cleanup();
+                        return;
+                    }
+                    cleanup();
+                    const retryPromise = audio.play();
+                    if (retryPromise && typeof retryPromise.then === "function") {
+                        retryPromise
+                            .then(() => {
+                                markPlaying();
+                            })
+                            .catch((retryError) => {
+                                handlePlayFailure(retryError);
+                            });
+                        return;
+                    }
+                    markPlaying();
+                };
+
+                const onReady = () => {
+                    retryPlay();
+                };
+
+                const onAudioError = () => {
+                    cleanup();
+                    if (!isCurrentPlayAttempt()) return;
+                    if (allowReloadRetry) {
+                        try {
+                            audio.load();
+                        } catch (_) {}
+                        waitForReadinessAndRetry({ allowReloadRetry: false });
+                        return;
+                    }
+                    showUnableToStartToast();
+                };
+
+                audio.addEventListener("canplay", onReady);
+                audio.addEventListener("loadeddata", onReady);
+                audio.addEventListener("error", onAudioError);
+
+                readinessTimeout = setTimeout(() => {
+                    cleanup();
+                    if (!isCurrentPlayAttempt()) return;
+                    if (allowReloadRetry) {
+                        try {
+                            audio.load();
+                        } catch (_) {}
+                        waitForReadinessAndRetry({ allowReloadRetry: false });
+                        return;
+                    }
+                    const finalPromise = audio.play();
+                    if (finalPromise && typeof finalPromise.then === "function") {
+                        finalPromise
+                            .then(() => {
+                                markPlaying();
+                            })
+                            .catch((finalError) => {
+                                handlePlayFailure(finalError);
+                            });
+                        return;
+                    }
+                    markPlaying();
+                }, timeoutMs);
+
+                if (audio.readyState >= 3) {
+                    onReady();
+                    return;
+                }
+                try {
+                    audio.load();
+                } catch (_) {}
+            };
+
+            const tryPlay = () => {
+                const promise = audio.play();
+                if (promise && typeof promise.then === "function") {
+                    promise
+                        .then(() => {
+                            markPlaying();
+                        })
+                        .catch((error) => {
+                            if (!isCurrentPlayAttempt()) return;
+                            const errorName = String(error?.name || "").toLowerCase();
+                            if (
+                                errorName === "notallowederror" ||
+                                errorName === "securityerror"
+                            ) {
+                                showBlockedPlaybackToast();
+                                return;
+                            }
+                            if (errorName === "aborterror") {
+                                clearPlaybackLoadingState({ markStopped: false });
+                                return;
+                            }
+                            waitForReadinessAndRetry({ allowReloadRetry: true });
+                        });
+                    return;
+                }
+                markPlaying();
             };
 
             tryPlay();
         },
         pauseAudio: function (index) {
             if (this.audioElements[index]) {
-                console.log(`Pausing audio for ayah ${index + 1}`);
                 this.clearWordPreviewStopTimer();
                 this.isSingleWordPreviewActive = false;
+                this.audioElements[index].__suratPlayAttemptToken = null;
                 this.audioElements[index].pause();
                 clearTimeout(this.loadingTimers[index]);
                 this.isAudioPlaying[index] = false;
@@ -14410,7 +16104,6 @@ export default {
             }
         },
         toggleAudioPlayer: function (index) {
-            console.log("Toggling audio player for index:", index);
             if (!this.isAudioPlaying[index]) {
                 if (this.isMemorisationToolbarVisible &&
                     this.memorisationRepetitionCount > 1 &&
@@ -14436,8 +16129,9 @@ export default {
                 this.memorisationRepetitionPauseTimeout = null;
             }
             this.clearMemorisationRangeLoopRestartState();
+            this.clearMemorisationRepeatPauseState({ stopRecording: true });
             if (this.audioElements[index]) {
-                console.log(`Stopping audio for ayah ${index + 1}`);
+                this.audioElements[index].__suratPlayAttemptToken = null;
                 this.audioElements[index].pause();
                 this.audioElements[index].currentTime = 0;
                 clearTimeout(this.loadingTimers[index]);
@@ -14452,7 +16146,6 @@ export default {
         rewindAudio: function (index) {
             const targetIndex = this.resolveSeekAudioIndex(index);
             if (targetIndex < 0 || !this.audioElements[targetIndex]) return;
-            console.log(`Rewinding audio for ayah ${targetIndex + 1}`);
             this.audioElements[targetIndex].currentTime = Math.max(
                 0,
                 this.audioElements[targetIndex].currentTime - 15
@@ -14463,7 +16156,6 @@ export default {
         fastForwardAudio: function (index) {
             const targetIndex = this.resolveSeekAudioIndex(index);
             if (targetIndex < 0 || !this.audioElements[targetIndex]) return;
-            console.log(`Fast forwarding audio for ayah ${targetIndex + 1}`);
             const duration = Number(this.audioElements[targetIndex].duration) || 0;
             this.audioElements[targetIndex].currentTime = Math.min(
                 duration > 0 ? duration : this.audioElements[targetIndex].currentTime + 20,
@@ -14528,11 +16220,14 @@ export default {
                 this.audioElements[index] &&
                 this.audioElements[index].duration
             ) {
-                const progress =
+                const nextProgress =
                     (this.audioElements[index].currentTime /
                         this.audioElements[index].duration) *
                     100;
-                this.progress[index] = Math.min(100, progress);
+                const safeProgress = Math.min(100, nextProgress);
+                const previous = Number(this.progress[index] || 0);
+                if (Math.abs(previous - safeProgress) < 0.85) return;
+                this.progress[index] = safeProgress;
             }
         },
         formatTime: function (seconds) {
@@ -15932,6 +17627,7 @@ export default {
         resetAllAudioPlayers: function () {
             this.$nextTick(() => {
                 this.clearMemorisationRangeLoopRestartState();
+                this.clearMemorisationRepeatPauseState({ stopRecording: true });
                 if (this.currentlyPlaying) {
                     this.currentlyPlaying.pause();
                     this.currentlyPlaying = null;
@@ -16007,7 +17703,9 @@ export default {
                                     self.memorisationFocusIndex = index;
                                     self.selectCard(index);
                                 }
-                                self.scrollToAyahIndex(index);
+                                self.scrollToAyahIndex(index, {
+                                    behavior: "auto",
+                                });
                             }
                         }, 1000);
                     } else {
@@ -16017,7 +17715,9 @@ export default {
                                 self.memorisationFocusIndex = index;
                                 self.selectCard(index);
                             }
-                            self.scrollToAyahIndex(index);
+                            self.scrollToAyahIndex(index, {
+                                behavior: "auto",
+                            });
                         }, 50);
                     }
                     return;
@@ -16026,6 +17726,9 @@ export default {
                 if (nextIndex < self.filteredAyahs.length) {
                     self.memorisationRepetitionCurrent = 1;
                     self.stopAudio(index);
+                    if (self.startMemorisationRepeatAfterPause(index, nextIndex)) {
+                        return;
+                    }
                     if (self.memorisationVerseDelay > 0) {
                         self.isCountdownActive = true;
                         self.countdownSeconds = self.memorisationVerseDelay;
@@ -16042,7 +17745,9 @@ export default {
                                     self.memorisationFocusIndex = nextIndex;
                                     self.selectCard(nextIndex);
                                 }
-                                self.scrollToAyahIndex(nextIndex);
+                                self.scrollToAyahIndex(nextIndex, {
+                                    behavior: "auto",
+                                });
                             }
                         }, 1000);
                     } else {
@@ -16054,7 +17759,9 @@ export default {
                                 self.memorisationFocusIndex = nextIndex;
                                 self.selectCard(nextIndex);
                             }
-                            self.scrollToAyahIndex(nextIndex);
+                            self.scrollToAyahIndex(nextIndex, {
+                                behavior: "auto",
+                            });
                         }, 50);
                     }
                     return;
@@ -16096,6 +17803,9 @@ export default {
             if (this.playbackMode === "continuous") {
                 var nextIndex = index + 1;
                 if (nextIndex < this.filteredAyahs.length) {
+                    if (this.startMemorisationRepeatAfterPause(index, nextIndex)) {
+                        return;
+                    }
                     if (this.isMemorisationModeActive) {
                         this.memorisationFocusIndex = nextIndex;
                         this.selectCard(nextIndex);
@@ -17581,11 +19291,14 @@ export default {
             this.showToast(`Playback speed: ${nextSpeed}x`, 2200);
         },
         animateVisualizer: function () {
+            if (this.isPerformanceModeEnabled || this.isMemorisationToolbarVisible) {
+                return;
+            }
             if (!this.isAudioPlaying[this.currentlyPlayingIndex]) return;
 
             const now = window.performance ? performance.now() : Date.now();
-            if (now - this.lastVizAt < 33) {
-                // ~30fps cap
+            if (now - this.lastVizAt < 120) {
+                // ~8fps cap to reduce render work during playback.
                 return requestAnimationFrame(() => this.animateVisualizer());
             }
             this.lastVizAt = now;

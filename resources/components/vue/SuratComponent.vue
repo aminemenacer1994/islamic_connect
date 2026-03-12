@@ -11,7 +11,8 @@
             'reading-fullscreen': isReadingFullscreen,
             'deep-focus-mode': isDeepFocusMode,
             'blur-next-ayah-enabled': isMemorisationToolbarVisible && isBlurNextAyahEnabled,
-            'memorisation-mode': isMemorisationModeActive
+            'memorisation-mode': isMemorisationModeActive,
+            'performance-optimized': isPerformanceModeEnabled
         }"
         :style="quranFontStyle"
         role="main" aria-label="Quran Explorer">
@@ -397,37 +398,14 @@
                                     <span class="advanced-quran-mobile-action-label">Voice guide</span>
                                 </button>
                                 <button
-                                    v-if="hasPreviousSessionReturn"
-                                    type="button"
-                                    class="btn advanced-quran-mobile-action-btn"
-                                    @click="returnToPreviousSession"
-                                    :disabled="isRestoringMemorisationSnapshot"
-                                    aria-label="Return to previous session"
-                                    title="Return to previous session">
-                                    <i class="bi bi-arrow-counterclockwise" aria-hidden="true"></i>
-                                    <span class="advanced-quran-mobile-action-label">
-                                        {{ isRestoringMemorisationSnapshot ? "Returning..." : "Previous session" }}
-                                    </span>
-                                </button>
-                                <button
                                     v-if="isMemorisationToolbarVisible"
                                     type="button"
-                                    class="btn advanced-quran-mobile-action-btn"
+                                    class="btn advanced-quran-mobile-action-btn advanced-quran-mobile-action-btn-open-tools"
                                     @click="openMemorisationOffcanvas"
-                                    aria-label="Open memorisation tools panel"
-                                    title="Open memorisation tools panel">
+                                    aria-label="Open session tools panel"
+                                    title="Open Session Tools for pacing, repeat-after-reciter, and display controls">
                                     <i class="bi bi-layout-sidebar-inset" aria-hidden="true"></i>
-                                    <span class="advanced-quran-mobile-action-label">Open tools panel</span>
-                                </button>
-                                <button
-                                    v-if="isMemorisationToolbarVisible"
-                                    type="button"
-                                    class="btn advanced-quran-mobile-action-btn"
-                                    @click="openHifdhPlanModalGuarded"
-                                    aria-label="Open Hifz plan modal"
-                                    title="Open your Hifz plan">
-                                    <i class="bi bi-calendar-check" aria-hidden="true"></i>
-                                    <span class="advanced-quran-mobile-action-label">Hifz plan</span>
+                                    <span class="advanced-quran-mobile-action-label">Open Session Tools Panel</span>
                                 </button>
                                 <button
                                     v-if="!isMemorisationToolbarVisible"
@@ -685,39 +663,15 @@
                     <span class="quran-toolbar-btn-text">{{ memorisationToolbarButtonLabel }}</span>
                 </button>
                 <button
-                    v-if="hasPreviousSessionReturn"
-                    type="button"
-                    class="quran-toolbar-btn"
-                    @click="returnToPreviousSession"
-                    :disabled="isRestoringMemorisationSnapshot"
-                    aria-label="Return to previous session"
-                    title="Return to previous session">
-                    <i class="bi bi-arrow-counterclockwise" aria-hidden="true"></i>
-                    <span class="quran-toolbar-btn-text">
-                        {{ isRestoringMemorisationSnapshot ? "Returning..." : "Previous session" }}
-                    </span>
-                </button>
-                <button
                     v-if="isMemorisationToolbarVisible"
                     type="button"
-                    class="quran-toolbar-btn"
+                    class="quran-toolbar-btn quran-toolbar-btn-open-tools"
                     @click="openMemorisationOffcanvas"
-                    aria-label="Open memorisation tools panel"
-                    title="Open memorisation tools panel">
+                    aria-label="Open session tools panel"
+                    title="Open Session Tools for pacing, repeat-after-reciter, and display controls">
                     <i class="bi bi-layout-sidebar-inset" aria-hidden="true"></i>
-                    <span class="quran-toolbar-btn-text">Open tools panel</span>
+                    <span class="quran-toolbar-btn-text">Open Session Tools Panel</span>
                 </button>
-                <button
-                    v-if="isMemorisationToolbarVisible"
-                    type="button"
-                    class="quran-toolbar-btn"
-                    @click="openHifdhPlanModalGuarded"
-                    aria-label="Open Hifz plan modal"
-                    title="Open your Hifz plan">
-                    <i class="bi bi-calendar-check" aria-hidden="true"></i>
-                    <span class="quran-toolbar-btn-text">Hifz plan</span>
-                </button>
-
                 <div v-if="!isMemorisationToolbarVisible" class="quran-toolbar-reciter">
                     <label class="visually-hidden" for="toolbarReciterSelect">
                         Select audio reciter
@@ -885,7 +839,7 @@
                     <i class="fas fa-font" aria-hidden="true"></i>
                 </button>
                 <button
-                    v-if="hasPinnedAyahs && isPinnedSectionHidden"
+                    v-if="hasPinnedAyahs && isPinnedSectionHidden && !isMemorisationToolbarVisible"
                     type="button"
                     class="quran-toolbar-btn quran-toolbar-btn-icon quran-toolbar-btn-pinned-restore"
                     @click="showPinnedSection"
@@ -1375,13 +1329,6 @@
                         </div>
                     </div>
 
-                    <section class="surah-offcanvas-section memorisation-offcanvas-panel" aria-label="Hifdh plan quick access">
-                        <button type="button" class="btn memorisation-offcanvas-btn memorisation-offcanvas-btn-submit w-100" @click="openHifdhPlanModalGuarded">
-                            <i class="bi bi-journal-check me-2" aria-hidden="true"></i>
-                            Open Hifdh Plan
-                        </button>
-                    </section>
-
                     <section class="surah-offcanvas-section memorisation-offcanvas-panel memorisation-preset-panel" aria-label="One-click presets">
                         <div class="memorisation-preset-panel-head">
                             <div>
@@ -1596,6 +1543,18 @@
                                 </select>
                             </label>
 
+                            <label class="memorisation-offcanvas-field">
+                                <span class="form-label surah-offcanvas-label">Quranic fonts</span>
+                                <select class="form-select surah-offcanvas-select" v-model="memorisationDraft.quranFontId">
+                                    <option v-if="!quranFonts.length" :value="selectedQuranFontId">
+                                        {{ activeQuranFont?.label || "Current font" }}
+                                    </option>
+                                    <option v-for="font in quranFonts" :key="`memorisation-draft-font-${font.id}`" :value="font.id">
+                                        {{ font.label }}
+                                    </option>
+                                </select>
+                            </label>
+
                             <label class="memorisation-offcanvas-toggle-row memorisation-offcanvas-field memorisation-offcanvas-field--full memorisation-range-loop-field">
                                 <span class="memorisation-offcanvas-toggle-copy">
                                     <strong>Loop Again After Range</strong>
@@ -1676,18 +1635,6 @@
                                 </p>
                             </div>
 
-                            <label class="memorisation-offcanvas-field">
-                                <span class="form-label surah-offcanvas-label">Quranic fonts</span>
-                                <select class="form-select surah-offcanvas-select" v-model="memorisationDraft.quranFontId">
-                                    <option v-if="!quranFonts.length" :value="selectedQuranFontId">
-                                        {{ activeQuranFont?.label || "Current font" }}
-                                    </option>
-                                    <option v-for="font in quranFonts" :key="`memorisation-draft-font-${font.id}`" :value="font.id">
-                                        {{ font.label }}
-                                    </option>
-                                </select>
-                            </label>
-
                             <label class="memorisation-offcanvas-toggle-row memorisation-offcanvas-field memorisation-offcanvas-field--full">
                                 <span class="memorisation-offcanvas-toggle-copy">
                                     <strong>Single ayah focus</strong>
@@ -1746,6 +1693,187 @@
                                     <input class="form-check-input" type="checkbox" v-model="memorisationDraft.showWordTranslationTooltip" aria-label="Toggle word for word meaning and audio">
                                 </span>
                             </label>
+                            <label class="memorisation-offcanvas-toggle-row memorisation-offcanvas-toggle-row--with-action">
+                                <span class="memorisation-offcanvas-toggle-copy">
+                                    <strong>Repeat After Reciter</strong>
+                                    <small>Pause after each ayah so you can repeat before the next ayah begins.</small>
+                                </span>
+                                <span class="memorisation-offcanvas-toggle-actions">
+                                    <button
+                                        type="button"
+                                        class="btn memorisation-tool-settings-btn"
+                                        :disabled="!memorisationDraft.repeatAfterReciterEnabled"
+                                        :aria-expanded="memorisationDraft.repeatAfterReciterEnabled && isMemorisationRepeatAfterSettingsOpen ? 'true' : 'false'"
+                                        aria-label="Open Repeat After Reciter settings"
+                                        title="Repeat After Reciter settings"
+                                        @click.stop.prevent="toggleMemorisationRepeatAfterDraftSettings">
+                                        <i class="bi bi-gear-fill" aria-hidden="true"></i>
+                                    </button>
+                                    <span class="form-check form-switch mb-0">
+                                        <input
+                                            class="form-check-input"
+                                            type="checkbox"
+                                            v-model="memorisationDraft.repeatAfterReciterEnabled"
+                                            @change="onMemorisationRepeatAfterDraftToggle"
+                                            aria-label="Toggle Repeat After Reciter">
+                                    </span>
+                                </span>
+                            </label>
+                            <div
+                                v-if="memorisationDraft.repeatAfterReciterEnabled && isMemorisationRepeatAfterSettingsOpen"
+                                class="memorisation-repeat-after-settings memorisation-offcanvas-field memorisation-offcanvas-field--full">
+                                <span class="form-label surah-offcanvas-label">Repeat pause after each ayah</span>
+                                <small class="memorisation-repeat-after-meta mb-0">
+                                    This pause is your speaking time before the next ayah begins.
+                                </small>
+                                <div class="memorisation-repeat-after-delay-row" role="group" aria-label="Pause length after each ayah">
+                                    <button
+                                        type="button"
+                                        class="btn memorisation-repeat-after-delay-btn"
+                                        :class="{ 'is-active': memorisationDraft.repeatAfterReciterPauseMode === '2' }"
+                                        @click="memorisationDraft.repeatAfterReciterPauseMode = '2'">
+                                        2s (quick)
+                                    </button>
+                                    <button
+                                        type="button"
+                                        class="btn memorisation-repeat-after-delay-btn"
+                                        :class="{ 'is-active': memorisationDraft.repeatAfterReciterPauseMode === '3' }"
+                                        @click="memorisationDraft.repeatAfterReciterPauseMode = '3'">
+                                        3s (balanced)
+                                    </button>
+                                    <button
+                                        type="button"
+                                        class="btn memorisation-repeat-after-delay-btn"
+                                        :class="{ 'is-active': memorisationDraft.repeatAfterReciterPauseMode === '5' }"
+                                        @click="memorisationDraft.repeatAfterReciterPauseMode = '5'">
+                                        5s (extended)
+                                    </button>
+                                    <button
+                                        type="button"
+                                        class="btn memorisation-repeat-after-delay-btn"
+                                        :class="{ 'is-active': memorisationDraft.repeatAfterReciterPauseMode === 'manual' }"
+                                        @click="memorisationDraft.repeatAfterReciterPauseMode = 'manual'">
+                                        Until I tap Continue
+                                    </button>
+                                </div>
+                                <label class="memorisation-offcanvas-toggle-row memorisation-offcanvas-toggle-row--nested">
+                                    <span class="memorisation-offcanvas-toggle-copy">
+                                        <strong>Show translation while repeating</strong>
+                                        <small>ON helps meaning recall. OFF tests memory without translation hints.</small>
+                                    </span>
+                                    <span class="form-check form-switch mb-0">
+                                        <input
+                                            class="form-check-input"
+                                            type="checkbox"
+                                            v-model="memorisationDraft.repeatAfterReciterShowTranslation"
+                                            aria-label="Show translation during repeat pause">
+                                    </span>
+                                </label>
+                                <label class="memorisation-offcanvas-field memorisation-offcanvas-field--full">
+                                    <span class="form-label surah-offcanvas-label">Arabic verse text during pause</span>
+                                    <small class="memorisation-repeat-after-meta mb-0">
+                                        Choose how visible the ayah text should be while you repeat.
+                                    </small>
+                                    <div class="memorisation-repeat-after-verse-row" role="group" aria-label="Verse text visibility during pause">
+                                        <button
+                                            type="button"
+                                            class="btn memorisation-repeat-after-verse-btn"
+                                            :class="{ 'is-active': memorisationDraft.repeatAfterReciterVerseTextMode === 'show' }"
+                                            @click="memorisationDraft.repeatAfterReciterVerseTextMode = 'show'">
+                                            Visible
+                                        </button>
+                                        <button
+                                            type="button"
+                                            class="btn memorisation-repeat-after-verse-btn"
+                                            :class="{ 'is-active': memorisationDraft.repeatAfterReciterVerseTextMode === 'dimmed' }"
+                                            @click="memorisationDraft.repeatAfterReciterVerseTextMode = 'dimmed'">
+                                            Dimmed
+                                        </button>
+                                        <button
+                                            type="button"
+                                            class="btn memorisation-repeat-after-verse-btn"
+                                            :class="{ 'is-active': memorisationDraft.repeatAfterReciterVerseTextMode === 'hide' }"
+                                            @click="memorisationDraft.repeatAfterReciterVerseTextMode = 'hide'">
+                                            Hidden (test mode)
+                                        </button>
+                                    </div>
+                                </label>
+                                <label class="memorisation-offcanvas-toggle-row memorisation-offcanvas-toggle-row--nested">
+                                    <span class="memorisation-offcanvas-toggle-copy">
+                                        <strong>Record and save on this device</strong>
+                                        <small>Saved to browser local storage only (up to 3 clips per ayah). During pause: tap Record, then Stop, then Continue.</small>
+                                    </span>
+                                    <span class="form-check form-switch mb-0">
+                                        <input
+                                            class="form-check-input"
+                                            type="checkbox"
+                                            v-model="memorisationDraft.repeatAfterReciterRecordEnabled"
+                                            aria-label="Enable repetition recording">
+                                    </span>
+                                </label>
+                                <div v-if="memorisationRepeatAfterRecordingCount" class="memorisation-repeat-library">
+                                    <div class="memorisation-repeat-library-head">
+                                        <span class="form-label surah-offcanvas-label mb-0">Repetition library</span>
+                                        <small class="memorisation-repeat-library-count">
+                                            {{ memorisationRepeatAfterRecordingCount }} saved clip{{ memorisationRepeatAfterRecordingCount === 1 ? '' : 's' }}
+                                        </small>
+                                    </div>
+                                    <label class="memorisation-offcanvas-field memorisation-offcanvas-field--full mb-0">
+                                        <small class="memorisation-repeat-library-hint mb-0">
+                                            Select an ayah, then listen, compare with ayah audio, or download.
+                                        </small>
+                                        <select
+                                            class="form-select memorisation-repeat-library-select"
+                                            :value="memorisationRepeatRecordingSelectionKeyResolved"
+                                            @change="onMemorisationRepeatRecordingSelectionChange"
+                                            aria-label="Select saved repetition ayah">
+                                            <option
+                                                v-for="option in memorisationRepeatRecordingAyahOptions"
+                                                :key="option.key"
+                                                :value="option.key">
+                                                {{ option.label }}
+                                            </option>
+                                        </select>
+                                    </label>
+                                    <div
+                                        class="memorisation-repeat-library-actions"
+                                        role="group"
+                                        aria-label="Saved repetition clip actions">
+                                        <button
+                                            type="button"
+                                            class="btn memorisation-repeat-library-btn memorisation-repeat-library-btn--primary"
+                                            :disabled="!memorisationRepeatRecordingSelectedLatest"
+                                            @click="listenSelectedMemorisationRepeatRecording">
+                                            <i class="bi bi-play-circle" aria-hidden="true"></i>
+                                            Listen clip
+                                        </button>
+                                        <button
+                                            type="button"
+                                            class="btn memorisation-repeat-library-btn memorisation-repeat-library-btn--primary"
+                                            :disabled="!memorisationRepeatRecordingSelectedLatest"
+                                            @click="compareSelectedMemorisationRepeatRecordingWithAyah">
+                                            <i class="bi bi-arrow-left-right" aria-hidden="true"></i>
+                                            Compare with ayah
+                                        </button>
+                                        <button
+                                            type="button"
+                                            class="btn memorisation-repeat-library-btn"
+                                            :disabled="!memorisationRepeatRecordingSelectedLatest"
+                                            @click="downloadSelectedMemorisationRepeatRecording">
+                                            <i class="bi bi-download" aria-hidden="true"></i>
+                                            Download clip
+                                        </button>
+                                    </div>
+                                    <p
+                                        v-if="memorisationRepeatRecordingPlaybackStatusText"
+                                        class="memorisation-repeat-library-status mb-0">
+                                        {{ memorisationRepeatRecordingPlaybackStatusText }}
+                                    </p>
+                                </div>
+                                <p v-else class="memorisation-repeat-after-meta mb-0">
+                                    No saved repetition clips yet. Record during a pause to build your library.
+                                </p>
+                            </div>
                         </div>
                     </section>
 
@@ -2616,7 +2744,7 @@
                     <div class="ayah-surface rtl-text d-flex flex-column">
                         <!-- Surah and Ayah Number -->
                         <div class="d-flex justify-content-between text-muted ltr-text ayah-card-header">
-                            <div class="d-flex align-items-center gap-2">
+                            <div class="d-flex align-items-center gap-2 flex-wrap ayah-card-header-leading">
                                 <h4>
                                     <img src="/images/art.png" width="35px" alt="Art Icon" />
                                     {{ surahDetails?.surahNumber }} :
@@ -2631,6 +2759,44 @@
                                     class="now-playing-tag now-playing-tag-loop-countdown">
                                     Loop restarts in {{ memorisationRangeLoopCountdownSeconds }}s
                                 </span>
+                                <div
+                                    v-if="isMemorisationRepeatPauseActiveForIndex(item.index)"
+                                    class="now-playing-tag now-playing-tag-repeat-after"
+                                    role="status"
+                                    aria-live="polite">
+                                    <span class="now-playing-tag-repeat-after-title">
+                                        Your turn to repeat
+                                    </span>
+                                    <small>{{ memorisationRepeatPauseStatusText }}</small>
+                                    <span class="now-playing-tag-repeat-after-actions">
+                                        <button
+                                            type="button"
+                                            class="btn now-playing-tag-repeat-after-btn"
+                                            @click.stop="continueMemorisationRepeatAfterPause">
+                                            {{ memorisationRepeatAfterPauseMode === "manual" ? "Continue" : "Skip wait" }}
+                                        </button>
+                                        <button
+                                            v-if="memorisationRepeatAfterRecordEnabled"
+                                            type="button"
+                                            class="btn now-playing-tag-repeat-after-btn now-playing-tag-repeat-after-btn-mic"
+                                            @click.stop="toggleMemorisationRepeatAfterRecording"
+                                            :aria-label="isMemorisationRepeatRecording ? 'Stop repetition recording' : 'Record repetition'">
+                                            <i
+                                                class="bi"
+                                                :class="isMemorisationRepeatRecording ? 'bi-stop-circle-fill' : 'bi-mic-fill'"
+                                                aria-hidden="true"></i>
+                                            {{ isMemorisationRepeatRecording ? "Stop" : "Record" }}
+                                        </button>
+                                        <button
+                                            v-if="getLatestMemorisationRepeatRecording(item.index)"
+                                            type="button"
+                                            class="btn now-playing-tag-repeat-after-btn"
+                                            @click.stop="playLatestMemorisationRepeatRecording(item.index)">
+                                            Play latest
+                                        </button>
+                                    </span>
+                                    <small v-if="memorisationRepeatRecordingError">{{ memorisationRepeatRecordingError }}</small>
+                                </div>
                             </div>
                             <div class="ayah-card-header-actions">
                                 <div class="form-check form-switch translation-toggle ayah-translation-toggle">
@@ -2915,26 +3081,29 @@
                             <div class="col-md-11">
                                 <div style="padding: 4px">
                                 <p
+                                    v-if="!shouldHideVerseTextForRepeatPause(item.index)"
                                     :class="[
                                         'arabic-text rtl-text text-end mb-3',
                                         {
                                             'arabic-text--active':
                                                 currentlyPlayingIndex === item.index &&
                                                 isAudioPlaying[item.index],
+                                            'repeat-pause-text-dimmed':
+                                                shouldDimVerseTextForRepeatPause(item.index),
                                         },
                                     ]"
                                     v-html="highlightedText(item.ayah)"
                                     @click="onAyahWordClick(item, $event)"
                                     :style="`font-size: ${effectiveArabicFontSize}px !important;`"
                                 ></p>
-                                <div v-if="isTranslationVisibleFor(item)" class="translation-header pt-2 ltr-text hide-on-mobile-tablet ml-2">
+                                <div v-if="shouldShowTranslationForRepeatPause(item)" class="translation-header pt-2 ltr-text hide-on-mobile-tablet ml-2">
                                     <h2 class="mb-0">
                                         Translation:
                                     </h2>
                                 </div>
-                                <div class="translation-row" :class="{ 'translation-row--collapsed': !isTranslationVisibleFor(item) }">
+                                <div class="translation-row" :class="{ 'translation-row--collapsed': !shouldShowTranslationForRepeatPause(item) }">
                                     <div class="translation-copy flex-grow-1">
-                                        <div v-if="isTranslationVisibleFor(item)">
+                                        <div v-if="shouldShowTranslationForRepeatPause(item)">
                                             <p
                                                 :class="[
                                                     'fw-regular ltr-text flex-grow-1 translation-text',
@@ -2951,19 +3120,21 @@
                                             ></p>
                                         </div>
                                         <template v-else></template>
-                                        <div v-if="isTransliterationVisibleFor(item)" class="transliteration-header pt-2 ltr-text hide-on-mobile-tablet ml-2">
+                                        <div v-if="isTransliterationVisibleFor(item) && !shouldHideVerseTextForRepeatPause(item.index)" class="transliteration-header pt-2 ltr-text hide-on-mobile-tablet ml-2">
                                             <h2 class="mb-0">
                                                 Transliteration:
                                             </h2>
                                         </div>
                                         <p
-                                            v-if="isTransliterationVisibleFor(item)"
+                                            v-if="isTransliterationVisibleFor(item) && !shouldHideVerseTextForRepeatPause(item.index)"
                                             :class="[
                                                 'fw-regular ltr-text flex-grow-1 transliteration-text',
                                                 {
                                                     'transliteration-text--active':
                                                         currentlyPlayingIndex === item.index &&
                                                         isAudioPlaying[item.index],
+                                                    'repeat-pause-text-dimmed':
+                                                        shouldDimVerseTextForRepeatPause(item.index),
                                                 },
                                             ]"
                                             v-html="highlightText(item.ayah.transliteration || transliterationFallbackText)"
@@ -3019,24 +3190,27 @@
                             :aria-hidden="!isMobile">
                             <div>
                                 <p
+                                    v-if="!shouldHideVerseTextForRepeatPause(item.index)"
                                     :class="[
                                         'arabic-text rtl-text text-end mb-3',
                                         {
                                             'arabic-text--active':
                                                 currentlyPlayingIndex === item.index &&
                                                 isAudioPlaying[item.index],
+                                            'repeat-pause-text-dimmed':
+                                                shouldDimVerseTextForRepeatPause(item.index),
                                         },
                                     ]"
                                     v-html="highlightedText(item.ayah)"
                                     @click="onAyahWordClick(item, $event)"
                                     :style="`font-size: ${effectiveArabicFontSize}px !important;`"
                                 ></p>
-                                <div v-if="isTranslationVisibleFor(item)" class="d-flex align-items-center fw-bold pt-2 ltr-text ml-2">
+                                <div v-if="shouldShowTranslationForRepeatPause(item)" class="d-flex align-items-center fw-bold pt-2 ltr-text ml-2">
                                     <h4 class="mb-0">
                                         Translation:
                                     </h4>
                                 </div>
-                                <div v-if="isTranslationVisibleFor(item)">
+                                <div v-if="shouldShowTranslationForRepeatPause(item)">
                                     <p
                                         :class="[
                                             'fw-regular ltr-text flex-grow-1 translation-text',
@@ -3053,19 +3227,21 @@
                                     ></p>
                                 </div>
                                 <template v-else></template>
-                                <div v-if="isTransliterationVisibleFor(item)" class="d-flex align-items-center fw-bold pt-2 ltr-text ml-2 transliteration-header">
+                                <div v-if="isTransliterationVisibleFor(item) && !shouldHideVerseTextForRepeatPause(item.index)" class="d-flex align-items-center fw-bold pt-2 ltr-text ml-2 transliteration-header">
                                     <h4 class="mb-0">
                                         Transliteration:
                                     </h4>
                                 </div>
                                 <p
-                                    v-if="isTransliterationVisibleFor(item)"
+                                    v-if="isTransliterationVisibleFor(item) && !shouldHideVerseTextForRepeatPause(item.index)"
                                     :class="[
                                         'fw-regular ltr-text flex-grow-1 transliteration-text',
                                         {
                                             'transliteration-text--active':
                                                 currentlyPlayingIndex === item.index &&
                                                 isAudioPlaying[item.index],
+                                            'repeat-pause-text-dimmed':
+                                                shouldDimVerseTextForRepeatPause(item.index),
                                         },
                                     ]"
                                     v-html="highlightText(item.ayah.transliteration || transliterationFallbackText)"
