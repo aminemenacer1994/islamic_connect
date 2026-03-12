@@ -8,6 +8,13 @@ import {
     VOICE_COMMAND_GUIDE,
     voiceCommandMethods,
 } from "./surat.voice-commands";
+import {
+    dispatchReviewQueueSync,
+    getReviewQueueStorageKey,
+    normalizeReviewQueueMap,
+    readReviewQueue,
+    writeReviewQueue,
+} from "./reviewQueueStorage";
 export default {
     name: "SuratComponent",
     components: {
@@ -948,6 +955,44 @@ export default {
                 { value: "minor", label: "Minor Mistakes" },
                 { value: "weak", label: "Weak" },
             ],
+            hifzPlanToolStorageKeyBase: "ic_hifz_plan_tool_v2",
+            hifzPlanToolLegacyStorageKey: "ic_hifz_plan_tool_v1",
+            hifzDailyGoalsStorageKey: "ic_hifz_daily_goals_v1",
+            hifzDailyGoalsSyncEvent: "ic-daily-goals-updated",
+            hifzPlans: [],
+            hifzActivePlanId: "",
+            hifzPlanWizardModalInstance: null,
+            hifzPlanDashboardModalInstance: null,
+            hifzPlanWizardError: "",
+            hifzPlanDashboardMonthKey: "",
+            hifzAutoloadedDateKey: "",
+            hifzRestDayOptions: [
+                { value: 0, label: "Sun" },
+                { value: 1, label: "Mon" },
+                { value: 2, label: "Tue" },
+                { value: 3, label: "Wed" },
+                { value: 4, label: "Thu" },
+                { value: 5, label: "Fri" },
+                { value: 6, label: "Sat" },
+            ],
+            hifzWizard: {
+                planName: "",
+                targetType: "whole-quran",
+                targetJuzNumber: 30,
+                targetSurahNumber: 1,
+                customStartSurah: 1,
+                customStartAyah: 1,
+                customEndSurah: 1,
+                customEndAyah: 7,
+                deadlineType: "in-days",
+                deadlineDate: "",
+                deadlineDays: 90,
+                includeRevisionDays: true,
+                revisionEveryDays: 7,
+                newVerseRatio: 70,
+                reviewVerseRatio: 30,
+                restDays: [5],
+            },
             settingsDraft: {
                 showTajweed: false,
                 showRealtimeHighlighting: false,
@@ -2066,6 +2111,125 @@ export default {
             const when = this.formatDateKey(next.scheduledDate);
             return `Next review: ${this.hifdhEntrySummary(next)} (${label}) on ${when}.`;
         },
+        hasHifzPlans() {
+            return Array.isArray(this.hifzPlans) && this.hifzPlans.length > 0;
+        },
+        hifzPlansSorted() {
+            if (!Array.isArray(this.hifzPlans)) return [];
+            return [...this.hifzPlans].sort(
+                (left, right) =>
+                    Number(right?.createdAt || 0) - Number(left?.createdAt || 0)
+            );
+        },
+        activeHifzPlan() {
+            const plans = this.hifzPlansSorted;
+            if (!plans.length) return null;
+            const explicit = plans.find(
+                (plan) => String(plan?.id || "") === String(this.hifzActivePlanId || "")
+            );
+            return explicit || plans[0] || null;
+        },
+        activeHifzPlanTodayEntry() {
+            const plan = this.activeHifzPlan;
+            if (!plan) return null;
+            return this.getTodayHifzPlanEntry(plan);
+        },
+        activeHifzPlanTodayTargetSentence() {
+            const entry = this.activeHifzPlanTodayEntry;
+            if (!entry) return "No target scheduled today.";
+            return this.formatHifzScheduleEntryTargetSentence(entry);
+        },
+        activeHifzPlanProgressPercent() {
+            const plan = this.activeHifzPlan;
+            if (!plan) return 0;
+            return this.getHifzPlanProgressPercent(plan);
+        },
+        activeHifzPlanProgressLabel() {
+            const plan = this.activeHifzPlan;
+            if (!plan) return "0/0 ayahs";
+            const completed = this.getHifzPlanCompletedAyahCount(plan);
+            const total = Number(plan?.totalAyahs || 0);
+            return `${completed}/${total} ayahs`;
+        },
+        activeHifzPlanAheadBehindLabel() {
+            const plan = this.activeHifzPlan;
+            if (!plan) return "No active schedule.";
+            const diff = this.getHifzPlanAheadBehindDays(plan);
+            if (diff > 0) return `You're ${diff} day${diff === 1 ? "" : "s"} ahead schedule`;
+            if (diff < 0)
+                return `You're ${Math.abs(diff)} day${Math.abs(diff) === 1 ? "" : "s"} behind schedule`;
+            return "You're on schedule";
+        },
+        hifzDashboardMonthLabel() {
+            const monthKey = this.hifzPlanDashboardMonthKey || this.toMonthKey(new Date());
+            const date = this.monthKeyToDate(monthKey);
+            if (!date) return "";
+            return date.toLocaleDateString(undefined, {
+                month: "long",
+                year: "numeric",
+            });
+        },
+        hifzDashboardCalendarEntries() {
+            const plan = this.activeHifzPlan;
+            if (!plan || !Array.isArray(plan.schedule)) return [];
+            const monthKey = this.hifzPlanDashboardMonthKey || this.toMonthKey(new Date());
+            return plan.schedule.filter(
+                (entry) => String(entry?.dateKey || "").slice(0, 7) === monthKey
+            );
+        },
+        hifzWizardPreview() {
+            const totalAyahs = this.estimateHifzTargetAyahCountFromWizard(
+                this.hifzWizard
+            );
+            if (!totalAyahs) {
+                return {
+                    totalAyahs: 0,
+                    workingDays: 0,
+                    dailyAyahs: 0,
+                    deadlineDateKey: "",
+                };
+            }
+            const deadlineDateKey = this.resolveHifzWizardDeadlineDateKey(this.hifzWizard);
+            if (!deadlineDateKey) {
+                return {
+                    totalAyahs,
+                    workingDays: 0,
+                    dailyAyahs: 0,
+                    deadlineDateKey: "",
+                };
+            }
+            const dayKeys = this.buildDateRangeKeys(this.toDateKey(new Date()), deadlineDateKey);
+            const restDays = new Set(this.normalizeHifzRestDays(this.hifzWizard?.restDays));
+            let workingCounter = 0;
+            let workingDays = 0;
+            dayKeys.forEach((dateKey) => {
+                const date = new Date(`${dateKey}T12:00:00`);
+                const weekday = date.getDay();
+                if (restDays.has(weekday)) return;
+                workingCounter += 1;
+                const includeRevision = !!this.hifzWizard?.includeRevisionDays;
+                const revisionEvery = Math.max(
+                    2,
+                    Number(this.hifzWizard?.revisionEveryDays || 7)
+                );
+                const isRevisionDay =
+                    includeRevision &&
+                    revisionEvery > 1 &&
+                    workingCounter % revisionEvery === 0;
+                if (!isRevisionDay) {
+                    workingDays += 1;
+                }
+            });
+            const dailyAyahs = workingDays
+                ? Math.ceil(totalAyahs / workingDays)
+                : totalAyahs;
+            return {
+                totalAyahs,
+                workingDays,
+                dailyAyahs,
+                deadlineDateKey,
+            };
+        },
         sidebarNormalizedQuery() {
             return (this.sidebarDebouncedQuery || "").trim().toLowerCase();
         },
@@ -3110,6 +3274,7 @@ export default {
             this.loadMemorisationModePreference();
             this.shouldRestoreMemorisationToolbarOnLoad =
                 this.loadMemorisationToolbarVisibilityPreference();
+            this.initializeHifzPlanTool();
         },
         userId(next, prev) {
             if (this.bookmarkStorageUserId) return;
@@ -3124,6 +3289,7 @@ export default {
             this.loadMemorisationModePreference();
             this.shouldRestoreMemorisationToolbarOnLoad =
                 this.loadMemorisationToolbarVisibilityPreference();
+            this.initializeHifzPlanTool();
         },
         playlistEditorName() {
             this.showPlaylistEditorConfirmAction = false;
@@ -3814,6 +3980,9 @@ export default {
             .then(async () => {
                 this.isInitialLoad = false;
                 await this.restoreMemorisationToolbarOnLoadIfNeeded();
+                this.refreshHifzPlanSchedules();
+                await this.autoLoadTodayHifzTargetRange();
+                this.syncHifzIntegrations();
             })
             .finally(() => {
                 if (typeof window !== "undefined") {
@@ -3831,6 +4000,7 @@ export default {
         this.prepareSettingsDraft();
         this.populateMemorisationDraft();
         this.initializeHifdhScheduler();
+        this.initializeHifzPlanTool();
         this.registerTranslationCompareModalEvents();
         this.$nextTick(() => {
             const modalEl = document.getElementById(this.tafsirModalId);
@@ -4116,6 +4286,18 @@ export default {
             } catch (_) {}
             this.hifdhPlanModalInstance = null;
         }
+        if (this.hifzPlanWizardModalInstance) {
+            try {
+                this.hifzPlanWizardModalInstance.hide();
+            } catch (_) {}
+            this.hifzPlanWizardModalInstance = null;
+        }
+        if (this.hifzPlanDashboardModalInstance) {
+            try {
+                this.hifzPlanDashboardModalInstance.hide();
+            } catch (_) {}
+            this.hifzPlanDashboardModalInstance = null;
+        }
         if (this.verseCountdownCompleteModalInstance) {
             try {
                 this.verseCountdownCompleteModalInstance.hide();
@@ -4328,6 +4510,18 @@ export default {
                     this.hifdhPlanModalInstance.hide();
                 } catch (_) {}
                 this.hifdhPlanModalInstance = null;
+            }
+            if (this.hifzPlanWizardModalInstance) {
+                try {
+                    this.hifzPlanWizardModalInstance.hide();
+                } catch (_) {}
+                this.hifzPlanWizardModalInstance = null;
+            }
+            if (this.hifzPlanDashboardModalInstance) {
+                try {
+                    this.hifzPlanDashboardModalInstance.hide();
+                } catch (_) {}
+                this.hifzPlanDashboardModalInstance = null;
             }
             if (this.verseCountdownCompleteModalInstance) {
                 try {
@@ -10246,6 +10440,1220 @@ export default {
                 this.announce("Today’s Hifdh session is complete.");
             }
             this.persistHifdhPlanUiState();
+        },
+        buildDefaultHifzWizardState() {
+            const fallbackSurah = Math.max(1, Number(this.selectedSurah || 1));
+            const fallbackMaxAyah = Math.max(
+                1,
+                Number(this.getSurahAyahCountByNumber(fallbackSurah) || 1)
+            );
+            return {
+                planName: "",
+                targetType: "whole-quran",
+                targetJuzNumber: 30,
+                targetSurahNumber: fallbackSurah,
+                customStartSurah: fallbackSurah,
+                customStartAyah: 1,
+                customEndSurah: fallbackSurah,
+                customEndAyah: Math.min(7, fallbackMaxAyah),
+                deadlineType: "in-days",
+                deadlineDate: "",
+                deadlineDays: 90,
+                includeRevisionDays: true,
+                revisionEveryDays: 7,
+                newVerseRatio: 70,
+                reviewVerseRatio: 30,
+                restDays: [5],
+            };
+        },
+        getHifzPlanToolStorageKey() {
+            const base = this.hifzPlanToolStorageKeyBase || "ic_hifz_plan_tool_v2";
+            if (this.bookmarkStorageUserId) {
+                return `${base}_user_${this.bookmarkStorageUserId}`;
+            }
+            if (this.userId) {
+                return `${base}_user_${this.userId}`;
+            }
+            const anonId = this.getOrCreateSuratPreferenceAnonId();
+            return `${base}_anon_${anonId || "local"}`;
+        },
+        initializeHifzPlanTool() {
+            this.loadHifzPlanToolState();
+            if (!this.hifzPlanDashboardMonthKey) {
+                this.hifzPlanDashboardMonthKey = this.toMonthKey(new Date());
+            }
+            if (!this.hifzWizard || typeof this.hifzWizard !== "object") {
+                this.hifzWizard = this.buildDefaultHifzWizardState();
+            }
+            this.refreshHifzPlanSchedules();
+            this.syncHifzIntegrations();
+            if (this.hasHifzPlans) {
+                this.autoLoadTodayHifzTargetRange();
+            }
+        },
+        loadHifzPlanToolState() {
+            if (typeof window === "undefined") return;
+            try {
+                const scopedKey = this.getHifzPlanToolStorageKey();
+                let raw = localStorage.getItem(scopedKey);
+                const isAnonScope = scopedKey.includes("_anon_");
+                if (!raw && isAnonScope) {
+                    const legacyKey = String(
+                        this.hifzPlanToolLegacyStorageKey || ""
+                    ).trim();
+                    if (legacyKey) {
+                        const legacyRaw = localStorage.getItem(legacyKey);
+                        if (legacyRaw) {
+                            raw = legacyRaw;
+                            localStorage.setItem(scopedKey, legacyRaw);
+                        }
+                    }
+                }
+                if (!raw) {
+                    this.hifzPlans = [];
+                    this.hifzActivePlanId = "";
+                    this.hifzAutoloadedDateKey = "";
+                    return;
+                }
+                const parsed = JSON.parse(raw);
+                this.hifzActivePlanId = String(parsed?.activePlanId || "").trim();
+                this.hifzAutoloadedDateKey = String(
+                    parsed?.autoloadedDateKey || ""
+                ).trim();
+                this.hifzPlans = Array.isArray(parsed?.plans)
+                    ? parsed.plans
+                          .map((plan) => this.normalizeHifzPlan(plan))
+                          .filter(Boolean)
+                    : [];
+                if (
+                    this.hifzActivePlanId &&
+                    !this.hifzPlans.some(
+                        (plan) =>
+                            String(plan?.id || "") === String(this.hifzActivePlanId)
+                    )
+                ) {
+                    this.hifzActivePlanId = "";
+                }
+                if (!this.hifzActivePlanId && this.hifzPlans.length) {
+                    this.hifzActivePlanId = String(this.hifzPlans[0].id || "");
+                }
+            } catch (_) {
+                this.hifzPlans = [];
+                this.hifzActivePlanId = "";
+                this.hifzAutoloadedDateKey = "";
+            }
+        },
+        persistHifzPlanToolState() {
+            if (typeof window === "undefined") return;
+            try {
+                localStorage.setItem(
+                    this.getHifzPlanToolStorageKey(),
+                    JSON.stringify({
+                        activePlanId: this.hifzActivePlanId || "",
+                        autoloadedDateKey: this.hifzAutoloadedDateKey || "",
+                        plans: this.hifzPlans || [],
+                    })
+                );
+            } catch (_) {}
+        },
+        normalizeHifzPlan(plan) {
+            if (!plan || typeof plan !== "object") return null;
+            const id = String(plan.id || "").trim();
+            if (!id) return null;
+            const startDateKey =
+                String(plan.startDateKey || "").trim() || this.toDateKey(new Date());
+            let deadlineDateKey = String(plan.deadlineDateKey || "").trim();
+            if (!/^\d{4}-\d{2}-\d{2}$/.test(deadlineDateKey)) {
+                deadlineDateKey = startDateKey;
+            }
+            if (deadlineDateKey < startDateKey) {
+                deadlineDateKey = startDateKey;
+            }
+            const options = {
+                includeRevisionDays: !!plan?.options?.includeRevisionDays,
+                revisionEveryDays: Math.max(
+                    2,
+                    Number(plan?.options?.revisionEveryDays || 7)
+                ),
+                newVerseRatio: Math.max(1, Number(plan?.options?.newVerseRatio || 70)),
+                reviewVerseRatio: Math.max(
+                    0,
+                    Number(plan?.options?.reviewVerseRatio || 30)
+                ),
+                restDays: this.normalizeHifzRestDays(plan?.options?.restDays),
+            };
+            const units = Array.isArray(plan.units)
+                ? plan.units
+                      .map((item) => ({
+                          surahNumber: Number(item?.surahNumber || 0),
+                          ayahNumber: Number(item?.ayahNumber || 0),
+                          key: `${Number(item?.surahNumber || 0)}:${Number(
+                              item?.ayahNumber || 0
+                          )}`,
+                      }))
+                      .filter(
+                          (item) =>
+                              Number.isFinite(item.surahNumber) &&
+                              item.surahNumber > 0 &&
+                              Number.isFinite(item.ayahNumber) &&
+                              item.ayahNumber > 0
+                      )
+                : [];
+            const target = plan?.target && typeof plan.target === "object"
+                ? { ...plan.target }
+                : {};
+            const schedule = Array.isArray(plan.schedule)
+                ? plan.schedule
+                      .map((entry) => this.normalizeHifzScheduleEntry(entry))
+                      .filter(Boolean)
+                : [];
+            return {
+                id,
+                name: String(plan.name || "").trim() || "Hifz Plan",
+                createdAt: Number(plan.createdAt || Date.now()),
+                updatedAt: Number(plan.updatedAt || Date.now()),
+                startDateKey,
+                deadlineDateKey,
+                target,
+                targetLabel:
+                    String(plan.targetLabel || "").trim() ||
+                    this.describeHifzTarget(target),
+                options,
+                units,
+                totalAyahs: Number(plan.totalAyahs || units.length || 0),
+                completedAyahs: Number(plan.completedAyahs || 0),
+                status: String(plan.status || "active").trim() || "active",
+                schedule,
+            };
+        },
+        normalizeHifzScheduleEntry(entry) {
+            if (!entry || typeof entry !== "object") return null;
+            const dateKey = String(entry.dateKey || "").trim();
+            if (!/^\d{4}-\d{2}-\d{2}$/.test(dateKey)) return null;
+            return {
+                dateKey,
+                isRestDay: !!entry.isRestDay,
+                isRevisionDay: !!entry.isRevisionDay,
+                completed: !!entry.completed,
+                completedAt: String(entry.completedAt || "").trim() || null,
+                newTargets: this.cloneHifzRanges(entry.newTargets),
+                reviewTargets: this.cloneHifzRanges(entry.reviewTargets),
+            };
+        },
+        cloneHifzRanges(ranges) {
+            if (!Array.isArray(ranges)) return [];
+            return ranges
+                .map((range) => ({
+                    surahNumber: Number(range?.surahNumber || 0),
+                    startAyah: Number(range?.startAyah || 0),
+                    endAyah: Number(range?.endAyah || 0),
+                    count: Number(range?.count || 0),
+                }))
+                .filter(
+                    (range) =>
+                        range.surahNumber > 0 &&
+                        range.startAyah > 0 &&
+                        range.endAyah >= range.startAyah
+                );
+        },
+        normalizeHifzRestDays(restDays) {
+            if (!Array.isArray(restDays)) return [];
+            const unique = new Set();
+            restDays.forEach((day) => {
+                const normalized = Number(day);
+                if (!Number.isFinite(normalized)) return;
+                const safeDay = Math.trunc(normalized);
+                if (safeDay < 0 || safeDay > 6) return;
+                unique.add(safeDay);
+            });
+            return Array.from(unique).sort((left, right) => left - right);
+        },
+        toMonthKey(input) {
+            const date = input instanceof Date ? input : new Date(input);
+            if (Number.isNaN(date.getTime())) return "";
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, "0");
+            return `${year}-${month}`;
+        },
+        monthKeyToDate(monthKey) {
+            const value = String(monthKey || "").trim();
+            if (!/^\d{4}-\d{2}$/.test(value)) return null;
+            const date = new Date(`${value}-01T12:00:00`);
+            if (Number.isNaN(date.getTime())) return null;
+            return date;
+        },
+        shiftHifzDashboardMonth(offset) {
+            const baseDate = this.monthKeyToDate(
+                this.hifzPlanDashboardMonthKey || this.toMonthKey(new Date())
+            );
+            if (!baseDate) return;
+            baseDate.setMonth(baseDate.getMonth() + Number(offset || 0));
+            this.hifzPlanDashboardMonthKey = this.toMonthKey(baseDate);
+            this.persistHifzPlanToolState();
+        },
+        setHifzDashboardMonthToToday() {
+            this.hifzPlanDashboardMonthKey = this.toMonthKey(new Date());
+            this.persistHifzPlanToolState();
+        },
+        buildDateRangeKeys(startDateKey, endDateKey) {
+            const start = new Date(`${startDateKey}T12:00:00`);
+            const end = new Date(`${endDateKey}T12:00:00`);
+            if (Number.isNaN(start.getTime()) || Number.isNaN(end.getTime())) return [];
+            if (end < start) return [];
+            const output = [];
+            const cursor = new Date(start);
+            let guard = 0;
+            while (cursor <= end && guard < 5000) {
+                output.push(this.toDateKey(cursor));
+                cursor.setDate(cursor.getDate() + 1);
+                guard += 1;
+            }
+            return output;
+        },
+        distributeHifzCounts(totalItems, slots) {
+            const total = Math.max(0, Number(totalItems || 0));
+            const count = Math.max(0, Number(slots || 0));
+            if (!count) return [];
+            const base = Math.floor(total / count);
+            let remainder = total % count;
+            return Array.from({ length: count }, () => {
+                const value = base + (remainder > 0 ? 1 : 0);
+                if (remainder > 0) remainder -= 1;
+                return value;
+            });
+        },
+        buildHifzAyahUnitsForRange(startSurah, startAyah, endSurah, endAyah) {
+            const startSurahSafe = Number(startSurah || 1);
+            const endSurahSafe = Number(endSurah || startSurahSafe || 1);
+            const minSurah = Math.max(1, Math.min(startSurahSafe, endSurahSafe));
+            const maxSurah = Math.max(minSurah, Math.max(startSurahSafe, endSurahSafe));
+            const units = [];
+            for (let surah = minSurah; surah <= maxSurah; surah += 1) {
+                const totalAyahs = Math.max(
+                    1,
+                    Number(this.getSurahAyahCountByNumber(surah) || 0)
+                );
+                const rangeStart =
+                    surah === startSurahSafe
+                        ? Math.max(1, Math.min(totalAyahs, Number(startAyah || 1)))
+                        : 1;
+                const rangeEnd =
+                    surah === endSurahSafe
+                        ? Math.max(rangeStart, Math.min(totalAyahs, Number(endAyah || totalAyahs)))
+                        : totalAyahs;
+                for (let ayah = rangeStart; ayah <= rangeEnd; ayah += 1) {
+                    units.push({
+                        surahNumber: surah,
+                        ayahNumber: ayah,
+                        key: `${surah}:${ayah}`,
+                    });
+                }
+            }
+            return units;
+        },
+        countHifzAyahsForRange(startSurah, startAyah, endSurah, endAyah) {
+            const startSurahSafe = Number(startSurah || 1);
+            const endSurahSafe = Number(endSurah || startSurahSafe || 1);
+            const minSurah = Math.max(1, Math.min(startSurahSafe, endSurahSafe));
+            const maxSurah = Math.max(minSurah, Math.max(startSurahSafe, endSurahSafe));
+            let total = 0;
+            for (let surah = minSurah; surah <= maxSurah; surah += 1) {
+                const totalAyahs = Math.max(
+                    1,
+                    Number(this.getSurahAyahCountByNumber(surah) || 0)
+                );
+                const rangeStart =
+                    surah === startSurahSafe
+                        ? Math.max(1, Math.min(totalAyahs, Number(startAyah || 1)))
+                        : 1;
+                const rangeEnd =
+                    surah === endSurahSafe
+                        ? Math.max(rangeStart, Math.min(totalAyahs, Number(endAyah || totalAyahs)))
+                        : totalAyahs;
+                total += rangeEnd - rangeStart + 1;
+            }
+            return total;
+        },
+        resolveHifzJuzRange(juzNumber) {
+            const safeJuz = Math.min(30, Math.max(1, Number(juzNumber || 1)));
+            const start = JUZ_START_MAPPING[safeJuz];
+            if (!start) return null;
+            const startSurah = Number(start?.surah || 1);
+            const startAyah = Number(start?.ayah || 1);
+            const next = JUZ_START_MAPPING[safeJuz + 1];
+            if (!next) {
+                return {
+                    startSurah,
+                    startAyah,
+                    endSurah: 114,
+                    endAyah: Math.max(1, Number(this.getSurahAyahCountByNumber(114) || 6)),
+                };
+            }
+            const nextSurah = Number(next?.surah || startSurah);
+            const nextAyah = Number(next?.ayah || 1);
+            let endSurah = nextSurah;
+            let endAyah = Math.max(1, nextAyah - 1);
+            if (nextAyah <= 1) {
+                endSurah = Math.max(1, nextSurah - 1);
+                endAyah = Math.max(
+                    1,
+                    Number(this.getSurahAyahCountByNumber(endSurah) || 1)
+                );
+            }
+            return {
+                startSurah,
+                startAyah,
+                endSurah,
+                endAyah,
+            };
+        },
+        describeHifzTarget(target = {}) {
+            const type = String(target?.type || "").trim();
+            if (type === "whole-quran") return "Whole Quran";
+            if (type === "specific-juz") {
+                return `Juz ${Number(target?.juzNumber || 1)}`;
+            }
+            if (type === "specific-surah") {
+                const surahNumber = Number(target?.surahNumber || 1);
+                const surahName = this.getSurahNameByNumber(surahNumber);
+                return `Surah ${surahName}`;
+            }
+            if (type === "custom-range") {
+                const startSurah = Number(target?.startSurah || 1);
+                const endSurah = Number(target?.endSurah || startSurah);
+                const startAyah = Number(target?.startAyah || 1);
+                const endAyah = Number(target?.endAyah || startAyah);
+                if (startSurah === endSurah) {
+                    return `Surah ${this.getSurahNameByNumber(startSurah)} (${startAyah}-${endAyah})`;
+                }
+                return `${this.getSurahNameByNumber(startSurah)} ${startAyah} - ${this.getSurahNameByNumber(endSurah)} ${endAyah}`;
+            }
+            return "Custom target";
+        },
+        estimateHifzTargetAyahCountFromWizard(wizard = this.hifzWizard) {
+            const targetType = String(wizard?.targetType || "").trim();
+            if (!targetType) return 0;
+            if (targetType === "whole-quran") {
+                return this.countHifzAyahsForRange(1, 1, 114, 286);
+            }
+            if (targetType === "specific-juz") {
+                const juzNumber = Math.min(
+                    30,
+                    Math.max(1, Number(wizard?.targetJuzNumber || 1))
+                );
+                const range = this.resolveHifzJuzRange(juzNumber);
+                if (!range) return 0;
+                return this.countHifzAyahsForRange(
+                    range.startSurah,
+                    range.startAyah,
+                    range.endSurah,
+                    range.endAyah
+                );
+            }
+            if (targetType === "specific-surah") {
+                const surahNumber = Math.max(
+                    1,
+                    Number(wizard?.targetSurahNumber || this.selectedSurah || 1)
+                );
+                const maxAyah = Math.max(
+                    1,
+                    Number(this.getSurahAyahCountByNumber(surahNumber) || 1)
+                );
+                return this.countHifzAyahsForRange(
+                    surahNumber,
+                    1,
+                    surahNumber,
+                    maxAyah
+                );
+            }
+            if (targetType === "custom-range") {
+                const startSurah = Math.max(1, Number(wizard?.customStartSurah || 1));
+                const endSurah = Math.max(1, Number(wizard?.customEndSurah || startSurah));
+                const startAyah = Math.max(1, Number(wizard?.customStartAyah || 1));
+                const endAyah = Math.max(1, Number(wizard?.customEndAyah || startAyah));
+                return this.countHifzAyahsForRange(
+                    startSurah,
+                    startAyah,
+                    endSurah,
+                    endAyah
+                );
+            }
+            return 0;
+        },
+        toggleHifzWizardRestDay(dayIndex) {
+            const day = Number(dayIndex);
+            if (!Number.isFinite(day) || day < 0 || day > 6) return;
+            const current = Array.isArray(this.hifzWizard?.restDays)
+                ? [...this.hifzWizard.restDays]
+                : [];
+            const exists = current.includes(day);
+            const next = exists
+                ? current.filter((value) => Number(value) !== day)
+                : [...current, day];
+            this.hifzWizard.restDays = this.normalizeHifzRestDays(next);
+        },
+        buildHifzTargetFromWizard(wizard = this.hifzWizard) {
+            const targetType = String(wizard?.targetType || "").trim();
+            if (!targetType) return null;
+            if (targetType === "whole-quran") {
+                const units = this.buildHifzAyahUnitsForRange(1, 1, 114, 286);
+                return {
+                    units,
+                    targetLabel: "Whole Quran",
+                    targetConfig: { type: "whole-quran" },
+                };
+            }
+            if (targetType === "specific-juz") {
+                const juzNumber = Math.min(
+                    30,
+                    Math.max(1, Number(wizard?.targetJuzNumber || 1))
+                );
+                const range = this.resolveHifzJuzRange(juzNumber);
+                if (!range) return null;
+                const units = this.buildHifzAyahUnitsForRange(
+                    range.startSurah,
+                    range.startAyah,
+                    range.endSurah,
+                    range.endAyah
+                );
+                return {
+                    units,
+                    targetLabel: `Juz ${juzNumber}`,
+                    targetConfig: {
+                        type: "specific-juz",
+                        juzNumber,
+                        ...range,
+                    },
+                };
+            }
+            if (targetType === "specific-surah") {
+                const surahNumber = Math.max(
+                    1,
+                    Number(wizard?.targetSurahNumber || this.selectedSurah || 1)
+                );
+                const maxAyah = Math.max(
+                    1,
+                    Number(this.getSurahAyahCountByNumber(surahNumber) || 1)
+                );
+                const units = this.buildHifzAyahUnitsForRange(
+                    surahNumber,
+                    1,
+                    surahNumber,
+                    maxAyah
+                );
+                const surahName = this.getSurahNameByNumber(surahNumber);
+                return {
+                    units,
+                    targetLabel: `Surah ${surahName}`,
+                    targetConfig: {
+                        type: "specific-surah",
+                        surahNumber,
+                    },
+                };
+            }
+            if (targetType === "custom-range") {
+                const startSurah = Math.max(1, Number(wizard?.customStartSurah || 1));
+                const endSurah = Math.max(1, Number(wizard?.customEndSurah || startSurah));
+                const startAyah = Math.max(1, Number(wizard?.customStartAyah || 1));
+                const endAyah = Math.max(1, Number(wizard?.customEndAyah || startAyah));
+                const units = this.buildHifzAyahUnitsForRange(
+                    startSurah,
+                    startAyah,
+                    endSurah,
+                    endAyah
+                );
+                const targetConfig = {
+                    type: "custom-range",
+                    startSurah,
+                    startAyah,
+                    endSurah,
+                    endAyah,
+                };
+                return {
+                    units,
+                    targetLabel: this.describeHifzTarget(targetConfig),
+                    targetConfig,
+                };
+            }
+            return null;
+        },
+        resolveNextRamadanDateKey() {
+            const today = new Date();
+            const cursor = new Date("2026-02-19T12:00:00");
+            while (cursor < today) {
+                cursor.setDate(cursor.getDate() + 354);
+            }
+            return this.toDateKey(cursor);
+        },
+        resolveHifzWizardDeadlineDateKey(wizard = this.hifzWizard) {
+            const deadlineType = String(wizard?.deadlineType || "").trim();
+            const todayKey = this.toDateKey(new Date());
+            if (deadlineType === "by-ramadan") {
+                const ramadanKey = this.resolveNextRamadanDateKey();
+                return ramadanKey >= todayKey ? ramadanKey : todayKey;
+            }
+            if (deadlineType === "by-date") {
+                const raw = String(wizard?.deadlineDate || "").trim();
+                if (!/^\d{4}-\d{2}-\d{2}$/.test(raw)) return "";
+                return raw >= todayKey ? raw : todayKey;
+            }
+            const days = Math.max(1, Number(wizard?.deadlineDays || 1));
+            return this.addDaysToDateKey(todayKey, days);
+        },
+        countHifzRangesAyahs(ranges) {
+            return this.cloneHifzRanges(ranges).reduce((total, range) => {
+                const explicitCount = Number(range?.count || 0);
+                if (explicitCount > 0) return total + explicitCount;
+                return total + (Number(range.endAyah || 0) - Number(range.startAyah || 0) + 1);
+            }, 0);
+        },
+        flattenHifzRangesToUnits(ranges) {
+            const units = [];
+            this.cloneHifzRanges(ranges).forEach((range) => {
+                const surahNumber = Number(range.surahNumber || 0);
+                const startAyah = Number(range.startAyah || 0);
+                const endAyah = Number(range.endAyah || 0);
+                if (!surahNumber || !startAyah || !endAyah) return;
+                for (let ayah = startAyah; ayah <= endAyah; ayah += 1) {
+                    units.push({
+                        surahNumber,
+                        ayahNumber: ayah,
+                        key: `${surahNumber}:${ayah}`,
+                    });
+                }
+            });
+            return units;
+        },
+        buildHifzRangesFromUnits(units) {
+            if (!Array.isArray(units) || !units.length) return [];
+            const normalized = units
+                .map((item) => ({
+                    surahNumber: Number(item?.surahNumber || 0),
+                    ayahNumber: Number(item?.ayahNumber || 0),
+                }))
+                .filter(
+                    (item) =>
+                        item.surahNumber > 0 &&
+                        item.ayahNumber > 0 &&
+                        Number.isFinite(item.surahNumber) &&
+                        Number.isFinite(item.ayahNumber)
+                );
+            if (!normalized.length) return [];
+            const ranges = [];
+            let rangeStart = normalized[0];
+            let previous = normalized[0];
+            for (let index = 1; index < normalized.length; index += 1) {
+                const current = normalized[index];
+                const isContiguous =
+                    current.surahNumber === previous.surahNumber &&
+                    current.ayahNumber === previous.ayahNumber + 1;
+                if (!isContiguous) {
+                    ranges.push({
+                        surahNumber: rangeStart.surahNumber,
+                        startAyah: rangeStart.ayahNumber,
+                        endAyah: previous.ayahNumber,
+                        count: previous.ayahNumber - rangeStart.ayahNumber + 1,
+                    });
+                    rangeStart = current;
+                }
+                previous = current;
+            }
+            ranges.push({
+                surahNumber: rangeStart.surahNumber,
+                startAyah: rangeStart.ayahNumber,
+                endAyah: previous.ayahNumber,
+                count: previous.ayahNumber - rangeStart.ayahNumber + 1,
+            });
+            return ranges;
+        },
+        pickHifzReviewUnits(poolUnits, count, cursor = 0) {
+            const pool = Array.isArray(poolUnits) ? poolUnits : [];
+            const desired = Math.min(pool.length, Math.max(0, Number(count || 0)));
+            if (!desired || !pool.length) return [];
+            const start = ((Number(cursor || 0) % pool.length) + pool.length) % pool.length;
+            const picked = [];
+            for (let i = 0; i < desired; i += 1) {
+                picked.push(pool[(start + i) % pool.length]);
+            }
+            return picked;
+        },
+        generateHifzScheduleForPlan(plan, referenceDateKey = this.toDateKey(new Date())) {
+            if (!plan || !Array.isArray(plan.units) || !plan.units.length) return [];
+            const startDateKey = String(plan.startDateKey || "").trim();
+            const endDateKey = String(plan.deadlineDateKey || "").trim();
+            const dayKeys = this.buildDateRangeKeys(startDateKey, endDateKey);
+            if (!dayKeys.length) return [];
+            const completedByDate = new Map();
+            if (Array.isArray(plan.schedule)) {
+                plan.schedule.forEach((entry) => {
+                    const normalized = this.normalizeHifzScheduleEntry(entry);
+                    if (!normalized || !normalized.completed) return;
+                    completedByDate.set(normalized.dateKey, normalized);
+                });
+            }
+            const restDays = new Set(this.normalizeHifzRestDays(plan?.options?.restDays));
+            const includeRevisionDays = !!plan?.options?.includeRevisionDays;
+            const revisionEveryDays = Math.max(
+                2,
+                Number(plan?.options?.revisionEveryDays || 7)
+            );
+            const newVerseRatio = Math.max(
+                1,
+                Number(plan?.options?.newVerseRatio || 70)
+            );
+            const reviewVerseRatio = Math.max(
+                0,
+                Number(plan?.options?.reviewVerseRatio || 30)
+            );
+            let workingCounter = 0;
+            const days = dayKeys.map((dateKey) => {
+                const preserved = completedByDate.get(dateKey) || null;
+                const weekday = new Date(`${dateKey}T12:00:00`).getDay();
+                const isRestDay = restDays.has(weekday);
+                let isRevisionDay = false;
+                if (!isRestDay) {
+                    workingCounter += 1;
+                    if (
+                        includeRevisionDays &&
+                        revisionEveryDays > 1 &&
+                        workingCounter % revisionEveryDays === 0
+                    ) {
+                        isRevisionDay = true;
+                    }
+                }
+                return {
+                    dateKey,
+                    isRestDay,
+                    isRevisionDay,
+                    completed: !!preserved?.completed,
+                    completedAt: preserved?.completedAt || null,
+                    newTargets: this.cloneHifzRanges(preserved?.newTargets),
+                    reviewTargets: this.cloneHifzRanges(preserved?.reviewTargets),
+                };
+            });
+            const completedUnitKeys = new Set();
+            days.forEach((entry) => {
+                if (!entry.completed) return;
+                this.flattenHifzRangesToUnits(entry.newTargets).forEach((unit) => {
+                    completedUnitKeys.add(unit.key);
+                });
+            });
+            const pendingUnits = (plan.units || []).filter(
+                (unit) => !completedUnitKeys.has(unit?.key)
+            );
+            const candidateDays = days.filter(
+                (entry) =>
+                    !entry.completed &&
+                    !entry.isRestDay &&
+                    !entry.isRevisionDay &&
+                    entry.dateKey >= referenceDateKey
+            );
+            if (!candidateDays.length && pendingUnits.length) {
+                const fallbackDay = days.find(
+                    (entry) =>
+                        !entry.completed &&
+                        !entry.isRestDay &&
+                        entry.dateKey >= referenceDateKey
+                );
+                if (fallbackDay) {
+                    fallbackDay.isRevisionDay = false;
+                    candidateDays.push(fallbackDay);
+                }
+            }
+            const distributed = this.distributeHifzCounts(
+                pendingUnits.length,
+                candidateDays.length
+            );
+            let cursor = 0;
+            candidateDays.forEach((entry, index) => {
+                const count = Number(distributed[index] || 0);
+                const chunk = pendingUnits.slice(cursor, cursor + count);
+                entry.newTargets = this.buildHifzRangesFromUnits(chunk);
+                cursor += count;
+            });
+            if (cursor < pendingUnits.length && candidateDays.length) {
+                const overflow = pendingUnits.slice(cursor);
+                const lastDay = candidateDays[candidateDays.length - 1];
+                lastDay.newTargets = this.buildHifzRangesFromUnits([
+                    ...this.flattenHifzRangesToUnits(lastDay.newTargets),
+                    ...overflow,
+                ]);
+            }
+            const averageDailyNew = candidateDays.length
+                ? Math.ceil(pendingUnits.length / candidateDays.length)
+                : 0;
+            const reviewPool = [];
+            let reviewCursor = 0;
+            days.forEach((entry) => {
+                if (!entry.completed && entry.dateKey < referenceDateKey) {
+                    entry.newTargets = [];
+                    entry.reviewTargets = [];
+                }
+                if (entry.completed) {
+                    reviewPool.push(...this.flattenHifzRangesToUnits(entry.newTargets));
+                    return;
+                }
+                if (entry.isRestDay) {
+                    entry.reviewTargets = [];
+                    return;
+                }
+                const newTargets = this.flattenHifzRangesToUnits(entry.newTargets);
+                let desiredReview = 0;
+                if (entry.isRevisionDay) {
+                    desiredReview = Math.max(
+                        1,
+                        Math.round(
+                            averageDailyNew *
+                                (reviewVerseRatio / Math.max(newVerseRatio, 1))
+                        )
+                    );
+                    desiredReview = Math.max(
+                        desiredReview,
+                        Math.min(5, reviewPool.length)
+                    );
+                } else if (reviewVerseRatio > 0 && newTargets.length > 0) {
+                    desiredReview = Math.round(
+                        (newTargets.length * reviewVerseRatio) /
+                            Math.max(newVerseRatio, 1)
+                    );
+                }
+                desiredReview = Math.min(desiredReview, reviewPool.length);
+                if (desiredReview > 0) {
+                    const picked = this.pickHifzReviewUnits(
+                        reviewPool,
+                        desiredReview,
+                        reviewCursor
+                    );
+                    entry.reviewTargets = this.buildHifzRangesFromUnits(picked);
+                    reviewCursor += desiredReview;
+                } else {
+                    entry.reviewTargets = [];
+                }
+                reviewPool.push(...newTargets);
+            });
+            return days;
+        },
+        getHifzPlanCompletedAyahCount(plan) {
+            if (!plan || !Array.isArray(plan.schedule)) return 0;
+            return plan.schedule.reduce((total, entry) => {
+                if (!entry?.completed) return total;
+                return total + this.countHifzRangesAyahs(entry.newTargets);
+            }, 0);
+        },
+        getHifzPlanProgressPercent(plan) {
+            if (!plan) return 0;
+            const total = Math.max(0, Number(plan.totalAyahs || 0));
+            if (!total) return 0;
+            const completed = this.getHifzPlanCompletedAyahCount(plan);
+            return Math.max(0, Math.min(100, Math.round((completed / total) * 100)));
+        },
+        getHifzPlanAheadBehindDays(plan) {
+            if (!plan || !Array.isArray(plan.schedule)) return 0;
+            const todayKey = this.toDateKey(new Date());
+            const expected = plan.schedule.filter(
+                (entry) => entry && !entry.isRestDay && String(entry.dateKey || "") <= todayKey
+            ).length;
+            const completed = plan.schedule.filter(
+                (entry) =>
+                    entry &&
+                    !entry.isRestDay &&
+                    !!entry.completed &&
+                    String(entry.dateKey || "") <= todayKey
+            ).length;
+            return completed - expected;
+        },
+        getTodayHifzPlanEntry(plan) {
+            if (!plan || !Array.isArray(plan.schedule) || !plan.schedule.length) return null;
+            const todayKey = this.toDateKey(new Date());
+            const exactToday = plan.schedule.find(
+                (entry) => String(entry?.dateKey || "") === todayKey
+            );
+            if (exactToday) return exactToday;
+            const nextUpcoming = plan.schedule.find(
+                (entry) =>
+                    !entry?.completed &&
+                    String(entry?.dateKey || "") >= todayKey &&
+                    !entry?.isRestDay
+            );
+            return nextUpcoming || null;
+        },
+        getPrimaryHifzRangeForEntry(entry) {
+            if (!entry) return null;
+            const newTarget = this.cloneHifzRanges(entry.newTargets || [])[0];
+            if (newTarget) return newTarget;
+            const reviewTarget = this.cloneHifzRanges(entry.reviewTargets || [])[0];
+            return reviewTarget || null;
+        },
+        formatHifzRangeLabel(range) {
+            if (!range) return "";
+            const surahNumber = Number(range.surahNumber || 0);
+            const startAyah = Number(range.startAyah || 0);
+            const endAyah = Number(range.endAyah || 0);
+            if (!surahNumber || !startAyah || !endAyah) return "";
+            const surahName = this.getSurahNameByNumber(surahNumber);
+            if (startAyah === endAyah) {
+                return `verse ${startAyah} of ${surahName}`;
+            }
+            return `verses ${startAyah}-${endAyah} of ${surahName}`;
+        },
+        formatHifzScheduleEntryTargetSentence(entry) {
+            if (!entry) return "No target scheduled today.";
+            if (entry.isRestDay) return "Rest day";
+            const newTargets = this.cloneHifzRanges(entry.newTargets);
+            const reviewTargets = this.cloneHifzRanges(entry.reviewTargets);
+            if (newTargets.length) {
+                const lead = this.formatHifzRangeLabel(newTargets[0]);
+                if (reviewTargets.length) {
+                    return `Memorize ${lead}, then review ${this.formatHifzRangeLabel(
+                        reviewTargets[0]
+                    )}.`;
+                }
+                return `Memorize ${lead}.`;
+            }
+            if (reviewTargets.length) {
+                return `Review ${this.formatHifzRangeLabel(reviewTargets[0])}.`;
+            }
+            if (entry.isRevisionDay) {
+                return "Revision day";
+            }
+            return "No target scheduled.";
+        },
+        formatHifzCalendarTargetBadge(entry) {
+            if (!entry) return "No target";
+            if (entry.isRestDay) return "Rest day";
+            const newCount = this.countHifzRangesAyahs(entry.newTargets);
+            const reviewCount = this.countHifzRangesAyahs(entry.reviewTargets);
+            if (entry.isRevisionDay && reviewCount > 0) {
+                return `Review ${reviewCount}`;
+            }
+            if (newCount > 0 && reviewCount > 0) {
+                return `${newCount} new / ${reviewCount} review`;
+            }
+            if (newCount > 0) return `${newCount} new`;
+            if (reviewCount > 0) return `${reviewCount} review`;
+            return "No target";
+        },
+        getHifzPlanWizardModalInstance() {
+            const modalEl = document.getElementById("hifzPlanWizardModal");
+            if (!modalEl) return null;
+            return Modal.getInstance(modalEl) || new Modal(modalEl);
+        },
+        getHifzPlanDashboardModalInstance() {
+            const modalEl = document.getElementById("hifzPlanDashboardModal");
+            if (!modalEl) return null;
+            return Modal.getInstance(modalEl) || new Modal(modalEl);
+        },
+        openHifzPlanWizard() {
+            if (!this.hifzWizard || typeof this.hifzWizard !== "object") {
+                this.hifzWizard = this.buildDefaultHifzWizardState();
+            }
+            this.hifzPlanWizardError = "";
+            const instance = this.getHifzPlanWizardModalInstance();
+            if (!instance) return;
+            this.hifzPlanWizardModalInstance = instance;
+            instance.show();
+        },
+        closeHifzPlanWizard() {
+            const instance =
+                this.getHifzPlanWizardModalInstance() || this.hifzPlanWizardModalInstance;
+            if (!instance) return;
+            instance.hide();
+        },
+        openHifzPlanDashboard() {
+            this.refreshHifzPlanSchedules();
+            this.setHifzDashboardMonthToToday();
+            const instance = this.getHifzPlanDashboardModalInstance();
+            if (!instance) return;
+            this.hifzPlanDashboardModalInstance = instance;
+            instance.show();
+        },
+        closeHifzPlanDashboard() {
+            const instance =
+                this.getHifzPlanDashboardModalInstance() ||
+                this.hifzPlanDashboardModalInstance;
+            if (!instance) return;
+            instance.hide();
+        },
+        onHifzActivePlanChanged() {
+            this.refreshHifzPlanSchedules();
+            this.persistHifzPlanToolState();
+            this.syncHifzIntegrations();
+            this.autoLoadTodayHifzTargetRange();
+        },
+        async createHifzPlanFromWizard() {
+            this.hifzPlanWizardError = "";
+            const target = this.buildHifzTargetFromWizard(this.hifzWizard);
+            if (!target || !Array.isArray(target.units) || !target.units.length) {
+                this.hifzPlanWizardError =
+                    "Please choose a valid target range before creating the plan.";
+                return;
+            }
+            const deadlineDateKey = this.resolveHifzWizardDeadlineDateKey(this.hifzWizard);
+            if (!deadlineDateKey) {
+                this.hifzPlanWizardError =
+                    "Please set a valid deadline (By Ramadan, By date, or In days).";
+                return;
+            }
+            const todayKey = this.toDateKey(new Date());
+            if (deadlineDateKey < todayKey) {
+                this.hifzPlanWizardError =
+                    "Deadline must be today or later.";
+                return;
+            }
+            const planName = String(this.hifzWizard?.planName || "").trim();
+            const resolvedName = planName || `${target.targetLabel} Plan`;
+            const plan = {
+                id: `hifz_plan_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`,
+                name: resolvedName,
+                createdAt: Date.now(),
+                updatedAt: Date.now(),
+                startDateKey: todayKey,
+                deadlineDateKey,
+                target: target.targetConfig,
+                targetLabel: target.targetLabel,
+                options: {
+                    includeRevisionDays: !!this.hifzWizard?.includeRevisionDays,
+                    revisionEveryDays: Math.max(
+                        2,
+                        Number(this.hifzWizard?.revisionEveryDays || 7)
+                    ),
+                    newVerseRatio: Math.max(
+                        1,
+                        Number(this.hifzWizard?.newVerseRatio || 70)
+                    ),
+                    reviewVerseRatio: Math.max(
+                        0,
+                        Number(this.hifzWizard?.reviewVerseRatio || 30)
+                    ),
+                    restDays: this.normalizeHifzRestDays(this.hifzWizard?.restDays),
+                },
+                units: target.units,
+                totalAyahs: target.units.length,
+                completedAyahs: 0,
+                status: "active",
+                schedule: [],
+            };
+            plan.schedule = this.generateHifzScheduleForPlan(plan, todayKey);
+            plan.completedAyahs = this.getHifzPlanCompletedAyahCount(plan);
+            this.hifzPlans = [plan, ...(this.hifzPlans || [])];
+            this.hifzActivePlanId = plan.id;
+            this.persistHifzPlanToolState();
+            this.syncHifzIntegrations();
+            this.closeHifzPlanWizard();
+            this.openHifzPlanDashboard();
+            this.announce(
+                `Hifz plan created. Daily target: about ${Math.max(
+                    1,
+                    Number(this.hifzWizardPreview?.dailyAyahs || 1)
+                )} ayahs.`
+            );
+            this.hifzWizard = this.buildDefaultHifzWizardState();
+        },
+        refreshHifzPlanSchedules() {
+            if (!Array.isArray(this.hifzPlans) || !this.hifzPlans.length) return;
+            const todayKey = this.toDateKey(new Date());
+            this.hifzPlans = this.hifzPlans
+                .map((plan) => {
+                    const normalized = this.normalizeHifzPlan(plan);
+                    if (!normalized) return null;
+                    normalized.schedule = this.generateHifzScheduleForPlan(
+                        normalized,
+                        todayKey
+                    );
+                    normalized.completedAyahs =
+                        this.getHifzPlanCompletedAyahCount(normalized);
+                    normalized.status =
+                        normalized.completedAyahs >= normalized.totalAyahs &&
+                        normalized.totalAyahs > 0
+                            ? "completed"
+                            : "active";
+                    normalized.updatedAt = Date.now();
+                    return normalized;
+                })
+                .filter(Boolean);
+            if (
+                this.hifzActivePlanId &&
+                !this.hifzPlans.some(
+                    (plan) =>
+                        String(plan?.id || "") === String(this.hifzActivePlanId || "")
+                )
+            ) {
+                this.hifzActivePlanId = "";
+            }
+            if (!this.hifzActivePlanId && this.hifzPlans.length) {
+                this.hifzActivePlanId = this.hifzPlans[0].id;
+            }
+            this.persistHifzPlanToolState();
+        },
+        async openActiveHifzTodayTarget() {
+            const plan = this.activeHifzPlan;
+            if (!plan) {
+                this.announce("Create a Hifz plan first.");
+                return;
+            }
+            const entry = this.getTodayHifzPlanEntry(plan);
+            if (!entry) {
+                this.announce("No target scheduled right now.");
+                return;
+            }
+            const range = this.getPrimaryHifzRangeForEntry(entry);
+            if (!range) {
+                this.announce("No ayah range found for this day.");
+                return;
+            }
+            await this.openHifzRangeInReader(range, {
+                announce: true,
+                closeDashboard: true,
+                markAutoloaded: true,
+            });
+        },
+        async openHifzRangeInReader(
+            range,
+            { announce = true, closeDashboard = false, markAutoloaded = false } = {}
+        ) {
+            if (!range) return;
+            const surahNumber = Number(range?.surahNumber || 0);
+            const startAyah = Number(range?.startAyah || 0);
+            const endAyah = Number(range?.endAyah || startAyah || 0);
+            if (!surahNumber || !startAyah || !endAyah) return;
+            try {
+                if (String(this.selectedSurah || "") !== String(surahNumber)) {
+                    await this.selectSurah(surahNumber, { skipScroll: true });
+                }
+            } catch (_) {}
+            this.memorisationRangeStart = startAyah;
+            this.memorisationRangeEnd = Math.max(startAyah, endAyah);
+            this.applyMemorisationRange();
+            if (announce) {
+                this.announce(
+                    `Today's target loaded: ${this.formatHifzRangeLabel(range)}.`
+                );
+            }
+            if (closeDashboard) {
+                this.closeHifzPlanDashboard();
+            }
+            if (markAutoloaded) {
+                this.hifzAutoloadedDateKey = this.toDateKey(new Date());
+                this.persistHifzPlanToolState();
+            }
+        },
+        async autoLoadTodayHifzTargetRange() {
+            const todayKey = this.toDateKey(new Date());
+            if (this.hifzAutoloadedDateKey === todayKey) return;
+            const plan = this.activeHifzPlan;
+            if (!plan) return;
+            const entry = this.getTodayHifzPlanEntry(plan);
+            if (!entry || entry.completed || entry.isRestDay) return;
+            const range = this.getPrimaryHifzRangeForEntry(entry);
+            if (!range) return;
+            await this.openHifzRangeInReader(range, {
+                announce: false,
+                closeDashboard: false,
+                markAutoloaded: true,
+            });
+        },
+        onHifzScheduleEntryCompletionChange(planId, dateKey, nextState) {
+            const id = String(planId || "").trim();
+            if (!id) return;
+            const normalizedDateKey = String(dateKey || "").trim();
+            if (!/^\d{4}-\d{2}-\d{2}$/.test(normalizedDateKey)) return;
+            this.hifzPlans = (this.hifzPlans || []).map((plan) => {
+                if (String(plan?.id || "") !== id) return plan;
+                const schedule = Array.isArray(plan?.schedule)
+                    ? plan.schedule.map((entry) => ({ ...entry }))
+                    : [];
+                const index = schedule.findIndex(
+                    (entry) => String(entry?.dateKey || "") === normalizedDateKey
+                );
+                if (index === -1) return plan;
+                schedule[index].completed = !!nextState;
+                schedule[index].completedAt = nextState
+                    ? this.toDateKey(new Date())
+                    : null;
+                return {
+                    ...plan,
+                    schedule,
+                };
+            });
+            this.refreshHifzPlanSchedules();
+            this.persistHifzPlanToolState();
+            this.syncHifzIntegrations();
+        },
+        syncHifzDailyGoals() {
+            if (typeof window === "undefined") return;
+            const plan = this.activeHifzPlan;
+            const entry = plan ? this.getTodayHifzPlanEntry(plan) : null;
+            const range = this.getPrimaryHifzRangeForEntry(entry);
+            const payload = {
+                source: "hifz-plan",
+                updatedAt: Date.now(),
+                dateKey: this.toDateKey(new Date()),
+                planId: plan?.id || null,
+                planName: plan?.name || null,
+                summary: this.activeHifzPlanTodayTargetSentence,
+                progressPercent: this.activeHifzPlanProgressPercent,
+                range: range
+                    ? {
+                          surahNumber: Number(range.surahNumber || 0),
+                          startAyah: Number(range.startAyah || 0),
+                          endAyah: Number(range.endAyah || 0),
+                      }
+                    : null,
+            };
+            try {
+                localStorage.setItem(
+                    this.hifzDailyGoalsStorageKey,
+                    JSON.stringify(payload)
+                );
+                window.dispatchEvent(
+                    new CustomEvent(this.hifzDailyGoalsSyncEvent, {
+                        detail: payload,
+                    })
+                );
+            } catch (_) {}
+        },
+        getHifzReviewQueueScopeOptions() {
+            const scopedUserId = Number(this.bookmarkStorageUserId || this.userId || 0);
+            return {
+                userId: Number.isFinite(scopedUserId) ? scopedUserId : 0,
+            };
+        },
+        syncHifzReviewQueue() {
+            const plan = this.activeHifzPlan;
+            if (!plan) return;
+            const todayEntry = this.getTodayHifzPlanEntry(plan);
+            if (!todayEntry) return;
+            const reviewUnits = this.flattenHifzRangesToUnits(todayEntry.reviewTargets);
+            if (!reviewUnits.length) return;
+            const scope = this.getHifzReviewQueueScopeOptions();
+            const queueMap = normalizeReviewQueueMap(readReviewQueue(scope));
+            let changed = false;
+            reviewUnits.forEach((unit) => {
+                const key = `${unit.surahNumber}:${unit.ayahNumber}`;
+                if (queueMap[key]) return;
+                queueMap[key] = {
+                    key,
+                    surahNumber: unit.surahNumber,
+                    ayahNumber: unit.ayahNumber,
+                    surahEnglishName: this.getSurahNameByNumber(unit.surahNumber),
+                    surahArabicName: this.getSurahArabicNameByNumber(unit.surahNumber),
+                    translation: "",
+                    text: "",
+                    markedAt: Date.now(),
+                };
+                changed = true;
+            });
+            if (!changed) return;
+            writeReviewQueue(queueMap, scope);
+            dispatchReviewQueueSync({
+                source: "hifz-plan-tool",
+                key: getReviewQueueStorageKey(scope),
+                count: Object.keys(queueMap).length,
+            });
+        },
+        syncHifzIntegrations() {
+            this.syncHifzDailyGoals();
+            this.syncHifzReviewQueue();
         },
         resetMemorisationRange() {
             this.memorisationRangeStart = 1;

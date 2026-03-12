@@ -1329,6 +1329,81 @@
                         </div>
                     </div>
 
+                    <section class="surah-offcanvas-section memorisation-offcanvas-panel memorisation-hifz-plan-launch" aria-label="Hifz plan quick access">
+                        <div class="memorisation-hifz-plan-launch-head">
+                            <div>
+                                <h5 class="memorisation-offcanvas-section-title">Hifz Plan</h5>
+                                <p class="memorisation-offcanvas-section-subtitle mb-0">
+                                    Build structured memorization plans with automatic daily targets and rescheduling.
+                                </p>
+                            </div>
+                            <div class="memorisation-hifz-plan-launch-actions">
+                                <button
+                                    type="button"
+                                    class="btn memorisation-hifz-plan-tool-btn memorisation-hifz-plan-tool-btn-primary"
+                                    @click="openHifzPlanWizard">
+                                    Create New Plan
+                                </button>
+                                <button
+                                    v-if="hasHifzPlans"
+                                    type="button"
+                                    class="btn memorisation-hifz-plan-tool-btn"
+                                    @click="openHifzPlanDashboard">
+                                    Open Dashboard
+                                </button>
+                            </div>
+                        </div>
+
+                        <div v-if="hasHifzPlans" class="memorisation-hifz-plan-summary-wrap">
+                            <label class="memorisation-offcanvas-field memorisation-offcanvas-field--full mb-0">
+                                <span class="form-label surah-offcanvas-label">Active plan</span>
+                                <select
+                                    class="form-select surah-offcanvas-select"
+                                    v-model="hifzActivePlanId"
+                                    @change="onHifzActivePlanChanged"
+                                    aria-label="Select active Hifz plan">
+                                    <option
+                                        v-for="plan in hifzPlansSorted"
+                                        :key="plan.id"
+                                        :value="plan.id">
+                                        {{ plan.name }}
+                                    </option>
+                                </select>
+                            </label>
+                            <button
+                                type="button"
+                                class="memorisation-hifz-plan-summary-card"
+                                @click="openHifzPlanDashboard"
+                                aria-label="Open current Hifz plan dashboard">
+                                <div class="memorisation-hifz-plan-summary-head">
+                                    <strong>{{ activeHifzPlan?.name || "Hifz Plan" }}</strong>
+                                    <small>{{ activeHifzPlan?.targetLabel || "" }}</small>
+                                </div>
+                                <div class="memorisation-hifz-plan-summary-progress">
+                                    <span>{{ activeHifzPlanProgressLabel }}</span>
+                                    <span>{{ activeHifzPlanProgressPercent }}%</span>
+                                </div>
+                                <div class="progress memorisation-hifz-plan-progress-track" role="progressbar" aria-label="Hifz plan progress" :aria-valuemin="0" :aria-valuemax="100" :aria-valuenow="activeHifzPlanProgressPercent">
+                                    <div
+                                        class="progress-bar memorisation-hifz-plan-progress-bar"
+                                        :style="{ width: `${activeHifzPlanProgressPercent}%` }"></div>
+                                </div>
+                                <p class="memorisation-hifz-plan-summary-target mb-0">
+                                    {{ activeHifzPlanTodayTargetSentence }}
+                                </p>
+                                <p class="memorisation-hifz-plan-summary-ahead-behind mb-0">
+                                    {{ activeHifzPlanAheadBehindLabel }}
+                                </p>
+                            </button>
+                            <p class="memorisation-hifz-plan-sync-note mb-0">
+                                Sync active: Daily Goals and Review Queue update automatically from your current plan.
+                            </p>
+                        </div>
+                        <p v-else class="memorisation-hifz-plan-empty mb-0">
+                            No plans yet. Create your first plan to get daily ayah targets and automatic schedule recalculation.
+                        </p>
+                    </section>
+
                     <section class="surah-offcanvas-section memorisation-offcanvas-panel memorisation-preset-panel" aria-label="One-click presets">
                         <div class="memorisation-preset-panel-head">
                             <div>
@@ -1941,6 +2016,367 @@
                         <button type="button" class="btn memorisation-offcanvas-btn memorisation-offcanvas-btn-submit" :disabled="isMemorisationDraftSubmitting" @click="submitMemorisationOffcanvas">
                             {{ isMemorisationDraftSubmitting ? "Applying..." : "Submit" }}
                         </button>
+                    </div>
+                </div>
+            </div>
+        </teleport>
+
+        <teleport to="body">
+            <div class="modal fade hifz-plan-wizard-modal" id="hifzPlanWizardModal" tabindex="-1" aria-labelledby="hifzPlanWizardModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-scrollable modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <div>
+                                <h5 class="modal-title" id="hifzPlanWizardModalLabel">Create Hifz Plan</h5>
+                                <p class="hifz-plan-modal-subtitle mb-0">Turn your memorization goal into daily, trackable targets.</p>
+                            </div>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <section class="hifz-plan-wizard-section">
+                                <h6 class="hifz-plan-wizard-title mb-0">1) Choose Target</h6>
+                                <div class="hifz-plan-choice-grid">
+                                    <button
+                                        type="button"
+                                        class="btn hifz-plan-choice-btn"
+                                        :class="{ 'is-active': hifzWizard.targetType === 'whole-quran' }"
+                                        @click="hifzWizard.targetType = 'whole-quran'">
+                                        Whole Quran
+                                    </button>
+                                    <button
+                                        type="button"
+                                        class="btn hifz-plan-choice-btn"
+                                        :class="{ 'is-active': hifzWizard.targetType === 'specific-juz' }"
+                                        @click="hifzWizard.targetType = 'specific-juz'">
+                                        Specific Juz
+                                    </button>
+                                    <button
+                                        type="button"
+                                        class="btn hifz-plan-choice-btn"
+                                        :class="{ 'is-active': hifzWizard.targetType === 'specific-surah' }"
+                                        @click="hifzWizard.targetType = 'specific-surah'">
+                                        Specific Surah
+                                    </button>
+                                    <button
+                                        type="button"
+                                        class="btn hifz-plan-choice-btn"
+                                        :class="{ 'is-active': hifzWizard.targetType === 'custom-range' }"
+                                        @click="hifzWizard.targetType = 'custom-range'">
+                                        Custom Range
+                                    </button>
+                                </div>
+
+                                <div v-if="hifzWizard.targetType === 'specific-juz'" class="hifz-plan-wizard-field">
+                                    <label class="form-label">Juz</label>
+                                    <select class="form-select" v-model.number="hifzWizard.targetJuzNumber">
+                                        <option v-for="juz in juzMetadata" :key="juz.number" :value="juz.number">
+                                            Juz {{ juz.number }} · starts {{ juz.surahName }}:{{ juz.ayahNumber }}
+                                        </option>
+                                    </select>
+                                </div>
+
+                                <div v-if="hifzWizard.targetType === 'specific-surah'" class="hifz-plan-wizard-field">
+                                    <label class="form-label">Surah</label>
+                                    <select class="form-select" v-model.number="hifzWizard.targetSurahNumber">
+                                        <option v-for="surah in surahs" :key="surah.number" :value="surah.number">
+                                            {{ surah.number }}. {{ surah.englishName }}
+                                        </option>
+                                    </select>
+                                </div>
+
+                                <div v-if="hifzWizard.targetType === 'custom-range'" class="hifz-plan-wizard-custom-range-grid">
+                                    <label class="hifz-plan-wizard-field">
+                                        <span class="form-label">Start Surah</span>
+                                        <select class="form-select" v-model.number="hifzWizard.customStartSurah">
+                                            <option v-for="surah in surahs" :key="`hifz-start-${surah.number}`" :value="surah.number">
+                                                {{ surah.number }}. {{ surah.englishName }}
+                                            </option>
+                                        </select>
+                                    </label>
+                                    <label class="hifz-plan-wizard-field">
+                                        <span class="form-label">Start Ayah</span>
+                                        <input
+                                            type="number"
+                                            min="1"
+                                            :max="Math.max(1, Number(getSurahAyahCountByNumber(hifzWizard.customStartSurah) || 1))"
+                                            class="form-control"
+                                            v-model.number="hifzWizard.customStartAyah">
+                                    </label>
+                                    <label class="hifz-plan-wizard-field">
+                                        <span class="form-label">End Surah</span>
+                                        <select class="form-select" v-model.number="hifzWizard.customEndSurah">
+                                            <option v-for="surah in surahs" :key="`hifz-end-${surah.number}`" :value="surah.number">
+                                                {{ surah.number }}. {{ surah.englishName }}
+                                            </option>
+                                        </select>
+                                    </label>
+                                    <label class="hifz-plan-wizard-field">
+                                        <span class="form-label">End Ayah</span>
+                                        <input
+                                            type="number"
+                                            min="1"
+                                            :max="Math.max(1, Number(getSurahAyahCountByNumber(hifzWizard.customEndSurah) || 1))"
+                                            class="form-control"
+                                            v-model.number="hifzWizard.customEndAyah">
+                                    </label>
+                                </div>
+                            </section>
+
+                            <section class="hifz-plan-wizard-section">
+                                <h6 class="hifz-plan-wizard-title mb-0">2) Set Deadline</h6>
+                                <div class="hifz-plan-choice-grid">
+                                    <button
+                                        type="button"
+                                        class="btn hifz-plan-choice-btn"
+                                        :class="{ 'is-active': hifzWizard.deadlineType === 'by-ramadan' }"
+                                        @click="hifzWizard.deadlineType = 'by-ramadan'">
+                                        By Ramadan
+                                    </button>
+                                    <button
+                                        type="button"
+                                        class="btn hifz-plan-choice-btn"
+                                        :class="{ 'is-active': hifzWizard.deadlineType === 'by-date' }"
+                                        @click="hifzWizard.deadlineType = 'by-date'">
+                                        By Date
+                                    </button>
+                                    <button
+                                        type="button"
+                                        class="btn hifz-plan-choice-btn"
+                                        :class="{ 'is-active': hifzWizard.deadlineType === 'in-days' }"
+                                        @click="hifzWizard.deadlineType = 'in-days'">
+                                        In Days
+                                    </button>
+                                </div>
+                                <label v-if="hifzWizard.deadlineType === 'by-date'" class="hifz-plan-wizard-field">
+                                    <span class="form-label">Target date</span>
+                                    <input type="date" class="form-control" v-model="hifzWizard.deadlineDate">
+                                </label>
+                                <label v-if="hifzWizard.deadlineType === 'in-days'" class="hifz-plan-wizard-field">
+                                    <span class="form-label">Number of days</span>
+                                    <input type="number" min="1" max="3650" class="form-control" v-model.number="hifzWizard.deadlineDays">
+                                </label>
+                            </section>
+
+                            <section class="hifz-plan-wizard-section">
+                                <h6 class="hifz-plan-wizard-title mb-0">3) Advanced Options</h6>
+                                <label class="hifz-plan-wizard-field">
+                                    <span class="form-label">Plan name (optional)</span>
+                                    <input type="text" class="form-control" v-model.trim="hifzWizard.planName" placeholder="Example: Ramadan Hifz Sprint">
+                                </label>
+                                <label class="hifz-plan-toggle-row">
+                                    <span>
+                                        <strong>Include revision days</strong>
+                                        <small>Reserve every Nth working day for review only.</small>
+                                    </span>
+                                    <span class="form-check form-switch mb-0">
+                                        <input class="form-check-input" type="checkbox" v-model="hifzWizard.includeRevisionDays">
+                                    </span>
+                                </label>
+                                <label v-if="hifzWizard.includeRevisionDays" class="hifz-plan-wizard-field">
+                                    <span class="form-label">Revision cadence</span>
+                                    <input type="number" min="2" max="30" class="form-control" v-model.number="hifzWizard.revisionEveryDays">
+                                </label>
+                                <div class="hifz-plan-ratio-grid">
+                                    <label class="hifz-plan-wizard-field">
+                                        <span class="form-label">New verses ratio (%)</span>
+                                        <input type="number" min="1" max="100" class="form-control" v-model.number="hifzWizard.newVerseRatio">
+                                    </label>
+                                    <label class="hifz-plan-wizard-field">
+                                        <span class="form-label">Review ratio (%)</span>
+                                        <input type="number" min="0" max="100" class="form-control" v-model.number="hifzWizard.reviewVerseRatio">
+                                    </label>
+                                </div>
+                                <fieldset class="hifz-plan-rest-days-fieldset">
+                                    <legend>Rest days</legend>
+                                    <div class="hifz-plan-rest-days-grid">
+                                        <button
+                                            v-for="option in hifzRestDayOptions"
+                                            :key="`hifz-rest-day-${option.value}`"
+                                            type="button"
+                                            class="btn hifz-plan-rest-day-pill"
+                                            :class="{ 'is-active': hifzWizard.restDays.includes(option.value) }"
+                                            @click="toggleHifzWizardRestDay(option.value)">
+                                            <span>{{ option.label }}</span>
+                                            <i
+                                                class="bi"
+                                                :class="hifzWizard.restDays.includes(option.value) ? 'bi-check-circle-fill' : 'bi-circle'"
+                                                aria-hidden="true"></i>
+                                        </button>
+                                    </div>
+                                </fieldset>
+                            </section>
+
+                            <section class="hifz-plan-wizard-preview" aria-label="Plan preview">
+                                <h6 class="hifz-plan-wizard-title mb-0">Plan Preview</h6>
+                                <div class="hifz-plan-preview-grid">
+                                    <article class="hifz-plan-preview-card">
+                                        <small>Total ayahs</small>
+                                        <strong>{{ hifzWizardPreview.totalAyahs }}</strong>
+                                    </article>
+                                    <article class="hifz-plan-preview-card">
+                                        <small>Working days</small>
+                                        <strong>{{ hifzWizardPreview.workingDays }}</strong>
+                                    </article>
+                                    <article class="hifz-plan-preview-card">
+                                        <small>Daily ayahs</small>
+                                        <strong>{{ hifzWizardPreview.dailyAyahs }}</strong>
+                                    </article>
+                                    <article class="hifz-plan-preview-card">
+                                        <small>Deadline</small>
+                                        <strong>{{ hifzWizardPreview.deadlineDateKey ? formatDateKey(hifzWizardPreview.deadlineDateKey) : "Not set" }}</strong>
+                                    </article>
+                                </div>
+                                <p class="hifz-plan-preview-note mb-0">
+                                    Daily Goals and Review Queue sync automatically once this plan is active.
+                                </p>
+                                <p v-if="hifzPlanWizardError" class="hifz-plan-wizard-error mb-0">
+                                    {{ hifzPlanWizardError }}
+                                </p>
+                            </section>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button
+                                type="button"
+                                class="btn hifz-plan-modal-primary-btn"
+                                :disabled="!hifzWizardPreview.totalAyahs"
+                                @click="createHifzPlanFromWizard">
+                                Create Plan
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </teleport>
+
+        <teleport to="body">
+            <div class="modal fade hifz-plan-dashboard-modal" id="hifzPlanDashboardModal" tabindex="-1" aria-labelledby="hifzPlanDashboardModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-xl modal-dialog-scrollable modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <div>
+                                <h5 class="modal-title" id="hifzPlanDashboardModalLabel">Hifz Plan Dashboard</h5>
+                                <p class="hifz-plan-modal-subtitle mb-0">Track progress, complete daily targets, and auto-adjust your schedule.</p>
+                            </div>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div v-if="!hasHifzPlans" class="hifz-plan-dashboard-empty">
+                                <p class="mb-0">No plans yet. Start by creating your first Hifz plan.</p>
+                                <button type="button" class="btn hifz-plan-modal-primary-btn" @click="openHifzPlanWizard">
+                                    Create New Plan
+                                </button>
+                            </div>
+
+                            <div v-else class="hifz-plan-dashboard-content">
+                                <div class="hifz-plan-dashboard-topbar">
+                                    <label class="hifz-plan-wizard-field mb-0">
+                                        <span class="form-label">Active plan</span>
+                                        <select class="form-select" v-model="hifzActivePlanId" @change="onHifzActivePlanChanged">
+                                            <option
+                                                v-for="plan in hifzPlansSorted"
+                                                :key="`hifz-dashboard-${plan.id}`"
+                                                :value="plan.id">
+                                                {{ plan.name }}
+                                            </option>
+                                        </select>
+                                    </label>
+                                    <div class="hifz-plan-dashboard-topbar-actions">
+                                        <button
+                                            type="button"
+                                            class="btn hifz-plan-dashboard-btn hifz-plan-dashboard-btn-primary"
+                                            :disabled="!activeHifzPlanTodayEntry || activeHifzPlanTodayEntry.isRestDay"
+                                            @click="openActiveHifzTodayTarget">
+                                            Open Today's Target
+                                        </button>
+                                        <button type="button" class="btn hifz-plan-dashboard-btn" @click="openHifzPlanWizard">
+                                            Create New Plan
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <section class="hifz-plan-dashboard-summary">
+                                    <div class="hifz-plan-dashboard-summary-head">
+                                        <div>
+                                            <h6 class="mb-0">{{ activeHifzPlan?.name || "Hifz Plan" }}</h6>
+                                            <small>{{ activeHifzPlan?.targetLabel || "Custom target" }} · Deadline {{ activeHifzPlan?.deadlineDateKey ? formatDateKey(activeHifzPlan.deadlineDateKey) : "Not set" }}</small>
+                                        </div>
+                                        <span class="hifz-plan-dashboard-summary-pill">
+                                            {{ activeHifzPlanProgressPercent }}%
+                                        </span>
+                                    </div>
+                                    <div class="progress hifz-plan-dashboard-progress-track" role="progressbar" aria-label="Hifz dashboard progress" :aria-valuemin="0" :aria-valuemax="100" :aria-valuenow="activeHifzPlanProgressPercent">
+                                        <div class="progress-bar hifz-plan-dashboard-progress-bar" :style="{ width: `${activeHifzPlanProgressPercent}%` }"></div>
+                                    </div>
+                                    <div class="hifz-plan-dashboard-summary-meta">
+                                        <span>{{ activeHifzPlanProgressLabel }}</span>
+                                        <span>{{ activeHifzPlanAheadBehindLabel }}</span>
+                                    </div>
+                                    <p class="hifz-plan-dashboard-today-target mb-0">
+                                        {{ activeHifzPlanTodayTargetSentence }}
+                                    </p>
+                                    <p class="hifz-plan-dashboard-auto-adjust-note mb-0">
+                                        Auto-adjust enabled: missed days redistribute across the remaining schedule.
+                                    </p>
+                                </section>
+
+                                <section class="hifz-plan-dashboard-calendar">
+                                    <div class="hifz-plan-dashboard-calendar-head">
+                                        <h6 class="mb-0">Calendar View</h6>
+                                        <div class="hifz-plan-dashboard-calendar-controls">
+                                            <button type="button" class="btn hifz-plan-dashboard-calendar-btn" @click="shiftHifzDashboardMonth(-1)">
+                                                <i class="bi bi-chevron-left" aria-hidden="true"></i>
+                                            </button>
+                                            <button type="button" class="btn hifz-plan-dashboard-calendar-btn hifz-plan-dashboard-calendar-btn-label" @click="setHifzDashboardMonthToToday">
+                                                {{ hifzDashboardMonthLabel }}
+                                            </button>
+                                            <button type="button" class="btn hifz-plan-dashboard-calendar-btn" @click="shiftHifzDashboardMonth(1)">
+                                                <i class="bi bi-chevron-right" aria-hidden="true"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <div v-if="!hifzDashboardCalendarEntries.length" class="hifz-plan-dashboard-calendar-empty">
+                                        No scheduled entries for this month.
+                                    </div>
+
+                                    <div v-else class="hifz-plan-dashboard-calendar-grid">
+                                        <article
+                                            v-for="entry in hifzDashboardCalendarEntries"
+                                            :key="`${activeHifzPlan?.id || 'plan'}-${entry.dateKey}`"
+                                            class="hifz-plan-calendar-day-card"
+                                            :class="{
+                                                'is-today': entry.dateKey === toDateKey(new Date()),
+                                                'is-completed': entry.completed,
+                                                'is-rest-day': entry.isRestDay,
+                                                'is-revision-day': entry.isRevisionDay
+                                            }">
+                                            <div class="hifz-plan-calendar-day-head">
+                                                <div>
+                                                    <strong>{{ formatDateKey(entry.dateKey) }}</strong>
+                                                    <small>{{ formatHifzCalendarTargetBadge(entry) }}</small>
+                                                </div>
+                                                <label class="form-check mb-0 hifz-plan-calendar-day-check">
+                                                    <input
+                                                        class="form-check-input"
+                                                        type="checkbox"
+                                                        :checked="entry.completed"
+                                                        :disabled="entry.isRestDay"
+                                                        :aria-label="`Mark ${entry.dateKey} complete`"
+                                                        @change="onHifzScheduleEntryCompletionChange(activeHifzPlan?.id, entry.dateKey, $event.target.checked)">
+                                                </label>
+                                            </div>
+                                            <p class="hifz-plan-calendar-day-target mb-0">
+                                                {{ formatHifzScheduleEntryTargetSentence(entry) }}
+                                            </p>
+                                        </article>
+                                    </div>
+                                </section>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
                     </div>
                 </div>
             </div>
