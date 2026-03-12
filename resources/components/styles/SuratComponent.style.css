@@ -3873,6 +3873,12 @@
     box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.35);
 }
 
+.now-playing-tag-loop-countdown {
+    background: rgba(217, 119, 6, 0.12);
+    border-color: rgba(217, 119, 6, 0.34);
+    color: #7c2d12;
+}
+
 .arabic-text--active {
     color: #0b3d2e;
     text-shadow: 0 0 12px rgba(15, 110, 99, 0.45);
@@ -24418,6 +24424,71 @@ h1.display-5 {
     line-height: 1.35;
 }
 
+.memorisation-range-loop-field {
+    margin-top: 0.08rem;
+}
+
+.memorisation-range-loop-settings {
+    border: 1px dashed rgba(110, 231, 183, 0.5);
+    border-radius: 12px;
+    background: rgba(7, 42, 37, 0.45);
+    padding: 0.62rem;
+    display: grid;
+    gap: 0.52rem;
+}
+
+.memorisation-range-loop-delay-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.34rem;
+}
+
+.memorisation-range-loop-delay-btn {
+    min-height: 34px;
+    border-radius: 999px;
+    border: 1px solid rgba(231, 245, 241, 0.3);
+    background: rgba(8, 42, 37, 0.45);
+    color: #ecfdf5;
+    font-size: 0.76rem;
+    font-weight: 700;
+    padding: 0.34rem 0.72rem;
+    line-height: 1;
+}
+
+.memorisation-range-loop-delay-btn:hover,
+.memorisation-range-loop-delay-btn:focus-visible {
+    border-color: rgba(110, 231, 183, 0.72);
+    color: #ffffff;
+}
+
+.memorisation-range-loop-delay-btn.is-active {
+    border-color: rgba(110, 231, 183, 0.82);
+    background: rgba(16, 185, 129, 0.28);
+    color: #ffffff;
+    box-shadow: 0 8px 14px rgba(5, 35, 30, 0.24);
+}
+
+.memorisation-range-loop-custom {
+    display: grid;
+    gap: 0.32rem;
+}
+
+.memorisation-offcanvas-toggle-row--nested {
+    margin: 0;
+    padding: 0.54rem 0.62rem;
+}
+
+.memorisation-range-loop-countdown-preview {
+    border: 1px solid rgba(251, 191, 36, 0.42);
+    border-radius: 10px;
+    background: rgba(180, 83, 9, 0.2);
+    color: #ffedd5;
+    font-size: 0.79rem;
+    line-height: 1.35;
+    font-weight: 700;
+    padding: 0.44rem 0.54rem;
+}
+
 .memorisation-preset-panel {
     display: grid;
     gap: 0.62rem;
@@ -24761,6 +24832,16 @@ h1.display-5 {
         gap: 0.48rem;
     }
 
+    .memorisation-range-loop-delay-row {
+        gap: 0.3rem;
+    }
+
+    .memorisation-range-loop-delay-btn {
+        flex: 1 1 calc(33.333% - 0.3rem);
+        justify-content: center;
+        min-width: 72px;
+    }
+
     .memorisation-offcanvas-btn {
         min-height: 46px;
     }
@@ -24812,6 +24893,18 @@ h1.display-5 {
     .memorisation-offcanvas .surah-offcanvas-select {
         min-height: 42px;
         font-size: 0.94rem;
+    }
+
+    .memorisation-range-loop-settings {
+        padding: 0.54rem;
+        gap: 0.44rem;
+    }
+
+    .memorisation-range-loop-delay-btn {
+        flex: 1 1 calc(50% - 0.22rem);
+        min-height: 32px;
+        font-size: 0.72rem;
+        padding: 0.28rem 0.6rem;
     }
 
     .memorisation-offcanvas-toggle-copy strong {

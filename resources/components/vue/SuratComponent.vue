@@ -1596,6 +1596,86 @@
                                 </select>
                             </label>
 
+                            <label class="memorisation-offcanvas-toggle-row memorisation-offcanvas-field memorisation-offcanvas-field--full memorisation-range-loop-field">
+                                <span class="memorisation-offcanvas-toggle-copy">
+                                    <strong>Loop Again After Range</strong>
+                                    <small>Restart from the first ayah when this selected range is completed.</small>
+                                </span>
+                                <span class="form-check form-switch mb-0">
+                                    <input
+                                        class="form-check-input"
+                                        type="checkbox"
+                                        v-model="memorisationDraft.rangeLoopEnabled"
+                                        aria-label="Loop range when finished">
+                                </span>
+                            </label>
+
+                            <div
+                                v-if="memorisationDraft.rangeLoopEnabled"
+                                class="memorisation-range-loop-settings memorisation-offcanvas-field memorisation-offcanvas-field--full">
+                                <span class="form-label surah-offcanvas-label">Delay before restart</span>
+                                <div class="memorisation-range-loop-delay-row" role="group" aria-label="Delay before restart">
+                                    <button
+                                        v-for="seconds in memorisationRangeLoopDelayPresets"
+                                        :key="`range-loop-delay-${seconds}`"
+                                        type="button"
+                                        class="btn memorisation-range-loop-delay-btn"
+                                        :class="{ 'is-active': !memorisationDraft.rangeLoopDelayIsCustom && Number(memorisationDraft.rangeLoopDelay) === Number(seconds) }"
+                                        @click="memorisationDraft.rangeLoopDelay = Number(seconds); memorisationDraft.rangeLoopDelayIsCustom = false">
+                                        {{ seconds }}s
+                                    </button>
+                                    <button
+                                        type="button"
+                                        class="btn memorisation-range-loop-delay-btn"
+                                        :class="{ 'is-active': memorisationDraft.rangeLoopDelayIsCustom }"
+                                        @click="memorisationDraft.rangeLoopDelayIsCustom = true">
+                                        Custom
+                                    </button>
+                                </div>
+                                <label v-if="memorisationDraft.rangeLoopDelayIsCustom" class="memorisation-range-loop-custom">
+                                    <span class="form-label surah-offcanvas-label">Custom delay (sec)</span>
+                                    <input
+                                        type="number"
+                                        class="form-control surah-offcanvas-input"
+                                        v-model.number="memorisationDraft.rangeLoopDelay"
+                                        min="0"
+                                        max="300"
+                                        step="1"
+                                        aria-label="Custom delay before range restart in seconds">
+                                </label>
+                                <label class="memorisation-offcanvas-toggle-row memorisation-offcanvas-toggle-row--nested">
+                                    <span class="memorisation-offcanvas-toggle-copy">
+                                        <strong>Visual countdown</strong>
+                                        <small>Show a countdown before the loop restarts.</small>
+                                    </span>
+                                    <span class="form-check form-switch mb-0">
+                                        <input
+                                            class="form-check-input"
+                                            type="checkbox"
+                                            v-model="memorisationDraft.rangeLoopShowCountdown"
+                                            aria-label="Show loop restart countdown">
+                                    </span>
+                                </label>
+                                <label class="memorisation-offcanvas-field memorisation-offcanvas-field--full">
+                                    <span class="form-label surah-offcanvas-label">Sound alert before restart</span>
+                                    <select
+                                        class="form-select surah-offcanvas-select"
+                                        v-model="memorisationDraft.rangeLoopAlertSound"
+                                        aria-label="Sound alert before range restarts">
+                                        <option value="off">Off</option>
+                                        <option value="beep">Beep</option>
+                                        <option value="tone">Subtle tone</option>
+                                    </select>
+                                </label>
+                                <p
+                                    v-if="isMemorisationRangeLoopCountdownVisible"
+                                    class="memorisation-range-loop-countdown-preview mb-0"
+                                    role="status"
+                                    aria-live="polite">
+                                    Restarting from ayah {{ memorisationRangeStart || 1 }} in {{ memorisationRangeLoopCountdownSeconds }}s
+                                </p>
+                            </div>
+
                             <label class="memorisation-offcanvas-field">
                                 <span class="form-label surah-offcanvas-label">Quranic fonts</span>
                                 <select class="form-select surah-offcanvas-select" v-model="memorisationDraft.quranFontId">
@@ -2545,6 +2625,11 @@
                                 </h4>
                                 <span v-if="isAudioPlaying[item.index]" class="now-playing-tag">
                                     Now playing
+                                </span>
+                                <span
+                                    v-if="isMemorisationRangeLoopCountdownVisible && item.index === memorisationRangeLoopCountdownFromIndex"
+                                    class="now-playing-tag now-playing-tag-loop-countdown">
+                                    Loop restarts in {{ memorisationRangeLoopCountdownSeconds }}s
                                 </span>
                             </div>
                             <div class="ayah-card-header-actions">

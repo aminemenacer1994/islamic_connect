@@ -821,6 +821,17 @@ export default {
             memorisationRepetitionPause: 0,
             memorisationRepetitionCurrent: 1,
             memorisationRepetitionPauseTimeout: null,
+            memorisationRangeLoopEnabled: false,
+            memorisationRangeLoopDelay: 3,
+            memorisationRangeLoopShowCountdown: true,
+            memorisationRangeLoopAlertSound: "off",
+            memorisationRangeLoopRestartTimeout: null,
+            memorisationRangeLoopCountdownInterval: null,
+            memorisationRangeLoopCountdownSeconds: 0,
+            memorisationRangeLoopCountdownFromIndex: null,
+            isMemorisationRangeLoopCountdownActive: false,
+            memorisationRangeLoopAudioContext: null,
+            memorisationRangeLoopDelayPresets: [0, 1, 2, 3, 5],
             memorisationDraft: {
                 surahNumber: "1",
                 reciterIdentifier: "ar.alafasy",
@@ -832,6 +843,11 @@ export default {
                 playbackMode: "continuous",
                 quranFontId: "",
                 singleAyahFocus: false,
+                rangeLoopEnabled: false,
+                rangeLoopDelay: 3,
+                rangeLoopDelayIsCustom: false,
+                rangeLoopShowCountdown: true,
+                rangeLoopAlertSound: "off",
                 showTajweed: false,
                 showRealtimeHighlighting: false,
                 showWordTranslation: false,
@@ -1103,6 +1119,13 @@ export default {
             return this.isMemorisationToolbarVisible &&
                 this.memorisationRepetitionCount > 1 &&
                 this.isAnyAudioPlaying;
+        },
+        isMemorisationRangeLoopCountdownVisible() {
+            return (
+                this.isMemorisationRangeLoopCountdownActive &&
+                this.memorisationRangeLoopShowCountdown &&
+                Number(this.memorisationRangeLoopCountdownSeconds || 0) > 0
+            );
         },
         memorisationFocusIndexSafe() {
             const len = Array.isArray(this.filteredAyahs) ? this.filteredAyahs.length : 0;
@@ -3065,6 +3088,14 @@ export default {
         isMemorisationMode(newVal) {
             this.persistMemorisationModeSetting();
         },
+        memorisationRangeLoopEnabled(newVal) {
+            if (newVal) return;
+            this.clearMemorisationRangeLoopRestartState();
+        },
+        memorisationRangeLoopShowCountdown(newVal) {
+            if (newVal) return;
+            this.isMemorisationRangeLoopCountdownActive = false;
+        },
         isTranslationVisible(newVal) {
             this.writeScopedBooleanPreference(
                 "suratIsTranslationVisible",
@@ -3496,6 +3527,14 @@ export default {
         this.swipeTransitionTimer = null;
         clearTimeout(this.voiceCommandRestartTimer);
         this.voiceCommandRestartTimer = null;
+        this.clearMemorisationRangeLoopRestartState();
+        if (
+            this.memorisationRangeLoopAudioContext &&
+            typeof this.memorisationRangeLoopAudioContext.close === "function"
+        ) {
+            this.memorisationRangeLoopAudioContext.close().catch(() => {});
+        }
+        this.memorisationRangeLoopAudioContext = null;
         this.resetAyahCardPointerGesture();
         clearTimeout(this._scrollCorrectionTimer);
         this._scrollCorrectionTimer = null;
@@ -4015,6 +4054,151 @@ export default {
             }
             await this.enterReadingFullscreen();
         },
+        normaliseMemorisationRangeLoopDelay(value) {
+            const parsed = Number(value);
+            if (!Number.isFinite(parsed)) return 0;
+            return Math.max(0, Math.min(300, Math.round(parsed)));
+        },
+        normaliseMemorisationRangeLoopAlertSound(value = "off") {
+            const normalized = String(value || "off")
+                .trim()
+                .toLowerCase();
+            return ["off", "beep", "tone"].includes(normalized)
+                ? normalized
+                : "off";
+        },
+        clearMemorisationRangeLoopRestartState(options = {}) {
+            const { preserveSourceIndex = false } = options || {};
+            if (this.memorisationRangeLoopRestartTimeout) {
+                clearTimeout(this.memorisationRangeLoopRestartTimeout);
+                this.memorisationRangeLoopRestartTimeout = null;
+            }
+            if (this.memorisationRangeLoopCountdownInterval) {
+                clearInterval(this.memorisationRangeLoopCountdownInterval);
+                this.memorisationRangeLoopCountdownInterval = null;
+            }
+            this.isMemorisationRangeLoopCountdownActive = false;
+            this.memorisationRangeLoopCountdownSeconds = 0;
+            if (!preserveSourceIndex) {
+                this.memorisationRangeLoopCountdownFromIndex = null;
+            }
+        },
+        canLoopMemorisationRangeAfterFinish() {
+            return (
+                !!this.isMemorisationToolbarVisible &&
+                !!this.memorisationRangeLoopEnabled &&
+                Array.isArray(this.filteredAyahs) &&
+                this.filteredAyahs.length > 0 &&
+                !this.playlistSinglePlayMode
+            );
+        },
+        playMemorisationRangeLoopAlertSound() {
+            const sound = this.normaliseMemorisationRangeLoopAlertSound(
+                this.memorisationRangeLoopAlertSound
+            );
+            if (sound === "off" || typeof window === "undefined") return;
+            const AudioContextClass =
+                window.AudioContext || window.webkitAudioContext;
+            if (!AudioContextClass) return;
+            try {
+                if (!this.memorisationRangeLoopAudioContext) {
+                    this.memorisationRangeLoopAudioContext = new AudioContextClass();
+                }
+                const ctx = this.memorisationRangeLoopAudioContext;
+                if (!ctx) return;
+                if (ctx.state === "suspended") {
+                    ctx.resume().catch(() => {});
+                }
+                const oscillator = ctx.createOscillator();
+                const gainNode = ctx.createGain();
+                oscillator.type = sound === "tone" ? "sine" : "triangle";
+                oscillator.frequency.value = sound === "tone" ? 660 : 880;
+
+                const now = ctx.currentTime;
+                const duration = sound === "tone" ? 0.22 : 0.14;
+                const peakGain = sound === "tone" ? 0.025 : 0.04;
+                gainNode.gain.setValueAtTime(0.0001, now);
+                gainNode.gain.exponentialRampToValueAtTime(
+                    peakGain,
+                    now + 0.02
+                );
+                gainNode.gain.exponentialRampToValueAtTime(
+                    0.0001,
+                    now + duration
+                );
+
+                oscillator.connect(gainNode);
+                gainNode.connect(ctx.destination);
+                oscillator.start(now);
+                oscillator.stop(now + duration + 0.03);
+                oscillator.onended = () => {
+                    try {
+                        oscillator.disconnect();
+                        gainNode.disconnect();
+                    } catch (_) {}
+                };
+            } catch (_) {
+                // silently ignore tone synthesis issues (browser/device restrictions)
+            }
+        },
+        restartMemorisationRangeFromStart(startIndex = 0) {
+            const safeStart = Math.max(0, Number(startIndex) || 0);
+            if (
+                !this.isComponentAlive ||
+                !this.canLoopMemorisationRangeAfterFinish() ||
+                safeStart >= (this.filteredAyahs?.length || 0)
+            ) {
+                return;
+            }
+            this.memorisationRepetitionCurrent = 1;
+            if (this.isMemorisationModeActive) {
+                this.memorisationFocusIndex = safeStart;
+                this.selectCard(safeStart);
+            }
+            this.triggerAutoNextAyahAnimation(safeStart);
+            this.playAudio(safeStart);
+            this.scrollToAyahIndex(safeStart);
+        },
+        scheduleMemorisationRangeLoopRestart(sourceIndex = null) {
+            if (!this.canLoopMemorisationRangeAfterFinish()) return false;
+            const startIndex = 0;
+            this.clearMemorisationRangeLoopRestartState({
+                preserveSourceIndex: true,
+            });
+            const delaySeconds = this.normaliseMemorisationRangeLoopDelay(
+                this.memorisationRangeLoopDelay
+            );
+            const source = Number.isInteger(Number(sourceIndex))
+                ? Number(sourceIndex)
+                : null;
+            this.memorisationRangeLoopCountdownFromIndex = source;
+
+            if (delaySeconds > 0 && this.memorisationRangeLoopShowCountdown) {
+                this.isMemorisationRangeLoopCountdownActive = true;
+                this.memorisationRangeLoopCountdownSeconds = delaySeconds;
+                this.memorisationRangeLoopCountdownInterval = setInterval(() => {
+                    this.memorisationRangeLoopCountdownSeconds = Math.max(
+                        0,
+                        Number(this.memorisationRangeLoopCountdownSeconds || 0) - 1
+                    );
+                    if (this.memorisationRangeLoopCountdownSeconds <= 0) {
+                        if (this.memorisationRangeLoopCountdownInterval) {
+                            clearInterval(this.memorisationRangeLoopCountdownInterval);
+                            this.memorisationRangeLoopCountdownInterval = null;
+                        }
+                        this.isMemorisationRangeLoopCountdownActive = false;
+                    }
+                }, 1000);
+            }
+
+            this.memorisationRangeLoopRestartTimeout = setTimeout(() => {
+                this.clearMemorisationRangeLoopRestartState();
+                if (!this.canLoopMemorisationRangeAfterFinish()) return;
+                this.playMemorisationRangeLoopAlertSound();
+                this.restartMemorisationRangeFromStart(startIndex);
+            }, delaySeconds * 1000);
+            return true;
+        },
         clearMemorisationAutomationState() {
             if (this.countdownInterval) {
                 clearInterval(this.countdownInterval);
@@ -4024,6 +4208,7 @@ export default {
                 clearTimeout(this.memorisationRepetitionPauseTimeout);
                 this.memorisationRepetitionPauseTimeout = null;
             }
+            this.clearMemorisationRangeLoopRestartState();
             this.isCountdownActive = false;
             this.countdownSeconds = 0;
             this.memorisationRepetitionCurrent = 1;
@@ -4061,6 +4246,14 @@ export default {
                 Array.isArray(this.playbackSpeeds) && this.playbackSpeeds.length
                     ? this.playbackSpeeds
                     : [1];
+            const rangeLoopDelay = this.normaliseMemorisationRangeLoopDelay(
+                this.memorisationRangeLoopDelay
+            );
+            const rangeLoopDelayPresets =
+                Array.isArray(this.memorisationRangeLoopDelayPresets) &&
+                this.memorisationRangeLoopDelayPresets.length
+                    ? this.memorisationRangeLoopDelayPresets
+                    : [0, 1, 2, 3, 5];
 
             this.memorisationDraft = {
                 surahNumber: String(this.selectedSurah || ""),
@@ -4076,6 +4269,15 @@ export default {
                 playbackMode: this.playbackMode || "continuous",
                 quranFontId: this.selectedQuranFontId || "",
                 singleAyahFocus: !!this.isMemorisationMode,
+                rangeLoopEnabled: !!this.memorisationRangeLoopEnabled,
+                rangeLoopDelay,
+                rangeLoopDelayIsCustom:
+                    !rangeLoopDelayPresets.includes(rangeLoopDelay),
+                rangeLoopShowCountdown: !!this.memorisationRangeLoopShowCountdown,
+                rangeLoopAlertSound:
+                    this.normaliseMemorisationRangeLoopAlertSound(
+                        this.memorisationRangeLoopAlertSound
+                    ),
                 showTajweed: !!this.showTajweed,
                 showRealtimeHighlighting: !!this.showRealtimeHighlighting,
                 showWordTranslation: !!this.showWordTranslation,
@@ -4106,6 +4308,17 @@ export default {
                     1,
                     Number(this.memorisationRepetitionCount || 1)
                 ),
+                memorisationRangeLoopEnabled: !!this.memorisationRangeLoopEnabled,
+                memorisationRangeLoopDelay:
+                    this.normaliseMemorisationRangeLoopDelay(
+                        this.memorisationRangeLoopDelay
+                    ),
+                memorisationRangeLoopShowCountdown:
+                    !!this.memorisationRangeLoopShowCountdown,
+                memorisationRangeLoopAlertSound:
+                    this.normaliseMemorisationRangeLoopAlertSound(
+                        this.memorisationRangeLoopAlertSound
+                    ),
                 playbackMode: this.playbackMode || "continuous",
                 playbackSpeed: Number(this.playbackSpeed || 1),
                 selectedQuranFontId: this.selectedQuranFontId || "",
@@ -4159,6 +4372,17 @@ export default {
                     1,
                     Number(this.memorisationRepetitionCount || 1)
                 ),
+                memorisationRangeLoopEnabled: !!this.memorisationRangeLoopEnabled,
+                memorisationRangeLoopDelay:
+                    this.normaliseMemorisationRangeLoopDelay(
+                        this.memorisationRangeLoopDelay
+                    ),
+                memorisationRangeLoopShowCountdown:
+                    !!this.memorisationRangeLoopShowCountdown,
+                memorisationRangeLoopAlertSound:
+                    this.normaliseMemorisationRangeLoopAlertSound(
+                        this.memorisationRangeLoopAlertSound
+                    ),
                 playbackMode: this.playbackMode || "continuous",
                 playbackSpeed: Number(this.playbackSpeed || 1),
                 selectedQuranFontId: this.selectedQuranFontId || "",
@@ -4247,6 +4471,19 @@ export default {
                     1,
                     Number(snapshot.memorisationRepetitionCount || 1)
                 );
+                this.memorisationRangeLoopEnabled =
+                    !!snapshot.memorisationRangeLoopEnabled;
+                this.memorisationRangeLoopDelay =
+                    this.normaliseMemorisationRangeLoopDelay(
+                        snapshot.memorisationRangeLoopDelay
+                    );
+                this.memorisationRangeLoopShowCountdown =
+                    !!snapshot.memorisationRangeLoopShowCountdown;
+                this.memorisationRangeLoopAlertSound =
+                    this.normaliseMemorisationRangeLoopAlertSound(
+                        snapshot.memorisationRangeLoopAlertSound
+                    );
+                this.clearMemorisationRangeLoopRestartState();
 
                 const total = Math.max(1, Number(this.totalAyahs || 1));
                 const rangeStart = Math.min(
@@ -4334,6 +4571,7 @@ export default {
                     ? this.playbackSpeeds
                     : [1];
             const validPlaybackModes = ["continuous", "repeat", "manual"];
+            const validRangeLoopAlertSounds = ["off", "beep", "tone"];
             const clamp = (value, min, max) =>
                 Math.min(max, Math.max(min, Number(value) || min));
 
@@ -4344,6 +4582,11 @@ export default {
             const playbackSpeed = speedOptions.includes(selectedSpeed)
                 ? selectedSpeed
                 : speedOptions[0];
+            const rangeLoopAlertSoundRaw = String(
+                draft.rangeLoopAlertSound || "off"
+            )
+                .trim()
+                .toLowerCase();
 
             return {
                 surahNumber,
@@ -4361,6 +4604,14 @@ export default {
                     draft.quranFontId || this.selectedQuranFontId || ""
                 ),
                 singleAyahFocus: !!draft.singleAyahFocus,
+                rangeLoopEnabled: !!draft.rangeLoopEnabled,
+                rangeLoopDelay: clamp(draft.rangeLoopDelay, 0, 300),
+                rangeLoopShowCountdown: !!draft.rangeLoopShowCountdown,
+                rangeLoopAlertSound: validRangeLoopAlertSounds.includes(
+                    rangeLoopAlertSoundRaw
+                )
+                    ? rangeLoopAlertSoundRaw
+                    : "off",
                 showTajweed: !!draft.showTajweed,
                 showRealtimeHighlighting: !!draft.showRealtimeHighlighting,
                 showWordTranslation: !!draft.showWordTranslation,
@@ -4510,6 +4761,7 @@ export default {
                     ? this.playbackSpeeds
                     : [1];
             const validPlaybackModes = ["continuous", "repeat", "manual"];
+            const validRangeLoopAlertSounds = ["off", "beep", "tone"];
             const clamp = (value, min, max) =>
                 Math.min(max, Math.max(min, Number(value) || min));
 
@@ -4538,6 +4790,19 @@ export default {
             const fallbackMode = validPlaybackModes.includes(this.playbackMode)
                 ? this.playbackMode
                 : "continuous";
+            const rangeLoopAlertSoundRaw = String(
+                config.rangeLoopAlertSound ??
+                    config.memorisationRangeLoopAlertSound ??
+                    this.memorisationRangeLoopAlertSound ??
+                    "off"
+            )
+                .trim()
+                .toLowerCase();
+            const rangeLoopEnabledSource =
+                config.rangeLoopEnabled ?? config.memorisationRangeLoopEnabled;
+            const rangeLoopShowCountdownSource =
+                config.rangeLoopShowCountdown ??
+                config.memorisationRangeLoopShowCountdown;
 
             return {
                 surahNumber,
@@ -4573,6 +4838,26 @@ export default {
                     config.isMemorisationMode ??
                     this.isMemorisationMode
                 ),
+                rangeLoopEnabled: !!(
+                    rangeLoopEnabledSource ?? this.memorisationRangeLoopEnabled
+                ),
+                rangeLoopDelay: clamp(
+                    config.rangeLoopDelay ??
+                        config.memorisationRangeLoopDelay ??
+                        this.memorisationRangeLoopDelay ??
+                        0,
+                    0,
+                    300
+                ),
+                rangeLoopShowCountdown: !!(
+                    rangeLoopShowCountdownSource ??
+                    this.memorisationRangeLoopShowCountdown
+                ),
+                rangeLoopAlertSound: validRangeLoopAlertSounds.includes(
+                    rangeLoopAlertSoundRaw
+                )
+                    ? rangeLoopAlertSoundRaw
+                    : "off",
                 showTajweed: !!(config.showTajweed ?? this.showTajweed),
                 showRealtimeHighlighting: !!(
                     config.showRealtimeHighlighting ?? this.showRealtimeHighlighting
@@ -4615,6 +4900,12 @@ export default {
                       playbackMode: this.playbackMode || "continuous",
                       quranFontId: this.selectedQuranFontId || "",
                       singleAyahFocus: !!this.isMemorisationMode,
+                      rangeLoopEnabled: !!this.memorisationRangeLoopEnabled,
+                      rangeLoopDelay: this.memorisationRangeLoopDelay || 0,
+                      rangeLoopShowCountdown:
+                          !!this.memorisationRangeLoopShowCountdown,
+                      rangeLoopAlertSound:
+                          this.memorisationRangeLoopAlertSound || "off",
                       showTajweed: !!this.showTajweed,
                       showRealtimeHighlighting: !!this.showRealtimeHighlighting,
                       showWordTranslation: !!this.showWordTranslation,
@@ -4629,6 +4920,14 @@ export default {
             });
         },
         buildMemorisationPresetDraftFromConfig(config = {}) {
+            const rangeLoopDelay = this.normaliseMemorisationRangeLoopDelay(
+                config.rangeLoopDelay
+            );
+            const rangeLoopDelayPresets =
+                Array.isArray(this.memorisationRangeLoopDelayPresets) &&
+                this.memorisationRangeLoopDelayPresets.length
+                    ? this.memorisationRangeLoopDelayPresets
+                    : [0, 1, 2, 3, 5];
             return {
                 surahNumber: String(config.surahNumber || ""),
                 reciterIdentifier: config.reciterIdentifier || "",
@@ -4640,6 +4939,15 @@ export default {
                 playbackMode: config.playbackMode || "continuous",
                 quranFontId: String(config.quranFontId || ""),
                 singleAyahFocus: !!config.singleAyahFocus,
+                rangeLoopEnabled: !!config.rangeLoopEnabled,
+                rangeLoopDelay,
+                rangeLoopDelayIsCustom:
+                    !rangeLoopDelayPresets.includes(rangeLoopDelay),
+                rangeLoopShowCountdown: !!config.rangeLoopShowCountdown,
+                rangeLoopAlertSound:
+                    this.normaliseMemorisationRangeLoopAlertSound(
+                        config.rangeLoopAlertSound
+                    ),
                 showTajweed: !!config.showTajweed,
                 showRealtimeHighlighting: !!config.showRealtimeHighlighting,
                 showWordTranslation: !!config.showWordTranslation,
@@ -4850,9 +5158,12 @@ export default {
                 : config.playbackMode === "manual"
                 ? "Manual"
                 : "Auto";
+            const rangeLoopLabel = config.rangeLoopEnabled
+                ? ` · Loop ${config.rangeLoopDelay}s`
+                : "";
             return `${surahNumber || "?"}. ${surahName} · Ayah ${
                 config.rangeStart
-            }-${config.rangeEnd} · ${config.playbackSpeed}x · ${modeLabel}`;
+            }-${config.rangeEnd} · ${config.playbackSpeed}x · ${modeLabel}${rangeLoopLabel}`;
         },
         getMemorisationPresetSuggestedName() {
             const config = this.buildCurrentMemorisationPresetConfig({
@@ -5054,6 +5365,7 @@ export default {
             } = options || {};
             try {
                 const config = this.normaliseMemorisationPresetConfig(configInput);
+                this.clearMemorisationRangeLoopRestartState();
                 this.captureMemorisationSessionSnapshot();
                 if (
                     config.surahNumber &&
@@ -5089,6 +5401,17 @@ export default {
                 this.setPlaybackMode(config.playbackMode);
                 this.playbackSpeed = config.playbackSpeed;
                 this.isMemorisationMode = !!config.singleAyahFocus;
+                this.memorisationRangeLoopEnabled = !!config.rangeLoopEnabled;
+                this.memorisationRangeLoopDelay =
+                    this.normaliseMemorisationRangeLoopDelay(
+                        config.rangeLoopDelay
+                    );
+                this.memorisationRangeLoopShowCountdown =
+                    !!config.rangeLoopShowCountdown;
+                this.memorisationRangeLoopAlertSound =
+                    this.normaliseMemorisationRangeLoopAlertSound(
+                        config.rangeLoopAlertSound
+                    );
                 this.isBlurNextAyahEnabled = !!config.blurNextAyah;
                 this.showTajweed = !!config.showTajweed;
                 this.showRealtimeHighlighting = !!config.showRealtimeHighlighting;
@@ -5417,6 +5740,10 @@ export default {
                 playbackMode: "continuous",
                 quranFontId: "",
                 singleAyahFocus: false,
+                rangeLoopEnabled: false,
+                rangeLoopDelay: 3,
+                rangeLoopShowCountdown: true,
+                rangeLoopAlertSound: "off",
                 blurNextAyah: false,
                 translationVisible: false,
                 transliterationVisible: false,
@@ -5463,6 +5790,16 @@ export default {
             this.setPlaybackMode(defaults.playbackMode);
             this.playbackSpeed = defaults.playbackSpeed;
             this.isMemorisationMode = !!defaults.singleAyahFocus;
+            this.memorisationRangeLoopEnabled = !!defaults.rangeLoopEnabled;
+            this.memorisationRangeLoopDelay =
+                this.normaliseMemorisationRangeLoopDelay(defaults.rangeLoopDelay);
+            this.memorisationRangeLoopShowCountdown =
+                !!defaults.rangeLoopShowCountdown;
+            this.memorisationRangeLoopAlertSound =
+                this.normaliseMemorisationRangeLoopAlertSound(
+                    defaults.rangeLoopAlertSound
+                );
+            this.clearMemorisationRangeLoopRestartState();
             this.isBlurNextAyahEnabled = !!defaults.blurNextAyah;
             this.showTajweed = !!defaults.showTajweed;
             this.showRealtimeHighlighting = !!defaults.showRealtimeHighlighting;
@@ -5494,18 +5831,20 @@ export default {
             }
 
             if (syncDraft) {
-                this.memorisationDraft = {
+                this.memorisationDraft =
+                    this.buildMemorisationPresetDraftFromConfig({
                     ...defaults,
                     rangeEnd: safeEnd,
-                };
+                    });
                 this.hideMemorisationSubmitAlert();
             }
         },
         resetMemorisationDraftForm() {
             const defaults = this.getDefaultMemorisationState();
-            this.memorisationDraft = {
+            this.memorisationDraft =
+                this.buildMemorisationPresetDraftFromConfig({
                 ...defaults,
-            };
+                });
             this.hideMemorisationSubmitAlert();
         },
         async submitMemorisationOffcanvas() {
@@ -8704,6 +9043,11 @@ export default {
                 rangeStart,
                 Number(snapshot.memorisationRangeEnd || snapshot.rangeEnd || rangeStart)
             );
+            const rangeLoopEnabledSource =
+                snapshot.memorisationRangeLoopEnabled ?? snapshot.rangeLoopEnabled;
+            const rangeLoopShowCountdownSource =
+                snapshot.memorisationRangeLoopShowCountdown ??
+                snapshot.rangeLoopShowCountdown;
             const normalized = {
                 ...snapshot,
                 selectedSurah,
@@ -8722,6 +9066,24 @@ export default {
                             1
                     )
                 ),
+                memorisationRangeLoopEnabled: !!(
+                    rangeLoopEnabledSource ?? false
+                ),
+                memorisationRangeLoopDelay:
+                    this.normaliseMemorisationRangeLoopDelay(
+                        snapshot.memorisationRangeLoopDelay ??
+                            snapshot.rangeLoopDelay ??
+                            0
+                    ),
+                memorisationRangeLoopShowCountdown: !!(
+                    rangeLoopShowCountdownSource ?? true
+                ),
+                memorisationRangeLoopAlertSound:
+                    this.normaliseMemorisationRangeLoopAlertSound(
+                        snapshot.memorisationRangeLoopAlertSound ??
+                            snapshot.rangeLoopAlertSound ??
+                            "off"
+                    ),
                 playbackMode:
                     snapshot.playbackMode === "repeat" ||
                     snapshot.playbackMode === "manual"
@@ -13815,6 +14177,7 @@ export default {
             };
             console.log("Attempting to play audio for index:", index);
             if (index < 0 || index >= this.filteredAyahs.length) return;
+            this.clearMemorisationRangeLoopRestartState();
             this.stopTajweedRuleAudio();
             this.ayahCardPausedIndex = null;
             if (!isSingleWordPreview) {
@@ -14072,6 +14435,7 @@ export default {
                 clearTimeout(this.memorisationRepetitionPauseTimeout);
                 this.memorisationRepetitionPauseTimeout = null;
             }
+            this.clearMemorisationRangeLoopRestartState();
             if (this.audioElements[index]) {
                 console.log(`Stopping audio for ayah ${index + 1}`);
                 this.audioElements[index].pause();
@@ -15567,6 +15931,7 @@ export default {
         },
         resetAllAudioPlayers: function () {
             this.$nextTick(() => {
+                this.clearMemorisationRangeLoopRestartState();
                 if (this.currentlyPlaying) {
                     this.currentlyPlaying.pause();
                     this.currentlyPlaying = null;
@@ -15696,12 +16061,19 @@ export default {
                 }
                 self.stopAudio(index);
                 self.memorisationRepetitionCurrent = 1;
+                if (self.canLoopMemorisationRangeAfterFinish()) {
+                    self.scheduleMemorisationRangeLoopRestart(index);
+                    return;
+                }
                 self.showAudioPlayer = false;
                 self.currentlyPlayingIndex = -1;
                 return;
             }
 
             this.stopAudio(index);
+            var isLastAyahInRange =
+                Array.isArray(this.filteredAyahs) &&
+                index >= this.filteredAyahs.length - 1;
             if (this.playlistSinglePlayMode) {
                 this.playlistSinglePlayMode = false;
                 this.showAudioPlayer =
@@ -15710,6 +16082,10 @@ export default {
                 return;
             }
             if (this.playbackMode === "repeat") {
+                if (isLastAyahInRange && this.canLoopMemorisationRangeAfterFinish()) {
+                    this.scheduleMemorisationRangeLoopRestart(index);
+                    return;
+                }
                 this.playAudio(index);
                 return;
             }
@@ -15745,6 +16121,14 @@ export default {
                     }
                     return;
                 }
+                if (this.canLoopMemorisationRangeAfterFinish()) {
+                    this.scheduleMemorisationRangeLoopRestart(index);
+                    return;
+                }
+            }
+            if (isLastAyahInRange && this.canLoopMemorisationRangeAfterFinish()) {
+                this.scheduleMemorisationRangeLoopRestart(index);
+                return;
             }
             this.showAudioPlayer = false;
             this.currentlyPlayingIndex = -1;
