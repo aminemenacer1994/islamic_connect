@@ -1761,6 +1761,233 @@
                         <div class="memorisation-offcanvas-tool-list">
                             <label class="memorisation-offcanvas-toggle-row memorisation-offcanvas-toggle-row--with-action">
                                 <span class="memorisation-offcanvas-toggle-copy">
+                                    <strong>Chaining Method</strong>
+                                    <small>Build new verses, then strengthen transitions.</small>
+                                </span>
+                                <span class="form-check form-switch mb-0">
+                                    <input
+                                        class="form-check-input"
+                                        type="checkbox"
+                                        v-model="memorisationDraft.chainingMethodEnabled"
+                                        aria-label="Toggle chaining method">
+                                </span>
+                            </label>
+                            <div
+                                v-if="memorisationDraft.chainingMethodEnabled"
+                                class="memorisation-chaining-settings memorisation-offcanvas-field memorisation-offcanvas-field--full"
+                                :class="`is-mode-${memorisationDraft.chainingMethodMode}`">
+                                <div class="memorisation-chaining-settings-head">
+                                    <div>
+                                        <span class="memorisation-chaining-step-label">1. Mode</span>
+                                        <h6 class="memorisation-chaining-settings-title mb-0">Build a connected chain</h6>
+                                        <p class="memorisation-chaining-settings-subtitle mb-0">
+                                            Start with Loop. Switch to Bridge when transitions need work.
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div class="memorisation-chaining-mode-switcher" role="tablist" aria-label="Select chaining method mode">
+                                    <button
+                                        v-for="option in memorisationChainingModeOptions"
+                                        :key="`memorisation-chaining-mode-${option.value}`"
+                                        type="button"
+                                        class="btn memorisation-chaining-mode-btn"
+                                        :class="[
+                                            `is-${option.value}`,
+                                            { 'is-active': memorisationDraft.chainingMethodMode === option.value }
+                                        ]"
+                                        :aria-pressed="memorisationDraft.chainingMethodMode === option.value ? 'true' : 'false'"
+                                        @click="memorisationDraft.chainingMethodMode = option.value">
+                                        <div class="memorisation-chaining-mode-btn-top">
+                                            <span class="memorisation-chaining-mode-btn-tag">
+                                                {{ option.value === "bridging" ? "Use after Loop" : "Start here" }}
+                                            </span>
+                                            <span class="memorisation-chaining-mode-btn-indicator" aria-hidden="true">
+                                                <i
+                                                    class="bi"
+                                                    :class="memorisationDraft.chainingMethodMode === option.value ? 'bi-check-lg' : 'bi-circle'"></i>
+                                            </span>
+                                        </div>
+                                        <span class="memorisation-chaining-mode-btn-label">{{ option.label }}</span>
+                                        <small>{{ option.description }}</small>
+                                    </button>
+                                </div>
+
+                                <section class="memorisation-chaining-hero" :class="`is-${memorisationDraft.chainingMethodMode}`">
+                                    <div class="memorisation-chaining-hero-copy">
+                                        <span class="memorisation-chaining-step-label">2. Round pattern</span>
+                                        <strong>{{ memorisationChainingSelectedModeMeta.summary }}</strong>
+                                        <small>{{ memorisationChainingSelectedModeMeta.description }}</small>
+                                    </div>
+                                    <div class="memorisation-chaining-preview-links" aria-hidden="true">
+                                        <span class="memorisation-chaining-preview-link is-complete">1</span>
+                                        <span class="memorisation-chaining-preview-link is-complete">2</span>
+                                        <span class="memorisation-chaining-preview-link is-active">3</span>
+                                        <span class="memorisation-chaining-preview-link">4</span>
+                                        <span class="memorisation-chaining-preview-link">5</span>
+                                    </div>
+                                    <div class="memorisation-chaining-hero-steps" aria-label="Selected chaining method steps">
+                                        <span
+                                            v-for="(step, index) in memorisationChainingSelectedModeMeta.steps"
+                                            :key="`memorisation-chaining-step-${index}`"
+                                            class="memorisation-chaining-step-pill">
+                                            <span class="memorisation-chaining-step-pill-index">{{ index + 1 }}</span>
+                                            <span>{{ step }}</span>
+                                        </span>
+                                    </div>
+                                </section>
+
+                                <section class="memorisation-chaining-setup-panel">
+                                    <div class="memorisation-chaining-setup-head">
+                                        <span class="memorisation-chaining-step-label">3. Session setup</span>
+                                        <small>Pick a style, then fine-tune only if needed.</small>
+                                    </div>
+
+                                    <div class="memorisation-chaining-setup-list">
+                                        <section class="memorisation-chaining-setup-row">
+                                            <div class="memorisation-chaining-setup-copy">
+                                                <span class="memorisation-chaining-setup-label">Practice style</span>
+                                                <small>{{ memorisationChainingQuickSetupSummary }}</small>
+                                            </div>
+                                            <div class="memorisation-chaining-chip-row" role="group" aria-label="Chaining practice style">
+                                                <button
+                                                    v-for="option in memorisationChainingQuickSetupOptions"
+                                                    :key="`memorisation-chaining-quick-${option.value}`"
+                                                    type="button"
+                                                    class="btn memorisation-chaining-chip"
+                                                    :class="{ 'is-active': memorisationChainingQuickSetupValue === option.value }"
+                                                    :aria-pressed="memorisationChainingQuickSetupValue === option.value ? 'true' : 'false'"
+                                                    @click="applyMemorisationChainingQuickSetup(option.value)">
+                                                    {{ option.label }}
+                                                </button>
+                                            </div>
+                                        </section>
+
+                                        <section class="memorisation-chaining-setup-row">
+                                            <div class="memorisation-chaining-setup-copy">
+                                                <span class="memorisation-chaining-setup-label">Finish</span>
+                                                <small>What happens after the chain ends</small>
+                                            </div>
+                                            <div class="memorisation-chaining-chip-row" role="group" aria-label="Chaining completion action">
+                                                <button
+                                                    v-for="option in memorisationChainingCompletionActionOptions"
+                                                    :key="`memorisation-chaining-complete-${option.value}`"
+                                                    type="button"
+                                                    class="btn memorisation-chaining-chip"
+                                                    :class="{ 'is-active': memorisationDraft.chainingMethodCompletionAction === option.value }"
+                                                    :aria-pressed="memorisationDraft.chainingMethodCompletionAction === option.value ? 'true' : 'false'"
+                                                    @click="memorisationDraft.chainingMethodCompletionAction = option.value">
+                                                    {{ option.label }}
+                                                </button>
+                                            </div>
+                                        </section>
+                                    </div>
+
+                                    <details class="memorisation-chaining-advanced">
+                                        <summary class="memorisation-chaining-advanced-toggle">
+                                            Fine-tune settings
+                                        </summary>
+
+                                        <div class="memorisation-chaining-advanced-grid">
+                                            <section class="memorisation-chaining-advanced-item">
+                                                <div class="memorisation-chaining-setup-copy">
+                                                    <span class="memorisation-chaining-setup-label">Repeats</span>
+                                                    <small>New ayah reps</small>
+                                                </div>
+                                                <div class="memorisation-chaining-chip-row" role="group" aria-label="Chaining repetitions per verse">
+                                                    <button
+                                                        v-for="option in memorisationChainingRepetitionOptions"
+                                                        :key="`memorisation-chaining-repeat-${option.value}`"
+                                                        type="button"
+                                                        class="btn memorisation-chaining-chip"
+                                                        :class="{ 'is-active': memorisationDraft.chainingMethodRepetitionStrategy === option.value }"
+                                                        :aria-pressed="memorisationDraft.chainingMethodRepetitionStrategy === option.value ? 'true' : 'false'"
+                                                        @click="memorisationDraft.chainingMethodRepetitionStrategy = option.value">
+                                                        {{ option.label }}
+                                                    </button>
+                                                </div>
+                                            </section>
+
+                                            <section class="memorisation-chaining-advanced-item">
+                                                <div class="memorisation-chaining-setup-copy">
+                                                    <span class="memorisation-chaining-setup-label">Audio</span>
+                                                    <small>Who leads the round</small>
+                                                </div>
+                                                <div class="memorisation-chaining-chip-row" role="group" aria-label="Chaining audio guidance mode">
+                                                    <button
+                                                        v-for="option in memorisationChainingAudioGuidanceOptions"
+                                                        :key="`memorisation-chaining-audio-${option.value}`"
+                                                        type="button"
+                                                        class="btn memorisation-chaining-chip"
+                                                        :class="{ 'is-active': memorisationDraft.chainingMethodAudioGuidance === option.value }"
+                                                        :aria-pressed="memorisationDraft.chainingMethodAudioGuidance === option.value ? 'true' : 'false'"
+                                                        @click="memorisationDraft.chainingMethodAudioGuidance = option.value">
+                                                        {{ option.label }}
+                                                    </button>
+                                                </div>
+                                            </section>
+
+                                            <section class="memorisation-chaining-advanced-item memorisation-chaining-advanced-item--toggle">
+                                                <div class="memorisation-chaining-setup-copy">
+                                                    <span class="memorisation-chaining-setup-label">Auto-next</span>
+                                                    <small>{{ memorisationChainingAutoAdvanceHelperLabel }}</small>
+                                                </div>
+                                                <label class="memorisation-chaining-toggle-inline">
+                                                    <span
+                                                        class="memorisation-chaining-toggle-state"
+                                                        :class="[
+                                                            {
+                                                                'is-on':
+                                                                    isMemorisationChainingAutoAdvanceAvailable &&
+                                                                    memorisationDraft.chainingMethodAutoAdvance,
+                                                                'is-disabled': !isMemorisationChainingAutoAdvanceAvailable
+                                                            }
+                                                        ]">
+                                                        {{ memorisationChainingAutoAdvanceStatusLabel }}
+                                                    </span>
+                                                    <span class="form-check form-switch mb-0">
+                                                        <input
+                                                            class="form-check-input"
+                                                            type="checkbox"
+                                                            v-model="memorisationDraft.chainingMethodAutoAdvance"
+                                                            :disabled="!isMemorisationChainingAutoAdvanceAvailable"
+                                                            aria-label="Toggle chaining auto advance">
+                                                    </span>
+                                                </label>
+                                            </section>
+
+                                            <section class="memorisation-chaining-advanced-item">
+                                                <div class="memorisation-chaining-setup-copy">
+                                                    <span class="memorisation-chaining-setup-label">Blur</span>
+                                                    <small>Recall support</small>
+                                                </div>
+                                                <div class="memorisation-chaining-chip-row" role="group" aria-label="Chaining blur progression">
+                                                    <button
+                                                        v-for="option in memorisationChainingBlurOptions"
+                                                        :key="`memorisation-chaining-blur-${option.value}`"
+                                                        type="button"
+                                                        class="btn memorisation-chaining-chip"
+                                                        :class="{ 'is-active': memorisationDraft.chainingMethodBlurProgression === option.value }"
+                                                        :aria-pressed="memorisationDraft.chainingMethodBlurProgression === option.value ? 'true' : 'false'"
+                                                        @click="memorisationDraft.chainingMethodBlurProgression = option.value">
+                                                        {{ option.label }}
+                                                    </button>
+                                                </div>
+                                            </section>
+                                        </div>
+                                    </details>
+                                </section>
+
+                                <div class="memorisation-chaining-footer-inline">
+                                    <span class="memorisation-chaining-start-pill">{{ memorisationChainingDraftRangeLabel }}</span>
+                                    <div class="memorisation-chaining-footer-copy">
+                                        <strong>{{ memorisationChainingStartActionLabel }}</strong>
+                                        <small>{{ memorisationChainingSelectedModeMeta.footer }}</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <label class="memorisation-offcanvas-toggle-row memorisation-offcanvas-toggle-row--with-action">
+                                <span class="memorisation-offcanvas-toggle-copy">
                                     <strong>Verse Countdown</strong>
                                     <small>Track remaining verses with live progress, ETA, and completion feedback.</small>
                                 </span>
@@ -2041,7 +2268,7 @@
                             Reset all changes
                         </button>
                         <button type="button" class="btn memorisation-offcanvas-btn memorisation-offcanvas-btn-submit" :disabled="isMemorisationDraftSubmitting" @click="submitMemorisationOffcanvas">
-                            {{ isMemorisationDraftSubmitting ? "Applying..." : "Submit" }}
+                            {{ isMemorisationDraftSubmitting ? memorisationOffcanvasSubmittingLabel : memorisationOffcanvasSubmitButtonLabel }}
                         </button>
                     </div>
                 </div>
@@ -3291,6 +3518,92 @@
             <div v-if="isLoading" class="loading-placeholder">Loading Surah...</div>
 
             <div
+                v-if="isMemorisationChainingActive"
+                class="memorisation-chaining-host ltr-text">
+                <section
+                    class="memorisation-chaining-display"
+                    :class="[
+                        `is-${memorisationChainingStatusTone}`,
+                        `is-mode-${memorisationChainingMode}`
+                    ]"
+                    role="status"
+                    aria-live="polite">
+                    <div class="memorisation-chaining-display-head">
+                        <div class="memorisation-chaining-display-copy">
+                            <div class="memorisation-chaining-display-eyebrow">Chaining Method</div>
+                            <div class="memorisation-chaining-display-title-row">
+                                <h3 class="memorisation-chaining-display-title mb-0">{{ memorisationChainingModeLabel }}</h3>
+                                <span class="memorisation-chaining-display-state-pill" :class="`is-${memorisationChainingStatusTone}`">
+                                    {{ memorisationChainingStatusTitle }}
+                                </span>
+                            </div>
+                            <p class="memorisation-chaining-display-text mb-0">
+                                {{ memorisationChainingStatusText }}
+                            </p>
+                        </div>
+                        <div class="memorisation-chaining-display-badges">
+                            <span class="memorisation-chaining-display-badge">{{ memorisationChainingStageLabel }}</span>
+                            <span class="memorisation-chaining-display-badge">{{ memorisationChainingAudioGuidanceLabel }}</span>
+                            <span class="memorisation-chaining-display-badge">{{ memorisationChainingBlurProgressionLabel }}</span>
+                        </div>
+                    </div>
+
+                    <div class="memorisation-chaining-display-metrics">
+                        <div class="memorisation-chaining-display-metric">
+                            <span>Chain strength</span>
+                            <strong>{{ memorisationChainingCurrentChainLength }} verse{{ memorisationChainingCurrentChainLength === 1 ? "" : "s" }}</strong>
+                        </div>
+                        <div class="memorisation-chaining-display-metric">
+                            <span>Estimated time</span>
+                            <strong>{{ memorisationChainingEstimatedTimeLabel }}</strong>
+                        </div>
+                        <div class="memorisation-chaining-display-metric">
+                            <span>Completion</span>
+                            <strong>{{ memorisationChainingProgressPercent }}%</strong>
+                        </div>
+                    </div>
+
+                    <div class="memorisation-chaining-progress-track" aria-hidden="true">
+                        <span
+                            class="memorisation-chaining-progress-fill"
+                            :style="{ width: `${memorisationChainingProgressPercent}%` }"></span>
+                    </div>
+
+                    <div class="memorisation-chaining-link-row" aria-label="Current memorisation chain">
+                        <div
+                            v-for="link in memorisationChainingChainLinks"
+                            :key="`memorisation-chain-link-${link.index}`"
+                            class="memorisation-chaining-link"
+                            :class="`is-${link.state}`">
+                            <span>{{ link.ayahNumber }}</span>
+                        </div>
+                    </div>
+
+                    <div class="memorisation-chaining-display-footer">
+                        <div class="memorisation-chaining-display-footer-copy">
+                            <strong>{{ memorisationChainingChainStrengthLabel }}</strong>
+                            <small>{{ memorisationChainingCompletionActionLabel }}</small>
+                        </div>
+                        <div class="memorisation-chaining-display-actions">
+                            <button
+                                type="button"
+                                class="btn memorisation-chaining-display-btn memorisation-chaining-display-btn-primary"
+                                @click="continueMemorisationChaining">
+                                {{ memorisationChainingPrimaryActionLabel }}
+                            </button>
+                            <button
+                                v-if="memorisationChainingAudioGuidance !== 'silent'"
+                                type="button"
+                                class="btn memorisation-chaining-display-btn"
+                                @click="replayCurrentMemorisationChainingRound">
+                                Replay round
+                            </button>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <div
                 v-if="isVerseCountdownVisible && (verseCountdownPositionResolved === 'title' || (verseCountdownPositionResolved === 'floating' && (!verseCountdownUseSideRail || !verseCountdownAnchorVisible)))"
                 class="verse-countdown-host ltr-text"
                 :class="{
@@ -3727,7 +4040,7 @@
                                     ]"
                                     v-html="highlightedText(item.ayah)"
                                     @click="onAyahWordClick(item, $event)"
-                                    :style="`font-size: ${effectiveArabicFontSize}px !important;`"
+                                    :style="getAyahArabicTextStyle(item.index)"
                                 ></p>
                                 <div v-if="shouldShowTranslationForRepeatPause(item)" class="translation-header pt-2 ltr-text hide-on-mobile-tablet ml-2">
                                     <h2 class="mb-0">
@@ -3836,7 +4149,7 @@
                                     ]"
                                     v-html="highlightedText(item.ayah)"
                                     @click="onAyahWordClick(item, $event)"
-                                    :style="`font-size: ${effectiveArabicFontSize}px !important;`"
+                                    :style="getAyahArabicTextStyle(item.index)"
                                 ></p>
                                 <div v-if="shouldShowTranslationForRepeatPause(item)" class="d-flex align-items-center fw-bold pt-2 ltr-text ml-2">
                                     <h4 class="mb-0">

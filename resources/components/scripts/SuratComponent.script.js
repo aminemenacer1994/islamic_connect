@@ -859,6 +859,132 @@ export default {
             memorisationVerseCountdownDisplayStyle: "combined",
             memorisationVerseCountdownPosition: "floating",
             memorisationVerseCountdownConfettiEnabled: false,
+            memorisationChainingModeOptions: [
+                {
+                    value: "cumulative",
+                    label: "Cumulative Loop",
+                    description: "Build from ayah 1 and add one each round.",
+                },
+                {
+                    value: "bridging",
+                    label: "Bridging Method",
+                    description: "Review, drill, then connect the new ayah.",
+                },
+            ],
+            memorisationChainingRepetitionOptions: [
+                {
+                    value: "3",
+                    label: "3x",
+                    description: "Standard reinforcement.",
+                },
+                {
+                    value: "5",
+                    label: "5x",
+                    description: "Extra reinforcement for a new verse.",
+                },
+                {
+                    value: "mastered",
+                    label: "Mastered",
+                    description:
+                        "Pause between rounds so you confirm before the chain grows.",
+                },
+            ],
+            memorisationChainingAudioGuidanceOptions: [
+                {
+                    value: "qari-first",
+                    label: "Qari",
+                    description:
+                        "Guided playback leads each chain round for talaqqi-style imitation.",
+                },
+                {
+                    value: "user-first",
+                    label: "You",
+                    description:
+                        "Use manual round confirmation so you recite before the guided replay.",
+                },
+                {
+                    value: "silent",
+                    label: "Silent",
+                    description:
+                        "Keep the chain visual only and move rounds manually.",
+                },
+            ],
+            memorisationChainingBlurOptions: [
+                {
+                    value: "off",
+                    label: "Off",
+                    description: "Keep the text fully clear.",
+                },
+                {
+                    value: "gentle",
+                    label: "Gentle",
+                    description:
+                        "Lightly blur learned verses while keeping the new link obvious.",
+                },
+                {
+                    value: "progressive",
+                    label: "Recall",
+                    description:
+                        "Increase blur as the chain grows for stronger active recall.",
+                },
+            ],
+            memorisationChainingCompletionActionOptions: [
+                {
+                    value: "none",
+                    label: "Stay",
+                    description: "Finish the session and stay in place.",
+                },
+                {
+                    value: "playlist",
+                    label: "Playlist",
+                    description:
+                        "Add the memorised range to the active playlist when possible.",
+                },
+                {
+                    value: "share",
+                    label: "Share",
+                    description:
+                        "Copy or share a short progress update after completion.",
+                },
+                {
+                    value: "test",
+                    label: "Test",
+                    description:
+                        "Switch to single ayah focus so you can test recall immediately.",
+                },
+            ],
+            memorisationChainingQuickSetupOptions: [
+                {
+                    value: "guided",
+                    label: "Guided start",
+                    description: "Qari-led and easy to start.",
+                },
+                {
+                    value: "steady",
+                    label: "Extra reps",
+                    description: "More repetition with manual pacing.",
+                },
+                {
+                    value: "recall",
+                    label: "Recall check",
+                    description: "Manual recall with stronger challenge.",
+                },
+            ],
+            memorisationChainingEnabled: false,
+            memorisationChainingMode: "cumulative",
+            memorisationChainingRepetitionStrategy: "3",
+            memorisationChainingAutoAdvance: true,
+            memorisationChainingAudioGuidance: "qari-first",
+            memorisationChainingBlurProgression: "off",
+            memorisationChainingCompletionAction: "none",
+            isMemorisationChainingAutomationActive: false,
+            memorisationChainingRoundIndex: 0,
+            memorisationChainingStageIndex: 0,
+            memorisationChainingSequenceCursor: 0,
+            memorisationChainingStageRepeatCurrent: 1,
+            memorisationChainingPendingAdvance: false,
+            memorisationChainingCompleted: false,
+            memorisationChainingLastCompletedRoundIndex: -1,
             verseCountdownHasPlaybackStarted: false,
             verseCountdownFinalAyahRecited: false,
             verseCountdownCompletionNotified: false,
@@ -924,6 +1050,13 @@ export default {
                 verseCountdownDisplayStyle: "combined",
                 verseCountdownPosition: "floating",
                 verseCountdownConfettiEnabled: false,
+                chainingMethodEnabled: false,
+                chainingMethodMode: "cumulative",
+                chainingMethodRepetitionStrategy: "3",
+                chainingMethodAutoAdvance: true,
+                chainingMethodAudioGuidance: "qari-first",
+                chainingMethodBlurProgression: "off",
+                chainingMethodCompletionAction: "none",
             },
             countdownSeconds: 0,
             isCountdownActive: false,
@@ -1645,6 +1778,338 @@ export default {
                 this.verseCountdownPositionResolved === "floating" &&
                 !this.isTabletOrMobile
             );
+        },
+        isMemorisationChainingActive() {
+            return (
+                !!this.isMemorisationToolbarVisible &&
+                !!this.memorisationChainingEnabled
+            );
+        },
+        memorisationChainingModeLabel() {
+            const mode = String(this.memorisationChainingMode || "cumulative");
+            return mode === "bridging"
+                ? "Bridging Method"
+                : "Cumulative Loop";
+        },
+        memorisationChainingSelectedModeMeta() {
+            const mode = String(
+                this.memorisationDraft?.chainingMethodMode || "cumulative"
+            );
+
+            if (mode === "bridging") {
+                return {
+                    summary: "Tighten the handoff between verses.",
+                    description:
+                        "Review the chain, drill the new ayah, then recite the full link.",
+                    note: "Best once the words already feel familiar.",
+                    footer: "Use this after Loop to make transitions automatic.",
+                    steps: ["Review chain", "New ayah", "Full chain"],
+                };
+            }
+
+            return {
+                summary: "Build the chain one ayah at a time.",
+                description:
+                    "Start from ayah 1 and keep adding one new verse to the same chain.",
+                note: "Best for brand-new verses.",
+                footer: "Switch to Bridge later when you want smoother transitions.",
+                steps: ["Ayah 1", "Add next", "Full chain"],
+            };
+        },
+        memorisationChainingQuickSetupValue() {
+            const repetition = String(
+                this.memorisationDraft?.chainingMethodRepetitionStrategy || "3"
+            );
+            const audio = String(
+                this.memorisationDraft?.chainingMethodAudioGuidance ||
+                    "qari-first"
+            );
+            const blur = String(
+                this.memorisationDraft?.chainingMethodBlurProgression || "off"
+            );
+
+            if (repetition === "3" && audio === "qari-first" && blur === "off") {
+                return "guided";
+            }
+
+            if (
+                repetition === "5" &&
+                audio === "qari-first" &&
+                blur === "gentle"
+            ) {
+                return "steady";
+            }
+
+            if (
+                repetition === "mastered" &&
+                audio === "user-first" &&
+                blur === "progressive"
+            ) {
+                return "recall";
+            }
+
+            return "custom";
+        },
+        memorisationChainingQuickSetupSummary() {
+            const selected = this.memorisationChainingQuickSetupOptions.find(
+                ({ value }) => value === this.memorisationChainingQuickSetupValue
+            );
+
+            return selected?.description || "Fine-tuned manually.";
+        },
+        memorisationChainingAudioGuidanceLabel() {
+            const mode = String(
+                this.memorisationChainingAudioGuidance || "qari-first"
+            );
+            if (mode === "user-first") return "You first";
+            if (mode === "silent") return "Silent";
+            return "Qari first";
+        },
+        memorisationChainingBlurProgressionLabel() {
+            const value = String(
+                this.memorisationChainingBlurProgression || "off"
+            );
+            if (value === "gentle") return "Gentle blur";
+            if (value === "progressive") return "Recall blur";
+            return "Clear text";
+        },
+        memorisationChainingCompletionActionLabel() {
+            const value = String(
+                this.memorisationChainingCompletionAction || "none"
+            );
+            if (value === "playlist") return "Save to playlist";
+            if (value === "share") return "Share progress";
+            if (value === "test") return "Start test mode";
+            return "Stay here";
+        },
+        isMemorisationChainingAutoAdvanceAvailable() {
+            return (
+                String(
+                    this.memorisationDraft?.chainingMethodRepetitionStrategy ||
+                        "3"
+                ) !== "mastered" &&
+                String(
+                    this.memorisationDraft?.chainingMethodAudioGuidance ||
+                        "qari-first"
+                ) === "qari-first"
+            );
+        },
+        memorisationChainingAutoAdvanceStatusLabel() {
+            if (!this.isMemorisationChainingAutoAdvanceAvailable) {
+                return "Manual only";
+            }
+            return this.memorisationDraft?.chainingMethodAutoAdvance
+                ? "Auto on"
+                : "Auto off";
+        },
+        memorisationChainingAutoAdvanceHelperLabel() {
+            if (!this.isMemorisationChainingAutoAdvanceAvailable) {
+                return "Needs Qari + fixed repeats.";
+            }
+
+            return this.memorisationDraft?.chainingMethodAutoAdvance
+                ? "Moves to the next round automatically."
+                : "Waits for you before each new round.";
+        },
+        memorisationChainingDraftRangeLabel() {
+            const start = Number(this.memorisationDraft?.rangeStart || 1);
+            const end = Number(
+                this.memorisationDraft?.rangeEnd ||
+                    this.memorisationDraft?.rangeStart ||
+                    1
+            );
+            return start === end ? `Ayah ${start}` : `Ayahs ${start}-${end}`;
+        },
+        memorisationChainingStartActionLabel() {
+            const start = Number(this.memorisationDraft?.rangeStart || 1);
+            const audio = String(
+                this.memorisationDraft?.chainingMethodAudioGuidance ||
+                    "qari-first"
+            );
+            if (audio === "silent") {
+                return `Press Start Chaining, then begin at ayah ${start}.`;
+            }
+            return `Press Start Chaining, then play ayah ${start}.`;
+        },
+        memorisationOffcanvasSubmitButtonLabel() {
+            if (this.memorisationDraft?.chainingMethodEnabled) {
+                return "Start Chaining";
+            }
+            return "Start Session";
+        },
+        memorisationOffcanvasSubmittingLabel() {
+            if (this.memorisationDraft?.chainingMethodEnabled) {
+                return "Starting...";
+            }
+            return "Applying...";
+        },
+        memorisationChainingTotalVerses() {
+            return Array.isArray(this.filteredAyahs) ? this.filteredAyahs.length : 0;
+        },
+        memorisationChainingCurrentRoundIndexSafe() {
+            const total = Number(this.memorisationChainingTotalVerses || 0);
+            if (!total) return 0;
+            if (this.memorisationChainingCompleted) return total - 1;
+            const raw = Number(this.memorisationChainingRoundIndex || 0);
+            return Math.min(Math.max(0, raw), total - 1);
+        },
+        memorisationChainingCompletedRounds() {
+            const total = Number(this.memorisationChainingTotalVerses || 0);
+            if (!total) return 0;
+            if (this.memorisationChainingCompleted) return total;
+            const completed =
+                Math.max(-1, Number(this.memorisationChainingLastCompletedRoundIndex || -1)) +
+                1;
+            return Math.min(Math.max(0, completed), total);
+        },
+        memorisationChainingCurrentChainLength() {
+            if (!this.memorisationChainingTotalVerses) return 0;
+            return this.memorisationChainingCurrentRoundIndexSafe + 1;
+        },
+        memorisationChainingChainStrengthLabel() {
+            const count = Number(this.memorisationChainingCurrentChainLength || 0);
+            return `Chain strength: ${count} verse${count === 1 ? "" : "s"}`;
+        },
+        memorisationChainingProgressPercent() {
+            const total = Math.max(1, Number(this.memorisationChainingTotalVerses || 0));
+            return Math.round(
+                (Number(this.memorisationChainingCompletedRounds || 0) / total) * 100
+            );
+        },
+        memorisationChainingAutoAdvanceResolved() {
+            return this.shouldAutoAdvanceMemorisationChaining();
+        },
+        memorisationChainingCurrentStageDescriptor() {
+            return this.getMemorisationChainingStageDescriptor(
+                this.memorisationChainingCurrentRoundIndexSafe,
+                this.memorisationChainingStageIndex
+            );
+        },
+        memorisationChainingStageLabel() {
+            return (
+                this.memorisationChainingCurrentStageDescriptor?.label ||
+                "Growing chain"
+            );
+        },
+        memorisationChainingStageSummary() {
+            return (
+                this.memorisationChainingCurrentStageDescriptor?.summary ||
+                "Build the selected ayah range one connected link at a time."
+            );
+        },
+        memorisationChainingStatusTone() {
+            if (this.memorisationChainingCompleted) return "complete";
+            if (this.memorisationChainingPendingAdvance) return "pending";
+            if (this.isMemorisationChainingAutomationActive) return "active";
+            return "ready";
+        },
+        memorisationChainingStatusTitle() {
+            if (this.memorisationChainingCompleted) {
+                return "Chain completed";
+            }
+            if (this.memorisationChainingPendingAdvance) {
+                return "Round ready to grow";
+            }
+            if (this.isMemorisationChainingAutomationActive) {
+                return "Guided chain in progress";
+            }
+            return "Chain ready to begin";
+        },
+        memorisationChainingStatusText() {
+            if (this.memorisationChainingCompleted) {
+                return "The full selected range has been linked together successfully.";
+            }
+            if (this.memorisationChainingPendingAdvance) {
+                return "Review the current chain once more, then continue when the next link feels stable.";
+            }
+            if (this.isMemorisationChainingAutomationActive) {
+                return this.memorisationChainingStageSummary;
+            }
+            if (this.memorisationChainingAudioGuidance === "silent") {
+                return "Use the live chain map as a silent memorisation checklist and mark each round when you are ready.";
+            }
+            if (this.memorisationChainingAudioGuidance === "user-first") {
+                return "Recite the current round yourself first, then start the guided replay when you want reinforcement.";
+            }
+            return "Start guided playback to let the chain build one connected round at a time.";
+        },
+        memorisationChainingPrimaryActionLabel() {
+            if (this.memorisationChainingCompleted) return "Restart chain";
+            if (this.memorisationChainingPendingAdvance) return "Continue to next round";
+            if (this.memorisationChainingAudioGuidance === "silent") {
+                return "Mark current round done";
+            }
+            if (this.memorisationChainingAudioGuidance === "user-first") {
+                return this.memorisationChainingCompletedRounds
+                    ? "Hear guided replay"
+                    : "Start guided round";
+            }
+            return this.isMemorisationChainingAutomationActive
+                ? "Replay current round"
+                : "Start chain";
+        },
+        memorisationChainingEstimatedSecondsRemaining() {
+            if (!this.isMemorisationChainingActive) return 0;
+            const total = Number(this.memorisationChainingTotalVerses || 0);
+            if (!total || this.memorisationChainingCompleted) return 0;
+            const current = this.memorisationChainingPendingAdvance
+                ? this.memorisationChainingCurrentRoundIndexSafe + 1
+                : this.memorisationChainingCurrentRoundIndexSafe;
+            let seconds = 0;
+            for (let roundIndex = current; roundIndex < total; roundIndex += 1) {
+                seconds += this.estimateMemorisationChainingRoundSeconds(roundIndex);
+            }
+            return Math.max(0, Math.round(seconds));
+        },
+        memorisationChainingEstimatedTimeLabel() {
+            return this.formatCountdownDurationLabel(
+                this.memorisationChainingEstimatedSecondsRemaining
+            );
+        },
+        memorisationChainingChainLinks() {
+            const ayahs = Array.isArray(this.filteredAyahs) ? this.filteredAyahs : [];
+            const currentRound = this.memorisationChainingCurrentRoundIndexSafe;
+            const completedRounds = Number(this.memorisationChainingCompletedRounds || 0);
+            return ayahs.map((ayah, index) => {
+                const ayahNumber = Number(
+                    ayah?.numberInSurah || ayah?.number || index + 1
+                );
+                let state = "pending";
+                if (this.memorisationChainingCompleted || index < completedRounds) {
+                    state = "complete";
+                } else if (index === currentRound) {
+                    state = this.memorisationChainingPendingAdvance
+                        ? "pending-current"
+                        : "active";
+                } else if (index < currentRound) {
+                    state = "linked";
+                }
+                return {
+                    index,
+                    ayahNumber,
+                    label: `Ayah ${ayahNumber}`,
+                    state,
+                };
+            });
+        },
+        memorisationChainingQuickStartGuide() {
+            return [
+                {
+                    title: "New verses",
+                    body: "Start with Loop when the range still feels new.",
+                    tone: "cumulative",
+                },
+                {
+                    title: "Transitions",
+                    body: "Switch to Bridge when the words feel steady.",
+                    tone: "bridging",
+                },
+                {
+                    title: "Best flow",
+                    body: "Loop first, then Bridge.",
+                    tone: "sequence",
+                },
+            ];
         },
         isMemorisationCurrentAyahSaved() {
             return this.isAyahSaved(this.memorisationCurrentAyah);
@@ -3673,6 +4138,10 @@ export default {
                 this.memorisationFocusIndex = Math.min(Math.max(this.memorisationFocusIndex, 0), lastIndex);
             }
             this.ayahScrubValue = Math.min(Math.max(1, this.ayahScrubValue), Math.max(n, 1));
+            this.resetMemorisationChainingProgress({
+                stopAudio: false,
+                preserveCompleted: false,
+            });
             this.$nextTick(this.updateVirtualWindow);
         },
         currentlyPlayingIndex(next) {
@@ -3743,6 +4212,37 @@ export default {
             this.verseCountdownCompletionNotified = false;
             this.clearVerseCountdownCelebrationState();
             this.closeVerseCountdownCompleteModal();
+        },
+        memorisationChainingEnabled(newVal) {
+            if (newVal) {
+                this.resetMemorisationChainingProgress({
+                    stopAudio: false,
+                    preserveCompleted: false,
+                });
+                return;
+            }
+            this.resetMemorisationChainingProgress({
+                stopAudio: false,
+                preserveCompleted: false,
+            });
+        },
+        memorisationChainingMode() {
+            this.resetMemorisationChainingProgress({
+                stopAudio: false,
+                preserveCompleted: false,
+            });
+        },
+        memorisationChainingRepetitionStrategy() {
+            this.resetMemorisationChainingProgress({
+                stopAudio: false,
+                preserveCompleted: false,
+            });
+        },
+        memorisationChainingAudioGuidance() {
+            this.resetMemorisationChainingProgress({
+                stopAudio: false,
+                preserveCompleted: false,
+            });
         },
         verseCountdownRangeKey() {
             this.verseCountdownFinalAyahRecited = false;
@@ -6126,12 +6626,23 @@ export default {
             this.clearVerseCountdownCelebrationState();
             this.closeVerseCountdownCompleteModal();
             this.memorisationRepetitionCurrent = 1;
+            if (this.isMemorisationChainingActive) {
+                this.resetMemorisationChainingProgress({
+                    stopAudio: false,
+                    preserveCompleted: false,
+                });
+                this.beginMemorisationChainingRound(0);
+            }
             if (this.isMemorisationModeActive) {
                 this.memorisationFocusIndex = safeStart;
                 this.selectCard(safeStart);
             }
             this.triggerAutoNextAyahAnimation(safeStart);
-            this.playAudio(safeStart);
+            if (this.isMemorisationChainingActive) {
+                this.playMemorisationChainingStage({ restart: true });
+            } else {
+                this.playAudio(safeStart);
+            }
             this.scrollToAyahIndex(safeStart);
         },
         scheduleMemorisationRangeLoopRestart(sourceIndex = null) {
@@ -6189,6 +6700,10 @@ export default {
             this.isCountdownActive = false;
             this.countdownSeconds = 0;
             this.memorisationRepetitionCurrent = 1;
+            this.resetMemorisationChainingProgress({
+                stopAudio: false,
+                preserveCompleted: false,
+            });
         },
         getBootstrapOffcanvasInstance(element) {
             if (
@@ -6223,30 +6738,132 @@ export default {
             const normalized = String(value || "").trim().toLowerCase();
             return normalized === "title" ? "title" : "floating";
         },
-        estimateMemorisationVerseDurationSeconds(ayah) {
-            const playbackSpeed = Math.max(0.5, Number(this.playbackSpeed || 1));
-            const repetitionCount = Math.max(
-                1,
-                Number(this.memorisationRepetitionCount || 1)
+        normaliseMemorisationChainingMode(value = "") {
+            const normalized = String(value || "").trim().toLowerCase();
+            return normalized === "bridging" ? "bridging" : "cumulative";
+        },
+        normaliseMemorisationChainingRepetitionStrategy(value = "") {
+            const normalized = String(value || "").trim().toLowerCase();
+            if (normalized === "5") return "5";
+            if (normalized === "mastered") return "mastered";
+            return "3";
+        },
+        normaliseMemorisationChainingAudioGuidance(value = "") {
+            const normalized = String(value || "").trim().toLowerCase();
+            if (normalized === "user-first") return "user-first";
+            if (normalized === "silent") return "silent";
+            return "qari-first";
+        },
+        normaliseMemorisationChainingBlurProgression(value = "") {
+            const normalized = String(value || "").trim().toLowerCase();
+            if (normalized === "gentle") return "gentle";
+            if (normalized === "progressive") return "progressive";
+            return "off";
+        },
+        normaliseMemorisationChainingCompletionAction(value = "") {
+            const normalized = String(value || "").trim().toLowerCase();
+            if (normalized === "playlist") return "playlist";
+            if (normalized === "share") return "share";
+            if (normalized === "test") return "test";
+            return "none";
+        },
+        getMemorisationChainingRepeatTarget(
+            strategy = this.memorisationChainingRepetitionStrategy
+        ) {
+            const normalized =
+                this.normaliseMemorisationChainingRepetitionStrategy(strategy);
+            return normalized === "5" || normalized === "mastered" ? 5 : 3;
+        },
+        shouldAutoAdvanceMemorisationChaining() {
+            if (
+                this.normaliseMemorisationChainingRepetitionStrategy(
+                    this.memorisationChainingRepetitionStrategy
+                ) === "mastered"
+            ) {
+                return false;
+            }
+            if (
+                this.normaliseMemorisationChainingAudioGuidance(
+                    this.memorisationChainingAudioGuidance
+                ) !== "qari-first"
+            ) {
+                return false;
+            }
+            return !!this.memorisationChainingAutoAdvance;
+        },
+        getMemorisationChainingStagesForRound(roundIndex = 0) {
+            const ayahs = Array.isArray(this.filteredAyahs) ? this.filteredAyahs : [];
+            const total = ayahs.length;
+            if (!total) return [];
+            const safeRound = Math.min(
+                Math.max(0, Number(roundIndex) || 0),
+                total - 1
             );
-            const verseDelay = Math.max(
-                0,
-                Number(this.memorisationVerseDelay || 0)
+            const repeatTarget = this.getMemorisationChainingRepeatTarget();
+            const mode = this.normaliseMemorisationChainingMode(
+                this.memorisationChainingMode
             );
-            const pauseMode = this.normaliseMemorisationRepeatAfterPauseMode(
-                this.memorisationRepeatAfterPauseMode
+            const currentAyahNumber = Number(
+                ayahs?.[safeRound]?.numberInSurah ||
+                    ayahs?.[safeRound]?.number ||
+                    safeRound + 1
             );
-            let repeatPauseSeconds = 0;
-            if (this.memorisationRepeatAfterEnabled) {
-                if (pauseMode === "manual") {
-                    repeatPauseSeconds = 5;
-                } else {
-                    const parsed = Number(pauseMode);
-                    repeatPauseSeconds =
-                        Number.isFinite(parsed) && parsed > 0 ? parsed : 0;
+
+            if (mode === "bridging") {
+                const stages = [];
+                if (safeRound > 0) {
+                    stages.push({
+                        key: "existing",
+                        label: "Existing chain",
+                        summary:
+                            "Begin from the start so the already learned links are active before you add the new ayah.",
+                        startIndex: 0,
+                        endIndex: safeRound - 1,
+                        repeatTarget: 1,
+                    });
                 }
+                stages.push({
+                    key: "new",
+                    label: "New verse reinforcement",
+                    summary: `Repeat Ayah ${currentAyahNumber} with focused attention before reconnecting it to the chain.`,
+                    startIndex: safeRound,
+                    endIndex: safeRound,
+                    repeatTarget,
+                });
+                stages.push({
+                    key: "full",
+                    label: "Linked chain",
+                    summary:
+                        "Recite the full chain from the beginning so the transition into the new ayah becomes automatic.",
+                    startIndex: 0,
+                    endIndex: safeRound,
+                    repeatTarget: 1,
+                });
+                return stages;
             }
 
+            return [
+                {
+                    key: "cumulative",
+                    label: "Growing chain",
+                    summary: `Recite from the first ayah through Ayah ${currentAyahNumber} as one longer connected sequence.`,
+                    startIndex: 0,
+                    endIndex: safeRound,
+                    repeatTarget,
+                },
+            ];
+        },
+        getMemorisationChainingStageDescriptor(roundIndex = 0, stageIndex = 0) {
+            const stages = this.getMemorisationChainingStagesForRound(roundIndex);
+            if (!stages.length) return null;
+            const safeStage = Math.min(
+                Math.max(0, Number(stageIndex) || 0),
+                stages.length - 1
+            );
+            return stages[safeStage] || stages[0];
+        },
+        estimateMemorisationVerseBaseDurationSeconds(ayah) {
+            const playbackSpeed = Math.max(0.5, Number(this.playbackSpeed || 1));
             let baseVerseSeconds = 0;
             const ayahNumber = Number(ayah?.numberInSurah || ayah?.number || 0);
             if (ayahNumber > 0) {
@@ -6278,6 +6895,493 @@ export default {
                 baseVerseSeconds =
                     (estimatedWordCount * baseSecondsPerWord) / playbackSpeed;
             }
+
+            return Math.max(1, baseVerseSeconds);
+        },
+        estimateMemorisationChainingStageSeconds(stage) {
+            if (!stage || typeof stage !== "object") return 0;
+            const startIndex = Math.max(0, Number(stage.startIndex || 0));
+            const endIndex = Math.max(startIndex, Number(stage.endIndex || startIndex));
+            const repeatTarget = Math.max(1, Number(stage.repeatTarget || 1));
+            const ayahs = Array.isArray(this.filteredAyahs) ? this.filteredAyahs : [];
+            let sequenceSeconds = 0;
+            for (let index = startIndex; index <= endIndex; index += 1) {
+                sequenceSeconds += this.estimateMemorisationVerseBaseDurationSeconds(
+                    ayahs[index] || null
+                );
+            }
+            const verseDelay = Math.max(0, Number(this.memorisationVerseDelay || 0));
+            const transitions = Math.max(0, endIndex - startIndex);
+            return Math.max(
+                1,
+                sequenceSeconds * repeatTarget + verseDelay * transitions
+            );
+        },
+        estimateMemorisationChainingRoundSeconds(roundIndex = 0) {
+            const stages = this.getMemorisationChainingStagesForRound(roundIndex);
+            if (!stages.length) return 0;
+            const roundSeconds = stages.reduce(
+                (total, stage) =>
+                    total + this.estimateMemorisationChainingStageSeconds(stage),
+                0
+            );
+            const needsManualBuffer =
+                !this.shouldAutoAdvanceMemorisationChaining() ||
+                this.normaliseMemorisationChainingAudioGuidance(
+                    this.memorisationChainingAudioGuidance
+                ) !== "qari-first";
+            return roundSeconds + (needsManualBuffer ? 4 : 0);
+        },
+        getMemorisationChainingBlurAmount(index) {
+            if (!this.isMemorisationChainingActive) return 0;
+            const mode = this.normaliseMemorisationChainingBlurProgression(
+                this.memorisationChainingBlurProgression
+            );
+            if (mode === "off") return 0;
+            const safeIndex = Math.max(0, Number(index) || 0);
+            const currentRound = this.memorisationChainingCurrentRoundIndexSafe;
+            if (
+                this.isAnyAudioPlaying &&
+                safeIndex === Number(this.currentlyPlayingIndex)
+            ) {
+                return 0;
+            }
+            if (safeIndex > currentRound) {
+                return mode === "gentle" ? 2.2 : 4.2;
+            }
+            if (safeIndex === currentRound) {
+                return mode === "gentle" ? 0.45 : 0.9;
+            }
+            const distance = Math.max(0, currentRound - safeIndex);
+            const completedRounds = Number(this.memorisationChainingCompletedRounds || 0);
+            const base = mode === "gentle" ? 0.35 : 0.7;
+            const boost = mode === "progressive" ? completedRounds * 0.14 : 0;
+            return Math.min(mode === "gentle" ? 1.8 : 3.8, distance * base + boost);
+        },
+        getAyahArabicTextStyle(index) {
+            const blurAmount = this.getMemorisationChainingBlurAmount(index);
+            const style = {
+                fontSize: `${this.effectiveArabicFontSize}px`,
+            };
+            if (blurAmount > 0) {
+                const blurValue = `blur(${blurAmount.toFixed(2)}px)`;
+                style.filter = blurValue;
+                style.WebkitFilter = blurValue;
+            }
+            return style;
+        },
+        resetMemorisationChainingProgress(options = {}) {
+            const {
+                stopAudio = false,
+                preserveCompleted = false,
+            } = options || {};
+            if (stopAudio && this.isAnyAudioPlaying) {
+                this.stopAudio(
+                    Math.max(0, Number(this.currentlyPlayingIndex || 0))
+                );
+            }
+            this.isMemorisationChainingAutomationActive = false;
+            this.memorisationChainingRoundIndex = 0;
+            this.memorisationChainingStageIndex = 0;
+            this.memorisationChainingSequenceCursor = 0;
+            this.memorisationChainingStageRepeatCurrent = 1;
+            this.memorisationChainingPendingAdvance = false;
+            this.memorisationChainingLastCompletedRoundIndex = preserveCompleted
+                ? this.memorisationChainingLastCompletedRoundIndex
+                : -1;
+            this.memorisationChainingCompleted = preserveCompleted
+                ? !!this.memorisationChainingCompleted
+                : false;
+        },
+        syncMemorisationChainingFocus(index, options = {}) {
+            const { behavior = "smooth", force = false } = options || {};
+            const total = Array.isArray(this.filteredAyahs)
+                ? this.filteredAyahs.length
+                : 0;
+            if (!total) return;
+            const safeIndex = Math.min(
+                Math.max(0, Number(index) || 0),
+                total - 1
+            );
+            this.memorisationFocusIndex = safeIndex;
+            this.selectCard(safeIndex);
+            this.scrollToAyahIndex(safeIndex, {
+                settle: true,
+                force,
+                behavior,
+                lock: true,
+            });
+        },
+        beginMemorisationChainingRound(roundIndex = 0) {
+            const total = Number(this.memorisationChainingTotalVerses || 0);
+            if (!total) return false;
+            const safeRound = Math.min(
+                Math.max(0, Number(roundIndex) || 0),
+                total - 1
+            );
+            this.memorisationChainingRoundIndex = safeRound;
+            this.memorisationChainingStageIndex = 0;
+            const stage = this.getMemorisationChainingStageDescriptor(
+                safeRound,
+                0
+            );
+            this.memorisationChainingSequenceCursor = Number(
+                stage?.startIndex || 0
+            );
+            this.memorisationChainingStageRepeatCurrent = 1;
+            this.memorisationChainingPendingAdvance = false;
+            this.memorisationChainingCompleted = false;
+            this.syncMemorisationChainingFocus(
+                this.memorisationChainingSequenceCursor,
+                {
+                    behavior: "smooth",
+                    force: true,
+                }
+            );
+            return true;
+        },
+        completeMemorisationChainingSession(options = {}) {
+            const { skipCompletionAction = false } = options || {};
+            const total = Number(this.memorisationChainingTotalVerses || 0);
+            if (!total) return false;
+            this.isMemorisationChainingAutomationActive = false;
+            this.memorisationChainingPendingAdvance = false;
+            this.memorisationChainingCompleted = true;
+            this.memorisationChainingLastCompletedRoundIndex = total - 1;
+            this.memorisationChainingRoundIndex = total - 1;
+            this.memorisationChainingStageIndex = Math.max(
+                0,
+                this.getMemorisationChainingStagesForRound(total - 1).length - 1
+            );
+            this.memorisationChainingSequenceCursor = total - 1;
+            this.syncMemorisationChainingFocus(total - 1, {
+                behavior: "smooth",
+                force: true,
+            });
+            if (this.canLoopMemorisationRangeAfterFinish()) {
+                this.showToast(
+                    `${this.memorisationChainingModeLabel} completed. Looping the full chain again.`,
+                    2800
+                );
+                this.scheduleMemorisationRangeLoopRestart(total - 1);
+                return true;
+            }
+            if (!skipCompletionAction) {
+                this.handleMemorisationChainingCompletionAction();
+            }
+            this.showToast(
+                `${this.memorisationChainingModeLabel} completed for verses ${this.memorisationRangeStart}-${this.memorisationRangeEnd}.`,
+                3200
+            );
+            return true;
+        },
+        async handleMemorisationChainingCompletionAction() {
+            const action = this.normaliseMemorisationChainingCompletionAction(
+                this.memorisationChainingCompletionAction
+            );
+            if (action === "playlist") {
+                const playlist = this.activePlaylist;
+                if (!playlist) {
+                    this.showToast(
+                        "Select an active playlist first to auto-save this chain.",
+                        3200
+                    );
+                    return;
+                }
+                let added = 0;
+                const ayahs = Array.isArray(this.filteredAyahs) ? this.filteredAyahs : [];
+                ayahs.forEach((ayah) => {
+                    if (this.addAyahToCustomPlaylist(ayah, { playlistId: playlist.id })) {
+                        added += 1;
+                    }
+                });
+                this.showToast(
+                    added
+                        ? `Saved ${added} verse${added === 1 ? "" : "s"} to ${playlist.name || "your playlist"}.`
+                        : "These verses are already in the active playlist.",
+                    3200
+                );
+                return;
+            }
+            if (action === "share") {
+                const rangeLabel = `${this.selectedSurah}:${this.memorisationRangeStart}-${this.memorisationRangeEnd}`;
+                const text = `I completed ${this.memorisationChainingModeLabel} for Surah ${rangeLabel} on Islamic Connect.`;
+                try {
+                    if (
+                        typeof navigator !== "undefined" &&
+                        typeof navigator.share === "function"
+                    ) {
+                        await navigator.share({
+                            title: "Islamic Connect memorisation progress",
+                            text,
+                        });
+                        return;
+                    }
+                } catch (_) {}
+                try {
+                    if (
+                        typeof navigator !== "undefined" &&
+                        navigator.clipboard &&
+                        typeof navigator.clipboard.writeText === "function"
+                    ) {
+                        await navigator.clipboard.writeText(text);
+                        this.showToast("Progress copied to clipboard.", 2600);
+                        return;
+                    }
+                } catch (_) {}
+                this.showToast(text, 3400);
+                return;
+            }
+            if (action === "test") {
+                this.isMemorisationMode = true;
+                this.persistMemorisationModeSetting();
+                this.showToast("Test Mode activated. Focus on one ayah at a time.", 3000);
+            }
+        },
+        playMemorisationChainingStage(options = {}) {
+            const { restart = false } = options || {};
+            if (!this.isMemorisationChainingActive) return false;
+            const guidance = this.normaliseMemorisationChainingAudioGuidance(
+                this.memorisationChainingAudioGuidance
+            );
+            const stage = this.getMemorisationChainingStageDescriptor(
+                this.memorisationChainingRoundIndex,
+                this.memorisationChainingStageIndex
+            );
+            if (!stage) return false;
+            const startIndex = Number(stage.startIndex || 0);
+            if (restart) {
+                this.memorisationChainingSequenceCursor = startIndex;
+                this.memorisationChainingStageRepeatCurrent = 1;
+            }
+            this.memorisationChainingPendingAdvance = false;
+            this.memorisationChainingCompleted = false;
+            this.syncMemorisationChainingFocus(
+                this.memorisationChainingSequenceCursor,
+                {
+                    behavior: "smooth",
+                    force: true,
+                }
+            );
+            if (guidance === "silent") {
+                this.isMemorisationChainingAutomationActive = false;
+                return true;
+            }
+            this.isMemorisationChainingAutomationActive = true;
+            this.playAudio(this.memorisationChainingSequenceCursor);
+            return true;
+        },
+        replayCurrentMemorisationChainingRound() {
+            if (!this.isMemorisationChainingActive) return;
+            this.beginMemorisationChainingRound(
+                this.memorisationChainingCurrentRoundIndexSafe
+            );
+            this.playMemorisationChainingStage({ restart: true });
+        },
+        applyMemorisationChainingQuickSetup(preset) {
+            if (!this.memorisationDraft) return;
+
+            if (preset === "guided") {
+                this.memorisationDraft.chainingMethodRepetitionStrategy = "3";
+                this.memorisationDraft.chainingMethodAudioGuidance =
+                    "qari-first";
+                this.memorisationDraft.chainingMethodBlurProgression = "off";
+                return;
+            }
+
+            if (preset === "steady") {
+                this.memorisationDraft.chainingMethodRepetitionStrategy = "5";
+                this.memorisationDraft.chainingMethodAudioGuidance =
+                    "qari-first";
+                this.memorisationDraft.chainingMethodBlurProgression = "gentle";
+                return;
+            }
+
+            if (preset === "recall") {
+                this.memorisationDraft.chainingMethodRepetitionStrategy =
+                    "mastered";
+                this.memorisationDraft.chainingMethodAudioGuidance =
+                    "user-first";
+                this.memorisationDraft.chainingMethodBlurProgression =
+                    "progressive";
+            }
+        },
+        continueMemorisationChaining() {
+            if (!this.isMemorisationChainingActive) return;
+            const total = Number(this.memorisationChainingTotalVerses || 0);
+            if (!total) return;
+            if (this.memorisationChainingCompleted) {
+                this.resetMemorisationChainingProgress({
+                    stopAudio: true,
+                    preserveCompleted: false,
+                });
+                this.beginMemorisationChainingRound(0);
+                if (
+                    this.normaliseMemorisationChainingAudioGuidance(
+                        this.memorisationChainingAudioGuidance
+                    ) !== "silent"
+                ) {
+                    this.playMemorisationChainingStage({ restart: true });
+                }
+                return;
+            }
+            if (this.memorisationChainingPendingAdvance) {
+                const nextRound = this.memorisationChainingCurrentRoundIndexSafe + 1;
+                if (nextRound >= total) {
+                    this.completeMemorisationChainingSession();
+                    return;
+                }
+                this.beginMemorisationChainingRound(nextRound);
+                if (
+                    this.normaliseMemorisationChainingAudioGuidance(
+                        this.memorisationChainingAudioGuidance
+                    ) !== "silent"
+                ) {
+                    this.playMemorisationChainingStage({ restart: true });
+                }
+                return;
+            }
+            if (
+                this.normaliseMemorisationChainingAudioGuidance(
+                    this.memorisationChainingAudioGuidance
+                ) === "silent"
+            ) {
+                const currentRound = this.memorisationChainingCurrentRoundIndexSafe;
+                this.syncMemorisationChainingFocus(currentRound, {
+                    behavior: "smooth",
+                    force: true,
+                });
+                this.memorisationChainingLastCompletedRoundIndex = currentRound;
+                if (currentRound >= total - 1) {
+                    this.completeMemorisationChainingSession();
+                    return;
+                }
+                this.memorisationChainingPendingAdvance = true;
+                return;
+            }
+            if (!this.isMemorisationChainingAutomationActive) {
+                this.beginMemorisationChainingRound(
+                    this.memorisationChainingCurrentRoundIndexSafe
+                );
+            }
+            this.playMemorisationChainingStage({ restart: true });
+        },
+        handleMemorisationChainingAyahEnd(index) {
+            if (!this.isMemorisationChainingActive) return false;
+            if (!this.isMemorisationChainingAutomationActive) return false;
+            const guidance = this.normaliseMemorisationChainingAudioGuidance(
+                this.memorisationChainingAudioGuidance
+            );
+            if (guidance === "silent") return false;
+
+            const roundIndex = this.memorisationChainingCurrentRoundIndexSafe;
+            const stage = this.getMemorisationChainingStageDescriptor(
+                roundIndex,
+                this.memorisationChainingStageIndex
+            );
+            if (!stage) return false;
+
+            const currentIndex = Math.max(0, Number(index) || 0);
+            const startIndex = Math.max(0, Number(stage.startIndex || 0));
+            const endIndex = Math.max(startIndex, Number(stage.endIndex || startIndex));
+            const repeatTarget = Math.max(1, Number(stage.repeatTarget || 1));
+            this.stopAudio(currentIndex);
+
+            if (currentIndex < endIndex) {
+                const nextIndex = currentIndex + 1;
+                this.memorisationChainingSequenceCursor = nextIndex;
+                this.triggerAutoNextAyahAnimation(nextIndex);
+                this.playAudio(nextIndex);
+                this.syncMemorisationChainingFocus(nextIndex, {
+                    behavior: "auto",
+                    force: true,
+                });
+                return true;
+            }
+
+            if (this.memorisationChainingStageRepeatCurrent < repeatTarget) {
+                this.memorisationChainingStageRepeatCurrent += 1;
+                this.memorisationChainingSequenceCursor = startIndex;
+                this.triggerAutoNextAyahAnimation(startIndex);
+                this.playAudio(startIndex);
+                this.syncMemorisationChainingFocus(startIndex, {
+                    behavior: "auto",
+                    force: true,
+                });
+                return true;
+            }
+
+            const stages = this.getMemorisationChainingStagesForRound(roundIndex);
+            const nextStageIndex = this.memorisationChainingStageIndex + 1;
+            if (nextStageIndex < stages.length) {
+                const nextStage = stages[nextStageIndex];
+                this.memorisationChainingStageIndex = nextStageIndex;
+                this.memorisationChainingSequenceCursor = Number(
+                    nextStage?.startIndex || 0
+                );
+                this.memorisationChainingStageRepeatCurrent = 1;
+                this.triggerAutoNextAyahAnimation(
+                    this.memorisationChainingSequenceCursor
+                );
+                this.playAudio(this.memorisationChainingSequenceCursor);
+                this.syncMemorisationChainingFocus(
+                    this.memorisationChainingSequenceCursor,
+                    {
+                        behavior: "auto",
+                        force: true,
+                    }
+                );
+                return true;
+            }
+
+            this.isMemorisationChainingAutomationActive = false;
+            this.memorisationChainingLastCompletedRoundIndex = roundIndex;
+            const isLastRound =
+                roundIndex >= Number(this.memorisationChainingTotalVerses || 1) - 1;
+            if (isLastRound) {
+                this.showAudioPlayer = false;
+                this.currentlyPlaying = null;
+                this.currentlyPlayingIndex = -1;
+                this.completeMemorisationChainingSession();
+                return true;
+            }
+            if (!this.shouldAutoAdvanceMemorisationChaining()) {
+                this.memorisationChainingPendingAdvance = true;
+                this.showAudioPlayer = false;
+                this.currentlyPlaying = null;
+                this.currentlyPlayingIndex = -1;
+                return true;
+            }
+            const nextRound = roundIndex + 1;
+            this.beginMemorisationChainingRound(nextRound);
+            this.playMemorisationChainingStage({ restart: true });
+            return true;
+        },
+        estimateMemorisationVerseDurationSeconds(ayah) {
+            const repetitionCount = Math.max(
+                1,
+                Number(this.memorisationRepetitionCount || 1)
+            );
+            const verseDelay = Math.max(
+                0,
+                Number(this.memorisationVerseDelay || 0)
+            );
+            const pauseMode = this.normaliseMemorisationRepeatAfterPauseMode(
+                this.memorisationRepeatAfterPauseMode
+            );
+            let repeatPauseSeconds = 0;
+            if (this.memorisationRepeatAfterEnabled) {
+                if (pauseMode === "manual") {
+                    repeatPauseSeconds = 5;
+                } else {
+                    const parsed = Number(pauseMode);
+                    repeatPauseSeconds =
+                        Number.isFinite(parsed) && parsed > 0 ? parsed : 0;
+                }
+            }
+
+            const baseVerseSeconds =
+                this.estimateMemorisationVerseBaseDurationSeconds(ayah);
 
             return Math.max(
                 1,
@@ -6447,6 +7551,28 @@ export default {
                     ),
                 verseCountdownConfettiEnabled:
                     !!this.memorisationVerseCountdownConfettiEnabled,
+                chainingMethodEnabled: !!this.memorisationChainingEnabled,
+                chainingMethodMode: this.normaliseMemorisationChainingMode(
+                    this.memorisationChainingMode
+                ),
+                chainingMethodRepetitionStrategy:
+                    this.normaliseMemorisationChainingRepetitionStrategy(
+                        this.memorisationChainingRepetitionStrategy
+                    ),
+                chainingMethodAutoAdvance:
+                    !!this.memorisationChainingAutoAdvance,
+                chainingMethodAudioGuidance:
+                    this.normaliseMemorisationChainingAudioGuidance(
+                        this.memorisationChainingAudioGuidance
+                    ),
+                chainingMethodBlurProgression:
+                    this.normaliseMemorisationChainingBlurProgression(
+                        this.memorisationChainingBlurProgression
+                    ),
+                chainingMethodCompletionAction:
+                    this.normaliseMemorisationChainingCompletionAction(
+                        this.memorisationChainingCompletionAction
+                    ),
             };
             this.isMemorisationRepeatAfterSettingsOpen =
                 !!this.memorisationDraft.repeatAfterReciterEnabled;
@@ -6529,6 +7655,29 @@ export default {
                     ),
                 memorisationVerseCountdownConfettiEnabled:
                     !!this.memorisationVerseCountdownConfettiEnabled,
+                memorisationChainingEnabled: !!this.memorisationChainingEnabled,
+                memorisationChainingMode:
+                    this.normaliseMemorisationChainingMode(
+                        this.memorisationChainingMode
+                    ),
+                memorisationChainingRepetitionStrategy:
+                    this.normaliseMemorisationChainingRepetitionStrategy(
+                        this.memorisationChainingRepetitionStrategy
+                    ),
+                memorisationChainingAutoAdvance:
+                    !!this.memorisationChainingAutoAdvance,
+                memorisationChainingAudioGuidance:
+                    this.normaliseMemorisationChainingAudioGuidance(
+                        this.memorisationChainingAudioGuidance
+                    ),
+                memorisationChainingBlurProgression:
+                    this.normaliseMemorisationChainingBlurProgression(
+                        this.memorisationChainingBlurProgression
+                    ),
+                memorisationChainingCompletionAction:
+                    this.normaliseMemorisationChainingCompletionAction(
+                        this.memorisationChainingCompletionAction
+                    ),
             };
         },
         buildCurrentMemorisationSessionSnapshot() {
@@ -6619,6 +7768,29 @@ export default {
                     ),
                 memorisationVerseCountdownConfettiEnabled:
                     !!this.memorisationVerseCountdownConfettiEnabled,
+                memorisationChainingEnabled: !!this.memorisationChainingEnabled,
+                memorisationChainingMode:
+                    this.normaliseMemorisationChainingMode(
+                        this.memorisationChainingMode
+                    ),
+                memorisationChainingRepetitionStrategy:
+                    this.normaliseMemorisationChainingRepetitionStrategy(
+                        this.memorisationChainingRepetitionStrategy
+                    ),
+                memorisationChainingAutoAdvance:
+                    !!this.memorisationChainingAutoAdvance,
+                memorisationChainingAudioGuidance:
+                    this.normaliseMemorisationChainingAudioGuidance(
+                        this.memorisationChainingAudioGuidance
+                    ),
+                memorisationChainingBlurProgression:
+                    this.normaliseMemorisationChainingBlurProgression(
+                        this.memorisationChainingBlurProgression
+                    ),
+                memorisationChainingCompletionAction:
+                    this.normaliseMemorisationChainingCompletionAction(
+                        this.memorisationChainingCompletionAction
+                    ),
                 focusAyahNumber: Number.isFinite(focusAyahNumber)
                     ? focusAyahNumber
                     : start,
@@ -6736,6 +7908,34 @@ export default {
                 this.verseCountdownFinalAyahRecited = false;
                 this.verseCountdownCompletionNotified = false;
                 this.clearVerseCountdownCelebrationState();
+                this.memorisationChainingEnabled =
+                    !!snapshot.memorisationChainingEnabled;
+                this.memorisationChainingMode =
+                    this.normaliseMemorisationChainingMode(
+                        snapshot.memorisationChainingMode
+                    );
+                this.memorisationChainingRepetitionStrategy =
+                    this.normaliseMemorisationChainingRepetitionStrategy(
+                        snapshot.memorisationChainingRepetitionStrategy
+                    );
+                this.memorisationChainingAutoAdvance =
+                    snapshot.memorisationChainingAutoAdvance !== false;
+                this.memorisationChainingAudioGuidance =
+                    this.normaliseMemorisationChainingAudioGuidance(
+                        snapshot.memorisationChainingAudioGuidance
+                    );
+                this.memorisationChainingBlurProgression =
+                    this.normaliseMemorisationChainingBlurProgression(
+                        snapshot.memorisationChainingBlurProgression
+                    );
+                this.memorisationChainingCompletionAction =
+                    this.normaliseMemorisationChainingCompletionAction(
+                        snapshot.memorisationChainingCompletionAction
+                    );
+                this.resetMemorisationChainingProgress({
+                    stopAudio: false,
+                    preserveCompleted: false,
+                });
 
                 const total = Math.max(1, Number(this.totalAyahs || 1));
                 const rangeStart = Math.min(
@@ -6849,6 +8049,31 @@ export default {
             )
                 .trim()
                 .toLowerCase();
+            const chainingMethodModeRaw = String(
+                draft.chainingMethodMode || "cumulative"
+            )
+                .trim()
+                .toLowerCase();
+            const chainingMethodRepetitionStrategyRaw = String(
+                draft.chainingMethodRepetitionStrategy || "3"
+            )
+                .trim()
+                .toLowerCase();
+            const chainingMethodAudioGuidanceRaw = String(
+                draft.chainingMethodAudioGuidance || "qari-first"
+            )
+                .trim()
+                .toLowerCase();
+            const chainingMethodBlurProgressionRaw = String(
+                draft.chainingMethodBlurProgression || "off"
+            )
+                .trim()
+                .toLowerCase();
+            const chainingMethodCompletionActionRaw = String(
+                draft.chainingMethodCompletionAction || "none"
+            )
+                .trim()
+                .toLowerCase();
 
             return {
                 surahNumber,
@@ -6902,6 +8127,28 @@ export default {
                     ),
                 verseCountdownConfettiEnabled:
                     draft.verseCountdownConfettiEnabled !== false,
+                chainingMethodEnabled: !!draft.chainingMethodEnabled,
+                chainingMethodMode: this.normaliseMemorisationChainingMode(
+                    chainingMethodModeRaw
+                ),
+                chainingMethodRepetitionStrategy:
+                    this.normaliseMemorisationChainingRepetitionStrategy(
+                        chainingMethodRepetitionStrategyRaw
+                    ),
+                chainingMethodAutoAdvance:
+                    draft.chainingMethodAutoAdvance !== false,
+                chainingMethodAudioGuidance:
+                    this.normaliseMemorisationChainingAudioGuidance(
+                        chainingMethodAudioGuidanceRaw
+                    ),
+                chainingMethodBlurProgression:
+                    this.normaliseMemorisationChainingBlurProgression(
+                        chainingMethodBlurProgressionRaw
+                    ),
+                chainingMethodCompletionAction:
+                    this.normaliseMemorisationChainingCompletionAction(
+                        chainingMethodCompletionActionRaw
+                    ),
             };
         },
         normaliseMemorisationPresetName(name = "") {
@@ -7117,6 +8364,37 @@ export default {
             const verseCountdownConfettiEnabledSource =
                 config.verseCountdownConfettiEnabled ??
                 config.memorisationVerseCountdownConfettiEnabled;
+            const chainingMethodEnabledSource =
+                config.chainingMethodEnabled ??
+                config.memorisationChainingEnabled;
+            const chainingMethodModeSource =
+                config.chainingMethodMode ??
+                config.memorisationChainingMode ??
+                this.memorisationChainingMode ??
+                "cumulative";
+            const chainingMethodRepetitionStrategySource =
+                config.chainingMethodRepetitionStrategy ??
+                config.memorisationChainingRepetitionStrategy ??
+                this.memorisationChainingRepetitionStrategy ??
+                "3";
+            const chainingMethodAutoAdvanceSource =
+                config.chainingMethodAutoAdvance ??
+                config.memorisationChainingAutoAdvance;
+            const chainingMethodAudioGuidanceSource =
+                config.chainingMethodAudioGuidance ??
+                config.memorisationChainingAudioGuidance ??
+                this.memorisationChainingAudioGuidance ??
+                "qari-first";
+            const chainingMethodBlurProgressionSource =
+                config.chainingMethodBlurProgression ??
+                config.memorisationChainingBlurProgression ??
+                this.memorisationChainingBlurProgression ??
+                "off";
+            const chainingMethodCompletionActionSource =
+                config.chainingMethodCompletionAction ??
+                config.memorisationChainingCompletionAction ??
+                this.memorisationChainingCompletionAction ??
+                "none";
 
             return {
                 surahNumber,
@@ -7223,6 +8501,32 @@ export default {
                     verseCountdownConfettiEnabledSource !== undefined
                         ? !!verseCountdownConfettiEnabledSource
                         : !!this.memorisationVerseCountdownConfettiEnabled,
+                chainingMethodEnabled: !!(
+                    chainingMethodEnabledSource ?? this.memorisationChainingEnabled
+                ),
+                chainingMethodMode: this.normaliseMemorisationChainingMode(
+                    chainingMethodModeSource
+                ),
+                chainingMethodRepetitionStrategy:
+                    this.normaliseMemorisationChainingRepetitionStrategy(
+                        chainingMethodRepetitionStrategySource
+                    ),
+                chainingMethodAutoAdvance:
+                    chainingMethodAutoAdvanceSource !== undefined
+                        ? !!chainingMethodAutoAdvanceSource
+                        : !!this.memorisationChainingAutoAdvance,
+                chainingMethodAudioGuidance:
+                    this.normaliseMemorisationChainingAudioGuidance(
+                        chainingMethodAudioGuidanceSource
+                    ),
+                chainingMethodBlurProgression:
+                    this.normaliseMemorisationChainingBlurProgression(
+                        chainingMethodBlurProgressionSource
+                    ),
+                chainingMethodCompletionAction:
+                    this.normaliseMemorisationChainingCompletionAction(
+                        chainingMethodCompletionActionSource
+                    ),
                 blurNextAyah: !!(
                     config.blurNextAyah ??
                     config.isBlurNextAyahEnabled ??
@@ -7291,6 +8595,30 @@ export default {
                           ),
                       verseCountdownConfettiEnabled:
                           !!this.memorisationVerseCountdownConfettiEnabled,
+                      chainingMethodEnabled:
+                          !!this.memorisationChainingEnabled,
+                      chainingMethodMode:
+                          this.normaliseMemorisationChainingMode(
+                              this.memorisationChainingMode
+                          ),
+                      chainingMethodRepetitionStrategy:
+                          this.normaliseMemorisationChainingRepetitionStrategy(
+                              this.memorisationChainingRepetitionStrategy
+                          ),
+                      chainingMethodAutoAdvance:
+                          !!this.memorisationChainingAutoAdvance,
+                      chainingMethodAudioGuidance:
+                          this.normaliseMemorisationChainingAudioGuidance(
+                              this.memorisationChainingAudioGuidance
+                          ),
+                      chainingMethodBlurProgression:
+                          this.normaliseMemorisationChainingBlurProgression(
+                              this.memorisationChainingBlurProgression
+                          ),
+                      chainingMethodCompletionAction:
+                          this.normaliseMemorisationChainingCompletionAction(
+                              this.memorisationChainingCompletionAction
+                          ),
                   });
             return this.normaliseMemorisationPresetConfig({
                 ...baseConfig,
@@ -7356,6 +8684,28 @@ export default {
                     ),
                 verseCountdownConfettiEnabled:
                     config.verseCountdownConfettiEnabled !== false,
+                chainingMethodEnabled: !!config.chainingMethodEnabled,
+                chainingMethodMode: this.normaliseMemorisationChainingMode(
+                    config.chainingMethodMode
+                ),
+                chainingMethodRepetitionStrategy:
+                    this.normaliseMemorisationChainingRepetitionStrategy(
+                        config.chainingMethodRepetitionStrategy
+                    ),
+                chainingMethodAutoAdvance:
+                    config.chainingMethodAutoAdvance !== false,
+                chainingMethodAudioGuidance:
+                    this.normaliseMemorisationChainingAudioGuidance(
+                        config.chainingMethodAudioGuidance
+                    ),
+                chainingMethodBlurProgression:
+                    this.normaliseMemorisationChainingBlurProgression(
+                        config.chainingMethodBlurProgression
+                    ),
+                chainingMethodCompletionAction:
+                    this.normaliseMemorisationChainingCompletionAction(
+                        config.chainingMethodCompletionAction
+                    ),
                 blurNextAyah: !!config.blurNextAyah,
                 translationVisible: !!config.translationVisible,
                 transliterationVisible: !!config.transliterationVisible,
@@ -7565,9 +8915,14 @@ export default {
             const rangeLoopLabel = config.rangeLoopEnabled
                 ? ` · Loop ${config.rangeLoopDelay}s`
                 : "";
+            const chainingLabel = config.chainingMethodEnabled
+                ? config.chainingMethodMode === "bridging"
+                    ? " · Bridge chain"
+                    : " · Chain loop"
+                : "";
             return `${surahNumber || "?"}. ${surahName} · Ayah ${
                 config.rangeStart
-            }-${config.rangeEnd} · ${config.playbackSpeed}x · ${modeLabel}${rangeLoopLabel}`;
+            }-${config.rangeEnd} · ${config.playbackSpeed}x · ${modeLabel}${rangeLoopLabel}${chainingLabel}`;
         },
         getMemorisationPresetSuggestedName() {
             const config = this.buildCurrentMemorisationPresetConfig({
@@ -7849,6 +9204,34 @@ export default {
                 this.verseCountdownFinalAyahRecited = false;
                 this.verseCountdownCompletionNotified = false;
                 this.clearVerseCountdownCelebrationState();
+                this.memorisationChainingEnabled =
+                    !!config.chainingMethodEnabled;
+                this.memorisationChainingMode =
+                    this.normaliseMemorisationChainingMode(
+                        config.chainingMethodMode
+                    );
+                this.memorisationChainingRepetitionStrategy =
+                    this.normaliseMemorisationChainingRepetitionStrategy(
+                        config.chainingMethodRepetitionStrategy
+                    );
+                this.memorisationChainingAutoAdvance =
+                    config.chainingMethodAutoAdvance !== false;
+                this.memorisationChainingAudioGuidance =
+                    this.normaliseMemorisationChainingAudioGuidance(
+                        config.chainingMethodAudioGuidance
+                    );
+                this.memorisationChainingBlurProgression =
+                    this.normaliseMemorisationChainingBlurProgression(
+                        config.chainingMethodBlurProgression
+                    );
+                this.memorisationChainingCompletionAction =
+                    this.normaliseMemorisationChainingCompletionAction(
+                        config.chainingMethodCompletionAction
+                    );
+                this.resetMemorisationChainingProgress({
+                    stopAudio: false,
+                    preserveCompleted: false,
+                });
                 this.isBlurNextAyahEnabled = !!config.blurNextAyah;
                 this.showTajweed = !!config.showTajweed;
                 this.showRealtimeHighlighting = !!config.showRealtimeHighlighting;
@@ -8226,6 +9609,13 @@ export default {
                 verseCountdownDisplayStyle: "combined",
                 verseCountdownPosition: "floating",
                 verseCountdownConfettiEnabled: false,
+                chainingMethodEnabled: false,
+                chainingMethodMode: "cumulative",
+                chainingMethodRepetitionStrategy: "3",
+                chainingMethodAutoAdvance: true,
+                chainingMethodAudioGuidance: "qari-first",
+                chainingMethodBlurProgression: "off",
+                chainingMethodCompletionAction: "none",
             };
         },
         async applyMemorisationDefaultSession(options = {}) {
@@ -8306,6 +9696,33 @@ export default {
             this.verseCountdownFinalAyahRecited = false;
             this.verseCountdownCompletionNotified = false;
             this.clearVerseCountdownCelebrationState();
+            this.memorisationChainingEnabled = !!defaults.chainingMethodEnabled;
+            this.memorisationChainingMode =
+                this.normaliseMemorisationChainingMode(
+                    defaults.chainingMethodMode
+                );
+            this.memorisationChainingRepetitionStrategy =
+                this.normaliseMemorisationChainingRepetitionStrategy(
+                    defaults.chainingMethodRepetitionStrategy
+                );
+            this.memorisationChainingAutoAdvance =
+                defaults.chainingMethodAutoAdvance !== false;
+            this.memorisationChainingAudioGuidance =
+                this.normaliseMemorisationChainingAudioGuidance(
+                    defaults.chainingMethodAudioGuidance
+                );
+            this.memorisationChainingBlurProgression =
+                this.normaliseMemorisationChainingBlurProgression(
+                    defaults.chainingMethodBlurProgression
+                );
+            this.memorisationChainingCompletionAction =
+                this.normaliseMemorisationChainingCompletionAction(
+                    defaults.chainingMethodCompletionAction
+                );
+            this.resetMemorisationChainingProgress({
+                stopAudio: false,
+                preserveCompleted: false,
+            });
             this.isBlurNextAyahEnabled = !!defaults.blurNextAyah;
             this.showTajweed = !!defaults.showTajweed;
             this.showRealtimeHighlighting = !!defaults.showRealtimeHighlighting;
@@ -9935,6 +11352,10 @@ export default {
             this.verseCountdownCompletionNotified = false;
             this.clearVerseCountdownCelebrationState();
             this.closeVerseCountdownCompleteModal();
+            this.resetMemorisationChainingProgress({
+                stopAudio: false,
+                preserveCompleted: false,
+            });
             
             // Scroll to the first ayah of the range
             this.$nextTick(() => {
@@ -13063,6 +14484,32 @@ export default {
             const verseCountdownConfettiEnabledSource =
                 snapshot.memorisationVerseCountdownConfettiEnabled ??
                 snapshot.verseCountdownConfettiEnabled;
+            const chainingMethodEnabledSource =
+                snapshot.memorisationChainingEnabled ??
+                snapshot.chainingMethodEnabled;
+            const chainingMethodModeSource =
+                snapshot.memorisationChainingMode ??
+                snapshot.chainingMethodMode ??
+                "cumulative";
+            const chainingMethodRepetitionStrategySource =
+                snapshot.memorisationChainingRepetitionStrategy ??
+                snapshot.chainingMethodRepetitionStrategy ??
+                "3";
+            const chainingMethodAutoAdvanceSource =
+                snapshot.memorisationChainingAutoAdvance ??
+                snapshot.chainingMethodAutoAdvance;
+            const chainingMethodAudioGuidanceSource =
+                snapshot.memorisationChainingAudioGuidance ??
+                snapshot.chainingMethodAudioGuidance ??
+                "qari-first";
+            const chainingMethodBlurProgressionSource =
+                snapshot.memorisationChainingBlurProgression ??
+                snapshot.chainingMethodBlurProgression ??
+                "off";
+            const chainingMethodCompletionActionSource =
+                snapshot.memorisationChainingCompletionAction ??
+                snapshot.chainingMethodCompletionAction ??
+                "none";
             const normalized = {
                 ...snapshot,
                 selectedSurah,
@@ -13164,6 +14611,31 @@ export default {
                     ),
                 memorisationVerseCountdownConfettiEnabled:
                     verseCountdownConfettiEnabledSource !== false,
+                memorisationChainingEnabled: !!(
+                    chainingMethodEnabledSource ?? false
+                ),
+                memorisationChainingMode:
+                    this.normaliseMemorisationChainingMode(
+                        chainingMethodModeSource
+                    ),
+                memorisationChainingRepetitionStrategy:
+                    this.normaliseMemorisationChainingRepetitionStrategy(
+                        chainingMethodRepetitionStrategySource
+                    ),
+                memorisationChainingAutoAdvance:
+                    chainingMethodAutoAdvanceSource !== false,
+                memorisationChainingAudioGuidance:
+                    this.normaliseMemorisationChainingAudioGuidance(
+                        chainingMethodAudioGuidanceSource
+                    ),
+                memorisationChainingBlurProgression:
+                    this.normaliseMemorisationChainingBlurProgression(
+                        chainingMethodBlurProgressionSource
+                    ),
+                memorisationChainingCompletionAction:
+                    this.normaliseMemorisationChainingCompletionAction(
+                        chainingMethodCompletionActionSource
+                    ),
                 focusAyahNumber: Math.max(
                     1,
                     Number(snapshot.focusAyahNumber || rangeStart)
@@ -20208,6 +21680,10 @@ export default {
 
             if (isVerseCompletionPass) {
                 self.markVerseCountdownAyahFullyRecited(index);
+            }
+
+            if (self.handleMemorisationChainingAyahEnd(index)) {
+                return;
             }
 
             if (inRepetitionMode) {
