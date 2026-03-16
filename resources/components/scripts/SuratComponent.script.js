@@ -1,5 +1,6 @@
 import axios from "axios";
 import { JUZ_START_MAPPING, PAGE_START_MAPPING, getJuzStart, getPageStart } from "../utils/quran-mappings";
+import { jsPDF } from "jspdf";
 import { Modal, Tooltip } from "bootstrap";
 import BookmarkModal from "../vue/bookmarks/BookmarkModal.vue";
 import { fetchUserIdFromApi } from "../utils/bookmarkAuth";
@@ -816,6 +817,7 @@ export default {
                 "ic_memorisation_active_preset_v1",
             memorisationPresetPanelCollapsedPreferenceBaseKey:
                 "ic_memorisation_preset_panel_collapsed_v1",
+            memorisationPresetSeedVersion: 1,
             memorisationPresetLimit: 40,
             memorisationPresets: [],
             memorisationActivePresetId: "",
@@ -862,13 +864,13 @@ export default {
             memorisationChainingModeOptions: [
                 {
                     value: "cumulative",
-                    label: "Cumulative Loop",
-                    description: "Build from ayah 1 and add one each round.",
+                    label: "Learn New Verses",
+                    description: "Ayah 1 -> 1+2 -> 1+2+3.",
                 },
                 {
                     value: "bridging",
-                    label: "Bridging Method",
-                    description: "Review, drill, then connect the new ayah.",
+                    label: "Smooth Transitions",
+                    description: "Chain -> new ayah -> full chain.",
                 },
             ],
             memorisationChainingRepetitionOptions: [
@@ -956,18 +958,18 @@ export default {
             memorisationChainingQuickSetupOptions: [
                 {
                     value: "guided",
-                    label: "Guided start",
-                    description: "Qari-led and easy to start.",
+                    label: "Easy start",
+                    description: "Qari-led with standard reps.",
                 },
                 {
                     value: "steady",
-                    label: "Extra reps",
-                    description: "More repetition with manual pacing.",
+                    label: "Extra help",
+                    description: "More reps with a little more support.",
                 },
                 {
                     value: "recall",
-                    label: "Recall check",
-                    description: "Manual recall with stronger challenge.",
+                    label: "Test myself",
+                    description: "Less help and stronger recall practice.",
                 },
             ],
             memorisationChainingEnabled: false,
@@ -977,6 +979,35 @@ export default {
             memorisationChainingAudioGuidance: "qari-first",
             memorisationChainingBlurProgression: "off",
             memorisationChainingCompletionAction: "none",
+            memorisationSessionHistoryEnabled: false,
+            sessionHistoryModalId: "sessionHistoryModal",
+            sessionHistoryModalInstance: null,
+            sessionHistoryStorageKeyBase:
+                "ic_memorisation_session_history_v1",
+            sessionHistorySeedVersion: 1,
+            sessionHistoryEntries: [],
+            sessionHistoryView: "list",
+            sessionHistorySearchQuery: "",
+            sessionHistoryFilterSurah: "",
+            sessionHistoryFilterTool: "",
+            sessionHistoryFilterStartDate: "",
+            sessionHistoryFilterEndDate: "",
+            sessionHistoryFilterDuration: "",
+            sessionHistoryFiltersExpanded: false,
+            sessionHistorySelectedEntryId: "",
+            sessionHistorySelectedDateKey: "",
+            sessionHistoryCalendarMonthKey: "",
+            sessionHistoryAnalyticsSurah: "",
+            sessionHistoryNoteDrafts: {},
+            sessionHistoryActiveTracker: null,
+            sessionHistoryInactivityTimeout: null,
+            sessionHistoryInactivityThresholdMs: 12 * 60 * 1000,
+            sessionHistoryMinimumDurationMs: 15000,
+            sessionHistoryMaximumEntries: 1000,
+            sessionHistoryPreviewCount: 3,
+            sessionHistoryHeatmapWindowDays: 84,
+            sessionHistoryPageHideHandler: null,
+            suppressSessionHistorySelectionTracking: false,
             isMemorisationChainingAutomationActive: false,
             memorisationChainingRoundIndex: 0,
             memorisationChainingStageIndex: 0,
@@ -1057,6 +1088,7 @@ export default {
                 chainingMethodAudioGuidance: "qari-first",
                 chainingMethodBlurProgression: "off",
                 chainingMethodCompletionAction: "none",
+                sessionHistoryEnabled: false,
             },
             countdownSeconds: 0,
             isCountdownActive: false,
@@ -1090,6 +1122,7 @@ export default {
             ],
             hifzPlanToolStorageKeyBase: "ic_hifz_plan_tool_v2",
             hifzPlanToolLegacyStorageKey: "ic_hifz_plan_tool_v1",
+            hifzPlanSeedVersion: 1,
             hifzPlanPanelCollapsedPreferenceBaseKey:
                 "ic_hifz_plan_panel_collapsed_v1",
             hifzDailyGoalsStorageKey: "ic_hifz_daily_goals_v1",
@@ -1357,6 +1390,18 @@ export default {
         hasMemorisationPresets() {
             return this.sortedMemorisationPresets.length > 0;
         },
+        seededMemorisationPresets() {
+            return this.sortedMemorisationPresets.filter((preset) =>
+                this.isSeededMemorisationPreset(preset)
+            );
+        },
+        hasOnlySeededMemorisationPresets() {
+            return (
+                this.hasMemorisationPresets &&
+                this.seededMemorisationPresets.length ===
+                    this.sortedMemorisationPresets.length
+            );
+        },
         isMemorisationRepetitionActive() {
             return this.isMemorisationToolbarVisible &&
                 this.memorisationRepetitionCount > 1 &&
@@ -1381,6 +1426,37 @@ export default {
                 if (!Array.isArray(entries)) return total;
                 return total + entries.length;
             }, 0);
+        },
+        memorisationRepeatAfterDraftSupportPreset() {
+            const showTranslation =
+                this.memorisationDraft?.repeatAfterReciterShowTranslation !== false;
+            const verseTextMode =
+                this.normaliseMemorisationRepeatAfterVerseTextMode(
+                    this.memorisationDraft?.repeatAfterReciterVerseTextMode
+                );
+            if (showTranslation && verseTextMode === "show") return "full";
+            if (showTranslation && verseTextMode === "dimmed") return "balanced";
+            if (!showTranslation && verseTextMode === "hide") return "recall";
+            return "custom";
+        },
+        memorisationRepeatAfterDraftSupportSummary() {
+            const preset = this.memorisationRepeatAfterDraftSupportPreset;
+            if (preset === "full") {
+                return "Translation stays visible and the ayah stays fully visible.";
+            }
+            if (preset === "recall") {
+                return "Most prompts are removed so you can test yourself.";
+            }
+            if (preset === "balanced") {
+                return "Translation stays visible while the ayah is lightly dimmed.";
+            }
+            return "Custom mix of on-screen help.";
+        },
+        memorisationRepeatAfterDraftPauseLabel() {
+            const mode = this.normaliseMemorisationRepeatAfterPauseMode(
+                this.memorisationDraft?.repeatAfterReciterPauseMode
+            );
+            return mode === "manual" ? "Manual pause" : `${mode}s pause`;
         },
         memorisationRepeatRecordingAyahOptions() {
             const options = [];
@@ -1788,8 +1864,8 @@ export default {
         memorisationChainingModeLabel() {
             const mode = String(this.memorisationChainingMode || "cumulative");
             return mode === "bridging"
-                ? "Bridging Method"
-                : "Cumulative Loop";
+                ? "Smooth Transitions"
+                : "Learn New Verses";
         },
         memorisationChainingSelectedModeMeta() {
             const mode = String(
@@ -1798,22 +1874,19 @@ export default {
 
             if (mode === "bridging") {
                 return {
-                    summary: "Tighten the handoff between verses.",
+                    summary: "Chain -> new ayah -> full chain",
                     description:
-                        "Review the chain, drill the new ayah, then recite the full link.",
-                    note: "Best once the words already feel familiar.",
-                    footer: "Use this after Loop to make transitions automatic.",
-                    steps: ["Review chain", "New ayah", "Full chain"],
+                        "Use this once the wording feels familiar and you want smoother joins.",
+                    note: "Best when the ayat are known but the transitions still feel shaky.",
+                    footer: "Good for smoothing the joins once the words are already in place.",
                 };
             }
 
             return {
-                summary: "Build the chain one ayah at a time.",
-                description:
-                    "Start from ayah 1 and keep adding one new verse to the same chain.",
-                note: "Best for brand-new verses.",
-                footer: "Switch to Bridge later when you want smoother transitions.",
-                steps: ["Ayah 1", "Add next", "Full chain"],
+                summary: "Ayah 1 -> 1+2 -> 1+2+3",
+                description: "Start here when the verses are still new.",
+                note: "You add one new ayah at a time and keep the earlier ones alive.",
+                footer: "Start here for brand-new ayat, then switch later for smoother joins.",
             };
         },
         memorisationChainingQuickSetupValue() {
@@ -2121,6 +2194,556 @@ export default {
             return this.isAnyAudioPlaying
                 ? this.currentlyPlayingIndex
                 : this.selectedCardIndex;
+        },
+        sessionHistoryHasEntries() {
+            return Array.isArray(this.sessionHistoryEntries)
+                ? this.sessionHistoryEntries.length > 0
+                : false;
+        },
+        sessionHistoryPreviewTitle() {
+            const total = Array.isArray(this.sessionHistoryEntries)
+                ? this.sessionHistoryEntries.length
+                : 0;
+            if (this.hasOnlySeededSessionHistory) {
+                return `${total} starter session${total === 1 ? "" : "s"} ready`;
+            }
+            return total
+                ? `${total} saved session${total === 1 ? "" : "s"}`
+                : "No saved sessions yet";
+        },
+        sessionHistoryPreviewEyebrow() {
+            if (this.memorisationDraft?.sessionHistoryEnabled) {
+                return "Auto-save is on";
+            }
+            if (this.hasOnlySeededSessionHistory) {
+                return "Starter history ready";
+            }
+            if (this.sessionHistoryHasEntries) {
+                return "Saved history";
+            }
+            return "Auto-save is off";
+        },
+        sessionHistoryPreviewSubtitle() {
+            const isEnabled = !!this.memorisationDraft?.sessionHistoryEnabled;
+            if (this.hasOnlySeededSessionHistory) {
+                return isEnabled
+                    ? "Starter examples are preloaded, and new sessions will keep saving automatically."
+                    : "Explore the starter examples now, then switch this on to save future sessions automatically.";
+            }
+            if (this.sessionHistoryHasEntries) {
+                return isEnabled
+                    ? "Saved automatically when a session ends or sits idle for a while."
+                    : "Browse your saved sessions now, then switch this on to keep adding new ones automatically.";
+            }
+            return "Finish one session and it will appear here automatically.";
+        },
+        sessionHistoryPreviewEntries() {
+            const entries = Array.isArray(this.sessionHistoryEntries)
+                ? this.sessionHistoryEntries
+                : [];
+            return entries.slice(
+                0,
+                Math.max(1, Number(this.sessionHistoryPreviewCount || 3))
+            );
+        },
+        sessionHistorySeededEntries() {
+            return (this.sessionHistoryEntries || []).filter((entry) =>
+                this.isSeededSessionHistoryEntry(entry)
+            );
+        },
+        hasOnlySeededSessionHistory() {
+            return (
+                this.sessionHistoryHasEntries &&
+                this.sessionHistorySeededEntries.length ===
+                    this.sessionHistoryEntries.length
+            );
+        },
+        sessionHistoryHasActiveFilters() {
+            return [
+                this.sessionHistorySearchQuery,
+                this.sessionHistoryFilterSurah,
+                this.sessionHistoryFilterTool,
+                this.sessionHistoryFilterStartDate,
+                this.sessionHistoryFilterEndDate,
+                this.sessionHistoryFilterDuration,
+            ].some((value) => String(value || "").trim());
+        },
+        sessionHistoryActiveFilterCount() {
+            return [
+                this.sessionHistorySearchQuery,
+                this.sessionHistoryFilterSurah,
+                this.sessionHistoryFilterTool,
+                this.sessionHistoryFilterStartDate,
+                this.sessionHistoryFilterEndDate,
+                this.sessionHistoryFilterDuration,
+            ].reduce(
+                (count, value) => count + (String(value || "").trim() ? 1 : 0),
+                0
+            );
+        },
+        sessionHistoryResultLabel() {
+            const total = Math.max(
+                0,
+                Number(this.sessionHistoryEntries?.length || 0) || 0
+            );
+            const filtered = Math.max(
+                0,
+                Number(this.sessionHistoryFilteredEntries?.length || 0) || 0
+            );
+            if (!total) {
+                return "No saved sessions yet";
+            }
+            if (filtered === total) {
+                return `${total} session${total === 1 ? "" : "s"} shown`;
+            }
+            return `${filtered} of ${total} session${
+                total === 1 ? "" : "s"
+            } shown`;
+        },
+        sessionHistoryActiveFilterBadges() {
+            const badges = [];
+            const query = String(this.sessionHistorySearchQuery || "").trim();
+            if (query) {
+                badges.push({
+                    key: "search",
+                    label: `Search: ${query}`,
+                });
+            }
+            if (this.sessionHistoryFilterSurah) {
+                const match = (this.sessionHistoryAvailableSurahOptions || []).find(
+                    (option) =>
+                        String(option?.surahNumber || "") ===
+                        String(this.sessionHistoryFilterSurah || "")
+                );
+                if (match) {
+                    badges.push({
+                        key: "surah",
+                        label: `${match.surahNumber}. ${match.surahName}`,
+                    });
+                }
+            }
+            if (this.sessionHistoryFilterTool) {
+                const match = (this.sessionHistoryAvailableToolOptions || []).find(
+                    (option) =>
+                        String(option?.id || "") ===
+                        String(this.sessionHistoryFilterTool || "")
+                );
+                if (match) {
+                    badges.push({
+                        key: "tool",
+                        label: match.label,
+                    });
+                }
+            }
+            if (this.sessionHistoryFilterStartDate || this.sessionHistoryFilterEndDate) {
+                const startLabel = this.sessionHistoryFilterStartDate
+                    ? this.formatDateKey(this.sessionHistoryFilterStartDate)
+                    : "Any start";
+                const endLabel = this.sessionHistoryFilterEndDate
+                    ? this.formatDateKey(this.sessionHistoryFilterEndDate)
+                    : "Any end";
+                badges.push({
+                    key: "dateRange",
+                    label: `${startLabel} to ${endLabel}`,
+                });
+            }
+            if (this.sessionHistoryFilterDuration) {
+                const durationLabels = {
+                    short: "Under 10 min",
+                    medium: "10-30 min",
+                    long: "30+ min",
+                };
+                badges.push({
+                    key: "duration",
+                    label:
+                        durationLabels[this.sessionHistoryFilterDuration] ||
+                        String(this.sessionHistoryFilterDuration || "").trim(),
+                });
+            }
+            return badges;
+        },
+        sessionHistoryHasAdvancedFiltersApplied() {
+            return [
+                this.sessionHistoryFilterTool,
+                this.sessionHistoryFilterStartDate,
+                this.sessionHistoryFilterEndDate,
+                this.sessionHistoryFilterDuration,
+            ].some((value) => String(value || "").trim());
+        },
+        sessionHistoryShouldShowAdvancedFilters() {
+            return (
+                !!this.sessionHistoryFiltersExpanded ||
+                !!this.sessionHistoryHasAdvancedFiltersApplied
+            );
+        },
+        sessionHistoryOverviewNote() {
+            const stats = this.sessionHistorySummaryStats;
+            if (!stats.totalSessions) {
+                return "Use List to review sessions, Calendar to see practice days, Heatmap to spot streaks, and Surah to study one surah deeply.";
+            }
+            return `${this.sessionHistoryPatternInsight} Most reviewed: ${stats.topSurahLabel}.`;
+        },
+        sessionHistoryCalculationTooltip() {
+            const stats = this.sessionHistorySummaryStats;
+            const forecast = this.sessionHistoryForecast;
+            const scope = this.sessionHistoryHasActiveFilters
+                ? "current filtered view"
+                : "full saved history";
+            const sessionsLabel = `${stats.totalSessions} session${
+                stats.totalSessions === 1 ? "" : "s"
+            }`;
+            const averageLabel = this.formatSessionHistoryDuration(
+                stats.averageDurationMs
+            );
+            const streakLabel = `${stats.bestStreak} day${
+                stats.bestStreak === 1 ? "" : "s"
+            }`;
+            const forecastCopy = forecast?.hasForecast
+                ? ` Forecast uses your last ${forecast.sourceDays} days to project the next 7 days.`
+                : "";
+            return `These summary numbers use the ${scope}. Sessions counts saved sessions after search and filters. Average is the mean session length, currently ${averageLabel}. Best streak is the longest run of consecutive days with at least one saved session, currently ${streakLabel}. Right now this view includes ${sessionsLabel}.${forecastCopy}`;
+        },
+        sessionHistoryViewTitle() {
+            if (this.sessionHistoryView === "calendar") {
+                return "See your practice by day";
+            }
+            if (this.sessionHistoryView === "heatmap") {
+                return "Spot busy weeks quickly";
+            }
+            if (this.sessionHistoryView === "surah") {
+                return "Study one surah deeply";
+            }
+            return "Browse sessions";
+        },
+        sessionHistoryViewSubtitle() {
+            const count = this.sessionHistoryFilteredEntries.length;
+            if (this.sessionHistoryView === "calendar") {
+                return "Pick a highlighted day to see what you practised on that date. On smaller screens, you can swipe sideways to view the full month.";
+            }
+            if (this.sessionHistoryView === "heatmap") {
+                return "Each column is a week and each row is a weekday. Darker squares mean heavier practice. Tap any day to jump into Calendar.";
+            }
+            if (this.sessionHistoryView === "surah") {
+                return "Choose one surah to see total time invested, average scores, and which ayahs your notes mention most often.";
+            }
+            return `${count} result${count === 1 ? "" : "s"}, newest first. Open one to reload the setup, view the verses, or save a note.`;
+        },
+        sessionHistoryCalendarExplanation() {
+            if (!this.sessionHistoryFilteredEntries.length) {
+                return "Each box is one day in the current month. Days with practice are highlighted. Tap a day to load that date's sessions below.";
+            }
+            return "Each box is one day in the current month. Highlighted days had practice and show how many sessions were saved. Tap a day to review those sessions below, then open one to jump back into it.";
+        },
+        sessionHistoryHeatmapExplanation() {
+            const stats = this.sessionHistorySummaryStats;
+            if (!stats.totalSessions) {
+                return "Each square is one day. Columns move week by week and rows stay aligned to weekdays, so your streaks and gaps are easier to spot.";
+            }
+            return `Each square is one day. Columns move week by week and rows stay aligned to weekdays. Darker squares mean heavier practice, so it is easier to spot your strongest weeks and your usual ${stats.topTimeLabel.toLowerCase()} practice window.`;
+        },
+        sessionHistorySelectedDateLabel() {
+            return (
+                this.formatDateKey(this.sessionHistoryEffectiveSelectedDateKey) ||
+                "Select a day"
+            );
+        },
+        sessionHistorySelectedDateSummary() {
+            const entries = this.sessionHistorySelectedDateEntries;
+            if (!entries.length) {
+                return "Choose a highlighted day to review its sessions.";
+            }
+            const totalDurationMs = entries.reduce(
+                (sum, entry) =>
+                    sum + Math.max(0, Number(entry?.durationMs || 0) || 0),
+                0
+            );
+            return `${entries.length} session${
+                entries.length === 1 ? "" : "s"
+            } · ${this.formatSessionHistoryDuration(totalDurationMs)} total`;
+        },
+        sessionHistoryHeatmapSummary() {
+            const stats = this.sessionHistorySummaryStats;
+            if (!stats.totalSessions) {
+                return "No streak data yet.";
+            }
+            return `Current streak: ${stats.currentStreak} day${
+                stats.currentStreak === 1 ? "" : "s"
+            } · Best streak: ${stats.bestStreak} day${
+                stats.bestStreak === 1 ? "" : "s"
+            }`;
+        },
+        sessionHistoryForecast() {
+            return this.getSessionHistoryForecast(
+                this.sessionHistoryFilteredEntries
+            );
+        },
+        sessionHistoryForecastNote() {
+            const forecast = this.sessionHistoryForecast;
+            if (!forecast?.hasForecast) {
+                return "Complete a few sessions to unlock a pace forecast.";
+            }
+            const scope = this.sessionHistoryHasActiveFilters
+                ? "current filtered view"
+                : "saved history";
+            return `Based on the last ${forecast.sourceDays} day${
+                forecast.sourceDays === 1 ? "" : "s"
+            } in this ${scope}.`;
+        },
+        sessionHistoryHeatmapWeekdayLabels() {
+            return this.hifzDashboardWeekdayLabels;
+        },
+        sessionHistoryHeatmapWeekCount() {
+            return Math.max(
+                1,
+                Math.ceil((this.sessionHistoryHeatmapCells?.length || 0) / 7)
+            );
+        },
+        sessionHistoryHeatmapBoardStyle() {
+            return {
+                "--session-history-heatmap-week-count": String(
+                    this.sessionHistoryHeatmapWeekCount
+                ),
+            };
+        },
+        sessionHistoryHeatmapMonthMarkers() {
+            const markers = [];
+            let lastMonthKey = "";
+            let lastColumn = -99;
+            (this.sessionHistoryHeatmapCells || []).forEach((cell, index) => {
+                if (!cell?.inWindow || !cell.dateKey) return;
+                const monthKey = String(cell.monthKey || "").trim();
+                if (!monthKey || monthKey === lastMonthKey) return;
+                const column = Math.floor(index / 7) + 1;
+                if (!markers.length || column - lastColumn >= 2) {
+                    markers.push({
+                        monthKey,
+                        label: cell.monthLabel,
+                        column,
+                    });
+                    lastColumn = column;
+                    lastMonthKey = monthKey;
+                }
+            });
+            return markers;
+        },
+        sessionHistoryAvailableSurahOptions() {
+            const map = new Map();
+            (this.sessionHistoryEntries || []).forEach((entry) => {
+                const surahNumber = Number(entry?.surahNumber || 0);
+                if (!surahNumber) return;
+                if (map.has(surahNumber)) return;
+                map.set(surahNumber, {
+                    surahNumber,
+                    surahName:
+                        entry?.surahName || this.getSurahNameByNumber(surahNumber),
+                });
+            });
+            return Array.from(map.values()).sort(
+                (left, right) =>
+                    Number(left?.surahNumber || 0) - Number(right?.surahNumber || 0)
+            );
+        },
+        sessionHistoryAvailableToolOptions() {
+            const used = new Set();
+            (this.sessionHistoryEntries || []).forEach((entry) => {
+                (entry?.toolsUsed || []).forEach((tool) => {
+                    const id = String(tool?.id || "").trim();
+                    if (id) used.add(id);
+                });
+            });
+            return this.getSessionHistoryToolDefinitions().filter((tool) =>
+                used.has(tool.id)
+            );
+        },
+        sessionHistorySelectedAnalyticsSurahNumber() {
+            const explicit = Number(
+                this.sessionHistoryAnalyticsSurah || this.sessionHistoryFilterSurah || 0
+            );
+            if (explicit > 0) return explicit;
+            const selectedEntrySurah = Number(
+                this.sessionHistorySelectedEntry?.surahNumber || 0
+            );
+            if (selectedEntrySurah > 0) return selectedEntrySurah;
+            return Number(
+                this.sessionHistoryAvailableSurahOptions?.[0]?.surahNumber || 0
+            );
+        },
+        sessionHistorySelectedAnalyticsSurahLabel() {
+            const surahNumber = this.sessionHistorySelectedAnalyticsSurahNumber;
+            if (!surahNumber) return "Choose a surah";
+            const match = (this.sessionHistoryAvailableSurahOptions || []).find(
+                (option) => Number(option?.surahNumber || 0) === surahNumber
+            );
+            return match?.surahName || this.getSurahNameByNumber(surahNumber);
+        },
+        sessionHistoryAnalyticsEntries() {
+            const surahNumber = this.sessionHistorySelectedAnalyticsSurahNumber;
+            if (!surahNumber) return [];
+            return (this.sessionHistoryEntries || []).filter((entry) =>
+                this.matchesSessionHistoryAnalyticsFilters(entry, surahNumber)
+            );
+        },
+        sessionHistorySurahAnalytics() {
+            return this.getSessionHistorySurahAnalytics(
+                this.sessionHistoryAnalyticsEntries,
+                this.sessionHistorySelectedAnalyticsSurahNumber
+            );
+        },
+        sessionHistoryMilestoneMoments() {
+            return this.getSessionHistoryMilestoneMoments(
+                this.sessionHistoryEntries || []
+            );
+        },
+        sessionHistoryFilteredEntries() {
+            const entries = Array.isArray(this.sessionHistoryEntries)
+                ? this.sessionHistoryEntries
+                : [];
+            return entries.filter((entry) =>
+                this.matchesSessionHistoryFilters(entry)
+            );
+        },
+        sessionHistorySelectedEntry() {
+            const filtered = this.sessionHistoryFilteredEntries;
+            if (!filtered.length) return null;
+            const explicitId = String(this.sessionHistorySelectedEntryId || "").trim();
+            if (explicitId) {
+                const selected = filtered.find(
+                    (entry) => String(entry?.id || "") === explicitId
+                );
+                if (selected) return selected;
+            }
+            return filtered[0] || null;
+        },
+        sessionHistorySummaryStats() {
+            return this.getSessionHistoryStats(this.sessionHistoryFilteredEntries);
+        },
+        sessionHistoryOnThisDayEntries() {
+            const today = new Date();
+            const month = today.getMonth();
+            const day = today.getDate();
+            const currentYear = today.getFullYear();
+            return (this.sessionHistoryEntries || [])
+                .filter((entry) => {
+                    const when = new Date(Number(entry?.endedAt || entry?.startedAt || 0));
+                    if (Number.isNaN(when.getTime())) return false;
+                    return (
+                        when.getMonth() === month &&
+                        when.getDate() === day &&
+                        when.getFullYear() !== currentYear
+                    );
+                })
+                .sort(
+                    (left, right) =>
+                        Number(right?.endedAt || 0) - Number(left?.endedAt || 0)
+                );
+        },
+        sessionHistoryPatternInsight() {
+            return this.describeSessionHistoryPattern(
+                this.sessionHistoryFilteredEntries
+            );
+        },
+        sessionHistoryCalendarEntryMap() {
+            const map = Object.create(null);
+            this.sessionHistoryFilteredEntries.forEach((entry) => {
+                const dateKey = this.getSessionHistoryEntryDateKey(entry);
+                if (!dateKey) return;
+                if (!map[dateKey]) {
+                    map[dateKey] = {
+                        dateKey,
+                        sessions: [],
+                        count: 0,
+                        durationMs: 0,
+                    };
+                }
+                map[dateKey].sessions.push(entry);
+                map[dateKey].count += 1;
+                map[dateKey].durationMs += Math.max(
+                    0,
+                    Number(entry?.durationMs || 0)
+                );
+            });
+            return map;
+        },
+        sessionHistoryCalendarMonthLabel() {
+            const monthDate = this.monthKeyToDate(
+                this.sessionHistoryCalendarMonthKey || this.toMonthKey(new Date())
+            );
+            if (!monthDate) return "";
+            return monthDate.toLocaleDateString(undefined, {
+                month: "long",
+                year: "numeric",
+            });
+        },
+        sessionHistoryCalendarCells() {
+            const monthKey =
+                this.sessionHistoryCalendarMonthKey || this.toMonthKey(new Date());
+            const monthDate = this.monthKeyToDate(monthKey);
+            if (!monthDate) return [];
+            const month = monthDate.getMonth();
+            const year = monthDate.getFullYear();
+            const firstWeekday = new Date(year, month, 1, 12).getDay();
+            const daysInMonth = new Date(year, month + 1, 0, 12).getDate();
+            const totalCells = Math.max(
+                35,
+                Math.ceil((firstWeekday + daysInMonth) / 7) * 7
+            );
+            const todayKey = this.toDateKey(new Date());
+            const cells = [];
+            for (let index = 0; index < totalCells; index += 1) {
+                const dayOffset = index - firstWeekday + 1;
+                const cellDate = new Date(year, month, dayOffset, 12);
+                const dateKey = this.toDateKey(cellDate);
+                const isCurrentMonth = cellDate.getMonth() === month;
+                const aggregate = isCurrentMonth
+                    ? this.sessionHistoryCalendarEntryMap[dateKey] || null
+                    : null;
+                cells.push({
+                    dateKey,
+                    dayNumber: cellDate.getDate(),
+                    isCurrentMonth,
+                    isToday: dateKey === todayKey,
+                    aggregate,
+                });
+            }
+            return cells;
+        },
+        sessionHistoryEffectiveSelectedDateKey() {
+            const explicit = String(this.sessionHistorySelectedDateKey || "").trim();
+            if (
+                explicit &&
+                this.sessionHistoryCalendarCells.some(
+                    (cell) => cell.isCurrentMonth && cell.dateKey === explicit
+                )
+            ) {
+                return explicit;
+            }
+            const todayKey = this.toDateKey(new Date());
+            if (
+                this.sessionHistoryCalendarCells.some(
+                    (cell) =>
+                        cell.isCurrentMonth &&
+                        cell.dateKey === todayKey &&
+                        cell.aggregate
+                )
+            ) {
+                return todayKey;
+            }
+            const firstWithSessions = this.sessionHistoryCalendarCells.find(
+                (cell) => cell.isCurrentMonth && cell.aggregate
+            );
+            return firstWithSessions?.dateKey || "";
+        },
+        sessionHistorySelectedDateEntries() {
+            const dateKey = this.sessionHistoryEffectiveSelectedDateKey;
+            if (!dateKey) return [];
+            return this.sessionHistoryFilteredEntries.filter(
+                (entry) => this.getSessionHistoryEntryDateKey(entry) === dateKey
+            );
+        },
+        sessionHistoryHeatmapCells() {
+            return this.buildSessionHistoryHeatmapCells(
+                this.sessionHistoryFilteredEntries
+            );
         },
         todayHifdhPlan() {
             const grouped = {
@@ -2584,6 +3207,17 @@ export default {
         hasHifzPlans() {
             return Array.isArray(this.hifzPlans) && this.hifzPlans.length > 0;
         },
+        seededHifzPlans() {
+            return this.hifzPlansSorted.filter((plan) =>
+                this.isSeededHifzPlan(plan)
+            );
+        },
+        hasOnlySeededHifzPlans() {
+            return (
+                this.hasHifzPlans &&
+                this.seededHifzPlans.length === this.hifzPlansSorted.length
+            );
+        },
         hifzPlansSorted() {
             if (!Array.isArray(this.hifzPlans)) return [];
             return [...this.hifzPlans].sort(
@@ -2598,6 +3232,9 @@ export default {
                 (plan) => String(plan?.id || "") === String(this.hifzActivePlanId || "")
             );
             return explicit || plans[0] || null;
+        },
+        activeHifzPlanIsSeeded() {
+            return this.isSeededHifzPlan(this.activeHifzPlan);
         },
         activeHifzPlanTodayEntry() {
             const plan = this.activeHifzPlan;
@@ -3914,6 +4551,22 @@ export default {
                 this.loadMemorisationToolbarVisibilityPreference();
             this.initializeHifzPlanTool();
         },
+        sessionHistoryCalculationTooltip() {
+            if (!this.isSessionHistoryModalOpen()) return;
+            this.$nextTick(() => {
+                this.initializeSessionHistoryTooltips();
+            });
+        },
+        sessionHistoryView(nextView) {
+            if (nextView !== "surah") return;
+            if (String(this.sessionHistoryAnalyticsSurah || "").trim()) return;
+            const fallbackSurah =
+                this.sessionHistoryFilterSurah ||
+                this.sessionHistorySelectedEntry?.surahNumber ||
+                this.sessionHistoryEntries?.[0]?.surahNumber ||
+                "";
+            this.sessionHistoryAnalyticsSurah = String(fallbackSurah || "");
+        },
         playlistEditorName() {
             this.showPlaylistEditorConfirmAction = false;
         },
@@ -4471,6 +5124,7 @@ export default {
         await this.initializeBookmarkAuth();
         this.syncHifdhAuthStorage();
         this.loadPersistedMemorisationPreviousSession();
+        this.loadSessionHistory();
         this.loadMemorisationPresets();
         this.loadMemorisationPresetPanelCollapsedState();
         this.loadContinueProgress();
@@ -4489,6 +5143,10 @@ export default {
         window.addEventListener("bookmarks-updated", this.bookmarkEventHandler);
         window.addEventListener("storage", this.bookmarkStorageHandler);
         window.addEventListener("visibilitychange", this.visibilityHandler);
+        this.sessionHistoryPageHideHandler = () => {
+            this.finalizeSessionHistoryEntry("inactive");
+        };
+        window.addEventListener("pagehide", this.sessionHistoryPageHideHandler);
         // Virtualization hooks
         this.$nextTick(() => {
             this.computeListTop();
@@ -4638,6 +5296,7 @@ export default {
             .then(async () => {
                 this.isInitialLoad = false;
                 await this.restoreMemorisationToolbarOnLoadIfNeeded();
+                this.maybeSeedHifzPlans();
                 this.refreshHifzPlanSchedules();
                 await this.autoLoadTodayHifzTargetRange();
                 this.syncHifzIntegrations();
@@ -4657,6 +5316,7 @@ export default {
         });
         this.prepareSettingsDraft();
         this.populateMemorisationDraft();
+        this.sessionHistoryCalendarMonthKey = this.toMonthKey(new Date());
         this.initializeHifdhScheduler();
         this.initializeHifzPlanTool();
         this.registerTranslationCompareModalEvents();
@@ -4688,6 +5348,24 @@ export default {
             modalEl.addEventListener(
                 "hidden.bs.modal",
                 this.hifdhPlanModalHiddenHandler
+            );
+        });
+        this.$nextTick(() => {
+            const modalEl = document.getElementById(this.sessionHistoryModalId);
+            if (!modalEl) return;
+            this.sessionHistoryModalShownHandler = () => {
+                this.initializeSessionHistoryTooltips();
+            };
+            this.sessionHistoryModalHiddenHandler = () => {
+                this.disposeSessionHistoryTooltips();
+            };
+            modalEl.addEventListener(
+                "shown.bs.modal",
+                this.sessionHistoryModalShownHandler
+            );
+            modalEl.addEventListener(
+                "hidden.bs.modal",
+                this.sessionHistoryModalHiddenHandler
             );
         });
         this.$nextTick(() => {
@@ -4746,6 +5424,7 @@ export default {
         beforeUnmount() {
             this.isComponentAlive = false;
             this.hideMemorisationSubmitAlert();
+            this.finalizeSessionHistoryEntry("inactive");
             try {
                 document?.documentElement?.style?.removeProperty(
                     "--memorisation-panel-current-width"
@@ -4800,6 +5479,10 @@ export default {
                     "visibilitychange",
                     this.visibilityHandler
                 );
+            if (this.sessionHistoryPageHideHandler) {
+                window.removeEventListener("pagehide", this.sessionHistoryPageHideHandler);
+                this.sessionHistoryPageHideHandler = null;
+            }
             if (this.audioElements && this.audioElements.forEach) {
                 this.audioElements.forEach((audio) => {
                     if (audio && audio.pause) audio.pause();
@@ -4885,6 +5568,36 @@ export default {
                 // ignore modal teardown errors
             }
             this.gestureGuideModalInstance = null;
+        }
+        if (this.sessionHistoryModalInstance) {
+            try {
+                this.sessionHistoryModalInstance.hide();
+            } catch (_) {}
+            this.sessionHistoryModalInstance = null;
+        }
+        this.disposeSessionHistoryTooltips();
+        const sessionHistoryModalEl = document.getElementById(
+            this.sessionHistoryModalId
+        );
+        if (
+            sessionHistoryModalEl &&
+            this.sessionHistoryModalShownHandler
+        ) {
+            sessionHistoryModalEl.removeEventListener(
+                "shown.bs.modal",
+                this.sessionHistoryModalShownHandler
+            );
+            this.sessionHistoryModalShownHandler = null;
+        }
+        if (
+            sessionHistoryModalEl &&
+            this.sessionHistoryModalHiddenHandler
+        ) {
+            sessionHistoryModalEl.removeEventListener(
+                "hidden.bs.modal",
+                this.sessionHistoryModalHiddenHandler
+            );
+            this.sessionHistoryModalHiddenHandler = null;
         }
         const translationCompareModalEl = document.getElementById(
             this.translationCompareModalId
@@ -5015,6 +5728,7 @@ export default {
         this.clearHifdhConfettiLayers();
     },
         beforeDestroy() {
+            this.finalizeSessionHistoryEntry("inactive");
             this.stopHighlightLoop();
             this.syncReadingFullscreenBodyClass(false);
             this.exitReadingFullscreen({
@@ -5040,6 +5754,10 @@ export default {
         window.removeEventListener("scroll", this.onScrollVirtual);
         window.removeEventListener("resize", this.computeListTop);
         window.removeEventListener("resize", this.calibrateItemHeight);
+        if (this.sessionHistoryPageHideHandler) {
+            window.removeEventListener("pagehide", this.sessionHistoryPageHideHandler);
+            this.sessionHistoryPageHideHandler = null;
+        }
         clearTimeout(this.autoNextAnimationTimer);
         this.autoNextAnimationTimer = null;
         this.teardownSpeechRecognition();
@@ -5060,6 +5778,13 @@ export default {
             this.clearMemorisationRepeatPauseState({ stopRecording: true });
             this.clearVerseCountdownCelebrationState();
             this.clearMemorisationRepeatRecordings();
+            if (this.sessionHistoryModalInstance) {
+                try {
+                    this.sessionHistoryModalInstance.hide();
+                } catch (_) {}
+                this.sessionHistoryModalInstance = null;
+            }
+            this.disposeSessionHistoryTooltips();
             clearTimeout(this._scrollCorrectionTimer);
             this._scrollCorrectionTimer = null;
             clearTimeout(this._navigationSettleTimer);
@@ -5471,6 +6196,21 @@ export default {
             if (!this.memorisationDraft?.repeatAfterReciterEnabled) return;
             this.isMemorisationRepeatAfterSettingsOpen =
                 !this.isMemorisationRepeatAfterSettingsOpen;
+        },
+        applyMemorisationRepeatAfterSupportPreset(preset = "balanced") {
+            if (!this.memorisationDraft) return;
+            if (preset === "full") {
+                this.memorisationDraft.repeatAfterReciterShowTranslation = true;
+                this.memorisationDraft.repeatAfterReciterVerseTextMode = "show";
+                return;
+            }
+            if (preset === "recall") {
+                this.memorisationDraft.repeatAfterReciterShowTranslation = false;
+                this.memorisationDraft.repeatAfterReciterVerseTextMode = "hide";
+                return;
+            }
+            this.memorisationDraft.repeatAfterReciterShowTranslation = true;
+            this.memorisationDraft.repeatAfterReciterVerseTextMode = "dimmed";
         },
         isMemorisationRepeatPauseActiveForIndex(index) {
             if (!this.isMemorisationRepeatPauseActive) return false;
@@ -7069,6 +7809,7 @@ export default {
             if (!skipCompletionAction) {
                 this.handleMemorisationChainingCompletionAction();
             }
+            this.finalizeSessionHistoryEntry("completed");
             this.showToast(
                 `${this.memorisationChainingModeLabel} completed for verses ${this.memorisationRangeStart}-${this.memorisationRangeEnd}.`,
                 3200
@@ -7573,6 +8314,7 @@ export default {
                     this.normaliseMemorisationChainingCompletionAction(
                         this.memorisationChainingCompletionAction
                     ),
+                sessionHistoryEnabled: !!this.memorisationSessionHistoryEnabled,
             };
             this.isMemorisationRepeatAfterSettingsOpen =
                 !!this.memorisationDraft.repeatAfterReciterEnabled;
@@ -7678,6 +8420,8 @@ export default {
                     this.normaliseMemorisationChainingCompletionAction(
                         this.memorisationChainingCompletionAction
                     ),
+                memorisationSessionHistoryEnabled:
+                    !!this.memorisationSessionHistoryEnabled,
             };
         },
         buildCurrentMemorisationSessionSnapshot() {
@@ -7791,6 +8535,8 @@ export default {
                     this.normaliseMemorisationChainingCompletionAction(
                         this.memorisationChainingCompletionAction
                     ),
+                memorisationSessionHistoryEnabled:
+                    !!this.memorisationSessionHistoryEnabled,
                 focusAyahNumber: Number.isFinite(focusAyahNumber)
                     ? focusAyahNumber
                     : start,
@@ -7932,6 +8678,8 @@ export default {
                     this.normaliseMemorisationChainingCompletionAction(
                         snapshot.memorisationChainingCompletionAction
                     );
+                this.memorisationSessionHistoryEnabled =
+                    !!snapshot.memorisationSessionHistoryEnabled;
                 this.resetMemorisationChainingProgress({
                     stopAudio: false,
                     preserveCompleted: false,
@@ -8149,6 +8897,7 @@ export default {
                     this.normaliseMemorisationChainingCompletionAction(
                         chainingMethodCompletionActionRaw
                     ),
+                sessionHistoryEnabled: !!draft.sessionHistoryEnabled,
             };
         },
         normaliseMemorisationPresetName(name = "") {
@@ -8156,6 +8905,31 @@ export default {
                 .replace(/\s+/g, " ")
                 .trim()
                 .slice(0, 60);
+        },
+        mergeRecordsById(existing = [], additions = []) {
+            const merged = [];
+            const seen = new Set();
+            [...(Array.isArray(existing) ? existing : []), ...(Array.isArray(additions) ? additions : [])].forEach((entry) => {
+                const id = String(entry?.id || "").trim();
+                if (!id || seen.has(id)) return;
+                seen.add(id);
+                merged.push(entry);
+            });
+            return merged;
+        },
+        readSeedVersionMarker(storageKey = "") {
+            if (typeof window === "undefined") return "";
+            try {
+                return String(localStorage.getItem(storageKey) || "").trim();
+            } catch (_) {
+                return "";
+            }
+        },
+        writeSeedVersionMarker(storageKey = "", version = 1) {
+            if (typeof window === "undefined") return;
+            try {
+                localStorage.setItem(storageKey, String(version || 1));
+            } catch (_) {}
         },
         createMemorisationPresetId() {
             try {
@@ -8183,6 +8957,159 @@ export default {
                 this.memorisationPresetsLastScopeStorageKey ||
                 "ic_memorisation_presets_last_scope_v1"
             );
+        },
+        isSeededMemorisationPreset(preset) {
+            return String(preset?.id || "").startsWith("seed-mempreset-");
+        },
+        getMemorisationPresetSeedStorageKey() {
+            return this.buildScopedFontPreferenceKey(
+                "ic_memorisation_presets_seed_v1"
+            );
+        },
+        buildSeededMemorisationPresets() {
+            const reciterIdentifier = this.selectedReciter || "ar.alafasy";
+            const now = Date.now();
+            return [
+                {
+                    id: "seed-mempreset-listen-repeat",
+                    name: "Listen then repeat",
+                    favorite: true,
+                    createdAt: now - 5 * 86400000,
+                    updatedAt: now - 5 * 86400000,
+                    config: this.normaliseMemorisationPresetConfig({
+                        surahNumber: "67",
+                        reciterIdentifier,
+                        rangeStart: 1,
+                        rangeEnd: 5,
+                        playbackSpeed: 0.75,
+                        repetitionCount: 3,
+                        playbackMode: "continuous",
+                        showTajweed: true,
+                        repeatAfterReciterEnabled: true,
+                        repeatAfterReciterPauseMode: "3",
+                        repeatAfterReciterShowTranslation: true,
+                        repeatAfterReciterVerseTextMode: "dimmed",
+                        sessionHistoryEnabled: true,
+                        translationVisible: true,
+                    }),
+                },
+                {
+                    id: "seed-mempreset-transition-builder",
+                    name: "Transition builder",
+                    favorite: true,
+                    createdAt: now - 4 * 86400000,
+                    updatedAt: now - 4 * 86400000,
+                    config: this.normaliseMemorisationPresetConfig({
+                        surahNumber: "2",
+                        reciterIdentifier,
+                        rangeStart: 255,
+                        rangeEnd: 260,
+                        playbackSpeed: 0.75,
+                        repetitionCount: 5,
+                        playbackMode: "continuous",
+                        showTajweed: true,
+                        showRealtimeHighlighting: true,
+                        chainingMethodEnabled: true,
+                        chainingMethodMode: "bridging",
+                        chainingMethodRepetitionStrategy: "5",
+                        chainingMethodAudioGuidance: "qari-first",
+                        chainingMethodBlurProgression: "gentle",
+                        chainingMethodCompletionAction: "test",
+                        sessionHistoryEnabled: true,
+                        translationVisible: true,
+                    }),
+                },
+                {
+                    id: "seed-mempreset-recall-check",
+                    name: "Quick recall check",
+                    favorite: false,
+                    createdAt: now - 3 * 86400000,
+                    updatedAt: now - 3 * 86400000,
+                    config: this.normaliseMemorisationPresetConfig({
+                        surahNumber: "112",
+                        reciterIdentifier,
+                        rangeStart: 1,
+                        rangeEnd: 4,
+                        playbackSpeed: 1,
+                        repetitionCount: 2,
+                        playbackMode: "manual",
+                        singleAyahFocus: true,
+                        blurNextAyah: true,
+                        showTajweed: true,
+                        verseCountdownEnabled: true,
+                        verseCountdownDisplayStyle: "combined",
+                        verseCountdownPosition: "floating",
+                        verseCountdownConfettiEnabled: true,
+                        sessionHistoryEnabled: true,
+                        translationVisible: false,
+                        transliterationVisible: false,
+                    }),
+                },
+                {
+                    id: "seed-mempreset-review-loop",
+                    name: "Evening review loop",
+                    favorite: false,
+                    createdAt: now - 2 * 86400000,
+                    updatedAt: now - 2 * 86400000,
+                    config: this.normaliseMemorisationPresetConfig({
+                        surahNumber: "18",
+                        reciterIdentifier,
+                        rangeStart: 1,
+                        rangeEnd: 10,
+                        playbackSpeed: 1,
+                        repetitionCount: 2,
+                        playbackMode: "repeat",
+                        rangeLoopEnabled: true,
+                        rangeLoopDelay: 2,
+                        rangeLoopShowCountdown: true,
+                        showTajweed: true,
+                        showRealtimeHighlighting: true,
+                        sessionHistoryEnabled: true,
+                        translationVisible: true,
+                    }),
+                },
+            ];
+        },
+        seedMemorisationPresets({ merge = true, announce = false } = {}) {
+            const seeded = this.buildSeededMemorisationPresets();
+            if (!seeded.length) return [];
+            this.memorisationPresets = merge
+                ? this.mergeRecordsById(this.memorisationPresets, seeded)
+                : seeded;
+            if (
+                this.memorisationActivePresetId &&
+                !this.memorisationPresets.some(
+                    (preset) =>
+                        String(preset?.id || "") ===
+                        String(this.memorisationActivePresetId || "")
+                )
+            ) {
+                this.persistMemorisationActivePresetId("");
+            }
+            this.persistMemorisationPresets();
+            this.writeSeedVersionMarker(
+                this.getMemorisationPresetSeedStorageKey(),
+                this.memorisationPresetSeedVersion || 1
+            );
+            if (announce) {
+                this.showToast("Starter presets loaded.", 2400);
+            }
+            return this.memorisationPresets;
+        },
+        maybeSeedMemorisationPresets() {
+            if ((this.memorisationPresets || []).length) {
+                return this.memorisationPresets;
+            }
+            const appliedVersion = this.readSeedVersionMarker(
+                this.getMemorisationPresetSeedStorageKey()
+            );
+            if (
+                appliedVersion ===
+                String(this.memorisationPresetSeedVersion || 1)
+            ) {
+                return this.memorisationPresets;
+            }
+            return this.seedMemorisationPresets({ merge: false, announce: false });
         },
         rememberMemorisationPresetScope(scopeId = "") {
             if (typeof window === "undefined") return;
@@ -8395,6 +9322,9 @@ export default {
                 config.memorisationChainingCompletionAction ??
                 this.memorisationChainingCompletionAction ??
                 "none";
+            const sessionHistoryEnabledSource =
+                config.sessionHistoryEnabled ??
+                config.memorisationSessionHistoryEnabled;
 
             return {
                 surahNumber,
@@ -8527,6 +9457,10 @@ export default {
                     this.normaliseMemorisationChainingCompletionAction(
                         chainingMethodCompletionActionSource
                     ),
+                sessionHistoryEnabled: !!(
+                    sessionHistoryEnabledSource ??
+                    this.memorisationSessionHistoryEnabled
+                ),
                 blurNextAyah: !!(
                     config.blurNextAyah ??
                     config.isBlurNextAyahEnabled ??
@@ -8619,6 +9553,8 @@ export default {
                           this.normaliseMemorisationChainingCompletionAction(
                               this.memorisationChainingCompletionAction
                           ),
+                      sessionHistoryEnabled:
+                          !!this.memorisationSessionHistoryEnabled,
                   });
             return this.normaliseMemorisationPresetConfig({
                 ...baseConfig,
@@ -8706,6 +9642,7 @@ export default {
                     this.normaliseMemorisationChainingCompletionAction(
                         config.chainingMethodCompletionAction
                     ),
+                sessionHistoryEnabled: !!config.sessionHistoryEnabled,
                 blurNextAyah: !!config.blurNextAyah,
                 translationVisible: !!config.translationVisible,
                 transliterationVisible: !!config.transliterationVisible,
@@ -8804,7 +9741,7 @@ export default {
                 if (!raw) {
                     this.memorisationPresets = [];
                     this.persistMemorisationActivePresetId("");
-                    return [];
+                    return this.maybeSeedMemorisationPresets();
                 }
                 const parsed = JSON.parse(raw);
                 const rawPresets = Array.isArray(parsed)
@@ -8832,6 +9769,9 @@ export default {
                     activePresetId = "";
                 }
                 this.persistMemorisationActivePresetId(activePresetId);
+                if (!normalized.length) {
+                    return this.maybeSeedMemorisationPresets();
+                }
                 if (shouldPersistScoped) {
                     this.persistMemorisationPresets();
                 }
@@ -8840,7 +9780,7 @@ export default {
             } catch (_) {
                 this.memorisationPresets = [];
                 this.persistMemorisationActivePresetId("");
-                return [];
+                return this.maybeSeedMemorisationPresets();
             }
         },
         persistMemorisationPresets() {
@@ -8906,23 +9846,32 @@ export default {
                 surahNumber || this.selectedSurah || 1
             );
             const modeLabel = config.singleAyahFocus
-                ? "Test mode"
+                ? "Test Mode"
                 : config.playbackMode === "repeat"
                 ? "Repeat"
                 : config.playbackMode === "manual"
                 ? "Manual"
                 : "Auto";
-            const rangeLoopLabel = config.rangeLoopEnabled
-                ? ` · Loop ${config.rangeLoopDelay}s`
-                : "";
-            const chainingLabel = config.chainingMethodEnabled
-                ? config.chainingMethodMode === "bridging"
-                    ? " · Bridge chain"
-                    : " · Chain loop"
+            const helperLabels = [];
+            if (config.repeatAfterReciterEnabled) {
+                helperLabels.push("Repeat after");
+            }
+            if (config.rangeLoopEnabled) {
+                helperLabels.push(`Loop ${config.rangeLoopDelay}s`);
+            }
+            if (config.chainingMethodEnabled) {
+                helperLabels.push(
+                    config.chainingMethodMode === "bridging"
+                        ? "Bridge chain"
+                        : "Chain loop"
+                );
+            }
+            const helperLabel = helperLabels.length
+                ? ` · ${helperLabels.join(" · ")}`
                 : "";
             return `${surahNumber || "?"}. ${surahName} · Ayah ${
                 config.rangeStart
-            }-${config.rangeEnd} · ${config.playbackSpeed}x · ${modeLabel}${rangeLoopLabel}${chainingLabel}`;
+            }-${config.rangeEnd} · ${config.playbackSpeed}x · ${modeLabel}${helperLabel}`;
         },
         getMemorisationPresetSuggestedName() {
             const config = this.buildCurrentMemorisationPresetConfig({
@@ -9122,8 +10071,12 @@ export default {
                 closeOffcanvas = false,
                 syncDraft = true,
             } = options || {};
+            this.suppressSessionHistorySelectionTracking = true;
             try {
                 const config = this.normaliseMemorisationPresetConfig(configInput);
+                if (this.sessionHistoryActiveTracker) {
+                    this.finalizeSessionHistoryEntry("reconfigured");
+                }
                 this.clearMemorisationRangeLoopRestartState();
                 this.captureMemorisationSessionSnapshot();
                 if (
@@ -9228,6 +10181,8 @@ export default {
                     this.normaliseMemorisationChainingCompletionAction(
                         config.chainingMethodCompletionAction
                     );
+                this.memorisationSessionHistoryEnabled =
+                    !!config.sessionHistoryEnabled;
                 this.resetMemorisationChainingProgress({
                     stopAudio: false,
                     preserveCompleted: false,
@@ -9284,6 +10239,9 @@ export default {
                 } else if (successMessage) {
                     this.showToast(successMessage, 2600);
                 }
+                if (!this.memorisationSessionHistoryEnabled) {
+                    this.clearActiveSessionHistoryTracker();
+                }
                 return true;
             } catch (error) {
                 console.error("Unable to apply memorisation session config:", error);
@@ -9291,6 +10249,8 @@ export default {
                     this.showToast(errorMessage, 3200);
                 }
                 return false;
+            } finally {
+                this.suppressSessionHistorySelectionTracking = false;
             }
         },
         async loadMemorisationPreset(presetId) {
@@ -9527,6 +10487,9 @@ export default {
             restoreSession = true,
         } = {}) {
             const wasVisible = !!this.isMemorisationToolbarVisible;
+            if (this.sessionHistoryActiveTracker) {
+                this.finalizeSessionHistoryEntry("closed");
+            }
             this.memorisationLastWorkedIndex = Number.isFinite(
                 Number(this.activeAyahIndex)
             )
@@ -9616,158 +10579,177 @@ export default {
                 chainingMethodAudioGuidance: "qari-first",
                 chainingMethodBlurProgression: "off",
                 chainingMethodCompletionAction: "none",
+                sessionHistoryEnabled: false,
             };
         },
         async applyMemorisationDefaultSession(options = {}) {
             const { syncDraft = true, scroll = true } = options || {};
             const defaults = this.getDefaultMemorisationState();
+            this.suppressSessionHistorySelectionTracking = true;
             try {
-                if (
-                    defaults.surahNumber &&
-                    String(this.selectedSurah || "") !== defaults.surahNumber
-                ) {
-                    await this.selectSurah(defaults.surahNumber, { skipScroll: true });
+                try {
+                    if (
+                        defaults.surahNumber &&
+                        String(this.selectedSurah || "") !== defaults.surahNumber
+                    ) {
+                        await this.selectSurah(defaults.surahNumber, {
+                            skipScroll: true,
+                        });
+                    }
+                } catch (error) {
+                    console.warn(
+                        "Unable to switch to default memorisation surah:",
+                        error
+                    );
                 }
-            } catch (error) {
-                console.warn(
-                    "Unable to switch to default memorisation surah:",
-                    error
-                );
-            }
 
-            const totalAyahs = Math.max(1, Number(this.totalAyahs || 1));
-            const safeEnd = Math.min(
-                totalAyahs,
-                Math.max(defaults.rangeStart, Number(defaults.rangeEnd || 7))
-            );
-            const requestedReciter = defaults.reciterIdentifier || this.selectedReciter;
-            const reciterChanged =
-                requestedReciter && requestedReciter !== this.selectedReciter;
+                const totalAyahs = Math.max(1, Number(this.totalAyahs || 1));
+                const safeEnd = Math.min(
+                    totalAyahs,
+                    Math.max(defaults.rangeStart, Number(defaults.rangeEnd || 7))
+                );
+                const requestedReciter =
+                    defaults.reciterIdentifier || this.selectedReciter;
+                const reciterChanged =
+                    requestedReciter && requestedReciter !== this.selectedReciter;
 
-            this.selectedReciter = requestedReciter;
-            if (reciterChanged) {
-                await this.ensureSurahReciterApplied(requestedReciter);
-            }
-            this.memorisationRangeStart = defaults.rangeStart;
-            this.memorisationRangeEnd = safeEnd;
-            this.memorisationVerseDelay = defaults.verseDelay;
-            this.memorisationRepetitionCount = defaults.repetitionCount;
-            this.setPlaybackMode(defaults.playbackMode);
-            this.playbackSpeed = defaults.playbackSpeed;
-            this.isMemorisationMode = !!defaults.singleAyahFocus;
-            this.memorisationRangeLoopEnabled = !!defaults.rangeLoopEnabled;
-            this.memorisationRangeLoopDelay =
-                this.normaliseMemorisationRangeLoopDelay(defaults.rangeLoopDelay);
-            this.memorisationRangeLoopShowCountdown =
-                !!defaults.rangeLoopShowCountdown;
-            this.memorisationRangeLoopAlertSound =
-                this.normaliseMemorisationRangeLoopAlertSound(
-                    defaults.rangeLoopAlertSound
-                );
-            this.clearMemorisationRangeLoopRestartState();
-            this.memorisationRepeatAfterEnabled =
-                !!defaults.repeatAfterReciterEnabled;
-            this.memorisationRepeatAfterPauseMode =
-                this.normaliseMemorisationRepeatAfterPauseMode(
-                    defaults.repeatAfterReciterPauseMode
-                );
-            this.memorisationRepeatAfterShowTranslation =
-                !!defaults.repeatAfterReciterShowTranslation;
-            this.memorisationRepeatAfterVerseTextMode =
-                this.normaliseMemorisationRepeatAfterVerseTextMode(
-                    defaults.repeatAfterReciterVerseTextMode
-                );
-            this.memorisationRepeatAfterRecordEnabled =
-                !!defaults.repeatAfterReciterRecordEnabled;
-            this.clearMemorisationRepeatPauseState({ stopRecording: true });
-            this.memorisationVerseCountdownEnabled =
-                !!defaults.verseCountdownEnabled;
-            this.memorisationVerseCountdownDisplayStyle =
-                this.normaliseMemorisationVerseCountdownDisplayStyle(
-                    defaults.verseCountdownDisplayStyle
-                );
-            this.memorisationVerseCountdownPosition =
-                this.normaliseMemorisationVerseCountdownPosition(
-                    defaults.verseCountdownPosition
-                );
-            this.memorisationVerseCountdownConfettiEnabled =
-                defaults.verseCountdownConfettiEnabled !== false;
-            this.verseCountdownHasPlaybackStarted = false;
-            this.verseCountdownFinalAyahRecited = false;
-            this.verseCountdownCompletionNotified = false;
-            this.clearVerseCountdownCelebrationState();
-            this.memorisationChainingEnabled = !!defaults.chainingMethodEnabled;
-            this.memorisationChainingMode =
-                this.normaliseMemorisationChainingMode(
-                    defaults.chainingMethodMode
-                );
-            this.memorisationChainingRepetitionStrategy =
-                this.normaliseMemorisationChainingRepetitionStrategy(
-                    defaults.chainingMethodRepetitionStrategy
-                );
-            this.memorisationChainingAutoAdvance =
-                defaults.chainingMethodAutoAdvance !== false;
-            this.memorisationChainingAudioGuidance =
-                this.normaliseMemorisationChainingAudioGuidance(
-                    defaults.chainingMethodAudioGuidance
-                );
-            this.memorisationChainingBlurProgression =
-                this.normaliseMemorisationChainingBlurProgression(
-                    defaults.chainingMethodBlurProgression
-                );
-            this.memorisationChainingCompletionAction =
-                this.normaliseMemorisationChainingCompletionAction(
-                    defaults.chainingMethodCompletionAction
-                );
-            this.resetMemorisationChainingProgress({
-                stopAudio: false,
-                preserveCompleted: false,
-            });
-            this.isBlurNextAyahEnabled = !!defaults.blurNextAyah;
-            this.showTajweed = !!defaults.showTajweed;
-            this.showRealtimeHighlighting = !!defaults.showRealtimeHighlighting;
-            this.showWordTranslation = !!defaults.showWordTranslation;
-            this.showWordTranslationTooltip = !!defaults.showWordTranslationTooltip;
-            this.applyGlobalTextVisibility({
-                translation: !!defaults.translationVisible,
-                transliteration: !!defaults.transliterationVisible,
-            });
-            this.applyMemorisationDraftFont(defaults.quranFontId);
-            this.applyMemorisationRange();
-            if (
-                this.memorisationVerseCountdownEnabled &&
-                this.verseCountdownIsCompleted
-            ) {
-                this.handleVerseCountdownCompletion();
-            }
-            this.prepareSettingsDraft();
-
-            const targetIndex = Math.max(
-                0,
-                this.resolveAyahIndexByNumber(defaults.rangeStart)
-            );
-            this.memorisationFocusIndex = targetIndex;
-            this.selectCard(targetIndex);
-            if (scroll) {
-                this.$nextTick(() => {
-                    this.scrollToAyahIndex(targetIndex, {
-                        settle: true,
-                        force: true,
-                        behavior: "smooth",
-                        lock: true,
-                    });
+                this.selectedReciter = requestedReciter;
+                if (reciterChanged) {
+                    await this.ensureSurahReciterApplied(requestedReciter);
+                }
+                this.memorisationRangeStart = defaults.rangeStart;
+                this.memorisationRangeEnd = safeEnd;
+                this.memorisationVerseDelay = defaults.verseDelay;
+                this.memorisationRepetitionCount = defaults.repetitionCount;
+                this.setPlaybackMode(defaults.playbackMode);
+                this.playbackSpeed = defaults.playbackSpeed;
+                this.isMemorisationMode = !!defaults.singleAyahFocus;
+                this.memorisationRangeLoopEnabled = !!defaults.rangeLoopEnabled;
+                this.memorisationRangeLoopDelay =
+                    this.normaliseMemorisationRangeLoopDelay(defaults.rangeLoopDelay);
+                this.memorisationRangeLoopShowCountdown =
+                    !!defaults.rangeLoopShowCountdown;
+                this.memorisationRangeLoopAlertSound =
+                    this.normaliseMemorisationRangeLoopAlertSound(
+                        defaults.rangeLoopAlertSound
+                    );
+                this.clearMemorisationRangeLoopRestartState();
+                this.memorisationRepeatAfterEnabled =
+                    !!defaults.repeatAfterReciterEnabled;
+                this.memorisationRepeatAfterPauseMode =
+                    this.normaliseMemorisationRepeatAfterPauseMode(
+                        defaults.repeatAfterReciterPauseMode
+                    );
+                this.memorisationRepeatAfterShowTranslation =
+                    !!defaults.repeatAfterReciterShowTranslation;
+                this.memorisationRepeatAfterVerseTextMode =
+                    this.normaliseMemorisationRepeatAfterVerseTextMode(
+                        defaults.repeatAfterReciterVerseTextMode
+                    );
+                this.memorisationRepeatAfterRecordEnabled =
+                    !!defaults.repeatAfterReciterRecordEnabled;
+                this.clearMemorisationRepeatPauseState({
+                    stopRecording: true,
                 });
-            }
+                this.memorisationVerseCountdownEnabled =
+                    !!defaults.verseCountdownEnabled;
+                this.memorisationVerseCountdownDisplayStyle =
+                    this.normaliseMemorisationVerseCountdownDisplayStyle(
+                        defaults.verseCountdownDisplayStyle
+                    );
+                this.memorisationVerseCountdownPosition =
+                    this.normaliseMemorisationVerseCountdownPosition(
+                        defaults.verseCountdownPosition
+                    );
+                this.memorisationVerseCountdownConfettiEnabled =
+                    defaults.verseCountdownConfettiEnabled !== false;
+                this.verseCountdownHasPlaybackStarted = false;
+                this.verseCountdownFinalAyahRecited = false;
+                this.verseCountdownCompletionNotified = false;
+                this.clearVerseCountdownCelebrationState();
+                this.memorisationChainingEnabled =
+                    !!defaults.chainingMethodEnabled;
+                this.memorisationChainingMode =
+                    this.normaliseMemorisationChainingMode(
+                        defaults.chainingMethodMode
+                    );
+                this.memorisationChainingRepetitionStrategy =
+                    this.normaliseMemorisationChainingRepetitionStrategy(
+                        defaults.chainingMethodRepetitionStrategy
+                    );
+                this.memorisationChainingAutoAdvance =
+                    defaults.chainingMethodAutoAdvance !== false;
+                this.memorisationChainingAudioGuidance =
+                    this.normaliseMemorisationChainingAudioGuidance(
+                        defaults.chainingMethodAudioGuidance
+                    );
+                this.memorisationChainingBlurProgression =
+                    this.normaliseMemorisationChainingBlurProgression(
+                        defaults.chainingMethodBlurProgression
+                    );
+                this.memorisationChainingCompletionAction =
+                    this.normaliseMemorisationChainingCompletionAction(
+                        defaults.chainingMethodCompletionAction
+                    );
+                this.memorisationSessionHistoryEnabled =
+                    !!defaults.sessionHistoryEnabled;
+                this.resetMemorisationChainingProgress({
+                    stopAudio: false,
+                    preserveCompleted: false,
+                });
+                this.isBlurNextAyahEnabled = !!defaults.blurNextAyah;
+                this.showTajweed = !!defaults.showTajweed;
+                this.showRealtimeHighlighting =
+                    !!defaults.showRealtimeHighlighting;
+                this.showWordTranslation = !!defaults.showWordTranslation;
+                this.showWordTranslationTooltip =
+                    !!defaults.showWordTranslationTooltip;
+                this.applyGlobalTextVisibility({
+                    translation: !!defaults.translationVisible,
+                    transliteration: !!defaults.transliterationVisible,
+                });
+                this.applyMemorisationDraftFont(defaults.quranFontId);
+                this.applyMemorisationRange();
+                if (
+                    this.memorisationVerseCountdownEnabled &&
+                    this.verseCountdownIsCompleted
+                ) {
+                    this.handleVerseCountdownCompletion();
+                }
+                this.prepareSettingsDraft();
 
-            if (syncDraft) {
-                this.memorisationDraft =
-                    this.buildMemorisationPresetDraftFromConfig({
-                    ...defaults,
-                    rangeEnd: safeEnd,
+                const targetIndex = Math.max(
+                    0,
+                    this.resolveAyahIndexByNumber(defaults.rangeStart)
+                );
+                this.memorisationFocusIndex = targetIndex;
+                this.selectCard(targetIndex);
+                if (scroll) {
+                    this.$nextTick(() => {
+                        this.scrollToAyahIndex(targetIndex, {
+                            settle: true,
+                            force: true,
+                            behavior: "smooth",
+                            lock: true,
+                        });
                     });
-                this.isMemorisationRepeatAfterSettingsOpen =
-                    !!this.memorisationDraft.repeatAfterReciterEnabled;
-                this.hideMemorisationSubmitAlert();
+                }
+
+                if (syncDraft) {
+                    this.memorisationDraft =
+                        this.buildMemorisationPresetDraftFromConfig({
+                            ...defaults,
+                            rangeEnd: safeEnd,
+                        });
+                    this.isMemorisationRepeatAfterSettingsOpen =
+                        !!this.memorisationDraft.repeatAfterReciterEnabled;
+                    this.hideMemorisationSubmitAlert();
+                }
+            } finally {
+                this.suppressSessionHistorySelectionTracking = false;
+                if (!this.memorisationSessionHistoryEnabled) {
+                    this.clearActiveSessionHistoryTracker();
+                }
             }
         },
         resetMemorisationDraftForm() {
@@ -11474,6 +12456,2183 @@ export default {
                 year: "numeric",
             });
         },
+        getSessionHistoryStorageKey() {
+            return this.buildScopedFontPreferenceKey(
+                this.sessionHistoryStorageKeyBase ||
+                    "ic_memorisation_session_history_v1"
+            );
+        },
+        isSeededSessionHistoryEntry(entry) {
+            return String(entry?.id || "").startsWith("seed-session-history-");
+        },
+        getSessionHistorySeedStorageKey() {
+            return this.buildScopedFontPreferenceKey(
+                "ic_memorisation_session_history_seed_v1"
+            );
+        },
+        buildSeededSessionHistoryEntries() {
+            const reciterIdentifier = this.selectedReciter || "ar.alafasy";
+            const buildTimestamp = (daysAgo = 0, hours = 20, minutes = 0) => {
+                const date = new Date();
+                date.setDate(date.getDate() - Math.max(0, Number(daysAgo || 0)));
+                date.setHours(hours, minutes, 0, 0);
+                return date.getTime();
+            };
+            return [
+                {
+                    id: "seed-session-history-baqarah-chain",
+                    startedAt: buildTimestamp(1, 20, 6),
+                    endedAt: buildTimestamp(1, 20, 28),
+                    surahNumber: 2,
+                    surahName: "Al-Baqarah",
+                    surahArabicName: "البقرة",
+                    rangeStart: 255,
+                    rangeEnd: 260,
+                    versesCovered: [255, 256, 257, 258, 259, 260],
+                    repetitionsCompleted: 42,
+                    accuracyScore: 96,
+                    note: "Transitions felt smoother after the third bridge round.",
+                    completionReason: "completed",
+                    sessionConfig: {
+                        surahNumber: "2",
+                        reciterIdentifier,
+                        rangeStart: 255,
+                        rangeEnd: 260,
+                        playbackSpeed: 0.75,
+                        repetitionCount: 5,
+                        playbackMode: "continuous",
+                        showTajweed: true,
+                        showRealtimeHighlighting: true,
+                        chainingMethodEnabled: true,
+                        chainingMethodMode: "bridging",
+                        chainingMethodRepetitionStrategy: "5",
+                        chainingMethodAudioGuidance: "qari-first",
+                        chainingMethodBlurProgression: "gentle",
+                        chainingMethodCompletionAction: "test",
+                        sessionHistoryEnabled: true,
+                        translationVisible: true,
+                    },
+                },
+                {
+                    id: "seed-session-history-mulk-repeat",
+                    startedAt: buildTimestamp(3, 6, 34),
+                    endedAt: buildTimestamp(3, 6, 49),
+                    surahNumber: 67,
+                    surahName: "Al-Mulk",
+                    surahArabicName: "الملك",
+                    rangeStart: 1,
+                    rangeEnd: 6,
+                    versesCovered: [1, 2, 3, 4, 5, 6],
+                    repetitionsCompleted: 19,
+                    accuracyScore: 89,
+                    note: "Needed one extra pause before ayah 4.",
+                    completionReason: "inactive",
+                    sessionConfig: {
+                        surahNumber: "67",
+                        reciterIdentifier,
+                        rangeStart: 1,
+                        rangeEnd: 6,
+                        playbackSpeed: 0.75,
+                        repetitionCount: 3,
+                        playbackMode: "continuous",
+                        showTajweed: true,
+                        repeatAfterReciterEnabled: true,
+                        repeatAfterReciterPauseMode: "3",
+                        repeatAfterReciterShowTranslation: true,
+                        repeatAfterReciterVerseTextMode: "dimmed",
+                        sessionHistoryEnabled: true,
+                        translationVisible: true,
+                    },
+                },
+                {
+                    id: "seed-session-history-kahf-loop",
+                    startedAt: buildTimestamp(5, 19, 42),
+                    endedAt: buildTimestamp(5, 20, 12),
+                    surahNumber: 18,
+                    surahName: "Al-Kahf",
+                    surahArabicName: "الكهف",
+                    rangeStart: 1,
+                    rangeEnd: 10,
+                    versesCovered: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+                    repetitionsCompleted: 28,
+                    accuracyScore: 91,
+                    note: "Looping the full range helped the opening settle.",
+                    completionReason: "completed",
+                    sessionConfig: {
+                        surahNumber: "18",
+                        reciterIdentifier,
+                        rangeStart: 1,
+                        rangeEnd: 10,
+                        playbackSpeed: 1,
+                        repetitionCount: 2,
+                        playbackMode: "repeat",
+                        rangeLoopEnabled: true,
+                        rangeLoopDelay: 2,
+                        rangeLoopShowCountdown: true,
+                        showTajweed: true,
+                        showRealtimeHighlighting: true,
+                        sessionHistoryEnabled: true,
+                        translationVisible: true,
+                    },
+                },
+                {
+                    id: "seed-session-history-ikhlas-recall",
+                    startedAt: buildTimestamp(7, 21, 5),
+                    endedAt: buildTimestamp(7, 21, 13),
+                    surahNumber: 112,
+                    surahName: "Al-Ikhlas",
+                    surahArabicName: "الإخلاص",
+                    rangeStart: 1,
+                    rangeEnd: 4,
+                    versesCovered: [1, 2, 3, 4],
+                    repetitionsCompleted: 9,
+                    accuracyScore: 97,
+                    note: "Short recall check before sleep.",
+                    completionReason: "completed",
+                    sessionConfig: {
+                        surahNumber: "112",
+                        reciterIdentifier,
+                        rangeStart: 1,
+                        rangeEnd: 4,
+                        playbackSpeed: 1,
+                        repetitionCount: 2,
+                        playbackMode: "manual",
+                        singleAyahFocus: true,
+                        showTajweed: true,
+                        blurNextAyah: true,
+                        verseCountdownEnabled: true,
+                        verseCountdownDisplayStyle: "combined",
+                        verseCountdownPosition: "floating",
+                        sessionHistoryEnabled: true,
+                        translationVisible: false,
+                        transliterationVisible: false,
+                    },
+                },
+                {
+                    id: "seed-session-history-rahman-review",
+                    startedAt: buildTimestamp(10, 18, 8),
+                    endedAt: buildTimestamp(10, 18, 31),
+                    surahNumber: 55,
+                    surahName: "Ar-Rahman",
+                    surahArabicName: "الرحمن",
+                    rangeStart: 1,
+                    rangeEnd: 13,
+                    versesCovered: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
+                    repetitionsCompleted: 24,
+                    accuracyScore: 88,
+                    note: "Strong flow overall, but ayah 7 still needs cleaner tajweed.",
+                    completionReason: "completed",
+                    sessionConfig: {
+                        surahNumber: "55",
+                        reciterIdentifier,
+                        rangeStart: 1,
+                        rangeEnd: 13,
+                        playbackSpeed: 0.75,
+                        repetitionCount: 3,
+                        playbackMode: "continuous",
+                        showTajweed: true,
+                        repeatAfterReciterEnabled: true,
+                        repeatAfterReciterPauseMode: "manual",
+                        repeatAfterReciterShowTranslation: false,
+                        repeatAfterReciterVerseTextMode: "hidden",
+                        sessionHistoryEnabled: true,
+                        translationVisible: false,
+                    },
+                },
+            ];
+        },
+        seedSessionHistoryEntries({ merge = true, announce = false } = {}) {
+            const seeded = this.buildSeededSessionHistoryEntries();
+            if (!seeded.length) return [];
+            const nextEntries = merge
+                ? this.mergeRecordsById(this.sessionHistoryEntries, seeded)
+                : seeded;
+            this.setSessionHistoryEntries(nextEntries);
+            this.persistSessionHistory();
+            this.writeSeedVersionMarker(
+                this.getSessionHistorySeedStorageKey(),
+                this.sessionHistorySeedVersion || 1
+            );
+            if (announce) {
+                this.showToast("Starter session history loaded.", 2400);
+            }
+            return this.sessionHistoryEntries;
+        },
+        maybeSeedSessionHistoryEntries() {
+            if (this.sessionHistoryEntries.length) {
+                return this.sessionHistoryEntries;
+            }
+            const appliedVersion = this.readSeedVersionMarker(
+                this.getSessionHistorySeedStorageKey()
+            );
+            if (
+                appliedVersion === String(this.sessionHistorySeedVersion || 1)
+            ) {
+                return this.sessionHistoryEntries;
+            }
+            return this.seedSessionHistoryEntries({ merge: false, announce: false });
+        },
+        createSessionHistoryEntryId() {
+            try {
+                if (
+                    typeof window !== "undefined" &&
+                    window.crypto &&
+                    typeof window.crypto.randomUUID === "function"
+                ) {
+                    return `memhist-${window.crypto.randomUUID()}`;
+                }
+            } catch (_) {}
+            return `memhist-${Date.now()}-${Math.random()
+                .toString(36)
+                .slice(2, 10)}`;
+        },
+        getSessionHistoryToolDefinitions() {
+            return [
+                {
+                    id: "tajweed",
+                    label: "Tajweed",
+                    icon: "bi-palette-fill",
+                },
+                {
+                    id: "test-mode",
+                    label: "Test Mode",
+                    icon: "bi-bullseye",
+                },
+                {
+                    id: "chaining",
+                    label: "Chaining",
+                    icon: "bi-link-45deg",
+                },
+                {
+                    id: "repeat-after",
+                    label: "Repeat After",
+                    icon: "bi-arrow-repeat",
+                },
+                {
+                    id: "range-loop",
+                    label: "Loop",
+                    icon: "bi-arrow-clockwise",
+                },
+                {
+                    id: "countdown",
+                    label: "Countdown",
+                    icon: "bi-hourglass-split",
+                },
+                {
+                    id: "recording",
+                    label: "Recording",
+                    icon: "bi-mic-fill",
+                },
+                {
+                    id: "word-meaning",
+                    label: "Word Meaning",
+                    icon: "bi-translate",
+                },
+                {
+                    id: "live-highlight",
+                    label: "Live Highlight",
+                    icon: "bi-soundwave",
+                },
+            ];
+        },
+        getToolsUsedFromSessionConfig(config = {}) {
+            const normalized = this.normaliseMemorisationPresetConfig(config);
+            const definitions = this.getSessionHistoryToolDefinitions();
+            const enabled = [];
+            const add = (id) => {
+                const match = definitions.find((tool) => tool.id === id);
+                if (match) enabled.push({ ...match });
+            };
+            if (normalized.showTajweed) add("tajweed");
+            if (normalized.singleAyahFocus) add("test-mode");
+            if (normalized.chainingMethodEnabled) add("chaining");
+            if (normalized.repeatAfterReciterEnabled) add("repeat-after");
+            if (normalized.rangeLoopEnabled) add("range-loop");
+            if (normalized.verseCountdownEnabled) add("countdown");
+            if (normalized.repeatAfterReciterRecordEnabled) add("recording");
+            if (
+                normalized.showWordTranslation ||
+                normalized.showWordTranslationTooltip
+            ) {
+                add("word-meaning");
+            }
+            if (normalized.showRealtimeHighlighting) add("live-highlight");
+            return enabled;
+        },
+        resolveSessionHistoryAccuracyScore(config = {}) {
+            const raw = Number(
+                config?.accuracyScore ?? config?.aiAccuracyScore ?? NaN
+            );
+            if (!Number.isFinite(raw)) return null;
+            return Math.max(0, Math.min(100, Math.round(raw)));
+        },
+        normalizeSessionHistoryEntry(entry) {
+            if (!entry || typeof entry !== "object") return null;
+            const sessionConfig = this.normaliseMemorisationPresetConfig(
+                entry.sessionConfig || entry.config || {}
+            );
+            const startedAt =
+                Number(entry.startedAt || entry.createdAt || entry.endedAt || 0) ||
+                0;
+            const endedAt = Math.max(
+                startedAt || Date.now(),
+                Number(
+                    entry.endedAt || entry.completedAt || entry.updatedAt || startedAt
+                ) || startedAt || Date.now()
+            );
+            const surahNumber = Number(
+                entry.surahNumber || sessionConfig.surahNumber || 0
+            );
+            if (!surahNumber) return null;
+            const rangeStart = Math.max(
+                1,
+                Number(entry.rangeStart || sessionConfig.rangeStart || 1)
+            );
+            const rangeEnd = Math.max(
+                rangeStart,
+                Number(entry.rangeEnd || sessionConfig.rangeEnd || rangeStart)
+            );
+            const versesCovered = Array.from(
+                new Set(
+                    (Array.isArray(entry.versesCovered) ? entry.versesCovered : [])
+                        .map((value) => Number(value || 0))
+                        .filter((value) => Number.isFinite(value) && value > 0)
+                )
+            ).sort((left, right) => left - right);
+            const normalizedTools = (
+                Array.isArray(entry.toolsUsed) && entry.toolsUsed.length
+                    ? entry.toolsUsed
+                    : this.getToolsUsedFromSessionConfig(sessionConfig)
+            )
+                .map((tool) => {
+                    const id = String(tool?.id || tool || "").trim();
+                    if (!id) return null;
+                    const match = this.getSessionHistoryToolDefinitions().find(
+                        (definition) => definition.id === id
+                    );
+                    if (match) return { ...match };
+                    return {
+                        id,
+                        label: String(tool?.label || id)
+                            .replace(/-/g, " ")
+                            .replace(/\b\w/g, (char) => char.toUpperCase()),
+                        icon: String(tool?.icon || "bi-dot"),
+                    };
+                })
+                .filter(Boolean);
+            const note = String(entry.note || "").trim().slice(0, 280);
+            return {
+                id: String(entry.id || this.createSessionHistoryEntryId()),
+                sessionId: String(entry.sessionId || entry.id || ""),
+                startedAt: startedAt || endedAt,
+                endedAt,
+                dateKey:
+                    String(entry.dateKey || "").trim() || this.toDateKey(endedAt),
+                surahNumber,
+                surahName:
+                    String(entry.surahName || "").trim() ||
+                    this.getSurahNameByNumber(surahNumber),
+                surahArabicName:
+                    String(entry.surahArabicName || "").trim() ||
+                    this.getSurahArabicNameByNumber(surahNumber),
+                rangeStart,
+                rangeEnd,
+                durationMs: Math.max(
+                    0,
+                    Number(entry.durationMs || endedAt - (startedAt || endedAt)) || 0
+                ),
+                versesCovered,
+                versesCoveredCount: Math.max(
+                    Number(entry.versesCoveredCount || 0) || 0,
+                    versesCovered.length
+                ),
+                repetitionsCompleted: Math.max(
+                    0,
+                    Number(entry.repetitionsCompleted || 0) || 0
+                ),
+                toolsUsed: normalizedTools,
+                accuracyScore:
+                    entry.accuracyScore === null ||
+                    entry.accuracyScore === undefined ||
+                    entry.accuracyScore === ""
+                        ? this.resolveSessionHistoryAccuracyScore(sessionConfig)
+                        : this.resolveSessionHistoryAccuracyScore(entry),
+                note,
+                completionReason: String(
+                    entry.completionReason || entry.reason || "completed"
+                ).trim(),
+                sessionConfig,
+            };
+        },
+        setSessionHistoryEntries(entries = []) {
+            const normalized = (Array.isArray(entries) ? entries : [])
+                .map((entry) => this.normalizeSessionHistoryEntry(entry))
+                .filter(Boolean)
+                .sort(
+                    (left, right) =>
+                        Number(right?.endedAt || 0) - Number(left?.endedAt || 0)
+                )
+                .slice(
+                    0,
+                    Math.max(1, Number(this.sessionHistoryMaximumEntries || 1000))
+                );
+            const nextDrafts = {};
+            normalized.forEach((entry) => {
+                nextDrafts[entry.id] =
+                    typeof this.sessionHistoryNoteDrafts?.[entry.id] === "string"
+                        ? this.sessionHistoryNoteDrafts[entry.id]
+                        : entry.note || "";
+            });
+            this.sessionHistoryEntries = normalized;
+            this.sessionHistoryNoteDrafts = nextDrafts;
+            if (
+                this.sessionHistorySelectedEntryId &&
+                !normalized.some(
+                    (entry) =>
+                        String(entry?.id || "") ===
+                        String(this.sessionHistorySelectedEntryId || "")
+                )
+            ) {
+                this.sessionHistorySelectedEntryId = normalized[0]?.id || "";
+            }
+            if (!this.sessionHistoryCalendarMonthKey) {
+                this.sessionHistoryCalendarMonthKey = this.toMonthKey(new Date());
+            }
+        },
+        loadSessionHistory() {
+            if (typeof window === "undefined") {
+                this.setSessionHistoryEntries([]);
+                return [];
+            }
+            try {
+                const raw = localStorage.getItem(this.getSessionHistoryStorageKey());
+                if (!raw) {
+                    this.setSessionHistoryEntries([]);
+                    return [];
+                }
+                const parsed = JSON.parse(raw);
+                const entries = Array.isArray(parsed)
+                    ? parsed
+                    : Array.isArray(parsed?.entries)
+                    ? parsed.entries
+                    : [];
+                this.setSessionHistoryEntries(entries);
+                return this.sessionHistoryEntries;
+            } catch (_) {
+                this.setSessionHistoryEntries([]);
+                return [];
+            }
+        },
+        persistSessionHistory() {
+            if (typeof window === "undefined") return;
+            try {
+                const payload = {
+                    version: 1,
+                    updatedAt: Date.now(),
+                    entries: this.sessionHistoryEntries,
+                };
+                localStorage.setItem(
+                    this.getSessionHistoryStorageKey(),
+                    JSON.stringify(payload)
+                );
+            } catch (_) {}
+        },
+        clearSessionHistoryInactivityTimeout() {
+            if (this.sessionHistoryInactivityTimeout) {
+                clearTimeout(this.sessionHistoryInactivityTimeout);
+                this.sessionHistoryInactivityTimeout = null;
+            }
+        },
+        clearActiveSessionHistoryTracker() {
+            this.clearSessionHistoryInactivityTimeout();
+            this.sessionHistoryActiveTracker = null;
+        },
+        getCurrentSessionHistoryConfig() {
+            return this.buildCurrentMemorisationPresetConfig({
+                preferDraft: false,
+            });
+        },
+        startSessionHistoryTracking(options = {}) {
+            const { reason = "started", config = null } = options || {};
+            if (
+                !this.isMemorisationToolbarVisible ||
+                !this.memorisationSessionHistoryEnabled
+            ) {
+                return null;
+            }
+            const now = Date.now();
+            const normalizedConfig = this.normaliseMemorisationPresetConfig(
+                config || this.getCurrentSessionHistoryConfig()
+            );
+            if (this.sessionHistoryActiveTracker) {
+                this.sessionHistoryActiveTracker.lastActiveAt = now;
+                this.sessionHistoryActiveTracker.sessionConfig = {
+                    ...normalizedConfig,
+                };
+                this.sessionHistoryActiveTracker.toolsUsed =
+                    this.getToolsUsedFromSessionConfig(normalizedConfig);
+                this.scheduleSessionHistoryInactivityTimeout();
+                return this.sessionHistoryActiveTracker;
+            }
+            this.sessionHistoryActiveTracker = {
+                id: this.createSessionHistoryEntryId(),
+                sessionId: this.createMemorisationSessionId(),
+                startedAt: now,
+                lastActiveAt: now,
+                createdReason: String(reason || "started"),
+                surahNumber: Number(normalizedConfig.surahNumber || this.selectedSurah || 1),
+                rangeStart: Number(normalizedConfig.rangeStart || this.memorisationRangeStart || 1),
+                rangeEnd: Number(
+                    normalizedConfig.rangeEnd ||
+                        this.memorisationRangeEnd ||
+                        normalizedConfig.rangeStart ||
+                        1
+                ),
+                versesCovered: [],
+                versesCoveredLookup: Object.create(null),
+                repetitionsCompleted: 0,
+                note: "",
+                accuracyScore: this.resolveSessionHistoryAccuracyScore(
+                    normalizedConfig
+                ),
+                toolsUsed: this.getToolsUsedFromSessionConfig(normalizedConfig),
+                sessionConfig: {
+                    ...normalizedConfig,
+                },
+            };
+            this.scheduleSessionHistoryInactivityTimeout();
+            return this.sessionHistoryActiveTracker;
+        },
+        syncSessionHistoryTrackerConfig() {
+            if (!this.sessionHistoryActiveTracker) return null;
+            const config = this.getCurrentSessionHistoryConfig();
+            this.sessionHistoryActiveTracker.sessionConfig = { ...config };
+            this.sessionHistoryActiveTracker.surahNumber = Number(
+                config.surahNumber || this.sessionHistoryActiveTracker.surahNumber || 1
+            );
+            this.sessionHistoryActiveTracker.rangeStart = Number(
+                config.rangeStart || this.sessionHistoryActiveTracker.rangeStart || 1
+            );
+            this.sessionHistoryActiveTracker.rangeEnd = Number(
+                config.rangeEnd ||
+                    this.sessionHistoryActiveTracker.rangeEnd ||
+                    this.sessionHistoryActiveTracker.rangeStart ||
+                    1
+            );
+            this.sessionHistoryActiveTracker.toolsUsed =
+                this.getToolsUsedFromSessionConfig(config);
+            this.sessionHistoryActiveTracker.accuracyScore =
+                this.resolveSessionHistoryAccuracyScore(config);
+            return this.sessionHistoryActiveTracker;
+        },
+        refreshSessionHistoryTracker(options = {}) {
+            const {
+                activitySource = "activity",
+                ayahNumber = null,
+                repetitionIncrement = 0,
+            } = options || {};
+            const tracker = this.startSessionHistoryTracking({
+                reason: activitySource,
+            });
+            if (!tracker) return null;
+            const now = Date.now();
+            tracker.lastActiveAt = now;
+            tracker.lastActivitySource = String(activitySource || "activity");
+            this.syncSessionHistoryTrackerConfig();
+            const safeAyahNumber = Number(ayahNumber || 0);
+            if (Number.isFinite(safeAyahNumber) && safeAyahNumber > 0) {
+                if (!tracker.versesCoveredLookup[safeAyahNumber]) {
+                    tracker.versesCoveredLookup[safeAyahNumber] = true;
+                    tracker.versesCovered.push(safeAyahNumber);
+                    tracker.versesCovered.sort((left, right) => left - right);
+                }
+            }
+            if (Number.isFinite(Number(repetitionIncrement)) && repetitionIncrement > 0) {
+                tracker.repetitionsCompleted += Number(repetitionIncrement);
+            }
+            this.scheduleSessionHistoryInactivityTimeout();
+            return tracker;
+        },
+        scheduleSessionHistoryInactivityTimeout() {
+            this.clearSessionHistoryInactivityTimeout();
+            if (!this.sessionHistoryActiveTracker) return;
+            const waitMs = Math.max(
+                30000,
+                Number(this.sessionHistoryInactivityThresholdMs || 0)
+            );
+            this.sessionHistoryInactivityTimeout = setTimeout(() => {
+                this.finalizeSessionHistoryEntry("inactive");
+            }, waitMs);
+        },
+        buildSessionHistoryEntryFromTracker(tracker, reason = "completed") {
+            if (!tracker || typeof tracker !== "object") return null;
+            const endedAt = Math.max(
+                Number(tracker.lastActiveAt || 0) || Date.now(),
+                Number(tracker.startedAt || 0) || Date.now()
+            );
+            const startedAt = Math.min(
+                Number(tracker.startedAt || endedAt) || endedAt,
+                endedAt
+            );
+            const sessionConfig = this.normaliseMemorisationPresetConfig(
+                tracker.sessionConfig || this.getCurrentSessionHistoryConfig()
+            );
+            const surahNumber = Number(
+                tracker.surahNumber || sessionConfig.surahNumber || this.selectedSurah || 1
+            );
+            const rangeStart = Math.max(
+                1,
+                Number(tracker.rangeStart || sessionConfig.rangeStart || 1)
+            );
+            const rangeEnd = Math.max(
+                rangeStart,
+                Number(
+                    tracker.rangeEnd || sessionConfig.rangeEnd || tracker.rangeStart || 1
+                )
+            );
+            const versesCovered = Array.from(
+                new Set(
+                    (Array.isArray(tracker.versesCovered) ? tracker.versesCovered : [])
+                        .map((value) => Number(value || 0))
+                        .filter((value) => Number.isFinite(value) && value > 0)
+                )
+            ).sort((left, right) => left - right);
+            return this.normalizeSessionHistoryEntry({
+                id: tracker.id || this.createSessionHistoryEntryId(),
+                sessionId: tracker.sessionId || tracker.id,
+                startedAt,
+                endedAt,
+                surahNumber,
+                surahName: this.getSurahNameByNumber(surahNumber),
+                surahArabicName: this.getSurahArabicNameByNumber(surahNumber),
+                rangeStart,
+                rangeEnd,
+                durationMs: Math.max(0, endedAt - startedAt),
+                versesCovered,
+                versesCoveredCount: versesCovered.length,
+                repetitionsCompleted: Math.max(
+                    0,
+                    Number(tracker.repetitionsCompleted || 0)
+                ),
+                toolsUsed:
+                    Array.isArray(tracker.toolsUsed) && tracker.toolsUsed.length
+                        ? tracker.toolsUsed
+                        : this.getToolsUsedFromSessionConfig(sessionConfig),
+                accuracyScore:
+                    tracker.accuracyScore === null ||
+                    tracker.accuracyScore === undefined
+                        ? this.resolveSessionHistoryAccuracyScore(sessionConfig)
+                        : tracker.accuracyScore,
+                note: String(tracker.note || "").trim(),
+                completionReason: reason,
+                sessionConfig,
+            });
+        },
+        shouldPersistSessionHistoryEntry(entry) {
+            if (!entry) return false;
+            const durationMs = Math.max(0, Number(entry.durationMs || 0) || 0);
+            const verseCount = Math.max(
+                0,
+                Number(entry.versesCoveredCount || entry.versesCovered?.length || 0)
+            );
+            const repetitions = Math.max(
+                0,
+                Number(entry.repetitionsCompleted || 0) || 0
+            );
+            const hasNote = !!String(entry.note || "").trim();
+            return (
+                durationMs >=
+                    Math.max(
+                        0,
+                        Number(this.sessionHistoryMinimumDurationMs || 0) || 0
+                    ) ||
+                verseCount > 0 ||
+                repetitions > 0 ||
+                hasNote
+            );
+        },
+        finalizeSessionHistoryEntry(reason = "completed", options = {}) {
+            const { force = false } = options || {};
+            const tracker = this.sessionHistoryActiveTracker;
+            if (!tracker) return null;
+            const entry = this.buildSessionHistoryEntryFromTracker(tracker, reason);
+            this.clearActiveSessionHistoryTracker();
+            if (!entry) return null;
+            if (!force && !this.shouldPersistSessionHistoryEntry(entry)) {
+                return null;
+            }
+            const previousEntries = Array.isArray(this.sessionHistoryEntries)
+                ? [...this.sessionHistoryEntries]
+                : [];
+            const nextEntries = [
+                entry,
+                ...(Array.isArray(this.sessionHistoryEntries)
+                    ? this.sessionHistoryEntries.filter(
+                          (item) => String(item?.id || "") !== String(entry.id || "")
+                      )
+                    : []),
+            ];
+            this.setSessionHistoryEntries(nextEntries);
+            this.persistSessionHistory();
+            this.maybeCelebrateSessionHistoryMilestones(entry, previousEntries);
+            return entry;
+        },
+        maybeCelebrateSessionHistoryMilestones(entry, previousEntries = []) {
+            const nextEntries = this.sessionHistoryEntries || [];
+            const previousStats = this.getSessionHistoryStats(previousEntries);
+            const nextStats = this.getSessionHistoryStats(nextEntries);
+            const messages = [];
+            [7, 30].forEach((milestone) => {
+                if (
+                    Number(previousStats.bestStreak || 0) < milestone &&
+                    Number(nextStats.bestStreak || 0) >= milestone
+                ) {
+                    messages.push(
+                        `${milestone}-day streak reached. MashaAllah, keep the Quran close.`
+                    );
+                }
+            });
+            const previousCompletedSurah =
+                this.findFirstCompletedSurahSession(previousEntries);
+            const nextCompletedSurah = this.findFirstCompletedSurahSession(nextEntries);
+            if (!previousCompletedSurah && nextCompletedSurah) {
+                messages.push(
+                    `First full surah saved: ${nextCompletedSurah.surahName}.`
+                );
+            }
+            if (!messages.length || !entry) return;
+            this.showToast(messages.join(" "), 3600);
+        },
+        finalizeSessionHistoryIfStale() {
+            const tracker = this.sessionHistoryActiveTracker;
+            if (!tracker) return null;
+            const idleForMs =
+                Date.now() - Number(tracker.lastActiveAt || tracker.startedAt || 0);
+            if (
+                idleForMs <
+                Math.max(
+                    30000,
+                    Number(this.sessionHistoryInactivityThresholdMs || 0)
+                )
+            ) {
+                return null;
+            }
+            return this.finalizeSessionHistoryEntry("inactive");
+        },
+        formatSessionHistoryDateTime(timestamp) {
+            const date = new Date(Number(timestamp || 0));
+            if (Number.isNaN(date.getTime())) return "";
+            const dayLabel = date.toLocaleDateString(undefined, {
+                month: "long",
+                day: "numeric",
+                year: "numeric",
+            });
+            const timeLabel = date.toLocaleTimeString(undefined, {
+                hour: "numeric",
+                minute: "2-digit",
+            });
+            return `${dayLabel} · ${timeLabel}`;
+        },
+        formatSessionHistoryDuration(durationMs, options = {}) {
+            const { short = false } = options || {};
+            const safeMs = Math.max(0, Number(durationMs || 0) || 0);
+            const totalMinutes = Math.max(1, Math.round(safeMs / 60000));
+            const hours = Math.floor(totalMinutes / 60);
+            const minutes = totalMinutes % 60;
+            if (short) {
+                if (hours && minutes) return `${hours}h ${minutes}m`;
+                if (hours) return `${hours}h`;
+                return `${minutes}m`;
+            }
+            if (hours && minutes) {
+                return `${hours} hr ${minutes} min`;
+            }
+            if (hours) {
+                return `${hours} hour${hours === 1 ? "" : "s"}`;
+            }
+            return `${minutes} minute${minutes === 1 ? "" : "s"}`;
+        },
+        formatSessionHistoryRange(entry) {
+            if (!entry) return "";
+            const surahNumber = Number(entry?.surahNumber || 0);
+            const surahName =
+                entry?.surahName || this.getSurahNameByNumber(surahNumber || 1);
+            const start = Number(entry?.rangeStart || 1);
+            const end = Math.max(start, Number(entry?.rangeEnd || start));
+            return `${surahName} ${start}${end !== start ? `-${end}` : ""}`;
+        },
+        getSessionHistoryEntryById(entryId = "") {
+            const normalizedId = String(entryId || "").trim();
+            if (!normalizedId) return null;
+            return (
+                (this.sessionHistoryEntries || []).find(
+                    (entry) => String(entry?.id || "") === normalizedId
+                ) || null
+            );
+        },
+        getSessionHistoryEntryDateKey(entry) {
+            if (!entry) return "";
+            const explicit = String(entry?.dateKey || "").trim();
+            if (explicit) return explicit;
+            const fallbackTimestamp = Number(
+                entry?.endedAt || entry?.startedAt || entry?.createdAt || 0
+            );
+            return fallbackTimestamp ? this.toDateKey(fallbackTimestamp) : "";
+        },
+        getSessionHistoryMonthKeyFromDateKey(dateKey = "") {
+            const normalizedDateKey = String(dateKey || "").trim();
+            if (/^\d{4}-\d{2}-\d{2}$/.test(normalizedDateKey)) {
+                return normalizedDateKey.slice(0, 7);
+            }
+            return this.toMonthKey(normalizedDateKey);
+        },
+        formatSessionHistoryVersesCoveredLabel(entry) {
+            const count = Math.max(
+                0,
+                Number(entry?.versesCoveredCount || entry?.versesCovered?.length || 0)
+            );
+            return `${count} verse${count === 1 ? "" : "s"}`;
+        },
+        formatSessionHistoryRepetitionsLabel(entry) {
+            const count = Math.max(
+                0,
+                Number(entry?.repetitionsCompleted || 0) || 0
+            );
+            return `${count} total repetition${count === 1 ? "" : "s"}`;
+        },
+        getSessionHistoryEntrySearchText(entry) {
+            if (!entry) return "";
+            return [
+                this.formatSessionHistoryDateTime(entry.endedAt || entry.startedAt),
+                this.formatDateKey(this.getSessionHistoryEntryDateKey(entry)),
+                this.getSessionHistoryEntryDateKey(entry),
+                this.formatSessionHistoryRange(entry),
+                entry?.surahName,
+                entry?.surahArabicName,
+                entry?.note,
+                String(entry?.rangeStart || ""),
+                String(entry?.rangeEnd || ""),
+                (entry?.toolsUsed || []).map((tool) => tool?.label || tool?.id).join(" "),
+                String(entry?.completionReason || ""),
+            ]
+                .join(" ")
+                .toLowerCase();
+        },
+        matchesSessionHistoryFilters(entry) {
+            if (!entry) return false;
+            const query = String(this.sessionHistorySearchQuery || "")
+                .trim()
+                .toLowerCase();
+            if (query && !this.getSessionHistoryEntrySearchText(entry).includes(query)) {
+                return false;
+            }
+            if (
+                this.sessionHistoryFilterSurah &&
+                String(entry?.surahNumber || "") !==
+                    String(this.sessionHistoryFilterSurah || "")
+            ) {
+                return false;
+            }
+            if (this.sessionHistoryFilterTool) {
+                const selectedTool = String(this.sessionHistoryFilterTool || "").trim();
+                const hasTool = (entry?.toolsUsed || []).some(
+                    (tool) => String(tool?.id || "") === selectedTool
+                );
+                if (!hasTool) return false;
+            }
+            const dateKey = this.getSessionHistoryEntryDateKey(entry);
+            if (
+                this.sessionHistoryFilterStartDate &&
+                dateKey < String(this.sessionHistoryFilterStartDate)
+            ) {
+                return false;
+            }
+            if (
+                this.sessionHistoryFilterEndDate &&
+                dateKey > String(this.sessionHistoryFilterEndDate)
+            ) {
+                return false;
+            }
+            const durationMs = Math.max(0, Number(entry?.durationMs || 0) || 0);
+            if (this.sessionHistoryFilterDuration === "short" && durationMs >= 10 * 60000) {
+                return false;
+            }
+            if (
+                this.sessionHistoryFilterDuration === "medium" &&
+                (durationMs < 10 * 60000 || durationMs > 30 * 60000)
+            ) {
+                return false;
+            }
+            if (this.sessionHistoryFilterDuration === "long" && durationMs <= 30 * 60000) {
+                return false;
+            }
+            return true;
+        },
+        matchesSessionHistoryAnalyticsFilters(entry, surahNumber = 0) {
+            if (!entry) return false;
+            const targetSurahNumber = Number(surahNumber || 0);
+            if (
+                targetSurahNumber > 0 &&
+                Number(entry?.surahNumber || 0) !== targetSurahNumber
+            ) {
+                return false;
+            }
+            const query = String(this.sessionHistorySearchQuery || "")
+                .trim()
+                .toLowerCase();
+            if (query && !this.getSessionHistoryEntrySearchText(entry).includes(query)) {
+                return false;
+            }
+            if (this.sessionHistoryFilterTool) {
+                const selectedTool = String(this.sessionHistoryFilterTool || "").trim();
+                const hasTool = (entry?.toolsUsed || []).some(
+                    (tool) => String(tool?.id || "") === selectedTool
+                );
+                if (!hasTool) return false;
+            }
+            const dateKey = this.getSessionHistoryEntryDateKey(entry);
+            if (
+                this.sessionHistoryFilterStartDate &&
+                dateKey < String(this.sessionHistoryFilterStartDate)
+            ) {
+                return false;
+            }
+            if (
+                this.sessionHistoryFilterEndDate &&
+                dateKey > String(this.sessionHistoryFilterEndDate)
+            ) {
+                return false;
+            }
+            const durationMs = Math.max(0, Number(entry?.durationMs || 0) || 0);
+            if (this.sessionHistoryFilterDuration === "short" && durationMs >= 10 * 60000) {
+                return false;
+            }
+            if (
+                this.sessionHistoryFilterDuration === "medium" &&
+                (durationMs < 10 * 60000 || durationMs > 30 * 60000)
+            ) {
+                return false;
+            }
+            if (this.sessionHistoryFilterDuration === "long" && durationMs <= 30 * 60000) {
+                return false;
+            }
+            return true;
+        },
+        clearSessionHistoryFilters() {
+            this.sessionHistorySearchQuery = "";
+            this.sessionHistoryFilterSurah = "";
+            this.sessionHistoryFilterTool = "";
+            this.sessionHistoryFilterStartDate = "";
+            this.sessionHistoryFilterEndDate = "";
+            this.sessionHistoryFilterDuration = "";
+            this.sessionHistoryFiltersExpanded = false;
+            this.sessionHistorySelectedDateKey = "";
+        },
+        clearSessionHistoryFilter(filterKey = "") {
+            const normalizedKey = String(filterKey || "").trim();
+            if (!normalizedKey) return;
+            if (normalizedKey === "search") {
+                this.sessionHistorySearchQuery = "";
+            } else if (normalizedKey === "surah") {
+                this.sessionHistoryFilterSurah = "";
+            } else if (normalizedKey === "tool") {
+                this.sessionHistoryFilterTool = "";
+            } else if (normalizedKey === "dateRange") {
+                this.sessionHistoryFilterStartDate = "";
+                this.sessionHistoryFilterEndDate = "";
+            } else if (normalizedKey === "duration") {
+                this.sessionHistoryFilterDuration = "";
+            }
+            if (!this.sessionHistoryHasAdvancedFiltersApplied) {
+                this.sessionHistoryFiltersExpanded = false;
+            }
+        },
+        loadStarterSessionHistory(options = {}) {
+            const {
+                merge = true,
+                announce = false,
+                focusFirst = true,
+                resetFilters = true,
+            } = options || {};
+            const previousCount = Math.max(
+                0,
+                Number(this.sessionHistoryEntries?.length || 0) || 0
+            );
+            const entries = this.seedSessionHistoryEntries({
+                merge,
+                announce: false,
+            });
+            if (!entries.length) return [];
+            if (resetFilters) {
+                this.clearSessionHistoryFilters();
+            }
+            this.sessionHistoryView = "list";
+            const preferredEntry =
+                entries.find((entry) => this.isSeededSessionHistoryEntry(entry)) ||
+                entries[0] ||
+                null;
+            if (focusFirst && preferredEntry?.id) {
+                this.setSessionHistorySelectedEntry(preferredEntry.id);
+            }
+            if (announce) {
+                const nextCount = Math.max(
+                    0,
+                    Number(this.sessionHistoryEntries?.length || 0) || 0
+                );
+                const message =
+                    nextCount > previousCount
+                        ? "Starter session history loaded."
+                        : "Starter session history is ready.";
+                this.showToast(message, 2400);
+            }
+            return this.sessionHistoryEntries;
+        },
+        getSessionHistoryTimeBucketLabel(input) {
+            const date = input instanceof Date ? input : new Date(input);
+            if (Number.isNaN(date.getTime())) return "daytime";
+            const hour = date.getHours();
+            if (hour < 6) return "late nights";
+            if (hour < 12) return "mornings";
+            if (hour < 17) return "afternoons";
+            if (hour < 21) return "evenings";
+            return "nights";
+        },
+        getSessionHistoryStreakStats(entries = []) {
+            const uniqueDateKeys = Array.from(
+                new Set(
+                    (Array.isArray(entries) ? entries : [])
+                        .map((entry) => String(entry?.dateKey || "").trim())
+                        .filter(Boolean)
+                )
+            ).sort();
+            if (!uniqueDateKeys.length) {
+                return { currentStreak: 0, bestStreak: 0 };
+            }
+            let bestStreak = 1;
+            let runningStreak = 1;
+            for (let index = 1; index < uniqueDateKeys.length; index += 1) {
+                const previous = new Date(`${uniqueDateKeys[index - 1]}T12:00:00`);
+                const current = new Date(`${uniqueDateKeys[index]}T12:00:00`);
+                const diffDays = Math.round(
+                    (current.getTime() - previous.getTime()) / 86400000
+                );
+                if (diffDays === 1) {
+                    runningStreak += 1;
+                    bestStreak = Math.max(bestStreak, runningStreak);
+                } else {
+                    runningStreak = 1;
+                }
+            }
+            let currentStreak = 0;
+            const todayKey = this.toDateKey(new Date());
+            const yesterdayKey = this.addDaysToDateKey(todayKey, -1);
+            const latestKey = uniqueDateKeys[uniqueDateKeys.length - 1];
+            if (latestKey === todayKey || latestKey === yesterdayKey) {
+                currentStreak = 1;
+                for (let index = uniqueDateKeys.length - 1; index > 0; index -= 1) {
+                    const current = new Date(`${uniqueDateKeys[index]}T12:00:00`);
+                    const previous = new Date(`${uniqueDateKeys[index - 1]}T12:00:00`);
+                    const diffDays = Math.round(
+                        (current.getTime() - previous.getTime()) / 86400000
+                    );
+                    if (diffDays !== 1) break;
+                    currentStreak += 1;
+                }
+            }
+            return { currentStreak, bestStreak };
+        },
+        getSessionHistoryStats(entries = []) {
+            const list = Array.isArray(entries) ? entries : [];
+            const totalSessions = list.length;
+            const totalDurationMs = list.reduce(
+                (sum, entry) => sum + Math.max(0, Number(entry?.durationMs || 0) || 0),
+                0
+            );
+            const averageDurationMs = totalSessions
+                ? Math.round(totalDurationMs / totalSessions)
+                : 0;
+            const surahTotals = Object.create(null);
+            const weekdayTotals = Object.create(null);
+            const bucketTotals = Object.create(null);
+            list.forEach((entry) => {
+                const when = new Date(Number(entry?.endedAt || entry?.startedAt || 0));
+                const weekday = when.toLocaleDateString(undefined, {
+                    weekday: "long",
+                });
+                const bucket = this.getSessionHistoryTimeBucketLabel(when);
+                const durationMs = Math.max(
+                    0,
+                    Number(entry?.durationMs || 0) || 0
+                );
+                const surahName =
+                    entry?.surahName ||
+                    this.getSurahNameByNumber(Number(entry?.surahNumber || 1));
+                if (!surahTotals[surahName]) {
+                    surahTotals[surahName] = { count: 0, durationMs: 0 };
+                }
+                surahTotals[surahName].count += 1;
+                surahTotals[surahName].durationMs += durationMs;
+                weekdayTotals[weekday] = (weekdayTotals[weekday] || 0) + durationMs;
+                bucketTotals[bucket] = (bucketTotals[bucket] || 0) + durationMs;
+            });
+            const topSurahEntry = Object.entries(surahTotals).sort(
+                ([, left], [, right]) =>
+                    Number(right?.count || 0) - Number(left?.count || 0) ||
+                    Number(right?.durationMs || 0) - Number(left?.durationMs || 0)
+            )[0];
+            const topWeekdayEntry = Object.entries(weekdayTotals).sort(
+                ([, left], [, right]) => Number(right || 0) - Number(left || 0)
+            )[0];
+            const topBucketEntry = Object.entries(bucketTotals).sort(
+                ([, left], [, right]) => Number(right || 0) - Number(left || 0)
+            )[0];
+            const streaks = this.getSessionHistoryStreakStats(list);
+            return {
+                totalSessions,
+                totalDurationMs,
+                averageDurationMs,
+                topSurahLabel: topSurahEntry
+                    ? `${topSurahEntry[0]} (${topSurahEntry[1].count})`
+                    : "No sessions yet",
+                topWeekdayLabel: topWeekdayEntry?.[0] || "No pattern yet",
+                topTimeLabel: topBucketEntry?.[0] || "No pattern yet",
+                currentStreak: streaks.currentStreak,
+                bestStreak: streaks.bestStreak,
+            };
+        },
+        isSessionHistoryFullSurahCompletion(entry) {
+            if (!entry) return false;
+            const surahNumber = Number(entry?.surahNumber || 0);
+            const totalAyahs = Math.max(
+                0,
+                Number(this.getSurahAyahCountByNumber(surahNumber) || 0)
+            );
+            if (!surahNumber || !totalAyahs) return false;
+            const rangeStart = Math.max(1, Number(entry?.rangeStart || 1) || 1);
+            const rangeEnd = Math.max(
+                rangeStart,
+                Number(entry?.rangeEnd || rangeStart) || rangeStart
+            );
+            return rangeStart === 1 && rangeEnd >= totalAyahs;
+        },
+        findFirstCompletedSurahSession(entries = []) {
+            return (Array.isArray(entries) ? entries : [])
+                .filter((entry) => this.isSessionHistoryFullSurahCompletion(entry))
+                .sort(
+                    (left, right) =>
+                        Number(left?.endedAt || 0) - Number(right?.endedAt || 0)
+                )[0] || null;
+        },
+        getSessionHistoryMilestoneMoments(entries = []) {
+            const list = Array.isArray(entries) ? entries : [];
+            if (!list.length) return [];
+            const stats = this.getSessionHistoryStats(list);
+            const moments = [];
+            if (stats.currentStreak >= 30) {
+                moments.push({
+                    id: "streak-30",
+                    icon: "bi bi-stars",
+                    title: "30-day streak",
+                    detail: "A full month of consistency is logged. MashaAllah.",
+                });
+            } else if (stats.currentStreak >= 7) {
+                moments.push({
+                    id: "streak-7",
+                    icon: "bi bi-brightness-high",
+                    title: "7-day streak",
+                    detail: "A full week of memorisation is holding steady.",
+                });
+            } else if (stats.bestStreak >= 30) {
+                moments.push({
+                    id: "best-30",
+                    icon: "bi bi-trophy",
+                    title: "30-day best streak",
+                    detail: "Your strongest stretch reached a full month.",
+                });
+            } else if (stats.bestStreak >= 7) {
+                moments.push({
+                    id: "best-7",
+                    icon: "bi bi-trophy",
+                    title: "7-day best streak",
+                    detail: "You have already completed a full week streak.",
+                });
+            }
+            const firstCompletedSurah = this.findFirstCompletedSurahSession(list);
+            if (firstCompletedSurah) {
+                moments.push({
+                    id: `surah-${firstCompletedSurah.id}`,
+                    icon: "bi bi-book-half",
+                    title: "First completed surah",
+                    detail: `${firstCompletedSurah.surahName} was saved as a full-surah session.`,
+                });
+            }
+            return moments.slice(0, 3);
+        },
+        extractSessionHistoryAyahMentions(note = "", surahNumber = 0) {
+            const text = String(note || "").trim();
+            if (!text) return [];
+            const maxAyah = Math.max(
+                0,
+                Number(this.getSurahAyahCountByNumber(surahNumber) || 0)
+            );
+            const mentions = [];
+            const rangePattern = /\b(\d{1,3})\s*[-to]+\s*(\d{1,3})\b/gi;
+            let rangeMatch = rangePattern.exec(text);
+            while (rangeMatch) {
+                const start = Number(rangeMatch[1] || 0);
+                const end = Number(rangeMatch[2] || 0);
+                if (
+                    start > 0 &&
+                    end >= start &&
+                    (!maxAyah || end <= maxAyah) &&
+                    end - start <= 10
+                ) {
+                    for (let ayah = start; ayah <= end; ayah += 1) {
+                        mentions.push(ayah);
+                    }
+                }
+                rangeMatch = rangePattern.exec(text);
+            }
+            const singleMatches = text.match(/\b\d{1,3}\b/g) || [];
+            singleMatches.forEach((value) => {
+                const numeric = Number(value || 0);
+                if (!numeric) return;
+                if (maxAyah && numeric > maxAyah) return;
+                mentions.push(numeric);
+            });
+            return Array.from(new Set(mentions)).sort((left, right) => left - right);
+        },
+        getSessionHistorySurahAnalytics(entries = [], surahNumber = 0) {
+            const list = Array.isArray(entries) ? entries : [];
+            const safeSurahNumber = Number(surahNumber || 0);
+            const sessionsCount = list.length;
+            const totalDurationMs = list.reduce(
+                (sum, entry) => sum + Math.max(0, Number(entry?.durationMs || 0) || 0),
+                0
+            );
+            const averageDurationMs = sessionsCount
+                ? Math.round(totalDurationMs / sessionsCount)
+                : 0;
+            const scoredEntries = list.filter((entry) =>
+                Number.isFinite(Number(entry?.accuracyScore))
+            );
+            const averageAccuracy = scoredEntries.length
+                ? Math.round(
+                      scoredEntries.reduce(
+                          (sum, entry) =>
+                              sum + Math.max(0, Number(entry?.accuracyScore || 0) || 0),
+                          0
+                      ) / scoredEntries.length
+                  )
+                : null;
+            const rangeTotals = Object.create(null);
+            const ayahMentionTotals = Object.create(null);
+            const notedSessions = [];
+            list.forEach((entry) => {
+                const rangeLabel = `${entry?.rangeStart || 1}-${entry?.rangeEnd || entry?.rangeStart || 1}`;
+                rangeTotals[rangeLabel] = (rangeTotals[rangeLabel] || 0) + 1;
+                const note = String(entry?.note || "").trim();
+                if (note) {
+                    notedSessions.push(entry);
+                    this.extractSessionHistoryAyahMentions(note, safeSurahNumber).forEach(
+                        (ayahNumber) => {
+                            ayahMentionTotals[ayahNumber] =
+                                (ayahMentionTotals[ayahNumber] || 0) + 1;
+                        }
+                    );
+                }
+            });
+            const topRangeEntry = Object.entries(rangeTotals).sort(
+                ([, left], [, right]) => Number(right || 0) - Number(left || 0)
+            )[0];
+            const topAyahMentions = Object.entries(ayahMentionTotals)
+                .sort(
+                    ([leftAyah, leftCount], [rightAyah, rightCount]) =>
+                        Number(rightCount || 0) - Number(leftCount || 0) ||
+                        Number(leftAyah || 0) - Number(rightAyah || 0)
+                )
+                .slice(0, 6)
+                .map(([ayahNumber, count]) => ({
+                    ayahNumber: Number(ayahNumber || 0),
+                    count: Number(count || 0) || 0,
+                }));
+            return {
+                surahNumber: safeSurahNumber,
+                surahName: this.getSurahNameByNumber(safeSurahNumber),
+                sessionsCount,
+                totalDurationMs,
+                averageDurationMs,
+                averageAccuracy,
+                scoredSessionsCount: scoredEntries.length,
+                notedSessionsCount: notedSessions.length,
+                topRangeLabel: topRangeEntry
+                    ? `${topRangeEntry[0]} (${topRangeEntry[1]})`
+                    : "No repeated range yet",
+                topAyahMentions,
+                recentNotedSessions: notedSessions
+                    .sort(
+                        (left, right) =>
+                            Number(right?.endedAt || 0) - Number(left?.endedAt || 0)
+                    )
+                    .slice(0, 4),
+            };
+        },
+        describeSessionHistoryPattern(entries = []) {
+            const stats = this.getSessionHistoryStats(entries);
+            if (!stats.totalSessions) {
+                return "Complete a few memorisation sessions to reveal your rhythm.";
+            }
+            const streakCopy = stats.bestStreak
+                ? ` Best streak: ${stats.bestStreak} day${
+                      stats.bestStreak === 1 ? "" : "s"
+                  }.`
+                : "";
+            return `You're most productive on ${stats.topWeekdayLabel.toLowerCase()} ${stats.topTimeLabel}.${streakCopy}`;
+        },
+        buildSessionHistoryHeatmapCells(entries = []) {
+            const today = new Date();
+            const totalDays = Math.max(
+                28,
+                Number(this.sessionHistoryHeatmapWindowDays || 84)
+            );
+            const end = new Date(today);
+            end.setHours(12, 0, 0, 0);
+            const start = new Date(end);
+            start.setDate(end.getDate() - (totalDays - 1));
+            start.setHours(12, 0, 0, 0);
+            const alignedStart = new Date(start);
+            alignedStart.setDate(start.getDate() - start.getDay());
+            alignedStart.setHours(12, 0, 0, 0);
+            const alignedEnd = new Date(end);
+            alignedEnd.setDate(end.getDate() + (6 - end.getDay()));
+            alignedEnd.setHours(12, 0, 0, 0);
+            const aggregateMap = Object.create(null);
+            (Array.isArray(entries) ? entries : []).forEach((entry) => {
+                const dateKey = this.getSessionHistoryEntryDateKey(entry);
+                if (!dateKey) return;
+                if (!aggregateMap[dateKey]) {
+                    aggregateMap[dateKey] = { count: 0, durationMs: 0 };
+                }
+                aggregateMap[dateKey].count += 1;
+                aggregateMap[dateKey].durationMs += Math.max(
+                    0,
+                    Number(entry?.durationMs || 0) || 0
+                );
+            });
+            const cellCount = Math.max(
+                7,
+                Math.round(
+                    (alignedEnd.getTime() - alignedStart.getTime()) / 86400000
+                ) + 1
+            );
+            const cells = Array.from({ length: cellCount }, (_, index) => {
+                const cellDate = new Date(alignedStart);
+                cellDate.setDate(alignedStart.getDate() + index);
+                const dateKey = this.toDateKey(cellDate);
+                const aggregate = aggregateMap[dateKey] || {
+                    count: 0,
+                    durationMs: 0,
+                };
+                const inWindow =
+                    cellDate.getTime() >= start.getTime() &&
+                    cellDate.getTime() <= end.getTime();
+                const totalMinutes = Math.round(
+                    Math.max(0, Number(aggregate.durationMs || 0)) / 60000
+                );
+                const weight = inWindow
+                    ? Number(aggregate.count || 0) * 2 + totalMinutes
+                    : 0;
+                return {
+                    dateKey,
+                    slotKey: `${dateKey}-${index}`,
+                    weekday: cellDate.toLocaleDateString(undefined, {
+                        weekday: "short",
+                    }),
+                    weekdayIndex: cellDate.getDay(),
+                    dayOfMonth: cellDate.getDate(),
+                    monthKey: this.getSessionHistoryMonthKeyFromDateKey(dateKey),
+                    monthLabel: cellDate.toLocaleDateString(undefined, {
+                        month: "short",
+                    }),
+                    inWindow,
+                    isToday: inWindow && dateKey === this.toDateKey(today),
+                    count: Number(aggregate.count || 0) || 0,
+                    durationMs: Math.max(
+                        0,
+                        Number(aggregate.durationMs || 0) || 0
+                    ),
+                    totalMinutes,
+                    weight,
+                };
+            });
+            const maxWeight = Math.max(
+                1,
+                ...cells
+                    .filter((cell) => cell.inWindow)
+                    .map((cell) => Number(cell.weight || 0) || 0)
+            );
+            return cells.map((cell) => ({
+                ...cell,
+                level:
+                    !cell.inWindow || cell.weight <= 0
+                        ? 0
+                        : Math.max(
+                              1,
+                              Math.min(
+                                  4,
+                                  Math.ceil((Number(cell.weight || 0) / maxWeight) * 4)
+                              )
+                          ),
+            }));
+        },
+        getSessionHistoryHeatmapCellTitle(cell) {
+            if (!cell) return "";
+            if (!cell.inWindow) {
+                return "";
+            }
+            if (!cell.count) {
+                return `${this.formatDateKey(cell.dateKey)}: no sessions`;
+            }
+            return `${this.formatDateKey(cell.dateKey)}: ${cell.count} session${
+                cell.count === 1 ? "" : "s"
+            } · ${this.formatSessionHistoryDuration(cell.durationMs)}`;
+        },
+        getSessionHistoryForecast(entries = []) {
+            const list = Array.isArray(entries) ? entries : [];
+            const todayKey = this.toDateKey(new Date());
+            const defaultWindowDays = 14;
+            const startKey = this.addDaysToDateKey(
+                todayKey,
+                -(defaultWindowDays - 1)
+            );
+            const recentEntries = list.filter((entry) => {
+                const dateKey = this.getSessionHistoryEntryDateKey(entry);
+                return dateKey >= startKey && dateKey <= todayKey;
+            });
+            if (!recentEntries.length) {
+                return {
+                    hasForecast: false,
+                    sourceDays: defaultWindowDays,
+                    projectedSessions7d: 0,
+                    projectedDurationMs7d: 0,
+                    projectedActiveDays7d: 0,
+                };
+            }
+            const recentDateKeys = Array.from(
+                new Set(
+                    recentEntries
+                        .map((entry) => this.getSessionHistoryEntryDateKey(entry))
+                        .filter(Boolean)
+                )
+            ).sort();
+            const oldestKey = recentDateKeys[0] || startKey;
+            const oldestDate = new Date(`${oldestKey}T12:00:00`);
+            const todayDate = new Date(`${todayKey}T12:00:00`);
+            const observedDays = Math.max(
+                7,
+                Math.min(
+                    defaultWindowDays,
+                    Math.round(
+                        (todayDate.getTime() - oldestDate.getTime()) / 86400000
+                    ) + 1
+                )
+            );
+            const totalSessions = recentEntries.length;
+            const totalDurationMs = recentEntries.reduce(
+                (sum, entry) =>
+                    sum + Math.max(0, Number(entry?.durationMs || 0) || 0),
+                0
+            );
+            const activeDays = recentDateKeys.length;
+            return {
+                hasForecast: true,
+                sourceDays: observedDays,
+                projectedSessions7d: Math.max(
+                    1,
+                    Math.round((totalSessions / observedDays) * 7)
+                ),
+                projectedDurationMs7d: Math.max(
+                    60000,
+                    Math.round((totalDurationMs / observedDays) * 7)
+                ),
+                projectedActiveDays7d: Math.min(
+                    7,
+                    Math.max(1, Math.round((activeDays / observedDays) * 7))
+                ),
+            };
+        },
+        isSessionHistoryStackedLayout() {
+            if (typeof window === "undefined") return false;
+            if (typeof window.matchMedia === "function") {
+                return window.matchMedia("(max-width: 1199.98px)").matches;
+            }
+            return Number(window.innerWidth || 0) <= 1199;
+        },
+        isSessionHistoryModalOpen() {
+            if (typeof document === "undefined") return false;
+            const modalEl = document.getElementById(this.sessionHistoryModalId);
+            return !!modalEl && modalEl.classList.contains("show");
+        },
+        getSessionHistoryRefElement(refName = "") {
+            if (!refName || !this.$refs) return null;
+            const refValue = this.$refs[refName];
+            if (Array.isArray(refValue)) {
+                return refValue[0] || null;
+            }
+            return refValue || null;
+        },
+        ensureSessionHistoryEntryVisible(entryId = "", options = {}) {
+            const normalizedId = String(entryId || "").trim();
+            if (!normalizedId) return null;
+            const entry = this.getSessionHistoryEntryById(normalizedId);
+            if (!entry) return null;
+            if (this.matchesSessionHistoryFilters(entry)) {
+                return entry;
+            }
+            this.clearSessionHistoryFilters();
+            if (!options.silent) {
+                this.showToast("Filters cleared to show this session.", 2200);
+            }
+            return entry;
+        },
+        scrollSessionHistorySelectedPanelIntoView(options = {}) {
+            if (!this.isSessionHistoryStackedLayout()) return;
+            this.$nextTick(() => {
+                const panel = this.getSessionHistoryRefElement(
+                    "sessionHistorySelectedPanel"
+                );
+                if (!panel || typeof panel.scrollIntoView !== "function") return;
+                panel.scrollIntoView({
+                    behavior: options.behavior || "smooth",
+                    block: options.block || "start",
+                    inline: "nearest",
+                });
+            });
+        },
+        scrollSessionHistoryListIntoView(options = {}) {
+            if (!this.isSessionHistoryStackedLayout()) return;
+            this.$nextTick(() => {
+                const list = this.getSessionHistoryRefElement("sessionHistoryList");
+                if (!list || typeof list.scrollIntoView !== "function") return;
+                list.scrollIntoView({
+                    behavior: options.behavior || "smooth",
+                    block: options.block || "start",
+                    inline: "nearest",
+                });
+            });
+        },
+        scrollSessionHistoryCalendarDetailIntoView(options = {}) {
+            if (!this.isSessionHistoryStackedLayout()) return;
+            this.$nextTick(() => {
+                const detail = this.getSessionHistoryRefElement(
+                    "sessionHistoryCalendarDetail"
+                );
+                if (!detail || typeof detail.scrollIntoView !== "function") return;
+                detail.scrollIntoView({
+                    behavior: options.behavior || "smooth",
+                    block: options.block || "start",
+                    inline: "nearest",
+                });
+            });
+        },
+        setSessionHistorySelectedEntry(entryId = "") {
+            this.sessionHistorySelectedEntryId = String(entryId || "").trim();
+            const entry = this.getSessionHistoryEntryById(
+                this.sessionHistorySelectedEntryId
+            );
+            if (entry) {
+                this.sessionHistoryCalendarMonthKey = this.toMonthKey(
+                    Number(entry.endedAt || entry.startedAt || Date.now())
+                );
+                this.sessionHistorySelectedDateKey =
+                    this.getSessionHistoryEntryDateKey(entry);
+                if (typeof this.sessionHistoryNoteDrafts[entry.id] !== "string") {
+                    this.sessionHistoryNoteDrafts = {
+                        ...this.sessionHistoryNoteDrafts,
+                        [entry.id]: entry.note || "",
+                    };
+                }
+                if (
+                    this.sessionHistoryView === "list" &&
+                    this.isSessionHistoryModalOpen()
+                ) {
+                    this.scrollSessionHistorySelectedPanelIntoView();
+                }
+            }
+        },
+        selectSessionHistoryCalendarDate(dateKey = "") {
+            this.sessionHistorySelectedDateKey = String(dateKey || "").trim();
+            const firstEntry = this.sessionHistoryFilteredEntries.find(
+                (entry) =>
+                    this.getSessionHistoryEntryDateKey(entry) ===
+                    String(this.sessionHistorySelectedDateKey || "")
+            );
+            if (firstEntry?.id) {
+                this.setSessionHistorySelectedEntry(firstEntry.id);
+            }
+            if (
+                this.sessionHistoryView === "calendar" &&
+                this.isSessionHistoryModalOpen()
+            ) {
+                this.scrollSessionHistoryCalendarDetailIntoView();
+            }
+        },
+        changeSessionHistoryCalendarMonth(delta = 0) {
+            const monthDate = this.monthKeyToDate(
+                this.sessionHistoryCalendarMonthKey || this.toMonthKey(new Date())
+            );
+            if (!monthDate) return;
+            const nextDate = new Date(monthDate);
+            nextDate.setMonth(monthDate.getMonth() + Number(delta || 0));
+            this.sessionHistoryCalendarMonthKey = this.toMonthKey(nextDate);
+            this.sessionHistorySelectedDateKey = "";
+        },
+        openSessionHistoryHeatmapDate(dateKey = "") {
+            const normalizedDateKey = String(dateKey || "").trim();
+            if (!normalizedDateKey) return;
+            this.sessionHistoryView = "calendar";
+            this.sessionHistoryCalendarMonthKey =
+                this.getSessionHistoryMonthKeyFromDateKey(normalizedDateKey);
+            this.selectSessionHistoryCalendarDate(normalizedDateKey);
+        },
+        getSessionHistoryModalInstance() {
+            if (typeof document === "undefined") return null;
+            const modalEl = document.getElementById(this.sessionHistoryModalId);
+            if (!modalEl) return null;
+            return Modal.getInstance(modalEl) || new Modal(modalEl);
+        },
+        openSessionHistoryModal(entryId = "") {
+            if (!this.sessionHistoryCalendarMonthKey) {
+                this.sessionHistoryCalendarMonthKey = this.toMonthKey(new Date());
+            }
+            if (!this.sessionHistoryHasActiveFilters) {
+                this.sessionHistoryFiltersExpanded = false;
+            }
+            if (!this.sessionHistoryHasEntries) {
+                this.sessionHistoryView = "list";
+            }
+            if (entryId) {
+                this.ensureSessionHistoryEntryVisible(entryId);
+                this.sessionHistoryView = "list";
+                this.setSessionHistorySelectedEntry(entryId);
+            } else if (!this.sessionHistorySelectedEntryId && this.sessionHistoryHasEntries) {
+                this.setSessionHistorySelectedEntry(this.sessionHistoryEntries[0]?.id || "");
+            }
+            const instance = this.getSessionHistoryModalInstance();
+            if (!instance) return;
+            this.sessionHistoryModalInstance = instance;
+            instance.show();
+            if (entryId && this.isSessionHistoryStackedLayout()) {
+                window.setTimeout(() => {
+                    this.scrollSessionHistorySelectedPanelIntoView({
+                        behavior: "smooth",
+                    });
+                }, 220);
+            }
+        },
+        closeSessionHistoryModal() {
+            const instance =
+                this.getSessionHistoryModalInstance() || this.sessionHistoryModalInstance;
+            if (!instance) return;
+            instance.hide();
+        },
+        async reloadSessionHistoryEntry(entry) {
+            const target = this.normalizeSessionHistoryEntry(entry);
+            if (!target?.sessionConfig) return;
+            await this.applyMemorisationSessionConfig(target.sessionConfig, {
+                successMessage: "Session reloaded.",
+                showSubmitAlert: false,
+                closeOffcanvas: false,
+                syncDraft: true,
+            });
+            const startAyah = Number(target.rangeStart || 1);
+            const targetIndex = this.resolveAyahIndexByNumber(startAyah);
+            if (targetIndex >= 0) {
+                this.selectCard(targetIndex);
+                this.scrollToAyahIndex(targetIndex, {
+                    settle: true,
+                    force: true,
+                    behavior: "smooth",
+                    lock: true,
+                });
+            }
+            this.closeSessionHistoryModal();
+        },
+        async viewSessionHistoryVerses(entry) {
+            const target = this.normalizeSessionHistoryEntry(entry);
+            if (!target) return;
+            try {
+                const targetSurah = String(target.surahNumber || "").trim();
+                const startAyah = Math.max(1, Number(target.rangeStart || 1) || 1);
+                const endAyah = Math.max(
+                    startAyah,
+                    Number(target.rangeEnd || startAyah) || startAyah
+                );
+                if (
+                    targetSurah &&
+                    String(this.selectedSurah || "") !== targetSurah
+                ) {
+                    await this.selectSurah(targetSurah, { skipScroll: true });
+                }
+                this.isMemorisationToolbarVisible = true;
+                this.memorisationRangeStart = startAyah;
+                this.memorisationRangeEnd = endAyah;
+                this.applyMemorisationRange();
+                this.memorisationDraft = this.buildMemorisationPresetDraftFromConfig({
+                    ...this.normaliseMemorisationDraftValues(),
+                    surahNumber:
+                        targetSurah || String(this.selectedSurah || ""),
+                    rangeStart: startAyah,
+                    rangeEnd: endAyah,
+                });
+                const targetIndex = this.resolveAyahIndexByNumber(startAyah);
+                if (targetIndex >= 0) {
+                    this.selectCard(targetIndex);
+                    this.scrollToAyahIndex(targetIndex, {
+                        settle: true,
+                        force: true,
+                        behavior: "smooth",
+                        lock: true,
+                    });
+                }
+                this.closeSessionHistoryModal();
+                this.showToast("Verse range opened.", 2200);
+            } catch (error) {
+                console.error("Unable to open session history verses:", error);
+                this.showToast(
+                    "Could not open verses for this session.",
+                    2400
+                );
+            }
+        },
+        initializeSessionHistoryTooltips() {
+            this.disposeSessionHistoryTooltips();
+            if (typeof document === "undefined") return;
+            const modalEl = document.getElementById(this.sessionHistoryModalId);
+            if (!modalEl) return;
+            const nodes = modalEl.querySelectorAll("[data-session-history-tooltip]");
+            this.sessionHistoryTooltipInstances = Array.from(nodes)
+                .map((node) => {
+                    try {
+                        return Tooltip.getOrCreateInstance(node, {
+                            trigger: "hover focus",
+                            container: "body",
+                        });
+                    } catch (_) {
+                        return null;
+                    }
+                })
+                .filter(Boolean);
+        },
+        disposeSessionHistoryTooltips() {
+            if (!Array.isArray(this.sessionHistoryTooltipInstances)) {
+                this.sessionHistoryTooltipInstances = [];
+                return;
+            }
+            this.sessionHistoryTooltipInstances.forEach((instance) => {
+                try {
+                    instance.dispose();
+                } catch (_) {}
+            });
+            this.sessionHistoryTooltipInstances = [];
+        },
+        updateSessionHistoryNoteDraft(entryId = "", value = "") {
+            const normalizedId = String(entryId || "").trim();
+            if (!normalizedId) return;
+            this.sessionHistoryNoteDrafts = {
+                ...this.sessionHistoryNoteDrafts,
+                [normalizedId]: String(value || "").slice(0, 280),
+            };
+        },
+        handleSessionHistoryNoteBlur(event) {
+            const entryId = String(
+                event?.target?.dataset?.sessionHistoryEntryId || ""
+            ).trim();
+            if (!entryId) return;
+            this.saveSessionHistoryNote(entryId, { silent: true });
+        },
+        saveSessionHistoryNote(entryId = "", options = {}) {
+            const normalizedId = String(entryId || "").trim();
+            if (!normalizedId) return;
+            const { silent = false } = options || {};
+            const existingEntry = this.getSessionHistoryEntryById(normalizedId);
+            if (!existingEntry) return;
+            const note = String(this.sessionHistoryNoteDrafts?.[normalizedId] || "")
+                .replace(/\s+/g, " ")
+                .trim()
+                .slice(0, 280);
+            if (note === String(existingEntry.note || "")) {
+                if (
+                    typeof this.sessionHistoryNoteDrafts?.[normalizedId] === "string" &&
+                    this.sessionHistoryNoteDrafts[normalizedId] !== note
+                ) {
+                    this.sessionHistoryNoteDrafts = {
+                        ...this.sessionHistoryNoteDrafts,
+                        [normalizedId]: note,
+                    };
+                }
+                return;
+            }
+            this.sessionHistoryNoteDrafts = {
+                ...this.sessionHistoryNoteDrafts,
+                [normalizedId]: note,
+            };
+            const nextEntries = (this.sessionHistoryEntries || []).map((entry) =>
+                String(entry?.id || "") === normalizedId
+                    ? {
+                          ...entry,
+                          note,
+                      }
+                    : entry
+            );
+            this.setSessionHistoryEntries(nextEntries);
+            this.persistSessionHistory();
+            if (!silent) {
+                this.showToast("Session note saved.", 2200);
+            }
+        },
+        deleteSessionHistoryEntry(entryId = "") {
+            const normalizedId = String(entryId || "").trim();
+            if (!normalizedId) return;
+            const target = (this.sessionHistoryEntries || []).find(
+                (entry) => String(entry?.id || "") === normalizedId
+            );
+            if (!target) return;
+            let shouldDelete = true;
+            if (
+                typeof window !== "undefined" &&
+                typeof window.confirm === "function"
+            ) {
+                shouldDelete = window.confirm(
+                    `Delete session "${this.formatSessionHistoryRange(target)}" from ${this.formatSessionHistoryDateTime(
+                        target.endedAt
+                    )}?`
+                );
+            }
+            if (!shouldDelete) return;
+            this.setSessionHistoryEntries(
+                (this.sessionHistoryEntries || []).filter(
+                    (entry) => String(entry?.id || "") !== normalizedId
+                )
+            );
+            this.persistSessionHistory();
+            this.showToast("Session deleted.", 2200);
+        },
+        buildSessionHistoryProgressReport(entries = []) {
+            const sourceEntries = Array.isArray(entries) ? entries : [];
+            const todayKey = this.toDateKey(new Date());
+            const weekStartKey = this.addDaysToDateKey(todayKey, -6);
+            const thisWeekEntries = sourceEntries.filter((entry) => {
+                const dateKey = this.getSessionHistoryEntryDateKey(entry);
+                return dateKey >= weekStartKey && dateKey <= todayKey;
+            });
+            const reportEntries = thisWeekEntries.length
+                ? thisWeekEntries
+                : sourceEntries.slice(0, 10);
+            const surahLabels = Array.from(
+                new Set(
+                    reportEntries.map((entry) =>
+                        String(
+                            entry?.surahName ||
+                                this.getSurahNameByNumber(entry?.surahNumber || 1)
+                        ).trim()
+                    )
+                )
+            ).filter(Boolean);
+            const scoredEntries = reportEntries.filter((entry) =>
+                Number.isFinite(Number(entry?.accuracyScore))
+            );
+            const averageAccuracy = scoredEntries.length
+                ? Math.round(
+                      scoredEntries.reduce(
+                          (sum, entry) =>
+                              sum + Math.max(0, Number(entry?.accuracyScore || 0) || 0),
+                          0
+                      ) / scoredEntries.length
+                  )
+                : null;
+            const notes = reportEntries
+                .filter((entry) => String(entry?.note || "").trim())
+                .slice(0, 6);
+            return {
+                weekStartKey,
+                todayKey,
+                thisWeekEntries,
+                reportEntries,
+                surahLabels,
+                averageAccuracy,
+                notes,
+                stats: this.getSessionHistoryStats(reportEntries),
+            };
+        },
+        async shareSessionHistoryProgressReport() {
+            const sourceEntries = this.sessionHistoryFilteredEntries.length
+                ? this.sessionHistoryFilteredEntries
+                : this.sessionHistoryEntries;
+            if (!sourceEntries.length) {
+                this.showToast("No session history to share yet.", 2200);
+                return;
+            }
+            const report = this.buildSessionHistoryProgressReport(sourceEntries);
+            if (!report.reportEntries.length) {
+                this.showToast("No session history to share yet.", 2200);
+                return;
+            }
+            const doc = new jsPDF({
+                unit: "pt",
+                format: "letter",
+            });
+            const pageHeight = doc.internal.pageSize.getHeight();
+            const margin = 42;
+            const maxWidth = doc.internal.pageSize.getWidth() - margin * 2;
+            let y = margin;
+            const writeLine = (text, fontSize = 10, gap = 14) => {
+                const lines = doc.splitTextToSize(String(text || ""), maxWidth);
+                const lineHeight = gap;
+                const blockHeight = Math.max(lineHeight, lines.length * lineHeight);
+                if (y > pageHeight - margin - blockHeight) {
+                    doc.addPage();
+                    y = margin;
+                }
+                doc.setFontSize(fontSize);
+                doc.text(lines, margin, y);
+                y += blockHeight;
+            };
+            const reportTitle = "Memorisation Progress Report";
+            const reportWindowLabel = `${this.formatDateKey(
+                report.weekStartKey
+            )} - ${this.formatDateKey(report.todayKey)}`;
+
+            writeLine(reportTitle, 18, 22);
+            writeLine(`Report window: ${reportWindowLabel}`, 10, 16);
+            writeLine(
+                `Sessions this week: ${report.thisWeekEntries.length} · Surahs covered: ${
+                    report.surahLabels.length || 0
+                } · Average score: ${
+                    report.averageAccuracy === null
+                        ? "No AI scores yet"
+                        : `${report.averageAccuracy}%`
+                }`,
+                10,
+                20
+            );
+            writeLine(
+                `Average session length: ${this.formatSessionHistoryDuration(
+                    report.stats.averageDurationMs
+                )} · Best streak: ${report.stats.bestStreak} day${
+                    report.stats.bestStreak === 1 ? "" : "s"
+                }`,
+                10,
+                20
+            );
+
+            if (report.surahLabels.length) {
+                writeLine(
+                    `Surahs covered: ${report.surahLabels.join(", ")}`,
+                    10,
+                    18
+                );
+            }
+
+            if (report.notes.length) {
+                writeLine("Student notes", 12, 18);
+                report.notes.forEach((entry) => {
+                    writeLine(
+                        `${this.formatSessionHistoryRange(entry)} · ${this.formatSessionHistoryDateTime(
+                            entry.endedAt
+                        )}`,
+                        10,
+                        14
+                    );
+                    writeLine(`Note: ${entry.note}`, 10, 16);
+                });
+            }
+
+            writeLine("Recent sessions", 12, 18);
+            report.reportEntries.forEach((entry) => {
+                writeLine(
+                    `${this.formatSessionHistoryRange(entry)} · ${this.formatSessionHistoryDateTime(
+                        entry.endedAt
+                    )}`,
+                    10,
+                    14
+                );
+                writeLine(
+                    `${this.formatSessionHistoryDuration(
+                        entry.durationMs
+                    )} · ${
+                        entry.accuracyScore === null || entry.accuracyScore === undefined
+                            ? "No AI score"
+                            : `${entry.accuracyScore}% score`
+                    } · ${this.formatSessionHistoryRepetitionsLabel(entry)}`,
+                    10,
+                    16
+                );
+            });
+
+            const filename = `memorisation-progress-report-${this.toDateKey(
+                new Date()
+            )}.pdf`;
+            try {
+                if (
+                    typeof window !== "undefined" &&
+                    typeof navigator !== "undefined" &&
+                    typeof navigator.share === "function" &&
+                    typeof File !== "undefined"
+                ) {
+                    const blob = doc.output("blob");
+                    const file = new File([blob], filename, {
+                        type: "application/pdf",
+                    });
+                    if (
+                        !navigator.canShare ||
+                        navigator.canShare({ files: [file] })
+                    ) {
+                        await navigator.share({
+                            title: reportTitle,
+                            text: `${reportTitle} · ${reportWindowLabel}`,
+                            files: [file],
+                        });
+                        this.showToast("Progress report ready to share.", 2400);
+                        return;
+                    }
+                }
+            } catch (_) {}
+            doc.save(filename);
+            this.showToast("Progress report downloaded.", 2400);
+        },
+        downloadSessionHistoryCsv() {
+            const entries = this.sessionHistoryFilteredEntries;
+            if (!entries.length || typeof window === "undefined") {
+                this.showToast("No session history to export.", 2200);
+                return;
+            }
+            const escapeValue = (value) => {
+                const stringValue = String(value ?? "");
+                return `"${stringValue.replace(/"/g, '""')}"`;
+            };
+            const rows = [
+                [
+                    "Date",
+                    "Surah",
+                    "Range",
+                    "Duration",
+                    "Verses Covered",
+                    "Repetitions",
+                    "Tools",
+                    "Accuracy Score",
+                    "Note",
+                    "Playback Speed",
+                    "Playback Mode",
+                    "Completion Reason",
+                ],
+                ...entries.map((entry) => [
+                    this.formatSessionHistoryDateTime(entry.endedAt),
+                    entry.surahName,
+                    `${entry.rangeStart}-${entry.rangeEnd}`,
+                    this.formatSessionHistoryDuration(entry.durationMs),
+                    this.formatSessionHistoryVersesCoveredLabel(entry),
+                    this.formatSessionHistoryRepetitionsLabel(entry),
+                    (entry.toolsUsed || [])
+                        .map((tool) => tool?.label || tool?.id)
+                        .join(", "),
+                    entry.accuracyScore ?? "",
+                    entry.note || "",
+                    `${Number(entry.sessionConfig?.playbackSpeed || 1)}x`,
+                    entry.sessionConfig?.playbackMode || "continuous",
+                    entry.completionReason || "",
+                ]),
+            ];
+            const csv = rows.map((row) => row.map(escapeValue).join(",")).join("\n");
+            const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+            const url = window.URL.createObjectURL(blob);
+            const anchor = document.createElement("a");
+            anchor.href = url;
+            anchor.download = `session-history-${this.toDateKey(new Date())}.csv`;
+            document.body.appendChild(anchor);
+            anchor.click();
+            document.body.removeChild(anchor);
+            window.URL.revokeObjectURL(url);
+            this.showToast("Session history CSV exported.", 2200);
+        },
+        downloadSessionHistoryPdf() {
+            const entries = this.sessionHistoryFilteredEntries;
+            if (!entries.length) {
+                this.showToast("No session history to export.", 2200);
+                return;
+            }
+            const doc = new jsPDF({
+                unit: "pt",
+                format: "letter",
+            });
+            const pageHeight = doc.internal.pageSize.getHeight();
+            const margin = 42;
+            const maxWidth = doc.internal.pageSize.getWidth() - margin * 2;
+            let y = margin;
+            const writeLine = (text, fontSize = 10, gap = 14) => {
+                const lines = doc.splitTextToSize(String(text || ""), maxWidth);
+                const lineHeight = gap;
+                const blockHeight = Math.max(lineHeight, lines.length * lineHeight);
+                if (y > pageHeight - margin - blockHeight) {
+                    doc.addPage();
+                    y = margin;
+                }
+                doc.setFontSize(fontSize);
+                doc.text(lines, margin, y);
+                y += blockHeight;
+            };
+
+            writeLine("Session History", 18, 22);
+            writeLine(
+                `Generated ${this.formatSessionHistoryDateTime(Date.now())}`,
+                10,
+                18
+            );
+            writeLine(
+                `Sessions: ${entries.length} · Average length: ${this.formatSessionHistoryDuration(
+                    this.sessionHistorySummaryStats.averageDurationMs
+                )}`,
+                10,
+                20
+            );
+
+            entries.forEach((entry, index) => {
+                if (index) y += 8;
+                writeLine(this.formatSessionHistoryRange(entry), 12, 16);
+                writeLine(
+                    `${this.formatSessionHistoryDateTime(
+                        entry.endedAt
+                    )} · ${this.formatSessionHistoryDuration(entry.durationMs)}`,
+                    10,
+                    14
+                );
+                writeLine(
+                    `${this.formatSessionHistoryVersesCoveredLabel(
+                        entry
+                    )} · ${this.formatSessionHistoryRepetitionsLabel(entry)}`,
+                    10,
+                    14
+                );
+                if (entry.toolsUsed?.length) {
+                    writeLine(
+                        `Tools: ${entry.toolsUsed
+                            .map((tool) => tool?.label || tool?.id)
+                            .join(", ")}`,
+                        10,
+                        14
+                    );
+                }
+                if (entry.accuracyScore !== null && entry.accuracyScore !== undefined) {
+                    writeLine(`Accuracy: ${entry.accuracyScore}%`, 10, 14);
+                }
+                if (entry.note) {
+                    writeLine(`Note: ${entry.note}`, 10, 14);
+                }
+            });
+
+            doc.save(`session-history-${this.toDateKey(new Date())}.pdf`);
+            this.showToast("Session history PDF exported.", 2200);
+        },
         getSurahNameByNumber(surahNumber) {
             const match = Array.isArray(this.surahs)
                 ? this.surahs.find((surah) => Number(surah.number) === Number(surahNumber))
@@ -12045,6 +15204,236 @@ export default {
                 restDays: [5],
             };
         },
+        isSeededHifzPlan(plan) {
+            return String(plan?.id || "").startsWith("seed-hifz-plan-");
+        },
+        getHifzPlanSeedStorageKey() {
+            return this.buildHifzPlanScopedStorageKey("ic_hifz_plan_seed_v1");
+        },
+        canBuildSeededHifzPlans() {
+            return Array.isArray(this.surahs) && this.surahs.length >= 114;
+        },
+        markSeededHifzPlanScheduleProgress(schedule = [], completedDays = 0) {
+            let completed = 0;
+            const todayKey = this.toDateKey(new Date());
+            return (Array.isArray(schedule) ? schedule : []).map((entry) => {
+                const nextEntry = { ...entry };
+                const hasNewTargets =
+                    this.countHifzRangesAyahs(nextEntry.newTargets) > 0;
+                const canComplete =
+                    !nextEntry.isRestDay &&
+                    String(nextEntry.dateKey || "") < todayKey &&
+                    hasNewTargets;
+                if (canComplete && completed < Math.max(0, Number(completedDays || 0))) {
+                    nextEntry.completed = true;
+                    nextEntry.completedAt = nextEntry.dateKey;
+                    completed += 1;
+                }
+                return nextEntry;
+            });
+        },
+        buildSeededHifzPlans() {
+            if (!this.canBuildSeededHifzPlans()) return [];
+            const todayKey = this.toDateKey(new Date());
+            const juzThirtyRange = this.resolveHifzJuzRange(30);
+            if (!juzThirtyRange) return [];
+            const definitions = [
+                {
+                    id: "seed-hifz-plan-juz-30",
+                    name: "Juz 30 Starter",
+                    createdDaysAgo: 14,
+                    startDaysAgo: 12,
+                    durationDays: 60,
+                    completedDays: 7,
+                    targetLabel: "Juz 30",
+                    target: {
+                        type: "specific-juz",
+                        juzNumber: 30,
+                        ...juzThirtyRange,
+                    },
+                    options: {
+                        includeRevisionDays: true,
+                        revisionEveryDays: 7,
+                        newVerseRatio: 70,
+                        reviewVerseRatio: 30,
+                        restDays: [5],
+                    },
+                    units: this.buildHifzAyahUnitsForRange(
+                        juzThirtyRange.startSurah,
+                        juzThirtyRange.startAyah,
+                        juzThirtyRange.endSurah,
+                        juzThirtyRange.endAyah
+                    ),
+                },
+                {
+                    id: "seed-hifz-plan-al-mulk",
+                    name: "Al-Mulk in 21 Days",
+                    createdDaysAgo: 8,
+                    startDaysAgo: 7,
+                    durationDays: 21,
+                    completedDays: 5,
+                    targetLabel: "Surah Al-Mulk",
+                    target: {
+                        type: "specific-surah",
+                        surahNumber: 67,
+                    },
+                    options: {
+                        includeRevisionDays: true,
+                        revisionEveryDays: 5,
+                        newVerseRatio: 75,
+                        reviewVerseRatio: 25,
+                        restDays: [5],
+                    },
+                    units: this.buildHifzAyahUnitsForRange(67, 1, 67, 30),
+                },
+                {
+                    id: "seed-hifz-plan-kursi-focus",
+                    name: "Ayat al-Kursi Focus",
+                    createdDaysAgo: 4,
+                    startDaysAgo: 3,
+                    durationDays: 10,
+                    completedDays: 2,
+                    targetLabel: "Al-Baqarah 255-260",
+                    target: {
+                        type: "custom-range",
+                        startSurah: 2,
+                        startAyah: 255,
+                        endSurah: 2,
+                        endAyah: 260,
+                    },
+                    options: {
+                        includeRevisionDays: true,
+                        revisionEveryDays: 4,
+                        newVerseRatio: 60,
+                        reviewVerseRatio: 40,
+                        restDays: [],
+                    },
+                    units: this.buildHifzAyahUnitsForRange(2, 255, 2, 260),
+                },
+            ];
+            return definitions
+                .filter((definition) => Array.isArray(definition.units) && definition.units.length)
+                .map((definition) => {
+                    const startDateKey = this.addDaysToDateKey(
+                        todayKey,
+                        -Math.max(0, Number(definition.startDaysAgo || 0))
+                    );
+                    const deadlineDateKey = this.addDaysToDateKey(
+                        startDateKey,
+                        Math.max(1, Number(definition.durationDays || 1))
+                    );
+                    const plan = {
+                        id: definition.id,
+                        name: definition.name,
+                        createdAt:
+                            Date.now() -
+                            Math.max(0, Number(definition.createdDaysAgo || 0)) *
+                                86400000,
+                        updatedAt: Date.now(),
+                        startDateKey,
+                        deadlineDateKey,
+                        target: definition.target,
+                        targetLabel: definition.targetLabel,
+                        options: {
+                            includeRevisionDays:
+                                !!definition.options?.includeRevisionDays,
+                            revisionEveryDays: Math.max(
+                                2,
+                                Number(definition.options?.revisionEveryDays || 7)
+                            ),
+                            newVerseRatio: Math.max(
+                                1,
+                                Number(definition.options?.newVerseRatio || 70)
+                            ),
+                            reviewVerseRatio: Math.max(
+                                0,
+                                Number(definition.options?.reviewVerseRatio || 30)
+                            ),
+                            restDays: this.normalizeHifzRestDays(
+                                definition.options?.restDays
+                            ),
+                        },
+                        units: definition.units,
+                        totalAyahs: definition.units.length,
+                        completedAyahs: 0,
+                        status: "active",
+                        schedule: [],
+                    };
+                    plan.schedule = this.generateHifzScheduleForPlan(plan, todayKey);
+                    plan.schedule = this.markSeededHifzPlanScheduleProgress(
+                        plan.schedule,
+                        definition.completedDays
+                    );
+                    plan.completedAyahs = this.getHifzPlanCompletedAyahCount(plan);
+                    plan.status =
+                        plan.completedAyahs >= plan.totalAyahs &&
+                        plan.totalAyahs > 0
+                            ? "completed"
+                            : "active";
+                    return plan;
+                });
+        },
+        seedHifzPlans({ merge = true, announce = false } = {}) {
+            if (!this.canBuildSeededHifzPlans()) {
+                if (announce) {
+                    this.showToast(
+                        "Starter plans will load once Quran data is ready.",
+                        2600
+                    );
+                }
+                return [];
+            }
+            const seeded = this.buildSeededHifzPlans();
+            if (!seeded.length) return [];
+            this.hifzPlans = merge
+                ? this.mergeRecordsById(this.hifzPlans, seeded)
+                : seeded;
+            if (
+                !this.hifzActivePlanId ||
+                !this.hifzPlans.some(
+                    (plan) =>
+                        String(plan?.id || "") ===
+                        String(this.hifzActivePlanId || "")
+                )
+            ) {
+                this.hifzActivePlanId = this.hifzPlans[0]?.id || "";
+            }
+            this.writeSeedVersionMarker(
+                this.getHifzPlanSeedStorageKey(),
+                this.hifzPlanSeedVersion || 1
+            );
+            this.refreshHifzPlanSchedules();
+            this.syncHifzIntegrations();
+            if (announce) {
+                this.showToast("Starter Hifz plans loaded.", 2400);
+            }
+            return this.hifzPlans;
+        },
+        maybeSeedHifzPlans() {
+            if (this.hifzPlans.length || !this.canBuildSeededHifzPlans()) {
+                return this.hifzPlans;
+            }
+            const appliedVersion = this.readSeedVersionMarker(
+                this.getHifzPlanSeedStorageKey()
+            );
+            if (appliedVersion === String(this.hifzPlanSeedVersion || 1)) {
+                return this.hifzPlans;
+            }
+            return this.seedHifzPlans({ merge: false, announce: false });
+        },
+        activateHifzPlan(planId = "") {
+            const normalizedId = String(planId || "").trim();
+            if (!normalizedId) return;
+            if (
+                !this.hifzPlans.some(
+                    (plan) => String(plan?.id || "") === normalizedId
+                )
+            ) {
+                return;
+            }
+            this.hifzActivePlanId = normalizedId;
+            this.onHifzActivePlanChanged();
+        },
         buildHifzPlanScopedStorageKey(baseKey = "ic_hifz_plan_tool_v2") {
             const base = String(baseKey || "").trim() || "ic_hifz_plan_tool_v2";
             if (this.bookmarkStorageUserId) {
@@ -12106,6 +15495,7 @@ export default {
                     this.hifzActivePlanId = "";
                     this.hifzAutoloadedDateKey = "";
                     this.hifzDashboardSelectedDateKey = "";
+                    this.maybeSeedHifzPlans();
                     return;
                 }
                 const parsed = JSON.parse(raw);
@@ -12133,11 +15523,15 @@ export default {
                 if (!this.hifzActivePlanId && this.hifzPlans.length) {
                     this.hifzActivePlanId = String(this.hifzPlans[0].id || "");
                 }
+                if (!this.hifzPlans.length) {
+                    this.maybeSeedHifzPlans();
+                }
             } catch (_) {
                 this.hifzPlans = [];
                 this.hifzActivePlanId = "";
                 this.hifzAutoloadedDateKey = "";
                 this.hifzDashboardSelectedDateKey = "";
+                this.maybeSeedHifzPlans();
             }
         },
         persistHifzPlanToolState() {
@@ -13441,6 +16835,10 @@ export default {
             }
             this.showModeToggleToast("Verse focus", this.isMemorisationMode);
             this.persistMemorisationModeSetting();
+            this.refreshSessionHistoryTracker({
+                activitySource: "toggle-test-mode",
+                ayahNumber: this.memorisationCurrentAyahNumber,
+            });
         },
         toggleWordAudioMode() {
             this.showWordTranslationTooltip = !this.showWordTranslationTooltip;
@@ -14510,6 +17908,9 @@ export default {
                 snapshot.memorisationChainingCompletionAction ??
                 snapshot.chainingMethodCompletionAction ??
                 "none";
+            const sessionHistoryEnabledSource =
+                snapshot.memorisationSessionHistoryEnabled ??
+                snapshot.sessionHistoryEnabled;
             const normalized = {
                 ...snapshot,
                 selectedSurah,
@@ -14636,6 +18037,9 @@ export default {
                     this.normaliseMemorisationChainingCompletionAction(
                         chainingMethodCompletionActionSource
                     ),
+                memorisationSessionHistoryEnabled: !!(
+                    sessionHistoryEnabledSource ?? false
+                ),
                 focusAyahNumber: Math.max(
                     1,
                     Number(snapshot.focusAyahNumber || rangeStart)
@@ -16012,6 +19416,10 @@ export default {
                 this.loadContinueProgressHiddenState();
                 return;
             }
+            if (event.key === this.getSessionHistoryStorageKey()) {
+                this.loadSessionHistory();
+                return;
+            }
             if (
                 event.key === this.getMemorisationPresetsStorageKey() ||
                 event.key === this.memorisationPresetsStorageMapKey ||
@@ -16041,6 +19449,7 @@ export default {
         handleVisibilityChange() {
             if (document.visibilityState === "visible") {
                 this.syncSavedAyahsFromApi();
+                this.finalizeSessionHistoryIfStale();
                 if (this.voiceCommandsEnabled && !this.voiceCommandListening) {
                     this.startVoiceCommandListening({ silentError: true });
                 }
@@ -18563,6 +21972,15 @@ export default {
                     ayahNumber: selectedAyahNumber,
                     mode: "reading",
                 });
+                if (
+                    this.isMemorisationToolbarVisible &&
+                    !this.suppressSessionHistorySelectionTracking
+                ) {
+                    this.refreshSessionHistoryTracker({
+                        activitySource: "verse-select",
+                        ayahNumber: selectedAyahNumber,
+                    });
+                }
             }
             // ensure card is visible
             // removed programmatic scrolling
@@ -19866,6 +23284,14 @@ export default {
                 ),
                 mode: "listening",
             });
+            if (this.isMemorisationToolbarVisible) {
+                this.refreshSessionHistoryTracker({
+                    activitySource: "audio-start",
+                    ayahNumber: Number(
+                        ayah?.numberInSurah || ayah?.number || index + 1
+                    ),
+                });
+            }
 
             // Setup metadata and word timing
             audio.onloadedmetadata = () => {
@@ -21669,6 +25095,11 @@ export default {
         },
         handleAyahEnd: function (index) {
             var self = this;
+            var ayahNumber = Number(
+                self.filteredAyahs?.[index]?.numberInSurah ||
+                    self.filteredAyahs?.[index]?.number ||
+                    index + 1
+            );
             var inRepetitionMode = self.isMemorisationToolbarVisible &&
                 self.memorisationRepetitionCount > 1 &&
                 Array.isArray(self.filteredAyahs) &&
@@ -21680,6 +25111,13 @@ export default {
 
             if (isVerseCompletionPass) {
                 self.markVerseCountdownAyahFullyRecited(index);
+            }
+            if (self.isMemorisationToolbarVisible) {
+                self.refreshSessionHistoryTracker({
+                    activitySource: "audio-complete",
+                    ayahNumber,
+                    repetitionIncrement: 1,
+                });
             }
 
             if (self.handleMemorisationChainingAyahEnd(index)) {
@@ -21774,6 +25212,7 @@ export default {
                     self.scheduleMemorisationRangeLoopRestart(index);
                     return;
                 }
+                self.finalizeSessionHistoryEntry("completed");
                 self.showAudioPlayer = false;
                 self.currentlyPlayingIndex = -1;
                 return;
@@ -21841,6 +25280,9 @@ export default {
             if (isLastAyahInRange && this.canLoopMemorisationRangeAfterFinish()) {
                 this.scheduleMemorisationRangeLoopRestart(index);
                 return;
+            }
+            if (isLastAyahInRange) {
+                this.finalizeSessionHistoryEntry("completed");
             }
             this.showAudioPlayer = false;
             this.currentlyPlayingIndex = -1;

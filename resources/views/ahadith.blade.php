@@ -1,7 +1,7 @@
 
 @extends('layouts.app')
 @section('content')
-<div style="padding-left: 50px">
+<div class="ps-md-5">
     <ahadith-component></ahadith-component>
     {{-- @include('layouts.footer') --}}
 </div>

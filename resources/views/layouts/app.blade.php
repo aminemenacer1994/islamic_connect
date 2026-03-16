@@ -271,8 +271,31 @@
 
     <style>
         body {
-            padding-top: calc(3.5rem + 1rem);
+            padding-top: calc(var(--navbar-h) + 0.75rem);
             /* background: linear-gradient(180deg, #fdfefe 0%, #f4f6fb 40%, #e9eef7 100%); */
+        }
+
+        main#main-content,
+        #app {
+            width: 100%;
+            max-width: 100%;
+            min-width: 0;
+        }
+
+        .navbar > .container-fluid {
+            align-items: center;
+            gap: 0.75rem;
+            padding-inline: clamp(0.9rem, 3vw, 1.5rem);
+        }
+
+        .navbar .navbar-brand {
+            flex: 0 1 auto;
+            margin-right: auto;
+            min-width: 0;
+        }
+
+        .navbar .navbar-toggler {
+            flex-shrink: 0;
         }
 
         .navbar {
@@ -304,15 +327,16 @@
         }
 
         @media (max-width: 768px) {
-            body {
-                padding-top: calc(4.25rem + 1rem);
-            }
-
             /* Keep mobile menu readable instead of blending into page content */
             .navbar.navbar-transparent {
                 background: rgba(255, 255, 255, 0.94) !important;
                 backdrop-filter: none !important;
                 -webkit-backdrop-filter: none !important;
+            }
+
+            .navbar > .container-fluid {
+                gap: 0.5rem;
+                padding-inline: 0.85rem;
             }
 
             .navbar.navbar-transparent .navbar-collapse.show,
@@ -336,6 +360,9 @@
                 background: #ffffff;
                 border: 1px solid rgba(15, 23, 42, 0.14);
                 box-shadow: 0 14px 28px rgba(15, 23, 42, 0.16);
+                position: static;
+                width: 100%;
+                margin-top: 0.35rem;
             }
         }
     </style>
@@ -351,11 +378,10 @@
                 <a class="navbar-brand" href="/welcome" data-path="/welcome" aria-label="Home">
                     <img
                         src="/images/logo_main.png"
-                        width="300"
-                        height="200"
+                        width="275"
+                        height="54"
                         alt="Islamic Connect Logo"
                         loading="lazy"
-                        height="auto"
                         class="img-fluid">
                 </a>
 
@@ -371,13 +397,15 @@
                             <a class="nav-link pt-2 ml-3 pl-3" href="/" data-path="/" data-nav-item="primary"><b>Home</b></a>
                         </li>
 
-                        <div class="ramadan-cta">
-                            <button class="ramadan-cta__button" style="border-radius: 10px; font-weight: 200;" onclick="window.location.href='/ramadan-2026'" data-path="/ramadan-2026" data-nav-item="primary">
-                                <i class="ramadan-cta__pulse" aria-hidden="true"></i>
-                                <b>Ramadan Guide</b>
-                                <i class="ramadan-cta__pulse" aria-hidden="true"></i>
-                            </button>
-                        </div>
+                        <li class="nav-item nav-item-cta mt-2">
+                            <div class="ramadan-cta">
+                                <button type="button" class="ramadan-cta__button" onclick="window.location.href='/ramadan-2026'" data-path="/ramadan-2026" data-nav-item="primary">
+                                    <i class="ramadan-cta__pulse" aria-hidden="true"></i>
+                                    <b>Ramadan Guide</b>
+                                    <i class="ramadan-cta__pulse" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                        </li>
                         <!-- <li class="nav-item mt-2">
                             <button class="button-33" role="button" type="button" onclick="window.location.href='/ramadan-2026'">Ramadan 2026</button>
                         </li>  -->
@@ -505,7 +533,7 @@
         <!-- Admin mobile section switcher (full-width below navbar) -->
         <div id="admin-mobile-switcher" class="d-md-none bg-white border-bottom shadow-sm" style="display:none;">
             <div class="container-fluid py-2 px-3">
-                <select id="adminSectionSelect" class="form-select mt-3" aria-label="Go to section">
+                <select id="adminSectionSelect" class="form-select" aria-label="Go to section">
                     <option value="" disabled selected>Go to…</option>
                 </select>
             </div>
@@ -878,13 +906,13 @@
   background: #40B3A2;
   min-width: 200px;
   border: 0;
-  border-radius: 6px;
+  border-radius: 10px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, .1);
   box-sizing: border-box;
   padding: 12px 16px;
   color: #fff;
   font-size: 13px;
-  font-weight: 900;
+  font-weight: 800;
   letter-spacing: 1.2px;
   text-transform: uppercase;
   overflow: hidden;

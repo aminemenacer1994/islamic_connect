@@ -51,7 +51,7 @@ $quranBreadcrumb = [
 @endpush
 
 @section('content')
-<div style="padding-left: 20px">
+<div class="ps-md-3">
     <quran-component></quran-component>
 </div>
 @endsection

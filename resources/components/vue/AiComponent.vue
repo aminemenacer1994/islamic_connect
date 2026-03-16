@@ -450,16 +450,16 @@ export default {
       sidebarCollapsed: false,
       quickPrompts: [
         {
-          label: 'Daily Worship',
-          prompt: 'How can I stay consistent with salah when my schedule is busy?',
+          label: 'Hifz Routine',
+          prompt: 'Build me a simple hifz routine for busy weekdays, with review and new memorisation in a balanced Islamic rhythm.',
         },
         {
-          label: 'Quran Reflection',
-          prompt: 'Share a Quran verse about patience and how to apply it today.',
+          label: 'Sabr & Dua',
+          prompt: 'Share one Quran verse, one dua, and one practical step for patience during a difficult week.',
         },
         {
-          label: 'Character',
-          prompt: 'What does Islam teach about controlling anger in difficult moments?',
+          label: 'Adab & Akhlaq',
+          prompt: 'What does Islam teach about controlling anger and speaking with ihsan in tense moments?',
         },
       ],
     };

@@ -713,6 +713,126 @@ textarea.form-control:focus {
   overflow: hidden;
 }
 
+/* ─── Ayah of the Day ─── */
+.ic-section--ayah {
+  padding: clamp(2rem, 5vw, 3.5rem) 0;
+  background: linear-gradient(180deg, #f5fbf8 0%, #edf7f3 100%);
+  border-top: 1px solid rgba(15, 110, 99, 0.1);
+  border-bottom: 1px solid rgba(15, 110, 99, 0.1);
+}
+
+.ic-ayah-section__intro {
+  margin-bottom: 1.5rem;
+}
+
+.ic-ayah-card {
+  padding: clamp(1.75rem, 4vw, 3rem);
+  border-radius: 24px;
+  background: linear-gradient(155deg, #ffffff 0%, #f8fdfb 100%);
+  border: 1px solid rgba(15, 110, 99, 0.14);
+  box-shadow: 0 18px 44px rgba(10, 48, 44, 0.09);
+  position: relative;
+  overflow: hidden;
+}
+
+.ic-ayah-card__ornament {
+  position: absolute;
+  top: -14px;
+  right: 1.5rem;
+  font-size: 3.5rem;
+  line-height: 1;
+  color: rgba(15, 110, 99, 0.08);
+  pointer-events: none;
+  user-select: none;
+  font-family: "Amiri", serif;
+}
+
+.ic-ayah-card__arabic {
+  font-family: "Amiri", "Scheherazade New", "Traditional Arabic", serif;
+  font-size: clamp(1.15rem, 2vw, 1.55rem);
+  line-height: 1.75;
+  color: #0f3a3f;
+  text-align: right;
+}
+
+.ic-ayah-card__arabic p {
+  margin: 0;
+}
+
+.ic-ayah-card__content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+  border-left: 3px solid rgba(15, 110, 99, 0.2);
+  padding-left: 1.25rem;
+}
+
+.ic-ayah-card__translation {
+  font-size: clamp(1rem, 1.5vw, 1.18rem);
+  line-height: 1.72;
+  color: #2f5258;
+  font-style: italic;
+  margin-bottom: 1rem;
+}
+
+.ic-ayah-card__meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.84rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ic-ink-soft);
+  margin: 0;
+}
+
+.ic-ayah-card__meta i {
+  color: var(--ic-teal);
+  font-size: 0.82rem;
+}
+
+.ic-ayah-card__dot {
+  opacity: 0.45;
+  margin: 0 0.1rem;
+}
+
+/* Fade transition between ayahs */
+.ic-ayah-fade-enter-active,
+.ic-ayah-fade-leave-active {
+  transition: opacity 0.55s ease, transform 0.55s ease;
+}
+
+.ic-ayah-fade-enter-from,
+.ic-ayah-fade-leave-to {
+  opacity: 0;
+  transform: translateY(8px);
+}
+
+/* Skeleton loader */
+.ic-ayah-card--skeleton {
+  pointer-events: none;
+}
+
+@keyframes ic-shimmer {
+  0%   { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+
+.ic-ayah-skeleton__line {
+  height: 0.9rem;
+  border-radius: 6px;
+  background: linear-gradient(90deg, #e8f2ef 25%, #d3ebe4 50%, #e8f2ef 75%);
+  background-size: 800px 100%;
+  animation: ic-shimmer 1.5s infinite linear;
+}
+
+.ic-ayah-skeleton__line--md   { width: 90%; }
+.ic-ayah-skeleton__line--sm   { width: 70%; }
+.ic-ayah-skeleton__line--xs   { width: 45%; height: 0.72rem; }
+.ic-ayah-skeleton__line--arabic { width: 80%; height: 1.4rem; border-radius: 8px; }
+
 @media (max-width: 991.98px) {
   .ic-hero {
     padding-top: 3.4rem;
@@ -777,6 +897,17 @@ textarea.form-control:focus {
   .ic-footer__social a {
     margin: 0.2rem;
   }
+
+  .ic-ayah-card__content {
+    border-left: none;
+    border-top: 3px solid rgba(15, 110, 99, 0.2);
+    padding-left: 0;
+    padding-top: 1.25rem;
+  }
+
+  .ic-ayah-card__arabic {
+    text-align: center;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -789,12 +920,18 @@ textarea.form-control:focus {
   .premium-dialog-enter-active,
   .premium-dialog-leave-active,
   .premium-toast-enter-active,
-  .premium-toast-leave-active {
+  .premium-toast-leave-active,
+  .ic-ayah-fade-enter-active,
+  .ic-ayah-fade-leave-active {
     transition: none !important;
   }
 
   .ic-hero__panel > * {
     opacity: 1;
+    animation: none !important;
+  }
+
+  .ic-ayah-skeleton__line {
     animation: none !important;
   }
 }

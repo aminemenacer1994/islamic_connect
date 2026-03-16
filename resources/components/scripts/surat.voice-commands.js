@@ -5,6 +5,8 @@ const VOICE_COMMAND_AYAH_TOKEN =
 const VOICE_COMMAND_NEXT_TOKEN = "(?:next|forward|skip|ahead)";
 const VOICE_COMMAND_PREVIOUS_TOKEN = "(?:previous|prev|back|backward)";
 const VOICE_COMMAND_NAVIGATE_TOKEN = "(?:go|move|jump|open|take|navigate)";
+const VOICE_COMMAND_FILLER_PATTERN =
+    /\b(?:bismillah|bismi allah|assalamu alaykum|as salamu alaykum|salam|insha ?allah|in shaa allah|alhamdulillah|subhanallah|jazakallah(?:u khayran)?|barakallahu feek(?:um)?|allahumma|ya allah|ya rab|akhi|ukhti)\b/g;
 
 export const VOICE_COMMAND_DATA = {
     voiceCommandsPreferenceBaseKey: "surat_voice_commands_enabled",
@@ -33,36 +35,37 @@ export const VOICE_COMMAND_DATA = {
 
 export const VOICE_COMMAND_GUIDE = {
     intro:
-        "Speak naturally. The parser listens for keywords, so extra words before or after still work.",
+        "Speak naturally, even with Islamic phrases. Words like Bismillah or inshaAllah are ignored so the command still lands cleanly.",
     tips: [
         "Turn voice commands on from the microphone button, then wait for the mic indicator.",
         "Say the full command, then pause briefly. Commands are processed after a short silence.",
         "Use clear number phrases like 2, 21, twenty one, or 21st.",
+        "Islamic filler phrases such as Bismillah, alhamdulillah, or jazakAllah do not interrupt the command.",
     ],
     groups: [
         {
             id: "playback",
             title: "Playback controls",
             iconClass: "bi-play-circle",
-            summary: "Control the current ayah audio without touching playback buttons.",
+            summary: "Control the current recitation without reaching for the playback buttons.",
             commands: [
                 {
                     id: "play",
                     label: "Play or resume",
                     keywords: ["play", "resume", "start", "continue"],
-                    example: "please continue the recitation",
+                    example: "bismillah, continue the recitation",
                 },
                 {
                     id: "pause",
                     label: "Pause playback",
                     keywords: ["pause", "hold"],
-                    example: "pause for a moment",
+                    example: "pause for a moment please",
                 },
                 {
                     id: "stop",
                     label: "Stop playback",
                     keywords: ["stop", "halt"],
-                    example: "stop now",
+                    example: "jazakAllah, stop now",
                 },
             ],
         },
@@ -71,13 +74,13 @@ export const VOICE_COMMAND_GUIDE = {
             title: "Ayah navigation",
             iconClass: "bi-signpost-2",
             summary:
-                "Move around ayahs inside the current surah or jump directly to an ayah number.",
+                "Move through ayahs in the current surah or jump straight to the ayah you want to revise.",
             commands: [
                 {
                     id: "next-ayah",
                     label: "Next ayah",
                     keywords: ["next", "forward", "skip", "next ayah", "next verse"],
-                    example: "go to the next ayah",
+                    example: "inshaAllah, go to the next ayah",
                 },
                 {
                     id: "previous-ayah",
@@ -89,13 +92,13 @@ export const VOICE_COMMAND_GUIDE = {
                         "previous ayah",
                         "previous verse",
                     ],
-                    example: "move me to the previous verse",
+                    example: "take me to the previous ayah",
                 },
                 {
                     id: "ayah-number",
                     label: "Open ayah by number",
                     keywords: ["ayah X", "verse X", "ayah number X"],
-                    example: "play verse twenty one",
+                    example: "play ayah twenty one",
                 },
             ],
         },
@@ -104,7 +107,7 @@ export const VOICE_COMMAND_GUIDE = {
             title: "Surah navigation",
             iconClass: "bi-compass",
             summary:
-                "Switch surahs relatively or jump directly to an exact surah and ayah.",
+                "Move between surahs or jump directly to the exact place you want to read or review.",
             commands: [
                 {
                     id: "next-surah",
@@ -120,7 +123,7 @@ export const VOICE_COMMAND_GUIDE = {
                         "previous chapter",
                         "surah previous",
                     ],
-                    example: "go to previous chapter",
+                    example: "go to the previous surah",
                 },
                 {
                     id: "surah-number",
@@ -132,7 +135,7 @@ export const VOICE_COMMAND_GUIDE = {
                     id: "surah-ayah",
                     label: "Open exact location",
                     keywords: ["surah X ayah Y", "chapter X verse Y"],
-                    example: "take me to surah 2 ayah 255",
+                    example: "bismillah, take me to surah 2 ayah 255",
                 },
             ],
         },
@@ -144,6 +147,7 @@ export const voiceCommandMethods = {
         return String(value || "")
             .toLowerCase()
             .replace(/[^a-z0-9\s-]/g, " ")
+            .replace(VOICE_COMMAND_FILLER_PATTERN, " ")
             .replace(/\s+/g, " ")
             .trim();
     },

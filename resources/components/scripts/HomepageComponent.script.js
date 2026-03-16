@@ -143,6 +143,8 @@ export default {
       toastTimer: null,
       isSubmitting: false,
       maxMessageLength: 1200,
+      ayah: null,
+      ayahInterval: null,
     };
   },
   computed: {
@@ -175,11 +177,20 @@ export default {
     },
   },
   mounted() {
+    this.fetchRandomAyah();
+    this.ayahInterval = setInterval(() => {
+      this.fetchRandomAyah();
+    }, 30000);
+
     if (typeof window !== "undefined") {
       window.addEventListener("keydown", this.handleGlobalKeydown);
     }
   },
   beforeUnmount() {
+    if (this.ayahInterval) {
+      clearInterval(this.ayahInterval);
+      this.ayahInterval = null;
+    }
     if (this.toastTimer) {
       clearTimeout(this.toastTimer);
       this.toastTimer = null;
@@ -316,6 +327,29 @@ export default {
       }
 
       this.toast.visible = false;
+    },
+    async fetchRandomAyah() {
+      try {
+        const randomAyahNum = Math.floor(Math.random() * 6236) + 1;
+        const res = await fetch(
+          `https://api.alquran.cloud/v1/ayah/${randomAyahNum}/editions/quran-uthmani,en.pickthall`
+        );
+        if (!res.ok) return;
+        const json = await res.json();
+
+        if (json.data) {
+          const [arabic, english] = json.data;
+          this.ayah = {
+            arabic: arabic.text,
+            english: english.text,
+            surah: arabic.surah.englishName,
+            numberInSurah: arabic.numberInSurah,
+            surahNumber: arabic.surah.number,
+          };
+        }
+      } catch (error) {
+        console.error("Error fetching random ayah:", error);
+      }
     },
   },
 };

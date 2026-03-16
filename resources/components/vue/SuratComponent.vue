@@ -370,8 +370,8 @@
                                     :title="!speechRecognitionSupported
                                         ? 'Voice commands are not supported in this browser.'
                                         : voiceCommandsEnabled
-                                            ? 'Voice commands are on. Try saying: play verse 5.'
-                                            : 'Turn on voice commands. Example: play verse 5.'"
+                                            ? 'Voice commands are on. Try saying: Bismillah, open surah 2 ayah 255.'
+                                            : 'Turn on voice commands. Example: Bismillah, open surah 2 ayah 255.'"
                                     :aria-label="voiceCommandsEnabled
                                         ? 'Turn voice commands off'
                                         : 'Turn voice commands on'">
@@ -406,6 +406,16 @@
                                     title="Open Session Tools for pacing, repeat-after-reciter, and display controls">
                                     <i class="bi bi-layout-sidebar-inset" aria-hidden="true"></i>
                                     <span class="advanced-quran-mobile-action-label">Open Session Tools Panel</span>
+                                </button>
+                                <button
+                                    v-if="isMemorisationToolbarVisible && memorisationSessionHistoryEnabled"
+                                    type="button"
+                                    class="btn advanced-quran-mobile-action-btn"
+                                    @click="openSessionHistoryModal()"
+                                    aria-label="Open session history"
+                                    title="Open session history">
+                                    <i class="bi bi-clock-history" aria-hidden="true"></i>
+                                    <span class="advanced-quran-mobile-action-label">History</span>
                                 </button>
                                 <button
                                     v-if="!isMemorisationToolbarVisible"
@@ -672,6 +682,16 @@
                     <i class="bi bi-layout-sidebar-inset" aria-hidden="true"></i>
                     <span class="quran-toolbar-btn-text">Open Session Tools Panel</span>
                 </button>
+                <button
+                    v-if="isMemorisationToolbarVisible && memorisationSessionHistoryEnabled"
+                    type="button"
+                    class="quran-toolbar-btn quran-toolbar-btn-history"
+                    @click="openSessionHistoryModal()"
+                    aria-label="Open session history"
+                    title="Open session history">
+                    <i class="bi bi-clock-history" aria-hidden="true"></i>
+                    <span class="quran-toolbar-btn-text">History</span>
+                </button>
                 <div v-if="!isMemorisationToolbarVisible" class="quran-toolbar-reciter">
                     <label class="visually-hidden" for="toolbarReciterSelect">
                         Select audio reciter
@@ -742,8 +762,8 @@
                     :title="!speechRecognitionSupported
                         ? 'Voice commands are not supported in this browser.'
                         : voiceCommandsEnabled
-                            ? 'Voice commands are on. Try saying: play verse 5.'
-                            : 'Turn on voice commands. Example: play verse 5.'"
+                            ? 'Voice commands are on. Try saying: Bismillah, open surah 2 ayah 255.'
+                            : 'Turn on voice commands. Example: Bismillah, open surah 2 ayah 255.'"
                     :aria-label="voiceCommandsEnabled
                         ? 'Turn voice commands off'
                         : 'Turn voice commands on'">
@@ -1346,7 +1366,15 @@
                                     class="btn memorisation-hifz-plan-tool-btn memorisation-hifz-plan-tool-btn-primary"
                                     :disabled="hasHifzPlans && (!activeHifzPlanTodayEntry || activeHifzPlanTodayEntry.isRestDay)"
                                     @click="hasHifzPlans ? openActiveHifzTodayTarget({ closeOffcanvas: true, closeDashboard: true }) : openHifzPlanWizard()">
-                                    {{ hasHifzPlans ? "Start Today's Target" : "Create New Plan" }}
+                                    {{ hasHifzPlans ? "Start today's target" : "Create new plan" }}
+                                </button>
+                                <button
+                                    type="button"
+                                    class="btn memorisation-panel-seed-btn"
+                                    @click="seedHifzPlans({ announce: true })"
+                                    aria-label="Restore starter Hifz plans"
+                                    title="Restore starter plans">
+                                    <i class="bi bi-stars" aria-hidden="true"></i>
                                 </button>
                                 <button
                                     type="button"
@@ -1399,7 +1427,14 @@
                                         @click="openHifzPlanDashboard"
                                         aria-label="Open current Hifz plan dashboard">
                                     <div class="memorisation-hifz-plan-summary-head">
-                                        <strong>{{ activeHifzPlan?.name || "Hifz Plan" }}</strong>
+                                        <div class="memorisation-hifz-plan-summary-title-row">
+                                            <strong>{{ activeHifzPlan?.name || "Hifz Plan" }}</strong>
+                                            <span
+                                                v-if="activeHifzPlanIsSeeded"
+                                                class="memorisation-demo-badge memorisation-demo-badge--inline">
+                                                Starter
+                                            </span>
+                                        </div>
                                         <small>{{ activeHifzPlan?.targetLabel || "" }}</small>
                                     </div>
                                     <div class="memorisation-hifz-plan-summary-progress">
@@ -1424,10 +1459,42 @@
                                 <p class="memorisation-hifz-plan-sync-note mb-0">
                                     Sync active: Daily Goals and Review Queue update automatically from your current plan.
                                 </p>
+                                <div v-if="hasOnlySeededHifzPlans" class="memorisation-starter-note">
+                                    Starter plans are already loaded. Pick one and adjust or replace it any time.
+                                </div>
+                                <div v-if="hasOnlySeededHifzPlans" class="memorisation-hifz-plan-starter-grid">
+                                    <button
+                                        v-for="plan in seededHifzPlans"
+                                        :key="`starter-plan-${plan.id}`"
+                                        type="button"
+                                        class="memorisation-hifz-plan-starter-btn"
+                                        :class="{ 'is-active': hifzActivePlanId === plan.id }"
+                                        @click="activateHifzPlan(plan.id)">
+                                        <span class="memorisation-demo-badge memorisation-demo-badge--inline">Starter</span>
+                                        <strong>{{ plan.name }}</strong>
+                                        <small>{{ plan.targetLabel }}</small>
+                                    </button>
+                                </div>
                             </div>
-                            <p v-else class="memorisation-hifz-plan-empty mb-0">
-                                No plans yet. Create your first plan to get daily ayah targets and automatic schedule recalculation.
-                            </p>
+                            <div v-else class="memorisation-hifz-plan-empty-state">
+                                <p class="memorisation-hifz-plan-empty mb-0">
+                                    No plans yet. Load starter plans or create your own schedule from scratch.
+                                </p>
+                                <div class="memorisation-empty-actions">
+                                    <button
+                                        type="button"
+                                        class="btn memorisation-hifz-plan-tool-btn memorisation-hifz-plan-tool-btn-primary"
+                                        @click="seedHifzPlans({ announce: true })">
+                                        Load starter plans
+                                    </button>
+                                    <button
+                                        type="button"
+                                        class="btn memorisation-hifz-plan-tool-btn"
+                                        @click="openHifzPlanWizard()">
+                                        Create my own
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </section>
 
@@ -1454,6 +1521,14 @@
                                         class="bi"
                                         :class="isMemorisationPresetPanelCollapsed ? 'bi-chevron-down' : 'bi-chevron-up'"
                                         aria-hidden="true"></i>
+                                </button>
+                                <button
+                                    type="button"
+                                    class="btn memorisation-panel-seed-btn"
+                                    @click="seedMemorisationPresets({ announce: true })"
+                                    aria-label="Restore starter one-click presets"
+                                    title="Restore starter presets">
+                                    <i class="bi bi-stars" aria-hidden="true"></i>
                                 </button>
                                 <button
                                     type="button"
@@ -1500,7 +1575,11 @@
                                 </div>
                             </div>
 
-                            <div v-if="hasMemorisationPresets" class="memorisation-preset-list">
+                            <div v-if="hasMemorisationPresets" class="memorisation-preset-list-wrap">
+                                <div v-if="hasOnlySeededMemorisationPresets" class="memorisation-starter-note">
+                                    Starter presets are ready. Tap any card to begin, then rename or overwrite it later.
+                                </div>
+                                <div class="memorisation-preset-list">
                                 <article
                                     v-for="preset in sortedMemorisationPresets"
                                     :key="preset.id"
@@ -1516,7 +1595,14 @@
                                     @keydown.space.prevent="loadMemorisationPreset(preset.id)"
                                     :aria-label="`Load preset ${preset.name}`">
                                     <div class="memorisation-preset-card-head">
-                                        <strong class="memorisation-preset-card-name">{{ preset.name }}</strong>
+                                        <div class="memorisation-preset-card-title-wrap">
+                                            <strong class="memorisation-preset-card-name">{{ preset.name }}</strong>
+                                            <span
+                                                v-if="isSeededMemorisationPreset(preset)"
+                                                class="memorisation-demo-badge memorisation-demo-badge--inline">
+                                                Starter
+                                            </span>
+                                        </div>
                                         <div class="memorisation-preset-head-actions">
                                             <button
                                                 type="button"
@@ -1550,11 +1636,33 @@
                                     <p class="memorisation-preset-card-meta mb-0">
                                         {{ describeMemorisationPreset(preset) }}
                                     </p>
+                                    <div
+                                        v-if="isSeededMemorisationPreset(preset)"
+                                        class="memorisation-preset-card-footer">
+                                        Load this starter, then tweak anything you want.
+                                    </div>
                                 </article>
+                                </div>
                             </div>
-                            <p v-else class="memorisation-preset-empty mb-0">
-                                No presets saved yet. Use + to create your first routine.
-                            </p>
+                            <div v-else class="memorisation-preset-empty-state">
+                                <p class="memorisation-preset-empty mb-0">
+                                    No presets yet. Load the starter set or save your current setup.
+                                </p>
+                                <div class="memorisation-empty-actions">
+                                    <button
+                                        type="button"
+                                        class="btn memorisation-preset-editor-btn memorisation-preset-editor-btn-submit"
+                                        @click="seedMemorisationPresets({ announce: true })">
+                                        Load starter presets
+                                    </button>
+                                    <button
+                                        type="button"
+                                        class="btn memorisation-preset-editor-btn"
+                                        @click="openMemorisationPresetNameEditor()">
+                                        Create my own
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </section>
 
@@ -1739,30 +1847,123 @@
 
                             <label class="memorisation-offcanvas-toggle-row memorisation-offcanvas-field memorisation-offcanvas-field--full">
                                 <span class="memorisation-offcanvas-toggle-copy">
-                                    <strong>Single ayah focus</strong>
-                                    <small>Keep one ayah centered while memorising.</small>
+                                    <strong>Test Mode</strong>
+                                    <small>Focus on one ayah at a time so you can recite from memory without the next ayah giving it away.</small>
                                 </span>
                                 <span class="form-check form-switch mb-0">
                                     <input
                                         class="form-check-input"
                                         type="checkbox"
                                         v-model="memorisationDraft.singleAyahFocus"
-                                        aria-label="Toggle single ayah focus">
+                                        aria-label="Toggle test mode">
                                 </span>
                             </label>
+                            <div class="memorisation-test-mode-callout memorisation-offcanvas-field memorisation-offcanvas-field--full">
+                                <div class="memorisation-test-mode-callout-copy">
+                                    <span class="memorisation-test-mode-callout-badge">Recall support</span>
+                                    <strong>Use this after you warm up the range.</strong>
+                                    <small>Test Mode is the cleanest way to check if the ayah is really in your memory, not just on the screen.</small>
+                                </div>
+                                <button
+                                    type="button"
+                                    class="btn memorisation-test-mode-callout-btn"
+                                    @click="memorisationDraft.singleAyahFocus = !memorisationDraft.singleAyahFocus">
+                                    {{ memorisationDraft.singleAyahFocus ? "Turn off" : "Turn on" }}
+                                </button>
+                            </div>
                         </div>
                     </section>
 
                     <section class="surah-offcanvas-section memorisation-offcanvas-panel" aria-label="Session tools">
                         <h5 class="memorisation-offcanvas-section-title">Session Tools</h5>
                         <p class="memorisation-offcanvas-section-subtitle mb-0">
-                            Choose the reading helpers that stay active while you recite.
+                            Turn on only the helpers you need. Most sessions work well with one or two.
                         </p>
                         <div class="memorisation-offcanvas-tool-list">
                             <label class="memorisation-offcanvas-toggle-row memorisation-offcanvas-toggle-row--with-action">
                                 <span class="memorisation-offcanvas-toggle-copy">
+                                    <strong>Session History</strong>
+                                    <small>Auto-save finished sessions so you can look back without doing anything extra.</small>
+                                </span>
+                                <span class="memorisation-offcanvas-toggle-actions">
+                                    <button
+                                        type="button"
+                                        class="btn memorisation-tool-settings-btn"
+                                        aria-label="Open session history"
+                                        title="Open session history"
+                                        @click.stop.prevent="openSessionHistoryModal()">
+                                        <i class="bi bi-clock-history" aria-hidden="true"></i>
+                                    </button>
+                                    <span class="form-check form-switch mb-0">
+                                        <input
+                                            class="form-check-input"
+                                            type="checkbox"
+                                            v-model="memorisationDraft.sessionHistoryEnabled"
+                                            aria-label="Toggle session history">
+                                    </span>
+                                </span>
+                            </label>
+                            <div
+                                v-if="memorisationDraft.sessionHistoryEnabled"
+                                class="memorisation-session-history-preview memorisation-offcanvas-field memorisation-offcanvas-field--full">
+                                <div class="memorisation-session-history-preview-head">
+                                    <div class="memorisation-session-history-preview-copy">
+                                        <span class="memorisation-session-history-preview-eyebrow">{{ sessionHistoryPreviewEyebrow }}</span>
+                                        <strong class="memorisation-session-history-preview-title">{{ sessionHistoryPreviewTitle }}</strong>
+                                        <small class="d-block">{{ sessionHistoryPreviewSubtitle }}</small>
+                                    </div>
+                                    <button
+                                        type="button"
+                                        class="btn memorisation-session-history-preview-btn"
+                                        @click="openSessionHistoryModal()">
+                                        <i class="bi bi-clock-history" aria-hidden="true"></i>
+                                        View history
+                                    </button>
+                                </div>
+                                <div
+                                    v-if="sessionHistoryPreviewEntries.length"
+                                    class="memorisation-session-history-preview-list"
+                                    role="list"
+                                    aria-label="Recent session history preview">
+                                    <button
+                                        v-for="entry in sessionHistoryPreviewEntries"
+                                        :key="entry.id"
+                                        type="button"
+                                        class="memorisation-session-history-preview-item"
+                                        @click="openSessionHistoryModal(entry.id)">
+                                        <span class="memorisation-session-history-preview-item-main">
+                                            <span class="memorisation-session-history-preview-item-title-row">
+                                                <strong>{{ formatSessionHistoryRange(entry) }}</strong>
+                                                <span
+                                                    v-if="isSeededSessionHistoryEntry(entry)"
+                                                    class="memorisation-demo-badge memorisation-demo-badge--inline">
+                                                    Starter
+                                                </span>
+                                            </span>
+                                            <small>{{ formatSessionHistoryDateTime(entry.endedAt) }}</small>
+                                        </span>
+                                        <span class="memorisation-session-history-preview-item-meta">
+                                            {{ formatSessionHistoryDuration(entry.durationMs, { short: true }) }}
+                                        </span>
+                                    </button>
+                                </div>
+                                <div v-else class="memorisation-session-history-preview-empty-state">
+                                    <p class="memorisation-session-history-preview-empty mb-0">
+                                        No saved sessions yet. Load starter history or finish a session to begin.
+                                    </p>
+                                    <button
+                                        type="button"
+                                        class="btn memorisation-session-history-preview-btn"
+                                        @click="loadStarterSessionHistory({ announce: true, focusFirst: false })">
+                                        <i class="bi bi-stars" aria-hidden="true"></i>
+                                        Load starter history
+                                    </button>
+                                </div>
+                            </div>
+                            <label class="memorisation-offcanvas-toggle-row memorisation-offcanvas-toggle-row--with-action">
+                                <span class="memorisation-offcanvas-toggle-copy">
                                     <strong>Chaining Method</strong>
-                                    <small>Build new verses, then strengthen transitions.</small>
+                                    <small>Pick one clear flow: learn new ayat first, then smooth the joins.</small>
                                 </span>
                                 <span class="form-check form-switch mb-0">
                                     <input
@@ -1778,10 +1979,10 @@
                                 :class="`is-mode-${memorisationDraft.chainingMethodMode}`">
                                 <div class="memorisation-chaining-settings-head">
                                     <div>
-                                        <span class="memorisation-chaining-step-label">1. Mode</span>
-                                        <h6 class="memorisation-chaining-settings-title mb-0">Build a connected chain</h6>
+                                        <span class="memorisation-chaining-step-label">Choose a flow</span>
+                                        <h6 class="memorisation-chaining-settings-title mb-0">Pick how you want to build this range</h6>
                                         <p class="memorisation-chaining-settings-subtitle mb-0">
-                                            Start with Loop. Switch to Bridge when transitions need work.
+                                            Start with Learn New Verses. Switch to Smooth Transitions once the words feel familiar.
                                         </p>
                                     </div>
                                 </div>
@@ -1800,7 +2001,7 @@
                                         @click="memorisationDraft.chainingMethodMode = option.value">
                                         <div class="memorisation-chaining-mode-btn-top">
                                             <span class="memorisation-chaining-mode-btn-tag">
-                                                {{ option.value === "bridging" ? "Use after Loop" : "Start here" }}
+                                                {{ option.value === "bridging" ? "Best once wording feels familiar" : "Best for brand-new verses" }}
                                             </span>
                                             <span class="memorisation-chaining-mode-btn-indicator" aria-hidden="true">
                                                 <i
@@ -1815,7 +2016,7 @@
 
                                 <section class="memorisation-chaining-hero" :class="`is-${memorisationDraft.chainingMethodMode}`">
                                     <div class="memorisation-chaining-hero-copy">
-                                        <span class="memorisation-chaining-step-label">2. Round pattern</span>
+                                        <span class="memorisation-chaining-step-label">This round looks like</span>
                                         <strong>{{ memorisationChainingSelectedModeMeta.summary }}</strong>
                                         <small>{{ memorisationChainingSelectedModeMeta.description }}</small>
                                     </div>
@@ -1826,27 +2027,18 @@
                                         <span class="memorisation-chaining-preview-link">4</span>
                                         <span class="memorisation-chaining-preview-link">5</span>
                                     </div>
-                                    <div class="memorisation-chaining-hero-steps" aria-label="Selected chaining method steps">
-                                        <span
-                                            v-for="(step, index) in memorisationChainingSelectedModeMeta.steps"
-                                            :key="`memorisation-chaining-step-${index}`"
-                                            class="memorisation-chaining-step-pill">
-                                            <span class="memorisation-chaining-step-pill-index">{{ index + 1 }}</span>
-                                            <span>{{ step }}</span>
-                                        </span>
-                                    </div>
                                 </section>
 
                                 <section class="memorisation-chaining-setup-panel">
                                     <div class="memorisation-chaining-setup-head">
-                                        <span class="memorisation-chaining-step-label">3. Session setup</span>
-                                        <small>Pick a style, then fine-tune only if needed.</small>
+                                        <span class="memorisation-chaining-step-label">Start simple</span>
+                                        <small>Choose a session style first. Open more options only if you need them.</small>
                                     </div>
 
                                     <div class="memorisation-chaining-setup-list">
                                         <section class="memorisation-chaining-setup-row">
                                             <div class="memorisation-chaining-setup-copy">
-                                                <span class="memorisation-chaining-setup-label">Practice style</span>
+                                                <span class="memorisation-chaining-setup-label">Session style</span>
                                                 <small>{{ memorisationChainingQuickSetupSummary }}</small>
                                             </div>
                                             <div class="memorisation-chaining-chip-row" role="group" aria-label="Chaining practice style">
@@ -1862,33 +2054,33 @@
                                                 </button>
                                             </div>
                                         </section>
-
-                                        <section class="memorisation-chaining-setup-row">
-                                            <div class="memorisation-chaining-setup-copy">
-                                                <span class="memorisation-chaining-setup-label">Finish</span>
-                                                <small>What happens after the chain ends</small>
-                                            </div>
-                                            <div class="memorisation-chaining-chip-row" role="group" aria-label="Chaining completion action">
-                                                <button
-                                                    v-for="option in memorisationChainingCompletionActionOptions"
-                                                    :key="`memorisation-chaining-complete-${option.value}`"
-                                                    type="button"
-                                                    class="btn memorisation-chaining-chip"
-                                                    :class="{ 'is-active': memorisationDraft.chainingMethodCompletionAction === option.value }"
-                                                    :aria-pressed="memorisationDraft.chainingMethodCompletionAction === option.value ? 'true' : 'false'"
-                                                    @click="memorisationDraft.chainingMethodCompletionAction = option.value">
-                                                    {{ option.label }}
-                                                </button>
-                                            </div>
-                                        </section>
                                     </div>
 
                                     <details class="memorisation-chaining-advanced">
                                         <summary class="memorisation-chaining-advanced-toggle">
-                                            Fine-tune settings
+                                            More options
                                         </summary>
 
                                         <div class="memorisation-chaining-advanced-grid">
+                                            <section class="memorisation-chaining-advanced-item">
+                                                <div class="memorisation-chaining-setup-copy">
+                                                    <span class="memorisation-chaining-setup-label">After the chain ends</span>
+                                                    <small>Choose what happens when you finish the range.</small>
+                                                </div>
+                                                <div class="memorisation-chaining-chip-row" role="group" aria-label="Chaining completion action">
+                                                    <button
+                                                        v-for="option in memorisationChainingCompletionActionOptions"
+                                                        :key="`memorisation-chaining-complete-${option.value}`"
+                                                        type="button"
+                                                        class="btn memorisation-chaining-chip"
+                                                        :class="{ 'is-active': memorisationDraft.chainingMethodCompletionAction === option.value }"
+                                                        :aria-pressed="memorisationDraft.chainingMethodCompletionAction === option.value ? 'true' : 'false'"
+                                                        @click="memorisationDraft.chainingMethodCompletionAction = option.value">
+                                                        {{ option.label }}
+                                                    </button>
+                                                </div>
+                                            </section>
+
                                             <section class="memorisation-chaining-advanced-item">
                                                 <div class="memorisation-chaining-setup-copy">
                                                     <span class="memorisation-chaining-setup-label">Repeats</span>
@@ -2069,7 +2261,7 @@
                             <label class="memorisation-offcanvas-toggle-row memorisation-offcanvas-toggle-row--with-action">
                                 <span class="memorisation-offcanvas-toggle-copy">
                                     <strong>Repeat After Reciter</strong>
-                                    <small>Pause after each ayah so you can repeat before the next ayah begins.</small>
+                                    <small>Let the reciter pause after each ayah so you can repeat it yourself.</small>
                                 </span>
                                 <span class="memorisation-offcanvas-toggle-actions">
                                     <button
@@ -2095,157 +2287,210 @@
                             <div
                                 v-if="memorisationDraft.repeatAfterReciterEnabled && isMemorisationRepeatAfterSettingsOpen"
                                 class="memorisation-repeat-after-settings memorisation-offcanvas-field memorisation-offcanvas-field--full">
-                                <span class="form-label surah-offcanvas-label">Repeat pause after each ayah</span>
-                                <small class="memorisation-repeat-after-meta mb-0">
-                                    This pause is your speaking time before the next ayah begins.
-                                </small>
-                                <div class="memorisation-repeat-after-delay-row" role="group" aria-label="Pause length after each ayah">
-                                    <button
-                                        type="button"
-                                        class="btn memorisation-repeat-after-delay-btn"
-                                        :class="{ 'is-active': memorisationDraft.repeatAfterReciterPauseMode === '2' }"
-                                        @click="memorisationDraft.repeatAfterReciterPauseMode = '2'">
-                                        2s (quick)
-                                    </button>
-                                    <button
-                                        type="button"
-                                        class="btn memorisation-repeat-after-delay-btn"
-                                        :class="{ 'is-active': memorisationDraft.repeatAfterReciterPauseMode === '3' }"
-                                        @click="memorisationDraft.repeatAfterReciterPauseMode = '3'">
-                                        3s (balanced)
-                                    </button>
-                                    <button
-                                        type="button"
-                                        class="btn memorisation-repeat-after-delay-btn"
-                                        :class="{ 'is-active': memorisationDraft.repeatAfterReciterPauseMode === '5' }"
-                                        @click="memorisationDraft.repeatAfterReciterPauseMode = '5'">
-                                        5s (extended)
-                                    </button>
-                                    <button
-                                        type="button"
-                                        class="btn memorisation-repeat-after-delay-btn"
-                                        :class="{ 'is-active': memorisationDraft.repeatAfterReciterPauseMode === 'manual' }"
-                                        @click="memorisationDraft.repeatAfterReciterPauseMode = 'manual'">
-                                        Until I tap Continue
-                                    </button>
-                                </div>
-                                <label class="memorisation-offcanvas-toggle-row memorisation-offcanvas-toggle-row--nested">
-                                    <span class="memorisation-offcanvas-toggle-copy">
-                                        <strong>Show translation while repeating</strong>
-                                        <small>ON helps meaning recall. OFF tests memory without translation hints.</small>
-                                    </span>
-                                    <span class="form-check form-switch mb-0">
-                                        <input
-                                            class="form-check-input"
-                                            type="checkbox"
-                                            v-model="memorisationDraft.repeatAfterReciterShowTranslation"
-                                            aria-label="Show translation during repeat pause">
-                                    </span>
-                                </label>
-                                <label class="memorisation-offcanvas-field memorisation-offcanvas-field--full">
-                                    <span class="form-label surah-offcanvas-label">Arabic verse text during pause</span>
-                                    <small class="memorisation-repeat-after-meta mb-0">
-                                        Choose how visible the ayah text should be while you repeat.
+                                <div class="memorisation-repeat-after-head">
+                                    <span class="form-label surah-offcanvas-label">Repeat after each ayah</span>
+                                    <small class="memorisation-repeat-after-head-copy">
+                                        Pick a pause length, then choose how much help stays on screen.
                                     </small>
-                                    <div class="memorisation-repeat-after-verse-row" role="group" aria-label="Verse text visibility during pause">
-                                        <button
-                                            type="button"
-                                            class="btn memorisation-repeat-after-verse-btn"
-                                            :class="{ 'is-active': memorisationDraft.repeatAfterReciterVerseTextMode === 'show' }"
-                                            @click="memorisationDraft.repeatAfterReciterVerseTextMode = 'show'">
-                                            Visible
-                                        </button>
-                                        <button
-                                            type="button"
-                                            class="btn memorisation-repeat-after-verse-btn"
-                                            :class="{ 'is-active': memorisationDraft.repeatAfterReciterVerseTextMode === 'dimmed' }"
-                                            @click="memorisationDraft.repeatAfterReciterVerseTextMode = 'dimmed'">
-                                            Dimmed
-                                        </button>
-                                        <button
-                                            type="button"
-                                            class="btn memorisation-repeat-after-verse-btn"
-                                            :class="{ 'is-active': memorisationDraft.repeatAfterReciterVerseTextMode === 'hide' }"
-                                            @click="memorisationDraft.repeatAfterReciterVerseTextMode = 'hide'">
-                                            Hidden (test mode)
-                                        </button>
-                                    </div>
-                                </label>
-                                <label class="memorisation-offcanvas-toggle-row memorisation-offcanvas-toggle-row--nested">
-                                    <span class="memorisation-offcanvas-toggle-copy">
-                                        <strong>Record and save on this device</strong>
-                                        <small>Saved to browser local storage only (up to 3 clips per ayah). During pause: tap Record, then Stop, then Continue.</small>
-                                    </span>
-                                    <span class="form-check form-switch mb-0">
-                                        <input
-                                            class="form-check-input"
-                                            type="checkbox"
-                                            v-model="memorisationDraft.repeatAfterReciterRecordEnabled"
-                                            aria-label="Enable repetition recording">
-                                    </span>
-                                </label>
-                                <div v-if="memorisationRepeatAfterRecordingCount" class="memorisation-repeat-library">
-                                    <div class="memorisation-repeat-library-head">
-                                        <span class="form-label surah-offcanvas-label mb-0">Repetition library</span>
-                                        <small class="memorisation-repeat-library-count">
-                                            {{ memorisationRepeatAfterRecordingCount }} saved clip{{ memorisationRepeatAfterRecordingCount === 1 ? '' : 's' }}
-                                        </small>
-                                    </div>
-                                    <label class="memorisation-offcanvas-field memorisation-offcanvas-field--full mb-0">
-                                        <small class="memorisation-repeat-library-hint mb-0">
-                                            Select an ayah, then listen, compare with ayah audio, or download.
-                                        </small>
-                                        <select
-                                            class="form-select memorisation-repeat-library-select"
-                                            :value="memorisationRepeatRecordingSelectionKeyResolved"
-                                            @change="onMemorisationRepeatRecordingSelectionChange"
-                                            aria-label="Select saved repetition ayah">
-                                            <option
-                                                v-for="option in memorisationRepeatRecordingAyahOptions"
-                                                :key="option.key"
-                                                :value="option.key">
-                                                {{ option.label }}
-                                            </option>
-                                        </select>
-                                    </label>
-                                    <div
-                                        class="memorisation-repeat-library-actions"
-                                        role="group"
-                                        aria-label="Saved repetition clip actions">
-                                        <button
-                                            type="button"
-                                            class="btn memorisation-repeat-library-btn memorisation-repeat-library-btn--primary"
-                                            :disabled="!memorisationRepeatRecordingSelectedLatest"
-                                            @click="listenSelectedMemorisationRepeatRecording">
-                                            <i class="bi bi-play-circle" aria-hidden="true"></i>
-                                            Listen clip
-                                        </button>
-                                        <button
-                                            type="button"
-                                            class="btn memorisation-repeat-library-btn memorisation-repeat-library-btn--primary"
-                                            :disabled="!memorisationRepeatRecordingSelectedLatest"
-                                            @click="compareSelectedMemorisationRepeatRecordingWithAyah">
-                                            <i class="bi bi-arrow-left-right" aria-hidden="true"></i>
-                                            Compare with ayah
-                                        </button>
-                                        <button
-                                            type="button"
-                                            class="btn memorisation-repeat-library-btn"
-                                            :disabled="!memorisationRepeatRecordingSelectedLatest"
-                                            @click="downloadSelectedMemorisationRepeatRecording">
-                                            <i class="bi bi-download" aria-hidden="true"></i>
-                                            Download clip
-                                        </button>
-                                    </div>
-                                    <p
-                                        v-if="memorisationRepeatRecordingPlaybackStatusText"
-                                        class="memorisation-repeat-library-status mb-0">
-                                        {{ memorisationRepeatRecordingPlaybackStatusText }}
-                                    </p>
                                 </div>
-                                <p v-else class="memorisation-repeat-after-meta mb-0">
-                                    No saved repetition clips yet. Record during a pause to build your library.
-                                </p>
+                                <section class="memorisation-repeat-after-card">
+                                    <div class="memorisation-repeat-after-card-head">
+                                        <strong>Pause length</strong>
+                                        <small>How long you get to repeat</small>
+                                    </div>
+                                    <div class="memorisation-repeat-after-delay-row" role="group" aria-label="Pause length after each ayah">
+                                        <button
+                                            type="button"
+                                            class="btn memorisation-repeat-after-delay-btn"
+                                            :class="{ 'is-active': memorisationDraft.repeatAfterReciterPauseMode === '2' }"
+                                            @click="memorisationDraft.repeatAfterReciterPauseMode = '2'">
+                                            2s
+                                        </button>
+                                        <button
+                                            type="button"
+                                            class="btn memorisation-repeat-after-delay-btn"
+                                            :class="{ 'is-active': memorisationDraft.repeatAfterReciterPauseMode === '3' }"
+                                            @click="memorisationDraft.repeatAfterReciterPauseMode = '3'">
+                                            3s
+                                        </button>
+                                        <button
+                                            type="button"
+                                            class="btn memorisation-repeat-after-delay-btn"
+                                            :class="{ 'is-active': memorisationDraft.repeatAfterReciterPauseMode === '5' }"
+                                            @click="memorisationDraft.repeatAfterReciterPauseMode = '5'">
+                                            5s
+                                        </button>
+                                        <button
+                                            type="button"
+                                            class="btn memorisation-repeat-after-delay-btn"
+                                            :class="{ 'is-active': memorisationDraft.repeatAfterReciterPauseMode === 'manual' }"
+                                            @click="memorisationDraft.repeatAfterReciterPauseMode = 'manual'">
+                                            Manual
+                                        </button>
+                                    </div>
+                                </section>
+                                <section class="memorisation-repeat-after-card">
+                                    <div class="memorisation-repeat-after-card-head">
+                                        <strong>Screen help</strong>
+                                        <small>{{ memorisationRepeatAfterDraftPauseLabel }} · choose the amount of help you want.</small>
+                                    </div>
+                                    <div class="memorisation-repeat-after-support-row" role="group" aria-label="Repeat After support preset">
+                                        <button
+                                            type="button"
+                                            class="btn memorisation-repeat-after-support-btn"
+                                            :class="{ 'is-active': memorisationRepeatAfterDraftSupportPreset === 'full' }"
+                                            @click="applyMemorisationRepeatAfterSupportPreset('full')">
+                                            Full help
+                                        </button>
+                                        <button
+                                            type="button"
+                                            class="btn memorisation-repeat-after-support-btn"
+                                            :class="{ 'is-active': memorisationRepeatAfterDraftSupportPreset === 'balanced' }"
+                                            @click="applyMemorisationRepeatAfterSupportPreset('balanced')">
+                                            Balanced
+                                        </button>
+                                        <button
+                                            type="button"
+                                            class="btn memorisation-repeat-after-support-btn"
+                                            :class="{ 'is-active': memorisationRepeatAfterDraftSupportPreset === 'recall' }"
+                                            @click="applyMemorisationRepeatAfterSupportPreset('recall')">
+                                            Recall
+                                        </button>
+                                    </div>
+                                    <p class="memorisation-repeat-after-support-summary mb-0">
+                                        {{ memorisationRepeatAfterDraftSupportSummary }}
+                                    </p>
+                                </section>
+                                <details class="memorisation-repeat-after-advanced">
+                                    <summary class="memorisation-repeat-after-advanced-toggle">
+                                        More options
+                                    </summary>
+                                    <div class="memorisation-repeat-after-advanced-body">
+                                        <div class="memorisation-repeat-after-simple-grid">
+                                            <label class="memorisation-repeat-after-card memorisation-repeat-after-card--toggle">
+                                                <div class="memorisation-repeat-after-card-head">
+                                                    <strong>Meaning</strong>
+                                                    <small>Keep translation visible during your pause.</small>
+                                                </div>
+                                                <span class="form-check form-switch mb-0">
+                                                    <input
+                                                        class="form-check-input"
+                                                        type="checkbox"
+                                                        v-model="memorisationDraft.repeatAfterReciterShowTranslation"
+                                                        aria-label="Show translation during repeat pause">
+                                                </span>
+                                            </label>
+                                            <section class="memorisation-repeat-after-card">
+                                                <div class="memorisation-repeat-after-card-head">
+                                                    <strong>Arabic text</strong>
+                                                    <small>How visible the ayah stays while you repeat.</small>
+                                                </div>
+                                                <div class="memorisation-repeat-after-verse-row" role="group" aria-label="Verse text visibility during pause">
+                                                    <button
+                                                        type="button"
+                                                        class="btn memorisation-repeat-after-verse-btn"
+                                                        :class="{ 'is-active': memorisationDraft.repeatAfterReciterVerseTextMode === 'show' }"
+                                                        @click="memorisationDraft.repeatAfterReciterVerseTextMode = 'show'">
+                                                        Show
+                                                    </button>
+                                                    <button
+                                                        type="button"
+                                                        class="btn memorisation-repeat-after-verse-btn"
+                                                        :class="{ 'is-active': memorisationDraft.repeatAfterReciterVerseTextMode === 'dimmed' }"
+                                                        @click="memorisationDraft.repeatAfterReciterVerseTextMode = 'dimmed'">
+                                                        Dim
+                                                    </button>
+                                                    <button
+                                                        type="button"
+                                                        class="btn memorisation-repeat-after-verse-btn"
+                                                        :class="{ 'is-active': memorisationDraft.repeatAfterReciterVerseTextMode === 'hide' }"
+                                                        @click="memorisationDraft.repeatAfterReciterVerseTextMode = 'hide'">
+                                                        Hide
+                                                    </button>
+                                                </div>
+                                            </section>
+                                        </div>
+                                        <label class="memorisation-repeat-after-card memorisation-repeat-after-card--toggle">
+                                            <div class="memorisation-repeat-after-card-head">
+                                                <strong>Save voice repeats on this device</strong>
+                                                <small>Optional. Record during the pause and keep up to 3 clips per ayah.</small>
+                                            </div>
+                                            <span class="form-check form-switch mb-0">
+                                                <input
+                                                    class="form-check-input"
+                                                    type="checkbox"
+                                                    v-model="memorisationDraft.repeatAfterReciterRecordEnabled"
+                                                    aria-label="Enable repetition recording">
+                                            </span>
+                                        </label>
+                                        <div
+                                            v-if="memorisationDraft.repeatAfterReciterRecordEnabled && memorisationRepeatAfterRecordingCount"
+                                            class="memorisation-repeat-library">
+                                            <div class="memorisation-repeat-library-head">
+                                                <span class="form-label surah-offcanvas-label mb-0">Repetition library</span>
+                                                <small class="memorisation-repeat-library-count">
+                                                    {{ memorisationRepeatAfterRecordingCount }} saved clip{{ memorisationRepeatAfterRecordingCount === 1 ? '' : 's' }}
+                                                </small>
+                                            </div>
+                                            <label class="memorisation-offcanvas-field memorisation-offcanvas-field--full mb-0">
+                                                <small class="memorisation-repeat-library-hint mb-0">
+                                                    Select an ayah, then listen, compare with ayah audio, or download.
+                                                </small>
+                                                <select
+                                                    class="form-select memorisation-repeat-library-select"
+                                                    :value="memorisationRepeatRecordingSelectionKeyResolved"
+                                                    @change="onMemorisationRepeatRecordingSelectionChange"
+                                                    aria-label="Select saved repetition ayah">
+                                                    <option
+                                                        v-for="option in memorisationRepeatRecordingAyahOptions"
+                                                        :key="option.key"
+                                                        :value="option.key">
+                                                        {{ option.label }}
+                                                    </option>
+                                                </select>
+                                            </label>
+                                            <div
+                                                class="memorisation-repeat-library-actions"
+                                                role="group"
+                                                aria-label="Saved repetition clip actions">
+                                                <button
+                                                    type="button"
+                                                    class="btn memorisation-repeat-library-btn memorisation-repeat-library-btn--primary"
+                                                    :disabled="!memorisationRepeatRecordingSelectedLatest"
+                                                    @click="listenSelectedMemorisationRepeatRecording">
+                                                    <i class="bi bi-play-circle" aria-hidden="true"></i>
+                                                    Listen clip
+                                                </button>
+                                                <button
+                                                    type="button"
+                                                    class="btn memorisation-repeat-library-btn memorisation-repeat-library-btn--primary"
+                                                    :disabled="!memorisationRepeatRecordingSelectedLatest"
+                                                    @click="compareSelectedMemorisationRepeatRecordingWithAyah">
+                                                    <i class="bi bi-arrow-left-right" aria-hidden="true"></i>
+                                                    Compare with ayah
+                                                </button>
+                                                <button
+                                                    type="button"
+                                                    class="btn memorisation-repeat-library-btn"
+                                                    :disabled="!memorisationRepeatRecordingSelectedLatest"
+                                                    @click="downloadSelectedMemorisationRepeatRecording">
+                                                    <i class="bi bi-download" aria-hidden="true"></i>
+                                                    Download clip
+                                                </button>
+                                            </div>
+                                            <p
+                                                v-if="memorisationRepeatRecordingPlaybackStatusText"
+                                                class="memorisation-repeat-library-status mb-0">
+                                                {{ memorisationRepeatRecordingPlaybackStatusText }}
+                                            </p>
+                                        </div>
+                                        <p
+                                            v-else-if="memorisationDraft.repeatAfterReciterRecordEnabled"
+                                            class="memorisation-repeat-after-meta mb-0">
+                                            No saved clips yet.
+                                        </p>
+                                    </div>
+                                </details>
                             </div>
                         </div>
                     </section>
@@ -2276,8 +2521,746 @@
         </teleport>
 
         <teleport to="body">
+            <div
+                class="modal fade session-history-modal-shell"
+                :id="sessionHistoryModalId"
+                tabindex="-1"
+                aria-labelledby="sessionHistoryModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable modal-fullscreen-md-down">
+                    <div class="modal-content session-history-modal">
+                        <div class="modal-header session-history-modal-header">
+                            <div class="session-history-modal-header-main">
+                                <div class="session-history-modal-header-copy">
+                                    <h4 class="modal-title mb-1" id="sessionHistoryModalLabel">Session History</h4>
+                                    <p class="session-history-modal-subtitle mb-0">
+                                        Review every saved memorisation session, spot patterns, and reload any setup instantly.
+                                    </p>
+                                </div>
+                                <div class="session-history-modal-header-controls">
+                                    <div class="session-history-modal-actions">
+                                        <button
+                                            type="button"
+                                            class="btn session-history-header-btn"
+                                            @click="loadStarterSessionHistory({ announce: true })">
+                                            <i class="bi bi-stars" aria-hidden="true"></i>
+                                            Load starter
+                                        </button>
+                                        <button
+                                            type="button"
+                                            class="btn session-history-header-btn"
+                                            :disabled="!sessionHistoryFilteredEntries.length"
+                                            @click="downloadSessionHistoryCsv()">
+                                            <i class="bi bi-filetype-csv" aria-hidden="true"></i>
+                                            CSV
+                                        </button>
+                                        <button
+                                            type="button"
+                                            class="btn session-history-header-btn"
+                                            :disabled="!sessionHistoryFilteredEntries.length"
+                                            @click="downloadSessionHistoryPdf()">
+                                            <i class="bi bi-file-earmark-pdf" aria-hidden="true"></i>
+                                            PDF
+                                        </button>
+                                        <button
+                                            type="button"
+                                            class="btn session-history-header-btn"
+                                            :disabled="!sessionHistoryFilteredEntries.length"
+                                            @click="shareSessionHistoryProgressReport()">
+                                            <i class="bi bi-share" aria-hidden="true"></i>
+                                            Share report
+                                        </button>
+                                    </div>
+                                    <button
+                                        type="button"
+                                        class="btn-close session-history-modal-close"
+                                        data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="modal-body session-history-modal-body">
+                            <section class="session-history-overview-strip">
+                                <div class="session-history-overview-pills">
+                                    <span class="session-history-overview-pill">
+                                        <strong>{{ sessionHistorySummaryStats.totalSessions }}</strong>
+                                        Sessions
+                                    </span>
+                                    <span class="session-history-overview-pill">
+                                        <strong>{{ formatSessionHistoryDuration(sessionHistorySummaryStats.averageDurationMs) }}</strong>
+                                        Average
+                                    </span>
+                                    <span class="session-history-overview-pill">
+                                        <strong>{{ sessionHistorySummaryStats.bestStreak }}</strong>
+                                        Best streak
+                                    </span>
+                                </div>
+                                <div class="session-history-overview-meta">
+                                    <p class="session-history-overview-note mb-0">
+                                        {{ sessionHistoryOverviewNote }}
+                                    </p>
+                                    <button
+                                        type="button"
+                                        class="btn session-history-overview-help"
+                                        data-bs-toggle="tooltip"
+                                        data-session-history-tooltip
+                                        data-bs-placement="top"
+                                        :data-bs-title="sessionHistoryCalculationTooltip"
+                                        aria-label="How session history stats are calculated">
+                                        <i class="bi bi-info-circle" aria-hidden="true"></i>
+                                        How is this calculated?
+                                    </button>
+                                </div>
+                                <div
+                                    v-if="sessionHistoryMilestoneMoments.length"
+                                    class="session-history-milestone-row">
+                                    <article
+                                        v-for="moment in sessionHistoryMilestoneMoments"
+                                        :key="moment.id"
+                                        class="session-history-milestone-card">
+                                        <i class="bi" :class="moment.icon" aria-hidden="true"></i>
+                                        <div>
+                                            <strong>{{ moment.title }}</strong>
+                                            <small>{{ moment.detail }}</small>
+                                        </div>
+                                    </article>
+                                </div>
+                                <div
+                                    v-if="sessionHistoryForecast.hasForecast"
+                                    class="session-history-forecast-block">
+                                    <div class="session-history-forecast-head">
+                                        <strong>Proactive forecast</strong>
+                                        <small>{{ sessionHistoryForecastNote }}</small>
+                                    </div>
+                                    <div class="session-history-forecast-grid">
+                                        <article class="session-history-forecast-card">
+                                            <span class="session-history-detail-label">Next 7d sessions</span>
+                                            <strong>{{ sessionHistoryForecast.projectedSessions7d }}</strong>
+                                        </article>
+                                        <article class="session-history-forecast-card">
+                                            <span class="session-history-detail-label">Next 7d time</span>
+                                            <strong>{{ formatSessionHistoryDuration(sessionHistoryForecast.projectedDurationMs7d) }}</strong>
+                                        </article>
+                                        <article class="session-history-forecast-card">
+                                            <span class="session-history-detail-label">Likely active days</span>
+                                            <strong>{{ sessionHistoryForecast.projectedActiveDays7d }}/7</strong>
+                                        </article>
+                                    </div>
+                                </div>
+                                <div v-if="sessionHistoryOnThisDayEntries.length" class="session-history-overview-links">
+                                    <span class="session-history-insight-label">On this day</span>
+                                    <div class="session-history-overview-link-row">
+                                        <button
+                                            v-for="entry in sessionHistoryOnThisDayEntries.slice(0, 3)"
+                                            :key="`on-this-day-${entry.id}`"
+                                            type="button"
+                                            class="session-history-overview-link"
+                                            @click="openSessionHistoryModal(entry.id)">
+                                            {{ formatSessionHistoryRange(entry) }}
+                                        </button>
+                                    </div>
+                                </div>
+                            </section>
+                            <div v-if="hasOnlySeededSessionHistory" class="session-history-seeded-note">
+                                Starter history is loaded so you can explore filters, calendar, heatmap, and reload flows before your first real session.
+                            </div>
+
+                            <section class="session-history-toolbar-card" aria-label="Session history controls">
+                                <div class="session-history-toolbar-row">
+                                    <div class="session-history-view-bar" role="tablist" aria-label="Session history views">
+                                        <button
+                                            type="button"
+                                            class="btn session-history-view-btn"
+                                            :class="{ 'is-active': sessionHistoryView === 'list' }"
+                                            :aria-pressed="sessionHistoryView === 'list' ? 'true' : 'false'"
+                                            @click="sessionHistoryView = 'list'">
+                                            <i class="bi bi-list-ul" aria-hidden="true"></i>
+                                            List
+                                        </button>
+                                        <button
+                                            type="button"
+                                            class="btn session-history-view-btn"
+                                            :class="{ 'is-active': sessionHistoryView === 'calendar' }"
+                                            :aria-pressed="sessionHistoryView === 'calendar' ? 'true' : 'false'"
+                                            :disabled="!sessionHistoryHasEntries"
+                                            @click="sessionHistoryView = 'calendar'">
+                                            <i class="bi bi-calendar3" aria-hidden="true"></i>
+                                            Calendar
+                                        </button>
+                                        <button
+                                            type="button"
+                                            class="btn session-history-view-btn"
+                                            :class="{ 'is-active': sessionHistoryView === 'heatmap' }"
+                                            :aria-pressed="sessionHistoryView === 'heatmap' ? 'true' : 'false'"
+                                            :disabled="!sessionHistoryHasEntries"
+                                            @click="sessionHistoryView = 'heatmap'">
+                                            <i class="bi bi-grid-3x7-gap" aria-hidden="true"></i>
+                                            Heatmap
+                                        </button>
+                                        <button
+                                            type="button"
+                                            class="btn session-history-view-btn"
+                                            :class="{ 'is-active': sessionHistoryView === 'surah' }"
+                                            :aria-pressed="sessionHistoryView === 'surah' ? 'true' : 'false'"
+                                            :disabled="!sessionHistoryHasEntries"
+                                            @click="sessionHistoryView = 'surah'">
+                                            <i class="bi bi-bar-chart" aria-hidden="true"></i>
+                                            Surah
+                                        </button>
+                                    </div>
+                                    <div class="session-history-toolbar-actions">
+                                        <button
+                                            type="button"
+                                            class="btn session-history-header-btn session-history-header-btn--ghost"
+                                            @click="sessionHistoryFiltersExpanded = !sessionHistoryFiltersExpanded">
+                                            <i class="bi bi-sliders" aria-hidden="true"></i>
+                                            {{ sessionHistoryShouldShowAdvancedFilters ? "Less filters" : "More filters" }}
+                                            <span
+                                                v-if="sessionHistoryActiveFilterCount"
+                                                class="session-history-filter-count">
+                                                {{ sessionHistoryActiveFilterCount }}
+                                            </span>
+                                        </button>
+                                        <button
+                                            v-if="sessionHistoryHasActiveFilters"
+                                            type="button"
+                                            class="btn session-history-clear-btn"
+                                            @click="clearSessionHistoryFilters()">
+                                            Clear
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="session-history-search-row">
+                                    <div class="session-history-search-summary">
+                                        <strong>{{ sessionHistoryResultLabel }}</strong>
+                                        <small>Search by surah, ayah range, note, tool, or date.</small>
+                                    </div>
+                                    <label class="session-history-filter-field session-history-filter-field--search session-history-search-input">
+                                        <span class="visually-hidden">Search sessions</span>
+                                        <i class="bi bi-search session-history-search-icon" aria-hidden="true"></i>
+                                        <input
+                                            v-model.trim="sessionHistorySearchQuery"
+                                            type="search"
+                                            class="form-control"
+                                            placeholder="Search surah, range, note, date, or tool">
+                                        <button
+                                            v-if="sessionHistorySearchQuery"
+                                            type="button"
+                                            class="btn session-history-search-clear"
+                                            @click="sessionHistorySearchQuery = ''">
+                                            Clear
+                                        </button>
+                                    </label>
+                                    <label class="session-history-filter-field">
+                                        <span class="visually-hidden">Filter by surah</span>
+                                        <select v-model="sessionHistoryFilterSurah" class="form-select">
+                                            <option value="">All surahs</option>
+                                            <option
+                                                v-for="option in sessionHistoryAvailableSurahOptions"
+                                                :key="`session-history-surah-${option.surahNumber}`"
+                                                :value="String(option.surahNumber)">
+                                                {{ option.surahNumber }}. {{ option.surahName }}
+                                            </option>
+                                        </select>
+                                    </label>
+                                </div>
+
+                                <div v-if="sessionHistoryActiveFilterBadges.length" class="session-history-active-filter-row">
+                                    <span class="session-history-active-filter-label">Active filters</span>
+                                    <button
+                                        v-for="badge in sessionHistoryActiveFilterBadges"
+                                        :key="`session-history-filter-badge-${badge.key}`"
+                                        type="button"
+                                        class="btn session-history-active-filter-chip"
+                                        @click="clearSessionHistoryFilter(badge.key)">
+                                        <span>{{ badge.label }}</span>
+                                        <i class="bi bi-x-lg" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+
+                                <div v-if="sessionHistoryShouldShowAdvancedFilters" class="session-history-advanced-filters">
+                                    <label class="session-history-filter-field">
+                                        <span class="visually-hidden">Filter by tool</span>
+                                        <select v-model="sessionHistoryFilterTool" class="form-select">
+                                            <option value="">All tools</option>
+                                            <option
+                                                v-for="tool in sessionHistoryAvailableToolOptions"
+                                                :key="`session-history-tool-${tool.id}`"
+                                                :value="tool.id">
+                                                {{ tool.label }}
+                                            </option>
+                                        </select>
+                                    </label>
+                                    <label class="session-history-filter-field">
+                                        <span class="visually-hidden">Start date</span>
+                                        <input v-model="sessionHistoryFilterStartDate" type="date" class="form-control">
+                                    </label>
+                                    <label class="session-history-filter-field">
+                                        <span class="visually-hidden">End date</span>
+                                        <input v-model="sessionHistoryFilterEndDate" type="date" class="form-control">
+                                    </label>
+                                    <label class="session-history-filter-field">
+                                        <span class="visually-hidden">Duration</span>
+                                        <select v-model="sessionHistoryFilterDuration" class="form-select">
+                                            <option value="">Any length</option>
+                                            <option value="short">Under 10 min</option>
+                                            <option value="medium">10-30 min</option>
+                                            <option value="long">30+ min</option>
+                                        </select>
+                                    </label>
+                                </div>
+
+                                <div class="session-history-view-copy">
+                                    <strong>{{ sessionHistoryViewTitle }}</strong>
+                                    <small>{{ sessionHistoryViewSubtitle }}</small>
+                                </div>
+                            </section>
+
+                            <div v-if="!sessionHistoryFilteredEntries.length" class="session-history-empty-state">
+                                <p class="mb-0">
+                                    {{ sessionHistoryHasEntries ? "No sessions match the current filters." : "No saved sessions yet." }}
+                                </p>
+                                <button
+                                    v-if="sessionHistoryHasActiveFilters"
+                                    type="button"
+                                    class="btn session-history-entry-btn"
+                                    @click="clearSessionHistoryFilters()">
+                                    Clear filters
+                                </button>
+                                <button
+                                    v-else-if="!sessionHistoryHasEntries"
+                                    type="button"
+                                    class="btn session-history-entry-btn session-history-entry-btn--primary"
+                                    @click="loadStarterSessionHistory({ announce: true })">
+                                    <i class="bi bi-stars" aria-hidden="true"></i>
+                                    Load starter history
+                                </button>
+                            </div>
+
+                            <div v-else-if="sessionHistoryView === 'list'" class="session-history-list-shell">
+                                <p class="session-history-mobile-flow-note mb-0">
+                                    Tap a session to open its details below. We will jump you there automatically on smaller screens.
+                                </p>
+                                <div ref="sessionHistoryList" class="session-history-list">
+                                    <button
+                                        v-for="entry in sessionHistoryFilteredEntries"
+                                        :key="entry.id"
+                                        type="button"
+                                        class="session-history-entry-card session-history-entry-card--selectable"
+                                        :class="{ 'is-active': sessionHistorySelectedEntry && sessionHistorySelectedEntry.id === entry.id }"
+                                        @click="setSessionHistorySelectedEntry(entry.id)">
+                                        <div class="session-history-entry-summary-main">
+                                            <div class="session-history-entry-summary-head">
+                                                <strong>{{ formatSessionHistoryRange(entry) }}</strong>
+                                                <span
+                                                    v-if="isSeededSessionHistoryEntry(entry)"
+                                                    class="memorisation-demo-badge memorisation-demo-badge--inline">
+                                                    Starter
+                                                </span>
+                                            </div>
+                                            <span class="session-history-entry-date">{{ formatSessionHistoryDateTime(entry.endedAt) }}</span>
+                                            <div class="session-history-entry-meta">
+                                                <span>{{ formatSessionHistoryDuration(entry.durationMs) }}</span>
+                                                <span>{{ formatSessionHistoryVersesCoveredLabel(entry) }}</span>
+                                                <span>{{ formatSessionHistoryRepetitionsLabel(entry) }}</span>
+                                            </div>
+                                            <div v-if="entry.toolsUsed.length" class="session-history-tool-row">
+                                                <span
+                                                    v-for="tool in entry.toolsUsed"
+                                                    :key="`entry-tool-${entry.id}-${tool.id}`"
+                                                    class="session-history-tool-pill"
+                                                    :title="tool.label">
+                                                    <i class="bi" :class="tool.icon" aria-hidden="true"></i>
+                                                    <span>{{ tool.label }}</span>
+                                                </span>
+                                            </div>
+                                            <p v-if="entry.note" class="session-history-entry-note-preview mb-0">
+                                                {{ entry.note }}
+                                            </p>
+                                        </div>
+                                        <div class="session-history-entry-summary-side">
+                                            <span
+                                                v-if="entry.accuracyScore !== null && entry.accuracyScore !== undefined"
+                                                class="session-history-accuracy-pill">
+                                                {{ entry.accuracyScore }}%
+                                            </span>
+                                            <span class="session-history-entry-open-label">Details</span>
+                                        </div>
+                                    </button>
+                                </div>
+
+                                <aside
+                                    v-if="sessionHistorySelectedEntry"
+                                    ref="sessionHistorySelectedPanel"
+                                    class="session-history-selected-panel">
+                                    <div class="session-history-selected-panel-utility">
+                                        <span class="session-history-insight-label">Selected session</span>
+                                        <button
+                                            type="button"
+                                            class="btn session-history-selected-panel-back-btn"
+                                            @click="scrollSessionHistoryListIntoView()">
+                                            <i class="bi bi-arrow-up" aria-hidden="true"></i>
+                                            Choose another
+                                        </button>
+                                    </div>
+                                    <div class="session-history-selected-panel-head">
+                                        <div class="session-history-selected-panel-copy">
+                                            <div class="session-history-entry-summary-head">
+                                                <strong>{{ formatSessionHistoryRange(sessionHistorySelectedEntry) }}</strong>
+                                                <span
+                                                    v-if="isSeededSessionHistoryEntry(sessionHistorySelectedEntry)"
+                                                    class="memorisation-demo-badge memorisation-demo-badge--inline">
+                                                    Starter
+                                                </span>
+                                            </div>
+                                            <p class="session-history-selected-panel-date mb-0">
+                                                {{ formatSessionHistoryDateTime(sessionHistorySelectedEntry.endedAt) }}
+                                            </p>
+                                        </div>
+                                        <span
+                                            v-if="sessionHistorySelectedEntry.accuracyScore !== null && sessionHistorySelectedEntry.accuracyScore !== undefined"
+                                            class="session-history-accuracy-pill">
+                                            {{ sessionHistorySelectedEntry.accuracyScore }}%
+                                        </span>
+                                    </div>
+
+                                    <div v-if="sessionHistorySelectedEntry.toolsUsed.length" class="session-history-tool-row">
+                                        <span
+                                            v-for="tool in sessionHistorySelectedEntry.toolsUsed"
+                                            :key="`selected-entry-tool-${sessionHistorySelectedEntry.id}-${tool.id}`"
+                                            class="session-history-tool-pill"
+                                            :title="tool.label">
+                                            <i class="bi" :class="tool.icon" aria-hidden="true"></i>
+                                            <span>{{ tool.label }}</span>
+                                        </span>
+                                    </div>
+
+                                    <div class="session-history-detail-grid">
+                                        <article class="session-history-detail-card">
+                                            <span class="session-history-detail-label">Range</span>
+                                            <strong>{{ sessionHistorySelectedEntry.rangeStart }}-{{ sessionHistorySelectedEntry.rangeEnd }}</strong>
+                                        </article>
+                                        <article class="session-history-detail-card">
+                                            <span class="session-history-detail-label">Playback</span>
+                                            <strong>{{ sessionHistorySelectedEntry.sessionConfig.playbackMode }} · {{ sessionHistorySelectedEntry.sessionConfig.playbackSpeed }}x</strong>
+                                        </article>
+                                        <article class="session-history-detail-card">
+                                            <span class="session-history-detail-label">Completion</span>
+                                            <strong>{{ sessionHistorySelectedEntry.completionReason }}</strong>
+                                        </article>
+                                        <article class="session-history-detail-card">
+                                            <span class="session-history-detail-label">Surah</span>
+                                            <strong>{{ sessionHistorySelectedEntry.surahName }}</strong>
+                                        </article>
+                                    </div>
+
+                                    <label class="session-history-note-field">
+                                        <span class="session-history-detail-label">Session note</span>
+                                        <small class="session-history-note-help">
+                                            Private note for this session. It saves when you tap Save Note or leave the field.
+                                        </small>
+                                        <textarea
+                                            :value="sessionHistoryNoteDrafts[sessionHistorySelectedEntry.id] || ''"
+                                            :data-session-history-entry-id="sessionHistorySelectedEntry.id"
+                                            class="form-control"
+                                            rows="4"
+                                            maxlength="280"
+                                            placeholder="Add a note about what felt strong, difficult, or worth remembering."
+                                            @input="updateSessionHistoryNoteDraft(sessionHistorySelectedEntry.id, $event.target.value)"
+                                            @blur="handleSessionHistoryNoteBlur($event)"></textarea>
+                                    </label>
+
+                                    <div class="session-history-entry-actions">
+                                        <button type="button" class="btn session-history-entry-btn session-history-entry-btn--primary" @click="reloadSessionHistoryEntry(sessionHistorySelectedEntry)">
+                                            <i class="bi bi-arrow-clockwise" aria-hidden="true"></i>
+                                            Use This Setup
+                                        </button>
+                                        <button type="button" class="btn session-history-entry-btn" @click="viewSessionHistoryVerses(sessionHistorySelectedEntry)">
+                                            <i class="bi bi-book" aria-hidden="true"></i>
+                                            Open Verses
+                                        </button>
+                                        <button type="button" class="btn session-history-entry-btn" @click="saveSessionHistoryNote(sessionHistorySelectedEntry.id)">
+                                            <i class="bi bi-journal-check" aria-hidden="true"></i>
+                                            Save Note
+                                        </button>
+                                        <button type="button" class="btn session-history-entry-btn session-history-entry-btn--danger" @click="deleteSessionHistoryEntry(sessionHistorySelectedEntry.id)">
+                                            <i class="bi bi-trash" aria-hidden="true"></i>
+                                            Delete
+                                        </button>
+                                    </div>
+                                </aside>
+                            </div>
+
+                            <div v-else-if="sessionHistoryView === 'calendar'" class="session-history-calendar-panel">
+                                <div class="session-history-calendar-head">
+                                    <div class="session-history-calendar-month">
+                                        <button type="button" class="btn session-history-calendar-nav" @click="changeSessionHistoryCalendarMonth(-1)" aria-label="Previous month">
+                                            <i class="bi bi-chevron-left" aria-hidden="true"></i>
+                                        </button>
+                                        <strong>{{ sessionHistoryCalendarMonthLabel }}</strong>
+                                        <button type="button" class="btn session-history-calendar-nav" @click="changeSessionHistoryCalendarMonth(1)" aria-label="Next month">
+                                            <i class="bi bi-chevron-right" aria-hidden="true"></i>
+                                        </button>
+                                    </div>
+                                    <small class="session-history-calendar-hint">Tap a day with activity to review that day's sessions.</small>
+                                </div>
+                                <div class="session-history-view-explainer">
+                                    <strong>How to read Calendar</strong>
+                                    <p class="mb-0">{{ sessionHistoryCalendarExplanation }}</p>
+                                </div>
+                                <div class="session-history-calendar-grid-wrap">
+                                    <div class="session-history-calendar-grid" role="grid" aria-label="Session history calendar">
+                                        <span
+                                            v-for="label in hifzDashboardWeekdayLabels"
+                                            :key="`session-history-weekday-${label}`"
+                                            class="session-history-calendar-weekday">
+                                            {{ label }}
+                                        </span>
+                                        <button
+                                            v-for="cell in sessionHistoryCalendarCells"
+                                            :key="`session-history-cell-${cell.dateKey}`"
+                                            type="button"
+                                            class="session-history-calendar-cell"
+                                            :class="{
+                                                'is-outside': !cell.isCurrentMonth,
+                                                'is-today': cell.isToday,
+                                                'has-sessions': !!cell.aggregate,
+                                                'is-selected': sessionHistoryEffectiveSelectedDateKey === cell.dateKey
+                                            }"
+                                            :disabled="!cell.isCurrentMonth"
+                                            @click="selectSessionHistoryCalendarDate(cell.dateKey)">
+                                            <span class="session-history-calendar-day">{{ cell.dayNumber }}</span>
+                                            <small v-if="cell.aggregate" class="session-history-calendar-count">
+                                                {{ cell.aggregate.count }} session{{ cell.aggregate.count === 1 ? "" : "s" }}
+                                            </small>
+                                        </button>
+                                    </div>
+                                </div>
+                                <small class="session-history-scroll-hint">
+                                    Swipe sideways on smaller screens if you want to see the full month at once.
+                                </small>
+
+                                <div ref="sessionHistoryCalendarDetail" class="session-history-calendar-detail">
+                                    <div class="session-history-calendar-detail-head">
+                                        <div class="session-history-calendar-detail-summary">
+                                            <strong>{{ sessionHistorySelectedDateLabel }}</strong>
+                                            <small>{{ sessionHistorySelectedDateSummary }}</small>
+                                        </div>
+                                    </div>
+                                    <div v-if="sessionHistorySelectedDateEntries.length" class="session-history-calendar-detail-list">
+                                        <button
+                                            v-for="entry in sessionHistorySelectedDateEntries"
+                                            :key="`calendar-entry-${entry.id}`"
+                                            type="button"
+                                            class="session-history-calendar-detail-item"
+                                            @click="sessionHistoryView = 'list'; setSessionHistorySelectedEntry(entry.id)">
+                                            <strong>{{ formatSessionHistoryRange(entry) }}</strong>
+                                            <small>{{ formatSessionHistoryDuration(entry.durationMs, { short: true }) }} · {{ formatSessionHistoryDateTime(entry.endedAt) }}</small>
+                                        </button>
+                                    </div>
+                                    <p v-else class="session-history-empty-state mb-0">
+                                        No sessions saved for this day.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div v-else-if="sessionHistoryView === 'heatmap'" class="session-history-heatmap-panel">
+                                <div class="session-history-heatmap-head">
+                                    <div class="session-history-heatmap-head-copy">
+                                        <strong>Last {{ sessionHistoryHeatmapWindowDays }} days</strong>
+                                        <p class="mb-0">Darker squares mean more sessions or longer total time. Tap any square to open that day in Calendar.</p>
+                                    </div>
+                                    <div class="session-history-heatmap-legend" aria-hidden="true">
+                                        <span>Less</span>
+                                        <span class="session-history-heatmap-swatch is-level-1"></span>
+                                        <span class="session-history-heatmap-swatch is-level-2"></span>
+                                        <span class="session-history-heatmap-swatch is-level-3"></span>
+                                        <span class="session-history-heatmap-swatch is-level-4"></span>
+                                        <span>More</span>
+                                    </div>
+                                </div>
+                                <div class="session-history-view-explainer session-history-view-explainer--heatmap">
+                                    <strong>How to read Heatmap</strong>
+                                    <p class="mb-0">{{ sessionHistoryHeatmapExplanation }}</p>
+                                </div>
+                                <div class="session-history-heatmap-grid-wrap">
+                                    <div
+                                        class="session-history-heatmap-board"
+                                        :style="sessionHistoryHeatmapBoardStyle">
+                                        <div
+                                            class="session-history-heatmap-months"
+                                            aria-hidden="true">
+                                            <span
+                                                v-for="marker in sessionHistoryHeatmapMonthMarkers"
+                                                :key="`session-history-heatmap-month-${marker.monthKey}`"
+                                                class="session-history-heatmap-month-label"
+                                                :style="{ gridColumnStart: String(marker.column) }">
+                                                {{ marker.label }}
+                                            </span>
+                                        </div>
+                                        <div class="session-history-heatmap-main">
+                                            <div class="session-history-heatmap-weekdays" aria-hidden="true">
+                                                <span
+                                                    v-for="label in sessionHistoryHeatmapWeekdayLabels"
+                                                    :key="`session-history-heatmap-weekday-${label}`">
+                                                    {{ label }}
+                                                </span>
+                                            </div>
+                                            <div class="session-history-heatmap-grid" role="list" aria-label="Session frequency heatmap">
+                                                <button
+                                                    v-for="cell in sessionHistoryHeatmapCells"
+                                                    :key="`heatmap-cell-${cell.dateKey || cell.slotKey}`"
+                                                    type="button"
+                                                    class="session-history-heatmap-cell"
+                                                    :class="[
+                                                        `is-level-${cell.level}`,
+                                                        {
+                                                            'is-today': cell.isToday,
+                                                            'is-padding': !cell.inWindow,
+                                                            'is-empty': cell.inWindow && !cell.count
+                                                        }
+                                                    ]"
+                                                    :disabled="!cell.inWindow"
+                                                    :title="getSessionHistoryHeatmapCellTitle(cell)"
+                                                    @click="openSessionHistoryHeatmapDate(cell.dateKey)">
+                                                    <span class="visually-hidden">{{ getSessionHistoryHeatmapCellTitle(cell) }}</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <small class="session-history-scroll-hint">
+                                    Swipe sideways to scan earlier weeks, then tap any square to open that day in Calendar.
+                                </small>
+                                <div class="session-history-heatmap-foot">
+                                    <span>{{ sessionHistoryHeatmapSummary }}</span>
+                                    <span
+                                        v-if="sessionHistoryMilestoneMoments.length"
+                                        class="session-history-milestone-inline">
+                                        <i class="bi" :class="sessionHistoryMilestoneMoments[0].icon" aria-hidden="true"></i>
+                                        {{ sessionHistoryMilestoneMoments[0].title }}
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div v-else class="session-history-surah-panel">
+                                <div class="session-history-surah-head">
+                                    <div class="session-history-surah-head-copy">
+                                        <strong>{{ sessionHistorySelectedAnalyticsSurahLabel }}</strong>
+                                        <p class="mb-0">A focused view of where your time, notes, and scores are collecting in this surah.</p>
+                                    </div>
+                                    <label class="session-history-filter-field session-history-filter-field--surah-analytics">
+                                        <span class="visually-hidden">Choose surah for analytics</span>
+                                        <select v-model="sessionHistoryAnalyticsSurah" class="form-select">
+                                            <option
+                                                v-for="option in sessionHistoryAvailableSurahOptions"
+                                                :key="`session-history-analytics-surah-${option.surahNumber}`"
+                                                :value="String(option.surahNumber)">
+                                                {{ option.surahNumber }}. {{ option.surahName }}
+                                            </option>
+                                        </select>
+                                    </label>
+                                </div>
+                                <div class="session-history-view-explainer">
+                                    <strong>How to read Surah view</strong>
+                                    <p class="mb-0">This page groups saved sessions for one surah so you can see total time invested, average completion score, and the ayahs your notes mention most often.</p>
+                                </div>
+
+                                <div v-if="!sessionHistoryAnalyticsEntries.length" class="session-history-empty-state">
+                                    <p class="mb-0">No saved sessions match this surah with the current filters.</p>
+                                    <button
+                                        v-if="sessionHistoryHasActiveFilters"
+                                        type="button"
+                                        class="btn session-history-entry-btn"
+                                        @click="clearSessionHistoryFilters()">
+                                        Clear filters
+                                    </button>
+                                </div>
+
+                                <template v-else>
+                                    <div class="session-history-surah-analytics-grid">
+                                        <article class="session-history-detail-card">
+                                            <span class="session-history-detail-label">Total time</span>
+                                            <strong>{{ formatSessionHistoryDuration(sessionHistorySurahAnalytics.totalDurationMs) }}</strong>
+                                        </article>
+                                        <article class="session-history-detail-card">
+                                            <span class="session-history-detail-label">Average score</span>
+                                            <strong>{{ sessionHistorySurahAnalytics.averageAccuracy === null ? 'No AI score yet' : `${sessionHistorySurahAnalytics.averageAccuracy}%` }}</strong>
+                                        </article>
+                                        <article class="session-history-detail-card">
+                                            <span class="session-history-detail-label">Saved sessions</span>
+                                            <strong>{{ sessionHistorySurahAnalytics.sessionsCount }}</strong>
+                                        </article>
+                                        <article class="session-history-detail-card">
+                                            <span class="session-history-detail-label">Most revisited range</span>
+                                            <strong>{{ sessionHistorySurahAnalytics.topRangeLabel }}</strong>
+                                        </article>
+                                    </div>
+
+                                    <section class="session-history-surah-section">
+                                        <div class="session-history-surah-section-head">
+                                            <strong>Ayahs mentioned in notes most often</strong>
+                                            <small>Useful for spotting weak points and transition trouble spots.</small>
+                                        </div>
+                                        <div
+                                            v-if="sessionHistorySurahAnalytics.topAyahMentions.length"
+                                            class="session-history-surah-ayah-list">
+                                            <span
+                                                v-for="item in sessionHistorySurahAnalytics.topAyahMentions"
+                                                :key="`session-history-ayah-mention-${item.ayahNumber}`"
+                                                class="session-history-surah-ayah-pill">
+                                                Ayah {{ item.ayahNumber }} · {{ item.count }} note{{ item.count === 1 ? '' : 's' }}
+                                            </span>
+                                        </div>
+                                        <p v-else class="session-history-surah-empty mb-0">
+                                            Notes for this surah have not mentioned specific ayahs yet.
+                                        </p>
+                                    </section>
+
+                                    <section class="session-history-surah-section">
+                                        <div class="session-history-surah-section-head">
+                                            <strong>Recent notes for this surah</strong>
+                                            <small>Open a session from List if you want to edit or reload one of these runs.</small>
+                                        </div>
+                                        <div
+                                            v-if="sessionHistorySurahAnalytics.recentNotedSessions.length"
+                                            class="session-history-surah-note-list">
+                                            <article
+                                                v-for="entry in sessionHistorySurahAnalytics.recentNotedSessions"
+                                                :key="`session-history-surah-note-${entry.id}`"
+                                                class="session-history-surah-note-card">
+                                                <div class="session-history-surah-note-head">
+                                                    <div>
+                                                        <strong>{{ formatSessionHistoryRange(entry) }}</strong>
+                                                        <small>{{ formatSessionHistoryDateTime(entry.endedAt) }}</small>
+                                                    </div>
+                                                    <button
+                                                        type="button"
+                                                        class="btn session-history-selected-panel-back-btn"
+                                                        @click="sessionHistoryView = 'list'; setSessionHistorySelectedEntry(entry.id)">
+                                                        Open session
+                                                    </button>
+                                                </div>
+                                                <p class="mb-0">{{ entry.note }}</p>
+                                            </article>
+                                        </div>
+                                        <p v-else class="session-history-surah-empty mb-0">
+                                            No notes are saved for this surah yet.
+                                        </p>
+                                    </section>
+                                </template>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </teleport>
+
+        <teleport to="body">
             <div class="modal fade hifz-plan-wizard-modal" id="hifzPlanWizardModal" tabindex="-1" aria-labelledby="hifzPlanWizardModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-lg modal-dialog-scrollable modal-dialog-centered">
+                <div class="modal-dialog modal-xl modal-dialog-scrollable modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header">
                             <div>
@@ -2539,13 +3522,21 @@
                         </div>
                         <div class="modal-body">
                             <div v-if="!hasHifzPlans" class="hifz-plan-dashboard-empty">
-                                <p class="mb-0">No plans yet. Start by creating your first Hifz plan.</p>
-                                <button type="button" class="btn hifz-plan-modal-primary-btn" @click="openHifzPlanWizard">
-                                    Create New Plan
-                                </button>
+                                <p class="mb-0">No plans yet. Load starter plans or create your first Hifz plan.</p>
+                                <div class="hifz-plan-dashboard-empty-actions">
+                                    <button type="button" class="btn hifz-plan-modal-primary-btn" @click="seedHifzPlans({ announce: true })">
+                                        Load starter plans
+                                    </button>
+                                    <button type="button" class="btn hifz-plan-dashboard-btn" @click="openHifzPlanWizard">
+                                        Create new plan
+                                    </button>
+                                </div>
                             </div>
 
                             <div v-else class="hifz-plan-dashboard-content">
+                                <div v-if="hasOnlySeededHifzPlans" class="memorisation-starter-note">
+                                    Starter plans are loaded so you can explore the planner immediately.
+                                </div>
                                 <div class="hifz-plan-dashboard-topbar">
                                     <label class="hifz-plan-wizard-field mb-0">
                                         <span class="form-label">Active plan</span>
@@ -2564,7 +3555,7 @@
                                             class="btn hifz-plan-dashboard-btn hifz-plan-dashboard-btn-primary"
                                             :disabled="!activeHifzPlanTodayEntry || activeHifzPlanTodayEntry.isRestDay"
                                             @click="openActiveHifzTodayTarget">
-                                            Start Today's Target
+                                            Start today's target
                                         </button>
                                         <button
                                             type="button"
@@ -5513,7 +6504,7 @@
                             <div>
                                 <h4 class="modal-title mb-1" :id="`${voiceCommandGuideModalId}Label`">
                                     <i class="bi bi-mic me-2" aria-hidden="true"></i>
-                                    Voice Command Guide
+                                    Natural Language Voice Guide
                                 </h4>
                                 <p class="voice-command-guide-intro mb-0">
                                     {{ voiceCommandGuide.intro }}

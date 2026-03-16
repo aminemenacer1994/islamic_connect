@@ -39,6 +39,33 @@
       </div>
     </section>
 
+    <section class="ic-section" aria-labelledby="objectives-heading">
+      <div class="container ic-shell">
+        <div class="section-intro text-center">
+          <p class="section-kicker">Public Benefit Mission</p>
+          <h2 id="objectives-heading" class="section-title">Our Core Objectives</h2>
+          <p class="section-lead">
+            We focus on education, inclusion, and practical digital access to Islamic learning.
+          </p>
+        </div>
+
+        <div class="row g-4">
+          <div class="col-lg-4" v-for="objective in objectives" :key="objective.title">
+            <article class="ic-objective-card h-100">
+              <div class="ic-objective-card__top">
+                <span class="ic-objective-card__index">{{ objective.index }}</span>
+                <span class="ic-objective-card__icon" aria-hidden="true">
+                  <i :class="objective.icon"></i>
+                </span>
+              </div>
+              <h3>{{ objective.title }}</h3>
+              <p class="mb-0">{{ objective.desc }}</p>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section class="ic-section ic-section--surface" aria-labelledby="discover-heading">
       <div class="container ic-shell">
         <div class="section-intro text-center">
@@ -68,31 +95,54 @@
         </div>
       </div>
     </section>
-
-    <section class="ic-section" aria-labelledby="objectives-heading">
+    <section class="ic-section ic-section--ayah" aria-labelledby="ayah-heading">
       <div class="container ic-shell">
-        <div class="section-intro text-center">
-          <p class="section-kicker">Public Benefit Mission</p>
-          <h2 id="objectives-heading" class="section-title">Our Core Objectives</h2>
-          <p class="section-lead">
-            We focus on education, inclusion, and practical digital access to Islamic learning.
+        <div class="ic-ayah-section__intro text-center">
+          <p class="section-kicker">
+            <i class="fas fa-star-and-crescent me-1" aria-hidden="true"></i>
+            Ayah of the Day
           </p>
         </div>
 
-        <div class="row g-4">
-          <div class="col-lg-4" v-for="objective in objectives" :key="objective.title">
-            <article class="ic-objective-card h-100">
-              <div class="ic-objective-card__top">
-                <span class="ic-objective-card__index">{{ objective.index }}</span>
-                <span class="ic-objective-card__icon" aria-hidden="true">
-                  <i :class="objective.icon"></i>
-                </span>
-              </div>
-              <h3>{{ objective.title }}</h3>
-              <p class="mb-0">{{ objective.desc }}</p>
-            </article>
+        <!-- Skeleton while loading -->
+        <div v-if="!ayah" class="ic-ayah-card ic-ayah-card--skeleton">
+          <div class="row align-items-center g-4">
+            <div class="col-lg-6 order-2 order-lg-1">
+              <div class="ic-ayah-skeleton__line ic-ayah-skeleton__line--md"></div>
+              <div class="ic-ayah-skeleton__line ic-ayah-skeleton__line--sm mt-2"></div>
+              <div class="ic-ayah-skeleton__line ic-ayah-skeleton__line--xs mt-3"></div>
+            </div>
+            <div class="col-lg-6 order-1 order-lg-2 text-end">
+              <div class="ic-ayah-skeleton__line ic-ayah-skeleton__line--arabic ms-auto"></div>
+              <div class="ic-ayah-skeleton__line ic-ayah-skeleton__line--arabic ms-auto mt-2"></div>
+            </div>
           </div>
         </div>
+
+        <!-- Actual ayah content -->
+        <transition name="ic-ayah-fade" mode="out-in">
+          <div v-if="ayah" :key="ayah.arabic" class="ic-ayah-card">
+            <div class="ic-ayah-card__ornament" aria-hidden="true">﷽</div>
+            <div class="row align-items-center g-4">
+              <div class="col-lg-6 order-2 order-lg-1">
+                <div class="ic-ayah-card__content">
+                  <p class="ic-ayah-card__translation">"{{ ayah.english }}"</p>
+                  <p class="ic-ayah-card__meta">
+                    <i class="fas fa-book-quran me-1" aria-hidden="true"></i>
+                    <span>{{ ayah.surah }}</span>
+                    <span class="ic-ayah-card__dot">·</span>
+                    <span>{{ ayah.surahNumber }}:{{ ayah.numberInSurah }}</span>
+                  </p>
+                </div>
+              </div>
+              <div class="col-lg-6 order-1 order-lg-2">
+                <div class="ic-ayah-card__arabic" dir="rtl">
+                  <p>{{ ayah.arabic }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </transition>
       </div>
     </section>
 

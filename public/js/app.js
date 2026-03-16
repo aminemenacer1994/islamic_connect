@@ -138,14 +138,14 @@ const CHAT_DRAFT_MAX_LENGTH = 1500;
       }],
       sidebarCollapsed: false,
       quickPrompts: [{
-        label: 'Daily Worship',
-        prompt: 'How can I stay consistent with salah when my schedule is busy?'
+        label: 'Hifz Routine',
+        prompt: 'Build me a simple hifz routine for busy weekdays, with review and new memorisation in a balanced Islamic rhythm.'
       }, {
-        label: 'Quran Reflection',
-        prompt: 'Share a Quran verse about patience and how to apply it today.'
+        label: 'Sabr & Dua',
+        prompt: 'Share one Quran verse, one dua, and one practical step for patience during a difficult week.'
       }, {
-        label: 'Character',
-        prompt: 'What does Islam teach about controlling anger in difficult moments?'
+        label: 'Adab & Akhlaq',
+        prompt: 'What does Islam teach about controlling anger and speaking with ihsan in tense moments?'
       }]
     };
   },
@@ -8426,7 +8426,7 @@ const asyncComponentLoaders = {
   "mission-component": () => Promise.all(/*! import() */[__webpack_require__.e("css/app"), __webpack_require__.e("/js/vendor"), __webpack_require__.e("resources_js_components_MissionComponent_vue")]).then(__webpack_require__.bind(__webpack_require__, /*! ./components/MissionComponent.vue */ "./resources/js/components/MissionComponent.vue")),
   "access-component": () => Promise.all(/*! import() */[__webpack_require__.e("css/app"), __webpack_require__.e("resources_js_components_AccessComponent_vue")]).then(__webpack_require__.bind(__webpack_require__, /*! ./components/AccessComponent.vue */ "./resources/js/components/AccessComponent.vue")),
   "content-component": () => Promise.all(/*! import() */[__webpack_require__.e("css/app"), __webpack_require__.e("resources_js_components_ContentComponent_vue")]).then(__webpack_require__.bind(__webpack_require__, /*! ./components/ContentComponent.vue */ "./resources/js/components/ContentComponent.vue")),
-  "surat-component": () => Promise.all(/*! import() */[__webpack_require__.e("css/app"), __webpack_require__.e("resources_js_components_SuratComponent_vue")]).then(__webpack_require__.bind(__webpack_require__, /*! ./components/SuratComponent.vue */ "./resources/js/components/SuratComponent.vue")),
+  "surat-component": () => Promise.all(/*! import() */[__webpack_require__.e("css/app"), __webpack_require__.e("/js/vendor"), __webpack_require__.e("resources_js_components_SuratComponent_vue")]).then(__webpack_require__.bind(__webpack_require__, /*! ./components/SuratComponent.vue */ "./resources/js/components/SuratComponent.vue")),
   "search-component": () => Promise.all(/*! import() */[__webpack_require__.e("css/app"), __webpack_require__.e("resources_js_components_surah_selection_CustomSurahSelection_vue")]).then(__webpack_require__.bind(__webpack_require__, /*! ./components/surah_selection/CustomSurahSelection.vue */ "./resources/js/components/surah_selection/CustomSurahSelection.vue")),
   "surah-list-component": () => Promise.all(/*! import() */[__webpack_require__.e("css/app"), __webpack_require__.e("resources_js_components_search_SurahList_vue")]).then(__webpack_require__.bind(__webpack_require__, /*! ./components/search/SurahList.vue */ "./resources/js/components/search/SurahList.vue")),
   "donations-component": () => Promise.all(/*! import() */[__webpack_require__.e("css/app"), __webpack_require__.e("resources_js_components_intro_Donation_vue")]).then(__webpack_require__.bind(__webpack_require__, /*! ./components/intro/Donation.vue */ "./resources/js/components/intro/Donation.vue")),
