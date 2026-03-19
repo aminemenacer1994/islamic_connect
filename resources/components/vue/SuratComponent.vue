@@ -4270,13 +4270,13 @@
                 <div class="filter-header">
                     <div class="filter-actions"></div>
                 </div>
-                <div class="sidebar-toggle mt-3 mb-2 px-3">
-                    <button type="button" class="btn btn-sm btn-outline-light w-100 d-flex align-items-center justify-content-center gap-2" 
+                <div class="sidebar-toggle">
+                    <button type="button" class="btn btn-sm w-100 d-flex align-items-center justify-content-center gap-2 sidebar-collapse-button" 
                         @click="toggleSidebar"
                         :aria-expanded="!sidebarCollapsed"
                         :aria-label="sidebarCollapsed ? 'Expand sidebar' : 'Collapse sidebar'">
-                        <i class="bi" :class="sidebarCollapsed ? 'bi-chevron-double-right' : 'bi-chevron-double-left'"></i>
-                        <span v-if="!sidebarCollapsed">Collapse Custom Sidebar</span>
+                        <i class="bi sidebar-collapse-button-icon" :class="sidebarCollapsed ? 'bi-chevron-double-right' : 'bi-chevron-double-left'"></i>
+                        <span v-if="!sidebarCollapsed" class="sidebar-collapse-button-label">Collapse Custom Sidebar</span>
                     </button>
                 </div>
                 <div id="surat-filters" class="row g-3" v-show="isVisible && !sidebarCollapsed">
@@ -4359,10 +4359,10 @@
                                                     {{ surah.name }}
                                                 </div>
                                                 <button type="button"
-                                                    class="btn btn-link text-white p-0 opacity-50 hover-opacity-100 sidebar-info-button"
+                                                    class="btn sidebar-info-button"
                                                     @click.stop="openSurahInfo(surah)"
                                                     aria-label="View surah information">
-                                                    <i class="bi bi-info-circle-fill"></i>
+                                                    <i class="bi bi-info-circle-fill" aria-hidden="true"></i>
                                                 </button>
                                             </div>
                                         </div>
