@@ -93,12 +93,12 @@ export default {
           cta: "Open Media",
         },
         {
-          title: "Learn Accessibly",
-          desc: "Use keyboard-friendly, screen-reader-aware tools for consistent learning.",
-          image: "/images/school.png",
-          imageAlt: "Graduation cap icon for education",
+          title: "Daily Duas & Dhikr",
+          desc: "Explore a curated library of authentic supplications and reminders for daily worship.",
+          image: "/images/pray.png",
+          imageAlt: "Line art icon showing hands in prayer",
           href: "/dua",
-          cta: "View Access Tools",
+          cta: "Open Dua Library",
         },
       ],
       communityPoints: [
@@ -145,6 +145,12 @@ export default {
       maxMessageLength: 1200,
       ayah: null,
       ayahInterval: null,
+      partners: [
+        { name: "AnaAtlou", icon: "fas fa-leaf" },
+        { name: "iPray", icon: "fas fa-scroll" },
+        { name: "Algerian Quran", icon: "fas fa-clock" },
+        { name: "Quranly", icon: "fas fa-university" },
+      ],
     };
   },
   computed: {

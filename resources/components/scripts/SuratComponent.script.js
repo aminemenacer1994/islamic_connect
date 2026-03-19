@@ -20778,10 +20778,21 @@ export default {
                 }
                 return;
             }
+
             const approxIndex = Math.max(
                 0,
                 Math.floor(y / Math.max(1, this.itemHeight))
             );
+
+            // Optimization: Only shift window if we have moved more than half the buffer
+            // to avoid jitter and excessive list patching
+            const threshold = Math.max(1, Math.floor(buffer / 2.5));
+            const currentCoreIndex = (this.visibleStart || 0) + buffer;
+            
+            if (Math.abs(approxIndex - currentCoreIndex) < threshold && this.visibleEnd > 0) {
+                return;
+            }
+
             const start = Math.max(0, approxIndex - buffer);
             const end = Math.min(n, start + size + buffer * 2);
             if (start !== this.visibleStart || end !== this.visibleEnd) {

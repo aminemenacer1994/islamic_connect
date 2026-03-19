@@ -10,11 +10,11 @@
                 Trusted by Muslims worldwide
               </p>
               <h1 id="home-hero-title" class="ic-hero__title">
-                Learn Quran, Build Consistency, and Stay Connected in One Place
+                Advancing Islamic Education, Harmony, and Digital Access for All
               </h1>
               <p class="ic-hero__lead">
-                Islamic Connect brings Quran reading, dua guidance, and practical learning tools into a single, accessible
-                homepage so daily worship feels clear and consistent.
+                We bridge the gap between tradition and technology, providing reliable resources and innovative tools
+                to foster understanding and support your daily learning journey.
               </p>
               <div class="ic-hero__actions">
                 <a href="/surat" class="btn ic-btn ic-btn--solid">
@@ -166,7 +166,30 @@
               />
               <h3>{{ feature.title }}</h3>
               <p>{{ feature.desc }}</p>
-              <a :href="feature.href" class="ic-link-card__cta" target="_blank" rel="noopener noreferrer">{{ feature.cta }}</a>
+              <a :href="feature.href" class="ic-link-card__cta">{{ feature.cta }}</a>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="ic-section ic-section--partners" aria-labelledby="partners-heading">
+      <div class="container ic-shell">
+        <div class="section-intro text-center">
+          <p class="section-kicker">Collaborations</p>
+          <h2 id="partners-heading" class="section-title">Our Partners</h2>
+          <p class="section-lead">
+            We collaborate with trusted Islamic platforms and resources to ensure high-quality content and reliable
+            digital access.
+          </p>
+        </div>
+
+        <div class="row g-4 justify-content-center">
+          <div class="col-6 col-md-3" v-for="partner in partners" :key="partner.icon">
+            <article class="ic-partner-card h-100 text-center">
+              <div class="ic-partner-card__icon" aria-hidden="true">
+                <i :class="partner.icon"></i>
+              </div>
+              <h3 class="ic-partner-card__name">{{ partner.name }}</h3>
             </article>
           </div>
         </div>
