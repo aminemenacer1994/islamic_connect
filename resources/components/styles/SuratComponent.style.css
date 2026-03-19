@@ -30544,21 +30544,22 @@ h1.display-5 {
 }
 
 .surat-premium .ayah-card-container--menu-open {
-    z-index: 220;
+    z-index: 1400;
 }
 
 .surat-premium .ayah-card-container--menu-open .ayah-surface {
-    z-index: 2;
+    z-index: 3;
 }
 
 .surat-premium .ayah-surface {
     position: relative;
+    isolation: isolate;
     display: flex;
     flex-direction: column;
     min-height: 100%;
     padding: 0 !important;
     background: transparent !important;
-    border: 1px solid rgba(16, 56, 51, 0.16) !important;
+    border: 1px solid rgba(7, 31, 28, 0.08) !important;
     border-radius: 24px !important;
     box-shadow: 0 14px 34px rgba(7, 31, 28, 0.14) !important;
     overflow: visible;
@@ -30572,10 +30573,10 @@ h1.display-5 {
 }
 
 .surat-premium .ayah-card-container:hover .ayah-surface {
-    transform: translateY(-2px) !important;
+    transform: none !important;
     background: transparent !important;
-    border-color: rgba(12, 67, 59, 0.3) !important;
-    box-shadow: 0 22px 46px rgba(7, 31, 28, 0.19) !important;
+    border-color: rgba(7, 31, 28, 0.08) !important;
+    box-shadow: 0 14px 34px rgba(7, 31, 28, 0.14) !important;
 }
 
 @media (min-width: 768px) {
@@ -30591,8 +30592,9 @@ h1.display-5 {
     }
 
     .surat-premium .ayah-card-container:hover .ayah-surface {
-        transform: translateY(-3px) !important;
-        box-shadow: 0 24px 52px rgba(7, 31, 28, 0.2) !important;
+        transform: none !important;
+        border-color: rgba(7, 31, 28, 0.08) !important;
+        box-shadow: 0 14px 34px rgba(7, 31, 28, 0.14) !important;
     }
 }
 
@@ -30604,23 +30606,25 @@ h1.display-5 {
 }
 
 .surat-premium .ayah-card-container.is-pinned .ayah-surface {
-    border-color: rgba(11, 107, 89, 0.34) !important;
-    box-shadow: 0 18px 38px rgba(11, 107, 89, 0.18) !important;
+    border-color: rgba(7, 31, 28, 0.08) !important;
+    box-shadow: 0 22px 46px rgba(11, 107, 89, 0.16) !important;
 }
 
 .surat-premium .highlighted .ayah-surface {
-    border-color: rgba(15, 110, 99, 0.42) !important;
-    box-shadow: 0 18px 38px rgba(15, 110, 99, 0.18) !important;
+    border-color: rgba(7, 31, 28, 0.08) !important;
+    box-shadow: 0 24px 48px rgba(15, 110, 99, 0.18) !important;
     animation: none !important;
 }
 
 .surat-premium .currently-playing .ayah-surface {
-    border-color: rgba(15, 110, 99, 0.58) !important;
-    box-shadow: 0 20px 42px rgba(5, 36, 35, 0.22) !important;
+    border-color: rgba(7, 31, 28, 0.08) !important;
+    box-shadow: 0 26px 52px rgba(11, 107, 89, 0.2) !important;
     animation: none !important;
 }
 
 .surat-premium .ayah-card-header {
+    position: relative;
+    z-index: 20;
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
@@ -30628,6 +30632,7 @@ h1.display-5 {
     padding: 1.1rem 1.3rem 0.95rem;
     border-bottom: 1px solid rgba(16, 56, 51, 0.12);
     color: #173f38;
+    overflow: visible;
 }
 
 .surat-premium .ayah-card-reference-wrap {
@@ -30637,6 +30642,8 @@ h1.display-5 {
 }
 
 .surat-premium .ayah-card-header-toolbar {
+    position: relative;
+    z-index: 21;
     margin-left: auto;
     display: flex;
     align-items: flex-start;
@@ -30748,7 +30755,7 @@ h1.display-5 {
 .surat-premium .ayah-card-menu {
     position: relative;
     flex: 0 0 auto;
-    z-index: 4;
+    z-index: 1410;
 }
 
 .surat-premium .ayah-menu-trigger {
@@ -30787,7 +30794,7 @@ h1.display-5 {
     gap: 0.28rem;
     border-color: rgba(16, 56, 51, 0.14);
     box-shadow: 0 20px 36px rgba(7, 31, 28, 0.16);
-    z-index: 40;
+    z-index: 1600;
 }
 
 .surat-premium .ayah-actions-menu .ayah-playlist-menu-item,
@@ -30837,11 +30844,22 @@ h1.display-5 {
 }
 
 .surat-premium .ayah-card-body {
+    position: relative;
+    z-index: 1;
     flex: 1 1 auto;
 }
 
 .surat-premium .ayah-card-copy {
+    position: relative;
+    z-index: 1;
     padding: 0 1.35rem 1.2rem;
+}
+
+.surat-premium .translation-row,
+.surat-premium .translation-copy,
+.surat-premium .ayah-card-footer {
+    position: relative;
+    z-index: 1;
 }
 
 .surat-premium .ayah-card-copy .arabic-text {
@@ -30879,8 +30897,7 @@ h1.display-5 {
     border-top: 1px solid rgba(16, 56, 51, 0.12);
     width: 100%;
     max-width: 100%;
-    overflow-x: auto;
-    overflow-y: hidden;
+    overflow: visible;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
 }
@@ -30904,6 +30921,7 @@ h1.display-5 {
 .surat-premium .ayah-footer-action {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 0.58rem;
     min-height: 42px;
     padding: 0.3rem 0.45rem;
@@ -30916,9 +30934,46 @@ h1.display-5 {
     white-space: nowrap;
     box-shadow: none;
     border-radius: 999px;
+    position: relative;
+    overflow: visible;
     transition: color 0.24s ease, background-color 0.24s ease,
         box-shadow 0.3s cubic-bezier(0.22, 1, 0.36, 1),
         transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.surat-premium .ayah-footer-action::before,
+.surat-premium .ayah-footer-action::after {
+    position: absolute;
+    left: 50%;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.18s ease, transform 0.18s ease;
+    z-index: 1480;
+}
+
+.surat-premium .ayah-footer-action::before {
+    content: attr(data-tooltip-label);
+    bottom: calc(100% + 0.56rem);
+    transform: translate(-50%, 0.22rem);
+    padding: 0.34rem 0.6rem;
+    border-radius: 999px;
+    background: rgba(16, 56, 51, 0.96);
+    color: #ffffff;
+    font-size: 0.74rem;
+    font-weight: 700;
+    line-height: 1;
+    white-space: nowrap;
+    box-shadow: 0 10px 22px rgba(7, 31, 28, 0.18);
+}
+
+.surat-premium .ayah-footer-action::after {
+    content: "";
+    bottom: calc(100% + 0.18rem);
+    width: 0.56rem;
+    height: 0.56rem;
+    background: rgba(16, 56, 51, 0.96);
+    border-radius: 2px;
+    transform: translate(-50%, 0.22rem) rotate(45deg);
 }
 
 .surat-premium .ayah-footer-action i {
@@ -30941,6 +30996,23 @@ h1.display-5 {
 .surat-premium .ayah-footer-action.is-active i {
     color: #075444;
     transform: translateY(-1px);
+}
+
+.surat-premium .ayah-footer-action:hover::before,
+.surat-premium .ayah-footer-action:hover::after,
+.surat-premium .ayah-footer-action:focus-visible::before,
+.surat-premium .ayah-footer-action:focus-visible::after {
+    opacity: 1;
+}
+
+.surat-premium .ayah-footer-action:hover::before,
+.surat-premium .ayah-footer-action:focus-visible::before {
+    transform: translate(-50%, 0);
+}
+
+.surat-premium .ayah-footer-action:hover::after,
+.surat-premium .ayah-footer-action:focus-visible::after {
+    transform: translate(-50%, 0) rotate(45deg);
 }
 
 @media (max-width: 991.98px) {
@@ -30990,14 +31062,7 @@ h1.display-5 {
         flex-wrap: nowrap;
         align-items: center;
         gap: 0.55rem;
-        overflow-x: auto;
-        overflow-y: hidden;
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: none;
-    }
-
-    .surat-premium .ayah-card-header::-webkit-scrollbar {
-        display: none;
+        overflow: visible;
     }
 
     .surat-premium .ayah-card-reference-wrap {
@@ -31013,6 +31078,7 @@ h1.display-5 {
         gap: 0.42rem;
         flex: 1 1 auto;
         min-width: 0;
+        overflow: visible;
     }
 
     .surat-premium .ayah-card-header-primary {
@@ -31021,6 +31087,14 @@ h1.display-5 {
         gap: 0.38rem;
         min-width: 0;
         flex: 0 1 auto;
+        overflow-x: auto;
+        overflow-y: hidden;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+    }
+
+    .surat-premium .ayah-card-header-primary::-webkit-scrollbar {
+        display: none;
     }
 
     .surat-premium .ayah-card-reference {
@@ -31064,7 +31138,7 @@ h1.display-5 {
 
     .surat-premium .ayah-card-menu {
         margin-left: auto;
-        z-index: 260;
+        z-index: 1460;
     }
 
     .surat-premium .ayah-card-copy .arabic-text {
@@ -31076,7 +31150,7 @@ h1.display-5 {
         grid-template-columns: repeat(6, minmax(0, 1fr));
         gap: 0.35rem;
         justify-content: stretch;
-        overflow-x: visible;
+        overflow: visible;
     }
 
     .surat-premium .ayah-card-footer-main,
@@ -31085,7 +31159,6 @@ h1.display-5 {
     }
 
     .surat-premium .ayah-footer-action {
-        justify-content: center;
         width: 100%;
         min-width: 0;
         min-height: 2.45rem;
@@ -31095,11 +31168,9 @@ h1.display-5 {
         border-radius: 16px;
         box-shadow: none;
         transform: none;
-        position: relative;
-        overflow: visible;
     }
 
-    .surat-premium .ayah-footer-action span {
+    .surat-premium .ayah-footer-action > span {
         display: none;
     }
 
@@ -31113,37 +31184,14 @@ h1.display-5 {
         transform: none;
     }
 
-    .surat-premium .ayah-footer-action.is-mobile-tooltip-visible::after {
-        content: attr(data-mobile-tooltip-label);
-        position: absolute;
-        left: 50%;
-        bottom: calc(100% + 0.42rem);
-        transform: translateX(-50%);
-        padding: 0.32rem 0.56rem;
-        border-radius: 999px;
-        background: rgba(16, 56, 51, 0.96);
-        color: #ffffff;
-        font-size: 0.7rem;
-        font-weight: 700;
-        line-height: 1;
-        white-space: nowrap;
-        box-shadow: 0 10px 22px rgba(7, 31, 28, 0.18);
-        pointer-events: none;
-        z-index: 320;
+    .surat-premium .ayah-footer-action::before {
+        bottom: calc(100% + 0.46rem);
+        font-size: 0.68rem;
+        padding: 0.28rem 0.52rem;
     }
 
-    .surat-premium .ayah-footer-action.is-mobile-tooltip-visible::before {
-        content: "";
-        position: absolute;
-        left: 50%;
-        bottom: calc(100% + 0.1rem);
-        width: 0.52rem;
-        height: 0.52rem;
-        background: rgba(16, 56, 51, 0.96);
-        transform: translateX(-50%) rotate(45deg);
-        border-radius: 2px;
-        pointer-events: none;
-        z-index: 319;
+    .surat-premium .ayah-footer-action::after {
+        bottom: calc(100% + 0.14rem);
     }
 
     .surat-premium .ayah-actions-submenu {
@@ -31154,7 +31202,13 @@ h1.display-5 {
     }
 
     .surat-premium .ayah-actions-menu {
-        min-width: min(15rem, calc(100vw - 2rem));
-        z-index: 300;
+        position: absolute;
+        top: calc(100% + 0.45rem);
+        right: 0;
+        left: auto;
+        width: min(15rem, calc(100vw - 2rem));
+        min-width: 0;
+        max-width: calc(100vw - 2rem);
+        z-index: 1500;
     }
 }

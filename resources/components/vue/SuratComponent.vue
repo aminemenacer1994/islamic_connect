@@ -4692,7 +4692,6 @@
                                     <span class="ayah-card-reference-ayah">
                                         {{ getAyahDisplayNumber(item) }}
                                     </span>
-                                    <span v-if="isAyahSaved(item.ayah)" class="saved-pill">Saved</span>
                                 </div>
                             </div>
                             <div class="ayah-card-header-toolbar">
@@ -4771,7 +4770,10 @@
                                             type="button"
                                             class="ayah-playlist-menu-item d-md-none"
                                             @click.stop="closeAyahPlaylistMenu(); toggleAyahTafsir(item)">
-                                            <span>Tafsir</span>
+                                            <span class="ayah-actions-leading-label">
+                                                <i class="bi bi-journal-richtext" aria-hidden="true"></i>
+                                                <span>Tafsir</span>
+                                            </span>
                                         </button>
                                         <div class="ayah-playlist-menu-row">
                                             <button
@@ -4779,7 +4781,10 @@
                                                 class="ayah-playlist-menu-item ayah-playlist-menu-item-submenu"
                                                 :class="{ 'is-open': openAyahPlaylistExistingSubmenuKey === getAyahPlaylistMenuKey(item.ayah) }"
                                                 @click.stop="toggleAyahExistingPlaylistSubmenu(item.ayah)">
-                                                <span>Playlist</span>
+                                                <span class="ayah-actions-leading-label">
+                                                    <i class="bi bi-collection-play" aria-hidden="true"></i>
+                                                    <span>Playlist</span>
+                                                </span>
                                                 <i class="bi bi-chevron-left" aria-hidden="true"></i>
                                             </button>
                                             <div
@@ -4818,26 +4823,30 @@
                                             type="button"
                                             class="ayah-playlist-menu-item"
                                             @click.stop="handleAyahMenuPin(item.ayah)">
-                                            <span>Pin Ayah</span>
-                                            <i
-                                                class="bi"
-                                                :class="isAyahPinned(item.ayah) ? 'bi-pin-angle-fill' : 'bi-pin-angle'"
-                                                aria-hidden="true"></i>
+                                            <span class="ayah-actions-leading-label">
+                                                <i
+                                                    class="bi"
+                                                    :class="isAyahPinned(item.ayah) ? 'bi-pin-angle-fill' : 'bi-pin-angle'"
+                                                    aria-hidden="true"></i>
+                                                <span>Pin Ayah</span>
+                                            </span>
                                         </button>
                                         <button
                                             type="button"
                                             class="ayah-playlist-menu-item"
                                             :disabled="!item.ayah?.audio || isAyahAudioDownloading(item.ayah)"
                                             @click.stop="handleAyahMenuDownload(item.ayah)">
-                                            <span>Download Ayah</span>
-                                            <i
-                                                class="bi"
-                                                :class="isAyahAudioDownloading(item.ayah)
-                                                    ? 'bi-arrow-repeat ic-spin'
-                                                    : isAyahAudioDownloaded(item.ayah)
-                                                        ? 'bi-check-circle-fill'
-                                                        : 'bi-cloud-arrow-down'"
-                                                aria-hidden="true"></i>
+                                            <span class="ayah-actions-leading-label">
+                                                <i
+                                                    class="bi"
+                                                    :class="isAyahAudioDownloading(item.ayah)
+                                                        ? 'bi-arrow-repeat ic-spin'
+                                                        : isAyahAudioDownloaded(item.ayah)
+                                                            ? 'bi-check-circle-fill'
+                                                            : 'bi-cloud-arrow-down'"
+                                                    aria-hidden="true"></i>
+                                                <span>Download Ayah</span>
+                                            </span>
                                         </button>
                                     </div>
                                 </div>
@@ -5045,13 +5054,8 @@
                                     class="ayah-footer-action"
                                     :class="{
                                         'is-active': isAudioPlaying[item.index],
-                                        'is-mobile-tooltip-visible':
-                                            mobileAyahFooterTooltipKey === `ayah-${item.index}-play`,
                                     }"
-                                    data-mobile-tooltip-label="Play Audio"
-                                    @touchstart.passive="showMobileAyahFooterTooltip(`ayah-${item.index}-play`)"
-                                    @focus="showMobileAyahFooterTooltip(`ayah-${item.index}-play`)"
-                                    @blur="hideMobileAyahFooterTooltip(`ayah-${item.index}-play`)"
+                                    data-tooltip-label="Play Audio"
                                     @click.stop.prevent="toggleAudioPlayer(item.index)"
                                     :aria-label="isAudioPlaying[item.index]
                                         ? 'Pause ayah ' + getAyahDisplayNumber(item)
@@ -5067,13 +5071,8 @@
                                     class="ayah-footer-action"
                                     :class="{
                                         'is-active': isAyahSaved(item.ayah),
-                                        'is-mobile-tooltip-visible':
-                                            mobileAyahFooterTooltipKey === `ayah-${item.index}-bookmark`,
                                     }"
-                                    data-mobile-tooltip-label="Bookmark"
-                                    @touchstart.passive="showMobileAyahFooterTooltip(`ayah-${item.index}-bookmark`)"
-                                    @focus="showMobileAyahFooterTooltip(`ayah-${item.index}-bookmark`)"
-                                    @blur="hideMobileAyahFooterTooltip(`ayah-${item.index}-bookmark`)"
+                                    data-tooltip-label="Bookmark"
                                     @click.stop="toggleBookmark(item.ayah)"
                                     :aria-label="isAyahSaved(item.ayah) ? 'Remove bookmark' : 'Bookmark ayah'">
                                     <i
@@ -5087,13 +5086,8 @@
                                     class="ayah-footer-action"
                                     :class="{
                                         'is-active': hasReflection(item.ayah),
-                                        'is-mobile-tooltip-visible':
-                                            mobileAyahFooterTooltipKey === `ayah-${item.index}-reflect`,
                                     }"
-                                    data-mobile-tooltip-label="Reflect"
-                                    @touchstart.passive="showMobileAyahFooterTooltip(`ayah-${item.index}-reflect`)"
-                                    @focus="showMobileAyahFooterTooltip(`ayah-${item.index}-reflect`)"
-                                    @blur="hideMobileAyahFooterTooltip(`ayah-${item.index}-reflect`)"
+                                    data-tooltip-label="Reflect"
                                     @click.stop="openReflectionModal(item.ayah)"
                                     :aria-label="hasReflection(item.ayah) ? 'Edit reflection' : 'Add reflection'">
                                     <i
@@ -5105,14 +5099,7 @@
                                 <button
                                     type="button"
                                     class="ayah-footer-action"
-                                    :class="{
-                                        'is-mobile-tooltip-visible':
-                                            mobileAyahFooterTooltipKey === `ayah-${item.index}-share`,
-                                    }"
-                                    data-mobile-tooltip-label="Share"
-                                    @touchstart.passive="showMobileAyahFooterTooltip(`ayah-${item.index}-share`)"
-                                    @focus="showMobileAyahFooterTooltip(`ayah-${item.index}-share`)"
-                                    @blur="hideMobileAyahFooterTooltip(`ayah-${item.index}-share`)"
+                                    data-tooltip-label="Share"
                                     @click.stop="shareAyah(item.ayah)"
                                     aria-label="Share ayah">
                                     <i class="bi bi-share" aria-hidden="true"></i>
@@ -5123,14 +5110,7 @@
                                 <button
                                     type="button"
                                     class="ayah-footer-action ayah-footer-action--text"
-                                    :class="{
-                                        'is-mobile-tooltip-visible':
-                                            mobileAyahFooterTooltipKey === `ayah-${item.index}-decrease-text`,
-                                    }"
-                                    data-mobile-tooltip-label="Decrease Text"
-                                    @touchstart.passive="showMobileAyahFooterTooltip(`ayah-${item.index}-decrease-text`)"
-                                    @focus="showMobileAyahFooterTooltip(`ayah-${item.index}-decrease-text`)"
-                                    @blur="hideMobileAyahFooterTooltip(`ayah-${item.index}-decrease-text`)"
+                                    data-tooltip-label="Decrease Text"
                                     @click.stop="decreaseFontSize"
                                     aria-label="Decrease text size">
                                     <i class="bi bi-dash-circle" aria-hidden="true"></i>
@@ -5139,14 +5119,7 @@
                                 <button
                                     type="button"
                                     class="ayah-footer-action ayah-footer-action--text"
-                                    :class="{
-                                        'is-mobile-tooltip-visible':
-                                            mobileAyahFooterTooltipKey === `ayah-${item.index}-increase-text`,
-                                    }"
-                                    data-mobile-tooltip-label="Increase Text"
-                                    @touchstart.passive="showMobileAyahFooterTooltip(`ayah-${item.index}-increase-text`)"
-                                    @focus="showMobileAyahFooterTooltip(`ayah-${item.index}-increase-text`)"
-                                    @blur="hideMobileAyahFooterTooltip(`ayah-${item.index}-increase-text`)"
+                                    data-tooltip-label="Increase Text"
                                     @click.stop="increaseFontSize"
                                     aria-label="Increase text size">
                                     <i class="bi bi-plus-circle" aria-hidden="true"></i>

@@ -1111,8 +1111,6 @@ export default {
             isHifdhPlanHidden: false,
             isHifdhDemoModeActive: false,
             hifdhTooltipInstances: [],
-            mobileAyahFooterTooltipKey: "",
-            mobileAyahFooterTooltipHideTimer: null,
             hifdhPlanModalInstance: null,
             hifdhPlanModalShownHandler: null,
             hifdhPlanModalHiddenHandler: null,
@@ -4562,11 +4560,9 @@ export default {
         },
         isMobile(next) {
             if (next) return;
-            this.hideMobileAyahFooterTooltip();
         },
         visibleWindow() {
             if (!this.isMobile) return;
-            this.hideMobileAyahFooterTooltip();
         },
         sessionHistoryView(nextView) {
             if (nextView !== "surah") return;
@@ -5603,7 +5599,6 @@ export default {
             this.sessionHistoryModalInstance = null;
         }
         this.disposeSessionHistoryTooltips();
-        this.hideMobileAyahFooterTooltip();
         const sessionHistoryModalEl = document.getElementById(
             this.sessionHistoryModalId
         );
@@ -5782,7 +5777,6 @@ export default {
         window.removeEventListener("scroll", this.onScrollVirtual);
         window.removeEventListener("resize", this.computeListTop);
         window.removeEventListener("resize", this.calibrateItemHeight);
-        this.hideMobileAyahFooterTooltip();
         if (this.sessionHistoryPageHideHandler) {
             window.removeEventListener("pagehide", this.sessionHistoryPageHideHandler);
             this.sessionHistoryPageHideHandler = null;
@@ -14271,24 +14265,6 @@ export default {
                 } catch (_) {}
             });
             this.sessionHistoryTooltipInstances = [];
-        },
-        showMobileAyahFooterTooltip(key = "") {
-            if (!this.isMobile || !key) return;
-            clearTimeout(this.mobileAyahFooterTooltipHideTimer);
-            this.mobileAyahFooterTooltipHideTimer = null;
-            this.mobileAyahFooterTooltipKey = key;
-            this.mobileAyahFooterTooltipHideTimer = setTimeout(() => {
-                if (this.mobileAyahFooterTooltipKey === key) {
-                    this.mobileAyahFooterTooltipKey = "";
-                }
-                this.mobileAyahFooterTooltipHideTimer = null;
-            }, 950);
-        },
-        hideMobileAyahFooterTooltip(key = "") {
-            if (key && this.mobileAyahFooterTooltipKey !== key) return;
-            clearTimeout(this.mobileAyahFooterTooltipHideTimer);
-            this.mobileAyahFooterTooltipHideTimer = null;
-            this.mobileAyahFooterTooltipKey = "";
         },
         updateSessionHistoryNoteDraft(entryId = "", value = "") {
             const normalizedId = String(entryId || "").trim();
@@ -26742,9 +26718,10 @@ export default {
         toggleAyahPlaylistMenu(ayah) {
             const key = this.getAyahPlaylistMenuKey(ayah);
             if (!key) return;
-            this.openAyahPlaylistMenuKey =
-                this.openAyahPlaylistMenuKey === key ? "" : key;
+            const isClosing = this.openAyahPlaylistMenuKey === key;
+            this.openAyahPlaylistMenuKey = isClosing ? "" : key;
             this.openAyahPlaylistExistingSubmenuKey = "";
+            if (isClosing) return;
         },
         toggleAyahExistingPlaylistSubmenu(ayah) {
             const key = this.getAyahPlaylistMenuKey(ayah);
