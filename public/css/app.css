@@ -71792,7 +71792,7 @@ to {
     margin-top: 0.45rem;
     height: 0.68rem;
     border-radius: 999px;
-    overflow: hidden;
+    overflow: visible;
 }
 .surat-gamification-next[data-v-637d02d8] {
     margin-top: 0.45rem;
@@ -83943,6 +83943,564 @@ to {
 }
 .session-history-view-bar[data-v-637d02d8] {
         grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+}
+
+/* Ayah card redesign */
+.surat-premium .ayah-card.ayah-card-container[data-v-637d02d8],
+.surat-premium .ayah-card-shell[data-v-637d02d8] {
+    width: 100% !important;
+    padding: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    border-radius: 24px !important;
+    overflow: visible;
+}
+.surat-premium .surah-layout > .row.rtl-text[data-v-637d02d8],
+.surat-premium .surah-layout > .row.rtl-text > [class*="col-"][data-v-637d02d8] {
+    overflow: visible !important;
+}
+.surat-premium .ayah-card-container.mb-2.mt-2[data-v-637d02d8] {
+    margin-top: 0.5rem !important;
+    margin-bottom: 0.7rem !important;
+}
+.surat-premium .ayah-card-container[data-v-637d02d8] {
+    transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1),
+        opacity 0.24s ease;
+    position: relative;
+    z-index: 0;
+    isolation: isolate;
+}
+.surat-premium .ayah-card-container--menu-open[data-v-637d02d8] {
+    z-index: 220;
+}
+.surat-premium .ayah-card-container--menu-open .ayah-surface[data-v-637d02d8] {
+    z-index: 2;
+}
+.surat-premium .ayah-surface[data-v-637d02d8] {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+    padding: 0 !important;
+    background: transparent !important;
+    border: 1px solid rgba(16, 56, 51, 0.16) !important;
+    border-radius: 24px !important;
+    box-shadow: 0 14px 34px rgba(7, 31, 28, 0.14) !important;
+    overflow: visible;
+    transition: transform 0.34s cubic-bezier(0.22, 1, 0.36, 1),
+        box-shadow 0.34s cubic-bezier(0.22, 1, 0.36, 1),
+        border-color 0.28s ease, background-color 0.28s ease;
+}
+.surat-premium .ayah-surface[data-v-637d02d8]::before {
+    display: none !important;
+}
+.surat-premium .ayah-card-container:hover .ayah-surface[data-v-637d02d8] {
+    transform: translateY(-2px) !important;
+    background: transparent !important;
+    border-color: rgba(12, 67, 59, 0.3) !important;
+    box-shadow: 0 22px 46px rgba(7, 31, 28, 0.19) !important;
+}
+@media (min-width: 768px) {
+.surat-premium .ayah-card-container[data-v-637d02d8] {
+        transition: transform 0.42s cubic-bezier(0.22, 1, 0.36, 1),
+            opacity 0.3s ease, filter 0.3s ease;
+}
+.surat-premium .ayah-surface[data-v-637d02d8] {
+        transition: transform 0.42s cubic-bezier(0.22, 1, 0.36, 1),
+            box-shadow 0.42s cubic-bezier(0.22, 1, 0.36, 1),
+            border-color 0.32s ease, background-color 0.32s ease;
+}
+.surat-premium .ayah-card-container:hover .ayah-surface[data-v-637d02d8] {
+        transform: translateY(-3px) !important;
+        box-shadow: 0 24px 52px rgba(7, 31, 28, 0.2) !important;
+}
+}
+.surat-premium .ayah-card-container.is-pinned .ayah-surface[data-v-637d02d8],
+.surat-premium .highlighted .ayah-surface[data-v-637d02d8],
+.surat-premium .currently-playing .ayah-surface[data-v-637d02d8] {
+    background: transparent !important;
+    transform: none !important;
+}
+.surat-premium .ayah-card-container.is-pinned .ayah-surface[data-v-637d02d8] {
+    border-color: rgba(11, 107, 89, 0.34) !important;
+    box-shadow: 0 18px 38px rgba(11, 107, 89, 0.18) !important;
+}
+.surat-premium .highlighted .ayah-surface[data-v-637d02d8] {
+    border-color: rgba(15, 110, 99, 0.42) !important;
+    box-shadow: 0 18px 38px rgba(15, 110, 99, 0.18) !important;
+    animation: none !important;
+}
+.surat-premium .currently-playing .ayah-surface[data-v-637d02d8] {
+    border-color: rgba(15, 110, 99, 0.58) !important;
+    box-shadow: 0 20px 42px rgba(5, 36, 35, 0.22) !important;
+    animation: none !important;
+}
+.surat-premium .ayah-card-header[data-v-637d02d8] {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.1rem 1.3rem 0.95rem;
+    border-bottom: 1px solid rgba(16, 56, 51, 0.12);
+    color: #173f38;
+}
+.surat-premium .ayah-card-reference-wrap[data-v-637d02d8] {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+}
+.surat-premium .ayah-card-header-toolbar[data-v-637d02d8] {
+    margin-left: auto;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-end;
+    gap: 0.7rem;
+    min-width: 0;
+    flex: 1 1 auto;
+}
+.surat-premium .ayah-card-header-primary[data-v-637d02d8] {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 0.55rem;
+    min-width: 0;
+    flex: 1 1 auto;
+}
+.surat-premium .ayah-card-reference[data-v-637d02d8] {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    min-height: 40px;
+    padding: 0.42rem 0.82rem;
+    border: 1px solid rgba(16, 56, 51, 0.14);
+    border-radius: 999px;
+    background: transparent;
+    color: #103b36;
+    font-weight: 700;
+    white-space: nowrap;
+}
+.surat-premium .ayah-card-reference i[data-v-637d02d8] {
+    font-size: 1rem;
+    color: #0b6b59;
+}
+.surat-premium .ayah-card-reference-surah[data-v-637d02d8],
+.surat-premium .ayah-card-reference-ayah[data-v-637d02d8] {
+    line-height: 1;
+}
+.surat-premium .ayah-card-reference-separator[data-v-637d02d8] {
+    color: rgba(16, 56, 51, 0.42);
+}
+.surat-premium .saved-pill[data-v-637d02d8] {
+    padding: 0.18rem 0.5rem !important;
+    border-radius: 999px !important;
+    background: rgba(11, 107, 89, 0.1) !important;
+    color: #0b6b59 !important;
+    border: 1px solid rgba(11, 107, 89, 0.18) !important;
+    font-size: 0.7rem !important;
+    font-weight: 700 !important;
+}
+.surat-premium .ayah-header-toggle[data-v-637d02d8] {
+    min-height: 40px;
+    padding: 0.36rem 0.72rem !important;
+    border: 1px solid rgba(16, 56, 51, 0.14) !important;
+    border-radius: 999px !important;
+    background: transparent !important;
+    transition: border-color 0.24s ease, background-color 0.24s ease,
+        box-shadow 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.surat-premium .ayah-header-toggle .form-check-input[data-v-637d02d8] {
+    width: 1.85rem !important;
+    height: 1rem !important;
+}
+.surat-premium .ayah-header-toggle .form-check-label[data-v-637d02d8] {
+    font-size: 0.84rem !important;
+    font-weight: 700 !important;
+    color: #18453e !important;
+}
+.surat-premium .ayah-tafseer-trigger[data-v-637d02d8] {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 40px;
+    padding: 0.38rem 0.82rem;
+    border: 1px solid rgba(16, 56, 51, 0.16);
+    border-radius: 999px;
+    background: transparent;
+    color: #0b6b59;
+    font-size: 0.92rem;
+    font-weight: 700;
+    box-shadow: none;
+    transition: color 0.24s ease, border-color 0.24s ease,
+        background-color 0.24s ease,
+        box-shadow 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.surat-premium .ayah-tafseer-trigger[data-v-637d02d8]:hover,
+.surat-premium .ayah-tafseer-trigger[data-v-637d02d8]:focus-visible,
+.surat-premium .ayah-tafseer-trigger.is-active[data-v-637d02d8] {
+    color: #075444;
+    border-color: rgba(11, 107, 89, 0.28);
+    background: rgba(11, 107, 89, 0.06);
+    box-shadow: 0 10px 22px rgba(11, 61, 46, 0.12);
+    transform: translateY(-1px);
+}
+.surat-premium .ayah-card-menu[data-v-637d02d8] {
+    position: relative;
+    flex: 0 0 auto;
+    z-index: 4;
+}
+.surat-premium .ayah-menu-trigger[data-v-637d02d8] {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border: 1px solid rgba(16, 56, 51, 0.14);
+    border-radius: 50%;
+    background: transparent;
+    color: #173f38;
+    box-shadow: none;
+    transition: color 0.24s ease, border-color 0.24s ease,
+        background-color 0.24s ease,
+        box-shadow 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.surat-premium .ayah-menu-trigger[data-v-637d02d8]:hover,
+.surat-premium .ayah-menu-trigger[data-v-637d02d8]:focus-visible {
+    color: #0b6b59;
+    border-color: rgba(11, 107, 89, 0.26);
+    box-shadow: 0 10px 22px rgba(11, 61, 46, 0.12);
+    transform: translateY(-1px);
+}
+.surat-premium .ayah-actions-menu[data-v-637d02d8] {
+    right: 0;
+    left: auto;
+    top: calc(100% + 0.55rem);
+    min-width: 16rem;
+    border-radius: 18px;
+    padding: 0.42rem;
+    gap: 0.28rem;
+    border-color: rgba(16, 56, 51, 0.14);
+    box-shadow: 0 20px 36px rgba(7, 31, 28, 0.16);
+    z-index: 40;
+}
+.surat-premium .ayah-actions-menu .ayah-playlist-menu-item[data-v-637d02d8],
+.surat-premium .ayah-actions-submenu .ayah-playlist-menu-item[data-v-637d02d8] {
+    min-height: 40px;
+    padding: 0.5rem 0.72rem;
+    font-size: 0.86rem;
+    font-weight: 600;
+}
+.surat-premium .ayah-actions-menu .ayah-playlist-menu-item-submenu.is-open[data-v-637d02d8] {
+    background: #eef8f5;
+}
+.surat-premium .ayah-actions-submenu[data-v-637d02d8] {
+    right: calc(100% + 0.55rem);
+    left: auto;
+    top: 0;
+    min-width: 15rem;
+    border-radius: 16px;
+    border-color: rgba(16, 56, 51, 0.14);
+    box-shadow: 0 20px 34px rgba(7, 31, 28, 0.16);
+}
+.surat-premium .ayah-actions-leading-label[data-v-637d02d8] {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+}
+.surat-premium .ayah-actions-leading-label i[data-v-637d02d8] {
+    color: #0b6b59;
+}
+.surat-premium .ayah-card-status-row[data-v-637d02d8] {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem;
+    padding: 0 1.3rem 0.72rem;
+}
+.surat-premium .ayah-feedback-message[data-v-637d02d8] {
+    align-self: flex-start;
+    width: auto;
+    max-width: calc(100% - 2.6rem);
+    margin: 0 1.3rem 0.9rem;
+}
+.surat-premium .ayah-card-body[data-v-637d02d8] {
+    flex: 1 1 auto;
+}
+.surat-premium .ayah-card-copy[data-v-637d02d8] {
+    padding: 0 1.35rem 1.2rem;
+}
+.surat-premium .ayah-card-copy .arabic-text[data-v-637d02d8] {
+    padding-top: 0.55rem;
+    margin-bottom: 1.1rem !important;
+}
+.surat-premium .ayah-card-copy .translation-header[data-v-637d02d8],
+.surat-premium .ayah-card-copy .transliteration-header[data-v-637d02d8] {
+    padding-top: 0.12rem;
+    margin-bottom: 0.42rem;
+}
+.surat-premium .ayah-card-copy-label[data-v-637d02d8] {
+    font-size: 1.08rem;
+    font-weight: 900;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #204942;
+}
+.surat-premium .ayah-card-copy .translation-text[data-v-637d02d8],
+.surat-premium .ayah-card-copy .transliteration-text[data-v-637d02d8] {
+    margin-bottom: 0.9rem !important;
+}
+.surat-premium .ayah-card-footer[data-v-637d02d8] {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+    gap: 1.25rem 1.75rem;
+    margin-top: auto;
+    padding: 0.95rem 1.35rem 1.05rem;
+    border-top: 1px solid rgba(16, 56, 51, 0.12);
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+}
+.surat-premium .ayah-card-footer[data-v-637d02d8]::-webkit-scrollbar {
+    display: none;
+}
+.surat-premium .ayah-card-footer-main[data-v-637d02d8],
+.surat-premium .ayah-card-footer-text-controls[data-v-637d02d8] {
+    display: inline-flex;
+    align-items: center;
+    gap: 1.25rem 1.75rem;
+    min-width: -moz-max-content;
+    min-width: max-content;
+}
+.surat-premium .ayah-card-footer-text-controls[data-v-637d02d8] {
+    margin-left: auto;
+}
+.surat-premium .ayah-footer-action[data-v-637d02d8] {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.58rem;
+    min-height: 42px;
+    padding: 0.3rem 0.45rem;
+    border: 0;
+    background: transparent;
+    color: #204942;
+    font-size: 1.06rem;
+    font-weight: 700;
+    line-height: 1.15;
+    white-space: nowrap;
+    box-shadow: none;
+    border-radius: 999px;
+    transition: color 0.24s ease, background-color 0.24s ease,
+        box-shadow 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.surat-premium .ayah-footer-action i[data-v-637d02d8] {
+    font-size: 1.22rem;
+    color: #0b6b59;
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+.surat-premium .ayah-footer-action[data-v-637d02d8]:hover,
+.surat-premium .ayah-footer-action[data-v-637d02d8]:focus-visible,
+.surat-premium .ayah-footer-action.is-active[data-v-637d02d8] {
+    color: #0b6b59;
+    background: rgba(11, 107, 89, 0.08);
+    box-shadow: 0 12px 24px rgba(11, 61, 46, 0.12);
+    transform: translateY(-2px);
+}
+.surat-premium .ayah-footer-action:hover i[data-v-637d02d8],
+.surat-premium .ayah-footer-action:focus-visible i[data-v-637d02d8],
+.surat-premium .ayah-footer-action.is-active i[data-v-637d02d8] {
+    color: #075444;
+    transform: translateY(-1px);
+}
+@media (max-width: 991.98px) {
+.surat-premium .ayah-card-header[data-v-637d02d8] {
+        padding: 0.95rem 1rem 0.82rem;
+        gap: 0.85rem;
+}
+.surat-premium .ayah-card-header-toolbar[data-v-637d02d8] {
+        gap: 0.6rem;
+}
+.surat-premium .ayah-card-status-row[data-v-637d02d8] {
+        padding: 0 1rem 0.64rem;
+}
+.surat-premium .ayah-feedback-message[data-v-637d02d8] {
+        max-width: calc(100% - 2rem);
+        margin: 0 1rem 0.8rem;
+}
+.surat-premium .ayah-card-copy[data-v-637d02d8] {
+        padding: 0 1rem 1rem;
+}
+.surat-premium .ayah-card-copy .arabic-text[data-v-637d02d8] {
+        padding-top: 0.5rem;
+}
+.surat-premium .ayah-card-footer[data-v-637d02d8] {
+        padding: 0.9rem 1rem 0.95rem;
+        gap: 0.85rem 1rem;
+}
+.surat-premium .ayah-card-footer-main[data-v-637d02d8],
+    .surat-premium .ayah-card-footer-text-controls[data-v-637d02d8] {
+        gap: 0.85rem 1rem;
+}
+.surat-premium .ayah-actions-menu[data-v-637d02d8] {
+        min-width: min(16rem, calc(100vw - 3rem));
+}
+}
+@media (max-width: 767.98px) {
+.surat-premium .ayah-card-header[data-v-637d02d8] {
+        flex-wrap: nowrap;
+        align-items: center;
+        gap: 0.55rem;
+        overflow-x: auto;
+        overflow-y: hidden;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+}
+.surat-premium .ayah-card-header[data-v-637d02d8]::-webkit-scrollbar {
+        display: none;
+}
+.surat-premium .ayah-card-reference-wrap[data-v-637d02d8] {
+        width: auto;
+        flex: 0 0 auto;
+}
+.surat-premium .ayah-card-header-toolbar[data-v-637d02d8] {
+        width: auto;
+        margin-left: auto;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 0.42rem;
+        flex: 1 1 auto;
+        min-width: 0;
+}
+.surat-premium .ayah-card-header-primary[data-v-637d02d8] {
+        justify-content: flex-start;
+        flex-wrap: nowrap;
+        gap: 0.38rem;
+        min-width: 0;
+        flex: 0 1 auto;
+}
+.surat-premium .ayah-card-reference[data-v-637d02d8] {
+        min-height: 34px;
+        padding: 0.3rem 0.62rem;
+        gap: 0.32rem;
+}
+.surat-premium .ayah-card-reference i[data-v-637d02d8] {
+        display: none;
+}
+.surat-premium .saved-pill[data-v-637d02d8] {
+        display: none !important;
+}
+.surat-premium .ayah-header-toggle[data-v-637d02d8] {
+        min-height: 34px;
+        padding: 0.24rem 0.46rem !important;
+        margin-bottom: 0 !important;
+}
+.surat-premium .ayah-header-toggle .form-check-label[data-v-637d02d8] {
+        font-size: 0.72rem !important;
+        white-space: nowrap;
+}
+.surat-premium .ayah-header-toggle .form-check-input[data-v-637d02d8] {
+        width: 1.6rem !important;
+        height: 0.9rem !important;
+}
+.surat-premium .ayah-tafseer-trigger[data-v-637d02d8] {
+        display: none;
+}
+.surat-premium .ayah-menu-trigger[data-v-637d02d8] {
+        width: 34px;
+        height: 34px;
+}
+.surat-premium .ayah-card-menu[data-v-637d02d8] {
+        margin-left: auto;
+        z-index: 260;
+}
+.surat-premium .ayah-card-copy .arabic-text[data-v-637d02d8] {
+        padding-top: 0.5rem;
+}
+.surat-premium .ayah-card-footer[data-v-637d02d8] {
+        display: grid;
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+        gap: 0.35rem;
+        justify-content: stretch;
+        overflow-x: visible;
+}
+.surat-premium .ayah-card-footer-main[data-v-637d02d8],
+    .surat-premium .ayah-card-footer-text-controls[data-v-637d02d8] {
+        display: contents;
+}
+.surat-premium .ayah-footer-action[data-v-637d02d8] {
+        justify-content: center;
+        width: 100%;
+        min-width: 0;
+        min-height: 2.45rem;
+        padding: 0;
+        font-size: 0;
+        gap: 0;
+        border-radius: 16px;
+        box-shadow: none;
+        transform: none;
+        position: relative;
+        overflow: visible;
+}
+.surat-premium .ayah-footer-action span[data-v-637d02d8] {
+        display: none;
+}
+.surat-premium .ayah-footer-action i[data-v-637d02d8] {
+        font-size: 1.2rem;
+}
+.surat-premium .ayah-footer-action[data-v-637d02d8]:hover,
+    .surat-premium .ayah-footer-action[data-v-637d02d8]:focus-visible,
+    .surat-premium .ayah-footer-action.is-active[data-v-637d02d8] {
+        transform: none;
+}
+.surat-premium .ayah-footer-action.is-mobile-tooltip-visible[data-v-637d02d8]::after {
+        content: attr(data-mobile-tooltip-label);
+        position: absolute;
+        left: 50%;
+        bottom: calc(100% + 0.42rem);
+        transform: translateX(-50%);
+        padding: 0.32rem 0.56rem;
+        border-radius: 999px;
+        background: rgba(16, 56, 51, 0.96);
+        color: #ffffff;
+        font-size: 0.7rem;
+        font-weight: 700;
+        line-height: 1;
+        white-space: nowrap;
+        box-shadow: 0 10px 22px rgba(7, 31, 28, 0.18);
+        pointer-events: none;
+        z-index: 320;
+}
+.surat-premium .ayah-footer-action.is-mobile-tooltip-visible[data-v-637d02d8]::before {
+        content: "";
+        position: absolute;
+        left: 50%;
+        bottom: calc(100% + 0.1rem);
+        width: 0.52rem;
+        height: 0.52rem;
+        background: rgba(16, 56, 51, 0.96);
+        transform: translateX(-50%) rotate(45deg);
+        border-radius: 2px;
+        pointer-events: none;
+        z-index: 319;
+}
+.surat-premium .ayah-actions-submenu[data-v-637d02d8] {
+        position: static;
+        margin-top: 0.38rem;
+        box-shadow: none;
+        z-index: 300;
+}
+.surat-premium .ayah-actions-menu[data-v-637d02d8] {
+        min-width: min(15rem, calc(100vw - 2rem));
+        z-index: 300;
 }
 }
 

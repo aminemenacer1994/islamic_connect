@@ -585,6 +585,7 @@ export default {
             pendingAyahForNewPlaylist: null,
             openAyahPlaylistMenuKey: "",
             openAyahPlaylistExistingSubmenuKey: "",
+            ayahMenuOutsideClickHandler: null,
             suppressPlaybackScrollSync: false,
             suppressPlaybackScrollOnce: false,
             playlistSinglePlayMode: false,
@@ -1110,6 +1111,8 @@ export default {
             isHifdhPlanHidden: false,
             isHifdhDemoModeActive: false,
             hifdhTooltipInstances: [],
+            mobileAyahFooterTooltipKey: "",
+            mobileAyahFooterTooltipHideTimer: null,
             hifdhPlanModalInstance: null,
             hifdhPlanModalShownHandler: null,
             hifdhPlanModalHiddenHandler: null,
@@ -4557,6 +4560,14 @@ export default {
                 this.initializeSessionHistoryTooltips();
             });
         },
+        isMobile(next) {
+            if (next) return;
+            this.hideMobileAyahFooterTooltip();
+        },
+        visibleWindow() {
+            if (!this.isMobile) return;
+            this.hideMobileAyahFooterTooltip();
+        },
         sessionHistoryView(nextView) {
             if (nextView !== "surah") return;
             if (String(this.sessionHistoryAnalyticsSurah || "").trim()) return;
@@ -5111,6 +5122,15 @@ export default {
                     "webkitfullscreenchange",
                     this.fullscreenChangeHandler
                 );
+                this.ayahMenuOutsideClickHandler = (event) => {
+                    const target = event?.target;
+                    if (target?.closest?.(".ayah-card-menu")) return;
+                    this.closeAyahPlaylistMenu();
+                };
+                document.addEventListener(
+                    "click",
+                    this.ayahMenuOutsideClickHandler
+                );
             }
             this.syncReadingFullscreenBodyClass(false);
             this.updateIsMobile();
@@ -5472,6 +5492,13 @@ export default {
                     "bookmarks-updated",
                     this.bookmarkEventHandler
                 );
+            if (typeof document !== "undefined" && this.ayahMenuOutsideClickHandler) {
+                document.removeEventListener(
+                    "click",
+                    this.ayahMenuOutsideClickHandler
+                );
+                this.ayahMenuOutsideClickHandler = null;
+            }
             if (this.bookmarkStorageHandler)
                 window.removeEventListener("storage", this.bookmarkStorageHandler);
             if (this.visibilityHandler)
@@ -5576,6 +5603,7 @@ export default {
             this.sessionHistoryModalInstance = null;
         }
         this.disposeSessionHistoryTooltips();
+        this.hideMobileAyahFooterTooltip();
         const sessionHistoryModalEl = document.getElementById(
             this.sessionHistoryModalId
         );
@@ -5754,6 +5782,7 @@ export default {
         window.removeEventListener("scroll", this.onScrollVirtual);
         window.removeEventListener("resize", this.computeListTop);
         window.removeEventListener("resize", this.calibrateItemHeight);
+        this.hideMobileAyahFooterTooltip();
         if (this.sessionHistoryPageHideHandler) {
             window.removeEventListener("pagehide", this.sessionHistoryPageHideHandler);
             this.sessionHistoryPageHideHandler = null;
@@ -5789,6 +5818,13 @@ export default {
             this._scrollCorrectionTimer = null;
             clearTimeout(this._navigationSettleTimer);
             this._navigationSettleTimer = null;
+            if (typeof document !== "undefined" && this.ayahMenuOutsideClickHandler) {
+                document.removeEventListener(
+                    "click",
+                    this.ayahMenuOutsideClickHandler
+                );
+                this.ayahMenuOutsideClickHandler = null;
+            }
             if (this.reflectionModalHiddenHandler) {
                 const modalEl = document.getElementById(this.reflectionModalId);
                 if (modalEl) {
@@ -14236,6 +14272,24 @@ export default {
             });
             this.sessionHistoryTooltipInstances = [];
         },
+        showMobileAyahFooterTooltip(key = "") {
+            if (!this.isMobile || !key) return;
+            clearTimeout(this.mobileAyahFooterTooltipHideTimer);
+            this.mobileAyahFooterTooltipHideTimer = null;
+            this.mobileAyahFooterTooltipKey = key;
+            this.mobileAyahFooterTooltipHideTimer = setTimeout(() => {
+                if (this.mobileAyahFooterTooltipKey === key) {
+                    this.mobileAyahFooterTooltipKey = "";
+                }
+                this.mobileAyahFooterTooltipHideTimer = null;
+            }, 950);
+        },
+        hideMobileAyahFooterTooltip(key = "") {
+            if (key && this.mobileAyahFooterTooltipKey !== key) return;
+            clearTimeout(this.mobileAyahFooterTooltipHideTimer);
+            this.mobileAyahFooterTooltipHideTimer = null;
+            this.mobileAyahFooterTooltipKey = "";
+        },
         updateSessionHistoryNoteDraft(entryId = "", value = "") {
             const normalizedId = String(entryId || "").trim();
             if (!normalizedId) return;
@@ -19882,8 +19936,58 @@ export default {
             });
         },
         openSurahInfo(surah) {
-            if (!surah) return;
-            this.surahInfo = { ...surah };
+            const fallbackSurah = this.currentSurahInfo || {};
+            const sourceSurah =
+                surah || this.surahDetails || this.currentSurahInfo;
+            if (!sourceSurah) return;
+            const resolvedSurahNumber = Number(
+                sourceSurah.number ||
+                    sourceSurah.surahNumber ||
+                    fallbackSurah.number ||
+                    fallbackSurah.surahNumber ||
+                    this.surahDetails?.surahNumber ||
+                    this.selectedSurah
+            );
+            this.surahInfo = {
+                ...fallbackSurah,
+                ...sourceSurah,
+                number:
+                    Number.isFinite(resolvedSurahNumber) &&
+                    resolvedSurahNumber > 0
+                        ? resolvedSurahNumber
+                        : fallbackSurah.number || sourceSurah.number || null,
+                surahNumber:
+                    Number.isFinite(resolvedSurahNumber) &&
+                    resolvedSurahNumber > 0
+                        ? resolvedSurahNumber
+                        : sourceSurah.surahNumber ||
+                          fallbackSurah.surahNumber ||
+                          null,
+                englishName:
+                    sourceSurah.englishName ||
+                    fallbackSurah.englishName ||
+                    sourceSurah.surah_name ||
+                    fallbackSurah.surah_name ||
+                    "",
+                name:
+                    sourceSurah.name ||
+                    fallbackSurah.name ||
+                    sourceSurah.surahNameArabic ||
+                    fallbackSurah.surahNameArabic ||
+                    "",
+                revelationType:
+                    sourceSurah.revelationType ||
+                    fallbackSurah.revelationType ||
+                    sourceSurah.revelation ||
+                    fallbackSurah.revelation ||
+                    "",
+                numberOfAyahs:
+                    sourceSurah.numberOfAyahs ||
+                    fallbackSurah.numberOfAyahs ||
+                    sourceSurah.ayahs?.length ||
+                    this.surahDetails?.ayahs?.length ||
+                    0,
+            };
             this.surahInfoText = "";
             this.surahInfoShortText = "";
             this.surahInfoSource = "";
@@ -19899,7 +20003,16 @@ export default {
                     Modal.getInstance(modalEl) || new Modal(modalEl);
                 this.surahInfoModalInstance.show();
             });
-            this.fetchSurahInfoDetails(Number(surah.number));
+            if (
+                !Number.isFinite(resolvedSurahNumber) ||
+                resolvedSurahNumber <= 0
+            ) {
+                this.surahInfoLoading = false;
+                this.surahInfoError =
+                    "Unable to determine surah information right now.";
+                return;
+            }
+            this.fetchSurahInfoDetails(resolvedSurahNumber);
         },
         increaseSurahInfoFontSize() {
             const next = Math.min(
@@ -21290,6 +21403,11 @@ export default {
             if (key === "Escape" && this.isReadingFullscreen) {
                 e.preventDefault();
                 this.exitReadingFullscreen();
+                return;
+            }
+            if (key === "Escape" && this.openAyahPlaylistMenuKey) {
+                e.preventDefault();
+                this.closeAyahPlaylistMenu();
                 return;
             }
             const tag = ((e.target && e.target.tagName) || "").toLowerCase();
@@ -24492,6 +24610,55 @@ export default {
             const checked = !!event.target.checked;
             this.setTransliterationVisibleFor(item, checked);
         },
+        async shareAyah(ayah) {
+            const ref = this.resolveAyahReference(ayah);
+            const message = this.buildAyahMessage(ayah, {
+                includeAudio: true,
+            });
+            if (!message) return false;
+
+            const shareUrl = ref
+                ? `https://quran.com/${ref.surahNumber}/${ref.ayahNumber}`
+                : "";
+            const shareTitle = ref
+                ? `Surah ${ref.surahNumber}, Ayah ${ref.ayahNumber}`
+                : "Quran ayah";
+
+            if (
+                typeof navigator !== "undefined" &&
+                typeof navigator.share === "function"
+            ) {
+                try {
+                    const payload = {
+                        title: shareTitle,
+                        text: message,
+                    };
+                    if (shareUrl) {
+                        payload.url = shareUrl;
+                    }
+                    await navigator.share(payload);
+                    this.showToast("Ayah ready to share.", 2400);
+                    return true;
+                } catch (error) {
+                    if (error?.name === "AbortError") {
+                        return false;
+                    }
+                }
+            }
+
+            const copied = await this.copyText(
+                shareUrl ? `${message}\n\nReference: ${shareUrl}` : message
+            );
+            if (copied) {
+                this.showToast("Ayah copied to clipboard.");
+                this.announce("Ayah copied to clipboard.");
+                return true;
+            }
+
+            this.showToast("Unable to share ayah.", 2600);
+            this.announce("Unable to share ayah.");
+            return false;
+        },
         toggleMobileToolbarExpanded() {
             this.isMobileToolbarExpanded = !this.isMobileToolbarExpanded;
             this.announce(
@@ -26591,6 +26758,22 @@ export default {
         closeAyahPlaylistMenu() {
             this.openAyahPlaylistMenuKey = "";
             this.openAyahPlaylistExistingSubmenuKey = "";
+        },
+        handleAyahMenuSurahInfo() {
+            this.closeAyahPlaylistMenu();
+            this.openSurahInfo(this.currentSurahInfo || this.surahDetails);
+        },
+        async handleAyahMenuPin(ayah) {
+            this.closeAyahPlaylistMenu();
+            await this.togglePinnedAyah(ayah);
+        },
+        async handleAyahMenuDownload(ayah) {
+            this.closeAyahPlaylistMenu();
+            await this.downloadAyahAudio(ayah);
+        },
+        async handleAyahMenuCopy(ayah) {
+            this.closeAyahPlaylistMenu();
+            await this.copyAyah(ayah);
         },
         saveAyahToActivePlaylist(ayah) {
             if (
