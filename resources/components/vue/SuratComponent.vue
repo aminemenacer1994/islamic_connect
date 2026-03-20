@@ -17,64 +17,15 @@
         :style="quranFontStyle"
         role="main" aria-label="Quran Explorer">
         <div class="row justify-content-center text-center mb-3 reading-fullscreen-chrome quran-reader-hero">
-            <div class="col-lg-10 col-xl-10">
+            <div class="col-lg-9 col-xl-8">
                 <h1 class="display-5 fw-bold">The Holy Quran</h1>
-                <p class="holy-book-description mb-0">Explore the Holy Quran with clear recitations, trusted translations, and practical tools that help you read with focus, listen with understanding, and reflect on each ayah in your daily life.</p>
             </div>
         </div>
         <div
-            v-if="continueProgress || desktopSurahContext.englishName || desktopSurahContext.arabicName"
+            v-if="desktopSurahContext.englishName || desktopSurahContext.arabicName"
             class="continue-surah-container mb-3">
-            <div class="row g-3 align-items-stretch continue-surah-row">
-            <div class="col-12 col-md-6">
-                <div
-                    v-if="continueProgress && !continueProgressHidden"
-                    class="continue-progress-banner ltr-text h-100"
-                    role="status"
-                    aria-live="polite"
-                    aria-atomic="true">
-                    <div class="continue-progress-banner-icon" aria-hidden="true">
-                        <i class="bi" :class="continueProgress?.mode === 'listening' ? 'bi-headphones' : 'bi-book-half'"></i>
-                    </div>
-                    <div class="continue-progress-banner-main">
-                        <div class="continue-progress-banner-topline">
-                            <span class="continue-progress-banner-eyebrow">Continue</span>
-                            <span class="continue-progress-banner-mode">{{ continueProgress?.mode === "listening" ? "Listening" : "Reading" }}</span>
-                        </div>
-                        <div class="continue-progress-banner-title">
-                            Surah {{ continueProgress?.surahNumber }} · {{ getContinueProgressSurahName() }} · Ayah {{ continueProgress?.ayahNumber }}
-                        </div>
-                        <div class="continue-progress-banner-subtitle">
-                            Jump back exactly where you paused.
-                        </div>
-                    </div>
-                    <div class="continue-progress-banner-actions">
-                        <button
-                            type="button"
-                            class="btn continue-progress-banner-btn"
-                            @click="resumeContinueProgress({ autoplay: continueProgress?.mode === 'listening' })">
-                            Resume now
-                        </button>
-                        <button
-                            type="button"
-                            class="btn continue-progress-banner-btn-secondary"
-                            @click="hideContinueProgressBanner()">
-                            Hide
-                        </button>
-                    </div>
-                </div>
-                <div
-                    v-else-if="continueProgress && continueProgressHidden"
-                    class="continue-progress-restore-wrap ltr-text">
-                    <button
-                        type="button"
-                        class="btn continue-progress-restore-btn"
-                        @click="showContinueProgressBanner()">
-                        Show continue card
-                    </button>
-                </div>
-            </div>
-            <div class="col-12 col-md-6">
+            <div class="row g-3 justify-content-center continue-surah-row">
+            <div class="col-12 col-md-12">
                 <div
                     v-if="desktopSurahContext.englishName || desktopSurahContext.arabicName"
                     class="quran-toolbar-surah-identity quran-toolbar-surah-identity-mobile ltr-text pb-0"
@@ -98,11 +49,6 @@
                                 <span class="quran-toolbar-surah-identity-title">
                                     {{ desktopSurahContext.englishName }}
                                 </span>
-                            </span>
-                            <span
-                                v-if="desktopSurahContext.translationName"
-                                class="quran-toolbar-surah-identity-en-sub">
-                                {{ desktopSurahContext.translationName }}
                             </span>
                         </div>
                     </div>
@@ -134,7 +80,7 @@
                 id="advancedQuranSearchSection"
                 v-show="isAdvancedSearchVisible || isTabletOrMobile"
                 class="row justify-content-center mb-4">
-            <div class="col-12">
+            <div class="col-12 col-xl-10">
                <section class="advanced-quran-search ltr-text"
                     :class="{
                         'is-panel-hidden': !isAdvancedSearchPanelVisible,
@@ -145,9 +91,6 @@
                      <div v-if="isAdvancedSearchVisible && !(isDeepFocusMode && isTabletOrMobile)" class="advanced-quran-search-top">
                         <div class="advanced-quran-search-head">
                             <h2 class="advanced-quran-search-title mb-0">Search Quran</h2>
-                            <p class="advanced-quran-search-subtitle mb-0">
-                                Ayah matches with translation.
-                            </p>
                         </div>
                         <div class="advanced-quran-search-top-actions">
                             <div class="advanced-quran-search-top-pills">
@@ -237,20 +180,22 @@
                         <div
                             class="advanced-quran-mobile-main-row"
                             :class="{ 'has-settings-btn': !isMemorisationToolbarVisible }">
-                            <label class="visually-hidden" for="searchSurahDropdown">
-                                Select surah
-                            </label>
-                            <select
-                                id="searchSurahDropdown"
-                                class="form-select advanced-quran-mobile-surah-select"
-                                v-model="selectedSurah"
-                                @change="selectSurah(selectedSurah)"
-                                aria-label="Select surah">
-                                <option v-if="!surahs.length" disabled>Loading surahs...</option>
-                                <option v-for="surah in surahs" :key="surah.number" :value="String(surah.number)">
-                                    {{ surah.number }}. {{ surah.englishName }}
-                                </option>
-                            </select>
+                            <div class="advanced-quran-mobile-select-shell">
+                                <label class="advanced-quran-mobile-select-label" for="searchSurahDropdown">
+                                    Jump to surah
+                                </label>
+                                <select
+                                    id="searchSurahDropdown"
+                                    class="form-select advanced-quran-mobile-surah-select"
+                                    v-model="selectedSurah"
+                                    @change="selectSurah(selectedSurah)"
+                                    aria-label="Select surah">
+                                    <option v-if="!surahs.length" disabled>Loading surahs...</option>
+                                    <option v-for="surah in surahs" :key="surah.number" :value="String(surah.number)">
+                                        {{ surah.number }}. {{ surah.englishName }}
+                                    </option>
+                                </select>
+                            </div>
                             <button
                                 v-if="false"
                                 type="button"
@@ -4347,12 +4292,6 @@
                                                         · Origin: {{ surah.revelationType }}
                                                     </span>
                                                 </div>
-                                                <div class="sidebar-item-extra" v-if="surah.englishNameTranslation">
-                                                    <span>{{ surah.englishNameTranslation }}</span>
-                                                    <span v-if="surah.numberOfAyahs || surah.number_ayahs">
-                                                        · {{ surah.numberOfAyahs || surah.number_ayahs }} total verses
-                                                    </span>
-                                                </div>
                                             </div>
                                             <div class="surah-info-group ms-auto">
                                                 <div class="item-title-ar text-end">
@@ -4646,7 +4585,7 @@
                 </section>
             </div>
 
-            <div class="row rtl-text" ref="listContainer" role="list" aria-label="Ayah cards list"
+            <div class="row rtl-text" ref="listContainer" role="list" aria-label="Ayah verses list"
                 :style="!isMemorisationModeActive
                     ? { paddingTop: topSpacerHeight + 'px', paddingBottom: bottomSpacerHeight + 'px' }
                     : null">
@@ -5175,6 +5114,10 @@
                             </div>
                         </section>
                     </div>
+                    <hr
+                        v-if="item.index !== visibleWindow[visibleWindow.length - 1]?.index"
+                        class="ayah-verse-divider"
+                        aria-hidden="true">
                 </div>
 
             </div>
