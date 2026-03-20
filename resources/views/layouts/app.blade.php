@@ -328,15 +328,52 @@
 
         @media (max-width: 768px) {
             /* Keep mobile menu readable instead of blending into page content */
+            :root {
+                --navbar-h: 74px;
+            }
+
             .navbar.navbar-transparent {
                 background: rgba(255, 255, 255, 0.94) !important;
                 backdrop-filter: none !important;
                 -webkit-backdrop-filter: none !important;
             }
 
+            .navbar.navbar-transparent.fixed-top {
+                padding-block: 0.3rem !important;
+            }
+
             .navbar > .container-fluid {
-                gap: 0.5rem;
-                padding-inline: 0.85rem;
+                gap: 0.7rem;
+                padding-inline: 0.9rem;
+                min-height: 64px;
+            }
+
+            .navbar .navbar-brand {
+                display: inline-flex;
+                align-items: center;
+                min-height: 56px;
+            }
+
+            .navbar .navbar-brand img {
+                width: auto !important;
+                height: 46px !important;
+                max-width: min(224px, 66vw) !important;
+            }
+
+            .navbar .navbar-toggler {
+                min-width: 58px !important;
+                min-height: 58px !important;
+                padding: 0.74rem !important;
+                border-radius: 18px !important;
+                border: 1px solid rgba(15, 23, 42, 0.12) !important;
+                background: rgba(255, 255, 255, 0.96) !important;
+                box-shadow: 0 12px 24px rgba(15, 23, 42, 0.08) !important;
+            }
+
+            .navbar .navbar-toggler-icon {
+                width: 1.9rem !important;
+                height: 1.9rem !important;
+                background-size: 1.9rem 1.9rem !important;
             }
 
             .navbar.navbar-transparent .navbar-collapse.show,
@@ -363,6 +400,33 @@
                 position: static;
                 width: 100%;
                 margin-top: 0.35rem;
+            }
+        }
+
+        @media (max-width: 575.98px) {
+            :root {
+                --navbar-h: 76px;
+            }
+
+            .navbar > .container-fluid {
+                min-height: 66px;
+            }
+
+            .navbar .navbar-brand img {
+                height: 48px !important;
+                max-width: min(232px, 68vw) !important;
+            }
+
+            .navbar .navbar-toggler {
+                min-width: 60px !important;
+                min-height: 60px !important;
+                padding: 0.78rem !important;
+            }
+
+            .navbar .navbar-toggler-icon {
+                width: 2rem !important;
+                height: 2rem !important;
+                background-size: 2rem 2rem !important;
             }
         }
     </style>

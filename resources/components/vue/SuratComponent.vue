@@ -39,8 +39,8 @@
                             dir="rtl">
                             {{ desktopSurahContext.arabicName }}
                         </span>
-                        <div class="quran-toolbar-surah-identity-en d-flex flex-column text-start flex-grow-1">
-                            <span class="quran-toolbar-surah-identity-en-main d-inline-flex align-items-center">
+                        <div class="quran-toolbar-surah-identity-en d-inline-flex align-items-center text-start">
+                            <span class="quran-toolbar-surah-identity-en-main d-inline-flex align-items-center flex-nowrap">
                                 <span
                                     v-if="desktopSurahContext.number"
                                     class="quran-toolbar-surah-identity-number">
@@ -237,10 +237,6 @@
                             v-if="isMobileToolbarExpanded"
                             id="advancedQuranMobileExpandedControls"
                             aria-label="Extended surah controls">
-                            <div class="advanced-quran-mobile-label-row d-flex align-items-center">
-                                <span class="quran-toolbar-label"><b>{{ memorisationControlsLabel }}</b></span>
-                                <div class="quran-toolbar-separator"></div>
-                            </div>
                             <div v-if="!isMemorisationToolbarVisible" class="advanced-quran-mobile-select-grid">
                                 <div class="advanced-quran-mobile-select-field">
                                     <label class="visually-hidden" for="mobileToolbarReciterSelect">
@@ -612,8 +608,7 @@
                         'is-active': isMemorisationToolbarVisible,
                         'is-attention': !isMemorisationToolbarVisible
                     }"
-                    :aria-label="isMemorisationOffcanvasVisible ? 'Close memorisation tools' : 'Open memorisation tools'"
-                    :title="isMemorisationOffcanvasVisible ? 'Close memorisation tools.' : 'Open memorisation tools to support repetition, focus, and revision.'">
+                    :aria-label="isMemorisationOffcanvasVisible ? 'Close memorisation tools' : 'Open memorisation tools'">
                     <i class="bi bi-journal-bookmark-fill" aria-hidden="true"></i>
                     <span class="quran-toolbar-btn-text">{{ memorisationToolbarButtonLabel }}</span>
                 </button>
@@ -622,8 +617,7 @@
                     type="button"
                     class="quran-toolbar-btn quran-toolbar-btn-open-tools"
                     @click="openMemorisationOffcanvas"
-                    aria-label="Open session tools panel"
-                    title="Open Session Tools for pacing, repeat-after-reciter, and display controls">
+                    aria-label="Open session tools panel">
                     <i class="bi bi-layout-sidebar-inset" aria-hidden="true"></i>
                     <span class="quran-toolbar-btn-text">Open Session Tools Panel</span>
                 </button>
@@ -632,8 +626,7 @@
                     type="button"
                     class="quran-toolbar-btn quran-toolbar-btn-history"
                     @click="openSessionHistoryModal()"
-                    aria-label="Open session history"
-                    title="Open session history">
+                    aria-label="Open session history">
                     <i class="bi bi-clock-history" aria-hidden="true"></i>
                     <span class="quran-toolbar-btn-text">History</span>
                 </button>
@@ -645,7 +638,6 @@
                         id="toolbarReciterSelect"
                         class="form-select quran-toolbar-select"
                         v-model="selectedReciter"
-                        title="Choose which reciter's voice will be used for the surah audio."
                         aria-label="Select audio reciter">
                         <option value="" disabled>Select reciter</option>
                         <option v-for="reciter in recitersSorted" :key="reciter.identifier" :value="reciter.identifier">
@@ -660,8 +652,7 @@
                     class="quran-toolbar-btn"
                     data-bs-toggle="modal"
                     data-bs-target="#tajweedRulesModal"
-                    aria-label="View tajweed rules"
-                    title="Open the tajweed color guide to understand pronunciation and reading rules.">
+                    aria-label="View tajweed rules">
                     <i class="bi bi-palette-fill" aria-hidden="true"></i>
                     <span class="quran-toolbar-btn-text">Tajweed rules</span>
                 </button>
@@ -671,9 +662,6 @@
                     class="quran-toolbar-btn quran-toolbar-btn-toggle"
                     :class="{ 'is-enabled': isTranslationAllEnabled }"
                     @click="toggleToolbarTranslation"
-                    :title="isTranslationAllEnabled
-                        ? 'Turn translation off for all visible ayahs.'
-                        : 'Turn translation on for all visible ayahs.'"
                     :aria-label="isTranslationAllEnabled
                         ? 'Turn translation off for all ayahs'
                         : 'Turn translation on for all ayahs'">
@@ -687,9 +675,6 @@
                     class="quran-toolbar-btn quran-toolbar-btn-toggle"
                     :class="{ 'is-enabled': isTransliterationAllEnabled }"
                     @click="toggleToolbarTransliteration"
-                    :title="isTransliterationAllEnabled
-                        ? 'Turn transliteration off for all visible ayahs.'
-                        : 'Turn transliteration on for all visible ayahs.'"
                     :aria-label="isTransliterationAllEnabled
                         ? 'Turn transliteration off for all ayahs'
                         : 'Turn transliteration on for all ayahs'">
@@ -704,11 +689,6 @@
                     :class="{ 'is-enabled': voiceCommandsEnabled }"
                     @click="toggleVoiceCommands"
                     :disabled="!speechRecognitionSupported"
-                    :title="!speechRecognitionSupported
-                        ? 'Voice commands are not supported in this browser.'
-                        : voiceCommandsEnabled
-                            ? 'Voice commands are on. Try saying: Bismillah, open surah 2 ayah 255.'
-                            : 'Turn on voice commands. Example: Bismillah, open surah 2 ayah 255.'"
                     :aria-label="voiceCommandsEnabled
                         ? 'Turn voice commands off'
                         : 'Turn voice commands on'">
@@ -727,8 +707,7 @@
                     class="quran-toolbar-btn voice-command-guide-control-btn"
                     data-bs-toggle="modal"
                     :data-bs-target="`#${voiceCommandGuideModalId}`"
-                    aria-label="Open voice command guide"
-                    title="Open voice command guide with all supported phrases.">
+                    aria-label="Open voice command guide">
                     <i class="bi bi-question-circle" aria-hidden="true"></i>
                     <span class="quran-toolbar-btn-text">Voice guide</span>
                 </button>
@@ -736,8 +715,7 @@
                     type="button"
                     class="quran-toolbar-btn"
                     @click="openTranslationCompareModal"
-                    aria-label="Compare English translations side by side"
-                    title="Compare multiple English translations side by side in one view.">
+                    aria-label="Compare English translations side by side">
                     <i class="bi bi-columns-gap" aria-hidden="true"></i>
                     <span class="quran-toolbar-btn-text">Compare translations</span>
                 </button>
@@ -747,8 +725,7 @@
                     class="quran-toolbar-btn quran-toolbar-btn-deep-focus"
                     :class="{ 'is-active': isDeepFocusMode }"
                     @click="toggleDeepFocusMode"
-                    :aria-label="isDeepFocusMode ? 'Exit deep focus mode' : 'Enter deep focus mode'"
-                    :title="isDeepFocusMode ? 'Exit deep focus mode and restore tools' : 'Enter deep focus mode for distraction-free reading'">
+                    :aria-label="isDeepFocusMode ? 'Exit deep focus mode' : 'Enter deep focus mode'">
                     <i class="bi bi-bullseye" aria-hidden="true"></i>
                     <span class="quran-toolbar-btn-text">Deep focus mode</span>
                     <span class="quran-toolbar-btn-state">{{ isDeepFocusMode ? "On" : "Off" }}</span>
@@ -759,8 +736,7 @@
                     class="quran-toolbar-btn"
                     @click="toggleCustomPlaylistPanel"
                     :aria-expanded="showCustomPlaylistPanel ? 'true' : 'false'"
-                    aria-label="Open custom playlist library"
-                    title="Open custom playlist library">
+                    aria-label="Open custom playlist library">
                     <i class="bi bi-music-note-list" aria-hidden="true"></i>
                     <span class="quran-toolbar-btn-text">Playlist</span>
                 </button>
@@ -784,9 +760,6 @@
                     @click="toggleReadingFullscreen"
                     :aria-label="isReadingFullscreen
                         ? 'Minimize / Exit Full Screen'
-                        : 'Enter full screen Quran reading mode'"
-                    :title="isReadingFullscreen
-                        ? 'Minimize / Exit Full Screen'
                         : 'Enter full screen Quran reading mode'">
                     <i class="bi"
                         :class="isReadingFullscreen ? 'bi-fullscreen-exit' : 'bi-arrows-fullscreen'"
@@ -799,8 +772,7 @@
                     type="button"
                     class="quran-toolbar-btn quran-toolbar-btn-icon quran-toolbar-btn-font"
                     @click.stop="openFontPicker"
-                    aria-label="Choose Quranic fonts"
-                    title="Open Quran font options to change how Arabic text is displayed.">
+                    aria-label="Choose Quranic fonts">
                     <i class="fas fa-font" aria-hidden="true"></i>
                 </button>
                 <button
@@ -808,8 +780,7 @@
                     type="button"
                     class="quran-toolbar-btn quran-toolbar-btn-icon quran-toolbar-btn-pinned-restore"
                     @click="showPinnedSection"
-                    aria-label="Show pinned favourite ayat"
-                    title="Show pinned favourite ayat">
+                    aria-label="Show pinned favourite ayat">
                     <i class="bi bi-pin-angle-fill" aria-hidden="true"></i>
                 </button>
 
@@ -818,8 +789,7 @@
                     class="quran-toolbar-btn quran-toolbar-btn-info"
                     @click="openSurahInfo(currentSurahInfo)"
                     :disabled="!currentSurahInfo"
-                    aria-label="Open surah information"
-                    title="View this surah's details, including its name, origin, and total ayah count.">
+                    aria-label="Open surah information">
                     <i class="bi bi-info-circle-fill" aria-hidden="true"></i>
                     <span class="quran-toolbar-btn-text">Surah info</span>
                 </button>
@@ -837,14 +807,7 @@
                             ? 'Downloading full surah MP3'
                             : isSurahAudioDownloaded
                                 ? 'Surah MP3 downloaded'
-                                : surahDownloadReadyAriaLabel"
-                    :title="!canDownloadSurahAudio()
-                        ? 'This reciter does not provide a full-surah MP3 file for download.'
-                        : isSurahAudioDownloading
-                            ? 'Downloading the full surah MP3 to your device for offline listening.'
-                            : isSurahAudioDownloaded
-                                ? 'The full surah MP3 is already downloaded. Click to download it again.'
-                                : surahDownloadReadyLabel">
+                                : surahDownloadReadyAriaLabel">
                     <i
                         class="bi quran-toolbar-download-icon"
                         :class="isSurahAudioDownloading
@@ -860,8 +823,7 @@
                     type="button"
                     class="quran-toolbar-btn quran-toolbar-btn-icon quran-toolbar-btn-onboarding"
                     @click="openSuratOnboarding"
-                    aria-label="Open surat onboarding guide"
-                    title="Open onboarding guide">
+                    aria-label="Open surat onboarding guide">
                     <i class="fas fa-compass" aria-hidden="true"></i>
                 </button>
 
@@ -870,8 +832,7 @@
                     type="button"
                     class="quran-toolbar-btn quran-toolbar-btn-icon"
                     @click="openGestureGuideModal"
-                    aria-label="Open swipe and tap gestures guide"
-                    title="Open swipe and tap gestures guide">
+                    aria-label="Open swipe and tap gestures guide">
                     <i class="bi bi-hand-index-thumb-fill" aria-hidden="true"></i>
                 </button>
                 
@@ -882,8 +843,7 @@
                     data-bs-toggle="modal"
                     data-bs-target="#surahSettingsModal"
                     @click="prepareSettingsDraft"
-                    aria-label="Open display settings"
-                    title="Open reading and display settings such as layout, card style, and typography.">
+                    aria-label="Open display settings">
                     <i class="bi bi-gear-fill" aria-hidden="true"></i>
                 </button>
             </div>
@@ -904,7 +864,7 @@
                             class="reader-custom-playlist-close"
                             @click="toggleCustomPlaylistPanel"
                             aria-label="Close custom playlist panel"
-                            title="Close playlist">
+                            >
                             <i class="bi bi-x-lg" aria-hidden="true"></i>
                         </button>
                     </div>
@@ -4270,40 +4230,20 @@
                                             <span class="item-number me-3">{{ surah.number }}</span>
                                             <div class="flex-grow-1 text-start">
                                                 <div class="sidebar-surah-title-row">
-                                                    <button
-                                                        v-if="shouldShowContinueCardForSurah(surah)"
-                                                        type="button"
-                                                        class="continue-progress-chip"
-                                                        @click.stop="resumeContinueProgress()"
-                                                        :aria-label="`Continue reading or listening from Surah ${continueProgress?.surahNumber}, Ayah ${continueProgress?.ayahNumber}`"
-                                                        :title="`Continue reading/listening from Surah ${continueProgress?.surahNumber}, Ayah ${continueProgress?.ayahNumber}`">
-                                                        <i class="bi bi-play-circle-fill" aria-hidden="true"></i>
-                                                        <span>
-                                                            Continue {{ continueProgress?.mode === "listening" ? "listening" : "reading" }} · Ayah {{ continueProgress?.ayahNumber }}
-                                                        </span>
-                                                    </button>
-                                                    <div class="item-title-en">{{ surah.englishName }}</div>
-                                                </div>
-                                                <div class="sidebar-item-meta">
-                                                    <span v-if="surah.numberOfAyahs || surah.number_ayahs">
-                                                        {{ surah.numberOfAyahs || surah.number_ayahs }} ayahs
-                                                    </span>
-                                                    <span v-if="surah.revelationType">
-                                                        · Origin: {{ surah.revelationType }}
-                                                    </span>
+                                                    <div class="sidebar-surah-name-pair">
+                                                        <div class="item-title-en">{{ surah.englishName }}</div>
+                                                        <div class="item-title-ar text-end">
+                                                            {{ surah.name }}
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="surah-info-group ms-auto">
-                                                <div class="item-title-ar text-end">
-                                                    {{ surah.name }}
-                                                </div>
-                                                <button type="button"
-                                                    class="btn sidebar-info-button"
-                                                    @click.stop="openSurahInfo(surah)"
-                                                    aria-label="View surah information">
-                                                    <i class="bi bi-info-circle-fill" aria-hidden="true"></i>
-                                                </button>
-                                            </div>
+                                            <button type="button"
+                                                class="btn sidebar-info-button ms-2"
+                                                @click.stop="openSurahInfo(surah)"
+                                                aria-label="View surah information">
+                                                <i class="bi bi-info-circle-fill" aria-hidden="true"></i>
+                                            </button>
                                         </div>
                                     </div>
                                 </div>

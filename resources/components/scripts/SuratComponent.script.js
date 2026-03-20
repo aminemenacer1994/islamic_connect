@@ -20754,12 +20754,6 @@ export default {
         },
         updateToolbarPinState() {
             if (typeof window === "undefined") return;
-            
-            // Disable pinning on mobile screen sizes as requested
-            if (this.isTabletOrMobile) {
-                if (this.isToolbarPinned) this.isToolbarPinned = false;
-                return;
-            }
 
             const now = Date.now();
             const shouldMeasureFirstAyah =
