@@ -88429,8 +88429,7 @@ body.surat-page-shell-dark .navbar.navbar-transparent,body.surat-page-shell-dark
     box-shadow: none !important;
     color: #fff !important;
 }
-.surat-premium.surat-theme-dark .surah-layout[data-v-637d02d8],
-.surat-premium.surat-theme-dark .surah-layout[data-v-637d02d8] *:not(.spinner-border) {
+.surat-premium.surat-theme-dark .surah-layout[data-v-637d02d8] {
     color: #fff !important;
 }
 .surat-premium.surat-theme-dark .surah-layout svg[data-v-637d02d8],
@@ -88653,15 +88652,24 @@ body.surat-page-shell-dark .navbar.navbar-transparent,body.surat-page-shell-dark
 .surat-premium.surat-theme-dark.performance-optimized .currently-playing .ayah-surface[data-v-637d02d8] {
     background: transparent !important;
     border: 0 !important;
-    border-top: 1px solid var(--surat-flat-border) !important;
+    border-top: 3px solid rgba(255, 255, 255, 0.22) !important;
     border-radius: 0 !important;
     box-shadow: none !important;
     padding: 1.85rem 1.9rem 1.5rem !important;
 }
+.surat-premium.surat-theme-dark .ayah-card-container:first-of-type .ayah-surface[data-v-637d02d8] {
+    border-top: 0 !important;
+}
+.surat-premium.surat-theme-dark .ayah-card-container:hover .ayah-surface[data-v-637d02d8],
+.surat-premium.surat-theme-dark .ayah-card-container.is-pinned .ayah-surface[data-v-637d02d8],
+.surat-premium.surat-theme-dark .highlighted .ayah-surface[data-v-637d02d8],
+.surat-premium.surat-theme-dark .currently-playing .ayah-surface[data-v-637d02d8] {
+    border-top-color: rgba(255, 255, 255, 0.34) !important;
+}
 .surat-premium.surat-theme-dark .ayah-card-header[data-v-637d02d8] {
-    padding-bottom: 1.05rem !important;
-    margin-bottom: 1.2rem !important;
-    border-bottom: 1px solid var(--surat-flat-border) !important;
+    padding-bottom: 0.4rem !important;
+    margin-bottom: 0.8rem !important;
+    border-bottom: 0 !important;
 }
 .surat-premium.surat-theme-dark .ayah-card-copy[data-v-637d02d8] {
     padding: 0 !important;
@@ -88669,9 +88677,9 @@ body.surat-page-shell-dark .navbar.navbar-transparent,body.surat-page-shell-dark
 }
 .surat-premium.surat-theme-dark .translation-header[data-v-637d02d8],
 .surat-premium.surat-theme-dark .transliteration-header[data-v-637d02d8] {
-    padding-top: 1.15rem !important;
-    margin-top: 1.2rem !important;
-    border-top: 1px solid var(--surat-flat-border) !important;
+    padding-top: 0.4rem !important;
+    margin-top: 0.55rem !important;
+    border-top: 0 !important;
 }
 .surat-premium.surat-theme-dark .translation-text[data-v-637d02d8],
 .surat-premium.surat-theme-dark .transliteration-text[data-v-637d02d8],
@@ -88687,12 +88695,12 @@ body.surat-page-shell-dark .navbar.navbar-transparent,body.surat-page-shell-dark
     color: #fff !important;
 }
 .surat-premium.surat-theme-dark .ayah-card-footer[data-v-637d02d8] {
-    padding-top: 1.25rem !important;
-    margin-top: 1.35rem !important;
-    border-top: 1px solid var(--surat-flat-border) !important;
+    padding-top: 0.9rem !important;
+    margin-top: 0.95rem !important;
+    border-top: 0 !important;
 }
 .surat-premium.surat-theme-dark .ayah-verse-divider[data-v-637d02d8] {
-    background: rgba(255, 255, 255, 0.12) !important;
+    display: none !important;
 }
 
 /* Final dark layout corrections for toolbar, playlist panel, and settings surfaces */
@@ -88703,8 +88711,8 @@ body.surat-page-shell-dark .navbar.navbar-transparent,body.surat-page-shell-dark
 .surat-premium.surat-theme-dark .reader-custom-playlist-panel[data-v-637d02d8] {
     background: #232529 !important;
     background-image: none !important;
-    border: 1px solid var(--surat-flat-border) !important;
-    box-shadow: none !important;
+    border: 3px solid rgba(255, 255, 255, 0.22) !important;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.05) !important;
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
 }
@@ -88888,8 +88896,8 @@ body.surat-page-shell-dark .navbar.navbar-transparent,body.surat-page-shell-dark
         background: #232529 !important;
         background-color: #232529 !important;
         background-image: none !important;
-        border-color: var(--surat-flat-border, rgba(255, 255, 255, 0.1)) !important;
-        box-shadow: none !important;
+        border: 3px solid rgba(255, 255, 255, 0.24) !important;
+        box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.05) !important;
 }
 }
 .surat-premium.surat-theme-dark .sticky-dropdown[data-v-637d02d8],
@@ -88939,12 +88947,72 @@ body.surat-page-shell-dark .navbar.navbar-transparent,body.surat-page-shell-dark
 .surat-premium.surat-theme-dark .ayah-menu-trigger[data-v-637d02d8]:focus-visible {
     background: transparent !important;
     color: #fff !important;
-    border-color: var(--surat-flat-border, rgba(255, 255, 255, 0.1)) !important;
+    border-color: rgba(255, 255, 255, 0.22) !important;
     box-shadow: none !important;
 }
 .surat-premium.surat-theme-dark .ayah-card-container--menu-open .ayah-menu-trigger[data-v-637d02d8] {
     background: rgba(255, 255, 255, 0.08) !important;
-    border-color: var(--surat-flat-border-strong, rgba(255, 255, 255, 0.18)) !important;
+    border-color: rgba(255, 255, 255, 0.32) !important;
+}
+.surat-premium.surat-theme-dark .ayah-card-reference[data-v-637d02d8],
+.surat-premium.surat-theme-dark .ayah-header-toggle[data-v-637d02d8],
+.surat-premium.surat-theme-dark .ayah-tafseer-trigger[data-v-637d02d8] {
+    border: 2px solid rgba(255, 255, 255, 0.22) !important;
+    background: transparent !important;
+    color: #fff !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+    filter: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: geometricPrecision;
+}
+.surat-premium.surat-theme-dark .ayah-card-reference[data-v-637d02d8],
+.surat-premium.surat-theme-dark .ayah-card-reference i[data-v-637d02d8],
+.surat-premium.surat-theme-dark .ayah-card-reference-separator[data-v-637d02d8],
+.surat-premium.surat-theme-dark .ayah-card-reference-surah[data-v-637d02d8],
+.surat-premium.surat-theme-dark .ayah-card-reference-ayah[data-v-637d02d8],
+.surat-premium.surat-theme-dark .ayah-header-toggle .form-check-label[data-v-637d02d8],
+.surat-premium.surat-theme-dark .ayah-tafseer-trigger[data-v-637d02d8] {
+    color: #fff !important;
+}
+.surat-premium.surat-theme-dark .ayah-header-toggle .form-check-input[data-v-637d02d8] {
+    border: 2px solid rgba(255, 255, 255, 0.34) !important;
+    background-color: rgba(255, 255, 255, 0.08) !important;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23ffffff'/%3e%3c/svg%3e") !important;
+    background-repeat: no-repeat !important;
+    background-size: contain !important;
+    box-shadow: none !important;
+}
+.surat-premium.surat-theme-dark .ayah-header-toggle .form-check-input[data-v-637d02d8]:checked {
+    border-color: #fff !important;
+    background-color: #fff !important;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23232529'/%3e%3c/svg%3e") !important;
+}
+.surat-premium.surat-theme-dark .ayah-header-toggle .form-check-input[data-v-637d02d8]:focus {
+    box-shadow: 0 0 0 0.16rem rgba(255, 255, 255, 0.12) !important;
+}
+.surat-premium.surat-theme-dark .ayah-header-toggle .form-check-label[data-v-637d02d8] {
+    text-shadow: none !important;
+    filter: none !important;
+    opacity: 1 !important;
+    letter-spacing: 0 !important;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: geometricPrecision;
+}
+.surat-premium.surat-theme-dark .ayah-tafseer-trigger[data-v-637d02d8]:hover,
+.surat-premium.surat-theme-dark .ayah-tafseer-trigger[data-v-637d02d8]:focus-visible,
+.surat-premium.surat-theme-dark .ayah-tafseer-trigger.is-active[data-v-637d02d8],
+.surat-premium.surat-theme-dark .ayah-card-reference[data-v-637d02d8]:hover,
+.surat-premium.surat-theme-dark .ayah-header-toggle[data-v-637d02d8]:hover,
+.surat-premium.surat-theme-dark .ayah-header-toggle[data-v-637d02d8]:focus-within {
+    background: rgba(255, 255, 255, 0.08) !important;
+    border-color: rgba(255, 255, 255, 0.32) !important;
+    color: #fff !important;
+    box-shadow: none !important;
 }
 .surat-premium.surat-theme-dark .ayah-playlist-menu[data-v-637d02d8],
 .surat-premium.surat-theme-dark .ayah-actions-menu[data-v-637d02d8],
