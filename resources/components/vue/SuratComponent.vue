@@ -10,6 +10,7 @@
             'mobile-compact-layout': isTabletOrMobile,
             'reading-fullscreen': isReadingFullscreen,
             'deep-focus-mode': isDeepFocusMode,
+            'surat-theme-dark': isDarkTheme,
             'blur-next-ayah-enabled': isMemorisationToolbarVisible && isBlurNextAyahEnabled,
             'memorisation-mode': isMemorisationModeActive,
             'performance-optimized': isPerformanceModeEnabled
@@ -179,7 +180,10 @@
                             aria-label="Surah quick controls">
                         <div
                             class="advanced-quran-mobile-main-row"
-                            :class="{ 'has-settings-btn': !isMemorisationToolbarVisible }">
+                            :class="{
+                                'has-settings-btn': !isMemorisationToolbarVisible,
+                                'has-theme-toggle': true
+                            }">
                             <div class="advanced-quran-mobile-select-shell">
                                 <label class="advanced-quran-mobile-select-label" for="searchSurahDropdown">
                                     Jump to surah
@@ -201,9 +205,26 @@
                                 type="button"
                                 class="btn advanced-quran-mobile-icon-btn advanced-quran-mobile-search-toggle-btn"
                                 @click="toggleAdvancedSearchVisibility"
-                                aria-label="Show search"
-                                title="Show search">
+                                    aria-label="Show search"
+                                    title="Show search">
                                 <i class="bi bi-eye" aria-hidden="true"></i>
+                            </button>
+                            <button
+                                type="button"
+                                class="btn advanced-quran-mobile-icon-btn advanced-quran-mobile-theme-btn"
+                                :class="{ 'is-active': isDarkTheme }"
+                                :aria-pressed="isDarkTheme ? 'true' : 'false'"
+                                :aria-label="isDarkTheme
+                                    ? 'Switch to light mode for the Surat page'
+                                    : 'Switch to dark mode for the Surat page'"
+                                :title="isDarkTheme
+                                    ? 'Switch to light mode'
+                                    : 'Switch to dark mode'"
+                                @click="toggleSuratTheme">
+                                <i
+                                    class="bi"
+                                    :class="isDarkTheme ? 'bi-sun-fill' : 'bi-moon-stars-fill'"
+                                    aria-hidden="true"></i>
                             </button>
                             <button
                                 v-if="!isMemorisationToolbarVisible"
@@ -731,6 +752,23 @@
                     <span class="quran-toolbar-btn-state">{{ isDeepFocusMode ? "On" : "Off" }}</span>
                 </button>
                 <button
+                    type="button"
+                    class="quran-toolbar-btn quran-toolbar-btn-toggle quran-toolbar-btn-theme"
+                    :class="{ 'is-enabled': isDarkTheme }"
+                    :aria-pressed="isDarkTheme ? 'true' : 'false'"
+                    :aria-label="isDarkTheme
+                        ? 'Switch to light mode for the Surat page'
+                        : 'Switch to dark mode for the Surat page'"
+                    @click="toggleSuratTheme">
+                    <i
+                        class="bi"
+                        :class="isDarkTheme ? 'bi-sun-fill' : 'bi-moon-stars-fill'"
+                        aria-hidden="true"></i>
+                    <span class="quran-toolbar-btn-text">Dark mode</span>
+                    <span class="quran-toolbar-btn-state">{{ isDarkTheme ? "On" : "Off" }}</span>
+                </button>
+
+                <button
                     v-if="!isMemorisationToolbarVisible"
                     type="button"
                     class="quran-toolbar-btn"
@@ -1215,6 +1253,7 @@
         <teleport to="body">
             <div
                 class="offcanvas offcanvas-end surah-offcanvas memorisation-offcanvas"
+                :class="{ 'surat-dark-modal': isDarkTheme }"
                 tabindex="-1"
                 id="memorisationOffcanvas"
                 ref="memorisationOffcanvas"
@@ -2433,7 +2472,7 @@
                 aria-labelledby="sessionHistoryModalLabel"
                 aria-hidden="true">
                 <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable modal-fullscreen-md-down">
-                    <div class="modal-content session-history-modal">
+                    <div class="modal-content session-history-modal" :class="{ 'surat-dark-modal': isDarkTheme }">
                         <div class="modal-header session-history-modal-header">
                             <div class="session-history-modal-header-main">
                                 <div class="session-history-modal-header-copy">
@@ -3166,7 +3205,7 @@
         <teleport to="body">
             <div class="modal fade hifz-plan-wizard-modal" id="hifzPlanWizardModal" tabindex="-1" aria-labelledby="hifzPlanWizardModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-xl modal-dialog-scrollable modal-dialog-centered">
-                    <div class="modal-content">
+                    <div class="modal-content" :class="{ 'surat-dark-modal': isDarkTheme }">
                         <div class="modal-header">
                             <div>
                                 <h5 class="modal-title" id="hifzPlanWizardModalLabel">Create Hifz Plan</h5>
@@ -3417,7 +3456,7 @@
         <teleport to="body">
             <div class="modal fade hifz-plan-dashboard-modal" id="hifzPlanDashboardModal" tabindex="-1" aria-labelledby="hifzPlanDashboardModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-xl modal-dialog-scrollable modal-dialog-centered">
-                    <div class="modal-content">
+                    <div class="modal-content" :class="{ 'surat-dark-modal': isDarkTheme }">
                         <div class="modal-header">
                             <div>
                                 <h5 class="modal-title" id="hifzPlanDashboardModalLabel">Hifz Plan Dashboard</h5>
@@ -3608,7 +3647,7 @@
         <teleport to="body">
             <div class="modal fade hifdh-plan-modal" id="hifdhPlanModal" tabindex="-1" aria-labelledby="hifdhPlanModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-xl modal-dialog-scrollable modal-dialog-centered">
-                    <div class="modal-content">
+                    <div class="modal-content" :class="{ 'surat-dark-modal': isDarkTheme }">
                         <div class="modal-header">
                             <div>
                                 <h5 class="modal-title" id="hifdhPlanModalLabel">Today's Hifdh Plan</h5>
@@ -4076,7 +4115,7 @@
             aria-modal="true"
             aria-label="Create playlist"
             @click.self="closeCreatePlaylistModal">
-            <div class="playlist-modal-card ltr-text" @click.stop>
+            <div class="playlist-modal-card ltr-text" :class="{ 'surat-dark-modal': isDarkTheme }" @click.stop>
                 <div class="playlist-modal-header">
                     <div>
                         <h5 class="mb-1">Create Playlist</h5>
@@ -4318,7 +4357,7 @@
                     <span class="visually-hidden">Filters & info</span>
                 </button>
             </div>
-            <div class="offcanvas offcanvas-start surah-offcanvas" tabindex="-1" id="surahOffcanvas"
+            <div class="offcanvas offcanvas-start surah-offcanvas" :class="{ 'surat-dark-modal': isDarkTheme }" tabindex="-1" id="surahOffcanvas"
                 ref="surahOffcanvas" aria-labelledby="surahOffcanvasLabel">
                 <div class="offcanvas-header">
                     <h4 class="offcanvas-title" id="surahOffcanvasLabel"><b>Surah controls</b></h4>
@@ -5073,7 +5112,7 @@
             </div>
         </div>
 
-        <bookmark-modal :ayah="activeAyah" @saved="onBookmarkSaved" />
+        <bookmark-modal :ayah="activeAyah" :dark-theme="isDarkTheme" @saved="onBookmarkSaved" />
 
         <teleport to="body">
             <div
@@ -5084,7 +5123,7 @@
                 aria-hidden="true"
                 data-bs-backdrop="static">
                 <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content verse-countdown-complete-modal-content">
+                    <div class="modal-content verse-countdown-complete-modal-content" :class="{ 'surat-dark-modal': isDarkTheme }">
                         <div class="modal-header border-0 pb-0">
                             <h5 class="modal-title" id="verseCountdownCompleteModalLabel">
                                 Success Complete
@@ -5135,7 +5174,7 @@
                 aria-hidden="true"
                 data-bs-backdrop="true">
                 <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-2xl">
-                    <div class="modal-content surat-onboarding-modal">
+                    <div class="modal-content surat-onboarding-modal" :class="{ 'surat-dark-modal': isDarkTheme }">
                         <div class="modal-header">
                             <div>
                                 <h4 class="modal-title" id="suratOnboardingLabel">
@@ -5229,7 +5268,7 @@
                 aria-hidden="true"
                 data-bs-backdrop="true">
                 <div class="modal-dialog modal-dialog-centered modal-xxl">
-                    <div class="modal-content translation-compare-modal">
+                    <div class="modal-content translation-compare-modal" :class="{ 'surat-dark-modal': isDarkTheme }">
                         <div class="modal-header">
                             <div class="translation-compare-header-copy">
                                 <h4 class="modal-title mb-1" id="translationCompareLabel">
@@ -5505,7 +5544,7 @@
             <div class="modal fade" id="tajweedRulesModal" tabindex="-1" aria-labelledby="tajweedRulesLabel"
                 aria-hidden="true" data-bs-backdrop="true">
                 <div class="modal-dialog modal-dialog-centered modal-xl modal-modern tajweed-rules-modal-dialog">
-                    <div class="modal-content tajweed-modal">
+                    <div class="modal-content tajweed-modal" :class="{ 'surat-dark-modal': isDarkTheme }">
                         <div class="modal-header">
                             <h6 class="modal-title" id="tajweedRulesLabel">
                                 <b>Tajweed rules</b>
@@ -5534,7 +5573,7 @@
             <div class="modal fade" id="surahInfoModal" tabindex="-1" aria-labelledby="surahInfoLabel"
                 aria-hidden="true" data-bs-backdrop="true">
                 <div class="modal-dialog modal-dialog-centered modal-lg modal-modern">
-                    <div class="modal-content surah-info-modal">
+                    <div class="modal-content surah-info-modal" :class="{ 'surat-dark-modal': isDarkTheme }">
                         <div class="modal-header">
                             <h4 class="modal-title" id="surahInfoLabel">
                                 <b>Surah information</b>
@@ -5613,7 +5652,7 @@
             <div class="modal fade" id="surahSettingsModal" tabindex="-1" aria-labelledby="surahSettingsLabel"
                 aria-hidden="true" data-bs-backdrop="true">
                 <div class="modal-dialog modal-dialog-centered modal-xl modal-modern surah-settings-dialog">
-                    <div class="modal-content surah-settings-modal">
+                    <div class="modal-content surah-settings-modal" :class="{ 'surat-dark-modal': isDarkTheme }">
                         <div class="modal-header">
                             <h4 class="modal-title" id="surahSettingsLabel">
                                 <b>Display settings</b>
@@ -5772,7 +5811,7 @@
                 aria-labelledby="suratGestureGuideLabel"
                 aria-hidden="true">
                 <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable surat-gesture-modal-dialog">
-                    <div class="modal-content surat-gesture-modal">
+                    <div class="modal-content surat-gesture-modal" :class="{ 'surat-dark-modal': isDarkTheme }">
                         <div class="modal-header">
                             <div>
                                 <h4 class="modal-title" id="suratGestureGuideLabel">
@@ -5841,7 +5880,7 @@
         </teleport>
 
         <teleport to="body">
-            <div v-if="!isMobile" class="offcanvas offcanvas-end quran-font-offcanvas" tabindex="-1"
+            <div v-if="!isMobile" class="offcanvas offcanvas-end quran-font-offcanvas" :class="{ 'surat-dark-modal': isDarkTheme }" tabindex="-1"
                 :id="fontPickerOffcanvasId" ref="fontPickerOffcanvas" aria-labelledby="quranFontOffcanvasLabel">
                 <div class="offcanvas-header">
                     <div>
@@ -5914,7 +5953,7 @@
             <div v-if="isMobile" class="modal fade quran-font-modal" :id="fontPickerModalId" tabindex="-1"
                 aria-labelledby="quranFontModalLabel" aria-hidden="true" data-bs-backdrop="true">
                 <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable modal-fullscreen-sm-down">
-                    <div class="modal-content quran-font-modal-content">
+                    <div class="modal-content quran-font-modal-content" :class="{ 'surat-dark-modal': isDarkTheme }">
                         <div class="modal-header">
                             <h5 class="modal-title" id="quranFontModalLabel">
                                 <b>Quran fonts</b>
@@ -5992,7 +6031,7 @@
                 aria-hidden="true"
                 data-bs-backdrop="true">
                 <div class="modal-dialog modal-dialog-centered modal-xl modal-dialog-scrollable modal-modern modal-fullscreen-md-down">
-                    <div class="modal-content ayah-tafsir-modal-content">
+                    <div class="modal-content ayah-tafsir-modal-content" :class="{ 'surat-dark-modal': isDarkTheme }">
                         <div class="modal-header">
                             <h6 class="modal-title ayah-tafsir-modal-title" id="ayahTafsirModalLabel">
                                 <b>Tafsir</b>
@@ -6065,7 +6104,7 @@
             <div class="modal fade" id="ayahReflectionModal" tabindex="-1" aria-labelledby="reflectionModalLabel"
                 aria-hidden="true" data-bs-backdrop="true">
                 <div class="modal-dialog modal-dialog-centered modal-lg modal-modern modal-fullscreen-md-down">
-                    <div class="modal-content reflection-modal">
+                    <div class="modal-content reflection-modal" :class="{ 'surat-dark-modal': isDarkTheme }">
                         <div class="modal-header">
                             <h6 class="modal-title" id="reflectionModalLabel">
                                 <b>Sacred Reflection</b>
@@ -6224,7 +6263,7 @@
                 :aria-labelledby="`${voiceCommandGuideModalId}Label`"
                 aria-hidden="true">
                 <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable voice-command-guide-dialog">
-                    <div class="modal-content voice-command-guide-modal">
+                    <div class="modal-content voice-command-guide-modal" :class="{ 'surat-dark-modal': isDarkTheme }">
                         <div class="modal-header">
                             <div>
                                 <h4 class="modal-title mb-1" :id="`${voiceCommandGuideModalId}Label`">

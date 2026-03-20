@@ -30,6 +30,16 @@ export default {
             isDesktopWide: false,
             isReadingFullscreen: false,
             isDeepFocusMode: false,
+            isDarkTheme: (() => {
+                if (typeof window === "undefined") return false;
+                try {
+                    return localStorage.getItem("suratThemeMode") === "dark";
+                } catch (_) {
+                    return false;
+                }
+            })(),
+            suratThemePreferenceBaseKey: "suratThemeMode",
+            suratThemeDarkBodyClass: "surat-page-shell-dark",
             readingFullscreenBodyClass: "quran-reading-fullscreen-active",
             readingFullscreenPreferenceBaseKey: "surat_reading_fullscreen_mode",
             readingFullscreenLastFocusedEl: null,
@@ -4536,6 +4546,7 @@ export default {
             this.shouldRestoreMemorisationToolbarOnLoad =
                 this.loadMemorisationToolbarVisibilityPreference();
             this.initializeHifzPlanTool();
+            this.initializeSuratThemePreference();
         },
         userId(next, prev) {
             if (this.bookmarkStorageUserId) return;
@@ -4551,6 +4562,7 @@ export default {
             this.shouldRestoreMemorisationToolbarOnLoad =
                 this.loadMemorisationToolbarVisibilityPreference();
             this.initializeHifzPlanTool();
+            this.initializeSuratThemePreference();
         },
         sessionHistoryCalculationTooltip() {
             if (!this.isSessionHistoryModalOpen()) return;
@@ -5082,6 +5094,7 @@ export default {
             this.isNavigating = true;
             window.scrollTo({ top: 0, behavior: "auto" });
         }
+        this.syncSuratThemeBodyClass();
         window.addEventListener("keydown", this.onKeydown);
         this._keydownHandler = (e) => {
             if (!this.bottomAudioPlayerEnabled || !this.showAudioPlayer) return;
@@ -5138,6 +5151,9 @@ export default {
                 this.showNextStep = false;
         } catch (_) { }
         await this.initializeBookmarkAuth();
+        this.initializeSuratThemePreference({
+            preserveCurrentWhenMissing: true,
+        });
         this.syncHifdhAuthStorage();
         this.loadPersistedMemorisationPreviousSession();
         this.loadSessionHistory();
@@ -5451,6 +5467,7 @@ export default {
             } catch (_) {}
             this.stopHighlightLoop();
             this.clearWordPreviewStopTimer();
+            this.syncSuratThemeBodyClass(false);
             this.syncReadingFullscreenBodyClass(false);
             this.exitReadingFullscreen({
                 restoreFocus: false,
@@ -6020,6 +6037,54 @@ export default {
             body.classList.toggle(
                 this.readingFullscreenBodyClass,
                 !!enabled
+            );
+        },
+        syncSuratThemeBodyClass(enabled = this.isDarkTheme) {
+            if (typeof document === "undefined") return;
+            const body = document.body;
+            if (!body || !body.classList) return;
+            body.classList.toggle(this.suratThemeDarkBodyClass, !!enabled);
+        },
+        initializeSuratThemePreference(options = {}) {
+            const { preserveCurrentWhenMissing = true } = options;
+            const storedTheme = this.readScopedPreferenceWithLegacy(
+                this.suratThemePreferenceBaseKey
+            );
+            if (storedTheme === null || storedTheme === undefined || storedTheme === "") {
+                if (!preserveCurrentWhenMissing) {
+                    this.isDarkTheme = false;
+                }
+            } else {
+                this.isDarkTheme =
+                    String(storedTheme).trim().toLowerCase() === "dark";
+            }
+            this.persistLocalSetting(
+                this.suratThemePreferenceBaseKey,
+                this.isDarkTheme ? "dark" : "light"
+            );
+            this.syncSuratThemeBodyClass();
+            return this.isDarkTheme;
+        },
+        setSuratTheme(enabled) {
+            this.isDarkTheme = !!enabled;
+            this.writeScopedFontPreference(
+                this.suratThemePreferenceBaseKey,
+                this.isDarkTheme ? "dark" : "light"
+            );
+            this.persistLocalSetting(
+                this.suratThemePreferenceBaseKey,
+                this.isDarkTheme ? "dark" : "light"
+            );
+            this.syncSuratThemeBodyClass();
+        },
+        toggleSuratTheme() {
+            const nextTheme = !this.isDarkTheme;
+            this.setSuratTheme(nextTheme);
+            this.showModeToggleToast("Dark mode", nextTheme);
+            this.announce(
+                nextTheme
+                    ? "Dark mode enabled for the Surat page."
+                    : "Light mode enabled for the Surat page."
             );
         },
         getNativeFullscreenElement() {
@@ -17042,6 +17107,7 @@ export default {
         applySettingsModal() {
             this.applySettingsDraft();
             const modalEl = document.getElementById(this.settingsModalId);
+            this.showToast("Display settings updated", 2200);
             if (!modalEl) return;
             this.settingsModalInstance =
                 this.settingsModalInstance ||

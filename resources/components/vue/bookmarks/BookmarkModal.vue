@@ -2,7 +2,7 @@
   <teleport to="body">
     <div class="modal fade" id="bookmarkModal" tabindex="-1" aria-labelledby="bookmarkModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered modal-xl">
-        <div class="modal-content bookmark-modal">
+        <div class="modal-content bookmark-modal" :class="{ 'surat-dark-modal': darkTheme }">
           <div class="modal-header">
             <div class="header-title">
               <span class="header-icon"><i class="fas fa-bookmark"></i></span>
@@ -302,6 +302,10 @@ export default {
     ayah: {
       type: Object,
       default: null,
+    },
+    darkTheme: {
+      type: Boolean,
+      default: false,
     },
     showFolderContents: {
       type: Boolean,
@@ -1842,7 +1846,125 @@ export default {
   color: #dc2626;
 }
 
-/* Ensure check icon stays out of the way (it's absolute positioned usually? let's check existing CSS) */
-/* Assuming existing CSS handles it, or I might need to adjust. */
-/* Based on provided code, I don't see the full original CSS. I'll append this to the end inside the style block */
+.bookmark-modal.surat-dark-modal {
+  --bookmark-accent: #ffffff;
+  --bookmark-accent-strong: #ffffff;
+  --bookmark-accent-soft: rgba(255, 255, 255, 0.08);
+  --bookmark-gold: #ffffff;
+  --bookmark-ink: #ffffff;
+  --bookmark-muted: rgba(255, 255, 255, 0.72);
+  --bookmark-border: rgba(255, 255, 255, 0.1);
+  --bookmark-card: transparent;
+  background: #232529 !important;
+  background-image: none !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  box-shadow: 0 28px 72px rgba(0, 0, 0, 0.42) !important;
+}
+
+.bookmark-modal.surat-dark-modal::before,
+.bookmark-modal.surat-dark-modal::after,
+.bookmark-modal.surat-dark-modal .section-card::before {
+  display: none !important;
+}
+
+.bookmark-modal.surat-dark-modal .modal-header,
+.bookmark-modal.surat-dark-modal .modal-body,
+.bookmark-modal.surat-dark-modal .modal-footer {
+  background: transparent !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.bookmark-modal.surat-dark-modal .modal-title,
+.bookmark-modal.surat-dark-modal .modal-subtitle,
+.bookmark-modal.surat-dark-modal .header-meta,
+.bookmark-modal.surat-dark-modal .meta-label,
+.bookmark-modal.surat-dark-modal .meta-value,
+.bookmark-modal.surat-dark-modal .section-header h6,
+.bookmark-modal.surat-dark-modal .section-desc,
+.bookmark-modal.surat-dark-modal .section-hint,
+.bookmark-modal.surat-dark-modal .pill-title,
+.bookmark-modal.surat-dark-modal .pill-count,
+.bookmark-modal.surat-dark-modal .empty-state,
+.bookmark-modal.surat-dark-modal .delete-title,
+.bookmark-modal.surat-dark-modal .delete-note,
+.bookmark-modal.surat-dark-modal .folder-toggle-meta,
+.bookmark-modal.surat-dark-modal .folder-item-header,
+.bookmark-modal.surat-dark-modal .folder-item-ar,
+.bookmark-modal.surat-dark-modal .folder-item-en,
+.bookmark-modal.surat-dark-modal .form-label,
+.bookmark-modal.surat-dark-modal .alert-text,
+.bookmark-modal.surat-dark-modal .btn,
+.bookmark-modal.surat-dark-modal .fas {
+  color: #ffffff !important;
+}
+
+.bookmark-modal.surat-dark-modal .modal-subtitle,
+.bookmark-modal.surat-dark-modal .section-desc,
+.bookmark-modal.surat-dark-modal .section-hint,
+.bookmark-modal.surat-dark-modal .pill-count,
+.bookmark-modal.surat-dark-modal .empty-state,
+.bookmark-modal.surat-dark-modal .delete-note {
+  color: rgba(255, 255, 255, 0.72) !important;
+}
+
+.bookmark-modal.surat-dark-modal .section-card,
+.bookmark-modal.surat-dark-modal .folder-pill,
+.bookmark-modal.surat-dark-modal .folder-content,
+.bookmark-modal.surat-dark-modal .folder-item,
+.bookmark-modal.surat-dark-modal .delete-confirm,
+.bookmark-modal.surat-dark-modal .bookmark-alert {
+  background: transparent !important;
+  background-image: none !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+  box-shadow: none !important;
+}
+
+.bookmark-modal.surat-dark-modal .header-icon,
+.bookmark-modal.surat-dark-modal .section-icon,
+.bookmark-modal.surat-dark-modal .pill-icon,
+.bookmark-modal.surat-dark-modal .pill-check,
+.bookmark-modal.surat-dark-modal .meta-item,
+.bookmark-modal.surat-dark-modal .alert-icon {
+  background: transparent !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  box-shadow: none !important;
+}
+
+.bookmark-modal.surat-dark-modal .section-toggle,
+.bookmark-modal.surat-dark-modal .folder-toggle-button,
+.bookmark-modal.surat-dark-modal .icon-preset-btn,
+.bookmark-modal.surat-dark-modal .btn-clear,
+.bookmark-modal.surat-dark-modal .btn-create,
+.bookmark-modal.surat-dark-modal .btn-cancel,
+.bookmark-modal.surat-dark-modal .btn-save,
+.bookmark-modal.surat-dark-modal .btn-manage,
+.bookmark-modal.surat-dark-modal .pill-delete,
+.bookmark-modal.surat-dark-modal .folder-toggle-main,
+.bookmark-modal.surat-dark-modal .form-control,
+.bookmark-modal.surat-dark-modal .form-select {
+  background: transparent !important;
+  background-image: none !important;
+  color: #ffffff !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+  box-shadow: none !important;
+}
+
+.bookmark-modal.surat-dark-modal .section-toggle:hover,
+.bookmark-modal.surat-dark-modal .folder-toggle-button:hover,
+.bookmark-modal.surat-dark-modal .icon-preset-btn:hover,
+.bookmark-modal.surat-dark-modal .btn-create:hover,
+.bookmark-modal.surat-dark-modal .btn-save:hover,
+.bookmark-modal.surat-dark-modal .btn-manage:hover,
+.bookmark-modal.surat-dark-modal .folder-pill:hover,
+.bookmark-modal.surat-dark-modal .folder-pill.is-selected {
+  background: rgba(255, 255, 255, 0.06) !important;
+  border-color: rgba(255, 255, 255, 0.18) !important;
+  box-shadow: none !important;
+}
+
+.bookmark-modal.surat-dark-modal .form-control::placeholder {
+  color: rgba(255, 255, 255, 0.5) !important;
+}
 </style>

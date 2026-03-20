@@ -57763,12 +57763,121 @@ to {
   background: #fecaca;
   color: #dc2626;
 }
-
-/* Ensure check icon stays out of the way (it's absolute positioned usually? let's check existing CSS) */
-
-/* Assuming existing CSS handles it, or I might need to adjust. */
-
-/* Based on provided code, I don't see the full original CSS. I'll append this to the end inside the style block */
+.bookmark-modal.surat-dark-modal[data-v-5e82f99b] {
+  --bookmark-accent: #ffffff;
+  --bookmark-accent-strong: #ffffff;
+  --bookmark-accent-soft: rgba(255, 255, 255, 0.08);
+  --bookmark-gold: #ffffff;
+  --bookmark-ink: #ffffff;
+  --bookmark-muted: rgba(255, 255, 255, 0.72);
+  --bookmark-border: rgba(255, 255, 255, 0.1);
+  --bookmark-card: transparent;
+  background: #232529 !important;
+  background-image: none !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  box-shadow: 0 28px 72px rgba(0, 0, 0, 0.42) !important;
+}
+.bookmark-modal.surat-dark-modal[data-v-5e82f99b]::before,
+.bookmark-modal.surat-dark-modal[data-v-5e82f99b]::after,
+.bookmark-modal.surat-dark-modal .section-card[data-v-5e82f99b]::before {
+  display: none !important;
+}
+.bookmark-modal.surat-dark-modal .modal-header[data-v-5e82f99b],
+.bookmark-modal.surat-dark-modal .modal-body[data-v-5e82f99b],
+.bookmark-modal.surat-dark-modal .modal-footer[data-v-5e82f99b] {
+  background: transparent !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+.bookmark-modal.surat-dark-modal .modal-title[data-v-5e82f99b],
+.bookmark-modal.surat-dark-modal .modal-subtitle[data-v-5e82f99b],
+.bookmark-modal.surat-dark-modal .header-meta[data-v-5e82f99b],
+.bookmark-modal.surat-dark-modal .meta-label[data-v-5e82f99b],
+.bookmark-modal.surat-dark-modal .meta-value[data-v-5e82f99b],
+.bookmark-modal.surat-dark-modal .section-header h6[data-v-5e82f99b],
+.bookmark-modal.surat-dark-modal .section-desc[data-v-5e82f99b],
+.bookmark-modal.surat-dark-modal .section-hint[data-v-5e82f99b],
+.bookmark-modal.surat-dark-modal .pill-title[data-v-5e82f99b],
+.bookmark-modal.surat-dark-modal .pill-count[data-v-5e82f99b],
+.bookmark-modal.surat-dark-modal .empty-state[data-v-5e82f99b],
+.bookmark-modal.surat-dark-modal .delete-title[data-v-5e82f99b],
+.bookmark-modal.surat-dark-modal .delete-note[data-v-5e82f99b],
+.bookmark-modal.surat-dark-modal .folder-toggle-meta[data-v-5e82f99b],
+.bookmark-modal.surat-dark-modal .folder-item-header[data-v-5e82f99b],
+.bookmark-modal.surat-dark-modal .folder-item-ar[data-v-5e82f99b],
+.bookmark-modal.surat-dark-modal .folder-item-en[data-v-5e82f99b],
+.bookmark-modal.surat-dark-modal .form-label[data-v-5e82f99b],
+.bookmark-modal.surat-dark-modal .alert-text[data-v-5e82f99b],
+.bookmark-modal.surat-dark-modal .btn[data-v-5e82f99b],
+.bookmark-modal.surat-dark-modal .fas[data-v-5e82f99b] {
+  color: #ffffff !important;
+}
+.bookmark-modal.surat-dark-modal .modal-subtitle[data-v-5e82f99b],
+.bookmark-modal.surat-dark-modal .section-desc[data-v-5e82f99b],
+.bookmark-modal.surat-dark-modal .section-hint[data-v-5e82f99b],
+.bookmark-modal.surat-dark-modal .pill-count[data-v-5e82f99b],
+.bookmark-modal.surat-dark-modal .empty-state[data-v-5e82f99b],
+.bookmark-modal.surat-dark-modal .delete-note[data-v-5e82f99b] {
+  color: rgba(255, 255, 255, 0.72) !important;
+}
+.bookmark-modal.surat-dark-modal .section-card[data-v-5e82f99b],
+.bookmark-modal.surat-dark-modal .folder-pill[data-v-5e82f99b],
+.bookmark-modal.surat-dark-modal .folder-content[data-v-5e82f99b],
+.bookmark-modal.surat-dark-modal .folder-item[data-v-5e82f99b],
+.bookmark-modal.surat-dark-modal .delete-confirm[data-v-5e82f99b],
+.bookmark-modal.surat-dark-modal .bookmark-alert[data-v-5e82f99b] {
+  background: transparent !important;
+  background-image: none !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+  box-shadow: none !important;
+}
+.bookmark-modal.surat-dark-modal .header-icon[data-v-5e82f99b],
+.bookmark-modal.surat-dark-modal .section-icon[data-v-5e82f99b],
+.bookmark-modal.surat-dark-modal .pill-icon[data-v-5e82f99b],
+.bookmark-modal.surat-dark-modal .pill-check[data-v-5e82f99b],
+.bookmark-modal.surat-dark-modal .meta-item[data-v-5e82f99b],
+.bookmark-modal.surat-dark-modal .alert-icon[data-v-5e82f99b] {
+  background: transparent !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  box-shadow: none !important;
+}
+.bookmark-modal.surat-dark-modal .section-toggle[data-v-5e82f99b],
+.bookmark-modal.surat-dark-modal .folder-toggle-button[data-v-5e82f99b],
+.bookmark-modal.surat-dark-modal .icon-preset-btn[data-v-5e82f99b],
+.bookmark-modal.surat-dark-modal .btn-clear[data-v-5e82f99b],
+.bookmark-modal.surat-dark-modal .btn-create[data-v-5e82f99b],
+.bookmark-modal.surat-dark-modal .btn-cancel[data-v-5e82f99b],
+.bookmark-modal.surat-dark-modal .btn-save[data-v-5e82f99b],
+.bookmark-modal.surat-dark-modal .btn-manage[data-v-5e82f99b],
+.bookmark-modal.surat-dark-modal .pill-delete[data-v-5e82f99b],
+.bookmark-modal.surat-dark-modal .folder-toggle-main[data-v-5e82f99b],
+.bookmark-modal.surat-dark-modal .form-control[data-v-5e82f99b],
+.bookmark-modal.surat-dark-modal .form-select[data-v-5e82f99b] {
+  background: transparent !important;
+  background-image: none !important;
+  color: #ffffff !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+  box-shadow: none !important;
+}
+.bookmark-modal.surat-dark-modal .section-toggle[data-v-5e82f99b]:hover,
+.bookmark-modal.surat-dark-modal .folder-toggle-button[data-v-5e82f99b]:hover,
+.bookmark-modal.surat-dark-modal .icon-preset-btn[data-v-5e82f99b]:hover,
+.bookmark-modal.surat-dark-modal .btn-create[data-v-5e82f99b]:hover,
+.bookmark-modal.surat-dark-modal .btn-save[data-v-5e82f99b]:hover,
+.bookmark-modal.surat-dark-modal .btn-manage[data-v-5e82f99b]:hover,
+.bookmark-modal.surat-dark-modal .folder-pill[data-v-5e82f99b]:hover,
+.bookmark-modal.surat-dark-modal .folder-pill.is-selected[data-v-5e82f99b] {
+  background: rgba(255, 255, 255, 0.06) !important;
+  border-color: rgba(255, 255, 255, 0.18) !important;
+  box-shadow: none !important;
+}
+.bookmark-modal.surat-dark-modal .form-control[data-v-5e82f99b]::-moz-placeholder {
+  color: rgba(255, 255, 255, 0.5) !important;
+}
+.bookmark-modal.surat-dark-modal .form-control[data-v-5e82f99b]::placeholder {
+  color: rgba(255, 255, 255, 0.5) !important;
+}
 
 .advanced-quran-search[data-v-637d02d8] {
     background: linear-gradient(140deg, #f8fffd 0%, #eef9f6 60%, #ffffff 100%);
@@ -87459,6 +87568,1468 @@ to {
 .surat-premium.mobile-toolbar-pinned .surah-layout > .row.rtl-text[data-v-637d02d8] {
         padding-top: 0 !important;
 }
+}
+.surat-premium .advanced-quran-mobile-main-row.has-theme-toggle.has-settings-btn[data-v-637d02d8] {
+    grid-template-columns: minmax(0, 1fr) 42px 42px 42px;
+}
+@media (max-width: 991.98px) {
+.advanced-quran-mobile-controls.is-pinned
+        .advanced-quran-mobile-main-row.has-theme-toggle.has-settings-btn[data-v-637d02d8] {
+        grid-template-columns: minmax(0, 1fr) 40px 40px 40px;
+}
+}
+.surat-premium .advanced-quran-mobile-icon-btn.is-active[data-v-637d02d8] {
+    background: rgba(15, 118, 110, 0.14) !important;
+    color: #0b5d54 !important;
+    box-shadow: inset 0 0 0 1px rgba(15, 118, 110, 0.18) !important;
+}
+
+/* Route-scoped dark mode for /surat */
+body.surat-page-shell-dark {
+    background:
+        radial-gradient(circle at top left, rgba(129, 255, 220, 0.18), transparent 28%),
+        radial-gradient(circle at bottom right, rgba(129, 255, 220, 0.08), transparent 24%),
+        linear-gradient(180deg, #07182f 0%, #03101f 100%) !important;
+}
+body.surat-page-shell-dark .navbar.navbar-transparent {
+    background: rgba(3, 15, 29, 0.8) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(14px) !important;
+    -webkit-backdrop-filter: blur(14px) !important;
+}
+body.surat-page-shell-dark .navbar.navbar-transparent .navbar-brand,body.surat-page-shell-dark .navbar.navbar-transparent .nav-link,body.surat-page-shell-dark .navbar.navbar-transparent .navbar-toggler,body.surat-page-shell-dark .navbar.navbar-transparent .navbar-nav .nav-link,body.surat-page-shell-dark .navbar.navbar-transparent .navbar-nav .nav-link:focus-visible,body.surat-page-shell-dark .navbar.navbar-transparent .navbar-nav .nav-link:active,body.surat-page-shell-dark .navbar.navbar-transparent .navbar-nav .nav-link:visited,body.surat-page-shell-dark .navbar.navbar-transparent .navbar-nav .nav-link:hover {
+    color: #fff !important;
+}
+body.surat-page-shell-dark .navbar .navbar-toggler {
+    background: rgba(9, 31, 57, 0.94) !important;
+    border-color: rgba(255, 255, 255, 0.22) !important;
+    box-shadow: 0 12px 24px rgba(0, 8, 22, 0.24) !important;
+}
+body.surat-page-shell-dark .navbar .navbar-toggler-icon {
+    filter: brightness(0) invert(1);
+}
+body.surat-page-shell-dark .navbar.navbar-transparent .navbar-collapse.show,body.surat-page-shell-dark .navbar.navbar-transparent .navbar-collapse.collapsing {
+    background: rgba(5, 18, 35, 0.98) !important;
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    box-shadow: 0 18px 34px rgba(0, 8, 22, 0.34) !important;
+}
+body.surat-page-shell-dark .navbar.navbar-transparent .navbar-collapse .dropdown-menu {
+    background: #08203d !important;
+    border-color: rgba(255, 255, 255, 0.14) !important;
+    box-shadow: 0 18px 34px rgba(0, 8, 22, 0.28) !important;
+}
+body.surat-page-shell-dark .dropdown-item {
+    color: #fff !important;
+}
+body.surat-page-shell-dark .dropdown-item:hover,body.surat-page-shell-dark .dropdown-item:focus-visible {
+    background: rgba(255, 255, 255, 0.08) !important;
+    color: #fff !important;
+}
+body.surat-page-shell-dark .modal-content,body.surat-page-shell-dark .offcanvas,body.surat-page-shell-dark .audio-player,body.surat-page-shell-dark .audio-player-queue-panel {
+    background: #08203d !important;
+    color: #fff !important;
+    border: 1px solid rgba(255, 255, 255, 0.14) !important;
+    box-shadow: 0 18px 40px rgba(0, 8, 22, 0.34) !important;
+}
+body.surat-page-shell-dark .modal-header,body.surat-page-shell-dark .modal-footer,body.surat-page-shell-dark .offcanvas-header {
+    border-color: rgba(255, 255, 255, 0.12) !important;
+}
+body.surat-page-shell-dark .modal-title,body.surat-page-shell-dark .offcanvas-title,body.surat-page-shell-dark .modal-content h1,body.surat-page-shell-dark .modal-content h2,body.surat-page-shell-dark .modal-content h3,body.surat-page-shell-dark .modal-content h4,body.surat-page-shell-dark .modal-content h5,body.surat-page-shell-dark .modal-content h6,body.surat-page-shell-dark .modal-content p,body.surat-page-shell-dark .modal-content label,body.surat-page-shell-dark .modal-content .bi,body.surat-page-shell-dark .modal-content .fas,body.surat-page-shell-dark .offcanvas .bi,body.surat-page-shell-dark .offcanvas .fas {
+    color: #fff !important;
+}
+body.surat-page-shell-dark .btn-close {
+    filter: brightness(0) invert(1);
+}
+body.surat-page-shell-dark .modal-content .form-control,body.surat-page-shell-dark .modal-content .form-select,body.surat-page-shell-dark .offcanvas .form-control,body.surat-page-shell-dark .offcanvas .form-select,body.surat-page-shell-dark .modal-content textarea,body.surat-page-shell-dark .offcanvas textarea {
+    background: rgba(12, 39, 72, 0.84) !important;
+    color: #fff !important;
+    border-color: rgba(255, 255, 255, 0.16) !important;
+}
+body.surat-page-shell-dark .modal-content .form-control::-moz-placeholder,body.surat-page-shell-dark .offcanvas .form-control::-moz-placeholder,body.surat-page-shell-dark .modal-content textarea::-moz-placeholder,body.surat-page-shell-dark .offcanvas textarea::-moz-placeholder {
+    color: rgba(255, 255, 255, 0.58) !important;
+}
+body.surat-page-shell-dark .modal-content .form-control::placeholder,body.surat-page-shell-dark .offcanvas .form-control::placeholder,body.surat-page-shell-dark .modal-content textarea::placeholder,body.surat-page-shell-dark .offcanvas textarea::placeholder {
+    color: rgba(255, 255, 255, 0.58) !important;
+}
+.surat-premium.surat-theme-dark[data-v-637d02d8] {
+    --surat-theme-navy: #07182f;
+    --surat-theme-navy-deep: #03101f;
+    --surat-theme-panel: rgba(7, 25, 47, 0.9);
+    --surat-theme-panel-soft: rgba(11, 35, 63, 0.92);
+    --surat-theme-panel-strong: #103257;
+    --surat-theme-border: rgba(255, 255, 255, 0.16);
+    --surat-theme-border-strong: rgba(255, 255, 255, 0.3);
+    --surat-theme-mint: #fff;
+    --surat-theme-mint-soft: #fff;
+    --surat-theme-mint-muted: #fff;
+    --surat-theme-shadow: 0 18px 40px rgba(0, 8, 22, 0.34);
+    color-scheme: dark;
+    background:
+        radial-gradient(circle at top left, rgba(129, 255, 220, 0.16), transparent 28%),
+        radial-gradient(circle at bottom right, rgba(129, 255, 220, 0.08), transparent 24%),
+        linear-gradient(180deg, #08203d 0%, #05162b 100%) !important;
+    box-shadow: 0 22px 52px rgba(0, 8, 22, 0.28);
+    color: var(--surat-theme-mint) !important;
+}
+.surat-premium.surat-theme-dark .quran-reader-hero[data-v-637d02d8],
+.surat-premium.surat-theme-dark .continue-surah-container[data-v-637d02d8],
+.surat-premium.surat-theme-dark .continue-progress-banner[data-v-637d02d8],
+.surat-premium.surat-theme-dark .quran-toolbar-surah-identity[data-v-637d02d8],
+.surat-premium.surat-theme-dark .quran-toolbar-surah-identity-inner[data-v-637d02d8],
+.surat-premium.surat-theme-dark .quran-toolbar-surah-identity-mobile .quran-toolbar-surah-identity-inner[data-v-637d02d8],
+.surat-premium.surat-theme-dark .quran-toolbar[data-v-637d02d8],
+.surat-premium.surat-theme-dark .quran-toolbar-sticky .quran-toolbar[data-v-637d02d8],
+.surat-premium.surat-theme-dark .advanced-quran-search[data-v-637d02d8],
+.surat-premium.surat-theme-dark .advanced-quran-search-panel[data-v-637d02d8],
+.surat-premium.surat-theme-dark .advanced-quran-mobile-controls[data-v-637d02d8],
+.surat-premium.surat-theme-dark .sticky-dropdown[data-v-637d02d8],
+.surat-premium.surat-theme-dark .sidebar-dark-content[data-v-637d02d8],
+.surat-premium.surat-theme-dark .pinned-ayahs-section[data-v-637d02d8],
+.surat-premium.surat-theme-dark .pinned-ayahs-restore[data-v-637d02d8],
+.surat-premium.surat-theme-dark .desktop-sticky-restore[data-v-637d02d8],
+.surat-premium.surat-theme-dark .surah-offcanvas-trigger[data-v-637d02d8],
+.surat-premium.surat-theme-dark .memorisation-toolbar-sticky.memorisation-toolbar-active .quran-toolbar.memorisation-toolbar-two-rows[data-v-637d02d8],
+.surat-premium.surat-theme-dark .memorisation-row-clean-header[data-v-637d02d8],
+.surat-premium.surat-theme-dark .memorisation-row-clean-core[data-v-637d02d8],
+.surat-premium.surat-theme-dark .memorisation-row-clean-settings[data-v-637d02d8],
+.surat-premium.surat-theme-dark .memorisation-toolbar-group--range[data-v-637d02d8],
+.surat-premium.surat-theme-dark .memorisation-feature-row--controls[data-v-637d02d8],
+.surat-premium.surat-theme-dark .memorisation-feature-row--feature-panel[data-v-637d02d8],
+.surat-premium.surat-theme-dark .mode-toggle-toast[data-v-637d02d8] {
+    background: var(--surat-theme-panel) !important;
+    background-image: none !important;
+    border-color: var(--surat-theme-border) !important;
+    box-shadow: var(--surat-theme-shadow) !important;
+    color: var(--surat-theme-mint) !important;
+}
+.surat-premium.surat-theme-dark .sidebar-dark-content[data-v-637d02d8] {
+    --sidebar-bg-top: #08203d;
+    --sidebar-bg-mid: #071a32;
+    --sidebar-bg-bottom: #05162b;
+    --sidebar-stroke: rgba(255, 255, 255, 0.14);
+    --sidebar-stroke-strong: rgba(255, 255, 255, 0.28);
+    --sidebar-surface: rgba(255, 255, 255, 0.05);
+    --sidebar-surface-hover: rgba(255, 255, 255, 0.08);
+    --sidebar-surface-active: rgba(255, 255, 255, 0.1);
+    --sidebar-text-strong: #fff;
+    --sidebar-text: #fff;
+    --sidebar-text-muted: #fff;
+    --sidebar-text-subtle: rgba(255, 255, 255, 0.84);
+    --sidebar-icon-bg: rgba(255, 255, 255, 0.08);
+    --sidebar-icon-fg: #fff;
+}
+.surat-premium.surat-theme-dark .sidebar-dark-content[data-v-637d02d8]::before {
+    background: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.08) 0%,
+        rgba(255, 255, 255, 0.03) 20%,
+        rgba(255, 255, 255, 0) 42%
+    );
+}
+.surat-premium.surat-theme-dark .sticky-dropdown[data-v-637d02d8],
+.surat-premium.surat-theme-dark .sidebar-toggle[data-v-637d02d8],
+.surat-premium.surat-theme-dark .sidebar-header-sticky[data-v-637d02d8] {
+    background: #08203d !important;
+    color: #fff !important;
+    border-color: rgba(255, 255, 255, 0.12) !important;
+    box-shadow: 0 12px 28px rgba(0, 8, 22, 0.22) !important;
+}
+.surat-premium.surat-theme-dark .sidebar-tabs[data-v-637d02d8],
+.surat-premium.surat-theme-dark .sidebar-header[data-v-637d02d8] {
+    border-color: rgba(255, 255, 255, 0.12) !important;
+}
+.surat-premium.surat-theme-dark .sidebar-tabs .tab-btn[data-v-637d02d8],
+.surat-premium.surat-theme-dark .sidebar-tabs .tab-btn.active[data-v-637d02d8],
+.surat-premium.surat-theme-dark .sidebar-settings-tab[data-v-637d02d8],
+.surat-premium.surat-theme-dark .mobile-sidebar-settings .btn[data-v-637d02d8],
+.surat-premium.surat-theme-dark .sidebar-item[data-v-637d02d8],
+.surat-premium.surat-theme-dark .item-number[data-v-637d02d8],
+.surat-premium.surat-theme-dark .item-title-en[data-v-637d02d8],
+.surat-premium.surat-theme-dark .item-title-ar[data-v-637d02d8],
+.surat-premium.surat-theme-dark .sidebar-item-meta[data-v-637d02d8],
+.surat-premium.surat-theme-dark .sidebar-item-extra[data-v-637d02d8],
+.surat-premium.surat-theme-dark .item-meta[data-v-637d02d8],
+.surat-premium.surat-theme-dark .items-text-preview[data-v-637d02d8],
+.surat-premium.surat-theme-dark .sidebar-load-more-btn[data-v-637d02d8],
+.surat-premium.surat-theme-dark .sidebar-collapse-button[data-v-637d02d8],
+.surat-premium.surat-theme-dark .sidebar-collapse-button[data-v-637d02d8]:hover,
+.surat-premium.surat-theme-dark .sidebar-collapse-button[data-v-637d02d8]:focus-visible,
+.surat-premium.surat-theme-dark .sidebar-info-button[data-v-637d02d8],
+.surat-premium.surat-theme-dark .sidebar-info-button .bi[data-v-637d02d8],
+.surat-premium.surat-theme-dark .sidebar-item.active .sidebar-info-button[data-v-637d02d8] {
+    color: #fff !important;
+}
+.surat-premium.surat-theme-dark .sidebar-collapse-button[data-v-637d02d8],
+.surat-premium.surat-theme-dark .sidebar-settings-tab[data-v-637d02d8],
+.surat-premium.surat-theme-dark .sidebar-info-button[data-v-637d02d8],
+.surat-premium.surat-theme-dark .sidebar-load-more-btn[data-v-637d02d8] {
+    background: rgba(255, 255, 255, 0.08) !important;
+    border-color: rgba(255, 255, 255, 0.14) !important;
+    box-shadow: none !important;
+}
+.surat-premium.surat-theme-dark .sidebar-info-button[data-v-637d02d8]:hover,
+.surat-premium.surat-theme-dark .sidebar-info-button[data-v-637d02d8]:focus-visible,
+.surat-premium.surat-theme-dark .sidebar-item.active .sidebar-info-button[data-v-637d02d8],
+.surat-premium.surat-theme-dark .sidebar-load-more-btn[data-v-637d02d8]:hover,
+.surat-premium.surat-theme-dark .sidebar-load-more-btn[data-v-637d02d8]:focus-visible,
+.surat-premium.surat-theme-dark .sidebar-settings-tab.active[data-v-637d02d8] {
+    background: rgba(255, 255, 255, 0.12) !important;
+    border-color: rgba(255, 255, 255, 0.24) !important;
+    color: #fff !important;
+}
+.surat-premium.surat-theme-dark .sidebar-search-input[data-v-637d02d8] {
+    background: rgba(255, 255, 255, 0.06) !important;
+    border-color: rgba(255, 255, 255, 0.14) !important;
+    color: #fff !important;
+    box-shadow: none !important;
+}
+.surat-premium.surat-theme-dark .sidebar-search-input[data-v-637d02d8]::-moz-placeholder {
+    color: rgba(255, 255, 255, 0.6) !important;
+}
+.surat-premium.surat-theme-dark .sidebar-search-input[data-v-637d02d8]::placeholder {
+    color: rgba(255, 255, 255, 0.6) !important;
+}
+.surat-premium.surat-theme-dark .sidebar-search-input[data-v-637d02d8]:focus {
+    background: rgba(255, 255, 255, 0.09) !important;
+    border-color: rgba(255, 255, 255, 0.28) !important;
+    color: #fff !important;
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.08) !important;
+}
+.surat-premium.surat-theme-dark .sidebar-item[data-v-637d02d8] {
+    border-bottom-color: rgba(255, 255, 255, 0.08) !important;
+}
+.surat-premium.surat-theme-dark .sidebar-item.active[data-v-637d02d8] {
+    border-left-color: #fff !important;
+}
+.surat-premium.surat-theme-dark .quran-reader-hero h1.display-5[data-v-637d02d8],
+.surat-premium.surat-theme-dark .quran-toolbar-surah-identity-ar[data-v-637d02d8],
+.surat-premium.surat-theme-dark .quran-toolbar-surah-identity-number[data-v-637d02d8],
+.surat-premium.surat-theme-dark .quran-toolbar-surah-identity-title[data-v-637d02d8],
+.surat-premium.surat-theme-dark .advanced-quran-search-title[data-v-637d02d8],
+.surat-premium.surat-theme-dark .arabic-text[data-v-637d02d8],
+.surat-premium.surat-theme-dark .translation-text[data-v-637d02d8],
+.surat-premium.surat-theme-dark .transliteration-text[data-v-637d02d8],
+.surat-premium.surat-theme-dark .quran-toolbar-btn[data-v-637d02d8],
+.surat-premium.surat-theme-dark .quran-toolbar-btn .bi[data-v-637d02d8],
+.surat-premium.surat-theme-dark .quran-toolbar-btn .fas[data-v-637d02d8],
+.surat-premium.surat-theme-dark .quran-toolbar-btn-text[data-v-637d02d8],
+.surat-premium.surat-theme-dark .continue-progress-banner[data-v-637d02d8],
+.surat-premium.surat-theme-dark .continue-progress-banner[data-v-637d02d8] *:not(.btn),
+.surat-premium.surat-theme-dark .advanced-quran-mobile-icon-btn[data-v-637d02d8],
+.surat-premium.surat-theme-dark .advanced-quran-mobile-icon-btn .bi[data-v-637d02d8],
+.surat-premium.surat-theme-dark .advanced-quran-mobile-action-btn[data-v-637d02d8],
+.surat-premium.surat-theme-dark .advanced-quran-mobile-action-btn i[data-v-637d02d8],
+.surat-premium.surat-theme-dark .advanced-quran-mobile-action-label[data-v-637d02d8],
+.surat-premium.surat-theme-dark .advanced-quran-mobile-action-btn-state[data-v-637d02d8],
+.surat-premium.surat-theme-dark .sidebar-toggle .btn[data-v-637d02d8],
+.surat-premium.surat-theme-dark .filter-item[data-v-637d02d8],
+.surat-premium.surat-theme-dark .sidebar-info-button[data-v-637d02d8],
+.surat-premium.surat-theme-dark .mode-toggle-toast[data-v-637d02d8],
+.surat-premium.surat-theme-dark .mode-toggle-toast .bi[data-v-637d02d8] {
+    color: var(--surat-theme-mint) !important;
+}
+.surat-premium.surat-theme-dark .quran-toolbar-label[data-v-637d02d8],
+.surat-premium.surat-theme-dark .advanced-quran-search-subtitle[data-v-637d02d8],
+.surat-premium.surat-theme-dark .advanced-quran-mobile-select-label[data-v-637d02d8],
+.surat-premium.surat-theme-dark .memorisation-clean-subtitle[data-v-637d02d8],
+.surat-premium.surat-theme-dark .memorisation-row-helper[data-v-637d02d8],
+.surat-premium.surat-theme-dark .quran-toolbar-btn-state[data-v-637d02d8],
+.surat-premium.surat-theme-dark .advanced-quran-mobile-action-btn-state[data-v-637d02d8],
+.surat-premium.surat-theme-dark .translation-text[data-v-637d02d8],
+.surat-premium.surat-theme-dark .transliteration-text[data-v-637d02d8] {
+    color: var(--surat-theme-mint-muted) !important;
+}
+.surat-premium.surat-theme-dark .quran-toolbar-btn[data-v-637d02d8],
+.surat-premium.surat-theme-dark .quran-toolbar-select[data-v-637d02d8],
+.surat-premium.surat-theme-dark .quran-toolbar-reciter .quran-toolbar-select[data-v-637d02d8],
+.surat-premium.surat-theme-dark .advanced-quran-mobile-surah-select[data-v-637d02d8],
+.surat-premium.surat-theme-dark .advanced-quran-mobile-icon-btn[data-v-637d02d8],
+.surat-premium.surat-theme-dark .advanced-quran-mobile-chip-btn[data-v-637d02d8],
+.surat-premium.surat-theme-dark .advanced-quran-mobile-select[data-v-637d02d8],
+.surat-premium.surat-theme-dark .advanced-quran-mobile-action-btn[data-v-637d02d8],
+.surat-premium.surat-theme-dark .advanced-quran-search-input[data-v-637d02d8],
+.surat-premium.surat-theme-dark .advanced-quran-search-top-pill[data-v-637d02d8],
+.surat-premium.surat-theme-dark .advanced-quran-search-close-panel[data-v-637d02d8],
+.surat-premium.surat-theme-dark .advanced-quran-search-voice[data-v-637d02d8],
+.surat-premium.surat-theme-dark .advanced-quran-search-clear[data-v-637d02d8],
+.surat-premium.surat-theme-dark .mode-toggle-toast-action[data-v-637d02d8],
+.surat-premium.surat-theme-dark .memorisation-core-slot--primary .memorisation-switch-control[data-v-637d02d8],
+.surat-premium.surat-theme-dark .memorisation-core-slot--primary .memorisation-inline-action[data-v-637d02d8],
+.surat-premium.surat-theme-dark .memorisation-core-slot--primary .memorisation-reciter-group-inline .quran-toolbar-select[data-v-637d02d8],
+.surat-premium.surat-theme-dark .memorisation-icon-text-action[data-v-637d02d8],
+.surat-premium.surat-theme-dark .memorisation-inline-field .quran-toolbar-select[data-v-637d02d8],
+.surat-premium.surat-theme-dark .form-control[data-v-637d02d8],
+.surat-premium.surat-theme-dark .form-select[data-v-637d02d8],
+.surat-premium.surat-theme-dark textarea[data-v-637d02d8],
+.surat-premium.surat-theme-dark input[type="search"][data-v-637d02d8],
+.surat-premium.surat-theme-dark input[type="text"][data-v-637d02d8],
+.surat-premium.surat-theme-dark input[type="number"][data-v-637d02d8] {
+    background: rgba(12, 39, 72, 0.84) !important;
+    background-image: none !important;
+    border-color: var(--surat-theme-border) !important;
+    color: var(--surat-theme-mint) !important;
+    box-shadow: none !important;
+}
+.surat-premium.surat-theme-dark .quran-toolbar-select[data-v-637d02d8],
+.surat-premium.surat-theme-dark .advanced-quran-mobile-surah-select[data-v-637d02d8],
+.surat-premium.surat-theme-dark .advanced-quran-mobile-select[data-v-637d02d8],
+.surat-premium.surat-theme-dark .form-select[data-v-637d02d8] {
+    background:
+        rgba(12, 39, 72, 0.84)
+        var(--bs-form-select-bg-img) no-repeat right 0.82rem center / 16px 12px !important;
+}
+.surat-premium.surat-theme-dark .advanced-quran-search-input[data-v-637d02d8]::-moz-placeholder, .surat-premium.surat-theme-dark .form-control[data-v-637d02d8]::-moz-placeholder, .surat-premium.surat-theme-dark textarea[data-v-637d02d8]::-moz-placeholder {
+    color: rgba(255, 255, 255, 0.56) !important;
+}
+.surat-premium.surat-theme-dark .advanced-quran-search-input[data-v-637d02d8]::placeholder,
+.surat-premium.surat-theme-dark .form-control[data-v-637d02d8]::placeholder,
+.surat-premium.surat-theme-dark textarea[data-v-637d02d8]::placeholder {
+    color: rgba(255, 255, 255, 0.56) !important;
+}
+.surat-premium.surat-theme-dark .quran-toolbar-btn[data-v-637d02d8]:hover,
+.surat-premium.surat-theme-dark .quran-toolbar-btn[data-v-637d02d8]:focus-visible,
+.surat-premium.surat-theme-dark .quran-toolbar-select[data-v-637d02d8]:hover,
+.surat-premium.surat-theme-dark .quran-toolbar-select[data-v-637d02d8]:focus-visible,
+.surat-premium.surat-theme-dark .advanced-quran-mobile-icon-btn[data-v-637d02d8]:hover,
+.surat-premium.surat-theme-dark .advanced-quran-mobile-icon-btn[data-v-637d02d8]:focus-visible,
+.surat-premium.surat-theme-dark .advanced-quran-mobile-action-btn[data-v-637d02d8]:hover,
+.surat-premium.surat-theme-dark .advanced-quran-mobile-action-btn[data-v-637d02d8]:focus-visible,
+.surat-premium.surat-theme-dark .advanced-quran-search-top-pill[data-v-637d02d8]:hover,
+.surat-premium.surat-theme-dark .advanced-quran-search-top-pill[data-v-637d02d8]:focus-visible,
+.surat-premium.surat-theme-dark .advanced-quran-search-close-panel[data-v-637d02d8]:hover,
+.surat-premium.surat-theme-dark .advanced-quran-search-close-panel[data-v-637d02d8]:focus-visible,
+.surat-premium.surat-theme-dark .advanced-quran-search-voice[data-v-637d02d8]:hover,
+.surat-premium.surat-theme-dark .advanced-quran-search-voice[data-v-637d02d8]:focus-visible,
+.surat-premium.surat-theme-dark .advanced-quran-search-clear[data-v-637d02d8]:hover,
+.surat-premium.surat-theme-dark .advanced-quran-search-clear[data-v-637d02d8]:focus-visible,
+.surat-premium.surat-theme-dark .mode-toggle-toast-action[data-v-637d02d8]:hover,
+.surat-premium.surat-theme-dark .mode-toggle-toast-action[data-v-637d02d8]:focus-visible,
+.surat-premium.surat-theme-dark .form-control[data-v-637d02d8]:focus,
+.surat-premium.surat-theme-dark .form-select[data-v-637d02d8]:focus,
+.surat-premium.surat-theme-dark textarea[data-v-637d02d8]:focus {
+    background: var(--surat-theme-panel-strong) !important;
+    border-color: var(--surat-theme-border-strong) !important;
+    color: var(--surat-theme-mint) !important;
+    box-shadow: 0 0 0 0.16rem rgba(255, 255, 255, 0.12) !important;
+}
+.surat-premium.surat-theme-dark .quran-toolbar-btn-toggle.is-enabled[data-v-637d02d8],
+.surat-premium.surat-theme-dark .quran-toolbar-btn.is-active[data-v-637d02d8],
+.surat-premium.surat-theme-dark .quran-toolbar-btn-deep-focus.is-active[data-v-637d02d8],
+.surat-premium.surat-theme-dark .advanced-quran-mobile-icon-btn.is-active[data-v-637d02d8],
+.surat-premium.surat-theme-dark .advanced-quran-mobile-action-btn.is-enabled[data-v-637d02d8]:not(.advanced-quran-mobile-action-btn-memorisation):not(.advanced-quran-mobile-action-btn-open-tools),
+.surat-premium.surat-theme-dark .memorisation-icon-text-action.is-enabled[data-v-637d02d8],
+.surat-premium.surat-theme-dark .memorisation-inline-action.is-enabled[data-v-637d02d8],
+.surat-premium.surat-theme-dark .memorisation-step-pill.is-active[data-v-637d02d8] {
+    background: rgba(255, 255, 255, 0.1) !important;
+    border-color: var(--surat-theme-border-strong) !important;
+    color: var(--surat-theme-mint) !important;
+    box-shadow: 0 12px 26px rgba(0, 8, 22, 0.22) !important;
+}
+.surat-premium.surat-theme-dark .quran-toolbar-btn-toggle.is-enabled .quran-toolbar-btn-state[data-v-637d02d8],
+.surat-premium.surat-theme-dark .quran-toolbar-btn.is-active .quran-toolbar-btn-state[data-v-637d02d8],
+.surat-premium.surat-theme-dark .quran-toolbar-btn-deep-focus.is-active .quran-toolbar-btn-state[data-v-637d02d8],
+.surat-premium.surat-theme-dark .advanced-quran-mobile-action-btn.is-enabled:not(.advanced-quran-mobile-action-btn-memorisation):not(.advanced-quran-mobile-action-btn-open-tools) .advanced-quran-mobile-action-btn-state[data-v-637d02d8],
+.surat-premium.surat-theme-dark .memorisation-icon-text-action.is-enabled .memorisation-icon-text-state[data-v-637d02d8] {
+    background: rgba(255, 255, 255, 0.12) !important;
+    color: var(--surat-theme-mint) !important;
+}
+.surat-premium.surat-theme-dark .ayah-card.ayah-card-container[data-v-637d02d8],
+.surat-premium.surat-theme-dark .ayah-card-shell[data-v-637d02d8],
+.surat-premium.surat-theme-dark .ayah-card-container[data-v-637d02d8],
+.surat-premium.surat-theme-dark .ayah-card-container[data-v-637d02d8]:hover,
+.surat-premium.surat-theme-dark .ayah-card-container.is-pinned[data-v-637d02d8],
+.surat-premium.surat-theme-dark .highlighted[data-v-637d02d8],
+.surat-premium.surat-theme-dark .currently-playing[data-v-637d02d8] {
+    background: transparent !important;
+}
+.surat-premium.surat-theme-dark .ayah-surface[data-v-637d02d8],
+.surat-premium.surat-theme-dark .ayah-card-container:hover .ayah-surface[data-v-637d02d8],
+.surat-premium.surat-theme-dark .ayah-card-container.is-pinned .ayah-surface[data-v-637d02d8],
+.surat-premium.surat-theme-dark .highlighted .ayah-surface[data-v-637d02d8],
+.surat-premium.surat-theme-dark .currently-playing .ayah-surface[data-v-637d02d8],
+.surat-premium.surat-theme-dark.memorisation-mode .ayah-surface[data-v-637d02d8],
+.surat-premium.surat-theme-dark.memorisation-mode .ayah-card-container:hover .ayah-surface[data-v-637d02d8],
+.surat-premium.surat-theme-dark.memorisation-mode .highlighted .ayah-surface[data-v-637d02d8],
+.surat-premium.surat-theme-dark.memorisation-mode .currently-playing .ayah-surface[data-v-637d02d8],
+.surat-premium.surat-theme-dark.performance-optimized .ayah-surface[data-v-637d02d8],
+.surat-premium.surat-theme-dark.performance-optimized .ayah-card-container:hover .ayah-surface[data-v-637d02d8],
+.surat-premium.surat-theme-dark.performance-optimized .highlighted .ayah-surface[data-v-637d02d8],
+.surat-premium.surat-theme-dark.performance-optimized .currently-playing .ayah-surface[data-v-637d02d8] {
+    background: rgba(7, 25, 47, 0.72) !important;
+    border: 1px solid var(--surat-theme-border) !important;
+    border-radius: 18px !important;
+    box-shadow: 0 12px 28px rgba(0, 8, 22, 0.22) !important;
+}
+.surat-premium.surat-theme-dark .highlighted .ayah-surface[data-v-637d02d8],
+.surat-premium.surat-theme-dark .currently-playing .ayah-surface[data-v-637d02d8],
+.surat-premium.surat-theme-dark .ayah-card-container:hover .ayah-surface[data-v-637d02d8] {
+    background: rgba(10, 31, 58, 0.92) !important;
+    border-color: var(--surat-theme-border-strong) !important;
+}
+.surat-premium.surat-theme-dark .ayah-card-header[data-v-637d02d8],
+.surat-premium.surat-theme-dark .ayah-card-status-row[data-v-637d02d8],
+.surat-premium.surat-theme-dark .ayah-feedback-message[data-v-637d02d8],
+.surat-premium.surat-theme-dark .ayah-card-copy[data-v-637d02d8],
+.surat-premium.surat-theme-dark .ayah-card-footer[data-v-637d02d8] {
+    color: var(--surat-theme-mint) !important;
+}
+.surat-premium.surat-theme-dark .ayah-verse-divider[data-v-637d02d8] {
+    background: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.18) 12%,
+        rgba(255, 255, 255, 0.34) 50%,
+        rgba(255, 255, 255, 0.18) 88%,
+        rgba(255, 255, 255, 0) 100%
+    ) !important;
+}
+
+/* Final modal alignment for /surat dark mode */
+body.surat-page-shell-dark {
+    --surat-modal-bg: #1f1f1f;
+    --surat-modal-bg-soft: #282828;
+    --surat-modal-border: rgba(255, 255, 255, 0.12);
+    --surat-modal-border-strong: rgba(255, 255, 255, 0.22);
+    --surat-modal-hover: rgba(255, 255, 255, 0.08);
+}
+body.surat-page-shell-dark .modal-backdrop.show,body.surat-page-shell-dark .offcanvas-backdrop.show {
+    background: #000 !important;
+    opacity: 0.74 !important;
+}
+body.surat-page-shell-dark .modal-content,body.surat-page-shell-dark .offcanvas,body.surat-page-shell-dark .playlist-modal-card,body.surat-page-shell-dark .quran-font-modal-content,body.surat-page-shell-dark .session-history-modal,body.surat-page-shell-dark .verse-countdown-complete-modal-content,body.surat-page-shell-dark .ayah-tafsir-modal-content {
+    background: var(--surat-modal-bg) !important;
+    background-image: none !important;
+    border: 1px solid var(--surat-modal-border) !important;
+    box-shadow: 0 26px 72px rgba(0, 0, 0, 0.46) !important;
+    color: #fff !important;
+}
+body.surat-page-shell-dark .modal-content,body.surat-page-shell-dark .modal-content *,body.surat-page-shell-dark .offcanvas,body.surat-page-shell-dark .offcanvas *,body.surat-page-shell-dark .playlist-modal-card,body.surat-page-shell-dark .playlist-modal-card * {
+    color: #fff !important;
+}
+body.surat-page-shell-dark .modal-content svg,body.surat-page-shell-dark .modal-content svg path,body.surat-page-shell-dark .offcanvas svg,body.surat-page-shell-dark .offcanvas svg path,body.surat-page-shell-dark .playlist-modal-card svg,body.surat-page-shell-dark .playlist-modal-card svg path {
+    fill: currentColor !important;
+    stroke: currentColor !important;
+}
+body.surat-page-shell-dark .modal-header,body.surat-page-shell-dark .modal-footer,body.surat-page-shell-dark .offcanvas-header,body.surat-page-shell-dark .playlist-modal-header {
+    background: transparent !important;
+    border-color: var(--surat-modal-border) !important;
+}
+body.surat-page-shell-dark .modal-header,body.surat-page-shell-dark .offcanvas-header {
+    padding: 1.4rem 1.75rem 1rem !important;
+}
+body.surat-page-shell-dark .modal-body,body.surat-page-shell-dark .offcanvas-body {
+    background: transparent !important;
+    padding: 1.45rem 1.75rem !important;
+}
+body.surat-page-shell-dark .modal-footer {
+    padding: 1rem 1.75rem 1.45rem !important;
+    gap: 0.75rem !important;
+}
+body.surat-page-shell-dark .modal-title,body.surat-page-shell-dark .offcanvas-title,body.surat-page-shell-dark .modal-content h1,body.surat-page-shell-dark .modal-content h2,body.surat-page-shell-dark .modal-content h3,body.surat-page-shell-dark .modal-content h4,body.surat-page-shell-dark .modal-content h5,body.surat-page-shell-dark .modal-content h6,body.surat-page-shell-dark .modal-content [class*="title"],body.surat-page-shell-dark .offcanvas [class*="title"],body.surat-page-shell-dark .playlist-modal-card [class*="title"] {
+    color: #fff !important;
+    font-weight: 800 !important;
+}
+body.surat-page-shell-dark .modal-content [class*="subtitle"],body.surat-page-shell-dark .modal-content [class*="desc"],body.surat-page-shell-dark .modal-content [class*="hint"],body.surat-page-shell-dark .modal-content [class*="meta"],body.surat-page-shell-dark .offcanvas [class*="subtitle"],body.surat-page-shell-dark .offcanvas [class*="desc"],body.surat-page-shell-dark .offcanvas [class*="hint"],body.surat-page-shell-dark .offcanvas [class*="meta"] {
+    color: rgba(255, 255, 255, 0.92) !important;
+}
+body.surat-page-shell-dark .btn-close {
+    filter: brightness(0) invert(1) !important;
+    opacity: 1 !important;
+}
+body.surat-page-shell-dark .modal-content .btn,body.surat-page-shell-dark .offcanvas .btn,body.surat-page-shell-dark .playlist-modal-card .btn {
+    background: transparent !important;
+    background-image: none !important;
+    color: #fff !important;
+    border-color: var(--surat-modal-border) !important;
+    box-shadow: none !important;
+}
+body.surat-page-shell-dark .modal-content .btn:hover,body.surat-page-shell-dark .modal-content .btn:focus-visible,body.surat-page-shell-dark .offcanvas .btn:hover,body.surat-page-shell-dark .offcanvas .btn:focus-visible,body.surat-page-shell-dark .playlist-modal-card .btn:hover,body.surat-page-shell-dark .playlist-modal-card .btn:focus-visible {
+    background: var(--surat-modal-hover) !important;
+    border-color: var(--surat-modal-border-strong) !important;
+    color: #fff !important;
+}
+body.surat-page-shell-dark .modal-content .form-control,body.surat-page-shell-dark .modal-content .form-select,body.surat-page-shell-dark .modal-content textarea,body.surat-page-shell-dark .offcanvas .form-control,body.surat-page-shell-dark .offcanvas .form-select,body.surat-page-shell-dark .offcanvas textarea,body.surat-page-shell-dark .playlist-modal-card input,body.surat-page-shell-dark .playlist-modal-card select,body.surat-page-shell-dark .playlist-modal-card textarea {
+    background: transparent !important;
+    background-image: none !important;
+    color: #fff !important;
+    border-color: var(--surat-modal-border) !important;
+    box-shadow: none !important;
+}
+body.surat-page-shell-dark .modal-content .form-select,body.surat-page-shell-dark .offcanvas .form-select {
+    background:
+        transparent
+        var(--bs-form-select-bg-img) no-repeat right 0.82rem center / 16px 12px !important;
+}
+body.surat-page-shell-dark .modal-content .form-control::-moz-placeholder,body.surat-page-shell-dark .modal-content textarea::-moz-placeholder,body.surat-page-shell-dark .offcanvas .form-control::-moz-placeholder,body.surat-page-shell-dark .offcanvas textarea::-moz-placeholder,body.surat-page-shell-dark .playlist-modal-card input::-moz-placeholder,body.surat-page-shell-dark .playlist-modal-card textarea::-moz-placeholder {
+    color: rgba(255, 255, 255, 0.58) !important;
+}
+body.surat-page-shell-dark .modal-content .form-control::placeholder,body.surat-page-shell-dark .modal-content textarea::placeholder,body.surat-page-shell-dark .offcanvas .form-control::placeholder,body.surat-page-shell-dark .offcanvas textarea::placeholder,body.surat-page-shell-dark .playlist-modal-card input::placeholder,body.surat-page-shell-dark .playlist-modal-card textarea::placeholder {
+    color: rgba(255, 255, 255, 0.58) !important;
+}
+body.surat-page-shell-dark .modal-content .form-control:focus,body.surat-page-shell-dark .modal-content .form-select:focus,body.surat-page-shell-dark .modal-content textarea:focus,body.surat-page-shell-dark .offcanvas .form-control:focus,body.surat-page-shell-dark .offcanvas .form-select:focus,body.surat-page-shell-dark .offcanvas textarea:focus,body.surat-page-shell-dark .playlist-modal-card input:focus,body.surat-page-shell-dark .playlist-modal-card select:focus,body.surat-page-shell-dark .playlist-modal-card textarea:focus {
+    background: rgba(255, 255, 255, 0.04) !important;
+    border-color: var(--surat-modal-border-strong) !important;
+    box-shadow: 0 0 0 0.16rem rgba(255, 255, 255, 0.08) !important;
+}
+body.surat-page-shell-dark .modal-content .form-check-input,body.surat-page-shell-dark .offcanvas .form-check-input {
+    background-color: transparent !important;
+    border-color: var(--surat-modal-border-strong) !important;
+    box-shadow: none !important;
+}
+body.surat-page-shell-dark .modal-content .form-check-input:checked,body.surat-page-shell-dark .offcanvas .form-check-input:checked {
+    background-color: rgba(255, 255, 255, 0.92) !important;
+    border-color: rgba(255, 255, 255, 0.92) !important;
+}
+body.surat-page-shell-dark .modal-content .modal-body .section-card,body.surat-page-shell-dark .modal-content .modal-body .folder-pill,body.surat-page-shell-dark .modal-content .modal-body .folder-content,body.surat-page-shell-dark .modal-content .modal-body .folder-item,body.surat-page-shell-dark .modal-content .modal-body .delete-confirm,body.surat-page-shell-dark .modal-content .modal-body .bookmark-alert,body.surat-page-shell-dark .modal-content .modal-body .empty-state,body.surat-page-shell-dark .modal-content .modal-body [class*="card"],body.surat-page-shell-dark .modal-content .modal-body [class*="panel"],body.surat-page-shell-dark .modal-content .modal-body [class*="summary"],body.surat-page-shell-dark .modal-content .modal-body [class*="surface"],body.surat-page-shell-dark .modal-content .modal-body [class*="callout"],body.surat-page-shell-dark .modal-content .modal-body [class*="preview"],body.surat-page-shell-dark .modal-content .modal-body [class*="history"],body.surat-page-shell-dark .modal-content .modal-body [class*="rule"],body.surat-page-shell-dark .offcanvas .offcanvas-body .memorisation-offcanvas-focus,body.surat-page-shell-dark .offcanvas .offcanvas-body .memorisation-offcanvas-panel,body.surat-page-shell-dark .offcanvas .offcanvas-body .surah-offcanvas-section {
+    background: transparent !important;
+    background-image: none !important;
+    border-color: var(--surat-modal-border) !important;
+    box-shadow: none !important;
+}
+body.surat-page-shell-dark .modal-content .modal-body .section-card,body.surat-page-shell-dark .modal-content .modal-body .folder-pill,body.surat-page-shell-dark .modal-content .modal-body .folder-content,body.surat-page-shell-dark .modal-content .modal-body .folder-item,body.surat-page-shell-dark .modal-content .modal-body .delete-confirm,body.surat-page-shell-dark .modal-content .modal-body .bookmark-alert,body.surat-page-shell-dark .modal-content .modal-body .empty-state,body.surat-page-shell-dark .modal-content .modal-body [class*="card"],body.surat-page-shell-dark .modal-content .modal-body [class*="panel"],body.surat-page-shell-dark .modal-content .modal-body [class*="summary"],body.surat-page-shell-dark .modal-content .modal-body [class*="surface"],body.surat-page-shell-dark .modal-content .modal-body [class*="callout"],body.surat-page-shell-dark .modal-content .modal-body [class*="preview"],body.surat-page-shell-dark .modal-content .modal-body [class*="history"],body.surat-page-shell-dark .modal-content .modal-body [class*="rule"] {
+    border: 1px solid var(--surat-modal-border) !important;
+    border-radius: 18px !important;
+}
+body.surat-page-shell-dark .bookmark-modal::before,body.surat-page-shell-dark .bookmark-modal::after,body.surat-page-shell-dark .bookmark-modal .section-card::before {
+    display: none !important;
+}
+body.surat-page-shell-dark .bookmark-modal .header-icon,body.surat-page-shell-dark .bookmark-modal .section-icon,body.surat-page-shell-dark .bookmark-modal .pill-icon,body.surat-page-shell-dark .bookmark-modal .pill-check,body.surat-page-shell-dark .bookmark-modal .meta-item,body.surat-page-shell-dark .bookmark-modal .alert-icon {
+    background: transparent !important;
+    color: #fff !important;
+    border: 1px solid var(--surat-modal-border) !important;
+    box-shadow: none !important;
+}
+body.surat-page-shell-dark .bookmark-modal .section-toggle,body.surat-page-shell-dark .bookmark-modal .folder-toggle-button,body.surat-page-shell-dark .bookmark-modal .icon-preset-btn,body.surat-page-shell-dark .bookmark-modal .btn-clear,body.surat-page-shell-dark .bookmark-modal .btn-create,body.surat-page-shell-dark .bookmark-modal .btn-cancel,body.surat-page-shell-dark .bookmark-modal .btn-save,body.surat-page-shell-dark .bookmark-modal .btn-manage,body.surat-page-shell-dark .bookmark-modal .pill-delete,body.surat-page-shell-dark .bookmark-modal .folder-toggle-main {
+    background: transparent !important;
+    background-image: none !important;
+    color: #fff !important;
+    border-color: var(--surat-modal-border) !important;
+    box-shadow: none !important;
+}
+body.surat-page-shell-dark .bookmark-modal .folder-pill:hover,body.surat-page-shell-dark .bookmark-modal .folder-pill.is-selected,body.surat-page-shell-dark .bookmark-modal .icon-preset-btn.active,body.surat-page-shell-dark .bookmark-modal .section-toggle:hover,body.surat-page-shell-dark .bookmark-modal .folder-toggle-button:hover,body.surat-page-shell-dark .bookmark-modal .btn-create:hover,body.surat-page-shell-dark .bookmark-modal .btn-save:hover,body.surat-page-shell-dark .bookmark-modal .btn-manage:hover {
+    background: var(--surat-modal-hover) !important;
+    border-color: var(--surat-modal-border-strong) !important;
+    box-shadow: none !important;
+}
+body.surat-page-shell-dark .modal-content .table,body.surat-page-shell-dark .modal-content .table > :not(caption) > * > *,body.surat-page-shell-dark .modal-content .list-group-item,body.surat-page-shell-dark .modal-content .accordion-item,body.surat-page-shell-dark .modal-content .accordion-button,body.surat-page-shell-dark .modal-content hr,body.surat-page-shell-dark .modal-content [class*="divider"],body.surat-page-shell-dark .offcanvas hr,body.surat-page-shell-dark .offcanvas [class*="divider"] {
+    background: transparent !important;
+    color: #fff !important;
+    border-color: var(--surat-modal-border) !important;
+}
+
+/* Direct styling for teleported Surat dark modals */
+.surat-dark-modal[data-v-637d02d8] {
+    --surat-modal-surface: #232529;
+    --surat-modal-border: rgba(255, 255, 255, 0.1);
+    --surat-modal-border-strong: rgba(255, 255, 255, 0.18);
+    --surat-modal-text: #fff;
+    --surat-modal-muted: rgba(255, 255, 255, 0.72);
+    background: var(--surat-modal-surface) !important;
+    background-image: none !important;
+    color: var(--surat-modal-text) !important;
+    border: 1px solid var(--surat-modal-border) !important;
+    border-radius: 24px !important;
+    box-shadow: 0 28px 72px rgba(0, 0, 0, 0.42) !important;
+}
+.surat-dark-modal[data-v-637d02d8]:not(.offcanvas) {
+    position: relative;
+    overflow: hidden;
+}
+.surat-dark-modal.offcanvas[data-v-637d02d8] {
+    position: fixed !important;
+    top: 0 !important;
+    bottom: 0 !important;
+    border-radius: 0 !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+}
+.surat-dark-modal[data-v-637d02d8]::before {
+    content: "";
+    position: absolute;
+    top: 0.35rem;
+    left: 1.5rem;
+    right: 1.5rem;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.12);
+    pointer-events: none;
+}
+.surat-dark-modal.offcanvas[data-v-637d02d8]::before {
+    display: none !important;
+}
+.surat-dark-modal .modal-header[data-v-637d02d8],
+.surat-dark-modal .modal-body[data-v-637d02d8],
+.surat-dark-modal .modal-footer[data-v-637d02d8],
+.surat-dark-modal .offcanvas-header[data-v-637d02d8],
+.surat-dark-modal .offcanvas-body[data-v-637d02d8] {
+    background: transparent !important;
+    border-color: var(--surat-modal-border) !important;
+}
+.surat-dark-modal .modal-header[data-v-637d02d8],
+.surat-dark-modal .offcanvas-header[data-v-637d02d8] {
+    padding: 1.45rem 1.6rem 1rem !important;
+}
+.surat-dark-modal .modal-body[data-v-637d02d8],
+.surat-dark-modal .offcanvas-body[data-v-637d02d8] {
+    padding: 1rem 1.6rem 1.55rem !important;
+}
+.surat-dark-modal .modal-footer[data-v-637d02d8] {
+    padding: 0.9rem 1.6rem 1.5rem !important;
+    gap: 0.75rem !important;
+}
+.surat-dark-modal .modal-title[data-v-637d02d8],
+.surat-dark-modal .offcanvas-title[data-v-637d02d8],
+.surat-dark-modal h1[data-v-637d02d8],
+.surat-dark-modal h2[data-v-637d02d8],
+.surat-dark-modal h3[data-v-637d02d8],
+.surat-dark-modal h4[data-v-637d02d8],
+.surat-dark-modal h5[data-v-637d02d8],
+.surat-dark-modal h6[data-v-637d02d8],
+.surat-dark-modal b[data-v-637d02d8],
+.surat-dark-modal strong[data-v-637d02d8],
+.surat-dark-modal .text-dark[data-v-637d02d8],
+.surat-dark-modal .fw-bold[data-v-637d02d8],
+.surat-dark-modal .fw-semibold[data-v-637d02d8] {
+    color: #fff !important;
+    font-weight: 800 !important;
+}
+.surat-dark-modal p[data-v-637d02d8],
+.surat-dark-modal span[data-v-637d02d8],
+.surat-dark-modal label[data-v-637d02d8],
+.surat-dark-modal li[data-v-637d02d8],
+.surat-dark-modal div[data-v-637d02d8],
+.surat-dark-modal td[data-v-637d02d8],
+.surat-dark-modal th[data-v-637d02d8],
+.surat-dark-modal .bi[data-v-637d02d8],
+.surat-dark-modal .fas[data-v-637d02d8],
+.surat-dark-modal .far[data-v-637d02d8] {
+    color: #fff !important;
+}
+.surat-dark-modal small[data-v-637d02d8],
+.surat-dark-modal .small[data-v-637d02d8],
+.surat-dark-modal .text-muted[data-v-637d02d8],
+.surat-dark-modal [class*="subtitle"][data-v-637d02d8],
+.surat-dark-modal [class*="hint"][data-v-637d02d8],
+.surat-dark-modal [class*="copy"][data-v-637d02d8],
+.surat-dark-modal [class*="meta"][data-v-637d02d8],
+.surat-dark-modal [class*="label"][data-v-637d02d8] {
+    color: var(--surat-modal-muted) !important;
+}
+.surat-dark-modal svg[data-v-637d02d8],
+.surat-dark-modal svg path[data-v-637d02d8] {
+    fill: currentColor !important;
+    stroke: currentColor !important;
+}
+.surat-dark-modal .btn-close[data-v-637d02d8] {
+    filter: brightness(0) invert(1) !important;
+    opacity: 1 !important;
+}
+.surat-dark-modal .btn[data-v-637d02d8],
+.surat-dark-modal .form-control[data-v-637d02d8],
+.surat-dark-modal .form-select[data-v-637d02d8],
+.surat-dark-modal textarea[data-v-637d02d8],
+.surat-dark-modal input[type="text"][data-v-637d02d8],
+.surat-dark-modal input[type="search"][data-v-637d02d8],
+.surat-dark-modal input[type="number"][data-v-637d02d8],
+.surat-dark-modal input[type="date"][data-v-637d02d8] {
+    background: transparent !important;
+    background-image: none !important;
+    color: #fff !important;
+    border-color: var(--surat-modal-border) !important;
+    box-shadow: none !important;
+}
+.surat-dark-modal .btn[data-v-637d02d8]:hover,
+.surat-dark-modal .btn[data-v-637d02d8]:focus-visible,
+.surat-dark-modal .form-control[data-v-637d02d8]:focus,
+.surat-dark-modal .form-select[data-v-637d02d8]:focus,
+.surat-dark-modal textarea[data-v-637d02d8]:focus,
+.surat-dark-modal input[type="text"][data-v-637d02d8]:focus,
+.surat-dark-modal input[type="search"][data-v-637d02d8]:focus,
+.surat-dark-modal input[type="number"][data-v-637d02d8]:focus,
+.surat-dark-modal input[type="date"][data-v-637d02d8]:focus {
+    background: rgba(255, 255, 255, 0.05) !important;
+    border-color: var(--surat-modal-border-strong) !important;
+    color: #fff !important;
+    box-shadow: 0 0 0 0.16rem rgba(255, 255, 255, 0.08) !important;
+}
+.surat-dark-modal .form-control[data-v-637d02d8]::-moz-placeholder, .surat-dark-modal textarea[data-v-637d02d8]::-moz-placeholder, .surat-dark-modal input[data-v-637d02d8]::-moz-placeholder {
+    color: rgba(255, 255, 255, 0.52) !important;
+}
+.surat-dark-modal .form-control[data-v-637d02d8]::placeholder,
+.surat-dark-modal textarea[data-v-637d02d8]::placeholder,
+.surat-dark-modal input[data-v-637d02d8]::placeholder {
+    color: rgba(255, 255, 255, 0.52) !important;
+}
+.surat-dark-modal .form-select[data-v-637d02d8] {
+    background:
+        transparent
+        var(--bs-form-select-bg-img) no-repeat right 0.82rem center / 16px 12px !important;
+}
+.surat-dark-modal .form-check-input[data-v-637d02d8] {
+    background-color: transparent !important;
+    border-color: var(--surat-modal-border-strong) !important;
+    box-shadow: none !important;
+}
+.surat-dark-modal .form-check-input[data-v-637d02d8]:checked {
+    background-color: #fff !important;
+    border-color: #fff !important;
+}
+.surat-dark-modal .alert[data-v-637d02d8],
+.surat-dark-modal .table[data-v-637d02d8],
+.surat-dark-modal .table[data-v-637d02d8] > :not(caption) > * > *,
+.surat-dark-modal .accordion-item[data-v-637d02d8],
+.surat-dark-modal .accordion-button[data-v-637d02d8],
+.surat-dark-modal .list-group-item[data-v-637d02d8],
+.surat-dark-modal hr[data-v-637d02d8] {
+    background: transparent !important;
+    color: #fff !important;
+    border-color: var(--surat-modal-border) !important;
+    box-shadow: none !important;
+}
+.surat-dark-modal[data-v-637d02d8] :where(
+    [class*="card"],
+    [class*="panel"],
+    [class*="pill"],
+    [class*="chip"],
+    [class*="intro"],
+    [class*="history"],
+    [class*="summary"],
+    [class*="forecast"],
+    [class*="detail"],
+    [class*="callout"],
+    [class*="prompt"],
+    [class*="preview"],
+    [class*="empty"]
+) {
+    background: transparent !important;
+    background-image: none !important;
+    box-shadow: none !important;
+}
+.surat-dark-modal .ayah-tafsir-modal-title[data-v-637d02d8],
+.surat-dark-modal .ayah-tafsir-modal-title b[data-v-637d02d8],
+.surat-dark-modal .ayah-tafsir-modal-reference[data-v-637d02d8],
+.surat-dark-modal .ayah-tafsir-label[data-v-637d02d8],
+.surat-dark-modal .ayah-tafsir-meta-value[data-v-637d02d8],
+.surat-dark-modal .ayah-tafsir-meta-link[data-v-637d02d8],
+.surat-dark-modal .ayah-tafsir-loading[data-v-637d02d8],
+.surat-dark-modal .ayah-tafsir-empty[data-v-637d02d8],
+.surat-dark-modal .ayah-tafsir-paragraph--english[data-v-637d02d8],
+.surat-dark-modal .ayah-tafsir-paragraph--arabic[data-v-637d02d8],
+.surat-dark-modal .ayah-tafsir-paragraph--heading[data-v-637d02d8] {
+    color: #fff !important;
+}
+.surat-dark-modal .ayah-tafsir-meta[data-v-637d02d8] {
+    gap: 0.55rem !important;
+    margin-bottom: 1rem !important;
+}
+.surat-dark-modal .ayah-tafsir-meta-item[data-v-637d02d8] {
+    border: 1px solid var(--surat-modal-border) !important;
+    border-radius: 14px !important;
+    background: transparent !important;
+    padding: 0.72rem 0.86rem !important;
+}
+.surat-dark-modal .ayah-tafsir-label[data-v-637d02d8],
+.surat-dark-modal .ayah-tafsir-meta-label[data-v-637d02d8] {
+    color: var(--surat-modal-muted) !important;
+}
+.surat-dark-modal .ayah-tafsir-text-stack[data-v-637d02d8] {
+    gap: 0.95rem !important;
+    margin-top: 0.55rem !important;
+}
+.surat-dark-modal .ayah-tafsir-paragraph[data-v-637d02d8] {
+    background: transparent !important;
+    border: 0 !important;
+    border-bottom: 1px solid var(--surat-modal-border) !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    padding: 0 0 1rem !important;
+}
+.surat-dark-modal .ayah-tafsir-paragraph[data-v-637d02d8]:last-child {
+    border-bottom: 0 !important;
+    padding-bottom: 0 !important;
+}
+.surat-dark-modal .reflection-intro[data-v-637d02d8],
+.surat-dark-modal .reflection-history-card[data-v-637d02d8],
+.surat-dark-modal .reflection-history-entry[data-v-637d02d8],
+.surat-dark-modal .note-suggestions[data-v-637d02d8],
+.surat-dark-modal .note-suggestions-collapsed[data-v-637d02d8],
+.surat-dark-modal .voice-command-availability-card[data-v-637d02d8],
+.surat-dark-modal .voice-command-guide-tips-section[data-v-637d02d8],
+.surat-dark-modal .voice-command-guide-command-card[data-v-637d02d8],
+.surat-dark-modal .session-history-overview-strip[data-v-637d02d8],
+.surat-dark-modal .session-history-toolbar-card[data-v-637d02d8],
+.surat-dark-modal .session-history-entry-card[data-v-637d02d8],
+.surat-dark-modal .session-history-view-explainer[data-v-637d02d8],
+.surat-dark-modal .session-history-calendar-detail[data-v-637d02d8],
+.surat-dark-modal .session-history-detail-card[data-v-637d02d8],
+.surat-dark-modal .session-history-surah-section[data-v-637d02d8],
+.surat-dark-modal .session-history-surah-note-card[data-v-637d02d8],
+.surat-dark-modal .session-history-milestone-card[data-v-637d02d8],
+.surat-dark-modal .session-history-forecast-card[data-v-637d02d8],
+.surat-dark-modal .session-history-overview-pill[data-v-637d02d8],
+.surat-dark-modal .session-history-active-filter-chip[data-v-637d02d8],
+.surat-dark-modal .surah-info-chip[data-v-637d02d8],
+.surat-dark-modal .quran-font-option[data-v-637d02d8],
+.surat-dark-modal .quran-font-preview[data-v-637d02d8],
+.surat-dark-modal .surah-offcanvas-section[data-v-637d02d8],
+.surat-dark-modal .memorisation-offcanvas-focus[data-v-637d02d8],
+.surat-dark-modal .memorisation-offcanvas-panel[data-v-637d02d8] {
+    border: 1px solid var(--surat-modal-border) !important;
+    border-radius: 16px !important;
+    background: transparent !important;
+    box-shadow: none !important;
+}
+.surat-dark-modal .suggestion-pill[data-v-637d02d8],
+.surat-dark-modal .session-history-overview-link[data-v-637d02d8],
+.surat-dark-modal .session-history-calendar-nav[data-v-637d02d8],
+.surat-dark-modal .session-history-calendar-detail-item[data-v-637d02d8],
+.surat-dark-modal .session-history-entry-btn[data-v-637d02d8],
+.surat-dark-modal .session-history-header-btn[data-v-637d02d8],
+.surat-dark-modal .session-history-clear-btn[data-v-637d02d8],
+.surat-dark-modal .session-history-search-clear[data-v-637d02d8],
+.surat-dark-modal .session-history-view-btn[data-v-637d02d8],
+.surat-dark-modal .reflection-action[data-v-637d02d8],
+.surat-dark-modal .note-suggestions-toggle[data-v-637d02d8],
+.surat-dark-modal .surah-info-font-btn[data-v-637d02d8] {
+    background: transparent !important;
+    color: #fff !important;
+    border-color: var(--surat-modal-border) !important;
+    box-shadow: none !important;
+}
+.surat-dark-modal .suggestion-pill[data-v-637d02d8]:hover,
+.surat-dark-modal .session-history-overview-link[data-v-637d02d8]:hover,
+.surat-dark-modal .session-history-calendar-nav[data-v-637d02d8]:hover,
+.surat-dark-modal .session-history-calendar-detail-item[data-v-637d02d8]:hover,
+.surat-dark-modal .session-history-entry-btn[data-v-637d02d8]:hover,
+.surat-dark-modal .session-history-header-btn[data-v-637d02d8]:hover,
+.surat-dark-modal .session-history-view-btn[data-v-637d02d8]:hover,
+.surat-dark-modal .reflection-action[data-v-637d02d8]:hover,
+.surat-dark-modal .surah-info-font-btn[data-v-637d02d8]:hover {
+    background: rgba(255, 255, 255, 0.06) !important;
+    border-color: var(--surat-modal-border-strong) !important;
+}
+
+/* Final flat dark theme for the whole /surat layout */
+body.surat-page-shell-dark {
+    background: #232529 !important;
+}
+body.surat-page-shell-dark .navbar.navbar-transparent,body.surat-page-shell-dark .navbar.navbar-transparent .navbar-collapse.show,body.surat-page-shell-dark .navbar.navbar-transparent .navbar-collapse.collapsing,body.surat-page-shell-dark .navbar.navbar-transparent .navbar-collapse .dropdown-menu {
+    background: #232529 !important;
+    border-color: rgba(255, 255, 255, 0.1) !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+}
+.surat-premium.surat-theme-dark[data-v-637d02d8] {
+    --surat-flat-bg: #232529;
+    --surat-flat-border: rgba(255, 255, 255, 0.1);
+    --surat-flat-border-strong: rgba(255, 255, 255, 0.18);
+    --surat-flat-muted: rgba(255, 255, 255, 0.74);
+    background: var(--surat-flat-bg) !important;
+    background-image: none !important;
+    box-shadow: none !important;
+    color: #fff !important;
+}
+.surat-premium.surat-theme-dark .surah-layout[data-v-637d02d8],
+.surat-premium.surat-theme-dark .surah-layout[data-v-637d02d8] *:not(.spinner-border) {
+    color: #fff !important;
+}
+.surat-premium.surat-theme-dark .surah-layout svg[data-v-637d02d8],
+.surat-premium.surat-theme-dark .surah-layout svg path[data-v-637d02d8] {
+    fill: currentColor !important;
+    stroke: currentColor !important;
+}
+.surat-premium.surat-theme-dark .quran-reader-hero[data-v-637d02d8]::before,
+.surat-premium.surat-theme-dark .quran-toolbar-surah-identity-inner[data-v-637d02d8]::before,
+.surat-premium.surat-theme-dark .quran-toolbar-surah-identity-inner[data-v-637d02d8]::after,
+.surat-premium.surat-theme-dark .quran-toolbar-surah-identity-mobile .quran-toolbar-surah-identity-inner[data-v-637d02d8]::before,
+.surat-premium.surat-theme-dark .quran-toolbar-surah-identity-mobile .quran-toolbar-surah-identity-inner[data-v-637d02d8]::after,
+.surat-premium.surat-theme-dark .sidebar-dark-content[data-v-637d02d8]::before {
+    display: none !important;
+}
+.surat-premium.surat-theme-dark .quran-reader-hero[data-v-637d02d8],
+.surat-premium.surat-theme-dark .continue-surah-container[data-v-637d02d8],
+.surat-premium.surat-theme-dark .continue-progress-banner[data-v-637d02d8],
+.surat-premium.surat-theme-dark .quran-toolbar-surah-identity[data-v-637d02d8],
+.surat-premium.surat-theme-dark .quran-toolbar-surah-identity-inner[data-v-637d02d8],
+.surat-premium.surat-theme-dark .quran-toolbar-surah-identity-mobile .quran-toolbar-surah-identity-inner[data-v-637d02d8],
+.surat-premium.surat-theme-dark .quran-toolbar[data-v-637d02d8],
+.surat-premium.surat-theme-dark .quran-toolbar-sticky .quran-toolbar[data-v-637d02d8],
+.surat-premium.surat-theme-dark .advanced-quran-search[data-v-637d02d8],
+.surat-premium.surat-theme-dark .advanced-quran-search-panel[data-v-637d02d8],
+.surat-premium.surat-theme-dark .advanced-quran-mobile-controls[data-v-637d02d8],
+.surat-premium.surat-theme-dark .sticky-dropdown[data-v-637d02d8],
+.surat-premium.surat-theme-dark .sidebar-dark-content[data-v-637d02d8],
+.surat-premium.surat-theme-dark .pinned-ayahs-section[data-v-637d02d8],
+.surat-premium.surat-theme-dark .pinned-ayahs-restore[data-v-637d02d8],
+.surat-premium.surat-theme-dark .desktop-sticky-restore[data-v-637d02d8],
+.surat-premium.surat-theme-dark .memorisation-toolbar-sticky.memorisation-toolbar-active .quran-toolbar.memorisation-toolbar-two-rows[data-v-637d02d8],
+.surat-premium.surat-theme-dark .memorisation-row-clean-header[data-v-637d02d8],
+.surat-premium.surat-theme-dark .memorisation-row-clean-core[data-v-637d02d8],
+.surat-premium.surat-theme-dark .memorisation-row-clean-settings[data-v-637d02d8],
+.surat-premium.surat-theme-dark .memorisation-toolbar-group--range[data-v-637d02d8],
+.surat-premium.surat-theme-dark .memorisation-feature-row--controls[data-v-637d02d8],
+.surat-premium.surat-theme-dark .memorisation-feature-row--feature-panel[data-v-637d02d8],
+.surat-premium.surat-theme-dark .mode-toggle-toast[data-v-637d02d8] {
+    background: transparent !important;
+    background-image: none !important;
+    border-color: var(--surat-flat-border) !important;
+    box-shadow: none !important;
+}
+.surat-premium.surat-theme-dark .sticky-dropdown[data-v-637d02d8],
+.surat-premium.surat-theme-dark .sidebar-toggle[data-v-637d02d8],
+.surat-premium.surat-theme-dark .sidebar-header-sticky[data-v-637d02d8],
+.surat-premium.surat-theme-dark .sidebar-tabs[data-v-637d02d8],
+.surat-premium.surat-theme-dark .sidebar-header[data-v-637d02d8],
+.surat-premium.surat-theme-dark .sidebar-item[data-v-637d02d8],
+.surat-premium.surat-theme-dark .sidebar-item.active[data-v-637d02d8],
+.surat-premium.surat-theme-dark .quran-toolbar[data-v-637d02d8],
+.surat-premium.surat-theme-dark .quran-toolbar-sticky .quran-toolbar[data-v-637d02d8],
+.surat-premium.surat-theme-dark .advanced-quran-search[data-v-637d02d8],
+.surat-premium.surat-theme-dark .advanced-quran-search-panel[data-v-637d02d8],
+.surat-premium.surat-theme-dark .advanced-quran-mobile-controls[data-v-637d02d8] {
+    border-color: var(--surat-flat-border) !important;
+    box-shadow: none !important;
+}
+.surat-premium.surat-theme-dark .sidebar-dark-content[data-v-637d02d8] {
+    --sidebar-bg-top: transparent;
+    --sidebar-bg-mid: transparent;
+    --sidebar-bg-bottom: transparent;
+    --sidebar-stroke: rgba(255, 255, 255, 0.1);
+    --sidebar-stroke-strong: rgba(255, 255, 255, 0.18);
+    --sidebar-surface: transparent;
+    --sidebar-surface-hover: rgba(255, 255, 255, 0.04);
+    --sidebar-surface-active: rgba(255, 255, 255, 0.06);
+    --sidebar-text-strong: #fff;
+    --sidebar-text: #fff;
+    --sidebar-text-muted: #fff;
+    --sidebar-text-subtle: rgba(255, 255, 255, 0.74);
+    --sidebar-icon-bg: transparent;
+    --sidebar-icon-fg: #fff;
+}
+.surat-premium.surat-theme-dark .sidebar-collapse-button[data-v-637d02d8],
+.surat-premium.surat-theme-dark .sidebar-settings-tab[data-v-637d02d8],
+.surat-premium.surat-theme-dark .sidebar-info-button[data-v-637d02d8],
+.surat-premium.surat-theme-dark .sidebar-load-more-btn[data-v-637d02d8],
+.surat-premium.surat-theme-dark .quran-toolbar-btn[data-v-637d02d8],
+.surat-premium.surat-theme-dark .quran-toolbar-select[data-v-637d02d8],
+.surat-premium.surat-theme-dark .quran-toolbar-reciter .quran-toolbar-select[data-v-637d02d8],
+.surat-premium.surat-theme-dark .advanced-quran-mobile-surah-select[data-v-637d02d8],
+.surat-premium.surat-theme-dark .advanced-quran-mobile-icon-btn[data-v-637d02d8],
+.surat-premium.surat-theme-dark .advanced-quran-mobile-chip-btn[data-v-637d02d8],
+.surat-premium.surat-theme-dark .advanced-quran-mobile-select[data-v-637d02d8],
+.surat-premium.surat-theme-dark .advanced-quran-mobile-action-btn[data-v-637d02d8],
+.surat-premium.surat-theme-dark .advanced-quran-search-input[data-v-637d02d8],
+.surat-premium.surat-theme-dark .advanced-quran-search-top-pill[data-v-637d02d8],
+.surat-premium.surat-theme-dark .advanced-quran-search-close-panel[data-v-637d02d8],
+.surat-premium.surat-theme-dark .advanced-quran-search-voice[data-v-637d02d8],
+.surat-premium.surat-theme-dark .advanced-quran-search-clear[data-v-637d02d8],
+.surat-premium.surat-theme-dark .mode-toggle-toast-action[data-v-637d02d8],
+.surat-premium.surat-theme-dark .memorisation-core-slot--primary .memorisation-switch-control[data-v-637d02d8],
+.surat-premium.surat-theme-dark .memorisation-core-slot--primary .memorisation-inline-action[data-v-637d02d8],
+.surat-premium.surat-theme-dark .memorisation-core-slot--primary .memorisation-reciter-group-inline .quran-toolbar-select[data-v-637d02d8],
+.surat-premium.surat-theme-dark .memorisation-icon-text-action[data-v-637d02d8],
+.surat-premium.surat-theme-dark .memorisation-inline-field .quran-toolbar-select[data-v-637d02d8],
+.surat-premium.surat-theme-dark .form-control[data-v-637d02d8],
+.surat-premium.surat-theme-dark .form-select[data-v-637d02d8],
+.surat-premium.surat-theme-dark textarea[data-v-637d02d8],
+.surat-premium.surat-theme-dark input[type="search"][data-v-637d02d8],
+.surat-premium.surat-theme-dark input[type="text"][data-v-637d02d8],
+.surat-premium.surat-theme-dark input[type="number"][data-v-637d02d8] {
+    background: transparent !important;
+    background-image: none !important;
+    border-color: var(--surat-flat-border) !important;
+    color: #fff !important;
+    box-shadow: none !important;
+}
+.surat-premium.surat-theme-dark .quran-toolbar-select[data-v-637d02d8],
+.surat-premium.surat-theme-dark .advanced-quran-mobile-surah-select[data-v-637d02d8],
+.surat-premium.surat-theme-dark .advanced-quran-mobile-select[data-v-637d02d8],
+.surat-premium.surat-theme-dark .form-select[data-v-637d02d8] {
+    background:
+        transparent
+        var(--bs-form-select-bg-img) no-repeat right 0.82rem center / 16px 12px !important;
+}
+.surat-premium.surat-theme-dark .sidebar-collapse-button[data-v-637d02d8]:hover,
+.surat-premium.surat-theme-dark .sidebar-settings-tab[data-v-637d02d8]:hover,
+.surat-premium.surat-theme-dark .sidebar-info-button[data-v-637d02d8]:hover,
+.surat-premium.surat-theme-dark .sidebar-load-more-btn[data-v-637d02d8]:hover,
+.surat-premium.surat-theme-dark .sidebar-item.active .sidebar-info-button[data-v-637d02d8],
+.surat-premium.surat-theme-dark .quran-toolbar-btn[data-v-637d02d8]:hover,
+.surat-premium.surat-theme-dark .quran-toolbar-btn[data-v-637d02d8]:focus-visible,
+.surat-premium.surat-theme-dark .quran-toolbar-select[data-v-637d02d8]:hover,
+.surat-premium.surat-theme-dark .quran-toolbar-select[data-v-637d02d8]:focus-visible,
+.surat-premium.surat-theme-dark .advanced-quran-mobile-icon-btn[data-v-637d02d8]:hover,
+.surat-premium.surat-theme-dark .advanced-quran-mobile-icon-btn[data-v-637d02d8]:focus-visible,
+.surat-premium.surat-theme-dark .advanced-quran-mobile-action-btn[data-v-637d02d8]:hover,
+.surat-premium.surat-theme-dark .advanced-quran-mobile-action-btn[data-v-637d02d8]:focus-visible,
+.surat-premium.surat-theme-dark .advanced-quran-search-top-pill[data-v-637d02d8]:hover,
+.surat-premium.surat-theme-dark .advanced-quran-search-top-pill[data-v-637d02d8]:focus-visible,
+.surat-premium.surat-theme-dark .advanced-quran-search-close-panel[data-v-637d02d8]:hover,
+.surat-premium.surat-theme-dark .advanced-quran-search-close-panel[data-v-637d02d8]:focus-visible,
+.surat-premium.surat-theme-dark .advanced-quran-search-voice[data-v-637d02d8]:hover,
+.surat-premium.surat-theme-dark .advanced-quran-search-voice[data-v-637d02d8]:focus-visible,
+.surat-premium.surat-theme-dark .advanced-quran-search-clear[data-v-637d02d8]:hover,
+.surat-premium.surat-theme-dark .advanced-quran-search-clear[data-v-637d02d8]:focus-visible,
+.surat-premium.surat-theme-dark .mode-toggle-toast-action[data-v-637d02d8]:hover,
+.surat-premium.surat-theme-dark .mode-toggle-toast-action[data-v-637d02d8]:focus-visible,
+.surat-premium.surat-theme-dark .form-control[data-v-637d02d8]:focus,
+.surat-premium.surat-theme-dark .form-select[data-v-637d02d8]:focus,
+.surat-premium.surat-theme-dark textarea[data-v-637d02d8]:focus,
+.surat-premium.surat-theme-dark .sidebar-search-input[data-v-637d02d8]:focus {
+    background: rgba(255, 255, 255, 0.05) !important;
+    border-color: var(--surat-flat-border-strong) !important;
+    box-shadow: 0 0 0 0.16rem rgba(255, 255, 255, 0.08) !important;
+}
+.surat-premium.surat-theme-dark .sidebar-search-input[data-v-637d02d8]::-moz-placeholder, .surat-premium.surat-theme-dark .advanced-quran-search-input[data-v-637d02d8]::-moz-placeholder, .surat-premium.surat-theme-dark .form-control[data-v-637d02d8]::-moz-placeholder, .surat-premium.surat-theme-dark textarea[data-v-637d02d8]::-moz-placeholder {
+    color: rgba(255, 255, 255, 0.5) !important;
+}
+.surat-premium.surat-theme-dark .sidebar-search-input[data-v-637d02d8]::placeholder,
+.surat-premium.surat-theme-dark .advanced-quran-search-input[data-v-637d02d8]::placeholder,
+.surat-premium.surat-theme-dark .form-control[data-v-637d02d8]::placeholder,
+.surat-premium.surat-theme-dark textarea[data-v-637d02d8]::placeholder {
+    color: rgba(255, 255, 255, 0.5) !important;
+}
+.surat-premium.surat-theme-dark .quran-toolbar-btn-toggle.is-enabled[data-v-637d02d8],
+.surat-premium.surat-theme-dark .quran-toolbar-btn.is-active[data-v-637d02d8],
+.surat-premium.surat-theme-dark .quran-toolbar-btn-deep-focus.is-active[data-v-637d02d8],
+.surat-premium.surat-theme-dark .advanced-quran-mobile-icon-btn.is-active[data-v-637d02d8],
+.surat-premium.surat-theme-dark .advanced-quran-mobile-action-btn.is-enabled[data-v-637d02d8]:not(.advanced-quran-mobile-action-btn-memorisation):not(.advanced-quran-mobile-action-btn-open-tools),
+.surat-premium.surat-theme-dark .memorisation-icon-text-action.is-enabled[data-v-637d02d8],
+.surat-premium.surat-theme-dark .memorisation-inline-action.is-enabled[data-v-637d02d8],
+.surat-premium.surat-theme-dark .memorisation-step-pill.is-active[data-v-637d02d8] {
+    background: rgba(255, 255, 255, 0.08) !important;
+    border-color: var(--surat-flat-border-strong) !important;
+    box-shadow: none !important;
+}
+.surat-premium.surat-theme-dark h1[data-v-637d02d8],
+.surat-premium.surat-theme-dark h2[data-v-637d02d8],
+.surat-premium.surat-theme-dark h3[data-v-637d02d8],
+.surat-premium.surat-theme-dark h4[data-v-637d02d8],
+.surat-premium.surat-theme-dark h5[data-v-637d02d8],
+.surat-premium.surat-theme-dark h6[data-v-637d02d8],
+.surat-premium.surat-theme-dark .quran-reader-hero h1.display-5[data-v-637d02d8],
+.surat-premium.surat-theme-dark .quran-toolbar-surah-identity-ar[data-v-637d02d8],
+.surat-premium.surat-theme-dark .quran-toolbar-surah-identity-number[data-v-637d02d8],
+.surat-premium.surat-theme-dark .quran-toolbar-surah-identity-title[data-v-637d02d8],
+.surat-premium.surat-theme-dark .advanced-quran-search-title[data-v-637d02d8],
+.surat-premium.surat-theme-dark .item-title-en[data-v-637d02d8],
+.surat-premium.surat-theme-dark .item-title-ar[data-v-637d02d8],
+.surat-premium.surat-theme-dark .ayah-card-copy-label[data-v-637d02d8],
+.surat-premium.surat-theme-dark .translation-header[data-v-637d02d8],
+.surat-premium.surat-theme-dark .transliteration-header[data-v-637d02d8] {
+    color: #fff !important;
+    font-weight: 800 !important;
+}
+.surat-premium.surat-theme-dark .quran-toolbar-label[data-v-637d02d8],
+.surat-premium.surat-theme-dark .advanced-quran-search-subtitle[data-v-637d02d8],
+.surat-premium.surat-theme-dark .advanced-quran-mobile-select-label[data-v-637d02d8],
+.surat-premium.surat-theme-dark .memorisation-clean-subtitle[data-v-637d02d8],
+.surat-premium.surat-theme-dark .memorisation-row-helper[data-v-637d02d8],
+.surat-premium.surat-theme-dark .quran-toolbar-btn-state[data-v-637d02d8],
+.surat-premium.surat-theme-dark .advanced-quran-mobile-action-btn-state[data-v-637d02d8] {
+    color: var(--surat-flat-muted) !important;
+}
+.surat-premium.surat-theme-dark .ayah-card.ayah-card-container[data-v-637d02d8],
+.surat-premium.surat-theme-dark .ayah-card-shell[data-v-637d02d8],
+.surat-premium.surat-theme-dark .ayah-card-container[data-v-637d02d8],
+.surat-premium.surat-theme-dark .ayah-card-container[data-v-637d02d8]:hover,
+.surat-premium.surat-theme-dark .ayah-card-container.is-pinned[data-v-637d02d8],
+.surat-premium.surat-theme-dark .highlighted[data-v-637d02d8],
+.surat-premium.surat-theme-dark .currently-playing[data-v-637d02d8] {
+    background: transparent !important;
+}
+.surat-premium.surat-theme-dark .ayah-surface[data-v-637d02d8],
+.surat-premium.surat-theme-dark .ayah-card-container:hover .ayah-surface[data-v-637d02d8],
+.surat-premium.surat-theme-dark .ayah-card-container.is-pinned .ayah-surface[data-v-637d02d8],
+.surat-premium.surat-theme-dark .highlighted .ayah-surface[data-v-637d02d8],
+.surat-premium.surat-theme-dark .currently-playing .ayah-surface[data-v-637d02d8],
+.surat-premium.surat-theme-dark.memorisation-mode .ayah-surface[data-v-637d02d8],
+.surat-premium.surat-theme-dark.memorisation-mode .ayah-card-container:hover .ayah-surface[data-v-637d02d8],
+.surat-premium.surat-theme-dark.memorisation-mode .highlighted .ayah-surface[data-v-637d02d8],
+.surat-premium.surat-theme-dark.memorisation-mode .currently-playing .ayah-surface[data-v-637d02d8],
+.surat-premium.surat-theme-dark.performance-optimized .ayah-surface[data-v-637d02d8],
+.surat-premium.surat-theme-dark.performance-optimized .ayah-card-container:hover .ayah-surface[data-v-637d02d8],
+.surat-premium.surat-theme-dark.performance-optimized .highlighted .ayah-surface[data-v-637d02d8],
+.surat-premium.surat-theme-dark.performance-optimized .currently-playing .ayah-surface[data-v-637d02d8] {
+    background: transparent !important;
+    border: 0 !important;
+    border-top: 1px solid var(--surat-flat-border) !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    padding: 1.85rem 1.9rem 1.5rem !important;
+}
+.surat-premium.surat-theme-dark .ayah-card-header[data-v-637d02d8] {
+    padding-bottom: 1.05rem !important;
+    margin-bottom: 1.2rem !important;
+    border-bottom: 1px solid var(--surat-flat-border) !important;
+}
+.surat-premium.surat-theme-dark .ayah-card-copy[data-v-637d02d8] {
+    padding: 0 !important;
+    row-gap: 1.15rem !important;
+}
+.surat-premium.surat-theme-dark .translation-header[data-v-637d02d8],
+.surat-premium.surat-theme-dark .transliteration-header[data-v-637d02d8] {
+    padding-top: 1.15rem !important;
+    margin-top: 1.2rem !important;
+    border-top: 1px solid var(--surat-flat-border) !important;
+}
+.surat-premium.surat-theme-dark .translation-text[data-v-637d02d8],
+.surat-premium.surat-theme-dark .transliteration-text[data-v-637d02d8],
+.surat-premium.surat-theme-dark .arabic-text[data-v-637d02d8],
+.surat-premium.surat-theme-dark .ayah-card-header[data-v-637d02d8],
+.surat-premium.surat-theme-dark .ayah-card-status-row[data-v-637d02d8],
+.surat-premium.surat-theme-dark .ayah-feedback-message[data-v-637d02d8],
+.surat-premium.surat-theme-dark .ayah-card-copy[data-v-637d02d8],
+.surat-premium.surat-theme-dark .ayah-card-footer[data-v-637d02d8],
+.surat-premium.surat-theme-dark .ayah-footer-action[data-v-637d02d8],
+.surat-premium.surat-theme-dark .ayah-footer-action .bi[data-v-637d02d8],
+.surat-premium.surat-theme-dark .ayah-footer-action .fas[data-v-637d02d8] {
+    color: #fff !important;
+}
+.surat-premium.surat-theme-dark .ayah-card-footer[data-v-637d02d8] {
+    padding-top: 1.25rem !important;
+    margin-top: 1.35rem !important;
+    border-top: 1px solid var(--surat-flat-border) !important;
+}
+.surat-premium.surat-theme-dark .ayah-verse-divider[data-v-637d02d8] {
+    background: rgba(255, 255, 255, 0.12) !important;
+}
+
+/* Final dark layout corrections for toolbar, playlist panel, and settings surfaces */
+.surat-premium.surat-theme-dark:not(.mobile-compact-layout) .quran-toolbar[data-v-637d02d8],
+.surat-premium.surat-theme-dark:not(.mobile-compact-layout) .quran-toolbar-sticky .quran-toolbar[data-v-637d02d8],
+.surat-premium.surat-theme-dark .advanced-quran-mobile-controls[data-v-637d02d8],
+.surat-premium.surat-theme-dark .advanced-quran-mobile-controls.is-pinned[data-v-637d02d8],
+.surat-premium.surat-theme-dark .reader-custom-playlist-panel[data-v-637d02d8] {
+    background: #232529 !important;
+    background-image: none !important;
+    border: 1px solid var(--surat-flat-border) !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+}
+.surat-premium.surat-theme-dark .reader-custom-playlist-panel[data-v-637d02d8] {
+    padding: 1.3rem !important;
+}
+.surat-premium.surat-theme-dark .reader-custom-playlist-panel[data-v-637d02d8]::before,
+.surat-premium.surat-theme-dark .reader-custom-playlist-panel[data-v-637d02d8]::after {
+    display: none !important;
+}
+.surat-premium.surat-theme-dark:not(.mobile-compact-layout) .quran-toolbar-label[data-v-637d02d8],
+.surat-premium.surat-theme-dark:not(.mobile-compact-layout) .quran-toolbar-reciter[data-v-637d02d8],
+.surat-premium.surat-theme-dark:not(.mobile-compact-layout) .quran-toolbar-btn[data-v-637d02d8],
+.surat-premium.surat-theme-dark:not(.mobile-compact-layout) .quran-toolbar-select[data-v-637d02d8],
+.surat-premium.surat-theme-dark .advanced-quran-mobile-surah-select[data-v-637d02d8],
+.surat-premium.surat-theme-dark .advanced-quran-mobile-select[data-v-637d02d8],
+.surat-premium.surat-theme-dark .advanced-quran-mobile-icon-btn[data-v-637d02d8],
+.surat-premium.surat-theme-dark .advanced-quran-mobile-action-btn[data-v-637d02d8],
+.surat-premium.surat-theme-dark .reader-custom-playlist-nav[data-v-637d02d8],
+.surat-premium.surat-theme-dark .reader-custom-playlist-content[data-v-637d02d8],
+.surat-premium.surat-theme-dark .reader-custom-playlist-editor-card[data-v-637d02d8],
+.surat-premium.surat-theme-dark .reader-custom-playlist-items-card[data-v-637d02d8],
+.surat-premium.surat-theme-dark .reader-custom-playlist-nav-item[data-v-637d02d8],
+.surat-premium.surat-theme-dark .reader-custom-playlist-item[data-v-637d02d8],
+.surat-premium.surat-theme-dark .reader-custom-playlist-search-wrap[data-v-637d02d8],
+.surat-premium.surat-theme-dark .reader-custom-playlist-input[data-v-637d02d8],
+.surat-premium.surat-theme-dark .reader-custom-playlist-search-input[data-v-637d02d8],
+.surat-premium.surat-theme-dark .reader-custom-playlist-filter-select[data-v-637d02d8],
+.surat-premium.surat-theme-dark .reader-custom-playlist-btn[data-v-637d02d8],
+.surat-premium.surat-theme-dark .reader-custom-playlist-icon-btn[data-v-637d02d8],
+.surat-premium.surat-theme-dark .reader-custom-playlist-bulk-bar[data-v-637d02d8],
+.surat-premium.surat-theme-dark .reader-custom-playlist-guidance[data-v-637d02d8],
+.surat-dark-modal.surah-settings-modal .surah-settings-group[data-v-637d02d8],
+.surat-dark-modal.surah-settings-modal .surah-settings-submit[data-v-637d02d8],
+.surat-dark-modal.surah-settings-modal .surah-gesture-guide-link[data-v-637d02d8] {
+    background: transparent !important;
+    background-image: none !important;
+    color: #fff !important;
+    border-color: var(--surat-flat-border, rgba(255, 255, 255, 0.1)) !important;
+    box-shadow: none !important;
+}
+.surat-premium.surat-theme-dark:not(.mobile-compact-layout) .quran-toolbar-label[data-v-637d02d8],
+.surat-premium.surat-theme-dark:not(.mobile-compact-layout) .quran-toolbar-reciter[data-v-637d02d8],
+.surat-dark-modal.surah-settings-modal .surah-settings-group[data-v-637d02d8] {
+    border: 1px solid var(--surat-flat-border, rgba(255, 255, 255, 0.1)) !important;
+}
+.surat-dark-modal.surah-settings-modal .surah-settings-group[data-v-637d02d8] {
+    border-radius: 18px !important;
+    padding: 1.1rem 1.15rem !important;
+}
+.surat-dark-modal.surah-settings-modal .surah-settings-submit[data-v-637d02d8] {
+    border: 1px solid var(--surat-flat-border, rgba(255, 255, 255, 0.1)) !important;
+    border-radius: 14px !important;
+    font-weight: 800 !important;
+    padding: 0.7rem 1.5rem !important;
+}
+.surat-dark-modal.surah-settings-modal .surah-settings-submit[data-v-637d02d8]:hover,
+.surat-dark-modal.surah-settings-modal .surah-settings-submit[data-v-637d02d8]:focus-visible,
+.surat-dark-modal.surah-settings-modal .surah-gesture-guide-link[data-v-637d02d8]:hover,
+.surat-dark-modal.surah-settings-modal .surah-gesture-guide-link[data-v-637d02d8]:focus-visible {
+    background: rgba(255, 255, 255, 0.08) !important;
+    border-color: var(--surat-flat-border-strong, rgba(255, 255, 255, 0.18)) !important;
+    color: #fff !important;
+}
+.surat-premium.surat-theme-dark:not(.mobile-compact-layout) .quran-toolbar-btn i[data-v-637d02d8],
+.surat-premium.surat-theme-dark:not(.mobile-compact-layout) .quran-toolbar-btn .quran-toolbar-btn-text[data-v-637d02d8],
+.surat-premium.surat-theme-dark:not(.mobile-compact-layout) .quran-toolbar-select[data-v-637d02d8],
+.surat-premium.surat-theme-dark:not(.mobile-compact-layout) .quran-toolbar-label[data-v-637d02d8],
+.surat-premium.surat-theme-dark .advanced-quran-mobile-icon-btn i[data-v-637d02d8],
+.surat-premium.surat-theme-dark .advanced-quran-mobile-action-label[data-v-637d02d8],
+.surat-premium.surat-theme-dark .advanced-quran-mobile-select[data-v-637d02d8],
+.surat-premium.surat-theme-dark .reader-custom-playlist-panel[data-v-637d02d8],
+.surat-premium.surat-theme-dark .reader-custom-playlist-panel .bi[data-v-637d02d8],
+.surat-premium.surat-theme-dark .reader-custom-playlist-panel .fas[data-v-637d02d8],
+.surat-premium.surat-theme-dark .reader-custom-playlist-panel h3[data-v-637d02d8],
+.surat-premium.surat-theme-dark .reader-custom-playlist-panel h4[data-v-637d02d8],
+.surat-premium.surat-theme-dark .reader-custom-playlist-panel h5[data-v-637d02d8],
+.surat-premium.surat-theme-dark .reader-custom-playlist-panel p[data-v-637d02d8],
+.surat-premium.surat-theme-dark .reader-custom-playlist-panel span[data-v-637d02d8],
+.surat-premium.surat-theme-dark .reader-custom-playlist-panel label[data-v-637d02d8],
+.surat-dark-modal.surah-settings-modal .form-label[data-v-637d02d8],
+.surat-dark-modal.surah-settings-modal small[data-v-637d02d8],
+.surat-dark-modal.surah-settings-modal .bi[data-v-637d02d8],
+.surat-dark-modal.surah-settings-modal .fas[data-v-637d02d8] {
+    color: #fff !important;
+}
+.surat-premium.surat-theme-dark:not(.mobile-compact-layout) .quran-toolbar-btn-state[data-v-637d02d8],
+.surat-premium.surat-theme-dark .advanced-quran-mobile-action-btn-state[data-v-637d02d8],
+.surat-premium.surat-theme-dark .reader-custom-playlist-count[data-v-637d02d8],
+.surat-premium.surat-theme-dark .reader-custom-playlist-nav-item-count[data-v-637d02d8],
+.surat-premium.surat-theme-dark .reader-custom-playlist-content-badge[data-v-637d02d8] {
+    background: rgba(255, 255, 255, 0.08) !important;
+    color: #fff !important;
+    border: 1px solid var(--surat-flat-border, rgba(255, 255, 255, 0.1)) !important;
+}
+.surat-premium.surat-theme-dark .quran-toolbar-btn-toggle.is-enabled[data-v-637d02d8],
+.surat-premium.surat-theme-dark .quran-toolbar-btn.is-active[data-v-637d02d8],
+.surat-premium.surat-theme-dark .quran-toolbar-btn-deep-focus.is-active[data-v-637d02d8],
+.surat-premium.surat-theme-dark .quran-toolbar-btn.quran-toolbar-btn-memorisation[data-v-637d02d8],
+.surat-premium.surat-theme-dark button.quran-toolbar-btn.quran-toolbar-btn-open-tools[data-v-637d02d8],
+.surat-premium.surat-theme-dark .advanced-quran-mobile-action-btn.is-enabled[data-v-637d02d8],
+.surat-premium.surat-theme-dark .advanced-quran-mobile-action-btn-memorisation[data-v-637d02d8],
+.surat-premium.surat-theme-dark .advanced-quran-mobile-action-btn-open-tools[data-v-637d02d8],
+.surat-premium.surat-theme-dark .reader-custom-playlist-nav-item.is-active[data-v-637d02d8],
+.surat-premium.surat-theme-dark .reader-custom-playlist-item.is-selected[data-v-637d02d8],
+.surat-premium.surat-theme-dark .reader-custom-playlist-item.is-now-playing[data-v-637d02d8],
+.surat-premium.surat-theme-dark .reader-custom-playlist-btn.is-add-surah[data-v-637d02d8],
+.surat-premium.surat-theme-dark .reader-custom-playlist-btn.is-play[data-v-637d02d8] {
+    background: rgba(255, 255, 255, 0.08) !important;
+    border-color: var(--surat-flat-border-strong, rgba(255, 255, 255, 0.18)) !important;
+    color: #fff !important;
+    box-shadow: none !important;
+}
+.surat-premium.surat-theme-dark .quran-toolbar-btn-toggle.is-enabled .quran-toolbar-btn-state[data-v-637d02d8],
+.surat-premium.surat-theme-dark .quran-toolbar-btn.is-active .quran-toolbar-btn-state[data-v-637d02d8],
+.surat-premium.surat-theme-dark .quran-toolbar-btn-deep-focus.is-active .quran-toolbar-btn-state[data-v-637d02d8],
+.surat-premium.surat-theme-dark .quran-toolbar-btn.quran-toolbar-btn-memorisation .quran-toolbar-btn-state[data-v-637d02d8],
+.surat-premium.surat-theme-dark button.quran-toolbar-btn.quran-toolbar-btn-open-tools .quran-toolbar-btn-state[data-v-637d02d8],
+.surat-premium.surat-theme-dark .advanced-quran-mobile-action-btn.is-enabled .advanced-quran-mobile-action-btn-state[data-v-637d02d8] {
+    background: #fff !important;
+    color: #232529 !important;
+    border-color: #fff !important;
+}
+.surat-premium.surat-theme-dark .quran-toolbar-btn[data-v-637d02d8]:hover,
+.surat-premium.surat-theme-dark .quran-toolbar-btn[data-v-637d02d8]:focus-visible,
+.surat-premium.surat-theme-dark .quran-toolbar-select[data-v-637d02d8]:hover,
+.surat-premium.surat-theme-dark .quran-toolbar-select[data-v-637d02d8]:focus-visible,
+.surat-premium.surat-theme-dark .advanced-quran-mobile-icon-btn[data-v-637d02d8]:hover,
+.surat-premium.surat-theme-dark .advanced-quran-mobile-icon-btn[data-v-637d02d8]:focus-visible,
+.surat-premium.surat-theme-dark .advanced-quran-mobile-action-btn[data-v-637d02d8]:hover,
+.surat-premium.surat-theme-dark .advanced-quran-mobile-action-btn[data-v-637d02d8]:focus-visible,
+.surat-premium.surat-theme-dark .reader-custom-playlist-btn[data-v-637d02d8]:hover,
+.surat-premium.surat-theme-dark .reader-custom-playlist-btn[data-v-637d02d8]:focus-visible,
+.surat-premium.surat-theme-dark .reader-custom-playlist-nav-item[data-v-637d02d8]:hover,
+.surat-premium.surat-theme-dark .reader-custom-playlist-nav-item[data-v-637d02d8]:focus-visible,
+.surat-premium.surat-theme-dark .reader-custom-playlist-item[data-v-637d02d8]:hover,
+.surat-premium.surat-theme-dark .reader-custom-playlist-input[data-v-637d02d8]:focus,
+.surat-premium.surat-theme-dark .reader-custom-playlist-search-input[data-v-637d02d8]:focus,
+.surat-premium.surat-theme-dark .reader-custom-playlist-filter-select[data-v-637d02d8]:focus {
+    background: rgba(255, 255, 255, 0.05) !important;
+    border-color: var(--surat-flat-border-strong, rgba(255, 255, 255, 0.18)) !important;
+    box-shadow: none !important;
+    color: #fff !important;
+}
+.surat-premium.surat-theme-dark .quran-toolbar-btn[data-v-637d02d8]:disabled,
+.surat-premium.surat-theme-dark .reader-custom-playlist-btn[data-v-637d02d8]:disabled,
+.surat-premium.surat-theme-dark .advanced-quran-mobile-action-btn[data-v-637d02d8]:disabled {
+    opacity: 0.48 !important;
+    background: transparent !important;
+    color: rgba(255, 255, 255, 0.48) !important;
+    border-color: rgba(255, 255, 255, 0.08) !important;
+    box-shadow: none !important;
+}
+.surat-premium.surat-theme-dark .reader-custom-playlist-title[data-v-637d02d8],
+.surat-premium.surat-theme-dark .reader-custom-playlist-content-title[data-v-637d02d8],
+.surat-premium.surat-theme-dark .reader-custom-playlist-empty-state h4[data-v-637d02d8] {
+    color: #fff !important;
+    font-weight: 800 !important;
+}
+.surat-premium.surat-theme-dark .reader-custom-playlist-subtitle[data-v-637d02d8],
+.surat-premium.surat-theme-dark .reader-custom-playlist-content-subtitle[data-v-637d02d8],
+.surat-premium.surat-theme-dark .reader-custom-playlist-field-label[data-v-637d02d8],
+.surat-premium.surat-theme-dark .reader-custom-playlist-item-desc[data-v-637d02d8],
+.surat-premium.surat-theme-dark .reader-custom-playlist-empty-inline[data-v-637d02d8],
+.surat-dark-modal.surah-settings-modal small[data-v-637d02d8] {
+    color: var(--surat-flat-muted, rgba(255, 255, 255, 0.74)) !important;
+}
+.surat-premium.surat-theme-dark .reader-custom-playlist-item[data-v-637d02d8]::before,
+.surat-premium.surat-theme-dark .reader-custom-playlist-item.is-selected[data-v-637d02d8]::before,
+.surat-premium.surat-theme-dark .reader-custom-playlist-item.is-now-playing[data-v-637d02d8]::before,
+.surat-premium.surat-theme-dark .reader-custom-playlist-item.is-drag-over[data-v-637d02d8]::before {
+    background: rgba(255, 255, 255, 0.14) !important;
+}
+
+/* Remaining dark theme cleanup for toolbar shell, sidebar shell, menus, and alerts */
+@media (min-width: 992px) {
+.surat-premium.surat-theme-dark:not(.mobile-compact-layout) .quran-toolbar[data-v-637d02d8],
+    .surat-premium.surat-theme-dark:not(.mobile-compact-layout) .quran-toolbar-sticky .quran-toolbar[data-v-637d02d8],
+    .surat-premium.surat-theme-dark:not(.mobile-compact-layout) .quran-toolbar-sticky.quran-toolbar-fixed-shell .quran-toolbar[data-v-637d02d8],
+    .surat-premium.surat-theme-dark:not(.mobile-compact-layout) .quran-toolbar-sticky.quran-toolbar-fixed-shell.is-pinned .quran-toolbar[data-v-637d02d8] {
+        background: #232529 !important;
+        background-color: #232529 !important;
+        background-image: none !important;
+        border-color: var(--surat-flat-border, rgba(255, 255, 255, 0.1)) !important;
+        box-shadow: none !important;
+}
+}
+.surat-premium.surat-theme-dark .sticky-dropdown[data-v-637d02d8],
+.surat-premium.surat-theme-dark .sidebar-toggle[data-v-637d02d8],
+.surat-premium.surat-theme-dark .sidebar-header-sticky[data-v-637d02d8],
+.surat-premium.surat-theme-dark .sidebar-header[data-v-637d02d8],
+.surat-premium.surat-theme-dark .sidebar-tabs[data-v-637d02d8],
+.surat-premium.surat-theme-dark .sidebar-dark-content[data-v-637d02d8],
+.surat-premium.surat-theme-dark .filter-item.surah-list[data-v-637d02d8] {
+    background: #232529 !important;
+    background-color: #232529 !important;
+    background-image: none !important;
+    border-color: var(--surat-flat-border, rgba(255, 255, 255, 0.1)) !important;
+    box-shadow: none !important;
+}
+.surat-premium.surat-theme-dark .sidebar-dark-content[data-v-637d02d8]::before {
+    display: none !important;
+}
+.surat-premium.surat-theme-dark .sidebar-collapse-button[data-v-637d02d8],
+.surat-premium.surat-theme-dark .sidebar-search-input[data-v-637d02d8],
+.surat-premium.surat-theme-dark .sidebar-tabs .tab-btn[data-v-637d02d8],
+.surat-premium.surat-theme-dark .sidebar-item[data-v-637d02d8],
+.surat-premium.surat-theme-dark .sidebar-info-button[data-v-637d02d8],
+.surat-premium.surat-theme-dark .sidebar-load-more-btn[data-v-637d02d8] {
+    background: transparent !important;
+    background-image: none !important;
+    color: #fff !important;
+    border-color: var(--surat-flat-border, rgba(255, 255, 255, 0.1)) !important;
+    box-shadow: none !important;
+}
+.surat-premium.surat-theme-dark .sidebar-tabs .tab-btn.active[data-v-637d02d8],
+.surat-premium.surat-theme-dark .sidebar-item.active[data-v-637d02d8],
+.surat-premium.surat-theme-dark .sidebar-collapse-button[data-v-637d02d8]:hover,
+.surat-premium.surat-theme-dark .sidebar-collapse-button[data-v-637d02d8]:focus-visible,
+.surat-premium.surat-theme-dark .sidebar-tabs .tab-btn[data-v-637d02d8]:hover,
+.surat-premium.surat-theme-dark .sidebar-tabs .tab-btn[data-v-637d02d8]:focus-visible,
+.surat-premium.surat-theme-dark .sidebar-info-button[data-v-637d02d8]:hover,
+.surat-premium.surat-theme-dark .sidebar-info-button[data-v-637d02d8]:focus-visible,
+.surat-premium.surat-theme-dark .sidebar-load-more-btn[data-v-637d02d8]:hover,
+.surat-premium.surat-theme-dark .sidebar-load-more-btn[data-v-637d02d8]:focus-visible {
+    background: rgba(255, 255, 255, 0.08) !important;
+    border-color: var(--surat-flat-border-strong, rgba(255, 255, 255, 0.18)) !important;
+    color: #fff !important;
+}
+.surat-premium.surat-theme-dark .ayah-menu-trigger[data-v-637d02d8],
+.surat-premium.surat-theme-dark .ayah-menu-trigger[data-v-637d02d8]:hover,
+.surat-premium.surat-theme-dark .ayah-menu-trigger[data-v-637d02d8]:focus-visible {
+    background: transparent !important;
+    color: #fff !important;
+    border-color: var(--surat-flat-border, rgba(255, 255, 255, 0.1)) !important;
+    box-shadow: none !important;
+}
+.surat-premium.surat-theme-dark .ayah-card-container--menu-open .ayah-menu-trigger[data-v-637d02d8] {
+    background: rgba(255, 255, 255, 0.08) !important;
+    border-color: var(--surat-flat-border-strong, rgba(255, 255, 255, 0.18)) !important;
+}
+.surat-premium.surat-theme-dark .ayah-playlist-menu[data-v-637d02d8],
+.surat-premium.surat-theme-dark .ayah-actions-menu[data-v-637d02d8],
+.surat-premium.surat-theme-dark .ayah-playlist-submenu[data-v-637d02d8],
+.surat-premium.surat-theme-dark .ayah-actions-submenu[data-v-637d02d8] {
+    background: #232529 !important;
+    background-color: #232529 !important;
+    background-image: none !important;
+    border-color: var(--surat-flat-border, rgba(255, 255, 255, 0.1)) !important;
+    box-shadow: 0 18px 34px rgba(0, 0, 0, 0.28) !important;
+}
+.surat-premium.surat-theme-dark .ayah-playlist-menu-item[data-v-637d02d8],
+.surat-premium.surat-theme-dark .ayah-playlist-menu-item span[data-v-637d02d8],
+.surat-premium.surat-theme-dark .ayah-playlist-menu-item i[data-v-637d02d8],
+.surat-premium.surat-theme-dark .ayah-actions-leading-label[data-v-637d02d8],
+.surat-premium.surat-theme-dark .ayah-playlist-menu-label[data-v-637d02d8] {
+    color: #fff !important;
+}
+.surat-premium.surat-theme-dark .ayah-playlist-menu-item[data-v-637d02d8]:hover,
+.surat-premium.surat-theme-dark .ayah-playlist-menu-item[data-v-637d02d8]:focus-visible,
+.surat-premium.surat-theme-dark .ayah-playlist-menu-item-submenu.is-open[data-v-637d02d8] {
+    background: rgba(255, 255, 255, 0.08) !important;
+    color: #fff !important;
+}
+body.surat-page-shell-dark .dropdown-menu {
+    background: #232529 !important;
+    background-image: none !important;
+    border-color: rgba(255, 255, 255, 0.1) !important;
+    box-shadow: 0 18px 34px rgba(0, 0, 0, 0.28) !important;
+}
+body.surat-page-shell-dark .dropdown-item,body.surat-page-shell-dark .dropdown-menu .bi,body.surat-page-shell-dark .dropdown-menu .fas,body.surat-page-shell-dark .dropdown-menu .far {
+    color: #fff !important;
+}
+body.surat-page-shell-dark .dropdown-item:hover,body.surat-page-shell-dark .dropdown-item:focus,body.surat-page-shell-dark .dropdown-item.active,body.surat-page-shell-dark .dropdown-item:active {
+    background: rgba(255, 255, 255, 0.08) !important;
+    color: #fff !important;
+}
+.surat-premium.surat-theme-dark .alert[data-v-637d02d8],
+.surat-premium.surat-theme-dark .bookmark-toast[data-v-637d02d8],
+.surat-premium.surat-theme-dark .mode-toggle-toast[data-v-637d02d8],
+.surat-premium.surat-theme-dark .auth-alert[data-v-637d02d8],
+.surat-premium.surat-theme-dark .translation-compare-alert[data-v-637d02d8] {
+    text-shadow: none !important;
+    filter: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: geometricPrecision;
+}
+.surat-premium.surat-theme-dark .mode-toggle-toast[data-v-637d02d8],
+.surat-premium.surat-theme-dark .bookmark-toast[data-v-637d02d8],
+.surat-premium.surat-theme-dark .auth-alert[data-v-637d02d8],
+.surat-premium.surat-theme-dark .translation-compare-alert[data-v-637d02d8] {
+    background: #232529 !important;
+    background-image: none !important;
+    border-color: var(--surat-flat-border, rgba(255, 255, 255, 0.1)) !important;
+    box-shadow: none !important;
+    color: #fff !important;
+}
+.surat-premium.surat-theme-dark .mode-toggle-toast .bi[data-v-637d02d8],
+.surat-premium.surat-theme-dark .bookmark-toast .bi[data-v-637d02d8],
+.surat-premium.surat-theme-dark .auth-alert .bi[data-v-637d02d8] {
+    color: #fff !important;
+}
+.surat-premium.surat-theme-dark .mode-toggle-toast-action[data-v-637d02d8],
+.surat-premium.surat-theme-dark .auth-alert-link[data-v-637d02d8] {
+    background: transparent !important;
+    color: #fff !important;
+    border-color: var(--surat-flat-border, rgba(255, 255, 255, 0.1)) !important;
+    box-shadow: none !important;
+}
+.surat-premium.surat-theme-dark .mode-toggle-toast.fade-enter-active[data-v-637d02d8],
+.surat-premium.surat-theme-dark .mode-toggle-toast.fade-leave-active[data-v-637d02d8],
+.surat-premium.surat-theme-dark .bookmark-toast.fade-enter-active[data-v-637d02d8],
+.surat-premium.surat-theme-dark .bookmark-toast.fade-leave-active[data-v-637d02d8] {
+    transition: opacity 0.22s ease !important;
+    transform: none !important;
+}
+.surat-premium.surat-theme-dark .mode-toggle-toast.fade-enter-from[data-v-637d02d8],
+.surat-premium.surat-theme-dark .mode-toggle-toast.fade-leave-to[data-v-637d02d8],
+.surat-premium.surat-theme-dark .bookmark-toast.fade-enter-from[data-v-637d02d8],
+.surat-premium.surat-theme-dark .bookmark-toast.fade-leave-to[data-v-637d02d8] {
+    opacity: 0 !important;
+    transform: none !important;
 }
 
 
