@@ -28,6 +28,7 @@ export default {
             isTabletOrMobile: false,
             isTablet: false,
             isDesktopWide: false,
+            isSidebarWideLayout: false,
             isReadingFullscreen: false,
             isDeepFocusMode: false,
             isDarkTheme: (() => {
@@ -1359,11 +1360,6 @@ export default {
                 !!this.isMemorisationToolbarVisible &&
                 !!this.isMemorisationMode
             );
-        },
-        memorisationControlsLabel() {
-            return this.isMemorisationToolbarVisible
-                ? "Memorisation controls"
-                : "Reader Controls";
         },
         memorisationDraftMaxAyah() {
             const targetSurah = String(
@@ -11533,22 +11529,7 @@ export default {
                 this.gestureGuideModalInstance.show();
             };
 
-            const settingsEl = document.getElementById(this.settingsModalId);
-            const settingsModal =
-                (settingsEl &&
-                    (Modal.getInstance(settingsEl) || this.settingsModalInstance)) ||
-                this.settingsModalInstance;
-            const isSettingsOpen = !!settingsEl?.classList?.contains("show");
-
-            if (isSettingsOpen && settingsModal) {
-                try {
-                    settingsModal.hide();
-                } catch (_) {}
-                setTimeout(openGuide, 180);
-                return;
-            }
-
-            openGuide();
+            this.runAfterClosingSettingsModal(openGuide);
         },
         clearSuratOnboardingSearch() {
             this.suratOnboardingSearchQuery = "";
@@ -17115,6 +17096,37 @@ export default {
                 new Modal(modalEl);
             this.settingsModalInstance.hide();
         },
+        runAfterClosingSettingsModal(callback, delay = 180) {
+            if (typeof callback !== "function") return;
+            const settingsEl = document.getElementById(this.settingsModalId);
+            const settingsModal =
+                (settingsEl &&
+                    (Modal.getInstance(settingsEl) || this.settingsModalInstance)) ||
+                this.settingsModalInstance;
+            const isSettingsOpen = !!settingsEl?.classList?.contains("show");
+
+            if (isSettingsOpen && settingsModal) {
+                try {
+                    settingsModal.hide();
+                } catch (_) {}
+                setTimeout(() => {
+                    callback();
+                }, delay);
+                return;
+            }
+
+            callback();
+        },
+        openFontPickerFromSettings() {
+            this.runAfterClosingSettingsModal(() => {
+                this.openFontPicker();
+            });
+        },
+        toggleReadingFullscreenFromSettings() {
+            this.runAfterClosingSettingsModal(() => {
+                void this.toggleReadingFullscreen();
+            });
+        },
         prepareFontPicker() {
             this.fontPickerAlert = "";
             this.clearFontPickerTimer();
@@ -22179,12 +22191,16 @@ export default {
                 this.isDesktopWide = window.matchMedia(
                     "(min-width: 1024px)"
                 ).matches;
+                this.isSidebarWideLayout = window.matchMedia(
+                    "(min-width: 992px)"
+                ).matches;
             } catch (e) {
                 const width = window.innerWidth;
                 this.isMobile = width <= 767;
                 this.isTabletOrMobile = width <= 991;
                 this.isTablet = width >= 768 && width <= 991;
                 this.isDesktopWide = width >= 1024;
+                this.isSidebarWideLayout = width >= 992;
             }
             if (!this.isTabletOrMobile && this.isMobileToolbarExpanded) {
                 this.isMobileToolbarExpanded = false;
@@ -24702,6 +24718,16 @@ export default {
                     ? "Expanded mobile toolbar controls."
                     : "Collapsed mobile toolbar controls."
             );
+        },
+        toggleToolbarWordTranslation() {
+            const checked = !this.showWordTranslation;
+            this.showWordTranslation = checked;
+            this.announce(
+                checked
+                    ? "Word-for-word translation enabled."
+                    : "Word-for-word translation disabled."
+            );
+            this.showModeToggleToast("Word-for-word", checked);
         },
         toggleToolbarTranslation() {
             const checked = !this.isTranslationAllEnabled;

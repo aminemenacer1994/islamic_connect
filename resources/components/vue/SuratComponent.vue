@@ -171,7 +171,7 @@
                     </div>
                     <template v-else-if="isTabletOrMobile">
                         <div
-                            class="advanced-quran-mobile-controls border-shadow-xl"
+                            class="advanced-quran-mobile-controls"
                             :class="{
                                 'is-pinned': isToolbarPinned,
                                 'is-expanded': isMobileToolbarExpanded
@@ -185,9 +185,6 @@
                                 'has-theme-toggle': true
                             }">
                             <div class="advanced-quran-mobile-select-shell">
-                                <label class="advanced-quran-mobile-select-label" for="searchSurahDropdown">
-                                    Jump to surah
-                                </label>
                                 <select
                                     id="searchSurahDropdown"
                                     class="form-select advanced-quran-mobile-surah-select"
@@ -260,15 +257,15 @@
                             aria-label="Extended surah controls">
                             <div v-if="!isMemorisationToolbarVisible" class="advanced-quran-mobile-select-grid">
                                 <div class="advanced-quran-mobile-select-field">
-                                    <label class="visually-hidden" for="mobileToolbarReciterSelect">
-                                        Select audio reciter
+                                    <label class="advanced-quran-mobile-select-label advanced-quran-mobile-select-label--reciter" for="mobileToolbarReciterSelect">
+                                        Select reciter
                                     </label>
                                     <select
                                         id="mobileToolbarReciterSelect"
                                         class="form-select advanced-quran-mobile-select"
                                         v-model="selectedReciter"
                                         aria-label="Select audio reciter">
-                                        <option value="" disabled>Select reciter</option>
+                                        <option value="" disabled>Choose reciter</option>
                                         <option v-for="reciter in recitersSorted" :key="reciter.identifier" :value="reciter.identifier">
                                             {{ reciter.englishName }}
                                         </option>
@@ -289,77 +286,6 @@
                                     <span class="advanced-quran-mobile-action-label">{{ memorisationToolbarButtonLabel }}</span>
                                 </button>
                                 <button
-                                    type="button"
-                                    class="btn advanced-quran-mobile-action-btn"
-                                    :class="{ 'is-enabled': isTranslationAllEnabled }"
-                                    @click="toggleToolbarTranslation"
-                                    :title="isTranslationAllEnabled
-                                        ? 'Turn translation off for all visible ayahs.'
-                                        : 'Turn translation on for all visible ayahs.'"
-                                    :aria-label="isTranslationAllEnabled
-                                        ? 'Turn translation off for all ayahs'
-                                        : 'Turn translation on for all ayahs'">
-                                    <i class="bi bi-translate" aria-hidden="true"></i>
-                                    <span class="advanced-quran-mobile-action-label">Translation</span>
-                                    <span class="advanced-quran-mobile-action-btn-state">
-                                        {{ isTranslationAllEnabled ? "On" : "Off" }}
-                                    </span>
-                                </button>
-                                <button
-                                    type="button"
-                                    class="btn advanced-quran-mobile-action-btn"
-                                    :class="{ 'is-enabled': isTransliterationAllEnabled }"
-                                    @click="toggleToolbarTransliteration"
-                                    :title="isTransliterationAllEnabled
-                                        ? 'Turn transliteration off for all visible ayahs.'
-                                        : 'Turn transliteration on for all visible ayahs.'"
-                                    :aria-label="isTransliterationAllEnabled
-                                        ? 'Turn transliteration off for all ayahs'
-                                        : 'Turn transliteration on for all ayahs'">
-                                    <i class="bi bi-input-cursor-text" aria-hidden="true"></i>
-                                    <span class="advanced-quran-mobile-action-label">Transliteration</span>
-                                    <span class="advanced-quran-mobile-action-btn-state">
-                                        {{ isTransliterationAllEnabled ? "On" : "Off" }}
-                                    </span>
-                                </button>
-                                <button
-                                    v-if="!isMemorisationToolbarVisible"
-                                    type="button"
-                                    class="btn advanced-quran-mobile-action-btn"
-                                    :class="{ 'is-enabled': voiceCommandsEnabled }"
-                                    @click="toggleVoiceCommands"
-                                    :disabled="!speechRecognitionSupported"
-                                    :title="!speechRecognitionSupported
-                                        ? 'Voice commands are not supported in this browser.'
-                                        : voiceCommandsEnabled
-                                            ? 'Voice commands are on. Try saying: Bismillah, open surah 2 ayah 255.'
-                                            : 'Turn on voice commands. Example: Bismillah, open surah 2 ayah 255.'"
-                                    :aria-label="voiceCommandsEnabled
-                                        ? 'Turn voice commands off'
-                                        : 'Turn voice commands on'">
-                                    <i
-                                        class="bi"
-                                        :class="voiceCommandsEnabled
-                                            ? (voiceCommandListening ? 'bi-mic-fill' : 'bi-mic')
-                                            : 'bi-mic-mute-fill'"
-                                        aria-hidden="true"></i>
-                                    <span class="advanced-quran-mobile-action-label">Voice commands</span>
-                                    <span class="advanced-quran-mobile-action-btn-state">
-                                        {{ voiceCommandsEnabled ? "On" : "Off" }}
-                                    </span>
-                                </button>
-                                <button
-                                    v-if="!isMemorisationToolbarVisible"
-                                    type="button"
-                                    class="btn advanced-quran-mobile-action-btn voice-command-guide-control-btn"
-                                    data-bs-toggle="modal"
-                                    :data-bs-target="`#${voiceCommandGuideModalId}`"
-                                    aria-label="Open voice command guide"
-                                    title="Open voice command guide">
-                                    <i class="bi bi-question-circle" aria-hidden="true"></i>
-                                    <span class="advanced-quran-mobile-action-label">Voice guide</span>
-                                </button>
-                                <button
                                     v-if="isMemorisationToolbarVisible"
                                     type="button"
                                     class="btn advanced-quran-mobile-action-btn advanced-quran-mobile-action-btn-open-tools"
@@ -368,6 +294,59 @@
                                     title="Open Session Tools for pacing, repeat-after-reciter, and display controls">
                                     <i class="bi bi-layout-sidebar-inset" aria-hidden="true"></i>
                                     <span class="advanced-quran-mobile-action-label">Open Session Tools Panel</span>
+                                </button>
+                                <button
+                                    v-if="showTajweed"
+                                    type="button"
+                                    class="btn advanced-quran-mobile-action-btn"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#tajweedRulesModal"
+                                    aria-label="View tajweed colors"
+                                    title="Open the tajweed color guide to understand pronunciation and reading rules.">
+                                    <i class="bi bi-palette-fill" aria-hidden="true"></i>
+                                    <span class="advanced-quran-mobile-action-label">Tajweed colors</span>
+                                </button>
+                                <button
+                                    v-if="!isMemorisationToolbarVisible"
+                                    type="button"
+                                    class="btn advanced-quran-mobile-action-btn"
+                                    :class="{ 'is-enabled': showWordTranslation }"
+                                    @click="toggleToolbarWordTranslation"
+                                    aria-label="Toggle word-for-word translation"
+                                    title="Show or hide word-for-word translation beneath Arabic words.">
+                                    <i class="bi bi-translate" aria-hidden="true"></i>
+                                    <span class="advanced-quran-mobile-action-label">Word-for-word</span>
+                                    <span class="advanced-quran-mobile-action-btn-state">
+                                        {{ showWordTranslation ? "On" : "Off" }}
+                                    </span>
+                                </button>
+                                <button
+                                    v-if="!isMemorisationToolbarVisible"
+                                    type="button"
+                                    class="btn advanced-quran-mobile-action-btn"
+                                    :class="{ 'is-enabled': isTranslationAllEnabled }"
+                                    @click="toggleToolbarTranslation"
+                                    aria-label="Toggle translation for all ayahs"
+                                    title="Show or hide translation for all visible ayahs.">
+                                    <i class="bi bi-card-text" aria-hidden="true"></i>
+                                    <span class="advanced-quran-mobile-action-label">Translation</span>
+                                    <span class="advanced-quran-mobile-action-btn-state">
+                                        {{ isTranslationAllEnabled ? "On" : "Off" }}
+                                    </span>
+                                </button>
+                                <button
+                                    v-if="!isMemorisationToolbarVisible"
+                                    type="button"
+                                    class="btn advanced-quran-mobile-action-btn"
+                                    :class="{ 'is-enabled': isTransliterationAllEnabled }"
+                                    @click="toggleToolbarTransliteration"
+                                    aria-label="Toggle transliteration for all ayahs"
+                                    title="Show or hide transliteration for all visible ayahs.">
+                                    <i class="bi bi-input-cursor-text" aria-hidden="true"></i>
+                                    <span class="advanced-quran-mobile-action-label">Transliteration</span>
+                                    <span class="advanced-quran-mobile-action-btn-state">
+                                        {{ isTransliterationAllEnabled ? "On" : "Off" }}
+                                    </span>
                                 </button>
                                 <button
                                     v-if="isMemorisationToolbarVisible && memorisationSessionHistoryEnabled"
@@ -383,116 +362,11 @@
                                     v-if="!isMemorisationToolbarVisible"
                                     type="button"
                                     class="btn advanced-quran-mobile-action-btn"
-                                    @click="toggleCustomPlaylistPanel"
-                                    :aria-expanded="showCustomPlaylistPanel ? 'true' : 'false'"
-                                    :aria-label="showCustomPlaylistPanel ? 'Close custom playlist library' : 'Open custom playlist library'"
-                                    :title="showCustomPlaylistPanel ? 'Close playlist library' : 'Open playlist library'">
-                                    <i class="bi bi-music-note-list" aria-hidden="true"></i>
-                                    <span class="advanced-quran-mobile-action-label">{{ showCustomPlaylistPanel ? 'Close playlist' : 'Playlist' }}</span>
-                                </button>
-                                <button
-                                    type="button"
-                                    class="btn advanced-quran-mobile-action-btn"
-                                    @click="openSurahInfo(currentSurahInfo)"
-                                    :disabled="!currentSurahInfo"
-                                    aria-label="Open surah information"
-                                    title="Open surah information">
-                                    <i class="bi bi-info-circle-fill" aria-hidden="true"></i>
-                                    <span class="advanced-quran-mobile-action-label">Surah info</span>
-                                </button>
-                                <button
-                                    type="button"
-                                    class="btn advanced-quran-mobile-action-btn"
                                     @click="openTranslationCompareModal"
                                     aria-label="Compare English translations side by side"
                                     title="Compare multiple English translations side by side in one view.">
                                     <i class="bi bi-columns-gap" aria-hidden="true"></i>
                                     <span class="advanced-quran-mobile-action-label">Compare translations</span>
-                                </button>
-                                <button
-                                    v-if="showTajweed"
-                                    type="button"
-                                    class="btn advanced-quran-mobile-action-btn"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#tajweedRulesModal"
-                                    aria-label="View tajweed rules"
-                                    title="Open the tajweed color guide to understand pronunciation and reading rules.">
-                                    <i class="bi bi-palette-fill" aria-hidden="true"></i>
-                                    <span class="advanced-quran-mobile-action-label">Tajweed rules</span>
-                                </button>
-                                <button
-                                    v-if="!isMemorisationToolbarVisible"
-                                    type="button"
-                                    class="btn advanced-quran-mobile-action-btn"
-                                    @click="toggleDeepFocusMode"
-                                    aria-label="Toggle deep focus mode"
-                                    title="Toggle deep focus mode">
-                                    <i class="bi bi-bullseye" aria-hidden="true"></i>
-                                    <span class="advanced-quran-mobile-action-label">Deep focus mode</span>
-                                    <span class="advanced-quran-mobile-action-btn-state">
-                                        {{ isDeepFocusMode ? "On" : "Off" }}
-                                    </span>
-                                </button>
-                                <button
-                                    v-if="!isMemorisationToolbarVisible"
-                                    type="button"
-                                    class="btn advanced-quran-mobile-action-btn"
-                                    @click.stop="openFontPicker"
-                                    aria-label="Choose Quranic fonts"
-                                    title="Open Quran font options to change how Arabic text is displayed.">
-                                    <i class="fas fa-font" aria-hidden="true"></i>
-                                    <span class="advanced-quran-mobile-action-label">Font</span>
-                                </button>
-                                <button
-                                    v-if="!isMemorisationToolbarVisible"
-                                    type="button"
-                                    class="btn advanced-quran-mobile-action-btn"
-                                    @click="openGestureGuideModal"
-                                    aria-label="Open swipe and tap gestures guide"
-                                    title="Open swipe and tap gestures guide">
-                                    <i class="bi bi-hand-index-thumb-fill" aria-hidden="true"></i>
-                                    <span class="advanced-quran-mobile-action-label">Gestures</span>
-                                </button>
-                                <button
-                                    v-if="!isMemorisationToolbarVisible"
-                                    type="button"
-                                    class="btn advanced-quran-mobile-action-btn"
-                                    @click="openSuratOnboarding"
-                                    aria-label="Open surat onboarding guide"
-                                    title="Open onboarding guide">
-                                    <i class="fas fa-compass" aria-hidden="true"></i>
-                                    <span class="advanced-quran-mobile-action-label">Guide</span>
-                                </button>
-                                <button
-                                    v-if="!isMemorisationToolbarVisible"
-                                    type="button"
-                                    class="btn advanced-quran-mobile-action-btn advanced-quran-mobile-action-btn-download"
-                                    :class="{ 'is-downloaded': isSurahAudioDownloaded }"
-                                    @click.stop="downloadSurahAudio()"
-                                    :disabled="isSurahAudioDownloading || !canDownloadSurahAudio()"
-                                    :aria-label="!canDownloadSurahAudio()
-                                        ? 'Full surah download unavailable for this reciter'
-                                        : isSurahAudioDownloading
-                                            ? 'Downloading full surah MP3'
-                                            : isSurahAudioDownloaded
-                                                ? 'Surah MP3 downloaded'
-                                                : surahDownloadReadyAriaLabel"
-                                    :title="!canDownloadSurahAudio()
-                                        ? 'This reciter does not provide a full-surah MP3 file for download.'
-                                        : isSurahAudioDownloading
-                                            ? 'Downloading the full surah MP3 to your device for offline listening.'
-                                            : isSurahAudioDownloaded
-                                                ? 'The full surah MP3 is already downloaded. Click to download it again.'
-                                                : surahDownloadReadyLabel">
-                                    <i
-                                        class="bi advanced-quran-mobile-download-icon"
-                                        :class="isSurahAudioDownloading
-                                            ? 'bi-arrow-repeat ic-spin'
-                                            : isSurahAudioDownloaded
-                                                ? 'bi-check-circle-fill'
-                                                : 'bi-cloud-arrow-down-fill'"
-                                        aria-hidden="true"></i>
-                                    <span class="advanced-quran-mobile-action-label">Download</span>
                                 </button>
                                 <button
                                     v-if="hasPinnedAyahs && isPinnedSectionHidden"
@@ -617,9 +491,115 @@
             }"
             role="region"
             aria-label="Quran quick controls">
-            <div v-if="showDesktopToolbar && !isTabletOrMobile" class="quran-toolbar border-shadow-xl">
-                <span class="quran-toolbar-label"><b>{{ memorisationControlsLabel }}</b></span>
-                <div class="quran-toolbar-separator"></div>
+            <div v-if="showDesktopToolbar && !isTabletOrMobile" class="quran-toolbar quran-toolbar-reader border-shadow-xl">
+                <div v-if="!isMemorisationToolbarVisible" class="quran-toolbar-reciter">
+                    <span class="quran-toolbar-reciter-label">Reciter</span>
+                    <label class="visually-hidden" for="toolbarReciterSelect">
+                        Select audio reciter
+                    </label>
+                    <select
+                        id="toolbarReciterSelect"
+                        class="form-select quran-toolbar-select"
+                        v-model="selectedReciter"
+                        aria-label="Select audio reciter">
+                        <option value="" disabled>Choose reciter</option>
+                        <option v-for="reciter in recitersSorted" :key="reciter.identifier" :value="reciter.identifier">
+                            {{ reciter.englishName }}
+                        </option>
+                    </select>
+                </div>
+
+                <button
+                    v-if="showTajweed"
+                    type="button"
+                    class="quran-toolbar-btn"
+                    data-bs-toggle="modal"
+                    data-bs-target="#tajweedRulesModal"
+                    aria-label="View tajweed colors">
+                    <i class="bi bi-palette-fill" aria-hidden="true"></i>
+                    <span class="quran-toolbar-btn-text">Tajweed colors</span>
+                </button>
+
+                <button
+                    v-if="!isMemorisationToolbarVisible"
+                    type="button"
+                    class="quran-toolbar-btn quran-toolbar-btn-toggle"
+                    :class="{ 'is-enabled': showWordTranslation }"
+                    @click="toggleToolbarWordTranslation"
+                    aria-label="Toggle word-for-word translation">
+                    <i class="bi bi-translate" aria-hidden="true"></i>
+                    <span class="quran-toolbar-btn-text">Word-for-word</span>
+                    <span class="quran-toolbar-btn-state">{{ showWordTranslation ? "On" : "Off" }}</span>
+                </button>
+                <button
+                    v-if="!isMemorisationToolbarVisible"
+                    type="button"
+                    class="quran-toolbar-btn quran-toolbar-btn-toggle"
+                    :class="{ 'is-enabled': isTranslationAllEnabled }"
+                    @click="toggleToolbarTranslation"
+                    :aria-label="isTranslationAllEnabled
+                        ? 'Turn translation off for all ayahs'
+                        : 'Turn translation on for all ayahs'">
+                    <i class="bi bi-card-text" aria-hidden="true"></i>
+                    <span class="quran-toolbar-btn-text">Translation</span>
+                    <span class="quran-toolbar-btn-state">{{ isTranslationAllEnabled ? "On" : "Off" }}</span>
+                </button>
+                <button
+                    v-if="!isMemorisationToolbarVisible"
+                    type="button"
+                    class="quran-toolbar-btn quran-toolbar-btn-toggle"
+                    :class="{ 'is-enabled': isTransliterationAllEnabled }"
+                    @click="toggleToolbarTransliteration"
+                    :aria-label="isTransliterationAllEnabled
+                        ? 'Turn transliteration off for all ayahs'
+                        : 'Turn transliteration on for all ayahs'">
+                    <i class="bi bi-input-cursor-text" aria-hidden="true"></i>
+                    <span class="quran-toolbar-btn-text">Transliteration</span>
+                    <span class="quran-toolbar-btn-state">{{ isTransliterationAllEnabled ? "On" : "Off" }}</span>
+                </button>
+                <button
+                    v-if="!isMemorisationToolbarVisible"
+                    type="button"
+                    class="quran-toolbar-btn"
+                    @click="openTranslationCompareModal"
+                    aria-label="Compare English translations side by side">
+                    <i class="bi bi-columns-gap" aria-hidden="true"></i>
+                    <span class="quran-toolbar-btn-text">Compare translations</span>
+                </button>
+                <button
+                    v-if="hasPinnedAyahs && isPinnedSectionHidden && !isMemorisationToolbarVisible"
+                    type="button"
+                    class="quran-toolbar-btn quran-toolbar-btn-icon quran-toolbar-btn-pinned-restore"
+                    @click="showPinnedSection"
+                    aria-label="Show pinned favourite ayat">
+                    <i class="bi bi-pin-angle-fill" aria-hidden="true"></i>
+                </button>
+                <button
+                    v-if="sidebarCollapsed || !isSidebarWideLayout"
+                    type="button"
+                    class="quran-toolbar-btn quran-toolbar-btn-toggle quran-toolbar-btn-icon quran-toolbar-btn-theme-compact"
+                    :class="{ 'is-enabled': isDarkTheme }"
+                    :aria-pressed="isDarkTheme ? 'true' : 'false'"
+                    :aria-label="isDarkTheme
+                        ? 'Switch to light mode for the Surat page'
+                        : 'Switch to dark mode for the Surat page'"
+                    @click="toggleSuratTheme">
+                    <i
+                        class="bi"
+                        :class="isDarkTheme ? 'bi-sun-fill' : 'bi-moon-stars-fill'"
+                        aria-hidden="true"></i>
+                </button>
+                <button
+                    v-if="!isMemorisationToolbarVisible"
+                    type="button"
+                    class="quran-toolbar-btn quran-toolbar-btn-icon quran-toolbar-btn-settings"
+                    data-bs-toggle="modal"
+                    data-bs-target="#surahSettingsModal"
+                    @click="prepareSettingsDraft"
+                    aria-label="Open display settings">
+                    <i class="bi bi-gear-fill" aria-hidden="true"></i>
+                </button>
+
                 <button
                     type="button"
                     class="quran-toolbar-btn quran-toolbar-btn-memorisation"
@@ -650,239 +630,6 @@
                     aria-label="Open session history">
                     <i class="bi bi-clock-history" aria-hidden="true"></i>
                     <span class="quran-toolbar-btn-text">History</span>
-                </button>
-                <div v-if="!isMemorisationToolbarVisible" class="quran-toolbar-reciter">
-                    <label class="visually-hidden" for="toolbarReciterSelect">
-                        Select audio reciter
-                    </label>
-                    <select
-                        id="toolbarReciterSelect"
-                        class="form-select quran-toolbar-select"
-                        v-model="selectedReciter"
-                        aria-label="Select audio reciter">
-                        <option value="" disabled>Select reciter</option>
-                        <option v-for="reciter in recitersSorted" :key="reciter.identifier" :value="reciter.identifier">
-                            {{ reciter.englishName }}
-                        </option>
-                    </select>
-                </div>
-
-                <button
-                    v-if="showTajweed"
-                    type="button"
-                    class="quran-toolbar-btn"
-                    data-bs-toggle="modal"
-                    data-bs-target="#tajweedRulesModal"
-                    aria-label="View tajweed rules">
-                    <i class="bi bi-palette-fill" aria-hidden="true"></i>
-                    <span class="quran-toolbar-btn-text">Tajweed rules</span>
-                </button>
-
-                <button
-                    type="button"
-                    class="quran-toolbar-btn quran-toolbar-btn-toggle"
-                    :class="{ 'is-enabled': isTranslationAllEnabled }"
-                    @click="toggleToolbarTranslation"
-                    :aria-label="isTranslationAllEnabled
-                        ? 'Turn translation off for all ayahs'
-                        : 'Turn translation on for all ayahs'">
-                    <i class="bi bi-translate" aria-hidden="true"></i>
-                    <span class="quran-toolbar-btn-text">Translation</span>
-                    <span class="quran-toolbar-btn-state">{{ isTranslationAllEnabled ? "On" : "Off" }}</span>
-                </button>
-
-                <button
-                    type="button"
-                    class="quran-toolbar-btn quran-toolbar-btn-toggle"
-                    :class="{ 'is-enabled': isTransliterationAllEnabled }"
-                    @click="toggleToolbarTransliteration"
-                    :aria-label="isTransliterationAllEnabled
-                        ? 'Turn transliteration off for all ayahs'
-                        : 'Turn transliteration on for all ayahs'">
-                    <i class="bi bi-input-cursor-text" aria-hidden="true"></i>
-                    <span class="quran-toolbar-btn-text">Transliteration</span>
-                    <span class="quran-toolbar-btn-state">{{ isTransliterationAllEnabled ? "On" : "Off" }}</span>
-                </button>
-                <button
-                    v-if="!isMemorisationToolbarVisible"
-                    type="button"
-                    class="quran-toolbar-btn quran-toolbar-btn-toggle"
-                    :class="{ 'is-enabled': voiceCommandsEnabled }"
-                    @click="toggleVoiceCommands"
-                    :disabled="!speechRecognitionSupported"
-                    :aria-label="voiceCommandsEnabled
-                        ? 'Turn voice commands off'
-                        : 'Turn voice commands on'">
-                    <i
-                        class="bi"
-                        :class="voiceCommandsEnabled
-                            ? (voiceCommandListening ? 'bi-mic-fill' : 'bi-mic')
-                            : 'bi-mic-mute-fill'"
-                        aria-hidden="true"></i>
-                    <span class="quran-toolbar-btn-text">Voice commands</span>
-                    <span class="quran-toolbar-btn-state">{{ voiceCommandsEnabled ? "On" : "Off" }}</span>
-                </button>
-                <button
-                    v-if="!isMemorisationToolbarVisible"
-                    type="button"
-                    class="quran-toolbar-btn voice-command-guide-control-btn"
-                    data-bs-toggle="modal"
-                    :data-bs-target="`#${voiceCommandGuideModalId}`"
-                    aria-label="Open voice command guide">
-                    <i class="bi bi-question-circle" aria-hidden="true"></i>
-                    <span class="quran-toolbar-btn-text">Voice guide</span>
-                </button>
-                <button
-                    type="button"
-                    class="quran-toolbar-btn"
-                    @click="openTranslationCompareModal"
-                    aria-label="Compare English translations side by side">
-                    <i class="bi bi-columns-gap" aria-hidden="true"></i>
-                    <span class="quran-toolbar-btn-text">Compare translations</span>
-                </button>
-                <button
-                    v-if="!isMemorisationToolbarVisible"
-                    type="button"
-                    class="quran-toolbar-btn quran-toolbar-btn-deep-focus"
-                    :class="{ 'is-active': isDeepFocusMode }"
-                    @click="toggleDeepFocusMode"
-                    :aria-label="isDeepFocusMode ? 'Exit deep focus mode' : 'Enter deep focus mode'">
-                    <i class="bi bi-bullseye" aria-hidden="true"></i>
-                    <span class="quran-toolbar-btn-text">Deep focus mode</span>
-                    <span class="quran-toolbar-btn-state">{{ isDeepFocusMode ? "On" : "Off" }}</span>
-                </button>
-                <button
-                    type="button"
-                    class="quran-toolbar-btn quran-toolbar-btn-toggle quran-toolbar-btn-theme"
-                    :class="{ 'is-enabled': isDarkTheme }"
-                    :aria-pressed="isDarkTheme ? 'true' : 'false'"
-                    :aria-label="isDarkTheme
-                        ? 'Switch to light mode for the Surat page'
-                        : 'Switch to dark mode for the Surat page'"
-                    @click="toggleSuratTheme">
-                    <i
-                        class="bi"
-                        :class="isDarkTheme ? 'bi-sun-fill' : 'bi-moon-stars-fill'"
-                        aria-hidden="true"></i>
-                    <span class="quran-toolbar-btn-text">Dark mode</span>
-                    <span class="quran-toolbar-btn-state">{{ isDarkTheme ? "On" : "Off" }}</span>
-                </button>
-
-                <button
-                    v-if="!isMemorisationToolbarVisible"
-                    type="button"
-                    class="quran-toolbar-btn"
-                    @click="toggleCustomPlaylistPanel"
-                    :aria-expanded="showCustomPlaylistPanel ? 'true' : 'false'"
-                    aria-label="Open custom playlist library">
-                    <i class="bi bi-music-note-list" aria-hidden="true"></i>
-                    <span class="quran-toolbar-btn-text">Playlist</span>
-                </button>
-
-                <!-- <button
-                    v-if="!isAdvancedSearchVisible && !isTabletOrMobile"
-                    type="button"
-                    class="quran-toolbar-btn quran-toolbar-btn-search-toggle quran-toolbar-btn-icon"
-                    @click="toggleAdvancedSearchVisibility"
-                    aria-label="Show search"
-                    title="Show search">
-                    <i class="fas fa-magnifying-glass quran-toolbar-search-icon" aria-hidden="true"></i>
-                </button> -->
-
-                <button
-                    v-if="!isTabletOrMobile"
-                    ref="readingFullscreenToggleButton"
-                    type="button"
-                    class="quran-toolbar-btn quran-toolbar-btn-fullscreen"
-                    :class="{ 'is-active': isReadingFullscreen }"
-                    @click="toggleReadingFullscreen"
-                    :aria-label="isReadingFullscreen
-                        ? 'Minimize / Exit Full Screen'
-                        : 'Enter full screen Quran reading mode'">
-                    <i class="bi"
-                        :class="isReadingFullscreen ? 'bi-fullscreen-exit' : 'bi-arrows-fullscreen'"
-                        aria-hidden="true"></i>
-                    <span class="quran-toolbar-btn-text">Full screen</span>
-                </button>
-
-                <button
-                    v-if="!isMemorisationToolbarVisible"
-                    type="button"
-                    class="quran-toolbar-btn quran-toolbar-btn-icon quran-toolbar-btn-font"
-                    @click.stop="openFontPicker"
-                    aria-label="Choose Quranic fonts">
-                    <i class="fas fa-font" aria-hidden="true"></i>
-                </button>
-                <button
-                    v-if="hasPinnedAyahs && isPinnedSectionHidden && !isMemorisationToolbarVisible"
-                    type="button"
-                    class="quran-toolbar-btn quran-toolbar-btn-icon quran-toolbar-btn-pinned-restore"
-                    @click="showPinnedSection"
-                    aria-label="Show pinned favourite ayat">
-                    <i class="bi bi-pin-angle-fill" aria-hidden="true"></i>
-                </button>
-
-                <button
-                    type="button"
-                    class="quran-toolbar-btn quran-toolbar-btn-info"
-                    @click="openSurahInfo(currentSurahInfo)"
-                    :disabled="!currentSurahInfo"
-                    aria-label="Open surah information">
-                    <i class="bi bi-info-circle-fill" aria-hidden="true"></i>
-                    <span class="quran-toolbar-btn-text">Surah info</span>
-                </button>
-
-                <button
-                    v-if="!isMemorisationToolbarVisible"
-                    type="button"
-                    class="quran-toolbar-btn quran-toolbar-btn-sm quran-toolbar-btn-download quran-toolbar-btn-download-size-only"
-                    :class="{ 'is-downloaded': isSurahAudioDownloaded }"
-                    @click.stop="downloadSurahAudio()"
-                    :disabled="isSurahAudioDownloading || !canDownloadSurahAudio()"
-                    :aria-label="!canDownloadSurahAudio()
-                        ? 'Full surah download unavailable for this reciter'
-                        : isSurahAudioDownloading
-                            ? 'Downloading full surah MP3'
-                            : isSurahAudioDownloaded
-                                ? 'Surah MP3 downloaded'
-                                : surahDownloadReadyAriaLabel">
-                    <i
-                        class="bi quran-toolbar-download-icon"
-                        :class="isSurahAudioDownloading
-                            ? 'bi-arrow-repeat ic-spin'
-                            : isSurahAudioDownloaded
-                                ? 'bi-check-circle-fill'
-                            : 'bi-cloud-arrow-down-fill'"
-                        aria-hidden="true"></i>
-                </button>
-
-                <button
-                    v-if="!isMemorisationToolbarVisible"
-                    type="button"
-                    class="quran-toolbar-btn quran-toolbar-btn-icon quran-toolbar-btn-onboarding"
-                    @click="openSuratOnboarding"
-                    aria-label="Open surat onboarding guide">
-                    <i class="fas fa-compass" aria-hidden="true"></i>
-                </button>
-
-                <button
-                    v-if="!isMemorisationToolbarVisible"
-                    type="button"
-                    class="quran-toolbar-btn quran-toolbar-btn-icon"
-                    @click="openGestureGuideModal"
-                    aria-label="Open swipe and tap gestures guide">
-                    <i class="bi bi-hand-index-thumb-fill" aria-hidden="true"></i>
-                </button>
-                
-                <button
-                    v-if="!isMemorisationToolbarVisible"
-                    type="button"
-                    class="quran-toolbar-btn quran-toolbar-btn-icon quran-toolbar-btn-settings"
-                    data-bs-toggle="modal"
-                    data-bs-target="#surahSettingsModal"
-                    @click="prepareSettingsDraft"
-                    aria-label="Open display settings">
-                    <i class="bi bi-gear-fill" aria-hidden="true"></i>
                 </button>
             </div>
             <div v-if="showCustomPlaylistPanel" class="reader-custom-playlist-panel">
@@ -4235,6 +3982,24 @@
                                     <button class="tab-btn flex-fill" 
                                         :class="{ active: activeSidebarTab === 'surah' }"
                                         @click="setActiveSidebarTab('surah')">Surah</button>
+                                    <button
+                                        v-if="isSidebarWideLayout"
+                                        type="button"
+                                        class="btn sidebar-info-button sidebar-theme-toggle ms-auto"
+                                        :class="{ 'is-active': isDarkTheme }"
+                                        :aria-pressed="isDarkTheme ? 'true' : 'false'"
+                                        :aria-label="isDarkTheme
+                                            ? 'Switch to light mode for the Surat page'
+                                            : 'Switch to dark mode for the Surat page'"
+                                        :title="isDarkTheme
+                                            ? 'Switch to light mode'
+                                            : 'Switch to dark mode'"
+                                        @click="toggleSuratTheme">
+                                        <i
+                                            class="bi"
+                                            :class="isDarkTheme ? 'bi-sun-fill' : 'bi-moon-stars-fill'"
+                                            aria-hidden="true"></i>
+                                    </button>
                                     <!-- <button class="tab-btn flex-fill" 
                                         :class="{ active: activeSidebarTab === 'verse' }"
                                         @click="setActiveSidebarTab('verse')">Verse</button>
@@ -4621,34 +4386,35 @@
                                         @click.stop="toggleAyahTafsir(item)"
                                         aria-label="Open Tafseer"
                                         title="Open Tafseer">
-                                        Tafseer
+                                        <i class="bi bi-journal-richtext" aria-hidden="true"></i>
+                                        <span>Tafseer</span>
                                     </button>
-                                <div class="form-check form-switch translation-toggle ayah-header-toggle ayah-translation-toggle">
-                                    <input class="form-check-input" type="checkbox"
-                                        :checked="isTranslationVisibleFor(item)"
-                                        :id="`surat-translation-toggle-${item.index}`"
-                                        :aria-label="isTranslationVisibleFor(item) ? 'Hide translation' : 'Show translation'"
-                                        @change="onTranslationToggle(item, $event)"
-                                        @click.stop>
-                                    <label class="form-check-label"
-                                        :for="`surat-translation-toggle-${item.index}`"
-                                        @click.stop>
-                                        Translation
-                                    </label>
-                                </div>
-                                <div class="form-check form-switch translation-toggle ayah-header-toggle ayah-transliteration-toggle">
-                                    <input class="form-check-input" type="checkbox"
-                                        :checked="isTransliterationVisibleFor(item)"
-                                        :id="`surat-transliteration-toggle-${item.index}`"
-                                        :aria-label="isTransliterationVisibleFor(item) ? 'Hide transliteration' : 'Show transliteration'"
-                                        @change="onTransliterationToggle(item, $event)"
-                                        @click.stop>
-                                    <label class="form-check-label"
-                                        :for="`surat-transliteration-toggle-${item.index}`"
-                                        @click.stop>
-                                        Transliteration
-                                    </label>
-                                </div>
+                                    <button
+                                        type="button"
+                                        class="icon-btn ayah-download-btn ayah-header-download-btn"
+                                        :class="{ 'is-downloaded': isAyahAudioDownloaded(item.ayah) }"
+                                        :disabled="!item.ayah?.audio || isAyahAudioDownloading(item.ayah)"
+                                        @click.stop="downloadAyahAudio(item.ayah)"
+                                        :aria-label="isAyahAudioDownloading(item.ayah)
+                                            ? 'Downloading ayah audio'
+                                            : isAyahAudioDownloaded(item.ayah)
+                                                ? 'Ayah audio downloaded'
+                                                : 'Download ayah audio'"
+                                        :title="isAyahAudioDownloading(item.ayah)
+                                            ? 'Downloading ayah audio'
+                                            : isAyahAudioDownloaded(item.ayah)
+                                                ? 'Ayah audio downloaded'
+                                                : 'Download ayah audio'">
+                                        <i
+                                            class="bi"
+                                            :class="isAyahAudioDownloading(item.ayah)
+                                                ? 'bi-arrow-repeat ic-spin'
+                                                : isAyahAudioDownloaded(item.ayah)
+                                                    ? 'bi-check-circle-fill'
+                                                    : 'bi-cloud-arrow-down-fill'"
+                                            aria-hidden="true"></i>
+                                        <span class="ayah-header-download-text">Download</span>
+                                    </button>
                                 </div>
                                 <div
                                     class="ayah-card-menu"
@@ -5787,6 +5553,38 @@
                                             <i class="bi bi-info-circle me-1" aria-hidden="true"></i>
                                             Open swipe/tap guide
                                         </button>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="surah-settings-group">
+                                        <label class="form-label">Reader tools</label>
+                                        <div class="surah-settings-actions">
+                                            <button
+                                                type="button"
+                                                class="btn surah-settings-action-btn"
+                                                @click="openFontPickerFromSettings"
+                                                aria-label="Open Quranic fonts settings">
+                                                <i class="fas fa-font" aria-hidden="true"></i>
+                                                <span>Quranic fonts</span>
+                                            </button>
+                                            <button
+                                                type="button"
+                                                class="btn surah-settings-action-btn"
+                                                :class="{ 'is-active': isReadingFullscreen }"
+                                                @click="toggleReadingFullscreenFromSettings"
+                                                :aria-label="isReadingFullscreen
+                                                    ? 'Exit fullscreen reading mode'
+                                                    : 'Enter fullscreen reading mode'">
+                                                <i
+                                                    class="bi"
+                                                    :class="isReadingFullscreen ? 'bi-fullscreen-exit' : 'bi-arrows-fullscreen'"
+                                                    aria-hidden="true"></i>
+                                                <span>{{ isReadingFullscreen ? 'Exit fullscreen' : 'Enter fullscreen' }}</span>
+                                            </button>
+                                        </div>
+                                        <small class="text-muted d-block mt-2">
+                                            Open font controls or switch into fullscreen reading mode from here.
+                                        </small>
                                     </div>
                                 </div>
                             </div>
