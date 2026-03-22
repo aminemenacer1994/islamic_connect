@@ -22,6 +22,11 @@ export default {
       this.darkModeState.setDarkMode(this.isDarkMode);
     },
   },
+  watch: {
+    'darkModeState.isDarkMode'(nextValue) {
+      this.isDarkMode = !!nextValue;
+    },
+  },
 };
 </script>
 

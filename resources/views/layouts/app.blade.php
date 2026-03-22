@@ -6,6 +6,7 @@
     @php
         $appUrl = rtrim(config('app.url') ?? url('/'), '/');
         $path = trim(request()->path(), '/');
+        $isSuratRoute = request()->is('surat*');
         $defaultCanonical = $appUrl . ($path ? "/{$path}" : '');
         $canonicalUrl = trim($__env->yieldContent('canonical', $defaultCanonical));
         $metaTitle = trim($__env->yieldContent('meta_title', 'Islamic Connect, Accessible Quran & Community Tools'));
@@ -114,16 +115,29 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     </noscript>
     <!-- Google Analytics -->
-    <!-- <script>
-        // Immediately check localStorage and apply dark mode if needed
+    <script>
         (function() {
-            if (localStorage.getItem('darkMode') === 'true' || 
-                (!localStorage.getItem('darkMode') && 
-                window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-                document.documentElement.classList.add('dark-mode');
-            }
+            try {
+                var isSuratRoute = {{ $isSuratRoute ? 'true' : 'false' }};
+                var storedSuratTheme = isSuratRoute ? localStorage.getItem('suratThemeMode') : null;
+                var storedDarkMode = localStorage.getItem('darkMode');
+                var prefersDark =
+                    !storedDarkMode &&
+                    typeof window.matchMedia === 'function' &&
+                    window.matchMedia('(prefers-color-scheme: dark)').matches;
+                var isDark = storedSuratTheme
+                    ? storedSuratTheme === 'dark'
+                    : storedDarkMode === 'true' || prefersDark;
+                var theme = isDark ? 'dark' : 'light';
+                var root = document.documentElement;
+
+                root.classList.toggle('dark-mode', isDark);
+                root.setAttribute('data-bs-theme', theme);
+                root.setAttribute('data-theme', theme);
+                root.style.colorScheme = theme;
+            } catch (e) {}
         })();
-    </script> -->
+    </script>
     <script>
         (function() {
             try {
@@ -653,8 +667,26 @@
 
 </head>
 
-@php($isSuratRoute = request()->is('surat*'))
 <body @class(['surat-route-page' => $isSuratRoute])>
+    <script>
+        (function() {
+            try {
+                var isSuratRoute = {{ $isSuratRoute ? 'true' : 'false' }};
+                var root = document.documentElement;
+                var body = document.body;
+                var theme = root.getAttribute('data-bs-theme') || 'light';
+                var suratTheme = isSuratRoute ? localStorage.getItem('suratThemeMode') : null;
+                var isDark = theme === 'dark';
+                var isSuratDark = suratTheme === 'dark' || (isSuratRoute && !suratTheme && isDark);
+
+                body.classList.toggle('dark-mode', isDark);
+                body.classList.toggle('surat-page-shell-dark', isSuratDark);
+                body.setAttribute('data-bs-theme', theme);
+                body.setAttribute('data-theme', theme);
+                body.style.colorScheme = theme;
+            } catch (e) {}
+        })();
+    </script>
     <a class="skip-link" href="#main-content">Skip to main content</a>
     <div>
         <!-- Navbar -->

@@ -43,6 +43,53 @@ import { StripePlugin } from 'vue-stripe-elements-plus';
 import { ref, onMounted } from 'vue';
 // Removed session milestone tracking
 
+const DARK_MODE_STORAGE_KEY = 'darkMode';
+
+const prefersDarkColorScheme = () => {
+  if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') {
+    return false;
+  }
+  return window.matchMedia('(prefers-color-scheme: dark)').matches;
+};
+
+const resolveInitialDarkMode = () => {
+  if (typeof window === 'undefined') {
+    return false;
+  }
+  try {
+    const storedMode = window.localStorage.getItem(DARK_MODE_STORAGE_KEY);
+    if (storedMode === null) {
+      return prefersDarkColorScheme();
+    }
+    return storedMode === 'true';
+  } catch (_) {
+    return prefersDarkColorScheme();
+  }
+};
+
+const applyGlobalThemePreference = (isDarkMode) => {
+  if (typeof document === 'undefined') {
+    return;
+  }
+  const theme = isDarkMode ? 'dark' : 'light';
+  const root = document.documentElement;
+  const body = document.body;
+
+  if (root) {
+    root.classList.toggle('dark-mode', !!isDarkMode);
+    root.setAttribute('data-bs-theme', theme);
+    root.setAttribute('data-theme', theme);
+    root.style.colorScheme = theme;
+  }
+
+  if (body) {
+    body.classList.toggle('dark-mode', !!isDarkMode);
+    body.setAttribute('data-bs-theme', theme);
+    body.setAttribute('data-theme', theme);
+    body.style.colorScheme = theme;
+  }
+};
+
 const app = createApp({
   components: { SubscriptionForm },
   setup() {
@@ -55,23 +102,25 @@ const app = createApp({
   data() {
     return {
       darkModeState: {
-        isDarkMode: false,
+        isDarkMode: resolveInitialDarkMode(),
         setDarkMode: this.setDarkMode, // Method to update dark mode state
       },
     };
   },
   created() {
-    // Load dark mode preference from localStorage on app creation
-    const savedMode = localStorage.getItem('darkMode');
-    if (savedMode !== null) {
-      this.darkModeState.isDarkMode = savedMode === 'true';
-    }
+    applyGlobalThemePreference(this.darkModeState.isDarkMode);
+  },
+  mounted() {
+    applyGlobalThemePreference(this.darkModeState.isDarkMode);
   },
   methods: {
     setDarkMode(isDarkMode) {
-      this.darkModeState.isDarkMode = isDarkMode;
-      // Save the preference to localStorage
-      localStorage.setItem('darkMode', isDarkMode);
+      const nextValue = !!isDarkMode;
+      this.darkModeState.isDarkMode = nextValue;
+      applyGlobalThemePreference(nextValue);
+      try {
+        window.localStorage.setItem(DARK_MODE_STORAGE_KEY, String(nextValue));
+      } catch (_) {}
     },
     // Removed startSessionMilestones method
   },

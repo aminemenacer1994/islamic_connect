@@ -34,7 +34,25 @@ export default {
             isDarkTheme: (() => {
                 if (typeof window === "undefined") return false;
                 try {
-                    return localStorage.getItem("suratThemeMode") === "dark";
+                    const storedSuratTheme = localStorage.getItem("suratThemeMode");
+                    if (storedSuratTheme === "dark") return true;
+                    if (storedSuratTheme === "light") return false;
+
+                    const storedDarkMode = localStorage.getItem("darkMode");
+                    if (
+                        storedDarkMode === null ||
+                        storedDarkMode === undefined ||
+                        storedDarkMode === ""
+                    ) {
+                        return (
+                            typeof window.matchMedia === "function" &&
+                            window.matchMedia("(prefers-color-scheme: dark)").matches
+                        );
+                    }
+
+                    return (
+                        String(storedDarkMode).trim().toLowerCase() === "true"
+                    );
                 } catch (_) {
                     return false;
                 }
@@ -722,6 +740,7 @@ export default {
             listTop: 0,
             lastToolbarPinMeasureAt: 0,
             _heightMeasureRaf: null,
+            _layoutRefreshRaf: null,
             _virtualWindowRaf: null,
             itemHeightCalibrated: false,
             lastItemHeightCalibrationAt: 0,
@@ -4959,9 +4978,7 @@ export default {
             if (!next && this.isToolbarPinned) {
                 this.isToolbarPinned = false;
             }
-            this.$nextTick(() => {
-                this.updateToolbarPinState();
-            });
+            this.scheduleLayoutRefresh({ recalibrate: false });
         },
         showReaderToolbar(next) {
             try {
@@ -4974,9 +4991,7 @@ export default {
                 this.isToolbarPinned = false;
                 this.isMobileToolbarExpanded = false;
             }
-            this.$nextTick(() => {
-                this.computeListTop();
-            });
+            this.scheduleLayoutRefresh({ recalibrate: false });
         },
         showRealtimeHighlighting(next) {
             try {
@@ -5127,6 +5142,7 @@ export default {
             window.scrollTo({ top: 0, behavior: "auto" });
         }
         this.syncSuratThemeBodyClass();
+        this.syncDocumentThemePreference(this.isDarkTheme);
         window.addEventListener("keydown", this.onKeydown);
         this._keydownHandler = (e) => {
             if (!this.bottomAudioPlayerEnabled || !this.showAudioPlayer) return;
@@ -5514,6 +5530,7 @@ export default {
             this.clearSuratThemeSwitchTimer();
             this.syncSuratThemeSwitchingBodyClass(false);
             this.syncSuratThemeBodyClass(false);
+            this.restoreAppThemePreference();
             this.syncReadingFullscreenBodyClass(false);
             this.exitReadingFullscreen({
                 restoreFocus: false,
@@ -5818,6 +5835,8 @@ export default {
             this.stopHighlightLoop();
             this.clearSuratThemeSwitchTimer();
             this.syncSuratThemeSwitchingBodyClass(false);
+            this.syncSuratThemeBodyClass(false);
+            this.restoreAppThemePreference();
             this.syncReadingFullscreenBodyClass(false);
             this.exitReadingFullscreen({
                 restoreFocus: false,
@@ -5964,6 +5983,10 @@ export default {
                 window.cancelAnimationFrame(this.sidebarListScrollRaf);
                 this.sidebarListScrollRaf = null;
             }
+            if (this._layoutRefreshRaf && typeof window !== "undefined") {
+                window.cancelAnimationFrame(this._layoutRefreshRaf);
+                this._layoutRefreshRaf = null;
+            }
             if (this._virtualWindowRaf && typeof window !== "undefined") {
                 window.cancelAnimationFrame(this._virtualWindowRaf);
                 this._virtualWindowRaf = null;
@@ -6087,6 +6110,50 @@ export default {
                 !!enabled
             );
         },
+        resolveStoredAppDarkModePreference() {
+            if (typeof window === "undefined") return false;
+            try {
+                const storedMode = window.localStorage.getItem("darkMode");
+                if (
+                    storedMode === null ||
+                    storedMode === undefined ||
+                    storedMode === ""
+                ) {
+                    return (
+                        typeof window.matchMedia === "function" &&
+                        window.matchMedia("(prefers-color-scheme: dark)").matches
+                    );
+                }
+                return String(storedMode).trim().toLowerCase() === "true";
+            } catch (_) {
+                return false;
+            }
+        },
+        syncDocumentThemePreference(enabled = false) {
+            if (typeof document === "undefined") return;
+            const theme = enabled ? "dark" : "light";
+            const root = document.documentElement;
+            const body = document.body;
+
+            if (root) {
+                root.classList.toggle("dark-mode", !!enabled);
+                root.setAttribute("data-bs-theme", theme);
+                root.setAttribute("data-theme", theme);
+                root.style.colorScheme = theme;
+            }
+
+            if (body) {
+                body.classList.toggle("dark-mode", !!enabled);
+                body.setAttribute("data-bs-theme", theme);
+                body.setAttribute("data-theme", theme);
+                body.style.colorScheme = theme;
+            }
+        },
+        restoreAppThemePreference() {
+            this.syncDocumentThemePreference(
+                this.resolveStoredAppDarkModePreference()
+            );
+        },
         syncSuratThemeBodyClass(enabled = this.isDarkTheme) {
             if (typeof document === "undefined") return;
             const body = document.body;
@@ -6130,6 +6197,7 @@ export default {
                 this.isDarkTheme ? "dark" : "light"
             );
             this.syncSuratThemeBodyClass();
+            this.syncDocumentThemePreference(this.isDarkTheme);
             return this.isDarkTheme;
         },
         setSuratTheme(enabled) {
@@ -6145,8 +6213,12 @@ export default {
                 this.isDarkTheme ? "dark" : "light"
             );
             this.syncSuratThemeBodyClass();
+            this.syncDocumentThemePreference(this.isDarkTheme);
             this.$nextTick(() => {
-                this.computeListTop();
+                this.scheduleLayoutRefresh({
+                    recalibrate: true,
+                    forceCalibration: true,
+                });
                 this.suratThemeSwitchTimer = setTimeout(() => {
                     this.setSuratThemeSwitching(false);
                     this.suratThemeSwitchTimer = null;
@@ -20895,6 +20967,42 @@ export default {
             }
             this.updateToolbarPinState();
         },
+        scheduleLayoutRefresh(options = {}) {
+            const {
+                recalibrate = true,
+                forceCalibration = false,
+            } = options || {};
+
+            const runRefresh = () => {
+                if (
+                    typeof window !== "undefined" &&
+                    typeof window.requestAnimationFrame === "function"
+                ) {
+                    if (this._layoutRefreshRaf) {
+                        window.cancelAnimationFrame(this._layoutRefreshRaf);
+                    }
+                    this._layoutRefreshRaf = window.requestAnimationFrame(() => {
+                        this._layoutRefreshRaf = null;
+                        this.computeListTop();
+                        this.updateVirtualWindow();
+                        if (recalibrate) {
+                            this.itemHeightCalibrated = false;
+                            this.scheduleHeightCalibration(forceCalibration);
+                        }
+                    });
+                    return;
+                }
+
+                this.computeListTop();
+                this.updateVirtualWindow();
+                if (recalibrate) {
+                    this.itemHeightCalibrated = false;
+                    this.scheduleHeightCalibration(forceCalibration);
+                }
+            };
+
+            this.$nextTick(runRefresh);
+        },
         getToolbarPinTriggerOffset() {
             if (typeof window === "undefined" || typeof document === "undefined") {
                 return 82;
@@ -24869,6 +24977,7 @@ export default {
         },
         toggleMobileToolbarExpanded() {
             this.isMobileToolbarExpanded = !this.isMobileToolbarExpanded;
+            this.scheduleLayoutRefresh({ recalibrate: false });
             this.announce(
                 this.isMobileToolbarExpanded
                     ? "Expanded mobile toolbar controls."
@@ -24954,8 +25063,10 @@ export default {
                 this.deepFocusModePreferenceBaseKey,
                 this.isDeepFocusMode
             );
-            this.itemHeightCalibrated = false;
-            this.$nextTick(() => this.scheduleHeightCalibration(true));
+            this.scheduleLayoutRefresh({
+                recalibrate: true,
+                forceCalibration: true,
+            });
 
             if (announce) {
                 this.announce(

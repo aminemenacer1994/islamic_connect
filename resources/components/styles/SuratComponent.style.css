@@ -12334,32 +12334,20 @@ h1.display-5 {
 }
 
 .translation-compare-highlight {
-    background: linear-gradient(
-        180deg,
-        rgba(15, 118, 110, 0.24) 0%,
-        rgba(15, 118, 110, 0.36) 100%
-    );
+    background: rgba(87, 170, 161, 0.28);
     color: #0b3f37;
-    border-radius: 4px;
+    border-radius: 0.32rem;
     padding: 0 0.13em;
     font-weight: 800;
 }
 
 .translation-compare-highlight-a {
-    background: linear-gradient(
-        180deg,
-        rgba(29, 78, 216, 0.2) 0%,
-        rgba(29, 78, 216, 0.32) 100%
-    );
+    background: rgba(96, 165, 250, 0.24);
     color: #1e3a8a;
 }
 
 .translation-compare-highlight-b {
-    background: linear-gradient(
-        180deg,
-        rgba(4, 120, 87, 0.2) 0%,
-        rgba(4, 120, 87, 0.34) 100%
-    );
+    background: rgba(74, 222, 128, 0.24);
     color: #065f46;
 }
 
@@ -35282,7 +35270,6 @@ h1.display-5 {
 :global(body.surat-page-shell-dark .offcanvas .offcanvas-body .surah-offcanvas-section) {
     background: transparent !important;
     background-image: none !important;
-    border-color: var(--surat-modal-border) !important;
     box-shadow: none !important;
 }
 
@@ -37145,19 +37132,13 @@ h1.display-5 {
 .surat-dark-modal.translation-compare-modal .translation-compare-arabic-panel,
 .surat-dark-modal.translation-compare-modal .translation-compare-card {
     background: rgba(255, 255, 255, 0.02) !important;
-    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    border: none !important;
     box-shadow: none !important;
     border-radius: 18px !important;
 }
 
 .surat-dark-modal.translation-compare-modal .translation-compare-grid.has-two-columns::before {
-    background: linear-gradient(
-        180deg,
-        rgba(255, 255, 255, 0) 0%,
-        rgba(255, 255, 255, 0.12) 18%,
-        rgba(255, 255, 255, 0.12) 82%,
-        rgba(255, 255, 255, 0) 100%
-    ) !important;
+    background: none !important;
 }
 
 .surat-dark-modal.translation-compare-modal .translation-compare-field,
@@ -37183,7 +37164,8 @@ h1.display-5 {
 }
 
 .surat-dark-modal.translation-compare-modal .translation-compare-card-head {
-    border-bottom-color: rgba(255, 255, 255, 0.1) !important;
+    border-bottom-color: transparent !important;
+    padding-bottom: 0.24rem !important;
 }
 
 .surat-dark-modal.translation-compare-modal .translation-compare-card-subtitle {
@@ -37191,10 +37173,10 @@ h1.display-5 {
     width: fit-content !important;
     margin-top: 0.34rem !important;
     padding: 0.18rem 0.48rem !important;
-    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    border: none !important;
     border-radius: 999px !important;
-    background: transparent !important;
-    color: rgba(255, 255, 255, 0.72) !important;
+    background: rgba(255, 255, 255, 0.06) !important;
+    color: rgba(255, 255, 255, 0.8) !important;
     font-weight: 700 !important;
     text-shadow: none !important;
     box-shadow: none !important;
@@ -37248,8 +37230,21 @@ h1.display-5 {
 .surat-dark-modal.translation-compare-modal .translation-compare-highlight,
 .surat-dark-modal.translation-compare-modal .translation-compare-highlight-a,
 .surat-dark-modal.translation-compare-modal .translation-compare-highlight-b {
-    background: rgba(255, 255, 255, 0.14) !important;
+    border-radius: 0.32rem !important;
+    box-shadow: none !important;
     color: #fff !important;
+}
+
+.surat-dark-modal.translation-compare-modal .translation-compare-highlight {
+    background: rgba(87, 170, 161, 0.38) !important;
+}
+
+.surat-dark-modal.translation-compare-modal .translation-compare-highlight-a {
+    background: rgba(96, 165, 250, 0.34) !important;
+}
+
+.surat-dark-modal.translation-compare-modal .translation-compare-highlight-b {
+    background: rgba(74, 222, 128, 0.34) !important;
 }
 
 .surat-premium.surat-theme-dark .ayah-card-footer {
@@ -37463,9 +37458,10 @@ h1.display-5 {
 .surat-premium.surat-theme-dark .memorisation-inline-action.is-enabled,
 .surat-premium.surat-theme-dark .memorisation-step-pill.is-active,
 .surat-premium.surat-theme-dark .ayah-footer-action.is-active {
-    background: var(--surat-flat-accent-soft) !important;
-    border-color: rgba(87, 170, 161, 0.38) !important;
+    background: rgba(87, 170, 161, 0.22) !important;
+    border-color: rgba(116, 198, 188, 0.42) !important;
     color: #fff !important;
+    box-shadow: inset 0 0 0 1px rgba(116, 198, 188, 0.08) !important;
 }
 
 .surat-premium.surat-theme-dark .ayah-header-toggle .form-check-input:checked {
@@ -37584,7 +37580,7 @@ h1.display-5 {
     max-width: 100%;
     padding: 0.18rem 0.56rem;
     border-radius: 999px;
-    border: 1px solid rgba(11, 61, 46, 0.14);
+    border: none;
     background: rgba(11, 61, 46, 0.04);
     white-space: normal;
     word-break: break-word;
@@ -37592,8 +37588,8 @@ h1.display-5 {
 }
 
 .surat-dark-modal.translation-compare-modal .translation-compare-card-subtitle {
-    background: rgba(255, 255, 255, 0.04) !important;
-    border-color: rgba(255, 255, 255, 0.12) !important;
+    background: rgba(255, 255, 255, 0.06) !important;
+    border-color: transparent !important;
     color: rgba(255, 255, 255, 0.82) !important;
 }
 
@@ -37977,4 +37973,216 @@ h1.display-5 {
 .surat-premium.surat-theme-dark :deep(.tajweed-f),
 .surat-premium.surat-theme-dark :deep(.tajweed-w) {
     color: #5eead4 !important;
+}
+
+/* Final compare-modal and toggle polish */
+.translation-compare-highlight {
+    background: rgba(87, 170, 161, 0.28) !important;
+    color: #0b3f37 !important;
+    border-radius: 0.32rem !important;
+    box-shadow: none !important;
+}
+
+.translation-compare-highlight-a {
+    background: rgba(96, 165, 250, 0.24) !important;
+    color: #1e3a8a !important;
+}
+
+.translation-compare-highlight-b {
+    background: rgba(74, 222, 128, 0.24) !important;
+    color: #065f46 !important;
+}
+
+.translation-compare-card-subtitle {
+    border: none !important;
+    box-shadow: none !important;
+}
+
+.surat-dark-modal.translation-compare-modal .translation-compare-controls,
+.surat-dark-modal.translation-compare-modal .translation-compare-pagination-wrap,
+.surat-dark-modal.translation-compare-modal .translation-compare-arabic-panel,
+.surat-dark-modal.translation-compare-modal .translation-compare-card {
+    border: none !important;
+    box-shadow: none !important;
+}
+
+.surat-dark-modal.translation-compare-modal .translation-compare-grid.has-two-columns::before {
+    background: none !important;
+}
+
+.surat-dark-modal.translation-compare-modal .translation-compare-card-head {
+    border-bottom-color: transparent !important;
+    padding-bottom: 0.24rem !important;
+}
+
+.surat-dark-modal.translation-compare-modal .translation-compare-card-subtitle {
+    background: rgba(255, 255, 255, 0.06) !important;
+    border: none !important;
+    color: rgba(255, 255, 255, 0.82) !important;
+}
+
+.surat-dark-modal.translation-compare-modal .translation-compare-highlight {
+    background: rgba(87, 170, 161, 0.38) !important;
+    color: #f8fffd !important;
+}
+
+.surat-dark-modal.translation-compare-modal .translation-compare-highlight-a {
+    background: rgba(96, 165, 250, 0.34) !important;
+    color: #f8fbff !important;
+}
+
+.surat-dark-modal.translation-compare-modal .translation-compare-highlight-b {
+    background: rgba(74, 222, 128, 0.34) !important;
+    color: #f8fff9 !important;
+}
+
+.surat-premium.surat-theme-dark .quran-toolbar-btn-toggle.is-enabled,
+.surat-premium.surat-theme-dark .quran-toolbar-btn.is-active,
+.surat-premium.surat-theme-dark .quran-toolbar-btn-deep-focus.is-active,
+.surat-premium.surat-theme-dark .advanced-quran-mobile-action-btn.is-enabled:not(.advanced-quran-mobile-action-btn-memorisation):not(.advanced-quran-mobile-action-btn-open-tools),
+.surat-premium.surat-theme-dark .advanced-quran-mobile-icon-btn.is-active {
+    background: rgba(87, 170, 161, 0.22) !important;
+    border-color: rgba(116, 198, 188, 0.42) !important;
+    color: #fff !important;
+    box-shadow: inset 0 0 0 1px rgba(116, 198, 188, 0.08) !important;
+}
+
+.surat-premium.surat-theme-dark .quran-toolbar-btn-toggle.is-enabled i,
+.surat-premium.surat-theme-dark .quran-toolbar-btn-toggle.is-enabled .quran-toolbar-btn-text,
+.surat-premium.surat-theme-dark .advanced-quran-mobile-action-btn.is-enabled:not(.advanced-quran-mobile-action-btn-memorisation):not(.advanced-quran-mobile-action-btn-open-tools) i,
+.surat-premium.surat-theme-dark .advanced-quran-mobile-action-btn.is-enabled:not(.advanced-quran-mobile-action-btn-memorisation):not(.advanced-quran-mobile-action-btn-open-tools) .advanced-quran-mobile-action-label {
+    color: #fff !important;
+}
+
+.surat-premium.surat-theme-dark .quran-toolbar-btn-toggle.is-enabled .quran-toolbar-btn-state,
+.surat-premium.surat-theme-dark .quran-toolbar-btn.is-active .quran-toolbar-btn-state,
+.surat-premium.surat-theme-dark .quran-toolbar-btn-deep-focus.is-active .quran-toolbar-btn-state,
+.surat-premium.surat-theme-dark .advanced-quran-mobile-action-btn.is-enabled:not(.advanced-quran-mobile-action-btn-memorisation):not(.advanced-quran-mobile-action-btn-open-tools) .advanced-quran-mobile-action-btn-state {
+    background: var(--surat-flat-accent-strong, #74c6bc) !important;
+    border-color: transparent !important;
+    color: #132725 !important;
+}
+
+/* Final compare chips, highlights, and toggle states */
+.surat-premium .translation-compare-card-subtitle,
+.surat-dark-modal.translation-compare-modal .translation-compare-card-subtitle {
+    padding: 0 !important;
+    border: none !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
+.surat-premium .translation-compare-card-head,
+.surat-dark-modal.translation-compare-modal .translation-compare-card-head {
+    border-bottom: none !important;
+    padding-bottom: 0 !important;
+}
+
+.surat-premium .translation-compare-controls,
+.surat-premium .translation-compare-pagination-wrap,
+.surat-premium .translation-compare-arabic-panel,
+.surat-premium .translation-compare-card,
+.surat-dark-modal.translation-compare-modal,
+.surat-dark-modal.translation-compare-modal .modal-header,
+.surat-dark-modal.translation-compare-modal .modal-footer,
+.surat-dark-modal.translation-compare-modal .translation-compare-controls,
+.surat-dark-modal.translation-compare-modal .translation-compare-pagination-wrap,
+.surat-dark-modal.translation-compare-modal .translation-compare-arabic-panel,
+.surat-dark-modal.translation-compare-modal .translation-compare-card {
+    border-color: transparent !important;
+    box-shadow: none !important;
+}
+
+.surat-premium .translation-compare-grid.has-two-columns::before,
+.surat-dark-modal.translation-compare-modal .translation-compare-grid.has-two-columns::before {
+    background: none !important;
+}
+
+.surat-premium :deep(.advanced-search-highlight),
+.surat-premium .highlight-search,
+.surat-premium .translation-compare-highlight,
+.surat-premium .translation-compare-highlight-a,
+.surat-premium .translation-compare-highlight-b,
+.surat-dark-modal.translation-compare-modal .translation-compare-highlight,
+.surat-dark-modal.translation-compare-modal .translation-compare-highlight-a,
+.surat-dark-modal.translation-compare-modal .translation-compare-highlight-b {
+    border-radius: 0.32rem !important;
+    box-shadow: none !important;
+    padding: 0 0.14em !important;
+}
+
+.surat-premium :deep(.advanced-search-highlight),
+.surat-premium .highlight-search,
+.surat-premium .translation-compare-highlight {
+    background: rgba(87, 170, 161, 0.28) !important;
+    color: #0b3f37 !important;
+}
+
+.surat-premium .translation-compare-highlight-a {
+    background: rgba(96, 165, 250, 0.24) !important;
+    color: #1e3a8a !important;
+}
+
+.surat-premium .translation-compare-highlight-b {
+    background: rgba(74, 222, 128, 0.24) !important;
+    color: #065f46 !important;
+}
+
+.surat-dark-modal.translation-compare-modal .translation-compare-highlight,
+.surat-premium.surat-theme-dark :deep(.advanced-search-highlight),
+.surat-premium.surat-theme-dark .highlight-search {
+    background: rgba(87, 170, 161, 0.38) !important;
+    color: #f8fffd !important;
+}
+
+.surat-dark-modal.translation-compare-modal .translation-compare-highlight-a {
+    background: rgba(96, 165, 250, 0.34) !important;
+    color: #f8fbff !important;
+}
+
+.surat-dark-modal.translation-compare-modal .translation-compare-highlight-b {
+    background: rgba(74, 222, 128, 0.34) !important;
+    color: #f8fff9 !important;
+}
+
+.surat-premium .quran-toolbar-btn-toggle.is-enabled,
+.surat-premium .advanced-quran-mobile-action-btn.is-enabled:not(.advanced-quran-mobile-action-btn-memorisation):not(.advanced-quran-mobile-action-btn-open-tools),
+.surat-premium .translation-compare-tool-btn.is-enabled {
+    background: rgba(87, 170, 161, 0.14) !important;
+    border-color: rgba(87, 170, 161, 0.34) !important;
+    color: #0f5f56 !important;
+    box-shadow: none !important;
+}
+
+.surat-premium .quran-toolbar-btn-toggle.is-enabled i,
+.surat-premium .quran-toolbar-btn-toggle.is-enabled .quran-toolbar-btn-text,
+.surat-premium .advanced-quran-mobile-action-btn.is-enabled:not(.advanced-quran-mobile-action-btn-memorisation):not(.advanced-quran-mobile-action-btn-open-tools) i,
+.surat-premium .advanced-quran-mobile-action-btn.is-enabled:not(.advanced-quran-mobile-action-btn-memorisation):not(.advanced-quran-mobile-action-btn-open-tools) .advanced-quran-mobile-action-label,
+.surat-premium .translation-compare-tool-btn.is-enabled {
+    color: inherit !important;
+}
+
+.surat-premium .quran-toolbar-btn-toggle.is-enabled .quran-toolbar-btn-state,
+.surat-premium .advanced-quran-mobile-action-btn.is-enabled:not(.advanced-quran-mobile-action-btn-memorisation):not(.advanced-quran-mobile-action-btn-open-tools) .advanced-quran-mobile-action-btn-state {
+    background: rgba(87, 170, 161, 0.22) !important;
+    border-color: rgba(87, 170, 161, 0.26) !important;
+    color: #0f5f56 !important;
+}
+
+.surat-premium.surat-theme-dark .quran-toolbar-btn-toggle.is-enabled,
+.surat-premium.surat-theme-dark .advanced-quran-mobile-action-btn.is-enabled:not(.advanced-quran-mobile-action-btn-memorisation):not(.advanced-quran-mobile-action-btn-open-tools),
+.surat-premium.surat-theme-dark .translation-compare-tool-btn.is-enabled {
+    background: rgba(87, 170, 161, 0.22) !important;
+    border-color: rgba(116, 198, 188, 0.42) !important;
+    color: #fff !important;
+    box-shadow: inset 0 0 0 1px rgba(116, 198, 188, 0.08) !important;
+}
+
+.surat-premium.surat-theme-dark .quran-toolbar-btn-toggle.is-enabled .quran-toolbar-btn-state,
+.surat-premium.surat-theme-dark .advanced-quran-mobile-action-btn.is-enabled:not(.advanced-quran-mobile-action-btn-memorisation):not(.advanced-quran-mobile-action-btn-open-tools) .advanced-quran-mobile-action-btn-state,
+.surat-premium.surat-theme-dark .translation-compare-tool-btn.is-enabled {
+    background: var(--surat-flat-accent-strong, #74c6bc) !important;
+    border-color: transparent !important;
+    color: #132725 !important;
 }

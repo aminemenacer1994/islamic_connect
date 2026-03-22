@@ -25,6 +25,11 @@ __webpack_require__.r(__webpack_exports__);
       // Update the global dark mode state
       this.darkModeState.setDarkMode(this.isDarkMode);
     }
+  },
+  watch: {
+    'darkModeState.isDarkMode'(nextValue) {
+      this.isDarkMode = !!nextValue;
+    }
   }
 });
 
