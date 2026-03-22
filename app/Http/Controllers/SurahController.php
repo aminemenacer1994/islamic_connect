@@ -91,11 +91,24 @@ class SurahController extends Controller
     public function getTafseers(Request $request, $id)
     {
         $detailed = $request->boolean('detailed', false);
+        $language = strtolower(trim((string) $request->query('lang', '')));
+        $requestedTafsirKey = trim((string) $request->query('tafsir_key', ''));
         [$surahNumber, $ayahNumber] = $this->resolveAyahCoordinates((string) $id);
         $reference = $this->buildReferenceLabel((string) $id, $surahNumber, $ayahNumber);
 
-        $payload = $this->fetchPublicScholarlyTafsir($surahNumber, $ayahNumber, $reference);
-        if (!$payload) {
+        $payload = null;
+        if ($language === 'en' || $requestedTafsirKey !== '') {
+            $payload = $this->fetchTafsirFromQuranEnc(
+                $surahNumber,
+                $ayahNumber,
+                $reference,
+                $requestedTafsirKey !== '' ? $requestedTafsirKey : null
+            );
+        } else {
+            $payload = $this->fetchPublicScholarlyTafsir($surahNumber, $ayahNumber, $reference);
+        }
+
+        if (!$payload && $language !== 'en' && $requestedTafsirKey === '') {
             $payload = $this->fetchLocalTafsirFallback((string) $id, $reference);
         }
 
@@ -246,10 +259,19 @@ class SurahController extends Controller
         ];
     }
 
-    protected function fetchTafsirFromQuranEnc(int $surahNumber, int $ayahNumber, string $reference): ?array
+    protected function fetchTafsirFromQuranEnc(
+        int $surahNumber,
+        int $ayahNumber,
+        string $reference,
+        ?string $requestedTafsirKey = null
+    ): ?array
     {
         $baseUrl = rtrim((string) config('services.quranenc.base', 'https://quranenc.com/api/v1'), '/');
-        $tafsirKey = trim((string) config('services.quranenc.tafsir_key', 'english_mokhtasar'));
+        $tafsirKey = trim((string) (
+            $requestedTafsirKey !== null && $requestedTafsirKey !== ''
+                ? $requestedTafsirKey
+                : config('services.quranenc.tafsir_key', 'english_mokhtasar')
+        ));
 
         if ($baseUrl === '' || $tafsirKey === '') {
             return null;
@@ -292,6 +314,7 @@ class SurahController extends Controller
                 'reference' => $reference,
                 'provider' => 'public_scholarly_tafsir',
                 'resource' => $tafsirKey,
+                'language' => 'en',
             ];
         } catch (\Throwable $exception) {
             Log::warning('QuranEnc tafsir fetch failed', [

@@ -4403,16 +4403,82 @@
                             </div>
                             <div class="ayah-card-header-toolbar">
                                 <div class="ayah-card-header-primary">
-                                    <button
-                                        type="button"
-                                        class="btn ayah-tafseer-trigger"
-                                        :class="{ 'is-active': isTafsirModalOpenFor(item) }"
-                                        @click.stop="toggleAyahTafsir(item)"
-                                        aria-label="Open Tafseer"
-                                        title="Open Tafseer">
-                                        <i class="bi bi-journal-richtext" aria-hidden="true"></i>
-                                        <span>Tafseer</span>
-                                    </button>
+                                    <div
+                                        class="ayah-tafseer-dropdown"
+                                        @click.stop
+                                        @keydown.esc.stop.prevent="closeTafsirDropdown">
+                                        <button
+                                            type="button"
+                                            class="btn ayah-tafseer-trigger"
+                                            :class="{
+                                                'is-active': isTafsirDropdownOpenFor(item) || isTafsirModalOpenFor(item)
+                                            }"
+                                            @click="toggleAyahTafsir(item)"
+                                            :aria-expanded="isTafsirDropdownOpenFor(item) ? 'true' : 'false'"
+                                            aria-haspopup="menu"
+                                            aria-label="Choose Tafseer"
+                                            title="Choose Tafseer">
+                                            <i class="bi bi-journal-richtext" aria-hidden="true"></i>
+                                            <span>Tafseer</span>
+                                            <i
+                                                class="bi ayah-tafseer-trigger-chevron"
+                                                :class="isTafsirDropdownOpenFor(item) ? 'bi-chevron-up' : 'bi-chevron-down'"
+                                                aria-hidden="true"></i>
+                                        </button>
+                                        <div
+                                            v-if="isTafsirDropdownOpenFor(item)"
+                                            class="ayah-tafseer-dropdown-menu"
+                                            role="menu"
+                                            :aria-label="`Choose tafsir for ${getTafsirReferenceForItem(item)}`">
+                                            <div
+                                                v-if="tafsirEditionsLoading"
+                                                class="ayah-tafseer-dropdown-status"
+                                                role="status">
+                                                Loading tafaseer...
+                                            </div>
+                                            <div
+                                                v-else-if="tafsirEditionsError"
+                                                class="ayah-tafseer-dropdown-status ayah-tafseer-dropdown-status--error">
+                                                <span>{{ tafsirEditionsError }}</span>
+                                                <button
+                                                    type="button"
+                                                    class="btn ayah-tafseer-dropdown-retry"
+                                                    @click.stop="fetchTafsirEditions">
+                                                    Retry
+                                                </button>
+                                            </div>
+                                            <div
+                                                v-else-if="!tafsirEditions.length"
+                                                class="ayah-tafseer-dropdown-status">
+                                                No tafasir available.
+                                            </div>
+                                            <button
+                                                v-for="edition in tafsirEditions"
+                                                :key="edition.identifier"
+                                                type="button"
+                                                class="ayah-tafseer-option"
+                                                :class="{ 'is-selected': isSelectedTafsirEdition(edition) }"
+                                                role="menuitemradio"
+                                                :aria-checked="isSelectedTafsirEdition(edition) ? 'true' : 'false'"
+                                                @click.stop="selectAyahTafsirEdition(item, edition)">
+                                                <span class="ayah-tafseer-option-copy">
+                                                    <span class="ayah-tafseer-option-title">
+                                                        {{ getTafsirEditionPrimaryLabel(edition) }}
+                                                    </span>
+                                                    <span
+                                                        v-if="getTafsirEditionSecondaryLabel(edition)"
+                                                        class="ayah-tafseer-option-subtitle"
+                                                        :dir="edition.direction === 'rtl' ? 'rtl' : 'ltr'">
+                                                        {{ getTafsirEditionSecondaryLabel(edition) }}
+                                                    </span>
+                                                </span>
+                                                <i
+                                                    v-if="isSelectedTafsirEdition(edition)"
+                                                    class="bi bi-check2 ayah-tafseer-option-check"
+                                                    aria-hidden="true"></i>
+                                            </button>
+                                        </div>
+                                    </div>
                                     <button
                                         type="button"
                                         class="icon-btn ayah-download-btn ayah-header-download-btn"
@@ -5888,12 +5954,8 @@
                             <div class="ayah-tafsir-panel ayah-tafsir-modal-panel" role="status" aria-live="polite">
                                 <div class="ayah-tafsir-meta ltr-text">
                                     <div class="ayah-tafsir-meta-item">
-                                        <span class="ayah-tafsir-meta-label">Source</span>
+                                        <span class="ayah-tafsir-meta-label">Selected Source</span>
                                         <span class="ayah-tafsir-meta-value">{{ getActiveTafsirSourceLabel() }}</span>
-                                    </div>
-                                    <div class="ayah-tafsir-meta-item">
-                                        <span class="ayah-tafsir-meta-label">Proof</span>
-                                        <span class="ayah-tafsir-meta-value">{{ getActiveTafsirProofLabel() }}</span>
                                     </div>
                                     <div class="ayah-tafsir-meta-item">
                                         <span class="ayah-tafsir-meta-label">Reference</span>
@@ -5902,7 +5964,7 @@
                                         </span>
                                     </div>
                                 </div>
-                                <p class="ayah-tafsir-label mb-1 ltr-text">Tafsir</p>
+                                <p class="ayah-tafsir-label mb-1 ltr-text">{{ getActiveTafsirEditionLabel() }}</p>
                                 <p v-if="isActiveTafsirLoading()" class="ayah-tafsir-loading mb-0 ltr-text">
                                     Loading tafsir...
                                 </p>
@@ -5926,6 +5988,44 @@
                                 <p v-else class="ayah-tafsir-empty mb-0 ltr-text">
                                     No tafsir content available.
                                 </p>
+
+                                <div class="ayah-tafsir-section ayah-tafsir-section--english">
+                                    <p class="ayah-tafsir-label mb-1 ltr-text">{{ getActiveEnglishTafsirLabel() }}</p>
+                                    <p
+                                        v-if="getActiveEnglishTafsirSourceLabel()"
+                                        class="ayah-tafsir-section-source mb-0 ltr-text">
+                                        {{ getActiveEnglishTafsirSourceLabel() }}
+                                    </p>
+                                    <p
+                                        v-if="isActiveEnglishTafsirLoading()"
+                                        class="ayah-tafsir-loading mb-0 ltr-text">
+                                        Loading English tafsir...
+                                    </p>
+                                    <p
+                                        v-else-if="getActiveEnglishTafsirError()"
+                                        class="ayah-tafsir-error mb-0 ltr-text">
+                                        {{ getActiveEnglishTafsirError() }}
+                                    </p>
+                                    <div
+                                        v-else-if="getActiveEnglishTafsirText()"
+                                        class="ayah-tafsir-text ayah-tafsir-text-stack">
+                                        <p
+                                            v-for="(paragraph, index) in getActiveEnglishTafsirParagraphs()"
+                                            :key="`english-tafsir-paragraph-${index}`"
+                                            class="ayah-tafsir-paragraph mb-0"
+                                            :class="[
+                                                paragraph.isArabic ? 'ayah-tafsir-paragraph--arabic' : 'ayah-tafsir-paragraph--english',
+                                                paragraph.isHeading ? 'ayah-tafsir-paragraph--heading' : ''
+                                            ]"
+                                            :dir="paragraph.direction"
+                                            :lang="paragraph.lang">
+                                            {{ paragraph.text }}
+                                        </p>
+                                    </div>
+                                    <p v-else class="ayah-tafsir-empty mb-0 ltr-text">
+                                        No English tafsir content available.
+                                    </p>
+                                </div>
                             </div>
                         </div>
                         <div class="modal-footer border-0 pt-0">

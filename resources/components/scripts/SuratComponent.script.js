@@ -563,6 +563,13 @@ export default {
             translationLazyCache: {},
             translationLazyRequestToken: 0,
             // ayah-level tafsir lazy loading
+            selectedTafsirEdition: "ar.muyassar",
+            activeTafsirEditionIdentifier: "ar.muyassar",
+            englishTafsirEditionIdentifier: "en.english-companion",
+            tafsirEditions: [],
+            tafsirEditionsLoading: false,
+            tafsirEditionsError: "",
+            openTafsirDropdownKey: "",
             tafsirVisibility: {},
             tafsirContent: {},
             tafsirMeta: {},
@@ -4733,6 +4740,14 @@ export default {
                 this.$nextTick(() => this.scheduleHeightCalibration(true));
             }
         },
+        selectedTafsirEdition: function (newVal) {
+            if (!newVal) return;
+            this.writeScopedFontPreference(
+                "suratSelectedTafsirEdition",
+                newVal
+            );
+            this.savePreference("selectedTafsirEdition", newVal);
+        },
         selectedSurah: function (newVal) {
             if (newVal && !this.isLoading) {
                 this.isSurahAudioDownloading = false;
@@ -4744,6 +4759,7 @@ export default {
                 this.hideAyahTafsirModal({ reset: true });
                 this.translationVisibility = {};
                 this.transliterationVisibility = {};
+                this.openTafsirDropdownKey = "";
                 this.tafsirVisibility = {};
                 this.tafsirContent = {};
                 this.tafsirMeta = {};
@@ -5182,7 +5198,9 @@ export default {
                 this.ayahMenuOutsideClickHandler = (event) => {
                     const target = event?.target;
                     if (target?.closest?.(".ayah-card-menu")) return;
+                    if (target?.closest?.(".ayah-tafseer-dropdown")) return;
                     this.closeAyahPlaylistMenu();
+                    this.closeTafsirDropdown();
                 };
                 document.addEventListener(
                     "click",
@@ -5256,6 +5274,7 @@ export default {
         let storedSurah = null;
         let storedReciter = null;
         let storedTranslation = null;
+        let storedTafsirEdition = null;
         let storedFont = null;
         let storedFontStack = null;
         storedSurah = this.readScopedPreferenceWithLegacy("suratSelectedSurah");
@@ -5264,6 +5283,9 @@ export default {
         );
         storedTranslation = this.readScopedPreferenceWithLegacy(
             "suratSelectedTranslation"
+        );
+        storedTafsirEdition = this.readScopedPreferenceWithLegacy(
+            "suratSelectedTafsirEdition"
         );
         try {
             storedFont = localStorage.getItem(this.quranFontPreferenceKey);
@@ -5274,6 +5296,8 @@ export default {
         this.selectedSurah = storedSurah || "2";
         this.selectedReciter = storedReciter || "ar.alafasy";
         this.selectedTranslation = storedTranslation || "en.ahmedali";
+        this.selectedTafsirEdition = storedTafsirEdition || "ar.muyassar";
+        this.activeTafsirEditionIdentifier = this.selectedTafsirEdition;
         this.translationCompareSurahNumber = Number(this.selectedSurah || 2);
         this.translationCompareAyahNumber = 1;
         this.selectedQuranFontId = this.coerceLegacyFontId(storedFont) || "";
@@ -5381,6 +5405,7 @@ export default {
             this.fetchReciters(),
             this.fetchSurahs(),
             this.fetchTranslations(),
+            this.fetchTafsirEditions(),
             this.fetchSurahDetails(),
             this.fetchQuranFonts(),
             this.fetchFontPreviewAyah(),
@@ -5656,6 +5681,7 @@ export default {
             this.tafsirModalInstance = null;
         }
         this.isTafsirModalOpen = false;
+        this.openTafsirDropdownKey = "";
         if (this.suratOnboardingModalInstance) {
             try {
                 this.suratOnboardingModalInstance.hide();
@@ -21658,6 +21684,11 @@ export default {
                 this.closeAyahPlaylistMenu();
                 return;
             }
+            if (key === "Escape" && this.openTafsirDropdownKey) {
+                e.preventDefault();
+                this.closeTafsirDropdown();
+                return;
+            }
             const tag = ((e.target && e.target.tagName) || "").toLowerCase();
             const isTypingContext =
                 e.target?.isContentEditable ||
@@ -24384,23 +24415,172 @@ export default {
                 item.ayah.numberInSurah || item.ayah.number
             );
         },
+        normalizeTafsirEditionIdentifier(editionId) {
+            return String(editionId || "").trim() || "ar.muyassar";
+        },
+        buildTafsirEditionStateKey(
+            ayahKey,
+            editionId = this.selectedTafsirEdition
+        ) {
+            const safeAyahKey = String(ayahKey || "").trim();
+            const safeEditionId = this.normalizeTafsirEditionIdentifier(
+                editionId
+            );
+            if (!safeAyahKey || !safeEditionId) return "";
+            return `${safeAyahKey}::${safeEditionId}`;
+        },
+        getTafsirDropdownKey(item) {
+            return this.getTafsirVisibilityKey(item);
+        },
+        isTafsirDropdownOpenFor(item) {
+            const key = this.getTafsirDropdownKey(item);
+            return !!key && key === this.openTafsirDropdownKey;
+        },
+        closeTafsirDropdown() {
+            this.openTafsirDropdownKey = "";
+        },
+        toggleTafsirDropdown(item) {
+            const key = this.getTafsirDropdownKey(item);
+            if (!key) return;
+            this.openTafsirDropdownKey =
+                this.openTafsirDropdownKey === key ? "" : key;
+        },
+        getTafsirEditionByIdentifier(identifier) {
+            const safeIdentifier = this.normalizeTafsirEditionIdentifier(
+                identifier
+            );
+            if (!Array.isArray(this.tafsirEditions)) return null;
+            return (
+                this.tafsirEditions.find(
+                    (edition) =>
+                        String(edition?.identifier || "") === safeIdentifier
+                ) || null
+            );
+        },
+        ensureSelectedTafsirEdition(
+            preferredIdentifier = this.selectedTafsirEdition
+        ) {
+            const preferred = this.normalizeTafsirEditionIdentifier(
+                preferredIdentifier
+            );
+            const editions = Array.isArray(this.tafsirEditions)
+                ? this.tafsirEditions
+                : [];
+            const match =
+                editions.find(
+                    (edition) =>
+                        String(edition?.identifier || "") === preferred
+                ) || editions[0];
+            const resolved = String(match?.identifier || preferred).trim();
+            if (resolved && resolved !== this.selectedTafsirEdition) {
+                this.selectedTafsirEdition = resolved;
+            }
+            return resolved || preferred;
+        },
+        getTafsirEditionPrimaryLabel(edition) {
+            if (!edition) return "";
+            if (typeof edition === "string") {
+                return this.normalizeTafsirEditionIdentifier(edition);
+            }
+            return String(
+                edition.englishName || edition.name || edition.identifier || ""
+            ).trim();
+        },
+        getTafsirEditionSecondaryLabel(edition) {
+            if (!edition || typeof edition === "string") return "";
+            const primary = this.getTafsirEditionPrimaryLabel(edition);
+            const parts = [];
+            const localizedName = String(edition.name || "").trim();
+            const identifier = String(edition.identifier || "").trim();
+            if (localizedName && localizedName !== primary) {
+                parts.push(localizedName);
+            }
+            if (
+                identifier &&
+                identifier !== primary &&
+                identifier !== localizedName
+            ) {
+                parts.push(identifier);
+            }
+            return parts.join(" • ");
+        },
+        getTafsirEditionSourceLabel(edition) {
+            if (!edition) return "";
+            if (typeof edition === "string") {
+                const matchedEdition = this.getTafsirEditionByIdentifier(edition);
+                if (matchedEdition) {
+                    return this.getTafsirEditionSourceLabel(matchedEdition);
+                }
+                return this.normalizeTafsirEditionIdentifier(edition);
+            }
+            const englishName = String(edition.englishName || "").trim();
+            const localizedName = String(edition.name || "").trim();
+            if (
+                englishName &&
+                localizedName &&
+                localizedName !== englishName
+            ) {
+                return `${englishName} • ${localizedName}`;
+            }
+            return (
+                englishName ||
+                localizedName ||
+                String(edition.identifier || "").trim()
+            );
+        },
+        isSelectedTafsirEdition(edition) {
+            const identifier =
+                typeof edition === "string"
+                    ? edition
+                    : edition?.identifier || "";
+            return (
+                this.normalizeTafsirEditionIdentifier(identifier) ===
+                this.normalizeTafsirEditionIdentifier(
+                    this.selectedTafsirEdition
+                )
+            );
+        },
+        getEnglishTafsirEdition() {
+            return {
+                identifier: this.englishTafsirEditionIdentifier,
+                englishName: "English Tafsir",
+                name: "English Tafsir",
+                language: "en",
+                direction: "ltr",
+            };
+        },
+        buildEnglishTafsirStateKey(ayahKey) {
+            return this.buildTafsirEditionStateKey(
+                ayahKey,
+                this.englishTafsirEditionIdentifier
+            );
+        },
         isTafsirVisibleFor(item) {
             const key = this.getTafsirVisibilityKey(item);
             if (!key) return false;
             return !!this.tafsirVisibility[key];
         },
-        isTafsirLoadingFor(item) {
-            const key = this.getTafsirVisibilityKey(item);
+        isTafsirLoadingFor(item, editionId = this.selectedTafsirEdition) {
+            const key = this.buildTafsirEditionStateKey(
+                this.getTafsirVisibilityKey(item),
+                editionId
+            );
             if (!key) return false;
             return !!this.tafsirLoading[key];
         },
-        getTafsirErrorFor(item) {
-            const key = this.getTafsirVisibilityKey(item);
+        getTafsirErrorFor(item, editionId = this.selectedTafsirEdition) {
+            const key = this.buildTafsirEditionStateKey(
+                this.getTafsirVisibilityKey(item),
+                editionId
+            );
             if (!key) return "";
             return String(this.tafsirError[key] || "");
         },
-        getTafsirTextFor(item) {
-            const key = this.getTafsirVisibilityKey(item);
+        getTafsirTextFor(item, editionId = this.selectedTafsirEdition) {
+            const key = this.buildTafsirEditionStateKey(
+                this.getTafsirVisibilityKey(item),
+                editionId
+            );
             if (!key) return "";
             return String(this.tafsirContent[key] || "");
         },
@@ -24419,8 +24599,73 @@ export default {
             if (!surahNumber || !ayahNumber) return "";
             return `Surah ${surahNumber}, Ayah ${ayahNumber}`;
         },
+        getActiveTafsirEditionIdentifier() {
+            return this.ensureSelectedTafsirEdition(
+                this.activeTafsirEditionIdentifier || this.selectedTafsirEdition
+            );
+        },
+        getActiveTafsirEdition() {
+            return this.getTafsirEditionByIdentifier(
+                this.getActiveTafsirEditionIdentifier()
+            );
+        },
+        getActiveTafsirEditionLabel() {
+            return (
+                this.getActiveTafsirMeta()?.editionLabel ||
+                this.getTafsirEditionPrimaryLabel(this.getActiveTafsirEdition()) ||
+                "Tafsir"
+            );
+        },
+        getActiveEnglishTafsirKey() {
+            const ayahKey = String(this.tafsirModalAyahKey || "").trim();
+            if (!ayahKey) return "";
+            return this.buildEnglishTafsirStateKey(ayahKey);
+        },
+        isActiveEnglishTafsirLoading() {
+            const key = this.getActiveEnglishTafsirKey();
+            if (!key) return false;
+            return !!this.tafsirLoading[key];
+        },
+        getActiveEnglishTafsirError() {
+            const key = this.getActiveEnglishTafsirKey();
+            if (!key) return "";
+            return String(this.tafsirError[key] || "");
+        },
+        getActiveEnglishTafsirText() {
+            const key = this.getActiveEnglishTafsirKey();
+            if (!key) return "";
+            return String(this.tafsirContent[key] || "");
+        },
+        getActiveEnglishTafsirParagraphs() {
+            return this.buildTafsirParagraphs(this.getActiveEnglishTafsirText());
+        },
+        getActiveEnglishTafsirMeta() {
+            const key = this.getActiveEnglishTafsirKey();
+            if (!key) return null;
+            const value = this.tafsirMeta[key];
+            return value && typeof value === "object" ? value : null;
+        },
+        getActiveEnglishTafsirLabel() {
+            return (
+                this.getActiveEnglishTafsirMeta()?.editionLabel ||
+                this.getTafsirEditionPrimaryLabel(this.getEnglishTafsirEdition()) ||
+                "English Tafsir"
+            );
+        },
+        getActiveEnglishTafsirSourceLabel() {
+            return (
+                this.getActiveEnglishTafsirMeta()?.source ||
+                this.getTafsirEditionSourceLabel(this.getEnglishTafsirEdition()) ||
+                "English Tafsir"
+            );
+        },
         getActiveTafsirKey() {
-            return String(this.tafsirModalAyahKey || "");
+            const ayahKey = String(this.tafsirModalAyahKey || "").trim();
+            if (!ayahKey) return "";
+            return this.buildTafsirEditionStateKey(
+                ayahKey,
+                this.getActiveTafsirEditionIdentifier()
+            );
         },
         isActiveTafsirLoading() {
             const key = this.getActiveTafsirKey();
@@ -24449,21 +24694,23 @@ export default {
         getActiveTafsirSourceLabel() {
             return (
                 this.getActiveTafsirMeta()?.source ||
+                this.getTafsirEditionSourceLabel(this.getActiveTafsirEdition()) ||
                 "Scholarly tafsir source"
             );
         },
         getActiveTafsirProofLabel() {
-            const key = this.getActiveTafsirKey();
             return (
                 this.getActiveTafsirMeta()?.proof ||
-                (key ? `Matched to ayah key ${key}` : "Ayah mapping unavailable")
+                (this.tafsirModalAyahKey
+                    ? `Matched to ayah key ${this.tafsirModalAyahKey}`
+                    : "Ayah mapping unavailable")
             );
         },
         getActiveTafsirReferenceLabel() {
             return (
                 this.getActiveTafsirMeta()?.reference ||
                 this.tafsirModalReference ||
-                this.getActiveTafsirKey() ||
+                this.tafsirModalAyahKey ||
                 "N/A"
             );
         },
@@ -24571,20 +24818,29 @@ export default {
             }
             return false;
         },
-        openAyahTafsirModal(item) {
+        openAyahTafsirModal(item, options = {}) {
+            const { editionId = this.selectedTafsirEdition } = options;
             const key = this.getTafsirVisibilityKey(item);
             if (!key) return;
+            const resolvedEditionId = this.ensureSelectedTafsirEdition(
+                editionId
+            );
 
+            this.activeTafsirEditionIdentifier = resolvedEditionId;
             this.tafsirModalAyahKey = key;
             this.tafsirModalReference = this.getTafsirReferenceForItem(item);
             this.isTafsirModalOpen = true;
+            this.closeTafsirDropdown();
 
             if (typeof this.$set === "function") {
                 this.$set(this.tafsirVisibility, key, true);
             } else {
                 this.tafsirVisibility[key] = true;
             }
-            this.loadTafsirForItem(item);
+            this.loadTafsirForItem(item, {
+                editionId: resolvedEditionId,
+            });
+            this.loadEnglishTafsirForItem(item);
 
             this.$nextTick(() => {
                 const modalEl = document.getElementById(this.tafsirModalId);
@@ -24596,6 +24852,7 @@ export default {
         },
         hideAyahTafsirModal(options = {}) {
             const { reset = false } = options;
+            this.closeTafsirDropdown();
             if (this.tafsirModalInstance) {
                 try {
                     this.tafsirModalInstance.hide();
@@ -24607,6 +24864,8 @@ export default {
                 this.isTafsirModalOpen = false;
                 this.tafsirModalAyahKey = "";
                 this.tafsirModalReference = "";
+                this.activeTafsirEditionIdentifier =
+                    this.selectedTafsirEdition || "ar.muyassar";
             }
         },
         resolveTafsirAyahId(ayah) {
@@ -24615,11 +24874,14 @@ export default {
             const fallback = Number(ayah?.number || 0);
             return fallback > 0 ? fallback : null;
         },
-        normalizeTafsirPayload(value, item = null) {
+        normalizeTafsirPayload(value, item = null, edition = null) {
             let text = "";
             let source = "";
             let proof = "";
             let reference = "";
+            const payload = value && typeof value === "object" ? value : null;
+            const editionMeta =
+                payload?.edition || payload?.data?.edition || edition || null;
 
             if (typeof value === "string") {
                 text = value;
@@ -24643,8 +24905,14 @@ export default {
                     value.source,
                     value.source_label,
                     value.tafsir_source,
+                    value.edition?.englishName,
+                    value.edition?.name,
                     value.data?.source,
                     value.data?.source_label,
+                    value.data?.edition?.englishName,
+                    value.data?.edition?.name,
+                    edition?.englishName,
+                    edition?.name,
                 ];
                 for (const candidate of sourceCandidates) {
                     if (typeof candidate === "string" && candidate.trim()) {
@@ -24679,16 +24947,49 @@ export default {
                         break;
                     }
                 }
+
+                if (!reference) {
+                    const resolvedSurahNumber = Number(
+                        value?.surah?.number ||
+                            value?.data?.surah?.number ||
+                            this.surahDetails?.surahNumber ||
+                            this.selectedSurah ||
+                            0
+                    );
+                    const resolvedAyahNumber = Number(
+                        value?.numberInSurah ||
+                            value?.data?.numberInSurah ||
+                            item?.ayah?.numberInSurah ||
+                            item?.ayah?.number ||
+                            0
+                    );
+                    if (resolvedSurahNumber && resolvedAyahNumber) {
+                        reference = `Surah ${resolvedSurahNumber}, Ayah ${resolvedAyahNumber}`;
+                    }
+                }
             }
 
             const fallbackReference =
                 this.getTafsirReferenceForItem(item) ||
                 this.tafsirModalReference ||
-                this.getActiveTafsirKey();
+                this.tafsirModalAyahKey;
 
             const normalizedText = this.formatTafsirText(text);
             const resolvedReference = reference || fallbackReference || "";
-            const resolvedSource = source || "Scholarly tafsir source";
+            const resolvedSource =
+                source ||
+                this.getTafsirEditionSourceLabel(editionMeta) ||
+                "Scholarly tafsir source";
+            const resolvedEditionIdentifier =
+                editionMeta?.identifier ||
+                edition?.identifier ||
+                this.normalizeTafsirEditionIdentifier(
+                    this.activeTafsirEditionIdentifier
+                );
+            const resolvedEditionLabel =
+                this.getTafsirEditionPrimaryLabel(editionMeta) ||
+                this.getTafsirEditionPrimaryLabel(edition) ||
+                resolvedEditionIdentifier;
             const resolvedProof =
                 proof ||
                 (resolvedReference
@@ -24701,6 +25002,8 @@ export default {
                     source: resolvedSource,
                     proof: resolvedProof,
                     reference: resolvedReference,
+                    editionIdentifier: resolvedEditionIdentifier,
+                    editionLabel: resolvedEditionLabel,
                 },
             };
         },
@@ -24793,8 +25096,16 @@ export default {
 
             return chunks.filter(Boolean).join("\n");
         },
-        async loadTafsirForItem(item) {
-            const key = this.getTafsirVisibilityKey(item);
+        async loadTafsirForItem(item, options = {}) {
+            const { editionId = this.selectedTafsirEdition } = options;
+            const ayahKey = this.getTafsirVisibilityKey(item);
+            const resolvedEditionId = this.ensureSelectedTafsirEdition(
+                editionId
+            );
+            const key = this.buildTafsirEditionStateKey(
+                ayahKey,
+                resolvedEditionId
+            );
             if (!key || !item?.ayah) return;
             if (this.tafsirContent[key]) return;
             const ayahId = this.resolveTafsirAyahId(item.ayah);
@@ -24811,12 +25122,19 @@ export default {
             }
 
             try {
-                const response = await axios.get(`/tafseer/${ayahId}/fetch`, {
-                    params: { detailed: 1 },
-                });
+                const { data } = await this.cachedFetchJSON(
+                    `https://api.alquran.cloud/v1/ayah/${ayahId}/${encodeURIComponent(
+                        resolvedEditionId
+                    )}`,
+                    `cache:ayah-tafsir:${ayahId}:${resolvedEditionId}`,
+                    30 * 24 * 60 * 60 * 1000
+                );
                 const normalized = this.normalizeTafsirPayload(
-                    response?.data,
-                    item
+                    data?.data || data,
+                    item,
+                    this.getTafsirEditionByIdentifier(resolvedEditionId) || {
+                        identifier: resolvedEditionId,
+                    }
                 );
                 if (!normalized?.text) {
                     throw new Error("Empty tafsir payload");
@@ -24848,8 +25166,79 @@ export default {
                 this.$nextTick(() => this.scheduleHeightCalibration(true));
             }
         },
+        async loadEnglishTafsirForItem(item) {
+            const ayahKey = this.getTafsirVisibilityKey(item);
+            const key = this.buildEnglishTafsirStateKey(ayahKey);
+            if (!key || !item?.ayah) return;
+            if (this.tafsirContent[key]) return;
+
+            const ayahId = this.resolveTafsirAyahId(item.ayah);
+            if (!ayahId) {
+                this.tafsirError[key] = "English tafsir is unavailable for this ayah.";
+                return;
+            }
+
+            if (typeof this.$set === "function") {
+                this.$set(this.tafsirLoading, key, true);
+                this.$set(this.tafsirError, key, "");
+            } else {
+                this.tafsirLoading[key] = true;
+                this.tafsirError[key] = "";
+            }
+
+            try {
+                const { data } = await this.cachedFetchJSON(
+                    `/tafseer/${ayahId}/fetch?detailed=1&lang=en`,
+                    `cache:ayah-tafsir-english:${ayahId}`,
+                    30 * 24 * 60 * 60 * 1000
+                );
+                const normalized = this.normalizeTafsirPayload(
+                    data,
+                    item,
+                    this.getEnglishTafsirEdition()
+                );
+                if (!normalized?.text) {
+                    throw new Error("Empty English tafsir payload");
+                }
+                if (typeof this.$set === "function") {
+                    this.$set(this.tafsirContent, key, normalized.text);
+                    this.$set(this.tafsirMeta, key, normalized.meta || {});
+                } else {
+                    this.tafsirContent[key] = normalized.text;
+                    this.tafsirMeta[key] = normalized.meta || {};
+                }
+            } catch (error) {
+                if (typeof this.$set === "function") {
+                    this.$set(
+                        this.tafsirError,
+                        key,
+                        "English tafsir is temporarily unavailable."
+                    );
+                } else {
+                    this.tafsirError[key] =
+                        "English tafsir is temporarily unavailable.";
+                }
+            } finally {
+                if (typeof this.$set === "function") {
+                    this.$set(this.tafsirLoading, key, false);
+                } else {
+                    this.tafsirLoading[key] = false;
+                }
+                this.itemHeightCalibrated = false;
+                this.$nextTick(() => this.scheduleHeightCalibration(true));
+            }
+        },
         toggleAyahTafsir(item) {
-            this.openAyahTafsirModal(item);
+            this.toggleTafsirDropdown(item);
+        },
+        selectAyahTafsirEdition(item, edition) {
+            const identifier =
+                typeof edition === "string"
+                    ? edition
+                    : edition?.identifier || this.selectedTafsirEdition;
+            this.openAyahTafsirModal(item, {
+                editionId: identifier,
+            });
         },
         getTranslationVisibilityKey(item) {
             if (!item || !item.ayah) return "";
@@ -25292,6 +25681,43 @@ export default {
                 this.isLoading = false;
             }
         },
+        async fetchTafsirEditions() {
+            this.tafsirEditionsLoading = true;
+            this.tafsirEditionsError = "";
+            try {
+                const { data } = await this.cachedFetchJSON(
+                    "https://api.alquran.cloud/v1/edition/type/tafsir",
+                    "cache:tafsir-editions",
+                    7 * 24 * 60 * 60 * 1000
+                );
+                if (this._isDestroyed) return;
+                const editions = Array.isArray(data?.data)
+                    ? data.data.map((edition) => ({
+                          identifier: String(edition?.identifier || "").trim(),
+                          englishName: String(
+                              edition?.englishName || edition?.name || ""
+                          ).trim(),
+                          name: String(edition?.name || "").trim(),
+                          language: String(edition?.language || "").trim(),
+                          direction: String(edition?.direction || "").trim(),
+                      }))
+                    : [];
+                this.tafsirEditions = editions.filter(
+                    (edition) => !!edition.identifier
+                );
+                const resolvedEditionId = this.ensureSelectedTafsirEdition(
+                    this.selectedTafsirEdition
+                );
+                this.activeTafsirEditionIdentifier = resolvedEditionId;
+            } catch (error) {
+                console.error("Error fetching Tafsir editions:", error);
+                this.tafsirEditions = [];
+                this.tafsirEditionsError =
+                    "Unable to load tafasir right now.";
+            } finally {
+                this.tafsirEditionsLoading = false;
+            }
+        },
         async fetchSurahTransliteration(surahNumber = this.selectedSurah) {
             const requestedSurah = String(surahNumber || "");
             if (!requestedSurah) return;
@@ -25355,6 +25781,7 @@ export default {
                 return Promise.resolve();
             this.isLoading = true;
             this.hideAyahTafsirModal({ reset: true });
+            this.openTafsirDropdownKey = "";
             this.tafsirVisibility = {};
             this.tafsirContent = {};
             this.tafsirMeta = {};
