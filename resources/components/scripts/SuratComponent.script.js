@@ -41,10 +41,13 @@ export default {
             })(),
             suratThemePreferenceBaseKey: "suratThemeMode",
             suratThemeDarkBodyClass: "surat-page-shell-dark",
+            suratThemeSwitchingBodyClass: "surat-page-shell-theme-switching",
             readingFullscreenBodyClass: "quran-reading-fullscreen-active",
             readingFullscreenPreferenceBaseKey: "surat_reading_fullscreen_mode",
             readingFullscreenLastFocusedEl: null,
             fullscreenChangeHandler: null,
+            isThemeSwitching: false,
+            suratThemeSwitchTimer: null,
             userId: null,
             // a11y
             selectedCardIndex: 0,
@@ -368,11 +371,11 @@ export default {
                     priority: 10,
                     area: "Learning",
                     iconClass: "fa-palette",
-                    title: "Enable tajweed colors and view tajweed rules",
+                    title: "Toggle tajweed colors directly in the Arabic text",
                     summary:
-                        "Tajweed coloring can be turned on for recitation guidance, with a dedicated modal explaining each rule color.",
+                        "Tajweed coloring can be turned on for recitation guidance so highlighted Arabic rules appear directly inside each ayah.",
                     howTo:
-                        "Enable tajweed in settings, then open Tajweed rules from the toolbar to learn each highlighted rule.",
+                        "Use Tajweed colors from the toolbar or display settings to turn the coloured Arabic guidance on or off.",
                     keywords: [
                         "tajweed",
                         "rules",
@@ -558,6 +561,7 @@ export default {
             showWordTranslation: false,
             showWordTranslationTooltip: false,
             gestureNavigationEnabled: true,
+            toolbarScrollEnabled: true,
             realtimeHighlightPreferenceKey: "surat_realtime_highlighting",
             wordTranslationPreferenceKey: "surat_show_word_translation",
             wordTranslationTooltipPreferenceKey:
@@ -615,6 +619,7 @@ export default {
             isToolbarPinned: false,
             isMobileToolbarExpanded: false,
             firstAyahTop: 0,
+            showReaderToolbar: true,
             showDesktopToolbar: true,
             showDesktopSurahContext: true,
             showMobileSurahInfoCard: true,
@@ -1177,11 +1182,13 @@ export default {
                 restDays: [5],
             },
             settingsDraft: {
+                showReaderToolbar: true,
                 showTajweed: false,
                 showRealtimeHighlighting: false,
                 showWordTranslation: false,
                 showWordTranslationTooltip: false,
                 gestureNavigationEnabled: true,
+                toolbarScrollEnabled: true,
                 playbackMode: "continuous",
             },
             tajweedRuleMap: {
@@ -4942,6 +4949,35 @@ export default {
             this._lastHighlightIndex = -1;
             this.clearActiveWordHighlight();
         },
+        toolbarScrollEnabled(next) {
+            try {
+                this.writeScopedBooleanPreference(
+                    "suratToolbarScrollEnabled",
+                    next
+                );
+            } catch (_) {}
+            if (!next && this.isToolbarPinned) {
+                this.isToolbarPinned = false;
+            }
+            this.$nextTick(() => {
+                this.updateToolbarPinState();
+            });
+        },
+        showReaderToolbar(next) {
+            try {
+                this.writeScopedBooleanPreference(
+                    "suratShowReaderToolbar",
+                    next
+                );
+            } catch (_) {}
+            if (!next) {
+                this.isToolbarPinned = false;
+                this.isMobileToolbarExpanded = false;
+            }
+            this.$nextTick(() => {
+                this.computeListTop();
+            });
+        },
         showRealtimeHighlighting(next) {
             try {
                 this.writeScopedBooleanPreference(
@@ -5295,6 +5331,18 @@ export default {
         if (storedGestureNavigation !== null) {
             this.gestureNavigationEnabled = storedGestureNavigation === "1";
         }
+        const storedToolbarScroll = this.readScopedPreferenceWithLegacy(
+            "suratToolbarScrollEnabled"
+        );
+        if (storedToolbarScroll !== null) {
+            this.toolbarScrollEnabled = storedToolbarScroll === "1";
+        }
+        const storedReaderToolbar = this.readScopedPreferenceWithLegacy(
+            "suratShowReaderToolbar"
+        );
+        if (storedReaderToolbar !== null) {
+            this.showReaderToolbar = storedReaderToolbar === "1";
+        }
         const storedBlurNextAyah = this.readScopedPreferenceWithLegacy(
             "suratIsBlurNextAyahEnabled"
         );
@@ -5463,6 +5511,8 @@ export default {
             } catch (_) {}
             this.stopHighlightLoop();
             this.clearWordPreviewStopTimer();
+            this.clearSuratThemeSwitchTimer();
+            this.syncSuratThemeSwitchingBodyClass(false);
             this.syncSuratThemeBodyClass(false);
             this.syncReadingFullscreenBodyClass(false);
             this.exitReadingFullscreen({
@@ -5766,6 +5816,8 @@ export default {
         beforeDestroy() {
             this.finalizeSessionHistoryEntry("inactive");
             this.stopHighlightLoop();
+            this.clearSuratThemeSwitchTimer();
+            this.syncSuratThemeSwitchingBodyClass(false);
             this.syncReadingFullscreenBodyClass(false);
             this.exitReadingFullscreen({
                 restoreFocus: false,
@@ -6041,6 +6093,25 @@ export default {
             if (!body || !body.classList) return;
             body.classList.toggle(this.suratThemeDarkBodyClass, !!enabled);
         },
+        syncSuratThemeSwitchingBodyClass(enabled = this.isThemeSwitching) {
+            if (typeof document === "undefined") return;
+            const body = document.body;
+            if (!body || !body.classList) return;
+            body.classList.toggle(
+                this.suratThemeSwitchingBodyClass,
+                !!enabled
+            );
+        },
+        setSuratThemeSwitching(enabled) {
+            this.isThemeSwitching = !!enabled;
+            this.syncSuratThemeSwitchingBodyClass(enabled);
+        },
+        clearSuratThemeSwitchTimer() {
+            if (this.suratThemeSwitchTimer) {
+                clearTimeout(this.suratThemeSwitchTimer);
+                this.suratThemeSwitchTimer = null;
+            }
+        },
         initializeSuratThemePreference(options = {}) {
             const { preserveCurrentWhenMissing = true } = options;
             const storedTheme = this.readScopedPreferenceWithLegacy(
@@ -6062,6 +6133,8 @@ export default {
             return this.isDarkTheme;
         },
         setSuratTheme(enabled) {
+            this.clearSuratThemeSwitchTimer();
+            this.setSuratThemeSwitching(true);
             this.isDarkTheme = !!enabled;
             this.writeScopedFontPreference(
                 this.suratThemePreferenceBaseKey,
@@ -6072,6 +6145,13 @@ export default {
                 this.isDarkTheme ? "dark" : "light"
             );
             this.syncSuratThemeBodyClass();
+            this.$nextTick(() => {
+                this.computeListTop();
+                this.suratThemeSwitchTimer = setTimeout(() => {
+                    this.setSuratThemeSwitching(false);
+                    this.suratThemeSwitchTimer = null;
+                }, 170);
+            });
         },
         toggleSuratTheme() {
             const nextTheme = !this.isDarkTheme;
@@ -11806,13 +11886,15 @@ export default {
                 }
             };
 
-            // Desktop sticky toolbar.
-            addToolbarOffsetIfVisible(".quran-toolbar-sticky", 28);
-            // Mobile/tablet fixed toolbar (when pinned).
-            addToolbarOffsetIfVisible(
-                ".advanced-quran-mobile-controls.is-pinned",
-                36
-            );
+            if (this.toolbarScrollEnabled) {
+                // Desktop sticky toolbar.
+                addToolbarOffsetIfVisible(".quran-toolbar-sticky", 28);
+                // Mobile/tablet fixed toolbar (when pinned).
+                addToolbarOffsetIfVisible(
+                    ".advanced-quran-mobile-controls.is-pinned",
+                    36
+                );
+            }
 
             return Math.min(Math.max(total, 56), 340);
         },
@@ -12388,6 +12470,7 @@ export default {
         },
         prepareSettingsDraft() {
             if (!this.settingsDraft) return;
+            this.settingsDraft.showReaderToolbar = !!this.showReaderToolbar;
             this.settingsDraft.showTajweed = !!this.showTajweed;
             this.settingsDraft.showRealtimeHighlighting = !!this.showRealtimeHighlighting;
             this.settingsDraft.showWordTranslation = !!this.showWordTranslation;
@@ -12395,6 +12478,8 @@ export default {
                 !!this.showWordTranslationTooltip;
             this.settingsDraft.gestureNavigationEnabled =
                 !!this.gestureNavigationEnabled;
+            this.settingsDraft.toolbarScrollEnabled =
+                !!this.toolbarScrollEnabled;
             this.settingsDraft.playbackMode = this.playbackMode;
         },
         applyMemorisationRange() {
@@ -17074,6 +17159,7 @@ export default {
         },
         applySettingsDraft() {
             if (!this.settingsDraft) return;
+            this.showReaderToolbar = !!this.settingsDraft.showReaderToolbar;
             this.showTajweed = !!this.settingsDraft.showTajweed;
             this.showRealtimeHighlighting = !!this.settingsDraft.showRealtimeHighlighting;
             this.showWordTranslation = !!this.settingsDraft.showWordTranslation;
@@ -17081,6 +17167,8 @@ export default {
                 !!this.settingsDraft.showWordTranslationTooltip;
             this.gestureNavigationEnabled =
                 !!this.settingsDraft.gestureNavigationEnabled;
+            this.toolbarScrollEnabled =
+                !!this.settingsDraft.toolbarScrollEnabled;
             if (this.settingsDraft.playbackMode) {
                 this.setPlaybackMode(this.settingsDraft.playbackMode);
             }
@@ -20832,6 +20920,10 @@ export default {
         },
         updateToolbarPinState() {
             if (typeof window === "undefined") return;
+            if (!this.toolbarScrollEnabled) {
+                if (this.isToolbarPinned) this.isToolbarPinned = false;
+                return;
+            }
 
             const now = Date.now();
             const shouldMeasureFirstAyah =
@@ -22282,9 +22374,17 @@ export default {
 
         // removed scrollToElement and smoothScrollToAyah
         highlightedText: function (ayah) {
-            if (!ayah || (!ayah.text && !ayah.words && !ayah.tajweedText))
-                return "";
             const words = this.getAyahDisplayWords(ayah);
+            if (!ayah) return "";
+            if (!words.length) {
+                const fallbackText = this.getAyahPrimaryArabicText(ayah);
+                if (!fallbackText) return "";
+                if (this.showTajweed) {
+                    const tajweedText = this.getAyahPrimaryTajweedText(ayah);
+                    if (tajweedText) return this.formatTajweedText(tajweedText);
+                }
+                return this.escapeHtml(fallbackText);
+            }
             const wordTranslations = this.mapWordTranslations(
                 words,
                 this.getAyahWordTranslations(ayah)
@@ -22320,11 +22420,37 @@ export default {
                 })
                 .join(" ");
         },
+        getAyahPrimaryArabicText(ayah) {
+            if (!ayah) return "";
+            return String(
+                ayah.text_uthmani ||
+                    ayah.text_uthmani_simple ||
+                    ayah.text_imlaei ||
+                    ayah.text ||
+                    ""
+            ).trim();
+        },
+        getAyahPrimaryTajweedText(ayah) {
+            if (!ayah) return "";
+            return String(
+                ayah.text_uthmani_tajweed ||
+                    ayah.tajweedText ||
+                    ""
+            ).trim();
+        },
         getAyahBaseWords(ayah) {
             if (!ayah) return [];
-            if (Array.isArray(ayah.words) && ayah.words.length)
-                return this.normalizeAyahWords(ayah.words);
-            if (ayah.text) return this.normalizeAyahWords(ayah.text.split(" "));
+            if (Array.isArray(ayah.quranWords) && ayah.quranWords.length) {
+                const normalized = this.normalizeAyahWords(ayah.quranWords);
+                if (normalized.length) return normalized;
+            }
+            if (Array.isArray(ayah.words) && ayah.words.length) {
+                const normalized = this.normalizeAyahWords(ayah.words);
+                if (normalized.length) return normalized;
+            }
+            const fallbackText = this.getAyahPrimaryArabicText(ayah);
+            if (fallbackText)
+                return this.normalizeAyahWords(fallbackText.split(" "));
             return [];
         },
         getAyahIntroWordCount(ayah, baseWords) {
@@ -22363,8 +22489,29 @@ export default {
             });
             return out;
         },
+        resolveAyahWordToken(token) {
+            if (token == null) return "";
+            if (typeof token === "string") return token;
+            if (typeof token === "object") {
+                return String(
+                    token.text_uthmani_tajweed ||
+                        token.text_uthmani ||
+                        token.text_indopak ||
+                        token.text_imlaei ||
+                        token.text_simple ||
+                        token.text ||
+                        token.word ||
+                        token.value ||
+                        token.char ||
+                        token.code_v2 ||
+                        token.code_v1 ||
+                        ""
+                );
+            }
+            return String(token);
+        },
         cleanAyahToken(token) {
-            return String(token)
+            return this.resolveAyahWordToken(token)
                 .replace(/[\u0615-\u061A\u06D6-\u06ED\u06DD]/g, "")
                 .trim();
         },
@@ -22440,9 +22587,11 @@ export default {
             if (!Array.isArray(translations) || !translations.length)
                 return [];
             const introCount = this.getAyahIntroWordCount(null, words);
+            const safeWordCount = words.length;
+            const safeTranslationCount = translations.length;
             if (
                 introCount &&
-                translations.length === words.length - introCount
+                safeTranslationCount === safeWordCount - introCount
             ) {
                 return [
                     "In (the) name",
@@ -22451,6 +22600,13 @@ export default {
                     "the Most Merciful",
                     ...translations,
                 ];
+            }
+            const severeMismatch =
+                safeWordCount > 0 &&
+                (safeTranslationCount > safeWordCount + 3 ||
+                    safeTranslationCount < Math.max(1, safeWordCount - 6));
+            if (severeMismatch) {
+                return [];
             }
             const letterRegex =
                 /[\u0621-\u064A\u066E-\u066F\u0671-\u06D3\u06FA-\u06FC]/;
@@ -24719,6 +24875,23 @@ export default {
                     : "Collapsed mobile toolbar controls."
             );
         },
+        setReaderToolbarVisibility(visible, options = {}) {
+            const { announce = true } = options;
+            const nextState = !!visible;
+            if (this.showReaderToolbar === nextState) return;
+            this.showReaderToolbar = nextState;
+            if (announce) {
+                this.announce(
+                    nextState
+                        ? "Reader toolbar shown."
+                        : "Reader toolbar hidden."
+                );
+                this.showModeToggleToast("Reader toolbar", nextState);
+            }
+        },
+        toggleReaderToolbarVisibility() {
+            this.setReaderToolbarVisibility(!this.showReaderToolbar);
+        },
         toggleToolbarWordTranslation() {
             const checked = !this.showWordTranslation;
             this.showWordTranslation = checked;
@@ -24728,6 +24901,19 @@ export default {
                     : "Word-for-word translation disabled."
             );
             this.showModeToggleToast("Word-for-word", checked);
+        },
+        toggleToolbarTajweed() {
+            const checked = !this.showTajweed;
+            this.showTajweed = checked;
+            if (this.settingsDraft) {
+                this.settingsDraft.showTajweed = checked;
+            }
+            this.announce(
+                checked
+                    ? "Tajweed colors enabled."
+                    : "Tajweed colors disabled."
+            );
+            this.showModeToggleToast("Tajweed colors", checked);
         },
         toggleToolbarTranslation() {
             const checked = !this.isTranslationAllEnabled;

@@ -294,6 +294,54 @@
             min-width: 0;
         }
 
+        .navbar .navbar-brand.surat-brand-lockup {
+            --surat-brand-height: 54px;
+            display: inline-flex;
+            align-items: center;
+            gap: clamp(0.45rem, 0.9vw, 0.8rem);
+            min-height: var(--surat-brand-height);
+            line-height: 0;
+        }
+
+        .navbar .navbar-brand.surat-brand-lockup .surat-brand-icon-stack {
+            position: relative;
+            flex: 0 0 auto;
+            height: var(--surat-brand-height);
+            aspect-ratio: 751 / 770;
+        }
+
+        .navbar .navbar-brand.surat-brand-lockup .surat-brand-icon {
+            position: absolute;
+            inset: 0;
+            width: 100% !important;
+            height: 100% !important;
+            max-width: none !important;
+            object-fit: contain;
+            transition: opacity 0.18s ease;
+        }
+
+        .navbar .navbar-brand.surat-brand-lockup .surat-brand-icon--dark {
+            opacity: 0;
+        }
+
+        .navbar .navbar-brand.surat-brand-lockup .surat-brand-wordmark {
+            position: relative;
+            flex: 0 0 auto;
+            height: var(--surat-brand-height);
+            aspect-ratio: 3249 / 770;
+            overflow: hidden;
+        }
+
+        .navbar .navbar-brand.surat-brand-lockup .surat-brand-wordmark-img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: auto !important;
+            height: 100% !important;
+            max-width: none !important;
+            transform: translateX(-18.775%);
+        }
+
         .navbar .navbar-toggler {
             flex-shrink: 0;
         }
@@ -354,6 +402,10 @@
                 min-height: 56px;
             }
 
+            .navbar .navbar-brand.surat-brand-lockup {
+                --surat-brand-height: 46px;
+            }
+
             .navbar .navbar-brand img {
                 width: auto !important;
                 height: 46px !important;
@@ -412,6 +464,10 @@
                 min-height: 66px;
             }
 
+            .navbar .navbar-brand.surat-brand-lockup {
+                --surat-brand-height: 42px;
+            }
+
             .navbar .navbar-brand img {
                 height: 48px !important;
                 max-width: min(232px, 68vw) !important;
@@ -429,24 +485,216 @@
                 background-size: 2rem 2rem !important;
             }
         }
+
+        body.surat-page-shell-dark .navbar .navbar-brand.surat-brand-lockup .surat-brand-icon--light {
+            opacity: 0;
+        }
+
+        body.surat-page-shell-dark .navbar .navbar-brand.surat-brand-lockup .surat-brand-icon--dark {
+            opacity: 1;
+        }
+
+        body.surat-page-shell-dark .navbar .navbar-brand.surat-brand-lockup .surat-brand-wordmark-img {
+            filter: brightness(0) invert(1);
+        }
+
+        @media (max-width: 1199.98px) {
+            body.surat-route-page .navbar.surat-navbar-tablet {
+                isolation: isolate;
+                z-index: 1085 !important;
+            }
+
+            body.surat-route-page .navbar.surat-navbar-tablet.navbar-transparent {
+                background: rgba(255, 255, 255, 0.96) !important;
+                backdrop-filter: none !important;
+                -webkit-backdrop-filter: none !important;
+            }
+
+            body.surat-route-page .navbar.surat-navbar-tablet.fixed-top {
+                padding-block: 0.28rem !important;
+            }
+
+            body.surat-route-page .navbar.surat-navbar-tablet > .container-fluid {
+                gap: 0.7rem;
+                padding-inline: 0.95rem;
+                min-height: 66px;
+            }
+
+            body.surat-route-page .navbar.surat-navbar-tablet .navbar-brand {
+                display: inline-flex;
+                align-items: center;
+                min-height: 52px;
+                margin-right: auto;
+            }
+
+            body.surat-route-page .navbar.surat-navbar-tablet .navbar-brand.surat-brand-lockup {
+                --surat-brand-height: 42px;
+                gap: 0.55rem;
+            }
+
+            body.surat-route-page .navbar.surat-navbar-tablet .navbar-brand.surat-brand-lockup .surat-brand-wordmark {
+                max-width: min(250px, 46vw);
+            }
+
+            body.surat-route-page .navbar.surat-navbar-tablet .navbar-toggler {
+                min-width: 54px !important;
+                min-height: 54px !important;
+                padding: 0.68rem !important;
+                border-radius: 16px !important;
+                border: 1px solid rgba(15, 23, 42, 0.12) !important;
+                background: rgba(255, 255, 255, 0.96) !important;
+                box-shadow: 0 12px 24px rgba(15, 23, 42, 0.08) !important;
+                display: inline-flex !important;
+                align-items: center;
+                justify-content: center;
+            }
+
+            body.surat-route-page .navbar.surat-navbar-tablet .navbar-toggler-icon {
+                width: 1.8rem !important;
+                height: 1.8rem !important;
+                background-size: 1.8rem 1.8rem !important;
+            }
+
+            body.surat-route-page .navbar.surat-navbar-tablet .navbar-collapse {
+                width: 100%;
+                flex-basis: 100%;
+            }
+
+            body.surat-route-page .navbar.surat-navbar-tablet .navbar-collapse.show,
+            body.surat-route-page .navbar.surat-navbar-tablet .navbar-collapse.collapsing {
+                position: relative;
+                z-index: 2;
+                margin-top: 0.5rem;
+                padding: 0.5rem 0.25rem;
+                border-radius: 16px;
+                background: rgba(255, 255, 255, 0.98) !important;
+                border: 1px solid rgba(15, 23, 42, 0.12);
+                box-shadow: 0 16px 34px rgba(15, 23, 42, 0.18);
+                backdrop-filter: none !important;
+                -webkit-backdrop-filter: none !important;
+            }
+
+            body.surat-route-page .navbar.surat-navbar-tablet .navbar-collapse .navbar-nav {
+                gap: 0.55rem;
+                align-items: stretch;
+                padding: 0.25rem 0 0.1rem;
+            }
+
+            body.surat-route-page .navbar.surat-navbar-tablet .navbar-collapse .navbar-nav > * {
+                width: 100%;
+            }
+
+            body.surat-route-page .navbar.surat-navbar-tablet .navbar-collapse .navbar-nav .nav-item,
+            body.surat-route-page .navbar.surat-navbar-tablet .navbar-collapse .navbar-nav .dropdown,
+            body.surat-route-page .navbar.surat-navbar-tablet .navbar-collapse .navbar-nav .dropdown-toggle {
+                margin-left: 0 !important;
+                padding-left: 0 !important;
+            }
+
+            body.surat-route-page .navbar.surat-navbar-tablet .navbar-collapse .navbar-nav .nav-link {
+                margin-left: 0 !important;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                width: 100%;
+                min-height: 48px;
+                padding: 0.85rem 1rem !important;
+                border-radius: 14px;
+                background: rgba(15, 23, 42, 0.04);
+                border-bottom: 0 !important;
+            }
+
+            body.surat-route-page .navbar.surat-navbar-tablet .navbar-collapse .navbar-nav .nav-link.active::after {
+                left: 1rem;
+                right: 1rem;
+                bottom: 0.35rem;
+            }
+
+            body.surat-route-page .navbar.surat-navbar-tablet .navbar-collapse .navbar-nav .dropdown-menu {
+                position: static;
+                inset: auto;
+                width: 100%;
+                margin-top: 0.35rem;
+                box-shadow: none;
+                background: #ffffff;
+                border: 1px solid rgba(15, 23, 42, 0.14);
+            }
+
+            body.surat-route-page.surat-page-shell-dark .navbar.surat-navbar-tablet.navbar-transparent,
+            body.surat-route-page.surat-page-shell-dark .navbar.surat-navbar-tablet .navbar-collapse.show,
+            body.surat-route-page.surat-page-shell-dark .navbar.surat-navbar-tablet .navbar-collapse.collapsing,
+            body.surat-route-page.surat-page-shell-dark .navbar.surat-navbar-tablet .navbar-collapse .navbar-nav .dropdown-menu {
+                background: rgba(31, 33, 37, 0.98) !important;
+                border-color: rgba(255, 255, 255, 0.1) !important;
+                box-shadow: 0 18px 36px rgba(0, 0, 0, 0.24) !important;
+            }
+
+            body.surat-route-page.surat-page-shell-dark .navbar.surat-navbar-tablet .navbar-toggler {
+                background: rgba(45, 49, 55, 0.96) !important;
+                border-color: rgba(255, 255, 255, 0.12) !important;
+                box-shadow: none !important;
+            }
+
+            body.surat-route-page.surat-page-shell-dark .navbar.surat-navbar-tablet .navbar-collapse .navbar-nav .nav-link {
+                color: #ffffff !important;
+                background: rgba(255, 255, 255, 0.03) !important;
+            }
+
+            body.surat-route-page.surat-primary-nav-open .surat-premium .advanced-quran-mobile-controls,
+            body.surat-route-page.surat-primary-nav-open .surat-premium .advanced-quran-mobile-deep-focus-bar,
+            body.surat-route-page.surat-primary-nav-open .surat-premium .quran-toolbar-sticky.quran-toolbar-fixed-shell,
+            body.surat-route-page.surat-primary-nav-open .surat-premium .surah-scroll-top {
+                opacity: 0 !important;
+                pointer-events: none !important;
+                transform: translateY(-10px) !important;
+            }
+        }
     </style>
 
 </head>
 
-<body>
+@php($isSuratRoute = request()->is('surat*'))
+<body @class(['surat-route-page' => $isSuratRoute])>
     <a class="skip-link" href="#main-content">Skip to main content</a>
     <div>
         <!-- Navbar -->
-        <nav class="navbar navbar-expand-md navbar-light navbar-transparent fixed-top shadow-lg py-1" role="navigation" aria-label="Primary">
+        <nav @class([
+            'navbar',
+            'navbar-light',
+            'navbar-transparent',
+            'fixed-top',
+            'shadow-lg',
+            'py-1',
+            $isSuratRoute ? 'navbar-expand-xl surat-navbar-tablet' : 'navbar-expand-md',
+        ]) role="navigation" aria-label="Primary">
             <div class="container-fluid">
-                <a class="navbar-brand" href="/welcome" data-path="/welcome" aria-label="Home">
-                    <img
-                        src="/images/logo_main.png"
-                        width="275"
-                        height="54"
-                        alt="Islamic Connect Logo"
-                        loading="lazy"
-                        class="img-fluid">
+                <a class="navbar-brand surat-brand-lockup" href="/welcome" data-path="/welcome" aria-label="Islamic Connect Home">
+                    <span class="surat-brand-icon-stack" aria-hidden="true">
+                        <img
+                            src="/images/logo_black.png"
+                            width="751"
+                            height="770"
+                            alt=""
+                            loading="lazy"
+                            class="surat-brand-icon surat-brand-icon--light">
+                        <img
+                            src="/images/logo_white.png"
+                            width="751"
+                            height="770"
+                            alt=""
+                            loading="lazy"
+                            class="surat-brand-icon surat-brand-icon--dark">
+                    </span>
+                    <span class="surat-brand-wordmark" aria-hidden="true">
+                        <img
+                            src="/images/logo_main.png"
+                            width="4000"
+                            height="770"
+                            alt=""
+                            loading="lazy"
+                            class="surat-brand-wordmark-img">
+                    </span>
+                    <span class="visually-hidden">Islamic Connect</span>
                 </a>
 
                 

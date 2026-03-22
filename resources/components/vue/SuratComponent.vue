@@ -5,6 +5,8 @@
             'has-sidebar': !isMemorisationToolbarVisible,
             'sidebar-collapsed': sidebarCollapsed && !isMemorisationToolbarVisible,
             'memorisation-offcanvas-open': isMemorisationToolbarVisible,
+            'toolbar-scroll-disabled': !toolbarScrollEnabled,
+            'is-theme-switching': isThemeSwitching,
             'mobile-toolbar-pinned': isTabletOrMobile && isToolbarPinned,
             'mobile-toolbar-expanded': isTabletOrMobile && isToolbarPinned && isMobileToolbarExpanded,
             'mobile-compact-layout': isTabletOrMobile,
@@ -151,7 +153,7 @@
                         </div>
                     </div>
                     <div
-                        v-if="isTabletOrMobile && isDeepFocusMode && !isMemorisationToolbarVisible"
+                        v-if="showReaderToolbar && isTabletOrMobile && isDeepFocusMode && !isMemorisationToolbarVisible"
                         class="advanced-quran-mobile-deep-focus-bar"
                         role="group"
                         aria-label="Deep focus mode controls">
@@ -169,11 +171,12 @@
                             </span>
                         </button>
                     </div>
-                    <template v-else-if="isTabletOrMobile">
+                    <template v-else-if="showReaderToolbar && isTabletOrMobile">
                         <div
                             class="advanced-quran-mobile-controls"
                             :class="{
                                 'is-pinned': isToolbarPinned,
+                                'is-static': !toolbarScrollEnabled,
                                 'is-expanded': isMobileToolbarExpanded
                             }"
                             role="group"
@@ -296,15 +299,22 @@
                                     <span class="advanced-quran-mobile-action-label">Open Session Tools Panel</span>
                                 </button>
                                 <button
-                                    v-if="showTajweed"
+                                    v-if="!isMemorisationToolbarVisible"
                                     type="button"
                                     class="btn advanced-quran-mobile-action-btn"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#tajweedRulesModal"
-                                    aria-label="View tajweed colors"
-                                    title="Open the tajweed color guide to understand pronunciation and reading rules.">
+                                    :class="{ 'is-enabled': showTajweed }"
+                                    @click="toggleToolbarTajweed"
+                                    :aria-label="showTajweed
+                                        ? 'Turn tajweed colors off'
+                                        : 'Turn tajweed colors on'"
+                                    :title="showTajweed
+                                        ? 'Hide tajweed colors in the Arabic text'
+                                        : 'Show tajweed colors in the Arabic text'">
                                     <i class="bi bi-palette-fill" aria-hidden="true"></i>
                                     <span class="advanced-quran-mobile-action-label">Tajweed colors</span>
+                                    <span class="advanced-quran-mobile-action-btn-state">
+                                        {{ showTajweed ? "On" : "Off" }}
+                                    </span>
                                 </button>
                                 <button
                                     v-if="!isMemorisationToolbarVisible"
@@ -482,11 +492,22 @@
                 </section> 
             </div>
         </div>
-        <div v-if="(surahDetails || currentSurahInfo) && ((!isTabletOrMobile && (showDesktopToolbar || showDesktopSurahContext)) || (isTabletOrMobile && showCustomPlaylistPanel))"
+        <div v-if="!showReaderToolbar"
+            class="reader-toolbar-restore ltr-text">
+            <button
+                type="button"
+                class="btn reader-toolbar-restore-btn"
+                @click="setReaderToolbarVisibility(true)">
+                <i class="bi bi-layout-text-sidebar-reverse" aria-hidden="true"></i>
+                <span>Show reader tools</span>
+            </button>
+        </div>
+        <div v-if="(surahDetails || currentSurahInfo) && ((!isTabletOrMobile && ((showDesktopToolbar && showReaderToolbar) || showCustomPlaylistPanel)) || (isTabletOrMobile && showCustomPlaylistPanel))"
             class="quran-toolbar-sticky ltr-text"
             :class="{
                 'quran-toolbar-fixed-shell': showDesktopToolbar && !isTabletOrMobile,
                 'is-pinned': showDesktopToolbar && isToolbarPinned && !isTabletOrMobile,
+                'is-static': !toolbarScrollEnabled,
                 'is-mobile-playlist-shell': isTabletOrMobile && showCustomPlaylistPanel
             }"
             role="region"
@@ -510,14 +531,17 @@
                 </div>
 
                 <button
-                    v-if="showTajweed"
+                    v-if="!isMemorisationToolbarVisible"
                     type="button"
-                    class="quran-toolbar-btn"
-                    data-bs-toggle="modal"
-                    data-bs-target="#tajweedRulesModal"
-                    aria-label="View tajweed colors">
+                    class="quran-toolbar-btn quran-toolbar-btn-toggle"
+                    :class="{ 'is-enabled': showTajweed }"
+                    @click="toggleToolbarTajweed"
+                    :aria-label="showTajweed
+                        ? 'Turn tajweed colors off'
+                        : 'Turn tajweed colors on'">
                     <i class="bi bi-palette-fill" aria-hidden="true"></i>
                     <span class="quran-toolbar-btn-text">Tajweed colors</span>
+                    <span class="quran-toolbar-btn-state">{{ showTajweed ? "On" : "Off" }}</span>
                 </button>
 
                 <button
@@ -4450,15 +4474,6 @@
                                                 <span>Copy to Clipboard</span>
                                             </span>
                                         </button>
-                                        <button
-                                            type="button"
-                                            class="ayah-playlist-menu-item d-md-none"
-                                            @click.stop="closeAyahPlaylistMenu(); toggleAyahTafsir(item)">
-                                            <span class="ayah-actions-leading-label">
-                                                <i class="bi bi-journal-richtext" aria-hidden="true"></i>
-                                                <span>Tafsir</span>
-                                            </span>
-                                        </button>
                                         <div class="ayah-playlist-menu-row">
                                             <button
                                                 type="button"
@@ -5462,14 +5477,27 @@
                                 </div>
                                 <div class="col-12 col-md-6">
                                     <div class="surah-settings-group h-100">
-                                        <label class="form-label">Tajweed colors &amp; rules</label>
+                                        <label class="form-label">Reader toolbar</label>
+                                        <select class="form-select" v-model="settingsDraft.showReaderToolbar"
+                                            aria-label="Reader toolbar visibility">
+                                            <option :value="true">Shown</option>
+                                            <option :value="false">Hidden</option>
+                                        </select>
+                                        <small class="text-muted d-block mt-1">
+                                            Show or hide the top reader toolbar. A small restore button stays available when hidden.
+                                        </small>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <div class="surah-settings-group h-100">
+                                        <label class="form-label">Tajweed colors</label>
                                         <select class="form-select" v-model="settingsDraft.showTajweed"
-                                            aria-label="Enable tajweed colors and rules">
+                                            aria-label="Enable tajweed colors">
                                             <option :value="true">Enabled</option>
                                             <option :value="false">Disabled</option>
                                         </select>
                                         <small class="text-muted d-block mt-1">
-                                            Toggle the tajweed-colored text in the Quran and access the tajweed rules legend.
+                                            Show or hide tajweed colouring directly in the Arabic text.
                                         </small>
                                     </div>
                                 </div>
@@ -5488,6 +5516,19 @@
                                         </small>
                                         <small v-else class="text-muted d-block mt-1">
                                             Decide whether audio plays continuously, repeats, or stays manual.
+                                        </small>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <div class="surah-settings-group h-100">
+                                        <label class="form-label">Scrolling toolbar</label>
+                                        <select class="form-select" v-model="settingsDraft.toolbarScrollEnabled"
+                                            aria-label="Scrolling toolbar">
+                                            <option :value="true">Enabled</option>
+                                            <option :value="false">Disabled</option>
+                                        </select>
+                                        <small class="text-muted d-block mt-1">
+                                            Keep the reader toolbar pinned as a single scrollable row. Disable this if it feels laggy; the toolbar will stay in place and wrap into multiple rows.
                                         </small>
                                     </div>
                                 </div>
@@ -5901,7 +5942,7 @@
         <teleport to="body">
             <div class="modal fade" id="ayahReflectionModal" tabindex="-1" aria-labelledby="reflectionModalLabel"
                 aria-hidden="true" data-bs-backdrop="true">
-                <div class="modal-dialog modal-dialog-centered modal-lg modal-modern modal-fullscreen-md-down">
+                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl modal-modern modal-fullscreen-sm-down reflection-modal-dialog">
                     <div class="modal-content reflection-modal" :class="{ 'surat-dark-modal': isDarkTheme }">
                         <div class="modal-header">
                             <h6 class="modal-title" id="reflectionModalLabel">
