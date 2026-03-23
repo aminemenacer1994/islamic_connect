@@ -1435,13 +1435,21 @@ export default {
                         : option.value === "repeat"
                         ? "Auto repeat"
                         : "Manual",
-                icon:
+                description:
                     option.value === "continuous"
-                        ? "bi-play-circle"
+                        ? "Plays through the selected ayah range without stopping."
                         : option.value === "repeat"
-                        ? "bi-arrow-repeat"
-                        : "bi-hand-index-thumb",
+                        ? "Repeats each ayah automatically before moving to the next."
+                        : "Waits for your tap before the next ayah starts.",
             }));
+        },
+        activeMemorisationPlaybackModeOption() {
+            const options = this.memorisationQuickPlaybackModeOptions;
+            return (
+                options.find(
+                    (option) => option.value === this.playbackMode
+                ) || options[0] || null
+            );
         },
         memorisationDraftMaxAyah() {
             const targetSurah = String(
@@ -11165,6 +11173,20 @@ export default {
         onMemorisationToolbarPlaybackModeChange(mode = "continuous") {
             this.setPlaybackMode(mode);
             this.syncMemorisationDraftFromCurrentSession();
+        },
+        onMemorisationToolbarPlaybackModeSelect(mode = "continuous", event = null) {
+            this.onMemorisationToolbarPlaybackModeChange(mode);
+            const dropdown =
+                event?.currentTarget &&
+                typeof event.currentTarget.closest === "function"
+                    ? event.currentTarget.closest("details")
+                    : null;
+            if (
+                dropdown &&
+                typeof dropdown.removeAttribute === "function"
+            ) {
+                dropdown.removeAttribute("open");
+            }
         },
         onMemorisationToolbarToggleRangeLoop(nextValue = null) {
             this.memorisationRangeLoopEnabled =
