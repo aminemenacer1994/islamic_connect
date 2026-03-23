@@ -3,6 +3,7 @@ import { JUZ_START_MAPPING, PAGE_START_MAPPING, getJuzStart, getPageStart } from
 import { jsPDF } from "jspdf";
 import { Modal, Tooltip } from "bootstrap";
 import BookmarkModal from "../vue/bookmarks/BookmarkModal.vue";
+import SavedBookmarksPanel from "../vue/bookmarks/SavedBookmarksPanel.vue";
 import { fetchUserIdFromApi } from "../utils/bookmarkAuth";
 import {
     VOICE_COMMAND_DATA,
@@ -20,6 +21,7 @@ export default {
     name: "SuratComponent",
     components: {
         BookmarkModal,
+        SavedBookmarksPanel,
     },
     data: function () {
         return {
@@ -768,6 +770,8 @@ export default {
             activeAyah: null,
             savedAyahKeys: {},
             savedAyahsLoaded: false,
+            savedBookmarkRecords: {},
+            savedBookmarkRecordsLoaded: false,
             savedAyahClearTimer: null,
             pinnedAyahs: {},
             pinnedAyahStorageKeyBase: "ic_surat_pinned_ayahs",
@@ -779,6 +783,17 @@ export default {
             bookmarkStorageUserId: null,
             bookmarkAnonId: null,
             savedAyahStorageKey: "ic_saved_ayahs_session",
+            savedBookmarkRecordsStorageKey: "",
+            savedBookmarkRecordsStorageKeyBase:
+                "ic_saved_bookmark_records_v1",
+            isSavedBookmarksPanelOpen: false,
+            selectedSavedBookmarkKeys: [],
+            savedBookmarksDeleteConfirm: {
+                visible: false,
+                keys: [],
+                message: "",
+            },
+            savedBookmarksDeleteBusy: false,
             feedbackMessages: {}, // Keyed by ayahID, value: { text, class }
             bookmarkToast: "",
             bookmarkToastAction: null,
@@ -4351,6 +4366,60 @@ export default {
         hasPinnedAyahs() {
             return this.bookmarkAuthenticated && this.pinnedAyahsList.length > 0;
         },
+        savedBookmarksList() {
+            if (
+                !this.savedBookmarkRecords ||
+                typeof this.savedBookmarkRecords !== "object"
+            ) {
+                return [];
+            }
+            return Object.entries(this.savedBookmarkRecords)
+                .map(([key, value]) => {
+                    if (!value || typeof value !== "object") return null;
+                    const surahNumber = Number(value.surahNumber);
+                    const ayahNumber = Number(value.ayahNumber);
+                    if (!surahNumber || !ayahNumber) return null;
+                    const surahName = String(
+                        value.surahName ||
+                            value.surahEnglishName ||
+                            this.getSurahNameByNumber(surahNumber)
+                    ).trim();
+                    const savedAt = this.normalizeBookmarkTimestamp(
+                        value.savedAt || value.createdAt || value.created_at || 0
+                    );
+                    return {
+                        ...value,
+                        key: key || this.buildAyahKey(surahNumber, ayahNumber),
+                        surahNumber,
+                        ayahNumber,
+                        surahName: surahName || this.getSurahNameByNumber(surahNumber),
+                        savedAt,
+                        savedAtLabel: this.formatSavedBookmarkDate(savedAt),
+                    };
+                })
+                .filter(Boolean)
+                .sort((a, b) => {
+                    if (b.savedAt !== a.savedAt) {
+                        return b.savedAt - a.savedAt;
+                    }
+                    return a.key.localeCompare(b.key);
+                });
+        },
+        hasSavedBookmarks() {
+            return this.savedBookmarksList.length > 0;
+        },
+        selectedSavedBookmarkCount() {
+            const validKeys = new Set(this.savedBookmarksList.map((item) => item.key));
+            return (this.selectedSavedBookmarkKeys || []).filter((key) =>
+                validKeys.has(key)
+            ).length;
+        },
+        areAllSavedBookmarksSelected() {
+            return (
+                this.hasSavedBookmarks &&
+                this.selectedSavedBookmarkCount === this.savedBookmarksList.length
+            );
+        },
         canPlaySurah() {
             return (
                 !this.isLoading &&
@@ -4593,6 +4662,12 @@ export default {
             deep: true,
             handler(next) {
                 this.persistSavedAyahs(next);
+            },
+        },
+        savedBookmarkRecords: {
+            deep: true,
+            handler(next) {
+                this.persistSavedBookmarkRecords(next);
             },
         },
         pinnedAyahs: {
@@ -19866,6 +19941,7 @@ export default {
                 const bookmarks = response.data?.data || [];
                 if (!Array.isArray(bookmarks)) return;
                 const next = {};
+                const nextRecords = {};
                 bookmarks.forEach((bookmark) => {
                     const surahNumber = Number(
                         bookmark.surah_number || bookmark.surahNumber || 0
@@ -19889,10 +19965,28 @@ export default {
                         bookmark.id || true
                     );
                     if (normalizedValue === null) return;
-                    next[this.buildAyahKey(surahNumber, ayahNumber)] =
-                        normalizedValue;
+                    const key = this.buildAyahKey(surahNumber, ayahNumber);
+                    next[key] = normalizedValue;
+                    const record = this.buildSavedBookmarkRecordFromSource(
+                        bookmark,
+                        {
+                            surahNumber,
+                            ayahNumber,
+                            bookmarkId:
+                                typeof normalizedValue === "number"
+                                    ? normalizedValue
+                                    : null,
+                        }
+                    );
+                    if (record) {
+                        nextRecords[key] = record;
+                    }
                 });
                 this.savedAyahKeys = this.normalizeSavedAyahKeysMap(next);
+                this.savedBookmarkRecords =
+                    this.normalizeSavedBookmarkRecordsMap(nextRecords);
+                this.savedBookmarkRecordsLoaded = true;
+                this.collapseSavedBookmarksPanelIfEmpty();
             } catch (_) {
                 // Ignore sync failures; local state still works.
             }
@@ -19918,6 +20012,28 @@ export default {
         handleStorageBookmarksUpdated(event) {
             if (event.key === "bookmarkRefresh") {
                 this.syncSavedAyahsFromApi();
+                return;
+            }
+            if (event.key === this.savedAyahStorageKey) {
+                try {
+                    this.savedAyahKeys = this.normalizeSavedAyahKeysMap(
+                        JSON.parse(event.newValue || "{}")
+                    );
+                } catch (_) {
+                    this.savedAyahKeys = {};
+                }
+                return;
+            }
+            if (event.key === this.savedBookmarkRecordsStorageKey) {
+                try {
+                    this.savedBookmarkRecords =
+                        this.normalizeSavedBookmarkRecordsMap(
+                            JSON.parse(event.newValue || "{}")
+                        );
+                } catch (_) {
+                    this.savedBookmarkRecords = {};
+                }
+                this.collapseSavedBookmarksPanelIfEmpty();
                 return;
             }
             if (event.key === this.getMemorisationSessionStorageKey()) {
@@ -19980,6 +20096,12 @@ export default {
             if (!this.bookmarkAuthenticated) {
                 this.savedAyahKeys = {};
                 this.savedAyahsLoaded = true;
+                this.savedBookmarkRecords = {};
+                this.savedBookmarkRecordsLoaded = true;
+                this.savedBookmarkRecordsStorageKey = "";
+                this.isSavedBookmarksPanelOpen = false;
+                this.clearSavedBookmarksSelection();
+                this.resetSavedBookmarksDeleteConfirm();
                 this.pinnedAyahs = {};
                 this.pinnedAyahStorageKey = "";
                 this.pinnedSectionUiStateStorageKey = "";
@@ -19988,6 +20110,7 @@ export default {
                 return;
             }
             await this.loadSavedAyahs();
+            await this.loadSavedBookmarkRecords();
             await this.loadPinnedAyahs();
             await this.loadPinnedSectionUiPreference();
             await this.initializeReflectionCacheKey();
@@ -20049,13 +20172,557 @@ export default {
         },
         clearSavedBookmarks() {
             this.savedAyahKeys = {};
+            this.savedBookmarkRecords = {};
+            this.collapseSavedBookmarksPanelIfEmpty();
             try {
                 const key =
                     this.savedAyahStorageKey || "ic_saved_ayahs_session";
                 sessionStorage.removeItem(key);
                 localStorage.removeItem(key);
+                if (this.savedBookmarkRecordsStorageKey) {
+                    localStorage.removeItem(this.savedBookmarkRecordsStorageKey);
+                }
             } catch (_) {
                 // ignore
+            }
+        },
+        collapseSavedBookmarksPanelIfEmpty() {
+            if (this.hasSavedBookmarks) return;
+            this.isSavedBookmarksPanelOpen = false;
+            this.clearSavedBookmarksSelection();
+            this.resetSavedBookmarksDeleteConfirm();
+        },
+        resetSavedBookmarksDeleteConfirm() {
+            this.savedBookmarksDeleteConfirm = {
+                visible: false,
+                keys: [],
+                message: "",
+            };
+        },
+        clearSavedBookmarksSelection() {
+            this.selectedSavedBookmarkKeys = [];
+        },
+        buildSavedBookmarkRecordsStorageKey() {
+            if (!this.bookmarkStorageUserId) {
+                return "";
+            }
+            return `${this.savedBookmarkRecordsStorageKeyBase}_user_${this.bookmarkStorageUserId}`;
+        },
+        async initializeSavedBookmarkRecordsStorageKey() {
+            if (
+                this.savedBookmarkRecordsStorageKey &&
+                this.savedBookmarkRecordsStorageKey.startsWith(
+                    `${this.savedBookmarkRecordsStorageKeyBase}_user_`
+                ) &&
+                this.bookmarkStorageUserId
+            ) {
+                return;
+            }
+            await this.fetchBookmarkStorageUserId();
+            this.savedBookmarkRecordsStorageKey =
+                this.buildSavedBookmarkRecordsStorageKey();
+        },
+        async loadSavedBookmarkRecords(force = false) {
+            if (this.savedBookmarkRecordsLoaded && !force) return;
+            if (!this.bookmarkAuthenticated) {
+                this.savedBookmarkRecords = {};
+                this.savedBookmarkRecordsStorageKey = "";
+                this.savedBookmarkRecordsLoaded = true;
+                return;
+            }
+            await this.initializeSavedBookmarkRecordsStorageKey();
+            const key = this.savedBookmarkRecordsStorageKey;
+            if (!key) {
+                this.savedBookmarkRecords = {};
+                this.savedBookmarkRecordsLoaded = true;
+                return;
+            }
+            try {
+                const stored = localStorage.getItem(key);
+                const parsed = stored ? JSON.parse(stored) : {};
+                this.savedBookmarkRecords =
+                    this.normalizeSavedBookmarkRecordsMap(parsed);
+            } catch (_) {
+                this.savedBookmarkRecords = {};
+            }
+            this.savedBookmarkRecordsLoaded = true;
+        },
+        async persistSavedBookmarkRecords(next) {
+            if (!this.bookmarkAuthenticated) return;
+            try {
+                await this.initializeSavedBookmarkRecordsStorageKey();
+                const key = this.savedBookmarkRecordsStorageKey;
+                if (!key) return;
+                localStorage.setItem(
+                    key,
+                    JSON.stringify(
+                        this.normalizeSavedBookmarkRecordsMap(next)
+                    )
+                );
+            } catch (_) {
+                // no-op
+            }
+        },
+        normalizeBookmarkTimestamp(value) {
+            if (typeof value === "number") {
+                return Number.isFinite(value) && value > 0
+                    ? Math.trunc(value)
+                    : 0;
+            }
+            if (value instanceof Date) {
+                const timestamp = value.getTime();
+                return Number.isFinite(timestamp) && timestamp > 0
+                    ? Math.trunc(timestamp)
+                    : 0;
+            }
+            if (typeof value === "string") {
+                const trimmed = value.trim();
+                if (!trimmed) return 0;
+                const numeric = Number(trimmed);
+                if (Number.isFinite(numeric) && numeric > 0) {
+                    return Math.trunc(numeric);
+                }
+                const parsed = Date.parse(trimmed);
+                return Number.isFinite(parsed) && parsed > 0
+                    ? Math.trunc(parsed)
+                    : 0;
+            }
+            return 0;
+        },
+        formatSavedBookmarkDate(value) {
+            const timestamp = this.normalizeBookmarkTimestamp(value);
+            if (!timestamp) {
+                return "Saved recently";
+            }
+            const date = new Date(timestamp);
+            try {
+                if (typeof Intl !== "undefined" && Intl.DateTimeFormat) {
+                    return new Intl.DateTimeFormat(undefined, {
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                        hour: "numeric",
+                        minute: "2-digit",
+                    }).format(date);
+                }
+            } catch (_) {
+                // fall through
+            }
+            return date.toLocaleString();
+        },
+        normalizeSavedBookmarkRecord(rawRecord, rawKey = "") {
+            if (!rawRecord || typeof rawRecord !== "object") {
+                return null;
+            }
+            const keyMatch = /^(\d+):(\d+)$/.exec(String(rawKey || "").trim());
+            const surahNumber = Number(
+                rawRecord.surahNumber ||
+                    rawRecord.surah_number ||
+                    keyMatch?.[1] ||
+                    0
+            );
+            const ayahNumber = Number(
+                rawRecord.ayahNumber ||
+                    rawRecord.ayah_number ||
+                    rawRecord.ayah_num ||
+                    keyMatch?.[2] ||
+                    0
+            );
+            if (
+                !Number.isFinite(surahNumber) ||
+                !Number.isFinite(ayahNumber) ||
+                surahNumber < 1 ||
+                surahNumber > 114 ||
+                ayahNumber < 1
+            ) {
+                return null;
+            }
+            const surahAyahCount =
+                this.getSurahAyahCountByNumber(surahNumber);
+            if (surahAyahCount && ayahNumber > surahAyahCount) {
+                return null;
+            }
+            const key = this.buildAyahKey(surahNumber, ayahNumber);
+            const normalizedBookmarkId = this.normalizeSavedAyahValue(
+                rawRecord.bookmarkId ||
+                    rawRecord.bookmark_id ||
+                    rawRecord.id ||
+                    rawRecord.value ||
+                    null
+            );
+            return {
+                key,
+                bookmarkId:
+                    typeof normalizedBookmarkId === "number"
+                        ? normalizedBookmarkId
+                        : null,
+                surahNumber,
+                ayahNumber,
+                surahName: String(
+                    rawRecord.surahName ||
+                        rawRecord.surah_name ||
+                        rawRecord.surahEnglishName ||
+                        this.getSurahNameByNumber(surahNumber)
+                ).trim(),
+                surahArabicName: String(
+                    rawRecord.surahArabicName ||
+                        rawRecord.surah_arabic_name ||
+                        rawRecord.surahArabic ||
+                        this.getSurahArabicNameByNumber(surahNumber)
+                ).trim(),
+                translation: String(
+                    rawRecord.translation ||
+                        rawRecord.ayahVerseEn ||
+                        rawRecord.ayah_verse_en ||
+                        ""
+                )
+                    .replace(/\s+/g, " ")
+                    .trim(),
+                text: String(
+                    rawRecord.text ||
+                        rawRecord.ayahVerseAr ||
+                        rawRecord.ayah_verse_ar ||
+                        ""
+                )
+                    .replace(/\s+/g, " ")
+                    .trim(),
+                savedAt:
+                    this.normalizeBookmarkTimestamp(
+                        rawRecord.savedAt ||
+                            rawRecord.createdAt ||
+                            rawRecord.created_at ||
+                            rawRecord.bookmarkedAt ||
+                            rawRecord.bookmarked_at ||
+                            0
+                    ) || Date.now(),
+            };
+        },
+        normalizeSavedBookmarkRecordsMap(rawMap) {
+            if (!rawMap || typeof rawMap !== "object") return {};
+            const source = Array.isArray(rawMap)
+                ? rawMap.reduce((acc, entry, index) => {
+                    if (!entry || typeof entry !== "object") return acc;
+                    const surahNumber = Number(
+                        entry.surahNumber || entry.surah_number || 0
+                    );
+                    const ayahNumber = Number(
+                        entry.ayahNumber ||
+                            entry.ayah_number ||
+                            entry.ayah_num ||
+                            0
+                    );
+                    const key =
+                        surahNumber && ayahNumber
+                            ? this.buildAyahKey(surahNumber, ayahNumber)
+                            : `saved-bookmark-${index}`;
+                    acc[key] = entry;
+                    return acc;
+                }, {})
+                : rawMap;
+            const next = {};
+            Object.entries(source).forEach(([rawKey, rawValue]) => {
+                const normalized = this.normalizeSavedBookmarkRecord(
+                    rawValue,
+                    rawKey
+                );
+                if (!normalized) return;
+                next[normalized.key] = normalized;
+            });
+            return next;
+        },
+        buildSavedBookmarkRecordFromSource(source = {}, options = {}) {
+            const surahNumber = Number(
+                options.surahNumber ||
+                    source.surahNumber ||
+                    source.surah_number ||
+                    this.surahDetails?.surahNumber ||
+                    this.selectedSurah ||
+                    0
+            );
+            const ayahNumber = Number(
+                options.ayahNumber ||
+                    source.ayahNumber ||
+                    source.ayah_number ||
+                    source.ayah_num ||
+                    source.numberInSurah ||
+                    source.number ||
+                    0
+            );
+            if (!surahNumber || !ayahNumber) return null;
+            const normalizedBookmarkId = this.normalizeSavedAyahValue(
+                options.bookmarkId ||
+                    source.bookmarkId ||
+                    source.bookmark_id ||
+                    source.id ||
+                    null
+            );
+            return {
+                key: this.buildAyahKey(surahNumber, ayahNumber),
+                bookmarkId:
+                    typeof normalizedBookmarkId === "number"
+                        ? normalizedBookmarkId
+                        : null,
+                surahNumber,
+                ayahNumber,
+                surahName: String(
+                    options.surahName ||
+                        source.surah_name ||
+                        source.surahName ||
+                        source.surahEnglishName ||
+                        this.getSurahNameByNumber(surahNumber)
+                ).trim(),
+                surahArabicName: String(
+                    options.surahArabicName ||
+                        source.surahArabicName ||
+                        source.surah_arabic_name ||
+                        this.getSurahArabicNameByNumber(surahNumber)
+                ).trim(),
+                translation: String(
+                    options.translation ||
+                        source.translation ||
+                        source.ayah_verse_en ||
+                        ""
+                )
+                    .replace(/\s+/g, " ")
+                    .trim(),
+                text: String(
+                    options.text || source.text || source.ayah_verse_ar || ""
+                )
+                    .replace(/\s+/g, " ")
+                    .trim(),
+                savedAt:
+                    this.normalizeBookmarkTimestamp(
+                        options.savedAt ||
+                            source.savedAt ||
+                            source.createdAt ||
+                            source.created_at ||
+                            0
+                    ) || Date.now(),
+            };
+        },
+        upsertSavedBookmarkRecord(source = {}, options = {}) {
+            const entry = this.buildSavedBookmarkRecordFromSource(source, options);
+            if (!entry) return null;
+            const existing = this.savedBookmarkRecords?.[entry.key] || null;
+            this.savedBookmarkRecords = {
+                ...this.savedBookmarkRecords,
+                [entry.key]: {
+                    ...(existing || {}),
+                    ...entry,
+                    savedAt:
+                        entry.savedAt ||
+                        this.normalizeBookmarkTimestamp(existing?.savedAt) ||
+                        Date.now(),
+                },
+            };
+            return entry;
+        },
+        removeSavedBookmarkRecordsByKeys(keys = []) {
+            const next = { ...this.savedBookmarkRecords };
+            keys.forEach((key) => {
+                delete next[key];
+            });
+            this.savedBookmarkRecords = next;
+            this.selectedSavedBookmarkKeys = (this.selectedSavedBookmarkKeys || []).filter(
+                (selectedKey) => !keys.includes(selectedKey)
+            );
+        },
+        getSavedBookmarkRecordByKey(key = "") {
+            if (!key) return null;
+            return this.savedBookmarksList.find((entry) => entry.key === key) || null;
+        },
+        async handleSavedBookmarksButtonClick() {
+            if (this.isSavedBookmarksPanelOpen) {
+                this.closeSavedBookmarksPanel();
+                return;
+            }
+            if (!this.bookmarkAuthenticated) {
+                const isAuthed = await this.ensureAuthenticated(
+                    "Please log in to view saved bookmarks."
+                );
+                if (!isAuthed) return;
+            }
+            this.savedAyahsLoaded = false;
+            this.savedBookmarkRecordsLoaded = false;
+            await this.loadSavedAyahs();
+            await this.loadSavedBookmarkRecords();
+            await this.syncSavedAyahsFromApi();
+            this.isSavedBookmarksPanelOpen = this.hasSavedBookmarks;
+        },
+        closeSavedBookmarksPanel() {
+            if (this.savedBookmarksDeleteBusy) return;
+            this.isSavedBookmarksPanelOpen = false;
+            this.clearSavedBookmarksSelection();
+            this.resetSavedBookmarksDeleteConfirm();
+        },
+        toggleSavedBookmarkSelection(key = "") {
+            if (!key || this.savedBookmarksDeleteBusy) return;
+            const selected = new Set(this.selectedSavedBookmarkKeys || []);
+            if (selected.has(key)) {
+                selected.delete(key);
+            } else {
+                selected.add(key);
+            }
+            this.selectedSavedBookmarkKeys = Array.from(selected);
+        },
+        toggleSelectAllSavedBookmarks() {
+            if (this.savedBookmarksDeleteBusy) return;
+            if (this.areAllSavedBookmarksSelected) {
+                this.clearSavedBookmarksSelection();
+                return;
+            }
+            this.selectedSavedBookmarkKeys = this.savedBookmarksList.map(
+                (item) => item.key
+            );
+        },
+        requestSingleSavedBookmarkDelete(key = "") {
+            const bookmark = this.getSavedBookmarkRecordByKey(key);
+            if (!bookmark || this.savedBookmarksDeleteBusy) return;
+            this.savedBookmarksDeleteConfirm = {
+                visible: true,
+                keys: [bookmark.key],
+                message: `Delete ${bookmark.surahName} ayah ${bookmark.ayahNumber} from your saved bookmarks?`,
+            };
+        },
+        requestBulkSavedBookmarksDelete() {
+            if (!this.selectedSavedBookmarkCount || this.savedBookmarksDeleteBusy) {
+                return;
+            }
+            const keys = Array.from(
+                new Set(
+                    (this.selectedSavedBookmarkKeys || []).filter((key) =>
+                        !!this.savedBookmarkRecords?.[key]
+                    )
+                )
+            );
+            if (!keys.length) return;
+            this.savedBookmarksDeleteConfirm = {
+                visible: true,
+                keys,
+                message: `Delete ${keys.length} selected bookmark${
+                    keys.length === 1 ? "" : "s"
+                } from your saved bookmarks?`,
+            };
+        },
+        cancelSavedBookmarksDelete() {
+            if (this.savedBookmarksDeleteBusy) return;
+            this.resetSavedBookmarksDeleteConfirm();
+        },
+        async confirmSavedBookmarksDelete() {
+            if (this.savedBookmarksDeleteBusy) return;
+            const keys = Array.from(
+                new Set(this.savedBookmarksDeleteConfirm?.keys || [])
+            ).filter((key) => !!(this.savedBookmarkRecords?.[key] || this.savedAyahKeys?.[key]));
+            if (!keys.length) {
+                this.resetSavedBookmarksDeleteConfirm();
+                return;
+            }
+
+            const previousSavedAyahKeys = { ...this.savedAyahKeys };
+            const previousSavedBookmarkRecords = { ...this.savedBookmarkRecords };
+            const previousSelection = [...(this.selectedSavedBookmarkKeys || [])];
+            this.savedBookmarksDeleteBusy = true;
+
+            const nextSavedAyahKeys = { ...this.savedAyahKeys };
+            keys.forEach((key) => {
+                delete nextSavedAyahKeys[key];
+            });
+            this.savedAyahKeys = nextSavedAyahKeys;
+            this.removeSavedBookmarkRecordsByKeys(keys);
+            this.selectedSavedBookmarkKeys = previousSelection.filter(
+                (key) => !keys.includes(key)
+            );
+
+            try {
+                const bookmarkIds = keys
+                    .map((key) => {
+                        const bookmark = previousSavedBookmarkRecords[key];
+                        const normalized = this.normalizeSavedAyahValue(
+                            bookmark?.bookmarkId || previousSavedAyahKeys[key]
+                        );
+                        return typeof normalized === "number" ? normalized : null;
+                    })
+                    .filter((value, index, array) => {
+                        return value && array.indexOf(value) === index;
+                    });
+
+                if (bookmarkIds.length > 1) {
+                    await axios.delete("/api/ayah-bookmarks/bulk", {
+                        data: {
+                            bookmark_ids: bookmarkIds,
+                        },
+                    });
+                } else if (bookmarkIds.length === 1) {
+                    await axios.delete(`/api/ayah-bookmarks/${bookmarkIds[0]}`);
+                }
+
+                const deletedCount = keys.length;
+                const deleteMessage =
+                    deletedCount === 1
+                        ? "Bookmark removed."
+                        : `${deletedCount} bookmarks removed.`;
+                this.showToast(deleteMessage, 2500);
+                this.announce(deleteMessage);
+                this.resetSavedBookmarksDeleteConfirm();
+                this.collapseSavedBookmarksPanelIfEmpty();
+                this.notifyBookmarkChange();
+            } catch (error) {
+                const status = Number(error?.response?.status || 0);
+                if (status === 404) {
+                    const deletedCount = keys.length;
+                    const deleteMessage =
+                        deletedCount === 1
+                            ? "Bookmark removed."
+                            : `${deletedCount} bookmarks removed.`;
+                    this.showToast(deleteMessage, 2500);
+                    this.announce(deleteMessage);
+                    this.resetSavedBookmarksDeleteConfirm();
+                    this.collapseSavedBookmarksPanelIfEmpty();
+                    this.notifyBookmarkChange();
+                } else {
+                    this.savedAyahKeys = previousSavedAyahKeys;
+                    this.savedBookmarkRecords = previousSavedBookmarkRecords;
+                    this.selectedSavedBookmarkKeys = previousSelection;
+                    this.showToast(
+                        keys.length === 1
+                            ? "Failed to remove bookmark."
+                            : "Failed to remove selected bookmarks.",
+                        3000
+                    );
+                }
+            } finally {
+                this.savedBookmarksDeleteBusy = false;
+            }
+        },
+        async openSavedBookmarkByKey(key = "") {
+            const bookmark = this.getSavedBookmarkRecordByKey(key);
+            if (!bookmark) return;
+            await this.openSavedBookmark(bookmark);
+        },
+        async openSavedBookmark(bookmark) {
+            const surahNumber = Number(bookmark?.surahNumber);
+            const ayahNumber = Number(bookmark?.ayahNumber);
+            if (!surahNumber || !ayahNumber) return;
+
+            try {
+                if (String(this.selectedSurah) !== String(surahNumber)) {
+                    await this.selectSurah(surahNumber, { skipScroll: true });
+                }
+                this.searchQuery = "";
+                this.debouncedQuery = "";
+                const targetIndex = Math.max(0, ayahNumber - 1);
+                this.selectCard(targetIndex);
+                this.$nextTick(() => {
+                    this.scrollToAyahIndex(targetIndex, {
+                        settle: true,
+                        force: true,
+                        behavior: "smooth",
+                        lock: true,
+                    });
+                });
+                this.announce(`Opened ${bookmark.surahName} ayah ${ayahNumber}.`);
+            } catch (_) {
+                // ignore navigation errors
             }
         },
         buildAyahKey(surahNumber, ayahNumber) {
@@ -20246,7 +20913,22 @@ export default {
 
             // Optimistic update
             const prevKeys = { ...this.savedAyahKeys };
+            const prevRecords = { ...this.savedBookmarkRecords };
             this.savedAyahKeys = { ...this.savedAyahKeys, [key]: true };
+            this.upsertSavedBookmarkRecord(ayah, {
+                surahNumber,
+                ayahNumber,
+                surahName:
+                    this.surahDetails?.englishName ||
+                    this.surahDetails?.name ||
+                    this.getSurahNameByNumber(surahNumber),
+                surahArabicName:
+                    this.surahDetails?.name ||
+                    this.getSurahArabicNameByNumber(surahNumber),
+                translation: ayah.translation || "",
+                text: ayah.text || "",
+                savedAt: Date.now(),
+            });
 
             // Local feedback
             this.triggerAyahFeedback(
@@ -20279,6 +20961,11 @@ export default {
                         ...this.savedAyahKeys,
                         [key]: bookmark.id,
                     };
+                    this.upsertSavedBookmarkRecord(bookmark, {
+                        surahNumber,
+                        ayahNumber,
+                        bookmarkId: bookmark.id,
+                    });
                     this.showToast("Bookmark saved.", 4000, {
                         text: "Edit",
                         handler: () => {
@@ -20299,6 +20986,7 @@ export default {
             } catch (error) {
                 // Revert
                 this.savedAyahKeys = prevKeys;
+                this.savedBookmarkRecords = prevRecords;
                 this.triggerAyahFeedback(
                     key,
                     "Error saving",
@@ -20313,18 +21001,22 @@ export default {
             if (!ref) return;
             const { key } = ref;
             const bookmarkId = this.getBookmarkId(ayah);
+            const prevRecords = { ...this.savedBookmarkRecords };
 
             if (!bookmarkId) {
                 // fallback handling
                 const next = { ...this.savedAyahKeys };
                 delete next[key];
                 this.savedAyahKeys = next;
+                this.removeSavedBookmarkRecordsByKeys([key]);
                 this.triggerAyahFeedback(
                     key,
                     "Bookmark removed",
                     "bg-dark text-white",
                     "trash"
                 );
+                this.collapseSavedBookmarksPanelIfEmpty();
+                this.notifyBookmarkChange();
                 return;
             }
 
@@ -20333,6 +21025,7 @@ export default {
             const next = { ...this.savedAyahKeys };
             delete next[key];
             this.savedAyahKeys = next;
+            this.removeSavedBookmarkRecordsByKeys([key]);
 
             // Local feedback
             this.triggerAyahFeedback(
@@ -20346,16 +21039,19 @@ export default {
                 await axios.delete(`/api/ayah-bookmarks/${bookmarkId}`);
                 this.showToast("Bookmark removed.", 2000);
                 this.announce("Bookmark removed.");
+                this.collapseSavedBookmarksPanelIfEmpty();
                 this.notifyBookmarkChange();
             } catch (error) {
                 if (error.response && error.response.status === 404) {
                     // Already deleted on server, so this is a success state for us.
                     this.showToast("Bookmark removed.", 2000);
                     this.announce("Bookmark removed.");
+                    this.collapseSavedBookmarksPanelIfEmpty();
                     this.notifyBookmarkChange();
                 } else {
                     // Revert
                     this.savedAyahKeys = prevKeys;
+                    this.savedBookmarkRecords = prevRecords;
                     this.triggerAyahFeedback(
                         key,
                         "Error removing",
@@ -20586,6 +21282,13 @@ export default {
             if (normalizedValue === null) return;
             next[key] = normalizedValue;
             this.savedAyahKeys = this.normalizeSavedAyahKeysMap(next);
+            this.upsertSavedBookmarkRecord(source, {
+                surahNumber,
+                ayahNumber,
+                bookmarkId:
+                    typeof normalizedValue === "number" ? normalizedValue : null,
+            });
+            this.notifyBookmarkChange();
         },
         async onBookmarksLinkClick() {
             const isAuthed = await this.ensureAuthenticated();
@@ -20934,6 +21637,13 @@ export default {
             if (isAuthed) {
                 this.bookmarkAuthenticated = true;
                 this.bookmarkStorageUserId = userId;
+                this.savedAyahsLoaded = false;
+                this.savedBookmarkRecordsLoaded = false;
+                await this.initializeSavedAyahStorageKey();
+                await this.loadSavedAyahs();
+                await this.initializeSavedBookmarkRecordsStorageKey();
+                await this.loadSavedBookmarkRecords();
+                await this.syncSavedAyahsFromApi();
                 this.loadPersistedMemorisationPreviousSession();
                 this.loadContinueProgress();
                 this.loadContinueProgressHiddenState();
@@ -20950,6 +21660,14 @@ export default {
             }
             this.bookmarkAuthenticated = false;
             this.bookmarkStorageUserId = null;
+            this.savedAyahKeys = {};
+            this.savedAyahsLoaded = true;
+            this.savedBookmarkRecords = {};
+            this.savedBookmarkRecordsLoaded = true;
+            this.savedBookmarkRecordsStorageKey = "";
+            this.isSavedBookmarksPanelOpen = false;
+            this.clearSavedBookmarksSelection();
+            this.resetSavedBookmarksDeleteConfirm();
             this.loadPersistedMemorisationPreviousSession();
             this.syncHifdhAuthStorage();
             this.loadContinueProgress();

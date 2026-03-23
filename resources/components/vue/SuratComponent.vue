@@ -379,6 +379,18 @@
                                     <span class="advanced-quran-mobile-action-label">Compare translations</span>
                                 </button>
                                 <button
+                                    v-if="!isMemorisationToolbarVisible && hasSavedBookmarks"
+                                    type="button"
+                                    class="btn advanced-quran-mobile-action-btn"
+                                    :class="{ 'is-enabled': isSavedBookmarksPanelOpen }"
+                                    @click="handleSavedBookmarksButtonClick"
+                                    aria-label="View all saved bookmarks"
+                                    title="View all saved bookmarks">
+                                    <i class="bi bi-bookmarks" aria-hidden="true"></i>
+                                    <span class="advanced-quran-mobile-action-label">Saved bookmarks</span>
+                                    <span class="advanced-quran-mobile-action-btn-state">{{ savedBookmarksList.length }}</span>
+                                </button>
+                                <button
                                     v-if="hasPinnedAyahs && isPinnedSectionHidden"
                                     type="button"
                                     class="btn advanced-quran-mobile-action-btn"
@@ -392,6 +404,25 @@
                         </div>
                     </div>
                     </template>
+
+                    <saved-bookmarks-panel
+                        v-if="isTabletOrMobile && isSavedBookmarksPanelOpen && hasSavedBookmarks"
+                        :bookmarks="savedBookmarksList"
+                        :dark-theme="isDarkTheme"
+                        :selected-keys="selectedSavedBookmarkKeys"
+                        :selected-count="selectedSavedBookmarkCount"
+                        :all-selected="areAllSavedBookmarksSelected"
+                        :delete-confirm="savedBookmarksDeleteConfirm"
+                        :delete-busy="savedBookmarksDeleteBusy"
+                        @close="closeSavedBookmarksPanel"
+                        @open-bookmark="openSavedBookmarkByKey"
+                        @toggle-selection="toggleSavedBookmarkSelection"
+                        @toggle-select-all="toggleSelectAllSavedBookmarks"
+                        @clear-selection="clearSavedBookmarksSelection"
+                        @request-delete="requestSingleSavedBookmarkDelete"
+                        @request-bulk-delete="requestBulkSavedBookmarksDelete"
+                        @confirm-delete="confirmSavedBookmarksDelete"
+                        @cancel-delete="cancelSavedBookmarksDelete" />
 
                     <div
                         v-if="isAdvancedSearchVisible && isAdvancedSearchPanelVisible && !(isDeepFocusMode && isTabletOrMobile)"
@@ -591,6 +622,17 @@
                     <span class="quran-toolbar-btn-text">Compare translations</span>
                 </button>
                 <button
+                    v-if="!isMemorisationToolbarVisible && hasSavedBookmarks"
+                    type="button"
+                    class="quran-toolbar-btn quran-toolbar-btn-toggle"
+                    :class="{ 'is-enabled': isSavedBookmarksPanelOpen }"
+                    @click="handleSavedBookmarksButtonClick"
+                    aria-label="View all saved bookmarks">
+                    <i class="bi bi-bookmarks" aria-hidden="true"></i>
+                    <span class="quran-toolbar-btn-text">View all saved bookmarks</span>
+                    <span class="quran-toolbar-btn-state">{{ savedBookmarksList.length }}</span>
+                </button>
+                <button
                     v-if="hasPinnedAyahs && isPinnedSectionHidden && !isMemorisationToolbarVisible"
                     type="button"
                     class="quran-toolbar-btn quran-toolbar-btn-icon quran-toolbar-btn-pinned-restore"
@@ -656,6 +698,24 @@
                     <span class="quran-toolbar-btn-text">History</span>
                 </button>
             </div>
+            <saved-bookmarks-panel
+                v-if="showDesktopToolbar && !isTabletOrMobile && isSavedBookmarksPanelOpen && hasSavedBookmarks"
+                :bookmarks="savedBookmarksList"
+                :dark-theme="isDarkTheme"
+                :selected-keys="selectedSavedBookmarkKeys"
+                :selected-count="selectedSavedBookmarkCount"
+                :all-selected="areAllSavedBookmarksSelected"
+                :delete-confirm="savedBookmarksDeleteConfirm"
+                :delete-busy="savedBookmarksDeleteBusy"
+                @close="closeSavedBookmarksPanel"
+                @open-bookmark="openSavedBookmarkByKey"
+                @toggle-selection="toggleSavedBookmarkSelection"
+                @toggle-select-all="toggleSelectAllSavedBookmarks"
+                @clear-selection="clearSavedBookmarksSelection"
+                @request-delete="requestSingleSavedBookmarkDelete"
+                @request-bulk-delete="requestBulkSavedBookmarksDelete"
+                @confirm-delete="confirmSavedBookmarksDelete"
+                @cancel-delete="cancelSavedBookmarksDelete" />
             <div v-if="showCustomPlaylistPanel" class="reader-custom-playlist-panel">
                 <div class="reader-custom-playlist-header">
                     <div class="reader-custom-playlist-header-copy">
@@ -6309,6 +6369,7 @@
                             :aria-valuenow="Math.round(currentAudioProgressPercent)"
                             :aria-valuetext="`Playback position ${currentAudioPlayerTimeText} of ${currentAudioPlayerDurationText}`"
                             aria-label="Seek audio playback"
+                            :style="{ '--audio-player-progress': `${currentAudioProgressPercent}%` }"
                             @input="onAudioPlayerSeekInput" />
                     </div>
                     <div class="audio-player-toolbar">
@@ -6441,6 +6502,7 @@
                                             max="1"
                                             step="0.1"
                                             aria-label="Adjust volume"
+                                            :style="{ '--audio-player-progress': `${Math.round(volume * 100)}%` }"
                                             @input="updateVolume" />
                                     </div>
                                 </div>
