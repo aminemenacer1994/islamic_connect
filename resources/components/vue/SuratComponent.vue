@@ -276,8 +276,160 @@
                                 </div>
                             </div>
 
+                            <div v-if="isMemorisationToolbarVisible" class="memorisation-mobile-quick-panel">
+                                <div class="memorisation-mobile-quick-grid">
+                                    <label class="memorisation-mobile-field">
+                                        <span>Surah name</span>
+                                        <select
+                                            class="form-select advanced-quran-mobile-select"
+                                            v-model="selectedSurah"
+                                            @change="onMemorisationToolbarSurahChange"
+                                            aria-label="Select memorisation surah">
+                                            <option
+                                                v-for="surah in filteredSurahs"
+                                                :key="`memorisation-mobile-surah-${surah.number}`"
+                                                :value="String(surah.number)">
+                                                {{ surah.number }}. {{ surah.englishName }}
+                                            </option>
+                                        </select>
+                                    </label>
+                                    <label class="memorisation-mobile-field">
+                                        <span>Reciter name</span>
+                                        <select
+                                            class="form-select advanced-quran-mobile-select"
+                                            v-model="selectedReciter"
+                                            @change="onMemorisationToolbarReciterChange"
+                                            aria-label="Select memorisation reciter">
+                                            <option
+                                                v-for="reciter in recitersSorted"
+                                                :key="`memorisation-mobile-reciter-${reciter.identifier}`"
+                                                :value="reciter.identifier">
+                                                {{ reciter.englishName }}
+                                            </option>
+                                        </select>
+                                    </label>
+                                    <label class="memorisation-mobile-field">
+                                        <span>Recitation speed</span>
+                                        <select
+                                            class="form-select advanced-quran-mobile-select"
+                                            v-model.number="playbackSpeed"
+                                            @change="onMemorisationToolbarSpeedChange"
+                                            aria-label="Select memorisation recitation speed">
+                                            <option
+                                                v-for="speed in playbackSpeeds"
+                                                :key="`memorisation-mobile-speed-${speed}`"
+                                                :value="speed">
+                                                {{ speed }}x
+                                            </option>
+                                        </select>
+                                    </label>
+                                    <div class="memorisation-mobile-field memorisation-mobile-field--range">
+                                        <span>Ayah range</span>
+                                        <div class="memorisation-mobile-range">
+                                            <input
+                                                type="number"
+                                                class="form-control advanced-quran-mobile-select memorisation-mobile-input"
+                                                v-model.number="memorisationRangeStart"
+                                                min="1"
+                                                :max="Math.max(totalAyahs || 1, 1)"
+                                                @change="onMemorisationToolbarRangeChange"
+                                                aria-label="Memorisation range start ayah" />
+                                            <span class="memorisation-mobile-range-separator">to</span>
+                                            <input
+                                                type="number"
+                                                class="form-control advanced-quran-mobile-select memorisation-mobile-input"
+                                                v-model.number="memorisationRangeEnd"
+                                                :min="memorisationRangeStart || 1"
+                                                :max="Math.max(totalAyahs || 1, 1)"
+                                                @change="onMemorisationToolbarRangeChange"
+                                                aria-label="Memorisation range end ayah" />
+                                        </div>
+                                    </div>
+                                    <label class="memorisation-mobile-field">
+                                        <span>Delay per ayah</span>
+                                        <input
+                                            type="number"
+                                            class="form-control advanced-quran-mobile-select memorisation-mobile-input"
+                                            v-model.number="memorisationVerseDelay"
+                                            min="0"
+                                            max="60"
+                                            @change="onMemorisationToolbarDelayChange"
+                                            aria-label="Delay time per ayah in seconds" />
+                                    </label>
+                                    <div class="memorisation-mobile-field memorisation-mobile-field--full">
+                                        <span>Playback mode</span>
+                                        <div class="memorisation-toolbar-chip-row memorisation-toolbar-chip-row--mobile" role="group" aria-label="Memorisation playback mode">
+                                            <button
+                                                v-for="option in memorisationQuickPlaybackModeOptions"
+                                                :key="`memorisation-mobile-playback-${option.value}`"
+                                                type="button"
+                                                class="btn memorisation-toolbar-chip memorisation-toolbar-chip--icon"
+                                                :class="{ 'is-active': playbackMode === option.value }"
+                                                :aria-pressed="playbackMode === option.value ? 'true' : 'false'"
+                                                :title="option.beginnerLabel"
+                                                @click="onMemorisationToolbarPlaybackModeChange(option.value)">
+                                                <i class="bi" :class="option.icon" aria-hidden="true"></i>
+                                                <span class="visually-hidden">{{ option.beginnerLabel }}</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="memorisation-mobile-field memorisation-mobile-field--full">
+                                        <span>Quick actions</span>
+                                        <div class="memorisation-mobile-icon-row" role="group" aria-label="Memorisation quick actions">
+                                            <button
+                                                type="button"
+                                                class="btn advanced-quran-mobile-icon-btn memorisation-mobile-icon-btn"
+                                                :class="{ 'is-active': memorisationRangeLoopEnabled }"
+                                                :aria-pressed="memorisationRangeLoopEnabled ? 'true' : 'false'"
+                                                aria-label="Loop again after range has finished"
+                                                title="Loop again after range has finished"
+                                                @click="onMemorisationToolbarToggleRangeLoop()">
+                                                <i class="bi bi-arrow-repeat" aria-hidden="true"></i>
+                                            </button>
+                                            <button
+                                                type="button"
+                                                class="btn advanced-quran-mobile-icon-btn memorisation-mobile-icon-btn"
+                                                :class="{ 'is-active': showRealtimeHighlighting }"
+                                                :aria-pressed="showRealtimeHighlighting ? 'true' : 'false'"
+                                                aria-label="Word highlight with audio"
+                                                title="Word highlight with audio"
+                                                @click="onMemorisationToolbarToggleRealtimeHighlighting()">
+                                                <i class="bi bi-input-cursor-text" aria-hidden="true"></i>
+                                            </button>
+                                            <button
+                                                type="button"
+                                                class="btn advanced-quran-mobile-icon-btn memorisation-mobile-icon-btn"
+                                                @click="openMemorisationOffcanvas"
+                                                aria-label="Open memorisation settings"
+                                                title="Open memorisation settings">
+                                                <i class="bi bi-sliders2" aria-hidden="true"></i>
+                                            </button>
+                                            <button
+                                                v-if="memorisationSessionHistoryEnabled"
+                                                type="button"
+                                                class="btn advanced-quran-mobile-icon-btn memorisation-mobile-icon-btn"
+                                                @click="openSessionHistoryModal()"
+                                                aria-label="Open session history"
+                                                title="Open session history">
+                                                <i class="bi bi-clock-history" aria-hidden="true"></i>
+                                            </button>
+                                            <button
+                                                type="button"
+                                                class="btn advanced-quran-mobile-icon-btn memorisation-mobile-icon-btn"
+                                                @click="toggleMemorisationToolbar"
+                                                aria-controls="memorisationOffcanvas"
+                                                aria-label="Close memorisation tools"
+                                                title="Close memorisation tools">
+                                                <i class="bi bi-x-lg" aria-hidden="true"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                             <div class="advanced-quran-mobile-action-grid">
                                 <button
+                                    v-if="!isMemorisationToolbarVisible"
                                     type="button"
                                     class="btn advanced-quran-mobile-action-btn advanced-quran-mobile-action-btn-memorisation"
                                     @click="toggleMemorisationToolbar"
@@ -287,16 +439,6 @@
                                     :title="isMemorisationOffcanvasVisible ? 'Close memorisation tools.' : 'Open memorisation tools to support repetition, focus, and revision.'">
                                     <i class="bi bi-journal-bookmark-fill" aria-hidden="true"></i>
                                     <span class="advanced-quran-mobile-action-label">{{ memorisationToolbarButtonLabel }}</span>
-                                </button>
-                                <button
-                                    v-if="isMemorisationToolbarVisible"
-                                    type="button"
-                                    class="btn advanced-quran-mobile-action-btn advanced-quran-mobile-action-btn-open-tools"
-                                    @click="openMemorisationOffcanvas"
-                                    aria-label="Open session tools panel"
-                                    title="Open Session Tools for pacing, repeat-after-reciter, and display controls">
-                                    <i class="bi bi-layout-sidebar-inset" aria-hidden="true"></i>
-                                    <span class="advanced-quran-mobile-action-label">Open Session Tools Panel</span>
                                 </button>
                                 <button
                                     v-if="!isMemorisationToolbarVisible"
@@ -357,16 +499,6 @@
                                     <span class="advanced-quran-mobile-action-btn-state">
                                         {{ isTransliterationAllEnabled ? "On" : "Off" }}
                                     </span>
-                                </button>
-                                <button
-                                    v-if="isMemorisationToolbarVisible && memorisationSessionHistoryEnabled"
-                                    type="button"
-                                    class="btn advanced-quran-mobile-action-btn"
-                                    @click="openSessionHistoryModal()"
-                                    aria-label="Open session history"
-                                    title="Open session history">
-                                    <i class="bi bi-clock-history" aria-hidden="true"></i>
-                                    <span class="advanced-quran-mobile-action-label">History</span>
                                 </button>
                                 <button
                                     v-if="!isMemorisationToolbarVisible"
@@ -539,11 +671,19 @@
                 'quran-toolbar-fixed-shell': showDesktopToolbar && !isTabletOrMobile,
                 'is-pinned': showDesktopToolbar && isToolbarPinned && !isTabletOrMobile,
                 'is-static': !toolbarScrollEnabled,
-                'is-mobile-playlist-shell': isTabletOrMobile && showCustomPlaylistPanel
+                'is-mobile-playlist-shell': isTabletOrMobile && showCustomPlaylistPanel,
+                'memorisation-toolbar-sticky': isMemorisationToolbarVisible,
+                'memorisation-toolbar-active': isMemorisationToolbarVisible
             }"
             role="region"
             aria-label="Quran quick controls">
-            <div v-if="showDesktopToolbar && !isTabletOrMobile" class="quran-toolbar quran-toolbar-reader border-shadow-xl">
+            <div
+                v-if="showDesktopToolbar && !isTabletOrMobile"
+                class="quran-toolbar quran-toolbar-reader border-shadow-xl"
+                :class="{
+                    'memorisation-toolbar-compact':
+                        isMemorisationToolbarVisible
+                }">
                 <div v-if="!isMemorisationToolbarVisible" class="quran-toolbar-reciter">
                     <span class="quran-toolbar-reciter-label">Reciter</span>
                     <label class="visually-hidden" for="toolbarReciterSelect">
@@ -559,6 +699,170 @@
                             {{ reciter.englishName }}
                         </option>
                     </select>
+                </div>
+
+                <div v-if="isMemorisationToolbarVisible" class="memorisation-toolbar-row memorisation-toolbar-row--compact">
+                    <label class="memorisation-toolbar-inline-field memorisation-toolbar-inline-field--surah">
+                        <span class="memorisation-toolbar-inline-icon" aria-hidden="true">
+                            <i class="bi bi-book" aria-hidden="true"></i>
+                        </span>
+                        <select
+                            class="form-select quran-toolbar-select memorisation-toolbar-inline-control"
+                            v-model="selectedSurah"
+                            @change="onMemorisationToolbarSurahChange"
+                            aria-label="Select memorisation surah">
+                            <option
+                                v-for="surah in filteredSurahs"
+                                :key="`memorisation-toolbar-surah-${surah.number}`"
+                                :value="String(surah.number)">
+                                {{ surah.number }}. {{ surah.englishName }}
+                            </option>
+                        </select>
+                    </label>
+
+                    <label class="memorisation-toolbar-inline-field memorisation-toolbar-inline-field--reciter">
+                        <span class="memorisation-toolbar-inline-icon" aria-hidden="true">
+                            <i class="bi bi-mic-fill" aria-hidden="true"></i>
+                        </span>
+                        <select
+                            class="form-select quran-toolbar-select memorisation-toolbar-inline-control"
+                            v-model="selectedReciter"
+                            @change="onMemorisationToolbarReciterChange"
+                            aria-label="Select memorisation reciter">
+                            <option
+                                v-for="reciter in recitersSorted"
+                                :key="`memorisation-toolbar-reciter-${reciter.identifier}`"
+                                :value="reciter.identifier">
+                                {{ reciter.englishName }}
+                            </option>
+                        </select>
+                    </label>
+
+                    <label class="memorisation-toolbar-inline-field memorisation-toolbar-inline-field--speed">
+                        <span class="memorisation-toolbar-inline-icon" aria-hidden="true">
+                            <i class="bi bi-speedometer2" aria-hidden="true"></i>
+                        </span>
+                        <select
+                            class="form-select quran-toolbar-select memorisation-toolbar-inline-control"
+                            v-model.number="playbackSpeed"
+                            @change="onMemorisationToolbarSpeedChange"
+                            aria-label="Select memorisation recitation speed">
+                            <option
+                                v-for="speed in playbackSpeeds"
+                                :key="`memorisation-toolbar-speed-${speed}`"
+                                :value="speed">
+                                {{ speed }}x
+                            </option>
+                        </select>
+                    </label>
+
+                    <div class="memorisation-toolbar-inline-field memorisation-toolbar-inline-field--range">
+                        <span class="memorisation-toolbar-inline-icon" aria-hidden="true">
+                            <i class="bi bi-list-ol" aria-hidden="true"></i>
+                        </span>
+                        <div class="memorisation-toolbar-range-inputs">
+                            <input
+                                type="number"
+                                class="form-control quran-toolbar-input memorisation-toolbar-inline-control memorisation-toolbar-range-input"
+                                v-model.number="memorisationRangeStart"
+                                min="1"
+                                :max="Math.max(totalAyahs || 1, 1)"
+                                @change="onMemorisationToolbarRangeChange"
+                                aria-label="Memorisation range start ayah" />
+                            <span class="memorisation-toolbar-range-separator">to</span>
+                            <input
+                                type="number"
+                                class="form-control quran-toolbar-input memorisation-toolbar-inline-control memorisation-toolbar-range-input"
+                                v-model.number="memorisationRangeEnd"
+                                :min="memorisationRangeStart || 1"
+                                :max="Math.max(totalAyahs || 1, 1)"
+                                @change="onMemorisationToolbarRangeChange"
+                                aria-label="Memorisation range end ayah" />
+                        </div>
+                    </div>
+
+                    <label class="memorisation-toolbar-inline-field memorisation-toolbar-inline-field--delay">
+                        <span class="memorisation-toolbar-inline-icon" aria-hidden="true">
+                            <i class="bi bi-hourglass-split" aria-hidden="true"></i>
+                        </span>
+                        <input
+                            type="number"
+                            class="form-control quran-toolbar-input memorisation-toolbar-inline-control"
+                            v-model.number="memorisationVerseDelay"
+                            min="0"
+                            max="60"
+                            @change="onMemorisationToolbarDelayChange"
+                            aria-label="Delay time per ayah in seconds" />
+                    </label>
+
+                    <div class="memorisation-toolbar-inline-group memorisation-toolbar-inline-group--playback">
+                        <span class="memorisation-toolbar-inline-icon" aria-hidden="true">
+                            <i class="bi bi-play-btn-fill" aria-hidden="true"></i>
+                        </span>
+                        <div class="memorisation-toolbar-chip-row" role="group" aria-label="Memorisation playback mode">
+                            <button
+                                v-for="option in memorisationQuickPlaybackModeOptions"
+                                :key="`memorisation-toolbar-mode-chip-${option.value}`"
+                                type="button"
+                                class="btn memorisation-toolbar-chip memorisation-toolbar-chip--icon"
+                                :class="{ 'is-active': playbackMode === option.value }"
+                                :aria-pressed="playbackMode === option.value ? 'true' : 'false'"
+                                :title="option.beginnerLabel"
+                                @click="onMemorisationToolbarPlaybackModeChange(option.value)">
+                                <i class="bi" :class="option.icon" aria-hidden="true"></i>
+                                <span class="visually-hidden">{{ option.beginnerLabel }}</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="memorisation-toolbar-inline-group memorisation-toolbar-inline-group--actions" role="group" aria-label="Memorisation quick actions">
+                        <button
+                            type="button"
+                            class="quran-toolbar-btn quran-toolbar-btn-icon memorisation-toolbar-icon-action"
+                            :class="{ 'is-active': memorisationRangeLoopEnabled }"
+                            :aria-pressed="memorisationRangeLoopEnabled ? 'true' : 'false'"
+                            aria-label="Loop again after range has finished"
+                            title="Loop again after range has finished"
+                            @click="onMemorisationToolbarToggleRangeLoop()">
+                            <i class="bi bi-arrow-repeat" aria-hidden="true"></i>
+                        </button>
+                        <button
+                            type="button"
+                            class="quran-toolbar-btn quran-toolbar-btn-icon memorisation-toolbar-icon-action"
+                            :class="{ 'is-active': showRealtimeHighlighting }"
+                            :aria-pressed="showRealtimeHighlighting ? 'true' : 'false'"
+                            aria-label="Word highlight with audio"
+                            title="Word highlight with audio"
+                            @click="onMemorisationToolbarToggleRealtimeHighlighting()">
+                            <i class="bi bi-input-cursor-text" aria-hidden="true"></i>
+                        </button>
+                        <button
+                            type="button"
+                            class="quran-toolbar-btn quran-toolbar-btn-icon memorisation-toolbar-icon-action"
+                            @click="openMemorisationOffcanvas"
+                            aria-label="Open memorisation settings"
+                            title="Open memorisation settings">
+                            <i class="bi bi-sliders2" aria-hidden="true"></i>
+                        </button>
+                        <button
+                            v-if="memorisationSessionHistoryEnabled"
+                            type="button"
+                            class="quran-toolbar-btn quran-toolbar-btn-icon memorisation-toolbar-icon-action"
+                            @click="openSessionHistoryModal()"
+                            aria-label="Open session history"
+                            title="Open session history">
+                            <i class="bi bi-clock-history" aria-hidden="true"></i>
+                        </button>
+                        <button
+                            type="button"
+                            class="quran-toolbar-btn quran-toolbar-btn-icon memorisation-toolbar-icon-action"
+                            @click="toggleMemorisationToolbar"
+                            aria-controls="memorisationOffcanvas"
+                            aria-label="Close memorisation tools"
+                            title="Close memorisation tools">
+                            <i class="bi bi-x-lg" aria-hidden="true"></i>
+                        </button>
+                    </div>
                 </div>
 
                 <button
@@ -641,7 +945,7 @@
                     <i class="bi bi-pin-angle-fill" aria-hidden="true"></i>
                 </button>
                 <button
-                    v-if="sidebarCollapsed || !isSidebarWideLayout"
+                    v-if="(sidebarCollapsed || !isSidebarWideLayout) && !isMemorisationToolbarVisible"
                     type="button"
                     class="quran-toolbar-btn quran-toolbar-btn-toggle quran-toolbar-btn-icon quran-toolbar-btn-theme-compact"
                     :class="{ 'is-enabled': isDarkTheme }"
@@ -667,6 +971,7 @@
                 </button>
 
                 <button
+                    v-if="!isMemorisationToolbarVisible"
                     type="button"
                     class="quran-toolbar-btn quran-toolbar-btn-memorisation"
                     @click="toggleMemorisationToolbar"
@@ -678,24 +983,6 @@
                     :aria-label="isMemorisationOffcanvasVisible ? 'Close memorisation tools' : 'Open memorisation tools'">
                     <i class="bi bi-journal-bookmark-fill" aria-hidden="true"></i>
                     <span class="quran-toolbar-btn-text">{{ memorisationToolbarButtonLabel }}</span>
-                </button>
-                <button
-                    v-if="isMemorisationToolbarVisible"
-                    type="button"
-                    class="quran-toolbar-btn quran-toolbar-btn-open-tools"
-                    @click="openMemorisationOffcanvas"
-                    aria-label="Open session tools panel">
-                    <i class="bi bi-layout-sidebar-inset" aria-hidden="true"></i>
-                    <span class="quran-toolbar-btn-text">Open Session Tools Panel</span>
-                </button>
-                <button
-                    v-if="isMemorisationToolbarVisible && memorisationSessionHistoryEnabled"
-                    type="button"
-                    class="quran-toolbar-btn quran-toolbar-btn-history"
-                    @click="openSessionHistoryModal()"
-                    aria-label="Open session history">
-                    <i class="bi bi-clock-history" aria-hidden="true"></i>
-                    <span class="quran-toolbar-btn-text">History</span>
                 </button>
             </div>
             <saved-bookmarks-panel
@@ -1125,6 +1412,7 @@
                     </div>
 
                     <section
+                        v-if="isMemorisationAdvancedMode"
                         class="surah-offcanvas-section memorisation-offcanvas-panel memorisation-hifz-plan-launch"
                         :class="{ 'is-collapsed': isHifzPlanPanelCollapsed }"
                         aria-label="Hifz plan quick access">
@@ -1273,7 +1561,7 @@
                         </div>
                     </section>
 
-                    <section class="surah-offcanvas-section memorisation-offcanvas-panel memorisation-preset-panel" aria-label="One-click presets">
+                    <section v-if="isMemorisationAdvancedMode" class="surah-offcanvas-section memorisation-offcanvas-panel memorisation-preset-panel" aria-label="One-click presets">
                         <div class="memorisation-preset-panel-head">
                             <div>
                                 <h5 class="memorisation-offcanvas-section-title">One-Click Presets</h5>
@@ -1443,9 +1731,6 @@
 
                     <section class="surah-offcanvas-section memorisation-offcanvas-panel" aria-label="Session setup">
                         <h5 class="memorisation-offcanvas-section-title">Session Setup</h5>
-                        <p class="memorisation-offcanvas-section-subtitle mb-0">
-                            Configure your surah, range, reciter, pacing, and playback flow before your memorisation run.
-                        </p>
                         <div class="memorisation-offcanvas-grid">
                             <label class="memorisation-offcanvas-field memorisation-offcanvas-field--full">
                                 <span class="form-label surah-offcanvas-label">Surah name</span>
@@ -1508,7 +1793,7 @@
                                     aria-label="Delay time per ayah in seconds">
                             </label>
 
-                            <label class="memorisation-offcanvas-field">
+                            <label v-if="isMemorisationAdvancedMode" class="memorisation-offcanvas-field">
                                 <span class="form-label surah-offcanvas-label">Repetitions per ayah</span>
                                 <input
                                     type="number"
@@ -1522,13 +1807,13 @@
                             <label class="memorisation-offcanvas-field">
                                 <span class="form-label surah-offcanvas-label">Playback mode</span>
                                 <select class="form-select surah-offcanvas-select" v-model="memorisationDraft.playbackMode">
-                                    <option v-for="option in playbackModeOptions" :key="`memorisation-draft-mode-${option.value}`" :value="option.value">
-                                        {{ option.value === "continuous" ? "Auto-advance" : option.value === "repeat" ? "Repeat ayah" : "Manual tap" }}
+                                    <option v-for="option in memorisationQuickPlaybackModeOptions" :key="`memorisation-draft-mode-${option.value}`" :value="option.value">
+                                        {{ option.beginnerLabel }}
                                     </option>
                                 </select>
                             </label>
 
-                            <label class="memorisation-offcanvas-field">
+                            <label v-if="isMemorisationAdvancedMode" class="memorisation-offcanvas-field">
                                 <span class="form-label surah-offcanvas-label">Quranic fonts</span>
                                 <select class="form-select surah-offcanvas-select" v-model="memorisationDraft.quranFontId">
                                     <option v-if="!quranFonts.length" :value="selectedQuranFontId">
@@ -1542,7 +1827,7 @@
 
                             <label class="memorisation-offcanvas-toggle-row memorisation-offcanvas-field memorisation-offcanvas-field--full memorisation-range-loop-field">
                                 <span class="memorisation-offcanvas-toggle-copy">
-                                    <strong>Loop Again After Range</strong>
+                                    <strong>Loop again after range has finished</strong>
                                     <small>Restart from the first ayah when this selected range is completed.</small>
                                 </span>
                                 <span class="form-check form-switch mb-0">
@@ -1554,73 +1839,20 @@
                                 </span>
                             </label>
 
-                            <div
-                                v-if="memorisationDraft.rangeLoopEnabled"
-                                class="memorisation-range-loop-settings memorisation-offcanvas-field memorisation-offcanvas-field--full">
-                                <span class="form-label surah-offcanvas-label">Delay before restart</span>
-                                <div class="memorisation-range-loop-delay-row" role="group" aria-label="Delay before restart">
-                                    <button
-                                        v-for="seconds in memorisationRangeLoopDelayPresets"
-                                        :key="`range-loop-delay-${seconds}`"
-                                        type="button"
-                                        class="btn memorisation-range-loop-delay-btn"
-                                        :class="{ 'is-active': !memorisationDraft.rangeLoopDelayIsCustom && Number(memorisationDraft.rangeLoopDelay) === Number(seconds) }"
-                                        @click="memorisationDraft.rangeLoopDelay = Number(seconds); memorisationDraft.rangeLoopDelayIsCustom = false">
-                                        {{ seconds }}s
-                                    </button>
-                                    <button
-                                        type="button"
-                                        class="btn memorisation-range-loop-delay-btn"
-                                        :class="{ 'is-active': memorisationDraft.rangeLoopDelayIsCustom }"
-                                        @click="memorisationDraft.rangeLoopDelayIsCustom = true">
-                                        Custom
-                                    </button>
-                                </div>
-                                <label v-if="memorisationDraft.rangeLoopDelayIsCustom" class="memorisation-range-loop-custom">
-                                    <span class="form-label surah-offcanvas-label">Custom delay (sec)</span>
-                                    <input
-                                        type="number"
-                                        class="form-control surah-offcanvas-input"
-                                        v-model.number="memorisationDraft.rangeLoopDelay"
-                                        min="0"
-                                        max="300"
-                                        step="1"
-                                        aria-label="Custom delay before range restart in seconds">
-                                </label>
-                                <label class="memorisation-offcanvas-toggle-row memorisation-offcanvas-toggle-row--nested">
-                                    <span class="memorisation-offcanvas-toggle-copy">
-                                        <strong>Visual countdown</strong>
-                                        <small>Show a countdown before the loop restarts.</small>
-                                    </span>
-                                    <span class="form-check form-switch mb-0">
-                                        <input
-                                            class="form-check-input"
-                                            type="checkbox"
-                                            v-model="memorisationDraft.rangeLoopShowCountdown"
-                                            aria-label="Show loop restart countdown">
-                                    </span>
-                                </label>
-                                <label class="memorisation-offcanvas-field memorisation-offcanvas-field--full">
-                                    <span class="form-label surah-offcanvas-label">Sound alert before restart</span>
-                                    <select
-                                        class="form-select surah-offcanvas-select"
-                                        v-model="memorisationDraft.rangeLoopAlertSound"
-                                        aria-label="Sound alert before range restarts">
-                                        <option value="off">Off</option>
-                                        <option value="beep">Beep</option>
-                                        <option value="tone">Subtle tone</option>
-                                    </select>
-                                </label>
-                                <p
-                                    v-if="isMemorisationRangeLoopCountdownVisible"
-                                    class="memorisation-range-loop-countdown-preview mb-0"
-                                    role="status"
-                                    aria-live="polite">
-                                    Restarting from ayah {{ memorisationRangeStart || 1 }} in {{ memorisationRangeLoopCountdownSeconds }}s
-                                </p>
-                            </div>
-
                             <label class="memorisation-offcanvas-toggle-row memorisation-offcanvas-field memorisation-offcanvas-field--full">
+                                <span class="memorisation-offcanvas-toggle-copy">
+                                    <strong>Word highlight with audio</strong>
+                                    <small>Highlight words in real time during recitation.</small>
+                                </span>
+                                <span class="form-check form-switch mb-0">
+                                    <input
+                                        class="form-check-input"
+                                        type="checkbox"
+                                        v-model="memorisationDraft.showRealtimeHighlighting"
+                                        aria-label="Toggle word highlight with audio">
+                                </span>
+                            </label>
+                            <label v-if="isMemorisationAdvancedMode" class="memorisation-offcanvas-toggle-row memorisation-offcanvas-field memorisation-offcanvas-field--full">
                                 <span class="memorisation-offcanvas-toggle-copy">
                                     <strong>Test Mode</strong>
                                     <small>Focus on one ayah at a time so you can recite from memory without the next ayah giving it away.</small>
@@ -1633,7 +1865,7 @@
                                         aria-label="Toggle test mode">
                                 </span>
                             </label>
-                            <div class="memorisation-test-mode-callout memorisation-offcanvas-field memorisation-offcanvas-field--full">
+                            <div v-if="isMemorisationAdvancedMode" class="memorisation-test-mode-callout memorisation-offcanvas-field memorisation-offcanvas-field--full">
                                 <div class="memorisation-test-mode-callout-copy">
                                     <span class="memorisation-test-mode-callout-badge">Recall support</span>
                                     <strong>Use this after you warm up the range.</strong>
@@ -1649,7 +1881,7 @@
                         </div>
                     </section>
 
-                    <section class="surah-offcanvas-section memorisation-offcanvas-panel" aria-label="Session tools">
+                    <section v-if="isMemorisationAdvancedMode" class="surah-offcanvas-section memorisation-offcanvas-panel" aria-label="Session tools">
                         <h5 class="memorisation-offcanvas-section-title">Session Tools</h5>
                         <p class="memorisation-offcanvas-section-subtitle mb-0">
                             Turn on only the helpers you need. Most sessions work well with one or two.
@@ -2004,15 +2236,6 @@
                                 </span>
                                 <span class="form-check form-switch mb-0">
                                     <input class="form-check-input" type="checkbox" v-model="memorisationDraft.showTajweed" aria-label="Toggle tajweed colors">
-                                </span>
-                            </label>
-                            <label class="memorisation-offcanvas-toggle-row">
-                                <span class="memorisation-offcanvas-toggle-copy">
-                                    <strong>Word highlight when playing audio</strong>
-                                    <small>Highlight words in real time during recitation.</small>
-                                </span>
-                                <span class="form-check form-switch mb-0">
-                                    <input class="form-check-input" type="checkbox" v-model="memorisationDraft.showRealtimeHighlighting" aria-label="Toggle word highlight when playing audio">
                                 </span>
                             </label>
                             <label class="memorisation-offcanvas-toggle-row">

@@ -1420,6 +1420,29 @@ export default {
                 !!this.isMemorisationMode
             );
         },
+        isMemorisationAdvancedMode() {
+            return false;
+        },
+        memorisationQuickPlaybackModeOptions() {
+            const options = Array.isArray(this.playbackModeOptions)
+                ? this.playbackModeOptions
+                : [];
+            return options.map((option) => ({
+                ...option,
+                beginnerLabel:
+                    option.value === "continuous"
+                        ? "Continuous"
+                        : option.value === "repeat"
+                        ? "Auto repeat"
+                        : "Manual",
+                icon:
+                    option.value === "continuous"
+                        ? "bi-play-circle"
+                        : option.value === "repeat"
+                        ? "bi-arrow-repeat"
+                        : "bi-hand-index-thumb",
+            }));
+        },
         memorisationDraftMaxAyah() {
             const targetSurah = String(
                 this.memorisationDraft?.surahNumber || this.selectedSurah || ""
@@ -11082,6 +11105,90 @@ export default {
         async closeMemorisationToolsPanel() {
             this.hideMemorisationSubmitAlert();
             this.closeMemorisationOffcanvas();
+        },
+        syncMemorisationDraftFromCurrentSession() {
+            if (!this.isMemorisationToolbarVisible) return;
+            this.memorisationDraft = this.buildMemorisationPresetDraftFromConfig(
+                this.buildCurrentMemorisationPresetConfig({
+                    preferDraft: false,
+                })
+            );
+            this.isMemorisationRepeatAfterSettingsOpen =
+                !!this.memorisationDraft.repeatAfterReciterEnabled;
+            this.hideMemorisationSubmitAlert();
+        },
+        async onMemorisationToolbarSurahChange() {
+            if (!this.isMemorisationToolbarVisible) return;
+            const targetSurah = String(this.selectedSurah || "").trim();
+            if (!targetSurah) return;
+            await this.selectSurah(targetSurah, { skipScroll: true });
+            const maxAyah = Math.max(1, Number(this.totalAyahs || 1));
+            this.memorisationRangeStart = 1;
+            this.memorisationRangeEnd = maxAyah;
+            this.applyMemorisationRange();
+            this.memorisationFocusIndex = 0;
+            this.selectCard(0);
+            this.syncMemorisationDraftFromCurrentSession();
+        },
+        async onMemorisationToolbarReciterChange() {
+            const requestedReciter = String(this.selectedReciter || "").trim();
+            if (!requestedReciter) return;
+            await this.ensureSurahReciterApplied(requestedReciter);
+            this.syncMemorisationDraftFromCurrentSession();
+        },
+        onMemorisationToolbarSpeedChange() {
+            this.setAudioPlayerSpeed(this.playbackSpeed);
+            this.syncMemorisationDraftFromCurrentSession();
+        },
+        onMemorisationToolbarRangeChange() {
+            const maxAyah = Math.max(1, Number(this.totalAyahs || 1));
+            const start = Math.min(
+                maxAyah,
+                Math.max(1, Number(this.memorisationRangeStart || 1))
+            );
+            const end = Math.min(
+                maxAyah,
+                Math.max(start, Number(this.memorisationRangeEnd || start))
+            );
+            this.memorisationRangeStart = start;
+            this.memorisationRangeEnd = end;
+            this.applyMemorisationRange();
+            this.syncMemorisationDraftFromCurrentSession();
+        },
+        onMemorisationToolbarDelayChange() {
+            this.memorisationVerseDelay = Math.min(
+                60,
+                Math.max(0, Number(this.memorisationVerseDelay || 0))
+            );
+            this.syncMemorisationDraftFromCurrentSession();
+        },
+        onMemorisationToolbarPlaybackModeChange(mode = "continuous") {
+            this.setPlaybackMode(mode);
+            this.syncMemorisationDraftFromCurrentSession();
+        },
+        onMemorisationToolbarToggleRangeLoop(nextValue = null) {
+            this.memorisationRangeLoopEnabled =
+                typeof nextValue === "boolean"
+                    ? nextValue
+                    : !this.memorisationRangeLoopEnabled;
+            if (!this.memorisationRangeLoopEnabled) {
+                this.clearMemorisationRangeLoopRestartState();
+            }
+            this.syncMemorisationDraftFromCurrentSession();
+        },
+        onMemorisationToolbarToggleRealtimeHighlighting(nextValue = null) {
+            this.showRealtimeHighlighting =
+                typeof nextValue === "boolean"
+                    ? nextValue
+                    : !this.showRealtimeHighlighting;
+            if (
+                this.showRealtimeHighlighting ||
+                this.showWordTranslation ||
+                this.showWordTranslationTooltip
+            ) {
+                this.enrichSurahWithQuranSegments();
+            }
+            this.syncMemorisationDraftFromCurrentSession();
         },
         getDefaultMemorisationReciterIdentifier() {
             const preferredReciter = "ar.alafasy";
