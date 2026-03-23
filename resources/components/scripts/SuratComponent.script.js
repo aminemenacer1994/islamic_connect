@@ -565,11 +565,14 @@ export default {
             // ayah-level tafsir lazy loading
             selectedTafsirEdition: "ar.muyassar",
             activeTafsirEditionIdentifier: "ar.muyassar",
-            englishTafsirEditionIdentifier: "en.english-companion",
+            englishTafsirEditionIdentifier: "en.asad",
             tafsirEditions: [],
             tafsirEditionsLoading: false,
             tafsirEditionsError: "",
             openTafsirDropdownKey: "",
+            openTafsirDropdownStyle: null,
+            tafsirDropdownLayoutFrame: null,
+            tafsirDropdownViewportHandler: null,
             tafsirVisibility: {},
             tafsirContent: {},
             tafsirMeta: {},
@@ -598,11 +601,19 @@ export default {
             volume: 1.0,
             showVolumeBar: false,
             showAudioPlayer: false,
+            showAudioPlayerMenu: false,
             bottomAudioPlayerEnabled: true,
             isAudioPlayerVisible: true,
             showAudioPlayerQueuePanel: false,
             audioQueueMinimized: false,
             audioPlayerQueue: [],
+            audioPlayerContainerStyle: null,
+            audioPlayerLayoutFrame: null,
+            audioPlayerLayoutTimer: null,
+            audioPlayerResizeObserver: null,
+            audioPlayerWindowResizeHandler: null,
+            audioPlayerCurrentTime: 0,
+            audioPlayerCurrentDuration: 0,
             showCustomPlaylistPanel: false,
             customPlaylistStorageKeyBase: "ic_surat_custom_playlist_v1",
             playlists: [],
@@ -4536,6 +4547,46 @@ export default {
         audioPlayerQueueCount() {
             return (this.audioPlayerQueueItems || []).length;
         },
+        currentAudioElement() {
+            const targetIndex = this.resolveSeekAudioIndex(
+                this.currentlyPlayingIndex
+            );
+            if (targetIndex < 0) return null;
+            return this.audioElements?.[targetIndex] || null;
+        },
+        currentAudioTimeSeconds() {
+            return Math.max(0, Number(this.audioPlayerCurrentTime || 0) || 0);
+        },
+        currentAudioDurationSeconds() {
+            const duration = Number(this.audioPlayerCurrentDuration || 0);
+            return Number.isFinite(duration) && duration > 0 ? duration : 0;
+        },
+        currentAudioProgressPercent() {
+            const duration = this.currentAudioDurationSeconds;
+            if (duration > 0) {
+                return Math.min(
+                    100,
+                    Math.max(
+                        0,
+                        (this.currentAudioTimeSeconds / duration) * 100
+                    )
+                );
+            }
+            const targetIndex = Number(this.currentlyPlayingIndex);
+            const fallbackProgress =
+                Array.isArray(this.progress) && targetIndex >= 0
+                    ? Number(this.progress[targetIndex] || 0) || 0
+                    : 0;
+            return Math.min(100, Math.max(0, fallbackProgress));
+        },
+        currentAudioPlayerTimeText() {
+            return this.formatTime(this.currentAudioTimeSeconds);
+        },
+        currentAudioPlayerDurationText() {
+            return this.currentAudioDurationSeconds > 0
+                ? this.formatTime(this.currentAudioDurationSeconds)
+                : "--:--";
+        },
     },
     watch: {
         savedAyahKeys: {
@@ -5078,6 +5129,8 @@ export default {
         },
         isMemorisationToolbarVisible(newVal) {
             this.persistMemorisationToolbarVisibilityPreference(!!newVal);
+            this.scheduleAudioPlayerLayoutUpdate();
+            this.scheduleAudioPlayerLayoutUpdate(260);
             if (newVal) {
                 this.memorisationFocusIndex = this.activeAyahIndex;
                 this.hideSurahOffcanvasIfOpen();
@@ -5127,6 +5180,27 @@ export default {
                 newVal
             );
         },
+        showAudioPlayer(next) {
+            if (next) {
+                this.$nextTick(() => {
+                    this.scheduleAudioPlayerLayoutUpdate();
+                    this.scheduleAudioPlayerLayoutUpdate(260);
+                    this.bindAudioPlayerLayoutObserver();
+                });
+                return;
+            }
+            this.unbindAudioPlayerLayoutObserver();
+            this.closeAudioPlayerMenu();
+            this.showVolumeBar = false;
+            this.showAudioPlayerQueuePanel = false;
+            this.audioQueueMinimized = false;
+            this.audioPlayerContainerStyle = null;
+            this.resetAudioPlayerMetrics();
+        },
+        sidebarCollapsed() {
+            this.scheduleAudioPlayerLayoutUpdate();
+            this.scheduleAudioPlayerLayoutUpdate(260);
+        },
         playbackSpeed(newVal) {
             const speed = Number(newVal);
             const allowed = Array.isArray(this.playbackSpeeds) && this.playbackSpeeds.length
@@ -5160,9 +5234,35 @@ export default {
         this.syncSuratThemeBodyClass();
         this.syncDocumentThemePreference(this.isDarkTheme);
         window.addEventListener("keydown", this.onKeydown);
+        this.audioPlayerWindowResizeHandler = () =>
+            this.scheduleAudioPlayerLayoutUpdate();
+        window.addEventListener(
+            "resize",
+            this.audioPlayerWindowResizeHandler
+        );
         this._keydownHandler = (e) => {
             if (!this.bottomAudioPlayerEnabled || !this.showAudioPlayer) return;
-            if (["INPUT", "TEXTAREA"].includes((e.target || {}).tagName))
+            const target = e.target || {};
+            const tagName = String(target.tagName || "").toUpperCase();
+            if (e.key === "Escape") {
+                if (this.showAudioPlayerMenu) {
+                    e.preventDefault();
+                    this.closeAudioPlayerMenu({ restoreFocus: true });
+                    return;
+                }
+                if (this.showVolumeBar) {
+                    e.preventDefault();
+                    this.showVolumeBar = false;
+                    this.$nextTick(() => {
+                        this.$refs.audioPlayerVolumeTrigger?.focus?.();
+                    });
+                    return;
+                }
+            }
+            if (
+                ["INPUT", "TEXTAREA", "SELECT", "BUTTON"].includes(tagName) ||
+                target.isContentEditable
+            )
                 return;
             switch (e.key) {
                 case " ":
@@ -5170,20 +5270,43 @@ export default {
                     this.toggleAudioPlayer(this.currentlyPlayingIndex);
                     break;
                 case "ArrowRight":
-                    this.fastForwardAudio(this.currentlyPlayingIndex);
+                    e.preventDefault();
+                    this.seekCurrentAudioBy(5);
                     break;
                 case "ArrowLeft":
-                    this.rewindAudio(this.currentlyPlayingIndex);
+                    e.preventDefault();
+                    this.seekCurrentAudioBy(-5);
                     break;
                 case "ArrowDown":
+                    e.preventDefault();
                     this.playNextAyah(this.currentlyPlayingIndex);
                     break;
                 case "ArrowUp":
+                    e.preventDefault();
                     this.playPrevAyah(this.currentlyPlayingIndex);
                     break;
             }
         };
         window.addEventListener("keydown", this._keydownHandler);
+        if (typeof document !== "undefined") {
+            this._audioPlayerPointerDownHandler = (event) =>
+                this.handleAudioPlayerDocumentPointerDown(event);
+            this._audioPlayerFocusInHandler = (event) =>
+                this.handleAudioPlayerDocumentFocusIn(event);
+            document.addEventListener(
+                "mousedown",
+                this._audioPlayerPointerDownHandler
+            );
+            document.addEventListener(
+                "touchstart",
+                this._audioPlayerPointerDownHandler,
+                { passive: true }
+            );
+            document.addEventListener(
+                "focusin",
+                this._audioPlayerFocusInHandler
+            );
+        }
         this.fullscreenChangeHandler = () =>
             this.handleNativeFullscreenChange();
             if (typeof document !== "undefined") {
@@ -5210,6 +5333,16 @@ export default {
             this.syncReadingFullscreenBodyClass(false);
             this.updateIsMobile();
         window.addEventListener("resize", this.updateIsMobile);
+        this.tafsirDropdownViewportHandler = () => {
+            if (!this.openTafsirDropdownKey) return;
+            this.queueTafsirDropdownLayoutUpdate();
+        };
+        window.addEventListener("resize", this.tafsirDropdownViewportHandler);
+        window.addEventListener(
+            "scroll",
+            this.tafsirDropdownViewportHandler,
+            true
+        );
         this.detectSpeechRecognitionSupport();
         // Restore dismissal state for next-step card
         try {
@@ -5531,6 +5664,11 @@ export default {
                 this.surahOffcanvasShowHandler
             );
         });
+        this.$nextTick(() => {
+            this.bindAudioPlayerLayoutObserver();
+            this.scheduleAudioPlayerLayoutUpdate();
+            this.scheduleAudioPlayerLayoutUpdate(260);
+        });
         if (this.shouldAutoOpenHifdhPlanFromQuery()) {
             this.$nextTick(async () => {
                 await this.openHifdhPlanModalGuarded();
@@ -5552,6 +5690,7 @@ export default {
             } catch (_) {}
             this.stopHighlightLoop();
             this.clearWordPreviewStopTimer();
+            this.unbindAudioPlayerLayoutObserver();
             this.clearSuratThemeSwitchTimer();
             this.syncSuratThemeSwitchingBodyClass(false);
             this.syncSuratThemeBodyClass(false);
@@ -5562,9 +5701,37 @@ export default {
                 skipNativeExit: false,
                 persistPreference: false,
             });
+            if (this.audioPlayerWindowResizeHandler) {
+                window.removeEventListener(
+                    "resize",
+                    this.audioPlayerWindowResizeHandler
+                );
+                this.audioPlayerWindowResizeHandler = null;
+            }
             window.removeEventListener("keydown", this.onKeydown);
             if (this._keydownHandler)
                 window.removeEventListener("keydown", this._keydownHandler);
+            this.closeAudioPlayerMenu();
+            if (typeof document !== "undefined") {
+                if (this._audioPlayerPointerDownHandler) {
+                    document.removeEventListener(
+                        "mousedown",
+                        this._audioPlayerPointerDownHandler
+                    );
+                    document.removeEventListener(
+                        "touchstart",
+                        this._audioPlayerPointerDownHandler
+                    );
+                    this._audioPlayerPointerDownHandler = null;
+                }
+                if (this._audioPlayerFocusInHandler) {
+                    document.removeEventListener(
+                        "focusin",
+                        this._audioPlayerFocusInHandler
+                    );
+                    this._audioPlayerFocusInHandler = null;
+                }
+            }
             if (typeof document !== "undefined" && this.fullscreenChangeHandler) {
                 document.removeEventListener(
                     "fullscreenchange",
@@ -5577,6 +5744,19 @@ export default {
                 this.fullscreenChangeHandler = null;
             }
             window.removeEventListener("resize", this.updateIsMobile);
+            if (this.tafsirDropdownViewportHandler) {
+                window.removeEventListener(
+                    "resize",
+                    this.tafsirDropdownViewportHandler
+                );
+                window.removeEventListener(
+                    "scroll",
+                    this.tafsirDropdownViewportHandler,
+                    true
+                );
+                this.tafsirDropdownViewportHandler = null;
+            }
+            this.resetTafsirDropdownLayout();
             window.removeEventListener("scroll", this.onScrollVirtual);
             window.removeEventListener("resize", this.computeListTop);
             window.removeEventListener("resize", this.calibrateItemHeight);
@@ -5859,6 +6039,7 @@ export default {
         beforeDestroy() {
             this.finalizeSessionHistoryEntry("inactive");
             this.stopHighlightLoop();
+            this.unbindAudioPlayerLayoutObserver();
             this.clearSuratThemeSwitchTimer();
             this.syncSuratThemeSwitchingBodyClass(false);
             this.syncSuratThemeBodyClass(false);
@@ -5869,9 +6050,37 @@ export default {
                 skipNativeExit: false,
                 persistPreference: false,
             });
+            if (this.audioPlayerWindowResizeHandler) {
+                window.removeEventListener(
+                    "resize",
+                    this.audioPlayerWindowResizeHandler
+                );
+                this.audioPlayerWindowResizeHandler = null;
+            }
             window.removeEventListener("keydown", this.onKeydown);
         if (this._keydownHandler)
             window.removeEventListener("keydown", this._keydownHandler);
+        this.closeAudioPlayerMenu();
+        if (typeof document !== "undefined") {
+            if (this._audioPlayerPointerDownHandler) {
+                document.removeEventListener(
+                    "mousedown",
+                    this._audioPlayerPointerDownHandler
+                );
+                document.removeEventListener(
+                    "touchstart",
+                    this._audioPlayerPointerDownHandler
+                );
+                this._audioPlayerPointerDownHandler = null;
+            }
+            if (this._audioPlayerFocusInHandler) {
+                document.removeEventListener(
+                    "focusin",
+                    this._audioPlayerFocusInHandler
+                );
+                this._audioPlayerFocusInHandler = null;
+            }
+        }
         if (typeof document !== "undefined" && this.fullscreenChangeHandler) {
             document.removeEventListener(
                 "fullscreenchange",
@@ -5884,6 +6093,19 @@ export default {
             this.fullscreenChangeHandler = null;
         }
         window.removeEventListener("resize", this.updateIsMobile);
+        if (this.tafsirDropdownViewportHandler) {
+            window.removeEventListener(
+                "resize",
+                this.tafsirDropdownViewportHandler
+            );
+            window.removeEventListener(
+                "scroll",
+                this.tafsirDropdownViewportHandler,
+                true
+            );
+            this.tafsirDropdownViewportHandler = null;
+        }
+        this.resetTafsirDropdownLayout();
         window.removeEventListener("scroll", this.onScrollVirtual);
         window.removeEventListener("resize", this.computeListTop);
         window.removeEventListener("resize", this.calibrateItemHeight);
@@ -23719,6 +23941,9 @@ export default {
                 clearTimeout(this.loadingTimers[index]);
                 this.isAudioLoading[index] = false;
                 this.isAudioPlaying[index] = false;
+                if (Number(this.currentlyPlayingIndex) === Number(index)) {
+                    this.resetAudioPlayerMetrics();
+                }
                 this.$toast?.error(
                     `Failed to load audio for ayah ${index + 1}`
                 );
@@ -23750,6 +23975,7 @@ export default {
             this.currentlyPlaying = audio;
             this.currentlyPlayingIndex = index;
             this.currentAudioIndex = index;
+            this.syncAudioPlayerMetrics(index);
             this.isHighlighted = true;
             this.persistContinueProgress({
                 surahNumber: Number(
@@ -23772,9 +23998,11 @@ export default {
             // Setup metadata and word timing
             audio.onloadedmetadata = () => {
                 this.updateWordTimings(ayah, this.currentlyPlaying.duration);
+                this.syncAudioPlayerMetrics(index);
             };
 
             audio.ontimeupdate = () => {
+                this.syncAudioPlayerMetrics(index);
                 const now = window.performance ? performance.now() : Date.now();
                 if (now - this.lastProgressAt > 420) {
                     // Keep progress updates smooth but lighter on long sessions.
@@ -23993,6 +24221,7 @@ export default {
                 clearTimeout(this.loadingTimers[index]);
                 this.isAudioPlaying[index] = false;
                 this.isAudioLoading[index] = false;
+                this.syncAudioPlayerMetrics(index);
                 this.stopHighlightLoop();
             }
         },
@@ -24033,6 +24262,9 @@ export default {
                 this.progress[index] = 0;
                 this.isHighlighted = false;
                 this.currentAudioIndex = -1;
+                if (Number(this.currentlyPlayingIndex) === Number(index)) {
+                    this.resetAudioPlayerMetrics();
+                }
                 this.stopHighlightLoop();
             }
         },
@@ -24119,9 +24351,35 @@ export default {
                     100;
                 const safeProgress = Math.min(100, nextProgress);
                 const previous = Number(this.progress[index] || 0);
-                if (Math.abs(previous - safeProgress) < 0.85) return;
-                this.progress[index] = safeProgress;
+                if (Math.abs(previous - safeProgress) >= 0.85) {
+                    this.progress[index] = safeProgress;
+                }
             }
+            this.syncAudioPlayerMetrics(index);
+        },
+        syncAudioPlayerMetrics(index = this.currentlyPlayingIndex) {
+            const targetIndex = this.resolveSeekAudioIndex(index);
+            if (targetIndex < 0 || !this.audioElements[targetIndex]) {
+                this.audioPlayerCurrentTime = 0;
+                this.audioPlayerCurrentDuration = 0;
+                return;
+            }
+            const audio = this.audioElements[targetIndex];
+            const nextTime = Math.max(
+                0,
+                Number(audio.currentTime || 0) || 0
+            );
+            const rawDuration = Number(audio.duration || 0);
+            const nextDuration =
+                Number.isFinite(rawDuration) && rawDuration > 0
+                    ? rawDuration
+                    : 0;
+            this.audioPlayerCurrentTime = nextTime;
+            this.audioPlayerCurrentDuration = nextDuration;
+        },
+        resetAudioPlayerMetrics() {
+            this.audioPlayerCurrentTime = 0;
+            this.audioPlayerCurrentDuration = 0;
         },
         formatTime: function (seconds) {
             const minutes = Math.floor(seconds / 60);
@@ -24432,18 +24690,114 @@ export default {
         getTafsirDropdownKey(item) {
             return this.getTafsirVisibilityKey(item);
         },
+        getTafsirDropdownRefName(item) {
+            const key = this.getTafsirDropdownKey(item);
+            return key ? `tafsirDropdown-${key}` : "tafsirDropdown";
+        },
+        getTafsirDropdownMenuRefName(item) {
+            const key = this.getTafsirDropdownKey(item);
+            return key ? `tafsirDropdownMenu-${key}` : "tafsirDropdownMenu";
+        },
+        getRefElement(refName) {
+            const ref = this.$refs?.[refName];
+            if (Array.isArray(ref)) return ref[0] || null;
+            return ref || null;
+        },
         isTafsirDropdownOpenFor(item) {
             const key = this.getTafsirDropdownKey(item);
             return !!key && key === this.openTafsirDropdownKey;
         },
+        getOpenTafsirDropdownStyle(item) {
+            return this.isTafsirDropdownOpenFor(item)
+                ? this.openTafsirDropdownStyle
+                : null;
+        },
+        resetTafsirDropdownLayout() {
+            this.openTafsirDropdownStyle = null;
+            if (
+                typeof window !== "undefined" &&
+                this.tafsirDropdownLayoutFrame
+            ) {
+                window.cancelAnimationFrame(this.tafsirDropdownLayoutFrame);
+                this.tafsirDropdownLayoutFrame = null;
+            }
+        },
+        queueTafsirDropdownLayoutUpdate() {
+            if (typeof window === "undefined") return;
+            if (this.tafsirDropdownLayoutFrame) {
+                window.cancelAnimationFrame(this.tafsirDropdownLayoutFrame);
+            }
+            this.tafsirDropdownLayoutFrame = window.requestAnimationFrame(() => {
+                this.tafsirDropdownLayoutFrame = null;
+                this.updateOpenTafsirDropdownLayout();
+            });
+        },
+        updateOpenTafsirDropdownLayout() {
+            const key = String(this.openTafsirDropdownKey || "").trim();
+            if (!key || typeof window === "undefined") {
+                this.resetTafsirDropdownLayout();
+                return;
+            }
+
+            const wrapper = this.getRefElement(`tafsirDropdown-${key}`);
+            const menu = this.getRefElement(`tafsirDropdownMenu-${key}`);
+            if (!wrapper || !menu) {
+                this.openTafsirDropdownStyle = null;
+                return;
+            }
+
+            const viewportWidth =
+                window.innerWidth ||
+                document?.documentElement?.clientWidth ||
+                0;
+            if (!viewportWidth) {
+                this.openTafsirDropdownStyle = null;
+                return;
+            }
+
+            const gutter = viewportWidth <= 575.98 ? 10 : 14;
+            const minWidth = viewportWidth <= 575.98 ? 248 : 260;
+            const preferredWidth = viewportWidth <= 575.98 ? 320 : 340;
+            const clampedWidth = Math.max(
+                minWidth,
+                Math.min(preferredWidth, viewportWidth - gutter * 2)
+            );
+            const wrapperRect = wrapper.getBoundingClientRect();
+            const naturalWidth = Math.max(menu.offsetWidth || 0, minWidth);
+            const menuWidth = Math.min(naturalWidth, clampedWidth);
+
+            let shiftX = 0;
+            const projectedLeft = wrapperRect.right - menuWidth;
+            const projectedRight = wrapperRect.right;
+
+            if (projectedLeft < gutter) {
+                shiftX += gutter - projectedLeft;
+            }
+            if (projectedRight + shiftX > viewportWidth - gutter) {
+                shiftX -=
+                    projectedRight + shiftX - (viewportWidth - gutter);
+            }
+
+            this.openTafsirDropdownStyle = {
+                width: `${clampedWidth}px`,
+                maxWidth: `${clampedWidth}px`,
+                transform: `translateX(${Math.round(shiftX)}px)`,
+            };
+        },
         closeTafsirDropdown() {
             this.openTafsirDropdownKey = "";
+            this.resetTafsirDropdownLayout();
         },
         toggleTafsirDropdown(item) {
             const key = this.getTafsirDropdownKey(item);
             if (!key) return;
             this.openTafsirDropdownKey =
                 this.openTafsirDropdownKey === key ? "" : key;
+            if (this.openTafsirDropdownKey) {
+                this.$nextTick(() => this.queueTafsirDropdownLayoutUpdate());
+            } else {
+                this.resetTafsirDropdownLayout();
+            }
         },
         getTafsirEditionByIdentifier(identifier) {
             const safeIdentifier = this.normalizeTafsirEditionIdentifier(
@@ -24540,19 +24894,53 @@ export default {
                 )
             );
         },
+        getEnglishTafsirEditionIdentifier() {
+            const selected = String(this.selectedTranslation || "").trim();
+            const englishOptions = Array.isArray(this.englishTranslationsSorted)
+                ? this.englishTranslationsSorted
+                : [];
+            const selectedMatch = englishOptions.find(
+                (translation) =>
+                    String(translation?.identifier || "") === selected
+            );
+            if (selectedMatch?.identifier) {
+                return String(selectedMatch.identifier).trim();
+            }
+            const fallbackMatch = englishOptions.find(
+                (translation) => !!String(translation?.identifier || "").trim()
+            );
+            if (fallbackMatch?.identifier) {
+                return String(fallbackMatch.identifier).trim();
+            }
+            return String(this.englishTafsirEditionIdentifier || "en.asad").trim();
+        },
         getEnglishTafsirEdition() {
+            const identifier = this.getEnglishTafsirEditionIdentifier();
+            const translations = Array.isArray(this.translations)
+                ? this.translations
+                : [];
+            const match =
+                translations.find(
+                    (translation) =>
+                        String(translation?.identifier || "") === identifier
+                ) || null;
             return {
-                identifier: this.englishTafsirEditionIdentifier,
-                englishName: "English Tafsir",
-                name: "English Tafsir",
-                language: "en",
+                identifier,
+                englishName: String(
+                    match?.englishName || "English Translation"
+                ).trim(),
+                name: String(match?.englishName || "English Translation").trim(),
+                language: String(match?.language || "en").trim(),
                 direction: "ltr",
             };
         },
-        buildEnglishTafsirStateKey(ayahKey) {
+        buildEnglishTafsirStateKey(
+            ayahKey,
+            editionId = this.getEnglishTafsirEditionIdentifier()
+        ) {
             return this.buildTafsirEditionStateKey(
                 ayahKey,
-                this.englishTafsirEditionIdentifier
+                editionId
             );
         },
         isTafsirVisibleFor(item) {
@@ -24646,17 +25034,13 @@ export default {
             return value && typeof value === "object" ? value : null;
         },
         getActiveEnglishTafsirLabel() {
-            return (
-                this.getActiveEnglishTafsirMeta()?.editionLabel ||
-                this.getTafsirEditionPrimaryLabel(this.getEnglishTafsirEdition()) ||
-                "English Tafsir"
-            );
+            return "English Translation";
         },
         getActiveEnglishTafsirSourceLabel() {
             return (
                 this.getActiveEnglishTafsirMeta()?.source ||
                 this.getTafsirEditionSourceLabel(this.getEnglishTafsirEdition()) ||
-                "English Tafsir"
+                "AlQuran.Cloud English Translation"
             );
         },
         getActiveTafsirKey() {
@@ -24840,7 +25224,6 @@ export default {
             this.loadTafsirForItem(item, {
                 editionId: resolvedEditionId,
             });
-            this.loadEnglishTafsirForItem(item);
 
             this.$nextTick(() => {
                 const modalEl = document.getElementById(this.tafsirModalId);
@@ -25036,31 +25419,59 @@ export default {
                 .replace(/\s+(that is to say)\b/gi, ". $1")
                 .replace(/\s+(for example)\b/gi, ". $1")
                 .replace(/\s+(for instance)\b/gi, ". $1")
-                .replace(/([.!?])\s+(?=[A-Z“"‘'])/g, "$1\n\n")
+                .replace(
+                    /((?:[A-Za-z”"'’)\]])[.!?])\s+(?=[A-Z“"‘'])/g,
+                    "$1\n\n"
+                )
                 .replace(/\bthat is\s+/gi, "that is, ")
                 .replace(/\bnamely\s+/gi, "namely, ")
                 .replace(/\bmeaning\s+/gi, "meaning ");
 
-            const paragraphs = text
-                .split(/\n{2,}/)
-                .map((paragraph) => String(paragraph || "").trim())
-                .filter(Boolean)
-                .flatMap((paragraph) => this.splitTafsirParagraphChunks(paragraph))
-                .map((paragraph) => {
-                    const cleaned = String(paragraph || "").trim();
-                    if (!cleaned) return "";
-                    if (this.isArabicDominant(cleaned)) {
-                        return this.normalizeArabicTafsirParagraph(cleaned);
-                    }
-                    const normalized = this.normalizeEnglishTafsirParagraph(cleaned);
-                    return this.wrapLongTafsirParagraph(normalized);
-                })
-                .filter(Boolean);
+            const paragraphs = this.mergeTafsirMarkerParagraphs(
+                text
+                    .split(/\n{2,}/)
+                    .map((paragraph) => String(paragraph || "").trim())
+                    .filter(Boolean)
+                    .flatMap((paragraph) =>
+                        this.splitTafsirParagraphChunks(paragraph)
+                    )
+                    .map((paragraph) => {
+                        const cleaned = String(paragraph || "").trim();
+                        if (!cleaned) return "";
+                        if (this.isArabicDominant(cleaned)) {
+                            return this.normalizeArabicTafsirParagraph(cleaned);
+                        }
+                        const normalized =
+                            this.normalizeEnglishTafsirParagraph(cleaned);
+                        return this.wrapLongTafsirParagraph(normalized);
+                    })
+                    .filter(Boolean)
+            );
 
             return paragraphs
                 .join("\n\n")
                 .replace(/(^|\n)in other words\b/gm, "$1In other words")
                 .replace(/\bIn other words\b/g, "In other words,");
+        },
+        mergeTafsirMarkerParagraphs(paragraphs) {
+            if (!Array.isArray(paragraphs) || !paragraphs.length) return [];
+
+            const merged = [];
+            for (let index = 0; index < paragraphs.length; index += 1) {
+                const current = String(paragraphs[index] || "").trim();
+                if (!current) continue;
+
+                const next = String(paragraphs[index + 1] || "").trim();
+                if (/^\d+[.)]?$/.test(current) && next) {
+                    merged.push(`${current} ${next}`.trim());
+                    index += 1;
+                    continue;
+                }
+
+                merged.push(current);
+            }
+
+            return merged;
         },
         wrapLongTafsirParagraph(paragraph) {
             const cleaned = String(paragraph || "").trim();
@@ -25168,13 +25579,25 @@ export default {
         },
         async loadEnglishTafsirForItem(item) {
             const ayahKey = this.getTafsirVisibilityKey(item);
-            const key = this.buildEnglishTafsirStateKey(ayahKey);
+            const edition = this.getEnglishTafsirEdition();
+            const editionId = String(edition?.identifier || "").trim();
+            const key = this.buildEnglishTafsirStateKey(ayahKey, editionId);
             if (!key || !item?.ayah) return;
             if (this.tafsirContent[key]) return;
 
             const ayahId = this.resolveTafsirAyahId(item.ayah);
-            if (!ayahId) {
-                this.tafsirError[key] = "English tafsir is unavailable for this ayah.";
+            const surahNumber = Number(
+                this.surahDetails?.surahNumber || this.selectedSurah || 0
+            );
+            const ayahNumber = Number(
+                item?.ayah?.numberInSurah || item?.ayah?.number || 0
+            );
+            if (
+                !editionId ||
+                (!ayahId && !(surahNumber > 0 && ayahNumber > 0))
+            ) {
+                this.tafsirError[key] =
+                    "English text is unavailable from AlQuran.Cloud for this ayah.";
                 return;
             }
 
@@ -25187,18 +25610,26 @@ export default {
             }
 
             try {
+                const reference =
+                    surahNumber > 0 && ayahNumber > 0
+                        ? `${surahNumber}:${ayahNumber}`
+                        : String(ayahId);
                 const { data } = await this.cachedFetchJSON(
-                    `/tafseer/${ayahId}/fetch?detailed=1&lang=en`,
-                    `cache:ayah-tafsir-english:${ayahId}`,
+                    `https://api.alquran.cloud/v1/ayah/${encodeURIComponent(
+                        reference
+                    )}/${encodeURIComponent(editionId)}`,
+                    surahNumber > 0 && ayahNumber > 0
+                        ? `cache:ayah-english-companion:v3:${surahNumber}:${ayahNumber}:${editionId}`
+                        : `cache:ayah-english-companion:v3:${ayahId}:${editionId}`,
                     30 * 24 * 60 * 60 * 1000
                 );
                 const normalized = this.normalizeTafsirPayload(
-                    data,
+                    data?.data || data,
                     item,
-                    this.getEnglishTafsirEdition()
+                    edition
                 );
                 if (!normalized?.text) {
-                    throw new Error("Empty English tafsir payload");
+                    throw new Error("Empty English companion payload");
                 }
                 if (typeof this.$set === "function") {
                     this.$set(this.tafsirContent, key, normalized.text);
@@ -25212,11 +25643,11 @@ export default {
                     this.$set(
                         this.tafsirError,
                         key,
-                        "English tafsir is temporarily unavailable."
+                        "English text is temporarily unavailable from AlQuran.Cloud."
                     );
                 } else {
                     this.tafsirError[key] =
-                        "English tafsir is temporarily unavailable.";
+                        "English text is temporarily unavailable from AlQuran.Cloud.";
                 }
             } finally {
                 if (typeof this.$set === "function") {
@@ -26591,7 +27022,271 @@ export default {
                 this.playAudio(targetIndex);
             });
         },
+        getAudioPlayerLayoutAnchor() {
+            const rootElement =
+                this.$el &&
+                this.$el.classList &&
+                this.$el.classList.contains("surat-premium")
+                    ? this.$el
+                    : null;
+            if (rootElement) return rootElement;
+            const listContainer = this.$refs?.listContainer || null;
+            if (
+                listContainer &&
+                typeof listContainer.closest === "function"
+            ) {
+                return (
+                    listContainer.closest(".surat-premium") || listContainer
+                );
+            }
+            return listContainer;
+        },
+        bindAudioPlayerLayoutObserver() {
+            if (typeof window === "undefined") return;
+            const layoutAnchor = this.getAudioPlayerLayoutAnchor();
+            if (!layoutAnchor) return;
+            if (
+                typeof window.ResizeObserver === "function" &&
+                !this.audioPlayerResizeObserver
+            ) {
+                this.audioPlayerResizeObserver = new window.ResizeObserver(() => {
+                    this.scheduleAudioPlayerLayoutUpdate();
+                });
+                this.audioPlayerResizeObserver.observe(layoutAnchor);
+            }
+        },
+        unbindAudioPlayerLayoutObserver() {
+            if (this.audioPlayerLayoutTimer) {
+                clearTimeout(this.audioPlayerLayoutTimer);
+                this.audioPlayerLayoutTimer = null;
+            }
+            if (
+                typeof window !== "undefined" &&
+                this.audioPlayerLayoutFrame
+            ) {
+                window.cancelAnimationFrame(this.audioPlayerLayoutFrame);
+                this.audioPlayerLayoutFrame = null;
+            }
+            if (this.audioPlayerResizeObserver) {
+                this.audioPlayerResizeObserver.disconnect();
+                this.audioPlayerResizeObserver = null;
+            }
+        },
+        scheduleAudioPlayerLayoutUpdate(delay = 0) {
+            if (typeof window === "undefined") return;
+            if (this.audioPlayerLayoutTimer) {
+                clearTimeout(this.audioPlayerLayoutTimer);
+                this.audioPlayerLayoutTimer = null;
+            }
+            const queueUpdate = () => {
+                if (this.audioPlayerLayoutFrame) {
+                    window.cancelAnimationFrame(this.audioPlayerLayoutFrame);
+                }
+                this.audioPlayerLayoutFrame = window.requestAnimationFrame(() => {
+                    this.audioPlayerLayoutFrame = null;
+                    this.updateAudioPlayerContainerStyle();
+                });
+            };
+            if (delay > 0) {
+                this.audioPlayerLayoutTimer = setTimeout(() => {
+                    this.audioPlayerLayoutTimer = null;
+                    queueUpdate();
+                }, delay);
+                return;
+            }
+            queueUpdate();
+        },
+        updateAudioPlayerContainerStyle() {
+            if (typeof window === "undefined") return;
+            const layoutAnchor = this.getAudioPlayerLayoutAnchor();
+            if (!layoutAnchor) {
+                this.audioPlayerContainerStyle = null;
+                return;
+            }
+            const rect = layoutAnchor.getBoundingClientRect();
+            const viewportWidth =
+                window.innerWidth ||
+                document?.documentElement?.clientWidth ||
+                0;
+            if (!(rect.width > 0) || !(viewportWidth > 0)) {
+                this.audioPlayerContainerStyle = null;
+                return;
+            }
+            const boundedLeft = Math.max(
+                0,
+                Math.round(Math.min(Math.max(rect.left, 0), viewportWidth))
+            );
+            const boundedRight = Math.max(
+                0,
+                Math.round(
+                    Math.min(
+                        Math.max(viewportWidth - rect.right, 0),
+                        viewportWidth
+                    )
+                )
+            );
+            this.audioPlayerContainerStyle = {
+                left: `${boundedLeft}px`,
+                right: `${boundedRight}px`,
+                width: "auto",
+                maxWidth: "none",
+            };
+        },
+        focusFirstAudioPlayerMenuControl() {
+            this.$nextTick(() => {
+                const menu = this.$refs.audioPlayerMenu;
+                if (!menu || typeof menu.querySelector !== "function") return;
+                const firstControl = menu.querySelector(
+                    "button:not([disabled]), select:not([disabled]), input:not([disabled])"
+                );
+                firstControl?.focus?.();
+            });
+        },
+        openAudioPlayerMenu(options = {}) {
+            const { focusFirstControl = false } = options;
+            if (this.showAudioPlayerMenu) {
+                if (focusFirstControl) {
+                    this.focusFirstAudioPlayerMenuControl();
+                }
+                return;
+            }
+            this.showAudioPlayerMenu = true;
+            this.showAudioPlayerQueuePanel = false;
+            this.audioQueueMinimized = false;
+            this.showVolumeBar = false;
+            if (focusFirstControl) {
+                this.focusFirstAudioPlayerMenuControl();
+            }
+        },
+        closeAudioPlayerMenu(options = {}) {
+            const { restoreFocus = false } = options;
+            if (!this.showAudioPlayerMenu) {
+                if (restoreFocus) {
+                    this.$nextTick(() => {
+                        this.$refs.audioPlayerMenuTrigger?.focus?.();
+                    });
+                }
+                return;
+            }
+            this.showAudioPlayerMenu = false;
+            if (restoreFocus) {
+                this.$nextTick(() => {
+                    this.$refs.audioPlayerMenuTrigger?.focus?.();
+                });
+            }
+        },
+        toggleAudioPlayerMenu() {
+            if (this.showAudioPlayerMenu) {
+                this.closeAudioPlayerMenu({ restoreFocus: true });
+                return;
+            }
+            this.openAudioPlayerMenu();
+        },
+        handleAudioPlayerDocumentPointerDown(event) {
+            const target = event?.target || null;
+            if (!target) return;
+            if (this.showAudioPlayerMenu) {
+                const menu = this.$refs.audioPlayerMenu;
+                const trigger = this.$refs.audioPlayerMenuTrigger;
+                if (
+                    (menu && menu.contains(target)) ||
+                    (trigger && trigger.contains(target))
+                ) {
+                    return;
+                }
+                this.closeAudioPlayerMenu();
+            }
+            if (this.showVolumeBar) {
+                const volumePopover = this.$refs.audioPlayerVolumePopover;
+                const volumeTrigger = this.$refs.audioPlayerVolumeTrigger;
+                if (
+                    (volumePopover && volumePopover.contains(target)) ||
+                    (volumeTrigger && volumeTrigger.contains(target))
+                ) {
+                    return;
+                }
+                this.showVolumeBar = false;
+            }
+        },
+        handleAudioPlayerDocumentFocusIn(event) {
+            const target = event?.target || null;
+            if (!target) return;
+            if (this.showAudioPlayerMenu) {
+                const menu = this.$refs.audioPlayerMenu;
+                const trigger = this.$refs.audioPlayerMenuTrigger;
+                if (
+                    (menu && menu.contains(target)) ||
+                    (trigger && trigger.contains(target))
+                ) {
+                    return;
+                }
+                this.closeAudioPlayerMenu();
+            }
+            if (this.showVolumeBar) {
+                const volumePopover = this.$refs.audioPlayerVolumePopover;
+                const volumeTrigger = this.$refs.audioPlayerVolumeTrigger;
+                if (
+                    (volumePopover && volumePopover.contains(target)) ||
+                    (volumeTrigger && volumeTrigger.contains(target))
+                ) {
+                    return;
+                }
+                this.showVolumeBar = false;
+            }
+        },
+        setAudioPlayerSpeed(speed) {
+            const nextSpeed = Number(speed);
+            const allowed =
+                Array.isArray(this.playbackSpeeds) &&
+                this.playbackSpeeds.length
+                    ? this.playbackSpeeds.map((item) => Number(item))
+                    : [1];
+            if (!allowed.includes(nextSpeed)) return;
+            this.playbackSpeed = nextSpeed;
+        },
+        seekCurrentAudioBy(seconds) {
+            const targetIndex = this.resolveSeekAudioIndex(
+                this.currentlyPlayingIndex
+            );
+            if (targetIndex < 0 || !this.audioElements[targetIndex]) return;
+            const delta = Number(seconds || 0);
+            if (!delta) return;
+            const audio = this.audioElements[targetIndex];
+            const duration = Number(audio.duration || 0);
+            const currentTime = Number(audio.currentTime || 0);
+            const nextTime = currentTime + delta;
+            audio.currentTime = Math.max(
+                0,
+                Math.min(duration > 0 ? duration : nextTime, nextTime)
+            );
+            this.updateProgress(targetIndex);
+            this.syncAudioPlayerMetrics(targetIndex);
+        },
+        onAudioPlayerSeekInput(event) {
+            const percent = Number(event?.target?.value ?? 0);
+            if (!Number.isFinite(percent)) return;
+            this.seekCurrentAudioToPercent(percent);
+        },
+        seekCurrentAudioToPercent(percent) {
+            const targetIndex = this.resolveSeekAudioIndex(
+                this.currentlyPlayingIndex
+            );
+            if (targetIndex < 0 || !this.audioElements[targetIndex]) return;
+            const audio = this.audioElements[targetIndex];
+            const duration = Number(audio.duration || 0);
+            if (!(duration > 0)) return;
+            const boundedPercent = Math.max(
+                0,
+                Math.min(100, Number(percent || 0))
+            );
+            audio.currentTime = (boundedPercent / 100) * duration;
+            this.updateProgress(targetIndex);
+            this.syncAudioPlayerMetrics(targetIndex);
+        },
         toggleVolume: function () {
+            if (!this.showVolumeBar) {
+                this.closeAudioPlayerMenu();
+            }
             this.showVolumeBar = !this.showVolumeBar;
         },
         updateVolume: function () {
@@ -26609,12 +27304,15 @@ export default {
                 this.stopAudio(this.currentlyPlayingIndex);
             }
             this.clearWordPreviewStopTimer();
+            this.closeAudioPlayerMenu();
+            this.showVolumeBar = false;
             this.showAudioPlayer = false;
             this.showAudioPlayerQueuePanel = false;
             this.audioQueueMinimized = false;
             this.currentlyPlayingIndex = 0;
             this.currentlyPlaying = null;
             this.currentAudioIndex = -1;
+            this.resetAudioPlayerMetrics();
             this.isHighlighted = false;
         },
         toggleAudioPlayerQueuePanel() {

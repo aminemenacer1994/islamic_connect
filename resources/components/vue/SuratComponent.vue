@@ -4385,7 +4385,9 @@
                         'memorisation-next': isMemorisationModeActive && item.role === 'next',
                         'ayah-card-container--countdown-anchor': isVerseCountdownSideAnchorItem(item),
                         'ayah-card-container--menu-open':
-                            openAyahPlaylistMenuKey === getAyahPlaylistMenuKey(item.ayah),
+                            openAyahPlaylistMenuKey === getAyahPlaylistMenuKey(item.ayah) ||
+                            isTafsirDropdownOpenFor(item) ||
+                            isTafsirModalOpenFor(item),
                     }">
                     <div class="ayah-surface rtl-text d-flex flex-column">
                         <div class="ayah-card-header ltr-text">
@@ -4405,6 +4407,7 @@
                                 <div class="ayah-card-header-primary">
                                     <div
                                         class="ayah-tafseer-dropdown"
+                                        :ref="getTafsirDropdownRefName(item)"
                                         @click.stop
                                         @keydown.esc.stop.prevent="closeTafsirDropdown">
                                         <button
@@ -4427,7 +4430,9 @@
                                         </button>
                                         <div
                                             v-if="isTafsirDropdownOpenFor(item)"
+                                            :ref="getTafsirDropdownMenuRefName(item)"
                                             class="ayah-tafseer-dropdown-menu"
+                                            :style="getOpenTafsirDropdownStyle(item)"
                                             role="menu"
                                             :aria-label="`Choose tafsir for ${getTafsirReferenceForItem(item)}`">
                                             <div
@@ -5988,44 +5993,6 @@
                                 <p v-else class="ayah-tafsir-empty mb-0 ltr-text">
                                     No tafsir content available.
                                 </p>
-
-                                <div class="ayah-tafsir-section ayah-tafsir-section--english">
-                                    <p class="ayah-tafsir-label mb-1 ltr-text">{{ getActiveEnglishTafsirLabel() }}</p>
-                                    <p
-                                        v-if="getActiveEnglishTafsirSourceLabel()"
-                                        class="ayah-tafsir-section-source mb-0 ltr-text">
-                                        {{ getActiveEnglishTafsirSourceLabel() }}
-                                    </p>
-                                    <p
-                                        v-if="isActiveEnglishTafsirLoading()"
-                                        class="ayah-tafsir-loading mb-0 ltr-text">
-                                        Loading English tafsir...
-                                    </p>
-                                    <p
-                                        v-else-if="getActiveEnglishTafsirError()"
-                                        class="ayah-tafsir-error mb-0 ltr-text">
-                                        {{ getActiveEnglishTafsirError() }}
-                                    </p>
-                                    <div
-                                        v-else-if="getActiveEnglishTafsirText()"
-                                        class="ayah-tafsir-text ayah-tafsir-text-stack">
-                                        <p
-                                            v-for="(paragraph, index) in getActiveEnglishTafsirParagraphs()"
-                                            :key="`english-tafsir-paragraph-${index}`"
-                                            class="ayah-tafsir-paragraph mb-0"
-                                            :class="[
-                                                paragraph.isArabic ? 'ayah-tafsir-paragraph--arabic' : 'ayah-tafsir-paragraph--english',
-                                                paragraph.isHeading ? 'ayah-tafsir-paragraph--heading' : ''
-                                            ]"
-                                            :dir="paragraph.direction"
-                                            :lang="paragraph.lang">
-                                            {{ paragraph.text }}
-                                        </p>
-                                    </div>
-                                    <p v-else class="ayah-tafsir-empty mb-0 ltr-text">
-                                        No English tafsir content available.
-                                    </p>
-                                </div>
                             </div>
                         </div>
                         <div class="modal-footer border-0 pt-0">
@@ -6317,155 +6284,206 @@
 
         <!-- Global Custom Audio Player -->
         <teleport to="body">
-            <div v-if="bottomAudioPlayerEnabled && showAudioPlayer && !isSingleWordPreviewActive" class="audio-player-container">
-                <div class="custom-audio-player">
-                    <div class="controls">
-                        <button @click="rewindAudio(currentlyPlayingIndex)" class="control-btn" title="Rewind"
-                            aria-label="Rewind 15 seconds">
-                            <i class="bi bi-skip-backward-fill"></i>
-                        </button>
-                        <button @click="toggleAudioPlayer(currentlyPlayingIndex)" class="control-btn play-pause"
-                            title="Play/Pause" aria-label="Play or Pause">
-                            <i :class="isAudioPlaying[currentlyPlayingIndex]
-                                ? 'bi bi-pause-fill'
-                                : 'bi bi-play-fill'
-                                "></i>
-                        </button>
-                        <button @click="fastForwardAudio(currentlyPlayingIndex)" class="control-btn"
-                            title="Fast Forward" aria-label="Fast forward 20 seconds">
-                            <i class="bi bi-skip-forward-fill"></i>
-                        </button>
-                        <button @click="stopAudio(currentlyPlayingIndex)" class="control-btn" title="Stop"
-                            aria-label="Stop">
-                            <i class="bi bi-stop-fill"></i>
-                        </button>
-                        <button @click="toggleVolume" class="control-btn" title="Volume"
-                            aria-label="Toggle volume slider">
-                            <i class="bi" :class="`bi-volume-${volume > 0.5
-                                ? 'up'
-                                : volume > 0
-                                    ? 'down'
-                                    : 'mute'
-                                }-fill`"></i>
-                        </button>
-                        <button @click="cyclePlaybackSpeed" class="control-btn speed-control"
-                            :title="'Speed: ' + playbackSpeed + 'x'">
-                            <i class="bi bi-speedometer2" :style="{
-                                color:
-                                    playbackSpeed !== 1
-                                        ? '#ff6b6b'
-                                        : '#ccc',
-                            }"></i>
-                            <span class="speed-indicator">{{ playbackSpeed }}x</span>
-                        </button>
-                        <button @click="toggleRepeat" class="control-btn repeat-control" :title="repeatCurrent
-                            ? 'Repeat current ayah: on'
-                            : 'Repeat current ayah: off'
-                            " :aria-pressed="repeatCurrent" aria-label="Toggle repeat current ayah">
-                            <i class="bi bi-arrow-repeat" :style="{
-                                color: repeatCurrent ? '#00bfa6' : '#ccc',
-                            }"></i>
-                        </button>
-                        <button
-                            v-if="!isMemorisationToolbarVisible"
-                            @click="toggleAudioPlayerQueuePanel"
-                            class="control-btn"
-                            :title="showAudioPlayerQueuePanel ? 'Hide queue' : 'Show queue'"
-                            :aria-expanded="showAudioPlayerQueuePanel ? 'true' : 'false'"
-                            aria-label="Toggle audio queue panel">
-                            <i class="bi bi-music-note-list"></i>
-                            <span v-if="audioPlayerQueueCount" class="speed-indicator">{{ audioPlayerQueueCount }}</span>
-                        </button>
-                        <div v-if="showVolumeBar" class="volume-bar-container">
-                            <input type="range" v-model="volume" min="0" max="1" step="0.1" @input="updateVolume"
-                                class="volume-slider" />
-                        </div>
-                        <span class="time" aria-live="polite">{{
-                            formatTime(
-                                audioElements[currentlyPlayingIndex]
-                                    ?.currentTime || 0
-                            )
-                        }}
-                            /
-                            {{
-                                formatTime(
-                                    audioElements[currentlyPlayingIndex]
-                                        ?.duration || 0
-                                )
-                            }}</span>
-                        <button @click="closeAudioPlayer" class="control-btn" title="Close" aria-label="Close player"
-                            style="margin-left: auto">
-                            <i class="bi bi-x-lg mb-2"></i>
-                        </button>
+            <div
+                v-if="bottomAudioPlayerEnabled && showAudioPlayer && !isSingleWordPreviewActive"
+                class="audio-player-container"
+                :class="{ 'is-dark-theme': isDarkTheme }"
+                :style="audioPlayerContainerStyle"
+                dir="ltr">
+                <div class="custom-audio-player" role="region" aria-label="Quran audio player">
+                    <div class="audio-player-seek-row">
+                        <label class="visually-hidden" for="suratAudioPlayerSeek">
+                            Seek audio playback
+                        </label>
+                        <input
+                            id="suratAudioPlayerSeek"
+                            type="range"
+                            class="audio-player-seek"
+                            min="0"
+                            max="100"
+                            step="0.1"
+                            :value="currentAudioProgressPercent"
+                            :disabled="!currentAudioDurationSeconds"
+                            :aria-valuemin="0"
+                            :aria-valuemax="100"
+                            :aria-valuenow="Math.round(currentAudioProgressPercent)"
+                            :aria-valuetext="`Playback position ${currentAudioPlayerTimeText} of ${currentAudioPlayerDurationText}`"
+                            aria-label="Seek audio playback"
+                            @input="onAudioPlayerSeekInput" />
                     </div>
-                    <div v-if="showAudioPlayerQueuePanel && !isMemorisationToolbarVisible" class="audio-player-queue-panel">
-                        <div class="audio-player-queue-header">
-                            <div>
-                                <strong>Queue</strong>
-                                <small>{{ audioPlayerQueueCount }} item{{ audioPlayerQueueCount === 1 ? '' : 's' }}</small>
-                            </div>
-                            <button
-                                type="button"
-                                class="control-btn"
-                                @click="toggleAudioQueueMinimized"
-                                :title="audioQueueMinimized ? 'Expand queue' : 'Minimize queue'"
-                                :aria-expanded="audioQueueMinimized ? 'false' : 'true'"
-                                aria-label="Minimize or expand queue">
-                                <i class="bi" :class="audioQueueMinimized ? 'bi-chevron-down' : 'bi-chevron-up'"></i>
-                            </button>
+                    <div class="audio-player-toolbar">
+                        <div class="audio-player-left">
+                            <span
+                                class="audio-player-time audio-player-time-current"
+                                aria-label="Current playback time">
+                                {{ currentAudioPlayerTimeText }}
+                            </span>
                         </div>
-                        <div v-show="!audioQueueMinimized">
-                            <div v-if="!audioPlayerQueueCount" class="audio-player-queue-empty">
-                                No queued ayahs yet.
-                            </div>
-                            <div
-                                v-for="item in audioPlayerQueueItems"
-                                :key="item.id"
-                                class="audio-player-queue-item">
-                                <div>
-                                    <strong>{{ item.title }}</strong>
-                                    <div>{{ item.description }}</div>
-                                </div>
-                                <div class="audio-player-queue-item-actions">
+                        <div class="audio-player-center" role="group" aria-label="Audio playback controls">
+                            <div class="audio-player-transport">
+                                <div class="audio-player-menu-wrap">
                                     <button
+                                        ref="audioPlayerMenuTrigger"
                                         type="button"
-                                        class="control-btn"
-                                        @click="playAudioQueueItem(item.id)"
-                                        title="Play queued item"
-                                        aria-label="Play queued item">
-                                        <i class="bi bi-play-fill"></i>
+                                        class="audio-player-icon-btn audio-player-menu-trigger"
+                                        aria-label="Open audio player settings"
+                                        aria-haspopup="dialog"
+                                        aria-controls="suratAudioPlayerMenu"
+                                        :aria-expanded="showAudioPlayerMenu ? 'true' : 'false'"
+                                        @click="toggleAudioPlayerMenu()"
+                                        @keydown.down.prevent="openAudioPlayerMenu({ focusFirstControl: true })">
+                                        <i class="bi bi-three-dots" aria-hidden="true"></i>
                                     </button>
-                                    <button
-                                        v-if="item.source === 'manual'"
-                                        type="button"
-                                        class="control-btn"
-                                        @click="removeAudioQueueItem(item.id)"
-                                        title="Remove queued item"
-                                        aria-label="Remove queued item">
-                                        <i class="bi bi-x-lg"></i>
-                                    </button>
+                                    <div
+                                        v-if="showAudioPlayerMenu"
+                                        id="suratAudioPlayerMenu"
+                                        ref="audioPlayerMenu"
+                                        class="audio-player-menu"
+                                        role="dialog"
+                                        aria-modal="false"
+                                        aria-label="Audio player settings"
+                                        @keydown.esc.stop.prevent="closeAudioPlayerMenu({ restoreFocus: true })">
+                                        <section class="audio-player-menu-section" aria-labelledby="suratAudioPlayerSpeedHeading">
+                                            <div class="audio-player-menu-heading-row">
+                                                <span id="suratAudioPlayerSpeedHeading" class="audio-player-menu-heading">Playback speed</span>
+                                                <span class="audio-player-menu-value">{{ playbackSpeed }}x</span>
+                                            </div>
+                                            <div class="audio-player-choice-row" role="group" aria-label="Playback speed">
+                                                <button
+                                                    v-for="speed in playbackSpeeds"
+                                                    :key="`audio-player-speed-${speed}`"
+                                                    type="button"
+                                                    class="audio-player-choice-btn"
+                                                    :class="{ 'is-active': Number(playbackSpeed) === Number(speed) }"
+                                                    :aria-pressed="Number(playbackSpeed) === Number(speed) ? 'true' : 'false'"
+                                                    :aria-label="`Set playback speed to ${speed}x`"
+                                                    @click="setAudioPlayerSpeed(speed)">
+                                                    {{ speed }}x
+                                                </button>
+                                            </div>
+                                        </section>
+                                        <section class="audio-player-menu-section" aria-labelledby="suratAudioPlayerReciterHeading">
+                                            <div class="audio-player-menu-heading-row">
+                                                <span id="suratAudioPlayerReciterHeading" class="audio-player-menu-heading">Audio reciter</span>
+                                            </div>
+                                            <label class="visually-hidden" for="suratAudioPlayerReciterSelect">
+                                                Select audio reciter
+                                            </label>
+                                            <select
+                                                id="suratAudioPlayerReciterSelect"
+                                                class="audio-player-select"
+                                                v-model="selectedReciter"
+                                                aria-label="Select audio reciter">
+                                                <option
+                                                    v-for="reciter in recitersSorted"
+                                                    :key="`audio-player-reciter-${reciter.identifier}`"
+                                                    :value="reciter.identifier">
+                                                    {{ reciter.englishName }}
+                                                </option>
+                                            </select>
+                                        </section>
+                                        <section class="audio-player-menu-section" aria-labelledby="suratAudioPlayerModeHeading">
+                                            <div class="audio-player-menu-heading-row">
+                                                <span id="suratAudioPlayerModeHeading" class="audio-player-menu-heading">Play time</span>
+                                            </div>
+                                            <div class="audio-player-choice-row" role="group" aria-label="Playback mode">
+                                                <button
+                                                    v-for="option in playbackModeOptions"
+                                                    :key="`audio-player-mode-${option.value}`"
+                                                    type="button"
+                                                    class="audio-player-choice-btn"
+                                                    :class="{ 'is-active': playbackMode === option.value }"
+                                                    :aria-pressed="playbackMode === option.value ? 'true' : 'false'"
+                                                    :aria-label="`Set playback mode to ${option.value}`"
+                                                    @click="setPlaybackMode(option.value)">
+                                                    {{
+                                                        option.value === "continuous"
+                                                            ? "Continuous"
+                                                            : option.value === "repeat"
+                                                                ? "Repeat"
+                                                                : "Manual"
+                                                    }}
+                                                </button>
+                                            </div>
+                                        </section>
+                                    </div>
                                 </div>
-                            </div>
-                            <div v-if="audioPlayerQueue.length" class="audio-player-queue-item-actions">
-                                <button type="button" class="control-btn" @click="clearAudioPlayerQueue" title="Clear queue" aria-label="Clear queue">
-                                    <i class="bi bi-trash3"></i>
+                                <div class="audio-player-volume-wrap">
+                                    <button
+                                        ref="audioPlayerVolumeTrigger"
+                                        type="button"
+                                        class="audio-player-icon-btn"
+                                        aria-label="Adjust volume"
+                                        aria-controls="suratAudioPlayerVolume"
+                                        :aria-expanded="showVolumeBar ? 'true' : 'false'"
+                                        @click="toggleVolume">
+                                        <i
+                                            class="bi"
+                                            :class="volume > 0.5 ? 'bi-volume-up-fill' : volume > 0 ? 'bi-volume-down-fill' : 'bi-volume-mute-fill'"
+                                            aria-hidden="true"></i>
+                                    </button>
+                                    <div
+                                        v-if="showVolumeBar"
+                                        id="suratAudioPlayerVolume"
+                                        ref="audioPlayerVolumePopover"
+                                        class="audio-player-volume-popover"
+                                        role="group"
+                                        aria-label="Volume control">
+                                        <label class="visually-hidden" for="suratAudioPlayerVolumeRange">
+                                            Adjust volume
+                                        </label>
+                                        <input
+                                            id="suratAudioPlayerVolumeRange"
+                                            v-model.number="volume"
+                                            type="range"
+                                            class="audio-player-volume-slider"
+                                            min="0"
+                                            max="1"
+                                            step="0.1"
+                                            aria-label="Adjust volume"
+                                            @input="updateVolume" />
+                                    </div>
+                                </div>
+                                <button
+                                    type="button"
+                                    class="audio-player-icon-btn"
+                                    aria-label="Rewind 5 seconds"
+                                    @click="seekCurrentAudioBy(-5)">
+                                    <i class="bi bi-rewind-fill" aria-hidden="true"></i>
+                                </button>
+                                <button
+                                    type="button"
+                                    class="audio-player-play-btn"
+                                    :aria-label="isAudioPlaying[currentlyPlayingIndex] ? 'Pause audio' : 'Play audio'"
+                                    :aria-pressed="isAudioPlaying[currentlyPlayingIndex] ? 'true' : 'false'"
+                                    @click="toggleAudioPlayer(currentlyPlayingIndex)">
+                                    <i
+                                        class="bi"
+                                        :class="isAudioPlaying[currentlyPlayingIndex] ? 'bi-pause-fill' : 'bi-play-fill'"
+                                        aria-hidden="true"></i>
+                                </button>
+                                <button
+                                    type="button"
+                                    class="audio-player-icon-btn"
+                                    aria-label="Fast forward 5 seconds"
+                                    @click="seekCurrentAudioBy(5)">
+                                    <i class="bi bi-fast-forward-fill" aria-hidden="true"></i>
+                                </button>
+                                <button
+                                    type="button"
+                                    class="audio-player-icon-btn audio-player-close-btn"
+                                    aria-label="Close audio player"
+                                    @click="closeAudioPlayer">
+                                    <i class="bi bi-x-lg" aria-hidden="true"></i>
                                 </button>
                             </div>
                         </div>
-                    </div>
-                    <div class="progress-bar" role="progressbar" aria-label="Audio playback progress" :aria-valuemin="0"
-                        :aria-valuemax="100" :aria-valuenow="progress[currentlyPlayingIndex] || 0" :aria-valuetext="`Progress ${Math.round(
-                            progress[currentlyPlayingIndex] || 0
-                        )} percent`" @click="seekToPosition" @mousedown.prevent="onProgressDown"
-                        @touchstart.prevent.passive="onProgressDown" ref="progressBar">
-                        <div class="progress" :style="{
-                            width: progress[currentlyPlayingIndex] + '%',
-                        }"></div>
-                        <div class="audio-visualizer" ref="visualizer">
-                            <div v-for="(bar, index) in visualizerBars" :key="index" class="visualizer-bar" :style="{
-                                height: bar + '%',
-                                animationDelay: index * 0.1 + 's',
-                            }"></div>
+                        <div class="audio-player-right">
+                            <span
+                                class="audio-player-time audio-player-time-duration"
+                                aria-label="Total track duration">
+                                {{ currentAudioPlayerDurationText }}
+                            </span>
                         </div>
                     </div>
                     <div v-if="false" class="ayah-scrollbar" role="group" aria-label="Surah verse navigator">

@@ -93,7 +93,13 @@ class SurahController extends Controller
         $detailed = $request->boolean('detailed', false);
         $language = strtolower(trim((string) $request->query('lang', '')));
         $requestedTafsirKey = trim((string) $request->query('tafsir_key', ''));
-        [$surahNumber, $ayahNumber] = $this->resolveAyahCoordinates((string) $id);
+        $requestedSurahNumber = (int) $request->query('surah_number', 0);
+        $requestedAyahNumber = (int) $request->query('ayah_number', 0);
+        if ($requestedSurahNumber > 0 && $requestedAyahNumber > 0) {
+            [$surahNumber, $ayahNumber] = [$requestedSurahNumber, $requestedAyahNumber];
+        } else {
+            [$surahNumber, $ayahNumber] = $this->resolveAyahCoordinates((string) $id);
+        }
         $reference = $this->buildReferenceLabel((string) $id, $surahNumber, $ayahNumber);
 
         $payload = null;
@@ -267,65 +273,78 @@ class SurahController extends Controller
     ): ?array
     {
         $baseUrl = rtrim((string) config('services.quranenc.base', 'https://quranenc.com/api/v1'), '/');
-        $tafsirKey = trim((string) (
-            $requestedTafsirKey !== null && $requestedTafsirKey !== ''
-                ? $requestedTafsirKey
-                : config('services.quranenc.tafsir_key', 'english_mokhtasar')
-        ));
+        $tafsirKeys = $this->resolveQuranEncTafsirKeys($requestedTafsirKey);
 
-        if ($baseUrl === '' || $tafsirKey === '') {
+        if ($baseUrl === '' || empty($tafsirKeys)) {
             return null;
         }
 
-        $url = "{$baseUrl}/translation/aya/{$tafsirKey}/{$surahNumber}/{$ayahNumber}";
+        foreach ($tafsirKeys as $tafsirKey) {
+            $url = "{$baseUrl}/translation/aya/{$tafsirKey}/{$surahNumber}/{$ayahNumber}";
 
-        try {
-            $response = Http::acceptJson()->timeout(8)->retry(1, 400)->get($url);
-            if (!$response->successful()) {
-                return null;
+            try {
+                $response = Http::acceptJson()->timeout(8)->retry(1, 400)->get($url);
+                if (!$response->successful()) {
+                    continue;
+                }
+
+                $payload = $response->json();
+                if (!is_array($payload)) {
+                    continue;
+                }
+
+                $result = Arr::get($payload, 'result');
+                if (!is_array($result)) {
+                    continue;
+                }
+
+                $text = trim((string) (
+                    Arr::get($result, 'translation')
+                    ?? Arr::get($result, 'text')
+                    ?? Arr::get($result, 'tafsir')
+                    ?? ''
+                ));
+
+                $text = $this->normalizeTafsirText($text);
+                if ($text === '') {
+                    continue;
+                }
+
+                return [
+                    'text' => $text,
+                    'source' => $this->humanizeTafsirKey($tafsirKey),
+                    'proof' => "Matched on Surah {$surahNumber}, Ayah {$ayahNumber} from a public scholarly tafsir feed.",
+                    'reference' => $reference,
+                    'provider' => 'public_scholarly_tafsir',
+                    'resource' => $tafsirKey,
+                    'language' => 'en',
+                ];
+            } catch (\Throwable $exception) {
+                Log::warning('QuranEnc tafsir fetch failed', [
+                    'surah' => $surahNumber,
+                    'ayah' => $ayahNumber,
+                    'tafsir_key' => $tafsirKey,
+                    'error' => $exception->getMessage(),
+                ]);
             }
-
-            $payload = $response->json();
-            if (!is_array($payload)) {
-                return null;
-            }
-
-            $result = Arr::get($payload, 'result');
-            if (!is_array($result)) {
-                return null;
-            }
-
-            $text = trim((string) (
-                Arr::get($result, 'translation')
-                ?? Arr::get($result, 'text')
-                ?? Arr::get($result, 'tafsir')
-                ?? ''
-            ));
-
-            $text = $this->normalizeTafsirText($text);
-            if ($text === '') {
-                return null;
-            }
-
-            return [
-                'text' => $text,
-                'source' => $this->humanizeTafsirKey($tafsirKey),
-                'proof' => "Matched on Surah {$surahNumber}, Ayah {$ayahNumber} from a public scholarly tafsir feed.",
-                'reference' => $reference,
-                'provider' => 'public_scholarly_tafsir',
-                'resource' => $tafsirKey,
-                'language' => 'en',
-            ];
-        } catch (\Throwable $exception) {
-            Log::warning('QuranEnc tafsir fetch failed', [
-                'surah' => $surahNumber,
-                'ayah' => $ayahNumber,
-                'tafsir_key' => $tafsirKey,
-                'error' => $exception->getMessage(),
-            ]);
-
-            return null;
         }
+
+        return null;
+    }
+
+    protected function resolveQuranEncTafsirKeys(?string $requestedTafsirKey = null): array
+    {
+        $configuredKey = trim((string) config('services.quranenc.tafsir_key', 'english_mokhtasar'));
+
+        if ($requestedTafsirKey !== null && trim($requestedTafsirKey) !== '') {
+            return [trim($requestedTafsirKey)];
+        }
+
+        return array_values(array_filter(array_unique([
+            $configuredKey,
+            'english_mokhtasar',
+            'english_mukhtasar',
+        ])));
     }
 
     protected function fetchLocalTafsirFallback(string $id, string $reference): ?array
@@ -464,6 +483,9 @@ class SurahController extends Controller
         }
 
         if ($trimmed === 'english_mokhtasar') {
+            return 'Al-Mukhtasar Tafsir (English)';
+        }
+        if ($trimmed === 'english_mukhtasar') {
             return 'Al-Mukhtasar Tafsir (English)';
         }
 
