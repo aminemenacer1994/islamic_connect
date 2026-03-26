@@ -63,10 +63,8 @@ mix.override(webpackConfig => {
     );
 });
 
-// Enable versioning in production to add cache-busting query strings
-if (mix.inProduction()) {
-    mix.version();
-}
+// Enable versioning to add cache-busting query strings
+mix.version();
 
 // Target modern evergreen browsers to avoid unnecessary polyfills/transforms
 mix.babelConfig({

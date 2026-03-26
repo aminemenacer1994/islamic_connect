@@ -276,7 +276,7 @@
                                 </div>
                             </div>
 
-                            <div v-if="isMemorisationToolbarVisible" class="memorisation-mobile-quick-panel">
+                            <div v-if="isMemorisationToolbarVisible && !isMemorisationOffcanvasVisible" class="memorisation-mobile-quick-panel">
                                 <div class="memorisation-mobile-quick-grid">
                                     <label class="memorisation-mobile-field">
                                         <span>Surah name</span>
@@ -427,16 +427,37 @@
 
                             <div class="advanced-quran-mobile-action-grid">
                                 <button
+                                    v-if="!isMemorisationToolbarVisible && hasSavedBookmarks"
+                                    type="button"
+                                    class="btn advanced-quran-mobile-action-btn"
+                                    :class="{ 'is-enabled': isSavedBookmarksPanelOpen }"
+                                    @click="handleSavedBookmarksButtonClick"
+                                    aria-label="View all saved bookmarks"
+                                    title="View all saved bookmarks">
+                                    <i class="bi bi-bookmarks" aria-hidden="true"></i>
+                                    <span class="advanced-quran-mobile-action-label">Saved bookmarks</span>
+                                    <span class="advanced-quran-mobile-action-btn-state">{{ savedBookmarksList.length }}</span>
+                                </button>
+                                <button
                                     v-if="!isMemorisationToolbarVisible"
                                     type="button"
                                     class="btn advanced-quran-mobile-action-btn advanced-quran-mobile-action-btn-memorisation"
                                     @click="toggleMemorisationToolbar"
                                     aria-controls="memorisationOffcanvas"
-                                    :aria-label="isMemorisationOffcanvasVisible ? 'Close memorisation tools' : 'Open memorisation tools'"
-                                    :class="{ 'is-active': isMemorisationToolbarVisible }"
-                                    :title="isMemorisationOffcanvasVisible ? 'Close memorisation tools.' : 'Open memorisation tools to support repetition, focus, and revision.'">
+                                    :disabled="isMemorisationToolsComingSoon"
+                                    :aria-label="isMemorisationToolsComingSoon
+                                        ? 'Memorisation tools coming soon'
+                                        : (isMemorisationOffcanvasVisible ? 'Close memorisation tools' : 'Open memorisation tools')"
+                                    :class="{
+                                        'is-active': isMemorisationToolbarVisible,
+                                        'is-coming-soon': isMemorisationToolsComingSoon,
+                                    }"
+                                    :title="isMemorisationToolsComingSoon
+                                        ? 'Memorisation tools are coming soon.'
+                                        : (isMemorisationOffcanvasVisible ? 'Close memorisation tools.' : 'Open memorisation tools to support repetition, focus, and revision.')">
                                     <i class="bi bi-journal-bookmark-fill" aria-hidden="true"></i>
                                     <span class="advanced-quran-mobile-action-label">{{ memorisationToolbarButtonLabel }}</span>
+                                    <span v-if="isMemorisationToolsComingSoon" class="coming-soon-ribbon" aria-hidden="true">Coming soon</span>
                                 </button>
                                 <button
                                     v-if="!isMemorisationToolbarVisible"
@@ -509,24 +530,12 @@
                                     <span class="advanced-quran-mobile-action-label">Compare translations</span>
                                 </button>
                                 <button
-                                    v-if="!isMemorisationToolbarVisible && hasSavedBookmarks"
-                                    type="button"
-                                    class="btn advanced-quran-mobile-action-btn"
-                                    :class="{ 'is-enabled': isSavedBookmarksPanelOpen }"
-                                    @click="handleSavedBookmarksButtonClick"
-                                    aria-label="View all saved bookmarks"
-                                    title="View all saved bookmarks">
-                                    <i class="bi bi-bookmarks" aria-hidden="true"></i>
-                                    <span class="advanced-quran-mobile-action-label">Saved bookmarks</span>
-                                    <span class="advanced-quran-mobile-action-btn-state">{{ savedBookmarksList.length }}</span>
-                                </button>
-                                <button
                                     v-if="hasPinnedAyahs && isPinnedSectionHidden"
                                     type="button"
                                     class="btn advanced-quran-mobile-action-btn"
                                     @click="showPinnedSection"
-                                    aria-label="Show pinned favourite ayat"
-                                    title="Show pinned favourite ayat">
+                                    aria-label="Show pinned ayat"
+                                    title="Show pinned ayat">
                                     <i class="bi bi-pin-angle-fill" aria-hidden="true"></i>
                                     <span class="advanced-quran-mobile-action-label">Pins</span>
                                 </button>
@@ -663,7 +672,7 @@
                 <span>Show reader tools</span>
             </button>
         </div>
-        <div v-if="(surahDetails || currentSurahInfo) && ((!isTabletOrMobile && ((showDesktopToolbar && showReaderToolbar) || showCustomPlaylistPanel)) || (isTabletOrMobile && showCustomPlaylistPanel))"
+        <div v-if="!isMemorisationOffcanvasVisible && (surahDetails || currentSurahInfo) && ((!isTabletOrMobile && ((showDesktopToolbar && showReaderToolbar) || showCustomPlaylistPanel)) || (isTabletOrMobile && showCustomPlaylistPanel))"
             class="quran-toolbar-sticky ltr-text"
             :class="{
                 'quran-toolbar-fixed-shell': showDesktopToolbar && !isTabletOrMobile,
@@ -788,11 +797,12 @@
                         </label>
 
                         <div class="memorisation-toolbar-pill-actions">
-                            <details class="memorisation-toolbar-menu-dropdown memorisation-toolbar-menu-dropdown--mode">
+                            <details ref="memoToolbarModeDropdown" class="memorisation-toolbar-menu-dropdown memorisation-toolbar-menu-dropdown--mode">
                                 <summary
                                     class="memorisation-toolbar-pill-action"
                                     aria-label="Open memorisation playback mode options"
-                                    title="Playback Mode">
+                                    title="Playback Mode"
+                                    @click="$refs.memoToolbarToolsDropdown && $refs.memoToolbarToolsDropdown.removeAttribute('open')">
                                     <i class="bi bi-play-circle-fill" aria-hidden="true"></i>
                                 </summary>
                                 <div class="memorisation-toolbar-menu memorisation-toolbar-menu--mode" role="group" aria-label="Memorisation playback mode options">
@@ -814,11 +824,12 @@
                                 </div>
                             </details>
 
-                            <details class="memorisation-toolbar-menu-dropdown memorisation-toolbar-menu-dropdown--tools">
+                            <details ref="memoToolbarToolsDropdown" class="memorisation-toolbar-menu-dropdown memorisation-toolbar-menu-dropdown--tools">
                                 <summary
                                     class="memorisation-toolbar-pill-action"
                                     aria-label="Open memorisation tools options"
-                                    title="Practice Tools">
+                                    title="Practice Tools"
+                                    @click="$refs.memoToolbarModeDropdown && $refs.memoToolbarModeDropdown.removeAttribute('open')">
                                     <i class="bi bi-sliders" aria-hidden="true"></i>
                                 </summary>
                                 <div class="memorisation-toolbar-menu memorisation-toolbar-menu--tools" role="group" aria-label="Memorisation tools options">
@@ -890,6 +901,19 @@
                 </div>
 
                 <button
+                    v-if="!isMemorisationToolbarVisible && hasSavedBookmarks"
+                    type="button"
+                    class="quran-toolbar-btn quran-toolbar-btn-toggle"
+                    :class="{ 'is-enabled': isSavedBookmarksPanelOpen }"
+                    @click="handleSavedBookmarksButtonClick"
+                    aria-label="View all saved bookmarks"
+                    title="View all saved bookmarks">
+                    <i class="bi bi-bookmarks" aria-hidden="true"></i>
+                    <span class="quran-toolbar-btn-text">Saved bookmarks</span>
+                    <span class="quran-toolbar-btn-state">{{ savedBookmarksList.length }}</span>
+                </button>
+
+                <button
                     v-if="!isMemorisationToolbarVisible"
                     type="button"
                     class="quran-toolbar-btn quran-toolbar-btn-toggle"
@@ -950,22 +974,12 @@
                     <span class="quran-toolbar-btn-text">Compare translations</span>
                 </button>
                 <button
-                    v-if="!isMemorisationToolbarVisible && hasSavedBookmarks"
-                    type="button"
-                    class="quran-toolbar-btn quran-toolbar-btn-toggle"
-                    :class="{ 'is-enabled': isSavedBookmarksPanelOpen }"
-                    @click="handleSavedBookmarksButtonClick"
-                    aria-label="View all saved bookmarks">
-                    <i class="bi bi-bookmarks" aria-hidden="true"></i>
-                    <span class="quran-toolbar-btn-text">View all saved bookmarks</span>
-                    <span class="quran-toolbar-btn-state">{{ savedBookmarksList.length }}</span>
-                </button>
-                <button
                     v-if="hasPinnedAyahs && isPinnedSectionHidden && !isMemorisationToolbarVisible"
                     type="button"
                     class="quran-toolbar-btn quran-toolbar-btn-icon quran-toolbar-btn-pinned-restore"
                     @click="showPinnedSection"
-                    aria-label="Show pinned favourite ayat">
+                    aria-label="Show pinned ayat"
+                    title="Show pinned ayat">
                     <i class="bi bi-pin-angle-fill" aria-hidden="true"></i>
                 </button>
                 <button
@@ -1000,13 +1014,21 @@
                     class="quran-toolbar-btn quran-toolbar-btn-memorisation"
                     @click="toggleMemorisationToolbar"
                     aria-controls="memorisationOffcanvas"
+                    :disabled="isMemorisationToolsComingSoon"
                     :class="{
                         'is-active': isMemorisationToolbarVisible,
-                        'is-attention': !isMemorisationToolbarVisible
+                        'is-attention': !isMemorisationToolbarVisible && !isMemorisationToolsComingSoon,
+                        'is-coming-soon': isMemorisationToolsComingSoon
                     }"
-                    :aria-label="isMemorisationOffcanvasVisible ? 'Close memorisation tools' : 'Open memorisation tools'">
+                    :aria-label="isMemorisationToolsComingSoon
+                        ? 'Memorisation tools coming soon'
+                        : (isMemorisationOffcanvasVisible ? 'Close memorisation tools' : 'Open memorisation tools')"
+                    :title="isMemorisationToolsComingSoon
+                        ? 'Memorisation tools are coming soon.'
+                        : (isMemorisationOffcanvasVisible ? 'Close memorisation tools.' : 'Open memorisation tools')">
                     <i class="bi bi-journal-bookmark-fill" aria-hidden="true"></i>
                     <span class="quran-toolbar-btn-text">{{ memorisationToolbarButtonLabel }}</span>
+                    <span v-if="isMemorisationToolsComingSoon" class="coming-soon-ribbon" aria-hidden="true">Coming soon</span>
                 </button>
             </div>
             <saved-bookmarks-panel
@@ -4107,8 +4129,8 @@
                 type="button"
                 class="pinned-ayahs-icon-btn"
                 @click="showPinnedSection"
-                aria-label="Show pinned favourite ayat"
-                title="Show pinned favourite ayat">
+                aria-label="Show pinned ayat"
+                title="Show pinned ayat">
                 <i class="bi bi-pin-angle-fill" aria-hidden="true"></i>
             </button>
         </div>
@@ -4117,10 +4139,10 @@
             class="pinned-ayahs-section ltr-text"
             :class="{ 'is-collapsed': isPinnedSectionCollapsed }"
             role="region"
-            aria-label="Pinned favourite ayahs">
+            aria-label="Pinned ayat">
             <div class="pinned-ayahs-header">
                 <div>
-                    <h2 class="pinned-ayahs-title mb-1">Pinned favourite ayat</h2>
+                    <h2 class="pinned-ayahs-title mb-1">Pinned ayat</h2>
                     <p class="pinned-ayahs-description mb-0">
                         Quick access to the verses you marked for reflection.
                     </p>
@@ -5059,15 +5081,16 @@
                             <div class="ayah-card-copy">
                                 <p
                                     v-if="!shouldHideVerseTextForRepeatPause(item.index)"
-                                    :class="[
-                                        'arabic-text rtl-text text-end mb-3',
-                                        {
-                                            'arabic-text--active':
-                                                currentlyPlayingIndex === item.index &&
-                                                isAudioPlaying[item.index],
-                                            'repeat-pause-text-dimmed':
-                                                shouldDimVerseTextForRepeatPause(item.index),
-                                        },
+	                                    :class="[
+	                                        'arabic-text rtl-text text-end mb-3',
+	                                        {
+	                                            'arabic-text--active':
+	                                                highlightPlayingAyahEnabled &&
+	                                                currentlyPlayingIndex === item.index &&
+	                                                isAudioPlaying[item.index],
+	                                            'repeat-pause-text-dimmed':
+	                                                shouldDimVerseTextForRepeatPause(item.index),
+	                                        },
                                     ]"
                                     v-html="highlightedText(item.ayah)"
                                     @click="onAyahWordClick(item, $event)"
@@ -5084,15 +5107,16 @@
                                     <div class="translation-copy flex-grow-1">
                                         <div v-if="shouldShowTranslationForRepeatPause(item)">
                                             <p
-                                                :class="[
-                                                    'fw-regular ltr-text flex-grow-1 translation-text',
-                                                    {
-                                                        'translation-text--active':
-                                                            currentlyPlayingIndex === item.index &&
-                                                            isAudioPlaying[item.index],
-                                                        'translation-text--placeholder':
-                                                            !item.ayah.translation,
-                                                    },
+	                                                :class="[
+	                                                    'fw-regular ltr-text flex-grow-1 translation-text',
+	                                                    {
+	                                                        'translation-text--active':
+	                                                            highlightPlayingAyahEnabled &&
+	                                                            currentlyPlayingIndex === item.index &&
+	                                                            isAudioPlaying[item.index],
+	                                                        'translation-text--placeholder':
+	                                                            !item.ayah.translation,
+	                                                    },
                                                 ]"
                                                 v-html="highlightText(getTranslationText(item))"
                                                 :style="`font-size: ${effectiveAyahBodyFontSize}px !important;`"
@@ -5106,15 +5130,16 @@
                                         </div>
                                         <p
                                             v-if="isTransliterationVisibleFor(item) && !shouldHideVerseTextForRepeatPause(item.index)"
-                                            :class="[
-                                                'fw-regular ltr-text flex-grow-1 transliteration-text',
-                                                {
-                                                    'transliteration-text--active':
-                                                        currentlyPlayingIndex === item.index &&
-                                                        isAudioPlaying[item.index],
-                                                    'repeat-pause-text-dimmed':
-                                                        shouldDimVerseTextForRepeatPause(item.index),
-                                                },
+	                                            :class="[
+	                                                'fw-regular ltr-text flex-grow-1 transliteration-text',
+	                                                {
+	                                                    'transliteration-text--active':
+	                                                        highlightPlayingAyahEnabled &&
+	                                                        currentlyPlayingIndex === item.index &&
+	                                                        isAudioPlaying[item.index],
+	                                                    'repeat-pause-text-dimmed':
+	                                                        shouldDimVerseTextForRepeatPause(item.index),
+	                                                },
                                             ]"
                                             v-html="highlightText(item.ayah.transliteration || transliterationFallbackText)"
                                             :style="`font-size: ${effectiveAyahBodyFontSize}px !important;`"
@@ -5126,23 +5151,6 @@
 
                         <div class="ayah-card-footer ltr-text" role="group" aria-label="Ayah footer actions">
                             <div class="ayah-card-footer-main">
-                                <button
-                                    type="button"
-                                    class="ayah-footer-action"
-                                    :class="{
-                                        'is-active': isAudioPlaying[item.index],
-                                    }"
-                                    data-tooltip-label="Play Audio"
-                                    @click.stop.prevent="toggleAudioPlayer(item.index)"
-                                    :aria-label="isAudioPlaying[item.index]
-                                        ? 'Pause ayah ' + getAyahDisplayNumber(item)
-                                        : 'Play ayah ' + getAyahDisplayNumber(item)">
-                                    <i
-                                        class="bi"
-                                        :class="isAudioPlaying[item.index] ? 'bi-pause-circle-fill' : 'bi-play-circle-fill'"
-                                        aria-hidden="true"></i>
-                                    <span>Play Audio</span>
-                                </button>
                                 <button
                                     type="button"
                                     class="ayah-footer-action"
@@ -5162,16 +5170,34 @@
                                     type="button"
                                     class="ayah-footer-action"
                                     :class="{
-                                        'is-active': hasReflection(item.ayah),
+                                        'is-active': isAudioPlaying[item.index],
                                     }"
-                                    data-tooltip-label="Reflect"
+                                    data-tooltip-label="Play Audio"
+                                    @click.stop.prevent="toggleAudioPlayer(item.index)"
+                                    :aria-label="isAudioPlaying[item.index]
+                                        ? 'Pause ayah ' + getAyahDisplayNumber(item)
+                                        : 'Play ayah ' + getAyahDisplayNumber(item)">
+                                    <i
+                                        class="bi"
+                                        :class="isAudioPlaying[item.index] ? 'bi-pause-circle-fill' : 'bi-play-circle-fill'"
+                                        aria-hidden="true"></i>
+                                    <span>Play Audio</span>
+                                </button>
+                                <button
+                                    type="button"
+                                    class="ayah-footer-action ayah-footer-action--reflection"
+                                    :class="{
+                                        'is-active': hasReflection(item.ayah),
+                                        'is-reflected': hasReflection(item.ayah),
+                                    }"
+                                    :data-tooltip-label="hasReflection(item.ayah) ? 'Reflected' : 'Reflect'"
                                     @click.stop="openReflectionModal(item.ayah)"
                                     :aria-label="hasReflection(item.ayah) ? 'Edit reflection' : 'Add reflection'">
                                     <i
                                         class="bi"
                                         :class="hasReflection(item.ayah) ? 'bi-journal-check' : 'bi-journal-text'"
                                         aria-hidden="true"></i>
-                                    <span>Reflect</span>
+                                    <span>{{ hasReflection(item.ayah) ? "Reflected" : "Reflect" }}</span>
                                 </button>
                                 <button
                                     type="button"
@@ -5191,7 +5217,7 @@
                                     @click.stop="decreaseFontSize"
                                     aria-label="Decrease text size">
                                     <i class="bi bi-dash-circle" aria-hidden="true"></i>
-                                    <span>Text -</span>
+                                    <span class="visually-hidden">Decrease text size</span>
                                 </button>
                                 <button
                                     type="button"
@@ -5200,7 +5226,7 @@
                                     @click.stop="increaseFontSize"
                                     aria-label="Increase text size">
                                     <i class="bi bi-plus-circle" aria-hidden="true"></i>
-                                    <span>Text +</span>
+                                    <span class="visually-hidden">Increase text size</span>
                                 </button>
                             </div>
                         </div>
@@ -6656,18 +6682,32 @@
                                                 <span id="suratAudioPlayerSpeedHeading" class="audio-player-menu-heading">Playback speed</span>
                                                 <span class="audio-player-menu-value">{{ playbackSpeed }}x</span>
                                             </div>
-                                            <div class="audio-player-choice-row" role="group" aria-label="Playback speed">
-                                                <button
-                                                    v-for="speed in playbackSpeeds"
-                                                    :key="`audio-player-speed-${speed}`"
-                                                    type="button"
-                                                    class="audio-player-choice-btn"
-                                                    :class="{ 'is-active': Number(playbackSpeed) === Number(speed) }"
-                                                    :aria-pressed="Number(playbackSpeed) === Number(speed) ? 'true' : 'false'"
-                                                    :aria-label="`Set playback speed to ${speed}x`"
-                                                    @click="setAudioPlayerSpeed(speed)">
-                                                    {{ speed }}x
-                                                </button>
+                                            <div class="audio-player-slider-shell" role="group" aria-label="Playback speed">
+                                                <span class="audio-player-slider-label" aria-hidden="true">
+                                                    {{ (playbackSpeeds && playbackSpeeds.length) ? playbackSpeeds[0] : 0.5 }}x
+                                                </span>
+                                                <label class="visually-hidden" for="suratAudioPlayerSpeedRange">
+                                                    Adjust playback speed
+                                                </label>
+                                                <input
+                                                    id="suratAudioPlayerSpeedRange"
+                                                    type="range"
+                                                    class="audio-player-slider audio-player-speed-slider"
+                                                    min="0"
+                                                    :max="audioPlayerSpeedIndexMax"
+                                                    step="1"
+                                                    :value="currentSpeedIndex"
+                                                    :disabled="audioPlayerSpeedIndexMax === 0"
+                                                    :aria-valuemin="0"
+                                                    :aria-valuemax="audioPlayerSpeedIndexMax"
+                                                    :aria-valuenow="Math.max(0, Math.min(audioPlayerSpeedIndexMax, Number(currentSpeedIndex) || 0))"
+                                                    :aria-valuetext="`Playback speed ${playbackSpeed}x`"
+                                                    aria-label="Adjust playback speed"
+                                                    :style="{ '--audio-player-progress': `${audioPlayerSpeedSliderPercent}%` }"
+                                                    @input="onAudioPlayerSpeedIndexInput" />
+                                                <span class="audio-player-slider-label" aria-hidden="true">
+                                                    {{ (playbackSpeeds && playbackSpeeds.length) ? playbackSpeeds[playbackSpeeds.length - 1] : 1.5 }}x
+                                                </span>
                                             </div>
                                         </section>
                                         <section class="audio-player-menu-section" aria-labelledby="suratAudioPlayerReciterHeading">
@@ -6712,6 +6752,39 @@
                                                                 : "Manual"
                                                     }}
                                                 </button>
+                                            </div>
+                                        </section>
+                                        <section
+                                            v-if="playbackMode === 'repeat'"
+                                            class="audio-player-menu-section"
+                                            aria-labelledby="suratAudioPlayerRepeatHeading">
+                                            <div class="audio-player-menu-heading-row">
+                                                <span id="suratAudioPlayerRepeatHeading" class="audio-player-menu-heading">Repeat count</span>
+                                                <span class="audio-player-menu-value">
+                                                    {{ audioPlayerRepeatCount === 0 ? "∞" : `${audioPlayerRepeatCount}x` }}
+                                                </span>
+                                            </div>
+                                            <div class="audio-player-slider-shell" role="group" aria-label="Repeat count">
+                                                <span class="audio-player-slider-label" aria-hidden="true">1x</span>
+                                                <label class="visually-hidden" for="suratAudioPlayerRepeatRange">
+                                                    Adjust repeat count
+                                                </label>
+                                                <input
+                                                    id="suratAudioPlayerRepeatRange"
+                                                    type="range"
+                                                    class="audio-player-slider audio-player-repeat-slider"
+                                                    min="1"
+                                                    :max="audioPlayerRepeatSliderMax"
+                                                    step="1"
+                                                    :value="audioPlayerRepeatSliderValue"
+                                                    :aria-valuemin="1"
+                                                    :aria-valuemax="audioPlayerRepeatSliderMax"
+                                                    :aria-valuenow="audioPlayerRepeatSliderValue"
+                                                    :aria-valuetext="audioPlayerRepeatCount === 0 ? 'Repeat infinitely' : `Repeat ${audioPlayerRepeatCount} times`"
+                                                    aria-label="Adjust repeat count"
+                                                    :style="{ '--audio-player-progress': `${audioPlayerRepeatSliderPercent}%` }"
+                                                    @input="onAudioPlayerRepeatCountInput" />
+                                                <span class="audio-player-slider-label" aria-hidden="true">∞</span>
                                             </div>
                                         </section>
                                     </div>

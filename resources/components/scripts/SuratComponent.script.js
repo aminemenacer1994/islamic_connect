@@ -586,11 +586,12 @@ export default {
             tafsirModalReference: "",
             tafsirModalHiddenHandler: null,
             isTafsirModalOpen: false,
-            showTajweed: false,
-            showRealtimeHighlighting: false,
-            showWordTranslation: false,
-            showWordTranslationTooltip: false,
-            gestureNavigationEnabled: true,
+	            showTajweed: false,
+	            showRealtimeHighlighting: false,
+	            highlightPlayingAyahEnabled: false,
+	            showWordTranslation: false,
+	            showWordTranslationTooltip: false,
+	            gestureNavigationEnabled: true,
             toolbarScrollEnabled: true,
             realtimeHighlightPreferenceKey: "surat_realtime_highlighting",
             wordTranslationPreferenceKey: "surat_show_word_translation",
@@ -668,6 +669,10 @@ export default {
             currentSpeedIndex: 0,
             playbackMode: "continuous",
             preferredPlaybackMode: "continuous",
+            audioPlayerRepeatCount: 0, // 0 = infinite
+            audioPlayerRepeatCountMax: 10,
+            audioPlayerRepeatIndex: -1,
+            audioPlayerRepeatIteration: 0,
             playbackModeOptions: [
                 {
                     value: "continuous",
@@ -854,13 +859,14 @@ export default {
             sidebarVerseRenderInitial: 100,
             sidebarVerseRenderStep: 100,
             sidebarVerseRenderCount: 100,
-            sidebarListScrollRaf: null,
-            selectedJuz: null,
-            sidebarCollapsed: false,
-            isMemorisationToolbarVisible: false,
-            isMemorisationOffcanvasVisible: false,
-            isMemorisationDraftSubmitting: false,
-            isMemorisationSubmitAlertVisible: false,
+	            sidebarListScrollRaf: null,
+	            selectedJuz: null,
+	            sidebarCollapsed: false,
+	            isMemorisationToolsComingSoon: true,
+	            isMemorisationToolbarVisible: false,
+	            isMemorisationOffcanvasVisible: false,
+	            isMemorisationDraftSubmitting: false,
+	            isMemorisationSubmitAlertVisible: false,
             memorisationSubmitAlertMessage: "",
             memorisationSubmitAlertTimer: null,
             memorisationOffcanvasInstance: null,
@@ -1402,18 +1408,21 @@ export default {
             tajweedLoadingRuleId: "",
         };
     },
-    computed: {
-        isAnyAudioPlaying() {
-            return Array.isArray(this.isAudioPlaying)
-                ? this.isAudioPlaying.some(Boolean)
-                : false;
-        },
-        memorisationToolbarButtonLabel() {
-            if (this.isMemorisationToolbarVisible) {
-                return "Close Memorisation Tools";
-            }
-            return "Memorisation Tools";
-        },
+	    computed: {
+	        isAnyAudioPlaying() {
+	            return Array.isArray(this.isAudioPlaying)
+	                ? this.isAudioPlaying.some(Boolean)
+	                : false;
+	        },
+	        memorisationToolbarButtonLabel() {
+	            if (this.isMemorisationToolsComingSoon) {
+	                return "Memorisation Tools";
+	            }
+	            if (this.isMemorisationToolbarVisible) {
+	                return "Close Memorisation Tools";
+	            }
+	            return "Memorisation Tools";
+	        },
         isMemorisationModeActive() {
             return (
                 !!this.isMemorisationToolbarVisible &&
@@ -4687,6 +4696,34 @@ export default {
                 ? this.formatTime(this.currentAudioDurationSeconds)
                 : "--:--";
         },
+        audioPlayerSpeedIndexMax() {
+            const speeds = Array.isArray(this.playbackSpeeds)
+                ? this.playbackSpeeds
+                : [];
+            return Math.max(0, speeds.length - 1);
+        },
+        audioPlayerSpeedSliderPercent() {
+            const max = this.audioPlayerSpeedIndexMax;
+            if (!(max > 0)) return 0;
+            const index = Math.max(0, Math.min(max, Number(this.currentSpeedIndex) || 0));
+            return Math.round((index / max) * 100);
+        },
+        audioPlayerRepeatSliderMax() {
+            const max = Math.max(1, Math.floor(Number(this.audioPlayerRepeatCountMax) || 10));
+            return max + 1; // last step maps to infinite
+        },
+        audioPlayerRepeatSliderValue() {
+            const maxFinite = this.audioPlayerRepeatSliderMax - 1;
+            const count = Math.floor(Number(this.audioPlayerRepeatCount) || 0);
+            if (count <= 0) return this.audioPlayerRepeatSliderMax;
+            return Math.max(1, Math.min(maxFinite, count));
+        },
+        audioPlayerRepeatSliderPercent() {
+            const max = this.audioPlayerRepeatSliderMax;
+            if (!(max > 1)) return 0;
+            const value = Math.max(1, Math.min(max, Number(this.audioPlayerRepeatSliderValue) || 1));
+            return Math.round(((value - 1) / (max - 1)) * 100);
+        },
     },
     watch: {
         savedAyahKeys: {
@@ -5325,6 +5362,25 @@ export default {
             }
             this.writeScopedFontPreference("playbackSpeed", String(safeSpeed));
         },
+        audioPlayerRepeatCount(newVal) {
+            const max = Math.max(
+                1,
+                Math.floor(Number(this.audioPlayerRepeatCountMax) || 10)
+            );
+            const count = Math.floor(Number(newVal) || 0);
+            const safeCount =
+                count <= 0 ? 0 : Math.max(1, Math.min(max, count));
+            if (safeCount !== count) {
+                this.audioPlayerRepeatCount = safeCount;
+                return;
+            }
+            try {
+                this.writeScopedFontPreference(
+                    "audioPlayerRepeatCount",
+                    String(safeCount)
+                );
+            } catch (_) {}
+        },
     },
     created() {
         // postpone loading until we know the authentication status
@@ -5568,6 +5624,18 @@ export default {
             0,
             this.playbackSpeeds.indexOf(this.playbackSpeed)
         );
+        const storedRepeatCountRaw = this.readScopedPreferenceWithLegacy(
+            "audioPlayerRepeatCount"
+        );
+        const storedRepeatCount = Math.floor(Number(storedRepeatCountRaw) || 0);
+        const repeatMax = Math.max(
+            1,
+            Math.floor(Number(this.audioPlayerRepeatCountMax) || 10)
+        );
+        this.audioPlayerRepeatCount =
+            storedRepeatCount <= 0
+                ? 0
+                : Math.max(1, Math.min(repeatMax, storedRepeatCount));
         let storedPreferredPlaybackMode = null;
         let storedPlaybackMode = null;
         storedPreferredPlaybackMode = this.readScopedPreferenceWithLegacy(
@@ -11526,12 +11594,16 @@ export default {
                 this.showToast("Could not return to previous session.", 2800);
             }
         },
-        async toggleMemorisationToolbar() {
-            if (this.isMemorisationToolbarVisible) {
-                await this.deactivateMemorisationToolbar({
-                    showToast: true,
-                    restoreSession: true,
-                });
+	        async toggleMemorisationToolbar() {
+	            if (this.isMemorisationToolsComingSoon) {
+	                this.showToast("Memorisation tools are coming soon.", 3200);
+	                return;
+	            }
+	            if (this.isMemorisationToolbarVisible) {
+	                await this.deactivateMemorisationToolbar({
+	                    showToast: true,
+	                    restoreSession: true,
+	                });
                 return;
             }
             this.hideMemorisationSubmitAlert();
@@ -17608,11 +17680,17 @@ export default {
             this.persistMemorisationToolbarVisibilityPreference(resolvedValue);
             return !!resolvedValue;
         },
-        async restoreMemorisationToolbarOnLoadIfNeeded() {
-            if (this.hasRestoredMemorisationToolbarOnLoad) return false;
-            this.hasRestoredMemorisationToolbarOnLoad = true;
-            if (!this.shouldRestoreMemorisationToolbarOnLoad) return false;
-            if (this.isMemorisationToolbarVisible) return true;
+	        async restoreMemorisationToolbarOnLoadIfNeeded() {
+	            if (this.hasRestoredMemorisationToolbarOnLoad) return false;
+	            this.hasRestoredMemorisationToolbarOnLoad = true;
+	            if (this.isMemorisationToolsComingSoon) {
+	                this.isMemorisationToolbarVisible = false;
+	                this.shouldRestoreMemorisationToolbarOnLoad = false;
+	                this.persistMemorisationToolbarVisibilityPreference(false);
+	                return false;
+	            }
+	            if (!this.shouldRestoreMemorisationToolbarOnLoad) return false;
+	            if (this.isMemorisationToolbarVisible) return true;
 
             const persistedSnapshot =
                 this.memorisationPreviousSessionSnapshot ||
@@ -24688,6 +24766,7 @@ export default {
             const isSingleWordPreview = !!options.singleWordPreview;
             const isPlaylistSinglePlay = !!options.playlistSinglePlay;
             const hideAudioPlayer = !!options.hideAudioPlayer;
+            const isRepeatContinuation = !!options.repeatContinuation;
             const normalizeAudioUrl = (rawUrl) => {
                 let url = String(rawUrl || "").trim();
                 if (!url) return "";
@@ -24706,6 +24785,19 @@ export default {
             };
             console.log("Attempting to play audio for index:", index);
             if (index < 0 || index >= this.filteredAyahs.length) return;
+            if (this.playbackMode === "repeat") {
+                const safeIndex = Math.max(0, Number(index) || 0);
+                if (
+                    !isRepeatContinuation ||
+                    Number(this.audioPlayerRepeatIndex) !== Number(safeIndex)
+                ) {
+                    this.audioPlayerRepeatIndex = safeIndex;
+                    this.audioPlayerRepeatIteration = 1;
+                }
+            } else {
+                this.audioPlayerRepeatIndex = -1;
+                this.audioPlayerRepeatIteration = 0;
+            }
             if (this.memorisationVerseCountdownEnabled) {
                 this.verseCountdownHasPlaybackStarted = true;
             }
@@ -27476,7 +27568,27 @@ export default {
                     this.scheduleMemorisationRangeLoopRestart(index);
                     return;
                 }
-                this.playAudio(index);
+                const targetCount = Math.floor(
+                    Number(this.audioPlayerRepeatCount) || 0
+                );
+                if (Number(this.audioPlayerRepeatIndex) !== Number(index)) {
+                    this.audioPlayerRepeatIndex = Number(index) || 0;
+                    this.audioPlayerRepeatIteration = 1;
+                }
+                if (targetCount <= 0) {
+                    this.playAudio(index, { repeatContinuation: true });
+                    return;
+                }
+                const currentIteration = Math.max(
+                    1,
+                    Math.floor(Number(this.audioPlayerRepeatIteration) || 1)
+                );
+                if (currentIteration < targetCount) {
+                    this.audioPlayerRepeatIteration = currentIteration + 1;
+                    this.playAudio(index, { repeatContinuation: true });
+                    return;
+                }
+                // reached repeat target: stay stopped with the player open
                 return;
             }
             if ((this.audioPlayerQueue || []).length) {
@@ -28090,6 +28202,32 @@ export default {
                     : [1];
             if (!allowed.includes(nextSpeed)) return;
             this.playbackSpeed = nextSpeed;
+        },
+        onAudioPlayerSpeedIndexInput(event) {
+            const rawIndex = Number(event?.target?.value ?? 0);
+            if (!Number.isFinite(rawIndex)) return;
+            const speeds = Array.isArray(this.playbackSpeeds)
+                ? this.playbackSpeeds.map((item) => Number(item))
+                : [];
+            if (!speeds.length) return;
+            const safeIndex = Math.max(
+                0,
+                Math.min(speeds.length - 1, Math.round(rawIndex))
+            );
+            const nextSpeed = speeds[safeIndex];
+            this.setAudioPlayerSpeed(nextSpeed);
+        },
+        onAudioPlayerRepeatCountInput(event) {
+            const rawValue = Number(event?.target?.value ?? 1);
+            if (!Number.isFinite(rawValue)) return;
+            const sliderMax = Number(this.audioPlayerRepeatSliderMax) || 11;
+            const maxFinite = Math.max(1, sliderMax - 1);
+            const safeValue = Math.max(1, Math.min(sliderMax, Math.round(rawValue)));
+            if (safeValue >= sliderMax) {
+                this.audioPlayerRepeatCount = 0;
+                return;
+            }
+            this.audioPlayerRepeatCount = Math.max(1, Math.min(maxFinite, safeValue));
         },
         seekCurrentAudioBy(seconds) {
             const targetIndex = this.resolveSeekAudioIndex(
@@ -29290,6 +29428,22 @@ export default {
             try {
                 this.writeScopedFontPreference("playbackMode", normalized);
             } catch (_) {}
+            if (normalized === "repeat") {
+                const idx = Number(this.currentlyPlayingIndex);
+                if (Number.isInteger(idx) && idx >= 0) {
+                    this.audioPlayerRepeatIndex = idx;
+                    this.audioPlayerRepeatIteration = Math.max(
+                        1,
+                        Math.floor(Number(this.audioPlayerRepeatIteration) || 1)
+                    );
+                } else {
+                    this.audioPlayerRepeatIndex = -1;
+                    this.audioPlayerRepeatIteration = 0;
+                }
+            } else {
+                this.audioPlayerRepeatIndex = -1;
+                this.audioPlayerRepeatIteration = 0;
+            }
             if (normalized !== "repeat") {
                 this.preferredPlaybackMode = normalized;
                 try {

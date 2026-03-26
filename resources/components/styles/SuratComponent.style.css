@@ -4258,18 +4258,6 @@
     animation: pulse 0.8s ease-in-out;
 }
 
-.currently-playing .ayah-surface {
-    background: linear-gradient(
-        135deg,
-        rgba(15, 110, 99, 0.25),
-        rgba(255, 255, 255, 0.9)
-    );
-    border-color: rgba(0, 157, 125, 0.8);
-    box-shadow: 0 12px 32px rgba(5, 36, 35, 0.28);
-    transform: translateY(-1px);
-    animation: highlightPulse 1.8s ease-in-out alternate;
-}
-
 @keyframes pulse {
     0% {
         border-color: rgba(15, 110, 99, 0.45);
@@ -4277,15 +4265,6 @@
 
     100% {
         border-color: transparent;
-    }
-}
-
-@keyframes highlightPulse {
-    0% {
-        box-shadow: 0 14px 30px rgba(5, 69, 53, 0.35);
-    }
-    100% {
-        box-shadow: 0 10px 24px rgba(15, 110, 99, 0.3);
     }
 }
 
@@ -27920,10 +27899,6 @@ h1.display-5 {
     box-shadow: 0 0 0 1px rgba(15, 110, 99, 0.34) !important;
 }
 
-.surat-premium.memorisation-mode .currently-playing .ayah-surface {
-    box-shadow: 0 0 0 2px rgba(6, 95, 70, 0.34) !important;
-}
-
 /* Aggressive low-motion profile to keep long sessions responsive. */
 .surat-premium.performance-optimized,
 .surat-premium.performance-optimized *,
@@ -27950,8 +27925,7 @@ h1.display-5 {
 }
 
 .surat-premium.performance-optimized .ayah-surface,
-.surat-premium.performance-optimized .highlighted .ayah-surface,
-.surat-premium.performance-optimized .currently-playing .ayah-surface {
+.surat-premium.performance-optimized .highlighted .ayah-surface {
     box-shadow: 0 0 0 1px rgba(15, 110, 99, 0.18) !important;
 }
 
@@ -30843,8 +30817,7 @@ h1.display-5 {
 }
 
 .surat-premium .ayah-card-container.is-pinned .ayah-surface,
-.surat-premium .highlighted .ayah-surface,
-.surat-premium .currently-playing .ayah-surface {
+.surat-premium .highlighted .ayah-surface {
     background: transparent !important;
     transform: none !important;
 }
@@ -30857,12 +30830,6 @@ h1.display-5 {
 .surat-premium .highlighted .ayah-surface {
     border-color: rgba(7, 31, 28, 0.08) !important;
     box-shadow: 0 24px 48px rgba(15, 110, 99, 0.18) !important;
-    animation: none !important;
-}
-
-.surat-premium .currently-playing .ayah-surface {
-    border-color: rgba(7, 31, 28, 0.08) !important;
-    box-shadow: 0 26px 52px rgba(11, 107, 89, 0.2) !important;
     animation: none !important;
 }
 
@@ -31309,6 +31276,8 @@ h1.display-5 {
     overflow: visible;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
+    position: relative;
+    z-index: 1050;
 }
 
 .surat-premium .ayah-card-footer::-webkit-scrollbar {
@@ -31325,6 +31294,18 @@ h1.display-5 {
 
 .surat-premium .ayah-card-footer-text-controls {
     margin-left: auto;
+}
+
+@media (min-width: 992px) {
+    .surat-premium .ayah-card-footer-main {
+        order: 2;
+        margin-left: auto;
+    }
+
+    .surat-premium .ayah-card-footer-text-controls {
+        order: 1;
+        margin-left: 0;
+    }
 }
 
 .surat-premium .ayah-footer-action {
@@ -31357,7 +31338,7 @@ h1.display-5 {
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.18s ease, transform 0.18s ease;
-    z-index: 1480;
+    z-index: 9999;
 }
 
 .surat-premium .ayah-footer-action::before {
@@ -31405,6 +31386,63 @@ h1.display-5 {
 .surat-premium .ayah-footer-action.is-active i {
     color: #075444;
     transform: translateY(-1px);
+}
+
+.surat-premium .ayah-footer-action--reflection.is-reflected {
+    background: rgba(11, 107, 89, 0.14);
+    box-shadow: 0 14px 28px rgba(11, 61, 46, 0.16),
+        inset 0 0 0 2px rgba(11, 107, 89, 0.24);
+}
+
+.surat-premium .quran-toolbar-btn:not(.is-coming-soon)[disabled],
+.surat-premium .advanced-quran-mobile-action-btn:not(.is-coming-soon)[disabled] {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none !important;
+    box-shadow: none !important;
+}
+
+.surat-premium .quran-toolbar-btn-memorisation,
+.surat-premium .advanced-quran-mobile-action-btn-memorisation {
+    position: relative;
+    overflow: visible;
+}
+
+.surat-premium .quran-toolbar-btn.is-coming-soon[disabled],
+.surat-premium .advanced-quran-mobile-action-btn.is-coming-soon[disabled] {
+    cursor: not-allowed;
+    transform: none !important;
+    box-shadow: none !important;
+}
+
+.surat-premium .coming-soon-ribbon {
+    position: absolute;
+    top: 0.35rem;
+    right: -4.2rem;
+    width: 15.6rem;
+    padding: 0.34rem 0.3rem;
+    background: #000000;
+    color: #ffffff;
+    font-size: 0.74rem;
+    font-weight: 900;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-align: center;
+    line-height: 1.1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+    transform: rotate(35deg);
+    pointer-events: none;
+    z-index: 5;
+    box-shadow: 0 12px 26px rgba(0, 0, 0, 0.18);
+}
+
+.surat-premium.surat-theme-dark .coming-soon-ribbon {
+    background: #ffffff;
+    color: #000000;
+    box-shadow: 0 12px 26px rgba(0, 0, 0, 0.32);
 }
 
 .surat-premium .ayah-footer-action:hover::before,
@@ -35195,11 +35233,9 @@ h1.display-5 {
 .surat-premium.surat-theme-dark .ayah-card-container:hover .ayah-surface,
 .surat-premium.surat-theme-dark .ayah-card-container.is-pinned .ayah-surface,
 .surat-premium.surat-theme-dark .highlighted .ayah-surface,
-.surat-premium.surat-theme-dark .currently-playing .ayah-surface,
 .surat-premium.surat-theme-dark.memorisation-mode .ayah-surface,
 .surat-premium.surat-theme-dark.memorisation-mode .ayah-card-container:hover .ayah-surface,
 .surat-premium.surat-theme-dark.memorisation-mode .highlighted .ayah-surface,
-.surat-premium.surat-theme-dark.memorisation-mode .currently-playing .ayah-surface,
 .surat-premium.surat-theme-dark.performance-optimized .ayah-surface,
 .surat-premium.surat-theme-dark.performance-optimized .ayah-card-container:hover .ayah-surface,
 .surat-premium.surat-theme-dark.performance-optimized .highlighted .ayah-surface,
@@ -35211,7 +35247,6 @@ h1.display-5 {
 }
 
 .surat-premium.surat-theme-dark .highlighted .ayah-surface,
-.surat-premium.surat-theme-dark .currently-playing .ayah-surface,
 .surat-premium.surat-theme-dark .ayah-card-container:hover .ayah-surface {
     background: rgba(10, 31, 58, 0.92) !important;
     border-color: var(--surat-theme-border-strong) !important;
@@ -36107,11 +36142,9 @@ h1.display-5 {
 .surat-premium.surat-theme-dark .ayah-card-container:hover .ayah-surface,
 .surat-premium.surat-theme-dark .ayah-card-container.is-pinned .ayah-surface,
 .surat-premium.surat-theme-dark .highlighted .ayah-surface,
-.surat-premium.surat-theme-dark .currently-playing .ayah-surface,
 .surat-premium.surat-theme-dark.memorisation-mode .ayah-surface,
 .surat-premium.surat-theme-dark.memorisation-mode .ayah-card-container:hover .ayah-surface,
 .surat-premium.surat-theme-dark.memorisation-mode .highlighted .ayah-surface,
-.surat-premium.surat-theme-dark.memorisation-mode .currently-playing .ayah-surface,
 .surat-premium.surat-theme-dark.performance-optimized .ayah-surface,
 .surat-premium.surat-theme-dark.performance-optimized .ayah-card-container:hover .ayah-surface,
 .surat-premium.surat-theme-dark.performance-optimized .highlighted .ayah-surface,
@@ -36130,8 +36163,7 @@ h1.display-5 {
 
 .surat-premium.surat-theme-dark .ayah-card-container:hover .ayah-surface,
 .surat-premium.surat-theme-dark .ayah-card-container.is-pinned .ayah-surface,
-.surat-premium.surat-theme-dark .highlighted .ayah-surface,
-.surat-premium.surat-theme-dark .currently-playing .ayah-surface {
+.surat-premium.surat-theme-dark .highlighted .ayah-surface {
     border-top-color: rgba(255, 255, 255, 0.34) !important;
 }
 
@@ -37652,7 +37684,6 @@ h1.display-5 {
 .surat-premium.surat-theme-dark .ayah-card-container:hover .ayah-surface,
 .surat-premium.surat-theme-dark .ayah-card-container.is-pinned .ayah-surface,
 .surat-premium.surat-theme-dark .highlighted .ayah-surface,
-.surat-premium.surat-theme-dark .currently-playing .ayah-surface,
 .surat-premium.surat-theme-dark.memorisation-mode .ayah-surface,
 .surat-premium.surat-theme-dark.performance-optimized .ayah-surface {
     background: var(--surat-flat-surface) !important;
@@ -37662,8 +37693,7 @@ h1.display-5 {
 
 .surat-premium.surat-theme-dark .ayah-card-container:hover .ayah-surface,
 .surat-premium.surat-theme-dark .ayah-card-container.is-pinned .ayah-surface,
-.surat-premium.surat-theme-dark .highlighted .ayah-surface,
-.surat-premium.surat-theme-dark .currently-playing .ayah-surface {
+.surat-premium.surat-theme-dark .highlighted .ayah-surface {
     background: var(--surat-flat-surface-strong) !important;
     border-top-color: rgba(255, 255, 255, 0.24) !important;
 }
@@ -37704,6 +37734,12 @@ h1.display-5 {
     border-color: rgba(116, 198, 188, 0.42) !important;
     color: #fff !important;
     box-shadow: inset 0 0 0 1px rgba(116, 198, 188, 0.08) !important;
+}
+
+.surat-premium.surat-theme-dark .ayah-footer-action--reflection.is-reflected {
+    background: rgba(87, 170, 161, 0.34) !important;
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.24),
+        inset 0 0 0 2px rgba(116, 198, 188, 0.22) !important;
 }
 
 .surat-premium.surat-theme-dark .ayah-header-toggle .form-check-input:checked {
@@ -38692,7 +38728,8 @@ h1.display-5 {
 .audio-player-choice-btn:focus-visible,
 .audio-player-select:focus-visible,
 .audio-player-seek:focus-visible,
-.audio-player-volume-slider:focus-visible {
+.audio-player-volume-slider:focus-visible,
+.audio-player-slider:focus-visible {
     outline: none;
     box-shadow: 0 0 0 2px var(--audio-player-focus-ring) inset;
 }
@@ -38744,7 +38781,45 @@ h1.display-5 {
     cursor: pointer;
 }
 
+.audio-player-slider-shell {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.audio-player-slider-label {
+    color: var(--audio-player-muted);
+    font-size: 0.72rem;
+    font-weight: 600;
+    min-width: 2.2rem;
+    text-align: center;
+}
+
+.audio-player-slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 24px;
+    margin: 0;
+    background: transparent;
+    accent-color: var(--audio-player-icon);
+    cursor: pointer;
+}
+
 .audio-player-volume-slider::-webkit-slider-runnable-track {
+    height: 5px;
+    border-radius: 999px;
+    background: linear-gradient(
+        90deg,
+        var(--audio-player-seek-fill) 0,
+        var(--audio-player-seek-fill) var(--audio-player-progress, 0%),
+        var(--audio-player-seek-track) var(--audio-player-progress, 0%),
+        var(--audio-player-seek-track) 100%
+    );
+}
+
+.audio-player-slider::-webkit-slider-runnable-track {
     height: 5px;
     border-radius: 999px;
     background: linear-gradient(
@@ -38768,7 +38843,26 @@ h1.display-5 {
     box-shadow: 0 0 0 2px var(--audio-player-bg), 0 4px 10px rgba(0, 0, 0, 0.18);
 }
 
+.audio-player-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 14px;
+    height: 14px;
+    margin-top: -4px;
+    border-radius: 50%;
+    background: var(--audio-player-seek-thumb);
+    border: 0;
+    box-shadow: 0 0 0 2px var(--audio-player-bg), 0 4px 10px rgba(0, 0, 0, 0.18);
+}
+
 .audio-player-volume-slider::-moz-range-track {
+    height: 5px;
+    border: 0;
+    border-radius: 999px;
+    background: var(--audio-player-seek-track);
+}
+
+.audio-player-slider::-moz-range-track {
     height: 5px;
     border: 0;
     border-radius: 999px;
@@ -38781,7 +38875,22 @@ h1.display-5 {
     background: var(--audio-player-seek-fill);
 }
 
+.audio-player-slider::-moz-range-progress {
+    height: 5px;
+    border-radius: 999px;
+    background: var(--audio-player-seek-fill);
+}
+
 .audio-player-volume-slider::-moz-range-thumb {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--audio-player-seek-thumb);
+    border: 0;
+    box-shadow: 0 0 0 2px var(--audio-player-bg), 0 4px 10px rgba(0, 0, 0, 0.18);
+}
+
+.audio-player-slider::-moz-range-thumb {
     width: 14px;
     height: 14px;
     border-radius: 50%;
@@ -39070,7 +39179,7 @@ h1.display-5 {
 
 .surat-premium .memorisation-toolbar-layout {
     display: grid;
-    gap: 0.85rem;
+    gap: 0.45rem;
     width: 100%;
     min-width: 0;
     position: relative;
@@ -39123,7 +39232,7 @@ h1.display-5 {
     border-radius: 26px;
     border: 1px solid rgba(15, 23, 42, 0.08);
     background: #fff;
-    flex: 1 1 0;
+    flex: 0 1 auto;
     min-width: 0;
     cursor: pointer;
     transition: border-color 0.15s ease, box-shadow 0.15s ease;
@@ -39171,11 +39280,11 @@ h1.display-5 {
 }
 
 /* ─── Pill proportional flex ─── */
-.surat-premium .memorisation-toolbar-pill--surah   { flex: 2.6 1 0; }
-.surat-premium .memorisation-toolbar-pill--reciter  { flex: 2.2 1 0; }
-.surat-premium .memorisation-toolbar-pill--pace    { flex: 1 1 0; }
-.surat-premium .memorisation-toolbar-pill--range   { flex: 2 1 0; }
-.surat-premium .memorisation-toolbar-pill--delay   { flex: 1 1 0; }
+.surat-premium .memorisation-toolbar-pill--surah   { flex: 0 1 auto; min-width: 140px; }
+.surat-premium .memorisation-toolbar-pill--reciter  { flex: 0 1 auto; min-width: 150px; }
+.surat-premium .memorisation-toolbar-pill--pace     { flex: 0 1 auto; min-width: 96px; }
+.surat-premium .memorisation-toolbar-pill--range    { flex: 0 1 auto; min-width: 154px; }
+.surat-premium .memorisation-toolbar-pill--delay    { flex: 0 1 auto; min-width: 86px; }
 
 /* ─── Range inputs ─── */
 .surat-premium .memorisation-toolbar-pill-range-input {
@@ -39186,10 +39295,11 @@ h1.display-5 {
 }
 
 .surat-premium .memorisation-toolbar-pill-range-sep {
-    color: #94a3b8;
-    font-size: 0.6rem;
+    color: #8b5cf6;
+    font-size: 0.65rem;
     font-weight: 800;
     letter-spacing: 0.06em;
+    padding: 0 4px;
 }
 
 /* ─── Delay/pace center text ─── */
@@ -39212,16 +39322,30 @@ h1.display-5 {
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 14px;
+    border-radius: 12px;
     border: 1px solid rgba(15, 23, 42, 0.08);
     background: #fff;
     color: #475569;
-    font-size: 1.1rem;
+    font-size: 1.15rem;
     cursor: pointer;
     list-style: none;
     user-select: none;
     transition: all 0.15s ease;
     padding: 0;
+}
+
+/* Specific styling for the Play Mode selector to act as a primary action */
+.surat-premium .memorisation-toolbar-menu-dropdown--mode .memorisation-toolbar-pill-action {
+    border-radius: 50%;
+    background: #0f766e;
+    color: #fff;
+    border-color: #0f766e;
+    box-shadow: 0 4px 10px rgba(15, 118, 110, 0.2);
+}
+
+.surat-premium .memorisation-toolbar-menu-dropdown--mode .memorisation-toolbar-pill-action:hover {
+    background: #115e59;
+    border-color: #115e59;
 }
 
 .surat-premium .memorisation-toolbar-pill-action:hover {
@@ -39257,7 +39381,8 @@ h1.display-5 {
 .surat-premium .memorisation-toolbar-menu {
     position: absolute;
     top: calc(100% + 0.5rem);
-    right: 0;
+    left: 0;
+    right: auto;
     width: 340px;
     padding: 0.85rem;
     border-radius: 18px;
@@ -39267,9 +39392,10 @@ h1.display-5 {
     z-index: 1450;
 }
 
-.surat-premium .memorisation-toolbar-menu--mode {
-    right: auto;
-    left: 0;
+.surat-premium .memorisation-toolbar-menu--mode,
+.surat-premium .memorisation-toolbar-menu--tools {
+    left: auto;
+    right: 0;
 }
 
 .surat-premium .memorisation-toolbar-menu-head {
@@ -39437,9 +39563,21 @@ h1.display-5 {
 }
 
 .surat-premium .memorisation-mobile-icon-btn {
-    width: 100%;
-    min-height: 44px;
+    width: 44px;
+    height: 44px;
     border-radius: 14px;
+    display: grid !important;
+    place-items: center !important;
+    padding: 0 !important;
+    line-height: 1 !important;
+    flex: 0 0 auto !important;
+}
+
+.surat-premium .memorisation-mobile-icon-btn i {
+    font-size: 1.25rem !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
 }
 
 .surat-premium .memorisation-mobile-icon-btn.is-active {
@@ -39641,4 +39779,52 @@ h1.display-5 {
     .surat-premium .memorisation-mobile-quick-grid {
         grid-template-columns: minmax(0, 1fr);
     }
+}
+
+.surat-premium .ayah-card-container.currently-playing {
+    position: relative;
+    overflow: visible !important;
+    isolation: isolate;
+    z-index: 1;
+}
+
+.surat-premium .ayah-card-container.currently-playing::before {
+    content: "";
+    position: absolute;
+    top: 18px;
+    bottom: -18px;
+    left: -12px;
+    right: -12px;
+    border-radius: 22px;
+    background: radial-gradient(
+        circle at 18% 12%,
+        rgba(15, 118, 110, 0.18),
+        rgba(15, 118, 110, 0.08) 55%,
+        rgba(15, 118, 110, 0) 100%
+    );
+    box-shadow: 0 18px 48px rgba(15, 118, 110, 0.28);
+    z-index: 0;
+    pointer-events: none;
+}
+
+.surat-premium .ayah-card-container.currently-playing .ayah-surface {
+    position: relative;
+    z-index: 1;
+    padding-top: 2.2rem !important;
+    padding-bottom: 1.9rem !important;
+}
+
+.surat-premium.surat-theme-dark .ayah-card-container.currently-playing::before {
+    background: radial-gradient(
+        circle at 18% 12%,
+        rgba(45, 212, 191, 0.18),
+        rgba(2, 6, 23, 0.55) 58%,
+        rgba(2, 6, 23, 0) 100%
+    );
+    box-shadow: 0 22px 56px rgba(45, 212, 191, 0.2);
+}
+
+.surat-premium.surat-theme-dark .ayah-card-container.currently-playing .ayah-surface {
+    position: relative;
+    z-index: 1;
 }
