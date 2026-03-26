@@ -15,9 +15,17 @@ class LoginController extends Controller
 
     protected $redirectTo = '/welcome';
 
-    // Redirect to Google
-    public function redirectToGoogle()
+    public function showLoginForm(Request $request)
     {
+        $this->storeIntendedUrlFromRequest($request);
+
+        return view('auth.login');
+    }
+
+    // Redirect to Google
+    public function redirectToGoogle(Request $request)
+    {
+        $this->storeIntendedUrlFromRequest($request);
         return Socialite::driver('google')->redirect();
     }
 
@@ -39,8 +47,9 @@ class LoginController extends Controller
     }
 
     // Redirect to Facebook
-    public function redirectToFacebook()
+    public function redirectToFacebook(Request $request)
     {
+        $this->storeIntendedUrlFromRequest($request);
         return Socialite::driver('facebook')->redirect();
     }
 
@@ -62,14 +71,15 @@ class LoginController extends Controller
             );
 
             Auth::login($user);
-            return redirect('/dashboard');
+            return redirect()->intended('/dashboard');
         } catch (\Exception $e) {
             return redirect('/welcome')->withErrors('Facebook login failed. Please try again.');
         }
     }
 
-    public function redirectToLinkedIn()
+    public function redirectToLinkedIn(Request $request)
     {
+        $this->storeIntendedUrlFromRequest($request);
         return Socialite::driver('linkedin')
             ->scopes(['r_liteprofile', 'r_emailaddress']) // Request the necessary permissions
             ->stateless()
@@ -114,5 +124,66 @@ class LoginController extends Controller
     {
         // Allow authenticated users to access the logout action; guests elsewhere
         $this->middleware('guest')->except('logout');
+    }
+
+    private function storeIntendedUrlFromRequest(Request $request): void
+    {
+        if ($request->session()->has('url.intended')) {
+            return;
+        }
+
+        $candidate = $request->query('redirect')
+            ?? $request->query('next')
+            ?? $request->headers->get('referer');
+
+        $intended = $this->sanitizeRedirectCandidate($request, is_string($candidate) ? $candidate : null);
+        if ($intended === null) {
+            return;
+        }
+
+        $request->session()->put('url.intended', $intended);
+    }
+
+    private function sanitizeRedirectCandidate(Request $request, ?string $candidate): ?string
+    {
+        $candidate = is_string($candidate) ? trim($candidate) : '';
+        if ($candidate === '') {
+            return null;
+        }
+
+        $requestHost = $request->getHost();
+
+        // If it's a fully-qualified URL, only allow same-origin redirects.
+        if (preg_match('/^https?:\\/\\//i', $candidate)) {
+            $parts = parse_url($candidate);
+            if (!is_array($parts)) {
+                return null;
+            }
+
+            $host = $parts['host'] ?? null;
+            if (!$host || strcasecmp($host, $requestHost) !== 0) {
+                return null;
+            }
+
+            $path = $parts['path'] ?? '/';
+            $query = isset($parts['query']) ? ('?' . $parts['query']) : '';
+            $fragment = isset($parts['fragment']) ? ('#' . $parts['fragment']) : '';
+            $candidate = $path . $query . $fragment;
+        }
+
+        // Only allow app-internal paths (avoid protocol-relative URLs like //evil.com).
+        if (!str_starts_with($candidate, '/') || str_starts_with($candidate, '//')) {
+            return null;
+        }
+
+        // Avoid redirecting back to auth pages (login loops / unexpected flows).
+        $pathOnly = parse_url($candidate, PHP_URL_PATH) ?: '';
+        foreach (['/login', '/register', '/password', '/logout'] as $blockedPrefix) {
+            if (str_starts_with($pathOnly, $blockedPrefix)) {
+                return null;
+            }
+        }
+
+        return $candidate;
     }
 }

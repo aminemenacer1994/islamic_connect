@@ -822,7 +822,7 @@
                         @guest
                             @if (Route::has('login'))
                         <li class="nav-item mt-2">
-                            <a class="nav-link pt-2" href="{{ route('login') }}" data-path="/login" data-nav-item="primary"><b>{{ __('Login') }}</b></a>
+                            <a class="nav-link pt-2" href="{{ route('login', ['redirect' => request()->getRequestUri()]) }}" data-path="/login" data-nav-item="primary"><b>{{ __('Login') }}</b></a>
                         </li>
                         @endif
                         <!-- @if (Route::has('register'))

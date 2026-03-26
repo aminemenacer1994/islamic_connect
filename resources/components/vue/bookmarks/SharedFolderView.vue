@@ -759,7 +759,10 @@ export default {
             );
             clearTimeout(this.authRedirectTimer);
             this.authRedirectTimer = setTimeout(() => {
-                window.location.href = "/login";
+                const redirect = `${window.location.pathname}${window.location.search}${window.location.hash}`;
+                window.location.href = `/login?redirect=${encodeURIComponent(
+                    redirect
+                )}`;
             }, 1500);
             return false;
         },

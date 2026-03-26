@@ -39,7 +39,7 @@
                         </li>
                     @else
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('login') }}" data-path="/login">Login</a>
+                            <a class="nav-link" href="{{ route('login', ['redirect' => request()->getRequestUri()]) }}" data-path="/login">Login</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="/register" data-path="/register">Register</a>

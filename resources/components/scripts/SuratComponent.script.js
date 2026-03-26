@@ -618,6 +618,12 @@ export default {
             customPlaylistStorageKeyBase: "ic_surat_custom_playlist_v1",
             playlists: [],
             activePlaylistId: "",
+            playlistDeleteConfirm: {
+                visible: false,
+                message: "",
+                ids: [],
+            },
+            playlistDeleteBusy: false,
             selectedPlaylistItemIds: [],
             playlistSearchQuery: "",
             playlistAyahSearchQuery: "",
@@ -4522,6 +4528,15 @@ export default {
                 );
                 return `${name} ${description} ${itemCount}`.includes(query);
             });
+        },
+        savedPlaylistAyahCountAll() {
+            return (this.playlists || []).reduce((sum, playlist) => {
+                const count = Array.isArray(playlist?.items)
+                    ? playlist.items.filter((item) => String(item?.type || "") === "ayah")
+                          .length
+                    : 0;
+                return sum + count;
+            }, 0);
         },
         activePlaylistSubtitle() {
             const description = String(this.activePlaylist?.description || "").trim();
@@ -20594,6 +20609,9 @@ export default {
                 this.closeSavedBookmarksPanel();
                 return;
             }
+            if (this.showCustomPlaylistPanel) {
+                this.toggleCustomPlaylistPanel();
+            }
             if (!this.bookmarkAuthenticated) {
                 const isAuthed = await this.ensureAuthenticated(
                     "Please log in to view saved bookmarks."
@@ -28014,6 +28032,9 @@ export default {
             ) {
                 return;
             }
+            if (!this.showCustomPlaylistPanel && this.isSavedBookmarksPanelOpen) {
+                this.closeSavedBookmarksPanel();
+            }
             this.showCustomPlaylistPanel = !this.showCustomPlaylistPanel;
             if (this.showCustomPlaylistPanel && this.isTabletOrMobile) {
                 this.isMobileToolbarExpanded = false;
@@ -28057,6 +28078,101 @@ export default {
                 hash = (hash * 31 + token.charCodeAt(idx)) >>> 0;
             }
             return palette[hash % palette.length];
+        },
+        requestSinglePlaylistDelete(playlistId) {
+            const id = String(playlistId || "");
+            if (!id) return;
+            if (!this.ensurePlaylistAuth("Please log in to edit playlists.")) {
+                return;
+            }
+            const playlist = (this.playlists || []).find(
+                (entry) => String(entry?.id || "") === id
+            );
+            const name = String(playlist?.name || "").trim() || "Untitled Playlist";
+            this.playlistDeleteConfirm = {
+                visible: true,
+                message: `Delete "${name}"? This cannot be undone.`,
+                ids: [id],
+            };
+        },
+        cancelPlaylistDelete() {
+            this.playlistDeleteConfirm = {
+                visible: false,
+                message: "",
+                ids: [],
+            };
+            this.playlistDeleteBusy = false;
+        },
+        confirmPlaylistDelete() {
+            if (this.playlistDeleteBusy) return;
+            const ids = Array.isArray(this.playlistDeleteConfirm?.ids)
+                ? this.playlistDeleteConfirm.ids
+                      .map((id) => String(id || ""))
+                      .filter(Boolean)
+                : [];
+            if (!ids.length) {
+                this.cancelPlaylistDelete();
+                return;
+            }
+            if (!this.ensurePlaylistAuth("Please log in to edit playlists.")) {
+                this.cancelPlaylistDelete();
+                return;
+            }
+            this.playlistDeleteBusy = true;
+            try {
+                const removed = this.removePlaylistsByIds(ids);
+                this.cancelPlaylistDelete();
+                if (removed) {
+                    this.announce(
+                        `${removed} playlist${removed === 1 ? "" : "s"} deleted.`
+                    );
+                }
+            } finally {
+                this.playlistDeleteBusy = false;
+            }
+        },
+        removePlaylistsByIds(ids = []) {
+            const targetIds = new Set(
+                (ids || []).map((id) => String(id || "")).filter(Boolean)
+            );
+            if (!targetIds.size) return 0;
+            const before = (this.playlists || []).length;
+            this.playlists = (this.playlists || []).filter(
+                (playlist) => !targetIds.has(String(playlist?.id || ""))
+            );
+            const removed = Math.max(0, before - (this.playlists || []).length);
+            if (!this.playlists.length) {
+                this.activePlaylistId = "";
+                this.playlistEditorName = "";
+                this.playlistEditorDescription = "";
+                this.isPlaylistEditorVisible = false;
+                this.showPlaylistEditorConfirmAction = false;
+                this.selectedPlaylistItemIds = [];
+                this.persistCustomPlaylist();
+                return removed;
+            }
+            if (
+                targetIds.has(String(this.activePlaylistId || "")) ||
+                !this.playlists.some(
+                    (playlist) =>
+                        String(playlist?.id || "") ===
+                        String(this.activePlaylistId || "")
+                )
+            ) {
+                this.selectPlaylist(this.playlists[0].id);
+            }
+            this.persistCustomPlaylist();
+            return removed;
+        },
+        getPlaylistLastAddedLabel(playlist) {
+            const items = Array.isArray(playlist?.items) ? playlist.items : [];
+            if (!items.length) return "No ayahs yet";
+            const latest = items.reduce((acc, item) => {
+                const ts = this.normalizeBookmarkTimestamp(item?.createdAt || 0);
+                return ts > acc ? ts : acc;
+            }, 0);
+            if (!latest) return "Saved recently";
+            return this.formatSavedBookmarkDate(latest);
         },
         getCustomPlaylistStorageKey() {
             const base = this.customPlaylistStorageKeyBase || "ic_surat_custom_playlist_v1";
@@ -28914,8 +29030,18 @@ export default {
                 }
                 const index = this.resolveAyahIndexByNumber(targetAyah);
                 const safeIndex = index >= 0 ? index : Math.max(0, targetAyah - 1);
-                this.suppressPlaybackScrollOnce = true;
-                this.playAudio(safeIndex, { playlistSinglePlay: true });
+                const isSameIndex =
+                    Number(this.currentlyPlayingIndex) === Number(safeIndex);
+                const isPlaying =
+                    !!this.isAudioPlaying?.[safeIndex] &&
+                    this.currentlyPlaying &&
+                    typeof this.currentlyPlaying.pause === "function";
+                if (isSameIndex && isPlaying) {
+                    this.pauseAudio(safeIndex);
+                } else {
+                    this.suppressPlaybackScrollOnce = true;
+                    this.playAudio(safeIndex, { playlistSinglePlay: true });
+                }
             } finally {
                 setTimeout(() => {
                     this.suppressPlaybackScrollSync = false;

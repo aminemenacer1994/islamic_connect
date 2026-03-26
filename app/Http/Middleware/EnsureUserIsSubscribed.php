@@ -26,7 +26,9 @@ class EnsureUserIsSubscribed
         ]);
 
         if (!$user) {
-            return redirect('/login')->with('error', 'Please log in to access this content.');
+            return redirect()
+                ->guest(route('login'))
+                ->with('error', 'Please log in to access this content.');
         }
 
         if ($user->isAdmin()) {

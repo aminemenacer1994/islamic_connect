@@ -155,7 +155,8 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       this.setFeedback("Please log in to save bookmarks. Redirecting…", "danger");
       clearTimeout(this.authRedirectTimer);
       this.authRedirectTimer = setTimeout(() => {
-        window.location.href = "/login";
+        const redirect = `${window.location.pathname}${window.location.search}${window.location.hash}`;
+        window.location.href = `/login?redirect=${encodeURIComponent(redirect)}`;
       }, 1500);
       return false;
     },
