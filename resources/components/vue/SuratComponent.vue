@@ -384,24 +384,14 @@
                                                 @click="onMemorisationToolbarToggleRangeLoop()">
                                                 <i class="bi bi-arrow-repeat" aria-hidden="true"></i>
                                             </button>
-                                            <button
-                                                type="button"
-                                                class="btn advanced-quran-mobile-icon-btn memorisation-mobile-icon-btn"
-                                                :class="{ 'is-active': showRealtimeHighlighting }"
-                                                :aria-pressed="showRealtimeHighlighting ? 'true' : 'false'"
-                                                aria-label="Word highlight with audio"
-                                                title="Word highlight with audio"
-                                                @click="onMemorisationToolbarToggleRealtimeHighlighting()">
-                                                <i class="bi bi-input-cursor-text" aria-hidden="true"></i>
-                                            </button>
-                                            <button
-                                                type="button"
-                                                class="btn advanced-quran-mobile-icon-btn memorisation-mobile-icon-btn"
-                                                @click="openMemorisationOffcanvas"
-                                                aria-label="Open memorisation settings"
-                                                title="Open memorisation settings">
-                                                <i class="bi bi-sliders2" aria-hidden="true"></i>
-                                            </button>
+	                                            <button
+	                                                type="button"
+	                                                class="btn advanced-quran-mobile-icon-btn memorisation-mobile-icon-btn"
+	                                                @click="openMemorisationOffcanvas"
+	                                                aria-label="Open memorisation settings"
+	                                                title="Open memorisation settings">
+	                                                <i class="bi bi-sliders2" aria-hidden="true"></i>
+	                                            </button>
                                             <button
                                                 v-if="memorisationSessionHistoryEnabled"
                                                 type="button"
@@ -444,7 +434,6 @@
                                     class="btn advanced-quran-mobile-action-btn advanced-quran-mobile-action-btn-memorisation"
                                     @click="toggleMemorisationToolbar"
                                     aria-controls="memorisationOffcanvas"
-                                    :disabled="isMemorisationToolsComingSoon"
                                     :aria-label="isMemorisationToolsComingSoon
                                         ? 'Memorisation tools coming soon'
                                         : (isMemorisationOffcanvasVisible ? 'Close memorisation tools' : 'Open memorisation tools')"
@@ -457,7 +446,7 @@
                                         : (isMemorisationOffcanvasVisible ? 'Close memorisation tools.' : 'Open memorisation tools to support repetition, focus, and revision.')">
                                     <i class="bi bi-journal-bookmark-fill" aria-hidden="true"></i>
                                     <span class="advanced-quran-mobile-action-label">{{ memorisationToolbarButtonLabel }}</span>
-                                    <span v-if="isMemorisationToolsComingSoon" class="coming-soon-ribbon" aria-hidden="true">Coming soon</span>
+                                    <span v-if="isMemorisationToolsComingSoon" class="advanced-quran-mobile-action-btn-state">Soon</span>
                                 </button>
                                 <button
                                     v-if="!isMemorisationToolbarVisible"
@@ -645,13 +634,11 @@
                                             Open
                                         </button>
                                     </div>
-                                    <p class="advanced-quran-search-arabic mb-2"
-                                        v-html="highlightAdvancedSearchText(result.text)"></p>
+	                                    <p class="advanced-quran-search-arabic mb-2">{{ result.text }}</p>
                                     <div class="advanced-quran-search-detail-grid">
                                         <div class="advanced-quran-search-detail">
                                             <span class="advanced-quran-search-detail-label">Translation</span>
-                                            <p class="advanced-quran-search-translation mb-0"
-                                                v-html="highlightAdvancedSearchText(result.translation)"></p>
+	                                            <p class="advanced-quran-search-translation mb-0">{{ result.translation }}</p>
                                         </div>
                                     </div>
                                 </article>
@@ -837,7 +824,7 @@
                                         <strong>Practice Tools</strong>
                                         <small>Use these helper options to repeat your range, highlight words with audio, or open the full memorisation settings.</small>
                                     </div>
-                                    <div class="memorisation-toolbar-tools-grid">
+	                                    <div class="memorisation-toolbar-tools-grid">
                                         <button
                                             type="button"
                                             class="btn memorisation-toolbar-tool-btn"
@@ -847,20 +834,11 @@
                                             @click="onMemorisationToolbarToggleRangeLoop()">
                                             <i class="bi bi-arrow-repeat" aria-hidden="true"></i>
                                         </button>
-                                        <button
-                                            type="button"
-                                            class="btn memorisation-toolbar-tool-btn"
-                                            :class="{ 'is-active': showRealtimeHighlighting }"
-                                            :aria-pressed="showRealtimeHighlighting ? 'true' : 'false'"
-                                            title="Word highlight"
-                                            @click="onMemorisationToolbarToggleRealtimeHighlighting()">
-                                            <i class="bi bi-input-cursor-text" aria-hidden="true"></i>
-                                        </button>
-                                        <button
-                                            type="button"
-                                            class="btn memorisation-toolbar-tool-btn"
-                                            title="Full settings"
-                                            @click="openMemorisationOffcanvas">
+	                                        <button
+	                                            type="button"
+	                                            class="btn memorisation-toolbar-tool-btn"
+	                                            title="Full settings"
+	                                            @click="openMemorisationOffcanvas">
                                             <i class="bi bi-gear" aria-hidden="true"></i>
                                         </button>
                                         <button
@@ -1014,7 +992,6 @@
                     class="quran-toolbar-btn quran-toolbar-btn-memorisation"
                     @click="toggleMemorisationToolbar"
                     aria-controls="memorisationOffcanvas"
-                    :disabled="isMemorisationToolsComingSoon"
                     :class="{
                         'is-active': isMemorisationToolbarVisible,
                         'is-attention': !isMemorisationToolbarVisible && !isMemorisationToolsComingSoon,
@@ -1028,7 +1005,7 @@
                         : (isMemorisationOffcanvasVisible ? 'Close memorisation tools.' : 'Open memorisation tools')">
                     <i class="bi bi-journal-bookmark-fill" aria-hidden="true"></i>
                     <span class="quran-toolbar-btn-text">{{ memorisationToolbarButtonLabel }}</span>
-                    <span v-if="isMemorisationToolsComingSoon" class="coming-soon-ribbon" aria-hidden="true">Coming soon</span>
+                    <span v-if="isMemorisationToolsComingSoon" class="quran-toolbar-btn-state" aria-hidden="true">Soon</span>
                 </button>
             </div>
             <saved-bookmarks-panel
@@ -1885,24 +1862,11 @@
                                 </span>
                             </label>
 
-                            <label class="memorisation-offcanvas-toggle-row memorisation-offcanvas-field memorisation-offcanvas-field--full">
-                                <span class="memorisation-offcanvas-toggle-copy">
-                                    <strong>Word highlight with audio</strong>
-                                    <small>Highlight words in real time during recitation.</small>
-                                </span>
-                                <span class="form-check form-switch mb-0">
-                                    <input
-                                        class="form-check-input"
-                                        type="checkbox"
-                                        v-model="memorisationDraft.showRealtimeHighlighting"
-                                        aria-label="Toggle word highlight with audio">
-                                </span>
-                            </label>
-                            <label v-if="isMemorisationAdvancedMode" class="memorisation-offcanvas-toggle-row memorisation-offcanvas-field memorisation-offcanvas-field--full">
-                                <span class="memorisation-offcanvas-toggle-copy">
-                                    <strong>Test Mode</strong>
-                                    <small>Focus on one ayah at a time so you can recite from memory without the next ayah giving it away.</small>
-                                </span>
+	                            <label v-if="isMemorisationAdvancedMode" class="memorisation-offcanvas-toggle-row memorisation-offcanvas-field memorisation-offcanvas-field--full">
+	                                <span class="memorisation-offcanvas-toggle-copy">
+	                                    <strong>Test Mode</strong>
+	                                    <small>Focus on one ayah at a time so you can recite from memory without the next ayah giving it away.</small>
+	                                </span>
                                 <span class="form-check form-switch mb-0">
                                     <input
                                         class="form-check-input"
@@ -4410,9 +4374,8 @@
                                     <div class="p-3 text-white-50 small text-center border-bottom border-white-10" v-if="surahDetails">
                                         Surah {{ surahDetails.englishName }}
                                     </div>
-                                    <div class="sidebar-item" v-for="verse in visibleFilteredVersesList" :key="verse.key"
-                                         :class="{ active: activeAyahIndex === (verse.number - 1) }"
-                                         @click="selectVerseFromSidebar(verse.number)">
+	                                    <div class="sidebar-item" v-for="verse in visibleFilteredVersesList" :key="verse.key"
+	                                         @click="selectVerseFromSidebar(verse.number)">
                                          <div class="d-flex w-100 align-items-center">
                                              <div class="item-number-container me-2">
                                                  <span class="item-number">{{ verse.number }}</span>
@@ -4700,14 +4663,11 @@
                     @keydown.enter.prevent="toggleAudioPlayer(item.index)"
                     @keydown.space.prevent="toggleAudioPlayer(item.index)"
                     :draggable="isPlaylistEditorVisible && !isTabletOrMobile" tabindex="0"
-                    @dragstart="onAyahDragStart(item.ayah, $event)"                     :class="{
-                        highlighted:
-                            isHighlighted && activeAyahIndex === item.index,
-                        'currently-playing': isAudioPlaying[item.index],
-                        'memorisation-repetition-active': isMemorisationRepetitionActive && item.index === currentlyPlayingIndex,
-                        'swipe-transition': swipeTransitionIndex === item.index,
-                        'swipe-transition-next': swipeTransitionIndex === item.index && swipeTransitionDirection > 0,
-                        'swipe-transition-prev': swipeTransitionIndex === item.index && swipeTransitionDirection < 0,
+	                    @dragstart="onAyahDragStart(item.ayah, $event)"                     :class="{
+	                        'memorisation-repetition-active': isMemorisationRepetitionActive && item.index === currentlyPlayingIndex,
+	                        'swipe-transition': swipeTransitionIndex === item.index,
+	                        'swipe-transition-next': swipeTransitionIndex === item.index && swipeTransitionDirection > 0,
+	                        'swipe-transition-prev': swipeTransitionIndex === item.index && swipeTransitionDirection < 0,
                         'is-pinned': isAyahPinned(item.ayah),
                         'memorisation-past': isMemorisationModeActive && item.role === 'past',
                         'memorisation-current': isMemorisationModeActive && item.role === 'current',
@@ -5081,17 +5041,13 @@
                             <div class="ayah-card-copy">
                                 <p
                                     v-if="!shouldHideVerseTextForRepeatPause(item.index)"
-	                                    :class="[
-	                                        'arabic-text rtl-text text-end mb-3',
-	                                        {
-	                                            'arabic-text--active':
-	                                                highlightPlayingAyahEnabled &&
-	                                                currentlyPlayingIndex === item.index &&
-	                                                isAudioPlaying[item.index],
-	                                            'repeat-pause-text-dimmed':
-	                                                shouldDimVerseTextForRepeatPause(item.index),
-	                                        },
-                                    ]"
+		                                    :class="[
+		                                        'arabic-text rtl-text text-end mb-3',
+		                                        {
+		                                            'repeat-pause-text-dimmed':
+		                                                shouldDimVerseTextForRepeatPause(item.index),
+		                                        },
+		                                    ]"
                                     v-html="highlightedText(item.ayah)"
                                     @click="onAyahWordClick(item, $event)"
                                     :style="getAyahArabicTextStyle(item.index)"
@@ -5107,20 +5063,16 @@
                                     <div class="translation-copy flex-grow-1">
                                         <div v-if="shouldShowTranslationForRepeatPause(item)">
                                             <p
-	                                                :class="[
-	                                                    'fw-regular ltr-text flex-grow-1 translation-text',
-	                                                    {
-	                                                        'translation-text--active':
-	                                                            highlightPlayingAyahEnabled &&
-	                                                            currentlyPlayingIndex === item.index &&
-	                                                            isAudioPlaying[item.index],
-	                                                        'translation-text--placeholder':
-	                                                            !item.ayah.translation,
-	                                                    },
-                                                ]"
-                                                v-html="highlightText(getTranslationText(item))"
-                                                :style="`font-size: ${effectiveAyahBodyFontSize}px !important;`"
-                                            ></p>
+		                                                :class="[
+		                                                    'fw-regular ltr-text flex-grow-1 translation-text',
+		                                                    {
+		                                                        'translation-text--placeholder':
+		                                                            !item.ayah.translation,
+		                                                    },
+		                                                ]"
+	                                                v-text="getTranslationText(item)"
+	                                                :style="`font-size: ${effectiveAyahBodyFontSize}px !important;`"
+	                                            ></p>
                                         </div>
                                         <template v-else></template>
                                         <div
@@ -5130,20 +5082,16 @@
                                         </div>
                                         <p
                                             v-if="isTransliterationVisibleFor(item) && !shouldHideVerseTextForRepeatPause(item.index)"
-	                                            :class="[
-	                                                'fw-regular ltr-text flex-grow-1 transliteration-text',
-	                                                {
-	                                                    'transliteration-text--active':
-	                                                        highlightPlayingAyahEnabled &&
-	                                                        currentlyPlayingIndex === item.index &&
-	                                                        isAudioPlaying[item.index],
-	                                                    'repeat-pause-text-dimmed':
-	                                                        shouldDimVerseTextForRepeatPause(item.index),
-	                                                },
-                                            ]"
-                                            v-html="highlightText(item.ayah.transliteration || transliterationFallbackText)"
-                                            :style="`font-size: ${effectiveAyahBodyFontSize}px !important;`"
-                                        ></p>
+		                                            :class="[
+		                                                'fw-regular ltr-text flex-grow-1 transliteration-text',
+		                                                {
+		                                                    'repeat-pause-text-dimmed':
+		                                                        shouldDimVerseTextForRepeatPause(item.index),
+		                                                },
+		                                            ]"
+	                                            v-text="item.ayah.transliteration || transliterationFallbackText"
+	                                            :style="`font-size: ${effectiveAyahBodyFontSize}px !important;`"
+	                                        ></p>
                                     </div>
                                 </div>
                             </div>
@@ -5425,14 +5373,12 @@
                                         </div>
                                         <span class="surat-onboarding-rank">#{{ feature.priority }}</span>
                                     </div>
-                                    <h5 class="surat-onboarding-title"
-                                        v-html="highlightSuratOnboardingText(feature.title)"></h5>
-                                    <p class="surat-onboarding-summary mb-2"
-                                        v-html="highlightSuratOnboardingText(feature.summary)"></p>
-                                    <p class="surat-onboarding-how mb-0">
-                                        <span class="surat-onboarding-how-label">How to use:</span>
-                                        <span v-html="highlightSuratOnboardingText(feature.howTo)"></span>
-                                    </p>
+	                                    <h5 class="surat-onboarding-title">{{ feature.title }}</h5>
+	                                    <p class="surat-onboarding-summary mb-2">{{ feature.summary }}</p>
+	                                    <p class="surat-onboarding-how mb-0">
+	                                        <span class="surat-onboarding-how-label">How to use:</span>
+	                                        <span>{{ feature.howTo }}</span>
+	                                    </p>
                                 </article>
                             </div>
                             <div v-else class="surat-onboarding-empty">
@@ -5936,26 +5882,13 @@
                                         </small>
                                     </div>
                                 </div>
-                                <div class="col-12 col-md-6">
-                                    <div class="surah-settings-group h-100">
-                                        <label class="form-label">Word-for-word highlighting</label>
-                                        <select class="form-select" v-model="settingsDraft.showRealtimeHighlighting"
-                                            aria-label="Word-for-word highlighting">
-                                            <option :value="true">Enabled</option>
-                                            <option :value="false">Disabled</option>
-                                        </select>
-                                        <small class="text-muted d-block mt-1">
-                                            Highlight each word as it is recited.
-                                        </small>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-md-6">
-                                    <div class="surah-settings-group h-100">
-                                        <label class="form-label">Word-for-word translation</label>
-                                        <select class="form-select" v-model="settingsDraft.showWordTranslation"
-                                            aria-label="Word-for-word translation">
-                                            <option :value="true">Enabled</option>
-                                            <option :value="false">Disabled</option>
+	                                <div class="col-12 col-md-6">
+	                                    <div class="surah-settings-group h-100">
+	                                        <label class="form-label">Word-for-word translation</label>
+	                                        <select class="form-select" v-model="settingsDraft.showWordTranslation"
+	                                            aria-label="Word-for-word translation">
+	                                            <option :value="true">Enabled</option>
+	                                            <option :value="false">Disabled</option>
                                         </select>
                                         <small class="text-muted d-block mt-1">
                                             Show a brief translation beneath each Arabic word.
@@ -6879,6 +6812,51 @@
                 </div>
             </div>
         </teleport>
+
+        <!-- Memorisation Tools: Coming Soon -->
+        <teleport to="body">
+            <div
+                ref="memorisationComingSoonModal"
+                class="modal fade"
+                id="memorisationComingSoonModal"
+                tabindex="-1"
+                aria-labelledby="memorisationComingSoonTitle"
+                aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                    <div class="modal-content memorisation-coming-soon-modal" :class="{ 'is-dark-theme': isDarkTheme }">
+                        <div class="modal-header memorisation-coming-soon-header">
+                            <div class="memorisation-coming-soon-title-row">
+                                <span class="memorisation-coming-soon-icon" aria-hidden="true">
+                                    <i class="bi bi-journal-bookmark-fill"></i>
+                                </span>
+                                <div class="memorisation-coming-soon-title-copy">
+                                    <h5 class="modal-title mb-0" id="memorisationComingSoonTitle">Memorisation Tools</h5>
+                                    <p class="mb-0 memorisation-coming-soon-subtitle">Coming soon</p>
+                                </div>
+                            </div>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body memorisation-coming-soon-body">
+                            <p class="memorisation-coming-soon-lead mb-3">
+                                We’re polishing the memorisation experience to feel fast, calm, and powerful.
+                            </p>
+                            <ul class="memorisation-coming-soon-list mb-0">
+                                <li>Repeat ranges with smart timing</li>
+                                <li>Loop and practice modes</li>
+                                <li>Session tracking + progress history</li>
+                                <li>Cleaner controls for mobile</li>
+                            </ul>
+                        </div>
+                        <div class="modal-footer memorisation-coming-soon-footer">
+                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
+                                Got it
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </teleport>
+
         <button
             v-show="showScrollTop"
             @click="scrollToTop"

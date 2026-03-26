@@ -807,18 +807,6 @@
     color: #1f2937;
 }
 
-:deep(.advanced-search-highlight) {
-    background: linear-gradient(
-        120deg,
-        rgba(255, 235, 59, 0.78),
-        rgba(253, 224, 71, 0.9)
-    );
-    color: #111827;
-    border-radius: 4px;
-    padding: 0 0.12rem;
-    font-weight: 700;
-}
-
 @media (max-width: 991.98px) {
     .advanced-quran-search {
         padding: 0.64rem 0.72rem 0.42rem;
@@ -4245,28 +4233,7 @@
     border-top-color: rgba(11, 107, 89, 0.48);
 }
 
-.highlighted .ayah-surface {
-    background: linear-gradient(
-        135deg,
-        rgba(15, 110, 99, 0.18),
-        rgba(255, 255, 255, 0.6)
-    );
-    border-color: rgba(15, 110, 99, 0.65);
-    box-shadow: 0 22px 44px rgba(15, 110, 99, 0.35);
-    transform: translateY(-2px);
-    position: relative;
-    animation: pulse 0.8s ease-in-out;
-}
 
-@keyframes pulse {
-    0% {
-        border-color: rgba(15, 110, 99, 0.45);
-    }
-
-    100% {
-        border-color: transparent;
-    }
-}
 
 .ayah-card-container.memorisation-repetition-active .ayah-surface {
     box-shadow: 0 0 0 2px rgba(6, 78, 59, 0.5);
@@ -4468,30 +4435,12 @@
     filter: saturate(0.7);
 }
 
-.arabic-text--active {
-    color: #0b3d2e;
-    text-shadow: 0 0 12px rgba(15, 110, 99, 0.45);
-    transition: color 0.3s ease, text-shadow 0.3s ease;
-}
-
 .translation-text {
     transition: color 0.3s ease, font-weight 0.3s ease;
 }
 
-.translation-text--active {
-    color: #0b3d2e;
-    font-weight: 600;
-    text-shadow: 0 0 6px rgba(15, 110, 99, 0.25);
-}
-
 .transliteration-text {
     transition: color 0.3s ease, font-weight 0.3s ease;
-}
-
-.transliteration-text--active {
-    color: #0b3d2e;
-    font-weight: 600;
-    text-shadow: 0 0 6px rgba(15, 110, 99, 0.22);
 }
 
 .rtl-text {
@@ -7973,18 +7922,7 @@
     text-align: center;
 }
 
-:deep(.ayah-word.highlighted-word .ayah-word-ar) {
-    background: #0f6e63;
-    color: #fff;
-    border-radius: 8px;
-    padding: 0 3px;
-    box-shadow: 0 1px 0 rgba(15, 110, 99, 0.25);
-    transition: background 0.18s ease, box-shadow 0.18s ease;
-}
 
-:deep(.ayah-word.highlighted-word .ayah-word-translation) {
-    color: #0f6e63;
-}
 
 @media (max-width: 768px) {
     :deep(.ayah-word) {
@@ -27882,8 +27820,7 @@ h1.display-5 {
 }
 
 .surat-premium.memorisation-mode .ayah-card-container:hover .ayah-surface,
-.surat-premium.memorisation-mode .highlighted .ayah-surface,
-.surat-premium.memorisation-mode .currently-playing .ayah-surface {
+.surat-premium.memorisation-mode .ayah-card-container:hover .ayah-surface {
     transform: none !important;
     animation: none !important;
 }
@@ -27893,10 +27830,6 @@ h1.display-5 {
 .surat-premium.memorisation-mode .ayah-card-container.swipe-transition-prev,
 .surat-premium.memorisation-mode .ayah-card-container.swipe-transition .ayah-surface {
     animation: none !important;
-}
-
-.surat-premium.memorisation-mode .highlighted .ayah-surface {
-    box-shadow: 0 0 0 1px rgba(15, 110, 99, 0.34) !important;
 }
 
 /* Aggressive low-motion profile to keep long sessions responsive. */
@@ -27919,13 +27852,11 @@ h1.display-5 {
 }
 
 .surat-premium.performance-optimized .ayah-card-container:hover .ayah-surface,
-.surat-premium.performance-optimized .highlighted .ayah-surface,
-.surat-premium.performance-optimized .currently-playing .ayah-surface {
+.surat-premium.performance-optimized .ayah-card-container:hover .ayah-surface {
     transform: none !important;
 }
 
-.surat-premium.performance-optimized .ayah-surface,
-.surat-premium.performance-optimized .highlighted .ayah-surface {
+.surat-premium.performance-optimized .ayah-surface {
     box-shadow: 0 0 0 1px rgba(15, 110, 99, 0.18) !important;
 }
 
@@ -30816,8 +30747,7 @@ h1.display-5 {
     }
 }
 
-.surat-premium .ayah-card-container.is-pinned .ayah-surface,
-.surat-premium .highlighted .ayah-surface {
+.surat-premium .ayah-card-container.is-pinned .ayah-surface {
     background: transparent !important;
     transform: none !important;
 }
@@ -30825,12 +30755,6 @@ h1.display-5 {
 .surat-premium .ayah-card-container.is-pinned .ayah-surface {
     border-color: rgba(7, 31, 28, 0.08) !important;
     box-shadow: 0 22px 46px rgba(11, 107, 89, 0.16) !important;
-}
-
-.surat-premium .highlighted .ayah-surface {
-    border-color: rgba(7, 31, 28, 0.08) !important;
-    box-shadow: 0 24px 48px rgba(15, 110, 99, 0.18) !important;
-    animation: none !important;
 }
 
 .surat-premium .ayah-card-header {
@@ -31394,55 +31318,23 @@ h1.display-5 {
         inset 0 0 0 2px rgba(11, 107, 89, 0.24);
 }
 
-.surat-premium .quran-toolbar-btn:not(.is-coming-soon)[disabled],
-.surat-premium .advanced-quran-mobile-action-btn:not(.is-coming-soon)[disabled] {
-    opacity: 0.6;
-    cursor: not-allowed;
-    transform: none !important;
+.surat-premium .quran-toolbar-btn.is-coming-soon,
+.surat-premium .advanced-quran-mobile-action-btn.is-coming-soon {
     box-shadow: none !important;
 }
 
-.surat-premium .quran-toolbar-btn-memorisation,
-.surat-premium .advanced-quran-mobile-action-btn-memorisation {
-    position: relative;
-    overflow: visible;
+.surat-premium .quran-toolbar-btn.is-coming-soon .quran-toolbar-btn-state,
+.surat-premium .advanced-quran-mobile-action-btn.is-coming-soon .advanced-quran-mobile-action-btn-state {
+    background: rgba(15, 23, 42, 0.08) !important;
+    border-color: rgba(15, 23, 42, 0.14) !important;
+    color: rgba(15, 23, 42, 0.9) !important;
 }
 
-.surat-premium .quran-toolbar-btn.is-coming-soon[disabled],
-.surat-premium .advanced-quran-mobile-action-btn.is-coming-soon[disabled] {
-    cursor: not-allowed;
-    transform: none !important;
-    box-shadow: none !important;
-}
-
-.surat-premium .coming-soon-ribbon {
-    position: absolute;
-    top: 0.35rem;
-    right: -4.2rem;
-    width: 15.6rem;
-    padding: 0.34rem 0.3rem;
-    background: #000000;
-    color: #ffffff;
-    font-size: 0.74rem;
-    font-weight: 900;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    text-align: center;
-    line-height: 1.1;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    white-space: nowrap;
-    transform: rotate(35deg);
-    pointer-events: none;
-    z-index: 5;
-    box-shadow: 0 12px 26px rgba(0, 0, 0, 0.18);
-}
-
-.surat-premium.surat-theme-dark .coming-soon-ribbon {
-    background: #ffffff;
-    color: #000000;
-    box-shadow: 0 12px 26px rgba(0, 0, 0, 0.32);
+.surat-premium.surat-theme-dark .quran-toolbar-btn.is-coming-soon .quran-toolbar-btn-state,
+.surat-premium.surat-theme-dark .advanced-quran-mobile-action-btn.is-coming-soon .advanced-quran-mobile-action-btn-state {
+    background: rgba(255, 255, 255, 0.14) !important;
+    border-color: rgba(255, 255, 255, 0.2) !important;
+    color: rgba(255, 255, 255, 0.92) !important;
 }
 
 .surat-premium .ayah-footer-action:hover::before,
@@ -34191,16 +34083,11 @@ h1.display-5 {
 .surat-premium .ayah-surface,
 .surat-premium .ayah-card-container:hover .ayah-surface,
 .surat-premium .ayah-card-container.is-pinned .ayah-surface,
-.surat-premium .highlighted .ayah-surface,
-.surat-premium .currently-playing .ayah-surface,
 .surat-premium.memorisation-mode .ayah-surface,
 .surat-premium.memorisation-mode .ayah-card-container:hover .ayah-surface,
-.surat-premium.memorisation-mode .highlighted .ayah-surface,
-.surat-premium.memorisation-mode .currently-playing .ayah-surface,
 .surat-premium.performance-optimized .ayah-surface,
 .surat-premium.performance-optimized .ayah-card-container:hover .ayah-surface,
-.surat-premium.performance-optimized .highlighted .ayah-surface,
-.surat-premium.performance-optimized .currently-playing .ayah-surface {
+.surat-premium.performance-optimized .ayah-surface {
     border: none !important;
     border-color: transparent !important;
     outline: none !important;
@@ -34209,14 +34096,9 @@ h1.display-5 {
 .surat-premium .ayah-surface,
 .surat-premium .ayah-card-container:hover .ayah-surface,
 .surat-premium .ayah-card-container.is-pinned .ayah-surface,
-.surat-premium .highlighted .ayah-surface,
-.surat-premium .currently-playing .ayah-surface,
 .surat-premium.memorisation-mode .ayah-surface,
-.surat-premium.memorisation-mode .highlighted .ayah-surface,
-.surat-premium.memorisation-mode .currently-playing .ayah-surface,
 .surat-premium.performance-optimized .ayah-surface,
-.surat-premium.performance-optimized .highlighted .ayah-surface,
-.surat-premium.performance-optimized .currently-playing .ayah-surface {
+.surat-premium.performance-optimized .ayah-surface {
     background: #ffffff !important;
     box-shadow: 0 12px 28px rgba(7, 31, 28, 0.06) !important;
 }
@@ -34242,25 +34124,14 @@ h1.display-5 {
 .surat-premium .ayah-card-container,
 .surat-premium .ayah-card-container:hover,
 .surat-premium .ayah-card-container.is-pinned,
-.surat-premium .highlighted,
-.surat-premium .currently-playing {
-    box-shadow: none !important;
-    background: transparent !important;
-}
-
 .surat-premium .ayah-surface,
 .surat-premium .ayah-card-container:hover .ayah-surface,
 .surat-premium .ayah-card-container.is-pinned .ayah-surface,
-.surat-premium .highlighted .ayah-surface,
-.surat-premium .currently-playing .ayah-surface,
 .surat-premium.memorisation-mode .ayah-surface,
 .surat-premium.memorisation-mode .ayah-card-container:hover .ayah-surface,
-.surat-premium.memorisation-mode .highlighted .ayah-surface,
-.surat-premium.memorisation-mode .currently-playing .ayah-surface,
 .surat-premium.performance-optimized .ayah-surface,
 .surat-premium.performance-optimized .ayah-card-container:hover .ayah-surface,
-.surat-premium.performance-optimized .highlighted .ayah-surface,
-.surat-premium.performance-optimized .currently-playing .ayah-surface {
+.surat-premium.performance-optimized .ayah-surface {
     border: none !important;
     border-color: transparent !important;
     border-radius: 0 !important;
@@ -35223,30 +35094,24 @@ h1.display-5 {
 .surat-premium.surat-theme-dark .ayah-card-shell,
 .surat-premium.surat-theme-dark .ayah-card-container,
 .surat-premium.surat-theme-dark .ayah-card-container:hover,
-.surat-premium.surat-theme-dark .ayah-card-container.is-pinned,
-.surat-premium.surat-theme-dark .highlighted,
-.surat-premium.surat-theme-dark .currently-playing {
+.surat-premium.surat-theme-dark .ayah-card-container.is-pinned {
     background: transparent !important;
 }
 
 .surat-premium.surat-theme-dark .ayah-surface,
 .surat-premium.surat-theme-dark .ayah-card-container:hover .ayah-surface,
 .surat-premium.surat-theme-dark .ayah-card-container.is-pinned .ayah-surface,
-.surat-premium.surat-theme-dark .highlighted .ayah-surface,
 .surat-premium.surat-theme-dark.memorisation-mode .ayah-surface,
 .surat-premium.surat-theme-dark.memorisation-mode .ayah-card-container:hover .ayah-surface,
-.surat-premium.surat-theme-dark.memorisation-mode .highlighted .ayah-surface,
 .surat-premium.surat-theme-dark.performance-optimized .ayah-surface,
 .surat-premium.surat-theme-dark.performance-optimized .ayah-card-container:hover .ayah-surface,
-.surat-premium.surat-theme-dark.performance-optimized .highlighted .ayah-surface,
-.surat-premium.surat-theme-dark.performance-optimized .currently-playing .ayah-surface {
+.surat-premium.surat-theme-dark.performance-optimized .ayah-surface {
     background: rgba(7, 25, 47, 0.72) !important;
     border: 1px solid var(--surat-theme-border) !important;
     border-radius: 18px !important;
     box-shadow: 0 12px 28px rgba(0, 8, 22, 0.22) !important;
 }
 
-.surat-premium.surat-theme-dark .highlighted .ayah-surface,
 .surat-premium.surat-theme-dark .ayah-card-container:hover .ayah-surface {
     background: rgba(10, 31, 58, 0.92) !important;
     border-color: var(--surat-theme-border-strong) !important;
@@ -36132,23 +35997,18 @@ h1.display-5 {
 .surat-premium.surat-theme-dark .ayah-card-shell,
 .surat-premium.surat-theme-dark .ayah-card-container,
 .surat-premium.surat-theme-dark .ayah-card-container:hover,
-.surat-premium.surat-theme-dark .ayah-card-container.is-pinned,
-.surat-premium.surat-theme-dark .highlighted,
-.surat-premium.surat-theme-dark .currently-playing {
+.surat-premium.surat-theme-dark .ayah-card-container.is-pinned {
     background: transparent !important;
 }
 
 .surat-premium.surat-theme-dark .ayah-surface,
 .surat-premium.surat-theme-dark .ayah-card-container:hover .ayah-surface,
 .surat-premium.surat-theme-dark .ayah-card-container.is-pinned .ayah-surface,
-.surat-premium.surat-theme-dark .highlighted .ayah-surface,
 .surat-premium.surat-theme-dark.memorisation-mode .ayah-surface,
 .surat-premium.surat-theme-dark.memorisation-mode .ayah-card-container:hover .ayah-surface,
-.surat-premium.surat-theme-dark.memorisation-mode .highlighted .ayah-surface,
 .surat-premium.surat-theme-dark.performance-optimized .ayah-surface,
 .surat-premium.surat-theme-dark.performance-optimized .ayah-card-container:hover .ayah-surface,
-.surat-premium.surat-theme-dark.performance-optimized .highlighted .ayah-surface,
-.surat-premium.surat-theme-dark.performance-optimized .currently-playing .ayah-surface {
+.surat-premium.surat-theme-dark.performance-optimized .ayah-surface {
     background: transparent !important;
     border: 0 !important;
     border-top: 3px solid rgba(255, 255, 255, 0.22) !important;
@@ -36162,8 +36022,7 @@ h1.display-5 {
 }
 
 .surat-premium.surat-theme-dark .ayah-card-container:hover .ayah-surface,
-.surat-premium.surat-theme-dark .ayah-card-container.is-pinned .ayah-surface,
-.surat-premium.surat-theme-dark .highlighted .ayah-surface {
+.surat-premium.surat-theme-dark .ayah-card-container.is-pinned .ayah-surface {
     border-top-color: rgba(255, 255, 255, 0.34) !important;
 }
 
@@ -37683,7 +37542,6 @@ h1.display-5 {
 .surat-premium.surat-theme-dark .ayah-surface,
 .surat-premium.surat-theme-dark .ayah-card-container:hover .ayah-surface,
 .surat-premium.surat-theme-dark .ayah-card-container.is-pinned .ayah-surface,
-.surat-premium.surat-theme-dark .highlighted .ayah-surface,
 .surat-premium.surat-theme-dark.memorisation-mode .ayah-surface,
 .surat-premium.surat-theme-dark.performance-optimized .ayah-surface {
     background: var(--surat-flat-surface) !important;
@@ -37692,8 +37550,7 @@ h1.display-5 {
 }
 
 .surat-premium.surat-theme-dark .ayah-card-container:hover .ayah-surface,
-.surat-premium.surat-theme-dark .ayah-card-container.is-pinned .ayah-surface,
-.surat-premium.surat-theme-dark .highlighted .ayah-surface {
+.surat-premium.surat-theme-dark .ayah-card-container.is-pinned .ayah-surface {
     background: var(--surat-flat-surface-strong) !important;
     border-top-color: rgba(255, 255, 255, 0.24) !important;
 }
@@ -38377,52 +38234,7 @@ h1.display-5 {
     background: none !important;
 }
 
-.surat-premium :deep(.advanced-search-highlight),
-.surat-premium .highlight-search,
-.surat-premium .translation-compare-highlight,
-.surat-premium .translation-compare-highlight-a,
-.surat-premium .translation-compare-highlight-b,
-.surat-dark-modal.translation-compare-modal .translation-compare-highlight,
-.surat-dark-modal.translation-compare-modal .translation-compare-highlight-a,
-.surat-dark-modal.translation-compare-modal .translation-compare-highlight-b {
-    border-radius: 0.32rem !important;
-    box-shadow: none !important;
-    padding: 0 0.14em !important;
-}
 
-.surat-premium :deep(.advanced-search-highlight),
-.surat-premium .highlight-search,
-.surat-premium .translation-compare-highlight {
-    background: rgba(87, 170, 161, 0.28) !important;
-    color: #0b3f37 !important;
-}
-
-.surat-premium .translation-compare-highlight-a {
-    background: rgba(96, 165, 250, 0.24) !important;
-    color: #1e3a8a !important;
-}
-
-.surat-premium .translation-compare-highlight-b {
-    background: rgba(74, 222, 128, 0.24) !important;
-    color: #065f46 !important;
-}
-
-.surat-dark-modal.translation-compare-modal .translation-compare-highlight,
-.surat-premium.surat-theme-dark :deep(.advanced-search-highlight),
-.surat-premium.surat-theme-dark .highlight-search {
-    background: rgba(87, 170, 161, 0.38) !important;
-    color: #f8fffd !important;
-}
-
-.surat-dark-modal.translation-compare-modal .translation-compare-highlight-a {
-    background: rgba(96, 165, 250, 0.34) !important;
-    color: #f8fbff !important;
-}
-
-.surat-dark-modal.translation-compare-modal .translation-compare-highlight-b {
-    background: rgba(74, 222, 128, 0.34) !important;
-    color: #f8fff9 !important;
-}
 
 .surat-premium .quran-toolbar-btn-toggle.is-enabled,
 .surat-premium .advanced-quran-mobile-action-btn.is-enabled:not(.advanced-quran-mobile-action-btn-memorisation):not(.advanced-quran-mobile-action-btn-open-tools),
@@ -39010,6 +38822,96 @@ h1.display-5 {
         opacity: 1;
         transform: translateX(-50%) translateY(0) scale(1);
     }
+}
+
+/* Memorisation coming soon modal */
+.memorisation-coming-soon-modal {
+    border: 0;
+    border-radius: 18px;
+    background: #ffffff;
+    color: #0f172a;
+    box-shadow: 0 30px 70px -40px rgba(15, 23, 42, 0.44);
+    overflow: hidden;
+}
+
+.memorisation-coming-soon-modal.is-dark-theme {
+    background: #12151a;
+    color: rgba(255, 255, 255, 0.92);
+    box-shadow: 0 34px 80px -46px rgba(0, 0, 0, 0.78);
+}
+
+.memorisation-coming-soon-header {
+    border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+    padding: 1rem 1rem;
+}
+
+.memorisation-coming-soon-modal.is-dark-theme .memorisation-coming-soon-header {
+    border-bottom-color: rgba(255, 255, 255, 0.08);
+}
+
+.memorisation-coming-soon-title-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.memorisation-coming-soon-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 14px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(11, 107, 89, 0.14);
+    color: #0b6b59;
+}
+
+.memorisation-coming-soon-modal.is-dark-theme .memorisation-coming-soon-icon {
+    background: rgba(116, 198, 188, 0.18);
+    color: #74c6bc;
+}
+
+.memorisation-coming-soon-icon i {
+    font-size: 1.25rem;
+}
+
+.memorisation-coming-soon-subtitle {
+    font-size: 0.86rem;
+    font-weight: 600;
+    color: rgba(15, 23, 42, 0.6);
+}
+
+.memorisation-coming-soon-modal.is-dark-theme .memorisation-coming-soon-subtitle {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.memorisation-coming-soon-body {
+    padding: 1rem 1rem 1.15rem;
+}
+
+.memorisation-coming-soon-lead {
+    font-size: 0.95rem;
+    color: rgba(15, 23, 42, 0.78);
+}
+
+.memorisation-coming-soon-modal.is-dark-theme .memorisation-coming-soon-lead {
+    color: rgba(255, 255, 255, 0.74);
+}
+
+.memorisation-coming-soon-list {
+    padding-left: 1.1rem;
+    display: grid;
+    gap: 0.35rem;
+    margin: 0;
+}
+
+.memorisation-coming-soon-footer {
+    border-top: 1px solid rgba(15, 23, 42, 0.08);
+    padding: 0.9rem 1rem 1rem;
+}
+
+.memorisation-coming-soon-modal.is-dark-theme .memorisation-coming-soon-footer {
+    border-top-color: rgba(255, 255, 255, 0.08);
 }
 
 .audio-player-left,
@@ -39781,50 +39683,10 @@ h1.display-5 {
     }
 }
 
-.surat-premium .ayah-card-container.currently-playing {
-    position: relative;
-    overflow: visible !important;
-    isolation: isolate;
-    z-index: 1;
-}
-
-.surat-premium .ayah-card-container.currently-playing::before {
-    content: "";
-    position: absolute;
-    top: 18px;
-    bottom: -18px;
-    left: -12px;
-    right: -12px;
-    border-radius: 22px;
-    background: radial-gradient(
-        circle at 18% 12%,
-        rgba(15, 118, 110, 0.18),
-        rgba(15, 118, 110, 0.08) 55%,
-        rgba(15, 118, 110, 0) 100%
-    );
-    box-shadow: 0 18px 48px rgba(15, 118, 110, 0.28);
-    z-index: 0;
-    pointer-events: none;
-}
-
-.surat-premium .ayah-card-container.currently-playing .ayah-surface {
-    position: relative;
-    z-index: 1;
-    padding-top: 2.2rem !important;
-    padding-bottom: 1.9rem !important;
-}
-
-.surat-premium.surat-theme-dark .ayah-card-container.currently-playing::before {
-    background: radial-gradient(
-        circle at 18% 12%,
-        rgba(45, 212, 191, 0.18),
-        rgba(2, 6, 23, 0.55) 58%,
-        rgba(2, 6, 23, 0) 100%
-    );
-    box-shadow: 0 22px 56px rgba(45, 212, 191, 0.2);
-}
-
-.surat-premium.surat-theme-dark .ayah-card-container.currently-playing .ayah-surface {
-    position: relative;
-    z-index: 1;
+/* Prevent Arabic glyphs/diacritics from being clipped in the surah title row. */
+.surat-premium .quran-toolbar-surah-identity-ar,
+.surat-premium .quran-toolbar-surah-identity-mobile .quran-toolbar-surah-identity-ar {
+    line-height: 1.22 !important;
+    padding-top: 0.05em !important;
+    padding-bottom: 0.18em !important;
 }

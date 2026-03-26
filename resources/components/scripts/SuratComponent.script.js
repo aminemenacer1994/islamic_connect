@@ -586,15 +586,12 @@ export default {
             tafsirModalReference: "",
             tafsirModalHiddenHandler: null,
             isTafsirModalOpen: false,
-	            showTajweed: false,
-	            showRealtimeHighlighting: false,
-	            highlightPlayingAyahEnabled: false,
-	            showWordTranslation: false,
-	            showWordTranslationTooltip: false,
-	            gestureNavigationEnabled: true,
+		            showTajweed: false,
+		            showWordTranslation: false,
+		            showWordTranslationTooltip: false,
+		            gestureNavigationEnabled: true,
             toolbarScrollEnabled: true,
-            realtimeHighlightPreferenceKey: "surat_realtime_highlighting",
-            wordTranslationPreferenceKey: "surat_show_word_translation",
+	            wordTranslationPreferenceKey: "surat_show_word_translation",
             wordTranslationTooltipPreferenceKey:
                 "surat_show_word_translation_tooltip",
             gestureNavigationPreferenceKey: "suratGestureNavigationEnabled",
@@ -644,15 +641,13 @@ export default {
             suppressPlaybackScrollOnce: false,
             playlistSinglePlayMode: false,
             isSingleWordPreviewActive: false,
-            isHighlighted: false,
-            showScrollTop: false,
+	            showScrollTop: false,
             isPerformanceModeEnabled: true,
             // scrubbing state
             isScrubbing: false,
             _boundMove: null,
             _boundUp: null,
-            wordTimings: [],
-            isLoading: false,
+	            isLoading: false,
             isNavigating: false, // Prevents scroll conflicts during jumps
             headerCollapsed: false, // Controls whether the toolbar/links are visible
             isToolbarPinned: false,
@@ -689,25 +684,14 @@ export default {
                     label: "Play single ayah manually",
                     description: "Listen to one ayah at a time and tap play again when you are ready."
                 },
-            ],
-            highlightLeadSeconds: 0.05,
-            _lastSegmentIndex: -1,
-            currentAudioIndex: -1,
-            reciterLeadOffsets: {},
-            reciterDefaultLeadOffsets: {
-                "ar.abdulbasitmurattal": 0.05,
-                "ar.abdurrahmaansudais": 0.05,
-                "ar.hanirifai": 0.05,
-                "ar.husary": 0.05,
-                "ar.alafasy": 0.05,
-                "ar.minshawi": 0.05,
-                "ar.saoodshuraym": 0.05,
-            },
-            reciterTimingMap: {
-                "ar.abdulbasitmurattal": 2,
-                "ar.abdurrahmaansudais": 3,
-                "ar.hanirifai": 5,
-                "ar.husary": 6,
+	            ],
+		            _lastSegmentIndex: -1,
+	            currentAudioIndex: -1,
+	            reciterTimingMap: {
+	                "ar.abdulbasitmurattal": 2,
+	                "ar.abdurrahmaansudais": 3,
+	                "ar.hanirifai": 5,
+	                "ar.husary": 6,
                 "ar.alafasy": 7,
                 "ar.minshawi": 9,
                 "ar.saoodshuraym": 10,
@@ -1142,11 +1126,10 @@ export default {
                 rangeLoopDelay: 3,
                 rangeLoopDelayIsCustom: false,
                 rangeLoopShowCountdown: true,
-                rangeLoopAlertSound: "off",
-                showTajweed: false,
-                showRealtimeHighlighting: false,
-                showWordTranslation: false,
-                showWordTranslationTooltip: false,
+	                rangeLoopAlertSound: "off",
+	                showTajweed: false,
+	                showWordTranslation: false,
+	                showWordTranslationTooltip: false,
                 repeatAfterReciterEnabled: false,
                 repeatAfterReciterPauseMode: "3",
                 repeatAfterReciterShowTranslation: true,
@@ -1239,14 +1222,13 @@ export default {
                 reviewVerseRatio: 30,
                 restDays: [5],
             },
-            settingsDraft: {
-                showReaderToolbar: true,
-                showTajweed: false,
-                showRealtimeHighlighting: false,
-                showWordTranslation: false,
-                showWordTranslationTooltip: false,
-                gestureNavigationEnabled: true,
-                toolbarScrollEnabled: true,
+	            settingsDraft: {
+	                showReaderToolbar: true,
+	                showTajweed: false,
+	                showWordTranslation: false,
+	                showWordTranslationTooltip: false,
+	                gestureNavigationEnabled: true,
+	                toolbarScrollEnabled: true,
                 playbackMode: "continuous",
             },
             tajweedRuleMap: {
@@ -4869,13 +4851,11 @@ export default {
                 clearTimeout(this.surahAudioDownloadedTimer);
                 this.surahAudioDownloadedTimer = null;
                 this.writeScopedFontPreference("suratSelectedReciter", newVal);
-                this.isLoading = true;
-                this.savePreference("selectedReciter", newVal);
-                this.highlightLeadSeconds = this.getReciterLeadOffset(newVal);
-                this.currentlyPlayingIndex = 0;
-                this.isHighlighted = false;
-                this.translationLazyRequestToken =
-                    Number(this.translationLazyRequestToken || 0) + 1;
+	                this.isLoading = true;
+	                this.savePreference("selectedReciter", newVal);
+	                this.currentlyPlayingIndex = 0;
+	                this.translationLazyRequestToken =
+	                    Number(this.translationLazyRequestToken || 0) + 1;
                 this.setTranslationLazyState({
                     surahNumber: String(this.selectedSurah || ""),
                     translationId: String(this.selectedTranslation || ""),
@@ -4901,11 +4881,10 @@ export default {
                     "suratSelectedTranslation",
                     newVal
                 );
-                this.savePreference("selectedTranslation", newVal);
-                this.currentlyPlayingIndex = 0;
-                this.isHighlighted = false;
-                this.translationLazyRequestToken =
-                    Number(this.translationLazyRequestToken || 0) + 1;
+	                this.savePreference("selectedTranslation", newVal);
+	                this.currentlyPlayingIndex = 0;
+	                this.translationLazyRequestToken =
+	                    Number(this.translationLazyRequestToken || 0) + 1;
                 this.setTranslationLazyState({
                     surahNumber: String(
                         this.surahDetails?.surahNumber || this.selectedSurah || ""
@@ -4968,11 +4947,10 @@ export default {
                     loading: false,
                     error: "",
                 });
-                this.savePreference("selectedSurah", newVal);
-                this.currentlyPlayingIndex = 0;
-                this.isHighlighted = false;
+	                this.savePreference("selectedSurah", newVal);
+	                this.currentlyPlayingIndex = 0;
 
-                this.fetchSurahDetails()
+	                this.fetchSurahDetails()
                     .then(() => {
                         this.resetAllAudioPlayers();
                         this.isLoading = false;
@@ -5169,14 +5147,6 @@ export default {
             try {
                 this.writeScopedBooleanPreference("suratShowTajweed", next);
             } catch (_) { }
-            const index = this.currentlyPlayingIndex;
-            const audio = this.audioElements[index];
-            const ayah = this.filteredAyahs[index];
-            if (audio && ayah && audio.duration) {
-                this.updateWordTimings(ayah, audio.duration);
-            }
-            this._lastHighlightIndex = -1;
-            this.clearActiveWordHighlight();
         },
         toolbarScrollEnabled(next) {
             try {
@@ -5202,43 +5172,6 @@ export default {
                 this.isMobileToolbarExpanded = false;
             }
             this.scheduleLayoutRefresh({ recalibrate: false });
-        },
-        showRealtimeHighlighting(next) {
-            try {
-                this.writeScopedBooleanPreference(
-                    "suratShowRealtimeHighlighting",
-                    next
-                );
-            } catch (_) { }
-            if (this.bookmarkAuthenticated) {
-                this.savePreference(this.realtimeHighlightPreferenceKey, {
-                    enabled: !!next,
-                });
-            }
-            if (!next) {
-                this.stopHighlightLoop();
-                return;
-            }
-            this._lastHighlightIndex = -1;
-            if (
-                typeof this.currentAudioIndex !== "number" ||
-                this.currentAudioIndex < 0
-            ) {
-                const playingIndex = Array.isArray(this.isAudioPlaying)
-                    ? this.isAudioPlaying.findIndex(Boolean)
-                    : -1;
-                if (playingIndex >= 0) {
-                    this.currentAudioIndex = playingIndex;
-                }
-            }
-            const idx =
-                typeof this.currentAudioIndex === "number" &&
-                this.currentAudioIndex >= 0
-                    ? this.currentAudioIndex
-                    : this.currentlyPlayingIndex;
-            if (this.isAudioPlaying[idx]) {
-                this.startHighlightLoop();
-            }
         },
         showWordTranslation(next) {
             try {
@@ -5599,14 +5532,13 @@ export default {
         this.quranFontDraftId = this.selectedQuranFontId;
         this.storedQuranFontStack = storedFontStack || "";
         this.preloadTajweedRuleVerses();
-        this.quranFonts = this.getQuranComFonts();
-        this.ensureSelectedQuranFont();
-        this.currentlyPlayingIndex = 0;
-        this.isHighlighted = false;
-        try {
-            const storedContinuousPlayback = this.readScopedPreferenceWithLegacy(
-                "continuousPlayback"
-            );
+	        this.quranFonts = this.getQuranComFonts();
+	        this.ensureSelectedQuranFont();
+	        this.currentlyPlayingIndex = 0;
+	        try {
+	            const storedContinuousPlayback = this.readScopedPreferenceWithLegacy(
+	                "continuousPlayback"
+	            );
             this.continuousPlayback =
                 JSON.parse(storedContinuousPlayback || "false") ?? false;
         } catch (_) {
@@ -5666,15 +5598,9 @@ export default {
             this.showWordTranslationTooltip =
                 storedWordTranslationTooltip === "1";
         }
-        const storedRealtimeHighlighting = this.readScopedPreferenceWithLegacy(
-            "suratShowRealtimeHighlighting"
-        );
-        if (storedRealtimeHighlighting !== null) {
-            this.showRealtimeHighlighting = storedRealtimeHighlighting === "1";
-        }
-        const storedGestureNavigation = this.readScopedPreferenceWithLegacy(
-            this.gestureNavigationPreferenceKey
-        );
+	        const storedGestureNavigation = this.readScopedPreferenceWithLegacy(
+	            this.gestureNavigationPreferenceKey
+	        );
         if (storedGestureNavigation !== null) {
             this.gestureNavigationEnabled = storedGestureNavigation === "1";
         }
@@ -5731,13 +5657,9 @@ export default {
                 }
                 this.isNavigating = false;
             });
-        this.loadReciterLeadOffsets();
-        this.highlightLeadSeconds = this.getReciterLeadOffset(
-            this.selectedReciter
-        );
-        this.ensureTranslationCompareSelection({
-            includeSelectedTranslation: true,
-        });
+	        this.ensureTranslationCompareSelection({
+	            includeSelectedTranslation: true,
+	        });
         this.prepareSettingsDraft();
         this.populateMemorisationDraft();
         this.sessionHistoryCalendarMonthKey = this.toMonthKey(new Date());
@@ -5862,8 +5784,7 @@ export default {
                     "--memorisation-panel-absolute-top"
                 );
             } catch (_) {}
-            this.stopHighlightLoop();
-            this.clearWordPreviewStopTimer();
+	            this.clearWordPreviewStopTimer();
             this.unbindAudioPlayerLayoutObserver();
             this.clearSuratThemeSwitchTimer();
             this.syncSuratThemeSwitchingBodyClass(false);
@@ -6210,10 +6131,9 @@ export default {
         this.disposeHifdhTooltips();
         this.clearHifdhConfettiLayers();
     },
-        beforeDestroy() {
-            this.finalizeSessionHistoryEntry("inactive");
-            this.stopHighlightLoop();
-            this.unbindAudioPlayerLayoutObserver();
+	        beforeDestroy() {
+	            this.finalizeSessionHistoryEntry("inactive");
+	            this.unbindAudioPlayerLayoutObserver();
             this.clearSuratThemeSwitchTimer();
             this.syncSuratThemeSwitchingBodyClass(false);
             this.syncSuratThemeBodyClass(false);
@@ -8925,14 +8845,13 @@ export default {
                 rangeLoopDelayIsCustom:
                     !rangeLoopDelayPresets.includes(rangeLoopDelay),
                 rangeLoopShowCountdown: !!this.memorisationRangeLoopShowCountdown,
-                rangeLoopAlertSound:
-                    this.normaliseMemorisationRangeLoopAlertSound(
-                        this.memorisationRangeLoopAlertSound
-                    ),
-                showTajweed: !!this.showTajweed,
-                showRealtimeHighlighting: !!this.showRealtimeHighlighting,
-                showWordTranslation: !!this.showWordTranslation,
-                showWordTranslationTooltip: !!this.showWordTranslationTooltip,
+	                rangeLoopAlertSound:
+	                    this.normaliseMemorisationRangeLoopAlertSound(
+	                        this.memorisationRangeLoopAlertSound
+	                    ),
+	                showTajweed: !!this.showTajweed,
+	                showWordTranslation: !!this.showWordTranslation,
+	                showWordTranslationTooltip: !!this.showWordTranslationTooltip,
                 repeatAfterReciterEnabled: !!this.memorisationRepeatAfterEnabled,
                 repeatAfterReciterPauseMode:
                     this.normaliseMemorisationRepeatAfterPauseMode(
@@ -9029,13 +8948,12 @@ export default {
                 translationVisibility: {
                     ...(this.translationVisibility || {}),
                 },
-                transliterationVisibility: {
-                    ...(this.transliterationVisibility || {}),
-                },
-                showTajweed: !!this.showTajweed,
-                showRealtimeHighlighting: !!this.showRealtimeHighlighting,
-                showWordTranslation: !!this.showWordTranslation,
-                showWordTranslationTooltip: !!this.showWordTranslationTooltip,
+	                transliterationVisibility: {
+	                    ...(this.transliterationVisibility || {}),
+	                },
+	                showTajweed: !!this.showTajweed,
+	                showWordTranslation: !!this.showWordTranslation,
+	                showWordTranslationTooltip: !!this.showWordTranslationTooltip,
                 memorisationRepeatAfterEnabled:
                     !!this.memorisationRepeatAfterEnabled,
                 memorisationRepeatAfterPauseMode:
@@ -9146,11 +9064,10 @@ export default {
                 },
                 transliterationVisibility: {
                     ...(this.transliterationVisibility || {}),
-                },
-                showTajweed: !!this.showTajweed,
-                showRealtimeHighlighting: !!this.showRealtimeHighlighting,
-                showWordTranslation: !!this.showWordTranslation,
-                showWordTranslationTooltip: !!this.showWordTranslationTooltip,
+	                },
+	                showTajweed: !!this.showTajweed,
+	                showWordTranslation: !!this.showWordTranslation,
+	                showWordTranslationTooltip: !!this.showWordTranslationTooltip,
                 memorisationRepeatAfterEnabled:
                     !!this.memorisationRepeatAfterEnabled,
                 memorisationRepeatAfterPauseMode:
@@ -9396,20 +9313,18 @@ export default {
                     this.transliterationVisibility = {
                         ...snapshot.transliterationVisibility,
                     };
-                }
-                this.showTajweed = !!snapshot.showTajweed;
-                this.showRealtimeHighlighting = !!snapshot.showRealtimeHighlighting;
-                this.showWordTranslation = !!snapshot.showWordTranslation;
-                this.showWordTranslationTooltip =
-                    !!snapshot.showWordTranslationTooltip;
-                this.prepareSettingsDraft();
-                if (
-                    this.showWordTranslation ||
-                    this.showWordTranslationTooltip ||
-                    this.showRealtimeHighlighting
-                ) {
-                    this.enrichSurahWithQuranSegments();
-                }
+	                }
+	                this.showTajweed = !!snapshot.showTajweed;
+	                this.showWordTranslation = !!snapshot.showWordTranslation;
+	                this.showWordTranslationTooltip =
+	                    !!snapshot.showWordTranslationTooltip;
+	                this.prepareSettingsDraft();
+	                if (
+	                    this.showWordTranslation ||
+	                    this.showWordTranslationTooltip
+	                ) {
+	                    this.enrichSurahWithQuranSegments();
+	                }
                 restored = true;
             } catch (error) {
                 console.error("Unable to restore memorisation snapshot:", error);
@@ -9509,13 +9424,12 @@ export default {
                 rangeLoopShowCountdown: !!draft.rangeLoopShowCountdown,
                 rangeLoopAlertSound: validRangeLoopAlertSounds.includes(
                     rangeLoopAlertSoundRaw
-                )
-                    ? rangeLoopAlertSoundRaw
-                    : "off",
-                showTajweed: !!draft.showTajweed,
-                showRealtimeHighlighting: !!draft.showRealtimeHighlighting,
-                showWordTranslation: !!draft.showWordTranslation,
-                showWordTranslationTooltip: !!draft.showWordTranslationTooltip,
+	                )
+	                    ? rangeLoopAlertSoundRaw
+	                    : "off",
+	                showTajweed: !!draft.showTajweed,
+	                showWordTranslation: !!draft.showWordTranslation,
+	                showWordTranslationTooltip: !!draft.showWordTranslationTooltip,
                 repeatAfterReciterEnabled: !!draft.repeatAfterReciterEnabled,
                 repeatAfterReciterPauseMode:
                     this.normaliseMemorisationRepeatAfterPauseMode(
@@ -9671,10 +9585,9 @@ export default {
                         rangeEnd: 260,
                         playbackSpeed: 0.75,
                         repetitionCount: 5,
-                        playbackMode: "continuous",
-                        showTajweed: true,
-                        showRealtimeHighlighting: true,
-                        chainingMethodEnabled: true,
+	                        playbackMode: "continuous",
+	                        showTajweed: true,
+	                        chainingMethodEnabled: true,
                         chainingMethodMode: "bridging",
                         chainingMethodRepetitionStrategy: "5",
                         chainingMethodAudioGuidance: "qari-first",
@@ -9726,10 +9639,9 @@ export default {
                         playbackMode: "repeat",
                         rangeLoopEnabled: true,
                         rangeLoopDelay: 2,
-                        rangeLoopShowCountdown: true,
-                        showTajweed: true,
-                        showRealtimeHighlighting: true,
-                        sessionHistoryEnabled: true,
+	                        rangeLoopShowCountdown: true,
+	                        showTajweed: true,
+	                        sessionHistoryEnabled: true,
                         translationVisible: true,
                     }),
                 },
@@ -10042,16 +9954,13 @@ export default {
                 ),
                 rangeLoopAlertSound: validRangeLoopAlertSounds.includes(
                     rangeLoopAlertSoundRaw
-                )
-                    ? rangeLoopAlertSoundRaw
-                    : "off",
-                showTajweed: !!(config.showTajweed ?? this.showTajweed),
-                showRealtimeHighlighting: !!(
-                    config.showRealtimeHighlighting ?? this.showRealtimeHighlighting
-                ),
-                showWordTranslation: !!(
-                    config.showWordTranslation ?? this.showWordTranslation
-                ),
+	                )
+	                    ? rangeLoopAlertSoundRaw
+	                    : "off",
+	                showTajweed: !!(config.showTajweed ?? this.showTajweed),
+	                showWordTranslation: !!(
+	                    config.showWordTranslation ?? this.showWordTranslation
+	                ),
                 showWordTranslationTooltip: !!(
                     config.showWordTranslationTooltip ??
                     this.showWordTranslationTooltip
@@ -10164,8 +10073,7 @@ export default {
                       rangeLoopAlertSound:
                           this.memorisationRangeLoopAlertSound || "off",
                       showTajweed: !!this.showTajweed,
-                      showRealtimeHighlighting: !!this.showRealtimeHighlighting,
-                      showWordTranslation: !!this.showWordTranslation,
+	                      showWordTranslation: !!this.showWordTranslation,
                       showWordTranslationTooltip:
                           !!this.showWordTranslationTooltip,
                       repeatAfterReciterEnabled:
@@ -10257,10 +10165,9 @@ export default {
                     this.normaliseMemorisationRangeLoopAlertSound(
                         config.rangeLoopAlertSound
                     ),
-                showTajweed: !!config.showTajweed,
-                showRealtimeHighlighting: !!config.showRealtimeHighlighting,
-                showWordTranslation: !!config.showWordTranslation,
-                showWordTranslationTooltip: !!config.showWordTranslationTooltip,
+	                showTajweed: !!config.showTajweed,
+	                showWordTranslation: !!config.showWordTranslation,
+	                showWordTranslationTooltip: !!config.showWordTranslationTooltip,
                 repeatAfterReciterEnabled: !!config.repeatAfterReciterEnabled,
                 repeatAfterReciterPauseMode:
                     this.normaliseMemorisationRepeatAfterPauseMode(
@@ -10848,16 +10755,15 @@ export default {
                     );
                 this.memorisationSessionHistoryEnabled =
                     !!config.sessionHistoryEnabled;
-                this.resetMemorisationChainingProgress({
-                    stopAudio: false,
-                    preserveCompleted: false,
-                });
-                this.isBlurNextAyahEnabled = !!config.blurNextAyah;
-                this.showTajweed = !!config.showTajweed;
-                this.showRealtimeHighlighting = !!config.showRealtimeHighlighting;
-                this.showWordTranslation = !!config.showWordTranslation;
-                this.showWordTranslationTooltip =
-                    !!config.showWordTranslationTooltip;
+	                this.resetMemorisationChainingProgress({
+	                    stopAudio: false,
+	                    preserveCompleted: false,
+	                });
+	                this.isBlurNextAyahEnabled = !!config.blurNextAyah;
+	                this.showTajweed = !!config.showTajweed;
+	                this.showWordTranslation = !!config.showWordTranslation;
+	                this.showWordTranslationTooltip =
+	                    !!config.showWordTranslationTooltip;
                 this.applyGlobalTextVisibility({
                     translation: !!config.translationVisible,
                     transliteration: !!config.transliterationVisible,
@@ -10870,14 +10776,13 @@ export default {
                 ) {
                     this.handleVerseCountdownCompletion();
                 }
-                this.prepareSettingsDraft();
-                if (
-                    config.showWordTranslation ||
-                    config.showWordTranslationTooltip ||
-                    config.showRealtimeHighlighting
-                ) {
-                    this.enrichSurahWithQuranSegments();
-                }
+	                this.prepareSettingsDraft();
+	                if (
+	                    config.showWordTranslation ||
+	                    config.showWordTranslationTooltip
+	                ) {
+	                    this.enrichSurahWithQuranSegments();
+	                }
                 this.persistMemorisationPreviousSession(
                     this.buildCurrentMemorisationSessionSnapshot()
                 );
@@ -11256,34 +11161,20 @@ export default {
                 dropdown.removeAttribute("open");
             }
         },
-        onMemorisationToolbarToggleRangeLoop(nextValue = null) {
-            this.memorisationRangeLoopEnabled =
-                typeof nextValue === "boolean"
-                    ? nextValue
-                    : !this.memorisationRangeLoopEnabled;
+	        onMemorisationToolbarToggleRangeLoop(nextValue = null) {
+	            this.memorisationRangeLoopEnabled =
+	                typeof nextValue === "boolean"
+	                    ? nextValue
+	                    : !this.memorisationRangeLoopEnabled;
             if (!this.memorisationRangeLoopEnabled) {
                 this.clearMemorisationRangeLoopRestartState();
             }
-            this.syncMemorisationDraftFromCurrentSession();
-        },
-        onMemorisationToolbarToggleRealtimeHighlighting(nextValue = null) {
-            this.showRealtimeHighlighting =
-                typeof nextValue === "boolean"
-                    ? nextValue
-                    : !this.showRealtimeHighlighting;
-            if (
-                this.showRealtimeHighlighting ||
-                this.showWordTranslation ||
-                this.showWordTranslationTooltip
-            ) {
-                this.enrichSurahWithQuranSegments();
-            }
-            this.syncMemorisationDraftFromCurrentSession();
-        },
-        getDefaultMemorisationReciterIdentifier() {
-            const preferredReciter = "ar.alafasy";
-            const availableReciters = Array.isArray(this.recitersSorted)
-                ? this.recitersSorted
+	            this.syncMemorisationDraftFromCurrentSession();
+	        },
+	        getDefaultMemorisationReciterIdentifier() {
+	            const preferredReciter = "ar.alafasy";
+	            const availableReciters = Array.isArray(this.recitersSorted)
+	                ? this.recitersSorted
                 : [];
             const hasPreferred = availableReciters.some(
                 (reciter) =>
@@ -11321,11 +11212,10 @@ export default {
                 rangeLoopAlertSound: "off",
                 blurNextAyah: false,
                 translationVisible: false,
-                transliterationVisible: false,
-                showTajweed: false,
-                showRealtimeHighlighting: false,
-                showWordTranslation: false,
-                showWordTranslationTooltip: false,
+	                transliterationVisible: false,
+	                showTajweed: false,
+	                showWordTranslation: false,
+	                showWordTranslationTooltip: false,
                 repeatAfterReciterEnabled: false,
                 repeatAfterReciterPauseMode: "3",
                 repeatAfterReciterShowTranslation: true,
@@ -11459,14 +11349,12 @@ export default {
                 this.resetMemorisationChainingProgress({
                     stopAudio: false,
                     preserveCompleted: false,
-                });
-                this.isBlurNextAyahEnabled = !!defaults.blurNextAyah;
-                this.showTajweed = !!defaults.showTajweed;
-                this.showRealtimeHighlighting =
-                    !!defaults.showRealtimeHighlighting;
-                this.showWordTranslation = !!defaults.showWordTranslation;
-                this.showWordTranslationTooltip =
-                    !!defaults.showWordTranslationTooltip;
+	                });
+	                this.isBlurNextAyahEnabled = !!defaults.blurNextAyah;
+	                this.showTajweed = !!defaults.showTajweed;
+	                this.showWordTranslation = !!defaults.showWordTranslation;
+	                this.showWordTranslationTooltip =
+	                    !!defaults.showWordTranslationTooltip;
                 this.applyGlobalTextVisibility({
                     translation: !!defaults.translationVisible,
                     transliteration: !!defaults.transliterationVisible,
@@ -11596,7 +11484,7 @@ export default {
         },
 	        async toggleMemorisationToolbar() {
 	            if (this.isMemorisationToolsComingSoon) {
-	                this.showToast("Memorisation tools are coming soon.", 3200);
+                    this.openMemorisationComingSoonModal();
 	                return;
 	            }
 	            if (this.isMemorisationToolbarVisible) {
@@ -11621,6 +11509,28 @@ export default {
             }
             this.persistMemorisationActivePresetId("");
             this.showModeToggleToast("Memorisation tools", true);
+        },
+        openMemorisationComingSoonModal() {
+            const el = this.$refs?.memorisationComingSoonModal;
+            if (
+                !el ||
+                typeof window === "undefined" ||
+                !(window.bootstrap && window.bootstrap.Modal)
+            ) {
+                this.showToast("Memorisation tools are coming soon.", 3200);
+                return;
+            }
+            try {
+                const instance =
+                    window.bootstrap.Modal.getInstance(el) ||
+                    window.bootstrap.Modal.getOrCreateInstance(el, {
+                        backdrop: true,
+                        focus: true,
+                    });
+                instance.show();
+            } catch (_) {
+                this.showToast("Memorisation tools are coming soon.", 3200);
+            }
         },
         toggleMemorisationAdvanced() {
             this.isMemorisationAdvancedOpen = !this.isMemorisationAdvancedOpen;
@@ -12220,22 +12130,6 @@ export default {
                 this.suratOnboardingFontSize -= 1;
             }
         },
-        highlightSuratOnboardingText(value) {
-            const safeValue = this.escapeHtml(value || "");
-            const terms = this.suratOnboardingSearchTerms;
-            if (!terms.length) return safeValue;
-
-            let highlighted = safeValue;
-            terms.forEach((term) => {
-                const regex = new RegExp(`(${this.escapeRegExp(term)})`, "gi");
-                highlighted = highlighted.replace(
-                    regex,
-                    '<span class="surat-onboarding-highlight">$1</span>'
-                );
-            });
-
-            return highlighted;
-        },
         getSpeechRecognitionErrorMessage(code = "") {
             const normalized = String(code || "").toLowerCase();
             if (normalized === "not-supported")
@@ -12517,24 +12411,6 @@ export default {
                 .split(/\s+/)
                 .map((term) => term.trim())
                 .filter(Boolean);
-        },
-        highlightAdvancedSearchText(text) {
-            const safeText = this.escapeHtml(text || "");
-            const terms = this.getAdvancedSearchTerms();
-            if (!terms.length) return safeText;
-
-            let highlighted = safeText;
-            terms.forEach((term) => {
-                const regex = new RegExp(
-                    `(${this.escapeRegExp(term)})`,
-                    "gi"
-                );
-                highlighted = highlighted.replace(
-                    regex,
-                    '<span class="advanced-search-highlight">$1</span>'
-                );
-            });
-            return highlighted;
         },
         readAdvancedSearchCache(cacheKey, ttlMs) {
             if (typeof window === "undefined") return null;
@@ -13064,14 +12940,13 @@ export default {
                 this.announce("Unable to open this ayah right now.");
             }
         },
-        prepareSettingsDraft() {
-            if (!this.settingsDraft) return;
-            this.settingsDraft.showReaderToolbar = !!this.showReaderToolbar;
-            this.settingsDraft.showTajweed = !!this.showTajweed;
-            this.settingsDraft.showRealtimeHighlighting = !!this.showRealtimeHighlighting;
-            this.settingsDraft.showWordTranslation = !!this.showWordTranslation;
-            this.settingsDraft.showWordTranslationTooltip =
-                !!this.showWordTranslationTooltip;
+	        prepareSettingsDraft() {
+	            if (!this.settingsDraft) return;
+	            this.settingsDraft.showReaderToolbar = !!this.showReaderToolbar;
+	            this.settingsDraft.showTajweed = !!this.showTajweed;
+	            this.settingsDraft.showWordTranslation = !!this.showWordTranslation;
+	            this.settingsDraft.showWordTranslationTooltip =
+	                !!this.showWordTranslationTooltip;
             this.settingsDraft.gestureNavigationEnabled =
                 !!this.gestureNavigationEnabled;
             this.settingsDraft.toolbarScrollEnabled =
@@ -13256,11 +13131,10 @@ export default {
                         rangeStart: 255,
                         rangeEnd: 260,
                         playbackSpeed: 0.75,
-                        repetitionCount: 5,
-                        playbackMode: "continuous",
-                        showTajweed: true,
-                        showRealtimeHighlighting: true,
-                        chainingMethodEnabled: true,
+	                        repetitionCount: 5,
+	                        playbackMode: "continuous",
+	                        showTajweed: true,
+	                        chainingMethodEnabled: true,
                         chainingMethodMode: "bridging",
                         chainingMethodRepetitionStrategy: "5",
                         chainingMethodAudioGuidance: "qari-first",
@@ -13325,11 +13199,10 @@ export default {
                         playbackMode: "repeat",
                         rangeLoopEnabled: true,
                         rangeLoopDelay: 2,
-                        rangeLoopShowCountdown: true,
-                        showTajweed: true,
-                        showRealtimeHighlighting: true,
-                        sessionHistoryEnabled: true,
-                        translationVisible: true,
+	                        rangeLoopShowCountdown: true,
+	                        showTajweed: true,
+	                        sessionHistoryEnabled: true,
+	                        translationVisible: true,
                     },
                 },
                 {
@@ -13507,15 +13380,14 @@ export default {
             if (normalized.rangeLoopEnabled) add("range-loop");
             if (normalized.verseCountdownEnabled) add("countdown");
             if (normalized.repeatAfterReciterRecordEnabled) add("recording");
-            if (
-                normalized.showWordTranslation ||
-                normalized.showWordTranslationTooltip
-            ) {
-                add("word-meaning");
-            }
-            if (normalized.showRealtimeHighlighting) add("live-highlight");
-            return enabled;
-        },
+	            if (
+	                normalized.showWordTranslation ||
+	                normalized.showWordTranslationTooltip
+	            ) {
+	                add("word-meaning");
+	            }
+	            return enabled;
+	        },
         resolveSessionHistoryAccuracyScore(config = {}) {
             const raw = Number(
                 config?.accuracyScore ?? config?.aiAccuracyScore ?? NaN
@@ -17759,14 +17631,13 @@ export default {
                 this.autoNextAnimationTimer = null;
             }, 520);
         },
-        applySettingsDraft() {
-            if (!this.settingsDraft) return;
-            this.showReaderToolbar = !!this.settingsDraft.showReaderToolbar;
-            this.showTajweed = !!this.settingsDraft.showTajweed;
-            this.showRealtimeHighlighting = !!this.settingsDraft.showRealtimeHighlighting;
-            this.showWordTranslation = !!this.settingsDraft.showWordTranslation;
-            this.showWordTranslationTooltip =
-                !!this.settingsDraft.showWordTranslationTooltip;
+	        applySettingsDraft() {
+	            if (!this.settingsDraft) return;
+	            this.showReaderToolbar = !!this.settingsDraft.showReaderToolbar;
+	            this.showTajweed = !!this.settingsDraft.showTajweed;
+	            this.showWordTranslation = !!this.settingsDraft.showWordTranslation;
+	            this.showWordTranslationTooltip =
+	                !!this.settingsDraft.showWordTranslationTooltip;
             this.gestureNavigationEnabled =
                 !!this.settingsDraft.gestureNavigationEnabled;
             this.toolbarScrollEnabled =
@@ -18761,15 +18632,14 @@ export default {
                     typeof snapshot.translationVisibility === "object"
                         ? { ...snapshot.translationVisibility }
                         : {},
-                transliterationVisibility:
-                    snapshot.transliterationVisibility &&
-                    typeof snapshot.transliterationVisibility === "object"
-                        ? { ...snapshot.transliterationVisibility }
-                        : {},
-                showTajweed: !!snapshot.showTajweed,
-                showRealtimeHighlighting: !!snapshot.showRealtimeHighlighting,
-                showWordTranslation: !!snapshot.showWordTranslation,
-                showWordTranslationTooltip: !!snapshot.showWordTranslationTooltip,
+	                transliterationVisibility:
+	                    snapshot.transliterationVisibility &&
+	                    typeof snapshot.transliterationVisibility === "object"
+	                        ? { ...snapshot.transliterationVisibility }
+	                        : {},
+	                showTajweed: !!snapshot.showTajweed,
+	                showWordTranslation: !!snapshot.showWordTranslation,
+	                showWordTranslationTooltip: !!snapshot.showWordTranslationTooltip,
                 memorisationRepeatAfterEnabled: !!(
                     snapshot.memorisationRepeatAfterEnabled ??
                     snapshot.repeatAfterReciterEnabled ??
@@ -19173,25 +19043,6 @@ export default {
             this.persistReaderFontSizePreferences();
             this.persistSurahInfoFontSizePreference();
             this.persistOnboardingFontSizePreference();
-        },
-        loadReciterLeadOffsets() {
-            try {
-                const stored = localStorage.getItem("reciterLeadOffsets");
-                this.reciterLeadOffsets = stored ? JSON.parse(stored) : {};
-            } catch (_) {
-                this.reciterLeadOffsets = {};
-            }
-        },
-        getReciterLeadOffset(reciterId) {
-            if (!reciterId) return this.highlightLeadSeconds;
-            const raw = this.reciterLeadOffsets[reciterId];
-            const parsed = Number(raw);
-            if (Number.isFinite(parsed)) return parsed;
-            const fallback = this.reciterDefaultLeadOffsets
-                ? this.reciterDefaultLeadOffsets[reciterId]
-                : null;
-            if (Number.isFinite(Number(fallback))) return Number(fallback);
-            return this.highlightLeadSeconds;
         },
         announce(message, timeout = 5000) {
             this.screenReaderMessage = message;
@@ -23502,16 +23353,15 @@ export default {
                 return false;
             }
         },
-        selectCard(index) {
-            this.selectedCardIndex = index;
-            this.currentlyPlayingIndex = index;
-            if (this.isMemorisationModeActive) this.memorisationFocusIndex = index;
-            if (this.isMemorisationToolbarVisible) {
-                this.memorisationLastWorkedIndex = index;
-                this.syncPreviousMemorisationSessionFocus(index);
-            }
-            this.isHighlighted = true;
-            const selectedAyah = this.filteredAyahs?.[index];
+	        selectCard(index) {
+	            this.selectedCardIndex = index;
+	            this.currentlyPlayingIndex = index;
+	            if (this.isMemorisationModeActive) this.memorisationFocusIndex = index;
+	            if (this.isMemorisationToolbarVisible) {
+	                this.memorisationLastWorkedIndex = index;
+	                this.syncPreviousMemorisationSessionFocus(index);
+	            }
+	            const selectedAyah = this.filteredAyahs?.[index];
             const selectedAyahJuz = Number(selectedAyah?.juz || 0);
             if (selectedAyahJuz) {
                 this.selectedJuz = selectedAyahJuz;
@@ -23935,39 +23785,6 @@ export default {
                 return ayah.wordTranslations.length;
             return this.getAyahBaseWords(ayah).length;
         },
-        getAyahHighlightOffset(ayah, audioWordCount) {
-            const baseWords = this.getAyahBaseWords(ayah);
-            const introCount = this.getAyahIntroWordCount(ayah, baseWords);
-            if (!introCount) return 0;
-            const displayCount = this.getAyahDisplayWords(ayah).length;
-            if (displayCount === audioWordCount + introCount) return introCount;
-            return 0;
-        },
-        getHighlightDisplayIndex(ayah, audioIndex, audioWordCount) {
-            const baseWords = this.getAyahBaseWords(ayah);
-            const introCount = this.getAyahIntroWordCount(ayah, baseWords);
-            const displayCount = this.getAyahDisplayWords(ayah).length;
-            if (!introCount) return audioIndex;
-            if (displayCount === audioWordCount) {
-                if (audioIndex < introCount) return null;
-                return audioIndex;
-            }
-            if (displayCount === audioWordCount + introCount)
-                return audioIndex + introCount;
-            return audioIndex;
-        },
-        updateWordTimings(ayah, duration) {
-            const wordCount = this.getAyahAudioWordCount(ayah);
-            if (wordCount > 0 && duration > 0) {
-                const step = duration / wordCount;
-                this.wordTimings = Array.from(
-                    { length: wordCount },
-                    (_, i) => i * step
-                );
-            } else {
-                this.wordTimings = [];
-            }
-        },
         getQuranRecitationId(reciterId) {
             if (!reciterId) return null;
             return this.reciterTimingMap
@@ -24068,170 +23885,6 @@ export default {
             } catch (error) {
                 console.warn("Unable to load Quran.com timing data:", error);
             }
-        },
-        startHighlightLoop() {
-            if (!this.showRealtimeHighlighting) return;
-            if (this._highlightRafId) return;
-            const step = () => {
-                if (
-                    typeof this.currentAudioIndex !== "number" ||
-                    this.currentAudioIndex < 0
-                ) {
-                    const playingIndex = Array.isArray(this.isAudioPlaying)
-                        ? this.isAudioPlaying.findIndex(Boolean)
-                        : -1;
-                    if (playingIndex >= 0) {
-                        this.currentAudioIndex = playingIndex;
-                    }
-                }
-                const idx =
-                    typeof this.currentAudioIndex === "number" &&
-                    this.currentAudioIndex >= 0
-                        ? this.currentAudioIndex
-                        : this.currentlyPlayingIndex;
-                if (!this.isAudioPlaying[idx]) {
-                    this.stopHighlightLoop();
-                    return;
-                }
-                const now = window.performance ? performance.now() : Date.now();
-                if (now - Number(this.lastHighlightFrameAt || 0) > 95) {
-                    this.lastHighlightFrameAt = now;
-                    this.updateHighlightFrame();
-                }
-                this._highlightRafId = requestAnimationFrame(step);
-            };
-            this._highlightRafId = requestAnimationFrame(step);
-        },
-        stopHighlightLoop() {
-            if (this._highlightRafId) {
-                cancelAnimationFrame(this._highlightRafId);
-                this._highlightRafId = null;
-            }
-            this._lastHighlightIndex = -1;
-            this.lastHighlightFrameAt = 0;
-            this.clearActiveWordHighlight();
-        },
-        updateHighlightFrame() {
-            const audio = this.currentlyPlaying;
-            if (!audio) return;
-            const duration = audio.duration || 0;
-            if (!duration || !isFinite(duration)) return;
-            if (
-                typeof this.currentAudioIndex !== "number" ||
-                this.currentAudioIndex < 0
-            ) {
-                const playingIndex = Array.isArray(this.isAudioPlaying)
-                    ? this.isAudioPlaying.findIndex(Boolean)
-                    : -1;
-                if (playingIndex >= 0) {
-                    this.currentAudioIndex = playingIndex;
-                }
-            }
-            const idx =
-                typeof this.currentAudioIndex === "number" &&
-                this.currentAudioIndex >= 0
-                    ? this.currentAudioIndex
-                    : this.currentlyPlayingIndex;
-            const ayah = this.filteredAyahs[idx];
-            const wordCount = this.getAyahAudioWordCount(ayah);
-            if (!wordCount) return;
-            const currentTime = audio.currentTime;
-            const lead = this.highlightLeadSeconds || 0;
-            const adjustedTime = Math.min(
-                duration,
-                Math.max(0, currentTime + lead)
-            );
-            let index = -1;
-            if (Array.isArray(ayah?.audioSegments) && ayah.audioSegments.length) {
-                const segments = ayah.audioSegments;
-                let segIndex = this._lastSegmentIndex;
-                if (segIndex >= 0 && segIndex < segments.length) {
-                    const seg = segments[segIndex];
-                    if (seg && adjustedTime >= seg.start && adjustedTime < seg.end) {
-                        index = seg.wordIndex;
-                    }
-                }
-                if (index === -1) {
-                    if (segIndex < 0) segIndex = 0;
-                    if (segments[segIndex] && adjustedTime >= segments[segIndex].end) {
-                        while (
-                            segIndex < segments.length - 1 &&
-                            adjustedTime >= segments[segIndex].end
-                        ) {
-                            segIndex += 1;
-                        }
-                    } else if (segments[segIndex] && adjustedTime < segments[segIndex].start) {
-                        while (
-                            segIndex > 0 &&
-                            adjustedTime < segments[segIndex].start
-                        ) {
-                            segIndex -= 1;
-                        }
-                    }
-                    const seg = segments[segIndex] || segments[segments.length - 1];
-                    if (seg) {
-                        index = seg.wordIndex;
-                        this._lastSegmentIndex = segIndex;
-                    }
-                }
-            } else if (this.wordTimings.length === wordCount) {
-                index = this.wordTimings.findIndex((t, i, arr) => {
-                    return (
-                        adjustedTime >= t &&
-                        (i === arr.length - 1 || adjustedTime < arr[i + 1])
-                    );
-                });
-            } else {
-                index = Math.min(
-                    wordCount - 1,
-                    Math.floor((adjustedTime / duration) * wordCount)
-                );
-            }
-            if (index === this._lastHighlightIndex) return;
-            this._lastHighlightIndex = index;
-            const targetIndex = this.getHighlightDisplayIndex(
-                ayah,
-                index,
-                wordCount
-            );
-            if (targetIndex == null) {
-                this.clearActiveWordHighlight();
-                return;
-            }
-            const displayCount = this.getAyahDisplayWords(ayah).length;
-            const clamped = Math.min(
-                displayCount - 1,
-                Math.max(0, targetIndex)
-            );
-            this.applyWordHighlight(clamped);
-        },
-        clearActiveWordHighlight() {
-            if (Array.isArray(this._lastHighlightEls)) {
-                this._lastHighlightEls.forEach((el) =>
-                    el.classList.remove("highlighted-word")
-                );
-            }
-            this._lastHighlightEls = [];
-        },
-        applyWordHighlight(wordIndex) {
-            const idx =
-                typeof this.currentAudioIndex === "number" &&
-                this.currentAudioIndex >= 0
-                    ? this.currentAudioIndex
-                    : this.currentlyPlayingIndex;
-            const card = document.getElementById(
-                `ayah-card-${idx}`
-            );
-            if (!card) return;
-            this.clearActiveWordHighlight();
-            const matches = Array.from(
-                card.querySelectorAll(
-                    `.arabic-text [data-word-index="${wordIndex}"]`
-                )
-            );
-            if (!matches.length) return;
-            matches.forEach((el) => el.classList.add("highlighted-word"));
-            this._lastHighlightEls = matches;
         },
         async onAyahWordClick(item, event) {
             if (Date.now() < (this.ayahCardSwipeSuppressClickUntil || 0)) {
@@ -24336,7 +23989,6 @@ export default {
                 active.pause();
                 this.isAudioPlaying[index] = false;
                 this.isAudioLoading[index] = false;
-                this.stopHighlightLoop();
                 this.isSingleWordPreviewActive = false;
                 this.wordPreviewStopTimer = null;
             }, Math.max(80, Math.round((delta / 1) * 1000)));
@@ -24389,15 +24041,13 @@ export default {
             if (!Number.isFinite(seekTo)) {
                 seekTo = (audioWordIndex / audioWordCount) * duration;
             }
-            const maxTime = Math.max(0, duration - 0.05);
-            const clampedStart = Math.min(maxTime, Math.max(0, seekTo));
-            audio.currentTime = clampedStart;
-            this.currentAudioIndex = index;
-            this._lastHighlightIndex = -1;
-            this.applyWordHighlight(displayWordIndex);
-            const fallbackStep = duration / Math.max(1, audioWordCount);
-            this.scheduleWordPreviewStop(
-                index,
+	            const maxTime = Math.max(0, duration - 0.05);
+	            const clampedStart = Math.min(maxTime, Math.max(0, seekTo));
+	            audio.currentTime = clampedStart;
+	            this.currentAudioIndex = index;
+	            const fallbackStep = duration / Math.max(1, audioWordCount);
+	            this.scheduleWordPreviewStop(
+	                index,
                 clampedStart,
                 Number.isFinite(segmentEnd) ? segmentEnd : null,
                 fallbackStep
@@ -24812,13 +24462,11 @@ export default {
                 this.showAudioPlayer = false;
                 this.showAudioPlayerQueuePanel = false;
             }
-            this.playlistSinglePlayMode = isPlaylistSinglePlay;
-            this.clearWordPreviewStopTimer();
-            this._lastHighlightIndex = -1;
-            this._lastSegmentIndex = -1;
-            this.clearActiveWordHighlight();
+	            this.playlistSinglePlayMode = isPlaylistSinglePlay;
+	            this.clearWordPreviewStopTimer();
+	            this._lastSegmentIndex = -1;
 
-            // Defer showing loading spinner to avoid flicker; only show if slow (>200ms)
+	            // Defer showing loading spinner to avoid flicker; only show if slow (>200ms)
             clearTimeout(this.loadingTimers[index]);
             this.loadingTimers[index] = setTimeout(() => {
                 this.$set
@@ -24915,7 +24563,6 @@ export default {
             this.currentlyPlayingIndex = index;
             this.currentAudioIndex = index;
             this.syncAudioPlayerMetrics(index);
-            this.isHighlighted = true;
             this.persistContinueProgress({
                 surahNumber: Number(
                     this.surahDetails?.surahNumber || this.selectedSurah
@@ -24934,9 +24581,8 @@ export default {
                 });
             }
 
-            // Setup metadata and word timing
+            // Setup metadata
             audio.onloadedmetadata = () => {
-                this.updateWordTimings(ayah, this.currentlyPlaying.duration);
                 this.syncAudioPlayerMetrics(index);
             };
 
@@ -24988,25 +24634,19 @@ export default {
                 );
             };
 
-            const markPlaying = () => {
-                if (!isCurrentPlayAttempt()) return;
-                clearTimeout(this.loadingTimers[index]);
-                this.isAudioPlaying[index] = true;
-                this.isAudioLoading[index] = false;
-                this.isHighlighted = true;
-                this.showAudioPlayer =
-                    this.bottomAudioPlayerEnabled &&
-                    this.isAudioPlayerVisible &&
-                    !isSingleWordPreview &&
-                    !hideAudioPlayer;
-                if (this.showRealtimeHighlighting) {
-                    this.startHighlightLoop();
-                } else {
-                    this.stopHighlightLoop();
-                }
-                if (!this.isMemorisationToolbarVisible && !this.isPerformanceModeEnabled) {
-                    this.animateVisualizer();
-                }
+	            const markPlaying = () => {
+	                if (!isCurrentPlayAttempt()) return;
+	                clearTimeout(this.loadingTimers[index]);
+	                this.isAudioPlaying[index] = true;
+	                this.isAudioLoading[index] = false;
+	                this.showAudioPlayer =
+	                    this.bottomAudioPlayerEnabled &&
+	                    this.isAudioPlayerVisible &&
+	                    !isSingleWordPreview &&
+	                    !hideAudioPlayer;
+	                if (!this.isMemorisationToolbarVisible && !this.isPerformanceModeEnabled) {
+	                    this.animateVisualizer();
+	                }
                 // Opportunistically warm next ayah
                 this.prepareNextAudio(index + 1);
             };
@@ -25161,7 +24801,6 @@ export default {
                 this.isAudioPlaying[index] = false;
                 this.isAudioLoading[index] = false;
                 this.syncAudioPlayerMetrics(index);
-                this.stopHighlightLoop();
             }
         },
         toggleAudioPlayer: function (index) {
@@ -25199,12 +24838,10 @@ export default {
                 this.isAudioPlaying[index] = false;
                 this.isAudioLoading[index] = false;
                 this.progress[index] = 0;
-                this.isHighlighted = false;
                 this.currentAudioIndex = -1;
                 if (Number(this.currentlyPlayingIndex) === Number(index)) {
                     this.resetAudioPlayerMetrics();
                 }
-                this.stopHighlightLoop();
             }
         },
         rewindAudio: function (index) {
@@ -25330,28 +24967,6 @@ export default {
                 (secs < 10 ? "0" : "") +
                 secs
             );
-        },
-        highlightText(text) {
-            if (!this.debouncedQuery.trim()) return text;
-
-            let highlightedText = text;
-
-            const escapeRegExp = (string) => {
-                return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-            };
-
-            const searchTerms = this.debouncedQuery.trim()
-                ? this.debouncedQuery.trim().split(/\s+/)
-                : [];
-            searchTerms.forEach((term) => {
-                const regex = new RegExp(`(${escapeRegExp(term)})`, "gi");
-                highlightedText = highlightedText.replace(
-                    regex,
-                    '<span class="highlight-search">$1</span>'
-                );
-            });
-
-            return highlightedText;
         },
         toggleVisibility: function () {
             this.isVisible = !this.isVisible;
@@ -27897,10 +27512,9 @@ export default {
                 this.selectedSurah = String(number);
                 this.savePreference("selectedSurah", this.selectedSurah);
                 
-                // Reset state
-                this.currentlyPlayingIndex = 0;
-                this.isHighlighted = false;
-                this.memorisationRangeStart = 1;
+	                // Reset state
+	                this.currentlyPlayingIndex = 0;
+	                this.memorisationRangeStart = 1;
                 this.memorisationRangeEnd = null;
                 
                 if (!skipScroll) {
@@ -28284,10 +27898,10 @@ export default {
                 });
             }
         },
-        closeAudioPlayer: function () {
-            if (this.currentlyPlayingIndex !== null) {
-                this.stopAudio(this.currentlyPlayingIndex);
-            }
+	        closeAudioPlayer: function () {
+	            if (this.currentlyPlayingIndex !== null) {
+	                this.stopAudio(this.currentlyPlayingIndex);
+	            }
             this.clearWordPreviewStopTimer();
             this.closeAudioPlayerMenu();
             this.showVolumeBar = false;
@@ -28296,10 +27910,9 @@ export default {
             this.audioQueueMinimized = false;
             this.currentlyPlayingIndex = 0;
             this.currentlyPlaying = null;
-            this.currentAudioIndex = -1;
-            this.resetAudioPlayerMetrics();
-            this.isHighlighted = false;
-        },
+	            this.currentAudioIndex = -1;
+	            this.resetAudioPlayerMetrics();
+	        },
         toggleAudioPlayerQueuePanel() {
             this.showAudioPlayerQueuePanel = !this.showAudioPlayerQueuePanel;
             if (this.showAudioPlayerQueuePanel) {
