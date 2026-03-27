@@ -5363,6 +5363,18 @@ export default {
         }
         this.syncSuratThemeBodyClass();
         this.syncDocumentThemePreference(this.isDarkTheme);
+        try {
+            this._icThemeChangeHandler = (event) => {
+                const isDark = !!event?.detail?.isDark;
+                if (this.isDarkTheme === isDark) {
+                    this.syncSuratThemeBodyClass(isDark);
+                    this.syncDocumentThemePreference(isDark);
+                    return;
+                }
+                this.setSuratTheme(isDark);
+            };
+            window.addEventListener("ic-theme-change", this._icThemeChangeHandler);
+        } catch (_) {}
         window.addEventListener("keydown", this.onKeydown);
         this.audioPlayerWindowResizeHandler = () =>
             this.scheduleAudioPlayerLayoutUpdate();
@@ -5825,6 +5837,12 @@ export default {
             this.syncSuratThemeSwitchingBodyClass(false);
             this.syncSuratThemeBodyClass(false);
             this.restoreAppThemePreference();
+            try {
+                if (this._icThemeChangeHandler) {
+                    window.removeEventListener("ic-theme-change", this._icThemeChangeHandler);
+                    this._icThemeChangeHandler = null;
+                }
+            } catch (_) {}
             this.syncReadingFullscreenBodyClass(false);
             this.exitReadingFullscreen({
                 restoreFocus: false,

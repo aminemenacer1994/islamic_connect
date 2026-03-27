@@ -182,11 +182,11 @@
                             role="group"
                             aria-label="Surah quick controls">
                         <div
-                            class="advanced-quran-mobile-main-row"
-                            :class="{
-                                'has-settings-btn': !isMemorisationToolbarVisible,
-                                'has-theme-toggle': true
-                            }">
+	                            class="advanced-quran-mobile-main-row"
+	                            :class="{
+	                                'has-settings-btn': !isMemorisationToolbarVisible,
+	                                'has-theme-toggle': false
+	                            }">
                             <div class="advanced-quran-mobile-select-shell">
                                 <select
                                     id="searchSurahDropdown"
@@ -209,23 +209,24 @@
                                     title="Show search">
                                 <i class="bi bi-eye" aria-hidden="true"></i>
                             </button>
-                            <button
-                                type="button"
-                                class="btn advanced-quran-mobile-icon-btn advanced-quran-mobile-theme-btn"
-                                :class="{ 'is-active': isDarkTheme }"
-                                :aria-pressed="isDarkTheme ? 'true' : 'false'"
+	                            <button
+	                                v-if="false"
+	                                type="button"
+	                                class="btn advanced-quran-mobile-icon-btn advanced-quran-mobile-theme-btn"
+	                                :class="{ 'is-active': isDarkTheme }"
+	                                :aria-pressed="isDarkTheme ? 'true' : 'false'"
                                 :aria-label="isDarkTheme
                                     ? 'Switch to light mode for the Surat page'
                                     : 'Switch to dark mode for the Surat page'"
                                 :title="isDarkTheme
                                     ? 'Switch to light mode'
                                     : 'Switch to dark mode'"
-                                @click="toggleSuratTheme">
-                                <i
-                                    class="bi"
-                                    :class="isDarkTheme ? 'bi-sun-fill' : 'bi-moon-stars-fill'"
-                                    aria-hidden="true"></i>
-                            </button>
+	                                @click="toggleSuratTheme">
+	                                <i
+	                                    class="bi"
+	                                    :class="isDarkTheme ? 'bi-sun-fill' : 'bi-moon-stars-fill'"
+	                                    aria-hidden="true"></i>
+	                            </button>
                             <button
                                 v-if="!isMemorisationToolbarVisible"
                                 type="button"
@@ -985,21 +986,21 @@
                     title="Show pinned ayat">
                     <i class="bi bi-pin-angle-fill" aria-hidden="true"></i>
                 </button>
-                <button
-                    v-if="(sidebarCollapsed || !isSidebarWideLayout) && !isMemorisationToolbarVisible"
-                    type="button"
-                    class="quran-toolbar-btn quran-toolbar-btn-toggle quran-toolbar-btn-icon quran-toolbar-btn-theme-compact"
-                    :class="{ 'is-enabled': isDarkTheme }"
-                    :aria-pressed="isDarkTheme ? 'true' : 'false'"
+	                <button
+	                    v-if="false"
+	                    type="button"
+	                    class="quran-toolbar-btn quran-toolbar-btn-toggle quran-toolbar-btn-icon quran-toolbar-btn-theme-compact"
+	                    :class="{ 'is-enabled': isDarkTheme }"
+	                    :aria-pressed="isDarkTheme ? 'true' : 'false'"
                     :aria-label="isDarkTheme
                         ? 'Switch to light mode for the Surat page'
                         : 'Switch to dark mode for the Surat page'"
-                    @click="toggleSuratTheme">
-                    <i
-                        class="bi"
-                        :class="isDarkTheme ? 'bi-sun-fill' : 'bi-moon-stars-fill'"
-                        aria-hidden="true"></i>
-                </button>
+	                    @click="toggleSuratTheme">
+	                    <i
+	                        class="bi"
+	                        :class="isDarkTheme ? 'bi-sun-fill' : 'bi-moon-stars-fill'"
+	                        aria-hidden="true"></i>
+	                </button>
                 <button
                     v-if="!isMemorisationToolbarVisible"
                     type="button"
@@ -4298,12 +4299,12 @@
                                     <button class="tab-btn flex-fill" 
                                         :class="{ active: activeSidebarTab === 'surah' }"
                                         @click="setActiveSidebarTab('surah')">Surah</button>
-                                    <button
-                                        v-if="isSidebarWideLayout"
-                                        type="button"
-                                        class="btn sidebar-info-button sidebar-theme-toggle ms-auto"
-                                        :class="{ 'is-active': isDarkTheme }"
-                                        :aria-pressed="isDarkTheme ? 'true' : 'false'"
+	                                    <button
+	                                        v-if="false"
+	                                        type="button"
+	                                        class="btn sidebar-info-button sidebar-theme-toggle ms-auto"
+	                                        :class="{ 'is-active': isDarkTheme }"
+	                                        :aria-pressed="isDarkTheme ? 'true' : 'false'"
                                         :aria-label="isDarkTheme
                                             ? 'Switch to light mode for the Surat page'
                                             : 'Switch to dark mode for the Surat page'"

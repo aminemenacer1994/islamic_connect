@@ -71,6 +71,9 @@ const applyGlobalThemePreference = (isDarkMode) => {
   if (typeof document === 'undefined') {
     return;
   }
+  if (!document.body || !document.body.classList.contains('home-route-page')) {
+    return;
+  }
   const theme = isDarkMode ? 'dark' : 'light';
   const root = document.documentElement;
   const body = document.body;

@@ -1,6 +1,19 @@
 <template>
-  <div>
+  <div class="radio-page">
     <div class="container py-5 radio-shell">
+      <div class="radio-theme-toggle">
+        <button
+          v-if="false"
+          type="button"
+          class="radio-theme-btn"
+          @click="toggleRadioTheme"
+          :aria-pressed="String(isRadioDark)"
+          :aria-label="isRadioDark ? 'Switch to light mode' : 'Switch to dark mode'"
+        >
+          <i class="bi" :class="isRadioDark ? 'bi-sun-fill' : 'bi-moon-stars-fill'" aria-hidden="true"></i>
+          <span class="radio-theme-label">{{ isRadioDark ? 'Light' : 'Dark' }}</span>
+        </button>
+      </div>
       <div class="row justify-content-center text-center mb-3">
         <div class="col-lg-10 col-xl-10">
           <h1 class="display-5 fw-bold" style="color:#0b1320;letter-spacing:-.02em;margin-bottom:.25rem;">The World of Quranic Recitation</h1>
@@ -184,9 +197,7 @@
                       :style="playButtonStyle(station)"
                       @mouseenter="$event.currentTarget.style.boxShadow = '0 14px 28px rgba(6,182,172,.32)'; $event.currentTarget.style.transform = 'translateY(-1px)';"
                       @mouseleave="$event.currentTarget.style.boxShadow = '0 10px 22px rgba(6,182,172,.25)'; $event.currentTarget.style.transform = '';">
-                      <i class="bi"
-                        :class="{ 'bi-pause-fill text-white': currentPlayingStationId === station.id && isPlaying(station.id), 'bi-play-fill text-white': currentPlayingStationId !== station.id || !isPlaying(station.id) }"
-                        style="font-size:1.4rem;"></i>
+                      <i class="bi bi-play-fill text-white" style="font-size:1.4rem;"></i>
                     </button>
                     <button class="btn btn-icon like-button p-2" @click="toggleLike(station)"
                       :aria-label="isLiked(station.id) ? 'Unlike ' + station.name : 'Like ' + station.name"
@@ -312,11 +323,9 @@
                           :title="getPlayButtonTitle(station)"
                           :style="playButtonStyle(station)"
                           @mouseenter="$event.currentTarget.style.boxShadow = '0 14px 28px rgba(6,182,172,.32)'; $event.currentTarget.style.transform = 'translateY(-1px)';"
-                          @mouseleave="$event.currentTarget.style.boxShadow = '0 10px 22px rgba(6,182,172,.25)'; $event.currentTarget.style.transform = '';">
-                          <i class="bi"
-                            :class="{ 'bi-pause-fill text-white': currentPlayingStationId === station.id && isPlaying(station.id), 'bi-play-fill text-white': currentPlayingStationId !== station.id || !isPlaying(station.id) }"
-                            style="font-size:1.4rem;"></i>
-                        </button>
+                      @mouseleave="$event.currentTarget.style.boxShadow = '0 10px 22px rgba(6,182,172,.25)'; $event.currentTarget.style.transform = '';">
+                      <i class="bi bi-play-fill text-white" style="font-size:1.4rem;"></i>
+                    </button>
                       </div>
                     </div>
                   </div>
@@ -401,11 +410,9 @@
                         :title="getPlayButtonTitle(station)"
                         :style="playButtonStyle(station)"
                         @mouseenter="$event.currentTarget.style.boxShadow = '0 14px 28px rgba(6,182,172,.32)'; $event.currentTarget.style.transform = 'translateY(-1px)';"
-                        @mouseleave="$event.currentTarget.style.boxShadow = '0 10px 22px rgba(6,182,172,.25)'; $event.currentTarget.style.transform = '';">
-                        <i class="bi"
-                          :class="{ 'bi-pause-fill text-white': currentPlayingStationId === station.id && isPlaying(station.id), 'bi-play-fill text-white': currentPlayingStationId !== station.id || !isPlaying(station.id) }"
-                          style="font-size:1.4rem;"></i>
-                      </button>
+                      @mouseleave="$event.currentTarget.style.boxShadow = '0 10px 22px rgba(6,182,172,.25)'; $event.currentTarget.style.transform = '';">
+                      <i class="bi bi-play-fill text-white" style="font-size:1.4rem;"></i>
+                    </button>
                     </div>
                   </div>
                 </div>
@@ -489,15 +496,15 @@
           <button @click="previousStation" class="control-btn mx-2" title="Previous Station">
             <i class="bi bi-rewind-fill text-white"></i>
           </button>
-          <button @click="togglePlay(currentPlayingStationId)"
-            class="control-btn play-pause fs-2 mx-2"
-            :class="{ 'is-offline': currentPlayingStationId && !isStationPlayable(currentPlayingStationId) }"
-            :aria-label="isPlaying(currentPlayingStationId) ? 'Pause playback' : 'Play playback'"
-            :aria-pressed="isPlaying(currentPlayingStationId)"
-            :disabled="currentPlayingStationId && !isStationPlayable(currentPlayingStationId)"
-            :title="currentPlayingStationId ? getPlayButtonTitle(currentPlayingStationId) : ''">
-            <i class="bi text-white" :class="isPlaying(currentPlayingStationId) ? 'bi-pause-fill' : 'bi-play-fill'"></i>
-          </button>
+	          <button @click="togglePlay(currentPlayingStationId)"
+	            class="control-btn play-pause fs-2 mx-2"
+	            :class="{ 'is-offline': currentPlayingStationId && !isStationPlayable(currentPlayingStationId) }"
+	            :aria-label="isPlaying(currentPlayingStationId) ? 'Pause playback' : 'Play playback'"
+	            :aria-pressed="isPlaying(currentPlayingStationId)"
+	            :disabled="currentPlayingStationId && !isStationPlayable(currentPlayingStationId)"
+	            :title="currentPlayingStationId ? getPlayButtonTitle(currentPlayingStationId) : ''">
+	            <i class="bi text-white" :class="isPlaying(currentPlayingStationId) ? 'bi-pause-fill' : 'bi-play-fill'"></i>
+	          </button>
           <button @click="nextStation" class="control-btn mx-2" title="Next Station">
             <i class="bi bi-fast-forward-fill text-white"></i>
           </button>
@@ -534,7 +541,173 @@
 <script setup>
 import { ref, computed, onMounted, reactive, nextTick, onBeforeUnmount, watch, markRaw } from 'vue';
 import axios from 'axios';
+import Hls from 'hls.js';
 import { fetchUserIdFromApi, resolveClientUserId } from '../utils/bookmarkAuth';
+
+const RADIO_THEME_STORAGE_KEY = 'radioThemeMode';
+const RADIO_DARK_BG = '#232529';
+const isRadioDark = ref(false);
+
+const hlsInstancesByStationId = markRaw(new Map());
+const hlsTriedByStationId = reactive({});
+
+const onGlobalThemeChange = (event) => {
+  if (typeof document === 'undefined') return;
+  if (!document.body || !document.body.classList.contains('radio-route-page')) return;
+  const isDark = !!event?.detail?.isDark;
+  isRadioDark.value = isDark;
+  applyRadioThemePreference(isDark);
+};
+
+const destroyHlsForStation = (id) => {
+  const existing = hlsInstancesByStationId.get(id);
+  if (!existing) return;
+  try {
+    existing.destroy();
+  } catch (_) {}
+  hlsInstancesByStationId.delete(id);
+};
+
+const isNotSupportedPlaybackError = (error) => {
+  if (!error) return false;
+  if (error?.name === 'NotSupportedError') return true;
+  const message = String(error?.message || '');
+  return message.toLowerCase().includes('no supported source');
+};
+
+const tryHlsPlayback = async (id, url) => {
+  if (!url || typeof url !== 'string') return false;
+  if (typeof document === 'undefined') return false;
+  const audio = getAudioForStation(id);
+  if (!audio) return false;
+  if (!Hls.isSupported()) return false;
+
+  destroyHlsForStation(id);
+  hlsTriedByStationId[id] = true;
+
+  return await new Promise((resolve) => {
+    let resolved = false;
+    const finish = (ok) => {
+      if (resolved) return;
+      resolved = true;
+      resolve(!!ok);
+    };
+
+    const timeout = window.setTimeout(() => finish(false), 9000);
+
+    const hls = new Hls({
+      enableWorker: true,
+      lowLatencyMode: false
+    });
+
+    hlsInstancesByStationId.set(id, hls);
+
+    const onFatalError = () => {
+      window.clearTimeout(timeout);
+      destroyHlsForStation(id);
+      finish(false);
+    };
+
+    hls.on(Hls.Events.ERROR, (_evt, data) => {
+      if (data?.fatal) onFatalError();
+    });
+
+    hls.on(Hls.Events.MEDIA_ATTACHED, () => {
+      try {
+        hls.loadSource(url);
+      } catch (_) {
+        onFatalError();
+      }
+    });
+
+    hls.on(Hls.Events.MANIFEST_PARSED, async () => {
+      try {
+        await audio.play();
+        window.clearTimeout(timeout);
+        finish(true);
+      } catch (_) {
+        onFatalError();
+      }
+    });
+
+    try {
+      hls.attachMedia(audio);
+    } catch (_) {
+      onFatalError();
+    }
+  });
+};
+
+const prefersDarkColorScheme = () => {
+  if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') return false;
+  return window.matchMedia('(prefers-color-scheme: dark)').matches;
+};
+
+const resolveInitialRadioTheme = () => {
+  if (typeof window === 'undefined') return false;
+  try {
+    const stored = window.localStorage.getItem(RADIO_THEME_STORAGE_KEY);
+    if (stored === 'dark') return true;
+    if (stored === 'light') return false;
+    return prefersDarkColorScheme();
+  } catch (_) {
+    return prefersDarkColorScheme();
+  }
+};
+
+const applyRadioThemePreference = (toDark) => {
+  if (typeof document === 'undefined') return;
+  if (!document.body || !document.body.classList.contains('radio-route-page')) return;
+  const theme = toDark ? 'dark' : 'light';
+  const root = document.documentElement;
+  const body = document.body;
+  root.classList.toggle('dark-mode', !!toDark);
+  root.setAttribute('data-bs-theme', theme);
+  root.setAttribute('data-theme', theme);
+  root.style.colorScheme = theme;
+  root.style.backgroundColor = toDark ? RADIO_DARK_BG : '';
+  body.classList.toggle('dark-mode', !!toDark);
+  body.setAttribute('data-bs-theme', theme);
+  body.setAttribute('data-theme', theme);
+  body.style.colorScheme = theme;
+  body.style.backgroundColor = toDark ? RADIO_DARK_BG : '';
+};
+
+const toggleRadioTheme = () => {
+  if (typeof window !== 'undefined' && window.IC_THEME && typeof window.IC_THEME.toggle === 'function') {
+    window.IC_THEME.toggle();
+    return;
+  }
+  const next = !isRadioDark.value;
+  isRadioDark.value = next;
+  applyRadioThemePreference(next);
+  try {
+    window.localStorage.setItem(RADIO_THEME_STORAGE_KEY, next ? 'dark' : 'light');
+  } catch (_) {}
+};
+
+onMounted(() => {
+  const initial = resolveInitialRadioTheme();
+  isRadioDark.value = initial;
+  applyRadioThemePreference(initial);
+  try {
+    window.addEventListener('ic-theme-change', onGlobalThemeChange);
+  } catch (_) {}
+});
+
+onBeforeUnmount(() => {
+  try {
+    window.removeEventListener('ic-theme-change', onGlobalThemeChange);
+  } catch (_) {}
+  try {
+    hlsInstancesByStationId.forEach((hls) => {
+      try {
+        hls.destroy();
+      } catch (_) {}
+    });
+  } catch (_) {}
+  hlsInstancesByStationId.clear();
+});
 
 const storageUserId = ref(resolveClientUserId());
 const isAuthenticated = ref(!!storageUserId.value);
@@ -1248,6 +1421,7 @@ const activeFilterCount = computed(() => {
 
 const closePlayer = () => {
   if (currentPlayingStationId.value) {
+    destroyHlsForStation(currentPlayingStationId.value);
     const audio = getAudioForStation(currentPlayingStationId.value);
     if (audio) {
       audio.pause();
@@ -1262,10 +1436,16 @@ const closePlayer = () => {
 
 const initializeAudio = async (id) => {
   if (audioMountForId.value !== id) {
+    if (currentPlayingStationId.value && currentPlayingStationId.value !== id) {
+      destroyHlsForStation(currentPlayingStationId.value);
+    }
     audioMountForId.value = id;
     await nextTick();
   }
   const audio = getAudioForStation(id);
+  if (audio) {
+    destroyHlsForStation(id);
+  }
   if (audio && !audio.src) {
     const station = defaultPopularReciters.find(s => s.id === id) || stations.value.find(s => s.id === id);
     if (station) {
@@ -1510,8 +1690,6 @@ const togglePlay = async (id, { force = false } = {}) => {
   if (isPlaying(id)) {
     audio.pause();
     playingStates.value[id] = false;
-    // Unmount audio to free resources
-    if (audioMountForId.value === id) audioMountForId.value = null;
     return;
   }
 
@@ -1540,12 +1718,29 @@ const togglePlay = async (id, { force = false } = {}) => {
     applyVolume(id);
   } catch (error) {
     console.error(`Playback failed for station ${id}:`, error);
-    playbackErrors.value[id] = 'This station is currently offline.';
     playingStates.value[id] = false;
+
+    if (isNotSupportedPlaybackError(error) && !hlsTriedByStationId[id]) {
+      const ok = await tryHlsPlayback(id, station?.url);
+      if (ok) {
+        playingStates.value[id] = true;
+        currentAudio.value = getAudioForStation(id);
+        currentPlayingStationId.value = id;
+        playbackErrors.value[id] = null;
+        setStationOnlineState(id, true);
+        addToRecentlyPlayed(id);
+        applyVolume(id);
+        return;
+      }
+    }
+
+    playbackErrors.value[id] = 'This station is currently unavailable. Please try again later.';
     setStationOnlineState(id, false);
 
     if (station?.fallbackUrl) {
       console.log(`Trying fallback URL for station ${id}`);
+      destroyHlsForStation(id);
+      hlsTriedByStationId[id] = false;
       audio.src = station.fallbackUrl;
       try {
         await audio.play();
@@ -1558,7 +1753,20 @@ const togglePlay = async (id, { force = false } = {}) => {
         applyVolume(id);
       } catch (fallbackError) {
         console.error(`Fallback playback failed for station ${id}:`, fallbackError);
-        playbackErrors.value[id] = 'This station is currently offline.';
+        if (isNotSupportedPlaybackError(fallbackError) && !hlsTriedByStationId[id]) {
+          const ok = await tryHlsPlayback(id, station?.fallbackUrl);
+          if (ok) {
+            playingStates.value[id] = true;
+            currentAudio.value = getAudioForStation(id);
+            currentPlayingStationId.value = id;
+            playbackErrors.value[id] = null;
+            setStationOnlineState(id, true);
+            addToRecentlyPlayed(id);
+            applyVolume(id);
+            return;
+          }
+        }
+        playbackErrors.value[id] = 'The audio stream is not supported by your browser.';
         setStationOnlineState(id, false);
       }
     }
@@ -1584,7 +1792,44 @@ const fetchStations = async () => {
       imageLoaded: true,
       listeners: Math.floor(Math.random() * (1500 - 50) + 50) // Simulated listeners
     })).map(enrichStation);
-    const defaultStationsWithListeners = defaultPopularReciters.map(station => ({
+
+    // Prefer API stream URLs for popular reciters when names match (qurango links frequently break / block playback).
+    const stationKey = (name = '') => sanitizeName(simplifyReciterName(name) || name);
+    const apiByKey = new Map();
+    apiStations.forEach((station) => {
+      const key = stationKey(station?.name || '');
+      if (!key || apiByKey.has(key)) return;
+      apiByKey.set(key, station);
+    });
+
+    const resolveApiMatch = (defaultStation) => {
+      const key = stationKey(defaultStation?.name || '');
+      if (!key) return null;
+      const direct = apiByKey.get(key);
+      if (direct) return direct;
+      // fallback: partial match when APIs include "Radio ..." prefixes
+      for (const apiStation of apiByKey.values()) {
+        const apiKey = stationKey(apiStation?.name || '');
+        if (!apiKey) continue;
+        if (apiKey.includes(key) || key.includes(apiKey)) return apiStation;
+      }
+      return null;
+    };
+
+    const popularStationsMerged = defaultPopularReciters.map((station) => {
+      const apiMatch = resolveApiMatch(station);
+      if (apiMatch?.url && isValidUrl(apiMatch.url)) {
+        return {
+          ...station,
+          url: apiMatch.url,
+          // keep fallbackUrl if provided; otherwise use the previous url as fallback
+          fallbackUrl: station.fallbackUrl || station.url
+        };
+      }
+      return station;
+    });
+
+    const defaultStationsWithListeners = popularStationsMerged.map(station => ({
       ...station,
       listeners: Math.floor(Math.random() * (2500 - 200) + 200) // Higher listener count for popular ones
     })).map(enrichStation);
@@ -1761,21 +2006,29 @@ const handlePlay = async (id, event) => {
 
 const handlePause = (id) => {
   playingStates.value[id] = false;
-  if (currentPlayingStationId.value === id) {
-    currentPlayingStationId.value = null;
-    currentAudio.value = null;
-    if (audioMountForId.value === id) audioMountForId.value = null;
-  }
   const st = stations.value.find(s => s.id === id) || defaultPopularReciters.find(s => s.id === id);
   if (st) liveAnnouncement.value = `Paused ${st.name}`;
 };
 
-const handleAudioError = (stationId, event) => {
+const handleAudioError = async (stationId, event) => {
   const error = event.target.error;
   let errorMessage = "Failed to load audio.";
   if (error) {
     switch (error.code) {
       case MediaError.MEDIA_ERR_SRC_NOT_SUPPORTED:
+        if (!hlsTriedByStationId[stationId]) {
+          const station = findStationById(stationId);
+          const ok = await tryHlsPlayback(stationId, station?.url || '');
+          if (ok) {
+            playbackErrors.value[stationId] = null;
+            setStationOnlineState(stationId, true);
+            playingStates.value[stationId] = true;
+            currentAudio.value = getAudioForStation(stationId);
+            currentPlayingStationId.value = stationId;
+            applyVolume(stationId);
+            return;
+          }
+        }
         errorMessage = "The audio format is not supported by your browser.";
         break;
       case MediaError.MEDIA_ERR_NETWORK:
@@ -2067,6 +2320,42 @@ const playAudio = (index) => {
 }
 </script>
 <style scoped>
+
+.radio-theme-toggle {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 0.75rem;
+}
+
+.radio-theme-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  border-radius: 999px;
+  border: 1px solid rgba(15, 23, 42, 0.14);
+  background: rgba(255, 255, 255, 0.9);
+  color: #0b1320;
+  padding: 0.5rem 0.85rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.radio-theme-btn:focus-visible {
+  outline: 3px solid rgba(15, 110, 99, 0.35);
+  outline-offset: 2px;
+}
+
+:global(body.radio-route-page.dark-mode) .radio-theme-btn {
+  background: #232529;
+  border-color: rgba(255, 255, 255, 0.14);
+  color: #ffffff;
+}
+
+.radio-theme-label {
+  font-size: 0.9rem;
+  line-height: 1;
+}
+
 .slide-fade-enter-active,
 .slide-fade-leave-active {
   transition: all 0.35s ease;
@@ -3359,5 +3648,186 @@ mark {
 /* In station cards specifically, enforce darker teal for readability over light tiles */
 .station-list-item .text-theme-teal {
   color: #228B22;
+}
+</style>
+
+<style>
+/* Radio dark mode (scoped via body class) */
+body.radio-route-page.dark-mode .radio-page {
+  background: #232529;
+  color: #ffffff;
+}
+
+body.radio-route-page.dark-mode {
+  background: #232529 !important;
+}
+
+body.radio-route-page.dark-mode main#main-content,
+body.radio-route-page.dark-mode #app {
+  background: #232529 !important;
+}
+
+body.radio-route-page.dark-mode .radio-shell {
+  background: #232529 !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+  box-shadow: none !important;
+}
+
+body.radio-route-page.dark-mode .radio-page h1,
+body.radio-route-page.dark-mode .radio-page h2,
+body.radio-route-page.dark-mode .radio-page h3,
+body.radio-route-page.dark-mode .radio-page h4,
+body.radio-route-page.dark-mode .radio-page h5,
+body.radio-route-page.dark-mode .radio-page p,
+body.radio-route-page.dark-mode .radio-page span,
+body.radio-route-page.dark-mode .radio-page label,
+body.radio-route-page.dark-mode .radio-page i {
+  color: #ffffff !important;
+}
+
+body.radio-route-page.dark-mode .radio-page .text-muted,
+body.radio-route-page.dark-mode .radio-page .station-short-info,
+body.radio-route-page.dark-mode .radio-page .station-meta-line,
+body.radio-route-page.dark-mode .radio-page .recitation-meta,
+body.radio-route-page.dark-mode .radio-page small {
+  color: rgba(255, 255, 255, 0.76) !important;
+}
+
+body.radio-route-page.dark-mode .filters-panel,
+body.radio-route-page.dark-mode .station-card-focusable,
+body.radio-route-page.dark-mode .global-audio-player,
+body.radio-route-page.dark-mode .station-list-item,
+body.radio-route-page.dark-mode .station-grid-item,
+body.radio-route-page.dark-mode .card {
+  background: #232529 !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+  box-shadow: none !important;
+}
+
+body.radio-route-page.dark-mode .card-teal,
+body.radio-route-page.dark-mode .station-content,
+body.radio-route-page.dark-mode .station-card-focusable [style*="background:#ffffff"],
+body.radio-route-page.dark-mode .station-card-focusable [style*="background: #ffffff"] {
+  background: #232529 !important;
+}
+
+body.radio-route-page.dark-mode .station-avatar {
+  border-color: rgba(255, 255, 255, 0.12) !important;
+  box-shadow: none !important;
+}
+
+body.radio-route-page.dark-mode .radio-page hr {
+  border-color: rgba(255, 255, 255, 0.12) !important;
+  opacity: 1;
+}
+
+body.radio-route-page.dark-mode .radio-page .search-suggestions,
+body.radio-route-page.dark-mode .radio-page .search-suggestion-item,
+body.radio-route-page.dark-mode .radio-page .dropdown-menu {
+  background: #232529 !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+  box-shadow: none !important;
+}
+
+body.radio-route-page.dark-mode .radio-page .search-suggestion-item:hover,
+body.radio-route-page.dark-mode .radio-page .search-suggestion-item.active {
+  background: rgba(255, 255, 255, 0.06) !important;
+}
+
+body.radio-route-page.dark-mode .radio-page .btn-icon,
+body.radio-route-page.dark-mode .radio-page .like-button,
+body.radio-route-page.dark-mode .radio-page .station-info-btn,
+body.radio-route-page.dark-mode .radio-page .search-clear-btn {
+  background: #232529 !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+  box-shadow: none !important;
+}
+
+body.radio-route-page.dark-mode .radio-page .station-login-warning {
+  background: #232529 !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+  color: #ffffff !important;
+}
+
+body.radio-route-page.dark-mode .imam-modal-backdrop {
+  background: rgba(35, 37, 41, 0.92) !important;
+}
+
+body.radio-route-page.dark-mode .imam-modal {
+  background: #232529 !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+  box-shadow: none !important;
+}
+
+body.radio-route-page.dark-mode .global-audio-player {
+  background: #232529 !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.12) !important;
+  box-shadow: none !important;
+}
+
+body.radio-route-page.dark-mode button.control-btn.play-pause i.bi,
+body.radio-route-page.dark-mode .control-btn i.bi,
+body.radio-route-page.dark-mode .radio-page .play-pause i.bi {
+  color: #ffffff !important;
+}
+
+body.radio-route-page.dark-mode .filters-panel .filter-input,
+body.radio-route-page.dark-mode .filters-panel .filter-select,
+body.radio-route-page.dark-mode .filters-panel .form-control,
+body.radio-route-page.dark-mode .filters-panel .form-select,
+body.radio-route-page.dark-mode .radio-page input,
+body.radio-route-page.dark-mode .radio-page textarea,
+body.radio-route-page.dark-mode .radio-page select {
+  background: #232529 !important;
+  color: #ffffff !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+}
+
+body.radio-route-page.dark-mode .btn-outline-dark {
+  color: #ffffff !important;
+  border-color: rgba(255, 255, 255, 0.18) !important;
+}
+
+body.radio-route-page.dark-mode .btn-outline-dark:hover,
+body.radio-route-page.dark-mode .btn-outline-dark:focus-visible {
+  background: rgba(255, 255, 255, 0.06) !important;
+}
+
+body.radio-route-page.dark-mode .favorite-section-toggle {
+  color: #ffffff !important;
+}
+
+body.radio-route-page.dark-mode .favorite-section-toggle i,
+body.radio-route-page.dark-mode .favorite-section-toggle span {
+  color: #ffffff !important;
+}
+
+/* Pills / icon chips should be readable */
+body.radio-route-page.dark-mode .filter-badge.badge {
+  background: #ffffff !important;
+  color: #232529 !important;
+  box-shadow: none !important;
+}
+
+body.radio-route-page.dark-mode .filter-badge.badge * {
+  color: #232529 !important;
+}
+
+body.radio-route-page.dark-mode .filter-chevron,
+body.radio-route-page.dark-mode .advanced-toggle-btn,
+body.radio-route-page.dark-mode .radio-theme-btn {
+  background: #ffffff !important;
+  color: #232529 !important;
+  border-color: rgba(0, 0, 0, 0.12) !important;
+  box-shadow: none !important;
+}
+
+body.radio-route-page.dark-mode .filter-chevron i,
+body.radio-route-page.dark-mode .advanced-toggle-btn i,
+body.radio-route-page.dark-mode .radio-theme-btn i,
+body.radio-route-page.dark-mode .filter-chevron span,
+body.radio-route-page.dark-mode .advanced-toggle-btn span,
+body.radio-route-page.dark-mode .radio-theme-btn span {
+  color: #232529 !important;
 }
 </style>

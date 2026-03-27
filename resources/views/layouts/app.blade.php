@@ -5,11 +5,13 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     @php
         $appUrl = rtrim(config('app.url') ?? url('/'), '/');
-        $path = trim(request()->path(), '/');
-        $isSuratRoute = request()->is('surat*');
-        $isHomeRoute = ($path === '' || request()->is('home') || request()->is('welcome'));
-        $defaultCanonical = $appUrl . ($path ? "/{$path}" : '');
-        $canonicalUrl = trim($__env->yieldContent('canonical', $defaultCanonical));
+	        $path = trim(request()->path(), '/');
+	        $isSuratRoute = request()->is('surat*');
+	        $isHomeRoute = ($path === '' || request()->is('home') || request()->is('welcome'));
+	        $isRadioRoute = request()->is('radio*');
+	        $hasThemeToggle = ($isSuratRoute || $isHomeRoute || $isRadioRoute);
+	        $defaultCanonical = $appUrl . ($path ? "/{$path}" : '');
+	        $canonicalUrl = trim($__env->yieldContent('canonical', $defaultCanonical));
         $metaTitle = trim($__env->yieldContent('meta_title', 'Islamic Connect, Accessible Quran & Community Tools'));
         $metaDescription = trim(
             $__env->yieldContent(
@@ -120,15 +122,35 @@
         (function() {
             try {
                 var isSuratRoute = {{ $isSuratRoute ? 'true' : 'false' }};
+                var isHomeRoute = {{ $isHomeRoute ? 'true' : 'false' }};
+                var isRadioRoute = {{ $isRadioRoute ? 'true' : 'false' }};
                 var storedSuratTheme = isSuratRoute ? localStorage.getItem('suratThemeMode') : null;
-                var storedDarkMode = localStorage.getItem('darkMode');
-                var prefersDark =
-                    !storedDarkMode &&
-                    typeof window.matchMedia === 'function' &&
-                    window.matchMedia('(prefers-color-scheme: dark)').matches;
-                var isDark = storedSuratTheme
-                    ? storedSuratTheme === 'dark'
-                    : storedDarkMode === 'true' || prefersDark;
+                var storedRadioTheme = isRadioRoute ? localStorage.getItem('radioThemeMode') : null;
+                var storedDarkMode = (isSuratRoute || isHomeRoute) ? localStorage.getItem('darkMode') : null;
+                var prefersDark = false;
+                try {
+                    if (
+                        typeof window.matchMedia === 'function' &&
+                        window.matchMedia('(prefers-color-scheme: dark)').matches
+                    ) {
+                        if (isSuratRoute) prefersDark = !storedSuratTheme && !storedDarkMode;
+                        else if (isHomeRoute) prefersDark = !storedDarkMode;
+                        else if (isRadioRoute) prefersDark = !storedRadioTheme;
+                    }
+                } catch (e) {}
+
+                var isDark = false;
+                if (isSuratRoute) {
+                    isDark = storedSuratTheme
+                        ? storedSuratTheme === 'dark'
+                        : storedDarkMode === 'true' || prefersDark;
+                } else if (isHomeRoute) {
+                    isDark = storedDarkMode === 'true' || prefersDark;
+                } else if (isRadioRoute) {
+                    isDark = storedRadioTheme
+                        ? storedRadioTheme === 'dark'
+                        : prefersDark;
+                }
                 var theme = isDark ? 'dark' : 'light';
                 var root = document.documentElement;
 
@@ -509,104 +531,212 @@
             opacity: 1;
         }
 
-        body.surat-page-shell-dark .navbar .navbar-brand.surat-brand-lockup .surat-brand-wordmark-img {
-            filter: brightness(0) invert(1);
-        }
+	        body.surat-page-shell-dark .navbar .navbar-brand.surat-brand-lockup .surat-brand-wordmark-img {
+	            filter: brightness(0) invert(1);
+	        }
 
-        html.dark-mode .navbar.navbar-transparent,
-        body.dark-mode .navbar.navbar-transparent {
-            background: #232529 !important;
-            backdrop-filter: none !important;
-            -webkit-backdrop-filter: none !important;
+	        body.radio-route-page.dark-mode,
+	        body.radio-route-page.dark-mode main#main-content,
+	        body.radio-route-page.dark-mode #app {
+	            background: #232529 !important;
+	        }
+
+	        body.radio-route-page.dark-mode {
+	            --bs-body-bg: #232529;
+	            --bs-body-color: #ffffff;
+	        }
+
+	        .global-theme-toggle {
+	            --ic-toggle-bg: #ffffff;
+	            --ic-toggle-fg: #232529;
+	            --ic-toggle-active: #232529;
+	            --ic-toggle-active-fg: #ffffff;
+	            display: inline-flex;
+	            align-items: center;
+	            justify-content: center;
+	            border-radius: 999px !important;
+	            padding: 0.25rem !important;
+	            min-height: 40px;
+	            border: 1px solid rgba(15, 23, 42, 0.18) !important;
+	            background: var(--ic-toggle-bg) !important;
+	            color: var(--ic-toggle-fg) !important;
+	            box-shadow: none !important;
+	            cursor: pointer;
+	            user-select: none;
+	            white-space: nowrap;
+	            position: relative;
+	            overflow: hidden;
+	            transition: background 160ms ease, border-color 160ms ease;
+	        }
+
+	        .global-theme-toggle:focus-visible {
+	            outline: 3px solid rgba(13, 182, 145, 0.35);
+	            outline-offset: 2px;
+	        }
+
+	        /* Segmented control layout */
+	        .global-theme-toggle .global-theme-toggle__segments {
+	            position: relative;
+	            display: grid;
+	            grid-template-columns: 1fr 1fr;
+	            align-items: center;
+	            gap: 0;
+	            width: 128px;
+	            height: 34px;
+	            border-radius: 999px;
+	            background: transparent;
+	        }
+
+	        .global-theme-toggle .global-theme-toggle__indicator {
+	            position: absolute;
+	            inset: 0 auto 0 0;
+	            width: 50%;
+	            border-radius: 999px;
+	            background: var(--ic-toggle-active);
+	            transform: translateX(0%);
+	            transition: transform 160ms ease;
+	        }
+
+	        .global-theme-toggle.is-dark .global-theme-toggle__indicator {
+	            transform: translateX(100%);
+	        }
+
+	        .global-theme-toggle .global-theme-toggle__segment {
+	            position: relative;
+	            z-index: 1;
+	            display: inline-flex;
+	            align-items: center;
+	            justify-content: center;
+	            font-weight: 700;
+	            font-size: 0.92rem;
+	            letter-spacing: 0.2px;
+	            color: var(--ic-toggle-fg);
+	            line-height: 1;
+	            padding-inline: 0.65rem;
+	        }
+
+	        .global-theme-toggle:not(.is-dark) .global-theme-toggle__segment--light {
+	            color: var(--ic-toggle-active-fg);
+	        }
+	        .global-theme-toggle.is-dark .global-theme-toggle__segment--dark {
+	            color: var(--ic-toggle-active-fg);
+	        }
+
+	        /* Navbar dark pages: keep control readable on #232529 background */
+	        body.home-route-page.dark-mode .global-theme-toggle,
+	        body.radio-route-page.dark-mode .global-theme-toggle,
+	        body.surat-page-shell-dark .global-theme-toggle {
+	            border-color: rgba(255, 255, 255, 0.14) !important;
+	        }
+
+	        /* Surat: hide internal theme toggles (use navbar toggle only) */
+	        body.surat-route-page .advanced-quran-mobile-theme-btn,
+	        body.surat-route-page .quran-toolbar-btn-theme-compact,
+	        body.surat-route-page .sidebar-theme-toggle {
+	            display: none !important;
+	        }
+
+	        /* Home/Radio: hide page-level theme toggles (use navbar toggle only) */
+	        body.home-route-page .ic-theme-toggle,
+	        body.radio-route-page .radio-theme-btn {
+	            display: none !important;
+	        }
+
+	        body.home-route-page.dark-mode .navbar.navbar-transparent,
+	        body.radio-route-page.dark-mode .navbar.navbar-transparent {
+	            background: #232529 !important;
+	            backdrop-filter: none !important;
+	            -webkit-backdrop-filter: none !important;
             box-shadow: none !important;
         }
 
-        html.dark-mode .navbar.navbar-transparent .navbar-brand,
-        html.dark-mode .navbar.navbar-transparent .nav-link,
-        html.dark-mode .navbar.navbar-transparent .navbar-toggler,
-        body.dark-mode .navbar.navbar-transparent .navbar-brand,
-        body.dark-mode .navbar.navbar-transparent .nav-link,
-        body.dark-mode .navbar.navbar-transparent .navbar-toggler {
+        body.home-route-page.dark-mode .navbar.navbar-transparent .navbar-brand,
+        body.home-route-page.dark-mode .navbar.navbar-transparent .nav-link,
+        body.home-route-page.dark-mode .navbar.navbar-transparent .navbar-toggler,
+        body.radio-route-page.dark-mode .navbar.navbar-transparent .navbar-brand,
+        body.radio-route-page.dark-mode .navbar.navbar-transparent .nav-link,
+        body.radio-route-page.dark-mode .navbar.navbar-transparent .navbar-toggler {
             color: #ffffff !important;
         }
 
-        html.dark-mode .navbar.navbar-transparent .navbar-nav .nav-link,
-        html.dark-mode .navbar.navbar-transparent .navbar-nav .nav-link:focus-visible,
-        html.dark-mode .navbar.navbar-transparent .navbar-nav .nav-link:active,
-        html.dark-mode .navbar.navbar-transparent .navbar-nav .nav-link:visited,
-        html.dark-mode .navbar.navbar-transparent .navbar-nav .nav-link:hover,
-        body.dark-mode .navbar.navbar-transparent .navbar-nav .nav-link,
-        body.dark-mode .navbar.navbar-transparent .navbar-nav .nav-link:focus-visible,
-        body.dark-mode .navbar.navbar-transparent .navbar-nav .nav-link:active,
-        body.dark-mode .navbar.navbar-transparent .navbar-nav .nav-link:visited,
-        body.dark-mode .navbar.navbar-transparent .navbar-nav .nav-link:hover {
+        body.home-route-page.dark-mode .navbar.navbar-transparent .navbar-nav .nav-link,
+        body.home-route-page.dark-mode .navbar.navbar-transparent .navbar-nav .nav-link:focus-visible,
+        body.home-route-page.dark-mode .navbar.navbar-transparent .navbar-nav .nav-link:active,
+        body.home-route-page.dark-mode .navbar.navbar-transparent .navbar-nav .nav-link:visited,
+        body.home-route-page.dark-mode .navbar.navbar-transparent .navbar-nav .nav-link:hover,
+        body.radio-route-page.dark-mode .navbar.navbar-transparent .navbar-nav .nav-link,
+        body.radio-route-page.dark-mode .navbar.navbar-transparent .navbar-nav .nav-link:focus-visible,
+        body.radio-route-page.dark-mode .navbar.navbar-transparent .navbar-nav .nav-link:active,
+        body.radio-route-page.dark-mode .navbar.navbar-transparent .navbar-nav .nav-link:visited,
+        body.radio-route-page.dark-mode .navbar.navbar-transparent .navbar-nav .nav-link:hover {
             color: #ffffff !important;
             background: transparent !important;
             box-shadow: none !important;
         }
 
-        html.dark-mode .navbar .navbar-brand.surat-brand-lockup .surat-brand-icon--light,
-        body.dark-mode .navbar .navbar-brand.surat-brand-lockup .surat-brand-icon--light {
+        body.home-route-page.dark-mode .navbar .navbar-brand.surat-brand-lockup .surat-brand-icon--light,
+        body.radio-route-page.dark-mode .navbar .navbar-brand.surat-brand-lockup .surat-brand-icon--light {
             opacity: 0;
         }
 
-        html.dark-mode .navbar .navbar-brand.surat-brand-lockup .surat-brand-icon--dark,
-        body.dark-mode .navbar .navbar-brand.surat-brand-lockup .surat-brand-icon--dark {
+        body.home-route-page.dark-mode .navbar .navbar-brand.surat-brand-lockup .surat-brand-icon--dark,
+        body.radio-route-page.dark-mode .navbar .navbar-brand.surat-brand-lockup .surat-brand-icon--dark {
             opacity: 1;
         }
 
-        html.dark-mode .navbar .navbar-brand.surat-brand-lockup .surat-brand-wordmark-img,
-        body.dark-mode .navbar .navbar-brand.surat-brand-lockup .surat-brand-wordmark-img {
+        body.home-route-page.dark-mode .navbar .navbar-brand.surat-brand-lockup .surat-brand-wordmark-img,
+        body.radio-route-page.dark-mode .navbar .navbar-brand.surat-brand-lockup .surat-brand-wordmark-img {
             filter: brightness(0) invert(1);
         }
 
-        html.dark-mode .navbar .navbar-toggler,
-        body.dark-mode .navbar .navbar-toggler {
+        body.home-route-page.dark-mode .navbar .navbar-toggler,
+        body.radio-route-page.dark-mode .navbar .navbar-toggler {
             border-color: rgba(255, 255, 255, 0.14) !important;
             background: #232529 !important;
             box-shadow: none !important;
         }
 
-        html.dark-mode .navbar .navbar-toggler-icon,
-        body.dark-mode .navbar .navbar-toggler-icon {
+        body.home-route-page.dark-mode .navbar .navbar-toggler-icon,
+        body.radio-route-page.dark-mode .navbar .navbar-toggler-icon {
             filter: brightness(0) invert(1);
         }
 
-        html.dark-mode .navbar .dropdown-menu,
-        body.dark-mode .navbar .dropdown-menu {
+        body.home-route-page.dark-mode .navbar .dropdown-menu,
+        body.radio-route-page.dark-mode .navbar .dropdown-menu {
             background: #232529 !important;
             border-color: rgba(255, 255, 255, 0.12) !important;
             box-shadow: none !important;
         }
 
-        html.dark-mode .navbar .dropdown-item,
-        body.dark-mode .navbar .dropdown-item {
+        body.home-route-page.dark-mode .navbar .dropdown-item,
+        body.radio-route-page.dark-mode .navbar .dropdown-item {
             color: #ffffff !important;
         }
 
-        html.dark-mode .navbar .dropdown-item:hover,
-        html.dark-mode .navbar .dropdown-item:focus-visible,
-        body.dark-mode .navbar .dropdown-item:hover,
-        body.dark-mode .navbar .dropdown-item:focus-visible {
+        body.home-route-page.dark-mode .navbar .dropdown-item:hover,
+        body.home-route-page.dark-mode .navbar .dropdown-item:focus-visible,
+        body.radio-route-page.dark-mode .navbar .dropdown-item:hover,
+        body.radio-route-page.dark-mode .navbar .dropdown-item:focus-visible {
             background: rgba(255, 255, 255, 0.06) !important;
         }
 
         @media (max-width: 768px) {
-            html.dark-mode .navbar.navbar-transparent {
+            body.home-route-page.dark-mode .navbar.navbar-transparent,
+            body.radio-route-page.dark-mode .navbar.navbar-transparent {
                 background: #232529 !important;
             }
 
-            html.dark-mode .navbar.navbar-transparent .navbar-collapse.show,
-            html.dark-mode .navbar.navbar-transparent .navbar-collapse.collapsing,
-            body.dark-mode .navbar.navbar-transparent .navbar-collapse.show,
-            body.dark-mode .navbar.navbar-transparent .navbar-collapse.collapsing {
+            body.home-route-page.dark-mode .navbar.navbar-transparent .navbar-collapse.show,
+            body.home-route-page.dark-mode .navbar.navbar-transparent .navbar-collapse.collapsing,
+            body.radio-route-page.dark-mode .navbar.navbar-transparent .navbar-collapse.show,
+            body.radio-route-page.dark-mode .navbar.navbar-transparent .navbar-collapse.collapsing {
                 background: #232529 !important;
                 border-color: rgba(255, 255, 255, 0.12) !important;
                 box-shadow: none !important;
             }
 
-            html.dark-mode .navbar.navbar-transparent .navbar-collapse .nav-link,
-            body.dark-mode .navbar.navbar-transparent .navbar-collapse .nav-link {
+            body.home-route-page.dark-mode .navbar.navbar-transparent .navbar-collapse .nav-link,
+            body.radio-route-page.dark-mode .navbar.navbar-transparent .navbar-collapse .nav-link {
                 color: #ffffff !important;
             }
         }
@@ -766,7 +896,7 @@
 
 </head>
 
-<body @class(['surat-route-page' => $isSuratRoute, 'home-route-page' => $isHomeRoute])>
+<body @class(['surat-route-page' => $isSuratRoute, 'home-route-page' => $isHomeRoute, 'radio-route-page' => $isRadioRoute])>
     <script>
         (function() {
             try {
@@ -876,12 +1006,24 @@
                             <a class="nav-link ml-3 pt-2 pl-3" href="/digital-library" data-path="/digital-library" data-nav-item="primary"><b>Content Library</b></a>
                         </li>
 
-                        <li class="nav-item mt-2">
-                            <a class="nav-link ml-3 pt-2 pl-3" href="/dua" data-path="/dua" data-nav-item="primary"><b>Dua Collection</b></a>
-                        </li>                        
+	                        <li class="nav-item mt-2">
+	                            <a class="nav-link ml-3 pt-2 pl-3" href="/dua" data-path="/dua" data-nav-item="primary"><b>Dua Collection</b></a>
+	                        </li>                        
 
-                        <!-- <button class="button" type="button" onclick="window.location.href='/ramadan-2026'" data-path="/ramadan-2026" data-nav-item="primary">
-                        <svg
+	                        @if($hasThemeToggle)
+	                            <li class="nav-item mt-2 ms-2">
+	                                <button id="globalThemeToggle" type="button" class="global-theme-toggle" aria-label="Toggle theme">
+	                                    <span class="global-theme-toggle__segments" aria-hidden="true">
+	                                        <span class="global-theme-toggle__indicator"></span>
+	                                        <span class="global-theme-toggle__segment global-theme-toggle__segment--light">Light</span>
+	                                        <span class="global-theme-toggle__segment global-theme-toggle__segment--dark">Dark</span>
+	                                    </span>
+	                                </button>
+	                            </li>
+	                        @endif
+
+	                        <!-- <button class="button" type="button" onclick="window.location.href='/ramadan-2026'" data-path="/ramadan-2026" data-nav-item="primary">
+	                        <svg
                                 viewBox="0 0 24 24"
                                 height="24"
                                 width="24"
@@ -992,12 +1134,77 @@
     <script defer src="{{ $manifestJsSrc }}"></script>
     <script defer src="{{ $vendorJsSrc }}"></script>
     <script defer src="{{ $appJsSrc }}"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // No theme toggle (removed on request)
-            const primaryNavItems = document.querySelectorAll('ul[aria-label="Primary menu"] [data-nav-item="primary"]');
-            // Ensure hamburger toggler controls the collapse reliably
-            try {
+	    <script>
+	        document.addEventListener('DOMContentLoaded', () => {
+	            // Global theme toggle for supported routes only: /, /home, /surat, /radio
+	            try {
+	                const toggleBtn = document.getElementById('globalThemeToggle');
+	                if (toggleBtn) {
+	                    const root = document.documentElement;
+	                    const body = document.body;
+	                    const RADIO_BG = '#232529';
+
+	                    const getTheme = () => (root.getAttribute('data-bs-theme') === 'dark' ? 'dark' : 'light');
+	                    const updateToggleUI = (theme) => {
+	                        const isDark = theme === 'dark';
+	                        toggleBtn.classList.toggle('is-dark', isDark);
+	                        toggleBtn.setAttribute('aria-label', isDark ? 'Switch to light mode' : 'Switch to dark mode');
+	                    };
+
+	                    const applyTheme = (theme) => {
+	                        const isDark = theme === 'dark';
+	                        root.classList.toggle('dark-mode', isDark);
+	                        root.setAttribute('data-bs-theme', theme);
+	                        root.setAttribute('data-theme', theme);
+	                        root.style.colorScheme = theme;
+
+	                        if (body) {
+	                            body.classList.toggle('dark-mode', isDark);
+	                            body.setAttribute('data-bs-theme', theme);
+	                            body.setAttribute('data-theme', theme);
+	                            body.style.colorScheme = theme;
+	                        }
+
+	                        // Surat uses an extra shell class for the navbar + layout polish
+	                        if (body && body.classList.contains('surat-route-page')) {
+	                            body.classList.toggle('surat-page-shell-dark', isDark);
+	                            try { localStorage.setItem('suratThemeMode', theme); } catch (e) {}
+	                        } else {
+	                            try { localStorage.setItem('suratThemeMode', theme); } catch (e) {}
+	                        }
+
+	                        // Home uses boolean darkMode storage
+	                        try { localStorage.setItem('darkMode', String(isDark)); } catch (e) {}
+	                        // Radio uses explicit dark/light storage
+	                        try { localStorage.setItem('radioThemeMode', theme); } catch (e) {}
+
+	                        // Ensure radio background stays consistent if the page is short
+	                        if (body && body.classList.contains('radio-route-page')) {
+	                            root.style.backgroundColor = isDark ? RADIO_BG : '';
+	                            body.style.backgroundColor = isDark ? RADIO_BG : '';
+	                        }
+
+	                        try {
+	                            window.dispatchEvent(new CustomEvent('ic-theme-change', { detail: { theme, isDark } }));
+	                        } catch (e) {}
+
+	                        updateToggleUI(theme);
+	                    };
+
+	                    window.IC_THEME = {
+	                        getTheme,
+	                        setTheme: applyTheme,
+	                        toggle: () => applyTheme(getTheme() === 'dark' ? 'light' : 'dark'),
+	                    };
+
+	                    updateToggleUI(getTheme());
+	                    toggleBtn.addEventListener('click', () => window.IC_THEME.toggle());
+	                }
+	            } catch (e) {}
+
+	            const primaryNavItems = document.querySelectorAll('ul[aria-label="Primary menu"] [data-nav-item="primary"]');
+	            // Ensure hamburger toggler controls the collapse reliably
+	            try {
                 const toggler = document.getElementById('navbarToggler') || document.querySelector('.navbar-toggler');
                 const collapseEl = document.getElementById('navbarSupportedContent');
                 const sidebarEl = document.getElementById('tablet-sidebar');

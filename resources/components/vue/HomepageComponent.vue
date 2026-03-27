@@ -7,6 +7,7 @@
             <article class="ic-hero__panel">
               <div class="ic-hero__utility">
                 <button
+                  v-if="false"
                   type="button"
                   class="ic-theme-toggle"
                   @click="toggleTheme"

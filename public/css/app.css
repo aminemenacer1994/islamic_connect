@@ -36023,6 +36023,36 @@ mark.mark-tag[data-v-4b4cde72] {
 }
 
 
+.radio-theme-toggle[data-v-6812f7c8] {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 0.75rem;
+}
+.radio-theme-btn[data-v-6812f7c8] {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  border-radius: 999px;
+  border: 1px solid rgba(15, 23, 42, 0.14);
+  background: rgba(255, 255, 255, 0.9);
+  color: #0b1320;
+  padding: 0.5rem 0.85rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+.radio-theme-btn[data-v-6812f7c8]:focus-visible {
+  outline: 3px solid rgba(15, 110, 99, 0.35);
+  outline-offset: 2px;
+}
+body.radio-route-page.dark-mode {
+  background: #232529;
+  border-color: rgba(255, 255, 255, 0.14);
+  color: #ffffff;
+}
+.radio-theme-label[data-v-6812f7c8] {
+  font-size: 0.9rem;
+  line-height: 1;
+}
 .slide-fade-enter-active[data-v-6812f7c8],
 .slide-fade-leave-active[data-v-6812f7c8] {
   transition: all 0.35s ease;
@@ -37112,6 +37142,160 @@ to {
 /* In station cards specifically, enforce darker teal for readability over light tiles */
 .station-list-item .text-theme-teal[data-v-6812f7c8] {
   color: #228B22;
+}
+
+
+/* Radio dark mode (scoped via body class) */
+body.radio-route-page.dark-mode .radio-page {
+  background: #232529;
+  color: #ffffff;
+}
+body.radio-route-page.dark-mode {
+  background: #232529 !important;
+}
+body.radio-route-page.dark-mode main#main-content,
+body.radio-route-page.dark-mode #app {
+  background: #232529 !important;
+}
+body.radio-route-page.dark-mode .radio-shell {
+  background: #232529 !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+  box-shadow: none !important;
+}
+body.radio-route-page.dark-mode .radio-page h1,
+body.radio-route-page.dark-mode .radio-page h2,
+body.radio-route-page.dark-mode .radio-page h3,
+body.radio-route-page.dark-mode .radio-page h4,
+body.radio-route-page.dark-mode .radio-page h5,
+body.radio-route-page.dark-mode .radio-page p,
+body.radio-route-page.dark-mode .radio-page span,
+body.radio-route-page.dark-mode .radio-page label,
+body.radio-route-page.dark-mode .radio-page i {
+  color: #ffffff !important;
+}
+body.radio-route-page.dark-mode .radio-page .text-muted,
+body.radio-route-page.dark-mode .radio-page .station-short-info,
+body.radio-route-page.dark-mode .radio-page .station-meta-line,
+body.radio-route-page.dark-mode .radio-page .recitation-meta,
+body.radio-route-page.dark-mode .radio-page small {
+  color: rgba(255, 255, 255, 0.76) !important;
+}
+body.radio-route-page.dark-mode .filters-panel,
+body.radio-route-page.dark-mode .station-card-focusable,
+body.radio-route-page.dark-mode .global-audio-player,
+body.radio-route-page.dark-mode .station-list-item,
+body.radio-route-page.dark-mode .station-grid-item,
+body.radio-route-page.dark-mode .card {
+  background: #232529 !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+  box-shadow: none !important;
+}
+body.radio-route-page.dark-mode .card-teal,
+body.radio-route-page.dark-mode .station-content,
+body.radio-route-page.dark-mode .station-card-focusable [style*="background:#ffffff"],
+body.radio-route-page.dark-mode .station-card-focusable [style*="background: #ffffff"] {
+  background: #232529 !important;
+}
+body.radio-route-page.dark-mode .station-avatar {
+  border-color: rgba(255, 255, 255, 0.12) !important;
+  box-shadow: none !important;
+}
+body.radio-route-page.dark-mode .radio-page hr {
+  border-color: rgba(255, 255, 255, 0.12) !important;
+  opacity: 1;
+}
+body.radio-route-page.dark-mode .radio-page .search-suggestions,
+body.radio-route-page.dark-mode .radio-page .search-suggestion-item,
+body.radio-route-page.dark-mode .radio-page .dropdown-menu {
+  background: #232529 !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+  box-shadow: none !important;
+}
+body.radio-route-page.dark-mode .radio-page .search-suggestion-item:hover,
+body.radio-route-page.dark-mode .radio-page .search-suggestion-item.active {
+  background: rgba(255, 255, 255, 0.06) !important;
+}
+body.radio-route-page.dark-mode .radio-page .btn-icon,
+body.radio-route-page.dark-mode .radio-page .like-button,
+body.radio-route-page.dark-mode .radio-page .station-info-btn,
+body.radio-route-page.dark-mode .radio-page .search-clear-btn {
+  background: #232529 !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+  box-shadow: none !important;
+}
+body.radio-route-page.dark-mode .radio-page .station-login-warning {
+  background: #232529 !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+  color: #ffffff !important;
+}
+body.radio-route-page.dark-mode .imam-modal-backdrop {
+  background: rgba(35, 37, 41, 0.92) !important;
+}
+body.radio-route-page.dark-mode .imam-modal {
+  background: #232529 !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+  box-shadow: none !important;
+}
+body.radio-route-page.dark-mode .global-audio-player {
+  background: #232529 !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.12) !important;
+  box-shadow: none !important;
+}
+body.radio-route-page.dark-mode button.control-btn.play-pause i.bi,
+body.radio-route-page.dark-mode .control-btn i.bi,
+body.radio-route-page.dark-mode .radio-page .play-pause i.bi {
+  color: #ffffff !important;
+}
+body.radio-route-page.dark-mode .filters-panel .filter-input,
+body.radio-route-page.dark-mode .filters-panel .filter-select,
+body.radio-route-page.dark-mode .filters-panel .form-control,
+body.radio-route-page.dark-mode .filters-panel .form-select,
+body.radio-route-page.dark-mode .radio-page input,
+body.radio-route-page.dark-mode .radio-page textarea,
+body.radio-route-page.dark-mode .radio-page select {
+  background: #232529 !important;
+  color: #ffffff !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+}
+body.radio-route-page.dark-mode .btn-outline-dark {
+  color: #ffffff !important;
+  border-color: rgba(255, 255, 255, 0.18) !important;
+}
+body.radio-route-page.dark-mode .btn-outline-dark:hover,
+body.radio-route-page.dark-mode .btn-outline-dark:focus-visible {
+  background: rgba(255, 255, 255, 0.06) !important;
+}
+body.radio-route-page.dark-mode .favorite-section-toggle {
+  color: #ffffff !important;
+}
+body.radio-route-page.dark-mode .favorite-section-toggle i,
+body.radio-route-page.dark-mode .favorite-section-toggle span {
+  color: #ffffff !important;
+}
+/* Pills / icon chips should be readable */
+body.radio-route-page.dark-mode .filter-badge.badge {
+  background: #ffffff !important;
+  color: #232529 !important;
+  box-shadow: none !important;
+}
+body.radio-route-page.dark-mode .filter-badge.badge * {
+  color: #232529 !important;
+}
+body.radio-route-page.dark-mode .filter-chevron,
+body.radio-route-page.dark-mode .advanced-toggle-btn,
+body.radio-route-page.dark-mode .radio-theme-btn {
+  background: #ffffff !important;
+  color: #232529 !important;
+  border-color: rgba(0, 0, 0, 0.12) !important;
+  box-shadow: none !important;
+}
+body.radio-route-page.dark-mode .filter-chevron i,
+body.radio-route-page.dark-mode .advanced-toggle-btn i,
+body.radio-route-page.dark-mode .radio-theme-btn i,
+body.radio-route-page.dark-mode .filter-chevron span,
+body.radio-route-page.dark-mode .advanced-toggle-btn span,
+body.radio-route-page.dark-mode .radio-theme-btn span {
+  color: #232529 !important;
 }
 
 
