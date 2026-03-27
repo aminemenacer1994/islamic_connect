@@ -4538,6 +4538,26 @@ export default {
                 return sum + count;
             }, 0);
         },
+        customPlaylistAyahMembershipByKey() {
+            const membership = Object.create(null);
+            const playlists = Array.isArray(this.playlists) ? this.playlists : [];
+            for (const playlist of playlists) {
+                const playlistId = String(playlist?.id || "");
+                if (!playlistId) continue;
+                const items = Array.isArray(playlist?.items) ? playlist.items : [];
+                for (const item of items) {
+                    if (!item || String(item?.type || "") !== "ayah") continue;
+                    const surahNumber = Number(item?.surahNumber || 0);
+                    const ayahNumber = Number(item?.ayahNumber || 0);
+                    if (!surahNumber || !ayahNumber) continue;
+                    const key = this.buildAyahKey(surahNumber, ayahNumber);
+                    if (!key) continue;
+                    if (!membership[key]) membership[key] = Object.create(null);
+                    membership[key][playlistId] = true;
+                }
+            }
+            return membership;
+        },
         activePlaylistSubtitle() {
             const description = String(this.activePlaylist?.description || "").trim();
             if (description) return description;
@@ -24451,7 +24471,6 @@ export default {
                 }
                 return url;
             };
-            console.log("Attempting to play audio for index:", index);
             if (index < 0 || index >= this.filteredAyahs.length) return;
             if (this.playbackMode === "repeat") {
                 const safeIndex = Math.max(0, Number(index) || 0);
@@ -24497,7 +24516,6 @@ export default {
                 this.currentlyPlaying &&
                 this.currentlyPlaying !== this.audioElements[index]
             ) {
-                console.log("Pausing currently playing audio");
                 try {
                     this.currentlyPlaying.pause();
                 } catch (_) { }
@@ -26639,7 +26657,6 @@ export default {
                 this.ensureTranslationCompareSelection({
                     includeSelectedTranslation: true,
                 });
-                console.log("Translations fetched:", translations);
                 this.isLoading = false;
                 if (fromCache)
                     setTimeout(async () => {
@@ -26989,7 +27006,6 @@ export default {
                         error: "",
                     });
                     this.syncPinnedAyahsForCurrentSurah();
-                    console.log("Surah details fetched:", this.surahDetails);
                     this.isLoading = false;
                     this.fetchSurahTransliteration(this.selectedSurah);
                     this.maybeLoadTranslationForVisibleContent();
@@ -27465,7 +27481,6 @@ export default {
                 });
                 return;
             } else {
-                 console.log("Page navigation mapping incomplete");
                  this.isNavigating = false;
              }
          },
@@ -28586,6 +28601,12 @@ export default {
             );
             const ayahNumber = Number(ayah?.numberInSurah || ayah?.number || 0);
             if (!surahNumber || !ayahNumber) return false;
+            const key = this.buildAyahKey(surahNumber, ayahNumber);
+            const playlistKey = String(targetPlaylist?.id || "");
+            if (key && playlistKey) {
+                const bucket = this.customPlaylistAyahMembershipByKey?.[key] || null;
+                if (bucket && bucket[playlistKey]) return true;
+            }
             return (targetPlaylist?.items || []).some(
                 (item) =>
                     item &&
@@ -29065,11 +29086,6 @@ export default {
             // Update progress immediately
             this.updateProgress(this.currentlyPlayingIndex);
 
-            console.log(
-                `Seeking to ${newTime.toFixed(2)}s (${(
-                    percentage * 100
-                ).toFixed(1)}%)`
-            );
         },
         onProgressDown(e) {
             if (!this.$refs.progressBar) return;

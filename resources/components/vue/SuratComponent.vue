@@ -4811,15 +4811,16 @@
                                         aria-label="Open ayah options">
                                         <i class="bi bi-three-dots" aria-hidden="true"></i>
                                     </button>
-                                    <div
-                                        v-if="openAyahPlaylistMenuKey === getAyahPlaylistMenuKey(item.ayah)"
-                                        class="ayah-playlist-menu ayah-actions-menu"
-                                        @click.stop>
-                                        <button
-                                            type="button"
-                                            class="ayah-playlist-menu-item"
-                                            @click.stop="handleAyahMenuSurahInfo()">
-                                            <span class="ayah-actions-leading-label">
+									<div
+										v-if="openAyahPlaylistMenuKey === getAyahPlaylistMenuKey(item.ayah)"
+										class="ayah-playlist-menu ayah-actions-menu"
+										@click.stop>
+										<div class="ayah-actions-menu-scroll">
+										<button
+											type="button"
+											class="ayah-playlist-menu-item"
+											@click.stop="handleAyahMenuSurahInfo()">
+											<span class="ayah-actions-leading-label">
                                                 <i class="bi bi-info-circle" aria-hidden="true"></i>
                                                 <span>Surah Info</span>
                                             </span>
@@ -4833,50 +4834,71 @@
                                                 <span>Copy to Clipboard</span>
                                             </span>
                                         </button>
-                                        <div class="ayah-playlist-menu-row">
-                                            <button
-                                                type="button"
-                                                class="ayah-playlist-menu-item ayah-playlist-menu-item-submenu"
-                                                :class="{ 'is-open': openAyahPlaylistExistingSubmenuKey === getAyahPlaylistMenuKey(item.ayah) }"
-                                                @click.stop="toggleAyahExistingPlaylistSubmenu(item.ayah)">
-                                                <span class="ayah-actions-leading-label">
-                                                    <i class="bi bi-collection-play" aria-hidden="true"></i>
-                                                    <span>Playlist</span>
-                                                </span>
-                                                <i class="bi bi-chevron-left" aria-hidden="true"></i>
-                                            </button>
-                                            <div
-                                                v-if="openAyahPlaylistExistingSubmenuKey === getAyahPlaylistMenuKey(item.ayah)"
-                                                class="ayah-playlist-submenu ayah-actions-submenu"
-                                                @click.stop>
-                                                <p
-                                                    v-if="!sortedCustomPlaylists.length"
-                                                    class="ayah-playlist-menu-label mb-0">
-                                                    No playlists yet.
-                                                </p>
-                                                <button
-                                                    v-for="playlist in sortedCustomPlaylists"
-                                                    :key="`ayah-playlist-${playlist.id}-${getAyahPlaylistMenuKey(item.ayah)}`"
-                                                    type="button"
-                                                    class="ayah-playlist-menu-item ayah-playlist-menu-item-playlist"
-                                                    @click.stop="isAyahInCustomPlaylist(item.ayah, playlist.id)
-                                                        ? removeAyahFromCustomPlaylist(item.ayah, playlist.id)
-                                                        : saveAyahToCustomPlaylist(item.ayah, playlist.id)">
-                                                    <span>{{ playlist.name || 'Untitled Playlist' }}</span>
-                                                    <i
-                                                        class="bi"
-                                                        :class="isAyahInCustomPlaylist(item.ayah, playlist.id) ? 'bi-check-circle-fill' : 'bi-plus-circle'"
-                                                        aria-hidden="true"></i>
-                                                </button>
-                                                <button
-                                                    type="button"
-                                                    class="ayah-playlist-menu-item"
-                                                    @click.stop="closeAyahPlaylistMenu(); openCreatePlaylistModal(item.ayah)">
-                                                    <span>Create playlist</span>
-                                                    <i class="bi bi-plus-square" aria-hidden="true"></i>
-                                                </button>
-                                            </div>
-                                        </div>
+										<div class="ayah-playlist-menu-row">
+											<button
+												type="button"
+												class="ayah-playlist-menu-item ayah-playlist-menu-item-submenu"
+												:class="{ 'is-open': openAyahPlaylistExistingSubmenuKey === getAyahPlaylistMenuKey(item.ayah) }"
+												:aria-expanded="openAyahPlaylistExistingSubmenuKey === getAyahPlaylistMenuKey(item.ayah) ? 'true' : 'false'"
+												@click.stop="toggleAyahExistingPlaylistSubmenu(item.ayah)">
+												<span class="ayah-actions-leading-label">
+													<i class="bi bi-collection-play" aria-hidden="true"></i>
+													<span>Save to playlist</span>
+												</span>
+												<i class="bi bi-chevron-left ayah-playlist-menu-chevron" aria-hidden="true"></i>
+											</button>
+											<div
+												v-if="openAyahPlaylistExistingSubmenuKey === getAyahPlaylistMenuKey(item.ayah)"
+												class="ayah-playlist-submenu ayah-actions-submenu"
+												@click.stop>
+												<button
+													v-if="activePlaylist"
+													:key="`ayah-playlist-active-${activePlaylist.id}-${getAyahPlaylistMenuKey(item.ayah)}`"
+													type="button"
+													class="ayah-playlist-menu-item ayah-playlist-menu-item-playlist ayah-playlist-menu-item-active"
+													@click.stop="isAyahInCustomPlaylist(item.ayah, activePlaylist.id)
+														? removeAyahFromCustomPlaylist(item.ayah, activePlaylist.id)
+														: saveAyahToCustomPlaylist(item.ayah, activePlaylist.id)">
+													<span class="ayah-actions-leading-label">
+														<i class="bi bi-star-fill" aria-hidden="true"></i>
+														<span>{{ activePlaylist.name || 'Untitled Playlist' }}</span>
+													</span>
+													<i
+														class="bi"
+														:class="isAyahInCustomPlaylist(item.ayah, activePlaylist.id) ? 'bi-check2' : 'bi-plus'"
+														aria-hidden="true"></i>
+												</button>
+												<p
+													v-if="!sortedCustomPlaylists.length"
+													class="ayah-playlist-menu-label mb-0">
+													No playlists yet.
+												</p>
+												<button
+													v-for="playlist in sortedCustomPlaylists"
+													:key="`ayah-playlist-${playlist.id}-${getAyahPlaylistMenuKey(item.ayah)}`"
+													v-show="!activePlaylist || String(playlist.id) !== String(activePlaylist.id)"
+													type="button"
+													class="ayah-playlist-menu-item ayah-playlist-menu-item-playlist"
+													@click.stop="isAyahInCustomPlaylist(item.ayah, playlist.id)
+														? removeAyahFromCustomPlaylist(item.ayah, playlist.id)
+														: saveAyahToCustomPlaylist(item.ayah, playlist.id)">
+													<span>{{ playlist.name || 'Untitled Playlist' }}</span>
+													<i
+														class="bi"
+														:class="isAyahInCustomPlaylist(item.ayah, playlist.id) ? 'bi-check2' : 'bi-plus'"
+														aria-hidden="true"></i>
+												</button>
+												<button
+													type="button"
+													class="ayah-playlist-menu-item"
+													@click.stop="openCreatePlaylistModal(item.ayah)">
+													<span class="ayah-actions-leading-label">
+														<i class="bi bi-plus-square" aria-hidden="true"></i>
+														<span>New playlist</span>
+													</span>
+												</button>
+											</div>
+										</div>
                                         <button
                                             type="button"
                                             class="ayah-playlist-menu-item"
@@ -4892,22 +4914,23 @@
                                         <button
                                             type="button"
                                             class="ayah-playlist-menu-item"
-                                            :disabled="!item.ayah?.audio || isAyahAudioDownloading(item.ayah)"
-                                            @click.stop="handleAyahMenuDownload(item.ayah)">
-                                            <span class="ayah-actions-leading-label">
-                                                <i
-                                                    class="bi"
+											:disabled="!item.ayah?.audio || isAyahAudioDownloading(item.ayah)"
+											@click.stop="handleAyahMenuDownload(item.ayah)">
+											<span class="ayah-actions-leading-label">
+												<i
+													class="bi"
                                                     :class="isAyahAudioDownloading(item.ayah)
                                                         ? 'bi-arrow-repeat ic-spin'
                                                         : isAyahAudioDownloaded(item.ayah)
                                                             ? 'bi-check-circle-fill'
                                                             : 'bi-cloud-arrow-down'"
                                                     aria-hidden="true"></i>
-                                                <span>Download Ayah</span>
-                                            </span>
-                                        </button>
-                                    </div>
-                                </div>
+												<span>Download Ayah</span>
+											</span>
+										</button>
+										</div>
+									</div>
+								</div>
                             </div>
                         </div>
 
