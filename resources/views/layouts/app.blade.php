@@ -7,6 +7,7 @@
         $appUrl = rtrim(config('app.url') ?? url('/'), '/');
         $path = trim(request()->path(), '/');
         $isSuratRoute = request()->is('surat*');
+        $isHomeRoute = ($path === '' || request()->is('home') || request()->is('welcome'));
         $defaultCanonical = $appUrl . ($path ? "/{$path}" : '');
         $canonicalUrl = trim($__env->yieldContent('canonical', $defaultCanonical));
         $metaTitle = trim($__env->yieldContent('meta_title', 'Islamic Connect, Accessible Quran & Community Tools'));
@@ -512,6 +513,104 @@
             filter: brightness(0) invert(1);
         }
 
+        html.dark-mode .navbar.navbar-transparent,
+        body.dark-mode .navbar.navbar-transparent {
+            background: #232529 !important;
+            backdrop-filter: none !important;
+            -webkit-backdrop-filter: none !important;
+            box-shadow: none !important;
+        }
+
+        html.dark-mode .navbar.navbar-transparent .navbar-brand,
+        html.dark-mode .navbar.navbar-transparent .nav-link,
+        html.dark-mode .navbar.navbar-transparent .navbar-toggler,
+        body.dark-mode .navbar.navbar-transparent .navbar-brand,
+        body.dark-mode .navbar.navbar-transparent .nav-link,
+        body.dark-mode .navbar.navbar-transparent .navbar-toggler {
+            color: #ffffff !important;
+        }
+
+        html.dark-mode .navbar.navbar-transparent .navbar-nav .nav-link,
+        html.dark-mode .navbar.navbar-transparent .navbar-nav .nav-link:focus-visible,
+        html.dark-mode .navbar.navbar-transparent .navbar-nav .nav-link:active,
+        html.dark-mode .navbar.navbar-transparent .navbar-nav .nav-link:visited,
+        html.dark-mode .navbar.navbar-transparent .navbar-nav .nav-link:hover,
+        body.dark-mode .navbar.navbar-transparent .navbar-nav .nav-link,
+        body.dark-mode .navbar.navbar-transparent .navbar-nav .nav-link:focus-visible,
+        body.dark-mode .navbar.navbar-transparent .navbar-nav .nav-link:active,
+        body.dark-mode .navbar.navbar-transparent .navbar-nav .nav-link:visited,
+        body.dark-mode .navbar.navbar-transparent .navbar-nav .nav-link:hover {
+            color: #ffffff !important;
+            background: transparent !important;
+            box-shadow: none !important;
+        }
+
+        html.dark-mode .navbar .navbar-brand.surat-brand-lockup .surat-brand-icon--light,
+        body.dark-mode .navbar .navbar-brand.surat-brand-lockup .surat-brand-icon--light {
+            opacity: 0;
+        }
+
+        html.dark-mode .navbar .navbar-brand.surat-brand-lockup .surat-brand-icon--dark,
+        body.dark-mode .navbar .navbar-brand.surat-brand-lockup .surat-brand-icon--dark {
+            opacity: 1;
+        }
+
+        html.dark-mode .navbar .navbar-brand.surat-brand-lockup .surat-brand-wordmark-img,
+        body.dark-mode .navbar .navbar-brand.surat-brand-lockup .surat-brand-wordmark-img {
+            filter: brightness(0) invert(1);
+        }
+
+        html.dark-mode .navbar .navbar-toggler,
+        body.dark-mode .navbar .navbar-toggler {
+            border-color: rgba(255, 255, 255, 0.14) !important;
+            background: #232529 !important;
+            box-shadow: none !important;
+        }
+
+        html.dark-mode .navbar .navbar-toggler-icon,
+        body.dark-mode .navbar .navbar-toggler-icon {
+            filter: brightness(0) invert(1);
+        }
+
+        html.dark-mode .navbar .dropdown-menu,
+        body.dark-mode .navbar .dropdown-menu {
+            background: #232529 !important;
+            border-color: rgba(255, 255, 255, 0.12) !important;
+            box-shadow: none !important;
+        }
+
+        html.dark-mode .navbar .dropdown-item,
+        body.dark-mode .navbar .dropdown-item {
+            color: #ffffff !important;
+        }
+
+        html.dark-mode .navbar .dropdown-item:hover,
+        html.dark-mode .navbar .dropdown-item:focus-visible,
+        body.dark-mode .navbar .dropdown-item:hover,
+        body.dark-mode .navbar .dropdown-item:focus-visible {
+            background: rgba(255, 255, 255, 0.06) !important;
+        }
+
+        @media (max-width: 768px) {
+            html.dark-mode .navbar.navbar-transparent {
+                background: #232529 !important;
+            }
+
+            html.dark-mode .navbar.navbar-transparent .navbar-collapse.show,
+            html.dark-mode .navbar.navbar-transparent .navbar-collapse.collapsing,
+            body.dark-mode .navbar.navbar-transparent .navbar-collapse.show,
+            body.dark-mode .navbar.navbar-transparent .navbar-collapse.collapsing {
+                background: #232529 !important;
+                border-color: rgba(255, 255, 255, 0.12) !important;
+                box-shadow: none !important;
+            }
+
+            html.dark-mode .navbar.navbar-transparent .navbar-collapse .nav-link,
+            body.dark-mode .navbar.navbar-transparent .navbar-collapse .nav-link {
+                color: #ffffff !important;
+            }
+        }
+
         @media (max-width: 1199.98px) {
             body.surat-route-page .navbar.surat-navbar-tablet {
                 isolation: isolate;
@@ -667,7 +766,7 @@
 
 </head>
 
-<body @class(['surat-route-page' => $isSuratRoute])>
+<body @class(['surat-route-page' => $isSuratRoute, 'home-route-page' => $isHomeRoute])>
     <script>
         (function() {
             try {

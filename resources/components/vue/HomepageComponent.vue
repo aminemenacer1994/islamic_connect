@@ -5,6 +5,18 @@
         <div class="row align-items-center g-4 justify-content-center">
           <div class="col-md-8">
             <article class="ic-hero__panel">
+              <div class="ic-hero__utility">
+                <button
+                  type="button"
+                  class="ic-theme-toggle"
+                  @click="toggleTheme"
+                  :aria-pressed="String(isDarkMode)"
+                  :aria-label="themeToggleAriaLabel"
+                >
+                  <i :class="themeToggleIconClass" aria-hidden="true"></i>
+                  <span class="ic-theme-toggle__label">{{ themeToggleLabel }}</span>
+                </button>
+              </div>
               <p class="ic-hero__badge">
                 <i class="fas fa-star" aria-hidden="true"></i>
                 Trusted by Muslims worldwide
@@ -406,4 +418,4 @@
 </template>
 
 <script src="../scripts/HomepageComponent.script.js"></script>
-<style scoped src="../styles/HomepageComponent.style.css"></style>
+<style src="../styles/HomepageComponent.style.css"></style>

@@ -81,6 +81,50 @@
   text-align: center;
 }
 
+.ic-hero__utility {
+  position: absolute;
+  top: clamp(0.8rem, 1.2vw, 1.1rem);
+  right: clamp(0.8rem, 1.2vw, 1.1rem);
+  z-index: 2;
+}
+
+.ic-theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 999px;
+  border: 1px solid rgba(15, 110, 99, 0.22);
+  background: rgba(255, 255, 255, 0.6);
+  color: var(--ic-teal-dark);
+  font-weight: 800;
+  padding: 0.45rem 0.75rem;
+  box-shadow: 0 12px 24px rgba(10, 48, 44, 0.08);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.ic-theme-toggle:focus-visible {
+  outline: 3px solid rgba(15, 110, 99, 0.35);
+  outline-offset: 2px;
+}
+
+.ic-theme-toggle:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 16px 30px rgba(10, 48, 44, 0.12);
+}
+
+.ic-theme-toggle__label {
+  font-size: 0.85rem;
+  line-height: 1;
+}
+
+.ic-hero__panel > .ic-hero__utility {
+  opacity: 1;
+  animation: none !important;
+}
+
 .ic-hero__panel > * {
   opacity: 0;
   animation: ic-fade-up 0.55s ease forwards;
@@ -705,7 +749,7 @@ textarea.form-control:focus {
   transform: translateY(8px);
 }
 
-:global(body.ic-dialog-open) {
+body.ic-dialog-open {
   overflow: hidden;
 }
 
@@ -1040,4 +1084,209 @@ textarea.form-control:focus {
   font-weight: 700;
   color: #0f3a3f;
   letter-spacing: -0.02em;
+}
+
+/* ─── Dark Mode ─── */
+html.dark-mode .ic-home {
+  --ic-ink: #ffffff;
+  --ic-ink-soft: rgba(255, 255, 255, 0.82);
+  --ic-teal: #ffffff;
+  --ic-teal-dark: #ffffff;
+  --ic-border: rgba(255, 255, 255, 0.12);
+  --ic-shadow-soft: none;
+  --ic-shadow-strong: none;
+  background: #232529;
+  color: #ffffff;
+}
+
+html.dark-mode .ic-hero,
+html.dark-mode .ic-section--surface,
+html.dark-mode .ic-section--alt,
+html.dark-mode .ic-section--ayah,
+html.dark-mode .ic-section--partners {
+  background: #232529;
+}
+
+html.dark-mode .ic-hero::before,
+html.dark-mode .ic-hero::after,
+html.dark-mode .ic-section--partners::before,
+html.dark-mode .ic-section--partners::after {
+  display: none;
+}
+
+html.dark-mode .section-title,
+html.dark-mode .section-lead,
+html.dark-mode .ic-hero__title,
+html.dark-mode .ic-hero__lead {
+  color: #ffffff;
+}
+
+html.dark-mode .ic-hero__badge,
+html.dark-mode .ic-hero__trust-item {
+  background: #232529;
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+html.dark-mode .ic-hero__trust-item i {
+  color: #ffffff;
+}
+
+html.dark-mode .ic-theme-toggle {
+  border-color: rgba(255, 255, 255, 0.12);
+  background: #232529;
+  color: #ffffff;
+  box-shadow: none;
+}
+
+html.dark-mode .ic-btn--outline {
+  background: #232529;
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.22);
+  box-shadow: none;
+}
+
+html.dark-mode .ic-stat-card,
+html.dark-mode .ic-link-card,
+html.dark-mode .ic-objective-card,
+html.dark-mode .ic-feature-card,
+html.dark-mode .contact-card,
+html.dark-mode .ic-channel-card,
+html.dark-mode .ic-ayah-card,
+html.dark-mode .ic-partner-card,
+html.dark-mode .premium-dialog-card,
+html.dark-mode .premium-toast--success,
+html.dark-mode .ic-footer {
+  background: #232529 !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+  box-shadow: none !important;
+}
+
+html.dark-mode .ic-link-card h3,
+html.dark-mode .ic-objective-card h3,
+html.dark-mode .ic-feature-card h3,
+html.dark-mode .ic-channel-card h3,
+html.dark-mode .premium-dialog-title,
+html.dark-mode .premium-dialog-message,
+html.dark-mode .contact-card__note,
+html.dark-mode .ic-partner-card__name,
+html.dark-mode .ic-ayah-card__arabic,
+html.dark-mode .ic-ayah-card__translation,
+html.dark-mode .ic-ayah-card__meta {
+  color: #ffffff !important;
+}
+
+html.dark-mode .ic-link-card__cta,
+html.dark-mode .ic-channel-card__cta {
+  color: #ffffff !important;
+}
+
+html.dark-mode .ic-objective-card__icon,
+html.dark-mode .ic-ayah-card__meta i,
+html.dark-mode .ic-community__point i {
+  color: #ffffff !important;
+  background: transparent !important;
+}
+
+html.dark-mode .ic-objective-card__index {
+  background: #ffffff !important;
+  color: #232529 !important;
+}
+
+html.dark-mode .ic-objective-card__icon {
+  background: #ffffff !important;
+  color: #232529 !important;
+  cursor: pointer;
+}
+
+html.dark-mode .ic-objective-card__icon i {
+  color: #232529 !important;
+}
+
+html.dark-mode .ic-btn--solid {
+  background: #ffffff !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+  color: #232529 !important;
+  box-shadow: none !important;
+}
+
+html.dark-mode .ic-btn--solid i {
+  color: #232529 !important;
+}
+
+html.dark-mode .ic-btn--solid:hover,
+html.dark-mode .ic-btn--solid:focus-visible {
+  background: #ffffff !important;
+  color: #232529 !important;
+}
+
+html.dark-mode .ic-partner-card__icon {
+  background: #ffffff !important;
+  color: #232529 !important;
+  cursor: pointer;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+html.dark-mode .ic-partner-card__icon::after {
+  display: none !important;
+}
+
+html.dark-mode .ic-partner-card:hover .ic-partner-card__icon {
+  background: #ffffff !important;
+  color: #232529 !important;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+html.dark-mode .ic-community {
+  background: #232529 !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+  box-shadow: none !important;
+}
+
+html.dark-mode .ic-community__point {
+  color: #ffffff;
+}
+
+html.dark-mode .ic-footer {
+  background: #232529 !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.12) !important;
+}
+
+html.dark-mode .ic-footer__social a {
+  border-color: rgba(255, 255, 255, 0.18);
+}
+
+html.dark-mode .ic-footer__social a:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+html.dark-mode .ic-feature-card__image {
+  filter: brightness(0) invert(1);
+}
+
+html.dark-mode .ic-partner-card__icon {
+  background: #ffffff !important;
+  color: #232529 !important;
+  cursor: pointer;
+}
+
+html.dark-mode .ic-partner-card__icon i {
+  color: #232529 !important;
+}
+
+html.dark-mode .ic-channel-card__icon,
+html.dark-mode .ic-channel-card__icon--whatsapp,
+html.dark-mode .ic-channel-card__icon--telegram {
+  background: #ffffff !important;
+  color: #232529 !important;
+}
+
+html.dark-mode .ic-channel-card__icon i {
+  color: #232529 !important;
+}
+
+html.dark-mode .ic-ayah-card__ornament {
+  color: rgba(255, 255, 255, 0.08);
 }

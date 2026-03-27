@@ -17,6 +17,7 @@ const createToast = () => ({
 });
 
 export default {
+  inject: ["darkModeState"],
   data() {
     return {
       trustHighlights: [
@@ -154,6 +155,18 @@ export default {
     };
   },
   computed: {
+    isDarkMode() {
+      return !!this.darkModeState?.isDarkMode;
+    },
+    themeToggleIconClass() {
+      return this.isDarkMode ? "bi bi-sun-fill" : "bi bi-moon-stars-fill";
+    },
+    themeToggleLabel() {
+      return this.isDarkMode ? "Light" : "Dark";
+    },
+    themeToggleAriaLabel() {
+      return this.isDarkMode ? "Switch to light mode" : "Switch to dark mode";
+    },
     currentYear() {
       return new Date().getFullYear();
     },
@@ -209,6 +222,11 @@ export default {
     }
   },
   methods: {
+    toggleTheme() {
+      const setter = this.darkModeState?.setDarkMode;
+      if (typeof setter !== "function") return;
+      setter(!this.isDarkMode);
+    },
     normalizeField(value) {
       return String(value || "")
         .replace(/\s+/g, " ")

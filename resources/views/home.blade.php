@@ -12,7 +12,7 @@
 <link rel="preload" href="{{ asset('images/banner-photo-800.avif') }}" as="image" type="image/avif">
 <style id="critical-hero">
     :root {
-        color-scheme: light;
+        color-scheme: light dark;
     }
 
     body {
@@ -20,13 +20,25 @@
         background: #f7fbf9;
     }
 
+    html[data-bs-theme='dark'] body {
+        background: #232529;
+    }
+
     .ic-home {
         background: linear-gradient(180deg, #f7fbf9 0%, #f2faf7 100%);
+    }
+
+    html[data-bs-theme='dark'] .ic-home {
+        background: #232529;
     }
 
     .ic-hero {
         padding: clamp(4.2rem, 8vw, 6rem) 0 clamp(3rem, 6vw, 4.8rem);
         background: linear-gradient(145deg, #fff7e8 0%, #f1faf6 45%, #e8f4f0 100%);
+    }
+
+    html[data-bs-theme='dark'] .ic-hero {
+        background: #232529;
     }
 
     .ic-hero__title {
@@ -36,10 +48,18 @@
         color: #10393d;
     }
 
+    html[data-bs-theme='dark'] .ic-hero__title {
+        color: #ffffff;
+    }
+
     .ic-hero__lead {
         font-size: 1.05rem;
         line-height: 1.7;
         color: #4a6267;
+    }
+
+    html[data-bs-theme='dark'] .ic-hero__lead {
+        color: rgba(255, 255, 255, 0.82);
     }
 </style>
 @endpush
