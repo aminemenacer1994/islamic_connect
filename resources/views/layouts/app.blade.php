@@ -124,32 +124,32 @@
                 var isSuratRoute = {{ $isSuratRoute ? 'true' : 'false' }};
                 var isHomeRoute = {{ $isHomeRoute ? 'true' : 'false' }};
                 var isRadioRoute = {{ $isRadioRoute ? 'true' : 'false' }};
+                if (!isSuratRoute && !isHomeRoute && !isRadioRoute) return;
+
                 var storedSuratTheme = isSuratRoute ? localStorage.getItem('suratThemeMode') : null;
                 var storedRadioTheme = isRadioRoute ? localStorage.getItem('radioThemeMode') : null;
-                var storedDarkMode = (isSuratRoute || isHomeRoute) ? localStorage.getItem('darkMode') : null;
+                // Canonical theme key across routes: `darkMode` when present.
+                // Other keys (`suratThemeMode`, `radioThemeMode`) are treated as legacy/fallback.
+                var storedDarkMode = localStorage.getItem('darkMode');
                 var prefersDark = false;
                 try {
                     if (
                         typeof window.matchMedia === 'function' &&
                         window.matchMedia('(prefers-color-scheme: dark)').matches
                     ) {
-                        if (isSuratRoute) prefersDark = !storedSuratTheme && !storedDarkMode;
-                        else if (isHomeRoute) prefersDark = !storedDarkMode;
-                        else if (isRadioRoute) prefersDark = !storedRadioTheme;
+                        prefersDark = !storedDarkMode && !storedSuratTheme && !storedRadioTheme;
                     }
                 } catch (e) {}
 
                 var isDark = false;
-                if (isSuratRoute) {
-                    isDark = storedSuratTheme
-                        ? storedSuratTheme === 'dark'
-                        : storedDarkMode === 'true' || prefersDark;
-                } else if (isHomeRoute) {
-                    isDark = storedDarkMode === 'true' || prefersDark;
-                } else if (isRadioRoute) {
-                    isDark = storedRadioTheme
-                        ? storedRadioTheme === 'dark'
-                        : prefersDark;
+                if (storedDarkMode !== null && storedDarkMode !== undefined && storedDarkMode !== '') {
+                    isDark = storedDarkMode === 'true';
+                } else if (storedSuratTheme) {
+                    isDark = storedSuratTheme === 'dark';
+                } else if (storedRadioTheme) {
+                    isDark = storedRadioTheme === 'dark';
+                } else {
+                    isDark = prefersDark;
                 }
                 var theme = isDark ? 'dark' : 'light';
                 var root = document.documentElement;
@@ -158,6 +158,11 @@
                 root.setAttribute('data-bs-theme', theme);
                 root.setAttribute('data-theme', theme);
                 root.style.colorScheme = theme;
+
+                // Keep storage keys aligned so `/surat` and `/radio` can't drift into an "opposite" theme.
+                try { localStorage.setItem('darkMode', String(isDark)); } catch (e) {}
+                try { localStorage.setItem('suratThemeMode', theme); } catch (e) {}
+                try { localStorage.setItem('radioThemeMode', theme); } catch (e) {}
             } catch (e) {}
         })();
     </script>

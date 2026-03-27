@@ -36,6 +36,16 @@ export default {
             isDarkTheme: (() => {
                 if (typeof window === "undefined") return false;
                 try {
+                    const docTheme = String(
+                        document?.documentElement?.getAttribute?.("data-bs-theme") ||
+                            document?.documentElement?.getAttribute?.("data-theme") ||
+                            ""
+                    )
+                        .trim()
+                        .toLowerCase();
+                    if (docTheme === "dark") return true;
+                    if (docTheme === "light") return false;
+
                     const storedSuratTheme = localStorage.getItem("suratThemeMode");
                     if (storedSuratTheme === "dark") return true;
                     if (storedSuratTheme === "light") return false;
@@ -6576,21 +6586,37 @@ export default {
         },
         initializeSuratThemePreference(options = {}) {
             const { preserveCurrentWhenMissing = true } = options;
-            const storedTheme = this.readScopedPreferenceWithLegacy(
-                this.suratThemePreferenceBaseKey
-            );
-            if (storedTheme === null || storedTheme === undefined || storedTheme === "") {
-                if (!preserveCurrentWhenMissing) {
-                    this.isDarkTheme = false;
-                }
-            } else {
-                this.isDarkTheme =
-                    String(storedTheme).trim().toLowerCase() === "dark";
+            const baseKey = this.suratThemePreferenceBaseKey;
+            let storedTheme = null;
+
+            // Prefer the global/unscoped key so Surat stays consistent with the navbar toggle
+            // and other routes (Home/Radio) that don't use the scoped Surat preference key.
+            if (typeof window !== "undefined") {
+                try {
+                    const raw = localStorage.getItem(baseKey);
+                    if (raw !== null && raw !== undefined && raw !== "") {
+                        storedTheme = raw;
+                    }
+                } catch (_) {}
             }
-            this.persistLocalSetting(
-                this.suratThemePreferenceBaseKey,
-                this.isDarkTheme ? "dark" : "light"
-            );
+
+            // Fall back to scoped preference (per-user/per-anon) if the global key is missing.
+            if (storedTheme === null || storedTheme === undefined || storedTheme === "") {
+                storedTheme = this.readScopedFontPreference(baseKey);
+            }
+
+            if (storedTheme === null || storedTheme === undefined || storedTheme === "") {
+                if (!preserveCurrentWhenMissing) this.isDarkTheme = false;
+            } else {
+                this.isDarkTheme = String(storedTheme).trim().toLowerCase() === "dark";
+            }
+
+            const normalizedTheme = this.isDarkTheme ? "dark" : "light";
+            // Keep both storage locations in sync so a previously-scoped value can't "flip"
+            // the page after login/anon-id resolution.
+            this.persistLocalSetting(baseKey, normalizedTheme);
+            this.writeScopedFontPreference(baseKey, normalizedTheme);
+
             this.syncSuratThemeBodyClass();
             this.syncDocumentThemePreference(this.isDarkTheme);
             return this.isDarkTheme;
@@ -20647,6 +20673,7 @@ export default {
                 this.closeSavedBookmarksPanel();
                 return;
             }
+            this.scrollToTop();
             if (this.showCustomPlaylistPanel) {
                 this.toggleCustomPlaylistPanel();
             }
@@ -28059,6 +28086,10 @@ export default {
             this.playAudio(targetIndex);
         },
         toggleCustomPlaylistPanel() {
+            const isOpening = !this.showCustomPlaylistPanel;
+            if (isOpening) {
+                this.scrollToTop();
+            }
             if (
                 !this.showCustomPlaylistPanel &&
                 !this.ensurePlaylistAuth("Please log in to access playlists.")

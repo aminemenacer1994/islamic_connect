@@ -71,12 +71,20 @@ const applyGlobalThemePreference = (isDarkMode) => {
   if (typeof document === 'undefined') {
     return;
   }
-  if (!document.body || !document.body.classList.contains('home-route-page')) {
+  if (!document.body) {
+    return;
+  }
+  const body = document.body;
+  if (
+    !body.classList.contains('home-route-page') &&
+    !body.classList.contains('surat-route-page') &&
+    !body.classList.contains('radio-route-page')
+  ) {
     return;
   }
   const theme = isDarkMode ? 'dark' : 'light';
   const root = document.documentElement;
-  const body = document.body;
+  const RADIO_BG = '#232529';
 
   if (root) {
     root.classList.toggle('dark-mode', !!isDarkMode);
@@ -87,9 +95,17 @@ const applyGlobalThemePreference = (isDarkMode) => {
 
   if (body) {
     body.classList.toggle('dark-mode', !!isDarkMode);
+    if (body.classList.contains('surat-route-page')) {
+      body.classList.toggle('surat-page-shell-dark', !!isDarkMode);
+    }
     body.setAttribute('data-bs-theme', theme);
     body.setAttribute('data-theme', theme);
     body.style.colorScheme = theme;
+  }
+
+  if (body && body.classList.contains('radio-route-page')) {
+    if (root) root.style.backgroundColor = isDarkMode ? RADIO_BG : '';
+    body.style.backgroundColor = isDarkMode ? RADIO_BG : '';
   }
 };
 
@@ -119,10 +135,23 @@ const app = createApp({
   methods: {
     setDarkMode(isDarkMode) {
       const nextValue = !!isDarkMode;
+      const theme = nextValue ? 'dark' : 'light';
       this.darkModeState.isDarkMode = nextValue;
-      applyGlobalThemePreference(nextValue);
+      // Prefer the global theme helper from the layout when available (keeps
+      // Home/Radio/Surat theme behavior consistent and dispatches the same event).
       try {
-        window.localStorage.setItem(DARK_MODE_STORAGE_KEY, String(nextValue));
+        if (window.IC_THEME && typeof window.IC_THEME.setTheme === 'function') {
+          window.IC_THEME.setTheme(theme);
+          return;
+        }
+      } catch (_) {}
+
+      applyGlobalThemePreference(nextValue);
+      try { window.localStorage.setItem(DARK_MODE_STORAGE_KEY, String(nextValue)); } catch (_) {}
+      try { window.localStorage.setItem('suratThemeMode', theme); } catch (_) {}
+      try { window.localStorage.setItem('radioThemeMode', theme); } catch (_) {}
+      try {
+        window.dispatchEvent(new CustomEvent('ic-theme-change', { detail: { theme, isDark: nextValue } }));
       } catch (_) {}
     },
     // Removed startSessionMilestones method
