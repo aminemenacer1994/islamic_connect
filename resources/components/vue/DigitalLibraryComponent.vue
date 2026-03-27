@@ -1,139 +1,53 @@
 <template>
-  <div class="container py-4 digital-library-page">
-    <h1 class="text-center fw-bold display-5 mb-3">Digital Content Library</h1>
-    <p class="text-center mb-4 lead">
-      Browse structured Islamic guides for reverts, youth, and anyone looking to learn with clarity and confidence.
-    </p>
-
-    <div class="library-toolbar d-flex flex-column flex-lg-row align-items-lg-center justify-content-lg-between gap-3 mb-3">
-      <p class="small text-muted mb-0 library-count" aria-live="polite">
-        <i class="bi bi-collection me-2" aria-hidden="true"></i>
-        <strong class="me-1">{{ totalVisibleCount }}</strong> guides available
+  <div class="container py-4 digital-library-page" :class="{ 'is-dark': isDarkMode }">
+    <section class="library-hero text-center">
+      <span class="library-kicker">Curated Guides</span>
+      <h1 class="display-5 fw-bold mb-3">Digital Content Library</h1>
+      <p class="lead mb-0">
+        A simple collection of Islamic guides for new Muslims, young people, and seasonal worship.
       </p>
+    </section>
 
-      <div class="library-search">
-        <div class="library-search-inner">
-          <i class="bi bi-search" aria-hidden="true"></i>
-          <input
-            v-model.trim="searchQuery"
-            type="search"
-            class="form-control library-search-input"
-            placeholder="Search guides…"
-            aria-label="Search guides" />
-          <button
-            v-if="searchQuery"
-            type="button"
-            class="btn btn-link library-search-clear"
-            @click="searchQuery = ''"
-            aria-label="Clear search">
-            <i class="bi bi-x-circle" aria-hidden="true"></i>
-          </button>
-        </div>
+    <section class="library-summary" aria-label="Library summary">
+      <div>
+        <p class="summary-label mb-1">Available now</p>
+        <p class="summary-copy mb-0">Open any guide to continue learning without extra filters or navigation.</p>
       </div>
+      <span class="summary-count" aria-label="Number of available guides">{{ guides.length }}</span>
+    </section>
 
-      <div
-        v-if="categoryPills.length"
-        class="library-category-pills"
-        role="group"
-        aria-label="Filter guides by category">
-        <button
-          type="button"
-          class="btn category-pill"
-          :class="{ 'is-active': activeCategoryKey === 'all' }"
-          @click="activeCategoryKey = 'all'">
-          <i class="bi bi-grid-3x3-gap me-1" aria-hidden="true"></i>
-          All
-          <span class="pill-count">{{ guides.length }}</span>
-        </button>
-        <button
-          v-for="pill in categoryPills"
-          :key="pill.key"
-          type="button"
-          class="btn category-pill"
-          :class="{ 'is-active': activeCategoryKey === pill.key }"
-          @click="activeCategoryKey = pill.key">
-          <i class="bi me-1" :class="pill.icon" aria-hidden="true"></i>
-          {{ pill.title }}
-          <span class="pill-count">{{ pill.count }}</span>
-        </button>
-      </div>
-    </div>
+    <div v-if="guides.length" class="row g-4">
+      <div v-for="guide in guides" :key="guide.id" class="col-12 col-md-6 col-lg-4">
+        <a class="guide-card-link text-decoration-none d-block h-100" :href="guide.href" :aria-label="guide.cta">
+          <article class="card guide-card h-100">
+            <div class="card-body d-flex flex-column p-4">
+              <div class="guide-meta-row mb-3">
+                <span class="audience-chip">{{ formatAudience(guide.audience) }}</span>
+                <span class="guide-level">{{ guide.level }}</span>
+              </div>
 
-    <div v-if="guides.length && totalVisibleCount" class="library-sections">
-      <section
-        v-for="section in visibleSections"
-        :key="section.key"
-        class="library-section"
-        :aria-label="`${section.title} guides`">
-        <div class="library-section-header">
-          <div class="library-section-title-row">
-            <span class="section-icon" aria-hidden="true">
-              <i class="bi" :class="section.icon"></i>
-            </span>
-            <div>
-              <h2 class="h4 mb-0 fw-bold section-title">{{ section.title }}</h2>
-              <p v-if="section.subtitle" class="mb-0 section-subtitle text-muted">
-                {{ section.subtitle }}
-              </p>
+              <h2 class="h4 fw-bold mb-2 guide-title">{{ guide.title }}</h2>
+              <p class="card-text mb-4 card-description">{{ guide.description }}</p>
+
+              <div class="guide-topics mb-4" aria-label="Guide topics">
+                <span v-for="tag in guide.tags" :key="`${guide.id}-${tag}`" class="topic-chip">{{ tag }}</span>
+              </div>
+
+              <span class="guide-cta mt-auto">
+                <span>{{ guide.cta }}</span>
+                <i class="bi bi-arrow-right" aria-hidden="true"></i>
+              </span>
             </div>
-          </div>
-          <span class="section-count" aria-label="Number of guides in this category">
-            {{ section.guides.length }}
-          </span>
-        </div>
-
-        <div class="row g-4">
-          <div v-for="guide in section.guides" :key="guide.id" class="col-12 col-md-6 col-lg-4">
-            <a
-              class="guide-card-link text-decoration-none d-block h-100"
-              :href="guide.href"
-              :aria-label="guide.cta"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <article class="card custom-card rounded-4 overflow-hidden h-100">
-                <div class="card-body d-flex flex-column p-3">
-                  <div class="guide-meta-row mb-2">
-                    <span class="audience-chip">
-                      <i class="bi bi-person-badge-fill me-1" aria-hidden="true"></i>
-                      {{ formatAudience(guide.audience) }}
-                    </span>
-                    <span class="guide-level">{{ guide.level }}</span>
-                  </div>
-
-                  <h3 class="h5 fw-bold text-dark mb-2 guide-title">{{ guide.title }}</h3>
-
-                  <p class="card-text text-muted mb-3 card-description">{{ guide.description }}</p>
-
-                  <div class="mb-4 guide-topics" aria-label="Guide topics">
-                    <span v-for="tag in guide.tags" :key="`${guide.id}-${tag}`" class="topic-chip">{{ tag }}</span>
-                  </div>
-
-                  <span class="guide-cta-btn mt-auto">
-                    <span>{{ guide.cta }}</span>
-                    <i class="bi bi-arrow-up-right"></i>
-                  </span>
-                </div>
-              </article>
-            </a>
-          </div>
-        </div>
-      </section>
-    </div>
-
-    <div v-else-if="guides.length && !totalVisibleCount" class="empty-state text-center">
-      <i class="bi bi-search" aria-hidden="true"></i>
-      <p class="mb-1 fw-semibold">No matches found.</p>
-      <p class="mb-3 text-muted">Try a different search or reset filters.</p>
-      <button type="button" class="btn btn-sm btn-outline-secondary" @click="resetFilters">
-        Reset filters
-      </button>
+          </article>
+        </a>
+      </div>
     </div>
 
     <div v-else class="empty-state text-center">
       <i class="bi bi-journal-x" aria-hidden="true"></i>
       <p class="mb-0">No guides available right now.</p>
     </div>
+
   </div>
 </template>
 
@@ -141,34 +55,7 @@
 export default {
   data() {
     return {
-      activeCategoryKey: "all",
-      searchQuery: "",
-      categoryDefinitions: [
-        {
-          key: "seasonal",
-          title: "Seasonal",
-          subtitle: "Ramadan and other time-based collections.",
-          icon: "bi-calendar-heart",
-        },
-        {
-          key: "special-events",
-          title: "Special Events",
-          subtitle: "Event hubs, programmes, and one-off experiences.",
-          icon: "bi-stars",
-        },
-        {
-          key: "social",
-          title: "Social",
-          subtitle: "Community-first tracks for connection and growth.",
-          icon: "bi-people",
-        },
-        {
-          key: "learning",
-          title: "Learning",
-          subtitle: "Structured learning paths and essentials.",
-          icon: "bi-journal-bookmark",
-        },
-      ],
+      isDarkMode: false,
       guides: [
         {
           id: "revert-essentials",
@@ -176,7 +63,6 @@ export default {
           description:
             "A practical starting point for new Muslims covering prayer, daily worship routines, and foundational learning.",
           audience: "revert",
-          category: "learning",
           level: "Beginner",
           href: "/revert",
           cta: "Open Revert Guide",
@@ -188,7 +74,6 @@ export default {
           description:
             "Guidance for students and young professionals navigating identity, studies, and faith-centered habits.",
           audience: "youth",
-          category: "social",
           level: "Intermediate",
           href: "/guide",
           cta: "Start Youth Track",
@@ -200,7 +85,6 @@ export default {
           description:
             "A dedicated Ramadan experience with practical daily planning, worship focus, and reflection resources.",
           audience: "seasonal",
-          category: "seasonal",
           level: "All Levels",
           href: "/ramadan-2026",
           cta: "Open Ramadan Guide",
@@ -209,106 +93,12 @@ export default {
       ],
     };
   },
-  computed: {
-    resolvedGuides() {
-      return (this.guides || []).map((guide) => {
-        const category = String(guide?.category || "").trim();
-        if (category) return guide;
-        const audience = String(guide?.audience || "").trim();
-        if (audience === "seasonal") return { ...guide, category: "seasonal" };
-        return { ...guide, category: "learning" };
-      });
-    },
-    normalizedSearchQuery() {
-      return String(this.searchQuery || "").trim().toLowerCase();
-    },
-    filteredGuides() {
-      const q = this.normalizedSearchQuery;
-      const list = this.resolvedGuides || [];
-      if (!q) return list;
-      return list.filter((guide) => {
-        const title = String(guide?.title || "").toLowerCase();
-        const description = String(guide?.description || "").toLowerCase();
-        const tags = Array.isArray(guide?.tags) ? guide.tags.join(" ").toLowerCase() : "";
-        const audience = String(guide?.audience || "").toLowerCase();
-        return (
-          title.includes(q) ||
-          description.includes(q) ||
-          tags.includes(q) ||
-          audience.includes(q)
-        );
-      });
-    },
-    categoryIndex() {
-      const defs = Array.isArray(this.categoryDefinitions)
-        ? this.categoryDefinitions
-        : [];
-      const index = new Map();
-      defs.forEach((def) => {
-        if (!def || !def.key) return;
-        index.set(String(def.key), def);
-      });
-      return index;
-    },
-    sections() {
-      const groups = new Map();
-      (this.filteredGuides || []).forEach((guide) => {
-        const key = String(guide?.category || "other").trim() || "other";
-        if (!groups.has(key)) groups.set(key, []);
-        groups.get(key).push(guide);
-      });
-
-      const ordered = [];
-      (this.categoryDefinitions || []).forEach((def) => {
-        const key = String(def?.key || "").trim();
-        if (!key) return;
-        const items = groups.get(key) || [];
-        if (!items.length) return;
-        ordered.push({
-          ...def,
-          key,
-          guides: items,
-        });
-        groups.delete(key);
-      });
-
-      const remaining = Array.from(groups.entries())
-        .map(([key, items]) => ({ key, items }))
-        .filter((entry) => (entry.items || []).length);
-
-      remaining.forEach(({ key, items }) => {
-        const def = this.categoryIndex.get(String(key));
-        ordered.push({
-          key,
-          title: def?.title || "Other",
-          subtitle: def?.subtitle || "",
-          icon: def?.icon || "bi-folder2-open",
-          guides: items,
-        });
-      });
-
-      return ordered;
-    },
-    categoryPills() {
-      return (this.sections || []).map((section) => ({
-        key: section.key,
-        title: section.title,
-        icon: section.icon,
-        count: (section.guides || []).length,
-      }));
-    },
-    visibleSections() {
-      if (this.activeCategoryKey === "all") return this.sections || [];
-      return (this.sections || []).filter(
-        (section) => String(section.key) === String(this.activeCategoryKey)
-      );
-    },
-    totalVisibleCount() {
-      return (this.visibleSections || []).reduce(
-        (sum, section) => sum + ((section.guides || []).length || 0),
-        0
-      );
-    },
+  mounted() {
+    this.syncThemeFromBody();
+    window.addEventListener("ic-theme-change", this.handleThemeChange);
+  },
+  beforeUnmount() {
+    window.removeEventListener("ic-theme-change", this.handleThemeChange);
   },
   methods: {
     formatAudience(audience) {
@@ -319,9 +109,16 @@ export default {
       };
       return audienceMap[audience] || "Guide";
     },
-    resetFilters() {
-      this.activeCategoryKey = "all";
-      this.searchQuery = "";
+    syncThemeFromBody() {
+      this.isDarkMode = document.body.classList.contains("digital-library-route-page")
+        && document.body.classList.contains("dark-mode");
+    },
+    handleThemeChange(event) {
+      if (event?.detail && typeof event.detail.isDark === "boolean") {
+        this.isDarkMode = event.detail.isDark;
+        return;
+      }
+      this.syncThemeFromBody();
     },
   },
 };
@@ -329,350 +126,238 @@ export default {
 
 <style scoped>
 .digital-library-page {
-  --section-ink: #1e2e33;
-  --section-muted: #586a70;
-  --card-accent: #0b5d4b;
-  --card-accent-2: #1a5f7a;
-  --card-sand: #fcf7ee;
-  --card-border: rgba(15, 70, 63, 0.16);
-  --card-shadow: 0 12px 28px rgba(12, 43, 47, 0.1), 0 4px 10px rgba(12, 43, 47, 0.06);
-  --card-shadow-hover: 0 20px 45px rgba(12, 43, 47, 0.16), 0 8px 16px rgba(12, 43, 47, 0.1);
-  --pill-bg: rgba(236, 247, 243, 0.9);
-  --pill-border: rgba(11, 93, 75, 0.18);
-  --pill-ink: #1a5f4f;
-  --pill-bg-active: rgba(42, 141, 117, 0.18);
-  --panel-bg: rgba(255, 255, 255, 0.72);
+  --page-ink: #1f2f35;
+  --page-muted: #5d7078;
+  --page-border: rgba(24, 77, 67, 0.12);
+  --page-shadow: 0 16px 36px rgba(17, 43, 46, 0.08);
+  --card-shadow-hover: 0 22px 44px rgba(17, 43, 46, 0.14);
+  --card-accent: #1e7a63;
+  --card-accent-strong: #155947;
+  --panel-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(245, 250, 248, 0.96));
+  --card-bg: linear-gradient(180deg, #ffffff 0%, #f9fcfb 100%);
+  --chip-bg: #edf7f3;
+  --chip-muted-bg: #f1f5f7;
+  --topic-bg: #ecf4f8;
+  --empty-bg: #f8fbfc;
+  --kicker-bg: #edf7f3;
+  --cta-bg: linear-gradient(90deg, var(--card-accent), var(--card-accent-strong));
+  --cta-border: transparent;
+  --cta-ink: #ffffff;
+  --card-hover-border: rgba(24, 77, 67, 0.22);
+  color: var(--page-ink);
 }
 
-.library-toolbar {
-  position: sticky;
-  top: 74px;
-  z-index: 5;
-  padding: 0.75rem 0.9rem;
-  border-radius: 18px;
-  border: 1px solid rgba(15, 70, 63, 0.12);
-  background: linear-gradient(180deg, var(--panel-bg), rgba(252, 247, 238, 0.62));
-  backdrop-filter: blur(10px);
+.digital-library-page.is-dark {
+  --page-ink: #ffffff;
+  --page-muted: #ffffff;
+  --page-border: rgba(255, 255, 255, 0.12);
+  --page-shadow: none;
+  --card-shadow-hover: none;
+  --card-accent: #232529;
+  --card-accent-strong: #ffffff;
+  --panel-bg: #232529;
+  --card-bg: #232529;
+  --chip-bg: #232529;
+  --chip-muted-bg: #232529;
+  --topic-bg: #232529;
+  --empty-bg: #232529;
+  --kicker-bg: #232529;
+  --cta-bg: #232529;
+  --cta-border: rgba(255, 255, 255, 0.18);
+  --cta-ink: #ffffff;
+  --card-hover-border: rgba(255, 255, 255, 0.18);
 }
 
-.digital-library-page > h1.display-5 {
-  letter-spacing: -0.01em;
-  font-weight: 700;
-  color: var(--section-ink);
+.library-hero {
+  max-width: 760px;
+  margin: 0 auto 1.75rem;
 }
 
-.lead {
-  color: var(--section-muted);
-  line-height: 1.7;
-  max-width: 900px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.library-count {
+.library-kicker {
   display: inline-flex;
   align-items: center;
-}
-
-.library-search {
-  flex: 1 1 420px;
-  max-width: 560px;
-}
-
-.library-search-inner {
-  position: relative;
-  display: flex;
-  align-items: center;
-}
-
-.library-search-inner > i.bi-search {
-  position: absolute;
-  left: 12px;
-  color: rgba(30, 46, 51, 0.55);
-}
-
-.library-search-input {
-  padding-left: 2.25rem;
-  padding-right: 2.35rem;
-  border-radius: 14px;
-  border: 1px solid rgba(15, 70, 63, 0.16);
-  background: rgba(255, 255, 255, 0.9);
-}
-
-.library-search-input:focus {
-  border-color: rgba(42, 141, 117, 0.55);
-  box-shadow: 0 0 0 0.2rem rgba(42, 141, 117, 0.18);
-}
-
-.library-search-clear {
-  position: absolute;
-  right: 8px;
-  padding: 0.25rem 0.35rem;
-  color: rgba(30, 46, 51, 0.55);
-}
-
-.library-search-clear:hover {
-  color: rgba(30, 46, 51, 0.85);
-}
-
-.library-category-pills {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 0.55rem;
-}
-
-.category-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.25rem;
-  padding: 0.45rem 0.7rem;
+  padding: 0.35rem 0.8rem;
   border-radius: 999px;
-  border: 1px solid var(--pill-border);
-  background: var(--pill-bg);
-  color: var(--pill-ink);
+  background: var(--kicker-bg);
+  color: var(--card-accent-strong);
+  border: 1px solid var(--page-border);
+  font-size: 0.78rem;
   font-weight: 800;
-  font-size: 0.8rem;
-  letter-spacing: 0.01em;
-}
-
-.category-pill .pill-count {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 28px;
-  height: 22px;
-  padding: 0 0.45rem;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.9);
-  border: 1px solid rgba(11, 93, 75, 0.18);
-  color: rgba(11, 93, 75, 0.92);
-  font-size: 0.74rem;
-  font-weight: 900;
-}
-
-.category-pill.is-active {
-  background: var(--pill-bg-active);
-  border-color: rgba(42, 141, 117, 0.38);
-  box-shadow: 0 12px 22px rgba(12, 43, 47, 0.08);
-}
-
-.category-pill:focus-visible {
-  outline: 3px solid rgba(21, 111, 89, 0.34);
-  outline-offset: 2px;
-}
-
-.library-sections {
-  display: flex;
-  flex-direction: column;
-  gap: 1.6rem;
-  margin-top: 1rem;
-}
-
-.library-section {
-  padding-top: 0.25rem;
-}
-
-.library-section-header {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 1rem;
-  padding: 0.85rem 0.95rem;
-  border: 1px solid rgba(15, 70, 63, 0.12);
-  border-radius: 18px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(252, 247, 238, 0.7));
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
   margin-bottom: 1rem;
 }
 
-.library-section-title-row {
+.digital-library-page.is-dark .library-kicker {
+  color: #ffffff;
+}
+
+.digital-library-page h1 {
+  color: var(--page-ink);
+  letter-spacing: -0.02em;
+}
+
+.lead {
+  color: var(--page-muted);
+  line-height: 1.7;
+}
+
+.library-summary {
   display: flex;
-  align-items: flex-start;
-  gap: 0.75rem;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.1rem 1.25rem;
+  border: 1px solid var(--page-border);
+  border-radius: 20px;
+  background: var(--panel-bg);
+  box-shadow: var(--page-shadow);
+  margin-bottom: 1.5rem;
 }
 
-.section-icon {
-  width: 44px;
-  height: 44px;
-  border-radius: 14px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(42, 141, 117, 0.12);
-  border: 1px solid rgba(42, 141, 117, 0.18);
-  color: #1a5f4f;
+.summary-label {
+  color: var(--card-accent-strong);
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.summary-copy {
+  color: var(--page-muted);
+  line-height: 1.6;
+}
+
+.summary-count {
   flex: 0 0 auto;
-}
-
-.section-icon i {
-  font-size: 1.05rem;
-}
-
-.section-title {
-  color: var(--section-ink);
-  letter-spacing: -0.01em;
-}
-
-.section-subtitle {
-  color: var(--section-muted);
-  line-height: 1.5;
-  font-size: 0.95rem;
-  margin-top: 0.1rem;
-}
-
-.section-count {
+  min-width: 56px;
+  height: 56px;
+  border-radius: 18px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 34px;
-  height: 34px;
-  padding: 0 0.65rem;
-  border-radius: 999px;
-  background: rgba(26, 95, 122, 0.08);
-  border: 1px solid rgba(26, 95, 122, 0.16);
-  color: rgba(26, 95, 122, 0.92);
-  font-weight: 900;
+  background: var(--card-bg);
+  color: var(--page-ink);
+  border: 1px solid var(--page-border);
+  font-size: 1.4rem;
+  font-weight: 800;
 }
 
-.custom-card {
-  border-radius: 22px;
-  border: 1px solid var(--card-border);
-  background:
-    radial-gradient(120% 120% at 0% 0%, rgba(232, 201, 138, 0.45) 0%, rgba(255, 255, 255, 0) 60%),
-    radial-gradient(120% 120% at 100% 0%, rgba(26, 95, 122, 0.18) 0%, rgba(255, 255, 255, 0) 55%),
-    linear-gradient(180deg, #ffffff 0%, var(--card-sand) 100%);
-  box-shadow: var(--card-shadow);
-  position: relative;
-  z-index: 0;
-  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease, background-color 0.25s ease;
-}
-
-.custom-card::before {
-  content: "";
-  position: absolute;
-  top: -68px;
-  right: -56px;
-  width: 170px;
-  height: 170px;
-  border-radius: 50%;
-  background: radial-gradient(circle at 35% 35%, rgba(11, 93, 75, 0.22), rgba(11, 93, 75, 0));
-  pointer-events: none;
-}
-
-.custom-card::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 4px;
-  background: linear-gradient(90deg, var(--card-accent), var(--card-accent-2));
-  opacity: 0.9;
-  pointer-events: none;
-}
-
-.custom-card:hover {
-  transform: translateY(-4px);
-  border-color: rgba(11, 93, 75, 0.28);
-  box-shadow: var(--card-shadow-hover);
+.digital-library-page.is-dark .summary-label,
+.digital-library-page.is-dark .summary-copy,
+.digital-library-page.is-dark .summary-count {
+  color: #ffffff;
 }
 
 .guide-card-link:focus-visible {
-  outline: 3px solid rgba(21, 111, 89, 0.34);
-  outline-offset: 3px;
+  outline: 3px solid rgba(30, 122, 99, 0.28);
+  outline-offset: 4px;
   border-radius: 24px;
+}
+
+.guide-card {
+  border: 1px solid var(--page-border);
+  border-radius: 22px;
+  background: var(--card-bg);
+  box-shadow: var(--page-shadow);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.guide-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--card-shadow-hover);
+  border-color: var(--card-hover-border);
 }
 
 .guide-meta-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 0.6rem;
+  gap: 0.75rem;
+}
+
+.audience-chip,
+.guide-level,
+.topic-chip {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  font-size: 0.76rem;
+  font-weight: 700;
 }
 
 .audience-chip {
-  display: inline-flex;
-  align-items: center;
-  padding: 0.18rem 0.55rem;
-  border-radius: 999px;
-  background: #edf7f3;
-  color: #1a5f4f;
-  border: 1px solid rgba(11, 93, 75, 0.18);
-  font-size: 0.73rem;
-  font-weight: 700;
-  letter-spacing: 0.02em;
+  padding: 0.3rem 0.7rem;
+  color: var(--card-accent-strong);
+  background: var(--chip-bg);
+  border: 1px solid var(--page-border);
 }
 
 .guide-level {
-  display: inline-flex;
-  align-items: center;
-  padding: 0.2rem 0.55rem;
-  border-radius: 999px;
-  font-size: 0.72rem;
-  font-weight: 700;
-  color: #425965;
-  background: #f2f6f8;
-  border: 1px solid rgba(66, 89, 101, 0.16);
+  padding: 0.3rem 0.7rem;
+  color: var(--page-muted);
+  background: var(--chip-muted-bg);
+  border: 1px solid var(--page-border);
 }
 
 .guide-title {
   line-height: 1.3;
+  color: var(--page-ink);
 }
 
 .card-description {
-  line-height: 1.6;
-  min-height: 72px;
+  line-height: 1.65;
+  min-height: 78px;
+  color: var(--page-muted);
 }
 
 .guide-topics {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.45rem;
+  gap: 0.5rem;
 }
 
 .topic-chip {
-  display: inline-flex;
-  align-items: center;
-  border-radius: 999px;
-  padding: 0.22rem 0.58rem;
-  font-size: 0.74rem;
-  font-weight: 600;
-  color: #3a5a67;
-  background: #ecf5f8;
-  border: 1px solid rgba(58, 90, 103, 0.2);
+  padding: 0.28rem 0.65rem;
+  color: var(--page-ink);
+  background: var(--topic-bg);
+  border: 1px solid var(--page-border);
 }
 
-.guide-cta-btn {
+.guide-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
   width: 100%;
-  border: 1px solid rgba(19, 96, 77, 0.35);
-  border-radius: 12px;
-  padding: 0.7rem 0.85rem;
-  background: linear-gradient(90deg, #2a8d75, #2f7f6d);
-  color: #ffffff;
+  padding: 0.85rem 1rem;
+  border-radius: 14px;
+  color: var(--cta-ink);
+  background: var(--cta-bg);
+  border: 1px solid var(--cta-border);
   font-weight: 700;
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  gap: 0.55rem;
-  text-decoration: none;
-  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
 }
 
-.guide-cta-btn:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 8px 16px rgba(17, 91, 74, 0.24);
-  background: linear-gradient(90deg, #247b66, #2a705f);
-  border-color: rgba(19, 96, 77, 0.45);
+.digital-library-page.is-dark .audience-chip,
+.digital-library-page.is-dark .guide-level,
+.digital-library-page.is-dark .topic-chip,
+.digital-library-page.is-dark .guide-title,
+.digital-library-page.is-dark .card-description,
+.digital-library-page.is-dark .guide-cta,
+.digital-library-page.is-dark .guide-cta i,
+.digital-library-page.is-dark .empty-state,
+.digital-library-page.is-dark .empty-state i,
+.digital-library-page.is-dark .lead,
+.digital-library-page.is-dark h1 {
   color: #ffffff;
 }
 
 .empty-state {
   margin-top: 1rem;
-  border: 1px dashed rgba(18, 70, 65, 0.2);
+  border: 1px dashed var(--page-border);
   border-radius: 16px;
-  background: #f8fbfc;
-  color: #4b5f68;
+  background: var(--empty-bg);
+  color: var(--page-muted);
   padding: 1.2rem 1rem;
 }
 
@@ -682,9 +367,20 @@ export default {
   margin-bottom: 0.5rem;
 }
 
-@media (min-width: 992px) {
+@media (max-width: 767.98px) {
+  .library-summary {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .summary-count {
+    min-width: 48px;
+    height: 48px;
+    border-radius: 14px;
+  }
+
   .card-description {
-    min-height: 84px;
+    min-height: 0;
   }
 }
 </style>

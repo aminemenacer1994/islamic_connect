@@ -24,9 +24,9 @@
             
 
             <form method="POST" action="{{ route('login') }}" novalidate>
-                <div class="mb-2 auth-title-wrap">
-                    <h2 style="color:black; font-weight: bold; text-align:center !important; width:100%; display:block;" class="auth-title">Login to you account</h2>
-                </div>
+	                <div class="mb-2 auth-title-wrap">
+	                    <h2 class="auth-title">Login to you account</h2>
+	                </div>
                 @csrf
                 <div class="auth-field">
                     <label for="email" class="form-label">Email Address</label>
@@ -104,33 +104,33 @@
         box-sizing: border-box;
     }
 
-    body {
-        margin: 0;
-        min-height: 100vh;
-        font-family: 'Inter', 'Poppins', sans-serif;
-        color: #0c1f1b;
-        background: radial-gradient(circle at top left, #fdfdf7, #f5f8f7 45%, #eef7f4);
-        padding-top: 70px;
-    }
+	    body.auth-route-page:not(.dark-mode) {
+	        margin: 0;
+	        min-height: 100vh;
+	        font-family: 'Inter', 'Poppins', sans-serif;
+	        color: #0c1f1b;
+	        background: radial-gradient(circle at top left, #fdfdf7, #f5f8f7 45%, #eef7f4);
+	        padding-top: 70px;
+	    }
 
     #main-content {
         min-height: calc(100vh - 70px);
     }
 
-    .navbar {
-        background-color: #ffffff;
-        box-shadow: 0 18px 40px rgba(13, 39, 33, 0.08);
-    }
+	    body.auth-route-page:not(.dark-mode) .navbar {
+	        background-color: #ffffff;
+	        box-shadow: 0 18px 40px rgba(13, 39, 33, 0.08);
+	    }
 
-    .nav-link {
-        color: #051818;
-        font-weight: 500;
-    }
+	    body.auth-route-page:not(.dark-mode) .nav-link {
+	        color: #051818;
+	        font-weight: 500;
+	    }
 
-    .nav-link:hover,
-    .nav-link.active {
-        color: var(--auth-teal);
-    }
+	    body.auth-route-page:not(.dark-mode) .nav-link:hover,
+	    body.auth-route-page:not(.dark-mode) .nav-link.active {
+	        color: var(--auth-teal);
+	    }
 
     .auth-page {
         min-height: calc(100vh - 70px);

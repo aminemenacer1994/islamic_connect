@@ -9,7 +9,9 @@
 	        $isSuratRoute = request()->is('surat*');
 	        $isHomeRoute = ($path === '' || request()->is('home') || request()->is('welcome'));
 	        $isRadioRoute = request()->is('radio*');
-	        $hasThemeToggle = ($isSuratRoute || $isHomeRoute || $isRadioRoute);
+	        $isDigitalLibraryRoute = request()->is('digital-library');
+	        $isAuthRoute = request()->is('login') || request()->is('register');
+	        $hasThemeToggle = ($isSuratRoute || $isHomeRoute || $isRadioRoute || $isDigitalLibraryRoute || $isAuthRoute);
 	        $defaultCanonical = $appUrl . ($path ? "/{$path}" : '');
 	        $canonicalUrl = trim($__env->yieldContent('canonical', $defaultCanonical));
         $metaTitle = trim($__env->yieldContent('meta_title', 'Islamic Connect, Accessible Quran & Community Tools'));
@@ -121,10 +123,12 @@
     <script>
         (function() {
             try {
-                var isSuratRoute = {{ $isSuratRoute ? 'true' : 'false' }};
-                var isHomeRoute = {{ $isHomeRoute ? 'true' : 'false' }};
-                var isRadioRoute = {{ $isRadioRoute ? 'true' : 'false' }};
-                if (!isSuratRoute && !isHomeRoute && !isRadioRoute) return;
+	                var isSuratRoute = {{ $isSuratRoute ? 'true' : 'false' }};
+	                var isHomeRoute = {{ $isHomeRoute ? 'true' : 'false' }};
+	                var isRadioRoute = {{ $isRadioRoute ? 'true' : 'false' }};
+	                var isDigitalLibraryRoute = {{ $isDigitalLibraryRoute ? 'true' : 'false' }};
+	                var isAuthRoute = {{ $isAuthRoute ? 'true' : 'false' }};
+	                if (!isSuratRoute && !isHomeRoute && !isRadioRoute && !isDigitalLibraryRoute && !isAuthRoute) return;
 
                 var storedSuratTheme = isSuratRoute ? localStorage.getItem('suratThemeMode') : null;
                 var storedRadioTheme = isRadioRoute ? localStorage.getItem('radioThemeMode') : null;
@@ -141,16 +145,16 @@
                     }
                 } catch (e) {}
 
-                var isDark = false;
-                if (storedDarkMode !== null && storedDarkMode !== undefined && storedDarkMode !== '') {
-                    isDark = storedDarkMode === 'true';
-                } else if (storedSuratTheme) {
-                    isDark = storedSuratTheme === 'dark';
-                } else if (storedRadioTheme) {
-                    isDark = storedRadioTheme === 'dark';
-                } else {
-                    isDark = prefersDark;
-                }
+	                var isDark = false;
+	                if (storedDarkMode !== null && storedDarkMode !== undefined && storedDarkMode !== '') {
+	                    isDark = storedDarkMode === 'true';
+	                } else if (storedSuratTheme) {
+	                    isDark = storedSuratTheme === 'dark';
+	                } else if (storedRadioTheme) {
+	                    isDark = storedRadioTheme === 'dark';
+	                } else {
+	                    isDark = prefersDark;
+	                }
                 var theme = isDark ? 'dark' : 'light';
                 var root = document.documentElement;
 
@@ -159,10 +163,13 @@
                 root.setAttribute('data-theme', theme);
                 root.style.colorScheme = theme;
 
-                // Keep storage keys aligned so `/surat` and `/radio` can't drift into an "opposite" theme.
-                try { localStorage.setItem('darkMode', String(isDark)); } catch (e) {}
-                try { localStorage.setItem('suratThemeMode', theme); } catch (e) {}
-                try { localStorage.setItem('radioThemeMode', theme); } catch (e) {}
+	                // Keep storage keys aligned so `/surat` and `/radio` can't drift into an "opposite" theme.
+	                // Do not overwrite preferences on auth pages (we force dark visuals there).
+	                if (!isAuthRoute) {
+	                    try { localStorage.setItem('darkMode', String(isDark)); } catch (e) {}
+	                    try { localStorage.setItem('suratThemeMode', theme); } catch (e) {}
+	                    try { localStorage.setItem('radioThemeMode', theme); } catch (e) {}
+	                }
             } catch (e) {}
         })();
     </script>
@@ -324,28 +331,40 @@
             min-width: 0;
         }
 
-        .navbar > .container-fluid {
-            align-items: center;
-            gap: 0.75rem;
-            padding-inline: clamp(0.9rem, 3vw, 1.5rem);
-        }
+	        .navbar > .container-fluid {
+	            align-items: center;
+	            gap: 0.75rem;
+	            padding-inline: clamp(0.9rem, 3vw, 1.5rem);
+	        }
 
-        .navbar .navbar-brand {
-            flex: 0 1 auto;
-            margin-right: auto;
-            min-width: 0;
-        }
+	        /* Keep navbar fixed across all pages (some page CSS overrides were unfixing it). */
+	        .navbar.fixed-top {
+	            position: fixed !important;
+	            top: 0;
+	            left: 0;
+	            right: 0;
+	            width: 100%;
+	            z-index: 1090 !important;
+	        }
 
-        .navbar .navbar-brand.surat-brand-lockup {
-            --surat-brand-height: 54px;
-            display: inline-flex;
-            align-items: center;
-            gap: clamp(0.45rem, 0.9vw, 0.8rem);
-            min-height: var(--surat-brand-height);
-            line-height: 0;
-            max-width: clamp(320px, 34vw, 520px);
-            overflow: visible;
-        }
+	        .navbar .navbar-brand {
+	            flex: 0 1 auto;
+	            margin-right: auto;
+	            min-width: 0;
+	        }
+
+	        .navbar .navbar-brand.surat-brand-lockup {
+	            --surat-brand-height: 54px;
+	            display: inline-flex;
+	            align-items: center;
+	            gap: clamp(0.45rem, 0.9vw, 0.8rem);
+	            min-height: var(--surat-brand-height);
+	            padding-top: 6px;
+	            padding-bottom: 2px;
+	            line-height: 0;
+	            max-width: clamp(320px, 34vw, 520px);
+	            overflow: visible;
+	        }
 
         .navbar .navbar-brand.surat-brand-lockup .surat-brand-icon-stack {
             position: relative;
@@ -564,11 +583,15 @@
 
 	        body.radio-route-page.dark-mode,
 	        body.radio-route-page.dark-mode main#main-content,
-	        body.radio-route-page.dark-mode #app {
+	        body.radio-route-page.dark-mode #app,
+	        body.digital-library-route-page.dark-mode,
+	        body.digital-library-route-page.dark-mode main#main-content,
+	        body.digital-library-route-page.dark-mode #app {
 	            background: #232529 !important;
 	        }
 
-	        body.radio-route-page.dark-mode {
+	        body.radio-route-page.dark-mode,
+	        body.digital-library-route-page.dark-mode {
 	            --bs-body-bg: #232529;
 	            --bs-body-color: #ffffff;
 	        }
@@ -652,8 +675,17 @@
 	        /* Navbar dark pages: keep control readable on #232529 background */
 	        body.home-route-page.dark-mode .global-theme-toggle,
 	        body.radio-route-page.dark-mode .global-theme-toggle,
+	        body.digital-library-route-page.dark-mode .global-theme-toggle,
 	        body.surat-page-shell-dark .global-theme-toggle {
 	            border-color: rgba(255, 255, 255, 0.14) !important;
+	        }
+
+	        body.digital-library-route-page.dark-mode .global-theme-toggle {
+	            --ic-toggle-bg: rgba(255, 255, 255, 0.04);
+	            --ic-toggle-fg: #ffffff;
+	            --ic-toggle-active: #ffffff;
+	            --ic-toggle-active-fg: #232529;
+	            background: rgba(255, 255, 255, 0.04) !important;
 	        }
 
 	        /* Surat: hide internal theme toggles (use navbar toggle only) */
@@ -669,12 +701,141 @@
 	            display: none !important;
 	        }
 
+	        /* Auth (/login, /register): scoped theme support */
+	        body.auth-route-page {
+	            --auth-bg: #ffffff;
+	            --auth-fg: #232529;
+	            --auth-card: #ffffff;
+	            --auth-border: rgba(15, 23, 42, 0.12);
+	        }
+
+	        body.auth-route-page.dark-mode {
+	            --auth-bg: #232529;
+	            --auth-fg: #ffffff;
+	            --auth-card: #232529;
+	            --auth-border: rgba(255, 255, 255, 0.12);
+	        }
+
+	        body.auth-route-page,
+	        body.auth-route-page main#main-content,
+	        body.auth-route-page #app {
+	            background: var(--auth-bg) !important;
+	            color: var(--auth-fg) !important;
+	        }
+
+	        body.auth-route-page .navbar,
+	        body.auth-route-page .navbar.navbar-transparent {
+	            background: var(--auth-bg) !important;
+	            box-shadow: none !important;
+	            backdrop-filter: none !important;
+	            -webkit-backdrop-filter: none !important;
+	            border-bottom: 1px solid var(--auth-border) !important;
+	        }
+
+	        body.auth-route-page .navbar .navbar-brand,
+	        body.auth-route-page .navbar .nav-link,
+	        body.auth-route-page .navbar .navbar-toggler {
+	            color: var(--auth-fg) !important;
+	        }
+
+	        body.auth-route-page.dark-mode .navbar .navbar-nav .nav-link,
+	        body.auth-route-page.dark-mode .navbar .navbar-nav .nav-link:visited,
+	        body.auth-route-page.dark-mode .navbar .navbar-nav .nav-link:hover,
+	        body.auth-route-page.dark-mode .navbar .navbar-nav .nav-link:focus-visible,
+	        body.auth-route-page.dark-mode .navbar .navbar-nav .nav-link:active {
+	            color: #ffffff !important;
+	            background: transparent !important;
+	            box-shadow: none !important;
+	        }
+
+	        body.auth-route-page.dark-mode .navbar .navbar-brand.surat-brand-lockup .surat-brand-icon--light {
+	            opacity: 0;
+	        }
+	        body.auth-route-page.dark-mode .navbar .navbar-brand.surat-brand-lockup .surat-brand-icon--dark {
+	            opacity: 1;
+	        }
+	        body.auth-route-page.dark-mode .navbar .navbar-brand.surat-brand-lockup .surat-brand-wordmark-img {
+	            filter: brightness(0) invert(1);
+	        }
+
+	        body.auth-route-page:not(.dark-mode) .navbar .navbar-brand.surat-brand-lockup .surat-brand-icon--light {
+	            opacity: 1;
+	        }
+	        body.auth-route-page:not(.dark-mode) .navbar .navbar-brand.surat-brand-lockup .surat-brand-icon--dark {
+	            opacity: 0;
+	        }
+	        body.auth-route-page:not(.dark-mode) .navbar .navbar-brand.surat-brand-lockup .surat-brand-wordmark-img {
+	            filter: none;
+	        }
+
+	        body.auth-route-page .navbar .navbar-brand.surat-brand-lockup {
+	            --surat-brand-height: 44px;
+	        }
+	        body.auth-route-page .navbar .navbar-brand img {
+	            height: 34px !important;
+	            max-width: min(220px, 54vw) !important;
+	        }
+	        body.auth-route-page .navbar .navbar-brand.surat-brand-lockup .surat-brand-wordmark-img {
+	            height: 32px !important;
+	            width: auto !important;
+	        }
+	        body.auth-route-page .navbar .navbar-brand.surat-brand-lockup .surat-brand-icon {
+	            height: 34px !important;
+	            width: auto !important;
+	        }
+
+	        body.auth-route-page .auth-page,
+	        body.auth-route-page .auth-card,
+	        body.auth-route-page .auth-card__footer,
+	        body.auth-route-page .divider,
+	        body.auth-route-page .social-btn {
+	            background: var(--auth-card) !important;
+	        }
+
+	        body.auth-route-page.dark-mode .auth-page__glow {
+	            display: none !important;
+	        }
+
+	        body.auth-route-page #app .auth-title,
+	        body.auth-route-page #app .form-label,
+	        body.auth-route-page #app .form-check-label,
+	        body.auth-route-page #app .divider span,
+	        body.auth-route-page #app .auth-switch-label,
+	        body.auth-route-page #app .auth-switch-link,
+	        body.auth-route-page #app .forgot-password-link,
+	        body.auth-route-page #app .social-btn,
+	        body.auth-route-page #app .social-btn i,
+	        body.auth-route-page #app p,
+	        body.auth-route-page #app span,
+	        body.auth-route-page #app small {
+	            color: var(--auth-fg) !important;
+	        }
+
+	        body.auth-route-page.dark-mode #app .form-control,
+	        body.auth-route-page.dark-mode #app .form-check-input {
+	            background: #232529 !important;
+	            color: #ffffff !important;
+	            border-color: rgba(255, 255, 255, 0.14) !important;
+	            box-shadow: none !important;
+	        }
+
+	        body.auth-route-page.dark-mode #app .form-control::placeholder {
+	            color: rgba(255, 255, 255, 0.65) !important;
+	        }
+
+	        body.auth-route-page.dark-mode #app .auth-card {
+	            border: 1px solid rgba(255, 255, 255, 0.12) !important;
+	            box-shadow: none !important;
+	        }
+
 	        body.home-route-page.dark-mode .navbar.navbar-transparent,
-	        body.radio-route-page.dark-mode .navbar.navbar-transparent {
+	        body.radio-route-page.dark-mode .navbar.navbar-transparent,
+	        body.digital-library-route-page.dark-mode .navbar.navbar-transparent {
 	            background: #232529 !important;
 	            backdrop-filter: none !important;
 	            -webkit-backdrop-filter: none !important;
             box-shadow: none !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
         }
 
         body.home-route-page.dark-mode .navbar.navbar-transparent .navbar-brand,
@@ -682,7 +843,10 @@
         body.home-route-page.dark-mode .navbar.navbar-transparent .navbar-toggler,
         body.radio-route-page.dark-mode .navbar.navbar-transparent .navbar-brand,
         body.radio-route-page.dark-mode .navbar.navbar-transparent .nav-link,
-        body.radio-route-page.dark-mode .navbar.navbar-transparent .navbar-toggler {
+        body.radio-route-page.dark-mode .navbar.navbar-transparent .navbar-toggler,
+        body.digital-library-route-page.dark-mode .navbar.navbar-transparent .navbar-brand,
+        body.digital-library-route-page.dark-mode .navbar.navbar-transparent .nav-link,
+        body.digital-library-route-page.dark-mode .navbar.navbar-transparent .navbar-toggler {
             color: #ffffff !important;
         }
 
@@ -695,75 +859,93 @@
         body.radio-route-page.dark-mode .navbar.navbar-transparent .navbar-nav .nav-link:focus-visible,
         body.radio-route-page.dark-mode .navbar.navbar-transparent .navbar-nav .nav-link:active,
         body.radio-route-page.dark-mode .navbar.navbar-transparent .navbar-nav .nav-link:visited,
-        body.radio-route-page.dark-mode .navbar.navbar-transparent .navbar-nav .nav-link:hover {
+        body.radio-route-page.dark-mode .navbar.navbar-transparent .navbar-nav .nav-link:hover,
+        body.digital-library-route-page.dark-mode .navbar.navbar-transparent .navbar-nav .nav-link,
+        body.digital-library-route-page.dark-mode .navbar.navbar-transparent .navbar-nav .nav-link:focus-visible,
+        body.digital-library-route-page.dark-mode .navbar.navbar-transparent .navbar-nav .nav-link:active,
+        body.digital-library-route-page.dark-mode .navbar.navbar-transparent .navbar-nav .nav-link:visited,
+        body.digital-library-route-page.dark-mode .navbar.navbar-transparent .navbar-nav .nav-link:hover {
             color: #ffffff !important;
             background: transparent !important;
             box-shadow: none !important;
         }
 
         body.home-route-page.dark-mode .navbar .navbar-brand.surat-brand-lockup .surat-brand-icon--light,
-        body.radio-route-page.dark-mode .navbar .navbar-brand.surat-brand-lockup .surat-brand-icon--light {
+        body.radio-route-page.dark-mode .navbar .navbar-brand.surat-brand-lockup .surat-brand-icon--light,
+        body.digital-library-route-page.dark-mode .navbar .navbar-brand.surat-brand-lockup .surat-brand-icon--light {
             opacity: 0;
         }
 
         body.home-route-page.dark-mode .navbar .navbar-brand.surat-brand-lockup .surat-brand-icon--dark,
-        body.radio-route-page.dark-mode .navbar .navbar-brand.surat-brand-lockup .surat-brand-icon--dark {
+        body.radio-route-page.dark-mode .navbar .navbar-brand.surat-brand-lockup .surat-brand-icon--dark,
+        body.digital-library-route-page.dark-mode .navbar .navbar-brand.surat-brand-lockup .surat-brand-icon--dark {
             opacity: 1;
         }
 
         body.home-route-page.dark-mode .navbar .navbar-brand.surat-brand-lockup .surat-brand-wordmark-img,
-        body.radio-route-page.dark-mode .navbar .navbar-brand.surat-brand-lockup .surat-brand-wordmark-img {
+        body.radio-route-page.dark-mode .navbar .navbar-brand.surat-brand-lockup .surat-brand-wordmark-img,
+        body.digital-library-route-page.dark-mode .navbar .navbar-brand.surat-brand-lockup .surat-brand-wordmark-img {
             filter: brightness(0) invert(1);
         }
 
         body.home-route-page.dark-mode .navbar .navbar-toggler,
-        body.radio-route-page.dark-mode .navbar .navbar-toggler {
+        body.radio-route-page.dark-mode .navbar .navbar-toggler,
+        body.digital-library-route-page.dark-mode .navbar .navbar-toggler {
             border-color: rgba(255, 255, 255, 0.14) !important;
             background: #232529 !important;
             box-shadow: none !important;
         }
 
         body.home-route-page.dark-mode .navbar .navbar-toggler-icon,
-        body.radio-route-page.dark-mode .navbar .navbar-toggler-icon {
+        body.radio-route-page.dark-mode .navbar .navbar-toggler-icon,
+        body.digital-library-route-page.dark-mode .navbar .navbar-toggler-icon {
             filter: brightness(0) invert(1);
         }
 
         body.home-route-page.dark-mode .navbar .dropdown-menu,
-        body.radio-route-page.dark-mode .navbar .dropdown-menu {
+        body.radio-route-page.dark-mode .navbar .dropdown-menu,
+        body.digital-library-route-page.dark-mode .navbar .dropdown-menu {
             background: #232529 !important;
             border-color: rgba(255, 255, 255, 0.12) !important;
             box-shadow: none !important;
         }
 
         body.home-route-page.dark-mode .navbar .dropdown-item,
-        body.radio-route-page.dark-mode .navbar .dropdown-item {
+        body.radio-route-page.dark-mode .navbar .dropdown-item,
+        body.digital-library-route-page.dark-mode .navbar .dropdown-item {
             color: #ffffff !important;
         }
 
         body.home-route-page.dark-mode .navbar .dropdown-item:hover,
         body.home-route-page.dark-mode .navbar .dropdown-item:focus-visible,
         body.radio-route-page.dark-mode .navbar .dropdown-item:hover,
-        body.radio-route-page.dark-mode .navbar .dropdown-item:focus-visible {
+        body.radio-route-page.dark-mode .navbar .dropdown-item:focus-visible,
+        body.digital-library-route-page.dark-mode .navbar .dropdown-item:hover,
+        body.digital-library-route-page.dark-mode .navbar .dropdown-item:focus-visible {
             background: rgba(255, 255, 255, 0.06) !important;
         }
 
         @media (max-width: 768px) {
             body.home-route-page.dark-mode .navbar.navbar-transparent,
-            body.radio-route-page.dark-mode .navbar.navbar-transparent {
+            body.radio-route-page.dark-mode .navbar.navbar-transparent,
+            body.digital-library-route-page.dark-mode .navbar.navbar-transparent {
                 background: #232529 !important;
             }
 
             body.home-route-page.dark-mode .navbar.navbar-transparent .navbar-collapse.show,
             body.home-route-page.dark-mode .navbar.navbar-transparent .navbar-collapse.collapsing,
             body.radio-route-page.dark-mode .navbar.navbar-transparent .navbar-collapse.show,
-            body.radio-route-page.dark-mode .navbar.navbar-transparent .navbar-collapse.collapsing {
+            body.radio-route-page.dark-mode .navbar.navbar-transparent .navbar-collapse.collapsing,
+            body.digital-library-route-page.dark-mode .navbar.navbar-transparent .navbar-collapse.show,
+            body.digital-library-route-page.dark-mode .navbar.navbar-transparent .navbar-collapse.collapsing {
                 background: #232529 !important;
                 border-color: rgba(255, 255, 255, 0.12) !important;
                 box-shadow: none !important;
             }
 
             body.home-route-page.dark-mode .navbar.navbar-transparent .navbar-collapse .nav-link,
-            body.radio-route-page.dark-mode .navbar.navbar-transparent .navbar-collapse .nav-link {
+            body.radio-route-page.dark-mode .navbar.navbar-transparent .navbar-collapse .nav-link,
+            body.digital-library-route-page.dark-mode .navbar.navbar-transparent .navbar-collapse .nav-link {
                 color: #ffffff !important;
             }
         }
@@ -923,7 +1105,7 @@
 
 </head>
 
-<body @class(['surat-route-page' => $isSuratRoute, 'home-route-page' => $isHomeRoute, 'radio-route-page' => $isRadioRoute])>
+<body @class(['surat-route-page' => $isSuratRoute, 'home-route-page' => $isHomeRoute, 'radio-route-page' => $isRadioRoute, 'digital-library-route-page' => $isDigitalLibraryRoute, 'auth-route-page' => $isAuthRoute])>
     <script>
         (function() {
             try {
@@ -1163,13 +1345,14 @@
     <script defer src="{{ $appJsSrc }}"></script>
 	    <script>
 	        document.addEventListener('DOMContentLoaded', () => {
-	            // Global theme toggle for supported routes only: /, /home, /surat, /radio
+	            // Global theme toggle for supported routes only: /, /home, /surat, /radio, /digital-library
 	            try {
 	                const toggleBtn = document.getElementById('globalThemeToggle');
 	                if (toggleBtn) {
 	                    const root = document.documentElement;
 	                    const body = document.body;
 	                    const RADIO_BG = '#232529';
+	                    const DIGITAL_LIBRARY_BG = '#232529';
 
 	                    const getTheme = () => (root.getAttribute('data-bs-theme') === 'dark' ? 'dark' : 'light');
 	                    const updateToggleUI = (theme) => {
@@ -1205,10 +1388,13 @@
 	                        // Radio uses explicit dark/light storage
 	                        try { localStorage.setItem('radioThemeMode', theme); } catch (e) {}
 
-	                        // Ensure radio background stays consistent if the page is short
+	                        // Ensure route background stays consistent if the page is short
 	                        if (body && body.classList.contains('radio-route-page')) {
 	                            root.style.backgroundColor = isDark ? RADIO_BG : '';
 	                            body.style.backgroundColor = isDark ? RADIO_BG : '';
+	                        } else if (body && body.classList.contains('digital-library-route-page')) {
+	                            root.style.backgroundColor = isDark ? DIGITAL_LIBRARY_BG : '';
+	                            body.style.backgroundColor = isDark ? DIGITAL_LIBRARY_BG : '';
 	                        }
 
 	                        try {
