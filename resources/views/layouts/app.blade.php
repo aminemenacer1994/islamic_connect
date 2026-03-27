@@ -343,6 +343,8 @@
             gap: clamp(0.45rem, 0.9vw, 0.8rem);
             min-height: var(--surat-brand-height);
             line-height: 0;
+            max-width: clamp(320px, 34vw, 520px);
+            overflow: visible;
         }
 
         .navbar .navbar-brand.surat-brand-lockup .surat-brand-icon-stack {
@@ -368,20 +370,40 @@
 
         .navbar .navbar-brand.surat-brand-lockup .surat-brand-wordmark {
             position: relative;
-            flex: 0 0 auto;
+            flex: 0 1 auto;
             height: var(--surat-brand-height);
-            aspect-ratio: 3249 / 770;
-            overflow: hidden;
+            aspect-ratio: 3177 / 449;
+            overflow: visible;
+            min-width: 0;
+            width: clamp(210px, 22vw, 360px);
         }
 
         .navbar .navbar-brand.surat-brand-lockup .surat-brand-wordmark-img {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: auto !important;
+            position: relative;
+            width: 100% !important;
             height: 100% !important;
-            max-width: none !important;
-            transform: translateX(-18.775%);
+            max-width: 100% !important;
+            object-fit: contain;
+            transform: none;
+        }
+
+        @media (max-width: 1199.98px) {
+            .navbar .navbar-brand.surat-brand-lockup {
+                --surat-brand-height: 48px;
+            }
+            .navbar .navbar-brand.surat-brand-lockup .surat-brand-wordmark {
+                width: clamp(200px, 34vw, 320px);
+            }
+        }
+
+        @media (max-width: 991.98px) {
+            .navbar .navbar-brand.surat-brand-lockup {
+                --surat-brand-height: 46px;
+                max-width: clamp(260px, 66vw, 420px);
+            }
+            .navbar .navbar-brand.surat-brand-lockup .surat-brand-wordmark {
+                width: clamp(190px, 52vw, 340px);
+            }
         }
 
         .navbar .navbar-toggler {
@@ -953,7 +975,7 @@
                     </span>
                     <span class="surat-brand-wordmark" aria-hidden="true">
                         <img
-                            src="/images/logo_main.png"
+                            src="/images/logo_wordmark.png"
                             width="4000"
                             height="770"
                             alt=""
@@ -1590,6 +1612,14 @@
   transition: color 0.2s ease;
   color: #121212;
 }
+
+@media (min-width: 992px) {
+  .navbar-nav .nav-link {
+    white-space: nowrap;
+    padding-inline: 0.55rem;
+  }
+}
+
 .navbar-nav .nav-link.active {
   color: #121212;
   font-weight: 600;
@@ -1606,6 +1636,40 @@
 }
 .navbar-nav .nav-link:hover:not(.active) {
   color: #121212;
+}
+
+/* Surat desktop toolbar: wrap controls so they don't overflow off-screen */
+@media (min-width: 992px) {
+  body.surat-route-page .surat-premium:not(.mobile-compact-layout) .quran-toolbar-sticky.quran-toolbar-fixed-shell .quran-toolbar.quran-toolbar-reader {
+    flex-wrap: wrap !important;
+    overflow-x: visible !important;
+    justify-content: flex-start !important;
+    row-gap: 0.52rem !important;
+  }
+
+  body.surat-route-page .surat-premium:not(.mobile-compact-layout) .quran-toolbar-sticky.quran-toolbar-fixed-shell .quran-toolbar.quran-toolbar-reader .quran-toolbar-reciter {
+    flex: 1 1 360px !important;
+    min-width: 260px !important;
+    max-width: none !important;
+  }
+}
+
+@media (max-width: 1280px) {
+  body.surat-route-page .surat-premium:not(.mobile-compact-layout) .quran-toolbar-sticky.quran-toolbar-fixed-shell .quran-toolbar.quran-toolbar-reader .quran-toolbar-btn-text {
+    display: none !important;
+  }
+}
+
+@media (max-width: 991.98px) {
+  body.surat-route-page .surat-premium .quran-toolbar.quran-toolbar-reader {
+    justify-content: flex-start;
+  }
+
+  body.surat-route-page .surat-premium .quran-toolbar.quran-toolbar-reader .quran-toolbar-reciter {
+    flex-basis: 100% !important;
+    min-width: 0 !important;
+    max-width: none !important;
+  }
 }
 
 .button[data-nav-item="primary"] {

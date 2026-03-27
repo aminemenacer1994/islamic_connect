@@ -227,13 +227,6 @@ export default {
             suratReaderFontSizePreferenceBaseKey: "surat_reader_font_sizes",
             suratPreferenceAnonStorageKey: "ic_surat_pref_anon_id",
             suratPreferenceAnonId: "",
-            continueProgressStorageKeyBase: "ic_continue_reading_progress",
-            continueProgressStorageMapKey: "ic_continue_reading_progress_map_v1",
-            continueProgressHiddenStorageKeyBase: "ic_continue_reading_hidden",
-            continueProgress: null,
-            continueProgressHidden: false,
-            continueProgressLastSignature: "",
-            continueProgressPersistedAt: 0,
             suratOnboardingFeatures: [
                 {
                     id: "feature-read-flow",
@@ -3952,10 +3945,6 @@ export default {
                 );
             });
         },
-        continueProgressSurahNumber() {
-            const value = Number(this.continueProgress?.surahNumber);
-            return Number.isFinite(value) && value > 0 ? value : null;
-        },
         currentSurahInfo() {
             const target = Number(this.surahDetails?.surahNumber || this.selectedSurah);
             if (!target || !Array.isArray(this.surahs)) return null;
@@ -4789,8 +4778,6 @@ export default {
             this.loadPersistedMemorisationPreviousSession();
             this.loadMemorisationPresets();
             this.loadMemorisationPresetPanelCollapsedState();
-            this.loadContinueProgress();
-            this.loadContinueProgressHiddenState();
             this.loadMemorisationRepeatRecordings();
             this.loadMemorisationModePreference();
             this.shouldRestoreMemorisationToolbarOnLoad =
@@ -4805,8 +4792,6 @@ export default {
             this.loadPersistedMemorisationPreviousSession();
             this.loadMemorisationPresets();
             this.loadMemorisationPresetPanelCollapsedState();
-            this.loadContinueProgress();
-            this.loadContinueProgressHiddenState();
             this.loadMemorisationRepeatRecordings();
             this.loadMemorisationModePreference();
             this.shouldRestoreMemorisationToolbarOnLoad =
@@ -5510,8 +5495,6 @@ export default {
         this.loadSessionHistory();
         this.loadMemorisationPresets();
         this.loadMemorisationPresetPanelCollapsedState();
-        this.loadContinueProgress();
-        this.loadContinueProgressHiddenState();
         this.loadMemorisationRepeatRecordings();
         await this.initializeFontSizePreferences();
         await this.initializeDeepFocusModePreference();
@@ -18331,238 +18314,6 @@ export default {
             const anonId = this.getOrCreateSuratPreferenceAnonId();
             return `${baseKey}_anon_${anonId || "local"}`;
         },
-        getContinueProgressStorageKey() {
-            return this.buildScopedFontPreferenceKey(
-                this.continueProgressStorageKeyBase
-            );
-        },
-        getContinueProgressHiddenStorageKey() {
-            return this.buildScopedFontPreferenceKey(
-                this.continueProgressHiddenStorageKeyBase
-            );
-        },
-        loadContinueProgressHiddenState() {
-            if (typeof window === "undefined") {
-                this.continueProgressHidden = false;
-                return false;
-            }
-            try {
-                const raw = localStorage.getItem(
-                    this.getContinueProgressHiddenStorageKey()
-                );
-                this.continueProgressHidden = raw === "1";
-            } catch (_) {
-                this.continueProgressHidden = false;
-            }
-            return this.continueProgressHidden;
-        },
-        persistContinueProgressHiddenState(hidden) {
-            if (typeof window === "undefined") return;
-            try {
-                localStorage.setItem(
-                    this.getContinueProgressHiddenStorageKey(),
-                    hidden ? "1" : "0"
-                );
-            } catch (_) {
-                // ignore storage errors
-            }
-        },
-        hideContinueProgressBanner() {
-            this.continueProgressHidden = true;
-            this.persistContinueProgressHiddenState(true);
-        },
-        showContinueProgressBanner() {
-            this.continueProgressHidden = false;
-            this.persistContinueProgressHiddenState(false);
-        },
-        getContinueProgressScopeId() {
-            if (this.bookmarkStorageUserId) {
-                return `user_${this.bookmarkStorageUserId}`;
-            }
-            const anonId = this.getOrCreateSuratPreferenceAnonId();
-            return `anon_${anonId || "local"}`;
-        },
-        normalizeContinueProgressPayload(payload) {
-            if (!payload || typeof payload !== "object") return null;
-            const surahNumber = Number(payload.surahNumber || payload.surahId);
-            const ayahNumber = Number(payload.ayahNumber || payload.ayahId);
-            if (!surahNumber || !ayahNumber) return null;
-            const mode = payload.mode === "listening" ? "listening" : "reading";
-            return {
-                surahNumber,
-                ayahNumber,
-                surahEnglishName: String(
-                    payload.surahEnglishName || payload.surahNameEn || ""
-                ).trim(),
-                surahArabicName: String(
-                    payload.surahArabicName || payload.surahNameAr || ""
-                ).trim(),
-                mode,
-                timestamp:
-                    Number(payload.timestamp || payload.updatedAt || Date.now()) ||
-                    Date.now(),
-            };
-        },
-        loadContinueProgress() {
-            if (typeof window === "undefined") {
-                this.continueProgress = null;
-                return null;
-            }
-            try {
-                const scopedKey = this.getContinueProgressStorageKey();
-                const scopeId = this.getContinueProgressScopeId();
-                let raw = localStorage.getItem(scopedKey) || "";
-
-                if (!raw) {
-                    const legacyRaw = this.bookmarkStorageUserId
-                        ? localStorage.getItem(
-                            `continue_reading_user_${this.bookmarkStorageUserId}`
-                        ) || ""
-                        : localStorage.getItem("continue_reading_guest") || "";
-                    raw = legacyRaw;
-                }
-
-                if (!raw) {
-                    const mapRaw = localStorage.getItem(
-                        this.continueProgressStorageMapKey
-                    );
-                    const parsedMap = mapRaw ? JSON.parse(mapRaw) : null;
-                    const scopedFromMap =
-                        parsedMap &&
-                        typeof parsedMap === "object" &&
-                        parsedMap[scopeId]
-                            ? JSON.stringify(parsedMap[scopeId])
-                            : "";
-                    if (scopedFromMap) {
-                        raw = scopedFromMap;
-                    }
-                }
-
-                if (!raw || !String(raw).trim()) {
-                    this.continueProgress = null;
-                    return null;
-                }
-                const parsed = JSON.parse(raw);
-                const normalized = this.normalizeContinueProgressPayload(parsed);
-                if (normalized) {
-                    try {
-                        localStorage.setItem(scopedKey, JSON.stringify(normalized));
-                    } catch (_) {
-                        // ignore migration write failures
-                    }
-                }
-                this.continueProgress = normalized;
-                return normalized;
-            } catch (_) {
-                this.continueProgress = null;
-                return null;
-            }
-        },
-        persistContinueProgress({
-            surahNumber,
-            ayahNumber,
-            mode = "reading",
-        } = {}) {
-            if (typeof window === "undefined") return;
-            const normalizedSurah = Number(surahNumber);
-            const normalizedAyah = Number(ayahNumber);
-            if (!normalizedSurah || !normalizedAyah) return;
-            const normalizedMode = mode === "listening" ? "listening" : "reading";
-            const signature = `${normalizedSurah}:${normalizedAyah}:${normalizedMode}`;
-            const now = Date.now();
-            if (
-                signature === this.continueProgressLastSignature &&
-                now - Number(this.continueProgressPersistedAt || 0) < 1200
-            ) {
-                return;
-            }
-            const payload = {
-                surahNumber: normalizedSurah,
-                ayahNumber: normalizedAyah,
-                surahEnglishName: this.getSurahNameByNumber(normalizedSurah),
-                surahArabicName: this.getSurahArabicNameByNumber(normalizedSurah),
-                mode: normalizedMode,
-                timestamp: now,
-            };
-            try {
-                const scopedKey = this.getContinueProgressStorageKey();
-                localStorage.setItem(
-                    scopedKey,
-                    JSON.stringify(payload)
-                );
-                if (this.bookmarkStorageUserId) {
-                    localStorage.setItem(
-                        `continue_reading_user_${this.bookmarkStorageUserId}`,
-                        JSON.stringify(payload)
-                    );
-                } else {
-                    localStorage.setItem(
-                        "continue_reading_guest",
-                        JSON.stringify(payload)
-                    );
-                }
-                const mapRaw = localStorage.getItem(
-                    this.continueProgressStorageMapKey
-                );
-                const parsedMap =
-                    mapRaw && typeof mapRaw === "string"
-                        ? JSON.parse(mapRaw)
-                        : {};
-                const nextMap =
-                    parsedMap && typeof parsedMap === "object"
-                        ? { ...parsedMap }
-                        : {};
-                nextMap[this.getContinueProgressScopeId()] = payload;
-                localStorage.setItem(
-                    this.continueProgressStorageMapKey,
-                    JSON.stringify(nextMap)
-                );
-            } catch (_) {
-                return;
-            }
-            this.continueProgress = payload;
-            this.continueProgressHidden = false;
-            this.persistContinueProgressHiddenState(false);
-            this.continueProgressLastSignature = signature;
-            this.continueProgressPersistedAt = now;
-        },
-        shouldShowContinueCardForSurah(surah) {
-            if (!surah || !this.continueProgressSurahNumber) return false;
-            return Number(surah.number) === Number(this.continueProgressSurahNumber);
-        },
-        async resumeContinueProgress(options = {}) {
-            const progress = this.continueProgress;
-            if (!progress) return;
-            const surahNumber = Number(progress.surahNumber);
-            const ayahNumber = Number(progress.ayahNumber);
-            if (!surahNumber || !ayahNumber) return;
-            const targetIndex = Math.max(0, ayahNumber - 1);
-            try {
-                if (String(this.selectedSurah) !== String(surahNumber)) {
-                    await this.selectSurah(surahNumber, { skipScroll: true });
-                }
-                this.selectCard(targetIndex);
-                this.scrollToAyahIndex(targetIndex, {
-                    settle: true,
-                    force: true,
-                    behavior: "smooth",
-                    lock: true,
-                });
-                if (options.autoplay) {
-                    this.playAudio(targetIndex);
-                }
-            } catch (_) {
-                // keep sidebar interaction resilient
-            }
-        },
-        getContinueProgressSurahName() {
-            const progress = this.continueProgress;
-            const surahNumber = Number(progress?.surahNumber);
-            return (
-                progress?.surahEnglishName ||
-                this.getSurahNameByNumber(surahNumber || this.selectedSurah || 1)
-            );
-        },
         getMemorisationSessionScopeId() {
             if (this.bookmarkStorageUserId) {
                 return `user_${this.bookmarkStorageUserId}`;
@@ -20177,14 +19928,6 @@ export default {
                 this.loadPersistedMemorisationPreviousSession();
                 return;
             }
-            if (event.key === this.getContinueProgressStorageKey()) {
-                this.loadContinueProgress();
-                return;
-            }
-            if (event.key === this.getContinueProgressHiddenStorageKey()) {
-                this.loadContinueProgressHiddenState();
-                return;
-            }
             if (event.key === this.getSessionHistoryStorageKey()) {
                 this.loadSessionHistory();
                 return;
@@ -21786,8 +21529,6 @@ export default {
                 await this.loadSavedBookmarkRecords();
                 await this.syncSavedAyahsFromApi();
                 this.loadPersistedMemorisationPreviousSession();
-                this.loadContinueProgress();
-                this.loadContinueProgressHiddenState();
                 await this.initializeDeepFocusModePreference();
                 await this.initializeReadingFullscreenPreference();
                 this.loadMemorisationModePreference();
@@ -21811,8 +21552,6 @@ export default {
             this.resetSavedBookmarksDeleteConfirm();
             this.loadPersistedMemorisationPreviousSession();
             this.syncHifdhAuthStorage();
-            this.loadContinueProgress();
-            this.loadContinueProgressHiddenState();
             await this.initializeDeepFocusModePreference();
             await this.initializeReadingFullscreenPreference();
             this.loadMemorisationModePreference();
@@ -23453,13 +23192,6 @@ export default {
                 selectedAyah?.numberInSurah || selectedAyah?.number
             );
             if (selectedAyahNumber) {
-                this.persistContinueProgress({
-                    surahNumber: Number(
-                        this.surahDetails?.surahNumber || this.selectedSurah
-                    ),
-                    ayahNumber: selectedAyahNumber,
-                    mode: "reading",
-                });
                 if (
                     this.isMemorisationToolbarVisible &&
                     !this.suppressSessionHistorySelectionTracking
@@ -24644,15 +24376,6 @@ export default {
             this.currentlyPlayingIndex = index;
             this.currentAudioIndex = index;
             this.syncAudioPlayerMetrics(index);
-            this.persistContinueProgress({
-                surahNumber: Number(
-                    this.surahDetails?.surahNumber || this.selectedSurah
-                ),
-                ayahNumber: Number(
-                    ayah?.numberInSurah || ayah?.number || index + 1
-                ),
-                mode: "listening",
-            });
             if (this.isMemorisationToolbarVisible) {
                 this.refreshSessionHistoryTracker({
                     activitySource: "audio-start",

@@ -3800,16 +3800,6 @@
                                             <i class="bi bi-bookmark-heart" aria-hidden="true"></i>
                                             <span class="quran-toolbar-btn-text">Start with Al-Fatiha</span>
                                         </button>
-                                        <button
-                                            v-if="continueProgress"
-                                            type="button"
-                                            class="quran-toolbar-btn quran-toolbar-btn-sm"
-                                            @click="resumeContinueProgress({ autoplay: continueProgress?.mode === 'listening' })"
-                                            title="Continue from your last read position"
-                                            data-hifdh-tooltip="true">
-                                            <i class="bi bi-arrow-repeat" aria-hidden="true"></i>
-                                            <span class="quran-toolbar-btn-text">Continue where I left off</span>
-                                        </button>
                                     </div>
                                 </div>
                             </section>
