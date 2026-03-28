@@ -497,6 +497,13 @@ export default {
   overflow: hidden;
 }
 
+.mission-map-card.is-dark,
+.mission-map-card.mission-map-card--fullscreen.is-dark {
+  background: #232529;
+  border-color: rgba(255, 255, 255, 0.12);
+  box-shadow: none;
+}
+
 .mission-map-card__header {
   display: flex;
   justify-content: space-between;
@@ -627,6 +634,50 @@ export default {
   margin: 0 1rem 0.95rem;
   font-size: 0.85rem;
   color: #4b5563;
+}
+
+.mission-map-card.is-dark .mission-map-card__eyebrow,
+.mission-map-card.is-dark .mission-map-card__title,
+.mission-map-card.is-dark .mission-map-card__subtitle,
+.mission-map-card.is-dark .mission-map-card__state,
+.mission-map-card.is-dark .mission-map-card__note,
+.mission-map-card.is-dark .mission-map-card__icon-btn {
+  color: #ffffff;
+}
+
+.mission-map-card.is-dark .mission-map-card__icon-btn,
+.mission-map-card.is-dark .mission-map-card__state,
+.mission-map-card.is-dark .mission-map-card__canvas {
+  background: #232529;
+  border-color: rgba(255, 255, 255, 0.12);
+  box-shadow: none;
+}
+
+.mission-map-card.is-dark .mission-map-card__icon-btn:hover,
+.mission-map-card.is-dark .mission-map-card__icon-btn:focus-visible {
+  background: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.08) inset;
+}
+
+.mission-map-card.is-dark .mission-map-card__icon-btn:disabled {
+  opacity: 0.5;
+}
+
+.mission-map-card.is-dark :deep(.leaflet-control-zoom a),
+.mission-map-card.is-dark :deep(.leaflet-popup-content-wrapper),
+.mission-map-card.is-dark :deep(.leaflet-popup-tip) {
+  background: #232529;
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+.mission-map-card.is-dark :deep(.leaflet-control-zoom a:hover) {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.mission-map-card.is-dark :deep(.seerah-map-popup__context) {
+  color: rgba(255, 255, 255, 0.78);
 }
 
 :deep(.leaflet-control-zoom a) {

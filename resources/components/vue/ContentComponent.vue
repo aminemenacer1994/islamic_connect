@@ -1,5 +1,5 @@
 <template>
-  <div class="container py-4 podcast-page">
+  <div class="container py-4 podcast-page" :class="{ 'is-dark': isDarkMode }">
     <!-- Header Section -->
     <div class="row justify-content-center text-center mb-3 podcast-hero">
       <div class="col-lg-10 col-xl-10">
@@ -21,12 +21,14 @@
       </div>
       <div class="podcast-selection-grid">
         <button v-for="podcast in islamicPodcasts" :key="podcast.rssUrl" type="button" class="podcast-selection-item"
-          @click="selectPodcast(podcast)" :aria-label="`Select podcast ${podcast.name}`">
+          :class="{ 'is-selected': selectedPodcast && selectedPodcast.rssUrl === podcast.rssUrl }"
+          @click="selectPodcast(podcast)" :aria-label="`Select podcast ${podcast.name}`"
+          :aria-pressed="selectedPodcast && selectedPodcast.rssUrl === podcast.rssUrl ? 'true' : 'false'">
           <div class="podcast-image-wrapper">
             <img :src="podcast.image" :alt="podcast.name" class="podcast-selection-image" loading="lazy">
             <div class="podcast-overlay">
-              <i class="bi bi-play-circle-fill"></i>
-              <span class="play-text">Click to Select</span>
+              <i class="bi" :class="selectedPodcast && selectedPodcast.rssUrl === podcast.rssUrl ? 'bi-check-circle-fill' : 'bi-play-circle-fill'"></i>
+              <span class="play-text">{{ selectedPodcast && selectedPodcast.rssUrl === podcast.rssUrl ? 'Selected' : 'Click to Select' }}</span>
             </div>
           </div>
         </button>
@@ -96,8 +98,8 @@
         </div>
         <div class="favorites-hero__actions">
           <span class="favorites-count">{{ favourites.length }} saved</span>
-          <button type="button" class="favorites-toggle" @click="toggleVisibility()"
-            :aria-expanded="isVisible ? 'true' : 'false'" aria-controls="favoritesGrid">
+            <button type="button" class="favorites-toggle" @click="toggleVisibility()"
+              :aria-expanded="isVisible ? 'true' : 'false'" aria-controls="favoritesGrid">
             <i class="fas" :class="isVisible ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
             {{ isVisible ? 'Close favorites' : 'Open favorites' }}
           </button>
@@ -126,8 +128,10 @@
                     </div>
                   </div>
                   <div class="audio-controls-inline favorites-actions">
-                    <button class="control-button play-btn favorite-play" @click="playFromFavourites(fav)" title="Play">
-                      <i class="fas fa-play"></i>
+                    <button class="control-button play-btn favorite-play" :class="{ 'is-active': isCurrentlyPlaying(fav) }"
+                      @click="playFromFavourites(fav)" :title="isCurrentlyPlaying(fav) ? 'Pause' : 'Play'"
+                      :aria-pressed="isCurrentlyPlaying(fav) ? 'true' : 'false'">
+                      <i class="fas" :class="isCurrentlyPlaying(fav) ? 'fa-pause' : 'fa-play'"></i>
                     </button>
                     <button class="control-button favorite-remove" @click="toggleFavourite(fav)"
                       title="Remove from favorites">
@@ -204,7 +208,7 @@
 
           <!-- Mobile toggle button -->
           <div class="col-12 d-flex d-md-none justify-content-between order-1">
-            <button type="button" class="btn btn-light w-100 filter-toggle-btn" @click="showFilters = !showFilters">
+            <button type="button" class="btn btn-light w-100 filter-toggle-btn" :class="{ 'is-active': showFilters }" @click="showFilters = !showFilters">
               <i class="bi bi-funnel me-2"></i> Filters
             </button>
           </div>
@@ -302,7 +306,7 @@
                     <i class="bi" :class="isAudioPlaying[index] ? 'bi-pause-fill' : 'bi-play-fill'"
                       style="font-size:1.5rem; cursor:pointer;"></i>
                   </button>
-                  <button class="control-button" :aria-pressed="isFavourite(podcast) ? 'true' : 'false'"
+                  <button class="control-button" :class="{ 'is-active': isFavourite(podcast) }" :aria-pressed="isFavourite(podcast) ? 'true' : 'false'"
                     :title="isFavourite(podcast) ? 'Unfavorite' : 'Favorite'"
                     :aria-label="isFavourite(podcast) ? 'Unfavorite' : 'Favorite'"
                     @click.stop="toggleFavourite(podcast)">

@@ -576,31 +576,45 @@ const _hoisted_46 = {
   class: "player-controls"
 };
 const _hoisted_47 = {
-  class: "player-header"
+  class: "player-main-row"
 };
 const _hoisted_48 = {
-  class: "player-title"
+  class: "player-title-block"
 };
 const _hoisted_49 = {
+  class: "player-title"
+};
+const _hoisted_50 = {
+  class: "control-cluster",
+  "aria-label": "Playback controls"
+};
+const _hoisted_51 = {
   class: "control-row"
 };
-const _hoisted_50 = ["title", "aria-label"];
-const _hoisted_51 = ["title", "aria-label"];
-const _hoisted_52 = {
+const _hoisted_52 = ["title", "aria-label"];
+const _hoisted_53 = {
+  class: "player-utility"
+};
+const _hoisted_54 = ["title", "aria-label"];
+const _hoisted_55 = {
+  class: "player-meta"
+};
+const _hoisted_56 = {
   class: "timer",
   "aria-live": "polite"
 };
-const _hoisted_53 = {
+const _hoisted_57 = {
   class: "progress-wrapper"
 };
-const _hoisted_54 = ["aria-valuenow", "aria-valuetext"];
+const _hoisted_58 = ["aria-valuenow", "aria-valuetext"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_seerah_map_component = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("seerah-map-component");
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["p-3 mission-shell", {
-      'pb-audio-gap': _ctx.showAudioPlayer
+      'pb-audio-gap': _ctx.showAudioPlayer,
+      'is-dark': _ctx.isDarkMode
     }])
-  }, [_cache[69] || (_cache[69] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<section class=\"mission-intro container px-0 px-lg-3\" data-v-34eda1ab><div class=\"row py-3 justify-content-center text-center mb-3 mission-hero\" data-v-34eda1ab><div class=\"col-lg-10 col-xl-10\" data-v-34eda1ab><h1 class=\"display-5 fw-bold mission-hero__title\" data-v-34eda1ab>Seerah Timeline</h1><p class=\"lead mission-hero__lead\" data-v-34eda1ab> The Seerah Timeline offers an insightful journey through the life of Prophet Muhammad (PBUH). </p></div></div><!-- Next Step: From Qur&#39;an History to Seerah Timeline --><!-- &lt;div class=&quot;next-step-card animate-rise mx-auto mb-4&quot;&gt;\n        &lt;button type=&quot;button&quot; class=&quot;next-step-toggle&quot; :title=&quot;nextStepMinimized ? &#39;Restore&#39; : &#39;Minimize&#39;&quot;\n          :aria-label=&quot;nextStepMinimized ? &#39;Restore next step&#39; : &#39;Minimize next step&#39;&quot;\n          @click.stop=&quot;toggleNextStepMinimized&quot;&gt;\n          &lt;i class=&quot;fas&quot; :class=&quot;nextStepMinimized ? &#39;fa-expand-alt&#39; : &#39;fa-compress-alt&#39;&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;\n        &lt;/button&gt;\n        &lt;div class=&quot;d-flex align-items-start gap-3 text-start&quot;&gt;\n          &lt;div class=&quot;flex-shrink-0 mt-1&quot;&gt;\n            &lt;div class=&quot;next-step-icon-circle&quot;&gt;&lt;i class=&quot;fas fa-praying-hands&quot;&gt;&lt;/i&gt;&lt;/div&gt;\n          &lt;/div&gt;\n          &lt;div class=&quot;flex-grow-1&quot;&gt;\n            &lt;p class=&quot;mb-2 fw-semibold text-uppercase next-step-eyebrow&quot;&gt;\n              NEXT STEP\n            &lt;/p&gt;\n            -- Minimized teaser --\n            &lt;div v-show=&quot;nextStepMinimized&quot; class=&quot;mb-2 next-step-teaser&quot;&gt;\n              &lt;a href=&quot;/dua&quot; class=&quot;fw-semibold text-decoration-none next-step-link&quot;&gt;\n                Explore Du‘a collection\n              &lt;/a&gt;\n              &lt;i class=&quot;fas fa-arrow-up-right-from-square ms-1 next-step-link-icon&quot;&gt;&lt;/i&gt;\n            &lt;/div&gt;\n            &lt;p v-show=&quot;!nextStepMinimized&quot; class=&quot;mb-3 next-step-text&quot;&gt;\n              Learning the Prophet’s blessed journey is a beautiful beginning. When you feel ready, take a gentle step\n              into\n              heartfelt supplications, explore a simple, welcoming the\n              &lt;a href=&quot;/dua&quot; class=&quot;fw-semibold text-decoration-none next-step-link&quot;&gt;\n                Du‘a collection\n              &lt;/a&gt;\n              for daily moments of connection.\n            &lt;/p&gt;\n            &lt;a v-show=&quot;!nextStepMinimized&quot; href=&quot;/dua&quot;\n              class=&quot;btn btn-sm fw-semibold text-white px-3 py-2 next-step-cta&quot;&gt;\n              Explore Du‘a\n              &lt;i class=&quot;fas fa-arrow-up-right-from-square ms-2&quot;&gt;&lt;/i&gt;\n            &lt;/a&gt;\n          &lt;/div&gt;\n        &lt;/div&gt;\n      &lt;/div&gt; --></section>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_1, [_cache[32] || (_cache[32] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"timeline-intro__upper\" data-v-34eda1ab><div class=\"timeline-intro__text\" data-v-34eda1ab><p class=\"timeline-kicker\" data-v-34eda1ab>Navigate the Seerah</p><h2 class=\"timeline-heading\" data-v-34eda1ab>Choose a moment in the life of the Prophet</h2><p class=\"timeline-subtitle\" data-v-34eda1ab>Scroll the years or search by title, year, or keyword.</p></div></div>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, [_cache[70] || (_cache[70] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<section class=\"mission-intro container px-0 px-lg-3\" data-v-34eda1ab><div class=\"row py-3 justify-content-center text-center mb-3 mission-hero\" data-v-34eda1ab><div class=\"col-lg-10 col-xl-10\" data-v-34eda1ab><h1 class=\"display-5 fw-bold mission-hero__title\" data-v-34eda1ab>Seerah Timeline</h1><p class=\"lead mission-hero__lead\" data-v-34eda1ab> The Seerah Timeline offers an insightful journey through the life of Prophet Muhammad (PBUH). </p></div></div><!-- Next Step: From Qur&#39;an History to Seerah Timeline --><!-- &lt;div class=&quot;next-step-card animate-rise mx-auto mb-4&quot;&gt;\n        &lt;button type=&quot;button&quot; class=&quot;next-step-toggle&quot; :title=&quot;nextStepMinimized ? &#39;Restore&#39; : &#39;Minimize&#39;&quot;\n          :aria-label=&quot;nextStepMinimized ? &#39;Restore next step&#39; : &#39;Minimize next step&#39;&quot;\n          @click.stop=&quot;toggleNextStepMinimized&quot;&gt;\n          &lt;i class=&quot;fas&quot; :class=&quot;nextStepMinimized ? &#39;fa-expand-alt&#39; : &#39;fa-compress-alt&#39;&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;\n        &lt;/button&gt;\n        &lt;div class=&quot;d-flex align-items-start gap-3 text-start&quot;&gt;\n          &lt;div class=&quot;flex-shrink-0 mt-1&quot;&gt;\n            &lt;div class=&quot;next-step-icon-circle&quot;&gt;&lt;i class=&quot;fas fa-praying-hands&quot;&gt;&lt;/i&gt;&lt;/div&gt;\n          &lt;/div&gt;\n          &lt;div class=&quot;flex-grow-1&quot;&gt;\n            &lt;p class=&quot;mb-2 fw-semibold text-uppercase next-step-eyebrow&quot;&gt;\n              NEXT STEP\n            &lt;/p&gt;\n            -- Minimized teaser --\n            &lt;div v-show=&quot;nextStepMinimized&quot; class=&quot;mb-2 next-step-teaser&quot;&gt;\n              &lt;a href=&quot;/dua&quot; class=&quot;fw-semibold text-decoration-none next-step-link&quot;&gt;\n                Explore Du‘a collection\n              &lt;/a&gt;\n              &lt;i class=&quot;fas fa-arrow-up-right-from-square ms-1 next-step-link-icon&quot;&gt;&lt;/i&gt;\n            &lt;/div&gt;\n            &lt;p v-show=&quot;!nextStepMinimized&quot; class=&quot;mb-3 next-step-text&quot;&gt;\n              Learning the Prophet’s blessed journey is a beautiful beginning. When you feel ready, take a gentle step\n              into\n              heartfelt supplications, explore a simple, welcoming the\n              &lt;a href=&quot;/dua&quot; class=&quot;fw-semibold text-decoration-none next-step-link&quot;&gt;\n                Du‘a collection\n              &lt;/a&gt;\n              for daily moments of connection.\n            &lt;/p&gt;\n            &lt;a v-show=&quot;!nextStepMinimized&quot; href=&quot;/dua&quot;\n              class=&quot;btn btn-sm fw-semibold text-white px-3 py-2 next-step-cta&quot;&gt;\n              Explore Du‘a\n              &lt;i class=&quot;fas fa-arrow-up-right-from-square ms-2&quot;&gt;&lt;/i&gt;\n            &lt;/a&gt;\n          &lt;/div&gt;\n        &lt;/div&gt;\n      &lt;/div&gt; --></section>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_1, [_cache[32] || (_cache[32] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"timeline-intro__upper\" data-v-34eda1ab><div class=\"timeline-intro__text\" data-v-34eda1ab><p class=\"timeline-kicker\" data-v-34eda1ab>Navigate the Seerah</p><h2 class=\"timeline-heading\" data-v-34eda1ab>Choose a moment in the life of the Prophet</h2><p class=\"timeline-subtitle\" data-v-34eda1ab>Scroll the years or search by title, year, or keyword.</p></div></div>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "timeline-progress",
     role: "progressbar",
     "aria-valuemin": 0,
@@ -635,12 +649,15 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onClick: $event => _ctx.selectEvent(index)
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(event.year), 11 /* TEXT, CLASS, PROPS */, _hoisted_6)]);
   }), 128 /* KEYED_FRAGMENT */))], 544 /* NEED_HYDRATION, NEED_PATCH */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_seerah_map_component, {
+    class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["seerah-map-theme", {
+      'is-dark': _ctx.isDarkMode
+    }]),
     points: _ctx.mapPoints,
     "active-index": _ctx.currentIndex,
     loading: _ctx.mapLoading,
     error: _ctx.mapError,
     onPointSelected: _ctx.onMapPointSelected
-  }, null, 8 /* PROPS */, ["points", "active-index", "loading", "error", "onPointSelected"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
+  }, null, 8 /* PROPS */, ["class", "points", "active-index", "loading", "error", "onPointSelected"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
     name: "fade",
     mode: "out-in",
     class: "container"
@@ -869,8 +886,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "onUpdate:modelValue": _cache[20] || (_cache[20] = $event => _ctx.fontSettings.fontFamily = $event),
       class: "form-select"
     }, [...(_cache[61] || (_cache[61] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+      value: "'Manrope', 'Inter', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif"
+    }, "Manrope (Default)", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
       value: "'Nunito', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif"
-    }, "Nunito (Default)", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+    }, "Nunito", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
       value: "Arial, sans-serif"
     }, "Arial", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
       value: "'Times New Roman', serif"
@@ -911,49 +930,51 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "aria-label": "Next event"
     }, "Next", 8 /* PROPS */, _hoisted_43)], 2 /* CLASS */)], 8 /* PROPS */, _hoisted_8)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]),
     _: 1 /* STABLE */
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Global Custom Audio Player "), _ctx.showAudioPlayer ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_44, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_45, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_46, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_47, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_48, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currentEvent && _ctx.currentEvent.title ? _ctx.currentEvent.title : 'Seerah audio'), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    class: "icon-btn icon-btn--close",
-    onClick: _cache[25] || (_cache[25] = (...args) => _ctx.closeAudioPlayer && _ctx.closeAudioPlayer(...args)),
-    title: "Close",
-    "aria-label": "Close audio player"
-  }, [...(_cache[65] || (_cache[65] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: "bi bi-x-lg"
-  }, null, -1 /* CACHED */)]))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_49, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Global Custom Audio Player "), _ctx.showAudioPlayer ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_44, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_45, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_46, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_47, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_48, [_cache[65] || (_cache[65] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    class: "player-kicker"
+  }, "Seerah Audio", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_49, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currentEvent && _ctx.currentEvent.title ? _ctx.currentEvent.title : 'Seerah audio'), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_50, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_51, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     class: "icon-btn",
-    onClick: _cache[26] || (_cache[26] = $event => _ctx.rewindAudio(_ctx.currentlyPlayingIndex)),
+    onClick: _cache[25] || (_cache[25] = $event => _ctx.rewindAudio(_ctx.currentlyPlayingIndex)),
     title: "Rewind 10 seconds",
     "aria-label": "Rewind 10 seconds"
   }, [...(_cache[66] || (_cache[66] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-skip-backward-fill"
   }, null, -1 /* CACHED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    class: "icon-btn",
-    onClick: _cache[27] || (_cache[27] = $event => _ctx.toggleAudioPlayer(_ctx.currentlyPlayingIndex)),
+    class: "icon-btn icon-btn--primary",
+    onClick: _cache[26] || (_cache[26] = $event => _ctx.toggleAudioPlayer(_ctx.currentlyPlayingIndex)),
     title: _ctx.isAudioPlaying[_ctx.currentlyPlayingIndex] ? 'Pause' : 'Play',
     "aria-label": _ctx.isAudioPlaying[_ctx.currentlyPlayingIndex] ? 'Pause audio' : 'Play audio'
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", _ctx.isAudioPlaying[_ctx.currentlyPlayingIndex] ? 'bi-pause-fill' : 'bi-play-fill'])
-  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_50), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_52), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     class: "icon-btn",
-    onClick: _cache[28] || (_cache[28] = $event => _ctx.fastForwardAudio(_ctx.currentlyPlayingIndex)),
+    onClick: _cache[27] || (_cache[27] = $event => _ctx.fastForwardAudio(_ctx.currentlyPlayingIndex)),
     title: "Fast forward 10 seconds",
     "aria-label": "Fast forward 10 seconds"
   }, [...(_cache[67] || (_cache[67] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-skip-forward-fill"
   }, null, -1 /* CACHED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     class: "icon-btn",
-    onClick: _cache[29] || (_cache[29] = $event => _ctx.stopAudio(_ctx.currentlyPlayingIndex)),
+    onClick: _cache[28] || (_cache[28] = $event => _ctx.stopAudio(_ctx.currentlyPlayingIndex)),
     title: "Stop",
     "aria-label": "Stop audio"
   }, [...(_cache[68] || (_cache[68] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-stop-fill"
-  }, null, -1 /* CACHED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, -1 /* CACHED */)]))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_53, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     class: "icon-btn",
-    onClick: _cache[30] || (_cache[30] = (...args) => _ctx.toggleMute && _ctx.toggleMute(...args)),
+    onClick: _cache[29] || (_cache[29] = (...args) => _ctx.toggleMute && _ctx.toggleMute(...args)),
     title: _ctx.volume > 0 ? 'Mute' : 'Unmute',
     "aria-label": _ctx.volume > 0 ? 'Mute audio' : 'Unmute audio'
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", `bi-volume-${_ctx.volume > 0.5 ? 'up' : _ctx.volume > 0 ? 'down' : 'mute'}-fill`])
-  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_51), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_52, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.formatTime(_ctx.currentTime)) + " / " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.formatTime(_ctx.totalTime)), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_53, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_54), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_55, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_56, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.formatTime(_ctx.currentTime)) + " / " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.formatTime(_ctx.totalTime)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    class: "icon-btn icon-btn--close",
+    onClick: _cache[30] || (_cache[30] = (...args) => _ctx.closeAudioPlayer && _ctx.closeAudioPlayer(...args)),
+    title: "Close",
+    "aria-label": "Close audio player"
+  }, [...(_cache[69] || (_cache[69] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    class: "bi bi-x-lg"
+  }, null, -1 /* CACHED */)]))])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_57, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "progress-track",
     role: "progressbar",
     "aria-valuemin": 0,
@@ -966,7 +987,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
       width: _ctx.progress[_ctx.currentlyPlayingIndex] + '%'
     })
-  }, null, 4 /* STYLE */)], 8 /* PROPS */, _hoisted_54)])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 2 /* CLASS */);
+  }, null, 4 /* STYLE */)], 8 /* PROPS */, _hoisted_58)])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 2 /* CLASS */);
 }
 
 /***/ }),
@@ -1381,7 +1402,7 @@ const MAP_LOCATION_RULES = Object.freeze([{
         fontStyle: 'normal',
         textShadow: 'none',
         textDecoration: '',
-        fontFamily: "'Nunito', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif"
+        fontFamily: "'Manrope', 'Inter', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif"
       },
       events: [],
       originalEvents: [],
@@ -1426,6 +1447,7 @@ const MAP_LOCATION_RULES = Object.freeze([{
       rawRemoteMapPoints: [],
       mapLoading: false,
       mapError: '',
+      isDarkMode: false,
       _filterTimer: null,
       _rafScheduled: false,
       _pendingProgress: null
@@ -1441,13 +1463,14 @@ const MAP_LOCATION_RULES = Object.freeze([{
     contentVars() {
       // Map user font settings to CSS variables for the content card
       const size = Math.max(14, this.fontSize) + 'px';
+      const isDarkMode = this.isDarkMode;
       return {
-        '--content-bg': this.fontSettings.backgroundColor || '#ffffff',
-        '--content-fg': this.fontSettings.color || '#0f172a',
+        '--content-bg': isDarkMode ? '#232529' : this.fontSettings.backgroundColor || '#ffffff',
+        '--content-fg': isDarkMode ? '#ffffff' : this.fontSettings.color || '#0f172a',
         '--content-font-style': this.fontSettings.fontStyle || 'normal',
         '--content-text-shadow': this.fontSettings.textShadow || 'none',
         '--content-text-decoration': this.fontSettings.textDecoration || 'none',
-        '--content-font-family': this.fontSettings.fontFamily || "'Nunito', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif",
+        '--content-font-family': this.fontSettings.fontFamily || "'Manrope', 'Inter', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif",
         '--content-font-size': size
       };
     },
@@ -1464,6 +1487,7 @@ const MAP_LOCATION_RULES = Object.freeze([{
     // heavy computeds removed; we now update cached values in updateCurrentMetrics
   },
   mounted() {
+    this.syncThemeFromBody();
     const saved = localStorage.getItem('userFontSettings');
     if (saved) {
       this.fontSettings = JSON.parse(saved);
@@ -1472,6 +1496,7 @@ const MAP_LOCATION_RULES = Object.freeze([{
       }
     }
     window.addEventListener('resize', this.updateOffcanvasWidth);
+    window.addEventListener('ic-theme-change', this.handleThemeChange);
     // Track scroll to update tab title at top
     try {
       this._originalTitle = document.title;
@@ -1545,6 +1570,7 @@ const MAP_LOCATION_RULES = Object.freeze([{
   },
   beforeUnmount() {
     window.removeEventListener('resize', this.updateOffcanvasWidth);
+    window.removeEventListener('ic-theme-change', this.handleThemeChange);
     document.removeEventListener('visibilitychange', this.handleVisibilityChange);
     window.removeEventListener('scroll', this.handleScrollForTitle);
     if (this.synth) {
@@ -1563,11 +1589,22 @@ const MAP_LOCATION_RULES = Object.freeze([{
       } catch (_) {}
       this._io = null;
     }
+    this.disposeTooltips();
     try {
       document.body.classList.remove('with-audio-player');
     } catch (_) {}
   },
   methods: {
+    syncThemeFromBody() {
+      this.isDarkMode = document.body.classList.contains('seerah-route-page') && document.body.classList.contains('dark-mode');
+    },
+    handleThemeChange(event) {
+      if (event !== null && event !== void 0 && event.detail && typeof event.detail.isDark === 'boolean') {
+        this.isDarkMode = event.detail.isDark;
+        return;
+      }
+      this.syncThemeFromBody();
+    },
     onMapPointSelected(index) {
       if (!Number.isInteger(index)) return;
       if (index < 0 || index >= this.events.length) return;
@@ -1945,6 +1982,19 @@ const MAP_LOCATION_RULES = Object.freeze([{
           const existing = window.bootstrap.Tooltip.getInstance(el);
           if (!existing) new window.bootstrap.Tooltip(el);
         });
+      });
+    },
+    disposeTooltips() {
+      if (!(window && window.bootstrap)) return;
+      const root = this.$el || document;
+      const tooltipTriggerList = root.querySelectorAll('[data-bs-toggle="tooltip"]');
+      tooltipTriggerList.forEach(el => {
+        const existing = window.bootstrap.Tooltip.getInstance(el);
+        if (existing) {
+          try {
+            existing.dispose();
+          } catch (_) {}
+        }
       });
     },
     loadVoices() {

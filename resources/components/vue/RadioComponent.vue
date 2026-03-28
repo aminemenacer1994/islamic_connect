@@ -3784,13 +3784,23 @@ body.radio-route-page.dark-mode .radio-page select {
 }
 
 body.radio-route-page.dark-mode .btn-outline-dark {
+  background: #232529 !important;
   color: #ffffff !important;
   border-color: rgba(255, 255, 255, 0.18) !important;
+  box-shadow: none !important;
 }
 
 body.radio-route-page.dark-mode .btn-outline-dark:hover,
 body.radio-route-page.dark-mode .btn-outline-dark:focus-visible {
   background: rgba(255, 255, 255, 0.06) !important;
+}
+
+body.radio-route-page.dark-mode .btn-outline-dark.active,
+body.radio-route-page.dark-mode .btn-outline-dark:active {
+  background: #232529 !important;
+  color: #ffffff !important;
+  border-color: rgba(255, 255, 255, 0.68) !important;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.08) inset !important;
 }
 
 body.radio-route-page.dark-mode .favorite-section-toggle {
@@ -3804,21 +3814,22 @@ body.radio-route-page.dark-mode .favorite-section-toggle span {
 
 /* Pills / icon chips should be readable */
 body.radio-route-page.dark-mode .filter-badge.badge {
-  background: #ffffff !important;
-  color: #232529 !important;
+  background: #232529 !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(255, 255, 255, 0.16) !important;
   box-shadow: none !important;
 }
 
 body.radio-route-page.dark-mode .filter-badge.badge * {
-  color: #232529 !important;
+  color: #ffffff !important;
 }
 
 body.radio-route-page.dark-mode .filter-chevron,
 body.radio-route-page.dark-mode .advanced-toggle-btn,
 body.radio-route-page.dark-mode .radio-theme-btn {
-  background: #ffffff !important;
-  color: #232529 !important;
-  border-color: rgba(0, 0, 0, 0.12) !important;
+  background: #232529 !important;
+  color: #ffffff !important;
+  border-color: rgba(255, 255, 255, 0.18) !important;
   box-shadow: none !important;
 }
 
@@ -3828,6 +3839,31 @@ body.radio-route-page.dark-mode .radio-theme-btn i,
 body.radio-route-page.dark-mode .filter-chevron span,
 body.radio-route-page.dark-mode .advanced-toggle-btn span,
 body.radio-route-page.dark-mode .radio-theme-btn span {
-  color: #232529 !important;
+  color: #ffffff !important;
+}
+
+body.radio-route-page.dark-mode .filter-chevron:hover,
+body.radio-route-page.dark-mode .filter-chevron:focus-visible,
+body.radio-route-page.dark-mode .advanced-toggle-btn:hover,
+body.radio-route-page.dark-mode .advanced-toggle-btn:focus-visible,
+body.radio-route-page.dark-mode .radio-theme-btn:hover,
+body.radio-route-page.dark-mode .radio-theme-btn:focus-visible {
+  background: rgba(255, 255, 255, 0.06) !important;
+  border-color: rgba(255, 255, 255, 0.26) !important;
+}
+
+body.radio-route-page.dark-mode .advanced-toggle-btn.is-active {
+  background: #232529 !important;
+  color: #ffffff !important;
+  border-color: rgba(255, 255, 255, 0.72) !important;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.08) inset !important;
+}
+
+body.radio-route-page.dark-mode .filter-reset-btn {
+  color: #ffffff !important;
+}
+
+body.radio-route-page.dark-mode .filter-reset-btn:hover {
+  color: rgba(255, 255, 255, 0.78) !important;
 }
 </style>

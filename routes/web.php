@@ -106,6 +106,7 @@ Route::get('/sitemap.xml', function () {
         // Islamic Knowledge - high priority
         ['loc' => url('/knowledge'), 'changefreq' => 'weekly', 'priority' => '0.8'],
         ['loc' => url('/mission'), 'changefreq' => 'monthly', 'priority' => '0.8'],
+        ['loc' => url('/seerah'), 'changefreq' => 'monthly', 'priority' => '0.8'],
         ['loc' => url('/guide'), 'changefreq' => 'monthly', 'priority' => '0.7'],
         ['loc' => url('/books'), 'changefreq' => 'weekly', 'priority' => '0.7'],
         ['loc' => url('/name'), 'changefreq' => 'monthly', 'priority' => '0.6'],
@@ -322,6 +323,7 @@ Route::post('api/send-message', [FeedbackController::class, 'sendMessage']);
 Route::get('/access', [AccessController::class, 'index'])->name('access');
 Route::get('/surat', [SuratController::class, 'index'])->name('surat');
 Route::get('/dua', [DuaController::class, 'index'])->name('dua');
+Route::get('/seerah', [MissionController::class, 'index'])->name('seerah');
 Route::get('/guide', [GuideController::class, 'index'])->name('guide');
 Route::get('/digital-library', [DigitalLibraryController::class, 'index'])->name('digital_library');
 Route::get('/toolkit', [ToolkitController::class, 'index'])->name('toolkit');

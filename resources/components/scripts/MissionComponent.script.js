@@ -70,7 +70,7 @@ export default {
         fontStyle: 'normal',
         textShadow: 'none',
         textDecoration: '',
-        fontFamily: "'Nunito', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif",
+        fontFamily: "'Manrope', 'Inter', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif",
       },
       events: [],
       originalEvents: [],
@@ -114,6 +114,7 @@ export default {
       rawRemoteMapPoints: [],
       mapLoading: false,
       mapError: '',
+      isDarkMode: false,
       _filterTimer: null,
       _rafScheduled: false,
       _pendingProgress: null,
@@ -129,13 +130,14 @@ export default {
     contentVars() {
       // Map user font settings to CSS variables for the content card
       const size = Math.max(14, this.fontSize) + 'px';
+      const isDarkMode = this.isDarkMode;
       return {
-        '--content-bg': this.fontSettings.backgroundColor || '#ffffff',
-        '--content-fg': this.fontSettings.color || '#0f172a',
+        '--content-bg': isDarkMode ? '#232529' : (this.fontSettings.backgroundColor || '#ffffff'),
+        '--content-fg': isDarkMode ? '#ffffff' : (this.fontSettings.color || '#0f172a'),
         '--content-font-style': this.fontSettings.fontStyle || 'normal',
         '--content-text-shadow': this.fontSettings.textShadow || 'none',
         '--content-text-decoration': this.fontSettings.textDecoration || 'none',
-        '--content-font-family': this.fontSettings.fontFamily || "'Nunito', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif",
+        '--content-font-family': this.fontSettings.fontFamily || "'Manrope', 'Inter', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif",
         '--content-font-size': size,
       };
     },
@@ -152,6 +154,7 @@ export default {
     // heavy computeds removed; we now update cached values in updateCurrentMetrics
   },
   mounted() {
+    this.syncThemeFromBody();
     const saved = localStorage.getItem('userFontSettings');
     if (saved) {
       this.fontSettings = JSON.parse(saved);
@@ -160,6 +163,7 @@ export default {
       }
     }
     window.addEventListener('resize', this.updateOffcanvasWidth);
+    window.addEventListener('ic-theme-change', this.handleThemeChange);
     // Track scroll to update tab title at top
     try { this._originalTitle = document.title; } catch (_) { this._originalTitle = 'Islamic Connect'; }
     window.addEventListener('scroll', this.handleScrollForTitle, { passive: true });
@@ -216,6 +220,7 @@ export default {
   },
   beforeUnmount() {
     window.removeEventListener('resize', this.updateOffcanvasWidth);
+    window.removeEventListener('ic-theme-change', this.handleThemeChange);
     document.removeEventListener('visibilitychange', this.handleVisibilityChange);
     window.removeEventListener('scroll', this.handleScrollForTitle);
     if (this.synth) {
@@ -232,9 +237,21 @@ export default {
       try { this._io.disconnect(); } catch (_) { }
       this._io = null;
     }
+    this.disposeTooltips();
     try { document.body.classList.remove('with-audio-player'); } catch (_) { }
   },
   methods: {
+    syncThemeFromBody() {
+      this.isDarkMode = document.body.classList.contains('seerah-route-page')
+        && document.body.classList.contains('dark-mode');
+    },
+    handleThemeChange(event) {
+      if (event?.detail && typeof event.detail.isDark === 'boolean') {
+        this.isDarkMode = event.detail.isDark;
+        return;
+      }
+      this.syncThemeFromBody();
+    },
     onMapPointSelected(index) {
       if (!Number.isInteger(index)) return;
       if (index < 0 || index >= this.events.length) return;
@@ -632,6 +649,17 @@ export default {
           const existing = window.bootstrap.Tooltip.getInstance(el);
           if (!existing) new window.bootstrap.Tooltip(el);
         });
+      });
+    },
+    disposeTooltips() {
+      if (!(window && window.bootstrap)) return;
+      const root = this.$el || document;
+      const tooltipTriggerList = root.querySelectorAll('[data-bs-toggle="tooltip"]');
+      tooltipTriggerList.forEach((el) => {
+        const existing = window.bootstrap.Tooltip.getInstance(el);
+        if (existing) {
+          try { existing.dispose(); } catch (_) { }
+        }
       });
     },
     loadVoices() {

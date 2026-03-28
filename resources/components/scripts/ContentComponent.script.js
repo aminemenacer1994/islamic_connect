@@ -42,6 +42,7 @@ export default {
       continueListening: [],
       volume: 1,
       showVolumeBar: false,
+      isDarkMode: false,
       // error state for fetch failures
       fetchError: null,
       storageUserId: initialUserId,
@@ -190,6 +191,8 @@ export default {
       isSeeking: false,
       languageFilter: '',
       isPlayerMinimized: false,
+      _tooltipInstances: [],
+      _cleanupDone: false,
     };
   },
 
@@ -238,16 +241,15 @@ export default {
   },
 
   async mounted() {
+    this.syncThemeFromBody();
+    this._cleanupDone = false;
     // Responsive inline toggles for compact layout
     const setSize = () => { try { this.smallScreen = window.innerWidth <= 576; } catch(e){} };
     setSize();
     window.addEventListener('resize', setSize, { passive: true });
     this._resizeHandler = setSize;
-    // Initialize Bootstrap tooltips
-    let tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-    tooltipTriggerList.forEach(function (tooltipTriggerEl) {
-      new bootstrap.Tooltip(tooltipTriggerEl);
-    });
+    window.addEventListener('ic-theme-change', this.handleThemeChange);
+    this.initializeTooltips();
     this.$nextTick(() => {
       // Initialize infinite scroll starting window
       this.visibleCount = this.itemsPerLoad;
@@ -303,17 +305,68 @@ export default {
   },
 
   beforeUnmount() {
-    try { window.removeEventListener('resize', this._resizeHandler); } catch(e){}
-    // Remove keyboard event listener and disconnect observer
-    document.removeEventListener('keydown', this.handleKeydown);
-    try { this._infiniteObserver && this._infiniteObserver.disconnect && this._infiniteObserver.disconnect(); } catch (e) {}
-    try {
-      Object.values(this.warningTimers || {}).forEach((t) => clearTimeout(t));
-      this.warningTimers = {};
-    } catch (e) {}
+    this.cleanupRuntimeResources();
   },
 
   methods: {
+    syncThemeFromBody() {
+      this.isDarkMode = document.body.classList.contains('content-route-page')
+        && document.body.classList.contains('dark-mode');
+    },
+    handleThemeChange(event) {
+      if (event?.detail && typeof event.detail.isDark === 'boolean') {
+        this.isDarkMode = event.detail.isDark;
+        return;
+      }
+      this.syncThemeFromBody();
+    },
+    initializeTooltips() {
+      if (typeof window === 'undefined' || !window.bootstrap?.Tooltip) return;
+      const tooltipElements = Array.from(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+      this._tooltipInstances = tooltipElements.map((element) => {
+        return window.bootstrap.Tooltip.getInstance(element) || new window.bootstrap.Tooltip(element);
+      });
+    },
+    disposeTooltips() {
+      if (!Array.isArray(this._tooltipInstances)) return;
+      this._tooltipInstances.forEach((instance) => {
+        try { instance?.dispose?.(); } catch (e) {}
+      });
+      this._tooltipInstances = [];
+    },
+    cleanupRuntimeResources() {
+      if (this._cleanupDone) return;
+      this._cleanupDone = true;
+      try { window.removeEventListener('resize', this._resizeHandler); } catch (e) {}
+      window.removeEventListener('ic-theme-change', this.handleThemeChange);
+      window.removeEventListener('mousemove', this.onSeekMove);
+      window.removeEventListener('mouseup', this.stopSeek);
+      document.removeEventListener('keydown', this.handleKeydown);
+      try { this._infiniteObserver && this._infiniteObserver.disconnect && this._infiniteObserver.disconnect(); } catch (e) {}
+      if (this.searchDebounceTimer) {
+        clearTimeout(this.searchDebounceTimer);
+        this.searchDebounceTimer = null;
+      }
+      if (this.progressSyncTimer) {
+        clearTimeout(this.progressSyncTimer);
+        this.progressSyncTimer = null;
+      }
+      try {
+        Object.values(this.warningTimers || {}).forEach((t) => clearTimeout(t));
+        this.warningTimers = {};
+      } catch (e) {}
+      this.disposeTooltips();
+      this.stopSeek();
+      try { this.closeAudioPlayer(); } catch (e) {}
+      if (this.audioElements && this.audioElements.forEach) {
+        this.audioElements.forEach((audio) => {
+          if (!audio) return;
+          try { audio.pause(); } catch (e) {}
+          try { audio.src = ''; } catch (e) {}
+        });
+      }
+      this.audioElements = [];
+    },
     async resolveStorageScope() {
       const resolvedId = await fetchUserIdFromApi();
       this.storageUserId = resolvedId;
@@ -1245,6 +1298,11 @@ export default {
       this.savePreference('podcast_favourites', this.favourites);
     },
     playFromFavourites(fav) {
+      if (this.isCurrentlyPlaying(fav)) {
+        this.pauseAudio(this.currentlyPlayingIndex);
+        this.playingIndex = null;
+        return;
+      }
       const fullIndex = this.filteredAndSearchedPodcasts.findIndex(p => p.title === fav.title && p.audioUrl === fav.audioUrl);
       if (fullIndex >= 0) {
         this.ensureVisible(fullIndex);
@@ -1252,6 +1310,7 @@ export default {
           const localIndex = this.visiblePodcasts.findIndex(p => p.title === fav.title && p.audioUrl === fav.audioUrl);
           if (localIndex >= 0) {
             this.playAudio(localIndex);
+            this.playingIndex = localIndex;
             this.showAudioPlayer = true;
           }
         });

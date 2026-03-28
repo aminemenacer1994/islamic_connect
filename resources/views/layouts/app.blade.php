@@ -9,10 +9,12 @@
 	        $isSuratRoute = request()->is('surat*');
 	        $isHomeRoute = ($path === '' || request()->is('home') || request()->is('welcome'));
 	        $isRadioRoute = request()->is('radio*');
+	        $isContentRoute = request()->is('content');
 	        $isDigitalLibraryRoute = request()->is('digital-library');
 	        $isDuaRoute = request()->is('dua');
+	        $isSeerahRoute = request()->is('mission') || request()->is('seerah');
 	        $isAuthRoute = request()->is('login') || request()->is('register');
-	        $hasThemeToggle = ($isSuratRoute || $isHomeRoute || $isRadioRoute || $isDigitalLibraryRoute || $isDuaRoute || $isAuthRoute);
+	        $hasThemeToggle = ($isSuratRoute || $isHomeRoute || $isRadioRoute || $isContentRoute || $isDigitalLibraryRoute || $isDuaRoute || $isSeerahRoute || $isAuthRoute);
 	        $defaultCanonical = $appUrl . ($path ? "/{$path}" : '');
 	        $canonicalUrl = trim($__env->yieldContent('canonical', $defaultCanonical));
         $metaTitle = trim($__env->yieldContent('meta_title', 'Islamic Connect, Accessible Quran & Community Tools'));
@@ -127,10 +129,12 @@
 	                var isSuratRoute = {{ $isSuratRoute ? 'true' : 'false' }};
 	                var isHomeRoute = {{ $isHomeRoute ? 'true' : 'false' }};
 	                var isRadioRoute = {{ $isRadioRoute ? 'true' : 'false' }};
+	                var isContentRoute = {{ $isContentRoute ? 'true' : 'false' }};
 	                var isDigitalLibraryRoute = {{ $isDigitalLibraryRoute ? 'true' : 'false' }};
 	                var isDuaRoute = {{ $isDuaRoute ? 'true' : 'false' }};
+	                var isSeerahRoute = {{ $isSeerahRoute ? 'true' : 'false' }};
 	                var isAuthRoute = {{ $isAuthRoute ? 'true' : 'false' }};
-	                if (!isSuratRoute && !isHomeRoute && !isRadioRoute && !isDigitalLibraryRoute && !isDuaRoute && !isAuthRoute) return;
+	                if (!isSuratRoute && !isHomeRoute && !isRadioRoute && !isContentRoute && !isDigitalLibraryRoute && !isDuaRoute && !isSeerahRoute && !isAuthRoute) return;
 
                 var storedSuratTheme = isSuratRoute ? localStorage.getItem('suratThemeMode') : null;
                 var storedRadioTheme = isRadioRoute ? localStorage.getItem('radioThemeMode') : null;
@@ -356,15 +360,15 @@
 	        }
 
 	        .navbar .navbar-brand.surat-brand-lockup {
-	            --surat-brand-height: 54px;
+	            --surat-brand-height: 42px;
 	            display: inline-flex;
 	            align-items: center;
-	            gap: clamp(0.45rem, 0.9vw, 0.8rem);
+	            gap: 0.55rem;
 	            min-height: var(--surat-brand-height);
-	            padding-top: 6px;
+	            padding-top: 4px;
 	            padding-bottom: 2px;
 	            line-height: 0;
-	            max-width: clamp(320px, 34vw, 520px);
+	            max-width: min(300px, 42vw);
 	            overflow: visible;
 	        }
 
@@ -396,7 +400,8 @@
             aspect-ratio: 3177 / 449;
             overflow: visible;
             min-width: 0;
-            width: clamp(210px, 22vw, 360px);
+            width: auto;
+            max-width: min(250px, calc(100vw - 150px));
         }
 
         .navbar .navbar-brand.surat-brand-lockup .surat-brand-wordmark-img {
@@ -410,20 +415,20 @@
 
         @media (max-width: 1199.98px) {
             .navbar .navbar-brand.surat-brand-lockup {
-                --surat-brand-height: 48px;
+                --surat-brand-height: 40px;
             }
             .navbar .navbar-brand.surat-brand-lockup .surat-brand-wordmark {
-                width: clamp(200px, 34vw, 320px);
+                max-width: min(238px, calc(100vw - 150px));
             }
         }
 
         @media (max-width: 991.98px) {
             .navbar .navbar-brand.surat-brand-lockup {
-                --surat-brand-height: 46px;
-                max-width: clamp(260px, 66vw, 420px);
+                --surat-brand-height: 38px;
+                max-width: min(270px, 62vw);
             }
             .navbar .navbar-brand.surat-brand-lockup .surat-brand-wordmark {
-                width: clamp(190px, 52vw, 340px);
+                max-width: min(220px, calc(100vw - 150px));
             }
         }
 
@@ -491,7 +496,7 @@
                 --surat-brand-height: 46px;
             }
 
-            .navbar .navbar-brand img {
+            .navbar .navbar-brand:not(.surat-brand-lockup) img {
                 width: auto !important;
                 height: 46px !important;
                 max-width: min(224px, 66vw) !important;
@@ -550,10 +555,15 @@
             }
 
             .navbar .navbar-brand.surat-brand-lockup {
-                --surat-brand-height: 42px;
+                --surat-brand-height: 36px;
+                max-width: min(248px, 62vw);
             }
 
-            .navbar .navbar-brand img {
+            .navbar .navbar-brand.surat-brand-lockup .surat-brand-wordmark {
+                max-width: min(202px, calc(100vw - 132px));
+            }
+
+            .navbar .navbar-brand:not(.surat-brand-lockup) img {
                 height: 48px !important;
                 max-width: min(232px, 68vw) !important;
             }
@@ -586,18 +596,26 @@
 	        body.radio-route-page.dark-mode,
 	        body.radio-route-page.dark-mode main#main-content,
 	        body.radio-route-page.dark-mode #app,
+	        body.content-route-page.dark-mode,
+	        body.content-route-page.dark-mode main#main-content,
+	        body.content-route-page.dark-mode #app,
 	        body.digital-library-route-page.dark-mode,
 	        body.digital-library-route-page.dark-mode main#main-content,
 	        body.digital-library-route-page.dark-mode #app,
 	        body.dua-route-page.dark-mode,
 	        body.dua-route-page.dark-mode main#main-content,
-	        body.dua-route-page.dark-mode #app {
+	        body.dua-route-page.dark-mode #app,
+	        body.seerah-route-page.dark-mode,
+	        body.seerah-route-page.dark-mode main#main-content,
+	        body.seerah-route-page.dark-mode #app {
 	            background: #232529 !important;
 	        }
 
 	        body.radio-route-page.dark-mode,
+	        body.content-route-page.dark-mode,
 	        body.digital-library-route-page.dark-mode,
-	        body.dua-route-page.dark-mode {
+	        body.dua-route-page.dark-mode,
+	        body.seerah-route-page.dark-mode {
 	            --bs-body-bg: #232529;
 	            --bs-body-color: #ffffff;
 	        }
@@ -618,6 +636,7 @@
 	            color: var(--ic-toggle-fg) !important;
 	            box-shadow: none !important;
 	            cursor: pointer;
+	            touch-action: manipulation;
 	            user-select: none;
 	            white-space: nowrap;
 	            position: relative;
@@ -637,7 +656,7 @@
 	            grid-template-columns: 1fr 1fr;
 	            align-items: center;
 	            gap: 0;
-	            width: 128px;
+	            width: 88px;
 	            height: 34px;
 	            border-radius: 999px;
 	            background: transparent;
@@ -657,6 +676,79 @@
 	            transform: translateX(100%);
 	        }
 
+	        html.theme-transitioning body,
+	        html.theme-transitioning main#main-content,
+	        html.theme-transitioning #app,
+	        html.theme-transitioning .navbar,
+	        html.theme-transitioning .navbar .navbar-collapse,
+	        html.theme-transitioning .navbar .dropdown-menu,
+	        html.theme-transitioning .navbar .dropdown-item,
+	        html.theme-transitioning .navbar .nav-link,
+	        html.theme-transitioning .navbar .navbar-toggler,
+	        html.theme-transitioning .global-theme-toggle,
+	        html.theme-transitioning .global-theme-toggle .global-theme-toggle__indicator,
+	        html.theme-transitioning .global-theme-toggle .global-theme-toggle__segment,
+	        html.theme-transitioning .surat-brand-icon,
+	        html.theme-transitioning .surat-brand-wordmark-img,
+	        html.theme-transitioning .ic-home,
+	        html.theme-transitioning .ic-home *,
+	        html.theme-transitioning .radio-page,
+	        html.theme-transitioning .radio-page *,
+	        html.theme-transitioning .digital-library-page,
+	        html.theme-transitioning .digital-library-page *,
+	        html.theme-transitioning .dua-shell,
+	        html.theme-transitioning .dua-shell *,
+	        html.theme-transitioning .mission-shell,
+	        html.theme-transitioning .mission-shell *,
+	        html.theme-transitioning .podcast-page,
+	        html.theme-transitioning .podcast-page * {
+	            transition:
+	                background-color 240ms ease,
+	                background 240ms ease,
+	                color 220ms ease,
+	                border-color 220ms ease,
+	                box-shadow 240ms ease,
+	                filter 240ms ease,
+	                opacity 220ms ease !important;
+	        }
+
+	        html.theme-transitioning .global-theme-toggle .global-theme-toggle__indicator {
+	            transition: transform 220ms ease, background-color 220ms ease, background 220ms ease !important;
+	        }
+
+	        @media (prefers-reduced-motion: reduce) {
+	            html.theme-transitioning body,
+	            html.theme-transitioning main#main-content,
+	            html.theme-transitioning #app,
+	            html.theme-transitioning .navbar,
+	            html.theme-transitioning .navbar .navbar-collapse,
+	            html.theme-transitioning .navbar .dropdown-menu,
+	            html.theme-transitioning .navbar .dropdown-item,
+	            html.theme-transitioning .navbar .nav-link,
+	            html.theme-transitioning .navbar .navbar-toggler,
+	            html.theme-transitioning .global-theme-toggle,
+	            html.theme-transitioning .global-theme-toggle .global-theme-toggle__indicator,
+	            html.theme-transitioning .global-theme-toggle .global-theme-toggle__segment,
+	            html.theme-transitioning .surat-brand-icon,
+	            html.theme-transitioning .surat-brand-wordmark-img,
+	            html.theme-transitioning .ic-home,
+	            html.theme-transitioning .ic-home *,
+	            html.theme-transitioning .radio-page,
+	            html.theme-transitioning .radio-page *,
+	            html.theme-transitioning .digital-library-page,
+	            html.theme-transitioning .digital-library-page *,
+	            html.theme-transitioning .dua-shell,
+	            html.theme-transitioning .dua-shell *,
+	            html.theme-transitioning .mission-shell,
+	            html.theme-transitioning .mission-shell *,
+	            html.theme-transitioning .podcast-page,
+	            html.theme-transitioning .podcast-page *,
+	            .global-theme-toggle,
+	            .global-theme-toggle .global-theme-toggle__indicator {
+	                transition: none !important;
+	            }
+	        }
+
 	        .global-theme-toggle .global-theme-toggle__segment {
 	            position: relative;
 	            z-index: 1;
@@ -665,10 +757,14 @@
 	            justify-content: center;
 	            font-weight: 700;
 	            font-size: 0.92rem;
-	            letter-spacing: 0.2px;
 	            color: var(--ic-toggle-fg);
 	            line-height: 1;
-	            padding-inline: 0.65rem;
+	            padding-inline: 0.4rem;
+	        }
+
+	        .global-theme-toggle .global-theme-toggle__segment i {
+	            font-size: 0.98rem;
+	            line-height: 1;
 	        }
 
 	        .global-theme-toggle:not(.is-dark) .global-theme-toggle__segment--light {
@@ -681,14 +777,18 @@
 	        /* Navbar dark pages: keep control readable on #232529 background */
 	        body.home-route-page.dark-mode .global-theme-toggle,
 	        body.radio-route-page.dark-mode .global-theme-toggle,
+	        body.content-route-page.dark-mode .global-theme-toggle,
 	        body.digital-library-route-page.dark-mode .global-theme-toggle,
 	        body.dua-route-page.dark-mode .global-theme-toggle,
+	        body.seerah-route-page.dark-mode .global-theme-toggle,
 	        body.surat-page-shell-dark .global-theme-toggle {
 	            border-color: rgba(255, 255, 255, 0.14) !important;
 	        }
 
+	        body.content-route-page.dark-mode .global-theme-toggle,
 	        body.digital-library-route-page.dark-mode .global-theme-toggle,
-	        body.dua-route-page.dark-mode .global-theme-toggle {
+	        body.dua-route-page.dark-mode .global-theme-toggle,
+	        body.seerah-route-page.dark-mode .global-theme-toggle {
 	            --ic-toggle-bg: rgba(255, 255, 255, 0.04);
 	            --ic-toggle-fg: #ffffff;
 	            --ic-toggle-active: #ffffff;
@@ -838,8 +938,10 @@
 
 	        body.home-route-page.dark-mode .navbar.navbar-transparent,
 	        body.radio-route-page.dark-mode .navbar.navbar-transparent,
+	        body.content-route-page.dark-mode .navbar.navbar-transparent,
 	        body.digital-library-route-page.dark-mode .navbar.navbar-transparent,
-	        body.dua-route-page.dark-mode .navbar.navbar-transparent {
+	        body.dua-route-page.dark-mode .navbar.navbar-transparent,
+	        body.seerah-route-page.dark-mode .navbar.navbar-transparent {
 	            background: #232529 !important;
 	            backdrop-filter: none !important;
 	            -webkit-backdrop-filter: none !important;
@@ -853,12 +955,18 @@
         body.radio-route-page.dark-mode .navbar.navbar-transparent .navbar-brand,
         body.radio-route-page.dark-mode .navbar.navbar-transparent .nav-link,
         body.radio-route-page.dark-mode .navbar.navbar-transparent .navbar-toggler,
+        body.content-route-page.dark-mode .navbar.navbar-transparent .navbar-brand,
+        body.content-route-page.dark-mode .navbar.navbar-transparent .nav-link,
+        body.content-route-page.dark-mode .navbar.navbar-transparent .navbar-toggler,
         body.digital-library-route-page.dark-mode .navbar.navbar-transparent .navbar-brand,
         body.digital-library-route-page.dark-mode .navbar.navbar-transparent .nav-link,
         body.digital-library-route-page.dark-mode .navbar.navbar-transparent .navbar-toggler,
         body.dua-route-page.dark-mode .navbar.navbar-transparent .navbar-brand,
         body.dua-route-page.dark-mode .navbar.navbar-transparent .nav-link,
-        body.dua-route-page.dark-mode .navbar.navbar-transparent .navbar-toggler {
+        body.dua-route-page.dark-mode .navbar.navbar-transparent .navbar-toggler,
+        body.seerah-route-page.dark-mode .navbar.navbar-transparent .navbar-brand,
+        body.seerah-route-page.dark-mode .navbar.navbar-transparent .nav-link,
+        body.seerah-route-page.dark-mode .navbar.navbar-transparent .navbar-toggler {
             color: #ffffff !important;
         }
 
@@ -872,6 +980,11 @@
         body.radio-route-page.dark-mode .navbar.navbar-transparent .navbar-nav .nav-link:active,
         body.radio-route-page.dark-mode .navbar.navbar-transparent .navbar-nav .nav-link:visited,
         body.radio-route-page.dark-mode .navbar.navbar-transparent .navbar-nav .nav-link:hover,
+        body.content-route-page.dark-mode .navbar.navbar-transparent .navbar-nav .nav-link,
+        body.content-route-page.dark-mode .navbar.navbar-transparent .navbar-nav .nav-link:focus-visible,
+        body.content-route-page.dark-mode .navbar.navbar-transparent .navbar-nav .nav-link:active,
+        body.content-route-page.dark-mode .navbar.navbar-transparent .navbar-nav .nav-link:visited,
+        body.content-route-page.dark-mode .navbar.navbar-transparent .navbar-nav .nav-link:hover,
         body.digital-library-route-page.dark-mode .navbar.navbar-transparent .navbar-nav .nav-link,
         body.digital-library-route-page.dark-mode .navbar.navbar-transparent .navbar-nav .nav-link:focus-visible,
         body.digital-library-route-page.dark-mode .navbar.navbar-transparent .navbar-nav .nav-link:active,
@@ -881,7 +994,12 @@
         body.dua-route-page.dark-mode .navbar.navbar-transparent .navbar-nav .nav-link:focus-visible,
         body.dua-route-page.dark-mode .navbar.navbar-transparent .navbar-nav .nav-link:active,
         body.dua-route-page.dark-mode .navbar.navbar-transparent .navbar-nav .nav-link:visited,
-        body.dua-route-page.dark-mode .navbar.navbar-transparent .navbar-nav .nav-link:hover {
+        body.dua-route-page.dark-mode .navbar.navbar-transparent .navbar-nav .nav-link:hover,
+        body.seerah-route-page.dark-mode .navbar.navbar-transparent .navbar-nav .nav-link,
+        body.seerah-route-page.dark-mode .navbar.navbar-transparent .navbar-nav .nav-link:focus-visible,
+        body.seerah-route-page.dark-mode .navbar.navbar-transparent .navbar-nav .nav-link:active,
+        body.seerah-route-page.dark-mode .navbar.navbar-transparent .navbar-nav .nav-link:visited,
+        body.seerah-route-page.dark-mode .navbar.navbar-transparent .navbar-nav .nav-link:hover {
             color: #ffffff !important;
             background: transparent !important;
             box-shadow: none !important;
@@ -889,29 +1007,37 @@
 
         body.home-route-page.dark-mode .navbar .navbar-brand.surat-brand-lockup .surat-brand-icon--light,
         body.radio-route-page.dark-mode .navbar .navbar-brand.surat-brand-lockup .surat-brand-icon--light,
+        body.content-route-page.dark-mode .navbar .navbar-brand.surat-brand-lockup .surat-brand-icon--light,
         body.digital-library-route-page.dark-mode .navbar .navbar-brand.surat-brand-lockup .surat-brand-icon--light,
-        body.dua-route-page.dark-mode .navbar .navbar-brand.surat-brand-lockup .surat-brand-icon--light {
+        body.dua-route-page.dark-mode .navbar .navbar-brand.surat-brand-lockup .surat-brand-icon--light,
+        body.seerah-route-page.dark-mode .navbar .navbar-brand.surat-brand-lockup .surat-brand-icon--light {
             opacity: 0;
         }
 
         body.home-route-page.dark-mode .navbar .navbar-brand.surat-brand-lockup .surat-brand-icon--dark,
         body.radio-route-page.dark-mode .navbar .navbar-brand.surat-brand-lockup .surat-brand-icon--dark,
+        body.content-route-page.dark-mode .navbar .navbar-brand.surat-brand-lockup .surat-brand-icon--dark,
         body.digital-library-route-page.dark-mode .navbar .navbar-brand.surat-brand-lockup .surat-brand-icon--dark,
-        body.dua-route-page.dark-mode .navbar .navbar-brand.surat-brand-lockup .surat-brand-icon--dark {
+        body.dua-route-page.dark-mode .navbar .navbar-brand.surat-brand-lockup .surat-brand-icon--dark,
+        body.seerah-route-page.dark-mode .navbar .navbar-brand.surat-brand-lockup .surat-brand-icon--dark {
             opacity: 1;
         }
 
         body.home-route-page.dark-mode .navbar .navbar-brand.surat-brand-lockup .surat-brand-wordmark-img,
         body.radio-route-page.dark-mode .navbar .navbar-brand.surat-brand-lockup .surat-brand-wordmark-img,
+        body.content-route-page.dark-mode .navbar .navbar-brand.surat-brand-lockup .surat-brand-wordmark-img,
         body.digital-library-route-page.dark-mode .navbar .navbar-brand.surat-brand-lockup .surat-brand-wordmark-img,
-        body.dua-route-page.dark-mode .navbar .navbar-brand.surat-brand-lockup .surat-brand-wordmark-img {
+        body.dua-route-page.dark-mode .navbar .navbar-brand.surat-brand-lockup .surat-brand-wordmark-img,
+        body.seerah-route-page.dark-mode .navbar .navbar-brand.surat-brand-lockup .surat-brand-wordmark-img {
             filter: brightness(0) invert(1);
         }
 
         body.home-route-page.dark-mode .navbar .navbar-toggler,
         body.radio-route-page.dark-mode .navbar .navbar-toggler,
+        body.content-route-page.dark-mode .navbar .navbar-toggler,
         body.digital-library-route-page.dark-mode .navbar .navbar-toggler,
-        body.dua-route-page.dark-mode .navbar .navbar-toggler {
+        body.dua-route-page.dark-mode .navbar .navbar-toggler,
+        body.seerah-route-page.dark-mode .navbar .navbar-toggler {
             border-color: rgba(255, 255, 255, 0.14) !important;
             background: #232529 !important;
             box-shadow: none !important;
@@ -919,15 +1045,19 @@
 
         body.home-route-page.dark-mode .navbar .navbar-toggler-icon,
         body.radio-route-page.dark-mode .navbar .navbar-toggler-icon,
+        body.content-route-page.dark-mode .navbar .navbar-toggler-icon,
         body.digital-library-route-page.dark-mode .navbar .navbar-toggler-icon,
-        body.dua-route-page.dark-mode .navbar .navbar-toggler-icon {
+        body.dua-route-page.dark-mode .navbar .navbar-toggler-icon,
+        body.seerah-route-page.dark-mode .navbar .navbar-toggler-icon {
             filter: brightness(0) invert(1);
         }
 
         body.home-route-page.dark-mode .navbar .dropdown-menu,
         body.radio-route-page.dark-mode .navbar .dropdown-menu,
+        body.content-route-page.dark-mode .navbar .dropdown-menu,
         body.digital-library-route-page.dark-mode .navbar .dropdown-menu,
-        body.dua-route-page.dark-mode .navbar .dropdown-menu {
+        body.dua-route-page.dark-mode .navbar .dropdown-menu,
+        body.seerah-route-page.dark-mode .navbar .dropdown-menu {
             background: #232529 !important;
             border-color: rgba(255, 255, 255, 0.12) !important;
             box-shadow: none !important;
@@ -935,8 +1065,10 @@
 
         body.home-route-page.dark-mode .navbar .dropdown-item,
         body.radio-route-page.dark-mode .navbar .dropdown-item,
+        body.content-route-page.dark-mode .navbar .dropdown-item,
         body.digital-library-route-page.dark-mode .navbar .dropdown-item,
-        body.dua-route-page.dark-mode .navbar .dropdown-item {
+        body.dua-route-page.dark-mode .navbar .dropdown-item,
+        body.seerah-route-page.dark-mode .navbar .dropdown-item {
             color: #ffffff !important;
         }
 
@@ -944,18 +1076,30 @@
         body.home-route-page.dark-mode .navbar .dropdown-item:focus-visible,
         body.radio-route-page.dark-mode .navbar .dropdown-item:hover,
         body.radio-route-page.dark-mode .navbar .dropdown-item:focus-visible,
+        body.content-route-page.dark-mode .navbar .dropdown-item:hover,
+        body.content-route-page.dark-mode .navbar .dropdown-item:focus-visible,
         body.digital-library-route-page.dark-mode .navbar .dropdown-item:hover,
         body.digital-library-route-page.dark-mode .navbar .dropdown-item:focus-visible,
         body.dua-route-page.dark-mode .navbar .dropdown-item:hover,
-        body.dua-route-page.dark-mode .navbar .dropdown-item:focus-visible {
+        body.dua-route-page.dark-mode .navbar .dropdown-item:focus-visible,
+        body.seerah-route-page.dark-mode .navbar .dropdown-item:hover,
+        body.seerah-route-page.dark-mode .navbar .dropdown-item:focus-visible {
             background: rgba(255, 255, 255, 0.06) !important;
         }
 
-        @media (max-width: 768px) {
+	        @media (max-width: 768px) {
+	            .navbar .navbar-collapse #globalThemeToggle {
+	                width: 100%;
+	                max-width: 168px;
+	                margin-left: 1rem;
+	            }
+
             body.home-route-page.dark-mode .navbar.navbar-transparent,
             body.radio-route-page.dark-mode .navbar.navbar-transparent,
+            body.content-route-page.dark-mode .navbar.navbar-transparent,
             body.digital-library-route-page.dark-mode .navbar.navbar-transparent,
-            body.dua-route-page.dark-mode .navbar.navbar-transparent {
+            body.dua-route-page.dark-mode .navbar.navbar-transparent,
+            body.seerah-route-page.dark-mode .navbar.navbar-transparent {
                 background: #232529 !important;
             }
 
@@ -963,8 +1107,14 @@
             body.home-route-page.dark-mode .navbar.navbar-transparent .navbar-collapse.collapsing,
             body.radio-route-page.dark-mode .navbar.navbar-transparent .navbar-collapse.show,
             body.radio-route-page.dark-mode .navbar.navbar-transparent .navbar-collapse.collapsing,
+            body.content-route-page.dark-mode .navbar.navbar-transparent .navbar-collapse.show,
+            body.content-route-page.dark-mode .navbar.navbar-transparent .navbar-collapse.collapsing,
             body.digital-library-route-page.dark-mode .navbar.navbar-transparent .navbar-collapse.show,
-            body.digital-library-route-page.dark-mode .navbar.navbar-transparent .navbar-collapse.collapsing {
+            body.digital-library-route-page.dark-mode .navbar.navbar-transparent .navbar-collapse.collapsing,
+            body.dua-route-page.dark-mode .navbar.navbar-transparent .navbar-collapse.show,
+            body.dua-route-page.dark-mode .navbar.navbar-transparent .navbar-collapse.collapsing,
+            body.seerah-route-page.dark-mode .navbar.navbar-transparent .navbar-collapse.show,
+            body.seerah-route-page.dark-mode .navbar.navbar-transparent .navbar-collapse.collapsing {
                 background: #232529 !important;
                 border-color: rgba(255, 255, 255, 0.12) !important;
                 box-shadow: none !important;
@@ -979,8 +1129,10 @@
 
             body.home-route-page.dark-mode .navbar.navbar-transparent .navbar-collapse .nav-link,
             body.radio-route-page.dark-mode .navbar.navbar-transparent .navbar-collapse .nav-link,
+            body.content-route-page.dark-mode .navbar.navbar-transparent .navbar-collapse .nav-link,
             body.digital-library-route-page.dark-mode .navbar.navbar-transparent .navbar-collapse .nav-link,
-            body.dua-route-page.dark-mode .navbar.navbar-transparent .navbar-collapse .nav-link {
+            body.dua-route-page.dark-mode .navbar.navbar-transparent .navbar-collapse .nav-link,
+            body.seerah-route-page.dark-mode .navbar.navbar-transparent .navbar-collapse .nav-link {
                 color: #ffffff !important;
             }
         }
@@ -1140,7 +1292,7 @@
 
 </head>
 
-<body @class(['surat-route-page' => $isSuratRoute, 'home-route-page' => $isHomeRoute, 'radio-route-page' => $isRadioRoute, 'digital-library-route-page' => $isDigitalLibraryRoute, 'dua-route-page' => $isDuaRoute, 'auth-route-page' => $isAuthRoute])>
+<body @class(['surat-route-page' => $isSuratRoute, 'home-route-page' => $isHomeRoute, 'radio-route-page' => $isRadioRoute, 'content-route-page' => $isContentRoute, 'digital-library-route-page' => $isDigitalLibraryRoute, 'dua-route-page' => $isDuaRoute, 'seerah-route-page' => $isSeerahRoute, 'auth-route-page' => $isAuthRoute])>
     <script>
         (function() {
             try {
@@ -1193,7 +1345,7 @@
                     <span class="surat-brand-wordmark" aria-hidden="true">
                         <img
                             src="/images/logo_wordmark.png"
-                            width="4000"
+                            width="751"
                             height="770"
                             alt=""
                             loading="lazy"
@@ -1256,11 +1408,11 @@
 
 	                        @if($hasThemeToggle)
 	                            <li class="nav-item mt-2 ms-2">
-	                                <button id="globalThemeToggle" type="button" class="global-theme-toggle" aria-label="Toggle theme">
+	                                <button id="globalThemeToggle" type="button" class="global-theme-toggle" aria-label="Toggle theme" aria-pressed="false">
 	                                    <span class="global-theme-toggle__segments" aria-hidden="true">
 	                                        <span class="global-theme-toggle__indicator"></span>
-	                                        <span class="global-theme-toggle__segment global-theme-toggle__segment--light">Light</span>
-	                                        <span class="global-theme-toggle__segment global-theme-toggle__segment--dark">Dark</span>
+	                                        <span class="global-theme-toggle__segment global-theme-toggle__segment--light"><i class="bi bi-sun-fill" aria-hidden="true"></i></span>
+	                                        <span class="global-theme-toggle__segment global-theme-toggle__segment--dark"><i class="bi bi-moon-stars-fill" aria-hidden="true"></i></span>
 	                                    </span>
 	                                </button>
 	                            </li>
@@ -1323,8 +1475,8 @@
                             </a>
                             <div class="dropdown-menu dropdown-menu-end" role="menu" aria-labelledby="navbarDropdown">
                                 <!-- <a class="dropdown-item" role="menuitem" href="/bookmarks">Bookmarks</a>-->
-                                <a class="dropdown-item" role="menuitem" href="/notes">Notes & Reflections</a> 
-                                <a class="dropdown-item" role="menuitem" href="/profile">Profile</a> 
+                                <!-- <a class="dropdown-item" role="menuitem" href="/notes">Notes & Reflections</a> 
+                                <a class="dropdown-item" role="menuitem" href="/profile">Profile</a>  -->
                                 <a class="dropdown-item" role="menuitem" href="{{ route('logout') }}"
                                     onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                     {{ __('Logout') }}
@@ -1380,25 +1532,86 @@
     <script defer src="{{ $appJsSrc }}"></script>
 	    <script>
 	        document.addEventListener('DOMContentLoaded', () => {
-	            // Global theme toggle for supported routes only: /, /home, /surat, /radio, /digital-library, /dua
+	            // Global theme toggle for supported routes only: /, /home, /surat, /radio, /content, /digital-library, /dua, /seerah
 	            try {
 	                const toggleBtn = document.getElementById('globalThemeToggle');
 	                if (toggleBtn) {
 	                    const root = document.documentElement;
 	                    const body = document.body;
-	                    const RADIO_BG = '#232529';
-	                    const DIGITAL_LIBRARY_BG = '#232529';
-	                    const DUA_BG = '#232529';
+	                    const ROUTE_DARK_BG = '#232529';
+	                    let themeTransitionTimer = null;
+	                    const routeSurfaceClasses = [
+	                        'radio-route-page',
+	                        'content-route-page',
+	                        'digital-library-route-page',
+	                        'dua-route-page',
+	                        'seerah-route-page',
+	                    ];
 
 	                    const getTheme = () => (root.getAttribute('data-bs-theme') === 'dark' ? 'dark' : 'light');
+	                    const isRouteSurfacePage = () => {
+	                        if (!body) return false;
+	                        return routeSurfaceClasses.some((className) => body.classList.contains(className));
+	                    };
+	                    const applyRouteBackground = (isDark) => {
+	                        const background = isDark && isRouteSurfacePage() ? ROUTE_DARK_BG : '';
+	                        root.style.backgroundColor = background;
+	                        if (body) {
+	                            body.style.backgroundColor = background;
+	                        }
+	                    };
+	                    const getStoredTheme = () => {
+	                        const storedDarkMode = localStorage.getItem('darkMode');
+	                        const storedSuratTheme = localStorage.getItem('suratThemeMode');
+	                        const storedRadioTheme = localStorage.getItem('radioThemeMode');
+	                        if (storedDarkMode !== null && storedDarkMode !== undefined && storedDarkMode !== '') {
+	                            return storedDarkMode === 'true' ? 'dark' : 'light';
+	                        }
+	                        if (storedSuratTheme === 'dark' || storedRadioTheme === 'dark') {
+	                            return 'dark';
+	                        }
+	                        return 'light';
+	                    };
 	                    const updateToggleUI = (theme) => {
 	                        const isDark = theme === 'dark';
 	                        toggleBtn.classList.toggle('is-dark', isDark);
 	                        toggleBtn.setAttribute('aria-label', isDark ? 'Switch to light mode' : 'Switch to dark mode');
+	                        toggleBtn.setAttribute('aria-pressed', String(isDark));
+	                    };
+	                    const prefersReducedMotion = () => {
+	                        try {
+	                            return typeof window.matchMedia === 'function'
+	                                && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+	                        } catch (e) {
+	                            return false;
+	                        }
+	                    };
+	                    const clearThemeTransition = () => {
+	                        root.classList.remove('theme-transitioning');
+	                        body?.classList.remove('theme-transitioning');
+	                        if (themeTransitionTimer) {
+	                            clearTimeout(themeTransitionTimer);
+	                            themeTransitionTimer = null;
+	                        }
+	                    };
+	                    const beginThemeTransition = () => {
+	                        if (prefersReducedMotion()) {
+	                            clearThemeTransition();
+	                            return;
+	                        }
+	                        if (themeTransitionTimer) {
+	                            clearTimeout(themeTransitionTimer);
+	                        }
+	                        root.classList.add('theme-transitioning');
+	                        body?.classList.add('theme-transitioning');
+	                        themeTransitionTimer = window.setTimeout(() => {
+	                            clearThemeTransition();
+	                        }, 280);
 	                    };
 
 	                    const applyTheme = (theme) => {
 	                        const isDark = theme === 'dark';
+	                        beginThemeTransition();
 	                        root.classList.toggle('dark-mode', isDark);
 	                        root.setAttribute('data-bs-theme', theme);
 	                        root.setAttribute('data-theme', theme);
@@ -1424,17 +1637,7 @@
 	                        // Radio uses explicit dark/light storage
 	                        try { localStorage.setItem('radioThemeMode', theme); } catch (e) {}
 
-	                        // Ensure route background stays consistent if the page is short
-	                        if (body && body.classList.contains('radio-route-page')) {
-	                            root.style.backgroundColor = isDark ? RADIO_BG : '';
-	                            body.style.backgroundColor = isDark ? RADIO_BG : '';
-	                        } else if (body && body.classList.contains('digital-library-route-page')) {
-	                            root.style.backgroundColor = isDark ? DIGITAL_LIBRARY_BG : '';
-	                            body.style.backgroundColor = isDark ? DIGITAL_LIBRARY_BG : '';
-	                        } else if (body && body.classList.contains('dua-route-page')) {
-	                            root.style.backgroundColor = isDark ? DUA_BG : '';
-	                            body.style.backgroundColor = isDark ? DUA_BG : '';
-	                        }
+	                        applyRouteBackground(isDark);
 
 	                        try {
 	                            window.dispatchEvent(new CustomEvent('ic-theme-change', { detail: { theme, isDark } }));
@@ -1450,7 +1653,18 @@
 	                    };
 
 	                    updateToggleUI(getTheme());
+	                    applyRouteBackground(getTheme() === 'dark');
 	                    toggleBtn.addEventListener('click', () => window.IC_THEME.toggle());
+	                    window.addEventListener('storage', (event) => {
+	                        if (!event || !['darkMode', 'suratThemeMode', 'radioThemeMode'].includes(event.key)) return;
+	                        const nextTheme = getStoredTheme();
+	                        if (nextTheme === getTheme()) {
+	                            updateToggleUI(nextTheme);
+	                            applyRouteBackground(nextTheme === 'dark');
+	                            return;
+	                        }
+	                        applyTheme(nextTheme);
+	                    });
 	                }
 	            } catch (e) {}
 
@@ -1624,6 +1838,7 @@
                 // Knowledge (user-specified)
                 '/knowledge': '/knowledge',
                 '/mission': '/knowledge',
+                '/seerah': '/knowledge',
                 '/name': '/knowledge',
                 '/guide': '/digital-library',
                 '/read': '/knowledge',

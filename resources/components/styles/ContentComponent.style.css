@@ -2948,3 +2948,244 @@
     line-height: 1.62;
   }
 }
+
+.podcast-page.is-dark {
+  --pod-surface: #232529;
+  --pod-surface-soft: #232529;
+  --pod-border: rgba(255, 255, 255, 0.12);
+  color-scheme: dark;
+  color: #ffffff;
+}
+
+.podcast-page.is-dark,
+.podcast-page.is-dark .lead,
+.podcast-page.is-dark .section-subtitle,
+.podcast-page.is-dark .podcast-search-helper,
+.podcast-page.is-dark .selected-podcast-description__text,
+.podcast-page.is-dark .podcast-extra-info,
+.podcast-page.is-dark .meta-text,
+.podcast-page.is-dark .selected-podcast-stats,
+.podcast-page.is-dark .favorites-subtitle,
+.podcast-page.is-dark .loading-text,
+.podcast-page.is-dark .loading-subtext {
+  color: #ffffff !important;
+}
+
+.podcast-page.is-dark .podcast-hero,
+.podcast-page.is-dark .selected-podcast-shell,
+.podcast-page.is-dark .favorites-section,
+.podcast-page.is-dark .favorites-grid,
+.podcast-page.is-dark .card-teal,
+.podcast-page.is-dark .podcast-card,
+.podcast-page.is-dark .podcast-card .card-header,
+.podcast-page.is-dark .podcast-card .card-body,
+.podcast-page.is-dark .favorite-card,
+.podcast-page.is-dark .episode-card,
+.podcast-page.is-dark .continue-card,
+.podcast-page.is-dark .episodes-filters-bar-wrapper,
+.podcast-page.is-dark .podcast-search-input,
+.podcast-page.is-dark .podcast-search-input .input-group-text,
+.podcast-page.is-dark .podcast-search-input .form-control,
+.podcast-page.is-dark .filter-select,
+.podcast-page.is-dark .filter-toggle-btn,
+.podcast-page.is-dark .clear-filters-btn,
+.podcast-page.is-dark .favorites-toggle,
+.podcast-page.is-dark .favorites-count,
+.podcast-page.is-dark .views-badge,
+.podcast-page.is-dark .date-badge,
+.podcast-page.is-dark .duration-badge,
+.podcast-page.is-dark .lang-badge,
+.podcast-page.is-dark .meta-chip,
+.podcast-page.is-dark .favorite-chip,
+.podcast-page.is-dark .download-button,
+.podcast-page.is-dark .control-button,
+.podcast-page.is-dark .episode-warning,
+.podcast-page.is-dark .episode-warning-cta,
+.podcast-page.is-dark .custom-audio-player,
+.podcast-page.is-dark .control-btn,
+.podcast-page.is-dark .audio-speed-select {
+  background: #232529 !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+  box-shadow: none !important;
+}
+
+.podcast-page.is-dark .podcast-hero {
+  background:
+    radial-gradient(circle at 0% 0%, rgba(241, 199, 119, 0.12), transparent 52%),
+    radial-gradient(circle at 100% 0%, rgba(73, 194, 175, 0.14), transparent 56%),
+    linear-gradient(165deg, rgba(43, 47, 52, 0.98), rgba(35, 37, 41, 0.98)) !important;
+}
+
+.podcast-page.is-dark .podcast-hero__title,
+.podcast-page.is-dark .section-title,
+.podcast-page.is-dark .section-title-plain,
+.podcast-page.is-dark .selected-podcast-title,
+.podcast-page.is-dark .favorites-title,
+.podcast-page.is-dark .podcast-title,
+.podcast-page.is-dark .favorites-kicker,
+.podcast-page.is-dark .episode-title,
+.podcast-page.is-dark .time,
+.podcast-page.is-dark .play-text,
+.podcast-page.is-dark .podcast-page .meta-text,
+.podcast-page.is-dark .views-badge,
+.podcast-page.is-dark .date-badge,
+.podcast-page.is-dark .duration-badge,
+.podcast-page.is-dark .lang-badge,
+.podcast-page.is-dark .meta-chip,
+.podcast-page.is-dark .favorite-chip,
+.podcast-page.is-dark .download-button,
+.podcast-page.is-dark .control-button,
+.podcast-page.is-dark .control-button i,
+.podcast-page.is-dark .download-button i,
+.podcast-page.is-dark .control-btn,
+.podcast-page.is-dark .control-btn i,
+.podcast-page.is-dark .filter-toggle-btn,
+.podcast-page.is-dark .clear-filters-btn,
+.podcast-page.is-dark .favorites-toggle,
+.podcast-page.is-dark .favorites-count,
+.podcast-page.is-dark .filter-select,
+.podcast-page.is-dark .podcast-search-input .form-control,
+.podcast-page.is-dark .podcast-search-input .input-group-text,
+.podcast-page.is-dark .search-clear-btn,
+.podcast-page.is-dark .new-badge {
+  color: #ffffff !important;
+}
+
+.podcast-page.is-dark .section-title,
+.podcast-page.is-dark .section-title-plain {
+  background-image: none !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+.podcast-page.is-dark .section-title::after,
+.podcast-page.is-dark .section-title-plain::after {
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.42));
+  opacity: 1;
+}
+
+.podcast-page.is-dark .podcast-selection-item {
+  background: #232529 !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  box-shadow: none !important;
+}
+
+.podcast-page.is-dark .views-badge,
+.podcast-page.is-dark .date-badge,
+.podcast-page.is-dark .duration-badge,
+.podcast-page.is-dark .lang-badge,
+.podcast-page.is-dark .meta-chip,
+.podcast-page.is-dark .favorite-chip {
+  backdrop-filter: none !important;
+}
+
+.podcast-page.is-dark .podcast-selection-item:hover,
+.podcast-page.is-dark .podcast-selection-item:focus-visible,
+.podcast-page.is-dark .podcast-selection-item.is-selected {
+  transform: translateY(-2px);
+  border-color: rgba(255, 255, 255, 0.38) !important;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.12) inset !important;
+}
+
+.podcast-page.is-dark .podcast-selection-item.is-selected .podcast-overlay {
+  opacity: 1;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.06));
+}
+
+.podcast-page.is-dark .podcast-overlay {
+  background: linear-gradient(180deg, rgba(35, 37, 41, 0.24), rgba(35, 37, 41, 0.7));
+}
+
+.podcast-page.is-dark .podcast-search-input .form-control::placeholder {
+  color: rgba(255, 255, 255, 0.62);
+}
+
+.podcast-page.is-dark .podcast-search-input:focus-within,
+.podcast-page.is-dark .filter-toggle-btn.is-active,
+.podcast-page.is-dark .favorites-toggle[aria-expanded="true"],
+.podcast-page.is-dark .control-button:hover,
+.podcast-page.is-dark .control-button:focus-visible,
+.podcast-page.is-dark .download-button:hover,
+.podcast-page.is-dark .download-button:focus-visible,
+.podcast-page.is-dark .control-btn:hover,
+.podcast-page.is-dark .control-btn:focus-visible,
+.podcast-page.is-dark .clear-filters-btn:hover,
+.podcast-page.is-dark .favorites-toggle:hover {
+  background: rgba(255, 255, 255, 0.06) !important;
+  border-color: rgba(255, 255, 255, 0.22) !important;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.08) inset !important;
+}
+
+.podcast-page.is-dark .control-button.is-active,
+.podcast-page.is-dark .control-button[aria-pressed="true"],
+.podcast-page.is-dark .control-button.playing,
+.podcast-page.is-dark .play-btn.playing,
+.podcast-page.is-dark .podcast-card.highlighted,
+.podcast-page.is-dark .episode-card.highlighted,
+.podcast-page.is-dark .favorite-card.highlighted {
+  background: #232529 !important;
+  border-color: rgba(255, 255, 255, 0.68) !important;
+  outline: 2px solid rgba(255, 255, 255, 0.16) !important;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.08) inset !important;
+}
+
+.podcast-page.is-dark .podcast-card.highlighted::after {
+  box-shadow: inset 0 0 18px rgba(255, 255, 255, 0.08), 0 0 0 rgba(0, 0, 0, 0) !important;
+  animation: none;
+}
+
+.podcast-page.is-dark .new-badge {
+  background: #232529 !important;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.podcast-page.is-dark .episode-warning {
+  color: #ffffff !important;
+}
+
+.podcast-page.is-dark .episode-warning-cta {
+  color: #ffffff !important;
+}
+
+.podcast-page.is-dark .audio-player-container {
+  background: transparent !important;
+  border-top-color: transparent !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  padding: 0 !important;
+}
+
+.podcast-page.is-dark .custom-audio-player {
+  background: linear-gradient(135deg, #232529 0%, #2c3035 100%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  border-radius: 0;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  overflow: hidden;
+}
+
+.podcast-page.is-dark .control-btn.play-pause {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.podcast-page.is-dark .progress-bar {
+  background: rgba(255, 255, 255, 0.08) !important;
+}
+
+.podcast-page.is-dark .progress {
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.68), #ffffff) !important;
+}
+
+.podcast-page.is-dark .progress-handle {
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.12);
+}
+
+.podcast-page.is-dark .selected-podcast-image,
+.podcast-page.is-dark .episode-avatar,
+.podcast-page.is-dark .artwork {
+  border-color: rgba(255, 255, 255, 0.12) !important;
+  box-shadow: none !important;
+}

@@ -1,5 +1,5 @@
 <template>
-  <div class="p-3 mission-shell" :class="{ 'pb-audio-gap': showAudioPlayer }">
+  <div class="p-3 mission-shell" :class="{ 'pb-audio-gap': showAudioPlayer, 'is-dark': isDarkMode }">
 
     <section class="mission-intro container px-0 px-lg-3">
       <div class="row py-3 justify-content-center text-center mb-3 mission-hero">
@@ -86,7 +86,7 @@
     </nav>
 
     <section class="mission-map-shell container">
-      <seerah-map-component :points="mapPoints" :active-index="currentIndex" :loading="mapLoading" :error="mapError"
+      <seerah-map-component class="seerah-map-theme" :class="{ 'is-dark': isDarkMode }" :points="mapPoints" :active-index="currentIndex" :loading="mapLoading" :error="mapError"
         @point-selected="onMapPointSelected" />
     </section>
 
@@ -298,7 +298,8 @@
                 <div>
                   <label class="form-label fw-bold fs-4">Font Family</label>
                   <select v-model="fontSettings.fontFamily" class="form-select">
-                    <option value="'Nunito', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif">Nunito (Default)</option>
+                    <option value="'Manrope', 'Inter', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif">Manrope (Default)</option>
+                    <option value="'Nunito', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif">Nunito</option>
                     <option value="Arial, sans-serif">Arial</option>
                     <option value="'Times New Roman', serif">Times New Roman</option>
                     <option value="'Courier New', monospace">Courier New</option>
@@ -333,35 +334,44 @@
     <div v-if="showAudioPlayer" class="audio-player-container" role="region" aria-label="Audio player">
       <div class="custom-audio-player">
         <div class="player-controls">
-          <div class="player-header">
-            <span class="player-title">{{ currentEvent && currentEvent.title ? currentEvent.title : 'Seerah audio' }}</span>
-            <button class="icon-btn icon-btn--close" @click="closeAudioPlayer" title="Close"
-              aria-label="Close audio player">
-              <i class="bi bi-x-lg"></i>
-            </button>
-          </div>
-          <div class="control-row">
-            <button class="icon-btn" @click="rewindAudio(currentlyPlayingIndex)" title="Rewind 10 seconds"
-              aria-label="Rewind 10 seconds">
-              <i class="bi bi-skip-backward-fill"></i>
-            </button>
-            <button class="icon-btn" @click="toggleAudioPlayer(currentlyPlayingIndex)"
-              :title="isAudioPlaying[currentlyPlayingIndex] ? 'Pause' : 'Play'"
-              :aria-label="isAudioPlaying[currentlyPlayingIndex] ? 'Pause audio' : 'Play audio'">
-              <i class="bi" :class="isAudioPlaying[currentlyPlayingIndex] ? 'bi-pause-fill' : 'bi-play-fill'"></i>
-            </button>
-            <button class="icon-btn" @click="fastForwardAudio(currentlyPlayingIndex)" title="Fast forward 10 seconds"
-              aria-label="Fast forward 10 seconds">
-              <i class="bi bi-skip-forward-fill"></i>
-            </button>
-            <button class="icon-btn" @click="stopAudio(currentlyPlayingIndex)" title="Stop" aria-label="Stop audio">
-              <i class="bi bi-stop-fill"></i>
-            </button>
-            <button class="icon-btn" @click="toggleMute" :title="volume > 0 ? 'Mute' : 'Unmute'"
-              :aria-label="volume > 0 ? 'Mute audio' : 'Unmute audio'">
-              <i class="bi" :class="`bi-volume-${volume > 0.5 ? 'up' : volume > 0 ? 'down' : 'mute'}-fill`"></i>
-            </button>
-            <span class="timer" aria-live="polite">{{ formatTime(currentTime) }} / {{ formatTime(totalTime) }}</span>
+          <div class="player-main-row">
+            <div class="player-title-block">
+              <span class="player-kicker">Seerah Audio</span>
+              <span class="player-title">{{ currentEvent && currentEvent.title ? currentEvent.title : 'Seerah audio' }}</span>
+            </div>
+            <div class="control-cluster" aria-label="Playback controls">
+              <div class="control-row">
+                <button class="icon-btn" @click="rewindAudio(currentlyPlayingIndex)" title="Rewind 10 seconds"
+                  aria-label="Rewind 10 seconds">
+                  <i class="bi bi-skip-backward-fill"></i>
+                </button>
+                <button class="icon-btn icon-btn--primary" @click="toggleAudioPlayer(currentlyPlayingIndex)"
+                  :title="isAudioPlaying[currentlyPlayingIndex] ? 'Pause' : 'Play'"
+                  :aria-label="isAudioPlaying[currentlyPlayingIndex] ? 'Pause audio' : 'Play audio'">
+                  <i class="bi" :class="isAudioPlaying[currentlyPlayingIndex] ? 'bi-pause-fill' : 'bi-play-fill'"></i>
+                </button>
+                <button class="icon-btn" @click="fastForwardAudio(currentlyPlayingIndex)" title="Fast forward 10 seconds"
+                  aria-label="Fast forward 10 seconds">
+                  <i class="bi bi-skip-forward-fill"></i>
+                </button>
+                <button class="icon-btn" @click="stopAudio(currentlyPlayingIndex)" title="Stop" aria-label="Stop audio">
+                  <i class="bi bi-stop-fill"></i>
+                </button>
+              </div>
+            </div>
+            <div class="player-utility">
+              <button class="icon-btn" @click="toggleMute" :title="volume > 0 ? 'Mute' : 'Unmute'"
+                :aria-label="volume > 0 ? 'Mute audio' : 'Unmute audio'">
+                <i class="bi" :class="`bi-volume-${volume > 0.5 ? 'up' : volume > 0 ? 'down' : 'mute'}-fill`"></i>
+              </button>
+              <div class="player-meta">
+                <span class="timer" aria-live="polite">{{ formatTime(currentTime) }} / {{ formatTime(totalTime) }}</span>
+                <button class="icon-btn icon-btn--close" @click="closeAudioPlayer" title="Close"
+                  aria-label="Close audio player">
+                  <i class="bi bi-x-lg"></i>
+                </button>
+              </div>
+            </div>
           </div>
         </div>
         <div class="progress-wrapper">

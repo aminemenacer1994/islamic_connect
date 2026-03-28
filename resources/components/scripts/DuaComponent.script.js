@@ -95,6 +95,7 @@ export default {
       speechSupported: typeof window !== 'undefined' && 'speechSynthesis' in window,
       speechVoices: [],
       isDarkMode: false,
+      _cleanupDone: false,
     };
   },
   computed: {
@@ -827,6 +828,19 @@ export default {
       }
       this.syncThemeFromBody();
     },
+    cleanupGlobalListeners() {
+      if (this._cleanupDone) return;
+      this._cleanupDone = true;
+      this.stopAudioPlayback();
+      window.removeEventListener('scroll', this.handleScroll);
+      window.removeEventListener('ic-theme-change', this.handleThemeChange);
+      Object.values(this.warningTimers || {}).forEach(timerId => clearTimeout(timerId));
+      this.warningTimers = {};
+      if (this.authWarningTimer) {
+        clearTimeout(this.authWarningTimer);
+        this.authWarningTimer = null;
+      }
+    },
     handleScroll() {
       const scrollPosition = window.scrollY;
       const windowHeight = document.documentElement.scrollHeight - window.innerHeight;
@@ -874,6 +888,7 @@ export default {
   },
   created() {
     try { console.debug('[DuaComponent] created()'); } catch (e) { }
+    this._cleanupDone = false;
     this.resolveStorageScope();
     try {
       this.hydrateDuaCollection(duaCollectionData);
@@ -891,13 +906,9 @@ export default {
     window.addEventListener('ic-theme-change', this.handleThemeChange);
   },
   beforeUnmount() {
-    window.removeEventListener('ic-theme-change', this.handleThemeChange);
+    this.cleanupGlobalListeners();
   },
   beforeDestroy() {
-    this.stopAudioPlayback();
-    window.removeEventListener('scroll', this.handleScroll);
-    window.removeEventListener('ic-theme-change', this.handleThemeChange);
-    Object.values(this.warningTimers || {}).forEach(timerId => clearTimeout(timerId));
-    if (this.authWarningTimer) clearTimeout(this.authWarningTimer);
+    this.cleanupGlobalListeners();
   },
 };
