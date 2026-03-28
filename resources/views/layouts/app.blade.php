@@ -593,6 +593,9 @@
 	            filter: brightness(0) invert(1);
 	        }
 
+	        body.home-route-page.dark-mode,
+	        body.home-route-page.dark-mode main#main-content,
+	        body.home-route-page.dark-mode #app,
 	        body.radio-route-page.dark-mode,
 	        body.radio-route-page.dark-mode main#main-content,
 	        body.radio-route-page.dark-mode #app,
@@ -611,6 +614,7 @@
 	            background: #232529 !important;
 	        }
 
+	        body.home-route-page.dark-mode,
 	        body.radio-route-page.dark-mode,
 	        body.content-route-page.dark-mode,
 	        body.digital-library-route-page.dark-mode,
@@ -691,25 +695,17 @@
 	        html.theme-transitioning .surat-brand-icon,
 	        html.theme-transitioning .surat-brand-wordmark-img,
 	        html.theme-transitioning .ic-home,
-	        html.theme-transitioning .ic-home *,
 	        html.theme-transitioning .radio-page,
-	        html.theme-transitioning .radio-page *,
 	        html.theme-transitioning .digital-library-page,
-	        html.theme-transitioning .digital-library-page *,
 	        html.theme-transitioning .dua-shell,
-	        html.theme-transitioning .dua-shell *,
 	        html.theme-transitioning .mission-shell,
-	        html.theme-transitioning .mission-shell *,
-	        html.theme-transitioning .podcast-page,
-	        html.theme-transitioning .podcast-page * {
+	        html.theme-transitioning .podcast-page {
 	            transition:
 	                background-color 240ms ease,
-	                background 240ms ease,
 	                color 220ms ease,
 	                border-color 220ms ease,
 	                box-shadow 240ms ease,
-	                filter 240ms ease,
-	                opacity 220ms ease !important;
+	                filter 220ms ease !important;
 	        }
 
 	        html.theme-transitioning .global-theme-toggle .global-theme-toggle__indicator {
@@ -732,17 +728,11 @@
 	            html.theme-transitioning .surat-brand-icon,
 	            html.theme-transitioning .surat-brand-wordmark-img,
 	            html.theme-transitioning .ic-home,
-	            html.theme-transitioning .ic-home *,
 	            html.theme-transitioning .radio-page,
-	            html.theme-transitioning .radio-page *,
 	            html.theme-transitioning .digital-library-page,
-	            html.theme-transitioning .digital-library-page *,
 	            html.theme-transitioning .dua-shell,
-	            html.theme-transitioning .dua-shell *,
 	            html.theme-transitioning .mission-shell,
-	            html.theme-transitioning .mission-shell *,
 	            html.theme-transitioning .podcast-page,
-	            html.theme-transitioning .podcast-page *,
 	            .global-theme-toggle,
 	            .global-theme-toggle .global-theme-toggle__indicator {
 	                transition: none !important;
@@ -1606,7 +1596,7 @@
 	                        body?.classList.add('theme-transitioning');
 	                        themeTransitionTimer = window.setTimeout(() => {
 	                            clearThemeTransition();
-	                        }, 280);
+	                        }, 220);
 	                    };
 
 	                    const applyTheme = (theme) => {

@@ -830,7 +830,6 @@ export default {
 
         // Initialize visible list for infinite scroll
         this.visibleCount = Math.min(this.itemsPerLoad, this.podcasts.length);
-        console.log('Sorted podcasts:', this.podcasts.map(p => ({ title: p.title, pubDate: p.pubDate })));
 
         this.applyFilters(); // Apply filters after fetching
       } catch (error) {
@@ -976,8 +975,7 @@ export default {
     },
 
     processRSSFeed(rssText) {
-      // TODO: Implement RSS parsing logic
-      console.log("Processing RSS Feed...");
+      void rssText;
     },
 
     selectPodcast(podcast) {

@@ -247,7 +247,6 @@ export default {
       if (!data || !Array.isArray(data.categories)) {
         throw new Error('Invalid JSON structure: categories not found or not an array');
       }
-      try { console.debug('[DuaComponent] loaded categories:', data.categories.length); } catch (e) { }
       this.duaCollection = data.categories.map(category => ({
         ...category,
         collapsed: false,
@@ -887,7 +886,6 @@ export default {
     },
   },
   created() {
-    try { console.debug('[DuaComponent] created()'); } catch (e) { }
     this._cleanupDone = false;
     this.resolveStorageScope();
     try {

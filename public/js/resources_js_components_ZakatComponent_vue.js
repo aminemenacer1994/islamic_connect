@@ -180,7 +180,7 @@ __webpack_require__.r(__webpack_exports__);
       if (this.ChartCtor) return;
       this.isChartLibLoading = true;
       try {
-        const mod = await Promise.resolve(/*! import() */).then(__webpack_require__.bind(__webpack_require__, /*! chart.js/auto */ "./node_modules/chart.js/auto/auto.mjs"));
+        const mod = await __webpack_require__.e(/*! import() */ "/js/vendor").then(__webpack_require__.bind(__webpack_require__, /*! chart.js/auto */ "./node_modules/chart.js/auto/auto.mjs"));
         this.ChartCtor = mod.default || mod;
       } catch (e) {
         console.error('Failed to load chart library', e);

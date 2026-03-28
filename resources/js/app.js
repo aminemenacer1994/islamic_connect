@@ -1,49 +1,19 @@
-console.log('[Vue] app.js start');
 require("./bootstrap");
 import { createApp, defineAsyncComponent } from "vue";
-import * as bootstrap from 'bootstrap';
-window.bootstrap = bootstrap;
-import $ from 'jquery';
 import { Form } from "vform";
 import swal from "sweetalert2";
 import 'sweetalert2/dist/sweetalert2.min.css';
 import PrimeVue from "primevue/config";
 import "primevue/resources/themes/saga-blue/theme.css";
 import "primevue/resources/primevue.min.css";
-
-import DataTable from "primevue/datatable";
-import Column from "primevue/column";
-import Button from "primevue/button";
-import Dropdown from "primevue/dropdown";
-import InputText from "primevue/inputtext";
-import Card from "primevue/card";
-import TabView from "primevue/tabview";
-import TabPanel from "primevue/tabpanel";
-import Accordion from "primevue/accordion";
-import AccordionTab from "primevue/accordiontab";
-import Listbox from "primevue/listbox";
-import Fieldset from "primevue/fieldset";
-import Panel from "primevue/panel";
-import Dialog from "primevue/dialog";
-import Image from "primevue/image";
-import Editor from 'primevue/editor';
-
-import UsersComponent from "./components/admin_panels/UsersComponent.vue";
-import MailingListComponent from "./components/admin_panels/MailingListComponent.vue";
-import FeedbackComponent from "./components/admin_panels/FeedbackComponent.vue";
-import PaymentComponent from "./components/admin_panels/PaymentComponent.vue";
-import DonationComponent from "./components/admin_panels/DonationComponent.vue";
-import ProfileComponent from "./components/admin_panels/ProfileComponent.vue";
-import DashboardComponent from "./components/admin_panels/DashboardComponent.vue";
-import PricingComponent from "./components/PricingComponent.vue";
 import SubscriptionForm from './components/SubscriptionForm.vue';
-import AiComponent from "./components/AiComponent.vue";
 
 import { StripePlugin } from 'vue-stripe-elements-plus';
 import { ref, onMounted } from 'vue';
 // Removed session milestone tracking
 
 const DARK_MODE_STORAGE_KEY = 'darkMode';
+const IS_DEV = process.env.NODE_ENV !== 'production';
 
 const prefersDarkColorScheme = () => {
   if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') {
@@ -127,9 +97,17 @@ const app = createApp({
     };
   },
   created() {
+    if (typeof window !== 'undefined' && window.IC_THEME && typeof window.IC_THEME.getTheme === 'function') {
+      this.darkModeState.isDarkMode = window.IC_THEME.getTheme() === 'dark';
+      return;
+    }
     applyGlobalThemePreference(this.darkModeState.isDarkMode);
   },
   mounted() {
+    if (typeof window !== 'undefined' && window.IC_THEME && typeof window.IC_THEME.getTheme === 'function') {
+      this.darkModeState.isDarkMode = window.IC_THEME.getTheme() === 'dark';
+      return;
+    }
     applyGlobalThemePreference(this.darkModeState.isDarkMode);
   },
   methods: {
@@ -169,40 +147,38 @@ const app = createApp({
 window.Form = Form;
 window.Swal = swal;
 
-window.$ = window.jQuery = $;
-
-
-
 
 app.use(PrimeVue);
 // Protect against plugins that don't expose install with Vue 3 build
 try {
   if (StripePlugin && (typeof StripePlugin === 'function' || typeof StripePlugin.install === 'function')) {
     app.use(StripePlugin, { key: process.env.MIX_STRIPE_PUBLISHABLE_KEY });
-  } else {
+  } else if (IS_DEV) {
     console.log('[Stripe] Plugin not compatible with current Vue build; skipping');
   }
 } catch (e) {
-  console.debug('[Stripe] Skipped plugin registration:', e?.message || e);
+  if (IS_DEV) {
+    console.debug('[Stripe] Skipped plugin registration:', e?.message || e);
+  }
 }
-app.component("Column", Column);
-app.component("DataTable", DataTable);
-app.component("Button", Button);
-app.component("Dropdown", Dropdown);
-app.component("InputText", InputText);
-app.component("AccordionTab", AccordionTab);
-app.component("Accordion", Accordion);
-app.component("Card", Card);
-app.component("TabView", TabView);
-app.component("TabPanel", TabPanel);
-app.component("ListBox", Listbox);
-app.component("Fieldset", Fieldset);
-app.component("Panel", Panel);
-app.component("Dialog", Dialog);
-app.component("Image", Image);
-app.component("Editor", Editor);
 
 const asyncComponentLoaders = {
+  "Column": () => import("primevue/column"),
+  "DataTable": () => import("primevue/datatable"),
+  "Button": () => import("primevue/button"),
+  "Dropdown": () => import("primevue/dropdown"),
+  "InputText": () => import("primevue/inputtext"),
+  "AccordionTab": () => import("primevue/accordiontab"),
+  "Accordion": () => import("primevue/accordion"),
+  "Card": () => import("primevue/card"),
+  "TabView": () => import("primevue/tabview"),
+  "TabPanel": () => import("primevue/tabpanel"),
+  "ListBox": () => import("primevue/listbox"),
+  "Fieldset": () => import("primevue/fieldset"),
+  "Panel": () => import("primevue/panel"),
+  "Dialog": () => import("primevue/dialog"),
+  "Image": () => import("primevue/image"),
+  "Editor": () => import("primevue/editor"),
   "subscription-component": () => import("./components/SubscriptionComponent.vue"),
   "dark-mode-toggle": () => import("./components/DarkModeToggle.vue"),
   "users-component": () => import("./components/admin_panels/UsersComponent.vue"),
@@ -281,6 +257,7 @@ const asyncComponentLoaders = {
   "shared-folder-view": () => import("./components/bookmarks/SharedFolderView.vue"),
   "resources-component": () => import("./components/ResourcesComponent.vue"),
   "ramadan-2026-component": () => import("./components/Ramadan2026Component.vue"),
+  "ai-component": () => import("./components/AiComponent.vue"),
 };
 
 const registerAsyncComponent = (name, loader) => {
@@ -297,18 +274,16 @@ const registerAsyncComponent = (name, loader) => {
 
 Object.entries(asyncComponentLoaders).forEach(([name, loader]) => registerAsyncComponent(name, loader));
 
-// Keep AI assistant in the main bundle so layout and template updates are not blocked by stale async chunk caches.
-app.component("ai-component", AiComponent);
-
 const mountApp = () => {
   const target = document.getElementById('app');
   if (!target) {
-    console.warn('[Vue] mount target #app not found yet; retrying after DOMContentLoaded');
+    if (IS_DEV) {
+      console.warn('[Vue] mount target #app not found yet; retrying after DOMContentLoaded');
+    }
     document.addEventListener('DOMContentLoaded', () => {
       const t2 = document.getElementById('app');
       if (t2) {
         app.mount('#app');
-        console.log('[Vue] mounted on #app (after DOMContentLoaded)');
       } else {
         console.error('[Vue] mount failed: #app missing on DOMContentLoaded');
       }
@@ -316,7 +291,6 @@ const mountApp = () => {
     return;
   }
   app.mount('#app');
-  console.log('[Vue] mounted on #app');
 };
 
 try { mountApp(); } catch (e) {
@@ -327,10 +301,11 @@ try { mountApp(); } catch (e) {
   } catch(_) {}
 }
 
-// Global error diagnostics to surface silent failures
-window.addEventListener('error', (e) => {
-  console.error('[GlobalError]', e?.message || e);
-});
-window.addEventListener('unhandledrejection', (e) => {
-  console.error('[UnhandledRejection]', e?.reason || e);
-});
+if (IS_DEV) {
+  window.addEventListener('error', (e) => {
+    console.error('[GlobalError]', e?.message || e);
+  });
+  window.addEventListener('unhandledrejection', (e) => {
+    console.error('[UnhandledRejection]', e?.reason || e);
+  });
+}

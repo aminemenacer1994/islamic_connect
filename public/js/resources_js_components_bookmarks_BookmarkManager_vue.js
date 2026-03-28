@@ -3533,6 +3533,66 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_BookmarkManager_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./BookmarkManager.vue?vue&type=script&lang=js */ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/bookmarks/BookmarkManager.vue?vue&type=script&lang=js");
  
 
+/***/ }),
+
+/***/ "./resources/js/utils/bookmarkAuth.js":
+/*!********************************************!*\
+  !*** ./resources/js/utils/bookmarkAuth.js ***!
+  \********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   fetchUserIdFromApi: () => (/* binding */ fetchUserIdFromApi),
+/* harmony export */   resolveClientUserId: () => (/* binding */ resolveClientUserId)
+/* harmony export */ });
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
+
+const USER_META_SELECTOR = 'meta[name="user"]';
+function parseId(value) {
+  if (value === undefined || value === null) return null;
+  const normalized = String(value).trim();
+  if (!normalized) return null;
+  const asNumber = Number(normalized);
+  return Number.isFinite(asNumber) && asNumber > 0 ? asNumber : normalized;
+}
+function resolveClientUserId() {
+  var _window, _document$body, _document$body2;
+  if (typeof window === 'undefined') {
+    return null;
+  }
+  if ((_window = window) !== null && _window !== void 0 && (_window = _window.Laravel) !== null && _window !== void 0 && _window.userId) {
+    return parseId(window.Laravel.userId);
+  }
+  const meta = document.querySelector(USER_META_SELECTOR);
+  const metaValue = parseId(meta === null || meta === void 0 ? void 0 : meta.getAttribute('content'));
+  if (metaValue) {
+    return metaValue;
+  }
+  const datasetValue = parseId(((_document$body = document.body) === null || _document$body === void 0 || (_document$body = _document$body.dataset) === null || _document$body === void 0 ? void 0 : _document$body.userId) || ((_document$body2 = document.body) === null || _document$body2 === void 0 || (_document$body2 = _document$body2.dataset) === null || _document$body2 === void 0 ? void 0 : _document$body2.user));
+  if (datasetValue) {
+    return datasetValue;
+  }
+  return null;
+}
+async function fetchUserIdFromApi() {
+  const localId = resolveClientUserId();
+  if (localId) {
+    return localId;
+  }
+  try {
+    var _response$data;
+    const response = await axios__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/userId');
+    const apiValue = parseId((_response$data = response.data) === null || _response$data === void 0 ? void 0 : _response$data.userId);
+    if (apiValue) {
+      return apiValue;
+    }
+  } catch (error) {
+    // swallow; helper should not break callers
+  }
+  return null;
+}
+
 /***/ })
 
 }]);

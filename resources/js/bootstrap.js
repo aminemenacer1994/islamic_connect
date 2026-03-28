@@ -5,9 +5,9 @@ import axios from 'axios';
 import $ from 'jquery';
 window.$ = window.jQuery = $;
 
-// Import Bootstrap and AdminLTE JavaScript
-import 'bootstrap';
-import 'admin-lte';
+// Import Bootstrap once and expose it globally for tooltips/modals.
+import * as bootstrap from 'bootstrap';
+window.bootstrap = bootstrap;
 
 window.axios = axios;
 
@@ -43,36 +43,21 @@ if (bookmarkSessionId) {
     window.axios.defaults.headers.common['X-Bookmark-Session'] = bookmarkSessionId;
 }
 
-/**
-* Add request interceptor to log requests for debugging
-*/
-axios.interceptors.request.use(
-   config => {
-       console.log(`Making ${config.method.toUpperCase()} request to: ${config.url}`);
-       return config;
-   },
-   error => Promise.reject(error)
-);
+const loadAdminLteIfNeeded = async () => {
+    if (typeof document === 'undefined') return;
+    const requiresAdminLte = !!document.querySelector('.admin-page, .main-sidebar, .content-wrapper, body.admin-page');
+    if (!requiresAdminLte) return;
+    try {
+        await import('admin-lte');
+    } catch (_) {
+        // Keep public pages resilient if the admin-only enhancement fails to load.
+    }
+};
 
-/**
-* Add response interceptor to handle 401 errors globally
-*/
-axios.interceptors.response.use(
-   response => {
-       console.log(`Response from ${response.config.url}:`, response.status);
-       return response;
-   },
-   error => {
-       console.error(`Error response from ${error.config?.url}:`, error.response?.status, error.response?.data);
-       
-       if (error.response?.status === 401 && !window.location.pathname.includes('/login')) {
-           console.log('Authentication required');
-       }
-       
-       if (error.response?.status === 405) {
-           console.error('Method not allowed:', error.config?.method, error.config?.url);
-       }
-       
-       return Promise.reject(error);
-   }
-);
+if (typeof document !== 'undefined') {
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', loadAdminLteIfNeeded, { once: true });
+    } else {
+        loadAdminLteIfNeeded();
+    }
+}
