@@ -1,5 +1,5 @@
 <template>
-  <main class="container-fluid dua-shell py-4" role="main" aria-labelledby="dua-title">
+  <main class="container-fluid dua-shell py-4" :class="{ 'is-dark': isDarkMode }" role="main" aria-labelledby="dua-title">
     <section class="container-fluid dua-content-shell dua-hero mb-4">
       <div class="dua-hero-text">
         <p class="dua-kicker mb-2">Dua Collection</p>

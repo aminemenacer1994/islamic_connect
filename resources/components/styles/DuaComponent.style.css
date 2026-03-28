@@ -19,6 +19,151 @@
   color: var(--text);
 }
 
+.dua-shell.is-dark {
+  --bg: #232529;
+  --surface: #232529;
+  --surface-soft: #232529;
+  --text: #ffffff;
+  --muted: #ffffff;
+  --line: rgba(255, 255, 255, 0.12);
+  --primary: #232529;
+  --primary-2: #232529;
+  --accent: #ffffff;
+  --shadow-sm: none;
+  --shadow-md: none;
+  background: #232529;
+  color: #ffffff;
+  color-scheme: dark;
+}
+
+.dua-shell.is-dark,
+.dua-shell.is-dark p,
+.dua-shell.is-dark span,
+.dua-shell.is-dark h1,
+.dua-shell.is-dark h2,
+.dua-shell.is-dark h3,
+.dua-shell.is-dark h4,
+.dua-shell.is-dark strong,
+.dua-shell.is-dark label,
+.dua-shell.is-dark small,
+.dua-shell.is-dark button,
+.dua-shell.is-dark i,
+.dua-shell.is-dark a {
+  color: #ffffff !important;
+}
+
+.dua-shell.is-dark .dua-hero,
+.dua-shell.is-dark .dua-disclaimer-banner,
+.dua-shell.is-dark .dua-search-wrapper .dua-search-card,
+.dua-shell.is-dark .dua-tab-btn,
+.dua-shell.is-dark .dua-tab-btn.active,
+.dua-shell.is-dark .dua-recommender-panel,
+.dua-shell.is-dark .dua-recommender-item,
+.dua-shell.is-dark .dua-category-panel,
+.dua-shell.is-dark .dua-card,
+.dua-shell.is-dark .dua-card-arabic,
+.dua-shell.is-dark .dua-section-toggle,
+.dua-shell.is-dark .dua-section-block-reference .dua-section-toggle,
+.dua-shell.is-dark .dua-section-block-reference .dua-card-meta,
+.dua-shell.is-dark .dua-font-controls,
+.dua-shell.is-dark .dua-action-btn,
+.dua-shell.is-dark .dua-filter-pill,
+.dua-shell.is-dark .dua-keyword-chip,
+.dua-shell.is-dark .dua-fab-scroll,
+.dua-shell.is-dark .category-toggle,
+.dua-shell.is-dark .category-download-btn,
+.dua-shell.is-dark .dua-pagination .page-link,
+.dua-shell.is-dark .action-pill,
+.dua-shell.is-dark .copy-message,
+.dua-shell.is-dark .alert.no-duas-message,
+.dua-shell.is-dark .auth-warning,
+.dua-shell.is-dark .dua-login-warning,
+.dua-shell.is-dark .auth-warning-cta,
+.dua-shell.is-dark .dua-search-input,
+.dua-shell.is-dark .dua-filter-select,
+.dua-shell.is-dark .dua-recommender-input {
+  background: #232529 !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  box-shadow: none !important;
+}
+
+.dua-shell.is-dark .dua-hero::after {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.dua-shell.is-dark .dua-search-input input,
+.dua-shell.is-dark .dua-filter-select,
+.dua-shell.is-dark .dua-recommender-input {
+  color: #ffffff !important;
+}
+
+.dua-shell.is-dark .dua-search-input input::placeholder,
+.dua-shell.is-dark .dua-recommender-input::placeholder {
+  color: rgba(255, 255, 255, 0.72) !important;
+}
+
+.dua-shell.is-dark .dua-tab-btn {
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+}
+
+.dua-shell.is-dark .dua-tab-btn:hover,
+.dua-shell.is-dark .dua-tab-btn:focus-visible {
+  background: rgba(255, 255, 255, 0.06) !important;
+  border-color: rgba(255, 255, 255, 0.24) !important;
+  box-shadow: none !important;
+}
+
+.dua-shell.is-dark .dua-tab-btn.active {
+  background: #232529 !important;
+  border-color: rgba(255, 255, 255, 0.82) !important;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.82), 0 0 0 2px rgba(255, 255, 255, 0.08) !important;
+}
+
+.dua-shell.is-dark .dua-tab-btn.active .dua-tab-btn-label,
+.dua-shell.is-dark .dua-tab-btn.active .dua-tab-btn-meta {
+  color: #ffffff !important;
+}
+
+.dua-shell.is-dark .dua-action-btn .text-danger,
+.dua-shell.is-dark .dua-tab-btn-icon,
+.dua-shell.is-dark .dua-tab-btn.active .dua-tab-btn-icon {
+  color: #ffffff !important;
+}
+
+.dua-shell.is-dark .dua-font-btn,
+.dua-shell.is-dark .dua-action-btn,
+.dua-shell.is-dark .category-toggle,
+.dua-shell.is-dark .category-download-btn,
+.dua-shell.is-dark .dua-section-toggle {
+  color: #ffffff !important;
+}
+
+.dua-shell.is-dark .dua-font-btn:not(:disabled):hover,
+.dua-shell.is-dark .dua-font-btn:not(:disabled):focus-visible,
+.dua-shell.is-dark .dua-action-btn:hover,
+.dua-shell.is-dark .dua-action-btn:focus-visible,
+.dua-shell.is-dark .category-toggle:hover,
+.dua-shell.is-dark .category-toggle:focus-visible,
+.dua-shell.is-dark .category-download-btn:hover,
+.dua-shell.is-dark .category-download-btn:focus-visible,
+.dua-shell.is-dark .dua-section-toggle:hover,
+.dua-shell.is-dark .dua-section-toggle:focus-visible {
+  background: rgba(255, 255, 255, 0.08) !important;
+  border-color: rgba(255, 255, 255, 0.22) !important;
+  color: #ffffff !important;
+  box-shadow: none !important;
+}
+
+.dua-shell.is-dark .dua-font-btn:disabled {
+  opacity: 0.45;
+}
+
+.dua-shell.is-dark .dua-card-actions,
+.dua-shell.is-dark .dua-category-heading,
+.dua-shell.is-dark .dua-recommender-results {
+  border-color: rgba(255, 255, 255, 0.12) !important;
+}
+
 .dua-content-shell {
   width: 100%;
   max-width: var(--shell-max-width);

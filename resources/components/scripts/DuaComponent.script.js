@@ -94,6 +94,7 @@ export default {
       speechUtterance: null,
       speechSupported: typeof window !== 'undefined' && 'speechSynthesis' in window,
       speechVoices: [],
+      isDarkMode: false,
     };
   },
   computed: {
@@ -815,6 +816,17 @@ export default {
     scrollToTop() {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     },
+    syncThemeFromBody() {
+      this.isDarkMode = document.body.classList.contains('dua-route-page')
+        && document.body.classList.contains('dark-mode');
+    },
+    handleThemeChange(event) {
+      if (event?.detail && typeof event.detail.isDark === 'boolean') {
+        this.isDarkMode = event.detail.isDark;
+        return;
+      }
+      this.syncThemeFromBody();
+    },
     handleScroll() {
       const scrollPosition = window.scrollY;
       const windowHeight = document.documentElement.scrollHeight - window.innerHeight;
@@ -874,9 +886,17 @@ export default {
     window.addEventListener('scroll', this.handleScroll, { passive: true });
     this.initializeSpeechVoices();
   },
+  mounted() {
+    this.syncThemeFromBody();
+    window.addEventListener('ic-theme-change', this.handleThemeChange);
+  },
+  beforeUnmount() {
+    window.removeEventListener('ic-theme-change', this.handleThemeChange);
+  },
   beforeDestroy() {
     this.stopAudioPlayback();
     window.removeEventListener('scroll', this.handleScroll);
+    window.removeEventListener('ic-theme-change', this.handleThemeChange);
     Object.values(this.warningTimers || {}).forEach(timerId => clearTimeout(timerId));
     if (this.authWarningTimer) clearTimeout(this.authWarningTimer);
   },

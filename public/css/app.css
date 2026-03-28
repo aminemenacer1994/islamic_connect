@@ -35198,6 +35198,139 @@ h1 {
     var(--bg);
   color: var(--text);
 }
+.dua-shell.is-dark[data-v-4b4cde72] {
+  --bg: #232529;
+  --surface: #232529;
+  --surface-soft: #232529;
+  --text: #ffffff;
+  --muted: #ffffff;
+  --line: rgba(255, 255, 255, 0.12);
+  --primary: #232529;
+  --primary-2: #232529;
+  --accent: #ffffff;
+  --shadow-sm: none;
+  --shadow-md: none;
+  background: #232529;
+  color: #ffffff;
+  color-scheme: dark;
+}
+.dua-shell.is-dark[data-v-4b4cde72],
+.dua-shell.is-dark p[data-v-4b4cde72],
+.dua-shell.is-dark span[data-v-4b4cde72],
+.dua-shell.is-dark h1[data-v-4b4cde72],
+.dua-shell.is-dark h2[data-v-4b4cde72],
+.dua-shell.is-dark h3[data-v-4b4cde72],
+.dua-shell.is-dark h4[data-v-4b4cde72],
+.dua-shell.is-dark strong[data-v-4b4cde72],
+.dua-shell.is-dark label[data-v-4b4cde72],
+.dua-shell.is-dark small[data-v-4b4cde72],
+.dua-shell.is-dark button[data-v-4b4cde72],
+.dua-shell.is-dark i[data-v-4b4cde72],
+.dua-shell.is-dark a[data-v-4b4cde72] {
+  color: #ffffff !important;
+}
+.dua-shell.is-dark .dua-hero[data-v-4b4cde72],
+.dua-shell.is-dark .dua-disclaimer-banner[data-v-4b4cde72],
+.dua-shell.is-dark .dua-search-wrapper .dua-search-card[data-v-4b4cde72],
+.dua-shell.is-dark .dua-tab-btn[data-v-4b4cde72],
+.dua-shell.is-dark .dua-tab-btn.active[data-v-4b4cde72],
+.dua-shell.is-dark .dua-recommender-panel[data-v-4b4cde72],
+.dua-shell.is-dark .dua-recommender-item[data-v-4b4cde72],
+.dua-shell.is-dark .dua-category-panel[data-v-4b4cde72],
+.dua-shell.is-dark .dua-card[data-v-4b4cde72],
+.dua-shell.is-dark .dua-card-arabic[data-v-4b4cde72],
+.dua-shell.is-dark .dua-section-toggle[data-v-4b4cde72],
+.dua-shell.is-dark .dua-section-block-reference .dua-section-toggle[data-v-4b4cde72],
+.dua-shell.is-dark .dua-section-block-reference .dua-card-meta[data-v-4b4cde72],
+.dua-shell.is-dark .dua-font-controls[data-v-4b4cde72],
+.dua-shell.is-dark .dua-action-btn[data-v-4b4cde72],
+.dua-shell.is-dark .dua-filter-pill[data-v-4b4cde72],
+.dua-shell.is-dark .dua-keyword-chip[data-v-4b4cde72],
+.dua-shell.is-dark .dua-fab-scroll[data-v-4b4cde72],
+.dua-shell.is-dark .category-toggle[data-v-4b4cde72],
+.dua-shell.is-dark .category-download-btn[data-v-4b4cde72],
+.dua-shell.is-dark .dua-pagination .page-link[data-v-4b4cde72],
+.dua-shell.is-dark .action-pill[data-v-4b4cde72],
+.dua-shell.is-dark .copy-message[data-v-4b4cde72],
+.dua-shell.is-dark .alert.no-duas-message[data-v-4b4cde72],
+.dua-shell.is-dark .auth-warning[data-v-4b4cde72],
+.dua-shell.is-dark .dua-login-warning[data-v-4b4cde72],
+.dua-shell.is-dark .auth-warning-cta[data-v-4b4cde72],
+.dua-shell.is-dark .dua-search-input[data-v-4b4cde72],
+.dua-shell.is-dark .dua-filter-select[data-v-4b4cde72],
+.dua-shell.is-dark .dua-recommender-input[data-v-4b4cde72] {
+  background: #232529 !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  box-shadow: none !important;
+}
+.dua-shell.is-dark .dua-hero[data-v-4b4cde72]::after {
+  background: rgba(255, 255, 255, 0.04);
+}
+.dua-shell.is-dark .dua-search-input input[data-v-4b4cde72],
+.dua-shell.is-dark .dua-filter-select[data-v-4b4cde72],
+.dua-shell.is-dark .dua-recommender-input[data-v-4b4cde72] {
+  color: #ffffff !important;
+}
+.dua-shell.is-dark .dua-search-input input[data-v-4b4cde72]::-moz-placeholder, .dua-shell.is-dark .dua-recommender-input[data-v-4b4cde72]::-moz-placeholder {
+  color: rgba(255, 255, 255, 0.72) !important;
+}
+.dua-shell.is-dark .dua-search-input input[data-v-4b4cde72]::placeholder,
+.dua-shell.is-dark .dua-recommender-input[data-v-4b4cde72]::placeholder {
+  color: rgba(255, 255, 255, 0.72) !important;
+}
+.dua-shell.is-dark .dua-tab-btn[data-v-4b4cde72] {
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+}
+.dua-shell.is-dark .dua-tab-btn[data-v-4b4cde72]:hover,
+.dua-shell.is-dark .dua-tab-btn[data-v-4b4cde72]:focus-visible {
+  background: rgba(255, 255, 255, 0.06) !important;
+  border-color: rgba(255, 255, 255, 0.24) !important;
+  box-shadow: none !important;
+}
+.dua-shell.is-dark .dua-tab-btn.active[data-v-4b4cde72] {
+  background: #232529 !important;
+  border-color: rgba(255, 255, 255, 0.82) !important;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.82), 0 0 0 2px rgba(255, 255, 255, 0.08) !important;
+}
+.dua-shell.is-dark .dua-tab-btn.active .dua-tab-btn-label[data-v-4b4cde72],
+.dua-shell.is-dark .dua-tab-btn.active .dua-tab-btn-meta[data-v-4b4cde72] {
+  color: #ffffff !important;
+}
+.dua-shell.is-dark .dua-action-btn .text-danger[data-v-4b4cde72],
+.dua-shell.is-dark .dua-tab-btn-icon[data-v-4b4cde72],
+.dua-shell.is-dark .dua-tab-btn.active .dua-tab-btn-icon[data-v-4b4cde72] {
+  color: #ffffff !important;
+}
+.dua-shell.is-dark .dua-font-btn[data-v-4b4cde72],
+.dua-shell.is-dark .dua-action-btn[data-v-4b4cde72],
+.dua-shell.is-dark .category-toggle[data-v-4b4cde72],
+.dua-shell.is-dark .category-download-btn[data-v-4b4cde72],
+.dua-shell.is-dark .dua-section-toggle[data-v-4b4cde72] {
+  color: #ffffff !important;
+}
+.dua-shell.is-dark .dua-font-btn[data-v-4b4cde72]:not(:disabled):hover,
+.dua-shell.is-dark .dua-font-btn[data-v-4b4cde72]:not(:disabled):focus-visible,
+.dua-shell.is-dark .dua-action-btn[data-v-4b4cde72]:hover,
+.dua-shell.is-dark .dua-action-btn[data-v-4b4cde72]:focus-visible,
+.dua-shell.is-dark .category-toggle[data-v-4b4cde72]:hover,
+.dua-shell.is-dark .category-toggle[data-v-4b4cde72]:focus-visible,
+.dua-shell.is-dark .category-download-btn[data-v-4b4cde72]:hover,
+.dua-shell.is-dark .category-download-btn[data-v-4b4cde72]:focus-visible,
+.dua-shell.is-dark .dua-section-toggle[data-v-4b4cde72]:hover,
+.dua-shell.is-dark .dua-section-toggle[data-v-4b4cde72]:focus-visible {
+  background: rgba(255, 255, 255, 0.08) !important;
+  border-color: rgba(255, 255, 255, 0.22) !important;
+  color: #ffffff !important;
+  box-shadow: none !important;
+}
+.dua-shell.is-dark .dua-font-btn[data-v-4b4cde72]:disabled {
+  opacity: 0.45;
+}
+.dua-shell.is-dark .dua-card-actions[data-v-4b4cde72],
+.dua-shell.is-dark .dua-category-heading[data-v-4b4cde72],
+.dua-shell.is-dark .dua-recommender-results[data-v-4b4cde72] {
+  border-color: rgba(255, 255, 255, 0.12) !important;
+}
 .dua-content-shell[data-v-4b4cde72] {
   width: 100%;
   max-width: var(--shell-max-width);

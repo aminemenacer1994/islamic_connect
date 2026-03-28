@@ -10,8 +10,9 @@
 	        $isHomeRoute = ($path === '' || request()->is('home') || request()->is('welcome'));
 	        $isRadioRoute = request()->is('radio*');
 	        $isDigitalLibraryRoute = request()->is('digital-library');
+	        $isDuaRoute = request()->is('dua');
 	        $isAuthRoute = request()->is('login') || request()->is('register');
-	        $hasThemeToggle = ($isSuratRoute || $isHomeRoute || $isRadioRoute || $isDigitalLibraryRoute || $isAuthRoute);
+	        $hasThemeToggle = ($isSuratRoute || $isHomeRoute || $isRadioRoute || $isDigitalLibraryRoute || $isDuaRoute || $isAuthRoute);
 	        $defaultCanonical = $appUrl . ($path ? "/{$path}" : '');
 	        $canonicalUrl = trim($__env->yieldContent('canonical', $defaultCanonical));
         $metaTitle = trim($__env->yieldContent('meta_title', 'Islamic Connect, Accessible Quran & Community Tools'));
@@ -127,8 +128,9 @@
 	                var isHomeRoute = {{ $isHomeRoute ? 'true' : 'false' }};
 	                var isRadioRoute = {{ $isRadioRoute ? 'true' : 'false' }};
 	                var isDigitalLibraryRoute = {{ $isDigitalLibraryRoute ? 'true' : 'false' }};
+	                var isDuaRoute = {{ $isDuaRoute ? 'true' : 'false' }};
 	                var isAuthRoute = {{ $isAuthRoute ? 'true' : 'false' }};
-	                if (!isSuratRoute && !isHomeRoute && !isRadioRoute && !isDigitalLibraryRoute && !isAuthRoute) return;
+	                if (!isSuratRoute && !isHomeRoute && !isRadioRoute && !isDigitalLibraryRoute && !isDuaRoute && !isAuthRoute) return;
 
                 var storedSuratTheme = isSuratRoute ? localStorage.getItem('suratThemeMode') : null;
                 var storedRadioTheme = isRadioRoute ? localStorage.getItem('radioThemeMode') : null;
@@ -586,12 +588,16 @@
 	        body.radio-route-page.dark-mode #app,
 	        body.digital-library-route-page.dark-mode,
 	        body.digital-library-route-page.dark-mode main#main-content,
-	        body.digital-library-route-page.dark-mode #app {
+	        body.digital-library-route-page.dark-mode #app,
+	        body.dua-route-page.dark-mode,
+	        body.dua-route-page.dark-mode main#main-content,
+	        body.dua-route-page.dark-mode #app {
 	            background: #232529 !important;
 	        }
 
 	        body.radio-route-page.dark-mode,
-	        body.digital-library-route-page.dark-mode {
+	        body.digital-library-route-page.dark-mode,
+	        body.dua-route-page.dark-mode {
 	            --bs-body-bg: #232529;
 	            --bs-body-color: #ffffff;
 	        }
@@ -676,11 +682,13 @@
 	        body.home-route-page.dark-mode .global-theme-toggle,
 	        body.radio-route-page.dark-mode .global-theme-toggle,
 	        body.digital-library-route-page.dark-mode .global-theme-toggle,
+	        body.dua-route-page.dark-mode .global-theme-toggle,
 	        body.surat-page-shell-dark .global-theme-toggle {
 	            border-color: rgba(255, 255, 255, 0.14) !important;
 	        }
 
-	        body.digital-library-route-page.dark-mode .global-theme-toggle {
+	        body.digital-library-route-page.dark-mode .global-theme-toggle,
+	        body.dua-route-page.dark-mode .global-theme-toggle {
 	            --ic-toggle-bg: rgba(255, 255, 255, 0.04);
 	            --ic-toggle-fg: #ffffff;
 	            --ic-toggle-active: #ffffff;
@@ -830,7 +838,8 @@
 
 	        body.home-route-page.dark-mode .navbar.navbar-transparent,
 	        body.radio-route-page.dark-mode .navbar.navbar-transparent,
-	        body.digital-library-route-page.dark-mode .navbar.navbar-transparent {
+	        body.digital-library-route-page.dark-mode .navbar.navbar-transparent,
+	        body.dua-route-page.dark-mode .navbar.navbar-transparent {
 	            background: #232529 !important;
 	            backdrop-filter: none !important;
 	            -webkit-backdrop-filter: none !important;
@@ -846,7 +855,10 @@
         body.radio-route-page.dark-mode .navbar.navbar-transparent .navbar-toggler,
         body.digital-library-route-page.dark-mode .navbar.navbar-transparent .navbar-brand,
         body.digital-library-route-page.dark-mode .navbar.navbar-transparent .nav-link,
-        body.digital-library-route-page.dark-mode .navbar.navbar-transparent .navbar-toggler {
+        body.digital-library-route-page.dark-mode .navbar.navbar-transparent .navbar-toggler,
+        body.dua-route-page.dark-mode .navbar.navbar-transparent .navbar-brand,
+        body.dua-route-page.dark-mode .navbar.navbar-transparent .nav-link,
+        body.dua-route-page.dark-mode .navbar.navbar-transparent .navbar-toggler {
             color: #ffffff !important;
         }
 
@@ -864,7 +876,12 @@
         body.digital-library-route-page.dark-mode .navbar.navbar-transparent .navbar-nav .nav-link:focus-visible,
         body.digital-library-route-page.dark-mode .navbar.navbar-transparent .navbar-nav .nav-link:active,
         body.digital-library-route-page.dark-mode .navbar.navbar-transparent .navbar-nav .nav-link:visited,
-        body.digital-library-route-page.dark-mode .navbar.navbar-transparent .navbar-nav .nav-link:hover {
+        body.digital-library-route-page.dark-mode .navbar.navbar-transparent .navbar-nav .nav-link:hover,
+        body.dua-route-page.dark-mode .navbar.navbar-transparent .navbar-nav .nav-link,
+        body.dua-route-page.dark-mode .navbar.navbar-transparent .navbar-nav .nav-link:focus-visible,
+        body.dua-route-page.dark-mode .navbar.navbar-transparent .navbar-nav .nav-link:active,
+        body.dua-route-page.dark-mode .navbar.navbar-transparent .navbar-nav .nav-link:visited,
+        body.dua-route-page.dark-mode .navbar.navbar-transparent .navbar-nav .nav-link:hover {
             color: #ffffff !important;
             background: transparent !important;
             box-shadow: none !important;
@@ -872,25 +889,29 @@
 
         body.home-route-page.dark-mode .navbar .navbar-brand.surat-brand-lockup .surat-brand-icon--light,
         body.radio-route-page.dark-mode .navbar .navbar-brand.surat-brand-lockup .surat-brand-icon--light,
-        body.digital-library-route-page.dark-mode .navbar .navbar-brand.surat-brand-lockup .surat-brand-icon--light {
+        body.digital-library-route-page.dark-mode .navbar .navbar-brand.surat-brand-lockup .surat-brand-icon--light,
+        body.dua-route-page.dark-mode .navbar .navbar-brand.surat-brand-lockup .surat-brand-icon--light {
             opacity: 0;
         }
 
         body.home-route-page.dark-mode .navbar .navbar-brand.surat-brand-lockup .surat-brand-icon--dark,
         body.radio-route-page.dark-mode .navbar .navbar-brand.surat-brand-lockup .surat-brand-icon--dark,
-        body.digital-library-route-page.dark-mode .navbar .navbar-brand.surat-brand-lockup .surat-brand-icon--dark {
+        body.digital-library-route-page.dark-mode .navbar .navbar-brand.surat-brand-lockup .surat-brand-icon--dark,
+        body.dua-route-page.dark-mode .navbar .navbar-brand.surat-brand-lockup .surat-brand-icon--dark {
             opacity: 1;
         }
 
         body.home-route-page.dark-mode .navbar .navbar-brand.surat-brand-lockup .surat-brand-wordmark-img,
         body.radio-route-page.dark-mode .navbar .navbar-brand.surat-brand-lockup .surat-brand-wordmark-img,
-        body.digital-library-route-page.dark-mode .navbar .navbar-brand.surat-brand-lockup .surat-brand-wordmark-img {
+        body.digital-library-route-page.dark-mode .navbar .navbar-brand.surat-brand-lockup .surat-brand-wordmark-img,
+        body.dua-route-page.dark-mode .navbar .navbar-brand.surat-brand-lockup .surat-brand-wordmark-img {
             filter: brightness(0) invert(1);
         }
 
         body.home-route-page.dark-mode .navbar .navbar-toggler,
         body.radio-route-page.dark-mode .navbar .navbar-toggler,
-        body.digital-library-route-page.dark-mode .navbar .navbar-toggler {
+        body.digital-library-route-page.dark-mode .navbar .navbar-toggler,
+        body.dua-route-page.dark-mode .navbar .navbar-toggler {
             border-color: rgba(255, 255, 255, 0.14) !important;
             background: #232529 !important;
             box-shadow: none !important;
@@ -898,13 +919,15 @@
 
         body.home-route-page.dark-mode .navbar .navbar-toggler-icon,
         body.radio-route-page.dark-mode .navbar .navbar-toggler-icon,
-        body.digital-library-route-page.dark-mode .navbar .navbar-toggler-icon {
+        body.digital-library-route-page.dark-mode .navbar .navbar-toggler-icon,
+        body.dua-route-page.dark-mode .navbar .navbar-toggler-icon {
             filter: brightness(0) invert(1);
         }
 
         body.home-route-page.dark-mode .navbar .dropdown-menu,
         body.radio-route-page.dark-mode .navbar .dropdown-menu,
-        body.digital-library-route-page.dark-mode .navbar .dropdown-menu {
+        body.digital-library-route-page.dark-mode .navbar .dropdown-menu,
+        body.dua-route-page.dark-mode .navbar .dropdown-menu {
             background: #232529 !important;
             border-color: rgba(255, 255, 255, 0.12) !important;
             box-shadow: none !important;
@@ -912,7 +935,8 @@
 
         body.home-route-page.dark-mode .navbar .dropdown-item,
         body.radio-route-page.dark-mode .navbar .dropdown-item,
-        body.digital-library-route-page.dark-mode .navbar .dropdown-item {
+        body.digital-library-route-page.dark-mode .navbar .dropdown-item,
+        body.dua-route-page.dark-mode .navbar .dropdown-item {
             color: #ffffff !important;
         }
 
@@ -921,14 +945,17 @@
         body.radio-route-page.dark-mode .navbar .dropdown-item:hover,
         body.radio-route-page.dark-mode .navbar .dropdown-item:focus-visible,
         body.digital-library-route-page.dark-mode .navbar .dropdown-item:hover,
-        body.digital-library-route-page.dark-mode .navbar .dropdown-item:focus-visible {
+        body.digital-library-route-page.dark-mode .navbar .dropdown-item:focus-visible,
+        body.dua-route-page.dark-mode .navbar .dropdown-item:hover,
+        body.dua-route-page.dark-mode .navbar .dropdown-item:focus-visible {
             background: rgba(255, 255, 255, 0.06) !important;
         }
 
         @media (max-width: 768px) {
             body.home-route-page.dark-mode .navbar.navbar-transparent,
             body.radio-route-page.dark-mode .navbar.navbar-transparent,
-            body.digital-library-route-page.dark-mode .navbar.navbar-transparent {
+            body.digital-library-route-page.dark-mode .navbar.navbar-transparent,
+            body.dua-route-page.dark-mode .navbar.navbar-transparent {
                 background: #232529 !important;
             }
 
@@ -943,9 +970,17 @@
                 box-shadow: none !important;
             }
 
+            body.dua-route-page.dark-mode .navbar.navbar-transparent .navbar-collapse.show,
+            body.dua-route-page.dark-mode .navbar.navbar-transparent .navbar-collapse.collapsing {
+                background: #232529 !important;
+                border-color: rgba(255, 255, 255, 0.12) !important;
+                box-shadow: none !important;
+            }
+
             body.home-route-page.dark-mode .navbar.navbar-transparent .navbar-collapse .nav-link,
             body.radio-route-page.dark-mode .navbar.navbar-transparent .navbar-collapse .nav-link,
-            body.digital-library-route-page.dark-mode .navbar.navbar-transparent .navbar-collapse .nav-link {
+            body.digital-library-route-page.dark-mode .navbar.navbar-transparent .navbar-collapse .nav-link,
+            body.dua-route-page.dark-mode .navbar.navbar-transparent .navbar-collapse .nav-link {
                 color: #ffffff !important;
             }
         }
@@ -1105,7 +1140,7 @@
 
 </head>
 
-<body @class(['surat-route-page' => $isSuratRoute, 'home-route-page' => $isHomeRoute, 'radio-route-page' => $isRadioRoute, 'digital-library-route-page' => $isDigitalLibraryRoute, 'auth-route-page' => $isAuthRoute])>
+<body @class(['surat-route-page' => $isSuratRoute, 'home-route-page' => $isHomeRoute, 'radio-route-page' => $isRadioRoute, 'digital-library-route-page' => $isDigitalLibraryRoute, 'dua-route-page' => $isDuaRoute, 'auth-route-page' => $isAuthRoute])>
     <script>
         (function() {
             try {
@@ -1345,7 +1380,7 @@
     <script defer src="{{ $appJsSrc }}"></script>
 	    <script>
 	        document.addEventListener('DOMContentLoaded', () => {
-	            // Global theme toggle for supported routes only: /, /home, /surat, /radio, /digital-library
+	            // Global theme toggle for supported routes only: /, /home, /surat, /radio, /digital-library, /dua
 	            try {
 	                const toggleBtn = document.getElementById('globalThemeToggle');
 	                if (toggleBtn) {
@@ -1353,6 +1388,7 @@
 	                    const body = document.body;
 	                    const RADIO_BG = '#232529';
 	                    const DIGITAL_LIBRARY_BG = '#232529';
+	                    const DUA_BG = '#232529';
 
 	                    const getTheme = () => (root.getAttribute('data-bs-theme') === 'dark' ? 'dark' : 'light');
 	                    const updateToggleUI = (theme) => {
@@ -1395,6 +1431,9 @@
 	                        } else if (body && body.classList.contains('digital-library-route-page')) {
 	                            root.style.backgroundColor = isDark ? DIGITAL_LIBRARY_BG : '';
 	                            body.style.backgroundColor = isDark ? DIGITAL_LIBRARY_BG : '';
+	                        } else if (body && body.classList.contains('dua-route-page')) {
+	                            root.style.backgroundColor = isDark ? DUA_BG : '';
+	                            body.style.backgroundColor = isDark ? DUA_BG : '';
 	                        }
 
 	                        try {
