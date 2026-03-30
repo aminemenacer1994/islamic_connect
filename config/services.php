@@ -82,7 +82,7 @@ return [
         'router_provider' => env('HUGGINGFACE_ROUTER_PROVIDER', 'novita'),
     ],
     'islamhouse' => [
-        'key' => env('ISLAMHOUSE_API_KEY'),
+        'key' => env('ISLAMHOUSE_API_KEY', 'paV29H2gm56kvLP'),
         'base' => env('ISLAMHOUSE_API_BASE', 'https://api3.islamhouse.com/v3'),
         'version' => env('ISLAMHOUSE_API_VERSION', 'v3'),
     ],
@@ -206,6 +206,12 @@ return [
             'HADITH_JSON_LEGACY_BASE',
             'https://raw.githubusercontent.com/islamic-network/hadith-json/main'
         ),
+    ],
+
+    'ai_rag' => [
+        'query_cache_hours' => env('AI_RAG_QUERY_CACHE_HOURS', 24),
+        'document_cache_hours' => env('AI_RAG_DOCUMENT_CACHE_HOURS', 72),
+        'vector_candidate_limit' => env('AI_RAG_VECTOR_CANDIDATE_LIMIT', 500),
     ],
     
     // GA4 analytics config removed

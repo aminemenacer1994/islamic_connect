@@ -6,8 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\AiMessageReport;
 use App\Models\ChatMessage;
 use App\Models\ChatSession;
-use App\Services\AIResponseFormatter;
-use App\Services\IslamicContentService;
+use App\Services\IslamicAssistantService;
 use App\Services\IslamicVerificationPipeline;
 use App\Services\PromptSanitizer;
 use Illuminate\Http\Request;
@@ -18,9 +17,8 @@ class AIController extends Controller
 {
     public function ask(
         Request $request,
-        IslamicContentService $contentService,
+        IslamicAssistantService $assistantService,
         PromptSanitizer $sanitizer,
-        AIResponseFormatter $formatter,
         IslamicVerificationPipeline $verificationPipeline
     ) {
         $validated = $request->validate([
@@ -47,51 +45,49 @@ class AIController extends Controller
         $session = $this->resolveSession($sessionId);
 
         try {
-            $content = $contentService->gatherContent($question, $language);
-            $formatted = $formatter->format($content);
+            $answer = $assistantService->answer($question, $language);
 
-            $verification = $verificationPipeline->verifyResponse(
-                $question,
-                $formatted['message'] ?? null,
-                $formatted['references'] ?? []
+            $references = array_slice($answer['references'] ?? [], 0, 8);
+            $verification = [
+                'verified' => (bool) ($answer['sourced'] ?? false),
+                'confidence' => ($answer['sourced'] ?? false) ? 'high' : 'low',
+                'category' => [$answer['sourced'] ? 'retrieval_augmented' : 'fallback'],
+                'totalSources' => count($references),
+                'message' => ($answer['sourced'] ?? false)
+                    ? 'Answer built from Quran, HadithEnc, and IslamHouse context.'
+                    : 'No strong direct source matches were found.',
+                'timestamp' => now()->toIso8601String(),
+            ];
+
+            $verification = array_merge(
+                $verification,
+                Arr::only(
+                    $verificationPipeline->verifyResponse(
+                        $question,
+                        $answer['message'] ?? null,
+                        $references
+                    ),
+                    ['criticalHashes']
+                )
             );
-
-            $references = $this->mergeReferences(
-                $formatted['references'] ?? [],
-                $verification['references'] ?? []
-            );
-            $references = $this->filterQuranReferences($references);
-            $references = array_slice($references, 0, 2);
-
-            $hasSourceBackedContent = $this->hasSourceBackedContent($content, $formatted, $references);
-
-            if (!$verification['verified'] && !$hasSourceBackedContent) {
-                $formatted = $this->safeFallbackResponse($question);
-                $references = [];
-            } elseif (!$verification['verified']) {
-                $formatted = $this->addVerificationNotice($formatted);
-            }
-
-            if (trim((string) ($formatted['message'] ?? '')) === '') {
-                $formatted = $this->safeFallbackResponse($question);
-                $references = [];
-            }
 
             $this->storeMessageSafely($session, 'user', $question);
             $this->storeMessageSafely(
                 $session,
                 'assistant',
-                $formatted['message'],
-                $formatted['short_summary'] ?? null,
+                $answer['message'],
+                $answer['short_summary'] ?? null,
                 $references,
             );
 
             return response()->json([
                 'session_id' => $session?->session_id ?? $sessionId,
                 'assistant' => [
-                    'message' => $formatted['message'],
-                    'summary' => $formatted['summary'] ?? [],
+                    'message' => $answer['message'],
+                    'summary' => [],
                     'references' => $references,
+                    'sourced' => (bool) ($answer['sourced'] ?? false),
+                    'context_sections' => $answer['context_sections'] ?? [],
                     'verification' => Arr::only(
                         $verification,
                         ['verified', 'confidence', 'category', 'totalSources', 'message', 'timestamp']
@@ -339,76 +335,6 @@ class AIController extends Controller
         }
     }
 
-    private function safeFallbackResponse(string $question): array
-    {
-        $subject = trim($question) !== '' ? "\"{$question}\"" : 'this question';
-        return [
-            'message' => "I cannot verify enough trusted sources for {$subject} right now. Ask a narrower Quran question and I will answer with direct references.",
-            'summary' => [],
-            'short_summary' => 'No verified sources available right now.',
-            'references' => [],
-        ];
-    }
-
-    private function hasSourceBackedContent(array $content, array $formatted, array $references): bool
-    {
-        return !empty($references)
-            || !empty($formatted['references'])
-            || !empty($content['quran']);
-    }
-
-    private function addVerificationNotice(array $formatted): array
-    {
-        $message = trim((string) ($formatted['message'] ?? ''));
-        $notice = 'I could not fully verify this answer. For personal rulings, consult a qualified scholar.';
-
-        if ($message !== '' && !str_contains(strtolower($message), 'qualified scholar')) {
-            $message .= "\n\n{$notice}";
-        }
-
-        $shortSummary = trim((string) ($formatted['short_summary'] ?? ''));
-        if ($shortSummary === '') {
-            $shortSummary = 'Answer not fully verified.';
-        }
-
-        return [
-            'message' => $message,
-            'summary' => [],
-            'short_summary' => $shortSummary,
-            'references' => $formatted['references'] ?? [],
-        ];
-    }
-
-    private function mergeReferences(array ...$referenceSets): array
-    {
-        $merged = [];
-        $seen = [];
-
-        foreach ($referenceSets as $referenceSet) {
-            foreach ($referenceSet as $reference) {
-                if (!is_array($reference)) {
-                    continue;
-                }
-                $label = trim((string) ($reference['label'] ?? ''));
-                if ($label === '') {
-                    continue;
-                }
-                $url = $this->normalizeReferenceUrl($reference['url'] ?? null);
-                $key = strtolower($label . '|' . ($url ?? ''));
-                if (isset($seen[$key])) {
-                    continue;
-                }
-                $seen[$key] = true;
-                $merged[] = [
-                    'label' => $label,
-                    'url' => $url,
-                ];
-            }
-        }
-
-        return $merged;
-    }
-
     private function normalizeReferenceUrl(?string $url): ?string
     {
         $url = trim((string) $url);
@@ -477,57 +403,4 @@ class AIController extends Controller
         ];
     }
 
-    private function filterQuranReferences(array $references): array
-    {
-        $filtered = [];
-        foreach ($references as $reference) {
-            if (!is_array($reference)) {
-                continue;
-            }
-            $label = trim((string) ($reference['label'] ?? ''));
-            $url = trim((string) ($reference['url'] ?? ''));
-            if ($label === '' && $url === '') {
-                continue;
-            }
-            if ($this->isHadithReference($label, $url)) {
-                continue;
-            }
-            if (!$this->isQuranReference($label, $url)) {
-                continue;
-            }
-            $filtered[] = [
-                'label' => $label,
-                'url' => $this->normalizeReferenceUrl($url),
-            ];
-        }
-
-        return $filtered;
-    }
-
-    private function isHadithReference(string $label, string $url): bool
-    {
-        $haystack = strtolower("{$label} {$url}");
-        if (preg_match('/\b(hadith|bukhari|muslim|tirmidhi|nasai|nasa\'i|abu dawud|ibn majah|riyad|sunnah)\b/u', $haystack)) {
-            return true;
-        }
-        $host = strtolower((string) parse_url($url, PHP_URL_HOST));
-        return str_contains($host, 'sunnah.com') || str_contains($host, 'dorar.net');
-    }
-
-    private function isQuranReference(string $label, string $url): bool
-    {
-        $haystack = strtolower("{$label} {$url}");
-        if (preg_match('/\b(surah|ayah|quran|qur\'an|verse)\b/u', $haystack)) {
-            return true;
-        }
-        if (preg_match('/\b\d{1,3}\s*[:/]\s*\d{1,3}\b/u', $haystack)) {
-            return true;
-        }
-        $host = strtolower((string) parse_url($url, PHP_URL_HOST));
-        return str_contains($host, 'quran.com')
-            || str_contains($host, 'quranenc.com')
-            || str_contains($host, 'alquran.cloud')
-            || str_contains($host, 'quran.gading.dev')
-            || str_contains($host, 'api.quran.com');
-    }
 }
