@@ -749,6 +749,8 @@ export default {
             // delayed spinner timers per index
             loadingTimers: [],
             wordPreviewStopTimer: null,
+            activePlaybackWordAyahIndex: -1,
+            activePlaybackWordDisplayIndex: -1,
             // virtualization
             itemHeight: 280,
             windowSize: 16,
@@ -5385,7 +5387,10 @@ export default {
             this.$nextTick(this.updateVirtualWindow);
         },
         currentlyPlayingIndex(next) {
-            if (typeof next !== "number" || next < 0) return;
+            if (typeof next !== "number" || next < 0) {
+                this.clearActivePlaybackWordHighlight();
+                return;
+            }
             this.ayahScrubValue = next + 1;
             if (this.suppressPlaybackScrollSync || this.suppressPlaybackScrollOnce) {
                 this.suppressPlaybackScrollOnce = false;
@@ -5562,6 +5567,9 @@ export default {
                 this.savePreference(this.wordTranslationTooltipPreferenceKey, {
                     enabled: !!next,
                 });
+            }
+            if (!next) {
+                this.clearActivePlaybackWordHighlight();
             }
         },
         gestureNavigationEnabled(next) {
@@ -24123,7 +24131,7 @@ export default {
         },
 
         // removed scrollToElement and smoothScrollToAyah
-        highlightedText: function (ayah) {
+        highlightedText: function (ayah, ayahIndex = null) {
             const words = this.getAyahDisplayWords(ayah);
             if (!ayah) return "";
             if (!words.length) {
@@ -24140,6 +24148,12 @@ export default {
                 this.getAyahWordTranslations(ayah)
             );
             const useTajweed = this.shouldUseTajweedWords(ayah, words.length);
+            const activeDisplayWordIndex =
+                this.showWordTranslationTooltip &&
+                Number.isInteger(ayahIndex) &&
+                Number(ayahIndex) === Number(this.activePlaybackWordAyahIndex)
+                    ? Number(this.activePlaybackWordDisplayIndex)
+                    : -1;
             return words
                 .map((word, index) => {
                     const content = useTajweed
@@ -24159,6 +24173,10 @@ export default {
                         )}"`
                         : "";
                     const tooltipClass = hasTooltip ? " has-tooltip" : "";
+                    const activeClass =
+                        index === activeDisplayWordIndex
+                            ? " is-audio-active"
+                            : "";
                     const translation = this.showWordTranslation && wordTranslations.length
                         ? this.escapeHtml(
                             this.cleanWordTranslation(
@@ -24166,7 +24184,7 @@ export default {
                             )
                         )
                         : "";
-                    return `<span class="ayah-word${tooltipClass}" data-word-index="${index}"${tooltipAttr}><span class="ayah-word-ar">${content}</span>${translation ? `<span class="ayah-word-translation text-muted">${translation}</span>` : ""}</span>`;
+                    return `<span class="ayah-word${tooltipClass}${activeClass}" data-word-index="${index}"${tooltipAttr}><span class="ayah-word-ar">${content}</span>${translation ? `<span class="ayah-word-translation text-muted">${translation}</span>` : ""}</span>`;
                 })
                 .join(" ");
         },
@@ -24525,6 +24543,125 @@ export default {
                 return mapped >= 0 ? mapped : null;
             }
             return displayWordIndex;
+        },
+        getDisplayWordIndexFromAudioIndex(ayah, audioWordIndex, audioWordCount) {
+            const safeAudioIndex = Number(audioWordIndex);
+            if (!Number.isFinite(safeAudioIndex) || safeAudioIndex < 0) {
+                return null;
+            }
+            const baseWords = this.getAyahBaseWords(ayah);
+            const introCount = this.getAyahIntroWordCount(ayah, baseWords);
+            const displayCount = this.getAyahDisplayWords(ayah).length;
+            if (
+                introCount &&
+                Number(displayCount) === Number(audioWordCount) + Number(introCount)
+            ) {
+                const mapped = safeAudioIndex + introCount;
+                return mapped < displayCount ? mapped : null;
+            }
+            return safeAudioIndex < displayCount ? safeAudioIndex : null;
+        },
+        findActiveAudioWordIndexFromTime(segments, currentTime) {
+            if (!Array.isArray(segments) || !segments.length) return null;
+            const safeTime = Number(currentTime);
+            if (!Number.isFinite(safeTime) || safeTime < 0) return null;
+            let candidate = null;
+            for (let i = 0; i < segments.length; i += 1) {
+                const segment = segments[i];
+                if (
+                    !segment ||
+                    typeof segment.wordIndex !== "number" ||
+                    typeof segment.start !== "number"
+                ) {
+                    continue;
+                }
+                const end =
+                    typeof segment.end === "number" ? segment.end : segment.start;
+                const nextStart =
+                    i + 1 < segments.length &&
+                    typeof segments[i + 1]?.start === "number"
+                        ? segments[i + 1].start
+                        : Number.POSITIVE_INFINITY;
+                if (safeTime + 0.04 < segment.start) {
+                    break;
+                }
+                if (
+                    safeTime >= segment.start - 0.04 &&
+                    safeTime <= Math.max(end + 0.08, nextStart - 0.02)
+                ) {
+                    candidate = segment.wordIndex;
+                }
+                if (safeTime < nextStart) {
+                    break;
+                }
+            }
+            return Number.isFinite(candidate) ? candidate : null;
+        },
+        clearActivePlaybackWordHighlight() {
+            this.activePlaybackWordAyahIndex = -1;
+            this.activePlaybackWordDisplayIndex = -1;
+        },
+        getApproximateDisplayWordIndexFromPlayback(ayah, currentTime, duration) {
+            const words = this.getAyahDisplayWords(ayah);
+            const displayCount = Array.isArray(words) ? words.length : 0;
+            const safeDuration = Number(duration);
+            const safeTime = Number(currentTime);
+            if (
+                !displayCount ||
+                !Number.isFinite(safeDuration) ||
+                safeDuration <= 0 ||
+                !Number.isFinite(safeTime) ||
+                safeTime < 0
+            ) {
+                return null;
+            }
+            const ratio = Math.min(Math.max(safeTime / safeDuration, 0), 0.9999);
+            return Math.min(displayCount - 1, Math.floor(ratio * displayCount));
+        },
+        updateActivePlaybackWordHighlight(ayahIndex, ayah, currentTime) {
+            if (!this.showWordTranslationTooltip) {
+                this.clearActivePlaybackWordHighlight();
+                return;
+            }
+            const safeAyahIndex = Number(ayahIndex);
+            if (
+                !Number.isInteger(safeAyahIndex) ||
+                safeAyahIndex < 0 ||
+                Number(this.currentlyPlayingIndex) !== safeAyahIndex ||
+                !this.isAudioPlaying?.[safeAyahIndex]
+            ) {
+                this.clearActivePlaybackWordHighlight();
+                return;
+            }
+            const segments = Array.isArray(ayah?.audioSegments)
+                ? ayah.audioSegments
+                : [];
+            const audioWordIndex = this.findActiveAudioWordIndexFromTime(
+                segments,
+                currentTime
+            );
+            const audioWordCount = this.getAyahAudioWordCount(ayah);
+            let displayWordIndex = Number.isFinite(audioWordIndex)
+                ? this.getDisplayWordIndexFromAudioIndex(
+                    ayah,
+                    audioWordIndex,
+                    audioWordCount
+                )
+                : null;
+            if (!Number.isFinite(displayWordIndex)) {
+                const audio = this.audioElements?.[safeAyahIndex] || null;
+                displayWordIndex = this.getApproximateDisplayWordIndexFromPlayback(
+                    ayah,
+                    currentTime,
+                    audio?.duration
+                );
+            }
+            if (!Number.isFinite(displayWordIndex)) {
+                this.clearActivePlaybackWordHighlight();
+                return;
+            }
+            this.activePlaybackWordAyahIndex = safeAyahIndex;
+            this.activePlaybackWordDisplayIndex = displayWordIndex;
         },
         async waitForAyahAudioMetadata(index, timeoutMs = 5000) {
             const audio = this.audioElements?.[index];
@@ -25140,6 +25277,7 @@ export default {
                 clearTimeout(this.loadingTimers[index]);
                 this.isAudioLoading[index] = false;
                 this.isAudioPlaying[index] = false;
+                this.clearActivePlaybackWordHighlight();
                 if (Number(this.currentlyPlayingIndex) === Number(index)) {
                     this.resetAudioPlayerMetrics();
                 }
@@ -25190,10 +25328,12 @@ export default {
             // Setup metadata
             audio.onloadedmetadata = () => {
                 this.syncAudioPlayerMetrics(index);
+                this.updateActivePlaybackWordHighlight(index, ayah, audio.currentTime);
             };
 
             audio.ontimeupdate = () => {
                 this.syncAudioPlayerMetrics(index);
+                this.updateActivePlaybackWordHighlight(index, ayah, audio.currentTime);
                 const now = window.performance ? performance.now() : Date.now();
                 if (now - this.lastProgressAt > 420) {
                     // Keep progress updates smooth but lighter on long sessions.
@@ -25407,6 +25547,7 @@ export default {
                 this.isAudioPlaying[index] = false;
                 this.isAudioLoading[index] = false;
                 this.syncAudioPlayerMetrics(index);
+                this.clearActivePlaybackWordHighlight();
             }
         },
         toggleAudioPlayer: function (index) {
@@ -25424,6 +25565,7 @@ export default {
         stopAudio: function (index) {
             this.clearWordPreviewStopTimer();
             this.isSingleWordPreviewActive = false;
+            this.clearActivePlaybackWordHighlight();
             if (this.countdownInterval) {
                 clearInterval(this.countdownInterval);
                 this.countdownInterval = null;
@@ -27007,6 +27149,20 @@ export default {
             );
             this.showModeToggleToast("Word-for-word", checked);
         },
+        toggleToolbarWordAudio() {
+            const checked = !this.showWordTranslationTooltip;
+            this.showWordTranslationTooltip = checked;
+            if (this.settingsDraft) {
+                this.settingsDraft.showWordTranslationTooltip = checked;
+            }
+            if (checked) {
+                this.enrichSurahWithQuranSegments().catch(() => {});
+            }
+            this.announce(
+                checked ? "Word audio enabled." : "Word audio disabled."
+            );
+            this.showModeToggleToast("Word audio", checked);
+        },
         toggleToolbarTajweed() {
             const checked = !this.showTajweed;
             this.showTajweed = checked;
@@ -27664,6 +27820,7 @@ export default {
         },
         handleAyahEnd: function (index) {
             var self = this;
+            self.clearActivePlaybackWordHighlight();
             var ayahNumber = Number(
                 self.filteredAyahs?.[index]?.numberInSurah ||
                     self.filteredAyahs?.[index]?.number ||

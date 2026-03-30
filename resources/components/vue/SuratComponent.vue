@@ -362,24 +362,6 @@
                             v-if="isMobileToolbarExpanded"
                             id="advancedQuranMobileExpandedControls"
                             aria-label="Extended surah controls">
-                            <div v-if="!isMemorisationToolbarVisible" class="advanced-quran-mobile-select-grid">
-                                <div class="advanced-quran-mobile-select-field">
-                                    <label class="advanced-quran-mobile-select-label advanced-quran-mobile-select-label--reciter" for="mobileToolbarReciterSelect">
-                                        Select reciter
-                                    </label>
-                                    <select
-                                        id="mobileToolbarReciterSelect"
-                                        class="form-select advanced-quran-mobile-select"
-                                        v-model="selectedReciter"
-                                        aria-label="Select audio reciter">
-                                        <option value="" disabled>Choose reciter</option>
-                                        <option v-for="reciter in recitersSorted" :key="reciter.identifier" :value="reciter.identifier">
-                                            {{ reciter.englishName }}
-                                        </option>
-                                    </select>
-                                </div>
-                            </div>
-
                             <div v-if="isMemorisationToolbarVisible && !isMemorisationOffcanvasVisible" class="memorisation-mobile-quick-panel">
                                 <div class="memorisation-mobile-quick-grid">
                                     <label class="memorisation-mobile-field">
@@ -532,38 +514,6 @@
 	                                    <span class="advanced-quran-mobile-action-label">Saved bookmarks</span>
 	                                    <span class="advanced-quran-mobile-action-btn-state">{{ savedBookmarksList.length }}</span>
 	                                </button>
-	                                <button
-	                                    v-if="!isMemorisationToolbarVisible"
-	                                    type="button"
-	                                    class="btn advanced-quran-mobile-action-btn"
-	                                    :class="{ 'is-enabled': showCustomPlaylistPanel }"
-	                                    @click="toggleCustomPlaylistPanel"
-	                                    aria-label="View saved playlists"
-	                                    title="View saved playlists">
-	                                    <i class="bi bi-music-note-list" aria-hidden="true"></i>
-	                                    <span class="advanced-quran-mobile-action-label">Saved Playlist</span>
-	                                    <span class="advanced-quran-mobile-action-btn-state">{{ savedPlaylistAyahCountAll }}</span>
-	                                </button>
-	                                <button
-	                                    v-if="!isMemorisationToolbarVisible"
-	                                    type="button"
-	                                    class="btn advanced-quran-mobile-action-btn advanced-quran-mobile-action-btn-memorisation"
-                                    @click="toggleMemorisationToolbar"
-                                    aria-controls="memorisationOffcanvas"
-                                    :aria-label="isMemorisationToolsComingSoon
-                                        ? 'Memorisation tools coming soon'
-                                        : (isMemorisationOffcanvasVisible ? 'Close memorisation tools' : 'Open memorisation tools')"
-                                    :class="{
-                                        'is-active': isMemorisationToolbarVisible,
-                                        'is-coming-soon': isMemorisationToolsComingSoon,
-                                    }"
-                                    :title="isMemorisationToolsComingSoon
-                                        ? 'Memorisation tools are coming soon.'
-                                        : (isMemorisationOffcanvasVisible ? 'Close memorisation tools.' : 'Open memorisation tools to support repetition, focus, and revision.')">
-                                    <i class="bi bi-journal-bookmark-fill" aria-hidden="true"></i>
-                                    <span class="advanced-quran-mobile-action-label">{{ memorisationToolbarButtonLabel }}</span>
-                                    <span v-if="isMemorisationToolsComingSoon" class="advanced-quran-mobile-action-btn-state">Soon</span>
-                                </button>
                                 <button
                                     v-if="!isMemorisationToolbarVisible"
                                     type="button"
@@ -580,6 +530,24 @@
                                     <span class="advanced-quran-mobile-action-label">Tajweed colors</span>
                                     <span class="advanced-quran-mobile-action-btn-state">
                                         {{ showTajweed ? "On" : "Off" }}
+                                    </span>
+                                </button>
+                                <button
+                                    v-if="!isMemorisationToolbarVisible"
+                                    type="button"
+                                    class="btn advanced-quran-mobile-action-btn"
+                                    :class="{ 'is-enabled': showWordTranslationTooltip }"
+                                    @click="toggleToolbarWordAudio"
+                                    :aria-label="showWordTranslationTooltip
+                                        ? 'Turn word audio off'
+                                        : 'Turn word audio on'"
+                                    :title="showWordTranslationTooltip
+                                        ? 'Turn off word tap audio and reader word guidance'
+                                        : 'Turn on word tap audio and reader word guidance'">
+                                    <i class="bi bi-volume-up-fill" aria-hidden="true"></i>
+                                    <span class="advanced-quran-mobile-action-label">Word audio</span>
+                                    <span class="advanced-quran-mobile-action-btn-state">
+                                        {{ showWordTranslationTooltip ? "On" : "Off" }}
                                     </span>
                                 </button>
                                 <button
@@ -624,36 +592,70 @@
                                         {{ isTransliterationAllEnabled ? "On" : "Off" }}
                                     </span>
                                 </button>
-                                <button
+                                <div
                                     v-if="!isMemorisationToolbarVisible"
-                                    type="button"
-                                    class="btn advanced-quran-mobile-action-btn"
-                                    @click="openTranslationCompareModal"
-                                    aria-label="Compare English translations side by side"
-                                    title="Compare multiple English translations side by side in one view.">
-                                    <i class="bi bi-columns-gap" aria-hidden="true"></i>
-                                    <span class="advanced-quran-mobile-action-label">Compare translations</span>
-                                </button>
-                                <button
-                                    v-if="!isMemorisationToolbarVisible"
-                                    type="button"
-                                    class="btn advanced-quran-mobile-action-btn"
-                                    @click="setReaderToolbarVisibility(false)"
-                                    aria-label="Hide reader toolbar"
-                                    title="Hide reader toolbar">
-                                    <i class="bi bi-eye-slash-fill" aria-hidden="true"></i>
-                                    <span class="advanced-quran-mobile-action-label">Hide toolbar</span>
-                                </button>
-                                <button
-                                    v-if="hasPinnedAyahs && isPinnedSectionHidden"
-                                    type="button"
-                                    class="btn advanced-quran-mobile-action-btn"
-                                    @click="showPinnedSection"
-                                    aria-label="Show pinned ayat"
-                                    title="Show pinned ayat">
-                                    <i class="bi bi-pin-angle-fill" aria-hidden="true"></i>
-                                    <span class="advanced-quran-mobile-action-label">Pins</span>
-                                </button>
+                                    class="dropdown advanced-quran-mobile-more">
+                                    <button
+                                        type="button"
+                                        class="btn advanced-quran-mobile-action-btn advanced-quran-mobile-action-btn-icon-only dropdown-toggle"
+                                        data-bs-toggle="dropdown"
+                                        aria-expanded="false"
+                                        aria-label="Open more surah tools"
+                                        title="More tools">
+                                        <i class="bi bi-three-dots-vertical" aria-hidden="true"></i>
+                                    </button>
+                                    <div class="dropdown-menu dropdown-menu-end advanced-quran-more-menu">
+                                        <button
+                                            v-if="hasPinnedAyahs && isPinnedSectionHidden"
+                                            type="button"
+                                            class="dropdown-item advanced-quran-more-item"
+                                            @click="showPinnedSection">
+                                            <i class="bi bi-pin-angle-fill" aria-hidden="true"></i>
+                                            <span>Show pinned ayat</span>
+                                        </button>
+                                        <button
+                                            type="button"
+                                            class="dropdown-item advanced-quran-more-item"
+                                            @click="toggleCustomPlaylistPanel">
+                                            <i class="bi bi-music-note-list" aria-hidden="true"></i>
+                                            <span>Saved playlist</span>
+                                            <span class="advanced-quran-more-item-meta">{{ savedPlaylistAyahCountAll }}</span>
+                                        </button>
+                                        <button
+                                            type="button"
+                                            class="dropdown-item advanced-quran-more-item"
+                                            @click="openTranslationCompareModal">
+                                            <i class="bi bi-columns-gap" aria-hidden="true"></i>
+                                            <span>Compare translation</span>
+                                        </button>
+                                        <button
+                                            type="button"
+                                            class="dropdown-item advanced-quran-more-item"
+                                            @click="toggleMemorisationToolbar">
+                                            <i class="bi bi-journal-bookmark-fill" aria-hidden="true"></i>
+                                            <span>Memorisation tools</span>
+                                            <span
+                                                v-if="isMemorisationToolsComingSoon"
+                                                class="advanced-quran-more-item-meta">Soon</span>
+                                        </button>
+                                        <button
+                                            type="button"
+                                            class="dropdown-item advanced-quran-more-item"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#surahSettingsModal"
+                                            @click="prepareSettingsDraft">
+                                            <i class="bi bi-gear-fill" aria-hidden="true"></i>
+                                            <span>Display settings</span>
+                                        </button>
+                                        <button
+                                            type="button"
+                                            class="dropdown-item advanced-quran-more-item"
+                                            @click="setReaderToolbarVisibility(false)">
+                                            <i class="bi bi-eye-slash-fill" aria-hidden="true"></i>
+                                            <span>Hide toolbar</span>
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -805,23 +807,6 @@
                     'memorisation-toolbar-compact':
                         isMemorisationToolbarVisible
                 }">
-                <div v-if="!isMemorisationToolbarVisible" class="quran-toolbar-reciter">
-                    <span class="quran-toolbar-reciter-label">Reciter</span>
-                    <label class="visually-hidden" for="toolbarReciterSelect">
-                        Select audio reciter
-                    </label>
-                    <select
-                        id="toolbarReciterSelect"
-                        class="form-select quran-toolbar-select"
-                        v-model="selectedReciter"
-                        aria-label="Select audio reciter">
-                        <option value="" disabled>Choose reciter</option>
-                        <option v-for="reciter in recitersSorted" :key="reciter.identifier" :value="reciter.identifier">
-                            {{ reciter.englishName }}
-                        </option>
-                    </select>
-                </div>
-
                 <div v-if="isMemorisationToolbarVisible" class="memorisation-toolbar-layout">
                     <div class="memorisation-toolbar-intro">
                         <strong>Memorisation Toolbar</strong>
@@ -1005,101 +990,152 @@
                     </div>
                 </div>
 
-                <button
-                    v-if="!isMemorisationToolbarVisible && !isReaderToolbarMinimized && hasSavedBookmarks"
-                    type="button"
-                    class="quran-toolbar-btn quran-toolbar-btn-toggle"
-                    :class="{ 'is-enabled': isSavedBookmarksPanelOpen }"
-                    @click="handleSavedBookmarksButtonClick"
-                    aria-label="View all saved bookmarks"
-                    title="View all saved bookmarks">
-                    <i class="bi bi-bookmarks" aria-hidden="true"></i>
-                    <span class="quran-toolbar-btn-text">Saved bookmarks</span>
-                    <span class="quran-toolbar-btn-state">{{ savedBookmarksList.length }}</span>
-                </button>
+                <div
+                    v-if="!isMemorisationToolbarVisible"
+                    class="quran-toolbar-reader-actions">
+                    <div class="quran-toolbar-scroll-track">
+                        <button
+                            v-if="!isReaderToolbarMinimized && hasSavedBookmarks"
+                            type="button"
+                            class="quran-toolbar-btn quran-toolbar-btn-toggle"
+                            :class="{ 'is-enabled': isSavedBookmarksPanelOpen }"
+                            @click="handleSavedBookmarksButtonClick"
+                            aria-label="View all saved bookmarks"
+                            title="View all saved bookmarks">
+                            <i class="bi bi-bookmarks" aria-hidden="true"></i>
+                            <span class="quran-toolbar-btn-text">Saved bookmarks</span>
+                            <span class="quran-toolbar-btn-state">{{ savedBookmarksList.length }}</span>
+                        </button>
 
-                <button
-                    v-if="!isMemorisationToolbarVisible && !isReaderToolbarMinimized"
-                    type="button"
-                    class="quran-toolbar-btn quran-toolbar-btn-toggle"
-                    :class="{ 'is-enabled': showCustomPlaylistPanel }"
-                    @click="toggleCustomPlaylistPanel"
-                    aria-label="View saved playlists"
-                    title="View saved playlists">
-                    <i class="bi bi-music-note-list" aria-hidden="true"></i>
-                    <span class="quran-toolbar-btn-text">Saved Playlist</span>
-                    <span class="quran-toolbar-btn-state">{{ savedPlaylistAyahCountAll }}</span>
-                </button>
+                        <button
+                            v-if="!isReaderToolbarMinimized"
+                            type="button"
+                            class="quran-toolbar-btn quran-toolbar-btn-toggle"
+                            :class="{ 'is-enabled': showTajweed }"
+                            @click="toggleToolbarTajweed"
+                            :aria-label="showTajweed
+                                ? 'Turn tajweed colors off'
+                                : 'Turn tajweed colors on'">
+                            <i class="bi bi-palette-fill" aria-hidden="true"></i>
+                            <span class="quran-toolbar-btn-text">Tajweed colors</span>
+                            <span class="quran-toolbar-btn-state">{{ showTajweed ? "On" : "Off" }}</span>
+                        </button>
 
-                <button
-                    v-if="!isMemorisationToolbarVisible && !isReaderToolbarMinimized"
-                    type="button"
-                    class="quran-toolbar-btn quran-toolbar-btn-toggle"
-                    :class="{ 'is-enabled': showTajweed }"
-                    @click="toggleToolbarTajweed"
-                    :aria-label="showTajweed
-                        ? 'Turn tajweed colors off'
-                        : 'Turn tajweed colors on'">
-                    <i class="bi bi-palette-fill" aria-hidden="true"></i>
-                    <span class="quran-toolbar-btn-text">Tajweed colors</span>
-                    <span class="quran-toolbar-btn-state">{{ showTajweed ? "On" : "Off" }}</span>
-                </button>
+                        <button
+                            v-if="!isReaderToolbarMinimized"
+                            type="button"
+                            class="quran-toolbar-btn quran-toolbar-btn-toggle"
+                            :class="{ 'is-enabled': showWordTranslationTooltip }"
+                            @click="toggleToolbarWordAudio"
+                            :aria-label="showWordTranslationTooltip
+                                ? 'Turn word audio off'
+                                : 'Turn word audio on'">
+                            <i class="bi bi-volume-up-fill" aria-hidden="true"></i>
+                            <span class="quran-toolbar-btn-text">Word audio</span>
+                            <span class="quran-toolbar-btn-state">{{ showWordTranslationTooltip ? "On" : "Off" }}</span>
+                        </button>
 
-                <button
-                    v-if="!isMemorisationToolbarVisible && !isReaderToolbarMinimized"
-                    type="button"
-                    class="quran-toolbar-btn quran-toolbar-btn-toggle"
-                    :class="{ 'is-enabled': showWordTranslation }"
-                    @click="toggleToolbarWordTranslation"
-                    aria-label="Toggle word-for-word translation">
-                    <i class="bi bi-translate" aria-hidden="true"></i>
-                    <span class="quran-toolbar-btn-text">Word-for-word</span>
-                    <span class="quran-toolbar-btn-state">{{ showWordTranslation ? "On" : "Off" }}</span>
-                </button>
-                <button
-                    v-if="!isMemorisationToolbarVisible && !isReaderToolbarMinimized"
-                    type="button"
-                    class="quran-toolbar-btn quran-toolbar-btn-toggle"
-                    :class="{ 'is-enabled': isTranslationAllEnabled }"
-                    @click="toggleToolbarTranslation"
-                    :aria-label="isTranslationAllEnabled
-                        ? 'Turn translation off for all ayahs'
-                        : 'Turn translation on for all ayahs'">
-                    <i class="bi bi-card-text" aria-hidden="true"></i>
-                    <span class="quran-toolbar-btn-text">Translation</span>
-                    <span class="quran-toolbar-btn-state">{{ isTranslationAllEnabled ? "On" : "Off" }}</span>
-                </button>
-                <button
-                    v-if="!isMemorisationToolbarVisible && !isReaderToolbarMinimized"
-                    type="button"
-                    class="quran-toolbar-btn quran-toolbar-btn-toggle"
-                    :class="{ 'is-enabled': isTransliterationAllEnabled }"
-                    @click="toggleToolbarTransliteration"
-                    :aria-label="isTransliterationAllEnabled
-                        ? 'Turn transliteration off for all ayahs'
-                        : 'Turn transliteration on for all ayahs'">
-                    <i class="bi bi-input-cursor-text" aria-hidden="true"></i>
-                    <span class="quran-toolbar-btn-text">Transliteration</span>
-                    <span class="quran-toolbar-btn-state">{{ isTransliterationAllEnabled ? "On" : "Off" }}</span>
-                </button>
-                <button
-                    v-if="!isMemorisationToolbarVisible && !isReaderToolbarMinimized"
-                    type="button"
-                    class="quran-toolbar-btn"
-                    @click="openTranslationCompareModal"
-                    aria-label="Compare English translations side by side">
-                    <i class="bi bi-columns-gap" aria-hidden="true"></i>
-                    <span class="quran-toolbar-btn-text">Compare translations</span>
-                </button>
-                <button
-                    v-if="hasPinnedAyahs && isPinnedSectionHidden && !isMemorisationToolbarVisible && !isReaderToolbarMinimized"
-                    type="button"
-                    class="quran-toolbar-btn quran-toolbar-btn-icon quran-toolbar-btn-pinned-restore"
-                    @click="showPinnedSection"
-                    aria-label="Show pinned ayat"
-                    title="Show pinned ayat">
-                    <i class="bi bi-pin-angle-fill" aria-hidden="true"></i>
-                </button>
+                        <button
+                            v-if="!isReaderToolbarMinimized"
+                            type="button"
+                            class="quran-toolbar-btn quran-toolbar-btn-toggle"
+                            :class="{ 'is-enabled': showWordTranslation }"
+                            @click="toggleToolbarWordTranslation"
+                            aria-label="Toggle word-for-word translation">
+                            <i class="bi bi-translate" aria-hidden="true"></i>
+                            <span class="quran-toolbar-btn-text">Word-for-word</span>
+                            <span class="quran-toolbar-btn-state">{{ showWordTranslation ? "On" : "Off" }}</span>
+                        </button>
+                        <button
+                            v-if="!isReaderToolbarMinimized"
+                            type="button"
+                            class="quran-toolbar-btn quran-toolbar-btn-toggle"
+                            :class="{ 'is-enabled': isTranslationAllEnabled }"
+                            @click="toggleToolbarTranslation"
+                            :aria-label="isTranslationAllEnabled
+                                ? 'Turn translation off for all ayahs'
+                                : 'Turn translation on for all ayahs'">
+                            <i class="bi bi-card-text" aria-hidden="true"></i>
+                            <span class="quran-toolbar-btn-text">Translation</span>
+                            <span class="quran-toolbar-btn-state">{{ isTranslationAllEnabled ? "On" : "Off" }}</span>
+                        </button>
+                        <button
+                            v-if="!isReaderToolbarMinimized"
+                            type="button"
+                            class="quran-toolbar-btn quran-toolbar-btn-toggle"
+                            :class="{ 'is-enabled': isTransliterationAllEnabled }"
+                            @click="toggleToolbarTransliteration"
+                            :aria-label="isTransliterationAllEnabled
+                                ? 'Turn transliteration off for all ayahs'
+                                : 'Turn transliteration on for all ayahs'">
+                            <i class="bi bi-input-cursor-text" aria-hidden="true"></i>
+                            <span class="quran-toolbar-btn-text">Transliteration</span>
+                            <span class="quran-toolbar-btn-state">{{ isTransliterationAllEnabled ? "On" : "Off" }}</span>
+                        </button>
+                    </div>
+                    <div class="dropdown quran-toolbar-more">
+                        <button
+                            type="button"
+                            class="quran-toolbar-btn quran-toolbar-btn-icon quran-toolbar-more-toggle dropdown-toggle"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false"
+                            aria-label="Open more surah tools"
+                            title="More tools">
+                            <i class="bi bi-three-dots-vertical" aria-hidden="true"></i>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-end advanced-quran-more-menu">
+                        <button
+                            type="button"
+                            class="dropdown-item advanced-quran-more-item"
+                            @click="toggleCustomPlaylistPanel">
+                            <i class="bi bi-music-note-list" aria-hidden="true"></i>
+                            <span>Saved playlist</span>
+                            <span class="advanced-quran-more-item-meta">{{ savedPlaylistAyahCountAll }}</span>
+                        </button>
+                        <button
+                            type="button"
+                            class="dropdown-item advanced-quran-more-item"
+                            @click="openTranslationCompareModal">
+                            <i class="bi bi-columns-gap" aria-hidden="true"></i>
+                            <span>Compare translation</span>
+                        </button>
+                        <button
+                            type="button"
+                            class="dropdown-item advanced-quran-more-item"
+                            @click="toggleMemorisationToolbar">
+                            <i class="bi bi-journal-bookmark-fill" aria-hidden="true"></i>
+                            <span>Memorisation tools</span>
+                            <span
+                                v-if="isMemorisationToolsComingSoon"
+                                class="advanced-quran-more-item-meta">Soon</span>
+                        </button>
+                        <button
+                            v-if="hasPinnedAyahs && isPinnedSectionHidden"
+                            type="button"
+                            class="dropdown-item advanced-quran-more-item"
+                            @click="showPinnedSection">
+                            <i class="bi bi-pin-angle-fill" aria-hidden="true"></i>
+                            <span>Show pinned ayat</span>
+                        </button>
+                        <button
+                            type="button"
+                            class="dropdown-item advanced-quran-more-item"
+                            @click="setReaderToolbarVisibility(false)">
+                            <i class="bi bi-eye-slash-fill" aria-hidden="true"></i>
+                            <span>Hide toolbar</span>
+                        </button>
+                        <button
+                            type="button"
+                            class="dropdown-item advanced-quran-more-item"
+                            data-bs-toggle="modal"
+                            data-bs-target="#surahSettingsModal"
+                            @click="prepareSettingsDraft">
+                            <i class="bi bi-gear-fill" aria-hidden="true"></i>
+                            <span>Display settings</span>
+                        </button>
+                    </div>
+                </div>
+                </div>
 	                <button
 	                    v-if="false"
 	                    type="button"
@@ -1115,59 +1151,7 @@
 	                        :class="isDarkTheme ? 'bi-sun-fill' : 'bi-moon-stars-fill'"
 	                        aria-hidden="true"></i>
 	                </button>
-                <button
-                    v-if="!isMemorisationToolbarVisible"
-                    type="button"
-                    class="quran-toolbar-btn quran-toolbar-btn-icon quran-toolbar-btn-toolbar-toggle"
-                    @click="toggleReaderToolbarMinimized"
-                    :aria-label="isReaderToolbarMinimized ? 'Expand reader toolbar' : 'Minimize reader toolbar'"
-                    :title="isReaderToolbarMinimized ? 'Expand reader toolbar' : 'Minimize reader toolbar'">
-                    <i
-                        class="bi"
-                        :class="isReaderToolbarMinimized ? 'bi-arrows-angle-expand' : 'bi-arrows-angle-contract'"
-                        aria-hidden="true"></i>
-                </button>
-                <button
-                    v-if="!isMemorisationToolbarVisible"
-                    type="button"
-                    class="quran-toolbar-btn quran-toolbar-btn-icon quran-toolbar-btn-toolbar-toggle"
-                    @click="setReaderToolbarVisibility(false)"
-                    aria-label="Hide reader toolbar"
-                    title="Hide reader toolbar">
-                    <i class="bi bi-eye-slash-fill" aria-hidden="true"></i>
-                </button>
-                <button
-                    v-if="!isMemorisationToolbarVisible"
-                    type="button"
-                    class="quran-toolbar-btn quran-toolbar-btn-icon quran-toolbar-btn-settings"
-                    data-bs-toggle="modal"
-                    data-bs-target="#surahSettingsModal"
-                    @click="prepareSettingsDraft"
-                    aria-label="Open display settings">
-                    <i class="bi bi-gear-fill" aria-hidden="true"></i>
-                </button>
 
-                <button
-                    v-if="!isMemorisationToolbarVisible"
-                    type="button"
-                    class="quran-toolbar-btn quran-toolbar-btn-memorisation"
-                    @click="toggleMemorisationToolbar"
-                    aria-controls="memorisationOffcanvas"
-                    :class="{
-                        'is-active': isMemorisationToolbarVisible,
-                        'is-attention': !isMemorisationToolbarVisible && !isMemorisationToolsComingSoon,
-                        'is-coming-soon': isMemorisationToolsComingSoon
-                    }"
-                    :aria-label="isMemorisationToolsComingSoon
-                        ? 'Memorisation tools coming soon'
-                        : (isMemorisationOffcanvasVisible ? 'Close memorisation tools' : 'Open memorisation tools')"
-                    :title="isMemorisationToolsComingSoon
-                        ? 'Memorisation tools are coming soon.'
-                        : (isMemorisationOffcanvasVisible ? 'Close memorisation tools.' : 'Open memorisation tools')">
-                    <i class="bi bi-journal-bookmark-fill" aria-hidden="true"></i>
-                    <span class="quran-toolbar-btn-text">{{ memorisationToolbarButtonLabel }}</span>
-                    <span v-if="isMemorisationToolsComingSoon" class="quran-toolbar-btn-state" aria-hidden="true">Soon</span>
-                </button>
             </div>
             <saved-bookmarks-panel
                 v-if="showDesktopToolbar && !isTabletOrMobile && isSavedBookmarksPanelOpen && hasSavedBookmarks"
@@ -5389,14 +5373,14 @@
                             <div class="ayah-card-copy">
                                 <p
                                     v-if="!shouldHideVerseTextForRepeatPause(item.index)"
-		                                    :class="[
+                                    :class="[
 		                                        'arabic-text rtl-text text-end mb-3',
 		                                        {
 		                                            'repeat-pause-text-dimmed':
 		                                                shouldDimVerseTextForRepeatPause(item.index),
 		                                        },
 		                                    ]"
-                                    v-html="highlightedText(item.ayah)"
+                                    v-html="highlightedText(item.ayah, item.index)"
                                     @click="onAyahWordClick(item, $event)"
                                     :style="getAyahArabicTextStyle(item.index)"
                                 ></p>
