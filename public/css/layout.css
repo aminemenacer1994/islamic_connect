@@ -41,6 +41,20 @@ html {
     scrollbar-gutter: stable;
 }
 
+img,
+svg,
+video,
+canvas,
+iframe {
+    max-width: 100%;
+}
+
+img,
+video,
+canvas {
+    height: auto;
+}
+
 h1,
 h2,
 h3,
@@ -874,7 +888,7 @@ main,
 
 /* --- Navbar link normalization (desktop/tablet) --- */
 
-@media (min-width: 768px) {
+@media (min-width: 992px) {
     /* Use flex gap for even spacing instead of mixed ml/pl utilities */
     .navbar .navbar-nav { gap: 2rem; align-items: center; }
 
@@ -889,6 +903,17 @@ main,
         margin: 0 !important;          /* neutralize ml-* from markup */
         border-bottom: 2px solid transparent; /* reserve space for active underline */
         border-left: 0 !important;           /* suppress sidebar-style left indicator */
+    }
+}
+
+@media (min-width: 992px) and (max-width: 1199.98px) {
+    .navbar .navbar-nav {
+        gap: 1rem;
+    }
+
+    .navbar .navbar-nav .nav-link {
+        font-size: 0.94rem;
+        padding: .7rem 0 !important;
     }
 }
 
@@ -914,9 +939,11 @@ main,
 
 /* Uniform alignment for collapsed mobile menu */
 
-@media (max-width: 767.98px) {
+@media (max-width: 991.98px) {
     .navbar-collapse {
         width: 100%;
+        max-height: calc(100vh - var(--navbar-h) - 1rem);
+        overflow-y: auto;
     }
 
     .navbar-collapse .navbar-nav {

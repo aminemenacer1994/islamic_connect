@@ -16,6 +16,7 @@
     #f7fbf9;
   color: var(--ic-ink);
   font-family: var(--ic-body-font);
+  overflow-x: clip;
 }
 
 .ic-shell {
@@ -364,6 +365,7 @@
   margin: 0 0 0.5rem;
   font-size: 1.12rem;
   color: #0f3a3f;
+  overflow-wrap: anywhere;
 }
 
 .ic-link-card p {
@@ -435,6 +437,7 @@
   margin: 0 0 0.55rem;
   font-size: 1.12rem;
   color: #0f3a3f;
+  overflow-wrap: anywhere;
 }
 
 .ic-objective-card p {
@@ -466,6 +469,7 @@
   margin: 0;
   font-size: 1.2rem;
   color: #0f3a3f;
+  overflow-wrap: anywhere;
 }
 
 .ic-feature-card p {
@@ -534,6 +538,10 @@
   margin-bottom: 0.7rem;
 }
 
+.ic-channel-card__header > div {
+  min-width: 0;
+}
+
 .ic-channel-card__icon {
   width: 46px;
   height: 46px;
@@ -563,6 +571,7 @@
   margin: 0.2rem 0 0;
   color: var(--ic-ink-soft);
   font-size: 0.9rem;
+  overflow-wrap: anywhere;
 }
 
 .ic-channel-card__cta {
@@ -636,6 +645,7 @@ textarea.form-control:focus {
   display: flex;
   justify-content: flex-end;
   gap: 0.55rem;
+  flex-wrap: wrap;
 }
 
 .premium-toast {
@@ -819,6 +829,7 @@ body.ic-dialog-open {
 .ic-ayah-card__meta {
   display: inline-flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 0.3rem;
   font-size: 0.84rem;
   font-weight: 700;
@@ -911,10 +922,27 @@ body.ic-dialog-open {
     padding: 3rem 0;
   }
 
+  .section-lead {
+    font-size: 0.98rem;
+  }
+
   .ic-hero__actions .ic-btn {
     width: 100%;
     justify-content: center;
     min-height: 44px;
+  }
+
+  .ic-hero__trust-item {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .ic-community {
+    padding: 1.25rem;
+  }
+
+  .ic-channel-card__header {
+    align-items: flex-start;
   }
 
   .premium-toast {
@@ -947,6 +975,14 @@ body.ic-dialog-open {
 
   .ic-ayah-card__arabic {
     text-align: center;
+  }
+
+  .ic-ayah-card__meta {
+    justify-content: center;
+  }
+
+  .premium-dialog-actions > * {
+    flex: 1 1 100%;
   }
 }
 

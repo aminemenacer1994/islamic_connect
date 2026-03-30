@@ -464,7 +464,7 @@
             box-shadow: none !important;
         }
 
-        @media (max-width: 768px) {
+        @media (max-width: 991.98px) {
             /* Keep mobile menu readable instead of blending into page content */
             :root {
                 --navbar-h: 74px;
@@ -528,6 +528,8 @@
                 box-shadow: 0 16px 34px rgba(15, 23, 42, 0.18);
                 backdrop-filter: none !important;
                 -webkit-backdrop-filter: none !important;
+                max-height: calc(100vh - var(--navbar-h) - 1rem);
+                overflow-y: auto;
             }
 
             .navbar.navbar-transparent .navbar-collapse .nav-link {
@@ -1312,7 +1314,7 @@
             'fixed-top',
             'shadow-lg',
             'py-1',
-            $isSuratRoute ? 'navbar-expand-xl surat-navbar-tablet' : 'navbar-expand-md',
+            $isSuratRoute ? 'navbar-expand-xl surat-navbar-tablet' : 'navbar-expand-lg',
         ]) role="navigation" aria-label="Primary">
             <div class="container-fluid">
                 <a class="navbar-brand surat-brand-lockup" href="/welcome" data-path="/welcome" aria-label="Islamic Connect Home">
@@ -1775,7 +1777,7 @@
                     if (collapseEl) {
                         collapseEl.querySelectorAll('a.nav-link:not(.dropdown-toggle), .dropdown-item').forEach(a => {
                             a.addEventListener('click', () => {
-                                if (window.innerWidth < 768 && bsCollapse) {
+                                if (window.matchMedia('(max-width: 991.98px)').matches && bsCollapse) {
                                     bsCollapse.hide();
                                 }
                             });
@@ -1811,38 +1813,38 @@
                 '/about': '/',
                 '/welcome': '/',
                 // Quran routes
-                '/holy': '/quran',
-                '/quran': '/quran',
+                '/holy': '/surat',
+                '/quran': '/surat',
                 '/surat': '/surat',
                 '/history': '/surat',
                 '/about': '/about',
                 // Media center (user-specified)
-                '/media': '/media',
-                '/content': '/media',
+                '/media': '/content',
+                '/content': '/content',
                 '/digital-library': '/digital-library',
-                '/streaming': '/media',
-                '/radio': '/media',
-                '/gallery': '/media',
-                '/ai': '/media',
-                '/video': '/media',
+                '/streaming': '/content',
+                '/radio': '/radio',
+                '/gallery': '/content',
+                '/ai': '/digital-library',
+                '/video': '/content',
                 // Knowledge (user-specified)
-                '/knowledge': '/knowledge',
-                '/mission': '/knowledge',
-                '/seerah': '/knowledge',
-                '/name': '/knowledge',
+                '/knowledge': '/mission',
+                '/mission': '/mission',
+                '/seerah': '/mission',
+                '/name': '/mission',
                 '/guide': '/digital-library',
-                '/read': '/knowledge',
-                '/books': '/knowledge',
-                '/boos': '/knowledge',
+                '/read': '/surat',
+                '/books': '/mission',
+                '/boos': '/mission',
                 // Toolkit (user-specified)
-                '/toolkit': '/toolkit',
-                '/qibla': '/toolkit',
-                '/prayer': '/toolkit',
-                '/dua': '/toolkit',
-                '/zakat': '/toolkit',
-                '/date': '/toolkit',
-                '/umrah': '/toolkit',
-                '/calendar': '/toolkit',
+                '/toolkit': '/dua',
+                '/qibla': '/dua',
+                '/prayer': '/dua',
+                '/dua': '/dua',
+                '/zakat': '/dua',
+                '/date': '/dua',
+                '/umrah': '/dua',
+                '/calendar': '/dua',
                 // Services (user-specified)
                 '/services': '/services',
                 '/mosque': '/services',

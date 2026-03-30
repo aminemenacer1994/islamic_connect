@@ -12310,6 +12310,25 @@ h1.display-5 {
     border-left: 3px solid #0f6b62;
 }
 
+.sidebar-item.sidebar-item-pinned {
+    position: sticky;
+    top: 0;
+    z-index: 4;
+    isolation: isolate;
+    background-color: var(--sidebar-bg-top) !important;
+    background-image: linear-gradient(
+        135deg,
+        var(--sidebar-bg-top) 0%,
+        var(--sidebar-bg-mid) 100%
+    ) !important;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(15, 77, 70, 0.12);
+}
+
+.sidebar-item.sidebar-item-pinned.active {
+    border-left-color: #0f6b62;
+}
+
 .item-number-container {
     width: 28px;
     display: flex;
@@ -35981,6 +36000,16 @@ h1.display-5 {
 
 .surat-premium.surat-theme-dark .sidebar-item.active {
     border-left-color: #fff !important;
+}
+
+.surat-premium.surat-theme-dark .sidebar-item.sidebar-item-pinned {
+    background-color: var(--sidebar-bg-top) !important;
+    background-image: linear-gradient(
+        135deg,
+        var(--sidebar-bg-top) 0%,
+        var(--sidebar-bg-mid) 100%
+    ) !important;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.28);
 }
 
 .surat-premium.surat-theme-dark .quran-reader-hero h1.display-5,

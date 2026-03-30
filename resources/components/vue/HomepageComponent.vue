@@ -102,7 +102,7 @@
             <article class="ic-link-card h-100">
               <h3>{{ card.title }}</h3>
               <p>{{ card.desc }}</p>
-              <a :href="card.href" class="ic-link-card__cta" target="_blank" rel="noopener noreferrer">{{ card.cta }}</a>
+              <a :href="card.href" class="ic-link-card__cta">{{ card.cta }}</a>
             </article>
           </div>
         </div>

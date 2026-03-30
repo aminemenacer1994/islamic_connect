@@ -13233,6 +13233,18 @@ html {
     scroll-behavior: smooth;
     scrollbar-gutter: stable;
 }
+img,
+svg,
+video,
+canvas,
+iframe {
+    max-width: 100%;
+}
+img,
+video,
+canvas {
+    height: auto;
+}
 h1,
 h2,
 h3,
@@ -13961,7 +13973,7 @@ main,
     transition: color 0.3s ease, border-bottom 0.3s ease;
 }
 /* --- Navbar link normalization (desktop/tablet) --- */
-@media (min-width: 768px) {
+@media (min-width: 992px) {
     /* Use flex gap for even spacing instead of mixed ml/pl utilities */
     .navbar .navbar-nav { gap: 2rem; align-items: center; }
 
@@ -13976,6 +13988,16 @@ main,
         margin: 0 !important;          /* neutralize ml-* from markup */
         border-bottom: 2px solid transparent; /* reserve space for active underline */
         border-left: 0 !important;           /* suppress sidebar-style left indicator */
+    }
+}
+@media (min-width: 992px) and (max-width: 1199.98px) {
+    .navbar .navbar-nav {
+        gap: 1rem;
+    }
+
+    .navbar .navbar-nav .nav-link {
+        font-size: 0.94rem;
+        padding: .7rem 0 !important;
     }
 }
 /* Improve placeholder contrast (AA on white) */
@@ -13994,9 +14016,11 @@ main,
     color: #6b7280;
 }
 /* Uniform alignment for collapsed mobile menu */
-@media (max-width: 767.98px) {
+@media (max-width: 991.98px) {
     .navbar-collapse {
         width: 100%;
+        max-height: calc(100vh - var(--navbar-h) - 1rem);
+        overflow-y: auto;
     }
 
     .navbar-collapse .navbar-nav {
@@ -16766,6 +16790,7 @@ to {
     #f7fbf9;
   color: var(--ic-ink);
   font-family: var(--ic-body-font);
+  overflow-x: clip;
 }
 
 .ic-shell {
@@ -17114,6 +17139,7 @@ to {
   margin: 0 0 0.5rem;
   font-size: 1.12rem;
   color: #0f3a3f;
+  overflow-wrap: anywhere;
 }
 
 .ic-link-card p {
@@ -17185,6 +17211,7 @@ to {
   margin: 0 0 0.55rem;
   font-size: 1.12rem;
   color: #0f3a3f;
+  overflow-wrap: anywhere;
 }
 
 .ic-objective-card p {
@@ -17217,6 +17244,7 @@ to {
   margin: 0;
   font-size: 1.2rem;
   color: #0f3a3f;
+  overflow-wrap: anywhere;
 }
 
 .ic-feature-card p {
@@ -17285,6 +17313,10 @@ to {
   margin-bottom: 0.7rem;
 }
 
+.ic-channel-card__header > div {
+  min-width: 0;
+}
+
 .ic-channel-card__icon {
   width: 46px;
   height: 46px;
@@ -17314,6 +17346,7 @@ to {
   margin: 0.2rem 0 0;
   color: var(--ic-ink-soft);
   font-size: 0.9rem;
+  overflow-wrap: anywhere;
 }
 
 .ic-channel-card__cta {
@@ -17387,6 +17420,7 @@ textarea.form-control:focus {
   display: flex;
   justify-content: flex-end;
   gap: 0.55rem;
+  flex-wrap: wrap;
 }
 
 .premium-toast {
@@ -17573,6 +17607,7 @@ body.ic-dialog-open {
 .ic-ayah-card__meta {
   display: inline-flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 0.3rem;
   font-size: 0.84rem;
   font-weight: 700;
@@ -17670,10 +17705,27 @@ body.ic-dialog-open {
     padding: 3rem 0;
   }
 
+  .section-lead {
+    font-size: 0.98rem;
+  }
+
   .ic-hero__actions .ic-btn {
     width: 100%;
     justify-content: center;
     min-height: 44px;
+  }
+
+  .ic-hero__trust-item {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .ic-community {
+    padding: 1.25rem;
+  }
+
+  .ic-channel-card__header {
+    align-items: flex-start;
   }
 
   .premium-toast {
@@ -17706,6 +17758,14 @@ body.ic-dialog-open {
 
   .ic-ayah-card__arabic {
     text-align: center;
+  }
+
+  .ic-ayah-card__meta {
+    justify-content: center;
+  }
+
+  .premium-dialog-actions > * {
+    flex: 1 1 100%;
   }
 }
 
@@ -66452,6 +66512,23 @@ h1.display-5[data-v-637d02d8] {
     ) !important;
     border-left: 3px solid #0f6b62;
 }
+.sidebar-item.sidebar-item-pinned[data-v-637d02d8] {
+    position: sticky;
+    top: 0;
+    z-index: 4;
+    isolation: isolate;
+    background-color: var(--sidebar-bg-top) !important;
+    background-image: linear-gradient(
+        135deg,
+        var(--sidebar-bg-top) 0%,
+        var(--sidebar-bg-mid) 100%
+    ) !important;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(15, 77, 70, 0.12);
+}
+.sidebar-item.sidebar-item-pinned.active[data-v-637d02d8] {
+    border-left-color: #0f6b62;
+}
 .item-number-container[data-v-637d02d8] {
     width: 28px;
     display: flex;
@@ -86743,6 +86820,15 @@ body.surat-page-shell-dark .modal-content .form-control::placeholder,body.surat-
 }
 .surat-premium.surat-theme-dark .sidebar-item.active[data-v-637d02d8] {
     border-left-color: #fff !important;
+}
+.surat-premium.surat-theme-dark .sidebar-item.sidebar-item-pinned[data-v-637d02d8] {
+    background-color: var(--sidebar-bg-top) !important;
+    background-image: linear-gradient(
+        135deg,
+        var(--sidebar-bg-top) 0%,
+        var(--sidebar-bg-mid) 100%
+    ) !important;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.28);
 }
 .surat-premium.surat-theme-dark .quran-reader-hero h1.display-5[data-v-637d02d8],
 .surat-premium.surat-theme-dark .quran-toolbar-surah-identity-ar[data-v-637d02d8],

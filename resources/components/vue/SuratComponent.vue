@@ -4526,7 +4526,11 @@
                                 <!-- Surah List -->
                                 <div v-if="activeSidebarTab === 'surah'" class="list-group list-group-flush">
                                     <div class="sidebar-item" v-for="surah in filteredSurahs_sidebar" :key="surah.number"
-                                        :class="{ active: String(selectedSurah) === String(surah.number) }"
+                                        :class="{
+                                            active: String(selectedSurah) === String(surah.number),
+                                            'sidebar-item-pinned': isSidebarPinnedSurah(surah.number)
+                                        }"
+                                        :data-surah-number="surah.number"
                                         role="button" @click="selectSurahFromSidebar(surah.number)">
                                         <div class="d-flex align-items-center w-100">
                                             <span class="item-number me-3">{{ surah.number }}</span>

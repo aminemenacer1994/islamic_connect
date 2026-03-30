@@ -1619,6 +1619,26 @@ export default {
 	                ? this.isAudioPlaying.some(Boolean)
 	                : false;
 	        },
+        sidebarPinnedSurahNumber() {
+            const currentSurahNumber = Number(
+                this.surahDetails?.surahNumber || this.selectedSurah || 0
+            );
+            if (!currentSurahNumber) return null;
+
+            const currentIndex = Number(this.currentlyPlayingIndex);
+            const hasLoadingAudio =
+                Number.isInteger(currentIndex) &&
+                currentIndex >= 0 &&
+                !!this.isAudioLoading?.[currentIndex];
+            const hasAudioContext =
+                this.isAnyAudioPlaying ||
+                hasLoadingAudio ||
+                !!this.currentlyPlaying ||
+                (Number.isInteger(Number(this.currentAudioIndex)) &&
+                    Number(this.currentAudioIndex) >= 0);
+
+            return hasAudioContext ? currentSurahNumber : null;
+        },
 	        memorisationToolbarButtonLabel() {
 	            if (this.isMemorisationToolsComingSoon) {
 	                return "Memorisation Tools";
@@ -3899,20 +3919,41 @@ export default {
             );
         },
         filteredSurahs_sidebar() {
-             if (!Array.isArray(this.surahs)) return [];
-             const raw = this.sidebarNormalizedQuery;
-             if (!raw) return this.surahs;
-             return this.surahs.filter((surah) => {
-                 const english = (surah.englishName || "").toLowerCase();
-                 const arabic = (surah.name || "").toLowerCase();
-                 const number = String(surah.number || "");
-                 return (
-                     english.includes(raw) ||
-                     arabic.includes(raw) ||
-                     number.includes(raw)
-                 );
-             });
-         },
+            if (!Array.isArray(this.surahs)) return [];
+            const raw = this.sidebarNormalizedQuery;
+            const matchesQuery = (surah) => {
+                if (!raw) return true;
+                const english = (surah?.englishName || "").toLowerCase();
+                const arabic = (surah?.name || "").toLowerCase();
+                const number = String(surah?.number || "");
+                return (
+                    english.includes(raw) ||
+                    arabic.includes(raw) ||
+                    number.includes(raw)
+                );
+            };
+            const pinnedSurahNumber = Number(this.sidebarPinnedSurahNumber || 0);
+            const pinnedSurah = pinnedSurahNumber
+                ? this.surahs.find(
+                      (surah) => Number(surah?.number || 0) === pinnedSurahNumber
+                  ) || null
+                : null;
+            const filtered = this.surahs.filter((surah) => {
+                if (
+                    pinnedSurah &&
+                    Number(surah?.number || 0) === pinnedSurahNumber
+                ) {
+                    return false;
+                }
+                return matchesQuery(surah);
+            });
+
+            if (!pinnedSurah) {
+                return filtered;
+            }
+
+            return [pinnedSurah, ...filtered];
+        },
         filteredImportantSurahEntries() {
             return this.filterSidebarHighlightsByQuery(this.importantSurahEntries);
         },
@@ -6792,6 +6833,12 @@ export default {
         },
     methods: {
         ...voiceCommandMethods,
+        isSidebarPinnedSurah(surahNumber) {
+            return (
+                Number(this.sidebarPinnedSurahNumber || 0) ===
+                Number(surahNumber || 0)
+            );
+        },
         isVerseCountdownSideAnchorItem(item) {
             if (!this.isVerseCountdownVisible) return false;
             if (!this.verseCountdownUseSideRail) return false;
