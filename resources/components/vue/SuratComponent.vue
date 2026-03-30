@@ -4424,6 +4424,10 @@
                                     <button class="tab-btn flex-fill" 
                                         :class="{ active: activeSidebarTab === 'surah' }"
                                         @click="setActiveSidebarTab('surah')">Surah</button>
+                                    <button
+                                        class="tab-btn flex-fill"
+                                        :class="{ active: activeSidebarTab === 'important' }"
+                                        @click="setActiveSidebarTab('important')">Highlights</button>
 	                                    <button
 	                                        v-if="false"
 	                                        type="button"
@@ -4509,7 +4513,7 @@
                                 <div class="search-container">
                                     <input type="search" class="form-control sidebar-search-input" 
                                         v-model="sidebarSearchQuery"
-                                        :placeholder="`Search ${activeSidebarTab}...`"
+                                        :placeholder="activeSidebarTab === 'important' ? 'Search highlights...' : `Search ${activeSidebarTab}...`"
                                         aria-label="Search content" />
                                 </div>
                             </div>
@@ -4543,6 +4547,104 @@
                                                 <i class="bi bi-info-circle-fill" aria-hidden="true"></i>
                                             </button>
                                         </div>
+                                    </div>
+                                </div>
+
+                                <div v-if="activeSidebarTab === 'important'" class="list-group list-group-flush">
+                                    <div class="sidebar-highlights-intro">
+                                        <p class="sidebar-highlights-title mb-1">Foundational Quran highlights</p>
+                                        <p class="sidebar-highlights-copy mb-0">
+                                            Ordered for study and daily practice, with separate surah and ayah picks.
+                                        </p>
+                                    </div>
+
+                                    <section class="sidebar-highlight-section">
+                                        <div class="sidebar-highlight-section-head">
+                                            <p class="sidebar-highlight-section-title mb-0">Important Surat</p>
+                                            <span class="sidebar-highlight-section-badge">
+                                                {{ filteredImportantSurahEntries.length }}
+                                            </span>
+                                        </div>
+                                        <div
+                                            v-for="surah in filteredImportantSurahEntries"
+                                            :key="surah.id"
+                                            class="sidebar-item sidebar-item-highlight"
+                                            :class="{ active: String(selectedSurah) === String(surah.surahNumber) }"
+                                            role="button"
+                                            @click="selectSurahFromSidebar(surah.surahNumber)">
+                                            <div class="d-flex align-items-start w-100">
+                                                <span class="item-number me-3">{{ surah.priority }}</span>
+                                                <div class="flex-grow-1 text-start">
+                                                    <div class="sidebar-surah-title-row">
+                                                        <div class="sidebar-surah-name-pair">
+                                                            <div class="item-title-en">{{ surah.title }}</div>
+                                                            <div class="item-title-ar text-end">
+                                                                {{ surah.arabicTitle }}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="sidebar-item-meta">
+                                                        <span>Surah {{ surah.surahNumber }}</span>
+                                                        <span>{{ surah.focus }}</span>
+                                                    </div>
+                                                    <div class="sidebar-item-extra">
+                                                        {{ surah.importance }}
+                                                    </div>
+                                                    <p class="sidebar-highlight-summary mb-0">
+                                                        {{ surah.summary }}
+                                                    </p>
+                                                </div>
+                                                <button
+                                                    type="button"
+                                                    class="btn sidebar-info-button ms-2"
+                                                    @click.stop="openSurahInfoByNumber(surah.surahNumber)"
+                                                    aria-label="View surah information">
+                                                    <i class="bi bi-info-circle-fill" aria-hidden="true"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </section>
+
+                                    <section class="sidebar-highlight-section">
+                                        <div class="sidebar-highlight-section-head">
+                                            <p class="sidebar-highlight-section-title mb-0">Important Ayat</p>
+                                            <span class="sidebar-highlight-section-badge">
+                                                {{ filteredImportantAyahEntries.length }}
+                                            </span>
+                                        </div>
+                                        <div
+                                            v-for="ayah in filteredImportantAyahEntries"
+                                            :key="ayah.id"
+                                            class="sidebar-item sidebar-item-highlight"
+                                            :class="{ active: isImportantAyahItemActive(ayah) }"
+                                            role="button"
+                                            @click="selectImportantAyah(ayah)">
+                                            <div class="d-flex align-items-start w-100">
+                                                <span class="item-number me-3">{{ ayah.priority }}</span>
+                                                <div class="flex-grow-1 text-start">
+                                                    <div class="item-title-en sidebar-highlight-title">
+                                                        {{ ayah.title }}
+                                                    </div>
+                                                    <div class="sidebar-item-meta">
+                                                        <span>{{ ayah.surahNumber }}:{{ ayah.ayahNumber }}</span>
+                                                        <span>{{ ayah.focus }}</span>
+                                                    </div>
+                                                    <div class="sidebar-item-extra">
+                                                        {{ ayah.importance }}
+                                                    </div>
+                                                    <p class="sidebar-highlight-summary mb-0">
+                                                        {{ ayah.summary }}
+                                                    </p>
+                                                </div>
+                                                <div class="sidebar-highlight-jump ms-2">
+                                                    <i class="bi bi-arrow-up-right-circle-fill" aria-hidden="true"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </section>
+
+                                    <div v-if="!sidebarHighlightsHasResults" class="sidebar-highlight-empty">
+                                        No highlighted surahs or ayahs matched your search.
                                     </div>
                                 </div>
 
@@ -4678,6 +4780,48 @@
                             <i class="bi bi-check me-2" aria-hidden="true"></i>
                             Done
                         </button>
+                    </div>
+                    <div class="surah-offcanvas-section surah-offcanvas-highlights">
+                        <div class="surah-offcanvas-highlight-head">
+                            <p class="surah-offcanvas-highlight-title mb-1">Foundational highlights</p>
+                            <p class="surah-offcanvas-highlight-copy mb-0">
+                                Separate surah and ayah picks for quick access.
+                            </p>
+                        </div>
+                        <div class="surah-offcanvas-highlight-group">
+                            <p class="surah-offcanvas-highlight-label">Important Surat</p>
+                            <button
+                                v-for="surah in importantSurahEntries"
+                                :key="`offcanvas-${surah.id}`"
+                                type="button"
+                                class="btn surah-offcanvas-highlight-item"
+                                @click="selectSurah(surah.surahNumber, { skipScroll: true })">
+                                <span class="surah-offcanvas-highlight-rank">{{ surah.priority }}</span>
+                                <span class="surah-offcanvas-highlight-body">
+                                    <span class="surah-offcanvas-highlight-name">{{ surah.title }}</span>
+                                    <span class="surah-offcanvas-highlight-meta">
+                                        Surah {{ surah.surahNumber }} · {{ surah.focus }}
+                                    </span>
+                                </span>
+                            </button>
+                        </div>
+                        <div class="surah-offcanvas-highlight-group">
+                            <p class="surah-offcanvas-highlight-label">Important Ayat</p>
+                            <button
+                                v-for="ayah in importantAyahEntries"
+                                :key="`offcanvas-${ayah.id}`"
+                                type="button"
+                                class="btn surah-offcanvas-highlight-item"
+                                @click="selectImportantAyah(ayah)">
+                                <span class="surah-offcanvas-highlight-rank">{{ ayah.priority }}</span>
+                                <span class="surah-offcanvas-highlight-body">
+                                    <span class="surah-offcanvas-highlight-name">{{ ayah.title }}</span>
+                                    <span class="surah-offcanvas-highlight-meta">
+                                        {{ ayah.surahNumber }}:{{ ayah.ayahNumber }} · {{ ayah.focus }}
+                                    </span>
+                                </span>
+                            </button>
+                        </div>
                     </div>
                     
                 </div>

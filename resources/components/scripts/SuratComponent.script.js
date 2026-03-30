@@ -858,6 +858,205 @@ export default {
             promptRowCount: 3,
             surahSearchQuery: "",
             activeSidebarTab: "surah",
+            importantSurahEntries: [
+                {
+                    id: "important-surah-1",
+                    priority: 1,
+                    surahNumber: 1,
+                    title: "Al-Fatihah",
+                    arabicTitle: "الفاتحة",
+                    focus: "Daily prayer",
+                    importance:
+                        "The opening surah and the core recitation repeated in every salah.",
+                    summary:
+                        "A compact foundation of praise, worship, dependence on Allah, and the request for straight guidance.",
+                    tags: ["prayer", "guidance", "opening", "daily"],
+                },
+                {
+                    id: "important-surah-2",
+                    priority: 2,
+                    surahNumber: 2,
+                    title: "Al-Baqarah",
+                    arabicTitle: "البقرة",
+                    focus: "Foundational study",
+                    importance:
+                        "A central surah for belief, law, worship, patience, and community life.",
+                    summary:
+                        "Brings together major Quranic themes including faith, obedience, dua, charity, and spiritual resilience.",
+                    tags: ["foundations", "law", "belief", "patience"],
+                },
+                {
+                    id: "important-surah-3",
+                    priority: 3,
+                    surahNumber: 18,
+                    title: "Al-Kahf",
+                    arabicTitle: "الكهف",
+                    focus: "Faith through trials",
+                    importance:
+                        "Often revisited for its lessons on trials, sincerity, knowledge, and steadfastness.",
+                    summary:
+                        "Its narratives frame four major tests: faith, wealth, knowledge, and power, with trust in Allah running through all of them.",
+                    tags: ["trials", "steadfastness", "knowledge", "friday"],
+                },
+                {
+                    id: "important-surah-4",
+                    priority: 4,
+                    surahNumber: 67,
+                    title: "Al-Mulk",
+                    arabicTitle: "الملك",
+                    focus: "Accountability",
+                    importance:
+                        "A strong reminder of Allah’s dominion, purpose, and the reality of return to Him.",
+                    summary:
+                        "Centers the reader on creation, responsibility, and humility before divine power and judgment.",
+                    tags: ["accountability", "night", "reflection", "creation"],
+                },
+                {
+                    id: "important-surah-5",
+                    priority: 5,
+                    surahNumber: 112,
+                    title: "Al-Ikhlas",
+                    arabicTitle: "الإخلاص",
+                    focus: "Tawhid",
+                    importance:
+                        "One of the clearest and shortest summaries of Allah’s absolute oneness.",
+                    summary:
+                        "A concise declaration that Allah is One, eternal, and unlike His creation.",
+                    tags: ["tawhid", "oneness", "belief", "memorisation"],
+                },
+                {
+                    id: "important-surah-6",
+                    priority: 6,
+                    surahNumber: 113,
+                    title: "Al-Falaq",
+                    arabicTitle: "الفلق",
+                    focus: "Seeking protection",
+                    importance:
+                        "A short surah centered on seeking refuge in Allah from outward harms and unseen dangers.",
+                    summary:
+                        "Teaches the believer to turn to Allah for protection from envy, darkness, and evil influences.",
+                    tags: ["protection", "refuge", "morning", "memorisation"],
+                },
+                {
+                    id: "important-surah-7",
+                    priority: 7,
+                    surahNumber: 114,
+                    title: "An-Nas",
+                    arabicTitle: "الناس",
+                    focus: "Inner protection",
+                    importance:
+                        "A key surah for seeking refuge from whispering, anxiety, and spiritual harm.",
+                    summary:
+                        "Directs the heart back to Allah as Lord, King, and God of mankind when facing inward struggle.",
+                    tags: ["protection", "whispers", "refuge", "memorisation"],
+                },
+            ],
+            importantAyahEntries: [
+                {
+                    id: "important-ayah-1",
+                    priority: 1,
+                    surahNumber: 2,
+                    ayahNumber: 255,
+                    title: "Ayat al-Kursi",
+                    focus: "Allah’s majesty",
+                    importance:
+                        "Widely memorised for its unmatched emphasis on Allah’s sovereignty, life, and knowledge.",
+                    summary:
+                        "A defining ayah of tawhid, divine authority, and Allah’s sustaining care over all creation.",
+                    tags: ["protection", "tawhid", "majesty", "night"],
+                },
+                {
+                    id: "important-ayah-2",
+                    priority: 2,
+                    surahNumber: 1,
+                    ayahNumber: 5,
+                    title: "You alone we worship, and You alone we ask for help",
+                    focus: "Worship and reliance",
+                    importance:
+                        "A daily covenant that joins sincere worship with complete dependence on Allah.",
+                    summary:
+                        "This ayah anchors a believer’s relationship with Allah in devotion, humility, and trust.",
+                    tags: ["worship", "dua", "reliance", "fatihah"],
+                },
+                {
+                    id: "important-ayah-3",
+                    priority: 3,
+                    surahNumber: 2,
+                    ayahNumber: 286,
+                    title: "Allah does not burden a soul beyond what it can bear",
+                    focus: "Hope in hardship",
+                    importance:
+                        "A major ayah of mercy, personal responsibility, and resilience during tests.",
+                    summary:
+                        "It reassures believers that divine accountability is joined with mercy, fairness, and room for repentance.",
+                    tags: ["hope", "hardship", "mercy", "patience"],
+                },
+                {
+                    id: "important-ayah-4",
+                    priority: 4,
+                    surahNumber: 3,
+                    ayahNumber: 8,
+                    title: "Our Lord, do not let our hearts deviate after You have guided us",
+                    focus: "Steadfastness",
+                    importance:
+                        "A concise dua for staying firm after receiving guidance.",
+                    summary:
+                        "It captures the believer’s fear of losing clarity and the need for Allah’s ongoing mercy and stability.",
+                    tags: ["dua", "guidance", "steadfastness", "hearts"],
+                },
+                {
+                    id: "important-ayah-5",
+                    priority: 5,
+                    surahNumber: 17,
+                    ayahNumber: 23,
+                    title: "Show excellence to your parents",
+                    focus: "Character and family",
+                    importance:
+                        "A defining Quranic command linking worship of Allah with excellence toward parents.",
+                    summary:
+                        "This ayah places family ethics and gratitude among the clearest obligations of faith.",
+                    tags: ["parents", "character", "family", "ethics"],
+                },
+                {
+                    id: "important-ayah-6",
+                    priority: 6,
+                    surahNumber: 24,
+                    ayahNumber: 35,
+                    title: "Allah is the Light of the heavens and the earth",
+                    focus: "Light and guidance",
+                    importance:
+                        "A profound ayah often studied for its imagery of divine light and guidance.",
+                    summary:
+                        "It invites reflection on how revelation illuminates hearts, homes, and moral direction.",
+                    tags: ["light", "guidance", "reflection", "nur"],
+                },
+                {
+                    id: "important-ayah-7",
+                    priority: 7,
+                    surahNumber: 39,
+                    ayahNumber: 53,
+                    title: "Do not despair of the mercy of Allah",
+                    focus: "Repentance",
+                    importance:
+                        "One of the clearest Quranic calls to return to Allah with hope.",
+                    summary:
+                        "It opens the door of tawbah wide and pushes back against despair, guilt, and spiritual paralysis.",
+                    tags: ["mercy", "repentance", "hope", "forgiveness"],
+                },
+                {
+                    id: "important-ayah-8",
+                    priority: 8,
+                    surahNumber: 49,
+                    ayahNumber: 13,
+                    title: "The most honoured before Allah are the most righteous",
+                    focus: "Human dignity",
+                    importance:
+                        "A key ayah for equality, dignity, and the Quranic standard of honour.",
+                    summary:
+                        "It rejects status based on lineage or tribe and centers worth on taqwa instead.",
+                    tags: ["equality", "taqwa", "community", "ethics"],
+                },
+            ],
             sidebarSearchQuery: "",
             sidebarDebouncedQuery: "",
             sidebarAyahJumpVisible: true,
@@ -3714,6 +3913,18 @@ export default {
                  );
              });
          },
+        filteredImportantSurahEntries() {
+            return this.filterSidebarHighlightsByQuery(this.importantSurahEntries);
+        },
+        filteredImportantAyahEntries() {
+            return this.filterSidebarHighlightsByQuery(this.importantAyahEntries);
+        },
+        sidebarHighlightsHasResults() {
+            return (
+                this.filteredImportantSurahEntries.length > 0 ||
+                this.filteredImportantAyahEntries.length > 0
+            );
+        },
         isRepeatMode() {
             return this.playbackMode === "repeat";
         },
@@ -27924,6 +28135,98 @@ export default {
             this.activeSidebarTab = tab;
             this.sidebarSearchQuery = "";
             this.sidebarDebouncedQuery = "";
+        },
+        filterSidebarHighlightsByQuery(items = []) {
+            if (!Array.isArray(items)) return [];
+            const query = this.sidebarNormalizedQuery;
+            if (!query) return items;
+            return items.filter((item) => {
+                const searchIndex = [
+                    item.priority,
+                    item.surahNumber,
+                    item.ayahNumber,
+                    item.title,
+                    item.arabicTitle,
+                    item.focus,
+                    item.importance,
+                    item.summary,
+                    ...(Array.isArray(item.tags) ? item.tags : []),
+                    item.ayahNumber
+                        ? `${item.surahNumber}:${item.ayahNumber}`
+                        : `surah ${item.surahNumber}`,
+                ]
+                    .filter(Boolean)
+                    .join(" ")
+                    .toLowerCase();
+                return searchIndex.includes(query);
+            });
+        },
+        openSurahInfoByNumber(surahNumber) {
+            const match = Array.isArray(this.surahs)
+                ? this.surahs.find(
+                      (surah) => Number(surah?.number) === Number(surahNumber)
+                  )
+                : null;
+            if (match) {
+                this.openSurahInfo(match);
+            }
+        },
+        async selectImportantAyah(item) {
+            if (!item?.surahNumber || !item?.ayahNumber) return;
+            this.isNavigating = true;
+            this.lastManualNavigationAt = Date.now();
+            this.clearMainAyahSearchFilter();
+
+            await this.selectSurah(String(item.surahNumber), { skipScroll: true });
+
+            const targetAyah = Number(item.ayahNumber);
+            const resolvedIndex = this.resolveAyahIndexByNumber(targetAyah);
+            const safeIndex =
+                resolvedIndex >= 0
+                    ? resolvedIndex
+                    : Math.max(
+                          0,
+                          Math.min(
+                              targetAyah - 1,
+                              Math.max(this.filteredAyahs.length - 1, 0)
+                          )
+                      );
+
+            const runScroll = () => {
+                this.$nextTick(() => {
+                    this.navigateToAyahNumber(targetAyah, {
+                        clearMainFilter: false,
+                        precise: true,
+                    });
+                    this.selectCard(safeIndex);
+                    this.alignAyahCardToTop(safeIndex, "auto");
+                    setTimeout(() => {
+                        this.alignAyahCardToTop(safeIndex, "auto");
+                    }, 260);
+                });
+            };
+
+            if (this.isMobile && !this.sidebarCollapsed) {
+                this.toggleSidebar();
+                this.$nextTick(runScroll);
+                return;
+            }
+
+            runScroll();
+        },
+        isImportantAyahItemActive(item) {
+            if (
+                !item?.surahNumber ||
+                !item?.ayahNumber ||
+                String(this.selectedSurah) !== String(item.surahNumber)
+            ) {
+                return false;
+            }
+            const currentAyah =
+                this.filteredAyahs?.[this.selectedCardIndex]?.numberInSurah ||
+                this.filteredAyahs?.[this.selectedCardIndex]?.number ||
+                null;
+            return Number(currentAyah) === Number(item.ayahNumber);
         },
         async selectJuz(juzNumber) {
             this.isNavigating = true;

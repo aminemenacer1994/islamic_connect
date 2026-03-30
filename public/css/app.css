@@ -60838,6 +60838,83 @@ body.quran-reading-fullscreen-active .navbar,body.quran-reading-fullscreen-activ
     border-color: #0b806f;
     color: #ffffff;
 }
+.surah-offcanvas-highlights[data-v-637d02d8] {
+    padding-top: 14px;
+}
+.surah-offcanvas-highlight-head[data-v-637d02d8] {
+    margin-bottom: 12px;
+}
+.surah-offcanvas-highlight-title[data-v-637d02d8] {
+    font-size: 0.96rem;
+    font-weight: 800;
+    color: #153532;
+}
+.surah-offcanvas-highlight-copy[data-v-637d02d8] {
+    font-size: 0.8rem;
+    line-height: 1.45;
+    color: #58706c;
+}
+.surah-offcanvas-highlight-group + .surah-offcanvas-highlight-group[data-v-637d02d8] {
+    margin-top: 14px;
+}
+.surah-offcanvas-highlight-label[data-v-637d02d8] {
+    margin-bottom: 8px;
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #4a5e5a;
+}
+.surah-offcanvas-highlight-item[data-v-637d02d8] {
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    text-align: left;
+    border-radius: 14px;
+    border: 1px solid rgba(15, 110, 99, 0.14);
+    background: rgba(255, 255, 255, 0.9);
+    color: #153532;
+    padding: 10px 12px;
+}
+.surah-offcanvas-highlight-item + .surah-offcanvas-highlight-item[data-v-637d02d8] {
+    margin-top: 8px;
+}
+.surah-offcanvas-highlight-item[data-v-637d02d8]:hover,
+.surah-offcanvas-highlight-item[data-v-637d02d8]:focus-visible {
+    border-color: rgba(15, 110, 99, 0.28);
+    background: rgba(11, 128, 111, 0.08);
+    color: #153532;
+}
+.surah-offcanvas-highlight-rank[data-v-637d02d8] {
+    width: 28px;
+    height: 28px;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 28px;
+    font-size: 0.82rem;
+    font-weight: 800;
+    background: rgba(11, 128, 111, 0.12);
+    color: #0b6b59;
+}
+.surah-offcanvas-highlight-body[data-v-637d02d8] {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+.surah-offcanvas-highlight-name[data-v-637d02d8] {
+    font-size: 0.9rem;
+    font-weight: 700;
+    line-height: 1.35;
+}
+.surah-offcanvas-highlight-meta[data-v-637d02d8] {
+    font-size: 0.76rem;
+    line-height: 1.4;
+    color: #58706c;
+}
 @media (max-width: 576px) {
 .surah-offcanvas-play[data-v-637d02d8] {
         font-size: 0.9rem;
@@ -66499,6 +66576,81 @@ h1.display-5[data-v-637d02d8] {
     background: rgba(255, 255, 255, 0.98);
     border-color: rgba(15, 77, 70, 0.18);
     color: #0d4740 !important;
+}
+.sidebar-highlights-intro[data-v-637d02d8] {
+    padding: 0.95rem 1rem 0.8rem;
+    border-bottom: 1px solid rgba(15, 77, 70, 0.08);
+}
+.sidebar-highlights-title[data-v-637d02d8] {
+    font-size: 0.92rem;
+    font-weight: 800;
+    color: var(--sidebar-text-strong);
+}
+.sidebar-highlights-copy[data-v-637d02d8] {
+    font-size: 0.76rem;
+    line-height: 1.45;
+    color: var(--sidebar-text);
+}
+.sidebar-highlight-section[data-v-637d02d8] {
+    padding-bottom: 0.25rem;
+}
+.sidebar-highlight-section-head[data-v-637d02d8] {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 0.95rem 1rem 0.5rem;
+}
+.sidebar-highlight-section-title[data-v-637d02d8] {
+    font-size: 0.76rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-weight: 800;
+    color: var(--sidebar-text-muted);
+}
+.sidebar-highlight-section-badge[data-v-637d02d8] {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 26px;
+    min-height: 26px;
+    padding: 0 0.45rem;
+    border-radius: 999px;
+    background: rgba(15, 77, 70, 0.08);
+    color: var(--sidebar-text-strong);
+    font-size: 0.75rem;
+    font-weight: 800;
+}
+.sidebar-item-highlight[data-v-637d02d8] {
+    padding-top: 0.9rem;
+    padding-bottom: 0.9rem;
+}
+.sidebar-highlight-title[data-v-637d02d8] {
+    white-space: normal;
+    line-height: 1.32;
+}
+.sidebar-highlight-summary[data-v-637d02d8] {
+    margin-top: 0.38rem;
+    font-size: 0.77rem;
+    line-height: 1.48;
+    color: var(--sidebar-text);
+}
+.sidebar-highlight-jump[data-v-637d02d8] {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 2rem;
+    background: rgba(15, 77, 70, 0.1);
+    color: var(--sidebar-icon-fg);
+}
+.sidebar-highlight-empty[data-v-637d02d8] {
+    padding: 1rem;
+    font-size: 0.82rem;
+    color: var(--sidebar-text);
+    text-align: center;
 }
 .item-meta[data-v-637d02d8] {
     font-size: 0.75rem;
@@ -87052,6 +87204,29 @@ body.surat-page-shell-dark .modal-content .table,body.surat-page-shell-dark .mod
     background-color: #fff !important;
     border-color: #fff !important;
 }
+.surat-dark-modal .surah-offcanvas-highlight-title[data-v-637d02d8],
+.surat-dark-modal .surah-offcanvas-highlight-copy[data-v-637d02d8],
+.surat-dark-modal .surah-offcanvas-highlight-label[data-v-637d02d8],
+.surat-dark-modal .surah-offcanvas-highlight-name[data-v-637d02d8],
+.surat-dark-modal .surah-offcanvas-highlight-meta[data-v-637d02d8],
+.surat-dark-modal .surah-offcanvas-highlight-rank[data-v-637d02d8] {
+    color: #fff !important;
+}
+.surat-dark-modal .surah-offcanvas-highlight-item[data-v-637d02d8] {
+    background: transparent !important;
+    border-color: var(--surat-modal-border) !important;
+    color: #fff !important;
+    box-shadow: none !important;
+}
+.surat-dark-modal .surah-offcanvas-highlight-item[data-v-637d02d8]:hover,
+.surat-dark-modal .surah-offcanvas-highlight-item[data-v-637d02d8]:focus-visible {
+    background: rgba(255, 255, 255, 0.05) !important;
+    border-color: var(--surat-modal-border-strong) !important;
+    color: #fff !important;
+}
+.surat-dark-modal .surah-offcanvas-highlight-rank[data-v-637d02d8] {
+    background: rgba(255, 255, 255, 0.08) !important;
+}
 .surat-dark-modal .alert[data-v-637d02d8],
 .surat-dark-modal .table[data-v-637d02d8],
 .surat-dark-modal .table[data-v-637d02d8] > :not(caption) > * > *,
@@ -87740,6 +87915,24 @@ body.surat-page-shell-dark .navbar.navbar-transparent,body.surat-page-shell-dark
     background: rgba(255, 255, 255, 0.08) !important;
     border-color: var(--surat-flat-border-strong, rgba(255, 255, 255, 0.18)) !important;
     color: #fff !important;
+}
+.surat-premium.surat-theme-dark .sidebar-highlights-intro[data-v-637d02d8],
+.surat-premium.surat-theme-dark .sidebar-highlight-section-head[data-v-637d02d8] {
+    border-color: var(--surat-flat-border, rgba(255, 255, 255, 0.1)) !important;
+}
+.surat-premium.surat-theme-dark .sidebar-highlights-title[data-v-637d02d8],
+.surat-premium.surat-theme-dark .sidebar-highlights-copy[data-v-637d02d8],
+.surat-premium.surat-theme-dark .sidebar-highlight-section-title[data-v-637d02d8],
+.surat-premium.surat-theme-dark .sidebar-highlight-summary[data-v-637d02d8],
+.surat-premium.surat-theme-dark .sidebar-highlight-empty[data-v-637d02d8],
+.surat-premium.surat-theme-dark .sidebar-highlight-jump[data-v-637d02d8],
+.surat-premium.surat-theme-dark .sidebar-highlight-section-badge[data-v-637d02d8] {
+    color: #fff !important;
+}
+.surat-premium.surat-theme-dark .sidebar-highlight-jump[data-v-637d02d8],
+.surat-premium.surat-theme-dark .sidebar-highlight-section-badge[data-v-637d02d8] {
+    background: rgba(255, 255, 255, 0.08) !important;
+    border-color: var(--surat-flat-border, rgba(255, 255, 255, 0.1)) !important;
 }
 .surat-premium.surat-theme-dark .sidebar-theme-toggle.is-active[data-v-637d02d8] {
     background: rgba(255, 255, 255, 0.08) !important;
