@@ -333,53 +333,50 @@
     <!-- Global Custom Audio Player -->
     <div v-if="showAudioPlayer" class="audio-player-container" role="region" aria-label="Audio player">
       <div class="custom-audio-player">
-        <div class="player-controls">
-          <div class="player-main-row">
-            <div class="player-title-block">
-              <span class="player-kicker">Seerah Audio</span>
-              <span class="player-title">{{ currentEvent && currentEvent.title ? currentEvent.title : 'Seerah audio' }}</span>
-            </div>
-            <div class="control-cluster" aria-label="Playback controls">
-              <div class="control-row">
-                <button class="icon-btn" @click="rewindAudio(currentlyPlayingIndex)" title="Rewind 10 seconds"
-                  aria-label="Rewind 10 seconds">
-                  <i class="bi bi-skip-backward-fill"></i>
-                </button>
-                <button class="icon-btn icon-btn--primary" @click="toggleAudioPlayer(currentlyPlayingIndex)"
-                  :title="isAudioPlaying[currentlyPlayingIndex] ? 'Pause' : 'Play'"
-                  :aria-label="isAudioPlaying[currentlyPlayingIndex] ? 'Pause audio' : 'Play audio'">
-                  <i class="bi" :class="isAudioPlaying[currentlyPlayingIndex] ? 'bi-pause-fill' : 'bi-play-fill'"></i>
-                </button>
-                <button class="icon-btn" @click="fastForwardAudio(currentlyPlayingIndex)" title="Fast forward 10 seconds"
-                  aria-label="Fast forward 10 seconds">
-                  <i class="bi bi-skip-forward-fill"></i>
-                </button>
-                <button class="icon-btn" @click="stopAudio(currentlyPlayingIndex)" title="Stop" aria-label="Stop audio">
-                  <i class="bi bi-stop-fill"></i>
-                </button>
-              </div>
-            </div>
-            <div class="player-utility">
-              <button class="icon-btn" @click="toggleMute" :title="volume > 0 ? 'Mute' : 'Unmute'"
-                :aria-label="volume > 0 ? 'Mute audio' : 'Unmute audio'">
-                <i class="bi" :class="`bi-volume-${volume > 0.5 ? 'up' : volume > 0 ? 'down' : 'mute'}-fill`"></i>
+        <div class="player-main-row">
+          <div class="player-title-block">
+            <span class="player-title">{{ currentEvent && currentEvent.title ? currentEvent.title : 'Seerah audio' }}</span>
+            <span class="player-subtitle">Recitation</span>
+          </div>
+          <div class="player-center-strip">
+            <div class="control-row" aria-label="Playback controls">
+              <button class="icon-btn" @click="rewindAudio(currentlyPlayingIndex)" title="Rewind 10 seconds"
+                aria-label="Rewind 10 seconds">
+                <i class="bi bi-skip-backward-fill"></i>
               </button>
-              <div class="player-meta">
-                <span class="timer" aria-live="polite">{{ formatTime(currentTime) }} / {{ formatTime(totalTime) }}</span>
-                <button class="icon-btn icon-btn--close" @click="closeAudioPlayer" title="Close"
-                  aria-label="Close audio player">
-                  <i class="bi bi-x-lg"></i>
-                </button>
+              <button class="icon-btn icon-btn--primary" @click="toggleAudioPlayer(currentlyPlayingIndex)"
+                :title="isAudioPlaying[currentlyPlayingIndex] ? 'Pause' : 'Play'"
+                :aria-label="isAudioPlaying[currentlyPlayingIndex] ? 'Pause audio' : 'Play audio'">
+                <i class="bi" :class="isAudioPlaying[currentlyPlayingIndex] ? 'bi-pause-fill' : 'bi-play-fill'"></i>
+              </button>
+              <button class="icon-btn" @click="fastForwardAudio(currentlyPlayingIndex)" title="Fast forward 10 seconds"
+                aria-label="Fast forward 10 seconds">
+                <i class="bi bi-skip-forward-fill"></i>
+              </button>
+              <button class="icon-btn" @click="stopAudio(currentlyPlayingIndex)" title="Stop" aria-label="Stop audio">
+                <i class="bi bi-stop-fill"></i>
+              </button>
+            </div>
+            <div class="player-inline-progress">
+              <div class="progress-track" role="progressbar" :aria-valuemin="0" :aria-valuemax="100"
+                :aria-valuenow="Math.round(progress[currentlyPlayingIndex] || 0)"
+                :aria-valuetext="`Progress ${Math.round(progress[currentlyPlayingIndex] || 0)} percent`"
+                @click="seekAudio($event, currentlyPlayingIndex)">
+                <div class="progress-fill" :style="{ width: progress[currentlyPlayingIndex] + '%' }"></div>
               </div>
             </div>
           </div>
-        </div>
-        <div class="progress-wrapper">
-          <div class="progress-track" role="progressbar" :aria-valuemin="0" :aria-valuemax="100"
-            :aria-valuenow="Math.round(progress[currentlyPlayingIndex] || 0)"
-            :aria-valuetext="`Progress ${Math.round(progress[currentlyPlayingIndex] || 0)} percent`"
-            @click="seekAudio($event, currentlyPlayingIndex)">
-            <div class="progress-fill" :style="{ width: progress[currentlyPlayingIndex] + '%' }"></div>
+          <div class="player-utility">
+            <button class="icon-btn" @click="toggleMute" :title="volume > 0 ? 'Mute' : 'Unmute'"
+              :aria-label="volume > 0 ? 'Mute audio' : 'Unmute audio'">
+              <i class="bi" :class="`bi-volume-${volume > 0.5 ? 'up' : volume > 0 ? 'down' : 'mute'}-fill`"></i>
+            </button>
+            <input class="volume-slider" type="range" min="0" max="1" step="0.01" :value="volume"
+              @input="setPlayerVolume($event.target.value)" aria-label="Volume" />
+            <button class="icon-btn icon-btn--close" @click="closeAudioPlayer" title="Close"
+              aria-label="Close audio player">
+              <i class="bi bi-x-lg"></i>
+            </button>
           </div>
         </div>
       </div>

@@ -1,3 +1,5 @@
 <script>
-export { default } from "../../components/vue/DigitalLibraryComponent.vue";
+import DigitalLibraryComponent from "../../components/vue/DigitalLibraryComponent.vue";
+
+export default DigitalLibraryComponent;
 </script>

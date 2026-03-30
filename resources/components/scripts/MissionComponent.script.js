@@ -870,6 +870,16 @@ export default {
         this.utterance.volume = this.volume;
       }
     },
+    setPlayerVolume(value) {
+      const nextVolume = Math.min(1, Math.max(0, Number(value)));
+      this.volume = Number.isFinite(nextVolume) ? nextVolume : 1;
+      if (this.volume > 0) {
+        this.lastVolumeBeforeMute = this.volume;
+      }
+      if (this.utterance) {
+        this.utterance.volume = this.volume;
+      }
+    },
     updateTotalTime() {
       const wordsPerSecond = 150 / 60;
       this.totalTime = Math.ceil((this.wordCount || 0) / wordsPerSecond);

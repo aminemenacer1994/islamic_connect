@@ -1,6 +1,8 @@
 <template>
-    <div class="container surat-premium"
+    <div class="surat-premium"
         :class="{
+            'container-fluid': isTabletOrMobile,
+            'container': !isTabletOrMobile,
             'has-audio-player': bottomAudioPlayerEnabled && showAudioPlayer && !isSingleWordPreviewActive,
             'has-sidebar': !isMemorisationToolbarVisible,
             'sidebar-collapsed': sidebarCollapsed && !isMemorisationToolbarVisible,
@@ -25,38 +27,139 @@
             </div>
         </div>
         <div
-            v-if="desktopSurahContext.englishName || desktopSurahContext.arabicName"
+            v-if="shouldShowContinueReadingCard || desktopSurahContext.englishName || desktopSurahContext.arabicName"
             class="continue-surah-container mb-3">
-            <div class="row g-3 justify-content-center continue-surah-row">
-            <div class="col-12 col-md-12">
+            <div class="row g-3 align-items-center continue-surah-row">
+                <div
+                    v-if="shouldShowContinueReadingCard"
+                    class="col-12 col-lg-7 continue-reading-col order-2 order-lg-1">
+                    <section
+                        class="continue-reading-card"
+                        :class="{
+                            'is-dark': isDarkTheme,
+                            'is-minimized': continueReadingCardMinimized
+                        }"
+                        role="complementary"
+                        aria-label="Continue reading">
+                        <div v-if="!continueReadingCardMinimized" class="continue-reading-card-body">
+                            <div class="continue-reading-card-copy">
+                                <span class="continue-reading-card-eyebrow">Continue reading</span>
+                                <p v-if="continueReadingUpdatedLabel" class="continue-reading-card-updated mb-0">
+                                    Saved {{ continueReadingUpdatedLabel }}
+                                </p>
+                            </div>
+                            <div
+                                class="continue-reading-card-actions continue-reading-card-actions-rail"
+                                role="group"
+                                aria-label="Continue reading actions">
+                                <button
+                                    type="button"
+                                    class="btn continue-reading-card-icon continue-reading-card-icon--primary"
+                                    @click="resumeContinueReading"
+                                    aria-label="Go to saved ayah"
+                                    title="Go to ayah">
+                                    <i class="bi bi-play-fill" aria-hidden="true"></i>
+                                    <span class="visually-hidden">Go to ayah</span>
+                                </button>
+                                <button
+                                    type="button"
+                                    class="btn continue-reading-card-icon"
+                                    @click="toggleContinueReadingCardMinimized"
+                                    aria-label="Minimise continue reading card"
+                                    title="Minimise">
+                                    <i class="bi bi-dash-lg" aria-hidden="true"></i>
+                                </button>
+                                <button
+                                    type="button"
+                                    class="btn continue-reading-card-icon"
+                                    @click="dismissContinueReadingCard"
+                                    aria-label="Close continue reading card"
+                                    title="Close">
+                                    <i class="bi bi-x-lg" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                            <div class="continue-reading-card-right">
+                                <h2 class="continue-reading-card-title mb-1">
+                                    {{ continueReadingSurahLabel }}
+                                </h2>
+                                <p class="continue-reading-card-meta mb-0">
+                                    {{ continueReadingAyahLabel }}
+                                    <span
+                                        v-if="continueReadingEntry && continueReadingEntry.surahArabicName"
+                                        class="continue-reading-card-arabic"
+                                        dir="rtl">
+                                        {{ continueReadingEntry.surahArabicName }}
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                        <div v-else class="continue-reading-card-minimized">
+                            <div class="continue-reading-card-minimized-main">
+                                <div class="continue-reading-card-copy">
+                                    <span class="continue-reading-card-eyebrow">Continue</span>
+                                </div>
+                                <strong>{{ continueReadingSurahLabel }}</strong>
+                                <span>{{ continueReadingAyahLabel }}</span>
+                            </div>
+                            <div class="continue-reading-card-minimized-actions">
+                                <button
+                                    type="button"
+                                    class="btn continue-reading-card-icon"
+                                    @click="toggleContinueReadingCardMinimized"
+                                    aria-label="Expand continue reading card"
+                                    title="Expand">
+                                    <i class="bi bi-chevron-down" aria-hidden="true"></i>
+                                </button>
+                                <button
+                                    type="button"
+                                    class="btn continue-reading-card-icon continue-reading-card-icon--primary"
+                                    @click="resumeContinueReading"
+                                    aria-label="Resume continue reading point"
+                                    title="Resume">
+                                    <i class="bi bi-play-fill" aria-hidden="true"></i>
+                                </button>
+                                <button
+                                    type="button"
+                                    class="btn continue-reading-card-icon"
+                                    @click="dismissContinueReadingCard"
+                                    aria-label="Close continue reading card"
+                                    title="Close">
+                                    <i class="bi bi-x-lg" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </section>
+                </div>
                 <div
                     v-if="desktopSurahContext.englishName || desktopSurahContext.arabicName"
-                    class="quran-toolbar-surah-identity quran-toolbar-surah-identity-mobile ltr-text pb-0"
-                    role="status"
-                    aria-live="polite"
-                    aria-atomic="true">
-                    <div class="quran-toolbar-surah-identity-inner d-flex align-items-center flex-nowrap">
-                        <span
-                            v-if="desktopSurahContext.arabicName"
-                            class="quran-toolbar-surah-identity-ar text-end"
-                            dir="rtl">
-                            {{ desktopSurahContext.arabicName }}
-                        </span>
-                        <div class="quran-toolbar-surah-identity-en d-inline-flex align-items-center text-start">
-                            <span class="quran-toolbar-surah-identity-en-main d-inline-flex align-items-center flex-nowrap">
-                                <span
-                                    v-if="desktopSurahContext.number"
-                                    class="quran-toolbar-surah-identity-number">
-                                    {{ desktopSurahContext.number }}.
-                                </span>
-                                <span class="quran-toolbar-surah-identity-title">
-                                    {{ desktopSurahContext.englishName }}
-                                </span>
+                    class="col-12 col-lg-4 continue-surah-identity-col order-1 order-lg-2">
+                    <div
+                        class="quran-toolbar-surah-identity quran-toolbar-surah-identity-mobile ltr-text pb-0"
+                        role="status"
+                        aria-live="polite"
+                        aria-atomic="true">
+                        <div class="quran-toolbar-surah-identity-inner d-flex align-items-center flex-nowrap">
+                            <span
+                                v-if="desktopSurahContext.arabicName"
+                                class="quran-toolbar-surah-identity-ar text-end"
+                                dir="rtl">
+                                {{ desktopSurahContext.arabicName }}
                             </span>
+                            <div class="quran-toolbar-surah-identity-en d-inline-flex align-items-center text-start">
+                                <span class="quran-toolbar-surah-identity-en-main d-inline-flex align-items-center flex-nowrap">
+                                    <span
+                                        v-if="desktopSurahContext.number"
+                                        class="quran-toolbar-surah-identity-number">
+                                        {{ desktopSurahContext.number }}.
+                                    </span>
+                                    <span class="quran-toolbar-surah-identity-title">
+                                        {{ desktopSurahContext.englishName }}
+                                    </span>
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
             </div>
         </div>
             <transition name="fade">
@@ -532,6 +635,16 @@
                                     <span class="advanced-quran-mobile-action-label">Compare translations</span>
                                 </button>
                                 <button
+                                    v-if="!isMemorisationToolbarVisible"
+                                    type="button"
+                                    class="btn advanced-quran-mobile-action-btn"
+                                    @click="setReaderToolbarVisibility(false)"
+                                    aria-label="Hide reader toolbar"
+                                    title="Hide reader toolbar">
+                                    <i class="bi bi-eye-slash-fill" aria-hidden="true"></i>
+                                    <span class="advanced-quran-mobile-action-label">Hide toolbar</span>
+                                </button>
+                                <button
                                     v-if="hasPinnedAyahs && isPinnedSectionHidden"
                                     type="button"
                                     class="btn advanced-quran-mobile-action-btn"
@@ -658,7 +771,7 @@
                             </section>
                         </div>
                     </div>
-                   
+                
                 </section> 
             </div>
         </div>
@@ -688,6 +801,7 @@
                 v-if="showDesktopToolbar && !isTabletOrMobile"
                 class="quran-toolbar quran-toolbar-reader border-shadow-xl"
                 :class="{
+                    'is-minimized': !isMemorisationToolbarVisible && isReaderToolbarMinimized,
                     'memorisation-toolbar-compact':
                         isMemorisationToolbarVisible
                 }">
@@ -892,7 +1006,7 @@
                 </div>
 
                 <button
-                    v-if="!isMemorisationToolbarVisible && hasSavedBookmarks"
+                    v-if="!isMemorisationToolbarVisible && !isReaderToolbarMinimized && hasSavedBookmarks"
                     type="button"
                     class="quran-toolbar-btn quran-toolbar-btn-toggle"
                     :class="{ 'is-enabled': isSavedBookmarksPanelOpen }"
@@ -905,7 +1019,7 @@
                 </button>
 
                 <button
-                    v-if="!isMemorisationToolbarVisible"
+                    v-if="!isMemorisationToolbarVisible && !isReaderToolbarMinimized"
                     type="button"
                     class="quran-toolbar-btn quran-toolbar-btn-toggle"
                     :class="{ 'is-enabled': showCustomPlaylistPanel }"
@@ -918,7 +1032,7 @@
                 </button>
 
                 <button
-                    v-if="!isMemorisationToolbarVisible"
+                    v-if="!isMemorisationToolbarVisible && !isReaderToolbarMinimized"
                     type="button"
                     class="quran-toolbar-btn quran-toolbar-btn-toggle"
                     :class="{ 'is-enabled': showTajweed }"
@@ -932,7 +1046,7 @@
                 </button>
 
                 <button
-                    v-if="!isMemorisationToolbarVisible"
+                    v-if="!isMemorisationToolbarVisible && !isReaderToolbarMinimized"
                     type="button"
                     class="quran-toolbar-btn quran-toolbar-btn-toggle"
                     :class="{ 'is-enabled': showWordTranslation }"
@@ -943,7 +1057,7 @@
                     <span class="quran-toolbar-btn-state">{{ showWordTranslation ? "On" : "Off" }}</span>
                 </button>
                 <button
-                    v-if="!isMemorisationToolbarVisible"
+                    v-if="!isMemorisationToolbarVisible && !isReaderToolbarMinimized"
                     type="button"
                     class="quran-toolbar-btn quran-toolbar-btn-toggle"
                     :class="{ 'is-enabled': isTranslationAllEnabled }"
@@ -956,7 +1070,7 @@
                     <span class="quran-toolbar-btn-state">{{ isTranslationAllEnabled ? "On" : "Off" }}</span>
                 </button>
                 <button
-                    v-if="!isMemorisationToolbarVisible"
+                    v-if="!isMemorisationToolbarVisible && !isReaderToolbarMinimized"
                     type="button"
                     class="quran-toolbar-btn quran-toolbar-btn-toggle"
                     :class="{ 'is-enabled': isTransliterationAllEnabled }"
@@ -969,7 +1083,7 @@
                     <span class="quran-toolbar-btn-state">{{ isTransliterationAllEnabled ? "On" : "Off" }}</span>
                 </button>
                 <button
-                    v-if="!isMemorisationToolbarVisible"
+                    v-if="!isMemorisationToolbarVisible && !isReaderToolbarMinimized"
                     type="button"
                     class="quran-toolbar-btn"
                     @click="openTranslationCompareModal"
@@ -978,7 +1092,7 @@
                     <span class="quran-toolbar-btn-text">Compare translations</span>
                 </button>
                 <button
-                    v-if="hasPinnedAyahs && isPinnedSectionHidden && !isMemorisationToolbarVisible"
+                    v-if="hasPinnedAyahs && isPinnedSectionHidden && !isMemorisationToolbarVisible && !isReaderToolbarMinimized"
                     type="button"
                     class="quran-toolbar-btn quran-toolbar-btn-icon quran-toolbar-btn-pinned-restore"
                     @click="showPinnedSection"
@@ -1001,6 +1115,27 @@
 	                        :class="isDarkTheme ? 'bi-sun-fill' : 'bi-moon-stars-fill'"
 	                        aria-hidden="true"></i>
 	                </button>
+                <button
+                    v-if="!isMemorisationToolbarVisible"
+                    type="button"
+                    class="quran-toolbar-btn quran-toolbar-btn-icon quran-toolbar-btn-toolbar-toggle"
+                    @click="toggleReaderToolbarMinimized"
+                    :aria-label="isReaderToolbarMinimized ? 'Expand reader toolbar' : 'Minimize reader toolbar'"
+                    :title="isReaderToolbarMinimized ? 'Expand reader toolbar' : 'Minimize reader toolbar'">
+                    <i
+                        class="bi"
+                        :class="isReaderToolbarMinimized ? 'bi-arrows-angle-expand' : 'bi-arrows-angle-contract'"
+                        aria-hidden="true"></i>
+                </button>
+                <button
+                    v-if="!isMemorisationToolbarVisible"
+                    type="button"
+                    class="quran-toolbar-btn quran-toolbar-btn-icon quran-toolbar-btn-toolbar-toggle"
+                    @click="setReaderToolbarVisibility(false)"
+                    aria-label="Hide reader toolbar"
+                    title="Hide reader toolbar">
+                    <i class="bi bi-eye-slash-fill" aria-hidden="true"></i>
+                </button>
                 <button
                     v-if="!isMemorisationToolbarVisible"
                     type="button"
@@ -5793,23 +5928,28 @@
         </teleport>
 
         <teleport to="body">
-            <div class="modal fade" id="surahSettingsModal" tabindex="-1" aria-labelledby="surahSettingsLabel"
+            <div class="modal fade surah-settings-modal-shell" id="surahSettingsModal" tabindex="-1" aria-labelledby="surahSettingsLabel"
                 aria-hidden="true" data-bs-backdrop="true">
-                <div class="modal-dialog modal-dialog-centered modal-xl modal-modern surah-settings-dialog">
+                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable surah-settings-dialog">
                     <div class="modal-content surah-settings-modal" :class="{ 'surat-dark-modal': isDarkTheme }">
                         <div class="modal-header">
-                            <h4 class="modal-title" id="surahSettingsLabel">
-                                <b>Display settings</b>
-                            </h4>
+                            <div class="surah-settings-heading">
+                                <h4 class="modal-title" id="surahSettingsLabel">
+                                    <b>Display settings</b>
+                                </h4>
+                                <p class="surah-settings-subtitle mb-0">
+                                    Adjust reciter, translation, reading aids, and toolbar behaviour in one place.
+                                </p>
+                            </div>
                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                 aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <div class="row g-3 surah-settings-grid">
-                                <div class="col-12 col-md-6">
-                                    <div class="surah-settings-group h-100">
+                            <div class="row g-2 surah-settings-grid">
+                                <div class="col-12">
+                                    <div class="surah-settings-group surah-settings-group--featured h-100">
                                         <label class="form-label">Audio reciter</label>
-                                        <select class="form-select" v-model="selectedReciter"
+                                        <select class="form-select surah-settings-select" v-model="selectedReciter"
                                             aria-label="Select reciter">
                                             <option value="" disabled>Select a reciter</option>
                                             <option v-for="reciter in recitersSorted" :key="reciter.identifier"
@@ -5817,15 +5957,15 @@
                                                 {{ reciter.englishName }}
                                             </option>
                                         </select>
-                                        <small class="text-muted d-block mt-1">
+                                        <small class="text-muted d-block mt-1 surah-settings-help">
                                             Pick the reciter voice for audio playback.
                                         </small>
                                     </div>
                                 </div>
-                                <div class="col-12 col-md-6">
-                                    <div class="surah-settings-group h-100">
+                                <div class="col-12">
+                                    <div class="surah-settings-group surah-settings-group--featured h-100">
                                         <label class="form-label">Translation</label>
-                                        <select class="form-select" v-model="selectedTranslation"
+                                        <select class="form-select surah-settings-select" v-model="selectedTranslation"
                                             aria-label="Select translation">
                                             <option value="" disabled>Select translation</option>
                                             <option v-for="translation in translationsSorted" :key="translation.identifier"
@@ -5833,107 +5973,107 @@
                                                 {{ translation.flag }} {{ translation.englishName }}
                                             </option>
                                         </select>
-                                        <small class="text-muted d-block mt-1">
+                                        <small class="text-muted d-block mt-1 surah-settings-help">
                                             Choose the translation shown under each ayah.
                                         </small>
                                     </div>
                                 </div>
-                                <div class="col-12 col-md-6">
-                                    <div class="surah-settings-group h-100">
+                                <div class="col-12">
+                                    <div class="surah-settings-group h-100" :class="{ 'is-highlighted': settingsDraft.showReaderToolbar }">
                                         <label class="form-label">Reader toolbar</label>
-                                        <select class="form-select" v-model="settingsDraft.showReaderToolbar"
+                                        <select class="form-select surah-settings-select" v-model="settingsDraft.showReaderToolbar"
                                             aria-label="Reader toolbar visibility">
                                             <option :value="true">Shown</option>
                                             <option :value="false">Hidden</option>
                                         </select>
-                                        <small class="text-muted d-block mt-1">
+                                        <small class="text-muted d-block mt-1 surah-settings-help">
                                             Show or hide the top reader toolbar. A small restore button stays available when hidden.
                                         </small>
                                     </div>
                                 </div>
-                                <div class="col-12 col-md-6">
-                                    <div class="surah-settings-group h-100">
+                                <div class="col-12">
+                                    <div class="surah-settings-group h-100" :class="{ 'is-highlighted': settingsDraft.showTajweed }">
                                         <label class="form-label">Tajweed colors</label>
-                                        <select class="form-select" v-model="settingsDraft.showTajweed"
+                                        <select class="form-select surah-settings-select" v-model="settingsDraft.showTajweed"
                                             aria-label="Enable tajweed colors">
                                             <option :value="true">Enabled</option>
                                             <option :value="false">Disabled</option>
                                         </select>
-                                        <small class="text-muted d-block mt-1">
+                                        <small class="text-muted d-block mt-1 surah-settings-help">
                                             Show or hide tajweed colouring directly in the Arabic text.
                                         </small>
                                     </div>
                                 </div>
-                                <div class="col-12 col-md-6">
+                                <div class="col-12">
                                     <div class="surah-settings-group h-100">
                                         <label class="form-label">Audio playback mode</label>
-                                        <select class="form-select" v-model="settingsDraft.playbackMode"
+                                        <select class="form-select surah-settings-select" v-model="settingsDraft.playbackMode"
                                             aria-label="Select audio playback mode">
                                             <option v-for="option in playbackModeOptions" :key="option.value"
                                                 :value="option.value">
                                                 {{ option.label }}
                                             </option>
                                         </select>
-                                        <small v-if="draftPlaybackModeOption && draftPlaybackModeOption.description" class="text-muted d-block mt-1">
+                                        <small v-if="draftPlaybackModeOption && draftPlaybackModeOption.description" class="text-muted d-block mt-1 surah-settings-help">
                                             {{ draftPlaybackModeOption.description }}
                                         </small>
-                                        <small v-else class="text-muted d-block mt-1">
+                                        <small v-else class="text-muted d-block mt-1 surah-settings-help">
                                             Decide whether audio plays continuously, repeats, or stays manual.
                                         </small>
                                     </div>
                                 </div>
-                                <div class="col-12 col-md-6">
-                                    <div class="surah-settings-group h-100">
+                                <div class="col-12">
+                                    <div class="surah-settings-group h-100" :class="{ 'is-highlighted': settingsDraft.toolbarScrollEnabled }">
                                         <label class="form-label">Scrolling toolbar</label>
-                                        <select class="form-select" v-model="settingsDraft.toolbarScrollEnabled"
+                                        <select class="form-select surah-settings-select" v-model="settingsDraft.toolbarScrollEnabled"
                                             aria-label="Scrolling toolbar">
                                             <option :value="true">Enabled</option>
                                             <option :value="false">Disabled</option>
                                         </select>
-                                        <small class="text-muted d-block mt-1">
+                                        <small class="text-muted d-block mt-1 surah-settings-help">
                                             Keep the reader toolbar pinned as a single scrollable row. Disable this if it feels laggy; the toolbar will stay in place and wrap into multiple rows.
                                         </small>
                                     </div>
                                 </div>
-	                                <div class="col-12 col-md-6">
-	                                    <div class="surah-settings-group h-100">
+	                                <div class="col-12">
+	                                    <div class="surah-settings-group h-100" :class="{ 'is-highlighted': settingsDraft.showWordTranslation }">
 	                                        <label class="form-label">Word-for-word translation</label>
-	                                        <select class="form-select" v-model="settingsDraft.showWordTranslation"
+	                                        <select class="form-select surah-settings-select" v-model="settingsDraft.showWordTranslation"
 	                                            aria-label="Word-for-word translation">
 	                                            <option :value="true">Enabled</option>
 	                                            <option :value="false">Disabled</option>
                                         </select>
-                                        <small class="text-muted d-block mt-1">
+                                        <small class="text-muted d-block mt-1 surah-settings-help">
                                             Show a brief translation beneath each Arabic word.
                                         </small>
                                     </div>
                                 </div>
-                                <div class="col-12 col-md-6">
-                                    <div class="surah-settings-group h-100">
+                                <div class="col-12">
+                                    <div class="surah-settings-group h-100" :class="{ 'is-highlighted': settingsDraft.showWordTranslationTooltip }">
                                         <label class="form-label">Word tooltip + tap audio</label>
                                         <select
-                                            class="form-select"
+                                            class="form-select surah-settings-select"
                                             v-model="settingsDraft.showWordTranslationTooltip"
                                             aria-label="Word tooltip and tap audio">
                                             <option :value="true">Enabled</option>
                                             <option :value="false">Disabled</option>
                                         </select>
-                                        <small class="text-muted d-block mt-1">
+                                        <small class="text-muted d-block mt-1 surah-settings-help">
                                             When enabled, hovering shows word translation and tapping a word plays only that word.
                                         </small>
                                     </div>
                                 </div>
-                                <div class="col-12 col-md-6">
-                                    <div class="surah-settings-group h-100">
+                                <div class="col-12">
+                                    <div class="surah-settings-group h-100" :class="{ 'is-highlighted': settingsDraft.gestureNavigationEnabled }">
                                         <label class="form-label">Gesture navigation</label>
                                         <select
-                                            class="form-select"
+                                            class="form-select surah-settings-select"
                                             v-model="settingsDraft.gestureNavigationEnabled"
                                             aria-label="Gesture navigation">
                                             <option :value="true">Enabled</option>
                                             <option :value="false">Disabled</option>
                                         </select>
-                                        <small class="text-muted d-block mt-1">
+                                        <small class="text-muted d-block mt-1 surah-settings-help">
                                             Use a two-finger swipe on ayah cards: right opens the next surah and left opens the previous surah, then verse 1 is highlighted.
                                         </small>
                                         <button
@@ -5947,7 +6087,7 @@
                                     </div>
                                 </div>
                                 <div class="col-12">
-                                    <div class="surah-settings-group">
+                                    <div class="surah-settings-group surah-settings-group--tools">
                                         <label class="form-label">Reader tools</label>
                                         <div class="surah-settings-actions">
                                             <button
@@ -5973,7 +6113,7 @@
                                                 <span>{{ isReadingFullscreen ? 'Exit fullscreen' : 'Enter fullscreen' }}</span>
                                             </button>
                                         </div>
-                                        <small class="text-muted d-block mt-2">
+                                        <small class="text-muted d-block mt-2 surah-settings-help">
                                             Open font controls or switch into fullscreen reading mode from here.
                                         </small>
                                     </div>
@@ -5984,7 +6124,7 @@
                             <button type="button" class="btn surah-settings-submit"
                                 @click="applySettingsModal"
                                 aria-label="Apply settings">
-                                Submit
+                                Apply Settings
                             </button>
                         </div>
                     </div>

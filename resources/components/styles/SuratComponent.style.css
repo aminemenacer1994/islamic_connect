@@ -227,6 +227,346 @@
     min-width: 0;
 }
 
+.continue-reading-row {
+    position: relative;
+    z-index: 6;
+}
+
+.continue-reading-col {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.continue-reading-card {
+    width: 100%;
+    border-radius: 22px;
+    border: 1px solid rgba(11, 107, 89, 0.2);
+    background:
+        radial-gradient(circle at top right, rgba(11, 107, 89, 0.12), transparent 42%),
+        linear-gradient(145deg, #ffffff 0%, #f5fcf9 58%, #eef8f4 100%);
+    box-shadow: 0 18px 36px rgba(11, 61, 46, 0.12);
+    overflow: hidden;
+}
+
+.continue-reading-card-body,
+.continue-reading-card-minimized {
+    display: flex;
+    align-items: stretch;
+    justify-content: space-between;
+    gap: 0.85rem;
+    padding: 1rem 1rem 0.95rem;
+}
+
+.continue-reading-card-body {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.95rem;
+}
+
+.continue-reading-card-left,
+.continue-reading-card-right {
+    min-width: 0;
+    display: grid;
+    gap: 0.55rem;
+}
+
+.continue-reading-card-right {
+    text-align: left;
+    justify-items: start;
+}
+
+.continue-reading-card-copy {
+    min-width: 0;
+    display: grid;
+    gap: 0.28rem;
+}
+
+.continue-reading-card-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    width: fit-content;
+    padding: 0.28rem 0.6rem;
+    border-radius: 999px;
+    background: rgba(11, 107, 89, 0.12);
+    color: #0b6b59;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.continue-reading-card-title {
+    color: #0f2f29;
+    font-size: 1.18rem;
+    font-weight: 800;
+    line-height: 1.15;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    min-height: calc(1.15em * 2);
+}
+
+.continue-reading-card-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    flex-wrap: wrap;
+    color: #23423b;
+    font-size: 0.96rem;
+    font-weight: 600;
+}
+
+.continue-reading-card-arabic {
+    font-family: var(--ic-quran-arabic-font, "Amiri", serif);
+    font-size: 1rem;
+    color: #0b6b59;
+}
+
+.continue-reading-card-updated {
+    color: #5b6c67;
+    font-size: 0.76rem;
+}
+
+.continue-reading-card-actions,
+.continue-reading-card-minimized-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.42rem;
+    flex-shrink: 0;
+}
+
+.continue-reading-card-btn {
+    min-height: 42px;
+    padding: 0.58rem 0.95rem;
+    border-radius: 14px;
+    border: 1px solid transparent;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    font-size: 0.98rem;
+    font-weight: 700;
+    white-space: nowrap;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.continue-reading-card-btn:hover,
+.continue-reading-card-btn:focus-visible,
+.continue-reading-card-icon:hover,
+.continue-reading-card-icon:focus-visible,
+.continue-reading-card-minimized-main:hover,
+.continue-reading-card-minimized-main:focus-visible {
+    transform: translateY(-1px);
+}
+
+.continue-reading-card-btn-primary {
+    background: linear-gradient(135deg, #0b6b59 0%, #12806f 100%);
+    color: #ffffff;
+    box-shadow: 0 12px 22px rgba(11, 107, 89, 0.22);
+}
+
+.continue-reading-card-btn-primary:hover,
+.continue-reading-card-btn-primary:focus-visible {
+    color: #ffffff;
+    background: linear-gradient(135deg, #095748 0%, #0f6c5e 100%);
+}
+
+.continue-reading-card-icon {
+    width: 42px;
+    height: 42px;
+    padding: 0;
+    border-radius: 14px;
+    border: 1px solid rgba(11, 107, 89, 0.16);
+    background: rgba(255, 255, 255, 0.78);
+    color: #0b3d2e;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.continue-reading-card-icon--primary {
+    border-color: rgba(11, 107, 89, 0.18);
+    background: linear-gradient(135deg, #0b6b59 0%, #12806f 100%);
+    color: #ffffff;
+    box-shadow: 0 10px 20px rgba(11, 107, 89, 0.18);
+}
+
+.continue-reading-card-minimized {
+    align-items: center;
+    gap: 0.7rem;
+}
+
+.continue-reading-card-minimized-main {
+    flex: 1 1 auto;
+    min-width: 0;
+    border: none;
+    background: transparent;
+    color: #12342d;
+    display: grid;
+    gap: 0.16rem;
+    text-align: left;
+    padding: 0;
+}
+
+.continue-reading-card-minimized-main strong {
+    font-size: 0.98rem;
+    line-height: 1.15;
+}
+
+.continue-reading-card-minimized-main span:last-child {
+    color: #4a5f58;
+    font-size: 0.84rem;
+}
+
+.surat-premium.surat-theme-dark .continue-reading-card {
+    border-color: rgba(94, 234, 212, 0.18);
+    background:
+        radial-gradient(circle at top right, rgba(45, 212, 191, 0.16), transparent 40%),
+        linear-gradient(145deg, rgba(11, 24, 28, 0.98) 0%, rgba(16, 36, 41, 0.98) 56%, rgba(21, 46, 51, 0.98) 100%);
+    box-shadow: 0 22px 44px rgba(3, 9, 12, 0.34);
+}
+
+.surat-premium.surat-theme-dark .continue-reading-card-eyebrow {
+    background: rgba(45, 212, 191, 0.16);
+    color: #86efdc;
+}
+
+.surat-premium.surat-theme-dark .continue-reading-card-title,
+.surat-premium.surat-theme-dark .continue-reading-card-minimized-main {
+    color: #ecfeff;
+}
+
+.surat-premium.surat-theme-dark .continue-reading-card-meta {
+    color: rgba(236, 254, 255, 0.82);
+}
+
+.surat-premium.surat-theme-dark .continue-reading-card-arabic {
+    color: #99f6e4;
+}
+
+.surat-premium.surat-theme-dark .continue-reading-card-updated,
+.surat-premium.surat-theme-dark .continue-reading-card-minimized-main span:last-child {
+    color: rgba(191, 219, 254, 0.74);
+}
+
+.surat-premium.surat-theme-dark .continue-reading-card-icon {
+    border-color: rgba(148, 163, 184, 0.18);
+    background: rgba(15, 23, 42, 0.52);
+    color: #e2e8f0;
+}
+
+.surat-premium.surat-theme-dark .continue-reading-card-btn-primary,
+.surat-premium.surat-theme-dark .continue-reading-card-icon--primary {
+    background: linear-gradient(135deg, #0f766e 0%, #14b8a6 100%);
+    box-shadow: 0 12px 24px rgba(20, 184, 166, 0.18);
+}
+
+@media (max-width: 991.98px) {
+    .continue-reading-card {
+        width: 100%;
+    }
+}
+
+@media (min-width: 768px) {
+    .continue-reading-card-body {
+        grid-template-columns: minmax(320px, 1.15fr) minmax(240px, 0.85fr);
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .continue-reading-card-left {
+        grid-column: 1;
+        grid-row: 1;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: center;
+        gap: 0.9rem;
+    }
+
+    .continue-reading-card-right {
+        grid-column: 2;
+        grid-row: 1;
+        justify-items: end;
+        text-align: right;
+    }
+
+    .continue-reading-card-copy {
+        display: grid;
+        gap: 0.3rem;
+        min-width: 0;
+    }
+
+    .continue-reading-card-updated {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .continue-reading-card-actions {
+        align-items: center;
+        flex-wrap: nowrap;
+    }
+
+    .continue-reading-card-title {
+        min-width: 0;
+        max-width: 100%;
+        margin-bottom: 0 !important;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        -webkit-line-clamp: 1;
+        min-height: 0;
+    }
+
+    .continue-reading-card-meta {
+        min-width: 0;
+        flex-wrap: nowrap;
+        justify-content: flex-end;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .continue-reading-card-arabic {
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .continue-reading-card-body,
+    .continue-reading-card-minimized {
+        padding: 0.78rem 0.82rem;
+    }
+
+    .continue-reading-card-body {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 0.7rem;
+    }
+
+    .continue-reading-card-actions {
+        align-items: center;
+        justify-content: flex-end;
+        flex-wrap: nowrap;
+    }
+
+    .continue-reading-card-left {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: center;
+        gap: 0.7rem;
+    }
+
+    .continue-reading-card-right {
+        display: none;
+    }
+
+    .continue-reading-card-icon {
+        width: 38px;
+        height: 38px;
+    }
+}
+
 @media (max-width: 991.98px) {
     .advanced-quran-mobile-controls.is-pinned {
         position: relative;
@@ -4128,6 +4468,14 @@
     border: 1px solid rgba(15, 110, 99, 0.25);
     color: #0b3d2e;
     box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.35);
+}
+
+.surat-premium.surat-theme-dark
+    .now-playing-tag:not(.now-playing-tag-loop-countdown):not(.now-playing-tag-repeat-after) {
+    background: rgba(239, 68, 68, 0.22);
+    border-color: rgba(248, 113, 113, 0.6);
+    color: #fecaca;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
 }
 
 .now-playing-tag-loop-countdown {
@@ -27342,6 +27690,684 @@ h1.display-5 {
     color: #ecfdf5 !important;
 }
 
+/* Final memorisation UI fix layer: compact, responsive, and theme-safe. */
+.surat-premium {
+    --memo-surface: rgba(255, 255, 255, 0.96);
+    --memo-surface-soft: #f7faf9;
+    --memo-surface-strong: #ffffff;
+    --memo-border: rgba(15, 23, 42, 0.1);
+    --memo-border-strong: rgba(15, 23, 42, 0.16);
+    --memo-text: #122a25;
+    --memo-text-soft: #5f716d;
+    --memo-accent: #0f766e;
+    --memo-accent-strong: #0b5f54;
+    --memo-accent-soft: rgba(15, 118, 110, 0.1);
+    --memo-shadow: 0 14px 32px rgba(15, 23, 42, 0.08);
+}
+
+.surat-premium.surat-theme-dark {
+    --memo-surface: rgba(17, 24, 39, 0.96);
+    --memo-surface-soft: rgba(15, 23, 42, 0.9);
+    --memo-surface-strong: rgba(30, 41, 59, 0.92);
+    --memo-border: rgba(148, 163, 184, 0.18);
+    --memo-border-strong: rgba(148, 163, 184, 0.26);
+    --memo-text: #eef6f3;
+    --memo-text-soft: rgba(226, 232, 240, 0.74);
+    --memo-accent: #41c7b8;
+    --memo-accent-strong: #20a796;
+    --memo-accent-soft: rgba(65, 199, 184, 0.12);
+    --memo-shadow: 0 18px 36px rgba(2, 6, 23, 0.34);
+}
+
+.surat-premium .quran-toolbar.memorisation-toolbar-compact {
+    display: block !important;
+    padding: 0.9rem 1rem !important;
+    border-radius: 22px !important;
+    border: 1px solid var(--memo-border) !important;
+    background: var(--memo-surface) !important;
+    box-shadow: var(--memo-shadow) !important;
+    overflow: visible !important;
+}
+
+.surat-premium .memorisation-toolbar-layout {
+    display: grid !important;
+    gap: 0.75rem !important;
+    padding: 0 !important;
+}
+
+.surat-premium .memorisation-toolbar-intro {
+    gap: 0.24rem !important;
+    max-width: none !important;
+    padding-inline: 0 !important;
+}
+
+.surat-premium .memorisation-toolbar-intro strong {
+    color: var(--memo-text) !important;
+    font-size: 1rem !important;
+    line-height: 1.15 !important;
+}
+
+.surat-premium .memorisation-toolbar-intro p {
+    color: var(--memo-text-soft) !important;
+    font-size: 0.84rem !important;
+    line-height: 1.45 !important;
+}
+
+.surat-premium .memorisation-toolbar-row--compact {
+    display: flex !important;
+    align-items: center !important;
+    flex-wrap: wrap !important;
+    gap: 0.7rem !important;
+    overflow: visible !important;
+    padding: 0 !important;
+}
+
+.surat-premium .memorisation-toolbar-row--compact > * {
+    min-width: 0 !important;
+}
+
+.surat-premium .memorisation-toolbar-pill {
+    height: 46px !important;
+    padding: 0 0.8rem !important;
+    border-radius: 16px !important;
+    border: 1px solid var(--memo-border) !important;
+    background: var(--memo-surface-strong) !important;
+    box-shadow: none !important;
+    gap: 0.56rem !important;
+}
+
+.surat-premium .memorisation-toolbar-pill:hover,
+.surat-premium .memorisation-toolbar-pill:focus-within {
+    border-color: var(--memo-border-strong) !important;
+    box-shadow: none !important;
+}
+
+.surat-premium .memorisation-toolbar-pill-icon {
+    width: 28px !important;
+    height: 28px !important;
+    flex-basis: 28px !important;
+    border-radius: 9px !important;
+    background: var(--memo-accent-soft) !important;
+    color: var(--memo-accent) !important;
+    font-size: 0.86rem !important;
+}
+
+.surat-premium .memorisation-toolbar-pill-control {
+    color: var(--memo-text) !important;
+    font-size: 0.88rem !important;
+    font-weight: 700 !important;
+}
+
+.surat-premium .memorisation-toolbar-pill-control::placeholder {
+    color: var(--memo-text-soft) !important;
+}
+
+.surat-premium .memorisation-toolbar-pill--surah {
+    flex: 1 1 220px !important;
+    min-width: 220px !important;
+}
+
+.surat-premium .memorisation-toolbar-pill--reciter {
+    flex: 1.2 1 260px !important;
+    min-width: 240px !important;
+}
+
+.surat-premium .memorisation-toolbar-pill--pace {
+    flex: 0 1 130px !important;
+    min-width: 130px !important;
+}
+
+.surat-premium .memorisation-toolbar-pill--range {
+    flex: 0 1 188px !important;
+    min-width: 176px !important;
+}
+
+.surat-premium .memorisation-toolbar-pill--delay {
+    flex: 0 1 118px !important;
+    min-width: 110px !important;
+}
+
+.surat-premium .memorisation-toolbar-pill-range-input {
+    width: 42px !important;
+}
+
+.surat-premium .memorisation-toolbar-pill-range-sep {
+    color: var(--memo-text-soft) !important;
+    font-size: 0.68rem !important;
+    letter-spacing: 0.08em !important;
+}
+
+.surat-premium .memorisation-toolbar-pill-actions {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 0.42rem !important;
+    margin-left: auto !important;
+    flex: 0 0 auto !important;
+}
+
+.surat-premium .memorisation-toolbar-pill-action,
+.surat-premium .memorisation-toolbar-close-btn,
+.surat-premium .memorisation-toolbar-tool-btn {
+    width: 42px !important;
+    height: 42px !important;
+    min-width: 42px !important;
+    min-height: 42px !important;
+    border-radius: 12px !important;
+    border: 1px solid var(--memo-border) !important;
+    background: var(--memo-surface-strong) !important;
+    color: var(--memo-text-soft) !important;
+    box-shadow: none !important;
+    margin-left: 0 !important;
+}
+
+.surat-premium .memorisation-toolbar-pill-action:hover,
+.surat-premium .memorisation-toolbar-pill-action:focus-visible,
+.surat-premium .memorisation-toolbar-close-btn:hover,
+.surat-premium .memorisation-toolbar-close-btn:focus-visible,
+.surat-premium .memorisation-toolbar-tool-btn:hover,
+.surat-premium .memorisation-toolbar-tool-btn:focus-visible {
+    border-color: var(--memo-border-strong) !important;
+    background: var(--memo-surface-soft) !important;
+    color: var(--memo-text) !important;
+    transform: none !important;
+}
+
+.surat-premium .memorisation-toolbar-menu-dropdown--mode .memorisation-toolbar-pill-action {
+    border-color: transparent !important;
+    background: linear-gradient(135deg, var(--memo-accent), var(--memo-accent-strong)) !important;
+    color: #ffffff !important;
+}
+
+.surat-premium .memorisation-toolbar-menu-dropdown[open] > .memorisation-toolbar-pill-action {
+    background: var(--memo-accent-soft) !important;
+    border-color: rgba(15, 118, 110, 0.22) !important;
+    color: var(--memo-accent) !important;
+}
+
+.surat-premium .memorisation-toolbar-menu-dropdown--mode[open] > .memorisation-toolbar-pill-action {
+    background: linear-gradient(135deg, var(--memo-accent), var(--memo-accent-strong)) !important;
+    border-color: transparent !important;
+    color: #ffffff !important;
+}
+
+.surat-premium .memorisation-toolbar-close-btn {
+    flex: 0 0 auto !important;
+}
+
+.surat-premium .memorisation-toolbar-menu {
+    width: min(340px, calc(100vw - 2rem)) !important;
+    border-radius: 18px !important;
+    border: 1px solid var(--memo-border) !important;
+    background: var(--memo-surface-strong) !important;
+    box-shadow: 0 18px 44px rgba(15, 23, 42, 0.14) !important;
+}
+
+.surat-premium .memorisation-toolbar-menu-head strong,
+.surat-premium .memorisation-toolbar-menu-option span {
+    color: var(--memo-text) !important;
+}
+
+.surat-premium .memorisation-toolbar-menu-head small,
+.surat-premium .memorisation-toolbar-menu-option small {
+    color: var(--memo-text-soft) !important;
+}
+
+.surat-premium .memorisation-toolbar-menu-option {
+    background: var(--memo-surface-soft) !important;
+    border: 1px solid transparent !important;
+}
+
+.surat-premium .memorisation-toolbar-menu-option:hover,
+.surat-premium .memorisation-toolbar-menu-option:focus-visible,
+.surat-premium .memorisation-toolbar-menu-option.is-active {
+    border-color: rgba(15, 118, 110, 0.22) !important;
+    background: var(--memo-accent-soft) !important;
+}
+
+.surat-premium .memorisation-toolbar-tools-grid {
+    grid-template-columns: repeat(auto-fit, minmax(42px, 42px)) !important;
+    justify-content: start !important;
+}
+
+.surat-premium .memorisation-toolbar-tool-btn.is-active {
+    border-color: rgba(15, 118, 110, 0.22) !important;
+    background: var(--memo-accent-soft) !important;
+    color: var(--memo-accent) !important;
+}
+
+.surat-premium .memorisation-mobile-quick-panel {
+    gap: 0.68rem !important;
+    margin-bottom: 0.8rem !important;
+    padding: 0.88rem !important;
+    border-radius: 18px !important;
+    border: 1px solid var(--memo-border) !important;
+    background: var(--memo-surface) !important;
+    box-shadow: none !important;
+}
+
+.surat-premium .memorisation-mobile-quick-grid {
+    gap: 0.6rem !important;
+}
+
+.surat-premium .memorisation-mobile-field > span {
+    color: var(--memo-text-soft) !important;
+    font-size: 0.68rem !important;
+    letter-spacing: 0.09em !important;
+}
+
+.surat-premium .memorisation-mobile-input,
+.surat-premium .memorisation-mobile-quick-panel .advanced-quran-mobile-select {
+    min-height: 42px !important;
+    border-radius: 14px !important;
+    border-color: var(--memo-border) !important;
+    background: var(--memo-surface-strong) !important;
+    color: var(--memo-text) !important;
+}
+
+.surat-premium .memorisation-mobile-range-separator {
+    color: var(--memo-text-soft) !important;
+    font-size: 0.72rem !important;
+    font-weight: 800 !important;
+    text-transform: uppercase !important;
+}
+
+.surat-premium .memorisation-mobile-icon-row {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 0.44rem !important;
+}
+
+.surat-premium .memorisation-mobile-icon-btn {
+    width: 42px !important;
+    height: 42px !important;
+    border-radius: 12px !important;
+    border: 1px solid var(--memo-border) !important;
+    background: var(--memo-surface-strong) !important;
+    color: var(--memo-text) !important;
+    box-shadow: none !important;
+}
+
+.surat-premium .memorisation-mobile-icon-btn.is-active {
+    border-color: transparent !important;
+    background: linear-gradient(135deg, var(--memo-accent), var(--memo-accent-strong)) !important;
+    color: #ffffff !important;
+}
+
+.memorisation-offcanvas {
+    background: #f5f7f7 !important;
+    border-left: 1px solid rgba(15, 23, 42, 0.1) !important;
+    color: #132925 !important;
+    box-shadow: -18px 0 36px rgba(15, 23, 42, 0.12) !important;
+}
+
+.memorisation-offcanvas.surat-dark-modal {
+    background: #101827 !important;
+    border-left-color: rgba(148, 163, 184, 0.18) !important;
+    color: #eef6f3 !important;
+    box-shadow: -22px 0 42px rgba(2, 6, 23, 0.42) !important;
+}
+
+.memorisation-offcanvas .offcanvas-header {
+    background: transparent !important;
+    border-bottom: 1px solid rgba(15, 23, 42, 0.08) !important;
+    padding: 1rem 1rem 0.85rem !important;
+}
+
+.memorisation-offcanvas.surat-dark-modal .offcanvas-header {
+    border-bottom-color: rgba(148, 163, 184, 0.16) !important;
+}
+
+.memorisation-offcanvas .offcanvas-title,
+.memorisation-offcanvas .memorisation-offcanvas-focus-title,
+.memorisation-offcanvas .memorisation-offcanvas-section-title,
+.memorisation-offcanvas .surah-offcanvas-label {
+    color: inherit !important;
+}
+
+.memorisation-offcanvas .btn-close {
+    filter: none !important;
+    opacity: 0.72 !important;
+}
+
+.memorisation-offcanvas.surat-dark-modal .btn-close {
+    filter: invert(1) grayscale(100%) brightness(180%) !important;
+}
+
+.memorisation-offcanvas .offcanvas-body {
+    gap: 0.85rem !important;
+    padding: 0.92rem 1rem calc(1rem + env(safe-area-inset-bottom)) !important;
+}
+
+.memorisation-offcanvas-focus,
+.memorisation-offcanvas-panel {
+    border-radius: 20px !important;
+    border: 1px solid rgba(15, 23, 42, 0.08) !important;
+    background: rgba(255, 255, 255, 0.82) !important;
+    padding: 0.9rem !important;
+    box-shadow: none !important;
+}
+
+.memorisation-offcanvas.surat-dark-modal .memorisation-offcanvas-focus,
+.memorisation-offcanvas.surat-dark-modal .memorisation-offcanvas-panel {
+    border-color: rgba(148, 163, 184, 0.16) !important;
+    background: rgba(15, 23, 42, 0.72) !important;
+}
+
+.memorisation-offcanvas-focus-subtitle,
+.memorisation-offcanvas-section-subtitle {
+    color: rgba(19, 41, 37, 0.66) !important;
+}
+
+.memorisation-offcanvas.surat-dark-modal .memorisation-offcanvas-focus-subtitle,
+.memorisation-offcanvas.surat-dark-modal .memorisation-offcanvas-section-subtitle {
+    color: rgba(226, 232, 240, 0.72) !important;
+}
+
+.memorisation-offcanvas-panel--beginner {
+    border-radius: 22px !important;
+    padding: 0.95rem !important;
+    background: rgba(255, 255, 255, 0.9) !important;
+}
+
+.memorisation-offcanvas.surat-dark-modal .memorisation-offcanvas-panel--beginner {
+    background: rgba(15, 23, 42, 0.78) !important;
+}
+
+.memorisation-offcanvas-grid {
+    margin-top: 0.7rem !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 0.72rem !important;
+}
+
+.memorisation-offcanvas-field,
+.memorisation-offcanvas-toggle-row,
+.memorisation-offcanvas-panel--beginner .memorisation-offcanvas-field,
+.memorisation-offcanvas-panel--beginner .memorisation-offcanvas-toggle-row {
+    border-radius: 16px !important;
+    border: 1px solid rgba(15, 23, 42, 0.08) !important;
+    background: rgba(247, 250, 249, 0.96) !important;
+    padding: 0.8rem 0.85rem !important;
+    gap: 0.32rem !important;
+    box-shadow: none !important;
+}
+
+.memorisation-offcanvas.surat-dark-modal .memorisation-offcanvas-field,
+.memorisation-offcanvas.surat-dark-modal .memorisation-offcanvas-toggle-row,
+.memorisation-offcanvas.surat-dark-modal .memorisation-offcanvas-panel--beginner .memorisation-offcanvas-field,
+.memorisation-offcanvas.surat-dark-modal .memorisation-offcanvas-panel--beginner .memorisation-offcanvas-toggle-row {
+    border-color: rgba(148, 163, 184, 0.16) !important;
+    background: rgba(17, 24, 39, 0.9) !important;
+}
+
+.memorisation-offcanvas-toggle-row {
+    align-items: center !important;
+    justify-content: space-between !important;
+}
+
+.memorisation-offcanvas-toggle-copy strong {
+    color: inherit !important;
+    font-size: 0.94rem !important;
+}
+
+.memorisation-offcanvas-toggle-copy small {
+    color: rgba(19, 41, 37, 0.62) !important;
+    font-size: 0.78rem !important;
+}
+
+.memorisation-offcanvas.surat-dark-modal .memorisation-offcanvas-toggle-copy small {
+    color: rgba(226, 232, 240, 0.72) !important;
+}
+
+.memorisation-offcanvas .surah-offcanvas-input,
+.memorisation-offcanvas .surah-offcanvas-select {
+    min-height: 44px !important;
+    border-radius: 13px !important;
+    border: 1px solid rgba(15, 23, 42, 0.1) !important;
+    background: #ffffff !important;
+    color: #132925 !important;
+}
+
+.memorisation-offcanvas.surat-dark-modal .surah-offcanvas-input,
+.memorisation-offcanvas.surat-dark-modal .surah-offcanvas-select {
+    border-color: rgba(148, 163, 184, 0.16) !important;
+    background: rgba(30, 41, 59, 0.84) !important;
+    color: #eef6f3 !important;
+}
+
+.memorisation-offcanvas .surah-offcanvas-input:focus,
+.memorisation-offcanvas .surah-offcanvas-select:focus {
+    border-color: rgba(15, 118, 110, 0.38) !important;
+    box-shadow: 0 0 0 0.18rem rgba(15, 118, 110, 0.12) !important;
+}
+
+.memorisation-offcanvas-range {
+    gap: 0.5rem !important;
+}
+
+.memorisation-offcanvas-range-separator {
+    color: rgba(19, 41, 37, 0.56) !important;
+    font-size: 0.72rem !important;
+}
+
+.memorisation-offcanvas.surat-dark-modal .memorisation-offcanvas-range-separator {
+    color: rgba(226, 232, 240, 0.68) !important;
+}
+
+.memorisation-submit-alert {
+    margin-top: 0.08rem !important;
+    border-radius: 14px !important;
+    border-color: rgba(15, 118, 110, 0.2) !important;
+    background: rgba(15, 118, 110, 0.1) !important;
+    color: #0f5f55 !important;
+}
+
+.memorisation-offcanvas.surat-dark-modal .memorisation-submit-alert {
+    border-color: rgba(65, 199, 184, 0.22) !important;
+    background: rgba(65, 199, 184, 0.12) !important;
+    color: #b8f4eb !important;
+}
+
+.memorisation-offcanvas-actions {
+    position: sticky;
+    bottom: 0;
+    z-index: 2;
+    margin-top: 0.2rem !important;
+    padding-top: 0.85rem !important;
+    padding-bottom: calc(env(safe-area-inset-bottom) * 0.45) !important;
+    border-top: 1px solid rgba(15, 23, 42, 0.08) !important;
+    background: linear-gradient(180deg, rgba(245, 247, 247, 0), rgba(245, 247, 247, 0.96) 26%) !important;
+}
+
+.memorisation-offcanvas.surat-dark-modal .memorisation-offcanvas-actions {
+    border-top-color: rgba(148, 163, 184, 0.16) !important;
+    background: linear-gradient(180deg, rgba(16, 24, 39, 0), rgba(16, 24, 39, 0.96) 26%) !important;
+}
+
+.memorisation-offcanvas-btn {
+    min-height: 44px !important;
+    border-radius: 14px !important;
+    font-size: 0.92rem !important;
+    font-weight: 800 !important;
+}
+
+.memorisation-offcanvas .memorisation-offcanvas-btn.btn-outline-secondary {
+    border-color: rgba(15, 23, 42, 0.12) !important;
+    background: rgba(255, 255, 255, 0.94) !important;
+    color: #132925 !important;
+}
+
+.memorisation-offcanvas.surat-dark-modal .memorisation-offcanvas-btn.btn-outline-secondary {
+    border-color: rgba(148, 163, 184, 0.18) !important;
+    background: rgba(30, 41, 59, 0.86) !important;
+    color: #eef6f3 !important;
+}
+
+.memorisation-offcanvas-btn-submit {
+    background: linear-gradient(135deg, #12a491, #0f7f72) !important;
+    border-color: transparent !important;
+    box-shadow: none !important;
+}
+
+@media (max-width: 1599.98px) {
+    .surat-premium .memorisation-toolbar-pill-actions {
+        margin-left: 0 !important;
+    }
+}
+
+@media (max-width: 1199.98px) {
+    .surat-premium .quran-toolbar.memorisation-toolbar-compact {
+        padding: 0.82rem 0.86rem !important;
+    }
+
+    .surat-premium .memorisation-toolbar-row--compact {
+        gap: 0.6rem !important;
+    }
+
+    .surat-premium .memorisation-toolbar-pill--surah,
+    .surat-premium .memorisation-toolbar-pill--reciter {
+        flex: 1 1 240px !important;
+        min-width: 220px !important;
+    }
+
+    .surat-premium .memorisation-toolbar-pill--pace,
+    .surat-premium .memorisation-toolbar-pill--delay,
+    .surat-premium .memorisation-toolbar-pill--range {
+        flex: 1 1 148px !important;
+        min-width: 136px !important;
+    }
+
+    .surat-premium .memorisation-toolbar-pill-actions {
+        order: 20 !important;
+    }
+
+    .surat-premium .memorisation-toolbar-close-btn {
+        order: 21 !important;
+    }
+}
+
+@media (max-width: 991.98px) {
+    .surat-premium .memorisation-mobile-quick-grid {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important;
+    }
+
+    .memorisation-offcanvas {
+        --bs-offcanvas-width: min(100vw, 480px) !important;
+        width: min(100vw, 480px) !important;
+    }
+
+    .memorisation-offcanvas .offcanvas-body {
+        padding: 0.82rem 0.88rem calc(0.96rem + env(safe-area-inset-bottom)) !important;
+    }
+
+    .memorisation-offcanvas-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .memorisation-offcanvas-toggle-row {
+        align-items: flex-start !important;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .surat-premium .quran-toolbar.memorisation-toolbar-compact {
+        padding: 0.72rem !important;
+        border-radius: 18px !important;
+    }
+
+    .surat-premium .memorisation-toolbar-layout {
+        gap: 0.65rem !important;
+    }
+
+    .surat-premium .memorisation-toolbar-intro strong {
+        font-size: 0.94rem !important;
+    }
+
+    .surat-premium .memorisation-toolbar-intro p {
+        font-size: 0.78rem !important;
+    }
+
+    .surat-premium .memorisation-toolbar-row--compact {
+        gap: 0.5rem !important;
+    }
+
+    .surat-premium .memorisation-toolbar-pill,
+    .surat-premium .memorisation-toolbar-pill--surah,
+    .surat-premium .memorisation-toolbar-pill--reciter,
+    .surat-premium .memorisation-toolbar-pill--pace,
+    .surat-premium .memorisation-toolbar-pill--range,
+    .surat-premium .memorisation-toolbar-pill--delay {
+        flex: 1 1 100% !important;
+        min-width: 0 !important;
+        width: 100% !important;
+        height: 44px !important;
+    }
+
+    .surat-premium .memorisation-toolbar-pill-actions {
+        width: auto !important;
+        flex: 0 0 auto !important;
+    }
+
+    .surat-premium .memorisation-toolbar-pill-action,
+    .surat-premium .memorisation-toolbar-close-btn,
+    .surat-premium .memorisation-toolbar-tool-btn {
+        width: 40px !important;
+        height: 40px !important;
+        min-width: 40px !important;
+        min-height: 40px !important;
+    }
+
+    .surat-premium .memorisation-toolbar-menu {
+        right: 0 !important;
+        left: auto !important;
+        width: min(300px, calc(100vw - 1.5rem)) !important;
+    }
+
+    .surat-premium .memorisation-mobile-quick-panel {
+        padding: 0.76rem !important;
+    }
+
+    .surat-premium .memorisation-mobile-quick-grid {
+        grid-template-columns: minmax(0, 1fr) !important;
+    }
+
+    .memorisation-offcanvas {
+        --bs-offcanvas-width: 100vw !important;
+        width: 100vw !important;
+    }
+
+    .memorisation-offcanvas .offcanvas-header {
+        padding: 0.82rem 0.8rem 0.72rem !important;
+    }
+
+    .memorisation-offcanvas .offcanvas-body {
+        padding: 0.72rem 0.8rem calc(0.94rem + env(safe-area-inset-bottom)) !important;
+        gap: 0.72rem !important;
+    }
+
+    .memorisation-offcanvas-focus,
+    .memorisation-offcanvas-panel,
+    .memorisation-offcanvas-panel--beginner,
+    .memorisation-offcanvas-field,
+    .memorisation-offcanvas-toggle-row {
+        border-radius: 16px !important;
+        padding: 0.74rem !important;
+    }
+
+    .memorisation-offcanvas-toggle-actions {
+        gap: 0.36rem !important;
+    }
+
+    .memorisation-offcanvas-actions {
+        grid-template-columns: 1fr !important;
+        gap: 0.5rem !important;
+    }
+
+    .memorisation-offcanvas-btn {
+        width: 100% !important;
+        min-height: 42px !important;
+    }
+}
+
 .surat-premium .quran-toolbar-btn.quran-toolbar-btn-memorisation .quran-toolbar-btn-text,
 .surat-premium
     .advanced-quran-mobile-action-btn.advanced-quran-mobile-action-btn-memorisation
@@ -36448,6 +37474,30 @@ h1.display-5 {
     padding-inline: 0.8rem !important;
 }
 
+.surat-premium .quran-toolbar.quran-toolbar-reader.is-minimized {
+    gap: 0.42rem !important;
+    padding-inline: 0.48rem !important;
+}
+
+.surat-premium .quran-toolbar.quran-toolbar-reader.is-minimized .quran-toolbar-reciter {
+    flex: 0 1 244px !important;
+    min-width: 200px !important;
+    max-width: 244px !important;
+}
+
+.surat-premium .quran-toolbar.quran-toolbar-reader.is-minimized .quran-toolbar-reciter-label {
+    font-size: 0.58rem !important;
+}
+
+.surat-premium .quran-toolbar.quran-toolbar-reader .quran-toolbar-btn-toolbar-toggle {
+    border-color: rgba(15, 91, 83, 0.2) !important;
+}
+
+.surat-premium .quran-toolbar.quran-toolbar-reader.is-minimized .quran-toolbar-btn-toolbar-toggle,
+.surat-premium .quran-toolbar.quran-toolbar-reader.is-minimized .quran-toolbar-btn-settings {
+    background: rgba(15, 91, 83, 0.1) !important;
+}
+
 @media (max-width: 1199.98px) {
     .surat-premium .quran-toolbar.quran-toolbar-reader .quran-toolbar-reciter {
         flex-basis: 214px !important;
@@ -36779,6 +37829,12 @@ h1.display-5 {
 .surat-premium.surat-theme-dark .quran-toolbar.quran-toolbar-reader .quran-toolbar-reciter {
     border-radius: 16px !important;
     padding: 0.22rem 0.28rem 0.22rem 0.8rem !important;
+}
+
+.surat-premium.surat-theme-dark .quran-toolbar.quran-toolbar-reader.is-minimized .quran-toolbar-btn-toolbar-toggle,
+.surat-premium.surat-theme-dark .quran-toolbar.quran-toolbar-reader.is-minimized .quran-toolbar-btn-settings {
+    background: rgba(87, 170, 161, 0.12) !important;
+    border-color: rgba(116, 198, 188, 0.22) !important;
 }
 
 .surat-premium.surat-theme-dark .quran-toolbar.quran-toolbar-reader .quran-toolbar-reciter .quran-toolbar-select {
@@ -39509,4 +40565,627 @@ h1.display-5 {
     border-color: rgba(11, 128, 111, 0.34);
     background: rgba(11, 128, 111, 0.14);
     color: #0b6b59;
+}
+
+@media (min-width: 992px) {
+    :global(.surat-premium .quran-toolbar.quran-toolbar-reader .quran-toolbar-reciter) {
+        flex: 0 1 264px !important;
+        min-width: 220px !important;
+        max-width: 264px !important;
+    }
+}
+
+/* Final safety layer for the Surat settings modal and highlighted mobile controls. */
+:global(#surahSettingsModal .modal-dialog.surah-settings-dialog) {
+    width: min(520px, calc(100vw - 1.25rem)) !important;
+    max-width: min(520px, calc(100vw - 1.25rem)) !important;
+    margin: 0.85rem auto !important;
+}
+
+:global(#surahSettingsModal .surah-settings-modal) {
+    border-radius: 20px !important;
+    overflow: hidden !important;
+    max-height: calc(100vh - 1.7rem) !important;
+}
+
+:global(#surahSettingsModal .modal-header) {
+    align-items: flex-start !important;
+    padding: 0.9rem 1rem 0.7rem !important;
+}
+
+:global(#surahSettingsModal .surah-settings-heading) {
+    display: grid !important;
+    gap: 0.18rem !important;
+    padding-right: 0.6rem !important;
+}
+
+:global(#surahSettingsModal .modal-title) {
+    font-size: 1.08rem !important;
+    line-height: 1.2 !important;
+}
+
+:global(#surahSettingsModal .form-label) {
+    margin-bottom: 0.45rem !important;
+    font-size: 0.9rem !important;
+    font-weight: 700 !important;
+}
+
+:global(#surahSettingsModal .surah-settings-subtitle) {
+    font-size: 0.82rem !important;
+    line-height: 1.38 !important;
+    color: #66757a !important;
+}
+
+:global(#surahSettingsModal .modal-body) {
+    padding: 0.75rem 0.9rem 0.85rem !important;
+}
+
+:global(#surahSettingsModal .modal-footer) {
+    padding: 0 0.9rem 0.9rem !important;
+}
+
+:global(#surahSettingsModal .surah-settings-grid) {
+    row-gap: 0.5rem !important;
+}
+
+:global(#surahSettingsModal .surah-settings-grid > [class*="col-"]) {
+    flex: 0 0 100% !important;
+    width: 100% !important;
+    max-width: 100% !important;
+}
+
+:global(#surahSettingsModal .surah-settings-group) {
+    padding: 0.68rem 0.72rem !important;
+    border-radius: 16px !important;
+}
+
+:global(#surahSettingsModal .surah-settings-select) {
+    min-height: 40px !important;
+    border-radius: 12px !important;
+    font-size: 0.88rem !important;
+}
+
+:global(#surahSettingsModal .surah-settings-help) {
+    margin-top: 0.38rem !important;
+    font-size: 0.78rem !important;
+    line-height: 1.3 !important;
+}
+
+:global(#surahSettingsModal .surah-settings-submit) {
+    min-height: 40px !important;
+    border-radius: 14px !important;
+    padding: 0.5rem 0.9rem !important;
+}
+
+:global(body.dark-mode #surahSettingsModal .surah-settings-modal) {
+    background: #232529 !important;
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    box-shadow: 0 24px 54px rgba(0, 0, 0, 0.38) !important;
+}
+
+:global(body.dark-mode #surahSettingsModal .modal-header) {
+    background: rgba(255, 255, 255, 0.02) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+:global(body.dark-mode #surahSettingsModal .surah-settings-subtitle) {
+    color: rgba(255, 255, 255, 0.68) !important;
+}
+
+:global(body.dark-mode #surahSettingsModal .surah-settings-group) {
+    background: rgba(255, 255, 255, 0.03) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+:global(body.dark-mode #surahSettingsModal .surah-settings-group--featured),
+:global(body.dark-mode #surahSettingsModal .surah-settings-group.is-highlighted) {
+    background: linear-gradient(180deg, rgba(109, 205, 193, 0.16) 0%, rgba(60, 90, 87, 0.26) 100%) !important;
+    border-color: rgba(120, 220, 208, 0.34) !important;
+    box-shadow: inset 0 0 0 1px rgba(120, 220, 208, 0.08) !important;
+}
+
+:global(body.dark-mode #surahSettingsModal .surah-settings-select) {
+    background-color: rgba(255, 255, 255, 0.06) !important;
+    border-color: rgba(255, 255, 255, 0.12) !important;
+    color: #fff !important;
+}
+
+:global(body.dark-mode #surahSettingsModal .surah-settings-help) {
+    color: rgba(255, 255, 255, 0.72) !important;
+}
+
+:global(body.dark-mode #surahSettingsModal .surah-settings-submit) {
+    background: #7ad8cc !important;
+    border-color: #7ad8cc !important;
+    color: #232529 !important;
+}
+
+@media (max-width: 991.98px) {
+    :global(body.dark-mode .surat-premium .advanced-quran-mobile-action-btn) {
+        background: rgba(255, 255, 255, 0.04) !important;
+        border: 1px solid rgba(255, 255, 255, 0.12) !important;
+        box-shadow: none !important;
+    }
+
+    :global(body.dark-mode .surat-premium .advanced-quran-mobile-action-btn.is-enabled),
+    :global(body.dark-mode .surat-premium .advanced-quran-mobile-action-btn-memorisation),
+    :global(body.dark-mode .surat-premium .advanced-quran-mobile-action-btn-open-tools) {
+        background: linear-gradient(180deg, rgba(109, 205, 193, 0.16) 0%, rgba(60, 90, 87, 0.26) 100%) !important;
+        border-color: rgba(120, 220, 208, 0.34) !important;
+    }
+
+    :global(body.dark-mode .surat-premium .advanced-quran-mobile-action-btn-state) {
+        background: rgba(255, 255, 255, 0.06) !important;
+        border: 1px solid rgba(255, 255, 255, 0.12) !important;
+        color: #fff !important;
+    }
+
+    :global(body.dark-mode .surat-premium .advanced-quran-mobile-action-btn.is-enabled .advanced-quran-mobile-action-btn-state),
+    :global(body.dark-mode .surat-premium .advanced-quran-mobile-action-btn-memorisation .advanced-quran-mobile-action-btn-state) {
+        background: #7ad8cc !important;
+        border-color: #7ad8cc !important;
+        color: #232529 !important;
+    }
+
+    :global(#surahSettingsModal .modal-dialog.surah-settings-dialog) {
+        width: calc(100vw - 1.25rem) !important;
+        max-width: calc(100vw - 1.25rem) !important;
+        margin: 0.5rem auto !important;
+    }
+}
+
+.surat-premium .continue-surah-container {
+    max-width: min(1040px, 100%) !important;
+}
+
+.surat-premium .continue-surah-row {
+    align-items: center !important;
+}
+
+.surat-premium .continue-surah-identity-col {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.surat-premium .continue-surah-identity-col .quran-toolbar-surah-identity {
+    width: 100%;
+}
+
+.surat-premium .continue-surah-identity-col .quran-toolbar-surah-identity-inner {
+    width: 100%;
+}
+
+@media (min-width: 992px) {
+    .surat-premium .continue-surah-row {
+        --bs-gutter-x: 1rem !important;
+    }
+
+    .surat-premium .continue-surah-identity-col .quran-toolbar-surah-identity-inner {
+        justify-content: flex-end !important;
+        text-align: right !important;
+        padding: 0.1rem 0 0.05rem !important;
+    }
+
+    .surat-premium .continue-surah-identity-col .quran-toolbar-surah-identity-en {
+        align-items: flex-end !important;
+        text-align: right !important;
+    }
+
+    .surat-premium .continue-surah-identity-col .quran-toolbar-surah-identity-en-main {
+        justify-content: flex-end !important;
+    }
+}
+
+@media (max-width: 991.98px) {
+    .surat-premium .continue-surah-container {
+        max-width: 100% !important;
+    }
+
+    .surat-premium .continue-surah-row {
+        --bs-gutter-y: 0.6rem !important;
+    }
+
+    .surat-premium .continue-surah-identity-col {
+        justify-content: center;
+    }
+
+    .surat-premium .continue-surah-identity-col .quran-toolbar-surah-identity-inner {
+        justify-content: center !important;
+        text-align: center !important;
+    }
+}
+
+/* Final top-spacing cleanup for the Surat page. */
+.surat-premium {
+    padding-top: 20px !important;
+}
+
+.surat-premium .quran-reader-hero,
+.surat-premium .quran-reader-hero.reading-fullscreen-chrome {
+    margin: 0 auto 0.35rem !important;
+    padding: 0 !important;
+    min-height: 0 !important;
+}
+
+.surat-premium .quran-reader-hero > [class*="col-"] {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+}
+
+.surat-premium .quran-reader-hero h1.display-5 {
+    margin: 0 !important;
+}
+
+@media (max-width: 991.98px) {
+    .surat-premium.mobile-compact-layout {
+        padding-top: 12px !important;
+    }
+
+    .surat-premium .continue-surah-container {
+        margin-top: 0 !important;
+    }
+}
+
+/* Final simplified Surat top section */
+.surat-premium .quran-reader-hero,
+.surat-premium .quran-reader-hero.reading-fullscreen-chrome {
+    max-width: none !important;
+    margin: 0 0 0.5rem !important;
+    padding: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
+.surat-premium .quran-reader-hero::before {
+    content: none !important;
+    display: none !important;
+}
+
+.surat-premium .quran-reader-hero h1.display-5 {
+    font-size: clamp(2rem, 4vw, 3.3rem) !important;
+    font-weight: 800 !important;
+    line-height: 1 !important;
+    letter-spacing: -0.03em !important;
+}
+
+.surat-premium .continue-surah-container {
+    max-width: none !important;
+    margin: 0 0 0.75rem !important;
+}
+
+.surat-premium .continue-surah-row {
+    --bs-gutter-x: 0.85rem !important;
+    --bs-gutter-y: 0.5rem !important;
+    align-items: center !important;
+}
+
+.surat-premium .continue-reading-card {
+    border-radius: 16px !important;
+    border: 1px solid rgba(11, 107, 89, 0.14) !important;
+    background: #ffffff !important;
+    box-shadow: none !important;
+}
+
+.surat-premium .continue-reading-card-body,
+.surat-premium .continue-reading-card-minimized {
+    gap: 0.75rem !important;
+    padding: 0.8rem 0.9rem !important;
+}
+
+.surat-premium .continue-reading-card-title {
+    font-size: 1rem !important;
+    line-height: 1.15 !important;
+    min-height: 0 !important;
+    -webkit-line-clamp: 1 !important;
+}
+
+.surat-premium .continue-reading-card-meta {
+    font-size: 0.88rem !important;
+}
+
+.surat-premium .continue-reading-card-updated {
+    font-size: 0.72rem !important;
+}
+
+.surat-premium .continue-reading-card-icon {
+    width: 38px !important;
+    height: 38px !important;
+    border-radius: 12px !important;
+    box-shadow: none !important;
+}
+
+.surat-premium .continue-reading-card-icon--primary {
+    background: #0b6b59 !important;
+}
+
+.surat-premium .quran-toolbar-surah-identity-inner {
+    border: none !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    gap: 0.35rem !important;
+}
+
+.surat-premium .quran-toolbar-surah-identity-ar {
+    font-size: clamp(1.9rem, 4vw, 2.8rem) !important;
+    line-height: 1 !important;
+}
+
+.surat-premium .quran-toolbar-surah-identity-en {
+    gap: 0.1rem !important;
+}
+
+.surat-premium .quran-toolbar-surah-identity-en-main {
+    gap: 0.35rem !important;
+    flex-wrap: nowrap !important;
+    font-size: clamp(1rem, 1.8vw, 1.35rem) !important;
+    line-height: 1.05 !important;
+}
+
+.surat-premium .quran-toolbar-surah-identity-number {
+    min-width: auto !important;
+    height: auto !important;
+    padding: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+}
+
+.surat-premium.surat-theme-dark .continue-reading-card {
+    border-color: rgba(255, 255, 255, 0.1) !important;
+    background: #172126 !important;
+}
+
+@media (max-width: 991.98px) {
+    .surat-premium .quran-reader-hero h1.display-5 {
+        font-size: clamp(1.7rem, 8vw, 2.35rem) !important;
+    }
+
+    .surat-premium .continue-reading-card-body {
+        padding: 0.75rem 0.8rem !important;
+    }
+
+    .surat-premium .quran-toolbar-surah-identity-ar {
+        font-size: clamp(1.7rem, 9vw, 2.3rem) !important;
+    }
+
+    .surat-premium .quran-toolbar-surah-identity-en-main {
+        font-size: clamp(0.98rem, 4.8vw, 1.2rem) !important;
+        flex-wrap: wrap !important;
+        justify-content: center !important;
+    }
+}
+
+/* Final continue-reading refinement: compact, cleaner, more premium. */
+.surat-premium .continue-surah-container {
+    max-width: 1080px !important;
+    margin-bottom: 0.6rem !important;
+}
+
+.surat-premium .continue-surah-row {
+    --bs-gutter-x: 0.7rem !important;
+    --bs-gutter-y: 0.4rem !important;
+}
+
+.surat-premium .continue-reading-card {
+    border-radius: 18px !important;
+    border: 1px solid rgba(11, 107, 89, 0.12) !important;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(246, 251, 249, 0.98)) !important;
+    box-shadow: 0 10px 24px rgba(13, 48, 40, 0.05) !important;
+}
+
+.surat-premium .continue-reading-card-body {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) auto minmax(170px, auto) !important;
+    align-items: center !important;
+    gap: 0.8rem !important;
+    padding: 0.72rem 0.88rem !important;
+}
+
+.surat-premium .continue-reading-card-copy {
+    display: grid !important;
+    gap: 0.14rem !important;
+    min-width: 0 !important;
+}
+
+.surat-premium .continue-reading-card-eyebrow {
+    padding: 0.24rem 0.56rem !important;
+    border-radius: 999px !important;
+    background: rgba(11, 107, 89, 0.1) !important;
+    color: #0b6b59 !important;
+    font-size: 0.68rem !important;
+    letter-spacing: 0.1em !important;
+}
+
+.surat-premium .continue-reading-card-updated {
+    color: #62736e !important;
+    font-size: 0.75rem !important;
+    font-weight: 600 !important;
+}
+
+.surat-premium .continue-reading-card-actions {
+    gap: 0.32rem !important;
+}
+
+.surat-premium .continue-reading-card-actions-rail {
+    display: inline-flex !important;
+    align-items: center !important;
+    padding: 0.18rem !important;
+    border-radius: 14px !important;
+    border: 1px solid rgba(11, 107, 89, 0.08) !important;
+    background: rgba(245, 250, 248, 0.9) !important;
+}
+
+.surat-premium .continue-reading-card-icon {
+    width: 30px !important;
+    height: 30px !important;
+    padding: 0 !important;
+    border-radius: 10px !important;
+    border: 0 !important;
+    background: transparent !important;
+    color: #163b36 !important;
+    box-shadow: none !important;
+}
+
+.surat-premium .continue-reading-card-icon i {
+    font-size: 0.92rem !important;
+}
+
+.surat-premium .continue-reading-card-icon--primary {
+    width: 32px !important;
+    height: 32px !important;
+    border-color: transparent !important;
+    background: linear-gradient(135deg, #0f766e 0%, #0b5f54 100%) !important;
+    color: #ffffff !important;
+}
+
+.surat-premium .continue-reading-card-right {
+    justify-items: end !important;
+    text-align: right !important;
+    gap: 0.1rem !important;
+    min-width: 170px !important;
+}
+
+.surat-premium .continue-reading-card-title {
+    font-size: 0.98rem !important;
+    font-weight: 800 !important;
+    line-height: 1.08 !important;
+}
+
+.surat-premium .continue-reading-card-meta {
+    gap: 0.32rem !important;
+    font-size: 0.8rem !important;
+    color: #47625c !important;
+    font-weight: 700 !important;
+}
+
+.surat-premium .continue-reading-card-arabic {
+    font-size: 0.86rem !important;
+    color: #0f766e !important;
+}
+
+.surat-premium .continue-reading-card-minimized {
+    padding: 0.6rem 0.78rem !important;
+    align-items: center !important;
+}
+
+.surat-premium .continue-reading-card-minimized-main {
+    display: grid !important;
+    gap: 0.08rem !important;
+    min-width: 0 !important;
+    color: #163b36 !important;
+}
+
+.surat-premium .continue-reading-card-minimized-main strong {
+    font-size: 0.94rem !important;
+    line-height: 1.12 !important;
+}
+
+.surat-premium .continue-reading-card-minimized-main span:last-child {
+    color: #62736e !important;
+    font-size: 0.76rem !important;
+    font-weight: 600 !important;
+}
+
+.surat-premium .quran-toolbar-surah-identity-ar {
+    font-size: clamp(1.65rem, 3.5vw, 2.35rem) !important;
+}
+
+.surat-premium .quran-toolbar-surah-identity-en-main {
+    gap: 0.28rem !important;
+    font-size: clamp(0.96rem, 1.55vw, 1.18rem) !important;
+}
+
+.surat-premium.surat-theme-dark .continue-reading-card {
+    border-color: rgba(124, 223, 210, 0.12) !important;
+    background: linear-gradient(135deg, rgba(16, 25, 29, 0.98), rgba(19, 31, 35, 0.98)) !important;
+    box-shadow: 0 12px 28px rgba(2, 9, 11, 0.22) !important;
+}
+
+.surat-premium.surat-theme-dark .continue-reading-card-eyebrow {
+    background: rgba(122, 216, 204, 0.12) !important;
+    color: #7ad8cc !important;
+}
+
+.surat-premium.surat-theme-dark .continue-reading-card-updated {
+    color: rgba(214, 230, 225, 0.72) !important;
+}
+
+.surat-premium.surat-theme-dark .continue-reading-card-actions-rail {
+    border-color: rgba(255, 255, 255, 0.06) !important;
+    background: rgba(255, 255, 255, 0.02) !important;
+}
+
+.surat-premium.surat-theme-dark .continue-reading-card-icon {
+    background: transparent !important;
+    color: #edf6f3 !important;
+}
+
+.surat-premium.surat-theme-dark .continue-reading-card-title {
+    color: #f4fbf8 !important;
+}
+
+.surat-premium.surat-theme-dark .continue-reading-card-meta {
+    color: rgba(225, 239, 234, 0.8) !important;
+}
+
+.surat-premium.surat-theme-dark .continue-reading-card-arabic {
+    color: #89e0d4 !important;
+}
+
+@media (max-width: 991.98px) {
+    .surat-premium .continue-reading-card-body {
+        grid-template-columns: 1fr auto !important;
+        gap: 0.65rem !important;
+        padding: 0.74rem 0.82rem !important;
+    }
+
+    .surat-premium .continue-reading-card-actions-rail {
+        align-self: start !important;
+    }
+
+    .surat-premium .continue-reading-card-right {
+        grid-column: 1 / -1 !important;
+        min-width: 0 !important;
+        justify-items: start !important;
+        text-align: left !important;
+    }
+
+    .surat-premium .quran-toolbar-surah-identity-ar {
+        font-size: clamp(1.5rem, 8vw, 2rem) !important;
+    }
+
+    .surat-premium .quran-toolbar-surah-identity-en-main {
+        font-size: clamp(0.94rem, 4.3vw, 1.08rem) !important;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .surat-premium .continue-reading-card-body {
+        padding: 0.68rem 0.76rem !important;
+    }
+
+    .surat-premium .continue-reading-card-actions {
+        gap: 0.28rem !important;
+    }
+
+    .surat-premium .continue-reading-card-icon {
+        width: 28px !important;
+        height: 28px !important;
+        border-radius: 10px !important;
+    }
+
+    .surat-premium .continue-reading-card-icon--primary {
+        width: 30px !important;
+        height: 30px !important;
+    }
+
+    .surat-premium .continue-reading-card-title {
+        font-size: 0.96rem !important;
+    }
+
+    .surat-premium .continue-reading-card-meta {
+        font-size: 0.8rem !important;
+    }
 }

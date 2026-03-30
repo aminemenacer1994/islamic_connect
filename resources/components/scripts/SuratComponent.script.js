@@ -663,6 +663,9 @@ export default {
             isMobileToolbarExpanded: false,
             firstAyahTop: 0,
             showReaderToolbar: true,
+            isReaderToolbarMinimized: false,
+            readerToolbarMinimizedPreferenceBaseKey:
+                "surat_reader_toolbar_minimized",
             showDesktopToolbar: true,
             showDesktopSurahContext: true,
             showMobileSurahInfoCard: true,
@@ -762,6 +765,15 @@ export default {
             _virtualWindowRaf: null,
             itemHeightCalibrated: false,
             lastItemHeightCalibrationAt: 0,
+            continueReadingStorageKeyBase: "ic_surat_continue_reading_v1",
+            continueReadingUiStorageKeyBase: "ic_surat_continue_reading_ui_v1",
+            continueReadingEntry: null,
+            continueReadingDismissedKey: "",
+            continueReadingCardMinimized: false,
+            continueReadingSaveTimer: null,
+            continueReadingLastSavedKey: "",
+            continueReadingLastSavedAt: 0,
+            continueReadingMinSaveIntervalMs: 8000,
             // Next-step card visibility
             showNextStep: true,
             nextStepMinimized: false,
@@ -855,7 +867,7 @@ export default {
 	            sidebarListScrollRaf: null,
 	            selectedJuz: null,
 	            sidebarCollapsed: false,
-	            isMemorisationToolsComingSoon: true,
+	            isMemorisationToolsComingSoon: false,
 	            isMemorisationToolbarVisible: false,
 	            isMemorisationOffcanvasVisible: false,
 	            isMemorisationDraftSubmitting: false,
@@ -4000,6 +4012,53 @@ export default {
             const ctx = this.desktopSurahContext || {};
             return `${ctx.number || "surah"}-${ctx.englishName || "name"}-${ctx.arabicName || "ar"}`;
         },
+        continueReadingProgressKey() {
+            const entry = this.continueReadingEntry;
+            if (!entry) return "";
+            const surahNumber = Number(entry?.surahNumber || 0);
+            const ayahNumber = Number(entry?.ayahNumber || 0);
+            if (!surahNumber || !ayahNumber) return "";
+            return `${surahNumber}:${ayahNumber}`;
+        },
+        hasContinueReadingEntry() {
+            return !!this.continueReadingProgressKey;
+        },
+        shouldShowContinueReadingCard() {
+            const progressKey = this.continueReadingProgressKey;
+            if (!progressKey) return false;
+            return String(this.continueReadingDismissedKey || "") !== progressKey;
+        },
+        continueReadingSurahLabel() {
+            const entry = this.continueReadingEntry;
+            if (!entry) return "Surah";
+            const surahNumber = Number(entry?.surahNumber || 0);
+            const englishName = String(entry?.surahEnglishName || "").trim();
+            if (surahNumber && englishName) {
+                return `${surahNumber}. ${englishName}`;
+            }
+            if (englishName) return englishName;
+            if (surahNumber) return `Surah ${surahNumber}`;
+            return "Surah";
+        },
+        continueReadingAyahLabel() {
+            const entry = this.continueReadingEntry;
+            const ayahNumber = Number(entry?.ayahNumber || 0);
+            return ayahNumber ? `Ayah ${ayahNumber}` : "Ayah";
+        },
+        continueReadingUpdatedLabel() {
+            const updatedAt = Number(this.continueReadingEntry?.updatedAt || 0);
+            if (!updatedAt) return "";
+            try {
+                return new Date(updatedAt).toLocaleString(undefined, {
+                    month: "short",
+                    day: "numeric",
+                    hour: "numeric",
+                    minute: "2-digit",
+                });
+            } catch (_) {
+                return "";
+            }
+        },
         currentSurahAudioMetaKey() {
             const surahNumber = Number(
                 this.selectedSurah || this.surahDetails?.surahNumber
@@ -4775,6 +4834,8 @@ export default {
         bookmarkStorageUserId(next, prev) {
             if (String(next || "") === String(prev || "")) return;
             this.loadCustomPlaylist();
+            this.loadContinueReadingUiState();
+            this.loadContinueReadingProgress();
             this.loadPersistedMemorisationPreviousSession();
             this.loadMemorisationPresets();
             this.loadMemorisationPresetPanelCollapsedState();
@@ -4789,6 +4850,8 @@ export default {
             if (this.bookmarkStorageUserId) return;
             if (String(next || "") === String(prev || "")) return;
             this.loadCustomPlaylist();
+            this.loadContinueReadingUiState();
+            this.loadContinueReadingProgress();
             this.loadPersistedMemorisationPreviousSession();
             this.loadMemorisationPresets();
             this.loadMemorisationPresetPanelCollapsedState();
@@ -5203,6 +5266,18 @@ export default {
             }
             this.scheduleLayoutRefresh({ recalibrate: false });
         },
+        isReaderToolbarMinimized(next) {
+            try {
+                this.writeScopedBooleanPreference(
+                    this.readerToolbarMinimizedPreferenceBaseKey,
+                    next
+                );
+            } catch (_) {}
+            if (!this.showReaderToolbar) return;
+            if (!next) return;
+            this.isMobileToolbarExpanded = false;
+            this.scheduleLayoutRefresh({ recalibrate: false });
+        },
         showWordTranslation(next) {
             try {
                 this.writeScopedBooleanPreference(
@@ -5487,6 +5562,8 @@ export default {
                 this.showNextStep = false;
         } catch (_) { }
         await this.initializeBookmarkAuth();
+        this.loadContinueReadingUiState();
+        this.loadContinueReadingProgress();
         this.initializeSuratThemePreference({
             preserveCurrentWhenMissing: true,
         });
@@ -5510,6 +5587,7 @@ export default {
         window.addEventListener("storage", this.bookmarkStorageHandler);
         window.addEventListener("visibilitychange", this.visibilityHandler);
         this.sessionHistoryPageHideHandler = () => {
+            this.persistContinueReadingOnExit();
             this.finalizeSessionHistoryEntry("inactive");
         };
         window.addEventListener("pagehide", this.sessionHistoryPageHideHandler);
@@ -5655,6 +5733,13 @@ export default {
         );
         if (storedReaderToolbar !== null) {
             this.showReaderToolbar = storedReaderToolbar === "1";
+        }
+        const storedReaderToolbarMinimized = this.readScopedPreferenceWithLegacy(
+            this.readerToolbarMinimizedPreferenceBaseKey
+        );
+        if (storedReaderToolbarMinimized !== null) {
+            this.isReaderToolbarMinimized =
+                storedReaderToolbarMinimized === "1";
         }
         const storedBlurNextAyah = this.readScopedPreferenceWithLegacy(
             "suratIsBlurNextAyahEnabled"
@@ -5811,9 +5896,19 @@ export default {
                 this.clearHifdhPlanAutoOpenQuery();
             });
         }
+        if (this.shouldAutoOpenMemorisationToolsFromQuery()) {
+            this.$nextTick(async () => {
+                await this.autoOpenMemorisationToolsFromQuery();
+            });
+        }
     },
         beforeUnmount() {
             this.isComponentAlive = false;
+            this.persistContinueReadingOnExit();
+            if (this.continueReadingSaveTimer) {
+                clearTimeout(this.continueReadingSaveTimer);
+                this.continueReadingSaveTimer = null;
+            }
             this.hideMemorisationSubmitAlert();
             this.finalizeSessionHistoryEntry("inactive");
             try {
@@ -11144,6 +11239,7 @@ export default {
             if (wasVisible && showToast) {
                 this.showModeToggleToast("Memorisation tools", false);
             }
+            this.syncMemorisationToolsUrlState(false);
         },
         async closeMemorisationToolsPanel() {
             this.hideMemorisationSubmitAlert();
@@ -11571,6 +11667,7 @@ export default {
             }
             this.persistMemorisationActivePresetId("");
             this.showModeToggleToast("Memorisation tools", true);
+            this.syncMemorisationToolsUrlState(true);
         },
         openMemorisationComingSoonModal() {
             const el = this.$refs?.memorisationComingSoonModal;
@@ -18307,6 +18404,322 @@ export default {
                 return "";
             }
         },
+        getContinueReadingStorageKey() {
+            return this.buildScopedFontPreferenceKey(
+                this.continueReadingStorageKeyBase ||
+                    "ic_surat_continue_reading_v1"
+            );
+        },
+        getContinueReadingUiStorageKey() {
+            return this.buildScopedFontPreferenceKey(
+                this.continueReadingUiStorageKeyBase ||
+                    "ic_surat_continue_reading_ui_v1"
+            );
+        },
+        normaliseContinueReadingEntry(entry) {
+            if (!entry || typeof entry !== "object") return null;
+            const surahNumber = Number(entry?.surahNumber || 0);
+            const ayahNumber = Number(entry?.ayahNumber || 0);
+            if (!surahNumber || !ayahNumber) return null;
+            return {
+                surahNumber,
+                ayahNumber,
+                surahEnglishName: String(
+                    entry?.surahEnglishName || entry?.englishName || ""
+                ).trim(),
+                surahArabicName: String(
+                    entry?.surahArabicName || entry?.arabicName || ""
+                ).trim(),
+                updatedAt: Number(entry?.updatedAt || Date.now()) || Date.now(),
+            };
+        },
+        loadContinueReadingProgress() {
+            if (typeof window === "undefined") {
+                this.continueReadingEntry = null;
+                return null;
+            }
+            try {
+                const raw = localStorage.getItem(
+                    this.getContinueReadingStorageKey()
+                );
+                if (!raw) {
+                    this.continueReadingEntry = null;
+                    this.continueReadingLastSavedKey = "";
+                    this.continueReadingLastSavedAt = 0;
+                    return null;
+                }
+                const parsed = JSON.parse(raw);
+                const normalized = this.normaliseContinueReadingEntry(parsed);
+                this.continueReadingEntry = normalized;
+                this.continueReadingLastSavedKey = normalized
+                    ? `${normalized.surahNumber}:${normalized.ayahNumber}`
+                    : "";
+                this.continueReadingLastSavedAt = Number(
+                    normalized?.updatedAt || 0
+                );
+                return normalized;
+            } catch (_) {
+                this.continueReadingEntry = null;
+                this.continueReadingLastSavedKey = "";
+                this.continueReadingLastSavedAt = 0;
+                return null;
+            }
+        },
+        persistContinueReadingProgress(entry) {
+            const normalized = this.normaliseContinueReadingEntry(entry);
+            if (!normalized || typeof window === "undefined") return false;
+            const progressKey = `${normalized.surahNumber}:${normalized.ayahNumber}`;
+            this.continueReadingEntry = normalized;
+            this.continueReadingLastSavedKey = progressKey;
+            this.continueReadingLastSavedAt = Number(
+                normalized.updatedAt || Date.now()
+            );
+            if (
+                this.continueReadingDismissedKey &&
+                this.continueReadingDismissedKey !== progressKey
+            ) {
+                this.continueReadingDismissedKey = "";
+                this.persistContinueReadingUiState();
+            }
+            try {
+                return this.safeLocalStorageSetItem(
+                    this.getContinueReadingStorageKey(),
+                    JSON.stringify(normalized)
+                );
+            } catch (_) {
+                return false;
+            }
+        },
+        loadContinueReadingUiState() {
+            if (typeof window === "undefined") {
+                this.continueReadingDismissedKey = "";
+                this.continueReadingCardMinimized = false;
+                return null;
+            }
+            try {
+                const raw = localStorage.getItem(
+                    this.getContinueReadingUiStorageKey()
+                );
+                if (!raw) {
+                    this.continueReadingDismissedKey = "";
+                    this.continueReadingCardMinimized = false;
+                    return null;
+                }
+                const parsed = JSON.parse(raw);
+                this.continueReadingDismissedKey = String(
+                    parsed?.dismissedKey || ""
+                ).trim();
+                this.continueReadingCardMinimized = !!parsed?.minimized;
+                return parsed;
+            } catch (_) {
+                this.continueReadingDismissedKey = "";
+                this.continueReadingCardMinimized = false;
+                return null;
+            }
+        },
+        persistContinueReadingUiState() {
+            if (typeof window === "undefined") return false;
+            try {
+                return this.safeLocalStorageSetItem(
+                    this.getContinueReadingUiStorageKey(),
+                    JSON.stringify({
+                        dismissedKey: this.continueReadingDismissedKey || "",
+                        minimized: !!this.continueReadingCardMinimized,
+                    })
+                );
+            } catch (_) {
+                return false;
+            }
+        },
+        buildContinueReadingEntryFromAyah(ayah, index = 0) {
+            const sourceAyah = ayah || this.filteredAyahs?.[index] || null;
+            const surahNumber = Number(
+                this.surahDetails?.surahNumber || this.selectedSurah || 0
+            );
+            const ayahNumber = Number(
+                sourceAyah?.numberInSurah || sourceAyah?.number || index + 1
+            );
+            if (!surahNumber || !ayahNumber) return null;
+            const context = this.desktopSurahContext || {};
+            return this.normaliseContinueReadingEntry({
+                surahNumber,
+                ayahNumber,
+                surahEnglishName:
+                    context.englishName ||
+                    this.getSurahNameByNumber(surahNumber) ||
+                    `Surah ${surahNumber}`,
+                surahArabicName: context.arabicName || "",
+                updatedAt: Date.now(),
+            });
+        },
+        queueContinueReadingProgressPersist(index, options = {}) {
+            const { immediate = false, force = false } = options || {};
+            const safeIndex = Number(index);
+            if (!Number.isInteger(safeIndex) || safeIndex < 0) return false;
+            const entry = this.buildContinueReadingEntryFromAyah(
+                this.filteredAyahs?.[safeIndex],
+                safeIndex
+            );
+            if (!entry) return false;
+            const progressKey = `${entry.surahNumber}:${entry.ayahNumber}`;
+            const now = Date.now();
+            if (
+                !force &&
+                progressKey === this.continueReadingLastSavedKey &&
+                now - Number(this.continueReadingLastSavedAt || 0) <
+                    Number(this.continueReadingMinSaveIntervalMs || 8000)
+            ) {
+                return false;
+            }
+            if (this.continueReadingSaveTimer) {
+                clearTimeout(this.continueReadingSaveTimer);
+                this.continueReadingSaveTimer = null;
+            }
+            const commit = () => {
+                this.continueReadingSaveTimer = null;
+                this.persistContinueReadingProgress(entry);
+            };
+            if (immediate) {
+                commit();
+                return true;
+            }
+            this.continueReadingSaveTimer = setTimeout(commit, 180);
+            return true;
+        },
+        getContinueReadingViewportIndex() {
+            const total = Array.isArray(this.filteredAyahs)
+                ? this.filteredAyahs.length
+                : 0;
+            if (!total || typeof window === "undefined" || typeof document === "undefined") {
+                return -1;
+            }
+            const offset = Number(this.currentHeaderOffset || 0) + 18;
+            const cards = Array.from(
+                document.querySelectorAll('[id^="ayah-card-"]')
+            );
+            let bestIndex = -1;
+            let bestDistance = Number.POSITIVE_INFINITY;
+
+            cards.forEach((card) => {
+                if (!card?.getBoundingClientRect) return;
+                const match = String(card.id || "").match(/^ayah-card-(\d+)$/);
+                if (!match) return;
+                const index = Number(match[1] || -1);
+                if (!Number.isInteger(index) || index < 0 || index >= total) {
+                    return;
+                }
+                const rect = card.getBoundingClientRect();
+                if (rect.bottom <= offset) return;
+                const distance = Math.abs(rect.top - offset);
+                if (distance < bestDistance) {
+                    bestDistance = distance;
+                    bestIndex = index;
+                }
+            });
+
+            if (bestIndex >= 0) {
+                return bestIndex;
+            }
+
+            const approxIndex = Math.max(
+                0,
+                Math.min(
+                    total - 1,
+                    Math.floor(
+                        Math.max(
+                            0,
+                            window.scrollY - Number(this.listTop || 0) + offset
+                        ) / Math.max(1, Number(this.itemHeight || 1))
+                    )
+                )
+            );
+            return approxIndex;
+        },
+        captureContinueReadingProgressFromViewport(options = {}) {
+            const index = this.getContinueReadingViewportIndex();
+            if (index < 0) return false;
+            return this.queueContinueReadingProgressPersist(index, options);
+        },
+        captureBestContinueReadingProgress(options = {}) {
+            if (
+                this.isAnyAudioPlaying &&
+                Number.isInteger(Number(this.currentlyPlayingIndex)) &&
+                Number(this.currentlyPlayingIndex) >= 0
+            ) {
+                return this.queueContinueReadingProgressPersist(
+                    Number(this.currentlyPlayingIndex),
+                    options
+                );
+            }
+            const fromViewport = this.captureContinueReadingProgressFromViewport(
+                options
+            );
+            if (fromViewport) return true;
+            if (
+                Number.isInteger(Number(this.selectedCardIndex)) &&
+                Number(this.selectedCardIndex) >= 0
+            ) {
+                return this.queueContinueReadingProgressPersist(
+                    Number(this.selectedCardIndex),
+                    options
+                );
+            }
+            return false;
+        },
+        persistContinueReadingOnExit() {
+            this.captureBestContinueReadingProgress({
+                immediate: true,
+                force: true,
+            });
+        },
+        toggleContinueReadingCardMinimized() {
+            this.continueReadingCardMinimized = !this.continueReadingCardMinimized;
+            this.persistContinueReadingUiState();
+        },
+        dismissContinueReadingCard() {
+            this.continueReadingDismissedKey =
+                this.continueReadingProgressKey || "";
+            this.persistContinueReadingUiState();
+        },
+        async resumeContinueReading() {
+            const entry = this.normaliseContinueReadingEntry(
+                this.continueReadingEntry
+            );
+            if (!entry) return;
+            this.continueReadingDismissedKey = "";
+            this.continueReadingCardMinimized = false;
+            this.persistContinueReadingUiState();
+            this.isNavigating = true;
+            this.lastManualNavigationAt = Date.now();
+            try {
+                const targetSurah = String(entry.surahNumber || "").trim();
+                if (
+                    targetSurah &&
+                    String(this.selectedSurah || "") !== targetSurah
+                ) {
+                    await this.selectSurah(targetSurah, { skipScroll: true });
+                }
+                this.clearMainAyahSearchFilter();
+                this.$nextTick(() => {
+                    const moved = this.navigateToAyahNumber(entry.ayahNumber, {
+                        clearMainFilter: false,
+                        precise: true,
+                    });
+                    if (!moved) {
+                        this.showToast("Could not open the saved ayah.", 2400);
+                        return;
+                    }
+                    this.showToast(
+                        `Resumed at ${this.continueReadingSurahLabel}, Ayah ${entry.ayahNumber}.`,
+                        2200
+                    );
+                });
+            } catch (error) {
+                this.isNavigating = false;
+                console.error("Unable to resume continue reading:", error);
+                this.showToast("Could not resume your saved reading point.", 2600);
+            }
+        },
         buildScopedFontPreferenceKey(baseKey) {
             if (this.bookmarkStorageUserId) {
                 return `${baseKey}_user_${this.bookmarkStorageUserId}`;
@@ -19967,6 +20380,7 @@ export default {
                 }
                 return;
             }
+            this.persistContinueReadingOnExit();
             if (this.voiceCommandsEnabled) {
                 this.stopVoiceCommandListening({ keepEnabled: true });
             }
@@ -21923,6 +22337,7 @@ export default {
             this.manualScrollTimer = setTimeout(() => {
                 this.isManualScrolling = false;
             }, 650);
+            this.captureContinueReadingProgressFromViewport();
             if (typeof window !== "undefined") {
                 if (this._virtualWindowRaf) {
                     window.cancelAnimationFrame(this._virtualWindowRaf);
@@ -22035,11 +22450,74 @@ export default {
             if (!surah) return null;
             return { surah, ayah: ayah || null };
         },
+        buildMemorisationToolsUrl(isOpen = true) {
+            if (typeof window === "undefined") return null;
+            try {
+                const url = new URL(window.location.href);
+                const basePath = url.pathname.replace(/\/memorisation\/?$/, "") || "/surat";
+                url.pathname = isOpen
+                    ? `${basePath.replace(/\/$/, "")}/memorisation`
+                    : basePath;
+                url.searchParams.delete("open");
+
+                const surahNumber = Number(
+                    this.surahDetails?.surahNumber || this.selectedSurah || 0
+                );
+                const ayahNumber = Number(
+                    this.filteredAyahs?.[this.activeAyahIndex]?.numberInSurah ||
+                        (Number.isFinite(Number(this.activeAyahIndex))
+                            ? Number(this.activeAyahIndex) + 1
+                            : 0)
+                );
+
+                if (surahNumber > 0) {
+                    url.searchParams.set("surah", String(surahNumber));
+                } else {
+                    url.searchParams.delete("surah");
+                }
+
+                if (ayahNumber > 0) {
+                    url.searchParams.set("ayah", String(ayahNumber));
+                } else {
+                    url.searchParams.delete("ayah");
+                }
+
+                return `${url.pathname}${url.search}${url.hash}`;
+            } catch (_) {
+                return null;
+            }
+        },
+        syncMemorisationToolsUrlState(isOpen, options = {}) {
+            if (typeof window === "undefined") return;
+            const { replace = true } = options || {};
+            try {
+                const nextUrl = this.buildMemorisationToolsUrl(isOpen);
+                if (!nextUrl) return;
+                const currentUrl = `${window.location.pathname}${window.location.search}${window.location.hash}`;
+                if (currentUrl === nextUrl) return;
+                const method = replace ? "replaceState" : "pushState";
+                window.history[method]({}, "", nextUrl);
+            } catch (_) {
+                // ignore malformed URL states
+            }
+        },
         shouldAutoOpenHifdhPlanFromQuery() {
             if (typeof window === "undefined") return false;
             const params = new URLSearchParams(window.location.search || "");
             const openParam = String(params.get("open") || "").toLowerCase();
             return openParam === "hifdh-plan";
+        },
+        shouldAutoOpenMemorisationToolsFromQuery() {
+            if (typeof window === "undefined") return false;
+            const params = new URLSearchParams(window.location.search || "");
+            const openParam = String(params.get("open") || "").toLowerCase();
+            return [
+                "memorisation-tools",
+                "memorization-tools",
+                "memorisation",
+                "memorization",
+                "hifz",
+            ].includes(openParam);
         },
         clearHifdhPlanAutoOpenQuery() {
             if (typeof window === "undefined") return;
@@ -22051,6 +22529,55 @@ export default {
                 window.history.replaceState({}, "", nextUrl);
             } catch (_) {
                 // ignore malformed URL states
+            }
+        },
+        clearMemorisationToolsAutoOpenQuery() {
+            if (typeof window === "undefined") return;
+            try {
+                const url = new URL(window.location.href);
+                const openParam = String(url.searchParams.get("open") || "").toLowerCase();
+                if (
+                    ![
+                        "memorisation-tools",
+                        "memorization-tools",
+                        "memorisation",
+                        "memorization",
+                        "hifz",
+                    ].includes(openParam)
+                ) {
+                    return;
+                }
+                url.searchParams.delete("open");
+                const nextUrl = `${url.pathname}${url.search}${url.hash}`;
+                window.history.replaceState({}, "", nextUrl);
+            } catch (_) {
+                // ignore malformed URL states
+            }
+        },
+        async autoOpenMemorisationToolsFromQuery() {
+            if (!this.shouldAutoOpenMemorisationToolsFromQuery()) return false;
+            if (this.isMemorisationToolsComingSoon) {
+                this.openMemorisationComingSoonModal();
+                this.clearMemorisationToolsAutoOpenQuery();
+                return false;
+            }
+            try {
+                if (!this.isMemorisationToolbarVisible) {
+                    await this.toggleMemorisationToolbar();
+                } else {
+                    this.syncMemorisationToolsUrlState(true);
+                }
+                await this.$nextTick();
+                this.openMemorisationOffcanvas();
+                return true;
+            } catch (error) {
+                console.error(
+                    "Unable to auto-open memorisation tools from query:",
+                    error
+                );
+                return false;
+            } finally {
+                this.clearMemorisationToolsAutoOpenQuery();
             }
         },
         maybeScrollToDeepLink() {
@@ -23178,6 +23705,7 @@ export default {
 	        selectCard(index) {
 	            this.selectedCardIndex = index;
 	            this.currentlyPlayingIndex = index;
+                this.queueContinueReadingProgressPersist(index);
 	            if (this.isMemorisationModeActive) this.memorisationFocusIndex = index;
 	            if (this.isMemorisationToolbarVisible) {
 	                this.memorisationLastWorkedIndex = index;
@@ -24375,6 +24903,9 @@ export default {
             this.currentlyPlaying = audio;
             this.currentlyPlayingIndex = index;
             this.currentAudioIndex = index;
+            this.queueContinueReadingProgressPersist(index, {
+                immediate: true,
+            });
             this.syncAudioPlayerMetrics(index);
             if (this.isMemorisationToolbarVisible) {
                 this.refreshSessionHistoryTracker({
@@ -26178,6 +26709,22 @@ export default {
         },
         toggleReaderToolbarVisibility() {
             this.setReaderToolbarVisibility(!this.showReaderToolbar);
+        },
+        setReaderToolbarMinimized(minimized, options = {}) {
+            const { announce = true } = options;
+            const nextState = !!minimized;
+            if (this.isReaderToolbarMinimized === nextState) return;
+            this.isReaderToolbarMinimized = nextState;
+            if (announce) {
+                this.announce(
+                    nextState
+                        ? "Reader toolbar minimized."
+                        : "Reader toolbar expanded."
+                );
+            }
+        },
+        toggleReaderToolbarMinimized() {
+            this.setReaderToolbarMinimized(!this.isReaderToolbarMinimized);
         },
         toggleToolbarWordTranslation() {
             const checked = !this.showWordTranslation;

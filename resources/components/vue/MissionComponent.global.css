@@ -1,4 +1,10 @@
 body.with-audio-player {
-  padding-bottom: 140px;
+  padding-bottom: 84px;
   /* reserve space for the fixed audio bar */
+}
+
+@media (max-width: 575px) {
+  body.with-audio-player {
+    padding-bottom: 68px;
+  }
 }
