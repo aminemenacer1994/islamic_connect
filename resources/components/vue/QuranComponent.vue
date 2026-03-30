@@ -104,6 +104,44 @@
                             </div>
                         </div>
 
+                        <div v-if="selectedSurahId" class="quran-ayah-jump">
+                            <div class="selector-heading">
+                                <h5 id="ayah-jump-label" class="fw-bold text-left mb-1">Go to Ayah</h5>
+                                <p class="field-helper">
+                                    Enter an ayah number or range like 25 or 25-30.
+                                    <span v-if="selectedSurahAyahTotal">
+                                        This surah has {{ selectedSurahAyahTotal }} verses.
+                                    </span>
+                                </p>
+                            </div>
+                            <form class="quran-ayah-jump-form" @submit.prevent="submitAyahJump">
+                                <label for="ayah-jump-input" class="visually-hidden">
+                                    Enter ayah number or ayah range
+                                </label>
+                                <input
+                                    id="ayah-jump-input"
+                                    v-model.trim="ayahJumpInput"
+                                    type="text"
+                                    inputmode="numeric"
+                                    autocomplete="off"
+                                    class="form-control quran-ayah-jump-input"
+                                    :class="{ 'is-invalid': ayahJumpError }"
+                                    :disabled="!selectedSurahAyahTotal"
+                                    aria-labelledby="ayah-jump-label"
+                                    placeholder="e.g. 25 or 25-30"
+                                    @input="clearAyahJumpError" />
+                                <button
+                                    type="submit"
+                                    class="btn quran-ayah-jump-button"
+                                    :disabled="!selectedSurahAyahTotal || !ayahJumpInput.trim()">
+                                    Go to
+                                </button>
+                            </form>
+                            <div v-if="ayahJumpError" class="invalid-feedback d-block">
+                                {{ ayahJumpError }}
+                            </div>
+                        </div>
+
                         <div v-if="information != null" class="mt-4">
                             <div class="selector-heading">
                                 <h5 id="ayah-select-label" class="fw-bold text-left mb-1">Select a Verse</h5>

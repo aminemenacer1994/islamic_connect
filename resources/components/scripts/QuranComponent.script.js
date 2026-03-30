@@ -81,6 +81,8 @@ export default {
             selectedAyahId: null,
             selectedAyah: null,
             verseNumber: "",
+            ayahJumpInput: "",
+            ayahJumpError: "",
             information: null,
             tafseer: null,
             translation: "",
@@ -170,6 +172,9 @@ export default {
                     found.surah_name_ar ||
                     "",
             };
+        },
+        selectedSurahAyahTotal() {
+            return Array.isArray(this.ayat) ? this.ayat.length : 0;
         },
     },
     created() {
@@ -454,6 +459,83 @@ export default {
                     selected.scrollIntoView({ behavior: "smooth", block: "nearest" });
                 }
             });
+        },
+        clearAyahJumpError() {
+            this.ayahJumpError = "";
+        },
+        parseAyahJumpInput(rawValue) {
+            if (!this.selectedSurahAyahTotal) {
+                return {
+                    error: "Select a surah with available verses first.",
+                };
+            }
+
+            const value = String(rawValue ?? "").trim().replace(/\s+/g, "");
+            if (!value) {
+                return {
+                    error: "Enter an ayah number or a range.",
+                };
+            }
+
+            const rangeMatch = value.match(/^(\d+)-(\d+)$/);
+            if (rangeMatch) {
+                const start = Number(rangeMatch[1]);
+                const end = Number(rangeMatch[2]);
+
+                if (!start || !end) {
+                    return {
+                        error: "Use numbers only in the ayah range.",
+                    };
+                }
+
+                if (start > end) {
+                    return {
+                        error: "The range must start with the smaller ayah number.",
+                    };
+                }
+
+                if (start < 1 || end > this.selectedSurahAyahTotal) {
+                    return {
+                        error: `Choose a range between 1 and ${this.selectedSurahAyahTotal}.`,
+                    };
+                }
+
+                return {
+                    start,
+                    end,
+                    normalized: `${start}-${end}`,
+                };
+            }
+
+            if (!/^\d+$/.test(value)) {
+                return {
+                    error: "Use a single ayah number or a range like 25-30.",
+                };
+            }
+
+            const start = Number(value);
+            if (start < 1 || start > this.selectedSurahAyahTotal) {
+                return {
+                    error: `Choose an ayah between 1 and ${this.selectedSurahAyahTotal}.`,
+                };
+            }
+
+            return {
+                start,
+                end: start,
+                normalized: String(start),
+            };
+        },
+        submitAyahJump() {
+            const parsed = this.parseAyahJumpInput(this.ayahJumpInput);
+            if (parsed.error) {
+                this.ayahJumpError = parsed.error;
+                return;
+            }
+
+            this.ayahJumpError = "";
+            this.ayahJumpInput = parsed.normalized;
+            this.selectAyah(parsed.start - 1);
         },
         updateCardSection(ayah) {
             this.currentAyah = ayah;
@@ -804,6 +886,8 @@ export default {
         },
         selectedSurahId(newVal, oldVal) {
             if (newVal !== oldVal) {
+                this.ayahJumpInput = "";
+                this.ayahJumpError = "";
                 this.scheduleFetchAyat(newVal);
             }
         },

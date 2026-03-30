@@ -132,6 +132,55 @@
     background: transparent !important;
 }
 
+.quran-ayah-jump {
+    margin-top: 1rem;
+    padding-right: 15px;
+}
+
+.quran-ayah-jump-form {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 0.7rem;
+    align-items: center;
+}
+
+.quran-ayah-jump-input {
+    min-height: 48px;
+    border-radius: 14px;
+    border: 1px solid rgba(49, 70, 67, 0.22);
+    padding-inline: 0.95rem;
+    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.05);
+}
+
+.quran-ayah-jump-input:focus {
+    border-color: rgba(11, 128, 111, 0.55);
+    box-shadow: 0 0 0 0.2rem rgba(11, 128, 111, 0.12);
+}
+
+.quran-ayah-jump-button {
+    min-height: 48px;
+    padding: 0.75rem 1.1rem;
+    border-radius: 14px;
+    border: 1px solid rgba(11, 128, 111, 0.2);
+    background: linear-gradient(135deg, #0b806f 0%, #0f766e 100%);
+    color: #ffffff;
+    font-weight: 700;
+    white-space: nowrap;
+    box-shadow: 0 12px 24px rgba(11, 128, 111, 0.2);
+}
+
+.quran-ayah-jump-button:hover,
+.quran-ayah-jump-button:focus {
+    color: #ffffff;
+    background: linear-gradient(135deg, #09695b 0%, #0d5f58 100%);
+}
+
+.quran-ayah-jump-button:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+    box-shadow: none;
+}
+
 .quran-selected-surah-identity-inner {
     width: 100%;
     justify-content: center;
@@ -310,6 +359,15 @@
 
     .quran-selected-surah-identity {
         margin-top: 0.5rem;
+    }
+
+    .quran-ayah-jump-form {
+        grid-template-columns: 1fr;
+    }
+
+    .quran-ayah-jump-button {
+        width: 100%;
+        justify-content: center;
     }
 
     .quran-selected-surah-identity-inner {

@@ -4450,7 +4450,59 @@
                                         @click="setActiveSidebarTab('juz')">Juz</button> -->
                                 </div>
 
-                                
+                                <div
+                                    v-if="activeSidebarTab === 'surah'"
+                                    class="sidebar-ayah-jump">
+                                    <div class="sidebar-ayah-jump-head">
+                                        <div class="sidebar-ayah-jump-copy">
+                                            <p class="sidebar-ayah-jump-title mb-0">Go to ayah</p>
+                                            <p v-if="sidebarAyahJumpVisible" class="sidebar-ayah-jump-help mb-0">
+                                                Enter an ayah number or range like 25 or 25-30.
+                                                <span v-if="sidebarAyahJumpMax">
+                                                    This surah has {{ sidebarAyahJumpMax }} ayahs.
+                                                </span>
+                                            </p>
+                                        </div>
+                                        <button
+                                            type="button"
+                                            class="btn sidebar-ayah-jump-toggle"
+                                            :aria-expanded="sidebarAyahJumpVisible ? 'true' : 'false'"
+                                            :aria-controls="'sidebar-ayah-jump-panel'"
+                                            @click="toggleSidebarAyahJump">
+                                            {{ sidebarAyahJumpVisible ? 'Hide' : 'Show' }}
+                                        </button>
+                                    </div>
+                                    <div
+                                        v-show="sidebarAyahJumpVisible"
+                                        id="sidebar-ayah-jump-panel"
+                                        class="sidebar-ayah-jump-panel">
+                                        <form class="sidebar-ayah-jump-form" @submit.prevent="submitSidebarAyahJump">
+                                            <label for="sidebar-ayah-jump-input" class="visually-hidden">
+                                                Enter ayah number or ayah range
+                                            </label>
+                                            <input
+                                                id="sidebar-ayah-jump-input"
+                                                v-model.trim="sidebarAyahJumpInput"
+                                                type="text"
+                                                inputmode="numeric"
+                                                autocomplete="off"
+                                                class="form-control sidebar-ayah-jump-input"
+                                                :class="{ 'is-invalid': sidebarAyahJumpError }"
+                                                :disabled="!sidebarAyahJumpMax"
+                                                placeholder="e.g. 25 or 25-30"
+                                                @input="clearSidebarAyahJumpError" />
+                                            <button
+                                                type="submit"
+                                                class="btn sidebar-ayah-jump-button"
+                                                :disabled="!sidebarAyahJumpMax || !sidebarAyahJumpInput.trim()">
+                                                Go to
+                                            </button>
+                                        </form>
+                                        <div v-if="sidebarAyahJumpError" class="invalid-feedback d-block sidebar-ayah-jump-error">
+                                            {{ sidebarAyahJumpError }}
+                                        </div>
+                                    </div>
+                                </div>
 
                                 
                                 <!-- Search Input -->

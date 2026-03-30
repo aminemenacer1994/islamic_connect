@@ -860,6 +860,9 @@ export default {
             activeSidebarTab: "surah",
             sidebarSearchQuery: "",
             sidebarDebouncedQuery: "",
+            sidebarAyahJumpVisible: true,
+            sidebarAyahJumpInput: "",
+            sidebarAyahJumpError: "",
             sidebarSearchDebounceTimer: null,
             sidebarVerseRenderInitial: 100,
             sidebarVerseRenderStep: 100,
@@ -2298,6 +2301,13 @@ export default {
         },
         totalAyahs() {
             return this.surahDetails?.ayahs?.length || 0;
+        },
+        sidebarAyahJumpMax() {
+            return Math.max(
+                Number(this.totalAyahs || 0),
+                Number(this.currentSurahMeta?.ayahCount || 0),
+                0
+            );
         },
         activeAyahIndex() {
             return this.isAnyAudioPlaying
@@ -4907,6 +4917,7 @@ export default {
         },
         activeSidebarTab() {
             this.resetSidebarVerseRenderCount();
+            this.sidebarAyahJumpError = "";
         },
         searchQuery: function (val) {
             clearTimeout(this.debounceTimer);
@@ -5016,6 +5027,8 @@ export default {
         },
         selectedSurah: function (newVal) {
             if (newVal && !this.isLoading) {
+                this.sidebarAyahJumpInput = "";
+                this.sidebarAyahJumpError = "";
                 this.isSurahAudioDownloading = false;
                 this.isSurahAudioDownloaded = false;
                 clearTimeout(this.surahAudioDownloadedTimer);
@@ -27750,6 +27763,153 @@ export default {
                 }
             });
             return true;
+        },
+        clearSidebarAyahJumpError() {
+            this.sidebarAyahJumpError = "";
+        },
+        toggleSidebarAyahJump() {
+            this.sidebarAyahJumpVisible = !this.sidebarAyahJumpVisible;
+            if (!this.sidebarAyahJumpVisible) {
+                this.sidebarAyahJumpError = "";
+            }
+        },
+        parseSidebarAyahJumpInput(rawValue) {
+            const max = Number(this.sidebarAyahJumpMax || 0);
+            if (!max) {
+                return {
+                    error: "Select a surah with available ayahs first.",
+                };
+            }
+
+            const value = String(rawValue ?? "").trim().replace(/\s+/g, "");
+            if (!value) {
+                return {
+                    error: "Enter an ayah number or a range.",
+                };
+            }
+
+            const rangeMatch = value.match(/^(\d+)-(\d+)$/);
+            if (rangeMatch) {
+                const start = Number(rangeMatch[1]);
+                const end = Number(rangeMatch[2]);
+
+                if (!start || !end) {
+                    return {
+                        error: "Use numbers only in the ayah range.",
+                    };
+                }
+
+                if (start > end) {
+                    return {
+                        error: "The range must start with the smaller ayah number.",
+                    };
+                }
+
+                if (start < 1 || end > max) {
+                    return {
+                        error: `Choose a range between 1 and ${max}.`,
+                    };
+                }
+
+                return {
+                    start,
+                    end,
+                    normalized: `${start}-${end}`,
+                };
+            }
+
+            if (!/^\d+$/.test(value)) {
+                return {
+                    error: "Use a single ayah number or a range like 25-30.",
+                };
+            }
+
+            const start = Number(value);
+            if (start < 1 || start > max) {
+                return {
+                    error: `Choose an ayah between 1 and ${max}.`,
+                };
+            }
+
+            return {
+                start,
+                end: start,
+                normalized: String(start),
+            };
+        },
+        alignAyahCardToTop(index, behavior = "auto") {
+            if (
+                typeof index !== "number" ||
+                index < 0 ||
+                typeof window === "undefined"
+            ) {
+                return;
+            }
+
+            this.$nextTick(() => {
+                const align = () => {
+                    const cardEl = document.getElementById(`ayah-card-${index}`);
+                    if (!cardEl || !cardEl.getBoundingClientRect) return;
+
+                    const rect = cardEl.getBoundingClientRect();
+                    const offset = this.currentHeaderOffset + 12;
+                    const maxScroll = Math.max(
+                        document.documentElement.scrollHeight - window.innerHeight,
+                        0
+                    );
+                    const target = Math.min(
+                        Math.max(0, window.scrollY + rect.top - offset),
+                        maxScroll
+                    );
+                    window.scrollTo({ top: target, behavior });
+                };
+
+                if (window.requestAnimationFrame) {
+                    window.requestAnimationFrame(align);
+                } else {
+                    align();
+                }
+            });
+        },
+        submitSidebarAyahJump() {
+            const parsed = this.parseSidebarAyahJumpInput(this.sidebarAyahJumpInput);
+            if (parsed.error) {
+                this.sidebarAyahJumpError = parsed.error;
+                return;
+            }
+
+            this.sidebarAyahJumpError = "";
+            this.sidebarAyahJumpInput = parsed.normalized;
+            this.isNavigating = true;
+            this.lastManualNavigationAt = Date.now();
+            this.clearMainAyahSearchFilter();
+            const resolvedIndex = this.resolveAyahIndexByNumber(parsed.start);
+            const safeIndex =
+                resolvedIndex >= 0
+                    ? resolvedIndex
+                    : Math.max(0, Math.min(parsed.start - 1, Math.max(this.filteredAyahs.length - 1, 0)));
+
+            const runScroll = () => {
+                this.$nextTick(() => {
+                    this.navigateToAyahNumber(parsed.start, {
+                        clearMainFilter: false,
+                        precise: true,
+                    });
+                    this.selectCard(safeIndex);
+                    this.alignAyahCardToTop(safeIndex, "auto");
+                    setTimeout(() => {
+                        this.alignAyahCardToTop(safeIndex, "auto");
+                    }, 260);
+                });
+            };
+
+            if (this.isMobile && !this.sidebarCollapsed) {
+                this.toggleSidebar();
+                this.$nextTick(runScroll);
+                return;
+            }
+
+            runScroll();
         },
         selectSurahFromSidebar(number) {
             this.clearMainAyahSearchFilter();

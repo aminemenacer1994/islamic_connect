@@ -14,6 +14,13 @@
 	        $isDuaRoute = request()->is('dua');
 	        $isSeerahRoute = request()->is('mission') || request()->is('seerah');
 	        $isAuthRoute = request()->is('login') || request()->is('register');
+            $isStripeRoute = request()->is('subscribe*')
+                || request()->is('support*')
+                || request()->is('donation*')
+                || request()->is('payment*')
+                || request()->is('charity*')
+                || request()->is('stripe/*')
+                || request()->is('debug-checkout');
 	        $hasThemeToggle = ($isSuratRoute || $isHomeRoute || $isRadioRoute || $isContentRoute || $isDigitalLibraryRoute || $isDuaRoute || $isSeerahRoute || $isAuthRoute);
 	        $defaultCanonical = $appUrl . ($path ? "/{$path}" : '');
 	        $canonicalUrl = trim($__env->yieldContent('canonical', $defaultCanonical));
@@ -68,8 +75,12 @@
     <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
     <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
     <link rel="preconnect" href="https://www.google-analytics.com" crossorigin>
-    <link rel="preconnect" href="https://connect.facebook.net" crossorigin>
-    <link rel="preconnect" href="https://js.stripe.com" crossorigin>
+    @if(config('services.facebook_pixel.pixel_id'))
+        <link rel="preconnect" href="https://connect.facebook.net" crossorigin>
+    @endif
+    @if($isStripeRoute)
+        <link rel="preconnect" href="https://js.stripe.com" crossorigin>
+    @endif
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Inter:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet';">
@@ -84,43 +95,30 @@
     <noscript>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     </noscript>
-    <link rel="preload" href="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/css/adminlte.min.css" as="style" onload="this.onload=null;this.rel='stylesheet';">
+    <link rel="preload" href="{{ $assetUrls['css.adminlte'] }}" as="style" onload="this.onload=null;this.rel='stylesheet';">
     <noscript>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/css/adminlte.min.css">
+        <link rel="stylesheet" href="{{ $assetUrls['css.adminlte'] }}">
     </noscript>
     <link rel="preload" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" as="style" onload="this.onload=null;this.rel='stylesheet';">
     <noscript>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     </noscript>
     <!-- App CSS last so it overrides vendor defaults -->
-    @php
-        $appCssMix = mix('css/app.css');
-        $layoutCssMix = mix('css/layout.css');
-        $manifestJsMix = mix('js/manifest.js');
-        $vendorJsMix = mix('js/vendor.js');
-        $appJsMix = mix('js/app.js');
-
-        $appCssHref = $appCssMix . (str_contains($appCssMix, '?') ? '&' : '?') . 'v=' . @filemtime(public_path('css/app.css'));
-        $layoutCssHref = $layoutCssMix . (str_contains($layoutCssMix, '?') ? '&' : '?') . 'v=' . @filemtime(public_path('css/layout.css'));
-        $manifestJsSrc = $manifestJsMix . (str_contains($manifestJsMix, '?') ? '&' : '?') . 'v=' . @filemtime(public_path('js/manifest.js'));
-        $vendorJsSrc = $vendorJsMix . (str_contains($vendorJsMix, '?') ? '&' : '?') . 'v=' . @filemtime(public_path('js/vendor.js'));
-        $appJsSrc = $appJsMix . (str_contains($appJsMix, '?') ? '&' : '?') . 'v=' . @filemtime(public_path('js/app.js'));
-    @endphp
-    <link rel="preload" href="{{ $appCssHref }}" as="style" onload="this.onload=null;this.rel='stylesheet';">
-    <link rel="preload" href="{{ $layoutCssHref }}" as="style" onload="this.onload=null;this.rel='stylesheet';">
-    <link rel="preload" href="{{ asset('css/vue-styles.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet';">
+    <link rel="preload" href="{{ $assetUrls['css.app'] }}" as="style" onload="this.onload=null;this.rel='stylesheet';">
+    <link rel="preload" href="{{ $assetUrls['css.layout'] }}" as="style" onload="this.onload=null;this.rel='stylesheet';">
+    <link rel="preload" href="{{ $assetUrls['css.vue-styles'] }}" as="style" onload="this.onload=null;this.rel='stylesheet';">
     <noscript>
-        <link rel="stylesheet" href="{{ $appCssHref }}">
-        <link rel="stylesheet" href="{{ $layoutCssHref }}">
-        <link rel="stylesheet" href="{{ asset('css/vue-styles.css') }}">
+        <link rel="stylesheet" href="{{ $assetUrls['css.app'] }}">
+        <link rel="stylesheet" href="{{ $assetUrls['css.layout'] }}">
+        <link rel="stylesheet" href="{{ $assetUrls['css.vue-styles'] }}">
     </noscript>
     <link rel="icon" type="image/png" sizes="256x256" href="{{ asset('images/logo_main.png') }}">
     <link rel="icon" type="image/png" sizes="256x256" href="{{ asset('images/logo_black.png') }}" media="(prefers-color-scheme: light)">
     <link rel="icon" type="image/png" sizes="256x256" href="{{ asset('images/logo_white.png') }}" media="(prefers-color-scheme: dark)">
     <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('images/logo_black.png') }}">
-    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet';">
+    <link rel="preload" href="{{ $assetUrls['css.fontawesome'] }}" as="style" onload="this.onload=null;this.rel='stylesheet';">
     <noscript>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        <link rel="stylesheet" href="{{ $assetUrls['css.fontawesome'] }}">
     </noscript>
     <!-- Google Analytics -->
     <script>
@@ -197,7 +195,9 @@
             } catch (e) {}
         })();
     </script>
-    <meta name="stripe-key" content="{{ config('services.stripe.key') }}">
+    @if($isStripeRoute)
+        <meta name="stripe-key" content="{{ config('services.stripe.key') }}">
+    @endif
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-QWLL07EBX9"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
@@ -1517,9 +1517,9 @@
     </div>
 
     <!-- Scripts -->
-    <script defer src="{{ $manifestJsSrc }}"></script>
-    <script defer src="{{ $vendorJsSrc }}"></script>
-    <script defer src="{{ $appJsSrc }}"></script>
+    <script defer src="{{ $assetUrls['js.manifest'] }}"></script>
+    <script defer src="{{ $assetUrls['js.vendor'] }}"></script>
+    <script defer src="{{ $assetUrls['js.app'] }}"></script>
 	    <script>
 	        document.addEventListener('DOMContentLoaded', () => {
 	            // Global theme toggle for supported routes only: /, /home, /surat, /radio, /content, /digital-library, /dua, /seerah
@@ -1968,7 +1968,9 @@
             }
         });
     </script>
-    <script defer src="https://js.stripe.com/v3/"></script>
+    @if($isStripeRoute)
+        <script defer src="https://js.stripe.com/v3/"></script>
+    @endif
 
     @if (app()->environment('local'))
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axe-core/4.7.2/axe.min.js" integrity="sha512-y+Q+1e8p91bQm9b5wz9mKZ9WgSJND0bKx9D6o1XyJQPUWq2wYtGPB+8v8N+Zm0g5oY4KZq2rJb6z5m9q5y0kYQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>

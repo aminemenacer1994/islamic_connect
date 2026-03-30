@@ -52,6 +52,16 @@
       </div> -->
     </section>
 
+    <section class="timeline-disclaimer-shell container" aria-label="Seerah timeline disclaimer">
+      <div class="timeline-disclaimer timeline-disclaimer--page" role="note">
+        <i class="bi bi-info-circle timeline-disclaimer__icon" aria-hidden="true"></i>
+        <p class="timeline-disclaimer__text">
+          This timeline is a guided overview of the Seerah. Some dates, ordering, and details may vary across
+          classical sources and scholarly interpretations.
+        </p>
+      </div>
+    </section>
+
     <section class="timeline-intro container">
       <div class="timeline-intro__upper">
         <div class="timeline-intro__text">

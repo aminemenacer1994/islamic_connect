@@ -6,13 +6,7 @@
     <title>@hasSection('title')@yield('title') - Islamic Connect@else Islamic Connect @endif</title>
     <link rel="preload" as="font" type="font/woff2" crossorigin href="/fonts/bootstrap-icons.woff2">
     <link rel="preload" as="font" type="font/woff2" crossorigin href="/vendor/fontawesome-free/webfonts/fa-solid-900.woff2">
-    @php
-        $masterAppCssMix = mix('css/app.css');
-        $masterAppJsMix = mix('js/app.js');
-        $masterAppCssHref = $masterAppCssMix . (str_contains($masterAppCssMix, '?') ? '&' : '?') . 'v=' . @filemtime(public_path('css/app.css'));
-        $masterAppJsSrc = $masterAppJsMix . (str_contains($masterAppJsMix, '?') ? '&' : '?') . 'v=' . @filemtime(public_path('js/app.js'));
-    @endphp
-    <link rel="stylesheet" href="{{ $masterAppCssHref }}">
+    <link rel="stylesheet" href="{{ $assetUrls['css.app'] }}">
     @stack('styles')
     <style>
         :root { --sidebar-width: 260px; --sidebar-collapsed: 72px; --accent: #00aaff; --frame-radius: 18px; --frame-shadow: 0 8px 30px rgba(0,0,0,.08); --card-radius: 12px; --card-border: #e8ecef; --muted:#6b7280; --nav-offset: 4.75rem; }
@@ -277,7 +271,7 @@
         });
     });
 </script>
-<script src="{{ $masterAppJsSrc }}" defer></script>
+<script src="{{ $assetUrls['js.app'] }}" defer></script>
 @stack('scripts')
 </body>
 </html>

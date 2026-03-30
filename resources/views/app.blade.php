@@ -2,13 +2,7 @@
 <html>
 <head>
     <title>Islamic Connect</title>
-    @php
-        $appCssMix = mix('css/app.css');
-        $appJsMix = mix('js/app.js');
-        $appCssHref = $appCssMix . (str_contains($appCssMix, '?') ? '&' : '?') . 'v=' . @filemtime(public_path('css/app.css'));
-        $appJsSrc = $appJsMix . (str_contains($appJsMix, '?') ? '&' : '?') . 'v=' . @filemtime(public_path('js/app.js'));
-    @endphp
-    <link href="{{ $appCssHref }}" rel="stylesheet">
+    <link href="{{ $assetUrls['css.app'] }}" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -50,7 +44,7 @@
         </div>
     </nav>
     @yield('content')
-    <script src="{{ $appJsSrc }}" defer></script>
+    <script src="{{ $assetUrls['js.app'] }}" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
