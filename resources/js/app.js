@@ -2,13 +2,7 @@ require("./bootstrap");
 import { createApp, defineAsyncComponent } from "vue";
 import { Form } from "vform";
 import swal from "sweetalert2";
-import 'sweetalert2/dist/sweetalert2.min.css';
 import PrimeVue from "primevue/config";
-import "primevue/resources/themes/saga-blue/theme.css";
-import "primevue/resources/primevue.min.css";
-import SubscriptionForm from './components/SubscriptionForm.vue';
-
-import { StripePlugin } from 'vue-stripe-elements-plus';
 import { ref, onMounted } from 'vue';
 // Removed session milestone tracking
 
@@ -80,7 +74,6 @@ const applyGlobalThemePreference = (isDarkMode) => {
 };
 
 const app = createApp({
-  components: { SubscriptionForm },
   setup() {
     const isAuthenticated = ref(!!document.querySelector('meta[name="user"]'));
     onMounted(() => {
@@ -149,18 +142,34 @@ window.Swal = swal;
 
 
 app.use(PrimeVue);
-// Protect against plugins that don't expose install with Vue 3 build
-try {
-  if (StripePlugin && (typeof StripePlugin === 'function' || typeof StripePlugin.install === 'function')) {
-    app.use(StripePlugin, { key: process.env.MIX_STRIPE_PUBLISHABLE_KEY });
-  } else if (IS_DEV) {
-    console.log('[Stripe] Plugin not compatible with current Vue build; skipping');
+
+const installOptionalRoutePlugins = async () => {
+  const stripeKey =
+    document.querySelector('meta[name="stripe-key"]')?.getAttribute('content') ||
+    process.env.MIX_STRIPE_PUBLISHABLE_KEY ||
+    "";
+  if (!stripeKey) {
+    return;
   }
-} catch (e) {
-  if (IS_DEV) {
-    console.debug('[Stripe] Skipped plugin registration:', e?.message || e);
+
+  try {
+    const stripeModule = await import('vue-stripe-elements-plus');
+    const StripePlugin =
+      stripeModule?.StripePlugin || stripeModule?.default || stripeModule;
+    if (
+      StripePlugin &&
+      (typeof StripePlugin === 'function' || typeof StripePlugin.install === 'function')
+    ) {
+      app.use(StripePlugin, { key: stripeKey });
+    } else if (IS_DEV) {
+      console.log('[Stripe] Plugin not compatible with current Vue build; skipping');
+    }
+  } catch (e) {
+    if (IS_DEV) {
+      console.debug('[Stripe] Skipped plugin registration:', e?.message || e);
+    }
   }
-}
+};
 
 const asyncComponentLoaders = {
   "Column": () => import("primevue/column"),
@@ -274,7 +283,8 @@ const registerAsyncComponent = (name, loader) => {
 
 Object.entries(asyncComponentLoaders).forEach(([name, loader]) => registerAsyncComponent(name, loader));
 
-const mountApp = () => {
+const mountApp = async () => {
+  await installOptionalRoutePlugins();
   const target = document.getElementById('app');
   if (!target) {
     if (IS_DEV) {
@@ -293,13 +303,17 @@ const mountApp = () => {
   app.mount('#app');
 };
 
-try { mountApp(); } catch (e) {
-  console.error('[Vue] mount failed:', e);
+(async () => {
   try {
-    const root = document.getElementById('app');
-    if (root) root.innerHTML = '<div style="padding:16px;color:#b00020;">App failed to initialize. Check console for details.</div>';
-  } catch(_) {}
-}
+    await mountApp();
+  } catch (e) {
+    console.error('[Vue] mount failed:', e);
+    try {
+      const root = document.getElementById('app');
+      if (root) root.innerHTML = '<div style="padding:16px;color:#b00020;">App failed to initialize. Check console for details.</div>';
+    } catch(_) {}
+  }
+})();
 
 if (IS_DEV) {
   window.addEventListener('error', (e) => {

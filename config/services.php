@@ -227,6 +227,7 @@ return [
         'query_cache_hours' => env('AI_RAG_QUERY_CACHE_HOURS', 24),
         'document_cache_hours' => env('AI_RAG_DOCUMENT_CACHE_HOURS', 72),
         'vector_candidate_limit' => env('AI_RAG_VECTOR_CANDIDATE_LIMIT', 500),
+        'vector_store_enabled' => env('AI_RAG_VECTOR_STORE_ENABLED', true),
         'smart_evidence_mode' => env('AI_RAG_SMART_EVIDENCE_MODE', true),
         'debug_mode' => env('AI_RAG_DEBUG_MODE', false),
     ],

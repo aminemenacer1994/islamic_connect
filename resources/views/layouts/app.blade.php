@@ -105,10 +105,12 @@
     </noscript>
     <!-- App CSS last so it overrides vendor defaults -->
     <link rel="preload" href="{{ $assetUrls['css.app'] }}" as="style" onload="this.onload=null;this.rel='stylesheet';">
+    <link rel="preload" href="{{ $assetUrls['css.vue-runtime'] }}" as="style" onload="this.onload=null;this.rel='stylesheet';">
     <link rel="preload" href="{{ $assetUrls['css.layout'] }}" as="style" onload="this.onload=null;this.rel='stylesheet';">
     <link rel="preload" href="{{ $assetUrls['css.vue-styles'] }}" as="style" onload="this.onload=null;this.rel='stylesheet';">
     <noscript>
         <link rel="stylesheet" href="{{ $assetUrls['css.app'] }}">
+        <link rel="stylesheet" href="{{ $assetUrls['css.vue-runtime'] }}">
         <link rel="stylesheet" href="{{ $assetUrls['css.layout'] }}">
         <link rel="stylesheet" href="{{ $assetUrls['css.vue-styles'] }}">
     </noscript>
@@ -1130,15 +1132,31 @@
         }
 
         @media (max-width: 1199.98px) {
+            body.surat-route-page {
+                padding-top: calc(var(--navbar-h) + 0.2rem);
+            }
+
+            body.surat-route-page .modal-backdrop,
+            body.surat-route-page .offcanvas-backdrop {
+                z-index: 1070 !important;
+            }
+
+            body.surat-route-page .modal,
+            body.surat-route-page .offcanvas {
+                z-index: 1080 !important;
+            }
+
             body.surat-route-page .navbar.surat-navbar-tablet {
                 isolation: isolate;
-                z-index: 1085 !important;
+                z-index: 1090 !important;
             }
 
             body.surat-route-page .navbar.surat-navbar-tablet.navbar-transparent {
-                background: rgba(255, 255, 255, 0.96) !important;
+                background: #ffffff !important;
                 backdrop-filter: none !important;
                 -webkit-backdrop-filter: none !important;
+                border-bottom: 1px solid rgba(15, 23, 42, 0.08) !important;
+                box-shadow: 0 16px 36px rgba(15, 23, 42, 0.08) !important;
             }
 
             body.surat-route-page .navbar.surat-navbar-tablet.fixed-top {
@@ -1255,7 +1273,7 @@
             body.surat-route-page.surat-page-shell-dark .navbar.surat-navbar-tablet .navbar-collapse.show,
             body.surat-route-page.surat-page-shell-dark .navbar.surat-navbar-tablet .navbar-collapse.collapsing,
             body.surat-route-page.surat-page-shell-dark .navbar.surat-navbar-tablet .navbar-collapse .navbar-nav .dropdown-menu {
-                background: rgba(31, 33, 37, 0.98) !important;
+                background: #1f2125 !important;
                 border-color: rgba(255, 255, 255, 0.1) !important;
                 box-shadow: 0 18px 36px rgba(0, 0, 0, 0.24) !important;
             }
@@ -1279,6 +1297,68 @@
                 pointer-events: none !important;
                 transform: translateY(-10px) !important;
             }
+
+            body.surat-route-page.surat-primary-nav-open {
+                overflow: hidden;
+            }
+        }
+
+        body.surat-route-page {
+            --surat-overlay-nav-offset: calc(var(--navbar-h, 72px) + env(safe-area-inset-top, 0px));
+            --surat-overlay-gap: clamp(0.45rem, 1.2vh, 0.9rem);
+            --surat-overlay-bottom-gap: max(0.75rem, env(safe-area-inset-bottom));
+            --surat-overlay-shell-height: calc(100dvh - var(--surat-overlay-nav-offset));
+        }
+
+        body.surat-route-page .modal-backdrop,
+        body.surat-route-page .offcanvas-backdrop,
+        body.surat-route-page .modal,
+        body.surat-route-page .offcanvas {
+            top: var(--surat-overlay-nav-offset) !important;
+            bottom: auto !important;
+            height: var(--surat-overlay-shell-height) !important;
+        }
+
+        body.surat-route-page .modal-backdrop,
+        body.surat-route-page .offcanvas-backdrop {
+            z-index: 1070 !important;
+        }
+
+        body.surat-route-page .modal,
+        body.surat-route-page .offcanvas {
+            z-index: 1080 !important;
+        }
+
+        body.surat-route-page .modal {
+            padding:
+                var(--surat-overlay-gap)
+                clamp(0.5rem, 1.5vw, 1rem)
+                var(--surat-overlay-bottom-gap) !important;
+        }
+
+        body.surat-route-page .modal .modal-dialog {
+            margin-top: 0 !important;
+            margin-bottom: 0 !important;
+        }
+
+        body.surat-route-page .modal .modal-content {
+            max-height: calc(var(--surat-overlay-shell-height) - var(--surat-overlay-gap) - var(--surat-overlay-bottom-gap)) !important;
+        }
+
+        body.surat-route-page .modal .modal-dialog[class*="modal-fullscreen"] {
+            width: min(100%, calc(100vw - 1rem)) !important;
+            max-width: min(100%, calc(100vw - 1rem)) !important;
+            min-height: 0 !important;
+        }
+
+        body.surat-route-page .modal .modal-dialog[class*="modal-fullscreen"] .modal-content,
+        body.surat-route-page .translation-compare-modal {
+            min-height: 0 !important;
+            height: auto !important;
+        }
+
+        body.surat-route-page .translation-compare-shell .modal-dialog.modal-dialog-centered {
+            min-height: 100% !important;
         }
     </style>
 
@@ -1663,6 +1743,7 @@
 	            const primaryNavItems = document.querySelectorAll('ul[aria-label="Primary menu"] [data-nav-item="primary"]');
 	            // Ensure hamburger toggler controls the collapse reliably
 	            try {
+                const rootEl = document.documentElement;
                 const toggler = document.getElementById('navbarToggler') || document.querySelector('.navbar-toggler');
                 const collapseEl = document.getElementById('navbarSupportedContent');
                 const sidebarEl = document.getElementById('tablet-sidebar');
@@ -1702,11 +1783,26 @@
                     }
                 }
 
+                    const syncNavbarHeight = () => {
+                        const nav = document.querySelector('.navbar.fixed-top');
+                        if (!nav || !rootEl) return;
+                        const height = Math.ceil(nav.getBoundingClientRect().height || nav.offsetHeight || 0);
+                        if (!height) return;
+                        rootEl.style.setProperty('--navbar-h', `${height}px`);
+                        rootEl.style.setProperty('--nav-offset', `${height}px`);
+                    };
                     const setExpanded = (expanded) => {
                         if (toggler) {
                             toggler.classList.toggle('collapsed', !expanded);
                             toggler.setAttribute('aria-expanded', expanded ? 'true' : 'false');
                         }
+                        if (document.body?.classList.contains('surat-route-page')) {
+                            const isCompactNav = window.matchMedia('(max-width: 1199.98px)').matches;
+                            document.body.classList.toggle('surat-primary-nav-open', !!expanded && isCompactNav);
+                        } else {
+                            document.body?.classList.remove('surat-primary-nav-open');
+                        }
+                        syncNavbarHeight();
                     };
                     // Helper to toggle sidebar on small screens
                     const toggleSidebarMobile = () => {
@@ -1737,6 +1833,16 @@
                             passive: true
                         });
                     }
+
+                    syncNavbarHeight();
+                    window.requestAnimationFrame(syncNavbarHeight);
+                    window.addEventListener('load', syncNavbarHeight, { once: true });
+                    window.addEventListener('resize', () => {
+                        syncNavbarHeight();
+                        if (!window.matchMedia('(max-width: 1199.98px)').matches) {
+                            document.body?.classList.remove('surat-primary-nav-open');
+                        }
+                    }, { passive: true });
 
                     // Backdrop click closes sidebar on mobile
                     if (sidebarBackdrop) {

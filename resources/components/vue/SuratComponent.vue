@@ -23,16 +23,16 @@
         role="main" aria-label="Quran Explorer">
         <div class="row justify-content-center text-center mb-3 reading-fullscreen-chrome quran-reader-hero">
             <div class="col-lg-9 col-xl-8">
-                <h1 class="display-5 fw-bold">The Holy Quran</h1>
+                <h1 class="display-5 pb-3 fw-bold">The Holy Quran</h1>
             </div>
         </div>
         <div
             v-if="shouldShowContinueReadingCard || desktopSurahContext.englishName || desktopSurahContext.arabicName"
             class="continue-surah-container mb-3">
-            <div class="row g-3 align-items-center continue-surah-row">
+            <div class="row container g-3 align-items-center continue-surah-row">
                 <div
                     v-if="shouldShowContinueReadingCard"
-                    class="col-12 col-lg-7 continue-reading-col order-2 order-lg-1">
+                    class="container col-12 col-xl-7 continue-reading-col order-2 order-xl-1">
                     <section
                         class="continue-reading-card"
                         :class="{
@@ -132,21 +132,21 @@
                 </div>
                 <div
                     v-if="desktopSurahContext.englishName || desktopSurahContext.arabicName"
-                    class="col-12 col-lg-4 continue-surah-identity-col order-1 order-lg-2">
+                    class="col-12 col-xl-5 continue-surah-identity-col order-1 order-xl-2">
                     <div
                         class="quran-toolbar-surah-identity quran-toolbar-surah-identity-mobile ltr-text pb-0"
                         role="status"
                         aria-live="polite"
                         aria-atomic="true">
-                        <div class="quran-toolbar-surah-identity-inner d-flex align-items-center flex-nowrap">
+                        <div class="quran-toolbar-surah-identity-inner">
                             <span
                                 v-if="desktopSurahContext.arabicName"
                                 class="quran-toolbar-surah-identity-ar text-end"
                                 dir="rtl">
                                 {{ desktopSurahContext.arabicName }}
                             </span>
-                            <div class="quran-toolbar-surah-identity-en d-inline-flex align-items-center text-start">
-                                <span class="quran-toolbar-surah-identity-en-main d-inline-flex align-items-center flex-nowrap">
+                            <div class="quran-toolbar-surah-identity-en text-start">
+                                <span class="quran-toolbar-surah-identity-en-main">
                                     <span
                                         v-if="desktopSurahContext.number"
                                         class="quran-toolbar-surah-identity-number">
@@ -162,119 +162,50 @@
                 </div>
             </div>
         </div>
-            <transition name="fade">
+        <transition name="fade">
+            <div
+                v-if="bookmarkToast"
+                class="alert mode-toggle-toast bookmark-toast shadow-lg d-flex align-items-center justify-content-between"
+                role="status"
+                aria-live="polite"
+                aria-atomic="true">
+                <div class="d-inline-flex align-items-center gap-2">
+                    <i class="bi bi-check-circle-fill" aria-hidden="true"></i>
+                    <span>{{ bookmarkToast }}</span>
+                </div>
+                <button
+                    v-if="bookmarkToastAction && bookmarkToastAction.text"
+                    type="button"
+                    class="btn btn-sm btn-light mode-toggle-toast-action"
+                    @click="handleBookmarkToastAction">
+                    {{ bookmarkToastAction.text }}
+                </button>
+            </div>
+        </transition>
+        <div
+            v-if="showReaderToolbar && isTabletOrMobile"
+            class="row justify-content-center mb-3">
+            <div class="col-12 col-xl-10">
                 <div
-                    v-if="bookmarkToast"
-                    class="alert mode-toggle-toast bookmark-toast shadow-lg d-flex align-items-center justify-content-between"
-                    role="status"
-                    aria-live="polite"
-                    aria-atomic="true">
-                    <div class="d-inline-flex align-items-center gap-2">
-                        <i class="bi bi-check-circle-fill" aria-hidden="true"></i>
-                        <span>{{ bookmarkToast }}</span>
-                    </div>
+                    v-if="isDeepFocusMode && !isMemorisationToolbarVisible"
+                    class="advanced-quran-mobile-deep-focus-bar"
+                    role="group"
+                    aria-label="Deep focus mode controls">
                     <button
-                        v-if="bookmarkToastAction && bookmarkToastAction.text"
                         type="button"
-                        class="btn btn-sm btn-light mode-toggle-toast-action"
-                        @click="handleBookmarkToastAction">
-                        {{ bookmarkToastAction.text }}
+                        class="btn advanced-quran-mobile-action-btn advanced-quran-mobile-action-btn-deep-focus"
+                        :class="{ 'is-enabled': isDeepFocusMode }"
+                        @click="toggleDeepFocusMode"
+                        :aria-label="isDeepFocusMode ? 'Turn deep focus mode off' : 'Turn deep focus mode on'"
+                        :title="isDeepFocusMode ? 'Turn deep focus mode off' : 'Turn deep focus mode on'">
+                        <i class="bi bi-bullseye" aria-hidden="true"></i>
+                        <span class="advanced-quran-mobile-action-label">Deep focus mode</span>
+                        <span class="advanced-quran-mobile-action-btn-state">
+                            {{ isDeepFocusMode ? "On" : "Off" }}
+                        </span>
                     </button>
                 </div>
-            </transition>
-            <div
-                id="advancedQuranSearchSection"
-                v-show="isAdvancedSearchVisible || isTabletOrMobile"
-                class="row justify-content-center mb-4">
-            <div class="col-12 col-xl-10">
-               <section class="advanced-quran-search ltr-text"
-                    :class="{
-                        'is-panel-hidden': !isAdvancedSearchPanelVisible,
-                        'is-search-hidden': !isAdvancedSearchVisible
-                    }"
-                    role="search"
-                    aria-label="Advanced Quran search">
-                     <div v-if="isAdvancedSearchVisible && !(isDeepFocusMode && isTabletOrMobile)" class="advanced-quran-search-top">
-                        <div class="advanced-quran-search-head">
-                            <h2 class="advanced-quran-search-title mb-0">Search Quran</h2>
-                        </div>
-                        <div class="advanced-quran-search-top-actions">
-                            <div class="advanced-quran-search-top-pills">
-                                <button
-                                    type="button"
-                                    class="btn btn-link advanced-quran-search-visibility-btn advanced-quran-search-top-pill"
-                                    :aria-expanded="isAdvancedSearchVisible ? 'true' : 'false'"
-                                    aria-controls="advancedQuranSearchSection"
-                                    @click="toggleAdvancedSearchVisibility">
-                                    <i class="bi"
-                                        :class="isAdvancedSearchVisible ? 'bi-eye-slash' : 'bi-eye'"
-                                        aria-hidden="true"></i>
-                                    <span>{{ isAdvancedSearchVisible ? "Hide search" : "Show search" }}</span>
-                                </button>
-                            </div>
-                            <button
-                                v-if="isAdvancedSearchVisible && isAdvancedSearchPanelVisible && hasAdvancedSearchPanelContent"
-                                type="button"
-                                class="btn btn-link advanced-quran-search-close-panel"
-                                @click="closeAdvancedSearchPanel"
-                                aria-label="Close and clear search results panel">
-                                <i class="bi bi-x-lg" aria-hidden="true"></i>
-                            </button>
-                        </div>
-                    </div>
-                
-                    <div v-if="!(isDeepFocusMode && isTabletOrMobile) && isAdvancedSearchVisible" class="advanced-quran-search-input-wrap">
-                        <i class="bi bi-search advanced-quran-search-icon" aria-hidden="true" style="display:none;"></i>
-                        <input type="search" class="form-control advanced-quran-search-input"
-                            ref="advancedSearchInput"
-                            v-model="advancedSearchQuery"
-                            placeholder="Search across all ayahs..."
-                            aria-label="Search across all Quran verses"
-                            @keydown.enter.prevent="runAdvancedSearch({ force: true })"
-                            @keydown.esc.prevent="clearAdvancedSearch()" />
-                        <div class="advanced-quran-search-actions">
-                            <button
-                                v-if="speechRecognitionSupported"
-                                type="button"
-                                class="btn btn-link advanced-quran-search-voice"
-                                :class="{ 'is-listening': speechRecognitionListening }"
-                                @click="toggleVoiceSearch"
-                                :aria-label="speechRecognitionListening
-                                    ? 'Stop voice search'
-                                    : 'Start voice search'">
-                                <i class="bi"
-                                    :class="speechRecognitionListening ? 'bi-mic-fill' : 'bi-mic'"
-                                    aria-hidden="true"></i>
-                            </button>
-                            <button v-if="advancedSearchQuery" type="button"
-                                class="btn btn-link advanced-quran-search-clear"
-                                @click="clearAdvancedSearch()"
-                                aria-label="Clear advanced search">
-                                <i class="bi bi-x-circle" aria-hidden="true"></i>
-                                <span class="advanced-quran-search-clear-text">Clear</span>
-                            </button>
-                        </div>
-                    </div>
-                    <div
-                        v-if="showReaderToolbar && isTabletOrMobile && isDeepFocusMode && !isMemorisationToolbarVisible"
-                        class="advanced-quran-mobile-deep-focus-bar"
-                        role="group"
-                        aria-label="Deep focus mode controls">
-                        <button
-                            type="button"
-                            class="btn advanced-quran-mobile-action-btn advanced-quran-mobile-action-btn-deep-focus"
-                            :class="{ 'is-enabled': isDeepFocusMode }"
-                            @click="toggleDeepFocusMode"
-                            :aria-label="isDeepFocusMode ? 'Turn deep focus mode off' : 'Turn deep focus mode on'"
-                            :title="isDeepFocusMode ? 'Turn deep focus mode off' : 'Turn deep focus mode on'">
-                            <i class="bi bi-bullseye" aria-hidden="true"></i>
-                            <span class="advanced-quran-mobile-action-label">Deep focus mode</span>
-                            <span class="advanced-quran-mobile-action-btn-state">
-                                {{ isDeepFocusMode ? "On" : "Off" }}
-                            </span>
-                        </button>
-                    </div>
-                    <template v-else-if="showReaderToolbar && isTabletOrMobile">
+                <template v-else>
                         <div
                             class="advanced-quran-mobile-controls"
                             :class="{
@@ -616,6 +547,13 @@
                                         <button
                                             type="button"
                                             class="dropdown-item advanced-quran-more-item"
+                                            @click="openSuratOnboarding">
+                                            <i class="bi bi-signpost-2-fill" aria-hidden="true"></i>
+                                            <span>{{ hasCompletedSuratOnboarding ? "Show onboarding" : "Start onboarding" }}</span>
+                                        </button>
+                                        <button
+                                            type="button"
+                                            class="dropdown-item advanced-quran-more-item"
                                             @click="toggleCustomPlaylistPanel">
                                             <i class="bi bi-music-note-list" aria-hidden="true"></i>
                                             <span>Saved playlist</span>
@@ -659,124 +597,27 @@
                             </div>
                         </div>
                     </div>
-                    </template>
-
-                    <saved-bookmarks-panel
-                        v-if="isTabletOrMobile && isSavedBookmarksPanelOpen && hasSavedBookmarks"
-                        :bookmarks="savedBookmarksList"
-                        :dark-theme="isDarkTheme"
-                        :selected-keys="selectedSavedBookmarkKeys"
-                        :selected-count="selectedSavedBookmarkCount"
-                        :all-selected="areAllSavedBookmarksSelected"
-                        :delete-confirm="savedBookmarksDeleteConfirm"
-                        :delete-busy="savedBookmarksDeleteBusy"
-                        @close="closeSavedBookmarksPanel"
-                        @open-bookmark="openSavedBookmarkByKey"
-                        @toggle-selection="toggleSavedBookmarkSelection"
-                        @toggle-select-all="toggleSelectAllSavedBookmarks"
-                        @clear-selection="clearSavedBookmarksSelection"
-                        @request-delete="requestSingleSavedBookmarkDelete"
-                        @request-bulk-delete="requestBulkSavedBookmarksDelete"
-                        @confirm-delete="confirmSavedBookmarksDelete"
-                        @cancel-delete="cancelSavedBookmarksDelete" />
-
-                    <div
-                        v-if="isAdvancedSearchVisible && isAdvancedSearchPanelVisible && !(isDeepFocusMode && isTabletOrMobile)"
-                        id="advancedQuranSearchPanel"
-                        class="advanced-quran-search-panel">
-                        <div class="advanced-quran-search-meta" aria-live="polite">
-                            <span v-if="advancedSearchLoading">
-                                Searching ayahs...
-                            </span>
-                            <span v-else-if="advancedSearchError" class="text-danger">
-                                {{ advancedSearchError }}
-                            </span>
-                            <span v-else-if="hasAdvancedSearchQuery && hasAdvancedSearchResults">
-                                Showing {{ advancedSearchResults.length }} of {{ advancedSearchTotalMatches }} matches across {{ advancedSearchMatchedSurahCount }} surahs.
-                                <span v-if="isAdvancedSearchResultCapReached">
-                                    Refine your query to view fewer matches.
-                                </span>
-                            </span>
-                            <span v-else-if="hasAdvancedSearchQuery && !advancedSearchLoading">
-                                No matches found for "{{ advancedSearchTrimmedQuery }}".
-                            </span>
-                        </div>
-                        <div v-if="speechRecognitionError" class="advanced-quran-search-speech-error" aria-live="polite">
-                            {{ speechRecognitionError }}
-                        </div>
-
-                        <div v-if="hasAdvancedSearchResults" class="advanced-quran-search-results"
-                            role="list" aria-label="Advanced Quran search results by surah">
-                            <section
-                                v-for="group in advancedSearchGroupedResults"
-                                :key="`advanced-surah-${group.surahNumber}`"
-                                class="advanced-quran-search-surah-group"
-                                role="listitem">
-                                <div class="advanced-quran-search-surah-head">
-                                    <div class="advanced-quran-search-surah-ref">
-                                        <span class="advanced-quran-search-result-chip">
-                                            {{ group.surahNumber }}
-                                        </span>
-                                        <span class="advanced-quran-search-result-surah">
-                                            {{ group.surahEnglishName }}
-                                        </span>
-                                        <span v-if="group.surahArabicName"
-                                            class="advanced-quran-search-result-arabic-name">
-                                            {{ group.surahArabicName }}
-                                        </span>
-                                        <span class="advanced-quran-search-result-meta">
-                                            {{ group.results.length }} match{{ group.results.length === 1 ? "" : "es" }}
-                                        </span>
-                                    </div>
-                                    <button
-                                        v-if="group.results.length > advancedSearchSurahPreviewLimit"
-                                        type="button"
-                                        class="btn btn-sm advanced-quran-search-expand-surah"
-                                        @click="toggleAdvancedSearchSurahExpansion(group.surahNumber)"
-                                        :aria-expanded="isAdvancedSearchSurahExpanded(group.surahNumber) ? 'true' : 'false'">
-                                        {{ isAdvancedSearchSurahExpanded(group.surahNumber)
-                                            ? "Collapse"
-                                            : "Expand (" + group.results.length + ")" }}
-                                    </button>
-                                </div>
-                                <article
-                                    v-for="result in getVisibleAdvancedSearchMatchesForSurah(group)"
-                                    :key="result.key"
-                                    class="advanced-quran-search-result">
-                                    <div class="advanced-quran-search-result-head">
-                                        <div class="advanced-quran-search-result-ref">
-                                            <span class="advanced-quran-search-result-chip">
-                                                {{ result.surahNumber }}:{{ result.ayahNumber }}
-                                            </span>
-                                            <span v-if="result.page" class="advanced-quran-search-result-meta">
-                                                Page {{ result.page }}
-                                            </span>
-                                            <span v-if="result.juz" class="advanced-quran-search-result-meta">
-                                                Juz {{ result.juz }}
-                                            </span>
-                                        </div>
-                                        <button type="button" class="btn btn-sm advanced-quran-search-open"
-                                            @click="openAdvancedSearchResult(result)"
-                                            :aria-label="`Open Surah ${result.surahNumber}, Ayah ${result.ayahNumber}`">
-                                            <i class="bi bi-box-arrow-up-right me-1" aria-hidden="true"></i>
-                                            Open
-                                        </button>
-                                    </div>
-	                                    <p class="advanced-quran-search-arabic mb-2">{{ result.text }}</p>
-                                    <div class="advanced-quran-search-detail-grid">
-                                        <div class="advanced-quran-search-detail">
-                                            <span class="advanced-quran-search-detail-label">Translation</span>
-	                                            <p class="advanced-quran-search-translation mb-0">{{ result.translation }}</p>
-                                        </div>
-                                    </div>
-                                </article>
-                            </section>
-                        </div>
-                    </div>
-                
-                </section> 
+                </template>
             </div>
         </div>
+        <saved-bookmarks-panel
+            v-if="isTabletOrMobile && isSavedBookmarksPanelOpen && hasSavedBookmarks"
+            :bookmarks="savedBookmarksList"
+            :dark-theme="isDarkTheme"
+            :selected-keys="selectedSavedBookmarkKeys"
+            :selected-count="selectedSavedBookmarkCount"
+            :all-selected="areAllSavedBookmarksSelected"
+            :delete-confirm="savedBookmarksDeleteConfirm"
+            :delete-busy="savedBookmarksDeleteBusy"
+            @close="closeSavedBookmarksPanel"
+            @open-bookmark="openSavedBookmarkByKey"
+            @toggle-selection="toggleSavedBookmarkSelection"
+            @toggle-select-all="toggleSelectAllSavedBookmarks"
+            @clear-selection="clearSavedBookmarksSelection"
+            @request-delete="requestSingleSavedBookmarkDelete"
+            @request-bulk-delete="requestBulkSavedBookmarksDelete"
+            @confirm-delete="confirmSavedBookmarksDelete"
+            @cancel-delete="cancelSavedBookmarksDelete" />
         <div v-if="!showReaderToolbar"
             class="reader-toolbar-restore ltr-text">
             <button
@@ -1084,6 +925,13 @@
                             <i class="bi bi-three-dots-vertical" aria-hidden="true"></i>
                         </button>
                         <div class="dropdown-menu dropdown-menu-end advanced-quran-more-menu">
+                        <button
+                            type="button"
+                            class="dropdown-item advanced-quran-more-item"
+                            @click="openSuratOnboarding">
+                            <i class="bi bi-signpost-2-fill" aria-hidden="true"></i>
+                            <span>{{ hasCompletedSuratOnboarding ? "Show onboarding" : "Start onboarding" }}</span>
+                        </button>
                         <button
                             type="button"
                             class="dropdown-item advanced-quran-more-item"
@@ -4495,7 +4343,10 @@
                                 
                                 <!-- Search Input -->
                                 <div class="search-container">
-                                    <input type="search" class="form-control sidebar-search-input" 
+                                    <input
+                                        ref="sidebarSearchInput"
+                                        type="search"
+                                        class="form-control sidebar-search-input" 
                                         v-model="sidebarSearchQuery"
                                         :placeholder="activeSidebarTab === 'important' ? 'Search highlights...' : `Search ${activeSidebarTab}...`"
                                         aria-label="Search content" />
@@ -5581,13 +5432,13 @@
 
         <teleport to="body">
             <div
-                class="modal fade verse-countdown-complete-modal"
+                class="modal pt-5 fade verse-countdown-complete-modal"
                 :id="verseCountdownCompleteModalId"
                 tabindex="-1"
                 aria-labelledby="verseCountdownCompleteModalLabel"
                 aria-hidden="true"
                 data-bs-backdrop="static">
-                <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-dialog p-5 modal-dialog-centered">
                     <div class="modal-content verse-countdown-complete-modal-content" :class="{ 'surat-dark-modal': isDarkTheme }">
                         <div class="modal-header border-0 pb-0">
                             <h5 class="modal-title" id="verseCountdownCompleteModalLabel">
@@ -5638,83 +5489,190 @@
                 aria-labelledby="suratOnboardingLabel"
                 aria-hidden="true"
                 data-bs-backdrop="true">
-                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-2xl">
-                    <div class="modal-content surat-onboarding-modal" :class="{ 'surat-dark-modal': isDarkTheme }">
+                <div class="modal-dialog modal-xl">
+                    <div class="modal-content surat-onboarding-modal-simple" :class="{ 'surat-dark-modal': isDarkTheme }">
                         <div class="modal-header">
                             <div>
+                                <p class="surat-onboarding-kicker mb-1">Surat onboarding</p>
                                 <h4 class="modal-title" id="suratOnboardingLabel">
-                                    <i class="fas fa-map-marked-alt me-2" aria-hidden="true"></i>
-                                    <b>Surat onboarding guide</b>
+                                    Step {{ suratOnboardingCurrentStep }} of {{ suratOnboardingSteps.length }}
                                 </h4>
                                 <p class="surat-onboarding-subtitle mb-0">
-                                    Most important features first, with simple explanations.
+                                    {{ currentSuratOnboardingStepData.summary }}
                                 </p>
                             </div>
-                            <div class="surat-onboarding-header-actions">
-                                <button type="button" class="surat-onboarding-font-btn"
-                                    @click="decreaseSuratOnboardingFontSize"
-                                    :disabled="suratOnboardingFontSize <= suratOnboardingFontSizeMin"
-                                    aria-label="Decrease onboarding font size"
-                                    title="Decrease font size">
-                                    <i class="fas fa-minus" aria-hidden="true"></i>
+                            <button
+                                type="button"
+                                class="btn-close"
+                                data-bs-dismiss="modal"
+                                aria-label="Close onboarding modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="surat-onboarding-copy-block">
+                                <span class="surat-onboarding-step-chip">
+                                    {{ currentSuratOnboardingStepData.title }}
+                                </span>
+                                <p class="surat-onboarding-copy-main mb-2">
+                                    {{ currentSuratOnboardingStepData.description }}
+                                </p>
+                                <p class="surat-onboarding-copy-note mb-0">
+                                    {{ currentSuratOnboardingStepData.helper }}
+                                </p>
+                            </div>
+                            <div class="surat-onboarding-stepper" role="tablist" aria-label="Onboarding steps">
+                                <button
+                                    v-for="step in suratOnboardingSteps"
+                                    :key="step.id"
+                                    type="button"
+                                    class="btn surat-onboarding-stepper-btn"
+                                    :class="{ 'is-active': suratOnboardingCurrentStep === step.id }"
+                                    @click="setSuratOnboardingStep(step.id)">
+                                    <span>{{ step.id }}</span>
+                                    <small>{{ step.shortLabel }}</small>
                                 </button>
-                                <button type="button" class="surat-onboarding-font-btn"
-                                    @click="increaseSuratOnboardingFontSize"
-                                    :disabled="suratOnboardingFontSize >= suratOnboardingFontSizeMax"
-                                    aria-label="Increase onboarding font size"
-                                    title="Increase font size">
-                                    <i class="fas fa-plus" aria-hidden="true"></i>
-                                </button>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close onboarding modal"></button>
+                            </div>
+                            <div
+                                class="surat-onboarding-stage"
+                                :class="`is-step-${suratOnboardingCurrentStep}`">
+                                <div class="surat-onboarding-stage-overlay"></div>
+                                <div
+                                    v-if="suratOnboardingCurrentStep === 1"
+                                    class="surat-onboarding-stage-preview surat-onboarding-stage-preview-sidebar"
+                                    aria-hidden="true">
+                                    <div class="surat-onboarding-stage-tabs">
+                                        <span class="is-active">Surah</span>
+                                        <span>Highlights</span>
+                                    </div>
+                                    <div class="surat-onboarding-stage-search">Search surah...</div>
+                                    <div class="surat-onboarding-stage-list">
+                                        <div class="surat-onboarding-stage-row is-active">
+                                            <strong>1</strong>
+                                            <span>Al-Faatiha</span>
+                                        </div>
+                                        <div class="surat-onboarding-stage-row">
+                                            <strong>2</strong>
+                                            <span>Al-Baqara</span>
+                                        </div>
+                                        <div class="surat-onboarding-stage-row">
+                                            <strong>3</strong>
+                                            <span>Aal-i-Imraan</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div
+                                    v-else-if="suratOnboardingCurrentStep === 2"
+                                    class="surat-onboarding-stage-preview surat-onboarding-stage-preview-reader"
+                                    aria-hidden="true">
+                                    <div class="surat-onboarding-ayah-card">
+                                        <div class="surat-onboarding-ayah-badge">78 / 1</div>
+                                        <div class="surat-onboarding-ayah-arabic">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
+                                        <div class="surat-onboarding-ayah-label">Transliteration</div>
+                                        <div class="surat-onboarding-ayah-copy">'Amma Yatasa-aa-loon</div>
+                                    </div>
+                                    <div class="surat-onboarding-ayah-card is-secondary">
+                                        <div class="surat-onboarding-ayah-badge">78 / 2</div>
+                                        <div class="surat-onboarding-ayah-arabic">عَنِ النَّبَإِ الْعَظِيمِ</div>
+                                        <div class="surat-onboarding-ayah-label">Translation</div>
+                                        <div class="surat-onboarding-ayah-copy">About the great news.</div>
+                                    </div>
+                                </div>
+                                <div
+                                    v-else
+                                    class="surat-onboarding-stage-preview surat-onboarding-stage-preview-tools"
+                                    aria-hidden="true">
+                                    <div class="surat-onboarding-tools-scene">
+                                        <div class="surat-onboarding-tools-desktop">
+                                            <div class="surat-onboarding-tools-desktop-card">
+                                                <div class="surat-onboarding-tools-highlight surat-onboarding-tools-highlight-top">
+                                                    <div class="surat-onboarding-tools-desktop-topline">
+                                                        <span class="surat-onboarding-ayah-badge">78 / 1</span>
+                                                        <div class="surat-onboarding-tools-desktop-top-actions">
+                                                            <span class="is-active"><i class="bi bi-journal-richtext" aria-hidden="true"></i><b>Tafseer</b></span>
+                                                            <span><i class="bi bi-download" aria-hidden="true"></i><b>Download</b></span>
+                                                            <span class="icon-only"><i class="bi bi-three-dots" aria-hidden="true"></i></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="surat-onboarding-tools-desktop-content">
+                                                    <div class="surat-onboarding-tools-desktop-arabic">
+                                                        بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ عَمَّ يَتَسَاءَلُونَ
+                                                    </div>
+                                                    <div class="surat-onboarding-tools-desktop-copy">
+                                                        Translation and transliteration stay visible while ayah-specific tools
+                                                        remain attached to the verse you are reading.
+                                                    </div>
+                                                </div>
+                                                <div class="surat-onboarding-tools-highlight surat-onboarding-tools-highlight-bottom">
+                                                    <div class="surat-onboarding-tools-featurebar">
+                                                        <div class="surat-onboarding-tools-zoom">
+                                                            <span><i class="bi bi-dash-circle" aria-hidden="true"></i></span>
+                                                            <span><i class="bi bi-plus-circle" aria-hidden="true"></i></span>
+                                                        </div>
+                                                        <div class="surat-onboarding-tools-actions">
+                                                            <span><i class="bi bi-bookmark" aria-hidden="true"></i><b>Bookmark</b></span>
+                                                            <span class="is-active"><i class="bi bi-play-circle-fill" aria-hidden="true"></i><b>Play Audio</b></span>
+                                                            <span><i class="bi bi-journal-richtext" aria-hidden="true"></i><b>Reflect</b></span>
+                                                            <span><i class="bi bi-share" aria-hidden="true"></i><b>Share</b></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="surat-onboarding-tools-mobile">
+                                            <div class="surat-onboarding-tools-mobile-card">
+                                                <div class="surat-onboarding-tools-highlight surat-onboarding-tools-highlight-top">
+                                                    <div class="surat-onboarding-tools-mobile-topline">
+                                                        <span class="surat-onboarding-ayah-badge">78 / 1</span>
+                                                        <span class="is-active"><i class="bi bi-journal-richtext" aria-hidden="true"></i><b>Tafseer</b></span>
+                                                        <span><i class="bi bi-download" aria-hidden="true"></i></span>
+                                                        <span><i class="bi bi-three-dots" aria-hidden="true"></i></span>
+                                                    </div>
+                                                </div>
+                                                <div class="surat-onboarding-tools-mobile-arabic">
+                                                    بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ
+                                                </div>
+                                                <div class="surat-onboarding-tools-mobile-copy">
+                                                    Key ayah tools stay in the top row, while quick actions remain fixed at the bottom.
+                                                </div>
+                                                <div class="surat-onboarding-tools-highlight surat-onboarding-tools-highlight-bottom">
+                                                    <div class="surat-onboarding-tools-mobile-actions-row">
+                                                        <span><i class="bi bi-bookmark" aria-hidden="true"></i></span>
+                                                        <span class="is-active"><i class="bi bi-play-circle-fill" aria-hidden="true"></i></span>
+                                                        <span><i class="bi bi-journal-richtext" aria-hidden="true"></i></span>
+                                                        <span><i class="bi bi-share" aria-hidden="true"></i></span>
+                                                        <span><i class="bi bi-dash-circle" aria-hidden="true"></i></span>
+                                                        <span><i class="bi bi-plus-circle" aria-hidden="true"></i></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="modal-body"
-                            :style="{ '--surat-onboarding-font-size': suratOnboardingFontSize + 'px' }">
-                            <div class="surat-onboarding-search-wrap">
-                                <i class="fas fa-search surat-onboarding-search-icon" aria-hidden="true"></i>
-                                <input type="search"
-                                    class="form-control surat-onboarding-search-input"
-                                    v-model="suratOnboardingSearchQuery"
-                                    placeholder="Search onboarding features..."
-                                    aria-label="Search surat onboarding features" />
+                        <div class="modal-footer">
+                            <div class="surat-onboarding-footer-actions">
                                 <button
-                                    v-if="suratOnboardingSearchQuery"
                                     type="button"
-                                    class="btn btn-link surat-onboarding-search-clear"
-                                    @click="clearSuratOnboardingSearch"
-                                    aria-label="Clear onboarding search">
-                                    <i class="fas fa-times" aria-hidden="true"></i>
-                                    Clear
+                                    class="btn surat-onboarding-nav-btn surat-onboarding-nav-btn-secondary"
+                                    :disabled="suratOnboardingCurrentStep === 1"
+                                    @click="goToPreviousSuratOnboardingStep">
+                                    Back
                                 </button>
-                            </div>
-                            <p class="surat-onboarding-meta mb-3">
-                                Showing {{ filteredSuratOnboardingFeatures.length }} of {{ suratOnboardingFeatures.length }}
-                                features
-                            </p>
-                            <div v-if="filteredSuratOnboardingFeatures.length" class="surat-onboarding-grid">
-                                <article v-for="feature in filteredSuratOnboardingFeatures"
-                                    :key="feature.id"
-                                    class="surat-onboarding-card">
-                                    <div class="surat-onboarding-card-top">
-                                        <div class="surat-onboarding-card-meta">
-                                            <span class="surat-onboarding-icon" aria-hidden="true">
-                                                <i class="fas" :class="feature.iconClass || 'fa-info-circle'"></i>
-                                            </span>
-                                            <span class="surat-onboarding-area">{{ feature.area }}</span>
-                                        </div>
-                                        <span class="surat-onboarding-rank">#{{ feature.priority }}</span>
-                                    </div>
-	                                    <h5 class="surat-onboarding-title">{{ feature.title }}</h5>
-	                                    <p class="surat-onboarding-summary mb-2">{{ feature.summary }}</p>
-	                                    <p class="surat-onboarding-how mb-0">
-	                                        <span class="surat-onboarding-how-label">How to use:</span>
-	                                        <span>{{ feature.howTo }}</span>
-	                                    </p>
-                                </article>
-                            </div>
-                            <div v-else class="surat-onboarding-empty">
-                                No features matched "{{ suratOnboardingSearchQuery }}".
+                                <button
+                                    v-if="!isLastSuratOnboardingStep"
+                                    type="button"
+                                    class="btn surat-onboarding-nav-btn surat-onboarding-nav-btn-primary"
+                                    @click="goToNextSuratOnboardingStep">
+                                    Next
+                                </button>
+                                <button
+                                    v-else
+                                    type="button"
+                                    class="btn surat-onboarding-nav-btn surat-onboarding-nav-btn-primary"
+                                    @click="finishSuratOnboarding">
+                                    Finish
+                                </button>
                             </div>
                         </div>
                     </div>

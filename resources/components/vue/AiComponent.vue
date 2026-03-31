@@ -6,7 +6,7 @@
           <p class="ai-eyebrow">AI Assistant</p>
           <h1>Noor</h1>
           <p class="ai-subtitle">
-            Verified Islamic answers using IslamHouse sources.
+            Verified Islamic answers using Quran, Hadith, and IslamHouse sources.
           </p>
         </div>
         <button
@@ -26,7 +26,7 @@
         <div v-if="!messages.length" class="ai-empty">
           <p class="ai-empty-title">Ask a focused Islamic question.</p>
           <p class="ai-empty-copy">
-            Noor searches IslamHouse and returns a concise source-backed answer when one is available.
+            Noor searches Quran, Hadith, and IslamHouse, then returns a concise source-backed answer when one is available.
           </p>
           <div class="ai-prompt-grid">
             <button

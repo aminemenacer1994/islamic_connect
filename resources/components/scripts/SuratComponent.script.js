@@ -224,6 +224,42 @@ export default {
             suratOnboardingFontSizeMin: 15,
             suratOnboardingFontSizeMax: 22,
             suratOnboardingFontSizePreferenceBaseKey: "surat_onboarding_font_size",
+            suratOnboardingCompletedPreferenceBaseKey:
+                "surat_onboarding_completed",
+            suratOnboardingCurrentStep: 1,
+            hasCompletedSuratOnboarding: false,
+            suratOnboardingSteps: [
+                {
+                    id: 1,
+                    shortLabel: "Select",
+                    title: "Step 1: Select surah",
+                    summary: "Pick the surah you want to read.",
+                    description:
+                        "Choose any surah from the sidebar on desktop or the selector on mobile.",
+                    helper:
+                        "Once selected, the page loads that surah right away.",
+                },
+                {
+                    id: 2,
+                    shortLabel: "Read",
+                    title: "Step 2: Read the verses",
+                    summary: "The verses appear in the reading area.",
+                    description:
+                        "After you choose a surah, its ayah cards appear with Arabic and your enabled reading aids.",
+                    helper:
+                        "Scroll through the surah and move verse by verse.",
+                },
+                {
+                    id: 3,
+                    shortLabel: "Use tools",
+                    title: "Step 3: Use the help tools",
+                    summary: "Study with the built-in reader actions.",
+                    description:
+                        "Use tafseer, bookmark, play audio, reflect, translation, and transliteration tools while reading.",
+                    helper:
+                        "The toolbar and ayah actions are there to support focused study.",
+                },
+            ],
             suratReaderFontSizePreferenceBaseKey: "surat_reader_font_sizes",
             suratPreferenceAnonStorageKey: "ic_surat_pref_anon_id",
             suratPreferenceAnonId: "",
@@ -4162,32 +4198,31 @@ export default {
                 !!this.speechRecognitionError
             );
         },
-        suratOnboardingSearchTerms() {
-            const raw = (this.suratOnboardingSearchQuery || "").trim().toLowerCase();
-            if (!raw) return [];
-            return raw
-                .split(/\s+/)
-                .map((term) => term.trim())
-                .filter(Boolean);
-        },
-        filteredSuratOnboardingFeatures() {
-            const features = Array.isArray(this.suratOnboardingFeatures)
-                ? this.suratOnboardingFeatures
+        currentSuratOnboardingStepData() {
+            const steps = Array.isArray(this.suratOnboardingSteps)
+                ? this.suratOnboardingSteps
                 : [];
-            const terms = this.suratOnboardingSearchTerms;
-            if (!terms.length) return features;
-            return features.filter((feature) => {
-                const haystack = [
-                    feature.title,
-                    feature.summary,
-                    feature.howTo,
-                    feature.area,
-                    ...(Array.isArray(feature.keywords) ? feature.keywords : []),
-                ]
-                    .join(" ")
-                    .toLowerCase();
-                return terms.every((term) => haystack.includes(term));
-            });
+            return (
+                steps.find(
+                    (step) =>
+                        Number(step?.id || 0) ===
+                        Number(this.suratOnboardingCurrentStep || 1)
+                ) ||
+                steps[0] || {
+                    id: 1,
+                    shortLabel: "Select",
+                    title: "Step 1: Select surah",
+                    summary: "",
+                    description: "",
+                    helper: "",
+                }
+            );
+        },
+        isLastSuratOnboardingStep() {
+            return (
+                Number(this.suratOnboardingCurrentStep || 1) >=
+                Number(this.suratOnboardingSteps?.length || 3)
+            );
         },
         ayahBodyFontSize() {
             const baseSize = Number(this.translationFontSize);
@@ -5850,6 +5885,7 @@ export default {
         await this.initializeDeepFocusModePreference();
         await this.initializeReadingFullscreenPreference();
         await this.initializeVoiceCommandPreference();
+        this.initializeSuratOnboardingState();
         this.fetchUserId(); // Initialize user ID for reading progress
         this.bookmarkEventHandler = (event) =>
             this.handleBookmarksUpdated(event);
@@ -12052,6 +12088,7 @@ export default {
             if (this.hasAdvancedSearchQuery && this.isAdvancedSearchPanelVisible) {
                 this.runAdvancedSearch({ force: true });
             }
+            this.focusAdvancedSearchInput({ select: true, scroll: true });
         },
         closeAdvancedSearchPanel() {
             this.stopVoiceSearch();
@@ -12533,9 +12570,67 @@ export default {
             event.stopPropagation();
             await this.seekToAyahWord(index, ayah, displayWordIndex);
         },
-        openSuratOnboarding() {
+        initializeSuratOnboardingState() {
+            this.hasCompletedSuratOnboarding =
+                this.readScopedPreferenceWithLegacy(
+                    this.suratOnboardingCompletedPreferenceBaseKey
+                ) === "1";
+            this.suratOnboardingCurrentStep = 1;
+            if (this.hasCompletedSuratOnboarding) return;
+            this.$nextTick(() => {
+                this.openSuratOnboarding({ step: 1 });
+            });
+        },
+        setSuratOnboardingStep(step) {
+            const total = Math.max(
+                1,
+                Number(this.suratOnboardingSteps?.length || 3)
+            );
+            const normalized = Math.max(
+                1,
+                Math.min(total, Number(step || 1))
+            );
+            this.suratOnboardingCurrentStep = normalized;
+        },
+        goToNextSuratOnboardingStep() {
+            this.setSuratOnboardingStep(
+                Number(this.suratOnboardingCurrentStep || 1) + 1
+            );
+        },
+        goToPreviousSuratOnboardingStep() {
+            this.setSuratOnboardingStep(
+                Number(this.suratOnboardingCurrentStep || 1) - 1
+            );
+        },
+        finishSuratOnboarding() {
+            this.hasCompletedSuratOnboarding = true;
+            this.writeScopedBooleanPreference(
+                this.suratOnboardingCompletedPreferenceBaseKey,
+                true
+            );
+            if (this.suratOnboardingModalInstance) {
+                this.suratOnboardingModalInstance.hide();
+            }
+            this.showToast(
+                "Onboarding finished. Reopen it anytime from More tools.",
+                3200
+            );
+            this.announce("Onboarding finished.");
+        },
+        openSuratOnboarding(options = {}) {
+            const { step = 1 } = options;
             const modalEl = document.getElementById(this.suratOnboardingModalId);
             if (!modalEl) return;
+            if (!modalEl.dataset.suratOnboardingEventsBound) {
+                modalEl.addEventListener("shown.bs.modal", () => {
+                    document.body.classList.add("surat-onboarding-backdrop-active");
+                });
+                modalEl.addEventListener("hidden.bs.modal", () => {
+                    document.body.classList.remove("surat-onboarding-backdrop-active");
+                });
+                modalEl.dataset.suratOnboardingEventsBound = "1";
+            }
+            this.setSuratOnboardingStep(step);
             this.suratOnboardingModalInstance =
                 this.suratOnboardingModalInstance ||
                 Modal.getInstance(modalEl) ||
@@ -28329,6 +28424,9 @@ export default {
         selectSurahFromSidebar(number) {
             this.clearMainAyahSearchFilter();
             return this.selectSurah(number, { skipScroll: true }).then(() => {
+                if (this.isTabletOrMobile && !this.sidebarCollapsed) {
+                    this.toggleSidebar();
+                }
                 if (typeof window !== "undefined") {
                     window.scrollTo({ top: 0, behavior: "auto" });
                 }

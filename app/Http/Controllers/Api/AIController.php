@@ -82,8 +82,8 @@ class AIController extends Controller
                 'category' => [$answer['sourced'] ? 'retrieval_augmented' : 'fallback'],
                 'totalSources' => count($references),
                 'message' => ($answer['sourced'] ?? false)
-                    ? 'Answer built from IslamHouse source context.'
-                    : 'No verified IslamHouse source was found for this question.',
+                    ? 'Answer built from retrieved Quran, Hadith, and IslamHouse source context.'
+                    : 'No verified Quran, Hadith, or IslamHouse source was found for this question.',
                 'timestamp' => now()->toIso8601String(),
             ];
 
