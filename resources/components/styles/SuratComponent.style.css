@@ -8717,6 +8717,54 @@
         var(--surat-overlay-bottom-gap, 20px);
 }
 
+.saved-bookmarks-panel-backdrop {
+    position: fixed;
+    inset: 0;
+    top: var(--surat-overlay-nav-offset, calc(var(--navbar-h, 72px) + env(safe-area-inset-top, 0px)));
+    bottom: auto;
+    height: var(--surat-overlay-shell-height, calc(100dvh - calc(var(--navbar-h, 72px) + env(safe-area-inset-top, 0px))));
+    z-index: 1085 !important;
+    background: rgba(15, 23, 42, 0.58);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+}
+
+:deep(.saved-bookmarks-panel) {
+    position: relative;
+    z-index: 1090;
+}
+
+.saved-bookmarks-modal-shell {
+    position: fixed;
+    left: 50%;
+    top: calc(var(--surat-overlay-nav-offset, calc(var(--navbar-h, 72px) + env(safe-area-inset-top, 0px))) + 50%);
+    transform: translate(-50%, -50%);
+    width: min(980px, calc(100vw - 2rem));
+    z-index: 1090;
+    max-height: var(--surat-overlay-shell-height, calc(100dvh - calc(var(--navbar-h, 72px) + env(safe-area-inset-top, 0px))));
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+    pointer-events: auto;
+}
+
+.saved-bookmarks-modal-shell :deep(.saved-bookmarks-panel) {
+    width: 100%;
+    max-height: inherit;
+    overflow: hidden;
+}
+
+@media (max-width: 767.98px) {
+    .saved-bookmarks-modal-shell {
+        width: calc(100vw - 1.25rem);
+        top: calc(var(--surat-overlay-nav-offset, calc(var(--navbar-h, 72px) + env(safe-area-inset-top, 0px))) + 50%);
+    }
+}
+
+.surat-page-shell-dark .saved-bookmarks-panel-backdrop {
+    background: rgba(2, 6, 23, 0.68);
+}
+
 .playlist-modal-card {
     width: min(620px, 100%);
     border-radius: 14px;

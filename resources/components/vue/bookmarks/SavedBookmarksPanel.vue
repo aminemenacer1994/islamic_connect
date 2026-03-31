@@ -24,6 +24,117 @@
         </div>
 
         <div
+            v-if="folders.length"
+            class="saved-bookmarks-collections"
+            role="group"
+            aria-label="Bookmark collections">
+            <button
+                type="button"
+                class="btn saved-bookmarks-collection-pill"
+                :class="{ 'is-active': isAllActive }"
+                @click="$emit('select-folder', 'all')">
+                All
+            </button>
+            <button
+                v-for="folder in folders"
+                :key="`bookmark-folder-${folder.id}`"
+                type="button"
+                class="btn saved-bookmarks-collection-pill"
+                :class="{ 'is-active': String(activeFolderId) === String(folder.id) }"
+                :title="folder.name"
+                @click="$emit('select-folder', folder.id)">
+                <span class="saved-bookmarks-collection-pill-title">{{ folder.name }}</span>
+                <span class="saved-bookmarks-collection-pill-count">{{ folder.ayah_count || 0 }}</span>
+            </button>
+            <button
+                type="button"
+                class="btn saved-bookmarks-collection-pill saved-bookmarks-collection-manage"
+                :class="{ 'is-active': manageOpen }"
+                @click="manageOpen = !manageOpen">
+                Manage
+            </button>
+        </div>
+
+        <div v-if="manageOpen" class="saved-bookmarks-manage">
+            <div class="saved-bookmarks-manage-head">
+                <strong>Collections</strong>
+                <span class="saved-bookmarks-manage-hint">Create, rename, or delete collections.</span>
+            </div>
+
+            <form class="saved-bookmarks-manage-create" @submit.prevent="onCreateFolder">
+                <input
+                    v-model.trim="newFolderName"
+                    type="text"
+                    class="form-control saved-bookmarks-manage-input"
+                    placeholder="New collection name"
+                    :disabled="busy"
+                    aria-label="New collection name" />
+                <button
+                    type="submit"
+                    class="btn btn-sm btn-outline-secondary saved-bookmarks-manage-btn"
+                    :disabled="busy || !newFolderName">
+                    Create
+                </button>
+            </form>
+
+            <div v-if="folders.length" class="saved-bookmarks-manage-list" role="list">
+                <div
+                    v-for="folder in folders"
+                    :key="`manage-folder-${folder.id}`"
+                    class="saved-bookmarks-manage-row"
+                    role="listitem">
+                    <div class="saved-bookmarks-manage-row-main">
+                        <template v-if="editingFolderId === folder.id">
+                            <input
+                                v-model.trim="editingFolderName"
+                                type="text"
+                                class="form-control saved-bookmarks-manage-input"
+                                :disabled="busy"
+                                :aria-label="`Rename ${folder.name}`" />
+                        </template>
+                        <template v-else>
+                            <span class="saved-bookmarks-manage-name">{{ folder.name }}</span>
+                            <span class="saved-bookmarks-manage-count text-muted">{{ folder.ayah_count || 0 }}</span>
+                        </template>
+                    </div>
+                    <div class="saved-bookmarks-manage-row-actions">
+                        <button
+                            v-if="editingFolderId !== folder.id"
+                            type="button"
+                            class="btn btn-sm btn-outline-secondary saved-bookmarks-manage-btn"
+                            :disabled="busy"
+                            @click="beginEdit(folder)">
+                            Rename
+                        </button>
+                        <button
+                            v-else
+                            type="button"
+                            class="btn btn-sm btn-outline-secondary saved-bookmarks-manage-btn"
+                            :disabled="busy || !editingFolderName"
+                            @click="confirmEdit(folder)">
+                            Save
+                        </button>
+                        <button
+                            v-if="editingFolderId === folder.id"
+                            type="button"
+                            class="btn btn-sm btn-outline-secondary saved-bookmarks-manage-btn"
+                            :disabled="busy"
+                            @click="cancelEdit">
+                            Cancel
+                        </button>
+                        <button
+                            type="button"
+                            class="btn btn-sm btn-danger saved-bookmarks-manage-btn"
+                            :disabled="busy"
+                            @click="onDeleteFolder(folder)">
+                            Delete
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div
             v-if="deleteConfirm && deleteConfirm.visible"
             class="alert alert-warning saved-bookmarks-confirm-alert"
             role="alert">
@@ -95,6 +206,21 @@
                                 @change="$emit('toggle-selection', bookmark.key)" />
                             <span>Select</span>
                         </label>
+                        <div class="saved-bookmarks-card-top-actions">
+                            <select
+                                v-if="folders.length"
+                                class="form-select form-select-sm saved-bookmarks-move-select"
+                                :disabled="deleteBusy || busy"
+                                :aria-label="`Move ${bookmark.surahName} ayah ${bookmark.ayahNumber} to collection`"
+                                @change="onMoveBookmark(bookmark.key, $event)">
+                                <option value="" selected disabled>Move to…</option>
+                                <option
+                                    v-for="folder in folders"
+                                    :key="`move-${bookmark.key}-${folder.id}`"
+                                    :value="folder.id">
+                                    {{ folder.name }}
+                                </option>
+                            </select>
                         <button
                             type="button"
                             class="btn saved-bookmarks-delete-btn"
@@ -103,6 +229,7 @@
                             @click="$emit('request-delete', bookmark.key)">
                             <i class="bi bi-trash3" aria-hidden="true"></i>
                         </button>
+                        </div>
                     </div>
 
                     <button
@@ -143,6 +270,14 @@
 export default {
     name: "SavedBookmarksPanel",
     props: {
+        folders: {
+            type: Array,
+            default: () => [],
+        },
+        activeFolderId: {
+            type: [String, Number],
+            default: "all",
+        },
         bookmarks: {
             type: Array,
             default: () => [],
@@ -174,8 +309,23 @@ export default {
             type: Boolean,
             default: false,
         },
+        busy: {
+            type: Boolean,
+            default: false,
+        },
+    },
+    data() {
+        return {
+            manageOpen: false,
+            newFolderName: "",
+            editingFolderId: null,
+            editingFolderName: "",
+        };
     },
     computed: {
+        isAllActive() {
+            return String(this.activeFolderId || "all") === "all";
+        },
         selectedKeySet() {
             return new Set(
                 Array.isArray(this.selectedKeys) ? this.selectedKeys : []
@@ -192,6 +342,11 @@ export default {
     emits: [
         "close",
         "open-bookmark",
+        "select-folder",
+        "create-folder",
+        "update-folder",
+        "delete-folder",
+        "move-bookmark",
         "toggle-selection",
         "toggle-select-all",
         "clear-selection",
@@ -200,6 +355,53 @@ export default {
         "confirm-delete",
         "cancel-delete",
     ],
+    methods: {
+        onCreateFolder() {
+            const name = (this.newFolderName || "").trim();
+            if (!name) return;
+            this.$emit("create-folder", { name });
+            this.newFolderName = "";
+        },
+        beginEdit(folder) {
+            this.editingFolderId = folder?.id ?? null;
+            this.editingFolderName = String(folder?.name || "").trim();
+        },
+        cancelEdit() {
+            this.editingFolderId = null;
+            this.editingFolderName = "";
+        },
+        confirmEdit(folder) {
+            const id = folder?.id;
+            const name = (this.editingFolderName || "").trim();
+            if (!id || !name) return;
+            this.$emit("update-folder", { id, name });
+            this.cancelEdit();
+        },
+        onDeleteFolder(folder) {
+            const id = folder?.id;
+            if (!id) return;
+            const name = String(folder?.name || "this collection").trim();
+            if (
+                !confirm(
+                    `Delete "${name}"? Bookmarks inside will remain saved (still visible in All).`
+                )
+            ) {
+                return;
+            }
+            this.$emit("delete-folder", { id });
+            if (String(this.activeFolderId) === String(id)) {
+                this.$emit("select-folder", "all");
+            }
+        },
+        onMoveBookmark(key, event) {
+            const targetId = Number(event?.target?.value);
+            if (!targetId) return;
+            this.$emit("move-bookmark", { key, targetFolderId: targetId });
+            if (event?.target) {
+                event.target.value = "";
+            }
+        },
+    },
 };
 </script>
 
@@ -226,6 +428,84 @@ export default {
     box-shadow: 0 18px 36px rgba(15, 23, 42, 0.1);
     color: var(--saved-bookmarks-text);
     padding: 0.95rem 0.95rem 0.88rem;
+}
+
+.saved-bookmarks-collections {
+    display: flex;
+    gap: 0.45rem;
+    overflow-x: auto;
+    padding: 0.15rem 0.1rem 0.65rem;
+    margin-bottom: 0.65rem;
+    border-bottom: 1px solid var(--saved-bookmarks-border);
+    scrollbar-width: thin;
+    scrollbar-color: rgba(100, 116, 139, 0.35) transparent;
+}
+
+.saved-bookmarks-collections::-webkit-scrollbar {
+    height: 8px;
+}
+
+.saved-bookmarks-collections::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.saved-bookmarks-collections::-webkit-scrollbar-thumb {
+    background: rgba(100, 116, 139, 0.35);
+    border-radius: 999px;
+}
+
+.saved-bookmarks-collection-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    flex-shrink: 0;
+    padding: 0.38rem 0.7rem;
+    border-radius: 999px;
+    border: 1px solid var(--saved-bookmarks-border);
+    background: var(--saved-bookmarks-control-bg);
+    color: var(--saved-bookmarks-text);
+    font-size: 0.78rem;
+    font-weight: 700;
+    line-height: 1.1;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+.saved-bookmarks-collection-pill:hover,
+.saved-bookmarks-collection-pill:focus-visible {
+    border-color: rgba(15, 118, 110, 0.32);
+    box-shadow: 0 0 0 0.18rem rgba(15, 118, 110, 0.12);
+}
+
+.saved-bookmarks-collection-pill.is-active {
+    border-color: rgba(15, 118, 110, 0.55);
+    background: var(--saved-bookmarks-accent-soft);
+    color: var(--saved-bookmarks-accent);
+}
+
+.saved-bookmarks-collection-pill-title {
+    max-width: 10.5rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.saved-bookmarks-collection-pill-count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 1.4rem;
+    height: 1.4rem;
+    padding: 0 0.35rem;
+    border-radius: 999px;
+    background: rgba(15, 23, 42, 0.08);
+    color: var(--saved-bookmarks-muted);
+    font-size: 0.72rem;
+    font-weight: 800;
+}
+
+.saved-bookmarks-panel.is-dark .saved-bookmarks-collection-pill-count {
+    background: rgba(248, 250, 252, 0.08);
+    color: var(--saved-bookmarks-muted);
 }
 
 .saved-bookmarks-panel.is-dark {
@@ -259,6 +539,120 @@ export default {
 .saved-bookmarks-card-top,
 .saved-bookmarks-confirm-alert {
     justify-content: space-between;
+}
+
+.saved-bookmarks-card-top-actions {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.saved-bookmarks-move-select {
+    min-width: 9.5rem;
+    border-radius: 999px;
+    border: 1px solid var(--saved-bookmarks-border);
+    background: var(--saved-bookmarks-control-bg);
+    color: var(--saved-bookmarks-text);
+    font-size: 0.78rem;
+    padding: 0.28rem 0.6rem;
+}
+
+.saved-bookmarks-panel.is-dark .saved-bookmarks-move-select {
+    background: var(--saved-bookmarks-control-bg);
+    color: var(--saved-bookmarks-text);
+}
+
+.saved-bookmarks-collection-manage {
+    margin-left: auto;
+}
+
+.saved-bookmarks-manage {
+    border: 1px solid var(--saved-bookmarks-border);
+    background: var(--saved-bookmarks-toolbar-bg);
+    border-radius: 16px;
+    padding: 0.75rem 0.8rem;
+    margin-bottom: 0.8rem;
+}
+
+.saved-bookmarks-manage-head {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    margin-bottom: 0.65rem;
+    font-size: 0.85rem;
+}
+
+.saved-bookmarks-manage-hint {
+    color: var(--saved-bookmarks-muted);
+    font-size: 0.78rem;
+}
+
+.saved-bookmarks-manage-create {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    margin-bottom: 0.6rem;
+}
+
+.saved-bookmarks-manage-input {
+    border-radius: 999px;
+    border: 1px solid var(--saved-bookmarks-border);
+    background: var(--saved-bookmarks-control-bg);
+    color: var(--saved-bookmarks-text);
+    font-size: 0.82rem;
+    padding: 0.4rem 0.7rem;
+}
+
+.saved-bookmarks-manage-btn {
+    border-radius: 999px;
+    font-size: 0.78rem;
+    padding: 0.34rem 0.65rem;
+    white-space: nowrap;
+}
+
+.saved-bookmarks-manage-list {
+    display: grid;
+    gap: 0.45rem;
+}
+
+.saved-bookmarks-manage-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.6rem;
+    padding: 0.45rem 0.5rem;
+    border-radius: 14px;
+    border: 1px solid var(--saved-bookmarks-border);
+    background: var(--saved-bookmarks-card-bg);
+}
+
+.saved-bookmarks-manage-row-main {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-width: 0;
+    flex: 1 1 auto;
+}
+
+.saved-bookmarks-manage-name {
+    font-weight: 700;
+    font-size: 0.84rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.saved-bookmarks-manage-count {
+    font-size: 0.78rem;
+}
+
+.saved-bookmarks-manage-row-actions {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    flex-shrink: 0;
+    flex-wrap: wrap;
+    justify-content: flex-end;
 }
 
 .saved-bookmarks-panel-head {
@@ -555,6 +949,16 @@ export default {
 
     .saved-bookmarks-card {
         padding: 0.72rem;
+    }
+
+    .saved-bookmarks-card-top-actions {
+        width: 100%;
+        justify-content: flex-end;
+    }
+
+    .saved-bookmarks-move-select {
+        min-width: 0;
+        flex: 1 1 auto;
     }
 
     .saved-bookmarks-toolbar-actions,

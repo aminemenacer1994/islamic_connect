@@ -835,6 +835,10 @@ export default {
             savedBookmarkRecordsStorageKeyBase:
                 "ic_saved_bookmark_records_v1",
             isSavedBookmarksPanelOpen: false,
+            savedBookmarkFolders: [],
+            savedBookmarkFoldersLoaded: false,
+            activeSavedBookmarkFolderId: "all",
+            savedBookmarkFoldersBusy: false,
             selectedSavedBookmarkKeys: [],
             savedBookmarksDeleteConfirm: {
                 visible: false,
@@ -4793,8 +4797,20 @@ export default {
         hasSavedBookmarks() {
             return this.savedBookmarksList.length > 0;
         },
+        savedBookmarksFilteredList() {
+            const active = String(this.activeSavedBookmarkFolderId || "all");
+            if (active === "all") return this.savedBookmarksList;
+            const folderId = Number(active);
+            if (!Number.isFinite(folderId) || folderId <= 0) return this.savedBookmarksList;
+            return this.savedBookmarksList.filter((bookmark) => {
+                const ids = Array.isArray(bookmark?.folderIds) ? bookmark.folderIds : [];
+                return ids.some((id) => Number(id) === folderId);
+            });
+        },
         selectedSavedBookmarkCount() {
-            const validKeys = new Set(this.savedBookmarksList.map((item) => item.key));
+            const validKeys = new Set(
+                this.savedBookmarksFilteredList.map((item) => item.key)
+            );
             return (this.selectedSavedBookmarkKeys || []).filter((key) =>
                 validKeys.has(key)
             ).length;
@@ -4802,7 +4818,8 @@ export default {
         areAllSavedBookmarksSelected() {
             return (
                 this.hasSavedBookmarks &&
-                this.selectedSavedBookmarkCount === this.savedBookmarksList.length
+                this.selectedSavedBookmarkCount ===
+                    this.savedBookmarksFilteredList.length
             );
         },
         canPlaySurah() {
@@ -21018,12 +21035,30 @@ export default {
                     rawRecord.value ||
                     null
             );
+            const folderIdsRaw =
+                rawRecord.folderIds ||
+                rawRecord.folder_ids ||
+                rawRecord.folders ||
+                [];
+            const folderIds = Array.from(
+                new Set(
+                    (Array.isArray(folderIdsRaw) ? folderIdsRaw : [])
+                        .map((entry) => {
+                            if (entry && typeof entry === "object") {
+                                return Number(entry.id || 0);
+                            }
+                            return Number(entry || 0);
+                        })
+                        .filter((id) => Number.isFinite(id) && id > 0)
+                )
+            );
             return {
                 key,
                 bookmarkId:
                     typeof normalizedBookmarkId === "number"
                         ? normalizedBookmarkId
                         : null,
+                folderIds,
                 surahNumber,
                 ayahNumber,
                 surahName: String(
@@ -21124,12 +21159,26 @@ export default {
                     source.id ||
                     null
             );
+            const foldersRaw = source.folders || source.folder_ids || source.folderIds || [];
+            const folderIds = Array.from(
+                new Set(
+                    (Array.isArray(foldersRaw) ? foldersRaw : [])
+                        .map((entry) => {
+                            if (entry && typeof entry === "object") {
+                                return Number(entry.id || 0);
+                            }
+                            return Number(entry || 0);
+                        })
+                        .filter((id) => Number.isFinite(id) && id > 0)
+                )
+            );
             return {
                 key: this.buildAyahKey(surahNumber, ayahNumber),
                 bookmarkId:
                     typeof normalizedBookmarkId === "number"
                         ? normalizedBookmarkId
                         : null,
+                folderIds,
                 surahNumber,
                 ayahNumber,
                 surahName: String(
@@ -21219,13 +21268,160 @@ export default {
             await this.loadSavedAyahs();
             await this.loadSavedBookmarkRecords();
             await this.syncSavedAyahsFromApi();
+            await this.fetchSavedBookmarkFolders();
+            this.activeSavedBookmarkFolderId = "all";
             this.isSavedBookmarksPanelOpen = this.hasSavedBookmarks;
         },
         closeSavedBookmarksPanel() {
             if (this.savedBookmarksDeleteBusy) return;
             this.isSavedBookmarksPanelOpen = false;
+            this.activeSavedBookmarkFolderId = "all";
             this.clearSavedBookmarksSelection();
             this.resetSavedBookmarksDeleteConfirm();
+        },
+        async fetchSavedBookmarkFolders() {
+            if (!this.bookmarkAuthenticated) {
+                this.savedBookmarkFolders = [];
+                this.savedBookmarkFoldersLoaded = true;
+                return [];
+            }
+            try {
+                this.savedBookmarkFoldersBusy = true;
+                const response = await axios.get("/api/folders");
+                const folders = response.data?.data || [];
+                const normalized = Array.isArray(folders) ? folders : [];
+                // Only show non-smart folders as "collections" for filtering.
+                this.savedBookmarkFolders = normalized.filter(
+                    (folder) => folder && !folder.is_smart
+                );
+                this.savedBookmarkFoldersLoaded = true;
+                return this.savedBookmarkFolders;
+            } catch (_) {
+                this.savedBookmarkFolders = [];
+                this.savedBookmarkFoldersLoaded = true;
+                return [];
+            } finally {
+                this.savedBookmarkFoldersBusy = false;
+            }
+        },
+        setActiveSavedBookmarkFolder(folderId) {
+            const next = String(folderId || "all");
+            this.activeSavedBookmarkFolderId = next;
+            this.clearSavedBookmarksSelection();
+            this.resetSavedBookmarksDeleteConfirm();
+        },
+        updateSavedBookmarkRecordFoldersByKey(key, nextFolderIds = []) {
+            if (!key) return;
+            const existing = this.savedBookmarkRecords?.[key];
+            if (!existing) return;
+            const unique = Array.from(
+                new Set(
+                    (Array.isArray(nextFolderIds) ? nextFolderIds : [])
+                        .map((id) => Number(id))
+                        .filter((id) => Number.isFinite(id) && id > 0)
+                )
+            );
+            this.savedBookmarkRecords = {
+                ...this.savedBookmarkRecords,
+                [key]: {
+                    ...existing,
+                    folderIds: unique,
+                },
+            };
+        },
+        async createSavedBookmarkFolder(payload = {}) {
+            if (!this.bookmarkAuthenticated) return;
+            const name = String(payload?.name || "").trim();
+            if (!name) return;
+            try {
+                this.savedBookmarkFoldersBusy = true;
+                await axios.post("/api/folders", { name });
+                await this.fetchSavedBookmarkFolders();
+                this.showToast("Collection created.", 2500);
+            } catch (_) {
+                this.showToast("Failed to create collection.", 3000);
+            } finally {
+                this.savedBookmarkFoldersBusy = false;
+            }
+        },
+        async updateSavedBookmarkFolder(payload = {}) {
+            if (!this.bookmarkAuthenticated) return;
+            const id = Number(payload?.id || 0);
+            const name = String(payload?.name || "").trim();
+            if (!id || !name) return;
+            try {
+                this.savedBookmarkFoldersBusy = true;
+                await axios.put(`/api/folders/${id}`, { name });
+                await this.fetchSavedBookmarkFolders();
+                this.showToast("Collection renamed.", 2500);
+            } catch (_) {
+                this.showToast("Failed to rename collection.", 3000);
+            } finally {
+                this.savedBookmarkFoldersBusy = false;
+            }
+        },
+        async deleteSavedBookmarkFolder(payload = {}) {
+            if (!this.bookmarkAuthenticated) return;
+            const id = Number(payload?.id || 0);
+            if (!id) return;
+            try {
+                this.savedBookmarkFoldersBusy = true;
+                await axios.delete(`/api/folders/${id}`);
+                await this.fetchSavedBookmarkFolders();
+                // Folder membership may have changed; re-sync bookmarks for folderIds.
+                await this.syncSavedAyahsFromApi();
+                this.showToast("Collection deleted.", 2500);
+            } catch (_) {
+                this.showToast("Failed to delete collection.", 3000);
+            } finally {
+                this.savedBookmarkFoldersBusy = false;
+            }
+        },
+        async moveSavedBookmarkToFolder(payload = {}) {
+            if (!this.bookmarkAuthenticated) return;
+            const key = String(payload?.key || "").trim();
+            const targetFolderId = Number(payload?.targetFolderId || 0);
+            if (!key || !targetFolderId) return;
+            const bookmark = this.getSavedBookmarkRecordByKey(key);
+            const bookmarkId = Number(bookmark?.bookmarkId || 0);
+            if (!bookmarkId) {
+                await this.syncSavedAyahsFromApi();
+            }
+            const resolved = this.getSavedBookmarkRecordByKey(key);
+            const resolvedBookmarkId = Number(resolved?.bookmarkId || 0);
+            if (!resolvedBookmarkId) {
+                this.showToast("Unable to move this bookmark.", 3000);
+                return;
+            }
+            const fromFolderId = Number(this.activeSavedBookmarkFolderId || 0);
+            try {
+                this.savedBookmarkFoldersBusy = true;
+                await axios.post(`/api/ayah-bookmarks/${resolvedBookmarkId}/folders`, {
+                    folder_ids: [targetFolderId],
+                });
+                if (Number.isFinite(fromFolderId) && fromFolderId > 0) {
+                    await axios.delete(
+                        `/api/ayah-bookmarks/${resolvedBookmarkId}/folders/${fromFolderId}`
+                    );
+                }
+                const nextFolderIds = Array.from(
+                    new Set([
+                        ...(Array.isArray(resolved?.folderIds) ? resolved.folderIds : []),
+                        targetFolderId,
+                    ])
+                );
+                const finalFolderIds =
+                    Number.isFinite(fromFolderId) && fromFolderId > 0
+                        ? nextFolderIds.filter((id) => Number(id) !== fromFolderId)
+                        : nextFolderIds;
+                this.updateSavedBookmarkRecordFoldersByKey(key, finalFolderIds);
+                await this.fetchSavedBookmarkFolders();
+                this.showToast("Moved to collection.", 2500);
+            } catch (_) {
+                this.showToast("Failed to move bookmark.", 3000);
+            } finally {
+                this.savedBookmarkFoldersBusy = false;
+            }
         },
         toggleSavedBookmarkSelection(key = "") {
             if (!key || this.savedBookmarksDeleteBusy) return;
@@ -21243,7 +21439,7 @@ export default {
                 this.clearSavedBookmarksSelection();
                 return;
             }
-            this.selectedSavedBookmarkKeys = this.savedBookmarksList.map(
+            this.selectedSavedBookmarkKeys = this.savedBookmarksFilteredList.map(
                 (item) => item.key
             );
         },

@@ -600,24 +600,43 @@
                 </template>
             </div>
         </div>
-        <saved-bookmarks-panel
+        <div
+            v-if="isSavedBookmarksPanelOpen && hasSavedBookmarks"
+            class="saved-bookmarks-panel-backdrop"
+            role="presentation"
+            @click="closeSavedBookmarksPanel"></div>
+        <div
             v-if="isTabletOrMobile && isSavedBookmarksPanelOpen && hasSavedBookmarks"
-            :bookmarks="savedBookmarksList"
-            :dark-theme="isDarkTheme"
-            :selected-keys="selectedSavedBookmarkKeys"
-            :selected-count="selectedSavedBookmarkCount"
-            :all-selected="areAllSavedBookmarksSelected"
-            :delete-confirm="savedBookmarksDeleteConfirm"
-            :delete-busy="savedBookmarksDeleteBusy"
-            @close="closeSavedBookmarksPanel"
-            @open-bookmark="openSavedBookmarkByKey"
-            @toggle-selection="toggleSavedBookmarkSelection"
-            @toggle-select-all="toggleSelectAllSavedBookmarks"
-            @clear-selection="clearSavedBookmarksSelection"
-            @request-delete="requestSingleSavedBookmarkDelete"
-            @request-bulk-delete="requestBulkSavedBookmarksDelete"
-            @confirm-delete="confirmSavedBookmarksDelete"
-            @cancel-delete="cancelSavedBookmarksDelete" />
+            class="saved-bookmarks-modal-shell"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Saved bookmarks">
+            <saved-bookmarks-panel
+                :bookmarks="savedBookmarksFilteredList"
+                :folders="savedBookmarkFolders"
+                :active-folder-id="activeSavedBookmarkFolderId"
+                :dark-theme="isDarkTheme"
+                :busy="savedBookmarkFoldersBusy || savedBookmarksDeleteBusy"
+                :selected-keys="selectedSavedBookmarkKeys"
+                :selected-count="selectedSavedBookmarkCount"
+                :all-selected="areAllSavedBookmarksSelected"
+                :delete-confirm="savedBookmarksDeleteConfirm"
+                :delete-busy="savedBookmarksDeleteBusy"
+                @close="closeSavedBookmarksPanel"
+                @select-folder="setActiveSavedBookmarkFolder"
+                @create-folder="createSavedBookmarkFolder"
+                @update-folder="updateSavedBookmarkFolder"
+                @delete-folder="deleteSavedBookmarkFolder"
+                @move-bookmark="moveSavedBookmarkToFolder"
+                @open-bookmark="openSavedBookmarkByKey"
+                @toggle-selection="toggleSavedBookmarkSelection"
+                @toggle-select-all="toggleSelectAllSavedBookmarks"
+                @clear-selection="clearSavedBookmarksSelection"
+                @request-delete="requestSingleSavedBookmarkDelete"
+                @request-bulk-delete="requestBulkSavedBookmarksDelete"
+                @confirm-delete="confirmSavedBookmarksDelete"
+                @cancel-delete="cancelSavedBookmarksDelete" />
+        </div>
         <div v-if="!showReaderToolbar"
             class="reader-toolbar-restore ltr-text">
             <button
@@ -1001,24 +1020,38 @@
 	                </button>
 
             </div>
-            <saved-bookmarks-panel
+            <div
                 v-if="showDesktopToolbar && !isTabletOrMobile && isSavedBookmarksPanelOpen && hasSavedBookmarks"
-                :bookmarks="savedBookmarksList"
-                :dark-theme="isDarkTheme"
-                :selected-keys="selectedSavedBookmarkKeys"
-                :selected-count="selectedSavedBookmarkCount"
-                :all-selected="areAllSavedBookmarksSelected"
-                :delete-confirm="savedBookmarksDeleteConfirm"
-                :delete-busy="savedBookmarksDeleteBusy"
-                @close="closeSavedBookmarksPanel"
-                @open-bookmark="openSavedBookmarkByKey"
-                @toggle-selection="toggleSavedBookmarkSelection"
-                @toggle-select-all="toggleSelectAllSavedBookmarks"
-                @clear-selection="clearSavedBookmarksSelection"
-                @request-delete="requestSingleSavedBookmarkDelete"
-                @request-bulk-delete="requestBulkSavedBookmarksDelete"
-                @confirm-delete="confirmSavedBookmarksDelete"
-                @cancel-delete="cancelSavedBookmarksDelete" />
+                class="saved-bookmarks-modal-shell"
+                role="dialog"
+                aria-modal="true"
+                aria-label="Saved bookmarks">
+                <saved-bookmarks-panel
+                    :bookmarks="savedBookmarksFilteredList"
+                    :folders="savedBookmarkFolders"
+                    :active-folder-id="activeSavedBookmarkFolderId"
+                    :dark-theme="isDarkTheme"
+                    :busy="savedBookmarkFoldersBusy || savedBookmarksDeleteBusy"
+                    :selected-keys="selectedSavedBookmarkKeys"
+                    :selected-count="selectedSavedBookmarkCount"
+                    :all-selected="areAllSavedBookmarksSelected"
+                    :delete-confirm="savedBookmarksDeleteConfirm"
+                    :delete-busy="savedBookmarksDeleteBusy"
+                    @close="closeSavedBookmarksPanel"
+                    @select-folder="setActiveSavedBookmarkFolder"
+                    @create-folder="createSavedBookmarkFolder"
+                    @update-folder="updateSavedBookmarkFolder"
+                    @delete-folder="deleteSavedBookmarkFolder"
+                    @move-bookmark="moveSavedBookmarkToFolder"
+                    @open-bookmark="openSavedBookmarkByKey"
+                    @toggle-selection="toggleSavedBookmarkSelection"
+                    @toggle-select-all="toggleSelectAllSavedBookmarks"
+                    @clear-selection="clearSavedBookmarksSelection"
+                    @request-delete="requestSingleSavedBookmarkDelete"
+                    @request-bulk-delete="requestBulkSavedBookmarksDelete"
+                    @confirm-delete="confirmSavedBookmarksDelete"
+                    @cancel-delete="cancelSavedBookmarksDelete" />
+            </div>
 	            <div v-if="showCustomPlaylistPanel" class="reader-custom-playlist-panel" :class="{ 'is-dark': isDarkTheme }">
 	                <div class="reader-custom-playlist-header">
 	                    <div class="reader-custom-playlist-header-copy">
