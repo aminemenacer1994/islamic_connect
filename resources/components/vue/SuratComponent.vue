@@ -470,13 +470,13 @@
                                     :class="{ 'is-enabled': showWordTranslationTooltip }"
                                     @click="toggleToolbarWordAudio"
                                     :aria-label="showWordTranslationTooltip
-                                        ? 'Turn word audio off'
-                                        : 'Turn word audio on'"
+                                        ? 'Turn word tooltip off'
+                                        : 'Turn word tooltip on'"
                                     :title="showWordTranslationTooltip
-                                        ? 'Turn off word tap audio and reader word guidance'
-                                        : 'Turn on word tap audio and reader word guidance'">
+                                        ? 'Turn off word tap tooltip and reader word guidance'
+                                        : 'Turn on word tap tooltip and reader word guidance'">
                                     <i class="bi bi-volume-up-fill" aria-hidden="true"></i>
-                                    <span class="advanced-quran-mobile-action-label">Word audio</span>
+                                    <span class="advanced-quran-mobile-action-label">Word tooltip</span>
                                     <span class="advanced-quran-mobile-action-btn-state">
                                         {{ showWordTranslationTooltip ? "On" : "Off" }}
                                     </span>
@@ -869,10 +869,10 @@
                             :class="{ 'is-enabled': showWordTranslationTooltip }"
                             @click="toggleToolbarWordAudio"
                             :aria-label="showWordTranslationTooltip
-                                ? 'Turn word audio off'
-                                : 'Turn word audio on'">
+                                ? 'Turn word tooltip off'
+                                : 'Turn word tooltip on'">
                             <i class="bi bi-volume-up-fill" aria-hidden="true"></i>
-                            <span class="quran-toolbar-btn-text">Word audio</span>
+                            <span class="quran-toolbar-btn-text">Word tooltip</span>
                             <span class="quran-toolbar-btn-state">{{ showWordTranslationTooltip ? "On" : "Off" }}</span>
                         </button>
 
@@ -4837,6 +4837,7 @@
                             openAyahPlaylistMenuKey === getAyahPlaylistMenuKey(item.ayah) ||
                             isTafsirDropdownOpenFor(item) ||
                             isTafsirModalOpenFor(item),
+                        'ayah-card-container--is-playing': isAudioPlaying[item.index],
                     }">
                     <div class="ayah-surface rtl-text d-flex flex-column">
                         <div class="ayah-card-header ltr-text">

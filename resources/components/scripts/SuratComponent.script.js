@@ -24244,7 +24244,6 @@ export default {
             );
             const useTajweed = this.shouldUseTajweedWords(ayah, words.length);
             const activeDisplayWordIndex =
-                this.showWordTranslationTooltip &&
                 Number.isInteger(ayahIndex) &&
                 Number(ayahIndex) === Number(this.activePlaybackWordAyahIndex)
                     ? Number(this.activePlaybackWordDisplayIndex)
@@ -24714,10 +24713,6 @@ export default {
             return Math.min(displayCount - 1, Math.floor(ratio * displayCount));
         },
         updateActivePlaybackWordHighlight(ayahIndex, ayah, currentTime) {
-            if (!this.showWordTranslationTooltip) {
-                this.clearActivePlaybackWordHighlight();
-                return;
-            }
             const safeAyahIndex = Number(ayahIndex);
             if (
                 !Number.isInteger(safeAyahIndex) ||
@@ -27254,12 +27249,12 @@ export default {
                 this.enrichSurahWithQuranSegments().catch(() => {});
             }
             this.announce(
-                checked ? "Word audio enabled." : "Word audio disabled."
+                checked ? "Word tooltip enabled." : "Word tooltip disabled."
             );
-            this.showModeToggleToast("Word audio", checked);
+            this.showModeToggleToast("Word tooltip", checked);
         },
         toggleToolbarTajweed() {
-            const checked = !this.showTajweed;
+            const checked = !this.showTajweed; 
             this.showTajweed = checked;
             if (this.settingsDraft) {
                 this.settingsDraft.showTajweed = checked;

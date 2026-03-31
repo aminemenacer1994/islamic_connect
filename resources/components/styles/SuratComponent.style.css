@@ -5432,7 +5432,27 @@
     border-top-color: rgba(11, 107, 89, 0.48);
 }
 
+.ayah-card-container--is-playing .ayah-surface {
+    border-color: rgba(15, 110, 99, 0.4);
+    box-shadow: 0 16px 40px rgba(15, 110, 99, 0.12), inset 0 0 0 1px rgba(15, 110, 99, 0.1);
+    transform: translateY(-2px);
+    transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease, background-color 0.35s ease;
+    background-color: rgba(15, 110, 99, 0.06);
+}
 
+.ayah-card-container--is-playing .ayah-surface::before {
+    border-top-color: rgba(15, 110, 99, 0.5);
+}
+
+.surat-premium.surat-theme-dark .ayah-card-container--is-playing .ayah-surface {
+    border-color: rgba(45, 212, 191, 0.3);
+    box-shadow: 0 16px 40px rgba(45, 212, 191, 0.08), inset 0 0 0 1px rgba(45, 212, 191, 0.1);
+    background-color: rgba(45, 212, 191, 0.08);
+}
+
+.surat-premium.surat-theme-dark .ayah-card-container--is-playing .ayah-surface::before {
+    border-top-color: rgba(45, 212, 191, 0.4);
+}
 
 .ayah-card-container.memorisation-repetition-active .ayah-surface {
     box-shadow: 0 0 0 2px rgba(6, 78, 59, 0.5);
@@ -43085,7 +43105,7 @@ h1.display-5 {
     display: flex !important;
     flex-wrap: wrap !important;
     justify-content: flex-end !important;
-    align-items: baseline !important;
+    align-items: center !important;
     gap: 0.35rem 0.6rem !important;
 }
 
