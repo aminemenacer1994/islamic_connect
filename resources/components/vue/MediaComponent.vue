@@ -87,7 +87,7 @@
             <h1 class="mb-2 fw-bold text-dark text-center">AI Assistant</h1>
             <p class="card-text text-muted text-wrap text-center"
               style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">
-              Ask Noor your Islamic questions and get source-backed answers from QuranEnc and HadeethEnc references.
+              Ask Noor your Islamic questions and get concise answers backed by IslamHouse sources.
             </p>
             <button class="form-control" onclick="window.location.href='/ai'" type="submit">
               <span class="text-center w-100"><b>Open AI Assistant</b></span>

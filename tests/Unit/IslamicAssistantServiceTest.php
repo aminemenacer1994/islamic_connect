@@ -19,82 +19,28 @@ class IslamicAssistantServiceTest extends TestCase
         Config::set('services.huggingface.model', '');
         Config::set('services.islamhouse.key', 'test-key');
         Config::set('services.islamhouse.base', 'https://api3.islamhouse.com/v3');
-        Config::set('services.quranenc.base', 'https://quranenc.com/api/v1');
-        Config::set('services.quranenc.fallback_translation_key', 'english_saheeh');
-        Config::set('services.quranenc.tafsir_key', 'english_mokhtasar');
-        Config::set('services.hadeethenc.base', 'https://hadeethenc.com/api/v1');
+        Config::set('services.ai_rag.smart_evidence_mode', true);
+        Config::set('services.ai_rag.debug_mode', false);
     }
 
-    public function test_answer_returns_source_backed_response_with_grouped_references(): void
+    public function test_answer_returns_islamhouse_backed_response_with_references(): void
     {
-        Http::fake(function ($request) {
-            $url = $request->url();
+        $requests = [];
 
-            if (str_contains($url, 'quranenc.com/api/v1/search/english_saheeh')) {
-                return Http::response([
-                    'result' => [
-                        ['sura' => 2, 'aya' => 153, 'translation' => 'Seek help through patience and prayer.'],
-                    ],
-                ], 200);
-            }
+        Http::fake(function ($request) use (&$requests) {
+            $requests[] = $request->url();
 
-            if (str_contains($url, 'quranenc.com/api/v1/translation/aya/english_saheeh/2/153')) {
-                return Http::response([
-                    'result' => [
-                        'sura' => 2,
-                        'aya' => 153,
-                        'translation' => 'O believers, seek help through patience and prayer. Allah is with the patient.',
-                    ],
-                ], 200);
-            }
-
-            if (str_contains($url, 'quranenc.com/api/v1/translation/aya/english_mokhtasar/2/153')) {
-                return Http::response([
-                    'result' => [
-                        'sura' => 2,
-                        'aya' => 153,
-                        'translation' => 'This verse commands the believers to seek strength through patient obedience and prayer.',
-                    ],
-                ], 200);
-            }
-
-            if (str_contains($url, 'hadeethenc.com/api/v1/categories/root')) {
+            if (str_contains($request->url(), 'api3.islamhouse.com/v3/items')) {
                 return Http::response([
                     'data' => [
-                        ['id' => 5, 'title' => 'Patience'],
-                    ],
-                ], 200);
-            }
-
-            if (str_contains($url, 'hadeethenc.com/api/v1/categories/list')) {
-                return Http::response(['data' => []], 200);
-            }
-
-            if (str_contains($url, 'hadeethenc.com/api/v1/hadeeths/list')) {
-                return Http::response([
-                    'data' => [
-                        ['id' => 77, 'title' => 'Patience at the first strike'],
-                    ],
-                ], 200);
-            }
-
-            if (str_contains($url, 'hadeethenc.com/api/v1/hadeeths/one')) {
-                return Http::response([
-                    'data' => [
-                        'id' => 77,
-                        'title' => 'Patience at the first strike',
-                        'hadeeth' => 'Patience is at the first strike of calamity.',
-                        'explanation' => 'The believer is praised for showing patience as soon as hardship arrives.',
-                        'attribution' => 'Sahih al-Bukhari',
-                        'grade' => 'Sahih',
-                    ],
-                ], 200);
-            }
-
-            if (str_contains($url, 'api3.islamhouse.com/v3/items')) {
-                return Http::response([
-                    'data' => [
-                        ['title' => 'Patience in Times of Trial', 'description' => 'A concise reminder on sabr during hardship.', 'url' => 'https://islamhouse.com/en/articles/1'],
+                        'items' => [
+                            [
+                                'title' => 'Music and scholarly difference',
+                                'description' => 'Scholars differ on this issue and discuss the evidences with nuance.',
+                                'type' => 'article',
+                                'url' => 'https://islamhouse.com/en/articles/123',
+                            ],
+                        ],
                     ],
                 ], 200);
             }
@@ -104,24 +50,26 @@ class IslamicAssistantServiceTest extends TestCase
 
         /** @var IslamicAssistantService $service */
         $service = app(IslamicAssistantService::class);
-        $result = $service->answer('What does Islam teach about patience in hardship?', 'en');
+        $result = $service->answer('What is the Islamic ruling on music?', 'en');
 
         $this->assertTrue($result['sourced']);
-        $this->assertStringContainsString('Allah knows best', $result['message']);
-        $this->assertStringContainsString('Answer', $result['message']);
-        $this->assertStringContainsString('Evidence Structure', $result['message']);
-        $this->assertNotEmpty($result['references']);
-        $this->assertSame('Quran (verses + translations + references)', $result['context_sections'][0]['title']);
-        $this->assertTrue(collect($result['references'])->contains(fn ($reference) => str_contains($reference['label'], 'Quran:')));
-        $this->assertTrue(collect($result['references'])->contains(fn ($reference) => str_contains($reference['label'], 'Hadith:')));
-        $this->assertTrue(collect($result['references'])->contains(fn ($reference) => str_contains($reference['label'], 'IslamHouse:')));
+        $this->assertSame('Verified Source', $result['evidence_level']);
+        $this->assertSame(75, $result['confidence_score']);
+        $this->assertSame('Verified', $result['confidence_badge']);
+        $this->assertSame('IslamHouse Source', $result['ui_badge']);
+        $this->assertStringNotContainsString('[Confidence Badge:', $result['message']);
+        $this->assertStringNotContainsString('Sources', $result['message']);
+        $this->assertTrue(collect($result['references'])->contains(
+            fn ($reference) => str_contains($reference['label'], 'IslamHouse:')
+        ));
+        $this->assertFalse(collect($requests)->contains(fn ($url) => str_contains($url, 'quranenc')));
+        $this->assertFalse(collect($requests)->contains(fn ($url) => str_contains($url, 'hadeethenc')));
+        $this->assertFalse(collect($requests)->contains(fn ($url) => str_contains($url, 'hadithapi')));
     }
 
-    public function test_answer_falls_back_when_no_strong_sources_are_found(): void
+    public function test_answer_falls_back_cleanly_when_no_islamhouse_source_is_found(): void
     {
         Http::fake([
-            'https://quranenc.com/*' => Http::response(['result' => []], 200),
-            'https://hadeethenc.com/*' => Http::response(['data' => []], 200),
             'https://api3.islamhouse.com/*' => Http::response(['data' => []], 200),
             '*' => Http::response([], 404),
         ]);
@@ -131,9 +79,69 @@ class IslamicAssistantServiceTest extends TestCase
         $result = $service->answer('Tell me something very obscure with no direct match', 'en');
 
         $this->assertFalse($result['sourced']);
+        $this->assertSame('No Verified Source', $result['evidence_level']);
+        $this->assertSame(0, $result['confidence_score']);
+        $this->assertSame('Unavailable', $result['confidence_badge']);
+        $this->assertSame('No Verified Source', $result['ui_badge']);
         $this->assertSame([], $result['references']);
-        $this->assertStringContainsString('Answer', $result['message']);
-        $this->assertStringContainsString('General guidance (not directly sourced from Quran, Hadith, or IslamHouse):', $result['message']);
+        $this->assertSame(
+            'I could not find a verified IslamHouse source for this question. Please try a narrower topic or different wording. Allah knows best.',
+            $result['message']
+        );
+    }
+
+    public function test_answer_does_not_crash_when_islamhouse_returns_non_json_body(): void
+    {
+        Http::fake([
+            'https://api3.islamhouse.com/*' => Http::response('upstream temporarily unavailable', 502, [
+                'Content-Type' => 'text/plain',
+            ]),
+            '*' => Http::response([], 404),
+        ]);
+
+        /** @var IslamicAssistantService $service */
+        $service = app(IslamicAssistantService::class);
+        $result = $service->answer('What do scholars say about music?', 'en');
+
+        $this->assertFalse($result['sourced']);
+        $this->assertSame(
+            'I could not find a verified IslamHouse source for this question. Please try a narrower topic or different wording. Allah knows best.',
+            $result['message']
+        );
+    }
+
+    public function test_answer_falls_back_to_islamhouse_website_search_when_api_returns_404(): void
+    {
+        Http::fake(function ($request) {
+            if (str_contains($request->url(), 'api3.islamhouse.com/v3/items')) {
+                return Http::response([], 404);
+            }
+
+            if ($request->url() === 'https://islamhouse.com/search/search.php') {
+                return Http::response([
+                    'items' => [
+                        [
+                            'id' => '430103',
+                            'lang' => 'en',
+                            'type' => 'articles',
+                            'title' => '<a href="https://islamhouse.com/430103" target="_blank">Anger management in Islam</a>',
+                            'nabza' => 'Anger must be managed in an acceptable way, with examples from the Quran and the traditions of Prophet Muhammad.',
+                        ],
+                    ],
+                ], 200);
+            }
+
+            return Http::response([], 404);
+        });
+
+        /** @var IslamicAssistantService $service */
+        $service = app(IslamicAssistantService::class);
+        $result = $service->answer('What is the Islamic guidance on controlling anger?', 'en');
+
+        $this->assertTrue($result['sourced']);
+        $this->assertSame('Verified Source', $result['evidence_level']);
+        $this->assertNotEmpty($result['references']);
+        $this->assertStringContainsString('Anger management in Islam', $result['references'][0]['label']);
     }
 
     public function test_retrieval_requests_are_cached_for_repeat_queries(): void
@@ -142,34 +150,19 @@ class IslamicAssistantServiceTest extends TestCase
 
         Http::fake(function ($request) use (&$requestCount) {
             $requestCount++;
-            $url = $request->url();
 
-            if (str_contains($url, 'quranenc.com/api/v1/search/english_saheeh')) {
+            if (str_contains($request->url(), 'api3.islamhouse.com/v3/items')) {
                 return Http::response([
-                    'result' => [
-                        ['sura' => 3, 'aya' => 159, 'translation' => 'Then rely upon Allah.'],
+                    'data' => [
+                        'items' => [
+                            [
+                                'title' => 'Trust in Allah',
+                                'description' => 'A concise IslamHouse reminder about reliance upon Allah.',
+                                'type' => 'article',
+                            ],
+                        ],
                     ],
                 ], 200);
-            }
-
-            if (str_contains($url, 'quranenc.com/api/v1/translation/aya/english_saheeh/3/159')) {
-                return Http::response([
-                    'result' => ['sura' => 3, 'aya' => 159, 'translation' => 'And when you decide, put your trust in Allah.'],
-                ], 200);
-            }
-
-            if (str_contains($url, 'quranenc.com/api/v1/translation/aya/english_mokhtasar/3/159')) {
-                return Http::response([
-                    'result' => ['sura' => 3, 'aya' => 159, 'translation' => 'This verse teaches reliance upon Allah after taking proper means.'],
-                ], 200);
-            }
-
-            if (str_contains($url, 'hadeethenc.com/api/v1/categories/root')) {
-                return Http::response(['data' => []], 200);
-            }
-
-            if (str_contains($url, 'api3.islamhouse.com/v3/items')) {
-                return Http::response(['data' => []], 200);
             }
 
             return Http::response([], 404);
@@ -187,34 +180,31 @@ class IslamicAssistantServiceTest extends TestCase
         $this->assertSame($afterFirstCall, $requestCount);
     }
 
-    public function test_weak_hadith_is_excluded_by_default(): void
+    public function test_retrieval_uses_normalized_islamhouse_search_variants(): void
     {
-        Http::fake(function ($request) {
+        $searches = [];
+
+        Http::fake(function ($request) use (&$searches) {
             $url = $request->url();
 
-            if (str_contains($url, 'quranenc.com/api/v1/search/english_saheeh')) {
-                return Http::response(['result' => []], 200);
-            }
-
-            if (str_contains($url, 'hadeethenc.com/api/v1/search')) {
-                return Http::response([
-                    'data' => [
-                        [
-                            'id' => 90,
-                            'title' => 'Weak narration',
-                            'hadeeth' => 'A weak narration about patience.',
-                            'grade' => 'Daif',
-                            'attribution' => 'Some collection',
-                        ],
-                    ],
-                ], 200);
-            }
-
-            if (str_contains($url, 'hadeethenc.com/api/v1/categories/root')) {
-                return Http::response(['data' => []], 200);
-            }
-
             if (str_contains($url, 'api3.islamhouse.com/v3/items')) {
+                parse_str((string) parse_url($url, PHP_URL_QUERY), $query);
+                $searches[] = $query['search'] ?? null;
+
+                if (($query['search'] ?? null) === 'music') {
+                    return Http::response([
+                        'data' => [
+                            'items' => [
+                                [
+                                    'title' => 'Music and scholarly difference',
+                                    'description' => 'Scholars differ on this issue and discuss the evidences with nuance.',
+                                    'type' => 'article',
+                                ],
+                            ],
+                        ],
+                    ], 200);
+                }
+
                 return Http::response(['data' => []], 200);
             }
 
@@ -223,10 +213,84 @@ class IslamicAssistantServiceTest extends TestCase
 
         /** @var IslamicAssistantService $service */
         $service = app(IslamicAssistantService::class);
-        $result = $service->answer('Share a hadith about patience', 'en');
+        $result = $service->answer('What do scholars say about music?', 'en');
 
-        $this->assertFalse(collect($result['references'])->contains(
-            fn ($reference) => str_contains($reference['label'], 'Weak')
+        $this->assertTrue($result['sourced']);
+        $this->assertSame('Verified Source', $result['evidence_level']);
+        $this->assertContains('what do scholars say about music', $searches);
+        $this->assertContains('music', $searches);
+        $this->assertContains('music ruling', $searches);
+        $this->assertTrue(collect($result['references'])->contains(
+            fn ($reference) => str_contains($reference['label'], 'IslamHouse:')
+        ));
+    }
+
+    public function test_retrieval_parses_data_list_payload_and_ranks_more_relevant_items_first(): void
+    {
+        Http::fake(function ($request) {
+            if (str_contains($request->url(), 'api3.islamhouse.com/v3/items')) {
+                return Http::response([
+                    'data' => [
+                        [
+                            'title' => 'General etiquette',
+                            'description' => 'A broad reminder with no direct relation to music.',
+                            'type' => 'article',
+                        ],
+                        [
+                            'title' => 'Music ruling in Islam',
+                            'description' => 'A focused fatwa discussing music and the scholarly ruling.',
+                            'type' => 'fatwa',
+                        ],
+                    ],
+                ], 200);
+            }
+
+            return Http::response([], 404);
+        });
+
+        /** @var IslamicAssistantService $service */
+        $service = app(IslamicAssistantService::class);
+        $result = $service->answer('What do scholars say about music?', 'en');
+
+        $this->assertTrue($result['sourced']);
+        $this->assertNotEmpty($result['references']);
+        $this->assertStringContainsString('Music ruling in Islam', $result['references'][0]['label']);
+    }
+
+    public function test_debug_mode_returns_only_islamhouse_raw_responses(): void
+    {
+        Http::fake(function ($request) {
+            if (str_contains($request->url(), 'api3.islamhouse.com/v3/items')) {
+                return Http::response([
+                    'data' => [
+                        'items' => [
+                            [
+                                'title' => 'Prayer in Islam',
+                                'description' => 'A short IslamHouse explanation about prayer.',
+                                'type' => 'article',
+                            ],
+                        ],
+                    ],
+                ], 200);
+            }
+
+            return Http::response([], 404);
+        });
+
+        /** @var IslamicAssistantService $service */
+        $service = app(IslamicAssistantService::class);
+        $result = $service->answer('Explain prayer in Islam', 'en', [
+            'debug_mode' => true,
+        ]);
+
+        $this->assertTrue($result['debug_mode']);
+        $this->assertSame('Debug mode enabled. Raw API responses returned before AI processing.', $result['message']);
+        $this->assertTrue(collect($result['debug']['hard_tests'])->has('islamhouse'));
+        $this->assertFalse(collect($result['debug']['hard_tests'])->has('quranenc'));
+        $this->assertFalse(collect($result['debug']['hard_tests'])->has('hadithenc'));
+        $this->assertNotEmpty($result['debug']['raw_responses']);
+        $this->assertTrue(collect($result['debug']['raw_responses'])->every(
+            fn ($entry) => ($entry['label'] ?? null) === 'ISLAMHOUSE_RAW_RESPONSE'
         ));
     }
 }

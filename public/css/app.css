@@ -96915,6 +96915,11 @@ to {
   background: rgba(255, 255, 255, 0.84);
   color: var(--ai-ink);
 }
+.ai-evidence[data-v-077e75cb] {
+  margin: -0.2rem 0 0.8rem;
+  color: var(--ai-muted);
+  font-size: 0.84rem;
+}
 .ai-composer-footer[data-v-077e75cb] {
   display: flex;
   align-items: center;

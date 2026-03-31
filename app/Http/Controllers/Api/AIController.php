@@ -25,6 +25,7 @@ class AIController extends Controller
             'question' => 'required|string|max:1500',
             'session_id' => 'nullable|string|max:64',
             'language' => 'nullable|string|max:12',
+            'debug_mode' => 'nullable|boolean',
         ]);
 
         $language = strtolower($validated['language'] ?? 'en');
@@ -45,17 +46,44 @@ class AIController extends Controller
         $session = $this->resolveSession($sessionId);
 
         try {
-            $answer = $assistantService->answer($question, $language);
+            $answer = $assistantService->answer($question, $language, [
+                'debug_mode' => (bool) ($validated['debug_mode'] ?? false),
+            ]);
+
+            if (($answer['debug_mode'] ?? false) === true) {
+                return response()->json([
+                    'session_id' => $session?->session_id ?? $sessionId,
+                    'assistant' => [
+                        'message' => $answer['message'],
+                        'summary' => [],
+                        'references' => [],
+                        'sourced' => false,
+                        'category' => (string) ($answer['category'] ?? 'general'),
+                        'evidence_level' => (string) ($answer['evidence_level'] ?? 'Weak'),
+                        'confidence_score' => (int) ($answer['confidence_score'] ?? 0),
+                        'confidence_badge' => (string) ($answer['confidence_badge'] ?? 'Low'),
+                        'ui_badge' => (string) ($answer['ui_badge'] ?? 'Low Evidence'),
+                        'context_sections' => [],
+                        'debug_mode' => true,
+                        'debug' => $answer['debug'] ?? [],
+                    ],
+                ]);
+            }
 
             $references = array_slice($answer['references'] ?? [], 0, 8);
+            $confidence = match ((int) ($answer['confidence_score'] ?? 0)) {
+                90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100 => 'high',
+                60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89 => 'medium',
+                default => 'low',
+            };
             $verification = [
                 'verified' => (bool) ($answer['sourced'] ?? false),
-                'confidence' => ($answer['sourced'] ?? false) ? 'high' : 'low',
+                'confidence' => $confidence,
                 'category' => [$answer['sourced'] ? 'retrieval_augmented' : 'fallback'],
                 'totalSources' => count($references),
                 'message' => ($answer['sourced'] ?? false)
-                    ? 'Answer built from Quran, HadithEnc, and IslamHouse context.'
-                    : 'No strong direct source matches were found.',
+                    ? 'Answer built from IslamHouse source context.'
+                    : 'No verified IslamHouse source was found for this question.',
                 'timestamp' => now()->toIso8601String(),
             ];
 
@@ -87,6 +115,11 @@ class AIController extends Controller
                     'summary' => [],
                     'references' => $references,
                     'sourced' => (bool) ($answer['sourced'] ?? false),
+                    'category' => (string) ($answer['category'] ?? 'general'),
+                    'evidence_level' => (string) ($answer['evidence_level'] ?? 'Weak'),
+                    'confidence_score' => (int) ($answer['confidence_score'] ?? 0),
+                    'confidence_badge' => (string) ($answer['confidence_badge'] ?? 'Low'),
+                    'ui_badge' => (string) ($answer['ui_badge'] ?? 'Low Evidence'),
                     'context_sections' => $answer['context_sections'] ?? [],
                     'verification' => Arr::only(
                         $verification,

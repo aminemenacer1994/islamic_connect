@@ -1,5 +1,11 @@
 <?php
 
+$islamHouseApiKey = trim((string) env('ISLAMHOUSE_API_KEY', ''));
+
+if ($islamHouseApiKey === '' || in_array(strtolower($islamHouseApiKey), ['your_real_key', 'changeme', 'null'], true)) {
+    $islamHouseApiKey = trim((string) env('ISLAMHOUSE_KEY', 'paV29H2gm56kvLP'));
+}
+
 return [
 
     /*
@@ -82,7 +88,7 @@ return [
         'router_provider' => env('HUGGINGFACE_ROUTER_PROVIDER', 'novita'),
     ],
     'islamhouse' => [
-        'key' => env('ISLAMHOUSE_API_KEY', 'paV29H2gm56kvLP'),
+        'key' => $islamHouseApiKey,
         'base' => env('ISLAMHOUSE_API_BASE', 'https://api3.islamhouse.com/v3'),
         'version' => env('ISLAMHOUSE_API_VERSION', 'v3'),
     ],
@@ -174,9 +180,18 @@ return [
     ],
 
     'quranenc' => [
-        'base' => env('QURANENC_API_BASE', 'https://quranenc.com/api/v1'),
+        'base' => env('QURANENC_API_BASE', 'https://api.quranenc.com/api/v1'),
+        'key' => env('QURANENC_API_KEY'),
+        'translate_endpoint' => env('QURANENC_TRANSLATE_ENDPOINT', '/translation/translate'),
         'fallback_translation_key' => env('QURANENC_FALLBACK_TRANSLATION_KEY', 'english_saheeh'),
         'tafsir_key' => env('QURANENC_TAFSIR_KEY', 'english_mokhtasar'),
+        'legacy_base' => env('QURANENC_LEGACY_API_BASE', 'https://quranenc.com/api/v1'),
+    ],
+
+    'hadithenc' => [
+        'base' => env('HADITHENC_API_BASE', 'https://hadithapi.com/api'),
+        'key' => env('HADITHENC_API_KEY'),
+        'endpoint' => env('HADITHENC_API_ENDPOINT', '/hadiths'),
     ],
 
     'hadeethenc' => [
@@ -212,6 +227,8 @@ return [
         'query_cache_hours' => env('AI_RAG_QUERY_CACHE_HOURS', 24),
         'document_cache_hours' => env('AI_RAG_DOCUMENT_CACHE_HOURS', 72),
         'vector_candidate_limit' => env('AI_RAG_VECTOR_CANDIDATE_LIMIT', 500),
+        'smart_evidence_mode' => env('AI_RAG_SMART_EVIDENCE_MODE', true),
+        'debug_mode' => env('AI_RAG_DEBUG_MODE', false),
     ],
     
     // GA4 analytics config removed

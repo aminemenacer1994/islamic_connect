@@ -6,7 +6,7 @@
           <p class="ai-eyebrow">AI Assistant</p>
           <h1>Noor</h1>
           <p class="ai-subtitle">
-            Source-backed Islamic answers using QuranEnc, HadithEnc, and IslamHouse.
+            Verified Islamic answers using IslamHouse sources.
           </p>
         </div>
         <button
@@ -26,7 +26,7 @@
         <div v-if="!messages.length" class="ai-empty">
           <p class="ai-empty-title">Ask a focused Islamic question.</p>
           <p class="ai-empty-copy">
-            Noor will prioritize Quran first, then Hadith, then IslamHouse scholarly content.
+            Noor searches IslamHouse and returns a concise source-backed answer when one is available.
           </p>
           <div class="ai-prompt-grid">
             <button
@@ -48,11 +48,8 @@
             :class="['ai-message', `ai-message--${message.role}`]">
             <div class="ai-message-meta">
               <span>{{ message.role === 'assistant' ? 'Noor' : 'You' }}</span>
-              <span v-if="message.role === 'assistant' && message.sourced === false" class="ai-badge ai-badge--fallback">
-                Not directly sourced
-              </span>
-              <span v-else-if="message.role === 'assistant'" class="ai-badge">
-                Source-backed
+              <span v-if="message.role === 'assistant' && message.sourced && message.uiBadge" class="ai-badge">
+                {{ message.uiBadge }}
               </span>
             </div>
 
@@ -123,9 +120,9 @@ export default {
       sessionId: '',
       messages: [],
       prompts: [
-        'What does the Quran say about patience in hardship?',
-        'Share one hadith and one Quran verse about sincerity.',
+        'What do scholars say about music?',
         'What is the Islamic guidance on controlling anger?',
+        'Explain sincerity in worship.',
       ],
     };
   },
@@ -173,6 +170,9 @@ export default {
           text: payload?.assistant?.message || 'No answer returned.',
           references: Array.isArray(payload?.assistant?.references) ? payload.assistant.references : [],
           sourced: Boolean(payload?.assistant?.sourced),
+          evidenceLevel: payload?.assistant?.evidence_level || '',
+          confidenceBadge: payload?.assistant?.confidence_badge || '',
+          uiBadge: payload?.assistant?.ui_badge || '',
         });
       } catch (error) {
         this.error = error?.message || 'Unable to fetch an answer right now.';
@@ -476,6 +476,12 @@ export default {
   padding: 1rem;
   background: rgba(255, 255, 255, 0.84);
   color: var(--ai-ink);
+}
+
+.ai-evidence {
+  margin: -0.2rem 0 0.8rem;
+  color: var(--ai-muted);
+  font-size: 0.84rem;
 }
 
 .ai-composer-footer {

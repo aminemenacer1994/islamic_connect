@@ -18,6 +18,7 @@ class AiController extends Controller
     {
         $request->validate([
             'message' => 'required|string|max:1500',
+            'debug_mode' => 'nullable|boolean',
         ]);
 
         $message = trim($request->input('message', ''));
@@ -32,12 +33,21 @@ class AiController extends Controller
         }
 
         try {
-            $answer = $assistantService->answer($message, 'en');
+            $answer = $assistantService->answer($message, 'en', [
+                'debug_mode' => (bool) $request->boolean('debug_mode'),
+            ]);
 
             return response()->json([
                 'answer' => $answer['message'],
                 'references' => $answer['references'],
                 'sourced' => $answer['sourced'],
+                'category' => $answer['category'] ?? 'general',
+                'evidence_level' => $answer['evidence_level'] ?? 'Weak',
+                'confidence_score' => $answer['confidence_score'] ?? 0,
+                'confidence_badge' => $answer['confidence_badge'] ?? 'Low',
+                'ui_badge' => $answer['ui_badge'] ?? 'Low Evidence',
+                'debug_mode' => (bool) ($answer['debug_mode'] ?? false),
+                'debug' => $answer['debug'] ?? null,
             ]);
         } catch (\Throwable $exception) {
             report($exception);

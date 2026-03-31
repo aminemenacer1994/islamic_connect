@@ -440,10 +440,8 @@ class IslamicContentService
             return null;
         }
 
-        $version = strtolower((string) config('services.islamhouse.version', 'v1'));
-        $defaultBase = $version === 'v3' ? 'https://api3.islamhouse.com/v3' : 'https://api.islamhouse.com/v1';
-        $baseUrl = rtrim(config('services.islamhouse.base', $defaultBase), '/');
-        $endpoint = $this->buildIslamHouseEndpoint($baseUrl, $apiKey, $language);
+        $baseUrl = rtrim((string) config('services.islamhouse.base', 'https://api3.islamhouse.com/v3'), '/');
+        $endpoint = $this->buildIslamHouseEndpoint($baseUrl, $apiKey, $language, $keywords);
 
         try {
             $response = Http::withHeaders([
@@ -459,7 +457,9 @@ class IslamicContentService
             }
 
             $data = $response->json();
-            $items = Arr::get($data, 'items', $data);
+            $items = Arr::get($data, 'data.items')
+                ?? Arr::get($data, 'items')
+                ?? Arr::get($data, 'data');
             if (!is_array($items)) {
                 return null;
             }
@@ -1320,16 +1320,25 @@ class IslamicContentService
         return $score;
     }
 
-    protected function buildIslamHouseEndpoint(string $baseUrl, string $apiKey, string $language): string
+    protected function buildIslamHouseEndpoint(string $baseUrl, string $apiKey, string $language, array $keywords = []): string
     {
         $language = $language ?: 'en';
-        $version = $this->detectIslamHouseVersion($baseUrl);
-        if ($version === 'v3') {
-            $page = 1;
-            $perPage = 25;
-            return "{$baseUrl}/{$apiKey}/main/articles/{$language}/{$language}/{$page}/{$perPage}/json";
+        $params = [
+            'key' => $apiKey,
+            'lang' => $language,
+            'flang' => $language,
+            'slang' => 'showall',
+            'type' => 'showall',
+            'limit' => 20,
+            'pageNum' => 1,
+        ];
+
+        $search = trim(implode(' ', array_slice(array_values(array_unique(array_filter($keywords))), 0, 6)));
+        if ($search !== '') {
+            $params['search'] = $search;
         }
-        return "{$baseUrl}/{$apiKey}/main/latestupdated/showall/{$language}/showall/20/json";
+
+        return "{$baseUrl}/items?" . http_build_query($params);
     }
 
     protected function detectIslamHouseVersion(string $baseUrl): string

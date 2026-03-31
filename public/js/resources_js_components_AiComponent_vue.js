@@ -19,7 +19,7 @@ __webpack_require__.r(__webpack_exports__);
       error: '',
       sessionId: '',
       messages: [],
-      prompts: ['What does the Quran say about patience in hardship?', 'Share one hadith and one Quran verse about sincerity.', 'What is the Islamic guidance on controlling anger?']
+      prompts: ['What do scholars say about music?', 'What is the Islamic guidance on controlling anger?', 'Explain sincerity in worship.']
     };
   },
   methods: {
@@ -37,7 +37,7 @@ __webpack_require__.r(__webpack_exports__);
       this.scrollToBottom();
       this.loading = true;
       try {
-        var _payload$assistant, _payload$assistant2, _payload$assistant3;
+        var _payload$assistant, _payload$assistant2, _payload$assistant3, _payload$assistant4, _payload$assistant5, _payload$assistant6;
         const response = await fetch('/api/ai/ask', {
           method: 'POST',
           headers: {
@@ -60,7 +60,10 @@ __webpack_require__.r(__webpack_exports__);
           role: 'assistant',
           text: (payload === null || payload === void 0 || (_payload$assistant = payload.assistant) === null || _payload$assistant === void 0 ? void 0 : _payload$assistant.message) || 'No answer returned.',
           references: Array.isArray(payload === null || payload === void 0 || (_payload$assistant2 = payload.assistant) === null || _payload$assistant2 === void 0 ? void 0 : _payload$assistant2.references) ? payload.assistant.references : [],
-          sourced: Boolean(payload === null || payload === void 0 || (_payload$assistant3 = payload.assistant) === null || _payload$assistant3 === void 0 ? void 0 : _payload$assistant3.sourced)
+          sourced: Boolean(payload === null || payload === void 0 || (_payload$assistant3 = payload.assistant) === null || _payload$assistant3 === void 0 ? void 0 : _payload$assistant3.sourced),
+          evidenceLevel: (payload === null || payload === void 0 || (_payload$assistant4 = payload.assistant) === null || _payload$assistant4 === void 0 ? void 0 : _payload$assistant4.evidence_level) || '',
+          confidenceBadge: (payload === null || payload === void 0 || (_payload$assistant5 = payload.assistant) === null || _payload$assistant5 === void 0 ? void 0 : _payload$assistant5.confidence_badge) || '',
+          uiBadge: (payload === null || payload === void 0 || (_payload$assistant6 = payload.assistant) === null || _payload$assistant6 === void 0 ? void 0 : _payload$assistant6.ui_badge) || ''
         });
       } catch (error) {
         this.error = (error === null || error === void 0 ? void 0 : error.message) || 'Unable to fetch an answer right now.';
@@ -200,39 +203,35 @@ const _hoisted_11 = {
 };
 const _hoisted_12 = {
   key: 0,
-  class: "ai-badge ai-badge--fallback"
-};
-const _hoisted_13 = {
-  key: 1,
   class: "ai-badge"
 };
-const _hoisted_14 = ["innerHTML"];
-const _hoisted_15 = {
+const _hoisted_13 = ["innerHTML"];
+const _hoisted_14 = {
   key: 0,
   class: "ai-sources"
 };
-const _hoisted_16 = ["href"];
-const _hoisted_17 = {
+const _hoisted_15 = ["href"];
+const _hoisted_16 = {
   key: 1
 };
-const _hoisted_18 = {
+const _hoisted_17 = {
   key: 2
 };
-const _hoisted_19 = {
+const _hoisted_18 = {
   key: 0,
   class: "ai-message ai-message--assistant"
 };
-const _hoisted_20 = ["disabled"];
-const _hoisted_21 = {
+const _hoisted_19 = ["disabled"];
+const _hoisted_20 = {
   class: "ai-composer-footer"
 };
-const _hoisted_22 = ["disabled"];
+const _hoisted_21 = ["disabled"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("section", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("header", _hoisted_3, [_cache[4] || (_cache[4] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "ai-eyebrow"
   }, "AI Assistant"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", null, "Noor"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "ai-subtitle"
-  }, " Source-backed Islamic answers using QuranEnc, HadithEnc, and IslamHouse. ")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, " Verified Islamic answers using IslamHouse sources. ")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "ai-reset",
     disabled: $data.loading || !$data.messages.length,
@@ -241,7 +240,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "ai-empty-title"
   }, "Ask a focused Islamic question.", -1 /* CACHED */)), _cache[6] || (_cache[6] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "ai-empty-copy"
-  }, " Noor will prioritize Quran first, then Hadith, then IslamHouse scholarly content. ", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.prompts, prompt => {
+  }, " Noor searches IslamHouse and returns a concise source-backed answer when one is available. ", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.prompts, prompt => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
       key: prompt,
       type: "button",
@@ -253,10 +252,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("article", {
       key: `${message.role}-${index}`,
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(['ai-message', `ai-message--${message.role}`])
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(message.role === 'assistant' ? 'Noor' : 'You'), 1 /* TEXT */), message.role === 'assistant' && message.sourced === false ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_12, " Not directly sourced ")) : message.role === 'assistant' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_13, " Source-backed ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(message.role === 'assistant' ? 'Noor' : 'You'), 1 /* TEXT */), message.role === 'assistant' && message.sourced && message.uiBadge ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_12, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(message.uiBadge), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       class: "ai-message-body",
       innerHTML: $options.formatMessage(message.text)
-    }, null, 8 /* PROPS */, _hoisted_14), message.role === 'assistant' && message.references && message.references.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("section", _hoisted_15, [_cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", null, "Sources", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", null, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(message.references, (reference, refIndex) => {
+    }, null, 8 /* PROPS */, _hoisted_13), message.role === 'assistant' && message.references && message.references.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("section", _hoisted_14, [_cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", null, "Sources", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", null, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(message.references, (reference, refIndex) => {
       return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
         key: `${index}-${refIndex}`
       }, [reference.url ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("a", {
@@ -264,9 +263,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         href: reference.url,
         target: "_blank",
         rel: "noopener noreferrer"
-      }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(reference.label), 9 /* TEXT, PROPS */, _hoisted_16)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_17, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(reference.label), 1 /* TEXT */)), reference.hadithGrade ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("small", _hoisted_18, " · " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(reference.hadithGrade), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
+      }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(reference.label), 9 /* TEXT, PROPS */, _hoisted_15)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_16, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(reference.label), 1 /* TEXT */)), reference.hadithGrade ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("small", _hoisted_17, " · " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(reference.hadithGrade), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
     }), 128 /* KEYED_FRAGMENT */))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 2 /* CLASS */);
-  }), 128 /* KEYED_FRAGMENT */)), $data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("article", _hoisted_19, [...(_cache[8] || (_cache[8] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), 128 /* KEYED_FRAGMENT */)), $data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("article", _hoisted_18, [...(_cache[8] || (_cache[8] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "ai-message-meta"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Noor")], -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "ai-message-body ai-message-body--loading"
@@ -285,10 +284,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     disabled: $data.loading,
     placeholder: "Ask about a verse, hadith topic, ruling, or practical Islamic question.",
     onKeydown: _cache[2] || (_cache[2] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)((0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)((...args) => $options.send && $options.send(...args), ["exact", "prevent"]), ["enter"]))
-  }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_20), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.draft]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [_cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "English only for this assistant.", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_19), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.draft]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [_cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "English only for this assistant.", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "submit",
     disabled: $data.loading || !$data.draft.trim()
-  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.loading ? 'Thinking...' : 'Send'), 9 /* TEXT, PROPS */, _hoisted_22)])], 32 /* NEED_HYDRATION */)])])]);
+  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.loading ? 'Thinking...' : 'Send'), 9 /* TEXT, PROPS */, _hoisted_21)])], 32 /* NEED_HYDRATION */)])])]);
 }
 
 /***/ }),
