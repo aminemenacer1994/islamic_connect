@@ -9611,6 +9611,28 @@
     text-align: center;
 }
 
+.transliteration-text--word-aligned {
+    white-space: normal;
+}
+
+:deep(.ayah-transliteration-word) {
+    display: inline-flex;
+    align-items: center;
+    margin: 0 0.14rem 0.28rem 0;
+    border-radius: 10px;
+    padding: 0.08em 0.14em;
+    transition: background-color 0.14s ease, color 0.14s ease,
+        box-shadow 0.14s ease, transform 0.14s ease;
+}
+
+:deep(.ayah-transliteration-word.is-audio-active) {
+    background: rgba(11, 107, 89, 0.14);
+    box-shadow: inset 0 0 0 1px rgba(11, 107, 89, 0.18);
+    color: #0b6b59 !important;
+    font-weight: 700;
+    transform: translateY(-1px);
+}
+
 :deep(.ayah-word.is-audio-active .ayah-word-ar) {
     border-radius: 10px;
     background: rgba(11, 107, 89, 0.14);
@@ -9659,6 +9681,13 @@
     :deep(.ayah-word-translation) {
         white-space: normal;
         word-break: break-word;
+    }
+
+    :deep(.ayah-transliteration-word) {
+        white-space: normal;
+        word-break: break-word;
+        margin-right: 0.14rem;
+        margin-bottom: 0.24rem;
     }
 }
 
@@ -39425,6 +39454,7 @@ h1.display-5 {
 
 /* Final dark-mode cleanup: footer actions, pinned strip, compare modal, and gloss text */
 .surat-premium.surat-theme-dark :deep(.ayah-word-translation),
+.surat-premium.surat-theme-dark :deep(.ayah-transliteration-word),
 .surat-dark-modal.translation-compare-modal .translation-compare-arabic-panel :deep(.ayah-word-translation) {
     color: rgba(255, 255, 255, 0.88) !important;
     text-shadow: none !important;
@@ -43046,6 +43076,12 @@ h1.display-5 {
     color: #9ee8dd !important;
 }
 
+.surat-premium.surat-theme-dark :deep(.ayah-transliteration-word.is-audio-active) {
+    background: rgba(125, 211, 199, 0.16);
+    box-shadow: inset 0 0 0 1px rgba(125, 211, 199, 0.22);
+    color: #9ee8dd !important;
+}
+
 .surat-premium.surat-theme-dark .ayah-card-copy .ayah-word.is-audio-active .ayah-word-ar,
 .surat-premium.surat-theme-dark .translation-compare-arabic-text .ayah-word.is-audio-active .ayah-word-ar {
     background: rgba(125, 211, 199, 0.16);
@@ -43055,6 +43091,12 @@ h1.display-5 {
 
 .surat-premium.surat-theme-dark .ayah-card-copy .ayah-word.is-audio-active .ayah-word-translation,
 .surat-premium.surat-theme-dark .translation-compare-arabic-text .ayah-word.is-audio-active .ayah-word-translation {
+    color: #9ee8dd !important;
+}
+
+.surat-premium.surat-theme-dark .ayah-card-copy .ayah-transliteration-word.is-audio-active {
+    background: rgba(125, 211, 199, 0.16);
+    box-shadow: inset 0 0 0 1px rgba(125, 211, 199, 0.22);
     color: #9ee8dd !important;
 }
 

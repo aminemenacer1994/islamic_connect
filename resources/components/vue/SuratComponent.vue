@@ -5302,11 +5302,13 @@
 		                                            :class="[
 		                                                'fw-regular ltr-text flex-grow-1 transliteration-text',
 		                                                {
+		                                                    'transliteration-text--word-aligned':
+		                                                        hasWordAlignedTransliteration(item.ayah),
 		                                                    'repeat-pause-text-dimmed':
 		                                                        shouldDimVerseTextForRepeatPause(item.index),
 		                                                },
 		                                            ]"
-	                                            v-text="item.ayah.transliteration || transliterationFallbackText"
+	                                            v-html="highlightedTransliterationText(item.ayah, item.index)"
 	                                            :style="`font-size: ${effectiveAyahBodyFontSize}px !important;`"
 	                                        ></p>
                                     </div>

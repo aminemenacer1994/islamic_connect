@@ -24478,6 +24478,40 @@ export default {
                 })
                 .join(" ");
         },
+        highlightedTransliterationText(ayah, ayahIndex = null) {
+            const transliterationText = String(
+                ayah?.transliteration || this.transliterationFallbackText
+            ).trim();
+            if (!ayah) return this.escapeHtml(transliterationText);
+
+            const words = this.getAyahDisplayWords(ayah);
+            const transliterations = this.mapWordTransliterations(
+                words,
+                this.getAyahWordTransliterations(ayah)
+            );
+            if (!transliterations.length) {
+                return this.escapeHtml(transliterationText);
+            }
+
+            const activeDisplayWordIndex =
+                Number.isInteger(ayahIndex) &&
+                Number(ayahIndex) === Number(this.activePlaybackWordAyahIndex)
+                    ? Number(this.activePlaybackWordDisplayIndex)
+                    : -1;
+
+            return transliterations
+                .map((word, index) => {
+                    const content = this.escapeHtml(
+                        this.cleanWordTransliteration(word || "")
+                    );
+                    const activeClass =
+                        index === activeDisplayWordIndex
+                            ? " is-audio-active"
+                            : "";
+                    return `<span class="ayah-transliteration-word${activeClass}">${content}</span>`;
+                })
+                .join(" ");
+        },
         getAyahPrimaryArabicText(ayah) {
             if (!ayah) return "";
             return String(
@@ -24634,8 +24668,20 @@ export default {
                 return [];
             return ayah.wordTranslations;
         },
+        getAyahWordTransliterations(ayah) {
+            if (!ayah || !Array.isArray(ayah.wordTransliterations))
+                return [];
+            return ayah.wordTransliterations;
+        },
         cleanWordTranslation(text) {
             return String(text)
+                .replace(/[\[\]\(\)]/g, "")
+                .replace(/\s{2,}/g, " ")
+                .trim();
+        },
+        cleanWordTransliteration(text) {
+            return String(text)
+                .replace(/<[^>]+>/g, " ")
                 .replace(/[\[\]\(\)]/g, "")
                 .replace(/\s{2,}/g, " ")
                 .trim();
@@ -24682,6 +24728,56 @@ export default {
                 }
             });
             return mapped;
+        },
+        mapWordTransliterations(words, transliterations) {
+            if (!Array.isArray(words) || !words.length) return [];
+            if (!Array.isArray(transliterations) || !transliterations.length)
+                return [];
+
+            const cleaned = transliterations.map((entry) =>
+                this.cleanWordTransliteration(entry)
+            );
+            const introCount = this.getAyahIntroWordCount(null, words);
+            const safeWordCount = words.length;
+            const safeTransliterationCount = cleaned.length;
+
+            if (
+                introCount &&
+                safeTransliterationCount === safeWordCount - introCount
+            ) {
+                return [];
+            }
+
+            const severeMismatch =
+                safeWordCount > 0 &&
+                (safeTransliterationCount > safeWordCount + 2 ||
+                    safeTransliterationCount < Math.max(1, safeWordCount - 2));
+            if (severeMismatch) return [];
+
+            const mapped = [];
+            let tIndex = 0;
+            words.forEach(() => {
+                if (tIndex < cleaned.length) {
+                    mapped.push(cleaned[tIndex]);
+                    tIndex += 1;
+                } else {
+                    mapped.push("");
+                }
+            });
+
+            const nonEmptyCount = mapped.filter((entry) => !!entry).length;
+            if (!nonEmptyCount || nonEmptyCount < Math.max(1, safeWordCount - 1))
+                return [];
+
+            return mapped;
+        },
+        hasWordAlignedTransliteration(ayah) {
+            return (
+                this.mapWordTransliterations(
+                    this.getAyahDisplayWords(ayah),
+                    this.getAyahWordTransliterations(ayah)
+                ).length > 0
+            );
         },
         getAyahWordList(ayah) {
             if (!ayah) return [];
@@ -24789,6 +24885,12 @@ export default {
                         const wordTranslations = verseWords.map(
                             (word) => word?.translation?.text || ""
                         );
+                        const wordTransliterations = verseWords.map(
+                            (word) =>
+                                word?.transliteration?.text ||
+                                word?.transliteration ||
+                                ""
+                        );
                         const audioUrl = match?.audio?.url
                             ? `https://audio.qurancdn.com/${match.audio.url}`
                             : ayah.audio;
@@ -24801,6 +24903,7 @@ export default {
                             audioSegments: segments.length ? segments : null,
                             quranWords,
                             wordTranslations,
+                            wordTransliterations,
                         };
                     }
                 );
@@ -27917,6 +28020,7 @@ export default {
                                         tajweedWords,
                                         quranWords: [],
                                         wordTranslations: [],
+                                        wordTransliterations: [],
                                     };
                                 }
                             ),
@@ -28031,6 +28135,7 @@ export default {
                                 tajweedWords,
                                 quranWords: [],
                                 wordTranslations: [],
+                                wordTransliterations: [],
                             };
                         }),
                     };
