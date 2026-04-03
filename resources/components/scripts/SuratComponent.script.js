@@ -628,11 +628,14 @@ export default {
 		            showTajweed: false,
 		            showWordTranslation: false,
 		            showWordTranslationTooltip: false,
+                    transliterationWordHighlightEnabled: true,
 		            gestureNavigationEnabled: true,
             toolbarScrollEnabled: true,
 	            wordTranslationPreferenceKey: "surat_show_word_translation",
             wordTranslationTooltipPreferenceKey:
                 "surat_show_word_translation_tooltip",
+            transliterationWordHighlightPreferenceKey:
+                "suratTransliterationWordHighlightEnabled",
             gestureNavigationPreferenceKey: "suratGestureNavigationEnabled",
             progress: [],
             audioElements: [],
@@ -1492,6 +1495,7 @@ export default {
 	                showTajweed: false,
 	                showWordTranslation: false,
 	                showWordTranslationTooltip: false,
+                    transliterationWordHighlightEnabled: true,
 	                gestureNavigationEnabled: true,
 	                toolbarScrollEnabled: true,
                 playbackMode: "continuous",
@@ -5624,6 +5628,17 @@ export default {
                 this.clearActivePlaybackWordHighlight();
             }
         },
+        transliterationWordHighlightEnabled(next) {
+            try {
+                this.writeScopedBooleanPreference(
+                    this.transliterationWordHighlightPreferenceKey,
+                    next
+                );
+            } catch (_) {}
+            if (next) {
+                this.enrichSurahWithQuranSegments().catch(() => {});
+            }
+        },
         gestureNavigationEnabled(next) {
             this.writeScopedFontPreference(
                 this.gestureNavigationPreferenceKey,
@@ -6041,6 +6056,14 @@ export default {
         if (storedWordTranslationTooltip !== null) {
             this.showWordTranslationTooltip =
                 storedWordTranslationTooltip === "1";
+        }
+        const storedTransliterationWordHighlight =
+            this.readScopedPreferenceWithLegacy(
+                this.transliterationWordHighlightPreferenceKey
+            );
+        if (storedTransliterationWordHighlight !== null) {
+            this.transliterationWordHighlightEnabled =
+                storedTransliterationWordHighlight === "1";
         }
 	        const storedGestureNavigation = this.readScopedPreferenceWithLegacy(
 	            this.gestureNavigationPreferenceKey
@@ -13497,6 +13520,8 @@ export default {
 	            this.settingsDraft.showWordTranslation = !!this.showWordTranslation;
 	            this.settingsDraft.showWordTranslationTooltip =
 	                !!this.showWordTranslationTooltip;
+                this.settingsDraft.transliterationWordHighlightEnabled =
+                    !!this.transliterationWordHighlightEnabled;
             this.settingsDraft.gestureNavigationEnabled =
                 !!this.gestureNavigationEnabled;
             this.settingsDraft.toolbarScrollEnabled =
@@ -18188,6 +18213,8 @@ export default {
 	            this.showWordTranslation = !!this.settingsDraft.showWordTranslation;
 	            this.showWordTranslationTooltip =
 	                !!this.settingsDraft.showWordTranslationTooltip;
+                this.transliterationWordHighlightEnabled =
+                    !!this.settingsDraft.transliterationWordHighlightEnabled;
             this.gestureNavigationEnabled =
                 !!this.settingsDraft.gestureNavigationEnabled;
             this.toolbarScrollEnabled =
@@ -23837,7 +23864,7 @@ export default {
             state.twoFinger = false;
             const isWordTooltipTap =
                 this.showWordTranslationTooltip &&
-                !!event?.target?.closest?.(".ayah-word.has-tooltip");
+                !!event?.target?.closest?.("[data-word-index].has-tooltip");
             state.ignore = this.shouldIgnoreAyahCardSwipeTarget(event?.target);
             state.horizontalLocked = false;
             state.wordTooltipTarget = isWordTooltipTap;
@@ -23858,7 +23885,7 @@ export default {
             state.startedAt = Date.now();
             const isWordTooltipTap =
                 this.showWordTranslationTooltip &&
-                !!event?.target?.closest?.(".ayah-word.has-tooltip");
+                !!event?.target?.closest?.("[data-word-index].has-tooltip");
             state.ignore = this.shouldIgnoreAyahCardSwipeTarget(event?.target);
             state.horizontalLocked = false;
             state.wordTooltipTarget = isWordTooltipTap;
@@ -24483,6 +24510,12 @@ export default {
                 ayah?.transliteration || this.transliterationFallbackText
             ).trim();
             if (!ayah) return this.escapeHtml(transliterationText);
+            const shouldRenderWordAligned =
+                this.transliterationWordHighlightEnabled ||
+                this.showWordTranslationTooltip;
+            if (!shouldRenderWordAligned) {
+                return this.escapeHtml(transliterationText);
+            }
 
             const words = this.getAyahDisplayWords(ayah);
             const transliterations = this.mapWordTransliterations(
@@ -24492,8 +24525,10 @@ export default {
             if (!transliterations.length) {
                 return this.escapeHtml(transliterationText);
             }
+            const arabicWords = this.getAyahBaseWords(ayah);
 
             const activeDisplayWordIndex =
+                this.transliterationWordHighlightEnabled &&
                 Number.isInteger(ayahIndex) &&
                 Number(ayahIndex) === Number(this.activePlaybackWordAyahIndex)
                     ? Number(this.activePlaybackWordDisplayIndex)
@@ -24504,11 +24539,28 @@ export default {
                     const content = this.escapeHtml(
                         this.cleanWordTransliteration(word || "")
                     );
+                    const tooltipText = this.cleanAyahToken(
+                        this.stripTajweedMarkers(
+                            arabicWords[index] || words[index] || ""
+                        )
+                    );
+                    const hasTooltip = this.showWordTranslationTooltip;
+                    const tooltipLabel = tooltipText || "Tap to hear this word";
+                    const tooltipAttr = hasTooltip
+                        ? ` data-word-index="${index}" data-tooltip="${this.escapeHtmlAttribute(
+                            tooltipLabel
+                        )}" aria-label="${this.escapeHtmlAttribute(
+                            tooltipLabel
+                        )}"`
+                        : "";
+                    const tooltipClass = hasTooltip
+                        ? " has-tooltip has-arabic-tooltip"
+                        : "";
                     const activeClass =
                         index === activeDisplayWordIndex
                             ? " is-audio-active"
                             : "";
-                    return `<span class="ayah-transliteration-word${activeClass}">${content}</span>`;
+                    return `<span class="ayah-transliteration-word${tooltipClass}${activeClass}"${tooltipAttr}>${content}</span>`;
                 })
                 .join(" ");
         },
@@ -27562,6 +27614,22 @@ export default {
                 checked ? "Word tooltip enabled." : "Word tooltip disabled."
             );
             this.showModeToggleToast("Word tooltip", checked);
+        },
+        toggleToolbarTransliterationSync() {
+            const checked = !this.transliterationWordHighlightEnabled;
+            this.transliterationWordHighlightEnabled = checked;
+            if (this.settingsDraft) {
+                this.settingsDraft.transliterationWordHighlightEnabled = checked;
+            }
+            if (checked) {
+                this.enrichSurahWithQuranSegments().catch(() => {});
+            }
+            this.announce(
+                checked
+                    ? "Transliteration sync enabled."
+                    : "Transliteration sync disabled."
+            );
+            this.showModeToggleToast("Sync", checked);
         },
         toggleToolbarTajweed() {
             const checked = !this.showTajweed; 

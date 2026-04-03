@@ -9550,7 +9550,8 @@
     transform: translateY(-1px);
 }
 
-:deep(.ayah-word.has-tooltip)::after {
+:deep(.ayah-word.has-tooltip)::after,
+:deep(.ayah-transliteration-word.has-tooltip)::after {
     content: attr(data-tooltip);
     position: absolute;
     bottom: calc(100% + 8px);
@@ -9573,7 +9574,8 @@
     box-shadow: 0 8px 18px rgba(10, 20, 30, 0.25);
 }
 
-:deep(.ayah-word.has-tooltip)::before {
+:deep(.ayah-word.has-tooltip)::before,
+:deep(.ayah-transliteration-word.has-tooltip)::before {
     content: "";
     position: absolute;
     bottom: calc(100% + 2px);
@@ -9591,7 +9593,11 @@
 :deep(.ayah-word.has-tooltip:hover)::after,
 :deep(.ayah-word.has-tooltip:hover)::before,
 :deep(.ayah-word.has-tooltip:focus-visible)::after,
-:deep(.ayah-word.has-tooltip:focus-visible)::before {
+:deep(.ayah-word.has-tooltip:focus-visible)::before,
+:deep(.ayah-transliteration-word.has-tooltip:hover)::after,
+:deep(.ayah-transliteration-word.has-tooltip:hover)::before,
+:deep(.ayah-transliteration-word.has-tooltip:focus-visible)::after,
+:deep(.ayah-transliteration-word.has-tooltip:focus-visible)::before {
     opacity: 1;
     transform: translateX(-50%) translateY(0) scale(1);
 }
@@ -9618,11 +9624,28 @@
 :deep(.ayah-transliteration-word) {
     display: inline-flex;
     align-items: center;
-    margin: 0 0.14rem 0.28rem 0;
-    border-radius: 10px;
-    padding: 0.08em 0.14em;
+    position: relative;
+    margin: 0 0.08rem 0.22rem 0;
+    border-radius: 9px;
+    padding: 0.05em 0.1em;
     transition: background-color 0.14s ease, color 0.14s ease,
         box-shadow 0.14s ease, transform 0.14s ease;
+}
+
+:deep(.ayah-transliteration-word.has-tooltip) {
+    cursor: pointer;
+}
+
+:deep(.ayah-transliteration-word.has-tooltip:hover) {
+    transform: translateY(-1px);
+}
+
+:deep(.ayah-transliteration-word.has-arabic-tooltip)::after {
+    direction: rtl;
+    unicode-bidi: plaintext;
+    font-family: "Scheherazade New", "Noto Naskh Arabic", "Amiri", serif;
+    font-size: 1.02em;
+    letter-spacing: 0;
 }
 
 :deep(.ayah-transliteration-word.is-audio-active) {
@@ -9686,8 +9709,8 @@
     :deep(.ayah-transliteration-word) {
         white-space: normal;
         word-break: break-word;
-        margin-right: 0.14rem;
-        margin-bottom: 0.24rem;
+        margin-right: 0.08rem;
+        margin-bottom: 0.18rem;
     }
 }
 

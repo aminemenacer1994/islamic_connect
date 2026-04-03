@@ -523,6 +523,24 @@
                                         {{ isTransliterationAllEnabled ? "On" : "Off" }}
                                     </span>
                                 </button>
+                                <button
+                                    v-if="!isMemorisationToolbarVisible"
+                                    type="button"
+                                    class="btn advanced-quran-mobile-action-btn"
+                                    :class="{ 'is-enabled': transliterationWordHighlightEnabled }"
+                                    @click="toggleToolbarTransliterationSync"
+                                    :aria-label="transliterationWordHighlightEnabled
+                                        ? 'Turn transliteration sync off'
+                                        : 'Turn transliteration sync on'"
+                                    :title="transliterationWordHighlightEnabled
+                                        ? 'Turn off transliteration word sync highlight'
+                                        : 'Turn on transliteration word sync highlight'">
+                                    <i class="bi bi-link-45deg" aria-hidden="true"></i>
+                                    <span class="advanced-quran-mobile-action-label">Sync</span>
+                                    <span class="advanced-quran-mobile-action-btn-state">
+                                        {{ transliterationWordHighlightEnabled ? "On" : "Off" }}
+                                    </span>
+                                </button>
                                 <div
                                     v-if="!isMemorisationToolbarVisible"
                                     class="dropdown advanced-quran-mobile-more">
@@ -931,6 +949,19 @@
                             <i class="bi bi-input-cursor-text" aria-hidden="true"></i>
                             <span class="quran-toolbar-btn-text">Transliteration</span>
                             <span class="quran-toolbar-btn-state">{{ isTransliterationAllEnabled ? "On" : "Off" }}</span>
+                        </button>
+                        <button
+                            v-if="!isReaderToolbarMinimized"
+                            type="button"
+                            class="quran-toolbar-btn quran-toolbar-btn-toggle"
+                            :class="{ 'is-enabled': transliterationWordHighlightEnabled }"
+                            @click="toggleToolbarTransliterationSync"
+                            :aria-label="transliterationWordHighlightEnabled
+                                ? 'Turn transliteration sync off'
+                                : 'Turn transliteration sync on'">
+                            <i class="bi bi-link-45deg" aria-hidden="true"></i>
+                            <span class="quran-toolbar-btn-text">Sync</span>
+                            <span class="quran-toolbar-btn-state">{{ transliterationWordHighlightEnabled ? "On" : "Off" }}</span>
                         </button>
                     </div>
                     <div class="dropdown quran-toolbar-more">
@@ -5303,12 +5334,15 @@
 		                                                'fw-regular ltr-text flex-grow-1 transliteration-text',
 		                                                {
 		                                                    'transliteration-text--word-aligned':
+		                                                        (transliterationWordHighlightEnabled ||
+		                                                            showWordTranslationTooltip) &&
 		                                                        hasWordAlignedTransliteration(item.ayah),
 		                                                    'repeat-pause-text-dimmed':
 		                                                        shouldDimVerseTextForRepeatPause(item.index),
 		                                                },
 		                                            ]"
 	                                            v-html="highlightedTransliterationText(item.ayah, item.index)"
+	                                            @click="onAyahWordClick(item, $event)"
 	                                            :style="`font-size: ${effectiveAyahBodyFontSize}px !important;`"
 	                                        ></p>
                                     </div>
