@@ -33535,6 +33535,86 @@ h1.display-5 {
     margin-bottom: 0.9rem !important;
 }
 
+.surat-premium .translation-row--with-audio {
+    align-items: flex-start;
+    width: 100%;
+}
+
+.surat-premium .translation-row--with-audio .translation-copy {
+    min-width: 0;
+}
+
+.surat-premium .translation-inline-shell {
+    position: relative;
+    min-width: 0;
+    width: 100%;
+    padding-right: 2.35rem;
+}
+
+.surat-premium .translation-audio-btn {
+    position: absolute;
+    top: 0.34rem;
+    right: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: auto;
+    min-width: 0;
+    height: auto;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    color: #0b6d67;
+    box-shadow: none;
+    padding: 0;
+    padding-left: 0.18rem;
+    padding-right: 0.18rem;
+    line-height: 0.88;
+    transition: color 0.2s ease, transform 0.2s ease, opacity 0.2s ease;
+    z-index: 2;
+}
+
+.surat-premium .translation-audio-btn i {
+    font-size: 1.92rem;
+    filter: drop-shadow(0 1px 2px rgba(11, 107, 89, 0.16));
+}
+
+.surat-premium .translation-audio-btn:hover,
+.surat-premium .translation-audio-btn:focus-visible,
+.surat-premium .translation-audio-btn.is-active {
+    background: transparent;
+    border-color: transparent;
+    color: #085c57;
+    transform: translateY(-1px);
+}
+
+.surat-premium .translation-audio-btn:focus-visible {
+    box-shadow: none;
+    outline: 0;
+}
+
+.surat-premium .translation-row--with-audio .translation-text {
+    padding-right: 0 !important;
+}
+
+.surat-premium :deep(.translation-audio-word) {
+    display: inline;
+    border-radius: 13px;
+    padding: 0;
+    transition: background-color 0.14s ease, color 0.14s ease,
+        box-shadow 0.14s ease, transform 0.14s ease;
+}
+
+.surat-premium :deep(.translation-audio-word.is-audio-active) {
+    display: inline-block;
+    background: rgba(11, 107, 89, 0.14);
+    box-shadow: inset 0 0 0 1px rgba(11, 107, 89, 0.18);
+    color: #0b6b59 !important;
+    font-weight: 700;
+    padding: 0.14em 0.34em;
+    transform: translateY(-1px);
+}
+
 .surat-premium .ayah-card-footer {
     display: flex;
     align-items: center;
@@ -40039,6 +40119,26 @@ h1.display-5 {
     margin-bottom: 0.28rem !important;
 }
 
+.surat-premium.surat-theme-dark .translation-audio-btn {
+    border-color: transparent;
+    background: transparent;
+    color: rgba(216, 243, 239, 0.92);
+}
+
+.surat-premium.surat-theme-dark .translation-audio-btn:hover,
+.surat-premium.surat-theme-dark .translation-audio-btn:focus-visible,
+.surat-premium.surat-theme-dark .translation-audio-btn.is-active {
+    background: transparent;
+    border-color: transparent;
+    color: #ffffff;
+}
+
+.surat-premium.surat-theme-dark :deep(.translation-audio-word.is-audio-active) {
+    background: rgba(125, 211, 199, 0.16);
+    box-shadow: inset 0 0 0 1px rgba(125, 211, 199, 0.22);
+    color: #9ee8dd !important;
+}
+
 .surat-premium.surat-theme-dark .translation-text,
 .surat-premium.surat-theme-dark .transliteration-text,
 .surat-premium.surat-theme-dark .ayah-header-toggle .form-check-label {
@@ -40374,6 +40474,26 @@ h1.display-5 {
 
     .surat-premium.mobile-compact-layout .ayah-footer-action i {
         font-size: 1rem !important;
+    }
+
+    .surat-premium.mobile-compact-layout .translation-row--with-audio {
+        align-items: flex-start !important;
+    }
+
+    .surat-premium.mobile-compact-layout .translation-row--with-audio .translation-text {
+        padding-right: 0 !important;
+    }
+
+    .surat-premium.mobile-compact-layout .translation-inline-shell {
+        padding-right: 1.96rem;
+    }
+
+    .surat-premium.mobile-compact-layout .translation-audio-btn {
+        top: 0.32rem;
+    }
+
+    .surat-premium.mobile-compact-layout .translation-audio-btn i {
+        font-size: 1.62rem !important;
     }
 
     .surat-premium.mobile-compact-layout .surah-scroll-top {
@@ -41019,6 +41139,15 @@ h1.display-5 {
 .audio-player-icon-btn:active,
 .audio-player-play-btn:active {
     transform: scale(0.96);
+}
+
+.audio-player-icon-btn:disabled,
+.audio-player-play-btn:disabled {
+    opacity: 0.42;
+    cursor: not-allowed;
+    transform: none;
+    background: transparent;
+    color: var(--audio-player-muted);
 }
 
 .audio-player-icon-btn:focus-visible,

@@ -5307,20 +5307,40 @@
                                 </div>
                                 <div
                                     class="translation-row"
-                                    :class="{ 'translation-row--collapsed': !shouldShowTranslationForRepeatPause(item) }">
+                                    :class="{
+                                        'translation-row--collapsed': !shouldShowTranslationForRepeatPause(item),
+                                        'translation-row--with-audio':
+                                            shouldShowTranslationForRepeatPause(item) &&
+                                            shouldShowTranslationAudioControl(item),
+                                    }">
                                     <div class="translation-copy flex-grow-1">
                                         <div v-if="shouldShowTranslationForRepeatPause(item)">
-                                            <p
-		                                                :class="[
-		                                                    'fw-regular ltr-text flex-grow-1 translation-text',
-		                                                    {
-		                                                        'translation-text--placeholder':
-		                                                            !item.ayah.translation,
-		                                                    },
-		                                                ]"
-	                                                v-text="getTranslationText(item)"
-	                                                :style="`font-size: ${effectiveAyahBodyFontSize}px !important;`"
-	                                            ></p>
+                                            <div class="translation-inline-shell">
+                                                <p
+		                                                    :class="[
+		                                                        'fw-regular ltr-text flex-grow-1 translation-text',
+		                                                        {
+		                                                            'translation-text--placeholder':
+		                                                                !item.ayah.translation,
+		                                                        },
+		                                                    ]"
+	                                                    v-html="highlightedTranslationText(item, item.index)"
+	                                                    :style="`font-size: ${effectiveAyahBodyFontSize}px !important;`"
+	                                                ></p>
+                                                <button
+                                                    v-if="shouldShowTranslationAudioControl(item)"
+                                                    type="button"
+                                                    class="btn translation-audio-btn"
+                                                    :class="{ 'is-active': isTranslationAudioActiveFor(item.index) }"
+                                                    @click.stop="toggleTranslationAudio(item.index, item)"
+                                                    :aria-label="getTranslationAudioAriaLabel(item.index)"
+                                                    :title="getTranslationAudioTitle(item.index)">
+                                                    <i
+                                                        class="bi"
+                                                        :class="getTranslationAudioIcon(item.index)"
+                                                        aria-hidden="true"></i>
+                                                </button>
+                                            </div>
                                         </div>
                                         <template v-else></template>
                                         <div
@@ -6934,7 +6954,7 @@
                             max="100"
                             step="0.1"
                             :value="currentAudioProgressPercent"
-                            :disabled="!currentAudioDurationSeconds"
+                            :disabled="audioPlayerIsTranslationSource || !currentAudioDurationSeconds"
                             :aria-valuemin="0"
                             :aria-valuemax="100"
                             :aria-valuenow="Math.round(currentAudioProgressPercent)"
@@ -6977,7 +6997,9 @@
                                         @keydown.esc.stop.prevent="closeAudioPlayerMenu({ restoreFocus: true })">
                                         <section class="audio-player-menu-section" aria-labelledby="suratAudioPlayerSpeedHeading">
                                             <div class="audio-player-menu-heading-row">
-                                                <span id="suratAudioPlayerSpeedHeading" class="audio-player-menu-heading">Playback speed</span>
+                                                <span id="suratAudioPlayerSpeedHeading" class="audio-player-menu-heading">
+                                                    {{ audioPlayerIsTranslationSource ? "Speech speed" : "Playback speed" }}
+                                                </span>
                                                 <span class="audio-player-menu-value">{{ playbackSpeed }}x</span>
                                             </div>
                                             <div class="audio-player-slider-shell" role="group" aria-label="Playback speed">
@@ -7008,7 +7030,10 @@
                                                 </span>
                                             </div>
                                         </section>
-                                        <section class="audio-player-menu-section" aria-labelledby="suratAudioPlayerReciterHeading">
+                                        <section
+                                            v-if="!audioPlayerIsTranslationSource"
+                                            class="audio-player-menu-section"
+                                            aria-labelledby="suratAudioPlayerReciterHeading">
                                             <div class="audio-player-menu-heading-row">
                                                 <span id="suratAudioPlayerReciterHeading" class="audio-player-menu-heading">Audio reciter</span>
                                             </div>
@@ -7028,7 +7053,41 @@
                                                 </option>
                                             </select>
                                         </section>
-                                        <section class="audio-player-menu-section" aria-labelledby="suratAudioPlayerModeHeading">
+                                        <section
+                                            v-if="audioPlayerIsTranslationSource && translationAudioVoiceGroups.length"
+                                            class="audio-player-menu-section"
+                                            aria-labelledby="suratAudioPlayerVoiceHeading">
+                                            <div class="audio-player-menu-heading-row">
+                                                <span id="suratAudioPlayerVoiceHeading" class="audio-player-menu-heading">Speaker voice</span>
+                                                <span class="audio-player-menu-value">
+                                                    {{ selectedTranslationAudioVoiceOption ? (selectedTranslationAudioVoiceOption.displayName || selectedTranslationAudioVoiceOption.label || "English") : "English" }}
+                                                </span>
+                                            </div>
+                                            <label class="visually-hidden" for="suratAudioPlayerVoiceSelect">
+                                                Select English speaker voice
+                                            </label>
+                                            <select
+                                                id="suratAudioPlayerVoiceSelect"
+                                                class="audio-player-select"
+                                                v-model="translationAudioSelectedVoiceKey"
+                                                aria-label="Select English speaker voice">
+                                                <optgroup
+                                                    v-for="group in translationAudioVoiceGroups"
+                                                    :key="`audio-player-voice-group-${group.key}`"
+                                                    :label="group.label">
+                                                    <option
+                                                        v-for="voice in group.options"
+                                                        :key="`audio-player-voice-${voice.key}`"
+                                                        :value="voice.key">
+                                                        {{ voice.displayName || voice.label }}
+                                                    </option>
+                                                </optgroup>
+                                            </select>
+                                        </section>
+                                        <section
+                                            v-if="!audioPlayerIsTranslationSource"
+                                            class="audio-player-menu-section"
+                                            aria-labelledby="suratAudioPlayerModeHeading">
                                             <div class="audio-player-menu-heading-row">
                                                 <span id="suratAudioPlayerModeHeading" class="audio-player-menu-heading">Play time</span>
                                             </div>
@@ -7053,7 +7112,7 @@
                                             </div>
                                         </section>
                                         <section
-                                            v-if="playbackMode === 'repeat'"
+                                            v-if="!audioPlayerIsTranslationSource && playbackMode === 'repeat'"
                                             class="audio-player-menu-section"
                                             aria-labelledby="suratAudioPlayerRepeatHeading">
                                             <div class="audio-player-menu-heading-row">
@@ -7128,24 +7187,26 @@
                                     type="button"
                                     class="audio-player-icon-btn"
                                     aria-label="Rewind 5 seconds"
+                                    :disabled="audioPlayerIsTranslationSource"
                                     @click="seekCurrentAudioBy(-5)">
                                     <i class="bi bi-rewind-fill" aria-hidden="true"></i>
                                 </button>
                                 <button
                                     type="button"
                                     class="audio-player-play-btn"
-                                    :aria-label="isAudioPlaying[currentlyPlayingIndex] ? 'Pause audio' : 'Play audio'"
-                                    :aria-pressed="isAudioPlaying[currentlyPlayingIndex] ? 'true' : 'false'"
-                                    @click="toggleAudioPlayer(currentlyPlayingIndex)">
+                                    :aria-label="audioPlayerPlayButtonLabel"
+                                    :aria-pressed="audioPlayerIsTranslationSource ? (translationAudioIsPlaying ? 'true' : 'false') : (isAudioPlaying[currentlyPlayingIndex] ? 'true' : 'false')"
+                                    @click="toggleActiveAudioPlayerPlayback">
                                     <i
                                         class="bi"
-                                        :class="isAudioPlaying[currentlyPlayingIndex] ? 'bi-pause-fill' : 'bi-play-fill'"
+                                        :class="audioPlayerPlayIconClass"
                                         aria-hidden="true"></i>
                                 </button>
                                 <button
                                     type="button"
                                     class="audio-player-icon-btn"
                                     aria-label="Fast forward 5 seconds"
+                                    :disabled="audioPlayerIsTranslationSource"
                                     @click="seekCurrentAudioBy(5)">
                                     <i class="bi bi-fast-forward-fill" aria-hidden="true"></i>
                                 </button>

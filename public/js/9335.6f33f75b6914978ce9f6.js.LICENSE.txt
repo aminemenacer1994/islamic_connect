@@ -1,0 +1,11 @@
+/*!
+ * VueQuill @vueup/vue-quill v1.2.0
+ * https://vueup.github.io/vue-quill/
+ * 
+ * Includes quill v1.3.7
+ * https://quilljs.com/
+ * 
+ * Copyright (c) 2023 Ahmad Luthfi Masruri
+ * Released under the MIT license
+ * Date: 2023-05-12T08:44:03.742Z
+ */

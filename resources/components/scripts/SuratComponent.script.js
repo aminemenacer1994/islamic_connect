@@ -138,6 +138,19 @@ export default {
             isAudioDownloaded: {},
             isSurahAudioDownloading: false,
             isSurahAudioDownloaded: false,
+            translationAudioSupported:
+                typeof window !== "undefined" &&
+                "speechSynthesis" in window &&
+                typeof window.SpeechSynthesisUtterance !== "undefined",
+            translationAudioAyahIndex: -1,
+            translationAudioLastAyahIndex: -1,
+            translationAudioWordIndex: -1,
+            translationAudioPaused: false,
+            translationAudioText: "",
+            translationAudioUtterance: null,
+            translationAudioVoices: [],
+            translationAudioSelectedVoiceKey: "",
+            translationAudioVoicesChangedHandler: null,
             surahAudioMetaByKey: {},
             surahAudioMetaLoadingByKey: {},
             surahAudioDownloadedTimer: null,
@@ -656,6 +669,8 @@ export default {
             audioPlayerWindowResizeHandler: null,
             audioPlayerCurrentTime: 0,
             audioPlayerCurrentDuration: 0,
+            translationAudioVoicePreferenceKey:
+                "suratTranslationSpeakerVoice",
             showCustomPlaylistPanel: false,
             customPlaylistStorageKeyBase: "ic_surat_custom_playlist_v1",
             playlists: [],
@@ -4510,6 +4525,97 @@ export default {
             );
             return match?.englishName || "Translation";
         },
+        currentTranslationConfig() {
+            if (!Array.isArray(this.translations)) return null;
+            return (
+                this.translations.find(
+                    (translation) =>
+                        String(translation?.identifier || "") ===
+                        String(this.selectedTranslation || "")
+                ) || null
+            );
+        },
+        selectedTranslationIsEnglish() {
+            const language = String(
+                this.currentTranslationConfig?.language || ""
+            ).toLowerCase();
+            const identifier = String(
+                this.currentTranslationConfig?.identifier ||
+                    this.selectedTranslation ||
+                    ""
+            ).toLowerCase();
+            return language.startsWith("en") || identifier.startsWith("en.");
+        },
+        translationAudioVoiceGroups() {
+            const allVoices = Array.isArray(this.translationAudioVoices)
+                ? this.translationAudioVoices
+                : [];
+            const male = [];
+            const female = [];
+            const remaining = [];
+
+            allVoices.forEach((voice) => {
+                const gender = String(voice?.gender || "");
+                if (gender === "male") {
+                    male.push(voice);
+                    return;
+                }
+                if (gender === "female") {
+                    female.push(voice);
+                    return;
+                }
+                remaining.push(voice);
+            });
+
+            const maxVoicesPerGroup = 2;
+            const maleTop = male.slice(0, maxVoicesPerGroup);
+            const femaleTop = female.slice(0, maxVoicesPerGroup);
+
+            while (maleTop.length < maxVoicesPerGroup && remaining.length) {
+                maleTop.push(remaining.shift());
+            }
+            while (femaleTop.length < maxVoicesPerGroup && remaining.length) {
+                femaleTop.push(remaining.shift());
+            }
+
+            const withGenericLabels = (voices, baseLabel) =>
+                voices
+                    .slice(0, maxVoicesPerGroup)
+                    .map((voice, index) => ({
+                        ...voice,
+                        displayName: `${baseLabel} ${index + 1}`,
+                        label: `${baseLabel} ${index + 1}`,
+                    }));
+
+            return [
+                {
+                    key: "male",
+                    label: "Male voices",
+                    options: withGenericLabels(maleTop, "Male"),
+                },
+                {
+                    key: "female",
+                    label: "Female voices",
+                    options: withGenericLabels(femaleTop, "Female"),
+                },
+            ].filter((group) => Array.isArray(group.options) && group.options.length);
+        },
+        translationAudioVoiceOptions() {
+            return this.translationAudioVoiceGroups.flatMap((group) =>
+                Array.isArray(group.options) ? group.options : []
+            );
+        },
+        selectedTranslationAudioVoiceOption() {
+            const options = this.translationAudioVoiceOptions;
+            if (!Array.isArray(options) || !options.length) return null;
+            return (
+                options.find(
+                    (voice) =>
+                        String(voice?.key || "") ===
+                        String(this.translationAudioSelectedVoiceKey || "")
+                ) || options[0]
+            );
+        },
         englishTranslationsSorted() {
             const source = Array.isArray(this.translationsSorted)
                 ? this.translationsSorted
@@ -5051,7 +5157,47 @@ export default {
         audioPlayerQueueCount() {
             return (this.audioPlayerQueueItems || []).length;
         },
+        translationAudioIsPlaying() {
+            return (
+                Number(this.translationAudioAyahIndex) >= 0 &&
+                !this.translationAudioPaused
+            );
+        },
+        audioPlayerIsTranslationSource() {
+            if (this.isAnyAudioPlaying || this.currentlyPlaying) return false;
+            return (
+                this.showAudioPlayer &&
+                Number(this.translationAudioLastAyahIndex) >= 0 &&
+                String(this.translationAudioText || "").trim().length > 0
+            );
+        },
+        audioPlayerCanSeek() {
+            return !this.audioPlayerIsTranslationSource;
+        },
+        audioPlayerPlayIconClass() {
+            if (this.audioPlayerIsTranslationSource) {
+                return this.translationAudioIsPlaying
+                    ? "bi-pause-fill"
+                    : "bi-play-fill";
+            }
+            return this.isAudioPlaying[this.currentlyPlayingIndex]
+                ? "bi-pause-fill"
+                : "bi-play-fill";
+        },
+        audioPlayerPlayButtonLabel() {
+            if (this.audioPlayerIsTranslationSource) {
+                return this.translationAudioIsPlaying
+                    ? "Pause translation audio"
+                    : this.translationAudioPaused
+                    ? "Resume translation audio"
+                    : "Play translation audio";
+            }
+            return this.isAudioPlaying[this.currentlyPlayingIndex]
+                ? "Pause audio"
+                : "Play audio";
+        },
         currentAudioElement() {
+            if (this.audioPlayerIsTranslationSource) return null;
             const targetIndex = this.resolveSeekAudioIndex(
                 this.currentlyPlayingIndex
             );
@@ -5059,13 +5205,16 @@ export default {
             return this.audioElements?.[targetIndex] || null;
         },
         currentAudioTimeSeconds() {
+            if (this.audioPlayerIsTranslationSource) return 0;
             return Math.max(0, Number(this.audioPlayerCurrentTime || 0) || 0);
         },
         currentAudioDurationSeconds() {
+            if (this.audioPlayerIsTranslationSource) return 0;
             const duration = Number(this.audioPlayerCurrentDuration || 0);
             return Number.isFinite(duration) && duration > 0 ? duration : 0;
         },
         currentAudioProgressPercent() {
+            if (this.audioPlayerIsTranslationSource) return 0;
             const duration = this.currentAudioDurationSeconds;
             if (duration > 0) {
                 return Math.min(
@@ -5084,9 +5233,11 @@ export default {
             return Math.min(100, Math.max(0, fallbackProgress));
         },
         currentAudioPlayerTimeText() {
+            if (this.audioPlayerIsTranslationSource) return "00:00";
             return this.formatTime(this.currentAudioTimeSeconds);
         },
         currentAudioPlayerDurationText() {
+            if (this.audioPlayerIsTranslationSource) return "--:--";
             return this.currentAudioDurationSeconds > 0
                 ? this.formatTime(this.currentAudioDurationSeconds)
                 : "--:--";
@@ -5260,6 +5411,7 @@ export default {
         },
         selectedReciter: function (newVal) {
             if (newVal && !this.isLoading) {
+                this.stopTranslationAudio();
                 this.isSurahAudioDownloading = false;
                 this.isSurahAudioDownloaded = false;
                 clearTimeout(this.surahAudioDownloadedTimer);
@@ -5291,6 +5443,7 @@ export default {
         },
         selectedTranslation: function (newVal) {
             if (newVal && !this.isLoading) {
+                this.stopTranslationAudio({ resetSession: true });
                 this.writeScopedFontPreference(
                     "suratSelectedTranslation",
                     newVal
@@ -5337,6 +5490,7 @@ export default {
         },
         selectedSurah: function (newVal) {
             if (newVal && !this.isLoading) {
+                this.stopTranslationAudio({ resetSession: true });
                 this.sidebarAyahJumpInput = "";
                 this.sidebarAyahJumpError = "";
                 this.isSurahAudioDownloading = false;
@@ -5738,7 +5892,23 @@ export default {
                     if (audio) audio.playbackRate = safeSpeed;
                 });
             }
+            if (this.translationAudioUtterance) {
+                try {
+                    this.translationAudioUtterance.rate = safeSpeed;
+                } catch (_) {}
+            }
             this.writeScopedFontPreference("playbackSpeed", String(safeSpeed));
+            if (
+                Number(this.translationAudioAyahIndex) >= 0 &&
+                !this.translationAudioPaused
+            ) {
+                this.restartTranslationAudioWithCurrentSettings();
+            } else if (
+                Number(this.translationAudioLastAyahIndex) >= 0 &&
+                this.translationAudioPaused
+            ) {
+                this.stopTranslationAudio();
+            }
         },
         audioPlayerRepeatCount(newVal) {
             const max = Math.max(
@@ -5758,6 +5928,25 @@ export default {
                     String(safeCount)
                 );
             } catch (_) {}
+        },
+        translationAudioSelectedVoiceKey(newVal) {
+            const safeKey = String(newVal || "").trim();
+            if (!safeKey) return;
+            this.writeScopedFontPreference(
+                this.translationAudioVoicePreferenceKey,
+                safeKey
+            );
+            if (
+                Number(this.translationAudioAyahIndex) >= 0 &&
+                !this.translationAudioPaused
+            ) {
+                this.restartTranslationAudioWithCurrentSettings();
+            } else if (
+                Number(this.translationAudioLastAyahIndex) >= 0 &&
+                this.translationAudioPaused
+            ) {
+                this.stopTranslationAudio();
+            }
         },
     },
     created() {
@@ -5786,6 +5975,21 @@ export default {
             window.addEventListener("ic-theme-change", this._icThemeChangeHandler);
         } catch (_) {}
         window.addEventListener("keydown", this.onKeydown);
+        if (this.translationAudioSupported && typeof window !== "undefined") {
+            this.translationAudioVoicesChangedHandler = () => {
+                this.loadTranslationAudioVoices();
+            };
+            this.loadTranslationAudioVoices();
+            try {
+                window.speechSynthesis.addEventListener(
+                    "voiceschanged",
+                    this.translationAudioVoicesChangedHandler
+                );
+            } catch (_) {
+                window.speechSynthesis.onvoiceschanged =
+                    this.translationAudioVoicesChangedHandler;
+            }
+        }
         this.audioPlayerWindowResizeHandler = () =>
             this.scheduleAudioPlayerLayoutUpdate();
         window.addEventListener(
@@ -6003,18 +6207,17 @@ export default {
         } catch (_) {
             this.continuousPlayback = false;
         }
-        let storedPlaybackSpeed = null;
-        storedPlaybackSpeed = Number(
-            this.readScopedPreferenceWithLegacy("playbackSpeed")
-        );
+        this.translationAudioSelectedVoiceKey =
+            this.readScopedPreferenceWithLegacy(
+                this.translationAudioVoicePreferenceKey
+            ) || "";
         const defaultSpeed = 1;
-        this.playbackSpeed = this.playbackSpeeds.includes(storedPlaybackSpeed)
-            ? storedPlaybackSpeed
-            : defaultSpeed;
+        this.playbackSpeed = defaultSpeed;
         this.currentSpeedIndex = Math.max(
             0,
             this.playbackSpeeds.indexOf(this.playbackSpeed)
         );
+        this.loadTranslationAudioVoices();
         const storedRepeatCountRaw = this.readScopedPreferenceWithLegacy(
             "audioPlayerRepeatCount"
         );
@@ -6253,6 +6456,27 @@ export default {
     },
         beforeUnmount() {
             this.isComponentAlive = false;
+            this.stopTranslationAudio();
+            if (
+                this.translationAudioSupported &&
+                this.translationAudioVoicesChangedHandler &&
+                typeof window !== "undefined"
+            ) {
+                try {
+                    window.speechSynthesis.removeEventListener(
+                        "voiceschanged",
+                        this.translationAudioVoicesChangedHandler
+                    );
+                } catch (_) {
+                    if (
+                        window.speechSynthesis.onvoiceschanged ===
+                        this.translationAudioVoicesChangedHandler
+                    ) {
+                        window.speechSynthesis.onvoiceschanged = null;
+                    }
+                }
+                this.translationAudioVoicesChangedHandler = null;
+            }
             this.persistContinueReadingOnExit();
             if (this.continueReadingSaveTimer) {
                 clearTimeout(this.continueReadingSaveTimer);
@@ -6622,6 +6846,27 @@ export default {
         this.clearHifdhConfettiLayers();
     },
 	        beforeDestroy() {
+	            this.stopTranslationAudio();
+                if (
+                    this.translationAudioSupported &&
+                    this.translationAudioVoicesChangedHandler &&
+                    typeof window !== "undefined"
+                ) {
+                    try {
+                        window.speechSynthesis.removeEventListener(
+                            "voiceschanged",
+                            this.translationAudioVoicesChangedHandler
+                        );
+                    } catch (_) {
+                        if (
+                            window.speechSynthesis.onvoiceschanged ===
+                            this.translationAudioVoicesChangedHandler
+                        ) {
+                            window.speechSynthesis.onvoiceschanged = null;
+                        }
+                    }
+                    this.translationAudioVoicesChangedHandler = null;
+                }
 	            this.finalizeSessionHistoryEntry("inactive");
 	            this.unbindAudioPlayerLayoutObserver();
             this.clearSuratThemeSwitchTimer();
@@ -8093,6 +8338,7 @@ export default {
                 } catch (_) {}
                 clearPlayback();
             }
+            this.stopTranslationAudio();
             const audio = new Audio(safeEntry.url);
             audio.onended = () => {
                 clearPlayback();
@@ -24564,6 +24810,57 @@ export default {
                 })
                 .join(" ");
         },
+        getTranslationHighlightWordIndexFromCharIndex(text, charIndex) {
+            const safeText = String(text || "");
+            const safeCharIndex = Math.max(0, Number(charIndex || 0));
+            const wordMatches = [...safeText.matchAll(/\S+/g)];
+            for (let index = 0; index < wordMatches.length; index += 1) {
+                const match = wordMatches[index];
+                const start = Number(match.index || 0);
+                const value = String(match[0] || "");
+                const end = start + value.length;
+                if (safeCharIndex >= start && safeCharIndex < end) {
+                    return index;
+                }
+            }
+            if (wordMatches.length && safeCharIndex >= safeText.length) {
+                return wordMatches.length - 1;
+            }
+            return -1;
+        },
+        highlightedTranslationText(item, ayahIndex = null) {
+            const text = this.getTranslationText(item);
+            if (!text) return "";
+            const activeWordIndex =
+                Number(this.translationAudioAyahIndex) === Number(ayahIndex)
+                    ? Number(this.translationAudioWordIndex)
+                    : -1;
+            if (!Number.isInteger(activeWordIndex) || activeWordIndex < 0) {
+                return this.escapeHtml(text);
+            }
+            const matches = [...String(text).matchAll(/\S+/g)];
+            if (!matches.length) {
+                return this.escapeHtml(text);
+            }
+            let output = "";
+            let cursor = 0;
+            matches.forEach((match, index) => {
+                const start = Number(match.index || 0);
+                const value = String(match[0] || "");
+                const end = start + value.length;
+                output += this.escapeHtml(text.slice(cursor, start));
+                const activeClass =
+                    index === activeWordIndex
+                        ? " translation-audio-word is-audio-active"
+                        : " translation-audio-word";
+                output += `<span class="${activeClass.trim()}">${this.escapeHtml(
+                    value
+                )}</span>`;
+                cursor = end;
+            });
+            output += this.escapeHtml(text.slice(cursor));
+            return output;
+        },
         getAyahPrimaryArabicText(ayah) {
             if (!ayah) return "";
             return String(
@@ -25399,6 +25696,400 @@ export default {
             }
             this.tajweedPlayingRuleId = "";
         },
+        getTranslationAudioText(item) {
+            return String(this.getTranslationText?.(item) || "").trim();
+        },
+        shouldShowTranslationAudioControl(item) {
+            if (!this.selectedTranslationIsEnglish) return false;
+            return this.getTranslationAudioText(item).length > 0;
+        },
+        isTranslationAudioActiveFor(index) {
+            return (
+                Number(this.translationAudioAyahIndex) === Number(index) &&
+                !this.translationAudioPaused
+            );
+        },
+        inferTranslationVoiceGender(rawVoice) {
+            const haystack = `${rawVoice?.name || ""} ${rawVoice?.voiceURI || ""}`
+                .trim()
+                .toLowerCase();
+            const femalePatterns = [
+                "female",
+                "woman",
+                "samantha",
+                "victoria",
+                "karen",
+                "zira",
+                "jenny",
+                "aria",
+                "michelle",
+                "susan",
+                "moira",
+                "tessa",
+                "sonia",
+                "libby",
+                "narrator female",
+            ];
+            const malePatterns = [
+                "male",
+                "man",
+                "alex",
+                "daniel",
+                "david",
+                "mark",
+                "guy",
+                "fred",
+                "aaron",
+                "arthur",
+                "oliver",
+                "ryan",
+                "roger",
+                "tom",
+                "narrator male",
+            ];
+            if (femalePatterns.some((token) => haystack.includes(token))) {
+                return "female";
+            }
+            if (malePatterns.some((token) => haystack.includes(token))) {
+                return "male";
+            }
+            return "unknown";
+        },
+        scoreTranslationVoiceNaturalness(rawVoice) {
+            const haystack = `${rawVoice?.name || ""} ${rawVoice?.voiceURI || ""}`
+                .trim()
+                .toLowerCase();
+            let score = 0;
+            if (rawVoice?.localService) score += 14;
+            if (/natural|neural|premium|enhanced|siri/i.test(haystack)) score += 16;
+            if (/microsoft|google|apple/i.test(haystack)) score += 10;
+            if (/en-us|en-gb|en-au|en-ca/i.test(String(rawVoice?.lang || "").toLowerCase())) {
+                score += 6;
+            }
+            if (
+                /samantha|victoria|karen|alex|daniel|david|zira|jenny|aria|mark|guy|moira|tessa/i.test(
+                    haystack
+                )
+            ) {
+                score += 8;
+            }
+            return score;
+        },
+        normalizeTranslationVoiceOption(rawVoice, index = 0) {
+            const safeName = String(rawVoice?.name || `Voice ${index + 1}`).trim();
+            const key = String(
+                rawVoice?.voiceURI || `${safeName}-${rawVoice?.lang || "en"}-${index}`
+            ).trim();
+            const gender = this.inferTranslationVoiceGender(rawVoice);
+            const genderLabel =
+                gender === "female" ? "Female" : gender === "male" ? "Male" : "English";
+            return {
+                key,
+                name: safeName,
+                label: `${safeName} · ${genderLabel}`,
+                lang: String(rawVoice?.lang || "en-US"),
+                gender,
+                score: this.scoreTranslationVoiceNaturalness(rawVoice),
+                rawVoice,
+            };
+        },
+        loadTranslationAudioVoices() {
+            if (!this.translationAudioSupported || typeof window === "undefined") {
+                this.translationAudioVoices = [];
+                return;
+            }
+            const synth = window.speechSynthesis;
+            if (!synth || typeof synth.getVoices !== "function") {
+                this.translationAudioVoices = [];
+                return;
+            }
+            const englishVoices = synth
+                .getVoices()
+                .filter((voice) =>
+                    String(voice?.lang || "").toLowerCase().startsWith("en")
+                )
+                .map((voice, index) =>
+                    this.normalizeTranslationVoiceOption(voice, index)
+                )
+                .sort((left, right) => {
+                    if (right.score !== left.score) {
+                        return right.score - left.score;
+                    }
+                    return String(left.name || "").localeCompare(
+                        String(right.name || "")
+                    );
+                });
+
+            this.translationAudioVoices = englishVoices;
+            const availableKeys = new Set(
+                englishVoices.map((voice) => String(voice?.key || ""))
+            );
+            if (
+                !this.translationAudioSelectedVoiceKey ||
+                !availableKeys.has(String(this.translationAudioSelectedVoiceKey))
+            ) {
+                this.translationAudioSelectedVoiceKey = String(
+                    englishVoices[0]?.key || ""
+                );
+            }
+        },
+        getTranslationAudioIcon(index) {
+            if (Number(this.translationAudioAyahIndex) !== Number(index)) {
+                return "bi-play-fill";
+            }
+            return this.translationAudioPaused
+                ? "bi-play-fill"
+                : "bi-pause-fill";
+        },
+        getTranslationAudioTitle(index) {
+            if (Number(this.translationAudioAyahIndex) !== Number(index)) {
+                return "Play English translation audio";
+            }
+            return this.translationAudioPaused
+                ? "Resume English translation audio"
+                : "Pause English translation audio";
+        },
+        getTranslationAudioAriaLabel(index) {
+            if (Number(this.translationAudioAyahIndex) !== Number(index)) {
+                return "Play English translation audio";
+            }
+            return this.translationAudioPaused
+                ? "Resume English translation audio"
+                : "Pause English translation audio";
+        },
+        getPreferredEnglishTranslationVoice() {
+            return this.selectedTranslationAudioVoiceOption?.rawVoice || null;
+        },
+        pauseOtherSuratAudio(options = {}) {
+            const { keepAyahIndex = -1 } = options || {};
+            const safeKeepAyahIndex = Number(keepAyahIndex);
+
+            if (
+                Number.isInteger(Number(this.currentlyPlayingIndex)) &&
+                Number(this.currentlyPlayingIndex) >= 0 &&
+                Number(this.currentlyPlayingIndex) !== safeKeepAyahIndex &&
+                this.isAudioPlaying?.[this.currentlyPlayingIndex]
+            ) {
+                this.pauseAudio(Number(this.currentlyPlayingIndex));
+            }
+
+            if (Array.isArray(this.audioElements)) {
+                this.audioElements.forEach((audio, index) => {
+                    if (!audio || index === safeKeepAyahIndex) return;
+                    try {
+                        audio.pause();
+                    } catch (_) {}
+                });
+            }
+
+            if (Array.isArray(this.isAudioPlaying)) {
+                this.isAudioPlaying = this.isAudioPlaying.map((playing, index) =>
+                    index === safeKeepAyahIndex ? !!playing : false
+                );
+            }
+
+            this.stopTajweedRuleAudio();
+
+            if (this.memorisationRepeatRecordingPlayback) {
+                try {
+                    this.memorisationRepeatRecordingPlayback.pause();
+                } catch (_) {}
+            }
+        },
+        resetTranslationAudioSession() {
+            this.translationAudioText = "";
+            this.translationAudioLastAyahIndex = -1;
+            this.translationAudioWordIndex = -1;
+        },
+        stopTranslationAudio(options = {}) {
+            const { resetSession = false } = options || {};
+            const wasTranslationPlayerSource = this.audioPlayerIsTranslationSource;
+            const activeUtterance = this.translationAudioUtterance;
+            this.translationAudioUtterance = null;
+            this.translationAudioAyahIndex = -1;
+            this.translationAudioWordIndex = -1;
+            this.translationAudioPaused = false;
+            if (resetSession) {
+                this.resetTranslationAudioSession();
+                if (wasTranslationPlayerSource) {
+                    this.showAudioPlayer = false;
+                }
+            }
+            if (!this.translationAudioSupported || typeof window === "undefined") {
+                return;
+            }
+            try {
+                if (
+                    activeUtterance ||
+                    window.speechSynthesis.speaking ||
+                    window.speechSynthesis.pending
+                ) {
+                    window.speechSynthesis.cancel();
+                }
+            } catch (_) {}
+        },
+        restartTranslationAudioWithCurrentSettings() {
+            if (
+                Number(this.translationAudioLastAyahIndex) < 0 ||
+                !String(this.translationAudioText || "").trim()
+            ) {
+                return;
+            }
+            this.startTranslationAudio(
+                Number(this.translationAudioLastAyahIndex),
+                this.translationAudioText
+            );
+        },
+        startTranslationAudio(index, text) {
+            if (!this.translationAudioSupported || typeof window === "undefined") {
+                this.showToast("Translation audio is not supported in this browser.", 2600);
+                return;
+            }
+            const safeText = String(text || "").trim();
+            const safeIndex = Number(index);
+            if (!safeText || safeIndex < 0) return;
+
+            this.stopTranslationAudio();
+            this.pauseOtherSuratAudio();
+
+            const utterance = new window.SpeechSynthesisUtterance(safeText);
+            const voice = this.getPreferredEnglishTranslationVoice();
+            if (voice) {
+                utterance.voice = voice;
+                utterance.lang = voice.lang || "en-US";
+            } else {
+                utterance.lang = "en-US";
+            }
+            utterance.rate = Number(this.playbackSpeed || 1) || 1;
+            utterance.volume = Math.max(0, Math.min(1, Number(this.volume || 1) || 1));
+
+            utterance.onend = () => {
+                if (this.translationAudioUtterance !== utterance) return;
+                this.translationAudioUtterance = null;
+                this.translationAudioAyahIndex = -1;
+                this.translationAudioWordIndex = -1;
+                this.translationAudioPaused = false;
+                this.showAudioPlayer =
+                    this.bottomAudioPlayerEnabled && this.isAudioPlayerVisible;
+            };
+            utterance.onerror = () => {
+                if (this.translationAudioUtterance !== utterance) return;
+                this.translationAudioUtterance = null;
+                this.translationAudioAyahIndex = -1;
+                this.translationAudioWordIndex = -1;
+                this.translationAudioPaused = false;
+                this.showToast("Could not play English translation audio.", 2600);
+                this.showAudioPlayer = false;
+            };
+            utterance.onpause = () => {
+                if (this.translationAudioUtterance !== utterance) return;
+                this.translationAudioPaused = true;
+            };
+            utterance.onresume = () => {
+                if (this.translationAudioUtterance !== utterance) return;
+                this.translationAudioPaused = false;
+            };
+            utterance.onboundary = (event) => {
+                if (this.translationAudioUtterance !== utterance) return;
+                const nextWordIndex = this.getTranslationHighlightWordIndexFromCharIndex(
+                    safeText,
+                    event?.charIndex
+                );
+                this.translationAudioWordIndex = nextWordIndex;
+            };
+
+            this.translationAudioUtterance = utterance;
+            this.translationAudioAyahIndex = safeIndex;
+            this.translationAudioLastAyahIndex = safeIndex;
+            this.translationAudioWordIndex = -1;
+            this.translationAudioText = safeText;
+            this.translationAudioPaused = false;
+            this.currentlyPlaying = null;
+            this.currentAudioIndex = -1;
+            this.isAudioPlaying = Array.isArray(this.isAudioPlaying)
+                ? this.isAudioPlaying.map(() => false)
+                : [];
+            this.showAudioPlayer =
+                this.bottomAudioPlayerEnabled && this.isAudioPlayerVisible;
+            this.showAudioPlayerQueuePanel = false;
+            this.audioQueueMinimized = false;
+            this.resetAudioPlayerMetrics();
+
+            try {
+                window.speechSynthesis.cancel();
+                window.speechSynthesis.speak(utterance);
+            } catch (_) {
+                this.stopTranslationAudio();
+                this.showToast("Could not play English translation audio.", 2600);
+            }
+        },
+        pauseTranslationAudio() {
+            if (!this.translationAudioSupported || typeof window === "undefined") {
+                return;
+            }
+            if (Number(this.translationAudioAyahIndex) < 0) return;
+            try {
+                window.speechSynthesis.pause();
+                this.translationAudioPaused = true;
+            } catch (_) {}
+        },
+        resumeTranslationAudio() {
+            if (!this.translationAudioSupported || typeof window === "undefined") {
+                return;
+            }
+            if (Number(this.translationAudioAyahIndex) < 0) {
+                if (
+                    Number(this.translationAudioLastAyahIndex) >= 0 &&
+                    String(this.translationAudioText || "").trim()
+                ) {
+                    this.startTranslationAudio(
+                        Number(this.translationAudioLastAyahIndex),
+                        this.translationAudioText
+                    );
+                }
+                return;
+            }
+            this.pauseOtherSuratAudio();
+            try {
+                window.speechSynthesis.resume();
+                this.translationAudioPaused = false;
+            } catch (_) {}
+        },
+        toggleActiveAudioPlayerPlayback() {
+            if (this.audioPlayerIsTranslationSource) {
+                if (
+                    Number(this.translationAudioAyahIndex) >= 0 &&
+                    !this.translationAudioPaused
+                ) {
+                    this.pauseTranslationAudio();
+                    return;
+                }
+                this.resumeTranslationAudio();
+                return;
+            }
+            this.toggleAudioPlayer(this.currentlyPlayingIndex);
+        },
+        toggleTranslationAudio(index, item) {
+            if (!this.selectedTranslationIsEnglish) return;
+            const translationText = this.getTranslationAudioText(item);
+            if (!translationText) return;
+            const safeIndex = Number(index);
+            if (
+                Number(this.translationAudioAyahIndex) === safeIndex &&
+                !this.translationAudioPaused
+            ) {
+                this.pauseTranslationAudio();
+                return;
+            }
+            if (
+                Number(this.translationAudioAyahIndex) === safeIndex &&
+                this.translationAudioPaused
+            ) {
+                this.resumeTranslationAudio();
+                return;
+            }
+            this.startTranslationAudio(safeIndex, translationText);
+        },
         normalizeArabicForMatch(text = "") {
             return String(text || "")
                 .replace(/<[^>]*>/g, " ")
@@ -25563,6 +26254,7 @@ export default {
                 return;
             }
             this.stopTajweedRuleAudio();
+            this.stopTranslationAudio();
             if (this.currentlyPlaying && this.currentlyPlaying.pause) {
                 try {
                     this.currentlyPlaying.pause();
@@ -25638,6 +26330,7 @@ export default {
                 return url;
             };
             if (index < 0 || index >= this.filteredAyahs.length) return;
+            this.stopTranslationAudio();
             if (this.playbackMode === "repeat") {
                 const safeIndex = Math.max(0, Number(index) || 0);
                 if (
@@ -28238,6 +28931,7 @@ export default {
         },
         resetAllAudioPlayers: function () {
             this.$nextTick(() => {
+                this.stopTranslationAudio({ resetSession: true });
                 this.clearMemorisationRangeLoopRestartState();
                 this.clearMemorisationRepeatPauseState({ stopRecording: true });
                 if (this.currentlyPlaying) {
@@ -29332,6 +30026,7 @@ export default {
             this.audioPlayerRepeatCount = Math.max(1, Math.min(maxFinite, safeValue));
         },
         seekCurrentAudioBy(seconds) {
+            if (this.audioPlayerIsTranslationSource) return;
             const targetIndex = this.resolveSeekAudioIndex(
                 this.currentlyPlayingIndex
             );
@@ -29355,6 +30050,7 @@ export default {
             this.seekCurrentAudioToPercent(percent);
         },
         seekCurrentAudioToPercent(percent) {
+            if (this.audioPlayerIsTranslationSource) return;
             const targetIndex = this.resolveSeekAudioIndex(
                 this.currentlyPlayingIndex
             );
@@ -29385,11 +30081,21 @@ export default {
                     if (audio) audio.volume = this.volume;
                 });
             }
+            if (this.translationAudioUtterance) {
+                try {
+                    this.translationAudioUtterance.volume = Math.max(
+                        0,
+                        Math.min(1, Number(this.volume || 1) || 1)
+                    );
+                } catch (_) {}
+            }
         },
 	        closeAudioPlayer: function () {
-	            if (this.currentlyPlayingIndex !== null) {
+                if (this.audioPlayerIsTranslationSource) {
+                    this.stopTranslationAudio({ resetSession: true });
+                } else if (this.currentlyPlayingIndex !== null) {
 	                this.stopAudio(this.currentlyPlayingIndex);
-	            }
+                }
             this.clearWordPreviewStopTimer();
             this.closeAudioPlayerMenu();
             this.showVolumeBar = false;
