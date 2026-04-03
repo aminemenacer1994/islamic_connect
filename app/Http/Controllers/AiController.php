@@ -52,7 +52,7 @@ class AiController extends Controller
         } catch (\Throwable $exception) {
             report($exception);
             return response()->json([
-                'error' => 'The Islamic assistant is temporarily unavailable. Please try again in a moment.'
+                'error' => 'The Criterion-backed assistant is temporarily unavailable. Please try again in a moment.'
             ], 500);
         }
     }

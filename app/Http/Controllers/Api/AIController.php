@@ -18,8 +18,7 @@ class AIController extends Controller
     public function ask(
         Request $request,
         IslamicAssistantService $assistantService,
-        PromptSanitizer $sanitizer,
-        IslamicVerificationPipeline $verificationPipeline
+        PromptSanitizer $sanitizer
     ) {
         $validated = $request->validate([
             'question' => 'required|string|max:1500',
@@ -82,22 +81,10 @@ class AIController extends Controller
                 'category' => [$answer['sourced'] ? 'retrieval_augmented' : 'fallback'],
                 'totalSources' => count($references),
                 'message' => ($answer['sourced'] ?? false)
-                    ? 'Answer built from retrieved Quran, Hadith, and IslamHouse source context.'
-                    : 'No verified Quran, Hadith, or IslamHouse source was found for this question.',
+                    ? 'Answer built from retrieved Quran and Hadith context via Criterion.'
+                    : 'No clear Quran or authentic Hadith source was found for this question.',
                 'timestamp' => now()->toIso8601String(),
             ];
-
-            $verification = array_merge(
-                $verification,
-                Arr::only(
-                    $verificationPipeline->verifyResponse(
-                        $question,
-                        $answer['message'] ?? null,
-                        $references
-                    ),
-                    ['criticalHashes']
-                )
-            );
 
             $this->storeMessageSafely($session, 'user', $question);
             $this->storeMessageSafely(
@@ -151,7 +138,6 @@ class AIController extends Controller
             'references.*.label' => 'required_with:references|string|max:180',
             'references.*.url' => 'nullable|url|max:2048',
             'references.*.sourceBadge' => 'nullable|string|max:24',
-            'references.*.hadithGrade' => 'nullable|string|max:24',
             'verification' => 'nullable|array',
             'verification.verified' => 'nullable|boolean',
             'verification.confidence' => 'nullable|string|max:16',
@@ -415,7 +401,6 @@ class AIController extends Controller
                 'label' => substr($label, 0, 180),
                 'url' => $this->normalizeReferenceUrl($reference['url'] ?? null),
                 'sourceBadge' => $this->normalizeOptionalText($reference['sourceBadge'] ?? null, 24),
-                'hadithGrade' => $this->normalizeOptionalText($reference['hadithGrade'] ?? null, 24),
             ];
         }
 

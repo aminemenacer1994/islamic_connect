@@ -24910,12 +24910,25 @@ export default {
         },
         updateActivePlaybackWordHighlight(ayahIndex, ayah, currentTime) {
             const safeAyahIndex = Number(ayahIndex);
+            const audio = this.audioElements?.[safeAyahIndex] || null;
             if (
                 !Number.isInteger(safeAyahIndex) ||
                 safeAyahIndex < 0 ||
-                Number(this.currentlyPlayingIndex) !== safeAyahIndex ||
-                !this.isAudioPlaying?.[safeAyahIndex]
+                Number(this.currentlyPlayingIndex) !== safeAyahIndex
             ) {
+                this.clearActivePlaybackWordHighlight();
+                return;
+            }
+            if (!this.isAudioPlaying?.[safeAyahIndex]) {
+                const isPausedCurrentAyah =
+                    audio &&
+                    audio.paused &&
+                    Number(this.activePlaybackWordAyahIndex) === safeAyahIndex &&
+                    Number.isInteger(Number(this.activePlaybackWordDisplayIndex)) &&
+                    Number(this.activePlaybackWordDisplayIndex) >= 0;
+                if (isPausedCurrentAyah) {
+                    return;
+                }
                 this.clearActivePlaybackWordHighlight();
                 return;
             }
@@ -24935,7 +24948,6 @@ export default {
                 )
                 : null;
             if (!Number.isFinite(displayWordIndex)) {
-                const audio = this.audioElements?.[safeAyahIndex] || null;
                 displayWordIndex = this.getApproximateDisplayWordIndexFromPlayback(
                     ayah,
                     currentTime,
@@ -25833,7 +25845,6 @@ export default {
                 this.isAudioPlaying[index] = false;
                 this.isAudioLoading[index] = false;
                 this.syncAudioPlayerMetrics(index);
-                this.clearActivePlaybackWordHighlight();
             }
         },
         toggleAudioPlayer: function (index) {

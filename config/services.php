@@ -87,6 +87,17 @@ return [
         'token' => env('HUGGINGFACE_API_TOKEN'),
         'router_provider' => env('HUGGINGFACE_ROUTER_PROVIDER', 'novita'),
     ],
+    'criterion' => [
+        'base' => env('CRITERION_API_BASE', 'https://criterion.life/api/v1'),
+        'prefer_local_corpus' => env('CRITERION_PREFER_LOCAL_CORPUS', true),
+        'local_data_path' => env('CRITERION_LOCAL_DATA_PATH', base_path('criterion-local/data')),
+        'quran_search_endpoint' => env('CRITERION_QURAN_SEARCH_ENDPOINT', '/quran/search'),
+        'hadith_search_endpoint' => env('CRITERION_HADITH_SEARCH_ENDPOINT', '/hadith/search'),
+        'quran_limit' => env('CRITERION_QURAN_LIMIT', 5),
+        'hadith_limit' => env('CRITERION_HADITH_LIMIT', 5),
+        'hadith_grade' => env('CRITERION_HADITH_GRADE', 'sahih-and-hasan'),
+        'timeout' => env('CRITERION_TIMEOUT_SECONDS', 12),
+    ],
     'islamhouse' => [
         'key' => $islamHouseApiKey,
         'base' => env('ISLAMHOUSE_API_BASE', 'https://api3.islamhouse.com/v3'),

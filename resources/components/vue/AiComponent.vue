@@ -6,7 +6,7 @@
           <p class="ai-eyebrow">AI Assistant</p>
           <h1>Noor</h1>
           <p class="ai-subtitle">
-            Verified Islamic answers using Quran, Hadith, and IslamHouse sources.
+            Verified Islamic answers using IslamHouse sources.
           </p>
         </div>
         <button
@@ -26,7 +26,7 @@
         <div v-if="!messages.length" class="ai-empty">
           <p class="ai-empty-title">Ask a focused Islamic question.</p>
           <p class="ai-empty-copy">
-            Noor searches Quran, Hadith, and IslamHouse, then returns a concise source-backed answer when one is available.
+            Noor searches IslamHouse and returns a concise source-backed answer when one is available.
           </p>
           <div class="ai-prompt-grid">
             <button
@@ -48,9 +48,6 @@
             :class="['ai-message', `ai-message--${message.role}`]">
             <div class="ai-message-meta">
               <span>{{ message.role === 'assistant' ? 'Noor' : 'You' }}</span>
-              <span v-if="message.role === 'assistant' && message.sourced && message.uiBadge" class="ai-badge">
-                {{ message.uiBadge }}
-              </span>
             </div>
 
             <div class="ai-message-body" v-html="formatMessage(message.text)"></div>
@@ -69,7 +66,6 @@
                     {{ reference.label }}
                   </a>
                   <span v-else>{{ reference.label }}</span>
-                  <small v-if="reference.hadithGrade"> · {{ reference.hadithGrade }}</small>
                 </li>
               </ul>
             </section>
@@ -96,7 +92,7 @@
             rows="3"
             maxlength="1500"
             :disabled="loading"
-            placeholder="Ask about a verse, hadith topic, ruling, or practical Islamic question."
+            placeholder="Ask about an Islamic topic, ruling, or practical question."
             @keydown.enter.exact.prevent="send"></textarea>
           <div class="ai-composer-footer">
             <p>English only for this assistant.</p>

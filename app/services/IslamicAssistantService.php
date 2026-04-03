@@ -22,7 +22,7 @@ class IslamicAssistantService
     private const MIN_FINAL_SCORE = 55.0;
     private const MIN_KEYWORD_SCORE = 1;
     private const MIN_STRICT_KEYWORD_SCORE = 2;
-    private const VERIFIED_SOURCES_FALLBACK_MESSAGE = 'Evidence not found in primary sources. Allah knows best.';
+    private const VERIFIED_SOURCES_FALLBACK_MESSAGE = 'Evidence not found in retrieved IslamHouse sources.';
     private const HUGGING_FACE_URL = 'https://router.huggingface.co/v1/chat/completions';
     private const STRICT_SOURCE_KEYWORDS = [
         'hadith',
@@ -42,12 +42,18 @@ class IslamicAssistantService
 
     protected PromptSanitizer $sanitizer;
     protected IslamicEmbeddingService $embeddingService;
+    protected CriterionLocalCorpusService $criterionCorpus;
     protected array $debugTrace = [];
 
-    public function __construct(PromptSanitizer $sanitizer, IslamicEmbeddingService $embeddingService)
+    public function __construct(
+        PromptSanitizer $sanitizer,
+        IslamicEmbeddingService $embeddingService,
+        CriterionLocalCorpusService $criterionCorpus
+    )
     {
         $this->sanitizer = $sanitizer;
         $this->embeddingService = $embeddingService;
+        $this->criterionCorpus = $criterionCorpus;
     }
 
     /**
@@ -199,16 +205,14 @@ class IslamicAssistantService
      *   normalized_queries: array<int, string>,
      *   quran_queries: array<int, string>,
      *   hadith_queries: array<int, string>,
-     *   islamhouse_queries: array<int, string>,
+     *   verse_refs: array<int, array{surah:int, ayah:int, verse_key:string}>,
      *   intent: string,
      *   category: string,
      *   evidence_required: bool,
      *   smart_evidence_mode: bool,
      *   broaden_search_filters: bool,
      *   debug_mode: bool,
-     *   allow_weak_hadith: bool,
      *   retrieval_attempt: int,
-     *   verse_refs: array<int, array{surah:int, ayah:int, verse_key:string}>,
      *   embedding: array<int, float>
      * }
      */
@@ -217,7 +221,6 @@ class IslamicAssistantService
         $normalized = $this->normalizeText($question);
         $keywords = $this->extractKeywords($normalized);
         $expandedKeywords = $this->expandKeywords($keywords, $normalized);
-        $verseRefs = $this->extractVerseReferences($question);
         $category = $this->classifyQueryCategory($normalized);
         $intent = $this->detectIntent($normalized, $expandedKeywords, $category);
         $smartEvidenceMode = array_key_exists('smart_evidence_mode', $options)
@@ -234,7 +237,7 @@ class IslamicAssistantService
             'normalized_queries' => $normalizedQueries,
             'quran_queries' => $this->buildQuranSearchQueries($normalized, $keywords, $expandedKeywords),
             'hadith_queries' => $this->buildHadithSearchQueries($normalized, $normalizedQueries, $expandedKeywords),
-            'islamhouse_queries' => $this->buildIslamHouseSearchQueries($normalizedQueries, $keywords, $expandedKeywords),
+            'verse_refs' => $this->extractVerseReferences($question),
             'intent' => $intent,
             'category' => $category,
             'evidence_required' => $evidenceRequired,
@@ -243,9 +246,8 @@ class IslamicAssistantService
             'debug_mode' => array_key_exists('debug_mode', $options)
                 ? (bool) $options['debug_mode']
                 : (bool) config('services.ai_rag.debug_mode', false),
-            'allow_weak_hadith' => $this->allowWeakHadith($normalized),
             'retrieval_attempt' => 1,
-            'verse_refs' => $verseRefs,
+            'allow_weak_hadith' => $this->allowWeakHadith($normalized),
             'embedding' => $this->embeddingService->embed($question, $expandedKeywords),
             'language' => $language,
         ];
@@ -269,11 +271,13 @@ class IslamicAssistantService
         }
 
         $stopWords = [
-            'a', 'about', 'allah', 'an', 'and', 'are', 'as', 'at', 'be', 'can', 'could', 'do',
+            'a', 'about', 'an', 'and', 'are', 'as', 'at', 'be', 'can', 'could', 'do',
             'does', 'for', 'from', 'give', 'guidance', 'hadith', 'help', 'how', 'i', 'in',
             'is', 'islam', 'islamic', 'it', 'me', 'my', 'of', 'on', 'or', 'please', 'quran',
             'regarding', 'say', 'show', 'tell', 'that', 'the', 'this', 'to', 'what', 'when',
             'where', 'which', 'with', 'would', 'you', 'your',
+            'according', 'alternative', 'based', 'later', 'make', 'making', 'muslim', 'muslims',
+            'scholar', 'scholars', 'taking',
         ];
 
         $tokens = preg_split('/[\s\-]+/', $normalizedQuestion) ?: [];
@@ -288,7 +292,7 @@ class IslamicAssistantService
                 continue;
             }
 
-            $keywords[] = Str::singular($token);
+            $keywords[] = $token;
         }
 
         return array_values(array_unique(array_slice($keywords, 0, self::MAX_KEYWORDS)));
@@ -331,6 +335,12 @@ class IslamicAssistantService
             'tawakkul' => ['trust', 'reliance'],
             'dua' => ['supplication', 'invocation'],
             'duaa' => ['supplication', 'invocation'],
+            'jesus' => ['isa', 'messiah', 'son of mary'],
+            'isa' => ['jesus', 'messiah', 'son of mary'],
+            'messiah' => ['jesus', 'isa', 'son of mary'],
+            'belief' => ['faith', 'iman'],
+            'believe' => ['faith', 'iman'],
+            'faith' => ['belief', 'iman'],
             'prayer' => ['salah', 'salat'],
             'salah' => ['prayer'],
             'salat' => ['prayer'],
@@ -347,6 +357,13 @@ class IslamicAssistantService
             'halal' => ['permissible', 'lawful'],
             'haram' => ['forbidden', 'impermissible'],
             'riba' => ['usury', 'interest'],
+            'interest' => ['riba', 'usury'],
+            'loan' => ['borrowing', 'debt'],
+            'music' => ['song', 'singing', 'instrument'],
+            'birthday' => ['celebration', 'birthday celebration'],
+            'birthdays' => ['birthday', 'celebration'],
+            'missed' => ['make up prayer', 'qada'],
+            'salah' => ['prayer', 'make up prayer', 'qada'],
             'shirk' => ['idolatry', 'polytheism'],
         ];
     }
@@ -548,6 +565,8 @@ class IslamicAssistantService
             'anger' => 'anger patience control',
             'prayer' => 'prayer salah',
             'salah' => 'prayer salah',
+            'jesus' => 'jesus isa son of mary messiah prophet',
+            'isa' => 'jesus isa son of mary messiah prophet',
             'music' => 'music prohibition',
             'patience' => 'patience sabr',
             'sabr' => 'patience sabr',
@@ -565,6 +584,17 @@ class IslamicAssistantService
             if (in_array($signal, $expandedKeywords, true) || str_contains($normalizedQuestion, $signal)) {
                 $queries[] = $query;
             }
+        }
+
+        if (str_contains($normalizedQuestion, 'jesus')) {
+            $queries[] = 'jesus isa son of mary messiah prophet';
+            $queries[] = 'jesus son of mary messenger of allah';
+        }
+
+        if (str_contains($normalizedQuestion, 'what is islam') || (str_contains($normalizedQuestion, 'muslim') && (str_contains($normalizedQuestion, 'believe') || str_contains($normalizedQuestion, 'belief')))) {
+            $queries[] = 'islam submission to allah';
+            $queries[] = 'belief in allah angels books messengers last day';
+            $queries[] = 'we have believed in allah and what was revealed';
         }
 
         $queries[] = $this->buildSearchText($keywords, 1);
@@ -612,16 +642,16 @@ class IslamicAssistantService
             }
         }
 
-        $queries = array_merge($queries, [
-            'anger',
-            'prayer',
-            'salah',
-            'salat',
-            'intention',
-            'prophet said',
-            'sin',
-            'patience',
-        ]);
+        if (str_contains($normalizedQuestion, 'jesus')) {
+            $queries[] = 'jesus son of mary prophet';
+            $queries[] = 'i met jesus';
+        }
+
+        if (str_contains($normalizedQuestion, 'what is islam') || (str_contains($normalizedQuestion, 'muslim') && (str_contains($normalizedQuestion, 'believe') || str_contains($normalizedQuestion, 'belief')))) {
+            $queries[] = 'islam is based on five';
+            $queries[] = 'inform me about al islam';
+            $queries[] = 'inform me about iman';
+        }
 
         return array_values(array_slice(array_unique(array_filter(array_map(
             fn ($query): string => $this->normalizeText((string) $query),
@@ -642,6 +672,29 @@ class IslamicAssistantService
             $queries[] = $keywordPhrase;
         }
 
+        $normalizedHaystack = implode(' ', $normalizedQueries) . ' ' . implode(' ', $expandedKeywords);
+        $topicSearchMap = [
+            'music' => ['music ruling in islam', 'listening to music', 'music fatwa'],
+            'anger' => ['anger management in islam', 'control anger', 'how to behave when angry'],
+            'birthday' => ['celebrating birthdays in islam', 'birthday celebration ruling', 'birthday fatwa'],
+            'birthdays' => ['celebrating birthdays in islam', 'birthday celebration ruling', 'birthday fatwa'],
+            'interest' => ['interest based loans in islam', 'riba loan necessity', 'loan with interest fatwa'],
+            'riba' => ['riba loan necessity', 'interest based loans in islam', 'borrowing with interest'],
+            'loan' => ['loan with interest in islam', 'interest based loans in islam', 'borrowing with interest'],
+            'salah' => ['making up missed prayers', 'missed salah', 'qada prayer'],
+            'prayer' => ['making up missed prayers', 'missed salah', 'qada prayer'],
+            'missed' => ['making up missed prayers', 'missed salah', 'qada prayer'],
+        ];
+
+        foreach ($topicSearchMap as $signal => $topicQueries) {
+            if (!str_contains($normalizedHaystack, $signal)) {
+                continue;
+            }
+            foreach ($topicQueries as $topicQuery) {
+                $queries[] = $topicQuery;
+            }
+        }
+
         foreach (array_slice($keywords, 0, 3) as $keyword) {
             $keyword = $this->normalizeText((string) $keyword);
             if ($keyword === '') {
@@ -650,26 +703,36 @@ class IslamicAssistantService
 
             $queries[] = $keyword;
             $queries[] = "{$keyword} ruling";
-            $queries[] = "is {$keyword} haram";
-            $queries[] = "islam {$keyword}";
             $queries[] = "fatwa {$keyword}";
+            $queries[] = "{$keyword} in islam";
         }
 
         return array_values(array_slice(array_unique(array_filter(array_map(
             fn ($query): string => $this->normalizeText((string) $query),
             $queries
-        ))), 0, 12));
+        ))), 0, 10));
     }
 
     /**
      * @param array<string, mixed> $profile
      * @return array{
      *   validation: array<string, mixed>,
-     *   source_counts: array{quran:int, hadith:int, islamhouse:int}
+     *   source_counts: array{quran:int, hadith:int}
      * }
      */
     protected function retrieveValidatedItems(array $profile, string $language): array
     {
+        if ($this->criterionCorpus->shouldUseLocalCorpus()) {
+            $liveDocuments = $this->fetchLiveDocuments($profile, $language);
+            $candidates = $this->mergeCandidates($profile, $liveDocuments);
+            $topItems = $this->selectTopItems($candidates, $profile);
+
+            return [
+                'validation' => $this->validateRetrievedItems($topItems, $profile),
+                'source_counts' => $this->countDocumentsBySource($liveDocuments),
+            ];
+        }
+
         $vectorLimit = ($profile['retrieval_attempt'] ?? 1) > 1
             ? self::MAX_VECTOR_RESULTS + 4
             : self::MAX_VECTOR_RESULTS;
@@ -690,36 +753,56 @@ class IslamicAssistantService
 
     protected function runDebugEndpointChecks(string $language): array
     {
-        $islamHouseBase = rtrim((string) config('services.islamhouse.base', 'https://api3.islamhouse.com/v3'), '/');
-        $quranBase = rtrim((string) config('services.quranenc.legacy_base', 'https://quranenc.com/api/v1'), '/');
-        $hadithBase = rtrim((string) config('services.hadeethenc.base', 'https://hadeethenc.com/api/v1'), '/');
+        if ($this->criterionCorpus->shouldUseLocalCorpus()) {
+            $checks = [];
+            $checks['criterion_quran'] = $this->recordRawDataResponse(
+                'CRITERION_QURAN_RAW_RESPONSE',
+                'criterion-local://quran/search',
+                ['q' => 'prayer', 'limit' => 5],
+                ['results' => $this->criterionCorpus->searchQuran('prayer', 5)]
+            );
+            $checks['criterion_hadith'] = $this->recordRawDataResponse(
+                'CRITERION_HADITH_RAW_RESPONSE',
+                'criterion-local://hadith/search',
+                [
+                    'q' => 'prayer',
+                    'limit' => 5,
+                    'grade' => (string) config('services.criterion.hadith_grade', 'sahih-and-hasan'),
+                ],
+                [
+                    'results' => $this->criterionCorpus->searchHadith(
+                        'prayer',
+                        5,
+                        (string) config('services.criterion.hadith_grade', 'sahih-and-hasan')
+                    ),
+                ]
+            );
+
+            return $checks;
+        }
+
+        $criterionBase = rtrim((string) config('services.criterion.base', 'https://criterion.life/api/v1'), '/');
+        $timeout = max(5, (int) config('services.criterion.timeout', 12));
 
         $checks = [];
-        $checks['quran'] = $this->performDebugHttpGet(
-            'QURANENC_RAW_RESPONSE',
-            "{$quranBase}/search/english_saheeh/prayer",
-            [],
-            ['data.result', 'result', 'data']
-        );
-        $checks['hadith'] = $this->performDebugHttpGet(
-            'HADITHENC_RAW_RESPONSE',
-            "{$hadithBase}/search/",
-            ['language' => $language, 'keyword' => 'anger'],
-            ['hadiths', 'hadiths.data', 'data', 'result', 'items']
-        );
-        $checks['islamhouse'] = $this->performDebugHttpGet(
-            'ISLAMHOUSE_RAW_RESPONSE',
-            "{$islamHouseBase}/items",
+        $checks['criterion_quran'] = $this->performDebugHttpGet(
+            'CRITERION_QURAN_RAW_RESPONSE',
+            $this->buildExternalApiUrl($criterionBase, (string) config('services.criterion.quran_search_endpoint', '/quran/search')),
             [
-                'key' => (string) config('services.islamhouse.key', 'paV29H2gm56kvLP'),
-                'lang' => 'en',
-                'flang' => 'en',
-                'slang' => 'showall',
-                'type' => 'showall',
+                'q' => 'prayer',
                 'limit' => 5,
-                'search' => 'prayer',
             ],
-            ['data.items', 'items', 'data']
+            ['results', 'data.results', 'data']
+        );
+        $checks['criterion_hadith'] = $this->performDebugHttpGet(
+            'CRITERION_HADITH_RAW_RESPONSE',
+            $this->buildExternalApiUrl($criterionBase, (string) config('services.criterion.hadith_search_endpoint', '/hadith/search')),
+            [
+                'q' => 'prayer',
+                'limit' => 5,
+                'grade' => (string) config('services.criterion.hadith_grade', 'sahih-and-hasan'),
+            ],
+            ['results', 'data.results', 'data']
         );
 
         return $checks;
@@ -821,6 +904,31 @@ class IslamicAssistantService
 
     /**
      * @param array<string, mixed> $query
+     * @param array<string, mixed> $payload
+     * @return array<string, mixed>
+     */
+    protected function recordRawDataResponse(string $label, string $endpoint, array $query, array $payload): array
+    {
+        $responseData = $payload;
+        $isEmpty = $this->responseIsEmpty($responseData);
+        $entry = [
+            'label' => $label,
+            'endpoint' => $this->buildEndpointForLog($endpoint, $query),
+            'status' => 200,
+            'response' => $responseData,
+            'failed' => $isEmpty,
+            'matched_path' => array_key_exists('results', $payload) ? 'results' : null,
+            'paths_checked' => ['results', 'data.results', 'data'],
+            'message' => $isEmpty ? 'Local Criterion corpus returned no data' : null,
+        ];
+
+        $this->debugTrace[] = $entry;
+
+        return $entry;
+    }
+
+    /**
+     * @param array<string, mixed> $query
      */
     protected function buildEndpointForLog(string $endpoint, array $query): string
     {
@@ -835,7 +943,7 @@ class IslamicAssistantService
      * @param array<string, mixed> $profile
      * @param array{
      *   validation: array<string, mixed>,
-     *   source_counts: array{quran:int, hadith:int, islamhouse:int}
+     *   source_counts: array{quran:int, hadith:int}
      * } $retrieval
      */
     protected function shouldRetryRetrieval(array $retrieval, array $profile): bool
@@ -874,11 +982,6 @@ class IslamicAssistantService
             $profile['normalized_queries'] ?? [],
             $profile['expanded_keywords'] ?? []
         );
-        $profile['islamhouse_queries'] = $this->buildIslamHouseSearchQueries(
-            $profile['normalized_queries'] ?? [],
-            $profile['keywords'] ?? [],
-            $profile['expanded_keywords'] ?? []
-        );
         $profile['broaden_search_filters'] = true;
 
         return $profile;
@@ -887,11 +990,11 @@ class IslamicAssistantService
     /**
      * @param array{
      *   validation: array<string, mixed>,
-     *   source_counts: array{quran:int, hadith:int, islamhouse:int}
+     *   source_counts: array{quran:int, hadith:int}
      * } $current
      * @param array{
      *   validation: array<string, mixed>,
-     *   source_counts: array{quran:int, hadith:int, islamhouse:int}
+     *   source_counts: array{quran:int, hadith:int}
      * } $retry
      */
     protected function shouldPreferRetryResult(array $current, array $retry): bool
@@ -909,8 +1012,6 @@ class IslamicAssistantService
     {
         $stats = is_array($validation['stats'] ?? null) ? $validation['stats'] : [];
         $rank = match ((string) ($stats['evidence_level'] ?? 'Weak')) {
-            'Very Strong' => 5,
-            'Strong (Quran-based)', 'Strong (Hadith-based)' => 4,
             'Scholarly Opinion' => 3,
             'Weak' => 2,
             default => 1,
@@ -921,14 +1022,13 @@ class IslamicAssistantService
 
     /**
      * @param array<int, array<string, mixed>> $documents
-     * @return array{quran:int, hadith:int, islamhouse:int}
+     * @return array{quran:int, hadith:int}
      */
     protected function countDocumentsBySource(array $documents): array
     {
         $counts = [
             'quran' => 0,
             'hadith' => 0,
-            'islamhouse' => 0,
         ];
 
         foreach ($documents as $document) {
@@ -942,13 +1042,12 @@ class IslamicAssistantService
     }
 
     /**
-     * @param array{quran?:int, hadith?:int, islamhouse?:int} $sourceCounts
+     * @param array{quran?:int, hadith?:int} $sourceCounts
      */
     protected function allSourceResultsEmpty(array $sourceCounts): bool
     {
         return ((int) ($sourceCounts['quran'] ?? 0)) === 0
-            && ((int) ($sourceCounts['hadith'] ?? 0)) === 0
-            && ((int) ($sourceCounts['islamhouse'] ?? 0)) === 0;
+            && ((int) ($sourceCounts['hadith'] ?? 0)) === 0;
     }
 
     /**
@@ -985,6 +1084,7 @@ class IslamicAssistantService
     {
         $queryCacheHours = max(24, (int) config('services.ai_rag.query_cache_hours', 24));
         $cacheKey = 'ai-rag-live:' . md5(json_encode([
+            'strategy' => $this->criterionCorpus->shouldUseLocalCorpus() ? 'criterion-local-v2' : 'criterion-http-v1',
             'language' => $language,
             'query' => $profile['normalized'] ?? '',
             'intent' => $profile['intent'] ?? 'general',
@@ -992,8 +1092,7 @@ class IslamicAssistantService
             'normalized_queries' => $profile['normalized_queries'] ?? [],
             'quran_queries' => $profile['quran_queries'] ?? [],
             'hadith_queries' => $profile['hadith_queries'] ?? [],
-            'islamhouse_queries' => $profile['islamhouse_queries'] ?? [],
-            'allow_weak_hadith' => $profile['allow_weak_hadith'] ?? false,
+            'verse_refs' => $profile['verse_refs'] ?? [],
             'broaden_search_filters' => $profile['broaden_search_filters'] ?? false,
             'attempt' => $profile['retrieval_attempt'] ?? 1,
         ]));
@@ -1003,11 +1102,7 @@ class IslamicAssistantService
             return $cached;
         }
 
-        $documents = array_merge(
-            $this->fetchQuranDocuments($profile, $language),
-            $this->fetchHadithDocuments($profile, $language),
-            $this->fetchIslamHouseDocuments($profile, $language)
-        );
+        $documents = $this->fetchCriterionDocuments($profile, $language);
         $documents = array_slice($documents, 0, self::MAX_LIVE_RESULTS);
 
         if (!empty($documents)) {
@@ -1017,6 +1112,330 @@ class IslamicAssistantService
         }
 
         return $documents;
+    }
+
+    /**
+     * @param array<string, mixed> $profile
+     * @return array<int, array<string, mixed>>
+     */
+    protected function fetchCriterionDocuments(array $profile, string $language): array
+    {
+        $baseUrl = rtrim((string) config('services.criterion.base', 'https://criterion.life/api/v1'), '/');
+        $useLocalCorpus = $this->criterionCorpus->shouldUseLocalCorpus();
+
+        if ($baseUrl === '' && !$useLocalCorpus) {
+            return [];
+        }
+
+        $intent = (string) ($profile['intent'] ?? 'general');
+        $shouldFetchQuran = in_array($intent, ['quran', 'ruling', 'general'], true);
+        $shouldFetchHadith = in_array($intent, ['hadith', 'ruling', 'general'], true);
+
+        if (($profile['category'] ?? 'general') === 'religious_guidance' || ($profile['category'] ?? 'general') === 'fiqh') {
+            $shouldFetchQuran = true;
+            $shouldFetchHadith = true;
+        }
+
+        $quranQuery = $this->criterionQuranQuery($profile);
+        $hadithQuery = $this->criterionHadithQuery($profile);
+        $quranLimit = max(1, min(20, (int) config('services.criterion.quran_limit', 5)));
+        $hadithLimit = max(1, min(15, (int) config('services.criterion.hadith_limit', 5)));
+        $timeout = max(5, (int) config('services.criterion.timeout', 12));
+        $hadithGrade = (string) config('services.criterion.hadith_grade', 'sahih-and-hasan');
+
+        if ($useLocalCorpus) {
+            $documents = [];
+
+            if ($shouldFetchQuran && $quranQuery !== '') {
+                $quranRows = $this->criterionCorpus->searchQuran($quranQuery, $quranLimit);
+                $this->recordRawDataResponse(
+                    'CRITERION_QURAN_RAW_RESPONSE',
+                    'criterion-local://quran/search',
+                    ['q' => $quranQuery, 'limit' => $quranLimit],
+                    ['results' => $quranRows]
+                );
+
+                foreach ($quranRows as $row) {
+                    if (!is_array($row)) {
+                        continue;
+                    }
+                    $document = $this->normalizeCriterionQuranDocument($row, $language);
+                    if ($document !== null) {
+                        $documents[] = $document;
+                    }
+                }
+            }
+
+            if ($shouldFetchHadith && $hadithQuery !== '') {
+                $hadithRows = $this->criterionCorpus->searchHadith($hadithQuery, $hadithLimit, $hadithGrade);
+                $this->recordRawDataResponse(
+                    'CRITERION_HADITH_RAW_RESPONSE',
+                    'criterion-local://hadith/search',
+                    ['q' => $hadithQuery, 'limit' => $hadithLimit, 'grade' => $hadithGrade],
+                    ['results' => $hadithRows]
+                );
+
+                foreach ($hadithRows as $row) {
+                    if (!is_array($row)) {
+                        continue;
+                    }
+                    $document = $this->normalizeCriterionHadithDocument($row, $profile, $language);
+                    if ($document !== null) {
+                        $documents[] = $document;
+                    }
+                }
+            }
+
+            return $this->dedupeDocuments($documents);
+        }
+
+        $responses = Http::pool(function (Pool $pool) use (
+            $shouldFetchQuran,
+            $shouldFetchHadith,
+            $baseUrl,
+            $quranQuery,
+            $hadithQuery,
+            $quranLimit,
+            $hadithLimit,
+            $hadithGrade,
+            $timeout
+        ) {
+            $requests = [];
+
+            if ($shouldFetchQuran && $quranQuery !== '') {
+                $requests['criterion_quran'] = $pool
+                    ->as('criterion_quran')
+                    ->acceptJson()
+                    ->timeout($timeout)
+                    ->get($this->buildExternalApiUrl(
+                        $baseUrl,
+                        (string) config('services.criterion.quran_search_endpoint', '/quran/search')
+                    ), [
+                        'q' => $quranQuery,
+                        'limit' => $quranLimit,
+                    ]);
+            }
+
+            if ($shouldFetchHadith && $hadithQuery !== '') {
+                $requests['criterion_hadith'] = $pool
+                    ->as('criterion_hadith')
+                    ->acceptJson()
+                    ->timeout($timeout)
+                    ->get($this->buildExternalApiUrl(
+                        $baseUrl,
+                        (string) config('services.criterion.hadith_search_endpoint', '/hadith/search')
+                    ), [
+                        'q' => $hadithQuery,
+                        'limit' => $hadithLimit,
+                        'grade' => $hadithGrade,
+                    ]);
+            }
+
+            return $requests;
+        });
+
+        $documents = [];
+
+        $quranResponse = $responses['criterion_quran'] ?? null;
+        if ($quranResponse) {
+            $this->recordRawApiResponse(
+                'CRITERION_QURAN_RAW_RESPONSE',
+                $this->buildExternalApiUrl($baseUrl, (string) config('services.criterion.quran_search_endpoint', '/quran/search')),
+                ['q' => $quranQuery, 'limit' => $quranLimit],
+                $quranResponse,
+                ['results', 'data.results', 'data']
+            );
+            foreach ($this->extractListPayloadFromResponse($quranResponse) as $row) {
+                if (!is_array($row)) {
+                    continue;
+                }
+                $document = $this->normalizeCriterionQuranDocument($row, $language);
+                if ($document !== null) {
+                    $documents[] = $document;
+                }
+            }
+        }
+
+        $hadithResponse = $responses['criterion_hadith'] ?? null;
+        if ($hadithResponse) {
+            $this->recordRawApiResponse(
+                'CRITERION_HADITH_RAW_RESPONSE',
+                $this->buildExternalApiUrl($baseUrl, (string) config('services.criterion.hadith_search_endpoint', '/hadith/search')),
+                ['q' => $hadithQuery, 'limit' => $hadithLimit, 'grade' => $hadithGrade],
+                $hadithResponse,
+                ['results', 'data.results', 'data']
+            );
+            foreach ($this->extractListPayloadFromResponse($hadithResponse) as $row) {
+                if (!is_array($row)) {
+                    continue;
+                }
+                $document = $this->normalizeCriterionHadithDocument($row, $profile, $language);
+                if ($document !== null) {
+                    $documents[] = $document;
+                }
+            }
+        }
+
+        return $this->dedupeDocuments($documents);
+    }
+
+    /**
+     * @param array<string, mixed> $profile
+     */
+    protected function criterionQuranQuery(array $profile): string
+    {
+        $verseReference = Arr::get($profile, 'verse_refs.0.verse_key');
+        if (is_string($verseReference) && trim($verseReference) !== '') {
+            return trim($verseReference);
+        }
+
+        foreach ((array) ($profile['quran_queries'] ?? []) as $query) {
+            $normalized = trim((string) $query);
+            if ($normalized !== '') {
+                return $normalized;
+            }
+        }
+
+        return trim((string) ($profile['normalized'] ?? ''));
+    }
+
+    /**
+     * @param array<string, mixed> $profile
+     */
+    protected function criterionHadithQuery(array $profile): string
+    {
+        foreach ((array) ($profile['hadith_queries'] ?? []) as $query) {
+            $normalized = trim((string) $query);
+            if ($normalized !== '') {
+                return $normalized;
+            }
+        }
+
+        return trim((string) ($profile['normalized'] ?? ''));
+    }
+
+    /**
+     * @param array<string, mixed> $row
+     * @return array<string, mixed>|null
+     */
+    protected function normalizeCriterionQuranDocument(array $row, string $language): ?array
+    {
+        $surahNumber = (int) Arr::get($row, 'surahNumber', 0);
+        $ayahNumber = (int) Arr::get($row, 'ayahNumber', 0);
+        $textEnglish = $this->cleanText((string) (
+            Arr::get($row, 'textEnglish')
+            ?? Arr::get($row, 'translation')
+            ?? Arr::get($row, 'text')
+            ?? ''
+        ));
+        $textArabic = $this->cleanText((string) Arr::get($row, 'textArabic', ''));
+
+        if ($surahNumber <= 0 || $ayahNumber <= 0 || $textEnglish === '') {
+            return null;
+        }
+
+        $surahNameEnglish = $this->cleanText((string) Arr::get($row, 'surahNameEnglish', 'Quran'));
+        $surahNameArabic = $this->cleanText((string) Arr::get($row, 'surahNameArabic', ''));
+        $reference = trim(sprintf('%s %d:%d', $surahNameEnglish !== '' ? $surahNameEnglish : 'Quran', $surahNumber, $ayahNumber));
+        $verseKey = "{$surahNumber}:{$ayahNumber}";
+        $contextBefore = $this->normalizeCriterionQuranContext((array) Arr::get($row, 'contextBefore', []));
+        $contextAfter = $this->normalizeCriterionQuranContext((array) Arr::get($row, 'contextAfter', []));
+
+        $bodyParts = [$textEnglish];
+        if ($textArabic !== '') {
+            $bodyParts[] = 'Arabic: ' . $textArabic;
+        }
+        if (!empty($contextBefore)) {
+            $bodyParts[] = 'Context before: ' . implode(' ', $contextBefore);
+        }
+        if (!empty($contextAfter)) {
+            $bodyParts[] = 'Context after: ' . implode(' ', $contextAfter);
+        }
+
+        return [
+            'document_key' => "quran:criterion:{$verseKey}:{$language}",
+            'source' => 'quran',
+            'source_type' => 'verse',
+            'source_id' => (string) (Arr::get($row, 'verseId') ?? $verseKey),
+            'language' => $language,
+            'title' => $surahNameEnglish !== '' ? $surahNameEnglish : 'Quran',
+            'reference' => $reference,
+            'body' => implode("\n\n", array_filter($bodyParts)),
+            'snippet' => $this->snippet($textEnglish, self::MAX_SNIPPET_CHARS),
+            'translation' => $textEnglish,
+            'description' => null,
+            'metadata' => [
+                'surah_number' => $surahNumber,
+                'ayah_number' => $ayahNumber,
+                'surah_name' => $surahNameEnglish,
+                'surah_name_arabic' => $surahNameArabic,
+                'text_arabic' => $textArabic,
+                'url' => "https://quran.com/{$surahNumber}/{$ayahNumber}",
+                'source_name' => 'Criterion',
+            ],
+            'grade' => null,
+            'priority' => $this->defaultPriority('quran', null),
+            'vector_score' => (float) Arr::get($row, 'similarity', 0.0),
+        ];
+    }
+
+    /**
+     * @param array<int, array<string, mixed>> $contextRows
+     * @return array<int, string>
+     */
+    protected function normalizeCriterionQuranContext(array $contextRows): array
+    {
+        $lines = [];
+
+        foreach ($contextRows as $row) {
+            if (!is_array($row)) {
+                continue;
+            }
+
+            $surahNumber = (int) Arr::get($row, 'surahNumber', 0);
+            $ayahNumber = (int) Arr::get($row, 'ayahNumber', 0);
+            $textEnglish = $this->cleanText((string) Arr::get($row, 'textEnglish', ''));
+            if ($surahNumber <= 0 || $ayahNumber <= 0 || $textEnglish === '') {
+                continue;
+            }
+
+            $lines[] = "{$surahNumber}:{$ayahNumber} {$textEnglish}";
+        }
+
+        return $lines;
+    }
+
+    /**
+     * @param array<string, mixed> $row
+     * @param array<string, mixed> $profile
+     * @return array<string, mixed>|null
+     */
+    protected function normalizeCriterionHadithDocument(array $row, array $profile, string $language): ?array
+    {
+        $document = $this->normalizeHadithDocument([
+            'title' => Arr::get($row, 'collection', 'Hadith'),
+            'id' => Arr::get($row, 'reference'),
+            'attribution' => Arr::get($row, 'reference'),
+            'hadeeth' => Arr::get($row, 'english') ?? Arr::get($row, 'textEnglish'),
+            'text' => Arr::get($row, 'english') ?? Arr::get($row, 'textEnglish'),
+            'description' => trim(implode(' ', array_filter([
+                $this->cleanText((string) Arr::get($row, 'narrator', '')),
+                $this->cleanText((string) Arr::get($row, 'book', '')),
+                $this->cleanText((string) Arr::get($row, 'chapter', '')),
+            ]))),
+            'grade' => Arr::get($row, 'grade'),
+            'source' => Arr::get($row, 'reference'),
+            'sourceUrl' => Arr::get($row, 'sourceUrl'),
+            'sourceName' => 'Criterion',
+        ], $profile, $language);
+
+        if ($document === null) {
+            return null;
+        }
+
+        $document['vector_score'] = (float) Arr::get($row, 'similarity', 0.0);
+
+        return $document;
     }
 
     /**
@@ -1515,22 +1934,6 @@ class IslamicAssistantService
             );
         }
 
-        if (empty($rows)) {
-            $rows = $this->fetchIslamHouseWebsiteRowsForQueries(
-                $language,
-                $searchQueries,
-                $preferredType
-            );
-        }
-
-        if (empty($rows)) {
-            $rows = $this->fetchIslamHouseWebsiteRowsForQueries(
-                $language,
-                $this->buildIslamHouseFallbackQueriesFromSet($searchQueries),
-                $preferredType
-            );
-        }
-
         $documents = [];
         foreach ($rows as $row) {
             if (!is_array($row)) {
@@ -1541,7 +1944,7 @@ class IslamicAssistantService
             if ($document !== null) {
                 $document['keyword_score'] = $this->scoreIslamHouseRow(
                     $row,
-                    $profile['expanded_keywords'] ?? []
+                    $profile
                 );
                 $document['priority'] = 40 + min(30, (int) ($document['keyword_score'] ?? 0));
                 $documents[] = $document;
@@ -1584,6 +1987,7 @@ class IslamicAssistantService
                 $apiKey !== '' ? $apiKey : env('ISLAMHOUSE_KEY'),
                 $language,
                 trim($query),
+                $preferredType,
                 $broadenFilters
             );
 
@@ -1748,9 +2152,27 @@ class IslamicAssistantService
             ?? Arr::get($row, 'content')
             ?? ''
         );
+        $expandedKeywords = $keywords['expanded_keywords'] ?? $keywords;
+        $topicKeywords = $this->specificTopicKeywords($expandedKeywords);
+        $combined = trim($title . ' ' . $description);
+        $expandedScore = $this->keywordScore($combined, $expandedKeywords);
+        $topicScore = $this->keywordScore($combined, $topicKeywords);
+        $score = ($this->keywordScore($title, $expandedKeywords) * 4)
+            + ($this->keywordScore($description, $expandedKeywords) * 2)
+            + ($topicScore * 5);
 
-        return ($this->keywordScore($title, $keywords) * 3)
-            + $this->keywordScore($description, $keywords);
+        if (!empty($topicKeywords) && $topicScore === 0) {
+            $score -= 18;
+        } elseif ($expandedScore === 0) {
+            $score -= 10;
+        }
+
+        $normalizedTitle = $this->normalizeText($title);
+        if ($normalizedTitle !== '' && $this->looksGenericIslamHouseTitle($normalizedTitle)) {
+            $score -= 12;
+        }
+
+        return $score;
     }
 
     /**
@@ -1950,6 +2372,10 @@ class IslamicAssistantService
             if (in_array($keyword, [
                 'islam', 'islamic', 'quran', 'hadith', 'verse', 'surah', 'ayah',
                 'ruling', 'scholar', 'scholarly', 'guidance', 'religion',
+                'muslim', 'muslims', 'according', 'say', 'says', 'said',
+                'should', 'what', 'when', 'where', 'which', 'about',
+                'taking', 'based', 'later', 'alternative', 'make', 'making',
+                'think', 'belief', 'believe', 'faith', 'question', 'does',
             ], true)) {
                 continue;
             }
@@ -1980,6 +2406,15 @@ class IslamicAssistantService
      */
     protected function matchesTopicKeywords(array $item, array $topicKeywords): bool
     {
+        return $this->topicKeywordScore($item, $topicKeywords) > 0;
+    }
+
+    /**
+     * @param array<string, mixed> $item
+     * @param array<int, string> $topicKeywords
+     */
+    protected function topicKeywordScore(array $item, array $topicKeywords): int
+    {
         $haystack = $this->normalizeText(
             (string) ($item['title'] ?? '') . ' '
             . (string) ($item['reference'] ?? '') . ' '
@@ -1987,22 +2422,25 @@ class IslamicAssistantService
             . (string) ($item['description'] ?? '')
         );
 
-        if ($haystack === '') {
-            return false;
+        if ($haystack === '' || empty($topicKeywords)) {
+            return 0;
         }
 
-        foreach ($topicKeywords as $keyword) {
+        $score = 0;
+        foreach (array_values(array_unique($topicKeywords)) as $keyword) {
             $keyword = $this->normalizeText((string) $keyword);
             if ($keyword === '') {
                 continue;
             }
 
             if (preg_match('/\b' . preg_quote($keyword, '/') . '\b/', $haystack)) {
-                return true;
+                $score += 2;
+            } elseif (str_contains($haystack, $keyword)) {
+                $score += 1;
             }
         }
 
-        return false;
+        return $score;
     }
 
     /**
@@ -2124,6 +2562,7 @@ class IslamicAssistantService
         string $apiKey,
         string $language,
         string $search,
+        string $preferredType,
         bool $broadenFilters
     ): array {
         return [
@@ -2131,7 +2570,7 @@ class IslamicAssistantService
             'lang' => $broadenFilters ? 'showall' : $language,
             'flang' => $language,
             'slang' => 'showall',
-            'type' => 'showall',
+            'type' => $broadenFilters ? 'showall' : ($preferredType !== '' ? $preferredType : 'showall'),
             'limit' => 20,
             'pageNum' => 1,
             'search' => $search,
@@ -2147,8 +2586,8 @@ class IslamicAssistantService
             trim((string) ($profile['normalized'] ?? '')) . ' ' . $searchText
         );
 
-        if (preg_match('/\b(ruling|haram|halal)\b/', $haystack)) {
-            return 'article';
+        if (preg_match('/\b(ruling|haram|halal|allowed|permissible|forbidden|loan|loans|interest|riba|music|birthday|birthdays|celebration)\b/', $haystack)) {
+            return 'fatwa';
         }
 
         if (preg_match('/\b(quran)\b/', $haystack)) {
@@ -2157,6 +2596,10 @@ class IslamicAssistantService
 
         if (preg_match('/\b(audio|dua|duaa)\b/', $haystack)) {
             return 'audio';
+        }
+
+        if (preg_match('/\b(how|explain|importance|virtue|anger|patience|sincerity|prayer|salah)\b/', $haystack)) {
+            return 'article';
         }
 
         return 'showall';
@@ -2174,11 +2617,9 @@ class IslamicAssistantService
 
         return array_values(array_unique([
             $query,
-            'islam ruling ' . $query,
+            $query . ' in islam',
+            $query . ' ruling',
             'fatwa ' . $query,
-            'islam explanation ' . $query,
-            'halal haram ' . $query,
-            'islamHouse ' . $query,
         ]));
     }
 
@@ -2285,6 +2726,24 @@ class IslamicAssistantService
 
         if ($normalizedTitle !== '' && $normalizedTitle === $normalizedBody && mb_strlen($normalizedTitle) < 80) {
             return true;
+        }
+
+        return false;
+    }
+
+    protected function looksGenericIslamHouseTitle(string $normalizedTitle): bool
+    {
+        foreach ([
+            'how to become a muslim',
+            'how to convert to islam',
+            'discover islam',
+            'a glimpse of muslim spain',
+            'important links',
+            'ramadan and fasting',
+        ] as $genericTitle) {
+            if ($normalizedTitle === $genericTitle) {
+                return true;
+            }
         }
 
         return false;
@@ -2409,6 +2868,7 @@ class IslamicAssistantService
             $candidateLimit = max(100, (int) config('services.ai_rag.vector_candidate_limit', 500));
             $documents = RagDocument::query()
                 ->where('language', $language)
+                ->whereIn('source', ['quran', 'hadith'])
                 ->orderByDesc('fetched_at')
                 ->limit($candidateLimit)
                 ->get();
@@ -2516,55 +2976,27 @@ class IslamicAssistantService
     {
         $selected = [];
         $seen = [];
-        $counts = [
-            'quran' => 0,
-            'hadith' => 0,
-            'islamhouse' => 0,
-        ];
-        $limits = [
-            'quran' => 3,
-            'hadith' => 3,
-            'islamhouse' => 3,
-        ];
-        if (($profile['retrieval_attempt'] ?? 1) > 1) {
-            $limits = [
-                'quran' => 4,
-                'hadith' => 4,
-                'islamhouse' => 4,
-            ];
-        }
+        $limit = ($profile['retrieval_attempt'] ?? 1) > 1 ? 4 : 3;
 
-        $preferredSourceOrder = ['quran', 'hadith', 'islamhouse'];
+        foreach ($items as $item) {
+            $source = (string) ($item['source'] ?? '');
+            if (!in_array($source, ['quran', 'hadith'], true)) {
+                continue;
+            }
+            if (($item['final_score'] ?? 0) < self::MIN_FINAL_SCORE) {
+                continue;
+            }
 
-        foreach ($preferredSourceOrder as $preferredSource) {
-            foreach ($items as $item) {
-                $source = (string) ($item['source'] ?? 'islamhouse');
-                if ($source !== $preferredSource) {
-                    continue;
-                }
-                if (($item['final_score'] ?? 0) < self::MIN_FINAL_SCORE) {
-                    continue;
-                }
-                if (!isset($counts[$source])) {
-                    $counts[$source] = 0;
-                    $limits[$source] = 2;
-                }
-                if ($counts[$source] >= $limits[$source]) {
-                    continue;
-                }
+            $key = $this->candidateDedupKey($item);
+            if ($key === '' || isset($seen[$key])) {
+                continue;
+            }
 
-                $key = $this->candidateDedupKey($item);
-                if ($key === '' || isset($seen[$key])) {
-                    continue;
-                }
+            $seen[$key] = true;
+            $selected[] = $item;
 
-                $seen[$key] = true;
-                $selected[] = $item;
-                $counts[$source]++;
-
-                if (count($selected) >= self::MAX_CONTEXT_ITEMS) {
-                    return $selected;
-                }
+            if (count($selected) >= min(self::MAX_CONTEXT_ITEMS, $limit)) {
+                return $selected;
             }
         }
 
@@ -2595,15 +3027,15 @@ class IslamicAssistantService
         $authenticHadithCount = 0;
         $sahihHadithCount = 0;
         $hasanHadithCount = 0;
-        $islamhouseCount = 0;
         $specificTopicKeywords = $this->specificTopicKeywords($profile['expanded_keywords'] ?? []);
+        $requiredTopicScore = count($specificTopicKeywords) >= 3 ? 3 : (count($specificTopicKeywords) === 2 ? 2 : (count($specificTopicKeywords) === 1 ? 1 : 0));
 
         foreach ($items as $item) {
             if (!is_array($item)) {
                 continue;
             }
 
-            $source = (string) ($item['source'] ?? 'islamhouse');
+            $source = (string) ($item['source'] ?? '');
             $keywordScore = (int) ($item['keyword_score'] ?? $this->keywordScore(
                 ($item['title'] ?? '') . ' ' . ($item['reference'] ?? '') . ' ' . ($item['body'] ?? ''),
                 $profile['expanded_keywords'] ?? []
@@ -2613,45 +3045,32 @@ class IslamicAssistantService
                 continue;
             }
 
+            if ($requiredTopicScore > 0 && $this->topicKeywordScore($item, $specificTopicKeywords) < $requiredTopicScore) {
+                continue;
+            }
+
             if ($source === 'quran') {
                 if (!$this->isValidQuranItem($item)) {
                     continue;
                 }
-
                 $quranCount++;
                 $validated[] = $item;
                 continue;
             }
 
-            if ($source === 'hadith') {
-                if (!$this->isValidHadithItem($item, $profile)) {
-                    continue;
-                }
-
-                $classification = $this->classifyHadithGrade($item['grade'] ?? null);
-                if (in_array($classification, ['sahih', 'hasan'], true)) {
-                    $authenticHadithCount++;
-                }
-                if ($classification === 'sahih') {
-                    $sahihHadithCount++;
-                }
-                if ($classification === 'hasan') {
-                    $hasanHadithCount++;
-                }
-
-                $validated[] = $item;
+            if ($source !== 'hadith' || !$this->isValidHadithItem($item, $profile)) {
                 continue;
             }
 
-            if (!$this->isValidIslamHouseItem($item)) {
-                continue;
+            $classification = $this->classifyHadithGrade($item['grade'] ?? null);
+            if ($classification === 'sahih') {
+                $sahihHadithCount++;
+                $authenticHadithCount++;
+            } elseif ($classification === 'hasan') {
+                $hasanHadithCount++;
+                $authenticHadithCount++;
             }
 
-            if (!empty($specificTopicKeywords) && !$this->matchesTopicKeywords($item, $specificTopicKeywords)) {
-                continue;
-            }
-
-            $islamhouseCount++;
             $validated[] = $item;
         }
 
@@ -2660,14 +3079,14 @@ class IslamicAssistantService
             $authenticHadithCount,
             $sahihHadithCount,
             $hasanHadithCount,
-            $islamhouseCount,
+            0,
             count($validated)
         );
 
         if (empty($validated)) {
             return [
                 'blocked' => true,
-                'message' => 'I could not find verified Quran, Hadith, or IslamHouse sources for this question. Please try a narrower topic or different wording. Allah knows best.',
+                'message' => 'I could not find a clear Quran or authentic Hadith answer for that question. Try a narrower wording.',
                 'items' => [],
                 'stats' => $stats,
             ];
@@ -2694,17 +3113,21 @@ class IslamicAssistantService
         $scholarlyOnly = false;
 
         if ($quranCount > 0 && $authenticHadithCount > 0) {
-            $evidenceLevel = 'Very Strong';
-            $confidenceBadge = '100% Evidence-Based';
-            $confidenceScore = 100;
+            $evidenceLevel = 'Quran and Hadith';
+            $confidenceBadge = 'Quran and Hadith';
+            $confidenceScore = 95;
         } elseif ($quranCount > 0) {
-            $evidenceLevel = 'Strong (Quran-based)';
-            $confidenceBadge = '100% Evidence-Based';
-            $confidenceScore = 100;
+            $evidenceLevel = 'Quran';
+            $confidenceBadge = 'Quran Evidence';
+            $confidenceScore = 92;
+        } elseif ($sahihHadithCount > 0) {
+            $evidenceLevel = 'Authentic Hadith';
+            $confidenceBadge = 'Authentic Hadith';
+            $confidenceScore = 88;
         } elseif ($authenticHadithCount > 0) {
-            $evidenceLevel = 'Strong (Hadith-based)';
-            $confidenceBadge = '100% Evidence-Based';
-            $confidenceScore = $sahihHadithCount > 0 ? 95 : 90;
+            $evidenceLevel = 'Hadith';
+            $confidenceBadge = 'Hadith Evidence';
+            $confidenceScore = 80;
         } elseif ($islamhouseCount > 0) {
             $evidenceLevel = 'Scholarly Opinion';
             $confidenceBadge = 'Supported by Islamic Sources';
@@ -2729,15 +3152,7 @@ class IslamicAssistantService
 
     protected function uiBadgeForConfidence(int $confidenceScore): string
     {
-        if ($confidenceScore >= 90) {
-            return '100% Evidence-Based';
-        }
-
-        if ($confidenceScore >= 60) {
-            return 'Supported by Islamic Sources';
-        }
-
-        return 'No Verified Source';
+        return '';
     }
 
     /**
@@ -2754,8 +3169,7 @@ class IslamicAssistantService
             'evidence_required' => (bool) ($profile['evidence_required'] ?? false),
             'smart_evidence_mode' => (bool) ($profile['smart_evidence_mode'] ?? false),
             'quran_results' => (int) ($stats['quran_count'] ?? 0),
-            'authentic_hadith_results' => (int) ($stats['authentic_hadith_count'] ?? 0),
-            'islamhouse_results' => (int) ($stats['islamhouse_count'] ?? 0),
+            'hadith_results' => (int) ($stats['authentic_hadith_count'] ?? 0),
             'evidence_level' => (string) ($stats['evidence_level'] ?? 'Weak'),
             'confidence_badge' => (string) ($stats['confidence_badge'] ?? 'Low'),
             'validated_items' => (int) ($stats['validated_count'] ?? 0),
@@ -2778,7 +3192,7 @@ class IslamicAssistantService
             'normalized_queries' => $profile['normalized_queries'] ?? [],
             'quran_queries' => $profile['quran_queries'] ?? [],
             'hadith_queries' => $profile['hadith_queries'] ?? [],
-            'islamhouse_queries' => $profile['islamhouse_queries'] ?? [],
+            'verse_refs' => $profile['verse_refs'] ?? [],
         ]);
     }
 
@@ -2787,15 +3201,20 @@ class IslamicAssistantService
      */
     protected function minimumKeywordScore(array $profile, string $source): int
     {
-        if (
-            ($profile['evidence_required'] ?? false) === true
-            && ($profile['retrieval_attempt'] ?? 1) === 1
-            && in_array($source, ['quran', 'hadith'], true)
-        ) {
-            return self::MIN_STRICT_KEYWORD_SCORE;
+        if (in_array($source, ['quran', 'hadith'], true)) {
+            if (empty($profile['expanded_keywords'] ?? [])) {
+                return 0;
+            }
+
+            return 1;
         }
 
-        return self::MIN_KEYWORD_SCORE;
+        $specificTopicKeywords = $this->specificTopicKeywords($profile['expanded_keywords'] ?? []);
+        if (($profile['evidence_required'] ?? false) && count($specificTopicKeywords) >= 2) {
+            return 3;
+        }
+
+        return 2;
     }
 
     /**
@@ -2901,8 +3320,8 @@ class IslamicAssistantService
         if ($intent === 'hadith' && $source === 'hadith') {
             $boost += 20;
         }
-        if ($intent === 'ruling' && $source === 'islamhouse') {
-            $boost += 10;
+        if ($intent === 'ruling' && in_array($source, ['quran', 'hadith'], true)) {
+            $boost += 8;
         }
 
         if ($source === 'hadith') {
@@ -2954,35 +3373,34 @@ class IslamicAssistantService
      */
     protected function buildContextSections(array $items): array
     {
-        $sections = [];
-        $grouped = [
-            'quran' => array_values(array_filter($items, fn (array $item): bool => ($item['source'] ?? '') === 'quran')),
-            'hadith' => array_values(array_filter($items, fn (array $item): bool => ($item['source'] ?? '') === 'hadith')),
-            'islamhouse' => array_values(array_filter($items, fn (array $item): bool => ($item['source'] ?? '') === 'islamhouse')),
-        ];
+        $quranItems = array_values(array_filter(
+            $items,
+            fn (array $item): bool => ($item['source'] ?? '') === 'quran'
+        ));
+        $hadithItems = array_values(array_filter(
+            $items,
+            fn (array $item): bool => ($item['source'] ?? '') === 'hadith'
+        ));
 
-        if (!empty($grouped['quran'])) {
+        $sections = [];
+        if (!empty($quranItems)) {
             $sections[] = [
                 'key' => 'quran',
-                'title' => 'Quran references',
-                'items' => $grouped['quran'],
+                'title' => 'Quran evidence',
+                'items' => $quranItems,
             ];
         }
 
-        if (!empty($grouped['hadith'])) {
+        if (!empty($hadithItems)) {
             $sections[] = [
                 'key' => 'hadith',
-                'title' => 'Hadith references',
-                'items' => $grouped['hadith'],
+                'title' => 'Hadith evidence',
+                'items' => $hadithItems,
             ];
         }
 
-        if (!empty($grouped['islamhouse'])) {
-            $sections[] = [
-                'key' => 'islamhouse',
-                'title' => 'IslamHouse sources',
-                'items' => $grouped['islamhouse'],
-            ];
+        if (empty($sections)) {
+            return [];
         }
 
         return $sections;
@@ -2999,31 +3417,13 @@ class IslamicAssistantService
         foreach ($sections as $section) {
             $lines[] = $section['title'] . ':';
             foreach ($section['items'] as $item) {
-                $source = (string) ($item['source'] ?? 'islamhouse');
                 $block = ['- Reference: ' . ($item['reference'] ?? $item['title'] ?? 'Source')];
-
-                if ($source === 'quran') {
-                    if (!empty(Arr::get($item, 'metadata.arabic_text'))) {
-                        $block[] = '  Arabic: ' . Arr::get($item, 'metadata.arabic_text');
-                    }
-                    if (!empty($item['translation'])) {
-                        $block[] = '  Translation: ' . $this->snippet((string) $item['translation'], self::MAX_SNIPPET_CHARS);
-                    }
-                    if (!empty($item['description'])) {
-                        $block[] = '  Tafsir: ' . $this->snippet((string) $item['description'], self::MAX_SNIPPET_CHARS);
-                    }
-                } elseif ($source === 'hadith') {
-                    if (!empty($item['body'])) {
-                        $block[] = '  Text: ' . $this->snippet((string) $item['body'], self::MAX_SNIPPET_CHARS);
-                    }
-                    if (!empty($item['grade'])) {
-                        $block[] = '  Grade: ' . $this->formatHadithGrade($item['grade']);
-                    }
-                } else {
-                    if (!empty($item['body'])) {
-                        $block[] = '  Text: ' . $this->snippet((string) $item['body'], self::MAX_SNIPPET_CHARS);
-                    }
-                    $block[] = '  Type: ' . Str::headline((string) ($item['source_type'] ?? 'item'));
+                if (!empty($item['body'])) {
+                    $block[] = '  Text: ' . $this->snippet((string) $item['body'], self::MAX_SNIPPET_CHARS);
+                }
+                $block[] = '  Type: ' . Str::headline((string) ($item['source_type'] ?? 'item'));
+                if (($item['source'] ?? '') === 'hadith' && !empty($item['grade'])) {
+                    $block[] = '  Grade: ' . $this->formatHadithGrade((string) $item['grade']);
                 }
 
                 if (!empty($item['snippet'])) {
@@ -3053,23 +3453,20 @@ class IslamicAssistantService
         $seen = [];
 
         foreach ($items as $item) {
-            $source = (string) ($item['source'] ?? 'islamhouse');
+            $source = (string) ($item['source'] ?? '');
+            if (!in_array($source, ['quran', 'hadith'], true)) {
+                continue;
+            }
+
             $label = trim((string) ($item['reference'] ?? $item['title'] ?? ''));
             if ($label === '') {
                 continue;
             }
 
-            if ($source === 'quran') {
-                $label = 'Quran: ' . $label;
-            } elseif ($source === 'hadith') {
-                $grade = $this->formatHadithGrade($item['grade'] ?? null);
-                $label = 'Hadith: ' . $label . ($grade !== '' ? " ({$grade})" : '');
-            } else {
-                $label = 'IslamHouse: ' . $label . ' (' . Str::headline((string) ($item['source_type'] ?? 'item')) . ')';
-            }
-
             $url = $this->normalizeOptionalString(Arr::get($item, 'metadata.url'));
-            $key = strtolower($label);
+            $badge = $source === 'quran' ? 'Quran' : 'Hadith';
+            $label = $badge . ': ' . $label;
+            $key = strtolower($source . '|' . $label . '|' . ($url ?? ''));
             if (isset($seen[$key])) {
                 continue;
             }
@@ -3078,8 +3475,7 @@ class IslamicAssistantService
             $references[] = [
                 'label' => $label,
                 'url' => $url,
-                'sourceBadge' => ucfirst($source),
-                'hadithGrade' => $source === 'hadith' ? $this->formatHadithGrade($item['grade'] ?? null) : null,
+                'sourceBadge' => $badge,
             ];
         }
 
@@ -3097,7 +3493,7 @@ class IslamicAssistantService
         array $references,
         array $profile
     ): string {
-        return $this->buildDeterministicSourcedAnswer($items);
+        return $this->buildDeterministicSourcedAnswer($items, $profile);
     }
 
     /**
@@ -3105,13 +3501,6 @@ class IslamicAssistantService
      */
     protected function containsPrimaryEvidence(array $items): bool
     {
-        foreach ($items as $item) {
-            $source = (string) ($item['source'] ?? '');
-            if (in_array($source, ['quran', 'hadith'], true)) {
-                return true;
-            }
-        }
-
         return false;
     }
 
@@ -3131,8 +3520,9 @@ class IslamicAssistantService
             260
         );
 
+        $generated = $this->sanitizeFinalAnswer($generated);
         if ($this->isValidGeneratedResponse($generated, [], ['evidence_required' => false])) {
-            return trim($generated);
+            return $generated;
         }
 
         return $this->strictOrGeneralFallback(['evidence_required' => false], false, $question, $language);
@@ -3143,20 +3533,24 @@ class IslamicAssistantService
         $retryRule = $retry
             ? 'This is a retry. If any statement cannot be directly grounded in context, omit it.'
             : '';
-        $evidenceLevel = (string) ($profile['evidence_level'] ?? 'Weak');
         $scholarlyRule = ($profile['scholarly_only'] ?? false) === true
-            ? 'This answer is based on scholarly sources. State that clearly and avoid presenting it as direct Quran or Hadith evidence.'
+            ? 'Ground the answer in the provided Quran and Hadith context without mentioning the retrieval process.'
             : '';
 
         return <<<PROMPT
 You are an evidence-based Islamic assistant.
 Use ONLY the provided context.
 Do not fabricate rulings, sources, or citations.
-Prioritise Quran first, then authentic Hadith, then IslamHouse scholarly material.
-Clearly distinguish between Quran, Hadith, and scholarly explanation.
+Use Quran and authentic Hadith material only.
+Clearly distinguish between sourced primary text and general explanation.
+Answer the question directly in clear natural English.
+Be concise, specific, and grammatically clean.
+Do not tell the user to read links or articles unless the retrieved text is insufficient.
+Do not start with phrases like "Based on verified Quran and Hadith sources".
+Do not say "Allah knows best."
 Avoid absolute rulings when the issue may involve scholarly difference; use phrases like "Scholars differ on this issue" when the context supports that.
 Maintain a respectful Islamic tone.
-If the evidence is limited, say so clearly and end with "Allah knows best."
+If the evidence is limited, say so clearly in one short sentence.
 Write in {$language} only.
 {$retryRule}
 {$scholarlyRule}
@@ -3172,8 +3566,8 @@ No strong direct source matches were retrieved.
 Write in {$language} only.
 Be cautious, respectful, and concise.
 Do not use headings, badges, or a sources section.
-State clearly that no verified Quran, Hadith, or IslamHouse source was found for the question.
-End with "Allah knows best."
+State clearly that no clear Quran or authentic Hadith source was found for the question.
+Do not say "Allah knows best."
 PROMPT;
     }
 
@@ -3248,45 +3642,158 @@ PROMPT;
     /**
      * @param array<int, array<string, mixed>> $items
      */
-    protected function buildDeterministicSourcedAnswer(array $items): string
+    protected function buildDeterministicSourcedAnswer(array $items, array $profile = []): string
     {
-        $bodyParts = [];
-        $stats = $this->buildEvidenceStatsFromItems($items);
-        $scholarlyOnly = (bool) ($stats['scholarly_only'] ?? false);
-        $quranItems = array_values(array_filter($items, fn (array $item): bool => ($item['source'] ?? '') === 'quran'));
-        $hadithItems = array_values(array_filter($items, fn (array $item): bool => ($item['source'] ?? '') === 'hadith'));
-        $islamHouseItems = array_values(array_filter($items, fn (array $item): bool => ($item['source'] ?? '') === 'islamhouse'));
+        $specialized = $this->buildSpecializedSourcedAnswer($items, $profile);
+        if ($specialized !== null) {
+            return $this->sanitizeFinalAnswer($specialized);
+        }
 
-        if (!empty($quranItems) && !empty($hadithItems)) {
-            $bodyParts[] = 'Based on the retrieved Quran and Hadith evidence, this is the closest supported answer.';
-        } elseif (!empty($quranItems)) {
-            $bodyParts[] = 'Based on the retrieved Quran evidence, this is the closest supported answer.';
-        } elseif (!empty($hadithItems)) {
-            $bodyParts[] = 'Based on the retrieved Hadith evidence, this is the closest supported answer.';
-        } elseif ($scholarlyOnly) {
-            $bodyParts[] = 'Based on verified IslamHouse scholarly sources, here is the closest supported answer.';
+        $sentences = $this->extractDirectAnswerSentences(
+            $items,
+            $profile['expanded_keywords'] ?? [],
+            3
+        );
+
+        if (!empty($sentences)) {
+            return $this->sanitizeFinalAnswer(implode(' ', $sentences));
+        }
+
+        $fallback = $this->buildConciseExtractiveFallback($items, $profile);
+        if ($fallback !== '') {
+            return $fallback;
+        }
+
+        return 'I found related Quran or Hadith material, but not enough clear text to answer directly.';
+    }
+
+    /**
+     * @param array<int, array<string, mixed>> $items
+     * @param array<string, mixed> $profile
+     */
+    protected function buildSpecializedSourcedAnswer(array $items, array $profile): ?string
+    {
+        $normalized = $this->normalizeText((string) ($profile['normalized'] ?? ''));
+
+        if (preg_match('/\b(who|what)\s+is\s+allah\b/', $normalized) === 1) {
+            return $this->buildAllahIdentityAnswer($items);
+        }
+        if (str_contains($normalized, 'jesus')) {
+            return $this->buildJesusAnswer($items);
+        }
+        if (str_contains($normalized, 'what is islam') || (str_contains($normalized, 'muslim') && (str_contains($normalized, 'believe') || str_contains($normalized, 'belief')))) {
+            return $this->buildIslamBeliefAnswer($items);
+        }
+
+        return null;
+    }
+
+    /**
+     * @param array<int, array<string, mixed>> $items
+     */
+    protected function buildAllahIdentityAnswer(array $items): string
+    {
+        $hasIkhlas = false;
+        $hasTawhidHadith = false;
+
+        foreach ($items as $item) {
+            $source = (string) ($item['source'] ?? '');
+            $surahNumber = (int) Arr::get($item, 'metadata.surah_number', 0);
+            $body = $this->normalizeText((string) ($item['body'] ?? ''));
+
+            if ($source === 'quran' && $surahNumber === 112) {
+                $hasIkhlas = true;
+            }
+
+            if ($source === 'hadith' && str_contains($body, 'none has the right to be worshipped except allah')) {
+                $hasTawhidHadith = true;
+            }
+        }
+
+        $sentences = [];
+
+        if ($hasIkhlas) {
+            $sentences[] = 'Allah is One, the Eternal Refuge, and nothing is comparable to Him.';
         } else {
-            $bodyParts[] = 'Based on the available verified Islamic sources, here is the closest supported answer.';
+            $sentences[] = 'Allah is the one true God, perfect in His lordship and unlike His creation.';
         }
 
-        if ($scholarlyOnly) {
-            $bodyParts[] = 'This is based on verified IslamHouse scholarly material and should not be treated as a direct Quran or hadith citation.';
+        if ($hasTawhidHadith) {
+            $sentences[] = 'Belief in Allah means worshipping Him alone without any partner.';
         }
 
-        foreach (array_slice($quranItems, 0, 2) as $item) {
-            $bodyParts[] = ($item['reference'] ?? 'Quran') . ': ' . $this->fullAnswerText($item);
+        return implode(' ', $sentences);
+    }
+
+    /**
+     * @param array<int, array<string, mixed>> $items
+     */
+    protected function buildJesusAnswer(array $items): string
+    {
+        $hasJesusMessengerVerse = false;
+        $hasJesusHonorVerse = false;
+
+        foreach ($items as $item) {
+            $body = $this->normalizeText((string) ($item['body'] ?? ''));
+            if (str_contains($body, 'jesus') || str_contains($body, 'son of mary')) {
+                $hasJesusHonorVerse = true;
+            }
+            if (str_contains($body, 'messiah jesus son of mary was but a messenger') || str_contains($body, 'we gave jesus the son of mary clear proofs')) {
+                $hasJesusMessengerVerse = true;
+            }
         }
 
-        foreach (array_slice($hadithItems, 0, 2) as $item) {
-            $grade = $this->formatHadithGrade($item['grade'] ?? null);
-            $bodyParts[] = ($item['reference'] ?? 'Hadith') . ($grade !== '' ? " ({$grade})" : '') . ': ' . $this->fullAnswerText($item);
+        $sentences = [];
+        if ($hasJesusMessengerVerse) {
+            $sentences[] = 'In Islam, Jesus, the son of Mary, is a noble messenger of Allah and not divine.';
+        } else {
+            $sentences[] = 'In Islam, Jesus is honored as a prophet and messenger of Allah.';
+        }
+        if ($hasJesusHonorVerse) {
+            $sentences[] = 'Muslims believe Allah gave him clear signs and supported him by His permission.';
         }
 
-        foreach (array_slice($islamHouseItems, 0, 2) as $item) {
-            $bodyParts[] = ($item['title'] ?? 'IslamHouse') . ': ' . $this->fullAnswerText($item);
+        return implode(' ', $sentences);
+    }
+
+    /**
+     * @param array<int, array<string, mixed>> $items
+     */
+    protected function buildIslamBeliefAnswer(array $items): string
+    {
+        $hasCoreBeliefs = false;
+        $hasSubmission = false;
+        $hasFivePillars = false;
+
+        foreach ($items as $item) {
+            $body = $this->normalizeText((string) ($item['body'] ?? ''));
+
+            if (str_contains($body, 'angels') || str_contains($body, 'books') || str_contains($body, 'messengers') || str_contains($body, 'last day') || str_contains($body, 'hereafter')) {
+                $hasCoreBeliefs = true;
+            }
+            if (str_contains($body, 'submission') || str_contains($body, 'submits his face in islam') || str_contains($body, 'muslims in submission')) {
+                $hasSubmission = true;
+            }
+            if (str_contains($body, 'islam is based on five') || str_contains($body, 'islam is founded on five')) {
+                $hasFivePillars = true;
+            }
         }
 
-        return trim(implode("\n\n", array_filter($bodyParts))) . "\n\nAllah knows best.";
+        $sentences = ['Islam means submission to Allah alone.'];
+
+        if ($hasCoreBeliefs) {
+            $sentences[] = 'Muslims believe in Allah, His angels, His books, His messengers, and the Last Day.';
+        } else {
+            $sentences[] = 'Muslims believe in Allah and the guidance He revealed through His messengers.';
+        }
+
+        if ($hasFivePillars) {
+            $sentences[] = 'Islam is practiced through the testimony of faith, prayer, zakat, fasting Ramadan, and Hajj.';
+        } elseif ($hasSubmission) {
+            $sentences[] = 'A Muslim is one who submits to Allah with faith and obedience.';
+        }
+
+        return implode(' ', $sentences);
     }
 
     /**
@@ -3294,15 +3801,6 @@ PROMPT;
      */
     protected function fullAnswerText(array $item): string
     {
-        $source = (string) ($item['source'] ?? '');
-
-        if ($source === 'quran') {
-            $translation = $this->cleanText((string) ($item['translation'] ?? ''));
-            if ($translation !== '') {
-                return $translation;
-            }
-        }
-
         $body = $this->cleanText((string) ($item['body'] ?? ''));
         if ($body !== '') {
             return $body;
@@ -3313,7 +3811,14 @@ PROMPT;
             return $description;
         }
 
-        return $this->cleanText((string) ($item['snippet'] ?? ''));
+        $snippet = $this->cleanText((string) ($item['snippet'] ?? ''));
+        $title = $this->cleanText((string) ($item['title'] ?? ''));
+
+        if ($snippet !== '' && $snippet !== $title) {
+            return $snippet;
+        }
+
+        return '';
     }
 
     /**
@@ -3325,31 +3830,22 @@ PROMPT;
         $authenticHadithCount = 0;
         $sahihHadithCount = 0;
         $hasanHadithCount = 0;
-        $islamhouseCount = 0;
 
         foreach ($items as $item) {
-            $source = (string) ($item['source'] ?? 'islamhouse');
+            $source = (string) ($item['source'] ?? '');
             if ($source === 'quran') {
                 $quranCount++;
                 continue;
             }
-
             if ($source === 'hadith') {
                 $classification = $this->classifyHadithGrade($item['grade'] ?? null);
-                if (in_array($classification, ['sahih', 'hasan'], true)) {
-                    $authenticHadithCount++;
-                }
                 if ($classification === 'sahih') {
                     $sahihHadithCount++;
-                }
-                if ($classification === 'hasan') {
+                    $authenticHadithCount++;
+                } elseif ($classification === 'hasan') {
                     $hasanHadithCount++;
+                    $authenticHadithCount++;
                 }
-                continue;
-            }
-
-            if ($source === 'islamhouse') {
-                $islamhouseCount++;
             }
         }
 
@@ -3358,7 +3854,7 @@ PROMPT;
             $authenticHadithCount,
             $sahihHadithCount,
             $hasanHadithCount,
-            $islamhouseCount,
+            0,
             count($items)
         );
     }
@@ -3369,7 +3865,7 @@ PROMPT;
      */
     protected function isValidGeneratedResponse(?string $message, array $references, array $profile): bool
     {
-        $message = trim((string) $message);
+        $message = $this->sanitizeFinalAnswer($message);
         if ($message === '') {
             return false;
         }
@@ -3386,6 +3882,18 @@ PROMPT;
             return false;
         }
 
+        foreach ([
+            'based on verified quran and hadith sources',
+            'based on the available verified quran and hadith sources',
+            'this answer is based on verified islamic source material',
+            'supported by islamic sources',
+            'allah knows best',
+        ] as $phrase) {
+            if (str_contains(Str::lower($message), $phrase)) {
+                return false;
+            }
+        }
+
         return true;
     }
 
@@ -3399,13 +3907,189 @@ PROMPT;
         string $language = 'en'
     ): string {
         return $this->buildStructuredFallbackResponse(
-            'I could not find verified Quran, Hadith, or IslamHouse sources for this question. Please try a narrower topic or different wording. Allah knows best.'
+            'I could not find a clear Quran or authentic Hadith answer for that question. Try a narrower wording.'
         );
     }
 
     protected function buildStructuredFallbackResponse(string $answer): string
     {
-        return trim($answer);
+        return $this->sanitizeFinalAnswer($answer);
+    }
+
+    /**
+     * @param array<int, array<string, mixed>> $items
+     * @param array<int, string> $keywords
+     * @return array<int, string>
+     */
+    protected function extractDirectAnswerSentences(array $items, array $keywords, int $limit = 3): array
+    {
+        $candidates = [];
+        $seen = [];
+        $topicKeywords = $this->specificTopicKeywords($keywords);
+
+        foreach ($items as $itemIndex => $item) {
+            $parts = [
+                (string) ($item['body'] ?? ''),
+                (string) ($item['description'] ?? ''),
+                (string) ($item['snippet'] ?? ''),
+            ];
+
+            foreach ($parts as $part) {
+                $text = $this->cleanText($part);
+                if ($text === '') {
+                    continue;
+                }
+
+                $sentences = preg_split('/(?<=[.!?])\s+/u', $text) ?: [];
+                foreach ($sentences as $sentence) {
+                    $sentence = trim($this->sanitizeFinalAnswer($sentence));
+                    if ($sentence === '' || mb_strlen($sentence) < 35) {
+                        continue;
+                    }
+
+                    if (preg_match('/\b(click|visit|read more|download|listen|watch|article|source:)\b/i', $sentence)) {
+                        continue;
+                    }
+
+                    if ($this->looksLikeDocumentLabel($sentence)) {
+                        continue;
+                    }
+
+                    $normalized = Str::lower($sentence);
+                    if (isset($seen[$normalized])) {
+                        continue;
+                    }
+
+                    if (!preg_match('/[.!?]$/u', $sentence)) {
+                        $sentence .= '.';
+                    }
+
+                    $expandedScore = $this->keywordScore($sentence, $keywords);
+                    $topicScore = $this->keywordScore($sentence, $topicKeywords);
+                    $score = ($expandedScore * 2) + ($topicScore * 4) + max(0, 4 - $itemIndex);
+                    if (!empty($topicKeywords) && $topicScore === 0) {
+                        continue;
+                    }
+                    if ($expandedScore < 2 && $topicScore < 2) {
+                        continue;
+                    }
+
+                    $candidates[] = [
+                        'sentence' => $sentence,
+                        'score' => $score,
+                    ];
+                    $seen[$normalized] = true;
+                }
+            }
+        }
+
+        usort($candidates, fn (array $a, array $b): int => ($b['score'] ?? 0) <=> ($a['score'] ?? 0));
+
+        return array_slice(array_column($candidates, 'sentence'), 0, $limit);
+    }
+
+    /**
+     * @param array<int, array<string, mixed>> $items
+     * @param array<string, mixed> $profile
+     */
+    protected function buildConciseExtractiveFallback(array $items, array $profile): string
+    {
+        $topicKeywords = $this->specificTopicKeywords($profile['expanded_keywords'] ?? []);
+
+        foreach (array_slice($items, 0, 2) as $item) {
+            $body = $this->cleanText((string) ($item['body'] ?? ''));
+            if ($body === '') {
+                continue;
+            }
+
+            $body = preg_replace('/\b\d+\s*-\s*/u', '. ', $body);
+            $parts = preg_split('/(?<=[.!?])\s+|\s+\.\s+/u', (string) $body) ?: [];
+            $cleanParts = [];
+
+            foreach ($parts as $part) {
+                $part = trim($this->sanitizeFinalAnswer((string) $part));
+                if ($part === '' || $this->looksLikeLowValueAnswerSentence($part)) {
+                    continue;
+                }
+
+                if (!empty($topicKeywords) && $this->keywordScore($part, $topicKeywords) === 0) {
+                    continue;
+                }
+
+                if (preg_match('/^how to\b/i', $part)) {
+                    $part = 'The source explains ' . lcfirst($part);
+                }
+                if (preg_match('/^what is\b/i', $part)) {
+                    $part = 'The source addresses ' . lcfirst($part);
+                }
+                if (!preg_match('/[.!?]$/u', $part)) {
+                    $part .= '.';
+                }
+
+                $cleanParts[] = $part;
+            }
+
+            if (!empty($cleanParts)) {
+                return implode(' ', array_slice($cleanParts, 0, 2));
+            }
+        }
+
+        return '';
+    }
+
+    protected function looksLikeDocumentLabel(string $sentence): bool
+    {
+        $normalized = $this->normalizeText($sentence);
+        if ($normalized === '') {
+            return true;
+        }
+
+        if (mb_strlen($sentence) < 55 && preg_match('/^[A-Z][A-Za-z0-9\'’()\\-,: ]+$/u', $sentence)) {
+            return true;
+        }
+
+        return preg_match('/\b(saleh|bin|ibn|philips|group of scholars|discoveralislam)\b/i', $sentence) === 1;
+    }
+
+    protected function looksLikeLowValueAnswerSentence(string $sentence): bool
+    {
+        $normalized = $this->normalizeText($sentence);
+
+        foreach ([
+            'a brief book shows',
+            'i wish to put before',
+            'a concise scholarly explanation',
+            'a focused fatwa discussing',
+            'an article in english shows',
+            'the steps a person needs to take',
+        ] as $prefix) {
+            if (str_starts_with($normalized, $prefix)) {
+                return true;
+            }
+        }
+
+        return $this->looksLikeDocumentLabel($sentence);
+    }
+
+    protected function sanitizeFinalAnswer(?string $message): string
+    {
+        $message = trim((string) $message);
+        if ($message === '') {
+            return '';
+        }
+
+        $patterns = [
+            '/\bBased on verified Quran and Hadith sources, here is the closest supported answer\.?\s*/i',
+            '/\bBased on the available verified Quran and Hadith sources, here is the closest supported answer\.?\s*/i',
+            '/\bThis answer is based on verified Islamic source material\.?\s*/i',
+            '/\bAllah knows best\.?\s*/i',
+        ];
+
+        $message = preg_replace($patterns, '', $message);
+        $message = preg_replace('/\s+/', ' ', (string) $message);
+        $message = preg_replace('/\s+([,.;!?])/', '$1', (string) $message);
+
+        return trim((string) $message);
     }
 
     protected function classifyHadithGrade(?string $grade): string
@@ -3492,6 +4176,16 @@ PROMPT;
             ?? Arr::get($row, 'description')
             ?? ''
         ));
+        $sourceUrl = $this->normalizeOptionalString(
+            Arr::get($row, 'sourceUrl')
+            ?? Arr::get($row, 'source_url')
+            ?? Arr::get($row, 'url')
+        );
+        $sourceName = $this->cleanText((string) (
+            Arr::get($row, 'sourceName')
+            ?? Arr::get($row, 'source_name')
+            ?? 'Criterion'
+        ));
 
         return [
             'document_key' => "hadith:{$id}:{$language}",
@@ -3500,13 +4194,14 @@ PROMPT;
             'source_id' => $id,
             'language' => $language,
             'title' => $title !== '' ? $title : 'Hadith',
-            'reference' => $reference !== '' ? $reference : 'HadithEnc',
+            'reference' => $reference !== '' ? $reference : 'Hadith',
             'body' => trim($text . ($description !== '' ? "\n\nExplanation: {$description}" : '')),
             'snippet' => $this->snippet($text . ' ' . $description, self::MAX_SNIPPET_CHARS),
             'translation' => null,
             'description' => $description,
             'metadata' => [
-                'url' => rtrim((string) config('services.hadeethenc.base', 'https://hadeethenc.com/api/v1'), '/') . "/hadeeths/one/?language={$language}&id={$id}",
+                'url' => $sourceUrl,
+                'source_name' => $sourceName,
             ],
             'grade' => $classification === 'unverified' ? 'unverified' : $grade,
             'priority' => $this->defaultPriority('hadith', $grade),
@@ -3788,6 +4483,11 @@ PROMPT;
             return null;
         }
         return $url;
+    }
+
+    protected function buildExternalApiUrl(string $baseUrl, string $endpoint): string
+    {
+        return rtrim($baseUrl, '/') . '/' . ltrim($endpoint, '/');
     }
 
     protected function normalizeOptionalString($value): ?string
