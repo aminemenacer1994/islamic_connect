@@ -27597,6 +27597,94 @@ export default {
                 "N/A"
             );
         },
+        getTafsirModalDialogStyle() {
+            if (this.isTabletOrMobile) return null;
+
+            return {
+                maxWidth: "50%",
+                width: "50%",
+            };
+        },
+        getTafsirModalBodyStyle() {
+            return {
+                padding: this.isTabletOrMobile
+                    ? "0.35rem 0.55rem 0.9rem"
+                    : "0.4rem 0.65rem 0.95rem",
+            };
+        },
+        getTafsirPanelStyle() {
+            const isDark = !!this.isDarkTheme;
+            return {
+                width: "100%",
+                maxWidth: "none",
+                marginInline: "0",
+                padding: this.isTabletOrMobile
+                    ? "0.82rem 0.82rem 0.86rem"
+                    : "0.88rem 0.9rem 0.92rem",
+                background: isDark
+                    ? "linear-gradient(180deg, rgba(17, 24, 39, 0.96) 0%, rgba(15, 23, 42, 0.98) 100%)"
+                    : "linear-gradient(180deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 250, 252, 0.98) 100%)",
+                border: isDark
+                    ? "1px solid rgba(148, 163, 184, 0.18)"
+                    : "1px solid rgba(15, 23, 42, 0.08)",
+                borderRadius: "18px",
+            };
+        },
+        getTafsirParagraphStyle(paragraph) {
+            const isDark = !!this.isDarkTheme;
+            const isHeading = !!paragraph?.isHeading;
+            const baseStyle = {
+                whiteSpace: "pre-line",
+                overflowWrap: "break-word",
+                wordBreak: "normal",
+                textWrap: "pretty",
+                padding: this.isTabletOrMobile
+                    ? "0.82rem 0.86rem"
+                    : "0.9rem 0.92rem",
+                borderRadius: "15px",
+                border: isDark
+                    ? "1px solid rgba(255, 255, 255, 0.06)"
+                    : "1px solid rgba(148, 163, 184, 0.16)",
+                background: isHeading
+                    ? (
+                        isDark
+                            ? "linear-gradient(135deg, rgba(30, 41, 59, 0.96), rgba(51, 65, 85, 0.92))"
+                            : "linear-gradient(135deg, rgba(14, 116, 144, 0.08), rgba(148, 163, 184, 0.12))"
+                    )
+                    : (
+                        isDark
+                            ? "rgba(255, 255, 255, 0.04)"
+                            : "rgba(255, 255, 255, 0.92)"
+                    ),
+                boxShadow: isDark
+                    ? "none"
+                    : "0 8px 18px rgba(15, 23, 42, 0.04)",
+                color: isDark ? "#f8fafc" : "#1f2937",
+            };
+
+            if (!paragraph?.isArabic) {
+                return {
+                    ...baseStyle,
+                    fontSize: "0.98rem",
+                    lineHeight: "1.82",
+                    fontWeight: isHeading ? "700" : "500",
+                    textAlign: "left",
+                    letterSpacing: "0.002em",
+                    hyphens: "auto",
+                };
+            }
+
+            return {
+                ...baseStyle,
+                fontFamily: '"Noto Sans Arabic", "Tajawal", "Cairo", "Segoe UI", Tahoma, sans-serif',
+                fontSize: "1rem",
+                fontWeight: isHeading ? "600" : "400",
+                lineHeight: "2.15",
+                textAlign: "right",
+                unicodeBidi: "plaintext",
+                letterSpacing: "0",
+            };
+        },
         buildTafsirParagraphs(rawText) {
             const text = String(rawText || "").trim();
             if (!text) return [];
@@ -27636,7 +27724,10 @@ export default {
             const value = String(paragraph || "").trim();
             if (!value) return [];
 
-            let normalized = value.replace(/\n{2,}/g, "\n").trim();
+            let normalized = value
+                .replace(/\s*[\u2022\u25CF\u2219\u25C9\u25CE\u25CB\u06DD\u06DE]+\s*/g, "\n")
+                .replace(/\n{2,}/g, "\n")
+                .trim();
             const hasArabic = this.containsArabicScript(normalized);
             const hasLatin = this.containsLatinScript(normalized);
 
@@ -27657,7 +27748,10 @@ export default {
                     .filter(Boolean);
             }
 
-            return [normalized];
+            return normalized
+                .split(/\n+/)
+                .map((line) => line.trim())
+                .filter(Boolean);
         },
         containsArabicScript(value) {
             return /[\u0600-\u06FF]/.test(String(value || ""));
@@ -27679,8 +27773,11 @@ export default {
         normalizeArabicTafsirParagraph(paragraph) {
             return String(paragraph || "")
                 .replace(/[ \t]+/g, " ")
+                .replace(/\s*[\u2022\u25CF\u2219\u25C9\u25CE\u25CB\u06DD\u06DE]+\s*/g, " ")
                 .replace(/\s+([،؛:.!?؟])/g, "$1")
                 .replace(/([،؛:؟])(?=[\u0600-\u06FFA-Za-z])/g, "$1 ")
+                .replace(/\(\s+/g, "(")
+                .replace(/\s+\)/g, ")")
                 .replace(/\s{2,}/g, " ")
                 .trim();
         },

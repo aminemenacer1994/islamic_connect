@@ -97,6 +97,7 @@ Route::get('/sitemap.xml', function () {
         ['loc' => url('/surat'), 'changefreq' => 'daily', 'priority' => '0.9'],
         ['loc' => url('/history'), 'changefreq' => 'weekly', 'priority' => '0.8'],
         ['loc' => url('/read'), 'changefreq' => 'weekly', 'priority' => '0.8'],
+        ['loc' => url('/islamic-blog'), 'changefreq' => 'weekly', 'priority' => '0.7'],
         ['loc' => url('/hadith'), 'changefreq' => 'weekly', 'priority' => '0.8'],
         ['loc' => url('/ahadith'), 'changefreq' => 'weekly', 'priority' => '0.8'],
         
@@ -349,6 +350,7 @@ Route::get('/convert', [ConvertController::class, 'index'])->name('convert');
 Route::get('/holy', [HolyController::class, 'index'])->name('holy');
 Route::get('/history', [HistoryController::class, 'index'])->name('history');
 Route::get('/read', [ReadController::class, 'index'])->name('read');
+Route::view('/islamic-blog', 'islamic-blog')->name('islamic_blog');
 Route::get('/media', [MediaController::class, 'index'])->name('media');
 Route::get('/ai', [AiController::class, 'index'])->name('ai');
 Route::post('/ai/chat', [AiController::class, 'chat'])->name('ai.chat');

@@ -6624,7 +6624,9 @@
                 aria-labelledby="ayahTafsirModalLabel"
                 aria-hidden="true"
                 data-bs-backdrop="true">
-                <div class="modal-dialog modal-dialog-centered modal-xl modal-dialog-scrollable modal-modern modal-fullscreen-md-down">
+                <div
+                    class="modal-dialog modal-md modal-dialog-centered modal-dialog-scrollable modal-modern modal-fullscreen-md-down ayah-tafsir-modal-dialog"
+                    :style="getTafsirModalDialogStyle()">
                     <div class="modal-content ayah-tafsir-modal-content" :class="{ 'surat-dark-modal': isDarkTheme }">
                         <div class="modal-header">
                             <h6 class="modal-title ayah-tafsir-modal-title" id="ayahTafsirModalLabel">
@@ -6639,8 +6641,12 @@
                                 @click="hideAyahTafsirModal"
                                 aria-label="Close tafsir modal"></button>
                         </div>
-                        <div class="modal-body pt-0">
-                            <div class="ayah-tafsir-panel ayah-tafsir-modal-panel" role="status" aria-live="polite">
+                        <div class="modal-body pt-0" :style="getTafsirModalBodyStyle()">
+                            <div
+                                class="ayah-tafsir-panel ayah-tafsir-modal-panel"
+                                :style="getTafsirPanelStyle()"
+                                role="status"
+                                aria-live="polite">
                                 <div class="ayah-tafsir-meta ltr-text">
                                     <div class="ayah-tafsir-meta-item">
                                         <span class="ayah-tafsir-meta-label">Selected Source</span>
@@ -6669,6 +6675,7 @@
                                             paragraph.isArabic ? 'ayah-tafsir-paragraph--arabic' : 'ayah-tafsir-paragraph--english',
                                             paragraph.isHeading ? 'ayah-tafsir-paragraph--heading' : ''
                                         ]"
+                                        :style="getTafsirParagraphStyle(paragraph)"
                                         :dir="paragraph.direction"
                                         :lang="paragraph.lang">
                                         {{ paragraph.text }}

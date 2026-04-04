@@ -260,6 +260,7 @@ const asyncComponentLoaders = {
   "history-component": () => import("./components/HistoryComponent.vue"),
   "payment-methods-component": () => import("./components/PaymentMethodsComponent.vue"),
   "read-component": () => import("./components/ReadComponent.vue"),
+  "islamic-blog-component": () => import("./components/IslamicBlogComponent.vue"),
   "revert-component": () => import("./components/RevertComponent.vue"),
   "muslim-component": () => import("./components/MuslimComponent.vue"),
   "bookmark-manager": () => import("./components/bookmarks/BookmarkManager.vue"),
