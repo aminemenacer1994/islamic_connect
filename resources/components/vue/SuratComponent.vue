@@ -4357,7 +4357,7 @@
                                         <div class="sidebar-ayah-jump-copy">
                                             <p class="sidebar-ayah-jump-title mb-0">Go to ayah</p>
                                             <p v-if="sidebarAyahJumpVisible" class="sidebar-ayah-jump-help mb-0">
-                                                Enter an ayah number or range like 25 or 25-30.
+                                                Enter an ayah number or range like 25 or 25 - 30.
                                                 <span v-if="sidebarAyahJumpMax">
                                                     This surah has {{ sidebarAyahJumpMax }} ayahs.
                                                 </span>
@@ -4384,12 +4384,12 @@
                                                 id="sidebar-ayah-jump-input"
                                                 v-model.trim="sidebarAyahJumpInput"
                                                 type="text"
-                                                inputmode="numeric"
+                                                inputmode="text"
                                                 autocomplete="off"
                                                 class="form-control sidebar-ayah-jump-input"
                                                 :class="{ 'is-invalid': sidebarAyahJumpError }"
                                                 :disabled="!sidebarAyahJumpMax"
-                                                placeholder="e.g. 25 or 25-30"
+                                                placeholder="e.g. 25 or 25 - 30"
                                                 @input="clearSidebarAyahJumpError" />
                                             <button
                                                 type="submit"
@@ -4398,6 +4398,19 @@
                                                 Go to
                                             </button>
                                         </form>
+                                        <div
+                                            v-if="sidebarAyahFilterStart && sidebarAyahFilterEnd"
+                                            class="sidebar-ayah-jump-help mt-2 d-flex align-items-center justify-content-between gap-2">
+                                            <span>
+                                                Showing ayahs {{ sidebarAyahFilterStart }} - {{ sidebarAyahFilterEnd }} on the right.
+                                            </span>
+                                            <button
+                                                type="button"
+                                                class="btn sidebar-ayah-jump-toggle"
+                                                @click="clearSidebarAyahJumpFilter()">
+                                                Show all
+                                            </button>
+                                        </div>
                                         <div v-if="sidebarAyahJumpError" class="invalid-feedback d-block sidebar-ayah-jump-error">
                                             {{ sidebarAyahJumpError }}
                                         </div>

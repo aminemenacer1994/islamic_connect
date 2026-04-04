@@ -1122,6 +1122,8 @@ export default {
             sidebarAyahJumpVisible: true,
             sidebarAyahJumpInput: "",
             sidebarAyahJumpError: "",
+            sidebarAyahFilterStart: null,
+            sidebarAyahFilterEnd: null,
             sidebarSearchDebounceTimer: null,
             sidebarVerseRenderInitial: 100,
             sidebarVerseRenderStep: 100,
@@ -4148,6 +4150,17 @@ export default {
                 ayahs = ayahs.filter(a => a.numberInSurah >= start && a.numberInSurah <= end);
             }
 
+            const sidebarStart = Number(this.sidebarAyahFilterStart || 0);
+            const sidebarEnd = Number(this.sidebarAyahFilterEnd || 0);
+            if (sidebarStart > 0 && sidebarEnd >= sidebarStart) {
+                ayahs = ayahs.filter((ayah) => {
+                    const ayahNumber = Number(
+                        ayah?.numberInSurah || ayah?.number || 0
+                    );
+                    return ayahNumber >= sidebarStart && ayahNumber <= sidebarEnd;
+                });
+            }
+
             if (!this.debouncedQuery) return ayahs;
             const query = this.debouncedQuery.toLowerCase();
             return ayahs.filter(
@@ -5491,8 +5504,7 @@ export default {
         selectedSurah: function (newVal) {
             if (newVal && !this.isLoading) {
                 this.stopTranslationAudio({ resetSession: true });
-                this.sidebarAyahJumpInput = "";
-                this.sidebarAyahJumpError = "";
+                this.clearSidebarAyahJumpFilter();
                 this.isSurahAudioDownloading = false;
                 this.isSurahAudioDownloaded = false;
                 clearTimeout(this.surahAudioDownloadedTimer);
@@ -29286,6 +29298,15 @@ export default {
             this.searchQuery = "";
             this.debouncedQuery = "";
         },
+        clearSidebarAyahJumpFilter(options = {}) {
+            const { keepInput = false } = options;
+            this.sidebarAyahFilterStart = null;
+            this.sidebarAyahFilterEnd = null;
+            this.sidebarAyahJumpError = "";
+            if (!keepInput) {
+                this.sidebarAyahJumpInput = "";
+            }
+        },
         resolveAyahIndexByNumber(ayahNumber) {
             const target = Number(ayahNumber);
             if (!target || !Array.isArray(this.filteredAyahs)) return -1;
@@ -29345,6 +29366,9 @@ export default {
         },
         clearSidebarAyahJumpError() {
             this.sidebarAyahJumpError = "";
+            if (!String(this.sidebarAyahJumpInput || "").trim()) {
+                this.clearSidebarAyahJumpFilter({ keepInput: true });
+            }
         },
         toggleSidebarAyahJump() {
             this.sidebarAyahJumpVisible = !this.sidebarAyahJumpVisible;
@@ -29360,7 +29384,11 @@ export default {
                 };
             }
 
-            const value = String(rawValue ?? "").trim().replace(/\s+/g, "");
+            const value = String(rawValue ?? "")
+                .trim()
+                .replace(/[–—−]/g, "-")
+                .replace(/\s*-\s*/g, "-")
+                .replace(/\s+/g, "");
             if (!value) {
                 return {
                     error: "Enter an ayah number or a range.",
@@ -29393,13 +29421,13 @@ export default {
                 return {
                     start,
                     end,
-                    normalized: `${start}-${end}`,
+                    normalized: `${start} - ${end}`,
                 };
             }
 
             if (!/^\d+$/.test(value)) {
                 return {
-                    error: "Use a single ayah number or a range like 25-30.",
+                    error: "Use a single ayah number or a range like 25 - 30.",
                 };
             }
 
@@ -29459,6 +29487,8 @@ export default {
 
             this.sidebarAyahJumpError = "";
             this.sidebarAyahJumpInput = parsed.normalized;
+            this.sidebarAyahFilterStart = parsed.start;
+            this.sidebarAyahFilterEnd = parsed.end;
             this.isNavigating = true;
             this.lastManualNavigationAt = Date.now();
             this.clearMainAyahSearchFilter();
@@ -29491,6 +29521,7 @@ export default {
             runScroll();
         },
         selectSurahFromSidebar(number) {
+            this.clearSidebarAyahJumpFilter();
             this.clearMainAyahSearchFilter();
             return this.selectSurah(number, { skipScroll: true }).then(() => {
                 if (this.isTabletOrMobile && !this.sidebarCollapsed) {
@@ -29546,6 +29577,7 @@ export default {
             if (!item?.surahNumber || !item?.ayahNumber) return;
             this.isNavigating = true;
             this.lastManualNavigationAt = Date.now();
+            this.clearSidebarAyahJumpFilter();
             this.clearMainAyahSearchFilter();
 
             await this.selectSurah(String(item.surahNumber), { skipScroll: true });
@@ -29636,6 +29668,7 @@ export default {
         selectVerseFromSidebar(verseIndex) {
             this.isNavigating = true;
             this.lastManualNavigationAt = Date.now();
+            this.clearSidebarAyahJumpFilter();
             this.clearMainAyahSearchFilter();
             
             const runScroll = () => {
