@@ -3,7 +3,7 @@
         :class="{
             'container-fluid': isTabletOrMobile,
             'container': !isTabletOrMobile,
-            'has-audio-player': bottomAudioPlayerEnabled && showAudioPlayer && !isSingleWordPreviewActive,
+            'has-audio-player': bottomAudioPlayerEnabled && showAudioPlayer && !isSingleWordPreviewActive && !translationAudioIsPlaying,
             'has-sidebar': !isMemorisationToolbarVisible,
             'sidebar-collapsed': sidebarCollapsed && !isMemorisationToolbarVisible,
             'memorisation-offcanvas-open': isMemorisationToolbarVisible,
@@ -5300,19 +5300,39 @@
 
                         <div class="ayah-card-body" role="group" aria-label="Ayah text">
                             <div class="ayah-card-copy">
-                                <p
+                                <div
                                     v-if="!shouldHideVerseTextForRepeatPause(item.index)"
-                                    :class="[
-		                                        'arabic-text rtl-text text-end mb-3',
-		                                        {
-		                                            'repeat-pause-text-dimmed':
-		                                                shouldDimVerseTextForRepeatPause(item.index),
-		                                        },
-		                                    ]"
-                                    v-html="highlightedText(item.ayah, item.index)"
-                                    @click="onAyahWordClick(item, $event)"
-                                    :style="getAyahArabicTextStyle(item.index)"
-                                ></p>
+                                    class="ayah-arabic-inline-shell"
+                                >
+                                    <button
+                                        type="button"
+                                        class="btn ayah-arabic-audio-btn"
+                                        :class="{ 'is-active': isAudioPlaying[item.index] }"
+                                        @click.stop.prevent="toggleAudioPlayer(item.index)"
+                                        :aria-label="isAudioPlaying[item.index]
+                                            ? 'Pause ayah ' + getAyahDisplayNumber(item)
+                                            : 'Play ayah ' + getAyahDisplayNumber(item)"
+                                        :title="isAudioPlaying[item.index]
+                                            ? 'Pause ayah ' + getAyahDisplayNumber(item)
+                                            : 'Play ayah ' + getAyahDisplayNumber(item)">
+                                        <i
+                                            class="bi"
+                                            :class="isAudioPlaying[item.index] ? 'bi-pause-fill' : 'bi-play-fill'"
+                                            aria-hidden="true"></i>
+                                    </button>
+                                    <p
+                                        :class="[
+		                                            'arabic-text rtl-text text-end mb-3',
+		                                            {
+		                                                'repeat-pause-text-dimmed':
+		                                                    shouldDimVerseTextForRepeatPause(item.index),
+		                                            },
+		                                        ]"
+                                        v-html="highlightedText(item.ayah, item.index)"
+                                        @click="onAyahWordClick(item, $event)"
+                                        :style="getAyahArabicTextStyle(item.index)"
+                                    ></p>
+                                </div>
                                 <div
                                     v-if="shouldShowTranslationForRepeatPause(item)"
                                     class="translation-header ltr-text">
@@ -6949,7 +6969,7 @@
         <!-- Global Custom Audio Player -->
         <teleport to="body">
             <div
-                v-if="bottomAudioPlayerEnabled && showAudioPlayer && !isSingleWordPreviewActive"
+                v-if="bottomAudioPlayerEnabled && showAudioPlayer && !isSingleWordPreviewActive && !translationAudioIsPlaying"
                 class="audio-player-container"
                 :class="{ 'is-dark-theme': isDarkTheme }"
                 :style="audioPlayerContainerStyle"
