@@ -5309,6 +5309,7 @@ export default {
             this.loadMemorisationModePreference();
             this.shouldRestoreMemorisationToolbarOnLoad =
                 this.loadMemorisationToolbarVisibilityPreference();
+            this.initializeReaderToolbarPreferences();
             this.initializeHifzPlanTool();
             this.initializeSuratThemePreference();
         },
@@ -5325,6 +5326,7 @@ export default {
             this.loadMemorisationModePreference();
             this.shouldRestoreMemorisationToolbarOnLoad =
                 this.loadMemorisationToolbarVisibilityPreference();
+            this.initializeReaderToolbarPreferences();
             this.initializeHifzPlanTool();
             this.initializeSuratThemePreference();
         },
@@ -5717,6 +5719,10 @@ export default {
         },
         toolbarScrollEnabled(next) {
             try {
+                this.persistLocalSetting(
+                    "suratToolbarScrollEnabled",
+                    next ? "1" : "0"
+                );
                 this.writeScopedBooleanPreference(
                     "suratToolbarScrollEnabled",
                     next
@@ -5729,6 +5735,10 @@ export default {
         },
         showReaderToolbar(next) {
             try {
+                this.persistLocalSetting(
+                    "suratShowReaderToolbar",
+                    next ? "1" : "0"
+                );
                 this.writeScopedBooleanPreference(
                     "suratShowReaderToolbar",
                     next
@@ -5742,6 +5752,10 @@ export default {
         },
         isReaderToolbarMinimized(next) {
             try {
+                this.persistLocalSetting(
+                    this.readerToolbarMinimizedPreferenceBaseKey,
+                    next ? "1" : "0"
+                );
                 this.writeScopedBooleanPreference(
                     this.readerToolbarMinimizedPreferenceBaseKey,
                     next
@@ -6268,25 +6282,9 @@ export default {
         if (storedGestureNavigation !== null) {
             this.gestureNavigationEnabled = storedGestureNavigation === "1";
         }
-        const storedToolbarScroll = this.readScopedPreferenceWithLegacy(
-            "suratToolbarScrollEnabled"
-        );
-        if (storedToolbarScroll !== null) {
-            this.toolbarScrollEnabled = storedToolbarScroll === "1";
-        }
-        const storedReaderToolbar = this.readScopedPreferenceWithLegacy(
-            "suratShowReaderToolbar"
-        );
-        if (storedReaderToolbar !== null) {
-            this.showReaderToolbar = storedReaderToolbar === "1";
-        }
-        const storedReaderToolbarMinimized = this.readScopedPreferenceWithLegacy(
-            this.readerToolbarMinimizedPreferenceBaseKey
-        );
-        if (storedReaderToolbarMinimized !== null) {
-            this.isReaderToolbarMinimized =
-                storedReaderToolbarMinimized === "1";
-        }
+        this.initializeReaderToolbarPreferences({
+            preserveCurrentWhenMissing: true,
+        });
         const storedBlurNextAyah = this.readScopedPreferenceWithLegacy(
             "suratIsBlurNextAyahEnabled"
         );
@@ -19760,6 +19758,103 @@ export default {
         },
         writeScopedBooleanPreference(baseKey, value) {
             this.writeScopedFontPreference(baseKey, value ? "1" : "0");
+        },
+        readToolbarScopedPreference(baseKey, options = {}) {
+            const { json = false } = options;
+            if (typeof window !== "undefined") {
+                try {
+                    const raw = localStorage.getItem(baseKey);
+                    if (raw !== null && raw !== undefined && raw !== "") {
+                        const value = json ? JSON.parse(raw) : raw;
+                        this.writeScopedFontPreference(baseKey, value, { json });
+                        return value;
+                    }
+                } catch (_) {
+                    // fall through to scoped preferences
+                }
+            }
+
+            try {
+                const anonId = this.getOrCreateSuratPreferenceAnonId();
+                const anonKey = `${baseKey}_anon_${anonId || "local"}`;
+                if (typeof window !== "undefined") {
+                    const raw = localStorage.getItem(anonKey);
+                    if (raw !== null && raw !== undefined && raw !== "") {
+                        const value = json ? JSON.parse(raw) : raw;
+                        this.persistLocalSetting(baseKey, raw);
+                        this.writeScopedFontPreference(baseKey, value, { json });
+                        return value;
+                    }
+                }
+            } catch (_) {
+                // Fall back to the shared legacy key when scoped lookup fails.
+            }
+
+            const scopedValue = this.readScopedFontPreference(baseKey, { json });
+            if (
+                scopedValue !== null &&
+                scopedValue !== undefined &&
+                !(typeof scopedValue === "string" && scopedValue === "")
+            ) {
+                try {
+                    this.persistLocalSetting(
+                        baseKey,
+                        json ? JSON.stringify(scopedValue) : String(scopedValue)
+                    );
+                } catch (_) {}
+                return scopedValue;
+            }
+
+            return this.readScopedPreferenceWithLegacy(baseKey, { json });
+        },
+        resolveToolbarScopedBooleanPreference(
+            baseKey,
+            currentValue,
+            options = {}
+        ) {
+            const { preserveCurrentWhenMissing = true } = options || {};
+            const rawValue = this.readToolbarScopedPreference(baseKey);
+            if (rawValue === null || rawValue === undefined || rawValue === "") {
+                const fallbackValue = preserveCurrentWhenMissing
+                    ? !!currentValue
+                    : false;
+                this.writeScopedBooleanPreference(baseKey, fallbackValue);
+                return fallbackValue;
+            }
+
+            const normalized = String(rawValue).trim().toLowerCase();
+            const resolvedValue = ["1", "true", "on", "yes"].includes(
+                normalized
+            );
+            this.persistLocalSetting(baseKey, resolvedValue ? "1" : "0");
+            this.writeScopedBooleanPreference(baseKey, resolvedValue);
+            return resolvedValue;
+        },
+        initializeReaderToolbarPreferences(options = {}) {
+            const { preserveCurrentWhenMissing = true } = options || {};
+            this.toolbarScrollEnabled = this.resolveToolbarScopedBooleanPreference(
+                "suratToolbarScrollEnabled",
+                this.toolbarScrollEnabled,
+                { preserveCurrentWhenMissing }
+            );
+            this.showReaderToolbar = this.resolveToolbarScopedBooleanPreference(
+                "suratShowReaderToolbar",
+                this.showReaderToolbar,
+                { preserveCurrentWhenMissing }
+            );
+            this.isReaderToolbarMinimized =
+                this.resolveToolbarScopedBooleanPreference(
+                    this.readerToolbarMinimizedPreferenceBaseKey,
+                    this.isReaderToolbarMinimized,
+                    { preserveCurrentWhenMissing }
+                );
+            if (!this.toolbarScrollEnabled || !this.showReaderToolbar) {
+                this.isToolbarPinned = false;
+            }
+            if (!this.showReaderToolbar) {
+                this.isMobileToolbarExpanded = false;
+            }
+            this.scheduleLayoutRefresh({ recalibrate: false });
         },
         async initializeDeepFocusModePreference() {
             if (
