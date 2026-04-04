@@ -13663,32 +13663,15 @@ export default {
                 const align = () => {
                     const cardEl = document.getElementById(`ayah-card-${index}`);
                     if (!cardEl || !cardEl.getBoundingClientRect) return;
-
-                    const rect = cardEl.getBoundingClientRect();
-                    const offset = this.currentHeaderOffset;
-                    const viewportHeight = window.innerHeight;
-                    const audioHeight = this.getAudioPlayerHeight();
-                    const availableHeight = Math.max(
-                        viewportHeight - offset - audioHeight,
-                        0
+                    const metrics = this.getAyahScrollMetrics();
+                    if (!metrics) return;
+                    const target = this.getAyahScrollTarget(
+                        index,
+                        cardEl,
+                        metrics
                     );
-                    const centerFactor =
-                        typeof this.preferredPlaybackScrollFactor === "number"
-                            ? this.preferredPlaybackScrollFactor
-                            : 0.38;
-                    const desiredCenter = offset + availableHeight * centerFactor;
-                    const delta = rect.top + rect.height / 2 - desiredCenter;
+                    const delta = target - window.scrollY;
                     if (Math.abs(delta) <= 8) return;
-
-                    const maxScroll = Math.max(
-                        document.documentElement.scrollHeight -
-                            window.innerHeight,
-                        0
-                    );
-                    const target = Math.min(
-                        Math.max(0, window.scrollY + delta),
-                        maxScroll
-                    );
                     window.scrollTo({ top: target, behavior });
                 };
 
@@ -23508,7 +23491,26 @@ export default {
             const index = this.navigationTargetIndex;
             const cardEl = document.getElementById(`ayah-card-${index}`);
             if (!cardEl || !cardEl.getBoundingClientRect) return;
-            const rect = cardEl.getBoundingClientRect();
+            const metrics = this.getAyahScrollMetrics();
+            if (!metrics) return;
+            const target = this.getAyahScrollTarget(
+                index,
+                cardEl,
+                metrics
+            );
+            const delta = target - window.scrollY;
+            if (Math.abs(delta) <= (this.navigationTargetTolerance || 12)) {
+                this.finishManualNavigation();
+            }
+        },
+        getAyahScrollRevealBuffer() {
+            return this.isTabletOrMobile ? 18 : 14;
+        },
+        getAyahScrollMetrics() {
+            if (typeof window === "undefined" || typeof document === "undefined") {
+                return null;
+            }
+
             const offset = this.currentHeaderOffset;
             const viewportHeight = window.innerHeight;
             const audioHeight = this.getAudioPlayerHeight();
@@ -23516,15 +23518,60 @@ export default {
                 viewportHeight - offset - audioHeight,
                 0
             );
+            const maxScroll = Math.max(
+                document.documentElement.scrollHeight - window.innerHeight,
+                0
+            );
+
+            return {
+                offset,
+                availableHeight,
+                maxScroll,
+            };
+        },
+        getAyahScrollTarget(index, cardEl, metrics = null, options = {}) {
+            if (typeof window === "undefined") return 0;
+
+            const resolvedMetrics = metrics || this.getAyahScrollMetrics();
+            if (!resolvedMetrics) return 0;
+
             const centerFactor =
                 typeof this.preferredPlaybackScrollFactor === "number"
                     ? this.preferredPlaybackScrollFactor
-                    : 0.5;
-            const desiredCenter = offset + availableHeight * centerFactor;
-            const delta = rect.top + rect.height / 2 - desiredCenter;
-            if (Math.abs(delta) <= (this.navigationTargetTolerance || 12)) {
-                this.finishManualNavigation();
+                    : 0.38;
+            let targetTop;
+
+            if (cardEl && cardEl.getBoundingClientRect) {
+                const rect = cardEl.getBoundingClientRect();
+                const cardCenter =
+                    window.scrollY + rect.top + rect.height / 2;
+                const centerOffset =
+                    resolvedMetrics.offset +
+                    resolvedMetrics.availableHeight * centerFactor;
+                const revealBufferRaw = Number(
+                    options.topBuffer ?? this.getAyahScrollRevealBuffer()
+                );
+                const revealBuffer = Number.isFinite(revealBufferRaw)
+                    ? Math.max(0, revealBufferRaw)
+                    : this.getAyahScrollRevealBuffer();
+                const topAlignedTarget =
+                    window.scrollY +
+                    rect.top -
+                    (resolvedMetrics.offset + revealBuffer);
+
+                targetTop = Math.min(
+                    cardCenter - centerOffset,
+                    topAlignedTarget
+                );
+            } else {
+                targetTop =
+                    this.listTop + index * this.itemHeight - resolvedMetrics.offset;
             }
+
+            return Math.min(
+                Math.max(0, targetTop),
+                resolvedMetrics.maxScroll
+            );
         },
         scrollToAyahIndex(index, options = {}) {
             const {
@@ -23574,13 +23621,11 @@ export default {
                         this.calibrateItemHeight();
                     }
 
-                    const offset = this.currentHeaderOffset;
-                    const viewportHeight = window.innerHeight;
-                    const audioHeight = this.getAudioPlayerHeight();
-                    const availableHeight = Math.max(
-                        viewportHeight - offset - audioHeight,
-                        0
-                    );
+                    const metrics = this.getAyahScrollMetrics();
+                    if (!metrics) {
+                        this.isNavigating = false;
+                        return;
+                    }
                     if (
                         !force &&
                         this.lastAutoScrollIndex === index &&
@@ -23596,38 +23641,10 @@ export default {
                         `ayah-card-${index}`
                     );
                     const hadCardEl = !!cardEl;
-                    let targetTop;
-
-                    if (cardEl && cardEl.getBoundingClientRect) {
-                        const rect = cardEl.getBoundingClientRect();
-                        const cardCenter =
-                            window.scrollY + rect.top + rect.height / 2;
-                        const centerFactor =
-                            typeof this.preferredPlaybackScrollFactor === "number"
-                                ? this.preferredPlaybackScrollFactor
-                                : 0.5;
-                        const centerOffset =
-                            offset + availableHeight * centerFactor;
-                        targetTop = cardCenter - centerOffset;
-                    } else {
-                        targetTop =
-                            this.listTop + index * this.itemHeight - offset;
-                    }
-
-                    const maxScroll = Math.max(
-                        document.documentElement.scrollHeight -
-                            window.innerHeight,
-                        0
-                    );
-                    const safeTarget = Math.min(
-                        Math.max(0, targetTop),
-                        maxScroll
-                    );
-
-                    const scrollableHeight = maxScroll;
+                    const scrollableHeight = metrics.maxScroll;
                     const minimalScrollableHeight = Math.max(
                         32,
-                        availableHeight * 0.35
+                        metrics.availableHeight * 0.35
                     );
                     if (scrollableHeight <= minimalScrollableHeight) {
                         this.lastProgrammaticScrollAt = Date.now();
@@ -23637,15 +23654,11 @@ export default {
                         return;
                     }
 
-                    let finalTarget = safeTarget;
-                    if (targetTop > maxScroll && index < total - 1) {
-                        const topAligned =
-                            this.listTop + index * this.itemHeight - offset;
-                        finalTarget = Math.min(
-                            Math.max(0, topAligned),
-                            maxScroll
-                        );
-                    }
+                    const finalTarget = this.getAyahScrollTarget(
+                        index,
+                        cardEl,
+                        metrics
+                    );
 
                     this.lastProgrammaticScrollAt = Date.now();
                     this.lastAutoScrollIndex = index;
@@ -23686,33 +23699,15 @@ export default {
                                         `ayah-card-${index}`
                                     );
                                     if (!nextEl || !nextEl.getBoundingClientRect) return;
-                                    const rect = nextEl.getBoundingClientRect();
-                                    const nextOffset = this.currentHeaderOffset;
-                                    const nextViewport = window.innerHeight;
-                                    const nextAudio = this.getAudioPlayerHeight();
-                                    const nextAvailable = Math.max(
-                                        nextViewport - nextOffset - nextAudio,
-                                        0
-                                    );
-                                    const centerFactor =
-                                        typeof this.preferredPlaybackScrollFactor === "number"
-                                            ? this.preferredPlaybackScrollFactor
-                                            : 0.5;
-                                    const nextCenterOffset =
-                                        nextOffset + nextAvailable * centerFactor;
-                                    const nextTarget =
-                                        window.scrollY + rect.top + rect.height / 2 - nextCenterOffset;
-                                    const maxScroll = Math.max(
-                                        document.documentElement.scrollHeight -
-                                            window.innerHeight,
-                                        0
-                                    );
-                                    const safeNextTarget = Math.min(
-                                        Math.max(0, nextTarget),
-                                        maxScroll
+                                    const nextMetrics = this.getAyahScrollMetrics();
+                                    if (!nextMetrics) return;
+                                    const nextTarget = this.getAyahScrollTarget(
+                                        index,
+                                        nextEl,
+                                        nextMetrics
                                     );
                                     window.scrollTo({
-                                        top: safeNextTarget,
+                                        top: nextTarget,
                                         behavior: resolvedBehavior,
                                     });
                                 });
@@ -23767,32 +23762,15 @@ export default {
                         `ayah-card-${index}`
                     );
                     if (!cardEl || !cardEl.getBoundingClientRect) return;
-                    const rect = cardEl.getBoundingClientRect();
-                    const offset = this.currentHeaderOffset;
-                    const viewportHeight = window.innerHeight;
-                    const audioHeight = this.getAudioPlayerHeight();
-                    const availableHeight = Math.max(
-                        viewportHeight - offset - audioHeight,
-                        0
+                    const metrics = this.getAyahScrollMetrics();
+                    if (!metrics) return;
+                    const target = this.getAyahScrollTarget(
+                        index,
+                        cardEl,
+                        metrics
                     );
-                    const centerFactor =
-                        typeof this.preferredPlaybackScrollFactor === "number"
-                            ? this.preferredPlaybackScrollFactor
-                            : 0.5;
-                    const desiredCenter =
-                        offset + availableHeight * centerFactor;
-                    const delta =
-                        rect.top + rect.height / 2 - desiredCenter;
+                    const delta = target - window.scrollY;
                     if (Math.abs(delta) <= tolerance) return;
-                    const maxScroll = Math.max(
-                        document.documentElement.scrollHeight -
-                            window.innerHeight,
-                        0
-                    );
-                    const target = Math.min(
-                        Math.max(0, window.scrollY + delta),
-                        maxScroll
-                    );
                     window.scrollTo({ top: target, behavior });
                     if (attempt < passes) {
                         this._scrollCorrectionTimer = setTimeout(() => {
