@@ -3984,17 +3984,6 @@ export default {
         filteredSurahs_sidebar() {
             if (!Array.isArray(this.surahs)) return [];
             const raw = this.sidebarNormalizedQuery;
-            const matchesQuery = (surah) => {
-                if (!raw) return true;
-                const english = (surah?.englishName || "").toLowerCase();
-                const arabic = (surah?.name || "").toLowerCase();
-                const number = String(surah?.number || "");
-                return (
-                    english.includes(raw) ||
-                    arabic.includes(raw) ||
-                    number.includes(raw)
-                );
-            };
             const pinnedSurahNumber = Number(this.sidebarPinnedSurahNumber || 0);
             const pinnedSurah = pinnedSurahNumber
                 ? this.surahs.find(
@@ -4008,7 +3997,7 @@ export default {
                 ) {
                     return false;
                 }
-                return matchesQuery(surah);
+                return this.matchesSurahSearchQuery(surah, raw);
             });
 
             if (!pinnedSurah) {
@@ -4281,16 +4270,9 @@ export default {
             if (!Array.isArray(this.surahs)) return [];
             const raw = (this.surahSearchQuery || "").trim().toLowerCase();
             if (!raw) return this.surahs;
-            return this.surahs.filter((surah) => {
-                const english = (surah.englishName || "").toLowerCase();
-                const arabic = (surah.name || "").toLowerCase();
-                const number = String(surah.number || "");
-                return (
-                    english.includes(raw) ||
-                    arabic.includes(raw) ||
-                    number.includes(raw)
-                );
-            });
+            return this.surahs.filter((surah) =>
+                this.matchesSurahSearchQuery(surah, raw)
+            );
         },
         currentSurahInfo() {
             const target = Number(this.surahDetails?.surahNumber || this.selectedSurah);
@@ -26116,6 +26098,23 @@ export default {
                 .replace(/[^\u0621-\u064A0-9\s]/g, " ")
                 .replace(/\s+/g, " ")
                 .trim();
+        },
+        matchesSurahSearchQuery(surah, query = "") {
+            const rawQuery = String(query || "").trim().toLowerCase();
+            if (!rawQuery) return true;
+            const english = String(surah?.englishName || "").toLowerCase();
+            const arabic = String(surah?.name || "");
+            const arabicLower = arabic.toLowerCase();
+            const normalizedArabicQuery = this.normalizeArabicForMatch(rawQuery);
+            const normalizedArabicName = this.normalizeArabicForMatch(arabic);
+            const number = String(surah?.number || "");
+            return (
+                english.includes(rawQuery) ||
+                arabicLower.includes(rawQuery) ||
+                (normalizedArabicQuery &&
+                    normalizedArabicName.includes(normalizedArabicQuery)) ||
+                number.includes(rawQuery)
+            );
         },
         tokenizeArabicForMatch(text = "") {
             const normalized = this.normalizeArabicForMatch(text);
