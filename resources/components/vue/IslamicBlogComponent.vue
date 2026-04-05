@@ -27,12 +27,10 @@
                         :active-type="activeType"
                         :sort-by="sortBy"
                         :result-count="filteredItems.length"
-                        :reader-filter="readerFilter"
                         :type-options="typeOptions"
                         @update:searchQuery="searchQuery = $event"
                         @update:activeType="activeType = $event"
                         @update:sortBy="sortBy = $event"
-                        @update:readerFilter="readerFilter = $event"
                     />
                 </div>
             </div>
@@ -140,20 +138,57 @@
         >
             <div class="modal-dialog modal-dialog-centered modal-fullscreen-sm-down library-modal-dialog">
                 <div class="modal-content shadow-lg border-0">
+                    <button type="button" class="btn-close library-modal-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <div class="reader-progress-track" aria-hidden="true">
+                        <span class="reader-progress-fill" :style="{ width: `${readerProgress}%` }"></span>
+                    </div>
                     <div v-if="activeItem" class="modal-header border-0 pb-0 px-3 px-md-4 pt-3 pt-md-4">
-                        <div class="pe-3">
-                            <div class="modal-kicker mb-2">
-                                {{ activeItem.typeLabel }}
-                                <span aria-hidden="true">&middot;</span>
-                                {{ activeItem.dateLabel }}
+                        <div class="pe-3 modal-head-copy">
+                            <div class="modal-title-row">
+                                <h2
+                                    id="islamicLibraryModalTitle"
+                                    class="modal-title h4 fw-semibold mb-0"
+                                    v-html="highlightText(activeItem.title)"
+                                ></h2>
                             </div>
-                            <h2
-                                id="islamicLibraryModalTitle"
-                                class="modal-title h4 fw-semibold mb-0"
-                                v-html="highlightText(activeItem.title)"
-                            ></h2>
+                            <div class="modal-title-meta">
+                                <span
+                                    class="verified-badge"
+                                    title="Content sourced from authenticated Islamic scholars via IslamHouse"
+                                >
+                                    <i class="bi bi-patch-check-fill" aria-hidden="true"></i>
+                                    <span>Scholarly Verified</span>
+                                </span>
+                            </div>
+                            <div class="metrics-pills">
+                                <span class="metric-pill">
+                                    <i class="bi bi-clock-history" aria-hidden="true"></i>
+                                    <span>{{ activeReadMinutes }} min read</span>
+                                </span>
+                                <span class="metric-pill">
+                                    <i class="bi bi-headphones" aria-hidden="true"></i>
+                                    <span>{{ activeListenMinutes }} min listen</span>
+                                </span>
+                            </div>
+                            <div class="team-box shadow-sm" :class="{ 'is-collapsed': !teamInsightExpanded }">
+                                <button type="button" class="team-box-head" @click="toggleTeamInsight">
+                                    <span class="team-box-title">
+                                        <i class="bi bi-heart-fill" aria-hidden="true"></i>
+                                        <span>From the Islamic Connect Team</span>
+                                    </span>
+                                    <i class="bi" :class="teamInsightExpanded ? 'bi-chevron-up' : 'bi-chevron-down'" aria-hidden="true"></i>
+                                </button>
+                                <div v-if="teamInsightExpanded" class="team-box-body">
+                                    <p
+                                        v-for="(line, index) in activeTeamReflection"
+                                        :key="`team-line-${index}`"
+                                        class="mb-0"
+                                    >
+                                        {{ line }}
+                                    </p>
+                                </div>
+                            </div>
                         </div>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
 
                     <div v-if="activeItem" class="modal-body px-3 px-md-4 pb-3 pb-md-4 pt-3">
@@ -202,6 +237,74 @@
                             </div>
                         </div>
 
+                        <div v-if="showAudioPanel && speechSupported" class="audio-settings-panel shadow-sm">
+                            <div class="audio-settings-panel-grid">
+                                <div class="audio-setting">
+                                    <label for="voiceSelect" class="audio-setting-label">Voice</label>
+                                    <select id="voiceSelect" v-model="speech.selectedVoiceURI" class="audio-setting-select" @change="restartSpeechIfActive">
+                                        <option v-for="voice in availableVoices" :key="voice.voiceURI" :value="voice.voiceURI">
+                                            {{ voice.name }}
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="audio-setting">
+                                    <label for="speedSelect" class="audio-setting-label">Speed</label>
+                                    <select id="speedSelect" v-model.number="speech.rate" class="audio-setting-select" @change="restartSpeechIfActive">
+                                        <option v-for="speed in speechRates" :key="speed.value" :value="speed.value">{{ speed.label }}</option>
+                                    </select>
+                                </div>
+                                <div class="audio-state-chip" :class="{ 'is-speaking': speech.isSpeaking && !speech.isPaused }">
+                                    <span class="audio-state-pulse" aria-hidden="true"></span>
+                                    <i class="bi bi-mic-fill" aria-hidden="true"></i>
+                                    <span>{{ speech.isSpeaking ? (speech.isPaused ? "Paused" : "Reading aloud") : "Ready to read" }}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <section class="reader-shell mt-3">
+                            <div class="reader-surface shadow-sm">
+                                <div v-if="activeItem.sourceUrl" class="reader-surface-actions">
+                                    <a
+                                        :href="activeItem.sourceUrl"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        class="continue-link"
+                                    >
+                                        {{ isPdfCard(activeItem) ? "Open Read" : "Open original source" }}
+                                        <i class="bi bi-box-arrow-up-right" aria-hidden="true"></i>
+                                    </a>
+                                </div>
+
+                                <div v-if="detailLoading" class="reader-state py-5 text-center">
+                                    <div class="spinner-border text-primary mb-3" aria-hidden="true"></div>
+                                    <div>Loading the full text...</div>
+                                </div>
+
+                                <div v-else-if="detailError" class="reader-inline-alert alert alert-warning border-0 shadow-sm mb-0 mx-3 mx-md-4">
+                                    {{ detailError }}
+                                </div>
+
+                                <div
+                                    v-else-if="activeRenderedContentHtml"
+                                    ref="readerContent"
+                                    class="reader-content"
+                                    :style="{ fontSize: contentFontSize + 'px' }"
+                                    v-html="activeRenderedContentHtml"
+                                ></div>
+
+                                <div v-else class="reader-empty-state">
+                                    The full text is not available in a readable format for this item.
+                                </div>
+
+                                <div v-if="activeItem.sourceUrl" class="reader-footer">
+                                    <a :href="activeItem.sourceUrl" target="_blank" rel="noopener noreferrer" class="continue-link">
+                                        Open original source
+                                        <i class="bi bi-box-arrow-up-right" aria-hidden="true"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </section>
+
                         <div v-if="showSummary" class="reader-panel shadow-sm">
                             <div class="summary-head d-flex justify-content-between align-items-start gap-3 mb-3">
                                 <div>
@@ -238,30 +341,28 @@
                             <p v-else class="small text-muted mb-0">No summary has been generated yet.</p>
                         </div>
 
-                        <div v-if="detailLoading" class="reader-state py-5 text-center">
-                            <div class="spinner-border text-primary mb-3" aria-hidden="true"></div>
-                            <div>Loading the full text...</div>
-                        </div>
-
-                        <div v-else-if="detailError" class="alert alert-warning border-0 shadow-sm mt-3 mb-0">
-                            {{ detailError }}
-                        </div>
-
-                        <div v-else class="reader-shell mt-3">
-                            <div class="reader-surface shadow-sm">
-                                <div
-                                    class="reader-content"
-                                    :style="{ fontSize: contentFontSize + 'px' }"
-                                    v-html="activeRenderedContentHtml"
-                                ></div>
-                                <div v-if="activeItem.sourceUrl" class="reader-footer">
-                                    <a :href="activeItem.sourceUrl" target="_blank" rel="noopener noreferrer" class="continue-link">
-                                        Open original source
-                                        <i class="bi bi-box-arrow-up-right" aria-hidden="true"></i>
-                                    </a>
+                        <section v-if="relatedItems.length" class="related-content-section mt-3">
+                            <div class="related-content-head">
+                                <h3 class="related-content-title mb-0">
+                                    <i class="bi bi-heart-fill" aria-hidden="true"></i>
+                                    <span>You May Also Like</span>
+                                </h3>
+                            </div>
+                            <div class="row g-3 mt-0">
+                                <div v-for="related in relatedItems" :key="`related-${related.key}`" class="col-12 col-md-6">
+                                    <article class="related-card shadow-sm">
+                                        <div class="related-card-body">
+                                            <span class="related-card-chip">{{ getCardChipLabel(related) }}</span>
+                                            <h4 class="related-card-title mb-1">{{ truncateText(related.title, 60) }}</h4>
+                                            <p class="related-card-copy mb-0">{{ truncateText(getCardExcerpt(related), 100) }}</p>
+                                            <button type="button" class="continue-link continue-link--inline mt-2" @click="openItem(related)">
+                                                Read More
+                                            </button>
+                                        </div>
+                                    </article>
                                 </div>
                             </div>
-                        </div>
+                        </section>
                     </div>
                 </div>
             </div>
@@ -312,6 +413,7 @@
                     </div>
 
                     <div class="audio-side-controls">
+                        <div class="audio-time">{{ formatDuration(speech.elapsedSeconds) }} / {{ formatDuration(speech.totalSeconds) }}</div>
                         <div class="audio-volume">
                             <i class="bi bi-volume-up-fill" aria-hidden="true"></i>
                             <input
@@ -347,6 +449,10 @@
         >
             <i class="bi bi-arrow-up" aria-hidden="true"></i>
         </button>
+
+        <div v-if="toast.show" class="library-toast" :class="`is-${toast.variant}`" role="status" aria-live="polite">
+            {{ toast.message }}
+        </div>
     </section>
 </template>
 
@@ -376,7 +482,6 @@ export default {
             searchQuery: "",
             activeType: "all",
             sortBy: "newest",
-            readerFilter: "all",
             items: [],
             loadingInitial: true,
             loadMoreBusy: false,
@@ -396,11 +501,19 @@ export default {
             detailError: "",
             modalInstance: null,
             contentFontSize: 16,
+            readerProgress: 0,
             showSummary: false,
             showAudioPanel: false,
+            teamInsightExpanded: false,
+            toast: {
+                show: false,
+                message: "",
+                variant: "success",
+            },
             speechSupported: false,
             voiceGroups: { male: [], female: [], other: [] },
             speechRates: [
+                { label: "0.5x", value: 0.5 },
                 { label: "0.75x", value: 0.75 },
                 { label: "1x", value: 1 },
                 { label: "1.25x", value: 1.25 },
@@ -430,6 +543,7 @@ export default {
             previewHydrationQueue: [],
             previewHydrationActiveCount: 0,
             previewHydrationKeys: {},
+            toastTimeoutId: null,
         };
     },
     computed: {
@@ -444,11 +558,67 @@ export default {
             ];
         },
         activeRenderedContentHtml() {
-            if (!this.activeItem || !this.activeItem.contentHtml) {
+            if (!this.activeItem) {
                 return "";
             }
 
-            return this.highlightHtmlContent(this.activeItem.contentHtml, this.searchQuery);
+            const baseHtml =
+                this.activeItem.contentHtml ||
+                this.plainTextToHtml(this.activeItem.contentText || "");
+            if (!baseHtml) {
+                return "";
+            }
+
+            const highlighted = this.highlightHtmlContent(baseHtml, this.searchQuery);
+            return highlighted || baseHtml;
+        },
+        activeWordCount() {
+            return this.countWords(this.activeItem && this.activeItem.contentText);
+        },
+        activeReadMinutes() {
+            return this.calculateEstimatedMinutes(this.activeWordCount, 200);
+        },
+        activeListenMinutes() {
+            return this.calculateEstimatedMinutes(this.activeWordCount, 150);
+        },
+        activeTeamReflection() {
+            return this.buildTeamReflection(this.activeItem);
+        },
+        relatedItems() {
+            if (!this.activeItem) {
+                return [];
+            }
+
+            const activeCategory = this.getRelatedCategory(this.activeItem);
+            const keywordSet = new Set(this.extractKeywords(this.activeItem.title));
+            const activeTags = new Set(this.getItemTags(this.activeItem));
+            return this.items
+                .filter((item) => item && this.activeItem && item.key !== this.activeItem.key)
+                .map((item) => {
+                    let score = 0;
+                    if (this.getRelatedCategory(item) === activeCategory) {
+                        score += 48;
+                    }
+
+                    const relatedKeywords = this.extractKeywords(item.title);
+                    const matches = relatedKeywords.filter((keyword) => keywordSet.has(keyword));
+                    score += matches.length * 10;
+
+                    const tagMatches = this.getItemTags(item).filter((tag) => activeTags.has(tag));
+                    score += Math.min(20, tagMatches.length * 4);
+
+                    if (item.summary && this.activeItem.summary) {
+                        const summaryMatches = this.extractKeywords(item.summary).filter((keyword) => keywordSet.has(keyword));
+                        score += Math.min(12, summaryMatches.length * 2);
+                    }
+
+                    score += Math.max(0, 8 - Math.abs((item.sortTimestamp || 0) - (this.activeItem.sortTimestamp || 0)) / 86400000 / 30);
+
+                    return { item, score };
+                })
+                .sort((left, right) => right.score - left.score)
+                .slice(0, 4)
+                .map((entry) => entry.item);
         },
         filteredItems() {
             const query = this.searchQuery.toLowerCase();
@@ -456,14 +626,6 @@ export default {
             return this.items
                 .filter((item) => {
                     if (this.activeType !== "all" && item.type !== this.activeType) {
-                        return false;
-                    }
-
-                    if (this.readerFilter === "reader" && !item.readerReady) {
-                        return false;
-                    }
-
-                    if (this.readerFilter === "detail" && item.readerReady) {
                         return false;
                     }
 
@@ -513,6 +675,22 @@ export default {
             },
             deep: false,
         },
+        activeRenderedContentHtml() {
+            this.$nextTick(() => {
+                this.bindReaderScroll();
+                this.applyCurrentSentenceHighlight();
+            });
+        },
+        "speech.currentSentenceIndex"() {
+            this.$nextTick(() => this.applyCurrentSentenceHighlight());
+        },
+        "speech.isSpeaking"(isSpeaking) {
+            if (!isSpeaking) {
+                this.clearCurrentSentenceHighlight();
+                return;
+            }
+            this.$nextTick(() => this.applyCurrentSentenceHighlight());
+        },
     },
     mounted() {
         this.speechSupported =
@@ -535,6 +713,9 @@ export default {
         }
         if (typeof window !== "undefined") {
             window.removeEventListener("scroll", this.handleWindowScroll);
+        }
+        if (this.toastTimeoutId) {
+            clearTimeout(this.toastTimeoutId);
         }
     },
     methods: {
@@ -595,10 +776,15 @@ export default {
                 }
 
                 this.modalInstance = new Modal(this.$refs.detailModal);
+                this.$refs.detailModal.addEventListener("shown.bs.modal", () => {
+                    this.bindReaderScroll();
+                    this.applyCurrentSentenceHighlight();
+                });
                 this.$refs.detailModal.addEventListener("hidden.bs.modal", () => {
                     this.stopSpeech();
                     this.showSummary = false;
                     this.showAudioPanel = false;
+                    this.readerProgress = 0;
                     this.detailError = "";
                 });
             });
@@ -766,6 +952,7 @@ export default {
                         id,
                         type,
                         typeLabel: type === "fatwa" ? "Fatwa" : type.charAt(0).toUpperCase() + type.slice(1, -1),
+                        category: type === "fatwa" ? "Fatwa" : type.charAt(0).toUpperCase() + type.slice(1, -1),
                         title,
                         url: absoluteUrl,
                         sourceUrl: absoluteUrl,
@@ -780,6 +967,8 @@ export default {
                         detailLoaded: false,
                         contentHtml: "",
                         contentText: "",
+                        speechSentences: [],
+                        tags: this.extractKeywords(`${title} ${summaryNode ? summaryNode.textContent : ""}`),
                         aiSummary: null,
                     };
                 })
@@ -826,8 +1015,24 @@ export default {
                 }).format(date),
             };
         },
+        buildItemKey(item) {
+            if (!item) {
+                return "";
+            }
+
+            return String(item.key || `${item.type || "item"}-${item.id || item.sourceUrl || item.url || item.title}`);
+        },
         cleanText(value) {
             return String(value || "").replace(/\s+/g, " ").replace(/\u00a0/g, " ").trim();
+        },
+        stripSpeakerCredits(value) {
+            return String(value || "")
+                .replace(/\b(narrated by|said by|presented by|translated by|reviewed by|prepared by|speaker|lecturer|voice over|recited by)\b[^.:\n]*(?:[.:\n]|$)/gi, " ")
+                .replace(/\b(shaykh|sheikh|ustadh|imam|dr\.)\s+[A-Z][A-Za-z' -]+/g, " ")
+                .replace(/\S+@\S+\.\S+/g, " ")
+                .replace(/www\.[^\s]+/gi, " ")
+                .replace(/\s{2,}/g, " ")
+                .trim();
         },
         cleanMultilineText(value) {
             return String(value || "")
@@ -839,7 +1044,7 @@ export default {
                 .trim();
         },
         normalizeOverviewText(value, title = "") {
-            let text = this.cleanText(value);
+            let text = this.cleanText(this.stripSpeakerCredits(value));
             if (!text) {
                 return "";
             }
@@ -854,6 +1059,28 @@ export default {
                 .replace(/^[\s:;.,-]+/, "")
                 .replace(/\s+/g, " ")
                 .trim();
+        },
+        countWords(value) {
+            const text = this.cleanText(this.stripSpeakerCredits(value));
+            if (!text) {
+                return 0;
+            }
+
+            return text.split(/\s+/).filter(Boolean).length;
+        },
+        calculateEstimatedMinutes(wordCount, wordsPerMinute) {
+            if (!wordCount || !wordsPerMinute) {
+                return 1;
+            }
+
+            return Math.max(1, Math.ceil(wordCount / wordsPerMinute));
+        },
+        extractKeywords(value) {
+            return this.cleanText(value)
+                .toLowerCase()
+                .split(/\s+/)
+                .map((word) => word.replace(/[^a-z0-9]/g, ""))
+                .filter((word) => word.length >= 4 && !["from", "with", "that", "this", "have", "what", "your", "into", "about", "read"].includes(word));
         },
         buildFallbackOverview(item, publishedBy, title) {
             const author = this.cleanText(publishedBy);
@@ -925,6 +1152,21 @@ export default {
         },
         getCardPublisher(item) {
             return this.cleanText(item.publishedBy) || "IslamHouse";
+        },
+        getRelatedCategory(item) {
+            if (!item) {
+                return "";
+            }
+            return this.cleanText(item.category || this.getCardChipLabel(item) || item.typeLabel || item.type).toLowerCase();
+        },
+        getItemTags(item) {
+            if (!item) {
+                return [];
+            }
+            if (Array.isArray(item.tags) && item.tags.length) {
+                return item.tags;
+            }
+            return this.extractKeywords(`${item.title || ""} ${item.summary || ""}`);
         },
         getSearchTerms(query = this.searchQuery) {
             return Array.from(
@@ -1036,10 +1278,92 @@ export default {
                 );
             } catch (error) {}
         },
+        buildTeamReflection(item) {
+            const title = this.cleanText(item && item.title);
+            const keywords = this.extractKeywords(title);
+            const leadTopic = keywords[0] || "this reminder";
+            const secondTopic = keywords[1] || "steady faith";
+
+            return [
+                `This reflection on ${leadTopic} speaks directly to modern life, where constant pressure can pull the heart away from calm remembrance and thoughtful action.`,
+                `Use this lesson to slow down, filter noise, and make daily choices with more sincerity, discipline, and trust in Allah.`,
+                `Even in busy routines, returning to ${secondTopic} can turn ordinary moments into worship, clarity, and quiet strength.`,
+            ];
+        },
+        showToast(message, variant = "success") {
+            if (this.toastTimeoutId) {
+                clearTimeout(this.toastTimeoutId);
+            }
+
+            this.toast = {
+                show: true,
+                message,
+                variant,
+            };
+
+            this.toastTimeoutId = setTimeout(() => {
+                this.toast.show = false;
+            }, 2400);
+        },
+        toggleTeamInsight() {
+            this.teamInsightExpanded = !this.teamInsightExpanded;
+        },
+        bindReaderScroll() {
+            const reader = this.$refs.readerContent;
+            if (!reader) {
+                this.readerProgress = 0;
+                return;
+            }
+
+            reader.removeEventListener("scroll", this.handleReaderScroll);
+            reader.addEventListener("scroll", this.handleReaderScroll, { passive: true });
+            this.handleReaderScroll();
+        },
+        handleReaderScroll() {
+            const reader = this.$refs.readerContent;
+            if (!reader) {
+                this.readerProgress = 0;
+                return;
+            }
+
+            const scrollableHeight = Math.max(1, reader.scrollHeight - reader.clientHeight);
+            this.readerProgress = Math.min(100, Math.max(0, Math.round((reader.scrollTop / scrollableHeight) * 100)));
+        },
+        applyCurrentSentenceHighlight() {
+            const reader = this.$refs.readerContent;
+            if (!reader) {
+                return;
+            }
+
+            const nextIndex = this.speech.currentSentenceIndex;
+            reader.querySelectorAll(".reader-sentence.is-speaking").forEach((node) => node.classList.remove("is-speaking"));
+
+            if (!this.speech.isSpeaking || this.speech.isPaused) {
+                return;
+            }
+
+            const nextNode = reader.querySelector(`.reader-sentence[data-sentence-index="${nextIndex}"]`);
+            if (!nextNode) {
+                return;
+            }
+
+            nextNode.classList.add("is-speaking");
+            if (typeof nextNode.scrollIntoView === "function") {
+                nextNode.scrollIntoView({ block: "nearest", behavior: "smooth" });
+            }
+        },
+        clearCurrentSentenceHighlight() {
+            const reader = this.$refs.readerContent;
+            if (!reader) {
+                return;
+            }
+            reader.querySelectorAll(".reader-sentence.is-speaking").forEach((node) => node.classList.remove("is-speaking"));
+        },
         async openItem(item) {
             this.activeItem = { ...item };
             this.showSummary = false;
             this.showAudioPanel = false;
+            this.teamInsightExpanded = false;
             this.detailLoading = true;
             this.detailError = "";
             this.modalInstance && this.modalInstance.show();
@@ -1048,6 +1372,10 @@ export default {
                 const detail = await this.fetchItemDetail(item);
                 this.activeItem = { ...this.activeItem, ...detail, detailLoaded: true };
                 this.items = this.mergeItems(this.items, [this.activeItem]);
+                this.$nextTick(() => {
+                    this.bindReaderScroll();
+                    this.applyCurrentSentenceHighlight();
+                });
             } catch (error) {
                 this.detailError = error.message || "The full text could not be loaded.";
             } finally {
@@ -1103,19 +1431,23 @@ export default {
 
             if (contentRoot) {
                 const cleaned = this.cleanReaderHtml(contentRoot, pageTitle);
-                const plainText = this.cleanText(cleaned.textContent);
+                const sentenceMarkup = this.decorateReaderContent(cleaned);
+                const plainText = this.cleanText(this.stripSpeakerCredits(sentenceMarkup.plainText || cleaned.textContent));
                 const previewText = this.extractContentPreviewText(cleaned) || plainText;
 
                 return {
                     title: pageTitle,
+                    category: item.category || item.typeLabel,
                     summary: this.normalizeOverviewText(descriptionText || previewText, pageTitle) || item.summary,
-                    contentHtml: cleaned.innerHTML,
+                    contentHtml: sentenceMarkup.html,
                     contentText: plainText,
+                    speechSentences: sentenceMarkup.sentences,
                     publishedBy,
                     sourceUrl: item.url,
                     readerReady: true,
                     hasPdf: !!(primaryAttachment && primaryAttachment.extension === "pdf"),
                     formatLabel: primaryAttachment && primaryAttachment.extension ? primaryAttachment.extension.toUpperCase() : item.formatLabel,
+                    tags: this.extractKeywords(`${pageTitle} ${descriptionText || previewText}`),
                 };
             }
 
@@ -1123,18 +1455,21 @@ export default {
                 const fallbackText =
                     descriptionText ||
                     this.buildFallbackOverview(item, publishedBy, pageTitle);
-                const contentHtml = this.buildAttachmentPreview(primaryAttachment, fallbackText);
+                const contentHtml = this.decorateAttachmentPreview(this.buildAttachmentPreview(primaryAttachment, fallbackText));
 
                 return {
                     title: pageTitle,
+                    category: primaryAttachment.extension === "pdf" ? "PDF" : (item.category || item.typeLabel),
                     summary: this.normalizeOverviewText(descriptionText || fallbackText, pageTitle) || item.summary,
                     contentHtml,
-                    contentText: fallbackText,
+                    contentText: this.stripSpeakerCredits(fallbackText),
+                    speechSentences: this.splitIntoSentences(this.stripSpeakerCredits(fallbackText)),
                     publishedBy,
                     sourceUrl: primaryAttachment.url,
                     readerReady: false,
                     hasPdf: primaryAttachment.extension === "pdf",
                     formatLabel: primaryAttachment.extension ? primaryAttachment.extension.toUpperCase() : item.formatLabel,
+                    tags: this.extractKeywords(`${pageTitle} ${fallbackText}`),
                 };
             }
 
@@ -1157,7 +1492,7 @@ export default {
             }
 
             const bodyNode = sectionNode.querySelector("p");
-            return this.cleanText(bodyNode ? bodyNode.textContent : sectionNode.textContent);
+            return this.cleanText(this.stripSpeakerCredits(bodyNode ? bodyNode.textContent : sectionNode.textContent));
         },
         extractContentPreviewText(rootNode) {
             if (!rootNode) {
@@ -1165,7 +1500,7 @@ export default {
             }
 
             const candidates = Array.from(rootNode.querySelectorAll("p, li"))
-                .map((node) => this.cleanText(node.textContent))
+                .map((node) => this.cleanText(this.stripSpeakerCredits(node.textContent)))
                 .filter((text) => this.isMeaningfulPreviewText(text));
 
             if (!candidates.length) {
@@ -1218,7 +1553,7 @@ export default {
         buildAttachmentPreview(attachment, fallbackText) {
             const safeUrl = this.escapeHtml(attachment.url);
             const safeLabel = this.escapeHtml(attachment.label || "Source file");
-            const safeText = this.escapeHtml(this.cleanText(fallbackText));
+            const safeText = this.escapeHtml(this.cleanText(this.stripSpeakerCredits(fallbackText)));
             const isPdf = attachment.extension === "pdf";
 
             return `
@@ -1257,6 +1592,7 @@ export default {
                 const removable =
                     !text ||
                     text === title ||
+                    /\b(narrated by|said by|presented by|translated by|prepared by|reviewed by|speaker|lecturer)\b/i.test(text) ||
                     /www\.islamreligion\.com/i.test(text) ||
                     /^english$/i.test(text) ||
                     /^[0-9]{4}\s*-\s*[0-9]{4}$/.test(text) ||
@@ -1301,6 +1637,74 @@ export default {
 
             return clone;
         },
+        decorateReaderContent(rootNode) {
+            if (typeof document === "undefined" || typeof Node === "undefined") {
+                return {
+                    html: rootNode.innerHTML,
+                    sentences: this.splitIntoSentences(rootNode.textContent || ""),
+                    plainText: this.cleanText(rootNode.textContent),
+                };
+            }
+
+            let sentenceIndex = 0;
+            const sentences = [];
+
+            const processNode = (node) => {
+                Array.from(node.childNodes).forEach((child) => {
+                    if (child.nodeType === Node.TEXT_NODE) {
+                        const rawText = String(child.nodeValue || "");
+                        const parts = rawText.match(/[^.!?]+[.!?]+|[^.!?]+$/g) || [rawText];
+                        if (!parts.length) {
+                            return;
+                        }
+
+                        const fragment = document.createDocumentFragment();
+                        parts.forEach((part) => {
+                            if (!part) {
+                                return;
+                            }
+
+                            if (!this.cleanText(part)) {
+                                fragment.appendChild(document.createTextNode(part));
+                                return;
+                            }
+
+                            const span = document.createElement("span");
+                            span.className = "reader-sentence";
+                            span.setAttribute("data-sentence-index", String(sentenceIndex));
+                            span.textContent = part;
+                            fragment.appendChild(span);
+                            sentences.push(this.cleanText(this.stripSpeakerCredits(part)));
+                            sentenceIndex += 1;
+                        });
+
+                        child.parentNode && child.parentNode.replaceChild(fragment, child);
+                        return;
+                    }
+
+                    if (child.nodeType === Node.ELEMENT_NODE && !["IFRAME", "SCRIPT", "STYLE"].includes(child.tagName)) {
+                        processNode(child);
+                    }
+                });
+            };
+
+            processNode(rootNode);
+
+            return {
+                html: rootNode.innerHTML,
+                sentences: sentences.filter(Boolean),
+                plainText: this.cleanText(rootNode.textContent),
+            };
+        },
+        decorateAttachmentPreview(html) {
+            if (typeof document === "undefined") {
+                return html;
+            }
+
+            const wrapper = document.createElement("div");
+            wrapper.innerHTML = html;
+            return this.decorateReaderContent(wrapper).html;
+        },
         removeLeadingNavigationBlocks(rootNode, title) {
             if (!rootNode || typeof Node === "undefined") {
                 return;
@@ -1339,8 +1743,27 @@ export default {
                 .split(/\s+/)
                 .filter((word) => word.length > 3);
             const titleMatches = items.filter((item) => significantWords.some((word) => item.toLowerCase().includes(word))).length;
+            const shortItems = items.filter((item) => item.length <= 90).length;
+            const colonEndedItems = items.filter((item) => /[:;!?]$/.test(item)).length;
+            const headingLikeItems = items.filter((item) => {
+                const words = item.split(/\s+/).filter(Boolean);
+                if (!words.length || words.length > 16) {
+                    return false;
+                }
 
-            return mostlyLinks && (mostlyInternal || titleMatches >= Math.max(2, Math.floor(items.length / 2)));
+                const capitalized = words.filter((word) => /^[A-Z][a-z]+/.test(word)).length;
+                return capitalized >= Math.max(2, Math.floor(words.length / 2));
+            }).length;
+
+            const titleDrivenOutline =
+                shortItems >= Math.ceil(items.length * 0.7) &&
+                (
+                    colonEndedItems >= Math.max(2, Math.floor(items.length * 0.4)) ||
+                    headingLikeItems >= Math.max(3, Math.floor(items.length * 0.6)) ||
+                    titleMatches >= Math.max(2, Math.floor(items.length / 3))
+                );
+
+            return (mostlyLinks && (mostlyInternal || titleMatches >= Math.max(2, Math.floor(items.length / 2)))) || titleDrivenOutline;
         },
         escapeHtml(text) {
             return String(text || "")
@@ -1349,6 +1772,27 @@ export default {
                 .replace(/>/g, "&gt;")
                 .replace(/"/g, "&quot;")
                 .replace(/'/g, "&#39;");
+        },
+        plainTextToHtml(text) {
+            const clean = this.cleanMultilineText(this.stripSpeakerCredits(text));
+            if (!clean) {
+                return "";
+            }
+
+            const blocks = clean
+                .split(/\n{2,}/)
+                .map((block) => this.cleanText(block))
+                .filter(Boolean)
+                .map((block) => `<p>${this.escapeHtml(block)}</p>`);
+
+            const html = blocks.join("");
+            if (typeof document === "undefined") {
+                return html;
+            }
+
+            const wrapper = document.createElement("div");
+            wrapper.innerHTML = html;
+            return this.decorateReaderContent(wrapper).html;
         },
         increaseFontSize() {
             this.contentFontSize = Math.min(24, this.contentFontSize + 1);
@@ -1370,7 +1814,7 @@ export default {
                 return;
             }
 
-            const sentences = this.splitIntoSentences(this.activeItem.contentText);
+            const sentences = this.getSpeechSentences();
 
             const overview = sentences.slice(0, 3).join(" ");
             const keywords = ["allah", "prayer", "faith", "quran", "prophet", "islam", "worship", "knowledge"];
@@ -1433,8 +1877,8 @@ export default {
             });
 
             return {
-                male: male.slice(0, 6),
-                female: female.slice(0, 6),
+                male: male.slice(0, 3),
+                female: female.slice(0, 3),
                 other: other.slice(0, 10),
             };
         },
@@ -1449,7 +1893,15 @@ export default {
             this.speech.totalSeconds = this.speech.sentenceDurations.reduce((sum, value) => sum + value, 0);
         },
         getSpeechSentences() {
-            if (!this.activeItem || !this.activeItem.contentText) {
+            if (!this.activeItem) {
+                return [];
+            }
+
+            if (Array.isArray(this.activeItem.speechSentences) && this.activeItem.speechSentences.length) {
+                return this.activeItem.speechSentences;
+            }
+
+            if (!this.activeItem.contentText) {
                 return [];
             }
 
@@ -1457,7 +1909,7 @@ export default {
         },
         splitIntoSentences(text) {
             return (String(text || "").match(/[^.!?]+[.!?]+|[^.!?]+$/g) || [])
-                .map((sentence) => this.cleanText(sentence))
+                .map((sentence) => this.cleanText(this.stripSpeakerCredits(sentence)))
                 .filter(Boolean);
         },
         startSpeech(fromIndex = 0) {
@@ -1575,6 +2027,7 @@ export default {
             this.speech.totalSeconds = 0;
             this.speech.progressPercent = 0;
             this.speech.currentSentenceIndex = 0;
+            this.clearCurrentSentenceHighlight();
         },
         finishSpeech() {
             if (this.speech.intervalId) {
@@ -1585,6 +2038,7 @@ export default {
             this.speech.isPaused = false;
             this.speech.elapsedSeconds = this.speech.totalSeconds;
             this.speech.progressPercent = 100;
+            this.clearCurrentSentenceHighlight();
         },
         startSpeechInterval() {
             if (this.speech.intervalId) {
@@ -1647,6 +2101,7 @@ export default {
             try {
                 if (navigator.share) {
                     await navigator.share(data);
+                    this.showToast("Share sheet opened.", "success");
                     return;
                 }
             } catch (error) {
@@ -1660,6 +2115,7 @@ export default {
         async copyToClipboard(value) {
             try {
                 await navigator.clipboard.writeText(value);
+                this.showToast("Link copied to clipboard.", "success");
             } catch (error) {
                 const input = document.createElement("textarea");
                 input.value = value;
@@ -1669,6 +2125,7 @@ export default {
                 input.select();
                 document.execCommand("copy");
                 document.body.removeChild(input);
+                this.showToast("Link copied to clipboard.", "success");
             }
         },
         printActiveItem() {
@@ -1976,10 +2433,24 @@ export default {
 .modal-content {
     background: var(--library-surface);
     color: var(--library-text);
+    position: relative;
     display: flex;
     flex-direction: column;
     overflow: hidden;
     max-height: min(88vh, calc(100vh - 6.25rem));
+}
+
+.reader-progress-track {
+    width: 100%;
+    height: 4px;
+    background: color-mix(in srgb, var(--library-accent) 10%, transparent);
+}
+
+.reader-progress-fill {
+    display: block;
+    height: 100%;
+    background: linear-gradient(90deg, var(--library-accent), color-mix(in srgb, var(--library-accent) 70%, #ffffff 30%));
+    transition: width 0.18s ease;
 }
 
 .modal-body {
@@ -1987,26 +2458,123 @@ export default {
     flex-direction: column;
     flex: 1 1 auto;
     min-height: 0;
-    overflow: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
 }
 
 .library-modal-dialog {
-    max-width: min(760px, calc(100vw - 2.4rem));
-    margin-top: 0 !important;
-    margin-bottom: 0 !important;
+    max-width: min(780px, calc(100vw - 2.4rem));
+    margin: 1.4rem auto !important;
 }
 
-.modal-kicker {
-    font-size: 0.78rem;
-    color: var(--library-muted);
-    font-weight: 700;
-    letter-spacing: 0.02em;
+.library-modal-close {
+    position: absolute;
+    top: 1.15rem;
+    right: 1.15rem;
+    z-index: 3;
+    opacity: 0.72;
+}
+
+.library-modal-close:hover,
+.library-modal-close:focus-visible {
+    opacity: 1;
+}
+
+.modal-head-copy {
+    width: 100%;
+    padding-right: 2.6rem;
 }
 
 .modal-title {
     font-size: clamp(1.55rem, 2.2vw, 2.15rem);
     line-height: 1.16;
     letter-spacing: -0.02em;
+}
+
+.modal-title-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.8rem;
+}
+
+.modal-title-meta {
+    margin-top: 0.65rem;
+}
+
+.verified-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.42rem 0.7rem;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--library-accent) 12%, var(--library-soft));
+    color: color-mix(in srgb, var(--library-accent-strong) 82%, var(--library-accent));
+    font-size: 0.78rem;
+    font-weight: 800;
+}
+
+.metrics-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem;
+    margin-top: 0.8rem;
+}
+
+.metric-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.42rem;
+    padding: 0.48rem 0.72rem;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--library-soft) 88%, transparent);
+    color: var(--library-text);
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+.metric-pill i {
+    color: var(--library-accent);
+}
+
+.team-box {
+    margin-top: 0.9rem;
+    border-radius: 18px;
+    background: color-mix(in srgb, var(--library-accent) 8%, var(--library-surface));
+    border: 1px solid color-mix(in srgb, var(--library-accent) 12%, transparent);
+    overflow: hidden;
+}
+
+.team-box-head {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 0.78rem 0.9rem;
+    border: 0;
+    background: transparent;
+    color: var(--library-text);
+}
+
+.team-box-title {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-size: 0.88rem;
+    font-weight: 800;
+}
+
+.team-box-title i {
+    color: var(--library-accent);
+}
+
+.team-box-body {
+    display: grid;
+    gap: 0.55rem;
+    padding: 0 0.9rem 0.9rem;
+    color: var(--library-muted);
+    font-size: 0.88rem;
+    line-height: 1.65;
 }
 
 .reader-toolbar {
@@ -2017,6 +2585,70 @@ export default {
     gap: 0.55rem;
     padding: 0.5rem 0.6rem;
     background: color-mix(in srgb, var(--library-soft) 88%, transparent);
+}
+
+.audio-settings-panel {
+    margin-top: 0.8rem;
+    padding: 0.78rem 0.88rem;
+    border-radius: 18px;
+    background: color-mix(in srgb, var(--library-soft) 86%, transparent);
+}
+
+.audio-settings-panel-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(140px, 180px) auto;
+    gap: 0.7rem;
+    align-items: end;
+}
+
+.audio-setting-label {
+    display: block;
+    margin-bottom: 0.24rem;
+    color: var(--library-muted);
+    font-size: 0.66rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.audio-setting-select {
+    width: 100%;
+    min-height: 38px;
+    padding: 0.48rem 0.72rem;
+    border: 0;
+    border-radius: 14px;
+    background: var(--library-surface);
+    color: var(--library-text);
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--library-accent) 10%, transparent);
+}
+
+.audio-state-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.46rem;
+    min-height: 38px;
+    padding: 0 0.82rem;
+    border-radius: 999px;
+    background: var(--library-surface);
+    color: var(--library-muted);
+    font-size: 0.78rem;
+    font-weight: 700;
+}
+
+.audio-state-chip.is-speaking {
+    color: var(--library-accent);
+}
+
+.audio-state-pulse {
+    width: 0.55rem;
+    height: 0.55rem;
+    border-radius: 50%;
+    background: currentColor;
+    opacity: 0.9;
+}
+
+.audio-state-chip.is-speaking .audio-state-pulse {
+    animation: audioPulse 1.2s ease-in-out infinite;
 }
 
 .reader-toolbar-group {
@@ -2105,6 +2737,74 @@ export default {
     background: color-mix(in srgb, var(--library-accent) 5%, var(--library-surface));
 }
 
+.related-content-section {
+    padding: 0.95rem 1rem;
+    border-radius: 20px;
+    background: var(--library-surface);
+    box-shadow: var(--library-shadow-soft);
+}
+
+.related-content-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+}
+
+.related-content-title {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-size: 1rem;
+    font-weight: 800;
+}
+
+.related-content-title i {
+    color: var(--library-accent);
+}
+
+.related-card {
+    display: block;
+    height: 100%;
+    padding: 0.85rem;
+    border-radius: 18px;
+    background: color-mix(in srgb, var(--library-soft) 88%, transparent);
+}
+
+.related-card-body {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    min-width: 0;
+}
+
+.related-card-chip {
+    display: inline-flex;
+    width: fit-content;
+    padding: 0.22rem 0.54rem;
+    border-radius: 999px;
+    background: var(--library-surface);
+    color: var(--library-accent);
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.related-card-title {
+    margin-top: 0.6rem;
+    font-size: 0.96rem;
+    font-weight: 800;
+    line-height: 1.3;
+}
+
+.related-card-copy {
+    color: var(--library-muted);
+    font-size: 0.82rem;
+    line-height: 1.6;
+}
+
 .summary-head {
     padding-bottom: 0.6rem;
     border-bottom: 1px solid color-mix(in srgb, var(--library-accent) 12%, transparent);
@@ -2171,29 +2871,56 @@ export default {
 
 .reader-shell {
     display: flex;
-    flex: 1 1 auto;
+    flex: 0 0 auto;
+    width: 100%;
     min-height: 0;
 }
 
 .reader-surface {
     display: flex;
-    flex: 1 1 auto;
+    flex: 0 0 auto;
     flex-direction: column;
-    min-height: 0;
+    width: 100%;
+    min-height: clamp(360px, 55vh, 700px);
+    max-height: min(64vh, 760px);
     padding: 0;
     overflow: hidden;
 }
 
+.reader-surface-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 1rem 1.15rem 0.2rem;
+}
+
 .reader-content {
     flex: 1 1 auto;
-    min-height: 0;
+    min-height: 320px;
     overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-gutter: stable;
     padding: 1.25rem 1.2rem 1.35rem;
     line-height: 1.82;
     font-family: Georgia, "Times New Roman", serif;
     font-size: 1rem;
     text-wrap: pretty;
     text-align: left;
+}
+
+.reader-empty-state {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 320px;
+    padding: 1.5rem;
+    color: var(--library-muted);
+    font-size: 0.92rem;
+    text-align: center;
+}
+
+.reader-inline-alert {
+    margin-top: 0.8rem;
 }
 
 .reader-content :deep(div) {
@@ -2206,6 +2933,16 @@ export default {
     line-height: 1.78;
     text-align: left !important;
     font-size: 1rem;
+}
+
+.reader-content :deep(.reader-sentence) {
+    transition: background-color 0.18s ease, box-shadow 0.18s ease;
+    border-radius: 0.3rem;
+}
+
+.reader-content :deep(.reader-sentence.is-speaking) {
+    background: rgba(255, 224, 102, 0.62);
+    box-shadow: 0 0 0 2px rgba(255, 224, 102, 0.22);
 }
 
 .reader-content :deep(a) {
@@ -2383,9 +3120,9 @@ export default {
 
 .audio-dock-bar {
     display: grid;
-    grid-template-columns: minmax(220px, 320px) minmax(0, 1fr) auto;
+    grid-template-columns: minmax(220px, 320px) minmax(0, 1fr) auto auto;
     align-items: center;
-    gap: 1.5rem;
+    gap: 1.2rem;
     width: min(100%, 1920px);
     margin: 0 auto;
     padding: 1rem 1.9rem;
@@ -2449,6 +3186,13 @@ export default {
     align-items: center;
     gap: 1.05rem;
     flex: 0 0 auto;
+    justify-self: end;
+}
+
+.audio-time {
+    color: rgba(255, 255, 255, 0.78);
+    font-size: 0.76rem;
+    font-weight: 700;
 }
 
 .audio-bar-btn {
@@ -2517,6 +3261,37 @@ export default {
     font-weight: 600;
 }
 
+.library-toast {
+    position: fixed;
+    left: 50%;
+    bottom: 1rem;
+    z-index: 2100;
+    transform: translateX(-50%);
+    padding: 0.72rem 1rem;
+    border-radius: 999px;
+    color: #ffffff;
+    font-size: 0.84rem;
+    font-weight: 700;
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.22);
+}
+
+.library-toast.is-success {
+    background: linear-gradient(135deg, var(--library-accent), var(--library-accent-strong));
+}
+
+.library-toast.is-warning {
+    background: linear-gradient(135deg, #b9891f, #8b6110);
+}
+
+.library-toast.is-danger {
+    background: linear-gradient(135deg, #c64d42, #9f362d);
+}
+
+@keyframes audioPulse {
+    0%, 100% { transform: scale(1); opacity: 0.9; }
+    50% { transform: scale(1.35); opacity: 0.45; }
+}
+
 @media (max-width: 767.98px) {
     .islamic-library.has-audio-dock {
         padding-bottom: 8.25rem;
@@ -2545,6 +3320,40 @@ export default {
         display: none;
     }
 
+    .metrics-pills {
+        gap: 0.45rem;
+    }
+
+    .metric-pill {
+        font-size: 0.74rem;
+        padding: 0.42rem 0.62rem;
+    }
+
+    .team-box-head,
+    .team-box-body,
+    .related-content-section {
+        padding-left: 0.8rem;
+        padding-right: 0.8rem;
+    }
+
+    .audio-settings-panel {
+        padding: 0.7rem 0.75rem;
+    }
+
+    .audio-settings-panel-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .reader-surface {
+        min-height: 300px;
+        max-height: min(56vh, 560px);
+    }
+
+    .reader-content {
+        min-height: 240px;
+        padding: 1rem 0.95rem 1.1rem;
+    }
+
     .audio-dock {
         border-radius: 20px 20px 0 0;
     }
@@ -2553,7 +3362,7 @@ export default {
         grid-template-columns: minmax(0, 1fr) auto;
         grid-template-areas:
             "meta close"
-            "transport transport";
+            "transport time";
         align-items: start;
         gap: 0.72rem 0.85rem;
         padding: 0.9rem 0.95rem 0.85rem;
@@ -2577,7 +3386,7 @@ export default {
     .audio-main-controls {
         grid-area: transport;
         display: grid;
-        grid-template-columns: auto minmax(0, 1fr) auto;
+        grid-template-columns: auto minmax(0, 1fr);
         align-items: center;
         gap: 0.7rem;
         padding: 0.6rem 0.65rem;
@@ -2604,23 +3413,15 @@ export default {
     }
 
     .audio-side-controls {
-        grid-area: unset;
+        grid-area: time;
         align-items: center;
-        gap: 0.55rem;
+        justify-self: end;
+        align-self: center;
+        gap: 0;
     }
 
-    .audio-volume {
-        min-width: 0;
-        width: 108px;
-        gap: 0.45rem;
-    }
-
-    .audio-volume-range {
-        width: 100%;
-    }
-
-    .audio-volume i {
-        font-size: 0.8rem;
+    .audio-time {
+        font-size: 0.72rem;
     }
 
     .audio-dock-close {
@@ -2628,6 +3429,16 @@ export default {
         width: 34px;
         height: 34px;
         align-self: start;
+    }
+
+    .audio-volume {
+        display: none;
+    }
+
+    .library-toast {
+        width: calc(100vw - 1.5rem);
+        text-align: center;
+        border-radius: 16px;
     }
 }
 
@@ -2675,6 +3486,11 @@ export default {
 
     .library-subtitle {
         font-size: 0.82rem;
+    }
+
+    .library-modal-close {
+        top: 0.9rem;
+        right: 0.9rem;
     }
 }
 </style>

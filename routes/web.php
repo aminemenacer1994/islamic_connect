@@ -442,7 +442,7 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::post('/add-comment', [CommentsController::class, 'store']);
     Route::post('/notes/{note}/like', [LikeController::class, 'like']);
     Route::post('/notes/{note}/unlike', [LikeController::class, 'unlike']);
-    
+
     // Admin & Management
     Route::get('/users', [UserController::class, 'index']);
     Route::get('api/fetch-users', [UserController::class, 'getUsers']);

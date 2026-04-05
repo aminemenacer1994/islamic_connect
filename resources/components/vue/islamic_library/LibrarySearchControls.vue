@@ -1,8 +1,8 @@
 <template>
     <section class="library-search-section">
         <div class="search-shell shadow-sm">
-            <div class="search-row">
-                <div class="search-main">
+            <div class="search-layout">
+                <div class="search-main search-layout-main">
                     <i class="bi bi-search search-icon" aria-hidden="true"></i>
                     <input
                         :value="searchQuery"
@@ -13,6 +13,7 @@
                         @input="$emit('update:searchQuery', $event.target.value)"
                     >
                 </div>
+
                 <button
                     v-if="searchQuery"
                     type="button"
@@ -23,15 +24,14 @@
                     <i class="bi bi-x-lg" aria-hidden="true"></i>
                     <span>Clear</span>
                 </button>
-            </div>
 
-            <div class="filter-row">
                 <div class="filter-control">
-                    <label for="filter-type" class="filter-label">Type</label>
+                    <label for="filter-type" class="visually-hidden">Type</label>
                     <select
                         id="filter-type"
                         :value="activeType"
                         class="filter-select"
+                        aria-label="Filter by type"
                         @change="$emit('update:activeType', $event.target.value)"
                     >
                         <option v-for="option in typeOptions" :key="option.value" :value="option.value">
@@ -39,12 +39,14 @@
                         </option>
                     </select>
                 </div>
+
                 <div class="filter-control">
-                    <label for="filter-sort" class="filter-label">Sort</label>
+                    <label for="filter-sort" class="visually-hidden">Sort</label>
                     <select
                         id="filter-sort"
                         :value="sortBy"
                         class="filter-select"
+                        aria-label="Sort items"
                         @change="$emit('update:sortBy', $event.target.value)"
                     >
                         <option value="newest">Newest to oldest</option>
@@ -52,21 +54,7 @@
                         <option value="title">Title A to Z</option>
                     </select>
                 </div>
-                <div class="filter-control">
-                    <label for="filter-reader" class="filter-label">Reading Mode</label>
-                    <select
-                        id="filter-reader"
-                        :value="readerFilter"
-                        class="filter-select"
-                        @change="$emit('update:readerFilter', $event.target.value)"
-                    >
-                        <option value="all">All items</option>
-                        <option value="reader">Reader ready</option>
-                        <option value="detail">Detail page only</option>
-                    </select>
-                </div>
             </div>
-
         </div>
     </section>
 </template>
@@ -91,10 +79,6 @@ export default {
             type: Number,
             default: 0,
         },
-        readerFilter: {
-            type: String,
-            default: "all",
-        },
         typeOptions: {
             type: Array,
             default() {
@@ -102,29 +86,28 @@ export default {
             },
         },
     },
-    emits: ["update:searchQuery", "update:activeType", "update:sortBy", "update:readerFilter"],
+    emits: ["update:searchQuery", "update:activeType", "update:sortBy"],
 };
 </script>
 
 <style scoped>
 .search-shell {
-    padding: 0.58rem 0.66rem;
+    padding: 0.65rem 0.72rem;
     border: 0;
     border-radius: 20px;
     background: var(--library-surface);
     box-shadow: var(--library-shadow);
 }
 
-.search-row {
-    display: flex;
-    gap: 0.45rem;
+.search-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.9fr) auto minmax(172px, 0.68fr) minmax(190px, 0.76fr);
+    gap: 0.6rem;
     align-items: center;
-    margin-bottom: 0.46rem;
 }
 
 .search-main {
     position: relative;
-    flex: 1 1 auto;
 }
 
 .search-icon {
@@ -140,29 +123,31 @@ export default {
 .filter-select {
     width: 100%;
     border: 0;
-    border-radius: 20px;
+    border-radius: 16px;
     background: var(--library-soft);
     color: var(--library-text);
-    min-height: 35px;
-    box-shadow: inset 0 0 0 1px transparent;
-    transition: box-shadow 0.2s ease, background-color 0.2s ease;
+    min-height: 42px;
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--library-accent) 6%, transparent);
+    transition: box-shadow 0.2s ease, background-color 0.2s ease, transform 0.2s ease;
 }
 
 .search-input {
-    padding: 0.48rem 0.8rem 0.48rem 2.15rem;
-    font-size: 0.86rem;
+    padding: 0.68rem 0.92rem 0.68rem 2.38rem;
+    font-size: 0.93rem;
 }
 
 .filter-select {
-    padding: 0.42rem 0.68rem;
+    padding: 0.68rem 0.8rem;
     appearance: none;
-    font-size: 0.84rem;
+    font-size: 0.87rem;
+    font-weight: 600;
 }
 
 .search-input:focus,
 .filter-select:focus {
     outline: none;
     box-shadow: 0 0 0 3px rgba(0, 191, 166, 0.14);
+    transform: translateY(-1px);
 }
 
 .search-clear {
@@ -170,8 +155,8 @@ export default {
     align-items: center;
     justify-content: center;
     gap: 0.35rem;
-    min-height: 35px;
-    padding: 0 0.66rem;
+    min-height: 42px;
+    padding: 0 0.78rem;
     border: 0;
     border-radius: 999px;
     background: color-mix(in srgb, var(--library-accent) 12%, var(--library-soft));
@@ -181,69 +166,28 @@ export default {
     box-shadow: var(--library-shadow-soft);
 }
 
-.filter-row {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 0.45rem;
-}
-
-.filter-label {
-    display: block;
-    margin-bottom: 0.18rem;
-    font-size: 0.64rem;
-    font-weight: 600;
-    color: var(--library-muted);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-}
-
 @media (max-width: 991.98px) {
-    .filter-row {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
-
-    .search-row {
-        display: grid;
-        grid-template-columns: minmax(0, 1fr) auto;
+    .search-layout {
+        grid-template-columns: minmax(0, 1.3fr) auto minmax(148px, 0.75fr) minmax(168px, 0.82fr);
+        gap: 0.5rem;
     }
 }
 
 @media (max-width: 767.98px) {
-    .search-row {
-        display: grid;
+    .search-layout {
         grid-template-columns: minmax(0, 1fr) 68px;
+        gap: 0.34rem;
+        align-items: stretch;
     }
 
-    .filter-row {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    .filter-control:last-child {
+    .search-layout-main,
+    .filter-control {
         grid-column: 1 / -1;
-    }
-
-    .search-clear {
-        min-width: 80px;
     }
 
     .search-shell {
         padding: 0.5rem 0.52rem;
         border-radius: 16px;
-    }
-
-    .search-row {
-        gap: 0.34rem;
-        margin-bottom: 0.36rem;
-    }
-
-    .filter-row {
-        gap: 0.34rem;
-    }
-
-    .filter-label {
-        margin-bottom: 0.12rem;
-        font-size: 0.57rem;
-        letter-spacing: 0.07em;
     }
 
     .search-input,

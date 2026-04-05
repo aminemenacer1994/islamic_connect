@@ -49,7 +49,6 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       searchQuery: "",
       activeType: "all",
       sortBy: "newest",
-      readerFilter: "all",
       items: [],
       loadingInitial: true,
       loadMoreBusy: false,
@@ -69,8 +68,15 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       detailError: "",
       modalInstance: null,
       contentFontSize: 16,
+      readerProgress: 0,
       showSummary: false,
       showAudioPanel: false,
+      teamInsightExpanded: false,
+      toast: {
+        show: false,
+        message: "",
+        variant: "success"
+      },
       speechSupported: false,
       voiceGroups: {
         male: [],
@@ -78,6 +84,9 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
         other: []
       },
       speechRates: [{
+        label: "0.5x",
+        value: 0.5
+      }, {
         label: "0.75x",
         value: 0.75
       }, {
@@ -115,7 +124,8 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       showScrollTopFab: false,
       previewHydrationQueue: [],
       previewHydrationActiveCount: 0,
-      previewHydrationKeys: {}
+      previewHydrationKeys: {},
+      toastTimeoutId: null
     };
   },
   computed: {
@@ -126,21 +136,60 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       return [...this.voiceGroups.female, ...this.voiceGroups.male, ...this.voiceGroups.other];
     },
     activeRenderedContentHtml() {
-      if (!this.activeItem || !this.activeItem.contentHtml) {
+      if (!this.activeItem) {
         return "";
       }
-      return this.highlightHtmlContent(this.activeItem.contentHtml, this.searchQuery);
+      const baseHtml = this.activeItem.contentHtml || this.plainTextToHtml(this.activeItem.contentText || "");
+      if (!baseHtml) {
+        return "";
+      }
+      const highlighted = this.highlightHtmlContent(baseHtml, this.searchQuery);
+      return highlighted || baseHtml;
+    },
+    activeWordCount() {
+      return this.countWords(this.activeItem && this.activeItem.contentText);
+    },
+    activeReadMinutes() {
+      return this.calculateEstimatedMinutes(this.activeWordCount, 200);
+    },
+    activeListenMinutes() {
+      return this.calculateEstimatedMinutes(this.activeWordCount, 150);
+    },
+    activeTeamReflection() {
+      return this.buildTeamReflection(this.activeItem);
+    },
+    relatedItems() {
+      if (!this.activeItem) {
+        return [];
+      }
+      const activeCategory = this.getRelatedCategory(this.activeItem);
+      const keywordSet = new Set(this.extractKeywords(this.activeItem.title));
+      const activeTags = new Set(this.getItemTags(this.activeItem));
+      return this.items.filter(item => item && this.activeItem && item.key !== this.activeItem.key).map(item => {
+        let score = 0;
+        if (this.getRelatedCategory(item) === activeCategory) {
+          score += 48;
+        }
+        const relatedKeywords = this.extractKeywords(item.title);
+        const matches = relatedKeywords.filter(keyword => keywordSet.has(keyword));
+        score += matches.length * 10;
+        const tagMatches = this.getItemTags(item).filter(tag => activeTags.has(tag));
+        score += Math.min(20, tagMatches.length * 4);
+        if (item.summary && this.activeItem.summary) {
+          const summaryMatches = this.extractKeywords(item.summary).filter(keyword => keywordSet.has(keyword));
+          score += Math.min(12, summaryMatches.length * 2);
+        }
+        score += Math.max(0, 8 - Math.abs((item.sortTimestamp || 0) - (this.activeItem.sortTimestamp || 0)) / 86400000 / 30);
+        return {
+          item,
+          score
+        };
+      }).sort((left, right) => right.score - left.score).slice(0, 4).map(entry => entry.item);
     },
     filteredItems() {
       const query = this.searchQuery.toLowerCase();
       return this.items.filter(item => {
         if (this.activeType !== "all" && item.type !== this.activeType) {
-          return false;
-        }
-        if (this.readerFilter === "reader" && !item.readerReady) {
-          return false;
-        }
-        if (this.readerFilter === "detail" && item.readerReady) {
           return false;
         }
         if (!query) {
@@ -180,6 +229,22 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
         this.observeLoadMoreSentinel();
       },
       deep: false
+    },
+    activeRenderedContentHtml() {
+      this.$nextTick(() => {
+        this.bindReaderScroll();
+        this.applyCurrentSentenceHighlight();
+      });
+    },
+    "speech.currentSentenceIndex"() {
+      this.$nextTick(() => this.applyCurrentSentenceHighlight());
+    },
+    "speech.isSpeaking"(isSpeaking) {
+      if (!isSpeaking) {
+        this.clearCurrentSentenceHighlight();
+        return;
+      }
+      this.$nextTick(() => this.applyCurrentSentenceHighlight());
     }
   },
   mounted() {
@@ -202,6 +267,9 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
     }
     if (typeof window !== "undefined") {
       window.removeEventListener("scroll", this.handleWindowScroll);
+    }
+    if (this.toastTimeoutId) {
+      clearTimeout(this.toastTimeoutId);
     }
   },
   methods: {
@@ -253,10 +321,15 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
           return;
         }
         this.modalInstance = new bootstrap__WEBPACK_IMPORTED_MODULE_0__.Modal(this.$refs.detailModal);
+        this.$refs.detailModal.addEventListener("shown.bs.modal", () => {
+          this.bindReaderScroll();
+          this.applyCurrentSentenceHighlight();
+        });
         this.$refs.detailModal.addEventListener("hidden.bs.modal", () => {
           this.stopSpeech();
           this.showSummary = false;
           this.showAudioPanel = false;
+          this.readerProgress = 0;
           this.detailError = "";
         });
       });
@@ -400,6 +473,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
           id,
           type,
           typeLabel: type === "fatwa" ? "Fatwa" : type.charAt(0).toUpperCase() + type.slice(1, -1),
+          category: type === "fatwa" ? "Fatwa" : type.charAt(0).toUpperCase() + type.slice(1, -1),
           title,
           url: absoluteUrl,
           sourceUrl: absoluteUrl,
@@ -414,6 +488,8 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
           detailLoaded: false,
           contentHtml: "",
           contentText: "",
+          speechSentences: [],
+          tags: this.extractKeywords(`${title} ${summaryNode ? summaryNode.textContent : ""}`),
           aiSummary: null
         };
       }).filter(Boolean);
@@ -457,14 +533,23 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
         }).format(date)
       };
     },
+    buildItemKey(item) {
+      if (!item) {
+        return "";
+      }
+      return String(item.key || `${item.type || "item"}-${item.id || item.sourceUrl || item.url || item.title}`);
+    },
     cleanText(value) {
       return String(value || "").replace(/\s+/g, " ").replace(/\u00a0/g, " ").trim();
+    },
+    stripSpeakerCredits(value) {
+      return String(value || "").replace(/\b(narrated by|said by|presented by|translated by|reviewed by|prepared by|speaker|lecturer|voice over|recited by)\b[^.:\n]*(?:[.:\n]|$)/gi, " ").replace(/\b(shaykh|sheikh|ustadh|imam|dr\.)\s+[A-Z][A-Za-z' -]+/g, " ").replace(/\S+@\S+\.\S+/g, " ").replace(/www\.[^\s]+/gi, " ").replace(/\s{2,}/g, " ").trim();
     },
     cleanMultilineText(value) {
       return String(value || "").replace(/\u00a0/g, " ").replace(/\r\n/g, "\n").replace(/[ \t]+\n/g, "\n").replace(/\n{3,}/g, "\n\n").replace(/[ \t]{2,}/g, " ").trim();
     },
     normalizeOverviewText(value, title = "") {
-      let text = this.cleanText(value);
+      let text = this.cleanText(this.stripSpeakerCredits(value));
       if (!text) {
         return "";
       }
@@ -473,6 +558,22 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
         text = text.replace(new RegExp(`^${escapedTitle}\\s*`, "i"), "");
       }
       return text.replace(/^description\s*/i, "").replace(/^[\s:;.,-]+/, "").replace(/\s+/g, " ").trim();
+    },
+    countWords(value) {
+      const text = this.cleanText(this.stripSpeakerCredits(value));
+      if (!text) {
+        return 0;
+      }
+      return text.split(/\s+/).filter(Boolean).length;
+    },
+    calculateEstimatedMinutes(wordCount, wordsPerMinute) {
+      if (!wordCount || !wordsPerMinute) {
+        return 1;
+      }
+      return Math.max(1, Math.ceil(wordCount / wordsPerMinute));
+    },
+    extractKeywords(value) {
+      return this.cleanText(value).toLowerCase().split(/\s+/).map(word => word.replace(/[^a-z0-9]/g, "")).filter(word => word.length >= 4 && !["from", "with", "that", "this", "have", "what", "your", "into", "about", "read"].includes(word));
     },
     buildFallbackOverview(item, publishedBy, title) {
       const author = this.cleanText(publishedBy);
@@ -532,6 +633,21 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
     },
     getCardPublisher(item) {
       return this.cleanText(item.publishedBy) || "IslamHouse";
+    },
+    getRelatedCategory(item) {
+      if (!item) {
+        return "";
+      }
+      return this.cleanText(item.category || this.getCardChipLabel(item) || item.typeLabel || item.type).toLowerCase();
+    },
+    getItemTags(item) {
+      if (!item) {
+        return [];
+      }
+      if (Array.isArray(item.tags) && item.tags.length) {
+        return item.tags;
+      }
+      return this.extractKeywords(`${item.title || ""} ${item.summary || ""}`);
     },
     getSearchTerms(query = this.searchQuery) {
       return Array.from(new Set(this.cleanText(query).split(/\s+/).map(term => term.trim()).filter(term => term.length >= 2)));
@@ -620,10 +736,84 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
         }));
       } catch (error) {}
     },
+    buildTeamReflection(item) {
+      const title = this.cleanText(item && item.title);
+      const keywords = this.extractKeywords(title);
+      const leadTopic = keywords[0] || "this reminder";
+      const secondTopic = keywords[1] || "steady faith";
+      return [`This reflection on ${leadTopic} speaks directly to modern life, where constant pressure can pull the heart away from calm remembrance and thoughtful action.`, `Use this lesson to slow down, filter noise, and make daily choices with more sincerity, discipline, and trust in Allah.`, `Even in busy routines, returning to ${secondTopic} can turn ordinary moments into worship, clarity, and quiet strength.`];
+    },
+    showToast(message, variant = "success") {
+      if (this.toastTimeoutId) {
+        clearTimeout(this.toastTimeoutId);
+      }
+      this.toast = {
+        show: true,
+        message,
+        variant
+      };
+      this.toastTimeoutId = setTimeout(() => {
+        this.toast.show = false;
+      }, 2400);
+    },
+    toggleTeamInsight() {
+      this.teamInsightExpanded = !this.teamInsightExpanded;
+    },
+    bindReaderScroll() {
+      const reader = this.$refs.readerContent;
+      if (!reader) {
+        this.readerProgress = 0;
+        return;
+      }
+      reader.removeEventListener("scroll", this.handleReaderScroll);
+      reader.addEventListener("scroll", this.handleReaderScroll, {
+        passive: true
+      });
+      this.handleReaderScroll();
+    },
+    handleReaderScroll() {
+      const reader = this.$refs.readerContent;
+      if (!reader) {
+        this.readerProgress = 0;
+        return;
+      }
+      const scrollableHeight = Math.max(1, reader.scrollHeight - reader.clientHeight);
+      this.readerProgress = Math.min(100, Math.max(0, Math.round(reader.scrollTop / scrollableHeight * 100)));
+    },
+    applyCurrentSentenceHighlight() {
+      const reader = this.$refs.readerContent;
+      if (!reader) {
+        return;
+      }
+      const nextIndex = this.speech.currentSentenceIndex;
+      reader.querySelectorAll(".reader-sentence.is-speaking").forEach(node => node.classList.remove("is-speaking"));
+      if (!this.speech.isSpeaking || this.speech.isPaused) {
+        return;
+      }
+      const nextNode = reader.querySelector(`.reader-sentence[data-sentence-index="${nextIndex}"]`);
+      if (!nextNode) {
+        return;
+      }
+      nextNode.classList.add("is-speaking");
+      if (typeof nextNode.scrollIntoView === "function") {
+        nextNode.scrollIntoView({
+          block: "nearest",
+          behavior: "smooth"
+        });
+      }
+    },
+    clearCurrentSentenceHighlight() {
+      const reader = this.$refs.readerContent;
+      if (!reader) {
+        return;
+      }
+      reader.querySelectorAll(".reader-sentence.is-speaking").forEach(node => node.classList.remove("is-speaking"));
+    },
     async openItem(item) {
       this.activeItem = _objectSpread({}, item);
       this.showSummary = false;
       this.showAudioPanel = false;
+      this.teamInsightExpanded = false;
       this.detailLoading = true;
       this.detailError = "";
       this.modalInstance && this.modalInstance.show();
@@ -633,6 +823,10 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
           detailLoaded: true
         });
         this.items = this.mergeItems(this.items, [this.activeItem]);
+        this.$nextTick(() => {
+          this.bindReaderScroll();
+          this.applyCurrentSentenceHighlight();
+        });
       } catch (error) {
         this.detailError = error.message || "The full text could not be loaded.";
       } finally {
@@ -678,33 +872,40 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       const publishedBy = this.extractContributor(doc) || item.publishedBy;
       if (contentRoot) {
         const cleaned = this.cleanReaderHtml(contentRoot, pageTitle);
-        const plainText = this.cleanText(cleaned.textContent);
+        const sentenceMarkup = this.decorateReaderContent(cleaned);
+        const plainText = this.cleanText(this.stripSpeakerCredits(sentenceMarkup.plainText || cleaned.textContent));
         const previewText = this.extractContentPreviewText(cleaned) || plainText;
         return {
           title: pageTitle,
+          category: item.category || item.typeLabel,
           summary: this.normalizeOverviewText(descriptionText || previewText, pageTitle) || item.summary,
-          contentHtml: cleaned.innerHTML,
+          contentHtml: sentenceMarkup.html,
           contentText: plainText,
+          speechSentences: sentenceMarkup.sentences,
           publishedBy,
           sourceUrl: item.url,
           readerReady: true,
           hasPdf: !!(primaryAttachment && primaryAttachment.extension === "pdf"),
-          formatLabel: primaryAttachment && primaryAttachment.extension ? primaryAttachment.extension.toUpperCase() : item.formatLabel
+          formatLabel: primaryAttachment && primaryAttachment.extension ? primaryAttachment.extension.toUpperCase() : item.formatLabel,
+          tags: this.extractKeywords(`${pageTitle} ${descriptionText || previewText}`)
         };
       }
       if (primaryAttachment) {
         const fallbackText = descriptionText || this.buildFallbackOverview(item, publishedBy, pageTitle);
-        const contentHtml = this.buildAttachmentPreview(primaryAttachment, fallbackText);
+        const contentHtml = this.decorateAttachmentPreview(this.buildAttachmentPreview(primaryAttachment, fallbackText));
         return {
           title: pageTitle,
+          category: primaryAttachment.extension === "pdf" ? "PDF" : item.category || item.typeLabel,
           summary: this.normalizeOverviewText(descriptionText || fallbackText, pageTitle) || item.summary,
           contentHtml,
-          contentText: fallbackText,
+          contentText: this.stripSpeakerCredits(fallbackText),
+          speechSentences: this.splitIntoSentences(this.stripSpeakerCredits(fallbackText)),
           publishedBy,
           sourceUrl: primaryAttachment.url,
           readerReady: false,
           hasPdf: primaryAttachment.extension === "pdf",
-          formatLabel: primaryAttachment.extension ? primaryAttachment.extension.toUpperCase() : item.formatLabel
+          formatLabel: primaryAttachment.extension ? primaryAttachment.extension.toUpperCase() : item.formatLabel,
+          tags: this.extractKeywords(`${pageTitle} ${fallbackText}`)
         };
       }
       throw new Error("The IslamHouse detail page did not expose readable content.");
@@ -724,13 +925,13 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
         return "";
       }
       const bodyNode = sectionNode.querySelector("p");
-      return this.cleanText(bodyNode ? bodyNode.textContent : sectionNode.textContent);
+      return this.cleanText(this.stripSpeakerCredits(bodyNode ? bodyNode.textContent : sectionNode.textContent));
     },
     extractContentPreviewText(rootNode) {
       if (!rootNode) {
         return "";
       }
-      const candidates = Array.from(rootNode.querySelectorAll("p, li")).map(node => this.cleanText(node.textContent)).filter(text => this.isMeaningfulPreviewText(text));
+      const candidates = Array.from(rootNode.querySelectorAll("p, li")).map(node => this.cleanText(this.stripSpeakerCredits(node.textContent))).filter(text => this.isMeaningfulPreviewText(text));
       if (!candidates.length) {
         return "";
       }
@@ -766,7 +967,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
     buildAttachmentPreview(attachment, fallbackText) {
       const safeUrl = this.escapeHtml(attachment.url);
       const safeLabel = this.escapeHtml(attachment.label || "Source file");
-      const safeText = this.escapeHtml(this.cleanText(fallbackText));
+      const safeText = this.escapeHtml(this.cleanText(this.stripSpeakerCredits(fallbackText)));
       const isPdf = attachment.extension === "pdf";
       return `
                 <div class="attachment-preview">
@@ -795,7 +996,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
         const text = this.cleanText(paragraph.textContent);
         const classes = paragraph.className || "";
         const isCenter = classes.includes("center");
-        const removable = !text || text === title || /www\.islamreligion\.com/i.test(text) || /^english$/i.test(text) || /^[0-9]{4}\s*-\s*[0-9]{4}$/.test(text) || /^[0-9]+\s*-\s*[0-9]+$/.test(text) || isCenter;
+        const removable = !text || text === title || /\b(narrated by|said by|presented by|translated by|prepared by|reviewed by|speaker|lecturer)\b/i.test(text) || /www\.islamreligion\.com/i.test(text) || /^english$/i.test(text) || /^[0-9]{4}\s*-\s*[0-9]{4}$/.test(text) || /^[0-9]+\s*-\s*[0-9]+$/.test(text) || isCenter;
         if (removable) {
           paragraph.remove();
           return;
@@ -827,6 +1028,64 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       });
       return clone;
     },
+    decorateReaderContent(rootNode) {
+      if (typeof document === "undefined" || typeof Node === "undefined") {
+        return {
+          html: rootNode.innerHTML,
+          sentences: this.splitIntoSentences(rootNode.textContent || ""),
+          plainText: this.cleanText(rootNode.textContent)
+        };
+      }
+      let sentenceIndex = 0;
+      const sentences = [];
+      const processNode = node => {
+        Array.from(node.childNodes).forEach(child => {
+          if (child.nodeType === Node.TEXT_NODE) {
+            const rawText = String(child.nodeValue || "");
+            const parts = rawText.match(/[^.!?]+[.!?]+|[^.!?]+$/g) || [rawText];
+            if (!parts.length) {
+              return;
+            }
+            const fragment = document.createDocumentFragment();
+            parts.forEach(part => {
+              if (!part) {
+                return;
+              }
+              if (!this.cleanText(part)) {
+                fragment.appendChild(document.createTextNode(part));
+                return;
+              }
+              const span = document.createElement("span");
+              span.className = "reader-sentence";
+              span.setAttribute("data-sentence-index", String(sentenceIndex));
+              span.textContent = part;
+              fragment.appendChild(span);
+              sentences.push(this.cleanText(this.stripSpeakerCredits(part)));
+              sentenceIndex += 1;
+            });
+            child.parentNode && child.parentNode.replaceChild(fragment, child);
+            return;
+          }
+          if (child.nodeType === Node.ELEMENT_NODE && !["IFRAME", "SCRIPT", "STYLE"].includes(child.tagName)) {
+            processNode(child);
+          }
+        });
+      };
+      processNode(rootNode);
+      return {
+        html: rootNode.innerHTML,
+        sentences: sentences.filter(Boolean),
+        plainText: this.cleanText(rootNode.textContent)
+      };
+    },
+    decorateAttachmentPreview(html) {
+      if (typeof document === "undefined") {
+        return html;
+      }
+      const wrapper = document.createElement("div");
+      wrapper.innerHTML = html;
+      return this.decorateReaderContent(wrapper).html;
+    },
     removeLeadingNavigationBlocks(rootNode, title) {
       if (!rootNode || typeof Node === "undefined") {
         return;
@@ -856,10 +1115,35 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       });
       const significantWords = this.cleanText(title).toLowerCase().split(/\s+/).filter(word => word.length > 3);
       const titleMatches = items.filter(item => significantWords.some(word => item.toLowerCase().includes(word))).length;
-      return mostlyLinks && (mostlyInternal || titleMatches >= Math.max(2, Math.floor(items.length / 2)));
+      const shortItems = items.filter(item => item.length <= 90).length;
+      const colonEndedItems = items.filter(item => /[:;!?]$/.test(item)).length;
+      const headingLikeItems = items.filter(item => {
+        const words = item.split(/\s+/).filter(Boolean);
+        if (!words.length || words.length > 16) {
+          return false;
+        }
+        const capitalized = words.filter(word => /^[A-Z][a-z]+/.test(word)).length;
+        return capitalized >= Math.max(2, Math.floor(words.length / 2));
+      }).length;
+      const titleDrivenOutline = shortItems >= Math.ceil(items.length * 0.7) && (colonEndedItems >= Math.max(2, Math.floor(items.length * 0.4)) || headingLikeItems >= Math.max(3, Math.floor(items.length * 0.6)) || titleMatches >= Math.max(2, Math.floor(items.length / 3)));
+      return mostlyLinks && (mostlyInternal || titleMatches >= Math.max(2, Math.floor(items.length / 2))) || titleDrivenOutline;
     },
     escapeHtml(text) {
       return String(text || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+    },
+    plainTextToHtml(text) {
+      const clean = this.cleanMultilineText(this.stripSpeakerCredits(text));
+      if (!clean) {
+        return "";
+      }
+      const blocks = clean.split(/\n{2,}/).map(block => this.cleanText(block)).filter(Boolean).map(block => `<p>${this.escapeHtml(block)}</p>`);
+      const html = blocks.join("");
+      if (typeof document === "undefined") {
+        return html;
+      }
+      const wrapper = document.createElement("div");
+      wrapper.innerHTML = html;
+      return this.decorateReaderContent(wrapper).html;
     },
     increaseFontSize() {
       this.contentFontSize = Math.min(24, this.contentFontSize + 1);
@@ -880,7 +1164,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       if (!this.activeItem || !this.activeItem.contentText) {
         return;
       }
-      const sentences = this.splitIntoSentences(this.activeItem.contentText);
+      const sentences = this.getSpeechSentences();
       const overview = sentences.slice(0, 3).join(" ");
       const keywords = ["allah", "prayer", "faith", "quran", "prophet", "islam", "worship", "knowledge"];
       const points = sentences.filter(sentence => keywords.some(keyword => sentence.toLowerCase().includes(keyword))).slice(0, 4);
@@ -929,8 +1213,8 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
         }
       });
       return {
-        male: male.slice(0, 6),
-        female: female.slice(0, 6),
+        male: male.slice(0, 3),
+        female: female.slice(0, 3),
         other: other.slice(0, 10)
       };
     },
@@ -945,13 +1229,19 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       this.speech.totalSeconds = this.speech.sentenceDurations.reduce((sum, value) => sum + value, 0);
     },
     getSpeechSentences() {
-      if (!this.activeItem || !this.activeItem.contentText) {
+      if (!this.activeItem) {
+        return [];
+      }
+      if (Array.isArray(this.activeItem.speechSentences) && this.activeItem.speechSentences.length) {
+        return this.activeItem.speechSentences;
+      }
+      if (!this.activeItem.contentText) {
         return [];
       }
       return this.splitIntoSentences(this.activeItem.contentText);
     },
     splitIntoSentences(text) {
-      return (String(text || "").match(/[^.!?]+[.!?]+|[^.!?]+$/g) || []).map(sentence => this.cleanText(sentence)).filter(Boolean);
+      return (String(text || "").match(/[^.!?]+[.!?]+|[^.!?]+$/g) || []).map(sentence => this.cleanText(this.stripSpeakerCredits(sentence))).filter(Boolean);
     },
     startSpeech(fromIndex = 0) {
       if (!this.speechSupported) {
@@ -1061,6 +1351,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       this.speech.totalSeconds = 0;
       this.speech.progressPercent = 0;
       this.speech.currentSentenceIndex = 0;
+      this.clearCurrentSentenceHighlight();
     },
     finishSpeech() {
       if (this.speech.intervalId) {
@@ -1071,6 +1362,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       this.speech.isPaused = false;
       this.speech.elapsedSeconds = this.speech.totalSeconds;
       this.speech.progressPercent = 100;
+      this.clearCurrentSentenceHighlight();
     },
     startSpeechInterval() {
       if (this.speech.intervalId) {
@@ -1126,6 +1418,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       try {
         if (navigator.share) {
           await navigator.share(data);
+          this.showToast("Share sheet opened.", "success");
           return;
         }
       } catch (error) {
@@ -1138,6 +1431,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
     async copyToClipboard(value) {
       try {
         await navigator.clipboard.writeText(value);
+        this.showToast("Link copied to clipboard.", "success");
       } catch (error) {
         const input = document.createElement("textarea");
         input.value = value;
@@ -1147,6 +1441,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
         input.select();
         document.execCommand("copy");
         document.body.removeChild(input);
+        this.showToast("Link copied to clipboard.", "success");
       }
     },
     printActiveItem() {
@@ -1215,10 +1510,6 @@ __webpack_require__.r(__webpack_exports__);
       type: Number,
       default: 0
     },
-    readerFilter: {
-      type: String,
-      default: "all"
-    },
     typeOptions: {
       type: Array,
       default() {
@@ -1226,7 +1517,7 @@ __webpack_require__.r(__webpack_exports__);
       }
     }
   },
-  emits: ["update:searchQuery", "update:activeType", "update:sortBy", "update:readerFilter"]
+  emits: ["update:searchQuery", "update:activeType", "update:sortBy"]
 });
 
 /***/ }),
@@ -1356,106 +1647,172 @@ const _hoisted_29 = {
   class: "modal-content shadow-lg border-0"
 };
 const _hoisted_30 = {
+  class: "reader-progress-track",
+  "aria-hidden": "true"
+};
+const _hoisted_31 = {
   key: 0,
   class: "modal-header border-0 pb-0 px-3 px-md-4 pt-3 pt-md-4"
 };
-const _hoisted_31 = {
-  class: "pe-3"
-};
 const _hoisted_32 = {
-  class: "modal-kicker mb-2"
+  class: "pe-3 modal-head-copy"
 };
-const _hoisted_33 = ["innerHTML"];
-const _hoisted_34 = {
-  key: 1,
-  class: "modal-body px-3 px-md-4 pb-3 pb-md-4 pt-3"
+const _hoisted_33 = {
+  class: "modal-title-row"
 };
+const _hoisted_34 = ["innerHTML"];
 const _hoisted_35 = {
-  class: "reader-toolbar shadow-sm"
+  class: "metrics-pills"
 };
 const _hoisted_36 = {
-  class: "reader-toolbar-group reader-toolbar-group--font"
+  class: "metric-pill"
 };
 const _hoisted_37 = {
-  class: "reader-toolbar-group reader-toolbar-group--actions"
+  class: "metric-pill"
 };
 const _hoisted_38 = {
   key: 0,
-  class: "reader-panel shadow-sm"
+  class: "team-box-body"
 };
 const _hoisted_39 = {
-  class: "summary-head d-flex justify-content-between align-items-start gap-3 mb-3"
+  key: 1,
+  class: "modal-body px-3 px-md-4 pb-3 pb-md-4 pt-3"
 };
 const _hoisted_40 = {
-  class: "summary-actions"
+  class: "reader-toolbar shadow-sm"
 };
-const _hoisted_41 = ["disabled"];
+const _hoisted_41 = {
+  class: "reader-toolbar-group reader-toolbar-group--font"
+};
 const _hoisted_42 = {
-  key: 0
+  class: "reader-toolbar-group reader-toolbar-group--actions"
 };
 const _hoisted_43 = {
-  class: "summary-overview mb-3"
+  key: 0,
+  class: "audio-settings-panel shadow-sm"
 };
 const _hoisted_44 = {
-  class: "summary-points mb-0"
+  class: "audio-settings-panel-grid"
 };
 const _hoisted_45 = {
-  key: 1,
-  class: "small text-muted mb-0"
+  class: "audio-setting"
 };
-const _hoisted_46 = {
-  key: 1,
-  class: "reader-state py-5 text-center"
-};
+const _hoisted_46 = ["value"];
 const _hoisted_47 = {
-  key: 2,
-  class: "alert alert-warning border-0 shadow-sm mt-3 mb-0"
+  class: "audio-setting"
 };
-const _hoisted_48 = {
-  key: 3,
+const _hoisted_48 = ["value"];
+const _hoisted_49 = {
   class: "reader-shell mt-3"
 };
-const _hoisted_49 = {
+const _hoisted_50 = {
   class: "reader-surface shadow-sm"
 };
-const _hoisted_50 = ["innerHTML"];
 const _hoisted_51 = {
   key: 0,
-  class: "reader-footer"
+  class: "reader-surface-actions"
 };
 const _hoisted_52 = ["href"];
 const _hoisted_53 = {
+  key: 1,
+  class: "reader-state py-5 text-center"
+};
+const _hoisted_54 = {
+  key: 2,
+  class: "reader-inline-alert alert alert-warning border-0 shadow-sm mb-0 mx-3 mx-md-4"
+};
+const _hoisted_55 = ["innerHTML"];
+const _hoisted_56 = {
+  key: 4,
+  class: "reader-empty-state"
+};
+const _hoisted_57 = {
+  key: 5,
+  class: "reader-footer"
+};
+const _hoisted_58 = ["href"];
+const _hoisted_59 = {
+  key: 1,
+  class: "reader-panel shadow-sm"
+};
+const _hoisted_60 = {
+  class: "summary-head d-flex justify-content-between align-items-start gap-3 mb-3"
+};
+const _hoisted_61 = {
+  class: "summary-actions"
+};
+const _hoisted_62 = ["disabled"];
+const _hoisted_63 = {
+  key: 0
+};
+const _hoisted_64 = {
+  class: "summary-overview mb-3"
+};
+const _hoisted_65 = {
+  class: "summary-points mb-0"
+};
+const _hoisted_66 = {
+  key: 1,
+  class: "small text-muted mb-0"
+};
+const _hoisted_67 = {
+  key: 2,
+  class: "related-content-section mt-3"
+};
+const _hoisted_68 = {
+  class: "row g-3 mt-0"
+};
+const _hoisted_69 = {
+  class: "related-card shadow-sm"
+};
+const _hoisted_70 = {
+  class: "related-card-body"
+};
+const _hoisted_71 = {
+  class: "related-card-chip"
+};
+const _hoisted_72 = {
+  class: "related-card-title mb-1"
+};
+const _hoisted_73 = {
+  class: "related-card-copy mb-0"
+};
+const _hoisted_74 = ["onClick"];
+const _hoisted_75 = {
   key: 0,
   class: "audio-dock shadow-sm"
 };
-const _hoisted_54 = {
+const _hoisted_76 = {
   class: "audio-meta"
 };
-const _hoisted_55 = {
+const _hoisted_77 = {
   class: "audio-title"
 };
-const _hoisted_56 = {
+const _hoisted_78 = {
   class: "audio-subtitle"
 };
-const _hoisted_57 = {
+const _hoisted_79 = {
   class: "audio-main-controls"
 };
-const _hoisted_58 = {
+const _hoisted_80 = {
   class: "audio-controls-cluster"
 };
-const _hoisted_59 = ["aria-label"];
-const _hoisted_60 = {
+const _hoisted_81 = ["aria-label"];
+const _hoisted_82 = {
   class: "audio-progress-inline"
 };
-const _hoisted_61 = ["value", "aria-label"];
-const _hoisted_62 = {
+const _hoisted_83 = ["value", "aria-label"];
+const _hoisted_84 = {
   class: "audio-side-controls"
 };
-const _hoisted_63 = {
+const _hoisted_85 = {
+  class: "audio-time"
+};
+const _hoisted_86 = {
   class: "audio-volume"
 };
-const _hoisted_64 = ["value"];
-const _hoisted_65 = {
+const _hoisted_87 = ["value"];
+const _hoisted_88 = {
   key: 1,
   class: "audio-unsupported"
 };
@@ -1466,29 +1823,27 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       'is-dark': $options.isDarkMode,
       'has-audio-dock': $data.showAudioPanel && $data.activeItem
     }])
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [_cache[29] || (_cache[29] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"row justify-content-center mb-3\" data-v-f111cd26><div class=\"col-12 col-xl-10\" data-v-f111cd26><div class=\"library-hero shadow-sm\" data-v-f111cd26><div class=\"library-head text-center\" data-v-f111cd26><h1 class=\"library-title mb-1\" data-v-f111cd26>Articles, fatawa, and books</h1><p class=\"library-subtitle mb-0 mx-auto\" data-v-f111cd26> Search and read the latest English material from IslamHouse in a cleaner, lighter reading experience. </p></div></div></div></div>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_LibrarySearchControls, {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [_cache[33] || (_cache[33] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"row justify-content-center mb-3\" data-v-f111cd26><div class=\"col-12 col-xl-10\" data-v-f111cd26><div class=\"library-hero shadow-sm\" data-v-f111cd26><div class=\"library-head text-center\" data-v-f111cd26><h1 class=\"library-title mb-1\" data-v-f111cd26>Articles, fatawa, and books</h1><p class=\"library-subtitle mb-0 mx-auto\" data-v-f111cd26> Search and read the latest English material from IslamHouse in a cleaner, lighter reading experience. </p></div></div></div></div>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_LibrarySearchControls, {
     "search-query": $data.searchQuery,
     "active-type": $data.activeType,
     "sort-by": $data.sortBy,
     "result-count": $options.filteredItems.length,
-    "reader-filter": $data.readerFilter,
     "type-options": $data.typeOptions,
     "onUpdate:searchQuery": _cache[0] || (_cache[0] = $event => $data.searchQuery = $event),
     "onUpdate:activeType": _cache[1] || (_cache[1] = $event => $data.activeType = $event),
-    "onUpdate:sortBy": _cache[2] || (_cache[2] = $event => $data.sortBy = $event),
-    "onUpdate:readerFilter": _cache[3] || (_cache[3] = $event => $data.readerFilter = $event)
-  }, null, 8 /* PROPS */, ["search-query", "active-type", "sort-by", "result-count", "reader-filter", "type-options"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [$data.loadingInitial ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_7, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(6, n => {
+    "onUpdate:sortBy": _cache[2] || (_cache[2] = $event => $data.sortBy = $event)
+  }, null, 8 /* PROPS */, ["search-query", "active-type", "sort-by", "result-count", "type-options"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [$data.loadingInitial ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_7, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(6, n => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       key: 'skeleton-' + n,
       class: "col-12 col-md-6 col-xl-4"
-    }, [...(_cache[22] || (_cache[22] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"library-card card shadow-sm border-0\" data-v-f111cd26><div class=\"card-body p-4\" data-v-f111cd26><div class=\"placeholder-glow\" data-v-f111cd26><span class=\"placeholder col-10 mb-2\" data-v-f111cd26></span><span class=\"placeholder col-7 mb-4\" data-v-f111cd26></span><span class=\"placeholder col-12 mb-2\" data-v-f111cd26></span><span class=\"placeholder col-12 mb-2\" data-v-f111cd26></span><span class=\"placeholder col-8 mb-0\" data-v-f111cd26></span></div></div></div>", 1)]))]);
-  }), 64 /* STABLE_FRAGMENT */))])) : $data.error ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[23] || (_cache[23] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
+    }, [...(_cache[26] || (_cache[26] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"library-card card shadow-sm border-0\" data-v-f111cd26><div class=\"card-body p-4\" data-v-f111cd26><div class=\"placeholder-glow\" data-v-f111cd26><span class=\"placeholder col-10 mb-2\" data-v-f111cd26></span><span class=\"placeholder col-7 mb-4\" data-v-f111cd26></span><span class=\"placeholder col-12 mb-2\" data-v-f111cd26></span><span class=\"placeholder col-12 mb-2\" data-v-f111cd26></span><span class=\"placeholder col-8 mb-0\" data-v-f111cd26></span></div></div></div>", 1)]))]);
+  }), 64 /* STABLE_FRAGMENT */))])) : $data.error ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[27] || (_cache[27] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
     class: "d-block mb-1"
   }, "Unable to load the IslamHouse library", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_10, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.error), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "btn btn-primary btn-sm",
-    onClick: _cache[4] || (_cache[4] = (...args) => $options.loadInitial && $options.loadInitial(...args))
-  }, "Retry")])])) : !$options.filteredItems.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_11, [...(_cache[24] || (_cache[24] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    onClick: _cache[3] || (_cache[3] = (...args) => $options.loadInitial && $options.loadInitial(...args))
+  }, "Retry")])])) : !$options.filteredItems.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_11, [...(_cache[28] || (_cache[28] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "card-body py-5 text-center"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
     class: "h6 fw-semibold mb-2"
@@ -1510,7 +1865,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
       class: "card-excerpt mb-0",
       innerHTML: $options.getHighlightedExcerpt(item)
-    }, null, 8 /* PROPS */, _hoisted_16), $options.getCardExcerptSecondary(item) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_17, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.getCardExcerptSecondary(item)), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 64 /* STABLE_FRAGMENT */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_18, [...(_cache[25] || (_cache[25] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    }, null, 8 /* PROPS */, _hoisted_16), $options.getCardExcerptSecondary(item) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_17, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.getCardExcerptSecondary(item)), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 64 /* STABLE_FRAGMENT */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_18, [...(_cache[29] || (_cache[29] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       class: "placeholder col-12 mb-2"
     }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       class: "placeholder col-12 mb-2"
@@ -1520,59 +1875,97 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       type: "button",
       class: "continue-link continue-link--inline",
       onClick: $event => $options.openItem(item)
-    }, " Read more ", 8 /* PROPS */, _hoisted_20)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [_cache[26] || (_cache[26] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, " Read more ", 8 /* PROPS */, _hoisted_20)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [_cache[30] || (_cache[30] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-person-circle",
       "aria-hidden": "true"
-    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Published by " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.getCardPublisher(item)), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [_cache[27] || (_cache[27] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Published by " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.getCardPublisher(item)), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [_cache[31] || (_cache[31] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-calendar3",
       "aria-hidden": "true"
     }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.dateLabel), 1 /* TEXT */)])])])])]);
-  }), 128 /* KEYED_FRAGMENT */))])), !$data.loadingInitial && !$data.error && $options.hasMoreItems ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_25, [$options.isLoadingMoreActive ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_26, [...(_cache[28] || (_cache[28] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }), 128 /* KEYED_FRAGMENT */))])), !$data.loadingInitial && !$data.error && $options.hasMoreItems ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_25, [$options.isLoadingMoreActive ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_26, [...(_cache[32] || (_cache[32] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "spinner-border spinner-border-sm",
     "aria-hidden": "true"
-  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Loading more material", -1 /* CACHED */)]))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 512 /* NEED_PATCH */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_28, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_29, [$data.activeItem ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_30, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_31, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_32, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.activeItem.typeLabel) + " ", 1 /* TEXT */), _cache[30] || (_cache[30] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    "aria-hidden": "true"
-  }, "·", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.activeItem.dateLabel), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
+  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Loading more material", -1 /* CACHED */)]))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 512 /* NEED_PATCH */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_28, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_29, [_cache[56] || (_cache[56] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    type: "button",
+    class: "btn-close library-modal-close",
+    "data-bs-dismiss": "modal",
+    "aria-label": "Close"
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_30, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    class: "reader-progress-fill",
+    style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
+      width: `${$data.readerProgress}%`
+    })
+  }, null, 4 /* STYLE */)]), $data.activeItem ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_31, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_32, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_33, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
     id: "islamicLibraryModalTitle",
     class: "modal-title h4 fw-semibold mb-0",
     innerHTML: $options.highlightText($data.activeItem.title)
-  }, null, 8 /* PROPS */, _hoisted_33)]), _cache[31] || (_cache[31] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, 8 /* PROPS */, _hoisted_34)]), _cache[37] || (_cache[37] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    class: "modal-title-meta"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    class: "verified-badge",
+    title: "Content sourced from authenticated Islamic scholars via IslamHouse"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    class: "bi bi-patch-check-fill",
+    "aria-hidden": "true"
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Scholarly Verified")])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_35, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_36, [_cache[34] || (_cache[34] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    class: "bi bi-clock-history",
+    "aria-hidden": "true"
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.activeReadMinutes) + " min read", 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_37, [_cache[35] || (_cache[35] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    class: "bi bi-headphones",
+    "aria-hidden": "true"
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.activeListenMinutes) + " min listen", 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["team-box shadow-sm", {
+      'is-collapsed': !$data.teamInsightExpanded
+    }])
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
-    class: "btn-close",
-    "data-bs-dismiss": "modal",
-    "aria-label": "Close"
-  }, null, -1 /* CACHED */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.activeItem ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_34, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_35, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_36, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    class: "team-box-head",
+    onClick: _cache[4] || (_cache[4] = (...args) => $options.toggleTeamInsight && $options.toggleTeamInsight(...args))
+  }, [_cache[36] || (_cache[36] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    class: "team-box-title"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    class: "bi bi-heart-fill",
+    "aria-hidden": "true"
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "From the Islamic Connect Team")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", $data.teamInsightExpanded ? 'bi-chevron-up' : 'bi-chevron-down']),
+    "aria-hidden": "true"
+  }, null, 2 /* CLASS */)]), $data.teamInsightExpanded ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_38, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.activeTeamReflection, (line, index) => {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", {
+      key: `team-line-${index}`,
+      class: "mb-0"
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(line), 1 /* TEXT */);
+  }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 2 /* CLASS */)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.activeItem ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_39, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_40, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_41, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "reader-icon",
     onClick: _cache[5] || (_cache[5] = (...args) => $options.decreaseFontSize && $options.decreaseFontSize(...args)),
     "aria-label": "Decrease text size"
-  }, [...(_cache[32] || (_cache[32] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[38] || (_cache[38] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-dash-lg"
   }, null, -1 /* CACHED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "reader-icon",
     onClick: _cache[6] || (_cache[6] = (...args) => $options.resetFontSize && $options.resetFontSize(...args)),
     "aria-label": "Reset text size"
-  }, [...(_cache[33] || (_cache[33] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[39] || (_cache[39] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-type"
   }, null, -1 /* CACHED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "reader-icon",
     onClick: _cache[7] || (_cache[7] = (...args) => $options.increaseFontSize && $options.increaseFontSize(...args)),
     "aria-label": "Increase text size"
-  }, [...(_cache[34] || (_cache[34] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[40] || (_cache[40] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-plus-lg"
-  }, null, -1 /* CACHED */)]))])]), _cache[39] || (_cache[39] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, null, -1 /* CACHED */)]))])]), _cache[45] || (_cache[45] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "toolbar-divider",
     "aria-hidden": "true"
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_37, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_42, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["reader-tool-btn", {
       'is-active': $data.showSummary
     }]),
     onClick: _cache[8] || (_cache[8] = (...args) => $options.toggleSummary && $options.toggleSummary(...args)),
     "aria-label": "Toggle AI summary"
-  }, [...(_cache[35] || (_cache[35] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[41] || (_cache[41] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-stars",
     "aria-hidden": "true"
   }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Summary", -1 /* CACHED */)]))], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
@@ -1582,7 +1975,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }]),
     onClick: _cache[9] || (_cache[9] = (...args) => $options.toggleAudioPanel && $options.toggleAudioPanel(...args)),
     "aria-label": "Open audio reader settings"
-  }, [...(_cache[36] || (_cache[36] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[42] || (_cache[42] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-headphones",
     "aria-hidden": "true"
   }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Listen", -1 /* CACHED */)]))], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
@@ -1590,7 +1983,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "reader-tool-btn",
     onClick: _cache[10] || (_cache[10] = (...args) => $options.shareActiveItem && $options.shareActiveItem(...args)),
     "aria-label": "Share this item"
-  }, [...(_cache[37] || (_cache[37] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[43] || (_cache[43] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-share",
     "aria-hidden": "true"
   }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Share", -1 /* CACHED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
@@ -1598,89 +1991,153 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "reader-tool-btn",
     onClick: _cache[11] || (_cache[11] = (...args) => $options.printActiveItem && $options.printActiveItem(...args)),
     "aria-label": "Print this item"
-  }, [...(_cache[38] || (_cache[38] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[44] || (_cache[44] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-printer",
     "aria-hidden": "true"
-  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Print", -1 /* CACHED */)]))])])]), $data.showSummary ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_38, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_39, [_cache[41] || (_cache[41] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    class: "summary-kicker"
-  }, "AI summary"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
-    class: "h6 fw-semibold mb-1"
-  }, "Quick overview of the article"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    class: "small text-muted mb-0"
-  }, "AI-generated summary. Verify with the original text.")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_40, [!$data.activeItem.aiSummary ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
-    key: 0,
-    type: "button",
-    class: "summary-generate-btn",
-    onClick: _cache[12] || (_cache[12] = (...args) => $options.generateSummary && $options.generateSummary(...args)),
-    disabled: $data.detailLoading || !$data.activeItem.contentText
-  }, " Generate ", 8 /* PROPS */, _hoisted_41)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    type: "button",
-    class: "summary-collapse-btn",
-    onClick: _cache[13] || (_cache[13] = (...args) => $options.toggleSummary && $options.toggleSummary(...args)),
-    "aria-label": "Minimize AI summary"
-  }, [...(_cache[40] || (_cache[40] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: "bi bi-chevron-up",
+  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Print", -1 /* CACHED */)]))])])]), $data.showAudioPanel && $data.speechSupported ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_43, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_44, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_45, [_cache[46] || (_cache[46] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    for: "voiceSelect",
+    class: "audio-setting-label"
+  }, "Voice", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+    id: "voiceSelect",
+    "onUpdate:modelValue": _cache[12] || (_cache[12] = $event => $data.speech.selectedVoiceURI = $event),
+    class: "audio-setting-select",
+    onChange: _cache[13] || (_cache[13] = (...args) => $options.restartSpeechIfActive && $options.restartSpeechIfActive(...args))
+  }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.availableVoices, voice => {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
+      key: voice.voiceURI,
+      value: voice.voiceURI
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(voice.name), 9 /* TEXT, PROPS */, _hoisted_46);
+  }), 128 /* KEYED_FRAGMENT */))], 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.speech.selectedVoiceURI]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_47, [_cache[47] || (_cache[47] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    for: "speedSelect",
+    class: "audio-setting-label"
+  }, "Speed", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+    id: "speedSelect",
+    "onUpdate:modelValue": _cache[14] || (_cache[14] = $event => $data.speech.rate = $event),
+    class: "audio-setting-select",
+    onChange: _cache[15] || (_cache[15] = (...args) => $options.restartSpeechIfActive && $options.restartSpeechIfActive(...args))
+  }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.speechRates, speed => {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
+      key: speed.value,
+      value: speed.value
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(speed.label), 9 /* TEXT, PROPS */, _hoisted_48);
+  }), 128 /* KEYED_FRAGMENT */))], 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.speech.rate, void 0, {
+    number: true
+  }]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["audio-state-chip", {
+      'is-speaking': $data.speech.isSpeaking && !$data.speech.isPaused
+    }])
+  }, [_cache[48] || (_cache[48] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    class: "audio-state-pulse",
     "aria-hidden": "true"
-  }, null, -1 /* CACHED */)]))])])]), $data.activeItem.aiSummary ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_42, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_43, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.activeItem.aiSummary.overview), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_44, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.activeItem.aiSummary.points, (point, index) => {
-    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
-      key: 'summary-' + index
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(point), 1 /* TEXT */);
-  }), 128 /* KEYED_FRAGMENT */))])])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_45, "No summary has been generated yet."))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.detailLoading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_46, [...(_cache[42] || (_cache[42] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, -1 /* CACHED */)), _cache[49] || (_cache[49] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    class: "bi bi-mic-fill",
+    "aria-hidden": "true"
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.speech.isSpeaking ? $data.speech.isPaused ? "Paused" : "Reading aloud" : "Ready to read"), 1 /* TEXT */)], 2 /* CLASS */)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_49, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_50, [$data.activeItem.sourceUrl ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_51, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+    href: $data.activeItem.sourceUrl,
+    target: "_blank",
+    rel: "noopener noreferrer",
+    class: "continue-link"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.isPdfCard($data.activeItem) ? "Open Read" : "Open original source") + " ", 1 /* TEXT */), _cache[50] || (_cache[50] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    class: "bi bi-box-arrow-up-right",
+    "aria-hidden": "true"
+  }, null, -1 /* CACHED */))], 8 /* PROPS */, _hoisted_52)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.detailLoading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_53, [...(_cache[51] || (_cache[51] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "spinner-border text-primary mb-3",
     "aria-hidden": "true"
-  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, "Loading the full text...", -1 /* CACHED */)]))])) : $data.detailError ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_47, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.detailError), 1 /* TEXT */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_48, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_49, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, "Loading the full text...", -1 /* CACHED */)]))])) : $data.detailError ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_54, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.detailError), 1 /* TEXT */)) : $options.activeRenderedContentHtml ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+    key: 3,
+    ref: "readerContent",
     class: "reader-content",
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
       fontSize: $data.contentFontSize + 'px'
     }),
     innerHTML: $options.activeRenderedContentHtml
-  }, null, 12 /* STYLE, PROPS */, _hoisted_50), $data.activeItem.sourceUrl ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_51, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+  }, null, 12 /* STYLE, PROPS */, _hoisted_55)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_56, " The full text is not available in a readable format for this item. ")), $data.activeItem.sourceUrl ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_57, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
     href: $data.activeItem.sourceUrl,
     target: "_blank",
     rel: "noopener noreferrer",
     class: "continue-link"
-  }, [...(_cache[43] || (_cache[43] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Open original source ", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[52] || (_cache[52] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Open original source ", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-box-arrow-up-right",
     "aria-hidden": "true"
-  }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_52)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])], 512 /* NEED_PATCH */), $data.showAudioPanel && $data.activeItem ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_53, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_58)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), $data.showSummary ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_59, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_60, [_cache[54] || (_cache[54] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    class: "summary-kicker"
+  }, "AI summary"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
+    class: "h6 fw-semibold mb-1"
+  }, "Quick overview of the article"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    class: "small text-muted mb-0"
+  }, "AI-generated summary. Verify with the original text.")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_61, [!$data.activeItem.aiSummary ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+    key: 0,
+    type: "button",
+    class: "summary-generate-btn",
+    onClick: _cache[16] || (_cache[16] = (...args) => $options.generateSummary && $options.generateSummary(...args)),
+    disabled: $data.detailLoading || !$data.activeItem.contentText
+  }, " Generate ", 8 /* PROPS */, _hoisted_62)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    type: "button",
+    class: "summary-collapse-btn",
+    onClick: _cache[17] || (_cache[17] = (...args) => $options.toggleSummary && $options.toggleSummary(...args)),
+    "aria-label": "Minimize AI summary"
+  }, [...(_cache[53] || (_cache[53] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    class: "bi bi-chevron-up",
+    "aria-hidden": "true"
+  }, null, -1 /* CACHED */)]))])])]), $data.activeItem.aiSummary ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_63, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_64, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.activeItem.aiSummary.overview), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_65, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.activeItem.aiSummary.points, (point, index) => {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
+      key: 'summary-' + index
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(point), 1 /* TEXT */);
+  }), 128 /* KEYED_FRAGMENT */))])])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_66, "No summary has been generated yet."))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $options.relatedItems.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("section", _hoisted_67, [_cache[55] || (_cache[55] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    class: "related-content-head"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
+    class: "related-content-title mb-0"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    class: "bi bi-heart-fill",
+    "aria-hidden": "true"
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "You May Also Like")])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_68, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.relatedItems, related => {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+      key: `related-${related.key}`,
+      class: "col-12 col-md-6"
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("article", _hoisted_69, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_70, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_71, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.getCardChipLabel(related)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", _hoisted_72, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.truncateText(related.title, 60)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_73, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.truncateText($options.getCardExcerpt(related), 100)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      type: "button",
+      class: "continue-link continue-link--inline mt-2",
+      onClick: $event => $options.openItem(related)
+    }, " Read More ", 8 /* PROPS */, _hoisted_74)])])]);
+  }), 128 /* KEYED_FRAGMENT */))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])], 512 /* NEED_PATCH */), $data.showAudioPanel && $data.activeItem ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_75, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["audio-dock-bar", {
       'audio-dock-bar--active': $data.speech.isSpeaking && !$data.speech.isPaused
     }])
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_54, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_55, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.activeItem.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_56, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.activeItem.typeLabel) + " reader", 1 /* TEXT */)]), $data.speechSupported ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_76, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_77, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.activeItem.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_78, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.activeItem.typeLabel) + " reader", 1 /* TEXT */)]), $data.speechSupported ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
     key: 0
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_57, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_58, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_79, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_80, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "audio-bar-btn",
-    onClick: _cache[14] || (_cache[14] = (...args) => $options.skipSpeechBackward && $options.skipSpeechBackward(...args)),
+    onClick: _cache[18] || (_cache[18] = (...args) => $options.skipSpeechBackward && $options.skipSpeechBackward(...args)),
     "aria-label": "Previous section"
-  }, [...(_cache[44] || (_cache[44] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[57] || (_cache[57] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-skip-backward-fill",
     "aria-hidden": "true"
   }, null, -1 /* CACHED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "audio-bar-btn",
-    onClick: _cache[15] || (_cache[15] = $event => $data.speech.isSpeaking && !$data.speech.isPaused ? $options.pauseSpeech() : $options.playSpeech()),
+    onClick: _cache[19] || (_cache[19] = $event => $data.speech.isSpeaking && !$data.speech.isPaused ? $options.pauseSpeech() : $options.playSpeech()),
     "aria-label": $data.speech.isSpeaking && !$data.speech.isPaused ? 'Pause audio' : 'Play audio'
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", $data.speech.isSpeaking && !$data.speech.isPaused ? 'bi-pause-fill' : 'bi-play-fill']),
     "aria-hidden": "true"
-  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_59), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_81), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "audio-bar-btn",
-    onClick: _cache[16] || (_cache[16] = (...args) => $options.skipSpeechForward && $options.skipSpeechForward(...args)),
+    onClick: _cache[20] || (_cache[20] = (...args) => $options.skipSpeechForward && $options.skipSpeechForward(...args)),
     "aria-label": "Next section"
-  }, [...(_cache[45] || (_cache[45] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[58] || (_cache[58] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-skip-forward-fill",
     "aria-hidden": "true"
   }, null, -1 /* CACHED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "audio-bar-btn",
-    onClick: _cache[17] || (_cache[17] = (...args) => $options.stopSpeech && $options.stopSpeech(...args)),
+    onClick: _cache[21] || (_cache[21] = (...args) => $options.stopSpeech && $options.stopSpeech(...args)),
     "aria-label": "Stop audio"
-  }, [...(_cache[46] || (_cache[46] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[59] || (_cache[59] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-stop-fill",
     "aria-hidden": "true"
-  }, null, -1 /* CACHED */)]))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_60, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  }, null, -1 /* CACHED */)]))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_82, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     id: "audioProgress",
     type: "range",
     class: "form-range audio-progress-range",
@@ -1688,9 +2145,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     max: "100",
     step: "1",
     value: $data.speech.progressPercent,
-    onChange: _cache[18] || (_cache[18] = (...args) => $options.seekSpeech && $options.seekSpeech(...args)),
+    onChange: _cache[22] || (_cache[22] = (...args) => $options.seekSpeech && $options.seekSpeech(...args)),
     "aria-label": `Playback progress ${$options.formatDuration($data.speech.elapsedSeconds)} of ${$options.formatDuration($data.speech.totalSeconds)}`
-  }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_61)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_62, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_63, [_cache[47] || (_cache[47] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_83)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_84, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_85, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatDuration($data.speech.elapsedSeconds)) + " / " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatDuration($data.speech.totalSeconds)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_86, [_cache[60] || (_cache[60] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-volume-up-fill",
     "aria-hidden": "true"
   }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
@@ -1700,26 +2157,31 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     max: "1",
     step: "0.05",
     value: $data.speech.volume,
-    onInput: _cache[19] || (_cache[19] = (...args) => $options.updateSpeechVolume && $options.updateSpeechVolume(...args)),
+    onInput: _cache[23] || (_cache[23] = (...args) => $options.updateSpeechVolume && $options.updateSpeechVolume(...args)),
     "aria-label": "Volume"
-  }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_64)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_87)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "audio-dock-close",
-    onClick: _cache[20] || (_cache[20] = $event => $data.showAudioPanel = false),
+    onClick: _cache[24] || (_cache[24] = $event => $data.showAudioPanel = false),
     "aria-label": "Close audio reader"
-  }, [...(_cache[48] || (_cache[48] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[61] || (_cache[61] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-x-lg",
     "aria-hidden": "true"
-  }, null, -1 /* CACHED */)]))])], 64 /* STABLE_FRAGMENT */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_65, " Speech synthesis is not supported in this browser. "))], 2 /* CLASS */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.showScrollTopFab ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+  }, null, -1 /* CACHED */)]))])], 64 /* STABLE_FRAGMENT */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_88, " Speech synthesis is not supported in this browser. "))], 2 /* CLASS */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.showScrollTopFab ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
     key: 1,
     type: "button",
     class: "scroll-top-fab",
     "aria-label": "Scroll back to top",
-    onClick: _cache[21] || (_cache[21] = (...args) => $options.scrollToTop && $options.scrollToTop(...args))
-  }, [...(_cache[49] || (_cache[49] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    onClick: _cache[25] || (_cache[25] = (...args) => $options.scrollToTop && $options.scrollToTop(...args))
+  }, [...(_cache[62] || (_cache[62] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-arrow-up",
     "aria-hidden": "true"
-  }, null, -1 /* CACHED */)]))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 2 /* CLASS */);
+  }, null, -1 /* CACHED */)]))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.toast.show ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+    key: 2,
+    class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["library-toast", `is-${$data.toast.variant}`]),
+    role: "status",
+    "aria-live": "polite"
+  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.toast.message), 3 /* TEXT, CLASS */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 2 /* CLASS */);
 }
 
 /***/ }),
@@ -1743,30 +2205,23 @@ const _hoisted_2 = {
   class: "search-shell shadow-sm"
 };
 const _hoisted_3 = {
-  class: "search-row"
+  class: "search-layout"
 };
 const _hoisted_4 = {
-  class: "search-main"
+  class: "search-main search-layout-main"
 };
 const _hoisted_5 = ["value"];
 const _hoisted_6 = {
-  class: "filter-row"
-};
-const _hoisted_7 = {
   class: "filter-control"
 };
+const _hoisted_7 = ["value"];
 const _hoisted_8 = ["value"];
-const _hoisted_9 = ["value"];
-const _hoisted_10 = {
+const _hoisted_9 = {
   class: "filter-control"
 };
-const _hoisted_11 = ["value"];
-const _hoisted_12 = {
-  class: "filter-control"
-};
-const _hoisted_13 = ["value"];
+const _hoisted_10 = ["value"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("section", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [_cache[5] || (_cache[5] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("section", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [_cache[4] || (_cache[4] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-search search-icon",
     "aria-hidden": "true"
   }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
@@ -1782,51 +2237,39 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "search-clear",
     onClick: _cache[1] || (_cache[1] = $event => _ctx.$emit('update:searchQuery', '')),
     "aria-label": "Clear search"
-  }, [...(_cache[6] || (_cache[6] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[5] || (_cache[5] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-x-lg",
     "aria-hidden": "true"
-  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Clear", -1 /* CACHED */)]))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [_cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Clear", -1 /* CACHED */)]))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [_cache[6] || (_cache[6] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     for: "filter-type",
-    class: "filter-label"
+    class: "visually-hidden"
   }, "Type", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     id: "filter-type",
     value: $props.activeType,
     class: "filter-select",
+    "aria-label": "Filter by type",
     onChange: _cache[2] || (_cache[2] = $event => _ctx.$emit('update:activeType', $event.target.value))
   }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.typeOptions, option => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
       key: option.value,
       value: option.value
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(option.label), 9 /* TEXT, PROPS */, _hoisted_9);
-  }), 128 /* KEYED_FRAGMENT */))], 40 /* PROPS, NEED_HYDRATION */, _hoisted_8)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [_cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(option.label), 9 /* TEXT, PROPS */, _hoisted_8);
+  }), 128 /* KEYED_FRAGMENT */))], 40 /* PROPS, NEED_HYDRATION */, _hoisted_7)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [_cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     for: "filter-sort",
-    class: "filter-label"
+    class: "visually-hidden"
   }, "Sort", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     id: "filter-sort",
     value: $props.sortBy,
     class: "filter-select",
+    "aria-label": "Sort items",
     onChange: _cache[3] || (_cache[3] = $event => _ctx.$emit('update:sortBy', $event.target.value))
-  }, [...(_cache[8] || (_cache[8] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+  }, [...(_cache[7] || (_cache[7] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: "newest"
   }, "Newest to oldest", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: "oldest"
   }, "Oldest to newest", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: "title"
-  }, "Title A to Z", -1 /* CACHED */)]))], 40 /* PROPS, NEED_HYDRATION */, _hoisted_11)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [_cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-    for: "filter-reader",
-    class: "filter-label"
-  }, "Reading Mode", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
-    id: "filter-reader",
-    value: $props.readerFilter,
-    class: "filter-select",
-    onChange: _cache[4] || (_cache[4] = $event => _ctx.$emit('update:readerFilter', $event.target.value))
-  }, [...(_cache[10] || (_cache[10] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
-    value: "all"
-  }, "All items", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
-    value: "reader"
-  }, "Reader ready", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
-    value: "detail"
-  }, "Detail page only", -1 /* CACHED */)]))], 40 /* PROPS, NEED_HYDRATION */, _hoisted_13)])])])]);
+  }, "Title A to Z", -1 /* CACHED */)]))], 40 /* PROPS, NEED_HYDRATION */, _hoisted_10)])])])]);
 }
 
 /***/ }),

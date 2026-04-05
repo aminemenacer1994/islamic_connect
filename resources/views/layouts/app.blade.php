@@ -1550,8 +1550,12 @@
                         </li>
 
                         <li class="nav-item mt-2">
-                            <a class="nav-link ml-3 pt-2 pl-3" href="/digital-library" data-path="/digital-library" data-nav-item="primary"><b>Content Library</b></a>
+                            <a class="nav-link ml-3 pt-2 pl-3" href="/islamic-blog" data-path="/islamic-blog" data-nav-item="primary"><b>Content Library</b></a>
                         </li>
+
+                        <!-- <li class="nav-item mt-2">
+                            <a class="nav-link ml-3 pt-2 pl-3" href="/digital-library" data-path="/digital-library" data-nav-item="primary"><b>Content Library</b></a>
+                        </li> -->
 
 	                        <li class="nav-item mt-2">
 	                            <a class="nav-link ml-3 pt-2 pl-3" href="/dua" data-path="/dua" data-nav-item="primary"><b>Dua Collection</b></a>
@@ -2046,6 +2050,7 @@
                 '/pricing': '/subscribe',
                 '/bookmarks': '/bookmarks',
                 '/muslim': '/digital-library',
+                
             };
 
             const aliasKeys = Object.keys(aliasMap);
