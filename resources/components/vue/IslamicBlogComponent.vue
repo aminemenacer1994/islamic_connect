@@ -26,12 +26,65 @@
                         :search-query="searchQuery"
                         :active-type="activeType"
                         :sort-by="sortBy"
+                        :density="cardDensity"
+                        :suggestions="searchSuggestions"
+                        :popular-searches="popularSearches"
+                        :trending-topics="trendingTopics"
                         :result-count="filteredItems.length"
                         :type-options="typeOptions"
-                        @update:searchQuery="searchQuery = $event"
+                        @update:searchQuery="handleSearchQueryUpdate"
                         @update:activeType="activeType = $event"
                         @update:sortBy="sortBy = $event"
+                        @update:density="cardDensity = $event"
+                        @apply-search="applySearchTerm"
                     />
+                </div>
+            </div>
+
+            <div class="row justify-content-center mb-3">
+                <div class="col-12 col-xl-10">
+                    <section class="collections-shell shadow-sm">
+                        <div class="collections-head">
+                            <div>
+                                <div class="collections-kicker">Collections</div>
+                                <h2 class="collections-title mb-0">Browse by topic, not just by chronology</h2>
+                            </div>
+                            <div class="collections-actions">
+                                <button
+                                    v-if="activeCollectionId"
+                                    type="button"
+                                    class="collections-action-btn"
+                                    @click="clearActiveCollection"
+                                    aria-label="Clear active collection"
+                                >
+                                    <i class="bi bi-x-lg" aria-hidden="true"></i>
+                                </button>
+                                <button
+                                    type="button"
+                                    class="collections-action-btn"
+                                    @click="collectionsCollapsed = !collectionsCollapsed"
+                                    :aria-label="collectionsCollapsed ? 'Show collections' : 'Hide collections'"
+                                >
+                                    <i class="bi" :class="collectionsCollapsed ? 'bi-chevron-down' : 'bi-chevron-up'" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div v-if="!collectionsCollapsed" class="collections-track" aria-label="Collections">
+                            <button
+                                v-for="collection in collectionSections"
+                                :key="collection.id"
+                                type="button"
+                                class="collection-card"
+                                :class="{ 'is-active': activeCollectionId === collection.id }"
+                                @click="activateCollection(collection)"
+                            >
+                                <span class="collection-icon">
+                                    <i class="bi" :class="collection.icon" aria-hidden="true"></i>
+                                </span>
+                                <span class="collection-name">{{ collection.title }}</span>
+                            </button>
+                        </div>
+                    </section>
                 </div>
             </div>
 
@@ -71,17 +124,18 @@
                             </div>
                         </div>
 
-                        <div v-else class="row g-3">
+                        <div v-else class="row g-3" :class="{ 'library-grid--compact': isCompactView }">
                             <div v-for="item in filteredItems" :key="item.key" class="col-12 col-md-6 col-xl-4">
-                                <article class="library-card card shadow-sm border-0 h-100">
-                                    <div class="card-body p-4 d-flex flex-column">
-                                        <div class="card-type-chip" :class="{ 'card-type-chip--pdf': isPdfCard(item) }">
+                                <article class="library-card card shadow-sm border-0 h-100" :class="[getCardThemeClass(item), { 'library-card--compact': isCompactView }]">
+                                    <div class="card-body d-flex flex-column" :class="isCompactView ? 'p-3' : 'p-4'">
+                                        <div class="card-type-chip" :class="getCardThemeClass(item)">
+                                            <i class="bi" :class="getCardTypeIcon(item)" aria-hidden="true"></i>
                                             {{ getCardChipLabel(item) }}
                                         </div>
                                         <h2 class="card-title mb-2" v-html="highlightText(item.title)"></h2>
                                         <template v-if="getCardExcerpt(item)">
                                             <p class="card-excerpt mb-0" v-html="getHighlightedExcerpt(item)"></p>
-                                            <p v-if="getCardExcerptSecondary(item)" class="card-excerpt-secondary mb-0">
+                                            <p v-if="!isCompactView && getCardExcerptSecondary(item)" class="card-excerpt-secondary mb-0">
                                                 {{ getCardExcerptSecondary(item) }}
                                             </p>
                                         </template>
@@ -96,7 +150,7 @@
                                             </button>
                                         </div>
                                     </div>
-                                    <div class="card-footer bg-transparent border-0 px-4 pb-4 pt-0">
+                                    <div class="card-footer bg-transparent border-0 pt-0" :class="isCompactView ? 'px-3 pb-3' : 'px-4 pb-4'">
                                         <div class="card-meta-grid">
                                             <div class="card-meta-item">
                                                 <i class="bi bi-person-circle" aria-hidden="true"></i>
@@ -136,7 +190,10 @@
             aria-labelledby="islamicLibraryModalTitle"
             aria-hidden="true"
         >
-            <div class="modal-dialog modal-dialog-centered modal-fullscreen-sm-down library-modal-dialog">
+            <div
+                class="modal-dialog modal-dialog-centered modal-fullscreen-sm-down library-modal-dialog"
+                :class="{ 'library-modal-dialog--pdf': isActivePdf }"
+            >
                 <div class="modal-content shadow-lg border-0">
                     <button type="button" class="btn-close library-modal-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     <div class="reader-progress-track" aria-hidden="true">
@@ -170,71 +227,41 @@
                                     <span>{{ activeListenMinutes }} min listen</span>
                                 </span>
                             </div>
-                            <div class="team-box shadow-sm" :class="{ 'is-collapsed': !teamInsightExpanded }">
-                                <button type="button" class="team-box-head" @click="toggleTeamInsight">
-                                    <span class="team-box-title">
-                                        <i class="bi bi-heart-fill" aria-hidden="true"></i>
-                                        <span>From the Islamic Connect Team</span>
-                                    </span>
-                                    <i class="bi" :class="teamInsightExpanded ? 'bi-chevron-up' : 'bi-chevron-down'" aria-hidden="true"></i>
-                                </button>
-                                <div v-if="teamInsightExpanded" class="team-box-body">
-                                    <p
-                                        v-for="(line, index) in activeTeamReflection"
-                                        :key="`team-line-${index}`"
-                                        class="mb-0"
-                                    >
-                                        {{ line }}
-                                    </p>
-                                </div>
-                            </div>
                         </div>
                     </div>
 
                     <div v-if="activeItem" class="modal-body px-3 px-md-4 pb-3 pb-md-4 pt-3">
-                        <div class="reader-toolbar shadow-sm">
-                            <div class="reader-toolbar-group reader-toolbar-group--font">
-                                <button type="button" class="reader-icon" @click="decreaseFontSize" aria-label="Decrease text size">
-                                    <i class="bi bi-dash-lg"></i>
-                                </button>
-                                <button type="button" class="reader-icon" @click="resetFontSize" aria-label="Reset text size">
-                                    <i class="bi bi-type"></i>
-                                </button>
-                                <button type="button" class="reader-icon" @click="increaseFontSize" aria-label="Increase text size">
-                                    <i class="bi bi-plus-lg"></i>
-                                </button>
-                            </div>
-                            <span class="toolbar-divider" aria-hidden="true"></span>
-                            <div class="reader-toolbar-group reader-toolbar-group--actions">
-                                <button
-                                    type="button"
-                                    class="reader-tool-btn"
-                                    :class="{ 'is-active': showSummary }"
-                                    @click="toggleSummary"
-                                    aria-label="Toggle AI summary"
-                                >
-                                    <i class="bi bi-stars" aria-hidden="true"></i>
-                                    <span>Summary</span>
-                                </button>
-                                <button
-                                    type="button"
-                                    class="reader-tool-btn"
-                                    :class="{ 'is-active': showAudioPanel }"
-                                    @click="toggleAudioPanel"
-                                    aria-label="Open audio reader settings"
-                                >
-                                    <i class="bi bi-headphones" aria-hidden="true"></i>
-                                    <span>Listen</span>
-                                </button>
-                                <button type="button" class="reader-tool-btn" @click="shareActiveItem" aria-label="Share this item">
-                                    <i class="bi bi-share" aria-hidden="true"></i>
-                                    <span>Share</span>
-                                </button>
-                                <button type="button" class="reader-tool-btn" @click="printActiveItem" aria-label="Print this item">
-                                    <i class="bi bi-printer" aria-hidden="true"></i>
-                                    <span>Print</span>
-                                </button>
-                            </div>
+                        <div class="reader-toolbar reader-toolbar--primary shadow-sm">
+                            <button
+                                type="button"
+                                class="reader-tool-btn"
+                                :class="{ 'is-active': showSummary }"
+                                @click="toggleSummary"
+                                aria-label="Toggle AI summary"
+                            >
+                                <i class="bi bi-stars" aria-hidden="true"></i>
+                                <span>Summary</span>
+                            </button>
+                            <button
+                                type="button"
+                                class="reader-tool-btn"
+                                :class="{ 'is-active': showAudioPanel }"
+                                @click="toggleAudioPanel"
+                                aria-label="Open audio reader settings"
+                            >
+                                <i class="bi bi-headphones" aria-hidden="true"></i>
+                                <span>Listen</span>
+                            </button>
+                            <button
+                                type="button"
+                                class="reader-tool-btn reader-tool-btn--save"
+                                :class="{ 'is-active': isActiveItemSaved }"
+                                @click="toggleSavedItem"
+                                :aria-label="isActiveItemSaved ? 'Remove saved item' : 'Save this item'"
+                            >
+                                <i class="bi" :class="isActiveItemSaved ? 'bi-bookmark-fill' : 'bi-bookmark'" aria-hidden="true"></i>
+                                <span>{{ isActiveItemSaved ? "Saved" : "Save" }}</span>
+                            </button>
                         </div>
 
                         <div v-if="showAudioPanel && speechSupported" class="audio-settings-panel shadow-sm">
@@ -262,15 +289,15 @@
                         </div>
 
                         <section class="reader-shell mt-3">
-                            <div class="reader-surface shadow-sm">
-                                <div v-if="activeItem.sourceUrl" class="reader-surface-actions">
+                            <div class="reader-surface shadow-sm" :class="{ 'reader-surface--pdf': isActivePdf }">
+                                <div v-if="showReaderSourceLink" class="reader-surface-actions">
                                     <a
                                         :href="activeItem.sourceUrl"
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         class="continue-link"
                                     >
-                                        {{ isPdfCard(activeItem) ? "Open Read" : "Open original source" }}
+                                        {{ isPdfCard(activeItem) ? "Open PDF source" : "Open original source" }}
                                         <i class="bi bi-box-arrow-up-right" aria-hidden="true"></i>
                                     </a>
                                 </div>
@@ -288,19 +315,13 @@
                                     v-else-if="activeRenderedContentHtml"
                                     ref="readerContent"
                                     class="reader-content"
+                                    :class="{ 'reader-content--pdf': isActivePdf }"
                                     :style="{ fontSize: contentFontSize + 'px' }"
                                     v-html="activeRenderedContentHtml"
                                 ></div>
 
                                 <div v-else class="reader-empty-state">
                                     The full text is not available in a readable format for this item.
-                                </div>
-
-                                <div v-if="activeItem.sourceUrl" class="reader-footer">
-                                    <a :href="activeItem.sourceUrl" target="_blank" rel="noopener noreferrer" class="continue-link">
-                                        Open original source
-                                        <i class="bi bi-box-arrow-up-right" aria-hidden="true"></i>
-                                    </a>
                                 </div>
                             </div>
                         </section>
@@ -339,6 +360,25 @@
                                 </ul>
                             </div>
                             <p v-else class="small text-muted mb-0">No summary has been generated yet.</p>
+                        </div>
+
+                        <div class="team-box shadow-sm" :class="{ 'is-collapsed': !teamInsightExpanded }">
+                            <button type="button" class="team-box-head" @click="toggleTeamInsight">
+                                <span class="team-box-title">
+                                    <i class="bi bi-heart-fill" aria-hidden="true"></i>
+                                    <span>From the Islamic Connect Team</span>
+                                </span>
+                                <i class="bi" :class="teamInsightExpanded ? 'bi-chevron-up' : 'bi-chevron-down'" aria-hidden="true"></i>
+                            </button>
+                            <div v-if="teamInsightExpanded" class="team-box-body">
+                                <p
+                                    v-for="(line, index) in activeTeamReflection"
+                                    :key="`team-line-${index}`"
+                                    class="mb-0"
+                                >
+                                    {{ line }}
+                                </p>
+                            </div>
                         </div>
 
                         <section v-if="relatedItems.length" class="related-content-section mt-3">
@@ -482,6 +522,10 @@ export default {
             searchQuery: "",
             activeType: "all",
             sortBy: "newest",
+            cardDensity: "comfortable",
+            activeCollectionId: null,
+            collectionsCollapsed: false,
+            savedItemKeys: [],
             items: [],
             loadingInitial: true,
             loadMoreBusy: false,
@@ -520,6 +564,98 @@ export default {
                 { label: "1.5x", value: 1.5 },
                 { label: "2x", value: 2 },
             ],
+            collectionDefinitions: [
+                {
+                    id: "ramadan",
+                    title: "Ramadan",
+                    icon: "bi-moon-stars-fill",
+                    description: "Fasting, worship, patience, and spiritual reset for Ramadan and beyond.",
+                    query: "Ramadan",
+                    tags: ["Fasting", "Night prayer", "Mercy"],
+                    keywords: ["ramadan", "fasting", "fast", "iftar", "suhoor", "taraweeh", "laylat", "eid"],
+                },
+                {
+                    id: "marriage",
+                    title: "Marriage",
+                    icon: "bi-heart-fill",
+                    description: "Guidance on family life, rights, character, and building a healthy Muslim home.",
+                    query: "Marriage",
+                    tags: ["Family", "Rights", "Character"],
+                    keywords: ["marriage", "wife", "husband", "spouse", "family", "divorce", "nikah", "home"],
+                },
+                {
+                    id: "aqeedah",
+                    title: "Aqeedah",
+                    icon: "bi-journal-bookmark-fill",
+                    description: "Core Islamic belief, tawhid, the names of Allah, and sound creed.",
+                    query: "Aqeedah",
+                    tags: ["Tawhid", "Belief", "Creed"],
+                    keywords: ["aqeedah", "creed", "tawhid", "belief", "allah", "shirk", "faith", "iman"],
+                },
+                {
+                    id: "women",
+                    title: "Women",
+                    icon: "bi-person-hearts",
+                    description: "Topics focused on women, dignity, worship, family, and practical questions.",
+                    query: "Women",
+                    tags: ["Women", "Modesty", "Family"],
+                    keywords: ["women", "woman", "female", "sister", "hijab", "mother", "mary", "wives"],
+                },
+                {
+                    id: "prayer",
+                    title: "Prayer",
+                    icon: "bi-alarm-fill",
+                    description: "Prayer, khushu, adhkar, and practical guidance around salah.",
+                    query: "Prayer",
+                    tags: ["Salah", "Khushu", "Adhkar"],
+                    keywords: ["prayer", "salah", "adhan", "wudu", "khushu", "mosque", "fajr", "dua"],
+                },
+                {
+                    id: "seerah",
+                    title: "Seerah",
+                    icon: "bi-book-fill",
+                    description: "The life of the Prophet, key moments, and lessons from the seerah.",
+                    query: "Seerah",
+                    tags: ["Prophet", "History", "Lessons"],
+                    keywords: ["seerah", "prophet", "muhammad", "madinah", "mecca", "hijrah", "companions"],
+                },
+                {
+                    id: "quran",
+                    title: "Quran",
+                    icon: "bi-journal-richtext",
+                    description: "Tafsir, Quranic themes, reflection, and guidance from revelation.",
+                    query: "Quran",
+                    tags: ["Tafsir", "Reflection", "Revelation"],
+                    keywords: ["quran", "tafsir", "surah", "ayah", "verses", "revelation", "recitation"],
+                },
+                {
+                    id: "character",
+                    title: "Character",
+                    icon: "bi-flower1",
+                    description: "Patience, sincerity, gratitude, and purification of character.",
+                    query: "Character",
+                    tags: ["Patience", "Sincerity", "Manners"],
+                    keywords: ["character", "manners", "patience", "gratitude", "sincerity", "heart", "akhlaq"],
+                },
+                {
+                    id: "new-muslims",
+                    title: "New Muslims",
+                    icon: "bi-compass-fill",
+                    description: "Foundational guidance and practical help for those new to Islam.",
+                    query: "New Muslims",
+                    tags: ["Basics", "Guidance", "Faith"],
+                    keywords: ["new muslim", "revert", "convert", "basics", "beginner", "islam", "faith"],
+                },
+                {
+                    id: "hajj-umrah",
+                    title: "Hajj & Umrah",
+                    icon: "bi-geo-alt-fill",
+                    description: "Pilgrimage guidance, preparation, and rites for Hajj and Umrah.",
+                    query: "Umrah",
+                    tags: ["Pilgrimage", "Rites", "Travel"],
+                    keywords: ["hajj", "umrah", "pilgrimage", "mecca", "ihram", "tawaf", "sa'i"],
+                },
+            ],
             speech: {
                 allVoices: [],
                 selectedVoiceURI: "",
@@ -557,6 +693,22 @@ export default {
                 ...this.voiceGroups.other,
             ];
         },
+        isCompactView() {
+            return this.cardDensity === "compact";
+        },
+        isActiveItemSaved() {
+            return !!(this.activeItem && this.savedItemKeys.includes(this.activeItem.key));
+        },
+        isActivePdf() {
+            return this.isPdfCard(this.activeItem);
+        },
+        showReaderSourceLink() {
+            if (!this.activeItem || !this.activeItem.sourceUrl) {
+                return false;
+            }
+
+            return this.isActivePdf || !!this.detailError || !this.activeRenderedContentHtml;
+        },
         activeRenderedContentHtml() {
             if (!this.activeItem) {
                 return "";
@@ -583,6 +735,90 @@ export default {
         },
         activeTeamReflection() {
             return this.buildTeamReflection(this.activeItem);
+        },
+        popularSearches() {
+            return ["Ramadan", "Prayer", "Marriage", "Aqeedah", "Women", "Tawhid"];
+        },
+        trendingTopics() {
+            const scores = {};
+            this.items
+                .slice()
+                .sort((left, right) => right.sortTimestamp - left.sortTimestamp)
+                .slice(0, 48)
+                .forEach((item, index) => {
+                    const weight = Math.max(1, 12 - Math.floor(index / 4));
+                    this.extractKeywords(`${item.title} ${item.summary || ""}`)
+                        .filter((keyword) => keyword.length >= 5)
+                        .slice(0, 6)
+                        .forEach((keyword) => {
+                            scores[keyword] = (scores[keyword] || 0) + weight;
+                        });
+                });
+
+            return Object.entries(scores)
+                .sort((left, right) => right[1] - left[1])
+                .slice(0, 6)
+                .map(([keyword]) => this.formatTopicLabel(keyword));
+        },
+        searchSuggestions() {
+            const query = this.cleanText(this.searchQuery).toLowerCase();
+            if (query.length < 2) {
+                return [];
+            }
+
+            const suggestions = [];
+            const seen = new Set();
+
+            this.items.forEach((item) => {
+                if (suggestions.length >= 6) {
+                    return;
+                }
+
+                const haystack = `${item.title} ${item.summary || ""} ${item.publishedBy || ""}`.toLowerCase();
+                if (!haystack.includes(query)) {
+                    return;
+                }
+
+                if (!seen.has(item.title)) {
+                    suggestions.push({
+                        label: item.title,
+                        meta: item.typeLabel,
+                        kind: "item",
+                    });
+                    seen.add(item.title);
+                }
+            });
+
+            this.collectionDefinitions.forEach((collection) => {
+                if (suggestions.length >= 8) {
+                    return;
+                }
+
+                if ((collection.title.toLowerCase().includes(query) || collection.keywords.some((keyword) => keyword.includes(query))) && !seen.has(collection.title)) {
+                    suggestions.push({
+                        label: collection.title,
+                        meta: "Collection",
+                        kind: "collection",
+                    });
+                    seen.add(collection.title);
+                }
+            });
+
+            return suggestions;
+        },
+        collectionSections() {
+            return this.collectionDefinitions.map((collection) => {
+                const items = this.items
+                    .filter((item) => this.matchesCollection(item, collection))
+                    .sort((left, right) => right.sortTimestamp - left.sortTimestamp)
+                    .slice(0, 4);
+
+                return {
+                    ...collection,
+                    count: this.items.filter((item) => this.matchesCollection(item, collection)).length,
+                    items,
+                };
+            });
         },
         relatedItems() {
             if (!this.activeItem) {
@@ -622,10 +858,15 @@ export default {
         },
         filteredItems() {
             const query = this.searchQuery.toLowerCase();
+            const activeCollection = this.collectionDefinitions.find((collection) => collection.id === this.activeCollectionId) || null;
 
             return this.items
                 .filter((item) => {
                     if (this.activeType !== "all" && item.type !== this.activeType) {
+                        return false;
+                    }
+
+                     if (activeCollection && !this.matchesCollection(item, activeCollection)) {
                         return false;
                     }
 
@@ -697,6 +938,7 @@ export default {
             typeof window !== "undefined" &&
             "speechSynthesis" in window &&
             typeof window.SpeechSynthesisUtterance !== "undefined";
+        this.loadSavedItems();
         this.initializeModal();
         this.initializeInfiniteScroll();
         this.loadVoices();
@@ -719,6 +961,43 @@ export default {
         }
     },
     methods: {
+        handleSearchQueryUpdate(value) {
+            this.searchQuery = value;
+
+            const activeCollection = this.collectionDefinitions.find((collection) => collection.id === this.activeCollectionId);
+            if (!activeCollection) {
+                return;
+            }
+
+            if (this.cleanText(value).toLowerCase() !== activeCollection.query.toLowerCase()) {
+                this.activeCollectionId = null;
+            }
+        },
+        applySearchTerm(term) {
+            const nextTerm = this.cleanText(term);
+            this.searchQuery = nextTerm;
+            const matchingCollection = this.collectionDefinitions.find((collection) => collection.title.toLowerCase() === nextTerm.toLowerCase());
+            this.activeCollectionId = matchingCollection ? matchingCollection.id : null;
+        },
+        activateCollection(collection) {
+            if (!collection) {
+                return;
+            }
+
+            if (this.activeCollectionId === collection.id) {
+                this.activeCollectionId = null;
+                this.searchQuery = "";
+                return;
+            }
+
+            this.activeCollectionId = collection.id;
+            this.searchQuery = collection.query;
+            this.activeType = "all";
+        },
+        clearActiveCollection() {
+            this.activeCollectionId = null;
+            this.searchQuery = "";
+        },
         initializeInfiniteScroll() {
             if (typeof window === "undefined" || typeof window.IntersectionObserver === "undefined") {
                 return;
@@ -1082,6 +1361,25 @@ export default {
                 .map((word) => word.replace(/[^a-z0-9]/g, ""))
                 .filter((word) => word.length >= 4 && !["from", "with", "that", "this", "have", "what", "your", "into", "about", "read"].includes(word));
         },
+        formatTopicLabel(value) {
+            const clean = this.cleanText(value);
+            if (!clean) {
+                return "";
+            }
+
+            return clean.charAt(0).toUpperCase() + clean.slice(1);
+        },
+        matchesCollection(item, collection) {
+            if (!item || !collection) {
+                return false;
+            }
+
+            const haystack = this.cleanText(
+                `${item.title || ""} ${item.summary || ""} ${item.publishedBy || ""} ${(item.tags || []).join(" ")} ${item.category || ""}`
+            ).toLowerCase();
+
+            return collection.keywords.some((keyword) => haystack.includes(keyword.toLowerCase()));
+        },
         buildFallbackOverview(item, publishedBy, title) {
             const author = this.cleanText(publishedBy);
             const typeLabel = this.cleanText(item.typeLabel || item.type || "item").toLowerCase();
@@ -1149,6 +1447,36 @@ export default {
         },
         getCardChipLabel(item) {
             return this.isPdfCard(item) ? "PDF" : item.typeLabel;
+        },
+        getCardThemeClass(item) {
+            if (this.isPdfCard(item)) {
+                return "library-card--pdf";
+            }
+
+            if (item && item.type === "books") {
+                return "library-card--book";
+            }
+
+            if (item && item.type === "fatwa") {
+                return "library-card--fatwa";
+            }
+
+            return "library-card--article";
+        },
+        getCardTypeIcon(item) {
+            if (this.isPdfCard(item)) {
+                return "bi-file-earmark-pdf";
+            }
+
+            if (item && item.type === "books") {
+                return "bi-book";
+            }
+
+            if (item && item.type === "fatwa") {
+                return "bi-patch-question";
+            }
+
+            return "bi-journal-text";
         },
         getCardPublisher(item) {
             return this.cleanText(item.publishedBy) || "IslamHouse";
@@ -1278,6 +1606,28 @@ export default {
                 );
             } catch (error) {}
         },
+        loadSavedItems() {
+            if (typeof window === "undefined") {
+                return;
+            }
+
+            try {
+                const raw = localStorage.getItem("islamhouse-library-saved-items");
+                const parsed = raw ? JSON.parse(raw) : [];
+                this.savedItemKeys = Array.isArray(parsed) ? parsed : [];
+            } catch (error) {
+                this.savedItemKeys = [];
+            }
+        },
+        persistSavedItems() {
+            if (typeof window === "undefined") {
+                return;
+            }
+
+            try {
+                localStorage.setItem("islamhouse-library-saved-items", JSON.stringify(this.savedItemKeys));
+            } catch (error) {}
+        },
         buildTeamReflection(item) {
             const title = this.cleanText(item && item.title);
             const keywords = this.extractKeywords(title);
@@ -1307,6 +1657,22 @@ export default {
         },
         toggleTeamInsight() {
             this.teamInsightExpanded = !this.teamInsightExpanded;
+        },
+        toggleSavedItem() {
+            if (!this.activeItem || !this.activeItem.key) {
+                return;
+            }
+
+            if (this.savedItemKeys.includes(this.activeItem.key)) {
+                this.savedItemKeys = this.savedItemKeys.filter((key) => key !== this.activeItem.key);
+                this.persistSavedItems();
+                this.showToast("Removed from saved items.");
+                return;
+            }
+
+            this.savedItemKeys = [this.activeItem.key, ...this.savedItemKeys].slice(0, 50);
+            this.persistSavedItems();
+            this.showToast("Saved for later.");
         },
         bindReaderScroll() {
             const reader = this.$refs.readerContent;
@@ -1559,12 +1925,16 @@ export default {
             return `
                 <div class="attachment-preview">
                     <p class="attachment-summary">${safeText}</p>
-                    <div class="attachment-actions">
-                        <a href="${safeUrl}" target="_blank" rel="noopener noreferrer" class="continue-link">
-                            Open ${safeLabel}
-                            <i class="bi bi-box-arrow-up-right" aria-hidden="true"></i>
-                        </a>
-                    </div>
+                    ${
+                        isPdf
+                            ? ""
+                            : `<div class="attachment-actions">
+                                <a href="${safeUrl}" target="_blank" rel="noopener noreferrer" class="continue-link">
+                                    Open ${safeLabel}
+                                    <i class="bi bi-box-arrow-up-right" aria-hidden="true"></i>
+                                </a>
+                            </div>`
+                    }
                     ${
                         isPdf
                             ? `<iframe class="attachment-frame" src="${safeUrl}#view=FitH" title="${safeLabel}" loading="lazy"></iframe>`
@@ -2232,6 +2602,118 @@ export default {
     line-height: 1.5;
 }
 
+.collections-shell {
+    padding: 0.9rem 0.95rem;
+    border-radius: 22px;
+    background: var(--library-surface);
+    box-shadow: var(--library-shadow);
+}
+
+.collections-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-bottom: 0.85rem;
+}
+
+.collections-kicker {
+    margin-bottom: 0.28rem;
+    color: var(--library-accent);
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+}
+
+.collections-title {
+    font-size: 1rem;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+}
+
+.collections-actions {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.38rem;
+}
+
+.collections-action-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border: 0;
+    border-radius: 999px;
+    background: var(--library-soft);
+    color: var(--library-muted);
+    box-shadow: var(--library-shadow-soft);
+    transition: transform 0.16s ease, color 0.16s ease, background-color 0.16s ease;
+}
+
+.collections-action-btn:hover,
+.collections-action-btn:focus-visible {
+    transform: translateY(-1px);
+    color: var(--library-accent);
+}
+
+.collections-track {
+    display: flex;
+    gap: 0.65rem;
+    overflow-x: auto;
+    padding-bottom: 0.2rem;
+    scrollbar-width: thin;
+}
+
+.collection-card {
+    flex: 0 0 auto;
+    width: 136px;
+    min-height: 112px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 0.72rem;
+    padding: 0.88rem 0.82rem;
+    border: 0;
+    border-radius: 18px;
+    background: color-mix(in srgb, var(--library-soft) 94%, transparent);
+    color: var(--library-text);
+    text-align: left;
+    transition: transform 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease;
+}
+
+.collection-card:hover,
+.collection-card:focus-visible {
+    transform: translateY(-2px);
+    box-shadow: var(--library-shadow-soft);
+}
+
+.collection-card.is-active {
+    background: color-mix(in srgb, var(--library-accent) 9%, var(--library-soft));
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--library-accent) 18%, transparent), var(--library-shadow-soft);
+}
+
+.collection-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 14px;
+    background: color-mix(in srgb, var(--library-accent) 12%, var(--library-surface));
+    color: var(--library-accent);
+    font-size: 1.02rem;
+}
+
+.collection-name {
+    margin: 0;
+    font-size: 0.9rem;
+    font-weight: 800;
+    line-height: 1.25;
+}
+
 .library-card,
 .reader-toolbar,
 .reader-panel,
@@ -2255,6 +2737,10 @@ export default {
     overflow: hidden;
 }
 
+.library-grid--compact .col-xl-4 {
+    display: flex;
+}
+
 .library-card:hover {
     transform: translateY(-3px);
     box-shadow: 0 18px 36px rgba(12, 44, 33, 0.12);
@@ -2265,6 +2751,22 @@ export default {
     display: block;
     height: 4px;
     background: linear-gradient(90deg, var(--library-accent), var(--library-accent-strong));
+}
+
+.library-card--article::before {
+    background: linear-gradient(90deg, #0a7a66, #0b5f50);
+}
+
+.library-card--book::before {
+    background: linear-gradient(90deg, #2563eb, #1d4ed8);
+}
+
+.library-card--fatwa::before {
+    background: linear-gradient(90deg, #7c3aed, #6d28d9);
+}
+
+.library-card--pdf::before {
+    background: linear-gradient(90deg, #c2410c, #9a3412);
 }
 
 .card-title {
@@ -2278,6 +2780,7 @@ export default {
 .card-type-chip {
     display: inline-flex;
     align-items: center;
+    gap: 0.38rem;
     width: fit-content;
     margin-bottom: 0.9rem;
     padding: 0.26rem 0.72rem;
@@ -2290,8 +2793,40 @@ export default {
     text-transform: uppercase;
 }
 
-.card-type-chip--pdf {
-    background: color-mix(in srgb, var(--library-accent) 18%, var(--library-soft));
+.card-type-chip.library-card--article {
+    background: color-mix(in srgb, #0a7a66 12%, var(--library-soft));
+    color: #0a7a66;
+}
+
+.card-type-chip.library-card--book {
+    background: color-mix(in srgb, #2563eb 12%, var(--library-soft));
+    color: #2563eb;
+}
+
+.card-type-chip.library-card--fatwa {
+    background: color-mix(in srgb, #7c3aed 12%, var(--library-soft));
+    color: #7c3aed;
+}
+
+.card-type-chip.library-card--pdf {
+    background: color-mix(in srgb, #c2410c 13%, var(--library-soft));
+    color: #c2410c;
+}
+
+.islamic-library.is-dark .card-type-chip.library-card--article {
+    color: #4fd2bc;
+}
+
+.islamic-library.is-dark .card-type-chip.library-card--book {
+    color: #7bb3ff;
+}
+
+.islamic-library.is-dark .card-type-chip.library-card--fatwa {
+    color: #c19cff;
+}
+
+.islamic-library.is-dark .card-type-chip.library-card--pdf {
+    color: #ffb084;
 }
 
 .card-excerpt {
@@ -2303,6 +2838,38 @@ export default {
     -webkit-box-orient: vertical;
     overflow: hidden;
     min-height: 4.7rem;
+}
+
+.library-card--compact {
+    min-height: 210px;
+}
+
+.library-card--compact .card-title {
+    font-size: 1.08rem;
+    min-height: 2.8rem;
+    margin-bottom: 0.45rem !important;
+}
+
+.library-card--compact .card-type-chip {
+    margin-bottom: 0.65rem;
+    padding: 0.22rem 0.62rem;
+    font-size: 0.67rem;
+}
+
+.library-card--compact .card-excerpt {
+    -webkit-line-clamp: 2;
+    min-height: 3.05rem;
+    font-size: 0.84rem;
+    line-height: 1.55;
+}
+
+.library-card--compact .card-read-more {
+    margin-top: 0.5rem;
+    font-size: 0.78rem;
+}
+
+.library-card--compact .continue-link--inline {
+    font-size: 0.78rem;
 }
 
 .card-excerpt-secondary {
@@ -2353,6 +2920,11 @@ export default {
     border-top: 1px solid color-mix(in srgb, var(--library-accent) 12%, transparent);
 }
 
+.library-card--compact .card-meta-grid {
+    gap: 0.32rem;
+    padding-top: 0.72rem;
+}
+
 .card-meta-item {
     display: flex;
     align-items: center;
@@ -2360,6 +2932,12 @@ export default {
     color: var(--library-muted);
     font-size: 0.83rem;
     line-height: 1.4;
+}
+
+.library-card--compact .card-meta-item {
+    gap: 0.42rem;
+    font-size: 0.76rem;
+    line-height: 1.3;
 }
 
 .card-meta-item i {
@@ -2467,6 +3045,10 @@ export default {
     margin: 1.4rem auto !important;
 }
 
+.library-modal-dialog--pdf {
+    max-width: min(1120px, calc(100vw - 2rem));
+}
+
 .library-modal-close {
     position: absolute;
     top: 1.15rem;
@@ -2486,8 +3068,8 @@ export default {
 }
 
 .modal-title {
-    font-size: clamp(1.55rem, 2.2vw, 2.15rem);
-    line-height: 1.16;
+    font-size: clamp(1.36rem, 1.8vw, 1.8rem);
+    line-height: 1.1;
     letter-spacing: -0.02em;
 }
 
@@ -2498,37 +3080,37 @@ export default {
 }
 
 .modal-title-meta {
-    margin-top: 0.65rem;
+    margin-top: 0.5rem;
 }
 
 .verified-badge {
     display: inline-flex;
     align-items: center;
     gap: 0.4rem;
-    padding: 0.42rem 0.7rem;
+    padding: 0.34rem 0.62rem;
     border-radius: 999px;
     background: color-mix(in srgb, var(--library-accent) 12%, var(--library-soft));
     color: color-mix(in srgb, var(--library-accent-strong) 82%, var(--library-accent));
-    font-size: 0.78rem;
+    font-size: 0.74rem;
     font-weight: 800;
 }
 
 .metrics-pills {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.55rem;
-    margin-top: 0.8rem;
+    gap: 0.45rem;
+    margin-top: 0.72rem;
 }
 
 .metric-pill {
     display: inline-flex;
     align-items: center;
     gap: 0.42rem;
-    padding: 0.48rem 0.72rem;
+    padding: 0.42rem 0.68rem;
     border-radius: 999px;
     background: color-mix(in srgb, var(--library-soft) 88%, transparent);
-    color: var(--library-text);
-    font-size: 0.8rem;
+    color: color-mix(in srgb, var(--library-text) 88%, var(--library-muted));
+    font-size: 0.77rem;
     font-weight: 700;
 }
 
@@ -2585,6 +3167,19 @@ export default {
     gap: 0.55rem;
     padding: 0.5rem 0.6rem;
     background: color-mix(in srgb, var(--library-soft) 88%, transparent);
+}
+
+.reader-toolbar--primary {
+    justify-content: flex-start;
+    gap: 0.6rem;
+    padding: 0.38rem;
+    border-radius: 18px;
+    background: color-mix(in srgb, var(--library-soft) 76%, transparent);
+    box-shadow: none;
+}
+
+.reader-toolbar--primary .reader-tool-btn {
+    min-width: 102px;
 }
 
 .audio-settings-panel {
@@ -2651,37 +3246,27 @@ export default {
     animation: audioPulse 1.2s ease-in-out infinite;
 }
 
-.reader-toolbar-group {
-    display: inline-flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 0.42rem;
-}
-
-.reader-icon {
-    width: 34px;
-    height: 34px;
-    border: 0;
-    border-radius: 20px;
-    background: var(--library-soft);
-    color: var(--library-text);
-    box-shadow: var(--library-shadow-soft);
-}
-
 .reader-tool-btn {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 0.42rem;
-    min-height: 34px;
-    padding: 0 0.8rem;
+    min-height: 36px;
+    padding: 0 0.92rem;
     border: 0;
     border-radius: 999px;
-    background: var(--library-soft);
-    color: var(--library-text);
+    background: rgba(255, 255, 255, 0.72);
+    color: color-mix(in srgb, var(--library-text) 90%, var(--library-muted));
     font-size: 0.8rem;
-    font-weight: 600;
-    box-shadow: var(--library-shadow-soft);
+    font-weight: 700;
+    box-shadow: 0 8px 22px rgba(12, 44, 33, 0.05);
     transition: transform 0.16s ease, box-shadow 0.16s ease, background-color 0.16s ease, color 0.16s ease;
+}
+
+.islamic-library.is-dark .reader-tool-btn {
+    background: rgba(255, 255, 255, 0.04);
+    color: rgba(255, 255, 255, 0.92);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.16);
 }
 
 .reader-tool-btn.is-active {
@@ -2690,18 +3275,25 @@ export default {
     box-shadow: 0 12px 28px color-mix(in srgb, var(--library-accent) 32%, transparent);
 }
 
+.reader-tool-btn--save.is-active {
+    background: linear-gradient(135deg, #d7a625, #b8860b);
+    box-shadow: 0 12px 28px rgba(184, 134, 11, 0.24);
+}
+
 .islamic-library.is-dark .reader-tool-btn.is-active {
     background: linear-gradient(135deg, color-mix(in srgb, var(--library-accent) 72%, #ffffff 10%), color-mix(in srgb, var(--library-accent-strong) 86%, #000000 14%));
     color: #ffffff;
 }
 
-.reader-icon,
+.islamic-library.is-dark .reader-tool-btn--save.is-active {
+    background: linear-gradient(135deg, #e2b84b, #c79418);
+    color: #111827;
+}
+
 .audio-dock-close {
     transition: transform 0.16s ease, box-shadow 0.16s ease, background-color 0.16s ease, color 0.16s ease;
 }
 
-.reader-icon:hover,
-.reader-icon:focus-visible,
 .reader-tool-btn:hover,
 .reader-tool-btn:focus-visible,
 .audio-dock-close:hover,
@@ -2722,15 +3314,8 @@ export default {
     background: linear-gradient(135deg, var(--library-accent), var(--library-accent-strong));
 }
 
-.toolbar-divider {
-    width: 1px;
-    height: 24px;
-    background: rgba(148, 163, 184, 0.28);
-    margin: 0 0.2rem;
-}
-
 .reader-panel {
-    padding: 0.8rem 0.95rem;
+    padding: 0.85rem 1rem;
     margin-top: 0.9rem;
     box-shadow: var(--library-shadow-soft);
     border-inline-start: 4px solid color-mix(in srgb, var(--library-accent) 72%, transparent);
@@ -2885,13 +3470,19 @@ export default {
     max-height: min(64vh, 760px);
     padding: 0;
     overflow: hidden;
+    box-shadow: 0 24px 48px rgba(12, 44, 33, 0.08);
+}
+
+.reader-surface--pdf {
+    min-height: min(72vh, 860px);
+    max-height: min(72vh, 860px);
 }
 
 .reader-surface-actions {
     display: flex;
     align-items: center;
-    justify-content: flex-start;
-    padding: 1rem 1.15rem 0.2rem;
+    justify-content: flex-end;
+    padding: 0.9rem 1rem 0;
 }
 
 .reader-content {
@@ -2900,12 +3491,18 @@ export default {
     overflow-y: auto;
     overscroll-behavior: contain;
     scrollbar-gutter: stable;
-    padding: 1.25rem 1.2rem 1.35rem;
-    line-height: 1.82;
+    padding: 1.4rem 1.35rem 1.5rem;
+    line-height: 1.88;
     font-family: Georgia, "Times New Roman", serif;
-    font-size: 1rem;
+    font-size: 1.03rem;
     text-wrap: pretty;
     text-align: left;
+    color: color-mix(in srgb, var(--library-text) 96%, #000000 4%);
+}
+
+.reader-content--pdf {
+    padding: 0.9rem 1rem 1rem;
+    overflow: hidden;
 }
 
 .reader-empty-state {
@@ -2928,11 +3525,11 @@ export default {
 }
 
 .reader-content :deep(p) {
-    margin-bottom: 1rem;
+    margin-bottom: 1.08rem;
     color: var(--library-text);
-    line-height: 1.78;
+    line-height: 1.84;
     text-align: left !important;
-    font-size: 1rem;
+    font-size: 1.01rem;
 }
 
 .reader-content :deep(.reader-sentence) {
@@ -2955,11 +3552,11 @@ export default {
 .reader-content :deep(h2),
 .reader-content :deep(h3),
 .reader-content :deep(h4) {
-    margin: 1.45rem 0 0.9rem;
+    margin: 1.7rem 0 0.95rem;
     color: var(--library-text);
     font-weight: 800;
     letter-spacing: -0.01em;
-    line-height: 1.24;
+    line-height: 1.18;
     text-align: left;
 }
 
@@ -2982,8 +3579,8 @@ export default {
 }
 
 .reader-content :deep(li) {
-    margin-bottom: 0.42rem;
-    line-height: 1.72;
+    margin-bottom: 0.5rem;
+    line-height: 1.76;
     color: var(--library-text);
 }
 
@@ -3018,6 +3615,12 @@ export default {
     gap: 1rem;
 }
 
+.reader-content--pdf :deep(.attachment-preview) {
+    height: 100%;
+    grid-template-rows: auto minmax(0, 1fr);
+    gap: 0.85rem;
+}
+
 .reader-content :deep(.attachment-actions) {
     display: flex;
     align-items: center;
@@ -3031,6 +3634,11 @@ export default {
     border-radius: 16px;
     background: #fff;
     box-shadow: var(--library-shadow-soft);
+}
+
+.reader-content--pdf :deep(.attachment-frame) {
+    min-height: 0;
+    height: 100%;
 }
 
 .reader-content :deep(.attachment-summary) {
@@ -3320,6 +3928,22 @@ export default {
         display: none;
     }
 
+    .reader-toolbar--primary {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 0.4rem;
+    }
+
+    .reader-toolbar--primary .reader-tool-btn {
+        min-width: 0;
+        padding: 0 0.55rem;
+        font-size: 0.76rem;
+    }
+
+    .reader-toolbar--primary .reader-tool-btn span {
+        display: inline;
+    }
+
     .metrics-pills {
         gap: 0.45rem;
     }
@@ -3349,9 +3973,18 @@ export default {
         max-height: min(56vh, 560px);
     }
 
+    .reader-surface--pdf {
+        min-height: min(62vh, 640px);
+        max-height: min(62vh, 640px);
+    }
+
     .reader-content {
         min-height: 240px;
         padding: 1rem 0.95rem 1.1rem;
+    }
+
+    .reader-content--pdf {
+        padding: 0.75rem 0.8rem 0.85rem;
     }
 
     .audio-dock {
@@ -3466,6 +4099,21 @@ export default {
 }
 
 @media (max-width: 767.98px) {
+    .collections-shell {
+        padding: 0.85rem;
+    }
+
+    .collection-card {
+        width: 122px;
+        min-height: 102px;
+        padding: 0.8rem 0.76rem;
+        border-radius: 18px;
+    }
+
+    .collection-name {
+        font-size: 0.84rem;
+    }
+
     .library-hero {
         padding: 0.9rem 0.85rem;
     }
