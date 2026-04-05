@@ -1867,11 +1867,23 @@
                     }
                 }
 
+                    let compactNavbarHeight = 0;
+                    const isCompactNavbar = () => !!(toggler && window.getComputedStyle(toggler).display !== 'none');
+                    const isNavbarMenuExpanded = () => !!(collapseEl && (collapseEl.classList.contains('show') || collapseEl.classList.contains('collapsing')));
+
                     const syncNavbarHeight = () => {
                         const nav = document.querySelector('.navbar.fixed-top');
                         if (!nav || !rootEl) return;
-                        const height = Math.ceil(nav.getBoundingClientRect().height || nav.offsetHeight || 0);
-                        if (!height) return;
+                        const measuredHeight = Math.ceil(nav.getBoundingClientRect().height || nav.offsetHeight || 0);
+                        if (!measuredHeight) return;
+
+                        const compactNav = isCompactNavbar();
+                        const menuExpanded = compactNav && isNavbarMenuExpanded();
+                        if (!menuExpanded) {
+                            compactNavbarHeight = measuredHeight;
+                        }
+
+                        const height = menuExpanded ? (compactNavbarHeight || measuredHeight) : measuredHeight;
                         rootEl.style.setProperty('--navbar-h', `${height}px`);
                         rootEl.style.setProperty('--nav-offset', `${height}px`);
                     };
