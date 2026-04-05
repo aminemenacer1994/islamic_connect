@@ -57742,27 +57742,27 @@ to {
     color: var(--saved-playlists-text);
     display: grid;
     grid-template-rows: auto auto auto auto minmax(0, 1fr);
-    gap: 0.9rem;
+    gap: 1.18rem;
     max-height: min(820px, calc(100dvh - 2rem));
     overflow: hidden;
-    padding: 1rem;
+    padding: 1.28rem;
 }
 .saved-playlists-panel.is-dark[data-v-2e01a2f2] {
-    --saved-playlists-accent: #7dd3fc;
+    --saved-playlists-accent: #38bdf8;
     --saved-playlists-accent-soft: rgba(125, 211, 252, 0.14);
     --saved-playlists-accent-strong: #e0f2fe;
     --saved-playlists-danger: #fca5a5;
     --saved-playlists-danger-soft: rgba(248, 113, 113, 0.14);
-    --saved-playlists-border: rgba(148, 163, 184, 0.24);
-    --saved-playlists-surface: rgba(2, 6, 23, 0.96);
-    --saved-playlists-surface-alt: rgba(15, 23, 42, 0.98);
-    --saved-playlists-card-bg: rgba(15, 23, 42, 0.88);
-    --saved-playlists-toolbar-bg: rgba(15, 23, 42, 0.88);
-    --saved-playlists-control-bg: rgba(30, 41, 59, 0.94);
+    --saved-playlists-border: rgba(148, 163, 184, 0.18);
+    --saved-playlists-surface: rgba(8, 13, 24, 0.97);
+    --saved-playlists-surface-alt: rgba(15, 23, 42, 0.99);
+    --saved-playlists-card-bg: rgba(17, 24, 39, 0.88);
+    --saved-playlists-toolbar-bg: rgba(20, 28, 45, 0.9);
+    --saved-playlists-control-bg: rgba(30, 41, 59, 0.84);
     --saved-playlists-warning-bg: rgba(120, 53, 15, 0.34);
     --saved-playlists-warning-border: rgba(251, 191, 36, 0.28);
     --saved-playlists-text: #f8fafc;
-    --saved-playlists-muted: #cbd5e1;
+    --saved-playlists-muted: #94a3b8;
     box-shadow: 0 26px 58px rgba(2, 6, 23, 0.56);
 }
 .saved-playlists-panel-head[data-v-2e01a2f2],
@@ -57773,11 +57773,14 @@ to {
     justify-content: space-between;
 }
 .saved-playlists-panel-head[data-v-2e01a2f2] {
-    gap: 0.75rem;
+    gap: 1rem;
     align-items: flex-start;
+    padding-bottom: 0.1rem;
 }
 .saved-playlists-panel-heading[data-v-2e01a2f2] {
     min-width: 0;
+    display: grid;
+    gap: 0.2rem;
 }
 .saved-playlists-panel-kicker[data-v-2e01a2f2] {
     display: inline-flex;
@@ -57794,14 +57797,15 @@ to {
     text-transform: uppercase;
 }
 .saved-playlists-panel-title[data-v-2e01a2f2] {
-    font-size: 1rem;
+    font-size: 1.08rem;
     font-weight: 800;
     letter-spacing: -0.02em;
 }
 .saved-playlists-panel-subtitle[data-v-2e01a2f2] {
     color: var(--saved-playlists-muted);
-    font-size: 0.8rem;
-    line-height: 1.35;
+    font-size: 0.82rem;
+    line-height: 1.42;
+    max-width: 34rem;
 }
 .saved-playlists-close-btn[data-v-2e01a2f2],
 .saved-playlists-delete-btn[data-v-2e01a2f2],
@@ -57885,53 +57889,67 @@ to {
 }
 .saved-playlists-flow[data-v-2e01a2f2] {
     display: flex;
-    gap: 0.6rem;
+    align-items: center;
+    gap: 0.68rem;
     flex-wrap: wrap;
-    overflow-x: auto;
-    padding-bottom: 0.08rem;
-    scrollbar-width: thin;
+    padding-top: 0.1rem;
 }
-.saved-playlists-flow-chip[data-v-2e01a2f2] {
+.saved-playlists-flow-step[data-v-2e01a2f2] {
     display: inline-flex;
     align-items: center;
     gap: 0.44rem;
-    min-width: -moz-max-content;
-    min-width: max-content;
-    padding: 0.42rem 0.72rem;
+    min-width: 0;
+    padding: 0.48rem 0.78rem;
     border-radius: 999px;
     border: 1px solid var(--saved-playlists-border);
-    background: rgba(255, 255, 255, 0.55);
+    background: rgba(255, 255, 255, 0.62);
     color: var(--saved-playlists-text);
+    white-space: nowrap;
 }
-.saved-playlists-panel.is-dark .saved-playlists-flow-chip[data-v-2e01a2f2] {
-    background: rgba(15, 23, 42, 0.52);
+.saved-playlists-panel.is-dark .saved-playlists-flow-step[data-v-2e01a2f2] {
+    background: rgba(30, 41, 59, 0.74);
+    border-color: rgba(148, 163, 184, 0.14);
 }
-.saved-playlists-flow-chip i[data-v-2e01a2f2] {
-    color: var(--saved-playlists-accent);
-    font-size: 0.86rem;
+.saved-playlists-flow-step strong[data-v-2e01a2f2],
+.saved-playlists-flow-step span[data-v-2e01a2f2] {
+    display: inline;
 }
-.saved-playlists-flow-chip strong[data-v-2e01a2f2] {
+.saved-playlists-flow-step strong[data-v-2e01a2f2] {
     font-size: 0.72rem;
+    font-weight: 800;
+    line-height: 1;
 }
-.saved-playlists-flow-chip span[data-v-2e01a2f2]:last-child {
+.saved-playlists-flow-step span[data-v-2e01a2f2] {
     color: var(--saved-playlists-muted);
-    font-size: 0.7rem;
-    line-height: 1.2;
+    font-size: 0.68rem;
+    line-height: 1;
+}
+.saved-playlists-flow-icon[data-v-2e01a2f2] {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 999px;
+    background: var(--saved-playlists-accent-soft);
+    color: var(--saved-playlists-accent);
+    flex-shrink: 0;
+    font-size: 0.72rem;
 }
 .saved-playlists-tabs[data-v-2e01a2f2] {
     display: grid;
-    gap: 0.78rem;
+    gap: 1rem;
 }
 .saved-playlists-primary-pills[data-v-2e01a2f2] {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, max-content));
-    gap: 0.7rem;
+    gap: 0.78rem;
 }
 .saved-playlists-secondary-pills[data-v-2e01a2f2] {
     display: flex;
-    gap: 0.62rem;
+    gap: 0.78rem;
     overflow-x: auto;
-    padding-bottom: 0.18rem;
+    padding: 0.12rem 0 0.22rem;
     scrollbar-width: thin;
 }
 .saved-playlists-collection-pill[data-v-2e01a2f2] {
@@ -57999,8 +58017,8 @@ to {
 }
 .saved-playlists-manage[data-v-2e01a2f2] {
     display: grid;
-    gap: 0.72rem;
-    padding: 0.72rem;
+    gap: 0.9rem;
+    padding: 0.9rem;
     border: 1px solid var(--saved-playlists-border);
     border-radius: 22px;
     background: rgba(255, 255, 255, 0.56);
@@ -58127,11 +58145,14 @@ to {
 .saved-playlists-confirm-alert[data-v-2e01a2f2],
 .saved-playlists-toolbar[data-v-2e01a2f2] {
     gap: 0.65rem;
-    margin-bottom: 0.85rem;
+    margin-bottom: 0.95rem;
     border: 1px solid var(--saved-playlists-border);
     border-radius: 16px;
-    padding: 0.72rem 0.78rem;
+    padding: 0.82rem 0.92rem;
     background: var(--saved-playlists-toolbar-bg);
+}
+.saved-playlists-panel.is-dark .saved-playlists-toolbar[data-v-2e01a2f2] {
+    background: rgba(20, 28, 45, 0.92);
 }
 .saved-playlists-confirm-alert[data-v-2e01a2f2] {
     background: var(--saved-playlists-warning-bg);
@@ -58152,13 +58173,15 @@ to {
     display: grid;
     min-height: 0;
     overflow: auto;
-    padding-right: 0.15rem;
+    padding-top: 0.08rem;
+    padding-right: 0.18rem;
 }
 .saved-playlists-grid[data-v-2e01a2f2] {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 1rem;
+    gap: 1.02rem;
     align-content: start;
+    align-items: start;
 }
 .saved-playlists-card[data-v-2e01a2f2],
 .saved-playlists-manage-row[data-v-2e01a2f2] {
@@ -58167,16 +58190,18 @@ to {
 .saved-playlists-card[data-v-2e01a2f2] {
     display: grid;
     grid-template-rows: auto auto;
-    gap: 0.56rem;
+    gap: 0.5rem;
     border: 1px solid var(--saved-playlists-border);
-    border-radius: 20px;
-    padding: 0.78rem;
+    border-radius: 18px;
+    padding: 0.82rem 0.9rem;
     background:
         linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(248, 250, 252, 0.88)),
         var(--saved-playlists-card-bg);
     min-height: 0;
     position: relative;
-    overflow: hidden;
+    overflow: visible;
+    align-self: start;
+    height: auto;
 }
 .saved-playlists-card.is-selected[data-v-2e01a2f2] {
     border-color: rgba(15, 118, 110, 0.4);
@@ -58188,53 +58213,57 @@ to {
 }
 .saved-playlists-panel.is-dark .saved-playlists-card[data-v-2e01a2f2] {
     background:
-        linear-gradient(180deg, rgba(15, 23, 42, 0.96), rgba(15, 23, 42, 0.88)),
+        linear-gradient(180deg, rgba(16, 23, 38, 0.98), rgba(20, 28, 45, 0.94)),
         var(--saved-playlists-card-bg);
 }
 .saved-playlists-card-row[data-v-2e01a2f2] {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 0.72rem;
+    gap: 0.68rem;
     min-width: 0;
 }
 .saved-playlists-card-row-main[data-v-2e01a2f2] {
-    align-items: flex-start;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: start;
 }
 .saved-playlists-card-row-actions[data-v-2e01a2f2] {
-    padding-top: 0.46rem;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 0.62rem;
+    padding-top: 0.54rem;
     border-top: 1px solid var(--saved-playlists-border);
 }
 .saved-playlists-card-badges[data-v-2e01a2f2] {
     display: flex;
-    align-items: center;
-    gap: 0.42rem;
-    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 0.34rem;
+    flex-wrap: nowrap;
     justify-content: flex-end;
     min-width: 0;
     flex-shrink: 0;
+    max-width: 9.75rem;
 }
 .saved-playlists-card-chip[data-v-2e01a2f2],
 .saved-playlists-card-ref[data-v-2e01a2f2] {
     display: inline-flex;
     align-items: center;
     gap: 0.32rem;
-    min-height: 1.5rem;
-    padding: 0.14rem 0.5rem;
+    min-height: 1.34rem;
+    padding: 0.12rem 0.42rem;
     border-radius: 999px;
     background: rgba(15, 23, 42, 0.05);
     color: var(--saved-playlists-muted);
-    font-size: 0.64rem;
+    font-size: 0.61rem;
     font-weight: 700;
+    white-space: nowrap;
 }
 .saved-playlists-panel.is-dark .saved-playlists-card-chip[data-v-2e01a2f2],
 .saved-playlists-panel.is-dark .saved-playlists-card-ref[data-v-2e01a2f2] {
-    background: rgba(148, 163, 184, 0.14);
-    color: var(--saved-playlists-accent-strong);
+    background: rgba(51, 65, 85, 0.9);
+    color: #dbeafe;
 }
 .saved-playlists-card-main[data-v-2e01a2f2] {
     display: block;
-    flex: 1 1 auto;
     min-width: 0;
     padding: 0;
     border: 0;
@@ -58268,9 +58297,8 @@ to {
 }
 .saved-playlists-card-copy[data-v-2e01a2f2] {
     display: grid;
-    gap: 0.16rem;
+    gap: 0.08rem;
     min-width: 0;
-    flex: 1 1 auto;
 }
 .saved-playlists-card-title-row[data-v-2e01a2f2] {
     display: flex;
@@ -58280,8 +58308,8 @@ to {
 }
 .saved-playlists-card-title[data-v-2e01a2f2] {
     font-weight: 800;
-    font-size: 0.96rem;
-    line-height: 1.16;
+    font-size: 0.88rem;
+    line-height: 1.14;
     min-width: 0;
     letter-spacing: -0.02em;
 }
@@ -58289,18 +58317,18 @@ to {
     display: inline-flex;
     align-items: center;
     flex-shrink: 0;
-    padding: 0.16rem 0.48rem;
+    padding: 0.12rem 0.42rem;
     border-radius: 999px;
     background: rgba(14, 165, 233, 0.12);
     color: #0369a1;
-    font-size: 0.64rem;
+    font-size: 0.6rem;
     font-weight: 800;
     letter-spacing: 0.06em;
     text-transform: uppercase;
 }
 .saved-playlists-panel.is-dark .saved-playlists-card-live-pill[data-v-2e01a2f2] {
-    background: rgba(56, 189, 248, 0.14);
-    color: #bae6fd;
+    background: rgba(14, 165, 233, 0.18);
+    color: #e0f2fe;
 }
 .saved-playlists-card-meta-row[data-v-2e01a2f2] {
     display: flex;
@@ -58317,25 +58345,49 @@ to {
 }
 .saved-playlists-card-meta[data-v-2e01a2f2],
 .saved-playlists-card-date[data-v-2e01a2f2] {
-    font-size: 0.74rem;
+    font-size: 0.69rem;
     color: var(--saved-playlists-muted);
 }
 .saved-playlists-card-arabic[data-v-2e01a2f2] {
-    margin-top: 0.08rem;
-    font-size: 1rem;
+    margin-top: 0.02rem;
+    font-size: 0.88rem;
     font-weight: 700;
-    line-height: 1.24;
+    line-height: 1.14;
     color: var(--saved-playlists-text);
     font-family: "Amiri", "Noto Naskh Arabic", var(--ic-quran-arabic-font), serif;
 }
 .saved-playlists-card-actions[data-v-2e01a2f2] {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(3, auto);
     align-items: center;
     justify-content: flex-end;
-    gap: 0.46rem;
+    justify-items: end;
+    gap: 0.32rem;
     width: auto;
     margin-left: auto;
+    flex-shrink: 0;
+}
+.saved-playlists-card-actions[data-v-2e01a2f2] > * {
+    flex-shrink: 0;
+}
+.saved-playlists-move-icon[data-v-2e01a2f2] {
+    position: relative;
+    overflow: hidden;
+}
+.saved-playlists-move-icon .saved-playlists-move-select[data-v-2e01a2f2] {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    min-width: 0;
+    max-width: none;
+    padding: 0;
+    border: 0;
+    opacity: 0;
+    cursor: pointer;
+    -moz-appearance: none;
+         appearance: none;
+    -webkit-appearance: none;
 }
 .saved-playlists-card-tag[data-v-2e01a2f2] {
     display: inline-flex;
@@ -58343,13 +58395,16 @@ to {
     max-width: 100%;
     width: -moz-max-content;
     width: max-content;
-    margin-top: 0.08rem;
-    padding: 0.16rem 0.48rem;
+    min-width: 0;
+    padding: 0.12rem 0.42rem;
     border-radius: 999px;
     background: var(--saved-playlists-accent-soft);
     color: var(--saved-playlists-accent-strong);
-    font-size: 0.66rem;
+    font-size: 0.61rem;
     font-weight: 700;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 .saved-playlists-card-tag.is-muted[data-v-2e01a2f2] {
     background: rgba(148, 163, 184, 0.14);
@@ -58367,10 +58422,7 @@ to {
 }
 @media (max-width: 991.98px) {
 .saved-playlists-panel[data-v-2e01a2f2] {
-        padding: 0.9rem;
-}
-.saved-playlists-grid[data-v-2e01a2f2] {
-        grid-template-columns: minmax(0, 1fr);
+        padding: 1.05rem;
 }
 }
 @media (max-width: 767.98px) {
@@ -58383,11 +58435,11 @@ to {
 }
 .saved-playlists-panel[data-v-2e01a2f2] {
         border-radius: 20px;
-        padding: 0.82rem;
+        padding: 0.92rem;
         max-height: min(100dvh - 1rem, 100%);
 }
 .saved-playlists-tabs[data-v-2e01a2f2] {
-        gap: 0.62rem;
+        gap: 0.74rem;
 }
 .saved-playlists-primary-pills[data-v-2e01a2f2] {
         grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -58396,9 +58448,15 @@ to {
         margin-inline: -0.08rem;
         padding-inline: 0.08rem;
 }
+.saved-playlists-flow[data-v-2e01a2f2] {
+        gap: 0.5rem;
+}
 .saved-playlists-card[data-v-2e01a2f2],
     .saved-playlists-manage-row[data-v-2e01a2f2] {
-        padding: 0.78rem;
+        padding: 0.8rem;
+}
+.saved-playlists-grid[data-v-2e01a2f2] {
+        grid-template-columns: minmax(0, 1fr);
 }
 .saved-playlists-manage-row[data-v-2e01a2f2] {
         flex-direction: column;
@@ -58415,16 +58473,18 @@ to {
 }
 .saved-playlists-card-row-main[data-v-2e01a2f2],
     .saved-playlists-card-row-actions[data-v-2e01a2f2] {
-        flex-direction: column;
-        align-items: flex-start;
+        grid-template-columns: minmax(0, 1fr);
 }
 .saved-playlists-card-badges[data-v-2e01a2f2] {
         justify-content: flex-start;
+        flex-wrap: wrap;
+        max-width: none;
 }
 .saved-playlists-card-actions[data-v-2e01a2f2] {
         width: 100%;
         justify-content: flex-start;
         margin-left: 0;
+        grid-template-columns: repeat(auto-fit, minmax(2.05rem, auto));
 }
 .saved-playlists-move-select[data-v-2e01a2f2] {
         min-width: 0;
@@ -58446,18 +58506,17 @@ to {
         min-height: 2.9rem;
         font-size: 0.88rem;
 }
-.saved-playlists-flow-chip[data-v-2e01a2f2] {
-        min-width: 13.5rem;
-        justify-content: flex-start;
+.saved-playlists-flow-step[data-v-2e01a2f2] {
+        padding: 0.44rem 0.68rem;
 }
 .saved-playlists-manage[data-v-2e01a2f2] {
-        padding: 0.72rem;
+        padding: 0.8rem;
 }
 .saved-playlists-card-title-row[data-v-2e01a2f2] {
         align-items: center;
 }
 .saved-playlists-card-arabic[data-v-2e01a2f2] {
-        font-size: 0.92rem;
+        font-size: 0.84rem;
 }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -89992,6 +90051,13 @@ to {
     padding-bottom: 0.7rem !important;
     border: none !important;
 }
+.surat-premium.mobile-toolbar-pinned .row[role="list"] > .ayah-card.ayah-card-container[data-v-637d02d8]:first-of-type,
+.surat-premium.mobile-toolbar-expanded .row[role="list"] > .ayah-card.ayah-card-container[data-v-637d02d8]:first-of-type {
+    margin-top: 0.95rem !important;
+}
+.surat-premium .ayah-card.ayah-card-container[data-v-637d02d8] {
+    scroll-margin-top: calc(var(--nav-offset, var(--navbar-h, 72px)) + 8.5rem);
+}
 .surat-premium .ayah-card-status-row[data-v-637d02d8] {
     padding-bottom: 0.55rem !important;
 }
@@ -95620,18 +95686,37 @@ body.dark-mode .surat-premium .advanced-quran-mobile-action-btn.is-enabled .adva
     color: rgba(214, 230, 225, 0.72) !important;
 }
 .surat-premium.surat-theme-dark .continue-reading-card-actions-rail[data-v-637d02d8] {
-    border-color: rgba(255, 255, 255, 0.06) !important;
-    background: rgba(255, 255, 255, 0.02) !important;
+    border-color: rgba(124, 223, 210, 0.12) !important;
+    background: rgba(122, 216, 204, 0.06) !important;
 }
 .surat-premium.surat-theme-dark .continue-reading-card-icon[data-v-637d02d8] {
-    background: transparent !important;
-    color: #edf6f3 !important;
+    background: rgba(122, 216, 204, 0.08) !important;
+    color: #dff8f3 !important;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04) !important;
+}
+.surat-premium.surat-theme-dark .continue-reading-card-icon[data-v-637d02d8]:hover,
+.surat-premium.surat-theme-dark .continue-reading-card-icon[data-v-637d02d8]:focus-visible {
+    background: rgba(122, 216, 204, 0.14) !important;
+    color: #f4fffd !important;
+}
+.surat-premium.surat-theme-dark .continue-reading-card-icon--primary[data-v-637d02d8] {
+    background: linear-gradient(135deg, #1f8f82 0%, #157468 100%) !important;
+    color: #ffffff !important;
+    box-shadow:
+        0 12px 24px rgba(10, 61, 55, 0.28),
+        inset 0 1px 0 rgba(255, 255, 255, 0.12) !important;
 }
 .surat-premium.surat-theme-dark .continue-reading-card-title[data-v-637d02d8] {
     color: #f4fbf8 !important;
 }
 .surat-premium.surat-theme-dark .continue-reading-card-meta[data-v-637d02d8] {
     color: rgba(225, 239, 234, 0.8) !important;
+}
+.surat-premium.surat-theme-dark .continue-reading-card-minimized-main[data-v-637d02d8] {
+    color: #f4fbf8 !important;
+}
+.surat-premium.surat-theme-dark .continue-reading-card-minimized-main span[data-v-637d02d8]:last-child {
+    color: rgba(225, 239, 234, 0.78) !important;
 }
 .surat-premium.surat-theme-dark .continue-reading-card-arabic[data-v-637d02d8] {
     color: #89e0d4 !important;
@@ -95911,69 +95996,188 @@ body.dark-mode .surat-premium .advanced-quran-mobile-action-btn.is-enabled .adva
     background: transparent !important;
 }
 .surat-premium.surat-theme-dark .quran-toolbar.quran-toolbar-reader .quran-toolbar-btn-reader-control[data-v-637d02d8] {
-    border-color: rgba(255, 255, 255, 0.08) !important;
-    background: rgba(255, 255, 255, 0.04) !important;
+    border-color: rgba(124, 223, 210, 0.1) !important;
+    background: linear-gradient(180deg, rgba(21, 33, 37, 0.94), rgba(18, 29, 33, 0.94)) !important;
     box-shadow:
-        0 10px 20px rgba(0, 0, 0, 0.18),
-        inset 0 1px 0 rgba(255, 255, 255, 0.03) !important;
+        0 14px 28px rgba(0, 0, 0, 0.24),
+        inset 0 1px 0 rgba(255, 255, 255, 0.04) !important;
     color: #f8fafc !important;
 }
 .surat-premium.surat-theme-dark .quran-toolbar.quran-toolbar-reader .quran-toolbar-btn-reader-control .quran-toolbar-btn-text[data-v-637d02d8] {
-    color: #f8fafc;
+    color: #f2fbf8;
 }
 .surat-premium.surat-theme-dark .quran-toolbar.quran-toolbar-reader .quran-toolbar-btn-reader-control .quran-toolbar-btn-icon-shell[data-v-637d02d8] {
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(125, 211, 199, 0.12));
-    color: #d9fff8;
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    background: linear-gradient(135deg, rgba(122, 216, 204, 0.12), rgba(19, 58, 53, 0.68));
+    color: #aef1e7;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 .surat-premium.surat-theme-dark .quran-toolbar.quran-toolbar-reader .quran-toolbar-btn-reader-control .quran-toolbar-btn-state[data-v-637d02d8] {
-    border-color: transparent;
-    background: rgba(255, 255, 255, 0.08);
-    color: #f8fafc;
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.06);
+    background: rgba(255, 255, 255, 0.06);
+    color: rgba(242, 251, 248, 0.9);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+.surat-premium.surat-theme-dark .quran-toolbar.quran-toolbar-reader .quran-toolbar-btn-reader-control.quran-toolbar-btn-bookmarks[data-v-637d02d8] {
+    border-color: rgba(124, 223, 210, 0.12) !important;
+    background:
+        radial-gradient(circle at top left, rgba(122, 216, 204, 0.14), transparent 35%),
+        linear-gradient(180deg, rgba(22, 36, 40, 0.96), rgba(18, 30, 34, 0.96)) !important;
+}
+.surat-premium.surat-theme-dark .quran-toolbar.quran-toolbar-reader .quran-toolbar-btn-reader-control.quran-toolbar-btn-bookmarks .quran-toolbar-btn-icon-shell[data-v-637d02d8] {
+    background: linear-gradient(135deg, rgba(122, 216, 204, 0.18), rgba(23, 116, 104, 0.38));
+    color: #d8fffa;
 }
 .surat-premium.surat-theme-dark .quran-toolbar.quran-toolbar-reader .quran-toolbar-btn-reader-control.is-enabled[data-v-637d02d8] {
-    border-color: rgba(110, 231, 223, 0.18) !important;
-    background: linear-gradient(180deg, rgba(38, 66, 62, 0.92), rgba(31, 44, 43, 0.92)) !important;
+    border-color: rgba(122, 216, 204, 0.2) !important;
+    background:
+        radial-gradient(circle at top left, rgba(122, 216, 204, 0.16), transparent 34%),
+        linear-gradient(180deg, rgba(28, 60, 56, 0.95), rgba(22, 44, 42, 0.95)) !important;
     box-shadow:
-        0 14px 28px rgba(0, 0, 0, 0.22),
-        inset 0 1px 0 rgba(125, 211, 199, 0.07) !important;
+        0 16px 30px rgba(0, 0, 0, 0.24),
+        inset 0 1px 0 rgba(125, 211, 199, 0.1) !important;
 }
 .surat-premium.surat-theme-dark .quran-toolbar.quran-toolbar-reader .quran-toolbar-btn-reader-control.is-enabled .quran-toolbar-btn-icon-shell[data-v-637d02d8] {
-    background: linear-gradient(135deg, rgba(125, 211, 199, 0.2), rgba(74, 222, 128, 0.16));
+    background: linear-gradient(135deg, rgba(122, 216, 204, 0.26), rgba(31, 143, 130, 0.32));
     color: #cffff7;
 }
 .surat-premium.surat-theme-dark .quran-toolbar.quran-toolbar-reader .quran-toolbar-btn-reader-control.is-enabled .quran-toolbar-btn-state[data-v-637d02d8] {
-    background: linear-gradient(135deg, #73d5c5, #8be3d7);
+    border-color: transparent;
+    background: linear-gradient(135deg, #74dacc, #98ece1);
     color: #0f172a;
     box-shadow: none;
 }
 .surat-premium.surat-theme-dark .quran-toolbar.quran-toolbar-reader .quran-toolbar-more-toggle[data-v-637d02d8] {
-    background: rgba(255, 255, 255, 0.04) !important;
-    border-color: rgba(255, 255, 255, 0.08) !important;
+    background: linear-gradient(180deg, rgba(21, 33, 37, 0.94), rgba(18, 29, 33, 0.94)) !important;
+    border-color: rgba(124, 223, 210, 0.1) !important;
     box-shadow:
-        0 10px 20px rgba(0, 0, 0, 0.18),
-        inset 0 1px 0 rgba(255, 255, 255, 0.03) !important;
+        0 14px 28px rgba(0, 0, 0, 0.24),
+        inset 0 1px 0 rgba(255, 255, 255, 0.04) !important;
+}
+.surat-premium.surat-theme-dark .quran-toolbar.quran-toolbar-reader .quran-toolbar-more-toggle i[data-v-637d02d8] {
+    color: #8fe6da !important;
 }
 .surat-premium.surat-theme-dark .quran-toolbar.quran-toolbar-reader .quran-toolbar-more-toggle[data-v-637d02d8]:hover,
 .surat-premium.surat-theme-dark .quran-toolbar.quran-toolbar-reader .quran-toolbar-more-toggle[data-v-637d02d8]:focus-visible {
-    background: rgba(255, 255, 255, 0.08) !important;
-    border-color: rgba(110, 231, 223, 0.16) !important;
+    background: linear-gradient(180deg, rgba(28, 44, 48, 0.98), rgba(21, 35, 38, 0.98)) !important;
+    border-color: rgba(122, 216, 204, 0.18) !important;
 }
 .surat-premium.surat-theme-dark .quran-toolbar.quran-toolbar-reader[data-v-637d02d8],
 .surat-premium.surat-theme-dark .quran-toolbar-sticky.quran-toolbar-fixed-shell .quran-toolbar[data-v-637d02d8] {
     background:
-        radial-gradient(circle at top right, rgba(125, 211, 199, 0.09), transparent 26%),
-        linear-gradient(180deg, rgba(33, 35, 39, 0.98), rgba(29, 31, 35, 0.98)) !important;
-    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+        radial-gradient(circle at top right, rgba(122, 216, 204, 0.12), transparent 28%),
+        linear-gradient(180deg, rgba(24, 30, 34, 0.99), rgba(20, 25, 29, 0.99)) !important;
+    border: 1px solid rgba(124, 223, 210, 0.12) !important;
     box-shadow:
-        0 18px 36px rgba(0, 0, 0, 0.28),
-        inset 0 1px 0 rgba(255, 255, 255, 0.03) !important;
+        0 20px 38px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.04) !important;
 }
 .surat-premium.surat-theme-dark[data-v-637d02d8] .ayah-word.is-audio-active .ayah-word-ar {
     background: rgba(125, 211, 199, 0.16);
     box-shadow: inset 0 0 0 1px rgba(125, 211, 199, 0.22);
     color: #7dd3c7;
+}
+@media (min-width: 992px) {
+.surat-premium.surat-theme-dark:not(.mobile-compact-layout) .quran-toolbar-sticky.quran-toolbar-fixed-shell[data-v-637d02d8] {
+        background: transparent !important;
+        border: 0 !important;
+        box-shadow: none !important;
+}
+.surat-premium.surat-theme-dark:not(.mobile-compact-layout) .quran-toolbar.quran-toolbar-reader[data-v-637d02d8],
+    .surat-premium.surat-theme-dark:not(.mobile-compact-layout) .quran-toolbar-sticky .quran-toolbar[data-v-637d02d8],
+    .surat-premium.surat-theme-dark:not(.mobile-compact-layout) .quran-toolbar-sticky.quran-toolbar-fixed-shell .quran-toolbar[data-v-637d02d8],
+    .surat-premium.surat-theme-dark:not(.mobile-compact-layout) .quran-toolbar-sticky.quran-toolbar-fixed-shell.is-pinned .quran-toolbar[data-v-637d02d8] {
+        background:
+            radial-gradient(circle at top right, rgba(122, 216, 204, 0.1), transparent 30%),
+            linear-gradient(180deg, rgba(22, 29, 33, 0.985), rgba(17, 23, 27, 0.985)) !important;
+        border: 1px solid rgba(122, 216, 204, 0.14) !important;
+        box-shadow:
+            0 22px 44px rgba(0, 0, 0, 0.34),
+            inset 0 1px 0 rgba(255, 255, 255, 0.04) !important;
+}
+.surat-premium.surat-theme-dark:not(.mobile-compact-layout) .quran-toolbar.quran-toolbar-reader .quran-toolbar-btn-reader-control[data-v-637d02d8],
+    .surat-premium.surat-theme-dark:not(.mobile-compact-layout) .quran-toolbar-sticky .quran-toolbar.quran-toolbar-reader .quran-toolbar-btn-reader-control[data-v-637d02d8] {
+        border-color: rgba(122, 216, 204, 0.1) !important;
+        background:
+            linear-gradient(180deg, rgba(24, 36, 40, 0.96), rgba(18, 28, 32, 0.96)) !important;
+        color: #effaf7 !important;
+        box-shadow:
+            0 12px 24px rgba(0, 0, 0, 0.22),
+            inset 0 1px 0 rgba(255, 255, 255, 0.04) !important;
+}
+.surat-premium.surat-theme-dark:not(.mobile-compact-layout) .quran-toolbar.quran-toolbar-reader .quran-toolbar-btn-reader-control[data-v-637d02d8]:hover,
+    .surat-premium.surat-theme-dark:not(.mobile-compact-layout) .quran-toolbar.quran-toolbar-reader .quran-toolbar-btn-reader-control[data-v-637d02d8]:focus-visible {
+        border-color: rgba(122, 216, 204, 0.18) !important;
+        background:
+            linear-gradient(180deg, rgba(28, 42, 47, 0.98), rgba(21, 32, 36, 0.98)) !important;
+        box-shadow:
+            0 16px 28px rgba(0, 0, 0, 0.26),
+            inset 0 1px 0 rgba(255, 255, 255, 0.06) !important;
+}
+.surat-premium.surat-theme-dark:not(.mobile-compact-layout) .quran-toolbar.quran-toolbar-reader .quran-toolbar-btn-reader-control.quran-toolbar-btn-bookmarks[data-v-637d02d8] {
+        border-color: rgba(122, 216, 204, 0.14) !important;
+        background:
+            radial-gradient(circle at top left, rgba(122, 216, 204, 0.12), transparent 34%),
+            linear-gradient(180deg, rgba(27, 45, 49, 0.97), rgba(19, 31, 35, 0.97)) !important;
+}
+.surat-premium.surat-theme-dark:not(.mobile-compact-layout) .quran-toolbar.quran-toolbar-reader .quran-toolbar-btn-reader-control .quran-toolbar-btn-text[data-v-637d02d8] {
+        color: #f1fcf9 !important;
+}
+.surat-premium.surat-theme-dark:not(.mobile-compact-layout) .quran-toolbar.quran-toolbar-reader .quran-toolbar-btn-reader-control .quran-toolbar-btn-icon-shell[data-v-637d02d8] {
+        background:
+            radial-gradient(circle at 30% 30%, rgba(122, 216, 204, 0.18), transparent 70%),
+            linear-gradient(135deg, rgba(17, 58, 52, 0.92), rgba(23, 43, 45, 0.92)) !important;
+        color: #b7f3ea !important;
+        box-shadow:
+            inset 0 1px 0 rgba(255, 255, 255, 0.08),
+            0 6px 14px rgba(0, 0, 0, 0.18) !important;
+}
+.surat-premium.surat-theme-dark:not(.mobile-compact-layout) .quran-toolbar.quran-toolbar-reader .quran-toolbar-btn-reader-control .quran-toolbar-btn-icon-shell i[data-v-637d02d8] {
+        color: inherit !important;
+}
+.surat-premium.surat-theme-dark:not(.mobile-compact-layout) .quran-toolbar.quran-toolbar-reader .quran-toolbar-btn-reader-control .quran-toolbar-btn-state[data-v-637d02d8] {
+        border-color: rgba(122, 216, 204, 0.08) !important;
+        background: rgba(230, 249, 245, 0.08) !important;
+        color: rgba(241, 252, 249, 0.86) !important;
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04) !important;
+}
+.surat-premium.surat-theme-dark:not(.mobile-compact-layout) .quran-toolbar.quran-toolbar-reader .quran-toolbar-btn-reader-control.is-enabled[data-v-637d02d8] {
+        border-color: rgba(122, 216, 204, 0.2) !important;
+        background:
+            radial-gradient(circle at top left, rgba(122, 216, 204, 0.17), transparent 34%),
+            linear-gradient(180deg, rgba(28, 61, 57, 0.96), rgba(20, 42, 40, 0.96)) !important;
+        box-shadow:
+            0 16px 30px rgba(0, 0, 0, 0.26),
+            inset 0 1px 0 rgba(125, 211, 199, 0.1) !important;
+}
+.surat-premium.surat-theme-dark:not(.mobile-compact-layout) .quran-toolbar.quran-toolbar-reader .quran-toolbar-btn-reader-control.is-enabled .quran-toolbar-btn-icon-shell[data-v-637d02d8] {
+        background:
+            radial-gradient(circle at 30% 30%, rgba(152, 236, 225, 0.22), transparent 70%),
+            linear-gradient(135deg, rgba(31, 143, 130, 0.92), rgba(19, 93, 85, 0.92)) !important;
+        color: #f5fffd !important;
+}
+.surat-premium.surat-theme-dark:not(.mobile-compact-layout) .quran-toolbar.quran-toolbar-reader .quran-toolbar-btn-reader-control.is-enabled .quran-toolbar-btn-state[data-v-637d02d8] {
+        background: linear-gradient(135deg, #74dacc, #98ece1) !important;
+        color: #08211f !important;
+        border-color: transparent !important;
+        box-shadow: none !important;
+}
+.surat-premium.surat-theme-dark:not(.mobile-compact-layout) .quran-toolbar.quran-toolbar-reader .quran-toolbar-more-toggle[data-v-637d02d8] {
+        background:
+            linear-gradient(180deg, rgba(24, 36, 40, 0.96), rgba(18, 28, 32, 0.96)) !important;
+        border-color: rgba(122, 216, 204, 0.1) !important;
+        box-shadow:
+            0 12px 24px rgba(0, 0, 0, 0.22),
+            inset 0 1px 0 rgba(255, 255, 255, 0.04) !important;
+}
+.surat-premium.surat-theme-dark:not(.mobile-compact-layout) .quran-toolbar.quran-toolbar-reader .quran-toolbar-more-toggle i[data-v-637d02d8] {
+        color: #7ad8cc !important;
+}
+.surat-premium.surat-theme-dark:not(.mobile-compact-layout) .quran-toolbar.quran-toolbar-reader .quran-toolbar-more-toggle[data-v-637d02d8]:hover,
+    .surat-premium.surat-theme-dark:not(.mobile-compact-layout) .quran-toolbar.quran-toolbar-reader .quran-toolbar-more-toggle[data-v-637d02d8]:focus-visible {
+        border-color: rgba(122, 216, 204, 0.18) !important;
+        background:
+            linear-gradient(180deg, rgba(28, 42, 47, 0.98), rgba(21, 32, 36, 0.98)) !important;
+}
 }
 .surat-premium.surat-theme-dark[data-v-637d02d8] .ayah-word.is-audio-active .ayah-word-translation {
     color: #9ee8dd !important;

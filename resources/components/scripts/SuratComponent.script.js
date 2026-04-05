@@ -829,7 +829,7 @@ export default {
             continueReadingUiStorageKeyBase: "ic_surat_continue_reading_ui_v1",
             continueReadingEntry: null,
             continueReadingDismissedKey: "",
-            continueReadingCardMinimized: false,
+            continueReadingCardMinimized: true,
             continueReadingSaveTimer: null,
             continueReadingLastSavedKey: "",
             continueReadingLastSavedAt: 0,
@@ -13274,34 +13274,64 @@ export default {
             }
 
             let total = offset + 10;
-            const addToolbarOffsetIfVisible = (selector, overlapBuffer = 28) => {
-                const el = document.querySelector(selector);
-                if (!el || !el.getBoundingClientRect) return;
-                const style = window.getComputedStyle(el);
-                if (
-                    style.display === "none" ||
-                    style.visibility === "hidden" ||
-                    Number(style.opacity) === 0
-                ) {
-                    return;
-                }
-                const rect = el.getBoundingClientRect();
-                const overlapsTopBand =
-                    rect.height > 0 &&
-                    rect.bottom > offset &&
-                    rect.top <= offset + overlapBuffer;
-                if (overlapsTopBand) {
-                    total += rect.height + 10;
+            const addToolbarOffsetIfVisible = (
+                selectors = [],
+                overlapBuffer = 28,
+                extraGap = 10
+            ) => {
+                const selectorList = Array.isArray(selectors)
+                    ? selectors
+                    : [selectors];
+                let measuredHeight = 0;
+
+                selectorList.forEach((selector) => {
+                    if (!selector) return;
+                    const elements = Array.from(
+                        document.querySelectorAll(selector)
+                    );
+                    elements.forEach((el) => {
+                        if (!el || !el.getBoundingClientRect) return;
+                        const style = window.getComputedStyle(el);
+                        if (
+                            style.display === "none" ||
+                            style.visibility === "hidden" ||
+                            Number(style.opacity) === 0
+                        ) {
+                            return;
+                        }
+                        const rect = el.getBoundingClientRect();
+                        const overlapsTopBand =
+                            rect.height > 0 &&
+                            rect.bottom > offset &&
+                            rect.top <= offset + overlapBuffer;
+                        if (!overlapsTopBand) return;
+                        measuredHeight = Math.max(
+                            measuredHeight,
+                            rect.height + extraGap
+                        );
+                    });
+                });
+
+                if (measuredHeight > 0) {
+                    total += measuredHeight;
                 }
             };
 
             if (this.toolbarScrollEnabled) {
                 // Desktop sticky toolbar.
-                addToolbarOffsetIfVisible(".quran-toolbar-sticky", 28);
-                // Mobile/tablet fixed toolbar (when pinned).
                 addToolbarOffsetIfVisible(
-                    ".advanced-quran-mobile-controls.is-pinned",
-                    36
+                    [".quran-toolbar-sticky .quran-toolbar", ".quran-toolbar-sticky"],
+                    36,
+                    14
+                );
+                // Mobile/tablet sticky toolbar.
+                addToolbarOffsetIfVisible(
+                    [
+                        ".advanced-quran-mobile-controls",
+                        ".advanced-quran-mobile-deep-focus-bar",
+                    ],
+                    52,
+                    18
                 );
             }
 
@@ -19240,7 +19270,7 @@ export default {
         loadContinueReadingUiState() {
             if (typeof window === "undefined") {
                 this.continueReadingDismissedKey = "";
-                this.continueReadingCardMinimized = false;
+                this.continueReadingCardMinimized = true;
                 return null;
             }
             try {
@@ -19249,7 +19279,7 @@ export default {
                 );
                 if (!raw) {
                     this.continueReadingDismissedKey = "";
-                    this.continueReadingCardMinimized = false;
+                    this.continueReadingCardMinimized = true;
                     return null;
                 }
                 const parsed = JSON.parse(raw);
@@ -19260,7 +19290,7 @@ export default {
                 return parsed;
             } catch (_) {
                 this.continueReadingDismissedKey = "";
-                this.continueReadingCardMinimized = false;
+                this.continueReadingCardMinimized = true;
                 return null;
             }
         },
