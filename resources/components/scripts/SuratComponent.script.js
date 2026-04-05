@@ -21648,8 +21648,12 @@ export default {
             if (!name) return;
             try {
                 this.savedBookmarkFoldersBusy = true;
-                await axios.post("/api/folders", { name });
+                const response = await axios.post("/api/folders", { name });
+                const createdFolderId = Number(response.data?.folder?.id || 0);
                 await this.fetchSavedBookmarkFolders();
+                if (createdFolderId > 0) {
+                    this.activeSavedBookmarkFolderId = String(createdFolderId);
+                }
                 this.showToast("Collection created.", 2500);
             } catch (_) {
                 this.showToast("Failed to create collection.", 3000);
@@ -21680,10 +21684,15 @@ export default {
             try {
                 this.savedBookmarkFoldersBusy = true;
                 await axios.delete(`/api/folders/${id}`);
+                if (String(this.activeSavedBookmarkFolderId) === String(id)) {
+                    this.activeSavedBookmarkFolderId = "all";
+                }
+                this.clearSavedBookmarksSelection();
+                this.resetSavedBookmarksDeleteConfirm();
                 await this.fetchSavedBookmarkFolders();
                 // Folder membership may have changed; re-sync bookmarks for folderIds.
                 await this.syncSavedAyahsFromApi();
-                this.showToast("Collection deleted.", 2500);
+                this.showToast("Collection deleted. Bookmarks stayed saved.", 2800);
             } catch (_) {
                 this.showToast("Failed to delete collection.", 3000);
             } finally {
@@ -21707,6 +21716,13 @@ export default {
                 return;
             }
             const fromFolderId = Number(this.activeSavedBookmarkFolderId || 0);
+            const existingFolderIds = Array.isArray(resolved?.folderIds)
+                ? resolved.folderIds.map((id) => Number(id)).filter((id) => Number.isFinite(id) && id > 0)
+                : [];
+            if (!fromFolderId && existingFolderIds.includes(targetFolderId)) {
+                this.showToast("Already in that collection.", 2400);
+                return;
+            }
             try {
                 this.savedBookmarkFoldersBusy = true;
                 await axios.post(`/api/ayah-bookmarks/${resolvedBookmarkId}/folders`, {
@@ -21729,7 +21745,12 @@ export default {
                         : nextFolderIds;
                 this.updateSavedBookmarkRecordFoldersByKey(key, finalFolderIds);
                 await this.fetchSavedBookmarkFolders();
-                this.showToast("Moved to collection.", 2500);
+                this.showToast(
+                    Number.isFinite(fromFolderId) && fromFolderId > 0
+                        ? "Moved to collection."
+                        : "Added to collection.",
+                    2500
+                );
             } catch (_) {
                 this.showToast("Failed to move bookmark.", 3000);
             } finally {
@@ -21878,6 +21899,10 @@ export default {
         async openSavedBookmarkByKey(key = "") {
             const bookmark = this.getSavedBookmarkRecordByKey(key);
             if (!bookmark) return;
+            if (this.isSavedBookmarksPanelOpen) {
+                this.closeSavedBookmarksPanel();
+                await this.$nextTick();
+            }
             await this.openSavedBookmark(bookmark);
         },
         async openSavedBookmark(bookmark) {

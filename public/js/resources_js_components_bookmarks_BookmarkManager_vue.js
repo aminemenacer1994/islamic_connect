@@ -873,8 +873,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
 /* harmony import */ var bootstrap__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! bootstrap */ "./node_modules/bootstrap/dist/js/bootstrap.esm.js");
 /* harmony import */ var _utils_bookmarkAuth__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utils/bookmarkAuth */ "./resources/js/utils/bookmarkAuth.js");
-function _objectWithoutProperties(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
-function _objectWithoutPropertiesLoose(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
@@ -884,8 +882,8 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: 'BookmarkModal',
-  emits: ['saved'],
+  name: "BookmarkModal",
+  emits: ["saved"],
   props: {
     ayah: {
       type: Object,
@@ -906,51 +904,51 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       selectedFolderIds: [],
       currentBookmark: null,
       newFolder: {
-        name: '',
-        icon: 'fas fa-bookmark',
-        color: 'primary'
+        name: "",
+        icon: "fas fa-bookmark",
+        color: "primary"
       },
       isSaving: false,
       isCreatingFolder: false,
-      feedback: '',
-      feedbackVariant: 'success',
+      feedback: "",
+      feedbackVariant: "success",
       feedbackTimer: null,
-      feedbackDurationMs: 4000,
+      feedbackDurationMs: 3800,
       closeTimer: null,
       authRedirectTimer: null,
-      bootstrapColors: ['primary', 'secondary', 'success', 'danger', 'warning', 'info', 'light', 'dark'],
+      bootstrapColors: ["primary", "secondary", "success", "danger", "warning", "info", "light", "dark"],
       folderExpanded: {},
       folderContents: {},
       sectionOpen: {
-        folders: true,
-        create: true,
-        contents: false
+        create: false
       },
-      selectedFoldersForDelete: [],
-      folderSearch: '',
+      folderSearch: "",
       pendingDelete: null,
       iconPresets: [{
-        icon: 'fas fa-bookmark'
+        icon: "fas fa-bookmark"
       }, {
-        icon: 'fas fa-star'
+        icon: "fas fa-star"
       }, {
-        icon: 'fas fa-heart'
+        icon: "fas fa-heart"
       }, {
-        icon: 'fas fa-book'
+        icon: "fas fa-book"
       }, {
-        icon: 'fas fa-book-open'
+        icon: "fas fa-book-open"
       }, {
-        icon: 'fas fa-leaf'
+        icon: "fas fa-leaf"
       }, {
-        icon: 'fas fa-mosque'
+        icon: "fas fa-mosque"
       }, {
-        icon: 'fas fa-kaaba'
+        icon: "fas fa-kaaba"
       }]
     };
   },
   computed: {
     feedbackClass() {
-      return this.feedbackVariant === 'danger' ? 'alert-danger' : 'alert-success';
+      return this.feedbackVariant === "danger" ? "alert-danger" : "alert-success";
+    },
+    feedbackIcon() {
+      return this.feedbackVariant === "danger" ? "bi bi-exclamation-triangle-fill" : "bi bi-check-circle-fill";
     },
     selectedCount() {
       return this.selectedFolderIds.length;
@@ -960,33 +958,94 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
     },
     filteredFolders() {
       const query = this.folderSearch.trim().toLowerCase();
-      if (!query) return this.folders;
-      return this.folders.filter(folder => folder.name.toLowerCase().includes(query));
+      const source = query ? this.folders.filter(folder => String((folder === null || folder === void 0 ? void 0 : folder.name) || "").toLowerCase().includes(query)) : [...this.folders];
+      return source.sort((a, b) => {
+        const aSelected = this.selectedFolderIds.includes(a.id) ? 1 : 0;
+        const bSelected = this.selectedFolderIds.includes(b.id) ? 1 : 0;
+        if (aSelected !== bSelected) {
+          return bSelected - aSelected;
+        }
+        const aCount = Number((a === null || a === void 0 ? void 0 : a.ayah_count) || 0);
+        const bCount = Number((b === null || b === void 0 ? void 0 : b.ayah_count) || 0);
+        if (aCount !== bCount) {
+          return bCount - aCount;
+        }
+        return String((a === null || a === void 0 ? void 0 : a.name) || "").localeCompare(String((b === null || b === void 0 ? void 0 : b.name) || ""));
+      });
+    },
+    selectedFoldersPreview() {
+      return this.selectedFolderIds.map(id => this.folders.find(folder => folder.id === id)).filter(Boolean);
+    },
+    hasExistingBookmark() {
+      var _this$currentBookmark;
+      return !!((_this$currentBookmark = this.currentBookmark) !== null && _this$currentBookmark !== void 0 && _this$currentBookmark.id);
+    },
+    ayahSurahLabel() {
+      var _this$ayah, _this$ayah2, _this$currentBookmark2;
+      return String(((_this$ayah = this.ayah) === null || _this$ayah === void 0 ? void 0 : _this$ayah.surah_name) || ((_this$ayah2 = this.ayah) === null || _this$ayah2 === void 0 || (_this$ayah2 = _this$ayah2.surah) === null || _this$ayah2 === void 0 ? void 0 : _this$ayah2.name_en) || ((_this$currentBookmark2 = this.currentBookmark) === null || _this$currentBookmark2 === void 0 ? void 0 : _this$currentBookmark2.surah_name) || "Selected ayah").trim();
+    },
+    ayahNumberLabel() {
+      var _this$ayah3, _this$ayah4, _this$currentBookmark3, _this$currentBookmark4;
+      const ayahNumber = Number(((_this$ayah3 = this.ayah) === null || _this$ayah3 === void 0 ? void 0 : _this$ayah3.ayah_number) || ((_this$ayah4 = this.ayah) === null || _this$ayah4 === void 0 ? void 0 : _this$ayah4.ayah_num) || ((_this$currentBookmark3 = this.currentBookmark) === null || _this$currentBookmark3 === void 0 ? void 0 : _this$currentBookmark3.ayah_number) || ((_this$currentBookmark4 = this.currentBookmark) === null || _this$currentBookmark4 === void 0 ? void 0 : _this$currentBookmark4.ayah_num) || 0);
+      return ayahNumber ? `Ayah ${ayahNumber}` : "Ayah";
+    },
+    ayahPreviewArabic() {
+      var _this$ayah5, _this$ayah6, _this$currentBookmark5;
+      return ((_this$ayah5 = this.ayah) === null || _this$ayah5 === void 0 ? void 0 : _this$ayah5.ayah_verse_ar) || ((_this$ayah6 = this.ayah) === null || _this$ayah6 === void 0 || (_this$ayah6 = _this$ayah6.ayah) === null || _this$ayah6 === void 0 ? void 0 : _this$ayah6.ayah_text) || ((_this$currentBookmark5 = this.currentBookmark) === null || _this$currentBookmark5 === void 0 ? void 0 : _this$currentBookmark5.ayah_verse_ar) || "Arabic text will appear here.";
+    },
+    ayahPreviewTranslation() {
+      var _this$ayah7, _this$ayah8, _this$currentBookmark6;
+      return String(((_this$ayah7 = this.ayah) === null || _this$ayah7 === void 0 ? void 0 : _this$ayah7.ayah_verse_en) || ((_this$ayah8 = this.ayah) === null || _this$ayah8 === void 0 ? void 0 : _this$ayah8.translation) || ((_this$currentBookmark6 = this.currentBookmark) === null || _this$currentBookmark6 === void 0 ? void 0 : _this$currentBookmark6.ayah_verse_en) || "").trim();
     },
     pendingDeleteTitle() {
-      if (!this.pendingDelete) return '';
-      if (this.pendingDelete.type === 'bulk') {
-        return `Delete ${this.pendingDelete.count} folder(s)?`;
-      }
-      return `Delete the "${this.pendingDelete.name}" folder?`;
+      var _this$pendingDelete;
+      return (_this$pendingDelete = this.pendingDelete) !== null && _this$pendingDelete !== void 0 && _this$pendingDelete.name ? `Delete “${this.pendingDelete.name}”?` : "Delete this collection?";
     },
-    feedbackIcon() {
-      return this.feedbackVariant === 'danger' ? 'fas fa-triangle-exclamation' : 'fas fa-circle-check';
+    emptyCollectionsText() {
+      if (this.folders.length) {
+        return "No collections match your search. Try another name or create a new one.";
+      }
+      return "No collections yet. Create one above, or save now and organise it later from All.";
+    },
+    footerPrimaryText() {
+      if (this.selectedCount > 0) {
+        return this.hasExistingBookmark ? "Update this bookmark's collection placement." : "Save this ayah into the selected collections.";
+      }
+      return this.hasExistingBookmark ? "Keep this bookmark saved without any collection." : "Save this ayah directly into All.";
+    },
+    footerSecondaryText() {
+      if (this.selectedCount > 0) {
+        return `${this.selectedCount} collection${this.selectedCount === 1 ? "" : "s"} selected.`;
+      }
+      return "You can sort it into collections later without losing the bookmark.";
+    },
+    saveButtonText() {
+      if (this.isSaving) {
+        return "Saving...";
+      }
+      if (!this.selectedCount) {
+        return this.hasExistingBookmark ? "Update bookmark" : "Save to All";
+      }
+      if (this.selectedCount === 1) {
+        var _this$selectedFolders;
+        return `Save to ${((_this$selectedFolders = this.selectedFoldersPreview[0]) === null || _this$selectedFolders === void 0 ? void 0 : _this$selectedFolders.name) || "collection"}`;
+      }
+      return `Save to ${this.selectedCount} collections`;
     }
   },
   mounted() {
-    const modalEl = document.getElementById('bookmarkModal');
+    const modalEl = document.getElementById("bookmarkModal");
     if (modalEl) {
       this.cleanupModalState();
-      modalEl.addEventListener('show.bs.modal', this.onShow);
-      modalEl.addEventListener('hidden.bs.modal', this.onHidden);
+      modalEl.addEventListener("show.bs.modal", this.onShow);
+      modalEl.addEventListener("hidden.bs.modal", this.onHidden);
     }
   },
   beforeUnmount() {
-    const modalEl = document.getElementById('bookmarkModal');
+    const modalEl = document.getElementById("bookmarkModal");
     if (modalEl) {
-      modalEl.removeEventListener('show.bs.modal', this.onShow);
-      modalEl.removeEventListener('hidden.bs.modal', this.onHidden);
+      modalEl.removeEventListener("show.bs.modal", this.onShow);
+      modalEl.removeEventListener("hidden.bs.modal", this.onHidden);
       const instance = bootstrap__WEBPACK_IMPORTED_MODULE_1__.Modal.getInstance(modalEl);
       if (instance) instance.dispose();
     }
@@ -997,26 +1056,33 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
   },
   methods: {
     async onShow() {
-      this.cleanupModalState();
-      this.feedback = '';
+      this.feedback = "";
+      this.pendingDelete = null;
+      this.folderSearch = "";
       this.selectedFolderIds = [];
       this.currentBookmark = null;
+      this.sectionOpen.create = false;
+      this.resetCreateForm();
       const isAuthed = await this.ensureAuthenticated();
       if (!isAuthed) return;
-      Promise.all([this.fetchFolders(), this.fetchCurrentBookmark()]);
+      await this.fetchFolders();
+      await this.fetchCurrentBookmark();
+      if (!this.folders.length) {
+        this.toggleCreateSection(true);
+      }
     },
     onHidden() {
-      this.cleanupModalState();
       clearTimeout(this.feedbackTimer);
       clearTimeout(this.closeTimer);
       clearTimeout(this.authRedirectTimer);
+      this.cleanupModalState();
     },
     async ensureAuthenticated() {
       const userId = await (0,_utils_bookmarkAuth__WEBPACK_IMPORTED_MODULE_2__.fetchUserIdFromApi)();
       if (userId) {
         return true;
       }
-      this.setFeedback('Please log in to save bookmarks. Redirecting…', 'danger');
+      this.setFeedback("Please log in to save bookmarks. Redirecting...", "danger");
       clearTimeout(this.authRedirectTimer);
       this.authRedirectTimer = setTimeout(() => {
         const redirect = `${window.location.pathname}${window.location.search}${window.location.hash}`;
@@ -1025,167 +1091,197 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       return false;
     },
     cleanupModalState() {
-      const backdrops = document.querySelectorAll('.modal-backdrop');
-      backdrops.forEach(backdrop => {
-        var _backdrop$parentNode, _backdrop$parentNode$;
-        return (_backdrop$parentNode = backdrop.parentNode) === null || _backdrop$parentNode === void 0 || (_backdrop$parentNode$ = _backdrop$parentNode.removeChild) === null || _backdrop$parentNode$ === void 0 ? void 0 : _backdrop$parentNode$.call(_backdrop$parentNode, backdrop);
-      });
-      document.body.classList.remove('modal-open');
-      document.body.style.removeProperty('padding-right');
+      const backdrops = Array.from(document.querySelectorAll(".modal-backdrop"));
+      if (backdrops.length > 1) {
+        backdrops.slice(0, -1).forEach(backdrop => {
+          var _backdrop$parentNode, _backdrop$parentNode$;
+          return (_backdrop$parentNode = backdrop.parentNode) === null || _backdrop$parentNode === void 0 || (_backdrop$parentNode$ = _backdrop$parentNode.removeChild) === null || _backdrop$parentNode$ === void 0 ? void 0 : _backdrop$parentNode$.call(_backdrop$parentNode, backdrop);
+        });
+      }
+      if (!document.querySelector(".modal.show")) {
+        document.body.classList.remove("modal-open");
+        document.body.style.removeProperty("padding-right");
+      }
     },
     async fetchFolders() {
       try {
-        const response = await axios__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/folders');
-        this.folders = response.data.data || [];
+        var _response$data;
+        const response = await axios__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/folders");
+        this.folders = Array.isArray((_response$data = response.data) === null || _response$data === void 0 ? void 0 : _response$data.data) ? response.data.data : [];
         this.normalizeSelectedFolders();
-      } catch (error) {
-        this.setFeedback('Unable to load folders right now.', 'danger');
+      } catch (_) {
+        this.setFeedback("Unable to load collections right now.", "danger");
       }
     },
     async fetchCurrentBookmark() {
-      var _this$ayah, _this$ayah2, _this$ayah3, _this$ayah4;
-      const surahNumber = Number(((_this$ayah = this.ayah) === null || _this$ayah === void 0 ? void 0 : _this$ayah.surah_number) || ((_this$ayah2 = this.ayah) === null || _this$ayah2 === void 0 ? void 0 : _this$ayah2.surah_id));
-      const ayahNumber = Number(((_this$ayah3 = this.ayah) === null || _this$ayah3 === void 0 ? void 0 : _this$ayah3.ayah_number) || ((_this$ayah4 = this.ayah) === null || _this$ayah4 === void 0 ? void 0 : _this$ayah4.ayah_num));
+      var _this$ayah9, _this$ayah0, _this$ayah1, _this$ayah10;
+      const surahNumber = Number(((_this$ayah9 = this.ayah) === null || _this$ayah9 === void 0 ? void 0 : _this$ayah9.surah_number) || ((_this$ayah0 = this.ayah) === null || _this$ayah0 === void 0 ? void 0 : _this$ayah0.surah_id));
+      const ayahNumber = Number(((_this$ayah1 = this.ayah) === null || _this$ayah1 === void 0 ? void 0 : _this$ayah1.ayah_number) || ((_this$ayah10 = this.ayah) === null || _this$ayah10 === void 0 ? void 0 : _this$ayah10.ayah_num));
       if (!this.ayah || !surahNumber || !ayahNumber) {
         return;
       }
       try {
-        var _response$data;
-        const response = await axios__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/ayah-bookmarks', {
+        var _response$data2;
+        const response = await axios__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/ayah-bookmarks", {
           params: {
             surah_number: surahNumber,
             ayah_number: ayahNumber
           }
         });
-        const bookmark = Array.isArray((_response$data = response.data) === null || _response$data === void 0 ? void 0 : _response$data.data) ? response.data.data[0] : null;
+        const bookmark = Array.isArray((_response$data2 = response.data) === null || _response$data2 === void 0 ? void 0 : _response$data2.data) ? response.data.data[0] : null;
         this.currentBookmark = bookmark || null;
         if (bookmark !== null && bookmark !== void 0 && bookmark.folders) {
           this.selectedFolderIds = bookmark.folders.map(folder => folder.id);
         }
         this.normalizeSelectedFolders();
-      } catch (error) {
+      } catch (_) {
         this.currentBookmark = null;
       }
     },
     normalizeSelectedFolders() {
-      if (!this.folders.length) {
-        return;
-      }
+      if (!this.folders.length) return;
       const allowedIds = new Set(this.folders.filter(folder => !folder.is_smart).map(folder => folder.id));
       this.selectedFolderIds = this.selectedFolderIds.filter(id => allowedIds.has(id));
     },
-    isSmartFolder(folderId) {
-      const folder = this.folders.find(item => item.id === folderId);
-      return !!(folder !== null && folder !== void 0 && folder.is_smart);
+    resetCreateForm() {
+      this.newFolder = {
+        name: "",
+        icon: "fas fa-bookmark",
+        color: "primary"
+      };
+    },
+    toggleCreateSection(forceState = null) {
+      this.sectionOpen.create = typeof forceState === "boolean" ? forceState : !this.sectionOpen.create;
+      if (!this.sectionOpen.create) {
+        this.resetCreateForm();
+        return;
+      }
+      this.$nextTick(() => {
+        var _this$$refs$newCollec, _this$$refs$newCollec2;
+        (_this$$refs$newCollec = this.$refs.newCollectionInput) === null || _this$$refs$newCollec === void 0 || (_this$$refs$newCollec2 = _this$$refs$newCollec.focus) === null || _this$$refs$newCollec2 === void 0 || _this$$refs$newCollec2.call(_this$$refs$newCollec);
+      });
+    },
+    toggleFolderSelection(folder) {
+      if (!folder || folder.is_smart) {
+        this.setFeedback("Smart folders cannot be edited manually.", "danger");
+        return;
+      }
+      if (this.selectedFolderIds.includes(folder.id)) {
+        this.selectedFolderIds = this.selectedFolderIds.filter(id => id !== folder.id);
+        return;
+      }
+      this.selectedFolderIds = [...this.selectedFolderIds, folder.id];
     },
     async createFolder() {
       const isAuthed = await this.ensureAuthenticated();
       if (!isAuthed) return;
-      if (!this.newFolder.name) {
-        this.setFeedback('Folder name is required.', 'danger');
+      const name = String(this.newFolder.name || "").trim();
+      if (!name) {
+        this.setFeedback("Collection name is required.", "danger");
         return;
       }
-      const name = this.newFolder.name.trim();
-      const nameKey = name.toLowerCase();
-      if (this.folders.some(folder => (folder.name || '').trim().toLowerCase() === nameKey)) {
-        this.setFeedback('Folder name already exists. Choose another.', 'danger');
+      const duplicate = this.folders.some(folder => String((folder === null || folder === void 0 ? void 0 : folder.name) || "").trim().toLowerCase() === name.toLowerCase());
+      if (duplicate) {
+        this.setFeedback("That collection already exists. Choose another name.", "danger");
         return;
       }
       this.isCreatingFolder = true;
       try {
-        const response = await axios__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/folders', {
+        var _response$data3;
+        const response = await axios__WEBPACK_IMPORTED_MODULE_0__["default"].post("/api/folders", {
           name,
           icon: this.newFolder.icon || null,
           color: this.newFolder.color || null
         });
-        const folder = response.data.folder;
+        const folder = (_response$data3 = response.data) === null || _response$data3 === void 0 ? void 0 : _response$data3.folder;
         if (folder) {
-          this.folders.unshift(_objectSpread(_objectSpread({}, folder), {}, {
+          this.folders = [_objectSpread(_objectSpread({}, folder), {}, {
             ayah_count: 0
-          }));
-          this.selectedFolderIds.push(folder.id);
-          this.folderExpanded[folder.id] = true;
-          this.folderContents[folder.id] = {
-            loading: false,
-            items: []
-          };
-          this.newFolder.name = '';
-          this.newFolder.icon = 'fas fa-bookmark';
-          this.newFolder.color = 'primary';
-          this.setFeedback('Folder created.', 'success');
+          }), ...this.folders];
+          if (!this.selectedFolderIds.includes(folder.id)) {
+            this.selectedFolderIds = [...this.selectedFolderIds, folder.id];
+          }
+          this.folderExpanded = _objectSpread(_objectSpread({}, this.folderExpanded), {}, {
+            [folder.id]: true
+          });
+          this.folderContents = _objectSpread(_objectSpread({}, this.folderContents), {}, {
+            [folder.id]: {
+              loading: false,
+              items: []
+            }
+          });
+          this.toggleCreateSection(false);
+          this.setFeedback("Collection created and selected.", "success");
         }
       } catch (error) {
         var _error$response, _error$response2;
         const apiMessage = ((_error$response = error.response) === null || _error$response === void 0 || (_error$response = _error$response.data) === null || _error$response === void 0 ? void 0 : _error$response.message) || ((_error$response2 = error.response) === null || _error$response2 === void 0 || (_error$response2 = _error$response2.data) === null || _error$response2 === void 0 || (_error$response2 = _error$response2.errors) === null || _error$response2 === void 0 || (_error$response2 = _error$response2.name) === null || _error$response2 === void 0 ? void 0 : _error$response2[0]);
-        this.setFeedback(apiMessage || 'Failed to create folder.', 'danger');
+        this.setFeedback(apiMessage || "Failed to create collection.", "danger");
       } finally {
         this.isCreatingFolder = false;
       }
     },
     async saveBookmark() {
-      var _this$ayah5, _this$ayah6, _this$ayah7, _this$ayah8;
+      var _this$ayah11, _this$ayah12, _this$ayah13, _this$ayah14;
       const isAuthed = await this.ensureAuthenticated();
       if (!isAuthed) return;
-      const surahNumber = Number(((_this$ayah5 = this.ayah) === null || _this$ayah5 === void 0 ? void 0 : _this$ayah5.surah_number) || ((_this$ayah6 = this.ayah) === null || _this$ayah6 === void 0 ? void 0 : _this$ayah6.surah_id));
-      const ayahNumber = Number(((_this$ayah7 = this.ayah) === null || _this$ayah7 === void 0 ? void 0 : _this$ayah7.ayah_number) || ((_this$ayah8 = this.ayah) === null || _this$ayah8 === void 0 ? void 0 : _this$ayah8.ayah_num));
+      const surahNumber = Number(((_this$ayah11 = this.ayah) === null || _this$ayah11 === void 0 ? void 0 : _this$ayah11.surah_number) || ((_this$ayah12 = this.ayah) === null || _this$ayah12 === void 0 ? void 0 : _this$ayah12.surah_id));
+      const ayahNumber = Number(((_this$ayah13 = this.ayah) === null || _this$ayah13 === void 0 ? void 0 : _this$ayah13.ayah_number) || ((_this$ayah14 = this.ayah) === null || _this$ayah14 === void 0 ? void 0 : _this$ayah14.ayah_num));
       if (!this.ayah || !surahNumber || !ayahNumber) {
-        this.setFeedback('Select an ayah first.', 'danger');
+        this.setFeedback("Select an ayah first.", "danger");
         return;
       }
       this.isSaving = true;
       try {
-        var _this$currentBookmark, _this$ayah$surah, _this$ayah$ayah, _response$data2, _this$currentBookmark2;
+        var _this$currentBookmark7, _this$ayah$surah, _this$ayah$ayah, _response$data4, _this$currentBookmark8;
         this.normalizeSelectedFolders();
         const selectedIds = Array.from(new Set(this.selectedFolderIds));
-        const existingIds = ((_this$currentBookmark = this.currentBookmark) === null || _this$currentBookmark === void 0 || (_this$currentBookmark = _this$currentBookmark.folders) === null || _this$currentBookmark === void 0 ? void 0 : _this$currentBookmark.map(folder => folder.id)) || [];
-        const removeIds = existingIds.filter(id => !selectedIds.includes(id));
-        const removableIds = removeIds.filter(id => !this.isSmartFolder(id));
+        const existingIds = ((_this$currentBookmark7 = this.currentBookmark) === null || _this$currentBookmark7 === void 0 || (_this$currentBookmark7 = _this$currentBookmark7.folders) === null || _this$currentBookmark7 === void 0 ? void 0 : _this$currentBookmark7.map(folder => folder.id)) || [];
+        const removableIds = existingIds.filter(id => !selectedIds.includes(id));
         const addIds = selectedIds.filter(id => !existingIds.includes(id));
         const payload = {
           surah_number: surahNumber,
           ayah_number: ayahNumber,
-          surah_name: this.ayah.surah_name || ((_this$ayah$surah = this.ayah.surah) === null || _this$ayah$surah === void 0 ? void 0 : _this$ayah$surah.name_en) || 'Surah',
-          ayah_verse_ar: this.ayah.ayah_verse_ar || ((_this$ayah$ayah = this.ayah.ayah) === null || _this$ayah$ayah === void 0 ? void 0 : _this$ayah$ayah.ayah_text) || '',
-          ayah_verse_en: this.ayah.ayah_verse_en || '',
+          surah_name: this.ayah.surah_name || ((_this$ayah$surah = this.ayah.surah) === null || _this$ayah$surah === void 0 ? void 0 : _this$ayah$surah.name_en) || "Surah",
+          ayah_verse_ar: this.ayah.ayah_verse_ar || ((_this$ayah$ayah = this.ayah.ayah) === null || _this$ayah$ayah === void 0 ? void 0 : _this$ayah$ayah.ayah_text) || "",
+          ayah_verse_en: this.ayah.ayah_verse_en || this.ayah.translation || "",
           folder_ids: selectedIds
         };
-        const response = await axios__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/ayah-bookmarks', payload);
-        const bookmark = ((_response$data2 = response.data) === null || _response$data2 === void 0 ? void 0 : _response$data2.bookmark) || null;
+        const response = await axios__WEBPACK_IMPORTED_MODULE_0__["default"].post("/api/ayah-bookmarks", payload);
+        const bookmark = ((_response$data4 = response.data) === null || _response$data4 === void 0 ? void 0 : _response$data4.bookmark) || null;
         if (bookmark) {
           this.currentBookmark = bookmark;
         }
         let detachFailed = false;
-        if (removableIds.length && (_this$currentBookmark2 = this.currentBookmark) !== null && _this$currentBookmark2 !== void 0 && _this$currentBookmark2.id) {
+        if (removableIds.length && (_this$currentBookmark8 = this.currentBookmark) !== null && _this$currentBookmark8 !== void 0 && _this$currentBookmark8.id) {
           try {
             await Promise.all(removableIds.map(id => axios__WEBPACK_IMPORTED_MODULE_0__["default"].delete(`/api/ayah-bookmarks/${this.currentBookmark.id}/folders/${id}`)));
-            // Decrement count for removed folders
             removableIds.forEach(id => {
-              const folder = this.folders.find(f => f.id === id);
+              const folder = this.folders.find(item => item.id === id);
               if (folder && folder.ayah_count > 0) {
                 folder.ayah_count -= 1;
               }
             });
-          } catch (error) {
+          } catch (_) {
             detachFailed = true;
           }
         }
-
-        // Increment count for newly added folders
         addIds.forEach(id => {
-          const folder = this.folders.find(f => f.id === id);
+          const folder = this.folders.find(item => item.id === id);
           if (folder) {
-            folder.ayah_count = (folder.ayah_count || 0) + 1;
+            folder.ayah_count = Number(folder.ayah_count || 0) + 1;
           }
         });
         await this.fetchCurrentBookmark();
-        this.setFeedback(detachFailed ? 'Bookmark saved, but some folders could not be removed.' : 'Ayah saved to your bookmarks.', detachFailed ? 'danger' : 'success', {
+        const successMessage = selectedIds.length ? "Ayah saved to your selected collections." : "Ayah saved. It is available in All.";
+        this.setFeedback(detachFailed ? "Bookmark saved, but some collections could not be removed." : successMessage, detachFailed ? "danger" : "success", {
           autoClose: !detachFailed
         });
-        this.$emit('saved', _objectSpread(_objectSpread({}, payload), {}, {
+        this.$emit("saved", _objectSpread(_objectSpread({}, payload), {}, {
           bookmark: this.currentBookmark
         }));
-      } catch (error) {
-        this.setFeedback('Failed to save the bookmark.', 'danger');
+      } catch (_) {
+        this.setFeedback("Failed to save the bookmark.", "danger");
       } finally {
         this.isSaving = false;
       }
@@ -1195,7 +1291,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       this.feedbackVariant = variant;
       clearTimeout(this.feedbackTimer);
       this.feedbackTimer = setTimeout(() => {
-        this.feedback = '';
+        this.feedback = "";
       }, this.feedbackDurationMs);
       if (options.autoClose) {
         clearTimeout(this.closeTimer);
@@ -1207,40 +1303,19 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
     clearSelection() {
       this.selectedFolderIds = [];
     },
-    toggleSection(section) {
-      this.sectionOpen = _objectSpread(_objectSpread({}, this.sectionOpen), {}, {
-        [section]: !this.sectionOpen[section]
-      });
-    },
     requestDeleteFolder(folder) {
       if (!folder || folder.is_smart) {
-        this.setFeedback('Smart folders cannot be deleted.', 'danger');
+        this.setFeedback("Smart folders cannot be deleted.", "danger");
         return;
       }
       this.pendingDelete = {
-        type: 'single',
         ids: [folder.id],
         name: folder.name
       };
     },
-    requestDeleteSelectedFolders() {
-      const ids = this.selectedFoldersForDelete.filter(id => {
-        const folder = this.folders.find(item => item.id === id);
-        return folder && !folder.is_smart;
-      });
-      if (!ids.length) {
-        this.setFeedback('Select folders to delete.', 'danger');
-        return;
-      }
-      this.pendingDelete = {
-        type: 'bulk',
-        ids,
-        count: ids.length
-      };
-    },
     async confirmDelete() {
-      var _this$pendingDelete;
-      const ids = ((_this$pendingDelete = this.pendingDelete) === null || _this$pendingDelete === void 0 ? void 0 : _this$pendingDelete.ids) || [];
+      var _this$pendingDelete2;
+      const ids = ((_this$pendingDelete2 = this.pendingDelete) === null || _this$pendingDelete2 === void 0 ? void 0 : _this$pendingDelete2.ids) || [];
       if (!ids.length) {
         this.pendingDelete = null;
         return;
@@ -1249,26 +1324,19 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
         await Promise.all(ids.map(id => axios__WEBPACK_IMPORTED_MODULE_0__["default"].delete(`/api/folders/${id}`)));
         this.folders = this.folders.filter(folder => !ids.includes(folder.id));
         this.selectedFolderIds = this.selectedFolderIds.filter(id => !ids.includes(id));
-        this.selectedFoldersForDelete = [];
         ids.forEach(id => {
-          const _this$folderExpanded = this.folderExpanded,
-            {
-              [id]: removedExpanded
-            } = _this$folderExpanded,
-            expanded = _objectWithoutProperties(_this$folderExpanded, [id].map(_toPropertyKey));
+          const expanded = _objectSpread({}, this.folderExpanded);
+          delete expanded[id];
           this.folderExpanded = expanded;
-          const _this$folderContents = this.folderContents,
-            {
-              [id]: removedContents
-            } = _this$folderContents,
-            contents = _objectWithoutProperties(_this$folderContents, [id].map(_toPropertyKey));
+          const contents = _objectSpread({}, this.folderContents);
+          delete contents[id];
           this.folderContents = contents;
         });
         this.pendingDelete = null;
         await this.fetchCurrentBookmark();
-        this.setFeedback(ids.length === 1 ? 'Folder deleted.' : 'Folders deleted.', 'success');
-      } catch (error) {
-        this.setFeedback('Unable to delete selected folders.', 'danger');
+        this.setFeedback("Collection deleted. Saved ayahs stayed available in All.", "success");
+      } catch (_) {
+        this.setFeedback("Unable to delete this collection right now.", "danger");
       }
     },
     cancelDelete() {
@@ -1276,7 +1344,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
     },
     hideModal() {
       this.$nextTick(() => {
-        const modalEl = document.getElementById('bookmarkModal');
+        const modalEl = document.getElementById("bookmarkModal");
         if (!modalEl) return;
         const instance = bootstrap__WEBPACK_IMPORTED_MODULE_1__.Modal.getInstance(modalEl) || new bootstrap__WEBPACK_IMPORTED_MODULE_1__.Modal(modalEl);
         instance.hide();
@@ -1284,14 +1352,11 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
     },
     async toggleFolderContents(folder) {
       var _this$folderContents$;
-      const isOpen = this.folderExpanded[folder.id];
+      const isOpen = !!this.folderExpanded[folder.id];
       this.folderExpanded = _objectSpread(_objectSpread({}, this.folderExpanded), {}, {
         [folder.id]: !isOpen
       });
-      if (isOpen) {
-        return;
-      }
-      if ((_this$folderContents$ = this.folderContents[folder.id]) !== null && _this$folderContents$ !== void 0 && _this$folderContents$.items) {
+      if (isOpen || (_this$folderContents$ = this.folderContents[folder.id]) !== null && _this$folderContents$ !== void 0 && _this$folderContents$.items) {
         return;
       }
       this.folderContents = _objectSpread(_objectSpread({}, this.folderContents), {}, {
@@ -1301,20 +1366,19 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
         }
       });
       try {
-        var _response$data3;
-        const response = await axios__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/ayah-bookmarks', {
+        var _response$data5;
+        const response = await axios__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/ayah-bookmarks", {
           params: {
             folder_id: folder.id
           }
         });
-        const items = Array.isArray((_response$data3 = response.data) === null || _response$data3 === void 0 ? void 0 : _response$data3.data) ? response.data.data : [];
         this.folderContents = _objectSpread(_objectSpread({}, this.folderContents), {}, {
           [folder.id]: {
             loading: false,
-            items
+            items: Array.isArray((_response$data5 = response.data) === null || _response$data5 === void 0 ? void 0 : _response$data5.data) ? response.data.data : []
           }
         });
-      } catch (error) {
+      } catch (_) {
         this.folderContents = _objectSpread(_objectSpread({}, this.folderContents), {}, {
           [folder.id]: {
             loading: false,
@@ -1324,16 +1388,9 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       }
     },
     async removeAyahFromFolder(bookmark, folder) {
-      if (!(bookmark !== null && bookmark !== void 0 && bookmark.id)) return;
-      if (folder !== null && folder !== void 0 && folder.is_smart) {
-        this.setFeedback('Smart folders cannot be edited.', 'danger');
-        return;
-      }
+      if (!(bookmark !== null && bookmark !== void 0 && bookmark.id) || folder !== null && folder !== void 0 && folder.is_smart) return;
       try {
-        var _this$folderContents$2, _this$currentBookmark3;
-        if (!confirm('Remove this ayah from the folder?')) {
-          return;
-        }
+        var _this$folderContents$2, _this$currentBookmark9;
         await axios__WEBPACK_IMPORTED_MODULE_0__["default"].delete(`/api/ayah-bookmarks/${bookmark.id}/folders/${folder.id}`);
         const items = ((_this$folderContents$2 = this.folderContents[folder.id]) === null || _this$folderContents$2 === void 0 ? void 0 : _this$folderContents$2.items) || [];
         this.folderContents = _objectSpread(_objectSpread({}, this.folderContents), {}, {
@@ -1345,30 +1402,21 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
         if (folder.ayah_count > 0) {
           folder.ayah_count -= 1;
         }
-        if (((_this$currentBookmark3 = this.currentBookmark) === null || _this$currentBookmark3 === void 0 ? void 0 : _this$currentBookmark3.id) === bookmark.id) {
+        if (((_this$currentBookmark9 = this.currentBookmark) === null || _this$currentBookmark9 === void 0 ? void 0 : _this$currentBookmark9.id) === bookmark.id) {
           this.selectedFolderIds = this.selectedFolderIds.filter(id => id !== folder.id);
         }
-      } catch (error) {
-        this.setFeedback('Unable to remove this ayah.', 'danger');
+        this.setFeedback("Ayah removed from the collection.", "success");
+      } catch (_) {
+        this.setFeedback("Unable to remove this ayah.", "danger");
       }
     },
     moveTargetFolders(folder) {
       return this.folders.filter(target => !target.is_smart && target.id !== folder.id);
     },
-    setIcon(icon) {
-      this.newFolder.icon = icon;
-    },
-    setColor(color) {
-      this.newFolder.color = color;
-    },
     async moveAyahToFolder(bookmark, fromFolder, event) {
       var _event$target;
       const targetId = Number(event === null || event === void 0 || (_event$target = event.target) === null || _event$target === void 0 ? void 0 : _event$target.value);
-      if (!(bookmark !== null && bookmark !== void 0 && bookmark.id) || !targetId) return;
-      if (fromFolder !== null && fromFolder !== void 0 && fromFolder.is_smart) {
-        this.setFeedback('Smart folders cannot be edited.', 'danger');
-        return;
-      }
+      if (!(bookmark !== null && bookmark !== void 0 && bookmark.id) || !targetId || fromFolder !== null && fromFolder !== void 0 && fromFolder.is_smart) return;
       try {
         var _this$folderContents$3;
         await axios__WEBPACK_IMPORTED_MODULE_0__["default"].post(`/api/ayah-bookmarks/${bookmark.id}/folders`, {
@@ -1385,8 +1433,10 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
         const targetFolder = this.folders.find(folder => folder.id === targetId);
         if (targetFolder) {
           var _this$folderContents$4;
-          targetFolder.ayah_count = (targetFolder.ayah_count || 0) + 1;
-          if (fromFolder.ayah_count > 0) fromFolder.ayah_count -= 1;
+          targetFolder.ayah_count = Number(targetFolder.ayah_count || 0) + 1;
+          if (fromFolder.ayah_count > 0) {
+            fromFolder.ayah_count -= 1;
+          }
           if ((_this$folderContents$4 = this.folderContents[targetId]) !== null && _this$folderContents$4 !== void 0 && _this$folderContents$4.items) {
             this.folderContents = _objectSpread(_objectSpread({}, this.folderContents), {}, {
               [targetId]: {
@@ -1396,13 +1446,19 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
             });
           }
         }
-        this.setFeedback('Ayah moved to another folder.', 'success');
         if (event !== null && event !== void 0 && event.target) {
-          event.target.value = '';
+          event.target.value = "";
         }
-      } catch (error) {
-        this.setFeedback('Unable to move this ayah.', 'danger');
+        this.setFeedback("Ayah moved to another collection.", "success");
+      } catch (_) {
+        this.setFeedback("Unable to move this ayah.", "danger");
       }
+    },
+    setIcon(icon) {
+      this.newFolder.icon = icon;
+    },
+    setColor(color) {
+      this.newFolder.color = color;
     }
   }
 });
@@ -2364,208 +2420,249 @@ const _hoisted_1 = {
   "aria-hidden": "true"
 };
 const _hoisted_2 = {
-  class: "modal-dialog modal-dialog-centered modal-xl"
+  class: "modal-dialog modal-dialog-centered modal-dialog-scrollable bookmark-modal-dialog"
 };
 const _hoisted_3 = {
   class: "modal-header"
 };
 const _hoisted_4 = {
-  class: "header-title"
+  class: "bookmark-header-main"
 };
 const _hoisted_5 = {
-  class: "header-meta"
+  class: "bookmark-header-copy"
 };
 const _hoisted_6 = {
-  class: "meta-item"
+  class: "bookmark-header-meta"
 };
 const _hoisted_7 = {
-  class: "meta-value"
+  class: "bookmark-meta-chip"
 };
 const _hoisted_8 = {
-  class: "meta-item"
+  class: "bookmark-meta-chip"
 };
 const _hoisted_9 = {
-  class: "meta-value"
+  class: "bookmark-meta-chip is-accent"
 };
 const _hoisted_10 = {
   class: "modal-body"
 };
 const _hoisted_11 = {
-  class: "alert-icon"
+  class: "bookmark-alert-icon",
+  "aria-hidden": "true"
 };
 const _hoisted_12 = {
-  class: "alert-text"
+  key: 1,
+  class: "bookmark-delete-confirm"
 };
 const _hoisted_13 = {
-  key: 1,
-  class: "delete-confirm mb-3"
+  class: "bookmark-delete-copy"
 };
 const _hoisted_14 = {
-  class: "delete-title"
+  class: "bookmark-delete-actions"
 };
 const _hoisted_15 = {
-  class: "delete-actions"
+  class: "bookmark-layout"
 };
 const _hoisted_16 = {
-  class: "row g-3"
+  class: "section-card bookmark-section-main"
 };
 const _hoisted_17 = {
-  class: "col-12 col-md-6"
+  class: "section-head"
 };
 const _hoisted_18 = {
-  class: "section-card h-100"
+  class: "section-actions"
 };
 const _hoisted_19 = {
-  class: "section-header"
+  class: "bookmark-search-row"
 };
 const _hoisted_20 = {
-  class: "section-actions"
+  key: 0,
+  class: "bookmark-search-shell"
 };
 const _hoisted_21 = {
-  class: "section-hint"
+  key: 0,
+  class: "bookmark-create-panel"
 };
-const _hoisted_22 = ["aria-expanded"];
+const _hoisted_22 = {
+  class: "bookmark-create-grid"
+};
 const _hoisted_23 = {
-  key: 1,
-  class: "empty-state"
+  class: "bookmark-create-field bookmark-create-field-name"
 };
 const _hoisted_24 = {
-  key: 2,
-  class: "folder-grid"
+  class: "bookmark-create-field"
 };
-const _hoisted_25 = ["value", "disabled"];
-const _hoisted_26 = {
-  class: "pill-icon"
-};
-const _hoisted_27 = {
-  key: 1,
-  class: "fas fa-folder"
-};
-const _hoisted_28 = {
-  class: "pill-meta"
-};
-const _hoisted_29 = {
-  class: "pill-title"
-};
-const _hoisted_30 = {
-  class: "pill-count"
-};
-const _hoisted_31 = ["onClick"];
-const _hoisted_32 = {
-  class: "col-12 col-md-6"
-};
-const _hoisted_33 = {
-  class: "section-card h-100"
-};
-const _hoisted_34 = {
-  class: "section-header"
-};
-const _hoisted_35 = {
-  class: "section-actions"
-};
-const _hoisted_36 = ["aria-expanded"];
-const _hoisted_37 = {
-  class: "row g-2 align-items-end"
-};
-const _hoisted_38 = {
-  class: "col-12"
-};
-const _hoisted_39 = {
-  class: "col-12"
-};
-const _hoisted_40 = {
+const _hoisted_25 = {
   class: "icon-presets"
 };
-const _hoisted_41 = ["onClick"];
-const _hoisted_42 = {
-  class: "col-12"
+const _hoisted_26 = ["onClick"];
+const _hoisted_27 = {
+  class: "bookmark-create-field"
 };
-const _hoisted_43 = {
+const _hoisted_28 = {
   class: "color-swatches"
 };
-const _hoisted_44 = ["onClick"];
-const _hoisted_45 = {
-  class: "col-12"
+const _hoisted_29 = ["onClick"];
+const _hoisted_30 = {
+  class: "visually-hidden"
 };
-const _hoisted_46 = ["disabled"];
-const _hoisted_47 = {
+const _hoisted_31 = {
+  class: "bookmark-create-actions"
+};
+const _hoisted_32 = ["disabled"];
+const _hoisted_33 = {
   key: 0,
-  class: "spinner-border spinner-border-sm me-2"
+  class: "spinner-border spinner-border-sm",
+  "aria-hidden": "true"
+};
+const _hoisted_34 = {
+  key: 1,
+  class: "bi bi-plus-circle",
+  "aria-hidden": "true"
+};
+const _hoisted_35 = {
+  key: 1,
+  class: "folder-grid"
+};
+const _hoisted_36 = ["aria-pressed", "disabled", "onClick"];
+const _hoisted_37 = {
+  class: "pill-icon",
+  "aria-hidden": "true"
+};
+const _hoisted_38 = {
+  key: 1,
+  class: "bi bi-folder2-open"
+};
+const _hoisted_39 = {
+  class: "pill-copy"
+};
+const _hoisted_40 = {
+  class: "pill-title"
+};
+const _hoisted_41 = {
+  class: "pill-count"
+};
+const _hoisted_42 = ["onClick", "aria-label"];
+const _hoisted_43 = {
+  key: 2,
+  class: "empty-state"
+};
+const _hoisted_44 = {
+  class: "section-card bookmark-section-summary"
+};
+const _hoisted_45 = {
+  class: "section-head section-head-summary"
+};
+const _hoisted_46 = {
+  class: "bookmark-ayah-preview"
+};
+const _hoisted_47 = {
+  class: "bookmark-ayah-preview-head"
 };
 const _hoisted_48 = {
-  key: 2,
-  class: "section-card mt-3"
+  class: "bookmark-ayah-kicker"
 };
-const _hoisted_49 = {
-  class: "section-header"
-};
+const _hoisted_49 = ["innerHTML"];
 const _hoisted_50 = {
-  class: "section-actions"
+  key: 0,
+  class: "bookmark-ayah-preview-en"
 };
-const _hoisted_51 = ["aria-expanded"];
+const _hoisted_51 = {
+  class: "bookmark-summary-block"
+};
 const _hoisted_52 = {
   key: 0,
-  class: "empty-state"
+  class: "bookmark-summary-chips"
 };
 const _hoisted_53 = {
   key: 1,
-  class: "folder-contents"
+  class: "bookmark-summary-note"
 };
 const _hoisted_54 = {
-  class: "folder-toggle"
+  class: "bookmark-summary-block"
 };
-const _hoisted_55 = ["onClick"];
+const _hoisted_55 = {
+  class: "bookmark-summary-list"
+};
 const _hoisted_56 = {
-  class: "folder-toggle-title"
+  key: 0
 };
 const _hoisted_57 = {
-  key: 0,
-  class: "folder-badge"
+  key: 1
 };
 const _hoisted_58 = {
-  class: "folder-toggle-actions"
+  key: 2,
+  class: "section-card bookmark-section-contents"
 };
 const _hoisted_59 = {
-  class: "folder-toggle-meta"
+  key: 0,
+  class: "empty-state"
 };
-const _hoisted_60 = ["disabled", "onClick"];
-const _hoisted_61 = ["onClick"];
-const _hoisted_62 = {
+const _hoisted_60 = {
+  key: 1,
+  class: "folder-contents"
+};
+const _hoisted_61 = {
+  class: "folder-toggle"
+};
+const _hoisted_62 = ["onClick"];
+const _hoisted_63 = {
+  class: "folder-toggle-title"
+};
+const _hoisted_64 = {
+  class: "folder-toggle-icon",
+  "aria-hidden": "true"
+};
+const _hoisted_65 = {
+  class: "folder-toggle-actions"
+};
+const _hoisted_66 = ["disabled", "onClick"];
+const _hoisted_67 = ["onClick"];
+const _hoisted_68 = {
   key: 0,
   class: "folder-items"
 };
-const _hoisted_63 = {
+const _hoisted_69 = {
   key: 0,
-  class: "text-muted"
+  class: "folder-items-empty"
 };
-const _hoisted_64 = {
+const _hoisted_70 = {
   key: 1,
-  class: "text-muted"
+  class: "folder-items-empty"
 };
-const _hoisted_65 = {
+const _hoisted_71 = {
   class: "folder-item-header"
 };
-const _hoisted_66 = {
+const _hoisted_72 = {
   class: "folder-item-actions"
 };
-const _hoisted_67 = {
-  class: "input-group input-group-sm move-group"
-};
-const _hoisted_68 = ["onChange", "disabled"];
-const _hoisted_69 = ["value"];
-const _hoisted_70 = ["disabled", "onClick"];
-const _hoisted_71 = ["innerHTML"];
-const _hoisted_72 = {
+const _hoisted_73 = ["onChange", "disabled"];
+const _hoisted_74 = ["value"];
+const _hoisted_75 = ["disabled", "onClick"];
+const _hoisted_76 = ["innerHTML"];
+const _hoisted_77 = {
   key: 0,
-  class: "folder-item-en"
+  class: "folder-item-en mb-0"
 };
-const _hoisted_73 = {
+const _hoisted_78 = {
   class: "modal-footer"
 };
-const _hoisted_74 = ["disabled"];
-const _hoisted_75 = {
+const _hoisted_79 = {
+  class: "bookmark-footer-copy"
+};
+const _hoisted_80 = {
+  class: "bookmark-footer-actions"
+};
+const _hoisted_81 = ["disabled"];
+const _hoisted_82 = {
   key: 0,
-  class: "spinner-border spinner-border-sm me-2"
+  class: "spinner-border spinner-border-sm",
+  "aria-hidden": "true"
+};
+const _hoisted_83 = {
+  key: 1,
+  class: "bi bi-bookmark-check",
+  "aria-hidden": "true"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Teleport, {
@@ -2574,22 +2671,28 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["modal-content bookmark-modal", {
       'surat-dark-modal': $props.darkTheme
     }])
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [_cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    class: "header-icon"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [_cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    class: "bookmark-header-icon",
+    "aria-hidden": "true"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: "fas fa-bookmark"
-  })], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+    class: "bi bi-bookmark-star-fill"
+  })], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [_cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    class: "bookmark-header-kicker"
+  }, "Bookmark flow", -1 /* CACHED */)), _cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
     class: "modal-title",
     id: "bookmarkModalLabel"
-  }, "Save Ayah", -1 /* CACHED */)), _cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, "Save this ayah", -1 /* CACHED */)), _cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "modal-subtitle"
-  }, "Pick a folder or create a new one.", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_6, [_cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    class: "meta-label"
-  }, "Folders", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.folderCount), 1 /* TEXT */)]), _cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    class: "meta-divider"
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_8, [_cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    class: "meta-label"
-  }, "Selected", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.selectedCount), 1 /* TEXT */)])])])]), _cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, " Choose a collection, create one if you need it, then confirm once. ", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_7, [_cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    class: "bi bi-folder2-open",
+    "aria-hidden": "true"
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.folderCount) + " collection" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.folderCount === 1 ? "" : "s"), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_8, [_cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    class: "bi bi-journal-text",
+    "aria-hidden": "true"
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.ayahSurahLabel), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_9, [_cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    class: "bi bi-check2-circle",
+    "aria-hidden": "true"
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.selectedCount) + " selected ", 1 /* TEXT */)])])])]), _cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "btn-close",
     "data-bs-dismiss": "modal",
@@ -2600,220 +2703,248 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     role: "alert"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)($options.feedbackIcon)
-  }, null, 2 /* CLASS */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_12, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.feedback), 1 /* TEXT */)], 2 /* CLASS */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.pendingDelete ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.pendingDeleteTitle), 1 /* TEXT */), _cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    class: "delete-note"
-  }, "Ayat in this folder will also be deleted.", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, 2 /* CLASS */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.feedback), 1 /* TEXT */)], 2 /* CLASS */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.pendingDelete ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.pendingDeleteTitle), 1 /* TEXT */), _cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Deleting a collection keeps the ayahs saved in All for later organisation.", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
-    class: "btn btn-outline-secondary btn-sm",
+    class: "btn btn-cancel",
     onClick: _cache[0] || (_cache[0] = (...args) => $options.cancelDelete && $options.cancelDelete(...args))
-  }, "Cancel"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, [...(_cache[18] || (_cache[18] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    class: "bi bi-x-lg",
+    "aria-hidden": "true"
+  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Cancel", -1 /* CACHED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
-    class: "btn btn-danger btn-sm",
+    class: "btn btn-danger btn-delete-confirm",
     onClick: _cache[1] || (_cache[1] = (...args) => $options.confirmDelete && $options.confirmDelete(...args))
-  }, "Delete")])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [_cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    class: "section-title"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    class: "section-icon"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: "fas fa-folder-open"
-  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", null, "Choose folders"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    class: "section-desc"
-  }, "Select where this ayah will be saved.")])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_21, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.selectedCount) + " selected", 1 /* TEXT */), $options.selectedCount ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+  }, [...(_cache[19] || (_cache[19] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    class: "bi bi-trash3",
+    "aria-hidden": "true"
+  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Delete", -1 /* CACHED */)]))])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [_cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    class: "section-step"
+  }, "Step 1"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", null, "Choose a collection"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    class: "section-description"
+  }, " Pick one or more collections. Leave them empty if you only want this ayah saved in All. ")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [$options.selectedCount ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
     key: 0,
     type: "button",
     class: "btn btn-link btn-clear",
     onClick: _cache[2] || (_cache[2] = (...args) => $options.clearSelection && $options.clearSelection(...args))
   }, " Clear ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
-    class: "btn section-toggle",
-    onClick: _cache[3] || (_cache[3] = $event => $options.toggleSection('folders')),
-    "aria-expanded": $data.sectionOpen.folders
+    class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["btn btn-create-toggle", {
+      'is-active': $data.sectionOpen.create
+    }]),
+    onClick: _cache[3] || (_cache[3] = $event => $options.toggleCreateSection())
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["fas", $data.sectionOpen.folders ? 'fa-chevron-up' : 'fa-chevron-down'])
-  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_22)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [$data.folders.length ? (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)(((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", {
-    key: 0,
+    class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", $data.sectionOpen.create ? 'bi-dash-lg' : 'bi-plus-lg']),
+    "aria-hidden": "true"
+  }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.sectionOpen.create ? "Close" : "New collection"), 1 /* TEXT */)], 2 /* CLASS */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [$data.folders.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("label", _hoisted_20, [_cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    class: "visually-hidden"
+  }, "Search collections", -1 /* CACHED */)), _cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    class: "bi bi-search",
+    "aria-hidden": "true"
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     "onUpdate:modelValue": _cache[4] || (_cache[4] = $event => $data.folderSearch = $event),
     type: "search",
-    class: "form-control form-control-sm folder-search",
-    placeholder: "Search folders"
-  }, null, 512 /* NEED_PATCH */)), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.folderSearch, void 0, {
+    class: "form-control bookmark-search-input",
+    placeholder: "Search collections"
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.folderSearch, void 0, {
     trim: true
-  }]]) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $options.filteredFolders.length === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_23, "No folders yet. Create one below.")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_24, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.filteredFolders, folder => {
-    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("label", {
-      key: folder.id,
-      class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(['folder-pill', folder.color ? `pill-${folder.color}` : 'pill-neutral', {
-        'is-selected': $data.selectedFolderIds.includes(folder.id),
-        'is-disabled': folder.is_smart
-      }])
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-      type: "checkbox",
-      value: folder.id,
-      "onUpdate:modelValue": _cache[5] || (_cache[5] = $event => $data.selectedFolderIds = $event),
-      disabled: folder.is_smart
-    }, null, 8 /* PROPS */, _hoisted_25), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelCheckbox, $data.selectedFolderIds]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_26, [folder.icon ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", {
-      key: 0,
-      class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(folder.icon)
-    }, null, 2 /* CLASS */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_27))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_28, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_29, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(folder.name), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_30, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(folder.ayah_count) + " ayat", 1 /* TEXT */)]), _cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-      class: "pill-check"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      class: "fas fa-check"
-    })], -1 /* CACHED */)), !folder.is_smart ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
-      key: 0,
-      type: "button",
-      class: "pill-delete",
-      onClick: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)($event => $options.requestDeleteFolder(folder), ["stop", "prevent"]),
-      title: "Delete folder"
-    }, [...(_cache[21] || (_cache[21] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      class: "fas fa-times"
-    }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_31)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 2 /* CLASS */);
-  }), 128 /* KEYED_FRAGMENT */))]))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $data.sectionOpen.folders]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_32, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_33, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_34, [_cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    class: "section-title"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    class: "section-icon"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: "fas fa-plus-circle"
-  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", null, "Create new folder"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    class: "section-desc"
-  }, "Start a fresh collection for your reflections.")])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_35, [_cache[23] || (_cache[23] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    class: "section-hint"
-  }, "Add a custom collection", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    type: "button",
-    class: "btn section-toggle",
-    onClick: _cache[6] || (_cache[6] = $event => $options.toggleSection('create')),
-    "aria-expanded": $data.sectionOpen.create
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["fas", $data.sectionOpen.create ? 'fa-chevron-up' : 'fa-chevron-down'])
-  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_36)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_37, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_38, [_cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-    class: "form-label"
-  }, "Name", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-    "onUpdate:modelValue": _cache[7] || (_cache[7] = $event => $data.newFolder.name = $event),
+  }]])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), $data.sectionOpen.create ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [_cache[23] || (_cache[23] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    class: "bookmark-field-label"
+  }, "Collection name", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    ref: "newCollectionInput",
+    "onUpdate:modelValue": _cache[5] || (_cache[5] = $event => $data.newFolder.name = $event),
     type: "text",
     class: "form-control",
     placeholder: "Reflection gems"
   }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.newFolder.name, void 0, {
     trim: true
-  }]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_39, [_cache[26] || (_cache[26] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-    class: "form-label"
-  }, "Icon", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_40, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.iconPresets, preset => {
+  }]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [_cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    class: "bookmark-field-label"
+  }, "Icon", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.iconPresets, preset => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
       key: preset.icon,
       type: "button",
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["icon-preset-btn", {
-        active: $data.newFolder.icon === preset.icon
+        'is-active': $data.newFolder.icon === preset.icon
       }]),
       onClick: $event => $options.setIcon(preset.icon)
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(preset.icon)
-    }, null, 2 /* CLASS */)], 10 /* CLASS, PROPS */, _hoisted_41);
-  }), 128 /* KEYED_FRAGMENT */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_42, [_cache[27] || (_cache[27] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-    class: "form-label"
-  }, "Color", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_43, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.bootstrapColors, color => {
+    }, null, 2 /* CLASS */)], 10 /* CLASS, PROPS */, _hoisted_26);
+  }), 128 /* KEYED_FRAGMENT */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [_cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    class: "bookmark-field-label"
+  }, "Color", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_28, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.bootstrapColors, color => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
       key: `swatch-${color}`,
       type: "button",
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["color-swatch-btn", {
-        active: $data.newFolder.color === color
+        'is-active': $data.newFolder.color === color
       }]),
       style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
         background: `var(--bs-${color})`
       }),
       onClick: $event => $options.setColor(color)
-    }, null, 14 /* CLASS, STYLE, PROPS */, _hoisted_44);
-  }), 128 /* KEYED_FRAGMENT */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_45, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_30, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(color), 1 /* TEXT */)], 14 /* CLASS, STYLE, PROPS */, _hoisted_29);
+  }), 128 /* KEYED_FRAGMENT */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_31, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     class: "btn btn-create",
     disabled: $data.isCreatingFolder,
-    onClick: _cache[8] || (_cache[8] = (...args) => $options.createFolder && $options.createFolder(...args))
-  }, [$data.isCreatingFolder ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_47)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _cache[28] || (_cache[28] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Create folder ", -1 /* CACHED */))], 8 /* PROPS */, _hoisted_46)])], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $data.sectionOpen.create]])])])]), $props.showFolderContents ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_48, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_49, [_cache[30] || (_cache[30] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    class: "section-title"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    class: "section-icon"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: "fas fa-list-check"
-  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", null, "Folder contents"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    class: "section-desc"
-  }, "Preview what is inside each folder.")])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_50, [_cache[29] || (_cache[29] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    class: "section-hint"
-  }, "Review or remove saved ayat", -1 /* CACHED */)), $data.selectedFoldersForDelete.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+    onClick: _cache[6] || (_cache[6] = (...args) => $options.createFolder && $options.createFolder(...args))
+  }, [$data.isCreatingFolder ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_33)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_34)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.isCreatingFolder ? "Creating..." : "Create collection"), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_32), $data.folders.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
     key: 0,
     type: "button",
-    class: "btn btn-outline-danger btn-sm",
-    onClick: _cache[9] || (_cache[9] = (...args) => $options.requestDeleteSelectedFolders && $options.requestDeleteSelectedFolders(...args))
-  }, " Delete selected (" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.selectedFoldersForDelete.length) + ") ", 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    type: "button",
-    class: "btn section-toggle",
-    onClick: _cache[10] || (_cache[10] = $event => $options.toggleSection('contents')),
-    "aria-expanded": $data.sectionOpen.contents
+    class: "btn btn-cancel",
+    onClick: _cache[7] || (_cache[7] = $event => $options.toggleCreateSection(false))
+  }, [...(_cache[26] || (_cache[26] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    class: "bi bi-arrow-counterclockwise",
+    "aria-hidden": "true"
+  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Use existing", -1 /* CACHED */)]))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $options.filteredFolders.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_35, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.filteredFolders, folder => {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+      key: folder.id,
+      type: "button",
+      class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["folder-pill", [folder.color ? `pill-${folder.color}` : 'pill-neutral', {
+        'is-selected': $data.selectedFolderIds.includes(folder.id),
+        'is-disabled': folder.is_smart
+      }]]),
+      "aria-pressed": $data.selectedFolderIds.includes(folder.id) ? 'true' : 'false',
+      disabled: folder.is_smart,
+      onClick: $event => $options.toggleFolderSelection(folder)
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_37, [folder.icon ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", {
+      key: 0,
+      class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(folder.icon)
+    }, null, 2 /* CLASS */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_38))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_39, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_40, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(folder.name), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_41, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(folder.ayah_count || 0) + " saved", 1 /* TEXT */)]), _cache[28] || (_cache[28] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+      class: "pill-check",
+      "aria-hidden": "true"
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      class: "bi bi-check-lg"
+    })], -1 /* CACHED */)), !folder.is_smart ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+      key: 0,
+      type: "button",
+      class: "pill-delete",
+      onClick: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)($event => $options.requestDeleteFolder(folder), ["stop", "prevent"]),
+      "aria-label": `Delete ${folder.name}`
+    }, [...(_cache[27] || (_cache[27] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      class: "bi bi-trash3",
+      "aria-hidden": "true"
+    }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_42)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 10 /* CLASS, PROPS */, _hoisted_36);
+  }), 128 /* KEYED_FRAGMENT */))])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_43, [_cache[29] || (_cache[29] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    class: "bi bi-folder2-open",
+    "aria-hidden": "true"
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.emptyCollectionsText), 1 /* TEXT */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("aside", _hoisted_44, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_45, [_cache[30] || (_cache[30] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    class: "section-step"
+  }, "Step 2"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", null, "Review and save"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    class: "section-description"
+  }, " One tap keeps this ayah ready to reopen from the reader toolbar. ")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bookmark-status-pill", {
+      'is-saved': $options.hasExistingBookmark
+    }])
+  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.hasExistingBookmark ? "Already saved" : "New bookmark"), 3 /* TEXT, CLASS */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_46, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_47, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_48, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.ayahSurahLabel), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.ayahNumberLabel), 1 /* TEXT */)]), _cache[31] || (_cache[31] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    class: "bookmark-ayah-preview-badge"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["fas", $data.sectionOpen.contents ? 'fa-chevron-up' : 'fa-chevron-down'])
-  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_51)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [$data.folders.length === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_52, "No folders to show yet.")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_53, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.folders, folder => {
+    class: "bi bi-stars",
+    "aria-hidden": "true"
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Ready ")], -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    class: "bookmark-ayah-preview-ar",
+    innerHTML: $options.ayahPreviewArabic
+  }, null, 8 /* PROPS */, _hoisted_49), $options.ayahPreviewTranslation ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_50, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.ayahPreviewTranslation), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_51, [_cache[32] || (_cache[32] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
+    class: "bookmark-summary-title"
+  }, "Selected collections", -1 /* CACHED */)), $options.selectedFoldersPreview.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_52, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.selectedFoldersPreview, folder => {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", {
+      key: `selected-folder-${folder.id}`,
+      class: "bookmark-summary-chip"
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(folder.icon || 'bi bi-folder2-open'),
+      "aria-hidden": "true"
+    }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(folder.name), 1 /* TEXT */)]);
+  }), 128 /* KEYED_FRAGMENT */))])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_53, " No collection selected. This ayah will still be saved and stay visible in All. "))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_54, [_cache[35] || (_cache[35] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
+    class: "bookmark-summary-title"
+  }, "What happens next", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ol", _hoisted_55, [_cache[33] || (_cache[33] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, "We save this ayah to your bookmark list.", -1 /* CACHED */)), $options.selectedFoldersPreview.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", _hoisted_56, " The selected collections stay attached for quick filtering. ")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", _hoisted_57, " You can organise it later without losing the saved ayah. ")), _cache[34] || (_cache[34] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, "Use Open bookmarks if you want a larger management view.", -1 /* CACHED */))])])])]), $props.showFolderContents ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("section", _hoisted_58, [_cache[40] || (_cache[40] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    class: "section-head"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    class: "section-step"
+  }, "Advanced"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", null, "Collection contents"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    class: "section-description"
+  }, " Review saved ayahs inside each collection and move them if needed. ")])], -1 /* CACHED */)), $data.folders.length === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_59, [...(_cache[36] || (_cache[36] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    class: "bi bi-inboxes",
+    "aria-hidden": "true"
+  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "No collections to preview yet.", -1 /* CACHED */)]))])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_60, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.folders, folder => {
     var _$data$folderContents, _$data$folderContents2;
-    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("article", {
       key: `contents-${folder.id}`,
-      class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(['folder-content', {
-        open: $data.folderExpanded[folder.id]
+      class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["folder-content", {
+        'is-open': $data.folderExpanded[folder.id]
       }])
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_54, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_61, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       class: "folder-toggle-main",
       type: "button",
       onClick: $event => $options.toggleFolderContents(folder)
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_56, [_cache[31] || (_cache[31] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-      class: "folder-toggle-icon"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      class: "fas fa-folder"
-    })], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(folder.name), 1 /* TEXT */)]), folder.is_smart ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_57, "Smart")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 8 /* PROPS */, _hoisted_55), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_58, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_59, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(folder.ayah_count) + " ayat", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_63, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_64, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(folder.icon || 'bi bi-folder2-open')
+    }, null, 2 /* CLASS */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(folder.name), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(folder.ayah_count || 0) + " saved", 1 /* TEXT */)])])], 8 /* PROPS */, _hoisted_62), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_65, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       type: "button",
-      class: "btn btn-sm btn-outline-danger",
+      class: "btn btn-cancel btn-folder-action",
       disabled: folder.is_smart,
       onClick: $event => $options.requestDeleteFolder(folder)
-    }, [...(_cache[32] || (_cache[32] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      class: "fas fa-trash me-1"
-    }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Delete ", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_60), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-      class: "btn folder-toggle-button",
+    }, [...(_cache[37] || (_cache[37] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      class: "bi bi-trash3",
+      "aria-hidden": "true"
+    }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Delete", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_66), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      class: "btn btn-folder-toggle",
       type: "button",
       onClick: $event => $options.toggleFolderContents(folder)
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["fas", $data.folderExpanded[folder.id] ? 'fa-chevron-up' : 'fa-chevron-down'])
-    }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_61)])]), $data.folderExpanded[folder.id] ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_62, [(_$data$folderContents = $data.folderContents[folder.id]) !== null && _$data$folderContents !== void 0 && _$data$folderContents.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_63, "Loading...")) : !((_$data$folderContents2 = $data.folderContents[folder.id]) !== null && _$data$folderContents2 !== void 0 && (_$data$folderContents2 = _$data$folderContents2.items) !== null && _$data$folderContents2 !== void 0 && _$data$folderContents2.length) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_64, " No ayat saved in this folder. ")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+      class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", $data.folderExpanded[folder.id] ? 'bi-chevron-up' : 'bi-chevron-down']),
+      "aria-hidden": "true"
+    }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_67)])]), $data.folderExpanded[folder.id] ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_68, [(_$data$folderContents = $data.folderContents[folder.id]) !== null && _$data$folderContents !== void 0 && _$data$folderContents.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_69, " Loading saved ayahs... ")) : !((_$data$folderContents2 = $data.folderContents[folder.id]) !== null && _$data$folderContents2 !== void 0 && (_$data$folderContents2 = _$data$folderContents2.items) !== null && _$data$folderContents2 !== void 0 && _$data$folderContents2.length) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_70, " No ayahs saved in this collection yet. ")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
       key: 2
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.folderContents[folder.id].items, item => {
       var _item$ayah, _item$ayah2;
-      return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
-        class: "folder-item",
-        key: item.id
-      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_65, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.surah_name || 'Surah') + " • Ayah " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(((_item$ayah = item.ayah) === null || _item$ayah === void 0 ? void 0 : _item$ayah.ayah_id) || item.ayah_number || item.ayah_num), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_66, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_67, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
-        class: "form-select",
+      return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("article", {
+        key: item.id,
+        class: "folder-item"
+      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_71, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.surah_name || "Surah") + " · Ayah " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(((_item$ayah = item.ayah) === null || _item$ayah === void 0 ? void 0 : _item$ayah.ayah_id) || item.ayah_number || item.ayah_num), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_72, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+        class: "form-select form-select-sm",
         onChange: $event => $options.moveAyahToFolder(item, folder, $event),
         disabled: folder.is_smart
-      }, [_cache[33] || (_cache[33] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+      }, [_cache[38] || (_cache[38] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
         value: "",
-        disabled: ""
+        disabled: "",
+        selected: ""
       }, "Move to...", -1 /* CACHED */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.moveTargetFolders(folder), target => {
         return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
           key: target.id,
           value: target.id
-        }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(target.name), 9 /* TEXT, PROPS */, _hoisted_69);
-      }), 128 /* KEYED_FRAGMENT */))], 40 /* PROPS, NEED_HYDRATION */, _hoisted_68)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-        class: "btn btn-sm btn-outline-danger",
+        }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(target.name), 9 /* TEXT, PROPS */, _hoisted_74);
+      }), 128 /* KEYED_FRAGMENT */))], 40 /* PROPS, NEED_HYDRATION */, _hoisted_73), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+        type: "button",
+        class: "btn btn-cancel btn-folder-action",
         disabled: folder.is_smart,
         onClick: $event => $options.removeAyahFromFolder(item, folder)
-      }, " Remove ", 8 /* PROPS */, _hoisted_70)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+      }, [...(_cache[39] || (_cache[39] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+        class: "bi bi-dash-circle",
+        "aria-hidden": "true"
+      }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Remove", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_75)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
         class: "folder-item-ar",
         innerHTML: item.ayah_verse_ar || ((_item$ayah2 = item.ayah) === null || _item$ayah2 === void 0 ? void 0 : _item$ayah2.ayah_text)
-      }, null, 8 /* PROPS */, _hoisted_71), item.ayah_verse_en ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_72, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.ayah_verse_en), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
+      }, null, 8 /* PROPS */, _hoisted_76), item.ayah_verse_en ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_77, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.ayah_verse_en), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
     }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 2 /* CLASS */);
-  }), 128 /* KEYED_FRAGMENT */))]))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $data.sectionOpen.contents]])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_73, [_cache[35] || (_cache[35] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+  }), 128 /* KEYED_FRAGMENT */))]))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_78, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_79, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.footerPrimaryText), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.footerSecondaryText), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_80, [_cache[41] || (_cache[41] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
     href: "/bookmarks",
     class: "btn btn-manage"
-  }, "Open bookmarks", -1 /* CACHED */)), _cache[36] || (_cache[36] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    class: "bi bi-layout-text-sidebar-reverse",
+    "aria-hidden": "true"
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Open bookmarks")], -1 /* CACHED */)), _cache[42] || (_cache[42] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "btn btn-cancel",
     "data-bs-dismiss": "modal"
-  }, "Cancel", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    class: "bi bi-x-lg",
+    "aria-hidden": "true"
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Cancel")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "btn btn-save",
     disabled: $data.isSaving,
-    onClick: _cache[11] || (_cache[11] = (...args) => $options.saveBookmark && $options.saveBookmark(...args))
-  }, [$data.isSaving ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_75)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _cache[34] || (_cache[34] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Save bookmark ", -1 /* CACHED */))], 8 /* PROPS */, _hoisted_74)])], 2 /* CLASS */)])])]);
+    onClick: _cache[8] || (_cache[8] = (...args) => $options.saveBookmark && $options.saveBookmark(...args))
+  }, [$data.isSaving ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_82)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_83)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.saveButtonText), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_81)])])], 2 /* CLASS */)])])]);
 }
 
 /***/ }),

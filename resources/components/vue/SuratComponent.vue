@@ -618,43 +618,46 @@
                 </template>
             </div>
         </div>
-        <div
-            v-if="isSavedBookmarksPanelOpen && hasSavedBookmarks"
-            class="saved-bookmarks-panel-backdrop"
-            role="presentation"
-            @click="closeSavedBookmarksPanel"></div>
-        <div
-            v-if="isTabletOrMobile && isSavedBookmarksPanelOpen && hasSavedBookmarks"
-            class="saved-bookmarks-modal-shell"
-            role="dialog"
-            aria-modal="true"
-            aria-label="Saved bookmarks">
-            <saved-bookmarks-panel
-                :bookmarks="savedBookmarksFilteredList"
-                :folders="savedBookmarkFolders"
-                :active-folder-id="activeSavedBookmarkFolderId"
-                :dark-theme="isDarkTheme"
-                :busy="savedBookmarkFoldersBusy || savedBookmarksDeleteBusy"
-                :selected-keys="selectedSavedBookmarkKeys"
-                :selected-count="selectedSavedBookmarkCount"
-                :all-selected="areAllSavedBookmarksSelected"
-                :delete-confirm="savedBookmarksDeleteConfirm"
-                :delete-busy="savedBookmarksDeleteBusy"
-                @close="closeSavedBookmarksPanel"
-                @select-folder="setActiveSavedBookmarkFolder"
-                @create-folder="createSavedBookmarkFolder"
-                @update-folder="updateSavedBookmarkFolder"
-                @delete-folder="deleteSavedBookmarkFolder"
-                @move-bookmark="moveSavedBookmarkToFolder"
-                @open-bookmark="openSavedBookmarkByKey"
-                @toggle-selection="toggleSavedBookmarkSelection"
-                @toggle-select-all="toggleSelectAllSavedBookmarks"
-                @clear-selection="clearSavedBookmarksSelection"
-                @request-delete="requestSingleSavedBookmarkDelete"
-                @request-bulk-delete="requestBulkSavedBookmarksDelete"
-                @confirm-delete="confirmSavedBookmarksDelete"
-                @cancel-delete="cancelSavedBookmarksDelete" />
-        </div>
+        <teleport to="body">
+            <div
+                v-if="isSavedBookmarksPanelOpen && hasSavedBookmarks"
+                class="saved-bookmarks-panel-backdrop"
+                role="presentation"
+                @click="closeSavedBookmarksPanel"></div>
+            <div
+                v-if="isSavedBookmarksPanelOpen && hasSavedBookmarks"
+                class="saved-bookmarks-modal-shell"
+                :class="{ 'is-mobile': isTabletOrMobile, 'is-desktop': !isTabletOrMobile }"
+                role="dialog"
+                aria-modal="true"
+                aria-label="Saved bookmarks">
+                <saved-bookmarks-panel
+                    :bookmarks="savedBookmarksFilteredList"
+                    :folders="savedBookmarkFolders"
+                    :active-folder-id="activeSavedBookmarkFolderId"
+                    :dark-theme="isDarkTheme"
+                    :busy="savedBookmarkFoldersBusy || savedBookmarksDeleteBusy"
+                    :selected-keys="selectedSavedBookmarkKeys"
+                    :selected-count="selectedSavedBookmarkCount"
+                    :all-selected="areAllSavedBookmarksSelected"
+                    :delete-confirm="savedBookmarksDeleteConfirm"
+                    :delete-busy="savedBookmarksDeleteBusy"
+                    @close="closeSavedBookmarksPanel"
+                    @select-folder="setActiveSavedBookmarkFolder"
+                    @create-folder="createSavedBookmarkFolder"
+                    @update-folder="updateSavedBookmarkFolder"
+                    @delete-folder="deleteSavedBookmarkFolder"
+                    @move-bookmark="moveSavedBookmarkToFolder"
+                    @open-bookmark="openSavedBookmarkByKey"
+                    @toggle-selection="toggleSavedBookmarkSelection"
+                    @toggle-select-all="toggleSelectAllSavedBookmarks"
+                    @clear-selection="clearSavedBookmarksSelection"
+                    @request-delete="requestSingleSavedBookmarkDelete"
+                    @request-bulk-delete="requestBulkSavedBookmarksDelete"
+                    @confirm-delete="confirmSavedBookmarksDelete"
+                    @cancel-delete="cancelSavedBookmarksDelete" />
+            </div>
+        </teleport>
         <div v-if="!showReaderToolbar"
             class="reader-toolbar-restore ltr-text">
             <button
@@ -875,92 +878,134 @@
                         <button
                             v-if="!isReaderToolbarMinimized && hasSavedBookmarks"
                             type="button"
-                            class="quran-toolbar-btn quran-toolbar-btn-toggle"
+                            class="quran-toolbar-btn quran-toolbar-btn-toggle quran-toolbar-btn-reader-control quran-toolbar-btn-bookmarks"
                             :class="{ 'is-enabled': isSavedBookmarksPanelOpen }"
                             @click="handleSavedBookmarksButtonClick"
                             aria-label="View all saved bookmarks"
                             title="View all saved bookmarks">
-                            <i class="bi bi-bookmarks" aria-hidden="true"></i>
-                            <span class="quran-toolbar-btn-text">Saved bookmarks</span>
+                            <span class="quran-toolbar-btn-main">
+                                <span class="quran-toolbar-btn-icon-shell" aria-hidden="true">
+                                    <i class="bi bi-bookmarks"></i>
+                                </span>
+                                <span class="quran-toolbar-btn-copy">
+                                    <span class="quran-toolbar-btn-text">Saved bookmarks</span>
+                                </span>
+                            </span>
                             <span class="quran-toolbar-btn-state">{{ savedBookmarksList.length }}</span>
                         </button>
 
                         <button
                             v-if="!isReaderToolbarMinimized"
                             type="button"
-                            class="quran-toolbar-btn quran-toolbar-btn-toggle"
+                            class="quran-toolbar-btn quran-toolbar-btn-toggle quran-toolbar-btn-reader-control"
                             :class="{ 'is-enabled': showTajweed }"
                             @click="toggleToolbarTajweed"
                             :aria-label="showTajweed
                                 ? 'Turn tajweed colors off'
                                 : 'Turn tajweed colors on'">
-                            <i class="bi bi-palette-fill" aria-hidden="true"></i>
-                            <span class="quran-toolbar-btn-text">Tajweed colors</span>
+                            <span class="quran-toolbar-btn-main">
+                                <span class="quran-toolbar-btn-icon-shell" aria-hidden="true">
+                                    <i class="bi bi-palette-fill"></i>
+                                </span>
+                                <span class="quran-toolbar-btn-copy">
+                                    <span class="quran-toolbar-btn-text">Tajweed colors</span>
+                                </span>
+                            </span>
                             <span class="quran-toolbar-btn-state">{{ showTajweed ? "On" : "Off" }}</span>
                         </button>
 
                         <button
                             v-if="!isReaderToolbarMinimized"
                             type="button"
-                            class="quran-toolbar-btn quran-toolbar-btn-toggle"
+                            class="quran-toolbar-btn quran-toolbar-btn-toggle quran-toolbar-btn-reader-control"
                             :class="{ 'is-enabled': showWordTranslationTooltip }"
                             @click="toggleToolbarWordAudio"
                             :aria-label="showWordTranslationTooltip
                                 ? 'Turn word tooltip off'
                                 : 'Turn word tooltip on'">
-                            <i class="bi bi-volume-up-fill" aria-hidden="true"></i>
-                            <span class="quran-toolbar-btn-text">Word tooltip</span>
+                            <span class="quran-toolbar-btn-main">
+                                <span class="quran-toolbar-btn-icon-shell" aria-hidden="true">
+                                    <i class="bi bi-volume-up-fill"></i>
+                                </span>
+                                <span class="quran-toolbar-btn-copy">
+                                    <span class="quran-toolbar-btn-text">Word tooltip</span>
+                                </span>
+                            </span>
                             <span class="quran-toolbar-btn-state">{{ showWordTranslationTooltip ? "On" : "Off" }}</span>
                         </button>
 
                         <button
                             v-if="!isReaderToolbarMinimized"
                             type="button"
-                            class="quran-toolbar-btn quran-toolbar-btn-toggle"
+                            class="quran-toolbar-btn quran-toolbar-btn-toggle quran-toolbar-btn-reader-control"
                             :class="{ 'is-enabled': showWordTranslation }"
                             @click="toggleToolbarWordTranslation"
                             aria-label="Toggle word-for-word translation">
-                            <i class="bi bi-translate" aria-hidden="true"></i>
-                            <span class="quran-toolbar-btn-text">Word-for-word</span>
+                            <span class="quran-toolbar-btn-main">
+                                <span class="quran-toolbar-btn-icon-shell" aria-hidden="true">
+                                    <i class="bi bi-translate"></i>
+                                </span>
+                                <span class="quran-toolbar-btn-copy">
+                                    <span class="quran-toolbar-btn-text">Word-for-word</span>
+                                </span>
+                            </span>
                             <span class="quran-toolbar-btn-state">{{ showWordTranslation ? "On" : "Off" }}</span>
                         </button>
                         <button
                             v-if="!isReaderToolbarMinimized"
                             type="button"
-                            class="quran-toolbar-btn quran-toolbar-btn-toggle"
+                            class="quran-toolbar-btn quran-toolbar-btn-toggle quran-toolbar-btn-reader-control"
                             :class="{ 'is-enabled': isTranslationAllEnabled }"
                             @click="toggleToolbarTranslation"
                             :aria-label="isTranslationAllEnabled
                                 ? 'Turn translation off for all ayahs'
                                 : 'Turn translation on for all ayahs'">
-                            <i class="bi bi-card-text" aria-hidden="true"></i>
-                            <span class="quran-toolbar-btn-text">Translation</span>
+                            <span class="quran-toolbar-btn-main">
+                                <span class="quran-toolbar-btn-icon-shell" aria-hidden="true">
+                                    <i class="bi bi-card-text"></i>
+                                </span>
+                                <span class="quran-toolbar-btn-copy">
+                                    <span class="quran-toolbar-btn-text">Translation</span>
+                                </span>
+                            </span>
                             <span class="quran-toolbar-btn-state">{{ isTranslationAllEnabled ? "On" : "Off" }}</span>
                         </button>
                         <button
                             v-if="!isReaderToolbarMinimized"
                             type="button"
-                            class="quran-toolbar-btn quran-toolbar-btn-toggle"
+                            class="quran-toolbar-btn quran-toolbar-btn-toggle quran-toolbar-btn-reader-control"
                             :class="{ 'is-enabled': isTransliterationAllEnabled }"
                             @click="toggleToolbarTransliteration"
                             :aria-label="isTransliterationAllEnabled
                                 ? 'Turn transliteration off for all ayahs'
                                 : 'Turn transliteration on for all ayahs'">
-                            <i class="bi bi-input-cursor-text" aria-hidden="true"></i>
-                            <span class="quran-toolbar-btn-text">Transliteration</span>
+                            <span class="quran-toolbar-btn-main">
+                                <span class="quran-toolbar-btn-icon-shell" aria-hidden="true">
+                                    <i class="bi bi-input-cursor-text"></i>
+                                </span>
+                                <span class="quran-toolbar-btn-copy">
+                                    <span class="quran-toolbar-btn-text">Transliteration</span>
+                                </span>
+                            </span>
                             <span class="quran-toolbar-btn-state">{{ isTransliterationAllEnabled ? "On" : "Off" }}</span>
                         </button>
                         <button
                             v-if="!isReaderToolbarMinimized"
                             type="button"
-                            class="quran-toolbar-btn quran-toolbar-btn-toggle"
+                            class="quran-toolbar-btn quran-toolbar-btn-toggle quran-toolbar-btn-reader-control"
                             :class="{ 'is-enabled': transliterationWordHighlightEnabled }"
                             @click="toggleToolbarTransliterationSync"
                             :aria-label="transliterationWordHighlightEnabled
                                 ? 'Turn transliteration sync off'
                                 : 'Turn transliteration sync on'">
-                            <i class="bi bi-link-45deg" aria-hidden="true"></i>
-                            <span class="quran-toolbar-btn-text">Sync</span>
+                            <span class="quran-toolbar-btn-main">
+                                <span class="quran-toolbar-btn-icon-shell" aria-hidden="true">
+                                    <i class="bi bi-link-45deg"></i>
+                                </span>
+                                <span class="quran-toolbar-btn-copy">
+                                    <span class="quran-toolbar-btn-text">Sync</span>
+                                </span>
+                            </span>
                             <span class="quran-toolbar-btn-state">{{ transliterationWordHighlightEnabled ? "On" : "Off" }}</span>
                         </button>
                     </div>
@@ -1050,38 +1095,6 @@
 	                        aria-hidden="true"></i>
 	                </button>
 
-            </div>
-            <div
-                v-if="showDesktopToolbar && !isTabletOrMobile && isSavedBookmarksPanelOpen && hasSavedBookmarks"
-                class="saved-bookmarks-modal-shell"
-                role="dialog"
-                aria-modal="true"
-                aria-label="Saved bookmarks">
-                <saved-bookmarks-panel
-                    :bookmarks="savedBookmarksFilteredList"
-                    :folders="savedBookmarkFolders"
-                    :active-folder-id="activeSavedBookmarkFolderId"
-                    :dark-theme="isDarkTheme"
-                    :busy="savedBookmarkFoldersBusy || savedBookmarksDeleteBusy"
-                    :selected-keys="selectedSavedBookmarkKeys"
-                    :selected-count="selectedSavedBookmarkCount"
-                    :all-selected="areAllSavedBookmarksSelected"
-                    :delete-confirm="savedBookmarksDeleteConfirm"
-                    :delete-busy="savedBookmarksDeleteBusy"
-                    @close="closeSavedBookmarksPanel"
-                    @select-folder="setActiveSavedBookmarkFolder"
-                    @create-folder="createSavedBookmarkFolder"
-                    @update-folder="updateSavedBookmarkFolder"
-                    @delete-folder="deleteSavedBookmarkFolder"
-                    @move-bookmark="moveSavedBookmarkToFolder"
-                    @open-bookmark="openSavedBookmarkByKey"
-                    @toggle-selection="toggleSavedBookmarkSelection"
-                    @toggle-select-all="toggleSelectAllSavedBookmarks"
-                    @clear-selection="clearSavedBookmarksSelection"
-                    @request-delete="requestSingleSavedBookmarkDelete"
-                    @request-bulk-delete="requestBulkSavedBookmarksDelete"
-                    @confirm-delete="confirmSavedBookmarksDelete"
-                    @cancel-delete="cancelSavedBookmarksDelete" />
             </div>
 	            <div v-if="showCustomPlaylistPanel" class="reader-custom-playlist-panel" :class="{ 'is-dark': isDarkTheme }">
 	                <div class="reader-custom-playlist-header">

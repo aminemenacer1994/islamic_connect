@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Traits\BookmarkSessionAware;
-use App\Models\Bookmark;
 use App\Models\Folder;
 use App\Models\SmartFolder;
 use Illuminate\Http\Request;
@@ -189,17 +188,14 @@ class FolderController extends Controller
         $this->authorize('delete', $folder);
 
         DB::transaction(function () use ($folder) {
-            $bookmarkIds = $folder->bookmarks()->pluck('bookmarks.id')->all();
-            if (!empty($bookmarkIds)) {
-                Bookmark::where('user_id', $folder->user_id)
-                    ->whereIn('id', $bookmarkIds)
-                    ->delete();
-            }
+            $folder->bookmarks()->detach();
+            $folder->sharedFolder()?->delete();
+            $folder->smartFolder()?->delete();
             $folder->forceDelete();
         });
 
         return response()->json([
-            'message' => 'Folder deleted with its bookmarks.',
+            'message' => 'Collection deleted. Saved bookmarks remain available in All.',
         ]);
     }
 
@@ -245,15 +241,9 @@ class FolderController extends Controller
                 // Authorize deletion
                 $this->authorize('delete', $folder);
                 
-                // Delete associated bookmarks
-                $bookmarkIds = $folder->bookmarks()->pluck('bookmarks.id')->all();
-                if (!empty($bookmarkIds)) {
-                    Bookmark::where('user_id', $folder->user_id)
-                        ->whereIn('id', $bookmarkIds)
-                        ->delete();
-                }
-                
-                // Force delete the folder
+                $folder->bookmarks()->detach();
+                $folder->sharedFolder()?->delete();
+                $folder->smartFolder()?->delete();
                 $folder->forceDelete();
                 $deletedCount++;
             }
