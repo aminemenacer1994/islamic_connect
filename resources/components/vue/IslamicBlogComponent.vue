@@ -27,6 +27,8 @@
                         :active-type="activeType"
                         :sort-by="sortBy"
                         :density="cardDensity"
+                        :quick-filters="quickFilters"
+                        :active-quick-filters="activeQuickFilters"
                         :suggestions="searchSuggestions"
                         :popular-searches="popularSearches"
                         :trending-topics="trendingTopics"
@@ -36,6 +38,7 @@
                         @update:activeType="activeType = $event"
                         @update:sortBy="sortBy = $event"
                         @update:density="cardDensity = $event"
+                        @toggle-quick-filter="toggleQuickFilter"
                         @apply-search="applySearchTerm"
                     />
                 </div>
@@ -76,6 +79,7 @@
                                 type="button"
                                 class="collection-card"
                                 :class="{ 'is-active': activeCollectionId === collection.id }"
+                                :style="{ '--collection-accent': collection.accent || 'var(--library-accent)' }"
                                 @click="activateCollection(collection)"
                             >
                                 <span class="collection-icon">
@@ -525,6 +529,7 @@ export default {
             cardDensity: "comfortable",
             activeCollectionId: null,
             collectionsCollapsed: false,
+            activeQuickFilters: [],
             savedItemKeys: [],
             items: [],
             loadingInitial: true,
@@ -569,6 +574,7 @@ export default {
                     id: "ramadan",
                     title: "Ramadan",
                     icon: "bi-moon-stars-fill",
+                    accent: "#0a7a66",
                     description: "Fasting, worship, patience, and spiritual reset for Ramadan and beyond.",
                     query: "Ramadan",
                     tags: ["Fasting", "Night prayer", "Mercy"],
@@ -578,6 +584,7 @@ export default {
                     id: "marriage",
                     title: "Marriage",
                     icon: "bi-heart-fill",
+                    accent: "#c06a8a",
                     description: "Guidance on family life, rights, character, and building a healthy Muslim home.",
                     query: "Marriage",
                     tags: ["Family", "Rights", "Character"],
@@ -587,6 +594,7 @@ export default {
                     id: "aqeedah",
                     title: "Aqeedah",
                     icon: "bi-journal-bookmark-fill",
+                    accent: "#5b6ee1",
                     description: "Core Islamic belief, tawhid, the names of Allah, and sound creed.",
                     query: "Aqeedah",
                     tags: ["Tawhid", "Belief", "Creed"],
@@ -596,6 +604,7 @@ export default {
                     id: "women",
                     title: "Women",
                     icon: "bi-person-hearts",
+                    accent: "#9b59b6",
                     description: "Topics focused on women, dignity, worship, family, and practical questions.",
                     query: "Women",
                     tags: ["Women", "Modesty", "Family"],
@@ -605,6 +614,7 @@ export default {
                     id: "prayer",
                     title: "Prayer",
                     icon: "bi-alarm-fill",
+                    accent: "#d97706",
                     description: "Prayer, khushu, adhkar, and practical guidance around salah.",
                     query: "Prayer",
                     tags: ["Salah", "Khushu", "Adhkar"],
@@ -614,6 +624,7 @@ export default {
                     id: "seerah",
                     title: "Seerah",
                     icon: "bi-book-fill",
+                    accent: "#2563eb",
                     description: "The life of the Prophet, key moments, and lessons from the seerah.",
                     query: "Seerah",
                     tags: ["Prophet", "History", "Lessons"],
@@ -623,6 +634,7 @@ export default {
                     id: "quran",
                     title: "Quran",
                     icon: "bi-journal-richtext",
+                    accent: "#15803d",
                     description: "Tafsir, Quranic themes, reflection, and guidance from revelation.",
                     query: "Quran",
                     tags: ["Tafsir", "Reflection", "Revelation"],
@@ -632,6 +644,7 @@ export default {
                     id: "character",
                     title: "Character",
                     icon: "bi-flower1",
+                    accent: "#b45309",
                     description: "Patience, sincerity, gratitude, and purification of character.",
                     query: "Character",
                     tags: ["Patience", "Sincerity", "Manners"],
@@ -641,6 +654,7 @@ export default {
                     id: "new-muslims",
                     title: "New Muslims",
                     icon: "bi-compass-fill",
+                    accent: "#0f766e",
                     description: "Foundational guidance and practical help for those new to Islam.",
                     query: "New Muslims",
                     tags: ["Basics", "Guidance", "Faith"],
@@ -650,6 +664,7 @@ export default {
                     id: "hajj-umrah",
                     title: "Hajj & Umrah",
                     icon: "bi-geo-alt-fill",
+                    accent: "#7c3aed",
                     description: "Pilgrimage guidance, preparation, and rites for Hajj and Umrah.",
                     query: "Umrah",
                     tags: ["Pilgrimage", "Rites", "Travel"],
@@ -738,6 +753,13 @@ export default {
         },
         popularSearches() {
             return ["Ramadan", "Prayer", "Marriage", "Aqeedah", "Women", "Tawhid"];
+        },
+        quickFilters() {
+            return [
+                { value: "verified", label: "Scholarly Verified", icon: "bi-patch-check-fill" },
+                { value: "short_reads", label: "Under 8 min", icon: "bi-lightning-charge-fill" },
+                { value: "most_read", label: "Most Read", icon: "bi-fire" },
+            ];
         },
         trendingTopics() {
             const scores = {};
@@ -870,6 +892,14 @@ export default {
                         return false;
                     }
 
+                    if (this.activeQuickFilters.includes("short_reads") && this.getEstimatedReadMinutes(item) > 8) {
+                        return false;
+                    }
+
+                    if (this.activeQuickFilters.includes("verified") && !this.isScholarlyVerified(item)) {
+                        return false;
+                    }
+
                     if (!query) {
                         return true;
                     }
@@ -880,6 +910,10 @@ export default {
                         .includes(query);
                 })
                 .sort((left, right) => {
+                    if (this.activeQuickFilters.includes("most_read")) {
+                        return this.getPopularityScore(right) - this.getPopularityScore(left);
+                    }
+
                     if (this.sortBy === "oldest") {
                         return left.sortTimestamp - right.sortTimestamp;
                     }
@@ -997,6 +1031,22 @@ export default {
         clearActiveCollection() {
             this.activeCollectionId = null;
             this.searchQuery = "";
+        },
+        toggleQuickFilter(value) {
+            if (!value) {
+                return;
+            }
+
+            if (value === "most_read") {
+                this.activeQuickFilters = this.activeQuickFilters.includes(value)
+                    ? this.activeQuickFilters.filter((item) => item !== value)
+                    : [...this.activeQuickFilters.filter((item) => item !== "most_read"), value];
+                return;
+            }
+
+            this.activeQuickFilters = this.activeQuickFilters.includes(value)
+                ? this.activeQuickFilters.filter((item) => item !== value)
+                : [...this.activeQuickFilters, value];
         },
         initializeInfiniteScroll() {
             if (typeof window === "undefined" || typeof window.IntersectionObserver === "undefined") {
@@ -1141,7 +1191,8 @@ export default {
             this.processPreviewHydrationQueue();
         },
         shouldHydratePreview(item) {
-            return !this.normalizeOverviewText(item.summary, item.title) || !this.cleanText(item.publishedBy);
+            const normalized = this.normalizeOverviewText(item.summary, item.title);
+            return !normalized || normalized.length < 120 || !this.cleanText(item.publishedBy);
         },
         async processPreviewHydrationQueue() {
             const maxConcurrent = 4;
@@ -1162,6 +1213,7 @@ export default {
                             ...item,
                             summary: preview.summary || item.summary,
                             publishedBy: preview.publishedBy || item.publishedBy,
+                            contentText: preview.contentText || item.contentText,
                             sourceUrl: preview.sourceUrl || item.sourceUrl,
                             hasPdf: typeof preview.hasPdf === "boolean" ? preview.hasPdf : item.hasPdf,
                             formatLabel: preview.formatLabel || item.formatLabel,
@@ -1441,6 +1493,25 @@ export default {
         },
         getHighlightedExcerpt(item) {
             return this.highlightText(this.getCardExcerpt(item));
+        },
+        isScholarlyVerified(item) {
+            return !!item;
+        },
+        getEstimatedReadMinutes(item) {
+            const wordCount = this.countWords((item && (item.contentText || item.summary || item.title)) || "");
+            return this.calculateEstimatedMinutes(wordCount, 200);
+        },
+        getPopularityScore(item) {
+            if (!item) {
+                return 0;
+            }
+
+            const keywordBoost = this.extractKeywords(`${item.title} ${item.summary || ""}`)
+                .filter((keyword) => this.popularSearches.map((term) => term.toLowerCase()).includes(this.formatTopicLabel(keyword).toLowerCase()))
+                .length * 12;
+            const previewBoost = Math.min(30, this.cleanText(item.summary || "").length / 8);
+            const recencyBoost = Math.max(0, 18 - Math.abs(Date.now() - (item.sortTimestamp || 0)) / 86400000 / 14);
+            return keywordBoost + previewBoost + recencyBoost;
         },
         isPdfCard(item) {
             return !!(item && !item.readerReady && (item.hasPdf || /pdf/i.test(item.formatLabel || "")));
@@ -2691,8 +2762,8 @@ export default {
 }
 
 .collection-card.is-active {
-    background: color-mix(in srgb, var(--library-accent) 9%, var(--library-soft));
-    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--library-accent) 18%, transparent), var(--library-shadow-soft);
+    background: color-mix(in srgb, var(--collection-accent, var(--library-accent)) 9%, var(--library-soft));
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--collection-accent, var(--library-accent)) 18%, transparent), var(--library-shadow-soft);
 }
 
 .collection-icon {
@@ -2702,8 +2773,8 @@ export default {
     width: 42px;
     height: 42px;
     border-radius: 14px;
-    background: color-mix(in srgb, var(--library-accent) 12%, var(--library-surface));
-    color: var(--library-accent);
+    background: color-mix(in srgb, var(--collection-accent, var(--library-accent)) 12%, var(--library-surface));
+    color: var(--collection-accent, var(--library-accent));
     font-size: 1.02rem;
 }
 
@@ -4134,6 +4205,11 @@ export default {
 
     .library-subtitle {
         font-size: 0.82rem;
+    }
+
+    .modal-title {
+        font-size: 1.18rem;
+        line-height: 1.18;
     }
 
     .library-modal-close {

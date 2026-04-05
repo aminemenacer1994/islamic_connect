@@ -52,6 +52,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       cardDensity: "comfortable",
       activeCollectionId: null,
       collectionsCollapsed: false,
+      activeQuickFilters: [],
       savedItemKeys: [],
       items: [],
       loadingInitial: true,
@@ -110,6 +111,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
         id: "ramadan",
         title: "Ramadan",
         icon: "bi-moon-stars-fill",
+        accent: "#0a7a66",
         description: "Fasting, worship, patience, and spiritual reset for Ramadan and beyond.",
         query: "Ramadan",
         tags: ["Fasting", "Night prayer", "Mercy"],
@@ -118,6 +120,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
         id: "marriage",
         title: "Marriage",
         icon: "bi-heart-fill",
+        accent: "#c06a8a",
         description: "Guidance on family life, rights, character, and building a healthy Muslim home.",
         query: "Marriage",
         tags: ["Family", "Rights", "Character"],
@@ -126,6 +129,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
         id: "aqeedah",
         title: "Aqeedah",
         icon: "bi-journal-bookmark-fill",
+        accent: "#5b6ee1",
         description: "Core Islamic belief, tawhid, the names of Allah, and sound creed.",
         query: "Aqeedah",
         tags: ["Tawhid", "Belief", "Creed"],
@@ -134,6 +138,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
         id: "women",
         title: "Women",
         icon: "bi-person-hearts",
+        accent: "#9b59b6",
         description: "Topics focused on women, dignity, worship, family, and practical questions.",
         query: "Women",
         tags: ["Women", "Modesty", "Family"],
@@ -142,6 +147,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
         id: "prayer",
         title: "Prayer",
         icon: "bi-alarm-fill",
+        accent: "#d97706",
         description: "Prayer, khushu, adhkar, and practical guidance around salah.",
         query: "Prayer",
         tags: ["Salah", "Khushu", "Adhkar"],
@@ -150,6 +156,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
         id: "seerah",
         title: "Seerah",
         icon: "bi-book-fill",
+        accent: "#2563eb",
         description: "The life of the Prophet, key moments, and lessons from the seerah.",
         query: "Seerah",
         tags: ["Prophet", "History", "Lessons"],
@@ -158,6 +165,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
         id: "quran",
         title: "Quran",
         icon: "bi-journal-richtext",
+        accent: "#15803d",
         description: "Tafsir, Quranic themes, reflection, and guidance from revelation.",
         query: "Quran",
         tags: ["Tafsir", "Reflection", "Revelation"],
@@ -166,6 +174,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
         id: "character",
         title: "Character",
         icon: "bi-flower1",
+        accent: "#b45309",
         description: "Patience, sincerity, gratitude, and purification of character.",
         query: "Character",
         tags: ["Patience", "Sincerity", "Manners"],
@@ -174,6 +183,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
         id: "new-muslims",
         title: "New Muslims",
         icon: "bi-compass-fill",
+        accent: "#0f766e",
         description: "Foundational guidance and practical help for those new to Islam.",
         query: "New Muslims",
         tags: ["Basics", "Guidance", "Faith"],
@@ -182,6 +192,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
         id: "hajj-umrah",
         title: "Hajj & Umrah",
         icon: "bi-geo-alt-fill",
+        accent: "#7c3aed",
         description: "Pilgrimage guidance, preparation, and rites for Hajj and Umrah.",
         query: "Umrah",
         tags: ["Pilgrimage", "Rites", "Travel"],
@@ -260,6 +271,21 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
     },
     popularSearches() {
       return ["Ramadan", "Prayer", "Marriage", "Aqeedah", "Women", "Tawhid"];
+    },
+    quickFilters() {
+      return [{
+        value: "verified",
+        label: "Scholarly Verified",
+        icon: "bi-patch-check-fill"
+      }, {
+        value: "short_reads",
+        label: "Under 8 min",
+        icon: "bi-lightning-charge-fill"
+      }, {
+        value: "most_read",
+        label: "Most Read",
+        icon: "bi-fire"
+      }];
     },
     trendingTopics() {
       const scores = {};
@@ -357,11 +383,20 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
         if (activeCollection && !this.matchesCollection(item, activeCollection)) {
           return false;
         }
+        if (this.activeQuickFilters.includes("short_reads") && this.getEstimatedReadMinutes(item) > 8) {
+          return false;
+        }
+        if (this.activeQuickFilters.includes("verified") && !this.isScholarlyVerified(item)) {
+          return false;
+        }
         if (!query) {
           return true;
         }
         return [item.title, item.summary, item.typeLabel, item.publishedBy].join(" ").toLowerCase().includes(query);
       }).sort((left, right) => {
+        if (this.activeQuickFilters.includes("most_read")) {
+          return this.getPopularityScore(right) - this.getPopularityScore(left);
+        }
         if (this.sortBy === "oldest") {
           return left.sortTimestamp - right.sortTimestamp;
         }
@@ -471,6 +506,16 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
     clearActiveCollection() {
       this.activeCollectionId = null;
       this.searchQuery = "";
+    },
+    toggleQuickFilter(value) {
+      if (!value) {
+        return;
+      }
+      if (value === "most_read") {
+        this.activeQuickFilters = this.activeQuickFilters.includes(value) ? this.activeQuickFilters.filter(item => item !== value) : [...this.activeQuickFilters.filter(item => item !== "most_read"), value];
+        return;
+      }
+      this.activeQuickFilters = this.activeQuickFilters.includes(value) ? this.activeQuickFilters.filter(item => item !== value) : [...this.activeQuickFilters, value];
     },
     initializeInfiniteScroll() {
       if (typeof window === "undefined" || typeof window.IntersectionObserver === "undefined") {
@@ -595,7 +640,8 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       this.processPreviewHydrationQueue();
     },
     shouldHydratePreview(item) {
-      return !this.normalizeOverviewText(item.summary, item.title) || !this.cleanText(item.publishedBy);
+      const normalized = this.normalizeOverviewText(item.summary, item.title);
+      return !normalized || normalized.length < 120 || !this.cleanText(item.publishedBy);
     },
     async processPreviewHydrationQueue() {
       const maxConcurrent = 4;
@@ -612,6 +658,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
           const merged = _objectSpread(_objectSpread({}, item), {}, {
             summary: preview.summary || item.summary,
             publishedBy: preview.publishedBy || item.publishedBy,
+            contentText: preview.contentText || item.contentText,
             sourceUrl: preview.sourceUrl || item.sourceUrl,
             hasPdf: typeof preview.hasPdf === "boolean" ? preview.hasPdf : item.hasPdf,
             formatLabel: preview.formatLabel || item.formatLabel
@@ -837,6 +884,22 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
     },
     getHighlightedExcerpt(item) {
       return this.highlightText(this.getCardExcerpt(item));
+    },
+    isScholarlyVerified(item) {
+      return !!item;
+    },
+    getEstimatedReadMinutes(item) {
+      const wordCount = this.countWords(item && (item.contentText || item.summary || item.title) || "");
+      return this.calculateEstimatedMinutes(wordCount, 200);
+    },
+    getPopularityScore(item) {
+      if (!item) {
+        return 0;
+      }
+      const keywordBoost = this.extractKeywords(`${item.title} ${item.summary || ""}`).filter(keyword => this.popularSearches.map(term => term.toLowerCase()).includes(this.formatTopicLabel(keyword).toLowerCase())).length * 12;
+      const previewBoost = Math.min(30, this.cleanText(item.summary || "").length / 8);
+      const recencyBoost = Math.max(0, 18 - Math.abs(Date.now() - (item.sortTimestamp || 0)) / 86400000 / 14);
+      return keywordBoost + previewBoost + recencyBoost;
     },
     isPdfCard(item) {
       return !!(item && !item.readerReady && (item.hasPdf || /pdf/i.test(item.formatLabel || "")));
@@ -1781,6 +1844,18 @@ __webpack_require__.r(__webpack_exports__);
       type: String,
       default: "comfortable"
     },
+    quickFilters: {
+      type: Array,
+      default() {
+        return [];
+      }
+    },
+    activeQuickFilters: {
+      type: Array,
+      default() {
+        return [];
+      }
+    },
     suggestions: {
       type: Array,
       default() {
@@ -1810,7 +1885,7 @@ __webpack_require__.r(__webpack_exports__);
       }
     }
   },
-  emits: ["update:searchQuery", "update:activeType", "update:sortBy", "update:density", "apply-search"],
+  emits: ["update:searchQuery", "update:activeType", "update:sortBy", "update:density", "toggle-quick-filter", "apply-search"],
   data() {
     return {
       searchPanelOpen: false,
@@ -2149,6 +2224,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "active-type": $data.activeType,
     "sort-by": $data.sortBy,
     density: $data.cardDensity,
+    "quick-filters": $options.quickFilters,
+    "active-quick-filters": $data.activeQuickFilters,
     suggestions: $options.searchSuggestions,
     "popular-searches": $options.popularSearches,
     "trending-topics": $options.trendingTopics,
@@ -2158,8 +2235,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "onUpdate:activeType": _cache[0] || (_cache[0] = $event => $data.activeType = $event),
     "onUpdate:sortBy": _cache[1] || (_cache[1] = $event => $data.sortBy = $event),
     "onUpdate:density": _cache[2] || (_cache[2] = $event => $data.cardDensity = $event),
+    onToggleQuickFilter: $options.toggleQuickFilter,
     onApplySearch: $options.applySearchTerm
-  }, null, 8 /* PROPS */, ["search-query", "active-type", "sort-by", "density", "suggestions", "popular-searches", "trending-topics", "result-count", "type-options", "onUpdate:searchQuery", "onApplySearch"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [_cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, 8 /* PROPS */, ["search-query", "active-type", "sort-by", "density", "quick-filters", "active-quick-filters", "suggestions", "popular-searches", "trending-topics", "result-count", "type-options", "onUpdate:searchQuery", "onToggleQuickFilter", "onApplySearch"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [_cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "collections-kicker"
   }, "Collections"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
     class: "collections-title mb-0"
@@ -2187,11 +2265,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["collection-card", {
         'is-active': $data.activeCollectionId === collection.id
       }]),
+      style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
+        '--collection-accent': collection.accent || 'var(--library-accent)'
+      }),
       onClick: $event => $options.activateCollection(collection)
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", collection.icon]),
       "aria-hidden": "true"
-    }, null, 2 /* CLASS */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_13, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(collection.title), 1 /* TEXT */)], 10 /* CLASS, PROPS */, _hoisted_11);
+    }, null, 2 /* CLASS */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_13, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(collection.title), 1 /* TEXT */)], 14 /* CLASS, STYLE, PROPS */, _hoisted_11);
   }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [$data.loadingInitial ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_17, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(6, n => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       key: 'skeleton-' + n,
@@ -2605,6 +2686,12 @@ const _hoisted_23 = {
   role: "group",
   "aria-label": "Card density"
 };
+const _hoisted_24 = {
+  class: "quick-filters",
+  role: "group",
+  "aria-label": "Quick filters"
+};
+const _hoisted_25 = ["onClick"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("section", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [_cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-search search-icon",
@@ -2656,7 +2743,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, "Type", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     id: "filter-type",
     value: $props.activeType,
-    class: "filter-select",
+    class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["filter-select", {
+      'is-active': $props.activeType !== 'all'
+    }]),
     "aria-label": "Filter by type",
     onChange: _cache[3] || (_cache[3] = $event => _ctx.$emit('update:activeType', $event.target.value))
   }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.typeOptions, option => {
@@ -2664,7 +2753,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       key: option.value,
       value: option.value
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(option.label), 9 /* TEXT, PROPS */, _hoisted_20);
-  }), 128 /* KEYED_FRAGMENT */))], 40 /* PROPS, NEED_HYDRATION */, _hoisted_19)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [_cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }), 128 /* KEYED_FRAGMENT */))], 42 /* CLASS, PROPS, NEED_HYDRATION */, _hoisted_19)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [_cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "filter-icon",
     "aria-hidden": "true"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
@@ -2675,7 +2764,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, "Sort", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     id: "filter-sort",
     value: $props.sortBy,
-    class: "filter-select",
+    class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["filter-select", {
+      'is-active': $props.sortBy !== 'newest'
+    }]),
     "aria-label": "Sort items",
     onChange: _cache[4] || (_cache[4] = $event => _ctx.$emit('update:sortBy', $event.target.value))
   }, [...(_cache[14] || (_cache[14] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
@@ -2684,7 +2775,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     value: "oldest"
   }, "Oldest to newest", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: "title"
-  }, "Title A to Z", -1 /* CACHED */)]))], 40 /* PROPS, NEED_HYDRATION */, _hoisted_22)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, "Title A to Z", -1 /* CACHED */)]))], 42 /* CLASS, PROPS, NEED_HYDRATION */, _hoisted_22)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["density-btn", {
       'is-active': $props.density !== 'compact'
@@ -2713,7 +2804,19 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, [...(_cache[19] || (_cache[19] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-x-lg",
     "aria-hidden": "true"
-  }, null, -1 /* CACHED */)]))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])])]);
+  }, null, -1 /* CACHED */)]))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.quickFilters, filter => {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+      key: filter.value,
+      type: "button",
+      class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["quick-filter-btn", {
+        'is-active': $props.activeQuickFilters.includes(filter.value)
+      }]),
+      onClick: $event => _ctx.$emit('toggle-quick-filter', filter.value)
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", filter.icon]),
+      "aria-hidden": "true"
+    }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(filter.label), 1 /* TEXT */)], 10 /* CLASS, PROPS */, _hoisted_25);
+  }), 128 /* KEYED_FRAGMENT */))])])]);
 }
 
 /***/ }),

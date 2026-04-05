@@ -72,6 +72,7 @@
                             id="filter-type"
                             :value="activeType"
                             class="filter-select"
+                            :class="{ 'is-active': activeType !== 'all' }"
                             aria-label="Filter by type"
                             @change="$emit('update:activeType', $event.target.value)"
                         >
@@ -90,6 +91,7 @@
                             id="filter-sort"
                             :value="sortBy"
                             class="filter-select"
+                            :class="{ 'is-active': sortBy !== 'newest' }"
                             aria-label="Sort items"
                             @change="$emit('update:sortBy', $event.target.value)"
                         >
@@ -131,6 +133,19 @@
                     </button>
                 </div>
             </div>
+            <div class="quick-filters" role="group" aria-label="Quick filters">
+                <button
+                    v-for="filter in quickFilters"
+                    :key="filter.value"
+                    type="button"
+                    class="quick-filter-btn"
+                    :class="{ 'is-active': activeQuickFilters.includes(filter.value) }"
+                    @click="$emit('toggle-quick-filter', filter.value)"
+                >
+                    <i class="bi" :class="filter.icon" aria-hidden="true"></i>
+                    <span>{{ filter.label }}</span>
+                </button>
+            </div>
         </div>
     </section>
 </template>
@@ -154,6 +169,18 @@ export default {
         density: {
             type: String,
             default: "comfortable",
+        },
+        quickFilters: {
+            type: Array,
+            default() {
+                return [];
+            },
+        },
+        activeQuickFilters: {
+            type: Array,
+            default() {
+                return [];
+            },
         },
         suggestions: {
             type: Array,
@@ -184,7 +211,7 @@ export default {
             },
         },
     },
-    emits: ["update:searchQuery", "update:activeType", "update:sortBy", "update:density", "apply-search"],
+    emits: ["update:searchQuery", "update:activeType", "update:sortBy", "update:density", "toggle-quick-filter", "apply-search"],
     data() {
         return {
             searchPanelOpen: false,
@@ -224,6 +251,41 @@ export default {
     border-radius: 18px;
     background: var(--library-surface);
     box-shadow: var(--library-shadow);
+}
+
+.quick-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.46rem;
+    margin-top: 0.56rem;
+}
+
+.quick-filter-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.38rem;
+    min-height: 32px;
+    padding: 0 0.74rem;
+    border: 0;
+    border-radius: 999px;
+    background: var(--library-soft);
+    color: var(--library-muted);
+    font-size: 0.73rem;
+    font-weight: 700;
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--library-accent) 8%, transparent);
+    transition: background-color 0.18s ease, color 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.quick-filter-btn:hover,
+.quick-filter-btn:focus-visible {
+    transform: translateY(-1px);
+    color: var(--library-accent);
+}
+
+.quick-filter-btn.is-active {
+    background: color-mix(in srgb, var(--library-accent) 16%, var(--library-soft));
+    color: var(--library-accent);
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--library-accent) 22%, transparent);
 }
 
 .search-layout {
@@ -373,6 +435,12 @@ export default {
     font-weight: 600;
 }
 
+.filter-select.is-active {
+    background: color-mix(in srgb, var(--library-accent) 10%, var(--library-soft));
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--library-accent) 18%, transparent);
+    color: var(--library-accent-strong);
+}
+
 .search-input:focus,
 .filter-select:focus {
     outline: none;
@@ -506,6 +574,17 @@ export default {
     .density-btn {
         width: 33px;
         height: 33px;
+    }
+
+    .quick-filters {
+        gap: 0.34rem;
+        margin-top: 0.46rem;
+    }
+
+    .quick-filter-btn {
+        min-height: 30px;
+        padding: 0 0.62rem;
+        font-size: 0.68rem;
     }
 }
 </style>
