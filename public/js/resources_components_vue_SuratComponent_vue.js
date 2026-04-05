@@ -918,7 +918,7 @@ __webpack_require__.r(__webpack_exports__);
       if (this.selectedCount > 0) {
         return "Use the actions on the right to clear or delete the current selection.";
       }
-      return "Use open to jump there, play for audio, and more for move, order, or delete.";
+      return "Use the side icons to open, play, move, reorder, or delete a saved ayah.";
     },
     emptyStateTitle() {
       return this.isAllActive ? "No playlist items yet" : `Nothing in ${this.activePlaylistName}`;
@@ -2254,7 +2254,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [_cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "saved-playlists-panel-kicker"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: "bi bi-music-note-list",
+    class: "fas fa-music",
     "aria-hidden": "true"
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Playlists ")], -1 /* CACHED */)), _cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
     id: "savedPlaylistsPanelTitle",
@@ -2265,16 +2265,16 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "aria-label": "Close saved playlists panel",
     onClick: _cache[0] || (_cache[0] = $event => _ctx.$emit('close'))
   }, [...(_cache[17] || (_cache[17] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: "bi bi-x-lg",
+    class: "fas fa-times",
     "aria-hidden": "true"
-  }, null, -1 /* CACHED */)]))])]), _cache[44] || (_cache[44] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"saved-playlists-flow\" aria-label=\"Saved playlist steps\" data-v-2e01a2f2><span class=\"saved-playlists-flow-step\" data-v-2e01a2f2><span class=\"saved-playlists-flow-icon\" data-v-2e01a2f2><i class=\"bi bi-funnel-fill\" aria-hidden=\"true\" data-v-2e01a2f2></i></span><strong data-v-2e01a2f2>Filter</strong><span data-v-2e01a2f2>Pick a playlist</span></span><span class=\"saved-playlists-flow-step\" data-v-2e01a2f2><span class=\"saved-playlists-flow-icon\" data-v-2e01a2f2><i class=\"bi bi-sliders2\" aria-hidden=\"true\" data-v-2e01a2f2></i></span><strong data-v-2e01a2f2>Manage</strong><span data-v-2e01a2f2>Edit collections</span></span><span class=\"saved-playlists-flow-step\" data-v-2e01a2f2><span class=\"saved-playlists-flow-icon\" data-v-2e01a2f2><i class=\"bi bi-play-circle-fill\" aria-hidden=\"true\" data-v-2e01a2f2></i></span><strong data-v-2e01a2f2>Use cards</strong><span data-v-2e01a2f2>Open, play, or more</span></span></div>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, -1 /* CACHED */)]))])]), _cache[44] || (_cache[44] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"saved-playlists-flow\" aria-label=\"Saved playlist steps\" data-v-2e01a2f2><span class=\"saved-playlists-flow-step\" data-v-2e01a2f2><span class=\"saved-playlists-flow-icon\" data-v-2e01a2f2><i class=\"fas fa-filter\" aria-hidden=\"true\" data-v-2e01a2f2></i></span><strong data-v-2e01a2f2>Filter</strong><span data-v-2e01a2f2>Pick a playlist</span></span><span class=\"saved-playlists-flow-step\" data-v-2e01a2f2><span class=\"saved-playlists-flow-icon\" data-v-2e01a2f2><i class=\"fas fa-sliders-h\" aria-hidden=\"true\" data-v-2e01a2f2></i></span><strong data-v-2e01a2f2>Manage</strong><span data-v-2e01a2f2>Edit collections</span></span><span class=\"saved-playlists-flow-step\" data-v-2e01a2f2><span class=\"saved-playlists-flow-icon\" data-v-2e01a2f2><i class=\"fas fa-play-circle\" aria-hidden=\"true\" data-v-2e01a2f2></i></span><strong data-v-2e01a2f2>Actions</strong><span data-v-2e01a2f2>Open, play, move</span></span></div>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["btn saved-playlists-collection-pill saved-playlists-collection-pill-primary", {
       'is-active': $options.isAllActive && !$data.manageOpen
     }]),
     onClick: _cache[1] || (_cache[1] = (...args) => $options.handleAllClick && $options.handleAllClick(...args))
   }, [...(_cache[18] || (_cache[18] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: "bi bi-grid-1x2-fill",
+    class: "fas fa-th-large",
     "aria-hidden": "true"
   }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "All", -1 /* CACHED */)]))], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
@@ -2283,7 +2283,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }]),
     onClick: _cache[2] || (_cache[2] = (...args) => $options.openManage && $options.openManage(...args))
   }, [...(_cache[19] || (_cache[19] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: "bi bi-sliders2",
+    class: "fas fa-sliders-h",
     "aria-hidden": "true"
   }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Manage", -1 /* CACHED */)]))], 2 /* CLASS */)]), $props.playlists.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_6, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.playlists, playlist => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
@@ -2295,7 +2295,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       title: playlist.name,
       onClick: $event => $options.handlePlaylistClick(playlist.id)
     }, [_cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      class: "bi bi-disc-fill",
+      class: "fas fa-compact-disc",
       "aria-hidden": "true"
     }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_8, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(playlist.name), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(playlist.itemCount || 0), 1 /* TEXT */)], 10 /* CLASS, PROPS */, _hoisted_7);
   }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), $data.manageOpen ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [_cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Manage playlists"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
@@ -2328,7 +2328,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     disabled: $props.busy || !$data.newPlaylistName,
     "aria-label": "Create playlist"
   }, [...(_cache[22] || (_cache[22] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: "bi bi-plus-lg",
+    class: "fas fa-plus",
     "aria-hidden": "true"
   }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_15)], 32 /* NEED_HYDRATION */), $props.playlists.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_16, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.playlists, playlist => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("article", {
@@ -2341,7 +2341,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       class: "saved-playlists-manage-row-icon",
       "aria-hidden": "true"
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      class: "bi bi-music-note-beamed"
+      class: "fas fa-music"
     })], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [$data.editingPlaylistId === playlist.id ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
       "onUpdate:modelValue": _cache[6] || (_cache[6] = $event => $data.editingPlaylistName = $event),
       type: "text",
@@ -2368,7 +2368,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "aria-label": `Rename ${playlist.name}`,
       onClick: $event => $options.beginEdit(playlist)
     }, [...(_cache[24] || (_cache[24] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      class: "bi bi-pencil-square",
+      class: "fas fa-pen",
       "aria-hidden": "true"
     }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_26)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
       key: 1,
@@ -2378,7 +2378,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "aria-label": `Save ${playlist.name}`,
       onClick: $event => $options.confirmEdit(playlist)
     }, [...(_cache[25] || (_cache[25] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      class: "bi bi-check2",
+      class: "fas fa-check",
       "aria-hidden": "true"
     }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_27)), $data.editingPlaylistId === playlist.id ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
       key: 2,
@@ -2388,7 +2388,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "aria-label": "Cancel rename",
       onClick: _cache[8] || (_cache[8] = (...args) => $options.cancelEdit && $options.cancelEdit(...args))
     }, [...(_cache[26] || (_cache[26] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      class: "bi bi-x-lg",
+      class: "fas fa-times",
       "aria-hidden": "true"
     }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_28)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       type: "button",
@@ -2397,7 +2397,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "aria-label": `Delete ${playlist.name}`,
       onClick: $event => $options.requestPlaylistDelete(playlist)
     }, [...(_cache[27] || (_cache[27] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      class: "bi bi-trash3",
+      class: "fas fa-trash-alt",
       "aria-hidden": "true"
     }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_29)]), $data.pendingPlaylistDeleteId === playlist.id ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_30, [_cache[30] || (_cache[30] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Delete this playlist?", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_31, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       type: "button",
@@ -2406,7 +2406,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "aria-label": "Cancel delete",
       onClick: _cache[9] || (_cache[9] = (...args) => $options.cancelPlaylistDelete && $options.cancelPlaylistDelete(...args))
     }, [...(_cache[28] || (_cache[28] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      class: "bi bi-arrow-counterclockwise",
+      class: "fas fa-undo-alt",
       "aria-hidden": "true"
     }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_32), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       type: "button",
@@ -2415,11 +2415,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "aria-label": `Confirm delete ${playlist.name}`,
       onClick: $event => $options.confirmPlaylistDelete(playlist)
     }, [...(_cache[29] || (_cache[29] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      class: "bi bi-check2",
+      class: "fas fa-check",
       "aria-hidden": "true"
     }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_33)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 2 /* CLASS */);
   }), 128 /* KEYED_FRAGMENT */))])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_34, [...(_cache[31] || (_cache[31] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: "bi bi-music-note-list",
+    class: "fas fa-music",
     "aria-hidden": "true"
   }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Create your first playlist to start building audio queues.", -1 /* CACHED */)]))]))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $props.deleteConfirm && $props.deleteConfirm.visible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_35, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_36, [_cache[32] || (_cache[32] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Confirm delete", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.deleteConfirm.message), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_37, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
@@ -2429,7 +2429,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     title: "Cancel delete",
     onClick: _cache[10] || (_cache[10] = $event => _ctx.$emit('cancel-delete'))
   }, [...(_cache[33] || (_cache[33] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: "bi bi-x-lg",
+    class: "fas fa-times",
     "aria-hidden": "true"
   }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_38), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
@@ -2439,7 +2439,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     title: $props.deleteBusy ? 'Deleting' : 'Confirm delete',
     onClick: _cache[11] || (_cache[11] = $event => _ctx.$emit('confirm-delete'))
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", $props.deleteBusy ? 'bi-hourglass-split' : 'bi-trash3']),
+    class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["fas", $props.deleteBusy ? 'fa-spinner fa-spin' : 'fa-trash-alt']),
     "aria-hidden": "true"
   }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_39)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $props.items.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_40, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_41, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.selectedCount) + " selected", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.toolbarHint), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_42, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
@@ -2449,7 +2449,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     title: $props.allSelected ? 'Unselect all' : 'Select all',
     onClick: _cache[12] || (_cache[12] = $event => _ctx.$emit('toggle-select-all'))
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", $props.allSelected ? 'bi-x-square' : 'bi-check2-square']),
+    class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["fas", $props.allSelected ? 'fa-times-circle' : 'fa-check-double']),
     "aria-hidden": "true"
   }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_43), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
@@ -2459,7 +2459,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     title: "Clear selection",
     onClick: _cache[13] || (_cache[13] = $event => _ctx.$emit('clear-selection'))
   }, [...(_cache[34] || (_cache[34] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: "bi bi-eraser",
+    class: "fas fa-eraser",
     "aria-hidden": "true"
   }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_44), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
@@ -2469,7 +2469,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     title: "Delete selected verses",
     onClick: _cache[14] || (_cache[14] = $event => _ctx.$emit('request-bulk-delete'))
   }, [...(_cache[35] || (_cache[35] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: "bi bi-trash3",
+    class: "fas fa-trash-alt",
     "aria-hidden": "true"
   }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_45)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $props.items.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_46, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_47, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.items, item => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("article", {
@@ -2487,7 +2487,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "aria-label": $options.selectedKeySet.has(item.key) ? `Unselect ${item.surahName} ayah ${item.ayahNumber}` : `Select ${item.surahName} ayah ${item.ayahNumber}`,
       onClick: $event => _ctx.$emit('toggle-selection', item.key)
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", $options.selectedKeySet.has(item.key) ? 'bi-check-circle-fill' : 'bi-circle']),
+      class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["fas", $options.selectedKeySet.has(item.key) ? 'fa-check' : 'fa-plus']),
       "aria-hidden": "true"
     }, null, 2 /* CLASS */)], 10 /* CLASS, PROPS */, _hoisted_49), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       type: "button",
@@ -2496,7 +2496,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "aria-label": `Open ${item.surahName} ayah ${item.ayahNumber}`,
       onClick: $event => _ctx.$emit('open-item', item.key)
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_51, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_52, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_53, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.surahName), 1 /* TEXT */), item.isNowPlaying ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_54, " Now playing ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_55, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_56, " Ayah " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.ayahNumber), 1 /* TEXT */), item.addedAtLabel ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_57)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), item.addedAtLabel ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_58, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.addedAtLabel), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), item.arabicName ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_59, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.arabicName), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])], 8 /* PROPS */, _hoisted_50), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_60, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_61, [_cache[36] || (_cache[36] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      class: "bi bi-music-note-list",
+      class: "fas fa-music",
       "aria-hidden": "true"
     }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.playlistName), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_62, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.refLabel), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_63, [item.description ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", {
       key: 0,
@@ -2508,7 +2508,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "aria-label": `Move ${item.surahName} ayah ${item.ayahNumber} to another playlist`,
       title: `Move ${item.surahName} ayah ${item.ayahNumber}`
     }, [_cache[38] || (_cache[38] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      class: "bi bi-arrow-left-right",
+      class: "fas fa-exchange-alt",
       "aria-hidden": "true"
     }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
       class: "form-select form-select-sm saved-playlists-move-select",
@@ -2532,7 +2532,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       title: "Open verse",
       onClick: $event => _ctx.$emit('open-item', item.key)
     }, [...(_cache[39] || (_cache[39] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      class: "bi bi-box-arrow-up-right",
+      class: "fas fa-arrow-up-right-from-square",
       "aria-hidden": "true"
     }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_69), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       type: "button",
@@ -2542,7 +2542,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       title: item.isNowPlaying ? 'Pause ayah audio' : 'Play ayah audio',
       onClick: $event => _ctx.$emit('play-item', item.key)
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", item.isNowPlaying ? 'bi-pause-fill' : 'bi-play-fill']),
+      class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["fas", item.isNowPlaying ? 'fa-pause' : 'fa-play']),
       "aria-hidden": "true"
     }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_70), item.canMoveUp ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
       key: 1,
@@ -2553,7 +2553,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       title: "Move up",
       onClick: $event => _ctx.$emit('move-item-up', item.key)
     }, [...(_cache[40] || (_cache[40] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      class: "bi bi-arrow-up",
+      class: "fas fa-arrow-up",
       "aria-hidden": "true"
     }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_71)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), item.canMoveDown ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
       key: 2,
@@ -2564,7 +2564,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       title: "Move down",
       onClick: $event => _ctx.$emit('move-item-down', item.key)
     }, [...(_cache[41] || (_cache[41] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      class: "bi bi-arrow-down",
+      class: "fas fa-arrow-down",
       "aria-hidden": "true"
     }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_72)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       type: "button",
@@ -2574,14 +2574,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       title: "Delete verse",
       onClick: $event => _ctx.$emit('request-delete', item.key)
     }, [...(_cache[42] || (_cache[42] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      class: "bi bi-trash3",
+      class: "fas fa-trash-alt",
       "aria-hidden": "true"
     }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_73)])])], 2 /* CLASS */);
   }), 128 /* KEYED_FRAGMENT */))])])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_74, [_cache[43] || (_cache[43] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "saved-playlists-empty-icon",
     "aria-hidden": "true"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: "bi bi-music-note-list"
+    class: "fas fa-music"
   })], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", _hoisted_75, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.emptyStateTitle), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_76, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.emptyStateCopy), 1 /* TEXT */)]))], 2 /* CLASS */);
 }
 

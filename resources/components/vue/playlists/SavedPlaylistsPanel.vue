@@ -7,7 +7,7 @@
         <div class="saved-playlists-panel-head">
             <div class="saved-playlists-panel-heading">
                 <span class="saved-playlists-panel-kicker">
-                    <i class="bi bi-music-note-list" aria-hidden="true"></i>
+                    <i class="fas fa-music" aria-hidden="true"></i>
                     Playlists
                 </span>
                 <h3 id="savedPlaylistsPanelTitle" class="saved-playlists-panel-title mb-1">
@@ -22,31 +22,31 @@
                 class="btn saved-playlists-close-btn"
                 aria-label="Close saved playlists panel"
                 @click="$emit('close')">
-                <i class="bi bi-x-lg" aria-hidden="true"></i>
+                <i class="fas fa-times" aria-hidden="true"></i>
             </button>
         </div>
 
         <div class="saved-playlists-flow" aria-label="Saved playlist steps">
             <span class="saved-playlists-flow-step">
                 <span class="saved-playlists-flow-icon">
-                    <i class="bi bi-funnel-fill" aria-hidden="true"></i>
+                    <i class="fas fa-filter" aria-hidden="true"></i>
                 </span>
                 <strong>Filter</strong>
                 <span>Pick a playlist</span>
             </span>
             <span class="saved-playlists-flow-step">
                 <span class="saved-playlists-flow-icon">
-                    <i class="bi bi-sliders2" aria-hidden="true"></i>
+                    <i class="fas fa-sliders-h" aria-hidden="true"></i>
                 </span>
                 <strong>Manage</strong>
                 <span>Edit collections</span>
             </span>
             <span class="saved-playlists-flow-step">
                 <span class="saved-playlists-flow-icon">
-                    <i class="bi bi-play-circle-fill" aria-hidden="true"></i>
+                    <i class="fas fa-play-circle" aria-hidden="true"></i>
                 </span>
-                <strong>Use cards</strong>
-                <span>Open, play, or more</span>
+                <strong>Actions</strong>
+                <span>Open, play, move</span>
             </span>
         </div>
 
@@ -60,7 +60,7 @@
                     class="btn saved-playlists-collection-pill saved-playlists-collection-pill-primary"
                     :class="{ 'is-active': isAllActive && !manageOpen }"
                     @click="handleAllClick">
-                    <i class="bi bi-grid-1x2-fill" aria-hidden="true"></i>
+                    <i class="fas fa-th-large" aria-hidden="true"></i>
                     <span>All</span>
                 </button>
                 <button
@@ -68,7 +68,7 @@
                     class="btn saved-playlists-collection-pill saved-playlists-collection-pill-primary saved-playlists-collection-manage"
                     :class="{ 'is-active': manageOpen }"
                     @click="openManage">
-                    <i class="bi bi-sliders2" aria-hidden="true"></i>
+                    <i class="fas fa-sliders-h" aria-hidden="true"></i>
                     <span>Manage</span>
                 </button>
             </div>
@@ -86,7 +86,7 @@
                     :class="{ 'is-active': !manageOpen && String(activePlaylistId) === String(playlist.id) }"
                     :title="playlist.name"
                     @click="handlePlaylistClick(playlist.id)">
-                    <i class="bi bi-disc-fill" aria-hidden="true"></i>
+                    <i class="fas fa-compact-disc" aria-hidden="true"></i>
                     <span class="saved-playlists-collection-pill-title">{{ playlist.name }}</span>
                     <span class="saved-playlists-collection-pill-count">{{ playlist.itemCount || 0 }}</span>
                 </button>
@@ -127,7 +127,7 @@
                     class="btn saved-playlists-icon-btn saved-playlists-icon-btn-primary"
                     :disabled="busy || !newPlaylistName"
                     aria-label="Create playlist">
-                    <i class="bi bi-plus-lg" aria-hidden="true"></i>
+                    <i class="fas fa-plus" aria-hidden="true"></i>
                 </button>
             </form>
 
@@ -140,7 +140,7 @@
                     role="listitem">
                     <div class="saved-playlists-manage-row-main">
                         <span class="saved-playlists-manage-row-icon" aria-hidden="true">
-                            <i class="bi bi-music-note-beamed"></i>
+                            <i class="fas fa-music"></i>
                         </span>
                         <div class="saved-playlists-manage-row-copy">
                             <template v-if="editingPlaylistId === playlist.id">
@@ -180,7 +180,7 @@
                             :disabled="busy"
                             :aria-label="`Rename ${playlist.name}`"
                             @click="beginEdit(playlist)">
-                            <i class="bi bi-pencil-square" aria-hidden="true"></i>
+                            <i class="fas fa-pen" aria-hidden="true"></i>
                         </button>
                         <button
                             v-else
@@ -189,7 +189,7 @@
                             :disabled="busy || !editingPlaylistName"
                             :aria-label="`Save ${playlist.name}`"
                             @click="confirmEdit(playlist)">
-                            <i class="bi bi-check2" aria-hidden="true"></i>
+                            <i class="fas fa-check" aria-hidden="true"></i>
                         </button>
                         <button
                             v-if="editingPlaylistId === playlist.id"
@@ -198,7 +198,7 @@
                             :disabled="busy"
                             aria-label="Cancel rename"
                             @click="cancelEdit">
-                            <i class="bi bi-x-lg" aria-hidden="true"></i>
+                            <i class="fas fa-times" aria-hidden="true"></i>
                         </button>
                         <button
                             type="button"
@@ -206,7 +206,7 @@
                             :disabled="busy"
                             :aria-label="`Delete ${playlist.name}`"
                             @click="requestPlaylistDelete(playlist)">
-                            <i class="bi bi-trash3" aria-hidden="true"></i>
+                            <i class="fas fa-trash-alt" aria-hidden="true"></i>
                         </button>
                     </div>
                     <div
@@ -220,7 +220,7 @@
                                 :disabled="busy"
                                 aria-label="Cancel delete"
                                 @click="cancelPlaylistDelete">
-                                <i class="bi bi-arrow-counterclockwise" aria-hidden="true"></i>
+                                <i class="fas fa-undo-alt" aria-hidden="true"></i>
                             </button>
                             <button
                                 type="button"
@@ -228,7 +228,7 @@
                                 :disabled="busy"
                                 :aria-label="`Confirm delete ${playlist.name}`"
                                 @click="confirmPlaylistDelete(playlist)">
-                                <i class="bi bi-check2" aria-hidden="true"></i>
+                                <i class="fas fa-check" aria-hidden="true"></i>
                             </button>
                         </div>
                     </div>
@@ -236,7 +236,7 @@
             </div>
 
             <div v-else class="saved-playlists-manage-empty">
-                <i class="bi bi-music-note-list" aria-hidden="true"></i>
+                <i class="fas fa-music" aria-hidden="true"></i>
                 <span>Create your first playlist to start building audio queues.</span>
             </div>
         </div>
@@ -257,7 +257,7 @@
                     aria-label="Cancel delete"
                     title="Cancel delete"
                     @click="$emit('cancel-delete')">
-                    <i class="bi bi-x-lg" aria-hidden="true"></i>
+                    <i class="fas fa-times" aria-hidden="true"></i>
                 </button>
                 <button
                     type="button"
@@ -267,8 +267,8 @@
                     :title="deleteBusy ? 'Deleting' : 'Confirm delete'"
                     @click="$emit('confirm-delete')">
                     <i
-                        class="bi"
-                        :class="deleteBusy ? 'bi-hourglass-split' : 'bi-trash3'"
+                        class="fas"
+                        :class="deleteBusy ? 'fa-spinner fa-spin' : 'fa-trash-alt'"
                         aria-hidden="true"></i>
                 </button>
             </div>
@@ -288,8 +288,8 @@
                     :title="allSelected ? 'Unselect all' : 'Select all'"
                     @click="$emit('toggle-select-all')">
                     <i
-                        class="bi"
-                        :class="allSelected ? 'bi-x-square' : 'bi-check2-square'"
+                        class="fas"
+                        :class="allSelected ? 'fa-times-circle' : 'fa-check-double'"
                         aria-hidden="true"></i>
                 </button>
                 <button
@@ -299,7 +299,7 @@
                     aria-label="Clear selection"
                     title="Clear selection"
                     @click="$emit('clear-selection')">
-                    <i class="bi bi-eraser" aria-hidden="true"></i>
+                    <i class="fas fa-eraser" aria-hidden="true"></i>
                 </button>
                 <button
                     type="button"
@@ -308,7 +308,7 @@
                     aria-label="Delete selected verses"
                     title="Delete selected verses"
                     @click="$emit('request-bulk-delete')">
-                    <i class="bi bi-trash3" aria-hidden="true"></i>
+                    <i class="fas fa-trash-alt" aria-hidden="true"></i>
                 </button>
             </div>
         </div>
@@ -334,8 +334,8 @@
                                 : `Select ${item.surahName} ayah ${item.ayahNumber}`"
                             @click="$emit('toggle-selection', item.key)">
                             <i
-                                class="bi"
-                                :class="selectedKeySet.has(item.key) ? 'bi-check-circle-fill' : 'bi-circle'"
+                                class="fas"
+                                :class="selectedKeySet.has(item.key) ? 'fa-check' : 'fa-plus'"
                                 aria-hidden="true"></i>
                         </button>
                         <button
@@ -375,7 +375,7 @@
                         </button>
                         <div class="saved-playlists-card-badges">
                             <span class="saved-playlists-card-chip">
-                                <i class="bi bi-music-note-list" aria-hidden="true"></i>
+                                <i class="fas fa-music" aria-hidden="true"></i>
                                 {{ item.playlistName }}
                             </span>
                             <span class="saved-playlists-card-ref">
@@ -397,7 +397,7 @@
                                 class="btn saved-playlists-icon-btn saved-playlists-move-icon"
                                 :aria-label="`Move ${item.surahName} ayah ${item.ayahNumber} to another playlist`"
                                 :title="`Move ${item.surahName} ayah ${item.ayahNumber}`">
-                                <i class="bi bi-arrow-left-right" aria-hidden="true"></i>
+                                <i class="fas fa-exchange-alt" aria-hidden="true"></i>
                                 <select
                                     class="form-select form-select-sm saved-playlists-move-select"
                                     :disabled="deleteBusy || busy"
@@ -419,7 +419,7 @@
                                 :aria-label="`Open ${item.surahName} ayah ${item.ayahNumber}`"
                                 title="Open verse"
                                 @click="$emit('open-item', item.key)">
-                                <i class="bi bi-box-arrow-up-right" aria-hidden="true"></i>
+                                <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i>
                             </button>
                             <button
                                 type="button"
@@ -429,8 +429,8 @@
                                 :title="item.isNowPlaying ? 'Pause ayah audio' : 'Play ayah audio'"
                                 @click="$emit('play-item', item.key)">
                                 <i
-                                    class="bi"
-                                    :class="item.isNowPlaying ? 'bi-pause-fill' : 'bi-play-fill'"
+                                    class="fas"
+                                    :class="item.isNowPlaying ? 'fa-pause' : 'fa-play'"
                                     aria-hidden="true"></i>
                             </button>
                             <button
@@ -441,7 +441,7 @@
                                 aria-label="Move item up"
                                 title="Move up"
                                 @click="$emit('move-item-up', item.key)">
-                                <i class="bi bi-arrow-up" aria-hidden="true"></i>
+                                <i class="fas fa-arrow-up" aria-hidden="true"></i>
                             </button>
                             <button
                                 v-if="item.canMoveDown"
@@ -451,7 +451,7 @@
                                 aria-label="Move item down"
                                 title="Move down"
                                 @click="$emit('move-item-down', item.key)">
-                                <i class="bi bi-arrow-down" aria-hidden="true"></i>
+                                <i class="fas fa-arrow-down" aria-hidden="true"></i>
                             </button>
                             <button
                                 type="button"
@@ -460,7 +460,7 @@
                                 :aria-label="`Delete ${item.surahName} ayah ${item.ayahNumber}`"
                                 title="Delete verse"
                                 @click="$emit('request-delete', item.key)">
-                                <i class="bi bi-trash3" aria-hidden="true"></i>
+                                <i class="fas fa-trash-alt" aria-hidden="true"></i>
                             </button>
                         </div>
                     </div>
@@ -470,7 +470,7 @@
 
         <div v-else class="saved-playlists-empty">
             <span class="saved-playlists-empty-icon" aria-hidden="true">
-                <i class="bi bi-music-note-list"></i>
+                <i class="fas fa-music"></i>
             </span>
             <h4 class="saved-playlists-empty-title mb-2">{{ emptyStateTitle }}</h4>
             <p class="saved-playlists-empty-copy mb-0">
@@ -594,7 +594,7 @@ export default {
             if (this.selectedCount > 0) {
                 return "Use the actions on the right to clear or delete the current selection.";
             }
-            return "Use open to jump there, play for audio, and more for move, order, or delete.";
+            return "Use the side icons to open, play, move, reorder, or delete a saved ayah.";
         },
         emptyStateTitle() {
             return this.isAllActive ? "No playlist items yet" : `Nothing in ${this.activePlaylistName}`;
@@ -773,9 +773,9 @@ export default {
     align-items: center;
     gap: 0.38rem;
     margin-bottom: 0.22rem;
-    padding: 0.14rem 0.48rem;
-    border-radius: 999px;
-    background: var(--saved-playlists-accent-soft);
+    padding: 0;
+    border-radius: 0;
+    background: transparent;
     color: var(--saved-playlists-accent);
     font-size: 0.64rem;
     font-weight: 800;
@@ -796,6 +796,10 @@ export default {
     max-width: 34rem;
 }
 
+.saved-playlists-panel i[class*="fa"] {
+    line-height: 1;
+}
+
 .saved-playlists-close-btn,
 .saved-playlists-delete-btn,
 .saved-playlists-icon-btn,
@@ -808,7 +812,7 @@ export default {
     gap: 0.45rem;
     border-radius: 999px;
     border: 1px solid var(--saved-playlists-border);
-    background: var(--saved-playlists-control-bg);
+    background: transparent;
     color: var(--saved-playlists-text);
     transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease, background-color 0.2s ease;
 }
@@ -817,26 +821,46 @@ export default {
 .saved-playlists-delete-btn,
 .saved-playlists-card-check,
 .saved-playlists-icon-btn {
-    width: 2.05rem;
-    height: 2.05rem;
+    width: 1.95rem;
+    height: 1.95rem;
     padding: 0;
 }
 
 .saved-playlists-play-btn {
-    width: 2.15rem;
-    height: 2.15rem;
-    padding: 0;
-    border-color: transparent;
-    background: linear-gradient(135deg, #0f766e, #115e59);
-    color: #fff;
-    box-shadow: 0 12px 24px rgba(15, 118, 110, 0.2);
-}
-
-.saved-playlists-toolbar-btn {
     width: 2.05rem;
     height: 2.05rem;
     padding: 0;
+    border-color: rgba(15, 118, 110, 0.18);
+    background: transparent;
+    color: var(--saved-playlists-accent);
+    box-shadow: none;
+}
+
+.saved-playlists-toolbar-btn {
+    width: 1.95rem;
+    height: 1.95rem;
+    padding: 0;
     font-size: 0.82rem;
+}
+
+.saved-playlists-icon-btn i,
+.saved-playlists-close-btn i,
+.saved-playlists-delete-btn i,
+.saved-playlists-card-check i,
+.saved-playlists-toolbar-btn i {
+    font-size: 0.82rem;
+}
+
+.saved-playlists-play-btn i {
+    font-size: 0.88rem;
+}
+
+.saved-playlists-card-check {
+    color: var(--saved-playlists-muted);
+}
+
+.saved-playlists-card-check i {
+    font-size: 0.72rem;
 }
 
 .saved-playlists-icon-btn:hover,
@@ -863,20 +887,35 @@ export default {
 .saved-playlists-icon-btn-primary,
 .saved-playlists-toolbar-btn.is-danger,
 .saved-playlists-icon-btn-danger {
-    color: #fff;
-    border-color: transparent;
+    border-color: currentColor;
 }
 
 .saved-playlists-icon-btn-primary {
-    background: linear-gradient(135deg, #0f766e, #115e59);
+    color: var(--saved-playlists-accent);
 }
 
 .saved-playlists-icon-btn-danger,
 .saved-playlists-toolbar-btn.is-danger,
 .saved-playlists-delete-btn {
-    background: linear-gradient(135deg, #dc2626, #b91c1c);
-    color: #fff;
-    border-color: transparent;
+    background: transparent;
+    color: var(--saved-playlists-danger);
+    border-color: currentColor;
+}
+
+.saved-playlists-card-check.is-selected,
+.saved-playlists-play-btn,
+.saved-playlists-icon-btn-primary {
+    color: var(--saved-playlists-accent);
+}
+
+.saved-playlists-card-check.is-selected {
+    border-color: rgba(15, 118, 110, 0.24);
+}
+
+.saved-playlists-panel.is-dark .saved-playlists-delete-btn,
+.saved-playlists-panel.is-dark .saved-playlists-toolbar-btn.is-danger,
+.saved-playlists-panel.is-dark .saved-playlists-icon-btn-danger {
+    color: #fda4af;
 }
 
 .saved-playlists-toolbar,
@@ -888,7 +927,7 @@ export default {
 .saved-playlists-flow {
     display: flex;
     align-items: center;
-    gap: 0.68rem;
+    gap: 0.56rem;
     flex-wrap: wrap;
     padding-top: 0.1rem;
 }
@@ -896,12 +935,12 @@ export default {
 .saved-playlists-flow-step {
     display: inline-flex;
     align-items: center;
-    gap: 0.44rem;
+    gap: 0.38rem;
     min-width: 0;
-    padding: 0.48rem 0.78rem;
+    padding: 0.42rem 0.68rem;
     border-radius: 999px;
     border: 1px solid var(--saved-playlists-border);
-    background: rgba(255, 255, 255, 0.62);
+    background: rgba(255, 255, 255, 0.56);
     color: var(--saved-playlists-text);
     white-space: nowrap;
 }
@@ -917,14 +956,14 @@ export default {
 }
 
 .saved-playlists-flow-step strong {
-    font-size: 0.72rem;
+    font-size: 0.69rem;
     font-weight: 800;
     line-height: 1;
 }
 
 .saved-playlists-flow-step span {
     color: var(--saved-playlists-muted);
-    font-size: 0.68rem;
+    font-size: 0.64rem;
     line-height: 1;
 }
 
@@ -932,13 +971,13 @@ export default {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 1.5rem;
-    height: 1.5rem;
-    border-radius: 999px;
-    background: var(--saved-playlists-accent-soft);
+    width: auto;
+    height: auto;
+    border-radius: 0;
+    background: transparent;
     color: var(--saved-playlists-accent);
     flex-shrink: 0;
-    font-size: 0.72rem;
+    font-size: 0.66rem;
 }
 
 .saved-playlists-tabs {
@@ -1104,12 +1143,13 @@ export default {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 2.25rem;
-    height: 2.25rem;
-    border-radius: 16px;
-    background: var(--saved-playlists-accent-soft);
+    width: auto;
+    height: auto;
+    border-radius: 0;
+    background: transparent;
     color: var(--saved-playlists-accent);
     flex-shrink: 0;
+    font-size: 0.95rem;
 }
 
 .saved-playlists-manage-row-copy {
@@ -1185,7 +1225,7 @@ export default {
     margin-bottom: 0.95rem;
     border: 1px solid var(--saved-playlists-border);
     border-radius: 16px;
-    padding: 0.82rem 0.92rem;
+    padding: 0.78rem 0.88rem;
     background: var(--saved-playlists-toolbar-bg);
 }
 
@@ -1222,7 +1262,7 @@ export default {
 .saved-playlists-grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 1.02rem;
+    gap: 1rem;
     align-content: start;
     align-items: start;
 }
@@ -1235,10 +1275,10 @@ export default {
 .saved-playlists-card {
     display: grid;
     grid-template-rows: auto auto;
-    gap: 0.5rem;
+    gap: 0.46rem;
     border: 1px solid var(--saved-playlists-border);
-    border-radius: 18px;
-    padding: 0.82rem 0.9rem;
+    border-radius: 16px;
+    padding: 0.78rem 0.82rem;
     background:
         linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(248, 250, 252, 0.88)),
         var(--saved-playlists-card-bg);
@@ -1266,7 +1306,7 @@ export default {
 }
 
 .saved-playlists-card-row {
-    gap: 0.68rem;
+    gap: 0.58rem;
     min-width: 0;
 }
 
@@ -1280,20 +1320,20 @@ export default {
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto;
     align-items: center;
-    gap: 0.62rem;
-    padding-top: 0.54rem;
+    gap: 0.5rem;
+    padding-top: 0.46rem;
     border-top: 1px solid var(--saved-playlists-border);
 }
 
 .saved-playlists-card-badges {
     display: flex;
     align-items: flex-start;
-    gap: 0.34rem;
+    gap: 0.28rem;
     flex-wrap: nowrap;
     justify-content: flex-end;
     min-width: 0;
     flex-shrink: 0;
-    max-width: 9.75rem;
+    max-width: 8.75rem;
 }
 
 .saved-playlists-card-chip,
@@ -1301,12 +1341,12 @@ export default {
     display: inline-flex;
     align-items: center;
     gap: 0.32rem;
-    min-height: 1.34rem;
-    padding: 0.12rem 0.42rem;
+    min-height: 1.28rem;
+    padding: 0.1rem 0.38rem;
     border-radius: 999px;
     background: rgba(15, 23, 42, 0.05);
     color: var(--saved-playlists-muted);
-    font-size: 0.61rem;
+    font-size: 0.58rem;
     font-weight: 700;
     white-space: nowrap;
 }
@@ -1337,8 +1377,8 @@ export default {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    border-radius: 16px;
-    background: var(--saved-playlists-accent-soft);
+    border-radius: 0;
+    background: transparent;
     color: var(--saved-playlists-accent);
     flex-shrink: 0;
 }
@@ -1350,27 +1390,27 @@ export default {
 }
 
 .saved-playlists-empty-icon {
-    width: 2.9rem;
-    height: 2.9rem;
+    width: auto;
+    height: auto;
     font-size: 1.08rem;
 }
 
 .saved-playlists-card-copy {
     display: grid;
-    gap: 0.08rem;
+    gap: 0.06rem;
     min-width: 0;
 }
 
 .saved-playlists-card-title-row {
     display: flex;
     align-items: center;
-    gap: 0.42rem;
+    gap: 0.36rem;
     flex-wrap: wrap;
 }
 
 .saved-playlists-card-title {
     font-weight: 800;
-    font-size: 0.88rem;
+    font-size: 0.86rem;
     line-height: 1.14;
     min-width: 0;
     letter-spacing: -0.02em;
@@ -1412,13 +1452,13 @@ export default {
 
 .saved-playlists-card-meta,
 .saved-playlists-card-date {
-    font-size: 0.69rem;
+    font-size: 0.67rem;
     color: var(--saved-playlists-muted);
 }
 
 .saved-playlists-card-arabic {
     margin-top: 0.02rem;
-    font-size: 0.88rem;
+    font-size: 0.84rem;
     font-weight: 700;
     line-height: 1.14;
     color: var(--saved-playlists-text);
@@ -1426,15 +1466,14 @@ export default {
 }
 
 .saved-playlists-card-actions {
-    display: grid;
-    grid-template-columns: repeat(3, auto);
+    display: flex;
     align-items: center;
     justify-content: flex-end;
-    justify-items: end;
-    gap: 0.32rem;
+    gap: 0.28rem;
     width: auto;
     margin-left: auto;
     flex-shrink: 0;
+    flex-wrap: nowrap;
 }
 
 .saved-playlists-card-actions > * {
@@ -1464,14 +1503,14 @@ export default {
 .saved-playlists-card-tag {
     display: inline-flex;
     align-items: center;
-    max-width: 100%;
+    max-width: min(100%, 10rem);
     width: max-content;
     min-width: 0;
-    padding: 0.12rem 0.42rem;
+    padding: 0.1rem 0.4rem;
     border-radius: 999px;
     background: var(--saved-playlists-accent-soft);
     color: var(--saved-playlists-accent-strong);
-    font-size: 0.61rem;
+    font-size: 0.58rem;
     font-weight: 700;
     overflow: hidden;
     text-overflow: ellipsis;
