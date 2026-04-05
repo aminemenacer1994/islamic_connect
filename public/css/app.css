@@ -42927,7 +42927,7 @@ to {
 
 
 .search-shell[data-v-73ccccb8] {
-    padding: 1.1rem;
+    padding: 0.58rem 0.66rem;
     border: 0;
     border-radius: 20px;
     background: var(--library-surface);
@@ -42935,9 +42935,9 @@ to {
 }
 .search-row[data-v-73ccccb8] {
     display: flex;
-    gap: 0.8rem;
+    gap: 0.45rem;
     align-items: center;
-    margin-bottom: 0.85rem;
+    margin-bottom: 0.46rem;
 }
 .search-main[data-v-73ccccb8] {
     position: relative;
@@ -42946,9 +42946,10 @@ to {
 .search-icon[data-v-73ccccb8] {
     position: absolute;
     top: 50%;
-    left: 1rem;
+    left: 0.82rem;
     transform: translateY(-50%);
     color: var(--library-muted);
+    font-size: 0.88rem;
 }
 .search-input[data-v-73ccccb8],
 .filter-select[data-v-73ccccb8] {
@@ -42957,100 +42958,175 @@ to {
     border-radius: 20px;
     background: var(--library-soft);
     color: var(--library-text);
-    min-height: 46px;
+    min-height: 35px;
     box-shadow: inset 0 0 0 1px transparent;
     transition: box-shadow 0.2s ease, background-color 0.2s ease;
 }
 .search-input[data-v-73ccccb8] {
-    padding: 0.8rem 1rem 0.8rem 2.8rem;
+    padding: 0.48rem 0.8rem 0.48rem 2.15rem;
+    font-size: 0.86rem;
 }
 .filter-select[data-v-73ccccb8] {
-    padding: 0.7rem 0.95rem;
+    padding: 0.42rem 0.68rem;
     -webkit-appearance: none;
        -moz-appearance: none;
             appearance: none;
+    font-size: 0.84rem;
 }
 .search-input[data-v-73ccccb8]:focus,
 .filter-select[data-v-73ccccb8]:focus {
     outline: none;
-    box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.16);
+    box-shadow: 0 0 0 3px rgba(0, 191, 166, 0.14);
 }
 .search-clear[data-v-73ccccb8] {
-    min-height: 46px;
-    padding: 0 1rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+    min-height: 35px;
+    padding: 0 0.66rem;
     border: 0;
-    border-radius: 20px;
-    background: var(--library-soft);
-    color: var(--library-text);
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--library-accent) 12%, var(--library-soft));
+    color: var(--library-accent);
+    font-size: 0.7rem;
+    font-weight: 700;
     box-shadow: var(--library-shadow-soft);
 }
 .filter-row[data-v-73ccccb8] {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 0.8rem;
+    gap: 0.45rem;
 }
 .filter-label[data-v-73ccccb8] {
     display: block;
-    margin-bottom: 0.38rem;
-    font-size: 0.78rem;
+    margin-bottom: 0.18rem;
+    font-size: 0.64rem;
     font-weight: 600;
     color: var(--library-muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
 }
 @media (max-width: 991.98px) {
 .filter-row[data-v-73ccccb8] {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.search-row[data-v-73ccccb8] {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
 }
 }
 @media (max-width: 767.98px) {
 .search-row[data-v-73ccccb8] {
-        flex-direction: column;
-        align-items: stretch;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 68px;
+}
+.filter-row[data-v-73ccccb8] {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.filter-control[data-v-73ccccb8]:last-child {
+        grid-column: 1 / -1;
+}
+.search-clear[data-v-73ccccb8] {
+        min-width: 80px;
+}
+.search-shell[data-v-73ccccb8] {
+        padding: 0.5rem 0.52rem;
+        border-radius: 16px;
+}
+.search-row[data-v-73ccccb8] {
+        gap: 0.34rem;
+        margin-bottom: 0.36rem;
+}
+.filter-row[data-v-73ccccb8] {
+        gap: 0.34rem;
+}
+.filter-label[data-v-73ccccb8] {
+        margin-bottom: 0.12rem;
+        font-size: 0.57rem;
+        letter-spacing: 0.07em;
+}
+.search-input[data-v-73ccccb8],
+    .filter-select[data-v-73ccccb8],
+    .search-clear[data-v-73ccccb8] {
+        min-height: 33px;
+}
+.search-input[data-v-73ccccb8] {
+        padding: 0.44rem 0.72rem 0.44rem 2rem;
+        font-size: 0.82rem;
+}
+.filter-select[data-v-73ccccb8] {
+        padding: 0.38rem 0.62rem;
+        font-size: 0.79rem;
+        border-radius: 16px;
+}
+.search-clear[data-v-73ccccb8] {
+        min-width: 68px;
+        padding: 0 0.5rem;
+        font-size: 0.66rem;
+}
+.search-icon[data-v-73ccccb8] {
+        left: 0.74rem;
+        font-size: 0.82rem;
 }
 }
 
 
 .islamic-library[data-v-f111cd26] {
-    --library-bg: linear-gradient(180deg, rgba(243, 250, 245, 0.96), rgba(236, 248, 240, 0.98));
-    --library-surface: rgba(255, 255, 255, 0.94);
-    --library-soft: #f3f7f4;
+    --library-bg: linear-gradient(180deg, rgba(241, 247, 244, 0.98), rgba(232, 242, 238, 0.98));
+    --library-surface: rgba(255, 255, 255, 0.96);
+    --library-soft: #edf4f1;
     --library-text: #0f172a;
-    --library-muted: #5f6f67;
-    --library-accent: #1f7a4d;
-    --library-shadow: 0 14px 34px rgba(18, 54, 34, 0.08);
-    --library-shadow-soft: 0 8px 24px rgba(18, 54, 34, 0.05);
+    --library-muted: #53655d;
+    --library-accent: #0a7a66;
+    --library-accent-strong: #075b4c;
+    --library-shadow: 0 18px 40px rgba(12, 44, 33, 0.09);
+    --library-shadow-soft: 0 10px 26px rgba(12, 44, 33, 0.06);
+    --bs-primary: #0a7a66;
+    --bs-primary-rgb: 10, 122, 102;
     color: var(--library-text);
 }
 .islamic-library.is-dark[data-v-f111cd26] {
-    --library-bg: linear-gradient(180deg, rgba(10, 26, 18, 0.92), rgba(14, 32, 22, 0.98));
-    --library-surface: rgba(20, 37, 27, 0.9);
-    --library-soft: rgba(12, 24, 17, 0.72);
-    --library-text: #e2e8f0;
-    --library-muted: #9ab0a3;
-    --library-accent: #7bd19f;
-    --library-shadow: 0 18px 36px rgba(2, 12, 6, 0.28);
-    --library-shadow-soft: 0 10px 24px rgba(2, 12, 6, 0.22);
+    --library-bg: linear-gradient(180deg, rgba(35, 37, 41, 1), rgba(29, 32, 35, 1));
+    --library-surface: rgba(41, 45, 50, 0.98);
+    --library-soft: rgba(31, 35, 39, 0.96);
+    --library-text: #eef3f1;
+    --library-muted: #b4c0bc;
+    --library-accent: #23a38d;
+    --library-accent-strong: #177a69;
+    --library-shadow: 0 22px 42px rgba(0, 0, 0, 0.34);
+    --library-shadow-soft: 0 12px 30px rgba(0, 0, 0, 0.28);
 }
 .islamic-library[data-v-f111cd26] {
     background: var(--library-bg);
+    min-height: 100%;
+}
+.islamic-library.has-audio-dock[data-v-f111cd26] {
+    padding-bottom: 10.5rem;
 }
 .library-shell[data-v-f111cd26] {
     background: transparent;
 }
 .library-hero[data-v-f111cd26] {
-    padding: 1.6rem 1.5rem;
+    padding: 1rem 1.2rem;
     border-radius: 20px;
     background: var(--library-surface);
     box-shadow: var(--library-shadow);
 }
 .library-title[data-v-f111cd26] {
-    font-size: clamp(1.45rem, 2vw, 1.9rem);
-    font-weight: 700;
+    font-size: clamp(1.72rem, 2.5vw, 2.35rem);
+    font-weight: 900;
     letter-spacing: -0.02em;
+    line-height: 1.05;
+}
+.islamic-library.is-dark .library-title[data-v-f111cd26] {
+    color: #ffffff;
 }
 .library-subtitle[data-v-f111cd26] {
-    max-width: 42rem;
+    max-width: 38rem;
     color: var(--library-muted);
-    font-size: 0.93rem;
+    font-size: 0.86rem;
+    line-height: 1.5;
 }
 .library-card[data-v-f111cd26],
 .reader-toolbar[data-v-f111cd26],
@@ -43068,27 +43144,109 @@ to {
     box-shadow: var(--library-shadow-soft);
 }
 .library-card[data-v-f111cd26] {
-    min-height: 218px;
-    transition: transform 0.18s ease, box-shadow 0.18s ease;
+    min-height: 252px;
+    transition: transform 0.16s ease, box-shadow 0.16s ease;
+    overflow: hidden;
 }
 .library-card[data-v-f111cd26]:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 18px 36px rgba(18, 54, 34, 0.1);
+    transform: translateY(-3px);
+    box-shadow: 0 18px 36px rgba(12, 44, 33, 0.12);
+}
+.library-card[data-v-f111cd26]::before {
+    content: "";
+    display: block;
+    height: 4px;
+    background: linear-gradient(90deg, var(--library-accent), var(--library-accent-strong));
 }
 .card-title[data-v-f111cd26] {
-    font-size: 1rem;
-    line-height: 1.45;
-    font-weight: 600;
+    font-size: 1.24rem;
+    line-height: 1.33;
+    font-weight: 900;
     letter-spacing: -0.01em;
+    min-height: 3.35rem;
+}
+.card-type-chip[data-v-f111cd26] {
+    display: inline-flex;
+    align-items: center;
+    width: -moz-fit-content;
+    width: fit-content;
+    margin-bottom: 0.9rem;
+    padding: 0.26rem 0.72rem;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--library-accent) 11%, var(--library-soft));
+    color: var(--library-accent);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+.card-type-chip--pdf[data-v-f111cd26] {
+    background: color-mix(in srgb, var(--library-accent) 18%, var(--library-soft));
 }
 .card-excerpt[data-v-f111cd26] {
     color: var(--library-muted);
     font-size: 0.9rem;
-    line-height: 1.65;
+    line-height: 1.7;
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
+    min-height: 4.7rem;
+}
+.card-excerpt-secondary[data-v-f111cd26] {
+    display: inline-flex;
+    align-items: center;
+    width: -moz-fit-content;
+    width: fit-content;
+    margin-top: 0.55rem;
+    max-width: 100%;
+    padding: 0.34rem 0.58rem;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--library-accent) 12%, var(--library-soft));
+    color: color-mix(in srgb, var(--library-accent-strong) 82%, var(--library-accent));
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    line-height: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--library-accent) 10%, transparent);
+}
+.card-excerpt-placeholder .placeholder[data-v-f111cd26] {
+    display: block;
+    height: 0.82rem;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--library-accent) 12%, var(--library-soft));
+}
+.card-read-more[data-v-f111cd26] {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    margin-top: 0.65rem;
+    color: var(--library-accent);
+    font-size: 0.84rem;
+    font-weight: 600;
+}
+.continue-link--inline[data-v-f111cd26] {
+    font-size: 0.84rem;
+}
+.card-meta-grid[data-v-f111cd26] {
+    display: grid;
+    gap: 0.5rem;
+    padding-top: 0.95rem;
+    border-top: 1px solid color-mix(in srgb, var(--library-accent) 12%, transparent);
+}
+.card-meta-item[data-v-f111cd26] {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    color: var(--library-muted);
+    font-size: 0.83rem;
+    line-height: 1.4;
+}
+.card-meta-item i[data-v-f111cd26] {
+    color: var(--library-accent);
 }
 .continue-link[data-v-f111cd26] {
     display: inline-flex;
@@ -43109,29 +43267,145 @@ to {
 .reader-state[data-v-f111cd26] {
     border-radius: 10px;
 }
+.library-scroll-sentinel[data-v-f111cd26] {
+    display: flex;
+    justify-content: center;
+    padding: 1.25rem 0 0.25rem;
+}
+.scroll-sentinel-state[data-v-f111cd26] {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.65rem;
+    padding: 0.75rem 1rem;
+    border-radius: 999px;
+    background: var(--library-surface);
+    color: var(--library-muted);
+    box-shadow: var(--library-shadow-soft);
+    font-size: 0.88rem;
+}
+.scroll-top-fab[data-v-f111cd26] {
+    position: fixed;
+    right: 1.25rem;
+    bottom: 1.25rem;
+    z-index: 1040;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 52px;
+    height: 52px;
+    border: 0;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--library-accent), var(--library-accent-strong));
+    color: #fff;
+    box-shadow: 0 18px 38px rgba(0, 191, 166, 0.28);
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+.scroll-top-fab[data-v-f111cd26]:hover,
+.scroll-top-fab[data-v-f111cd26]:focus-visible {
+    transform: translateY(-2px);
+    box-shadow: 0 22px 42px rgba(0, 191, 166, 0.34);
+}
 .modal-content[data-v-f111cd26] {
     background: var(--library-surface);
     color: var(--library-text);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    max-height: min(88vh, calc(100vh - 6.25rem));
+}
+.modal-body[data-v-f111cd26] {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow: hidden;
+}
+.library-modal-dialog[data-v-f111cd26] {
+    max-width: min(760px, calc(100vw - 2.4rem));
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
 }
 .modal-kicker[data-v-f111cd26] {
     font-size: 0.78rem;
     color: var(--library-muted);
+    font-weight: 700;
+    letter-spacing: 0.02em;
+}
+.modal-title[data-v-f111cd26] {
+    font-size: clamp(1.55rem, 2.2vw, 2.15rem);
+    line-height: 1.16;
+    letter-spacing: -0.02em;
 }
 .reader-toolbar[data-v-f111cd26] {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
-    gap: 0.4rem;
-    padding: 0.55rem;
+    justify-content: space-between;
+    gap: 0.55rem;
+    padding: 0.5rem 0.6rem;
+    background: color-mix(in srgb, var(--library-soft) 88%, transparent);
+}
+.reader-toolbar-group[data-v-f111cd26] {
+    display: inline-flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.42rem;
 }
 .reader-icon[data-v-f111cd26] {
-    width: 36px;
-    height: 36px;
+    width: 34px;
+    height: 34px;
     border: 0;
     border-radius: 20px;
     background: var(--library-soft);
     color: var(--library-text);
     box-shadow: var(--library-shadow-soft);
+}
+.reader-tool-btn[data-v-f111cd26] {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.42rem;
+    min-height: 34px;
+    padding: 0 0.8rem;
+    border: 0;
+    border-radius: 999px;
+    background: var(--library-soft);
+    color: var(--library-text);
+    font-size: 0.8rem;
+    font-weight: 600;
+    box-shadow: var(--library-shadow-soft);
+    transition: transform 0.16s ease, box-shadow 0.16s ease, background-color 0.16s ease, color 0.16s ease;
+}
+.reader-tool-btn.is-active[data-v-f111cd26] {
+    background: linear-gradient(135deg, color-mix(in srgb, var(--library-accent) 86%, #ffffff 14%), var(--library-accent-strong));
+    color: #ffffff;
+    box-shadow: 0 12px 28px color-mix(in srgb, var(--library-accent) 32%, transparent);
+}
+.islamic-library.is-dark .reader-tool-btn.is-active[data-v-f111cd26] {
+    background: linear-gradient(135deg, color-mix(in srgb, var(--library-accent) 72%, #ffffff 10%), color-mix(in srgb, var(--library-accent-strong) 86%, #000000 14%));
+    color: #ffffff;
+}
+.reader-icon[data-v-f111cd26],
+.audio-dock-close[data-v-f111cd26] {
+    transition: transform 0.16s ease, box-shadow 0.16s ease, background-color 0.16s ease, color 0.16s ease;
+}
+.reader-icon[data-v-f111cd26]:hover,
+.reader-icon[data-v-f111cd26]:focus-visible,
+.reader-tool-btn[data-v-f111cd26]:hover,
+.reader-tool-btn[data-v-f111cd26]:focus-visible,
+.audio-dock-close[data-v-f111cd26]:hover,
+.audio-dock-close[data-v-f111cd26]:focus-visible {
+    transform: translateY(-1px);
+    box-shadow: 0 14px 30px rgba(12, 44, 33, 0.12);
+}
+.reader-tool-btn[data-v-f111cd26]:hover,
+.reader-tool-btn[data-v-f111cd26]:focus-visible {
+    background: color-mix(in srgb, var(--library-accent) 12%, var(--library-soft));
+    color: var(--library-accent);
+}
+.reader-tool-btn.is-active[data-v-f111cd26]:hover,
+.reader-tool-btn.is-active[data-v-f111cd26]:focus-visible {
+    color: #ffffff;
+    background: linear-gradient(135deg, var(--library-accent), var(--library-accent-strong));
 }
 .toolbar-divider[data-v-f111cd26] {
     width: 1px;
@@ -43140,21 +43414,157 @@ to {
     margin: 0 0.2rem;
 }
 .reader-panel[data-v-f111cd26] {
-    padding: 1rem;
-    margin-top: 1rem;
+    padding: 0.8rem 0.95rem;
+    margin-top: 0.9rem;
+    box-shadow: var(--library-shadow-soft);
+    border-inline-start: 4px solid color-mix(in srgb, var(--library-accent) 72%, transparent);
+    background: color-mix(in srgb, var(--library-accent) 5%, var(--library-surface));
+}
+.summary-head[data-v-f111cd26] {
+    padding-bottom: 0.6rem;
+    border-bottom: 1px solid color-mix(in srgb, var(--library-accent) 12%, transparent);
+}
+.summary-kicker[data-v-f111cd26] {
+    margin-bottom: 0.35rem;
+    color: var(--library-accent);
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+.summary-overview[data-v-f111cd26] {
+    margin-bottom: 0.85rem;
+    color: var(--library-text);
+    line-height: 1.65;
+    font-size: 0.92rem;
+}
+.summary-points[data-v-f111cd26] {
+    margin: 0;
+    padding-left: 1rem;
+}
+.summary-points li[data-v-f111cd26] {
+    margin-bottom: 0.45rem;
+    color: var(--library-text);
+    line-height: 1.58;
+    font-size: 0.88rem;
+}
+.summary-actions[data-v-f111cd26] {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+.summary-generate-btn[data-v-f111cd26],
+.summary-collapse-btn[data-v-f111cd26] {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 32px;
+    border: 0;
+    border-radius: 999px;
+    box-shadow: var(--library-shadow-soft);
+}
+.summary-generate-btn[data-v-f111cd26] {
+    padding: 0 0.85rem;
+    background: color-mix(in srgb, var(--library-accent) 92%, white 8%);
+    color: #ffffff;
+    font-size: 0.78rem;
+    font-weight: 700;
+}
+.summary-collapse-btn[data-v-f111cd26] {
+    width: 32px;
+    background: var(--library-soft);
+    color: var(--library-accent);
+}
+.reader-shell[data-v-f111cd26] {
+    display: flex;
+    flex: 1 1 auto;
+    min-height: 0;
 }
 .reader-surface[data-v-f111cd26] {
-    padding: 1.25rem;
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    min-height: 0;
+    padding: 0;
+    overflow: hidden;
 }
 .reader-content[data-v-f111cd26] {
-    line-height: 1.85;
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+    padding: 1.25rem 1.2rem 1.35rem;
+    line-height: 1.82;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 1rem;
+    text-wrap: pretty;
+    text-align: left;
+}
+.reader-content[data-v-f111cd26] div {
+    max-width: 100%;
 }
 .reader-content[data-v-f111cd26] p {
     margin-bottom: 1rem;
     color: var(--library-text);
+    line-height: 1.78;
+    text-align: left !important;
+    font-size: 1rem;
 }
 .reader-content[data-v-f111cd26] a {
     color: var(--library-accent);
+    text-decoration: none;
+    font-weight: 600;
+}
+.reader-content[data-v-f111cd26] h1,
+.reader-content[data-v-f111cd26] h2,
+.reader-content[data-v-f111cd26] h3,
+.reader-content[data-v-f111cd26] h4 {
+    margin: 1.45rem 0 0.9rem;
+    color: var(--library-text);
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    line-height: 1.24;
+    text-align: left;
+}
+.reader-content[data-v-f111cd26] h1 {
+    font-size: clamp(1.85rem, 3vw, 2.55rem);
+}
+.reader-content[data-v-f111cd26] h2 {
+    font-size: clamp(1.45rem, 2.4vw, 2.05rem);
+}
+.reader-content[data-v-f111cd26] h3 {
+    font-size: clamp(1.18rem, 2vw, 1.6rem);
+}
+.reader-content[data-v-f111cd26] ul,
+.reader-content[data-v-f111cd26] ol {
+    margin: 0.15rem 0 1rem 1rem;
+    padding-left: 1rem;
+}
+.reader-content[data-v-f111cd26] li {
+    margin-bottom: 0.42rem;
+    line-height: 1.72;
+    color: var(--library-text);
+}
+.reader-content[data-v-f111cd26] ul li::marker,
+.reader-content[data-v-f111cd26] ol li::marker {
+    color: var(--library-accent);
+}
+.reader-content[data-v-f111cd26] strong,
+.reader-content[data-v-f111cd26] b {
+    color: var(--library-text);
+    font-weight: 700;
+}
+.reader-content[data-v-f111cd26] blockquote {
+    margin: 1.2rem 0;
+    padding: 0.85rem 1rem;
+    border-inline-start: 3px solid color-mix(in srgb, var(--library-accent) 65%, transparent);
+    background: color-mix(in srgb, var(--library-accent) 6%, transparent);
+    border-radius: 0 14px 14px 0;
+    color: var(--library-text);
+}
+.reader-content[data-v-f111cd26] hr {
+    margin: 1.4rem 0;
+    border: 0;
+    border-top: 1px solid color-mix(in srgb, var(--library-accent) 14%, transparent);
 }
 .reader-content[data-v-f111cd26] .attachment-preview {
     display: grid;
@@ -43167,11 +43577,17 @@ to {
 }
 .reader-content[data-v-f111cd26] .attachment-frame {
     width: 100%;
-    min-height: 70vh;
+    min-height: clamp(340px, 48vh, 560px);
     border: 0;
     border-radius: 16px;
     background: #fff;
     box-shadow: var(--library-shadow-soft);
+}
+.reader-content[data-v-f111cd26] .attachment-summary {
+    margin-bottom: 0;
+    color: var(--library-muted);
+    font-size: 0.94rem;
+    line-height: 1.7;
 }
 .reader-content[data-v-f111cd26] .attachment-note {
     padding: 1rem 1.1rem;
@@ -43179,11 +43595,278 @@ to {
     background: var(--library-soft);
     color: var(--library-muted);
 }
+.reader-content[data-v-f111cd26] .reader-block-rtl,
+.reader-content[data-v-f111cd26] .rtl,
+.reader-content[data-v-f111cd26] [dir="rtl"],
+.reader-content[data-v-f111cd26] .reader-list-rtl {
+    direction: rtl;
+    text-align: right;
+    font-family: "Noto Naskh Arabic", "Amiri", "Scheherazade New", "Geeza Pro", Tahoma, serif;
+    font-size: 1.08em;
+    line-height: 2.05;
+}
 .reader-content[data-v-f111cd26] .center {
     text-align: center;
 }
-.reader-content[data-v-f111cd26] .justify {
-    text-align: justify;
+.islamic-library[data-v-f111cd26] .btn-primary {
+    background: linear-gradient(135deg, var(--library-accent), var(--library-accent-strong));
+    color: #fff;
+}
+.islamic-library[data-v-f111cd26] .btn-primary:hover,
+.islamic-library[data-v-f111cd26] .btn-primary:focus-visible {
+    background: linear-gradient(135deg, var(--library-accent-strong), var(--library-accent));
+    color: #fff;
+}
+.islamic-library[data-v-f111cd26] .text-primary,
+.islamic-library[data-v-f111cd26] .spinner-border.text-primary {
+    color: var(--library-accent) !important;
+}
+.islamic-library[data-v-f111cd26] mark.search-highlight {
+    padding: 0.06em 0.28em;
+    border-radius: 0.42rem;
+    background: rgba(255, 214, 10, 0.42);
+    color: inherit;
+}
+.islamic-library[data-v-f111cd26] #islamicLibraryModal {
+    z-index: 2005;
+}
+.islamic-library[data-v-f111cd26] #islamicLibraryModal .modal-dialog {
+    min-height: calc(100vh - 6.25rem);
+}
+[data-v-f111cd26] .modal-backdrop.show {
+    z-index: 2000;
+}
+.audio-dock[data-v-f111cd26] {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 2015;
+    width: 100%;
+    margin-top: 0;
+    padding: 0;
+    border-radius: 26px 26px 0 0;
+    background: linear-gradient(180deg, rgba(19, 43, 37, 0.995), rgba(15, 34, 29, 0.995));
+    color: #ffffff;
+    box-shadow: 0 -18px 40px rgba(4, 18, 14, 0.34);
+    overflow: hidden;
+    backdrop-filter: blur(18px);
+}
+.islamic-library.is-dark .audio-dock[data-v-f111cd26] {
+    background: linear-gradient(180deg, rgba(36, 39, 43, 0.995), rgba(29, 31, 35, 0.995));
+}
+.audio-dock-bar[data-v-f111cd26] {
+    display: grid;
+    grid-template-columns: minmax(220px, 320px) minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 1.5rem;
+    width: min(100%, 1920px);
+    margin: 0 auto;
+    padding: 1rem 1.9rem;
+}
+.audio-dock-bar--active[data-v-f111cd26] {
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+.audio-meta[data-v-f111cd26] {
+    min-width: 0;
+}
+.audio-title[data-v-f111cd26] {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 0.98rem;
+    font-weight: 700;
+    line-height: 1.2;
+    color: #ffffff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.audio-subtitle[data-v-f111cd26] {
+    margin-top: 0.18rem;
+    color: rgba(255, 255, 255, 0.74);
+    font-size: 0.74rem;
+    font-weight: 600;
+}
+.audio-main-controls[data-v-f111cd26] {
+    display: flex;
+    align-items: center;
+    gap: 1.15rem;
+    min-width: 0;
+}
+.audio-dock-close[data-v-f111cd26] {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    border: 0;
+    border-radius: 999px;
+    background: transparent;
+    color: rgba(255, 255, 255, 0.9);
+    box-shadow: none;
+}
+.audio-controls-cluster[data-v-f111cd26] {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    flex: 0 0 auto;
+}
+.audio-side-controls[data-v-f111cd26] {
+    display: inline-flex;
+    align-items: center;
+    gap: 1.05rem;
+    flex: 0 0 auto;
+}
+.audio-bar-btn[data-v-f111cd26] {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    border: 0;
+    border-radius: 999px;
+    background: transparent;
+    color: rgba(255, 255, 255, 0.95);
+    font-size: 1.08rem;
+    transition: transform 0.16s ease, background-color 0.16s ease, color 0.16s ease, box-shadow 0.16s ease;
+}
+.audio-bar-btn[data-v-f111cd26]:hover,
+.audio-bar-btn[data-v-f111cd26]:focus-visible {
+    transform: translateY(-1px);
+    background: rgba(255, 255, 255, 0.06);
+}
+.audio-progress-inline[data-v-f111cd26] {
+    display: flex;
+    align-items: center;
+    min-width: 0;
+    flex: 1 1 auto;
+}
+.audio-progress-inline .audio-progress-range[data-v-f111cd26] {
+    width: 100%;
+    min-width: 0;
+    flex: 1 1 auto;
+}
+.audio-volume[data-v-f111cd26] {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.65rem;
+    color: rgba(255, 255, 255, 0.92);
+    min-width: 190px;
+}
+.audio-progress-range[data-v-f111cd26] {
+    margin-bottom: 0;
+    --bs-form-range-track-height: 0.22rem;
+    --bs-form-range-thumb-width: 1.05rem;
+    --bs-form-range-thumb-height: 1.05rem;
+    --bs-form-range-thumb-bg: #19d2be;
+    --bs-form-range-track-bg: rgba(255, 255, 255, 0.18);
+}
+.audio-volume-range[data-v-f111cd26] {
+    width: 140px;
+    margin-bottom: 0;
+    --bs-form-range-track-height: 0.22rem;
+    --bs-form-range-thumb-width: 1.05rem;
+    --bs-form-range-thumb-height: 1.05rem;
+    --bs-form-range-thumb-bg: #19d2be;
+    --bs-form-range-track-bg: rgba(255, 255, 255, 0.18);
+}
+.audio-unsupported[data-v-f111cd26] {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.84rem;
+    font-weight: 600;
+}
+@media (max-width: 767.98px) {
+.islamic-library.has-audio-dock[data-v-f111cd26] {
+        padding-bottom: 8.25rem;
+}
+.scroll-top-fab[data-v-f111cd26] {
+        right: 1rem;
+        bottom: 7rem;
+}
+.islamic-library[data-v-f111cd26] #islamicLibraryModal .modal-dialog.modal-fullscreen-sm-down {
+        min-height: 100dvh;
+}
+.islamic-library[data-v-f111cd26] #islamicLibraryModal .modal-dialog.modal-fullscreen-sm-down .modal-content {
+        max-height: 100dvh;
+        padding-top: 3.35rem;
+        border-radius: 0;
+}
+.reader-toolbar[data-v-f111cd26] {
+        justify-content: flex-start;
+}
+.reader-tool-btn span[data-v-f111cd26] {
+        display: none;
+}
+.audio-dock[data-v-f111cd26] {
+        border-radius: 20px 20px 0 0;
+}
+.audio-dock-bar[data-v-f111cd26] {
+        grid-template-columns: minmax(0, 1fr) auto;
+        grid-template-areas:
+            "meta close"
+            "transport transport";
+        align-items: start;
+        gap: 0.72rem 0.85rem;
+        padding: 0.9rem 0.95rem 0.85rem;
+}
+.audio-meta[data-v-f111cd26] {
+        grid-area: meta;
+        min-width: 0;
+}
+.audio-title[data-v-f111cd26] {
+        font-size: 0.92rem;
+        line-height: 1.15;
+}
+.audio-subtitle[data-v-f111cd26] {
+        margin-top: 0.18rem;
+        font-size: 0.68rem;
+}
+.audio-main-controls[data-v-f111cd26] {
+        grid-area: transport;
+        display: grid;
+        grid-template-columns: auto minmax(0, 1fr) auto;
+        align-items: center;
+        gap: 0.7rem;
+        padding: 0.6rem 0.65rem;
+        border-radius: 16px;
+        background: rgba(255, 255, 255, 0.04);
+        box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+}
+.audio-progress-inline[data-v-f111cd26] {
+        width: 100%;
+        flex: 1 1 auto;
+        min-width: 0;
+}
+.audio-controls-cluster[data-v-f111cd26] {
+        gap: 0.16rem;
+        flex: 0 0 auto;
+}
+.audio-bar-btn[data-v-f111cd26] {
+        width: 34px;
+        height: 34px;
+        font-size: 0.9rem;
+}
+.audio-side-controls[data-v-f111cd26] {
+        grid-area: unset;
+        align-items: center;
+        gap: 0.55rem;
+}
+.audio-volume[data-v-f111cd26] {
+        min-width: 0;
+        width: 108px;
+        gap: 0.45rem;
+}
+.audio-volume-range[data-v-f111cd26] {
+        width: 100%;
+}
+.audio-volume i[data-v-f111cd26] {
+        font-size: 0.8rem;
+}
+.audio-dock-close[data-v-f111cd26] {
+        grid-area: close;
+        width: 34px;
+        height: 34px;
+        align-self: start;
+}
 }
 .reader-content[data-v-f111cd26] .rtl {
     direction: rtl;
@@ -43191,15 +43874,36 @@ to {
 }
 .reader-content[data-v-f111cd26] .ltr {
     direction: ltr;
-    text-align: left;
+    text-align: left !important;
+}
+.reader-content[data-v-f111cd26] .ltr.justify,
+.reader-content[data-v-f111cd26] .justify.ltr,
+.reader-content[data-v-f111cd26] .start.ltr {
+    text-align: left !important;
 }
 .reader-footer[data-v-f111cd26] {
-    margin-top: 1rem;
-    padding-top: 1rem;
+    flex: 0 0 auto;
+    margin-top: 0;
+    padding: 0.9rem 1.1rem 1rem;
+    border-top: 1px solid color-mix(in srgb, var(--library-accent) 12%, transparent);
 }
 @media (max-width: 767.98px) {
 .library-hero[data-v-f111cd26] {
-        padding: 1.3rem 1rem;
+        padding: 0.9rem 0.85rem;
+}
+.library-card .card-body[data-v-f111cd26],
+    .library-card .card-footer[data-v-f111cd26] {
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
+}
+.library-modal-dialog[data-v-f111cd26] {
+        max-width: 100vw;
+}
+.library-title[data-v-f111cd26] {
+        font-size: 1.7rem;
+}
+.library-subtitle[data-v-f111cd26] {
+        font-size: 0.82rem;
 }
 }
 
@@ -57098,6 +57802,7 @@ to {
 .advanced-quran-mobile-expanded[data-v-637d02d8] {
     position: relative;
     overflow: visible !important;
+    isolation: isolate;
 }
 .quran-toolbar-more[data-v-637d02d8],
 .advanced-quran-mobile-more[data-v-637d02d8],
@@ -57106,18 +57811,20 @@ to {
 }
 .advanced-quran-more-menu[data-v-637d02d8] {
     position: absolute;
-    z-index: 1405 !important;
+    z-index: 2200 !important;
     background: #ffffff !important;
     background-color: #ffffff !important;
+    opacity: 1 !important;
+    backdrop-filter: none !important;
 }
 @media (max-width: 768px) {
 .advanced-quran-mobile-more .advanced-quran-more-menu[data-v-637d02d8] {
-        min-width: min(18rem, calc(100vw - 1.5rem));
+        min-width: min(19rem, calc(100vw - 1.5rem));
         max-width: calc(100vw - 1.5rem);
         right: 0 !important;
         left: auto !important;
-        border-radius: 18px;
-        box-shadow: 0 20px 40px rgba(15, 53, 48, 0.18);
+        border-radius: 22px;
+        box-shadow: 0 24px 44px rgba(15, 53, 48, 0.2);
 }
 }
 .advanced-quran-search-top[data-v-637d02d8] {
@@ -57765,46 +58472,80 @@ to {
     min-height: 40px;
 }
 .advanced-quran-more-menu[data-v-637d02d8] {
-    min-width: 230px;
-    padding: 0.4rem;
-    border-radius: 14px;
-    border: 1px solid rgba(11, 61, 46, 0.18);
-    box-shadow: 0 14px 28px rgba(15, 53, 48, 0.14);
+    min-width: 18rem;
+    padding: 0.42rem;
+    border-radius: 22px;
+    border: 1px solid rgba(11, 61, 46, 0.12);
+    box-shadow: 0 24px 48px -18px rgba(15, 53, 48, 0.3);
+    overflow: hidden;
+    transform-origin: top right;
 }
 .advanced-quran-more-item[data-v-637d02d8] {
     display: flex;
     align-items: center;
-    gap: 0.56rem;
-    border-radius: 10px;
-    padding: 0.58rem 0.72rem;
-    font-size: 0.82rem;
+    width: 100%;
+    gap: 0.72rem;
+    border: 0;
+    border-radius: 16px;
+    padding: 0.82rem 0.88rem;
+    font-size: 0.92rem;
     font-weight: 700;
     color: #0f172a;
+    background: transparent;
+    white-space: normal;
+    text-align: left;
+    line-height: 1.24;
+    box-shadow: none !important;
 }
 .advanced-quran-more-item i[data-v-637d02d8] {
-    font-size: 0.92rem;
+    flex: 0 0 1.08rem;
+    font-size: 1rem;
     color: #0b6b59;
+    text-align: center;
 }
-.advanced-quran-more-item span[data-v-637d02d8]:first-of-type {
+.advanced-quran-more-item-label[data-v-637d02d8] {
     flex: 1 1 auto;
+    min-width: 0;
+    overflow-wrap: anywhere;
 }
 .advanced-quran-more-item-meta[data-v-637d02d8] {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    min-width: 32px;
-    padding: 0.12rem 0.38rem;
+    flex: 0 0 auto;
+    min-width: 2.05rem;
+    padding: 0.18rem 0.42rem;
     border-radius: 999px;
     border: 1px solid rgba(11, 107, 89, 0.18);
     background: rgba(11, 107, 89, 0.08);
     color: #0b6b59;
-    font-size: 0.66rem;
+    font-size: 0.7rem;
     font-weight: 800;
+    line-height: 1;
 }
 .advanced-quran-more-item[data-v-637d02d8]:hover,
 .advanced-quran-more-item[data-v-637d02d8]:focus-visible {
     background: rgba(11, 107, 89, 0.08);
     color: #0f172a;
+    transform: none;
+}
+.dropdown-menu.advanced-quran-more-menu.show[data-v-637d02d8] {
+    display: flex;
+    flex-direction: column;
+    gap: 0.14rem;
+}
+.quran-toolbar-more .advanced-quran-more-menu[data-v-637d02d8],
+.advanced-quran-mobile-more .advanced-quran-more-menu[data-v-637d02d8] {
+    margin-top: 0.6rem;
+}
+@media (max-width: 768px) {
+.advanced-quran-more-menu[data-v-637d02d8] {
+        width: min(19rem, calc(100vw - 1.5rem));
+}
+.advanced-quran-more-item[data-v-637d02d8] {
+        padding: 0.86rem 0.9rem;
+        font-size: 0.96rem;
+}
 }
 .advanced-quran-mobile-action-btn-memorisation[data-v-637d02d8] {
     border-color: rgba(147, 51, 234, 0.5);
@@ -58674,23 +59415,76 @@ to {
     gap: 1rem;
     min-height: 100%;
 }
-.quran-font-alert[data-v-637d02d8] {
+.surat-inline-alert[data-v-637d02d8] {
+    margin: 0;
+    border-radius: 16px;
+    border: 1px solid transparent;
+    padding: 0.82rem 0.95rem;
+    box-shadow: 0 16px 30px rgba(15, 53, 48, 0.1);
     display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    margin-bottom: 0.5rem;
-    padding: 0.75rem 1rem;
-    border-radius: 14px;
-    border: 1px solid rgba(16, 185, 129, 0.4);
+    align-items: flex-start;
+    gap: 0.68rem;
+    line-height: 1.45;
+}
+.surat-inline-alert.surat-inline-alert-success[data-v-637d02d8] {
+    border-color: rgba(16, 185, 129, 0.3);
     background: linear-gradient(
         135deg,
-        rgba(16, 185, 129, 0.2),
-        rgba(16, 185, 129, 0.08)
+        rgba(236, 253, 245, 0.98),
+        rgba(209, 250, 229, 0.84)
     );
-    color: #0b3d2e;
+    color: #065f46;
+}
+.surat-inline-alert.surat-inline-alert-warning[data-v-637d02d8] {
+    border-color: rgba(217, 119, 6, 0.22);
+    background: linear-gradient(
+        135deg,
+        rgba(255, 251, 235, 0.98),
+        rgba(254, 240, 138, 0.22)
+    );
+    color: #92400e;
+}
+.surat-inline-alert.surat-inline-alert-info[data-v-637d02d8] {
+    border-color: rgba(14, 116, 144, 0.2);
+    background: linear-gradient(
+        135deg,
+        rgba(240, 249, 255, 0.98),
+        rgba(224, 242, 254, 0.84)
+    );
+    color: #0f4c61;
+}
+.surat-inline-alert.surat-inline-alert-danger[data-v-637d02d8] {
+    border-color: rgba(220, 38, 38, 0.18);
+    background: linear-gradient(
+        135deg,
+        rgba(254, 242, 242, 0.98),
+        rgba(254, 226, 226, 0.86)
+    );
+    color: #991b1b;
+}
+.quran-font-alert[data-v-637d02d8] {
+    margin-bottom: 0.5rem;
     font-weight: 600;
-    box-shadow: 0 10px 22px rgba(11, 61, 46, 0.14);
     position: relative;
+}
+.quran-font-alert .bi[data-v-637d02d8] {
+    flex: 0 0 auto;
+    font-size: 1rem;
+    margin-top: 0.08rem;
+}
+.reflection-editing-alert[data-v-637d02d8] {
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.8rem;
+    margin-top: 0.25rem;
+}
+.reflection-editing-alert .btn-link[data-v-637d02d8] {
+    margin-left: auto;
+    color: inherit;
+    font-weight: 700;
+}
+.reflection-error-alert[data-v-637d02d8] {
+    margin-top: 0.75rem;
 }
 .quran-font-loading[data-v-637d02d8],
 .quran-font-error[data-v-637d02d8] {
@@ -62707,14 +63501,7 @@ body.quran-reading-fullscreen-active .navbar,body.quran-reading-fullscreen-activ
     color: rgba(248, 250, 252, 0.9);
 }
 .reader-custom-playlist-confirm-alert[data-v-637d02d8] {
-    border-radius: 14px;
-    border: 1px solid rgba(217, 119, 6, 0.25);
-    background: rgba(255, 246, 219, 0.92);
-    padding: 10px 12px;
-    display: flex;
-    align-items: flex-start;
     justify-content: space-between;
-    gap: 10px;
     margin-bottom: 8px;
 }
 .reader-custom-playlist-panel.is-dark .reader-custom-playlist-confirm-alert[data-v-637d02d8] {
@@ -62735,6 +63522,15 @@ body.quran-reading-fullscreen-active .navbar,body.quran-reading-fullscreen-activ
     align-items: center;
     gap: 8px;
     flex-wrap: wrap;
+}
+@media (max-width: 575.98px) {
+.reader-custom-playlist-confirm-alert[data-v-637d02d8] {
+        flex-wrap: wrap;
+}
+.reader-custom-playlist-confirm-actions[data-v-637d02d8] {
+        width: 100%;
+        justify-content: flex-end;
+}
 }
 .reader-custom-playlist-toolbar[data-v-637d02d8] {
     border: 1px solid rgba(15, 23, 42, 0.08);
@@ -68469,8 +69265,8 @@ h1.display-5[data-v-637d02d8] {
     color: #0f172a;
 }
 .translation-compare-alert[data-v-637d02d8] {
-    border-radius: 10px;
-    padding: 0.48rem 0.62rem;
+    border-radius: 16px;
+    padding: 0.82rem 0.95rem;
     font-size: 0.78rem;
 }
 .translation-compare-content[data-v-637d02d8] {
@@ -88826,6 +89622,24 @@ body.surat-page-shell-dark .modal-content .table,body.surat-page-shell-dark .mod
 .surat-dark-modal textarea[data-v-637d02d8]::placeholder,
 .surat-dark-modal input[data-v-637d02d8]::placeholder {
     color: rgba(255, 255, 255, 0.52) !important;
+}
+.surat-dark-modal .surat-inline-alert[data-v-637d02d8] {
+    box-shadow: none;
+}
+.surat-dark-modal .surat-inline-alert.surat-inline-alert-success[data-v-637d02d8] {
+    border-color: rgba(16, 185, 129, 0.22);
+    background: rgba(6, 95, 70, 0.3);
+    color: #d1fae5;
+}
+.surat-dark-modal .surat-inline-alert.surat-inline-alert-info[data-v-637d02d8] {
+    border-color: rgba(56, 189, 248, 0.2);
+    background: rgba(8, 47, 73, 0.46);
+    color: #dbeafe;
+}
+.surat-dark-modal .surat-inline-alert.surat-inline-alert-danger[data-v-637d02d8] {
+    border-color: rgba(248, 113, 113, 0.24);
+    background: rgba(127, 29, 29, 0.4);
+    color: #fee2e2;
 }
 .surat-dark-modal .form-select[data-v-637d02d8] {
     background:

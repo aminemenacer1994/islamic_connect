@@ -42,7 +42,8 @@ const applyGlobalThemePreference = (isDarkMode) => {
   if (
     !body.classList.contains('home-route-page') &&
     !body.classList.contains('surat-route-page') &&
-    !body.classList.contains('radio-route-page')
+    !body.classList.contains('radio-route-page') &&
+    !body.classList.contains('islamic-blog-route-page')
   ) {
     return;
   }
@@ -99,11 +100,20 @@ const app = createApp({
   mounted() {
     if (typeof window !== 'undefined' && window.IC_THEME && typeof window.IC_THEME.getTheme === 'function') {
       this.darkModeState.isDarkMode = window.IC_THEME.getTheme() === 'dark';
+      window.addEventListener('ic-theme-change', this.syncDarkModeStateFromEvent);
       return;
     }
     applyGlobalThemePreference(this.darkModeState.isDarkMode);
+    if (typeof window !== 'undefined') {
+      window.addEventListener('ic-theme-change', this.syncDarkModeStateFromEvent);
+    }
   },
   methods: {
+    syncDarkModeStateFromEvent(event) {
+      const nextValue = !!event?.detail?.isDark;
+      this.darkModeState.isDarkMode = nextValue;
+      applyGlobalThemePreference(nextValue);
+    },
     setDarkMode(isDarkMode) {
       const nextValue = !!isDarkMode;
       const theme = nextValue ? 'dark' : 'light';

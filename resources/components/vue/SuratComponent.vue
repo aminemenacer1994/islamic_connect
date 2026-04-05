@@ -560,21 +560,21 @@
                                             class="dropdown-item advanced-quran-more-item"
                                             @click="showPinnedSection">
                                             <i class="bi bi-pin-angle-fill" aria-hidden="true"></i>
-                                            <span>Show pinned ayat</span>
+                                            <span class="advanced-quran-more-item-label">Show pinned ayat</span>
                                         </button>
                                         <button
                                             type="button"
                                             class="dropdown-item advanced-quran-more-item"
                                             @click="openSuratOnboarding">
                                             <i class="bi bi-signpost-2-fill" aria-hidden="true"></i>
-                                            <span>{{ hasCompletedSuratOnboarding ? "Show onboarding" : "Start onboarding" }}</span>
+                                            <span class="advanced-quran-more-item-label">{{ hasCompletedSuratOnboarding ? "Show onboarding" : "Start onboarding" }}</span>
                                         </button>
                                         <button
                                             type="button"
                                             class="dropdown-item advanced-quran-more-item"
                                             @click="toggleCustomPlaylistPanel">
                                             <i class="bi bi-music-note-list" aria-hidden="true"></i>
-                                            <span>Saved playlist</span>
+                                            <span class="advanced-quran-more-item-label">Saved playlist</span>
                                             <span class="advanced-quran-more-item-meta">{{ savedPlaylistAyahCountAll }}</span>
                                         </button>
                                         <button
@@ -582,14 +582,14 @@
                                             class="dropdown-item advanced-quran-more-item"
                                             @click="openTranslationCompareModal">
                                             <i class="bi bi-columns-gap" aria-hidden="true"></i>
-                                            <span>Compare translation</span>
+                                            <span class="advanced-quran-more-item-label">Compare translation</span>
                                         </button>
                                         <button
                                             type="button"
                                             class="dropdown-item advanced-quran-more-item"
                                             @click="toggleMemorisationToolbar">
                                             <i class="bi bi-journal-bookmark-fill" aria-hidden="true"></i>
-                                            <span>Memorisation tools</span>
+                                            <span class="advanced-quran-more-item-label">Memorisation tools</span>
                                             <span
                                                 v-if="isMemorisationToolsComingSoon"
                                                 class="advanced-quran-more-item-meta">Soon</span>
@@ -601,14 +601,14 @@
                                             data-bs-target="#surahSettingsModal"
                                             @click="prepareSettingsDraft">
                                             <i class="bi bi-gear-fill" aria-hidden="true"></i>
-                                            <span>Display settings</span>
+                                            <span class="advanced-quran-more-item-label">Display settings</span>
                                         </button>
                                         <button
                                             type="button"
                                             class="dropdown-item advanced-quran-more-item"
                                             @click="setReaderToolbarVisibility(false)">
                                             <i class="bi bi-eye-slash-fill" aria-hidden="true"></i>
-                                            <span>Hide toolbar</span>
+                                            <span class="advanced-quran-more-item-label">Hide toolbar</span>
                                         </button>
                                     </div>
                                 </div>
@@ -980,14 +980,14 @@
                             class="dropdown-item advanced-quran-more-item"
                             @click="openSuratOnboarding">
                             <i class="bi bi-signpost-2-fill" aria-hidden="true"></i>
-                            <span>{{ hasCompletedSuratOnboarding ? "Show onboarding" : "Start onboarding" }}</span>
+                            <span class="advanced-quran-more-item-label">{{ hasCompletedSuratOnboarding ? "Show onboarding" : "Start onboarding" }}</span>
                         </button>
                         <button
                             type="button"
                             class="dropdown-item advanced-quran-more-item"
                             @click="toggleCustomPlaylistPanel">
                             <i class="bi bi-music-note-list" aria-hidden="true"></i>
-                            <span>Saved playlist</span>
+                            <span class="advanced-quran-more-item-label">Saved playlist</span>
                             <span class="advanced-quran-more-item-meta">{{ savedPlaylistAyahCountAll }}</span>
                         </button>
                         <button
@@ -995,14 +995,14 @@
                             class="dropdown-item advanced-quran-more-item"
                             @click="openTranslationCompareModal">
                             <i class="bi bi-columns-gap" aria-hidden="true"></i>
-                            <span>Compare translation</span>
+                            <span class="advanced-quran-more-item-label">Compare translation</span>
                         </button>
                         <button
                             type="button"
                             class="dropdown-item advanced-quran-more-item"
                             @click="toggleMemorisationToolbar">
                             <i class="bi bi-journal-bookmark-fill" aria-hidden="true"></i>
-                            <span>Memorisation tools</span>
+                            <span class="advanced-quran-more-item-label">Memorisation tools</span>
                             <span
                                 v-if="isMemorisationToolsComingSoon"
                                 class="advanced-quran-more-item-meta">Soon</span>
@@ -1013,14 +1013,14 @@
                             class="dropdown-item advanced-quran-more-item"
                             @click="showPinnedSection">
                             <i class="bi bi-pin-angle-fill" aria-hidden="true"></i>
-                            <span>Show pinned ayat</span>
+                            <span class="advanced-quran-more-item-label">Show pinned ayat</span>
                         </button>
                         <button
                             type="button"
                             class="dropdown-item advanced-quran-more-item"
                             @click="setReaderToolbarVisibility(false)">
                             <i class="bi bi-eye-slash-fill" aria-hidden="true"></i>
-                            <span>Hide toolbar</span>
+                            <span class="advanced-quran-more-item-label">Hide toolbar</span>
                         </button>
                         <button
                             type="button"
@@ -1029,7 +1029,7 @@
                             data-bs-target="#surahSettingsModal"
                             @click="prepareSettingsDraft">
                             <i class="bi bi-gear-fill" aria-hidden="true"></i>
-                            <span>Display settings</span>
+                            <span class="advanced-quran-more-item-label">Display settings</span>
                         </button>
                     </div>
                 </div>
@@ -1140,7 +1140,7 @@
 	                        </div>
 	                        <div
 	                            v-if="playlistDeleteConfirm && playlistDeleteConfirm.visible"
-	                            class="alert alert-warning reader-custom-playlist-confirm-alert"
+	                            class="alert alert-warning surat-inline-alert surat-inline-alert-warning reader-custom-playlist-confirm-alert"
 	                            role="alert">
 	                            <div class="reader-custom-playlist-confirm-copy">
 	                                <strong>Confirm delete</strong>
@@ -6525,7 +6525,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div v-if="fontPickerAlert" class="alert alert-soft-success quran-font-alert" role="status">
+                        <div v-if="fontPickerAlert" class="alert alert-soft-success surat-inline-alert surat-inline-alert-success quran-font-alert" role="status">
                             <i class="bi bi-check-circle-fill"></i>
                             <span>{{ fontPickerAlert }}</span>
                         </div>
@@ -6595,7 +6595,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div v-if="fontPickerAlert" class="alert alert-soft-success quran-font-alert" role="status">
+                                <div v-if="fontPickerAlert" class="alert alert-soft-success surat-inline-alert surat-inline-alert-success quran-font-alert" role="status">
                                     <i class="bi bi-check-circle-fill"></i>
                                     <span>{{ fontPickerAlert }}</span>
                                 </div>
@@ -6743,7 +6743,7 @@
                                     </div>
                                 </div>
                                 <div v-if="editingReflectionId"
-                                    class="alert alert-info d-flex justify-content-between align-items-center small">
+                                    class="alert alert-info surat-inline-alert surat-inline-alert-info reflection-editing-alert small">
                                     <span>Editing saved reflection</span>
                                     <button type="button"
                                         class="btn btn-link btn-sm text-decoration-underline p-0 small"
@@ -6793,7 +6793,7 @@
                                         Show prompts
                                     </button>
                                 </div>
-                                <div v-if="reflectionErrorMessage" class="alert alert-danger py-2 small">
+                                <div v-if="reflectionErrorMessage" class="alert alert-danger surat-inline-alert surat-inline-alert-danger reflection-error-alert small">
                                     {{ reflectionErrorMessage }}
                                 </div>
                                 <div v-if="currentAyahReflections.length"

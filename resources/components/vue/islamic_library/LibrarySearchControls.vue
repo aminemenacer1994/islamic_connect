@@ -8,19 +8,20 @@
                         :value="searchQuery"
                         type="search"
                         class="search-input"
-                        placeholder="Search titles and summaries"
+                        placeholder="Search titles, summaries, publishers, and topics"
                         aria-label="Search IslamHouse library"
                         @input="$emit('update:searchQuery', $event.target.value)"
                     >
                 </div>
-
                 <button
                     v-if="searchQuery"
                     type="button"
                     class="search-clear"
                     @click="$emit('update:searchQuery', '')"
+                    aria-label="Clear search"
                 >
-                    Clear
+                    <i class="bi bi-x-lg" aria-hidden="true"></i>
+                    <span>Clear</span>
                 </button>
             </div>
 
@@ -65,6 +66,7 @@
                     </select>
                 </div>
             </div>
+
         </div>
     </section>
 </template>
@@ -85,6 +87,10 @@ export default {
             type: String,
             default: "newest",
         },
+        resultCount: {
+            type: Number,
+            default: 0,
+        },
         readerFilter: {
             type: String,
             default: "all",
@@ -102,7 +108,7 @@ export default {
 
 <style scoped>
 .search-shell {
-    padding: 1.1rem;
+    padding: 0.58rem 0.66rem;
     border: 0;
     border-radius: 20px;
     background: var(--library-surface);
@@ -111,9 +117,9 @@ export default {
 
 .search-row {
     display: flex;
-    gap: 0.8rem;
+    gap: 0.45rem;
     align-items: center;
-    margin-bottom: 0.85rem;
+    margin-bottom: 0.46rem;
 }
 
 .search-main {
@@ -124,9 +130,10 @@ export default {
 .search-icon {
     position: absolute;
     top: 50%;
-    left: 1rem;
+    left: 0.82rem;
     transform: translateY(-50%);
     color: var(--library-muted);
+    font-size: 0.88rem;
 }
 
 .search-input,
@@ -136,60 +143,135 @@ export default {
     border-radius: 20px;
     background: var(--library-soft);
     color: var(--library-text);
-    min-height: 46px;
+    min-height: 35px;
     box-shadow: inset 0 0 0 1px transparent;
     transition: box-shadow 0.2s ease, background-color 0.2s ease;
 }
 
 .search-input {
-    padding: 0.8rem 1rem 0.8rem 2.8rem;
+    padding: 0.48rem 0.8rem 0.48rem 2.15rem;
+    font-size: 0.86rem;
 }
 
 .filter-select {
-    padding: 0.7rem 0.95rem;
+    padding: 0.42rem 0.68rem;
     appearance: none;
+    font-size: 0.84rem;
 }
 
 .search-input:focus,
 .filter-select:focus {
     outline: none;
-    box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.16);
+    box-shadow: 0 0 0 3px rgba(0, 191, 166, 0.14);
 }
 
 .search-clear {
-    min-height: 46px;
-    padding: 0 1rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+    min-height: 35px;
+    padding: 0 0.66rem;
     border: 0;
-    border-radius: 20px;
-    background: var(--library-soft);
-    color: var(--library-text);
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--library-accent) 12%, var(--library-soft));
+    color: var(--library-accent);
+    font-size: 0.7rem;
+    font-weight: 700;
     box-shadow: var(--library-shadow-soft);
 }
 
 .filter-row {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 0.8rem;
+    gap: 0.45rem;
 }
 
 .filter-label {
     display: block;
-    margin-bottom: 0.38rem;
-    font-size: 0.78rem;
+    margin-bottom: 0.18rem;
+    font-size: 0.64rem;
     font-weight: 600;
     color: var(--library-muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
 }
 
 @media (max-width: 991.98px) {
     .filter-row {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .search-row {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
     }
 }
 
 @media (max-width: 767.98px) {
     .search-row {
-        flex-direction: column;
-        align-items: stretch;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 68px;
+    }
+
+    .filter-row {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .filter-control:last-child {
+        grid-column: 1 / -1;
+    }
+
+    .search-clear {
+        min-width: 80px;
+    }
+
+    .search-shell {
+        padding: 0.5rem 0.52rem;
+        border-radius: 16px;
+    }
+
+    .search-row {
+        gap: 0.34rem;
+        margin-bottom: 0.36rem;
+    }
+
+    .filter-row {
+        gap: 0.34rem;
+    }
+
+    .filter-label {
+        margin-bottom: 0.12rem;
+        font-size: 0.57rem;
+        letter-spacing: 0.07em;
+    }
+
+    .search-input,
+    .filter-select,
+    .search-clear {
+        min-height: 33px;
+    }
+
+    .search-input {
+        padding: 0.44rem 0.72rem 0.44rem 2rem;
+        font-size: 0.82rem;
+    }
+
+    .filter-select {
+        padding: 0.38rem 0.62rem;
+        font-size: 0.79rem;
+        border-radius: 16px;
+    }
+
+    .search-clear {
+        min-width: 68px;
+        padding: 0 0.5rem;
+        font-size: 0.66rem;
+    }
+
+    .search-icon {
+        left: 0.74rem;
+        font-size: 0.82rem;
     }
 }
 </style>

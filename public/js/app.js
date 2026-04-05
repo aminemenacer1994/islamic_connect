@@ -88,7 +88,7 @@ const applyGlobalThemePreference = isDarkMode => {
     return;
   }
   const body = document.body;
-  if (!body.classList.contains('home-route-page') && !body.classList.contains('surat-route-page') && !body.classList.contains('radio-route-page')) {
+  if (!body.classList.contains('home-route-page') && !body.classList.contains('surat-route-page') && !body.classList.contains('radio-route-page') && !body.classList.contains('islamic-blog-route-page')) {
     return;
   }
   const theme = isDarkMode ? 'dark' : 'light';
@@ -142,11 +142,21 @@ const app = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createApp)({
   mounted() {
     if (typeof window !== 'undefined' && window.IC_THEME && typeof window.IC_THEME.getTheme === 'function') {
       this.darkModeState.isDarkMode = window.IC_THEME.getTheme() === 'dark';
+      window.addEventListener('ic-theme-change', this.syncDarkModeStateFromEvent);
       return;
     }
     applyGlobalThemePreference(this.darkModeState.isDarkMode);
+    if (typeof window !== 'undefined') {
+      window.addEventListener('ic-theme-change', this.syncDarkModeStateFromEvent);
+    }
   },
   methods: {
+    syncDarkModeStateFromEvent(event) {
+      var _event$detail;
+      const nextValue = !!(event !== null && event !== void 0 && (_event$detail = event.detail) !== null && _event$detail !== void 0 && _event$detail.isDark);
+      this.darkModeState.isDarkMode = nextValue;
+      applyGlobalThemePreference(nextValue);
+    },
     setDarkMode(isDarkMode) {
       const nextValue = !!isDarkMode;
       const theme = nextValue ? 'dark' : 'light';

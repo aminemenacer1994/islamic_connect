@@ -11,6 +11,7 @@
 	        $isRadioRoute = request()->is('radio*');
 	        $isContentRoute = request()->is('content');
 	        $isDigitalLibraryRoute = request()->is('digital-library');
+	        $isIslamicBlogRoute = request()->is('islamic-blog');
 	        $isDuaRoute = request()->is('dua');
 	        $isSeerahRoute = request()->is('mission') || request()->is('seerah');
 	        $isAuthRoute = request()->is('login') || request()->is('register');
@@ -21,7 +22,7 @@
                 || request()->is('charity*')
                 || request()->is('stripe/*')
                 || request()->is('debug-checkout');
-	        $hasThemeToggle = ($isSuratRoute || $isHomeRoute || $isRadioRoute || $isContentRoute || $isDigitalLibraryRoute || $isDuaRoute || $isSeerahRoute || $isAuthRoute);
+	        $hasThemeToggle = ($isSuratRoute || $isHomeRoute || $isRadioRoute || $isContentRoute || $isDigitalLibraryRoute || $isIslamicBlogRoute || $isDuaRoute || $isSeerahRoute || $isAuthRoute);
 	        $defaultCanonical = $appUrl . ($path ? "/{$path}" : '');
 	        $canonicalUrl = trim($__env->yieldContent('canonical', $defaultCanonical));
         $metaTitle = trim($__env->yieldContent('meta_title', 'Islamic Connect, Accessible Quran & Community Tools'));
@@ -609,6 +610,9 @@
 	        body.digital-library-route-page.dark-mode,
 	        body.digital-library-route-page.dark-mode main#main-content,
 	        body.digital-library-route-page.dark-mode #app,
+	        body.islamic-blog-route-page.dark-mode,
+	        body.islamic-blog-route-page.dark-mode main#main-content,
+	        body.islamic-blog-route-page.dark-mode #app,
 	        body.dua-route-page.dark-mode,
 	        body.dua-route-page.dark-mode main#main-content,
 	        body.dua-route-page.dark-mode #app,
@@ -622,11 +626,22 @@
 	        body.radio-route-page.dark-mode,
 	        body.content-route-page.dark-mode,
 	        body.digital-library-route-page.dark-mode,
+	        body.islamic-blog-route-page.dark-mode,
 	        body.dua-route-page.dark-mode,
 	        body.seerah-route-page.dark-mode {
 	            --bs-body-bg: #232529;
 	            --bs-body-color: #ffffff;
 	        }
+
+            body.islamic-blog-route-page {
+                padding-top: calc(var(--navbar-h) + 0.2rem);
+                background: #edf4f1 !important;
+            }
+
+            body.islamic-blog-route-page main#main-content,
+            body.islamic-blog-route-page #app {
+                background: inherit !important;
+            }
 
 	        .global-theme-toggle {
 	            --ic-toggle-bg: #ffffff;
@@ -1081,6 +1096,61 @@
             background: rgba(255, 255, 255, 0.06) !important;
         }
 
+        body.islamic-blog-route-page.dark-mode .navbar.navbar-transparent {
+            background: #232529 !important;
+            backdrop-filter: none !important;
+            -webkit-backdrop-filter: none !important;
+            box-shadow: none !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+        }
+
+        body.islamic-blog-route-page.dark-mode .navbar.navbar-transparent .navbar-brand,
+        body.islamic-blog-route-page.dark-mode .navbar.navbar-transparent .nav-link,
+        body.islamic-blog-route-page.dark-mode .navbar.navbar-transparent .navbar-toggler,
+        body.islamic-blog-route-page.dark-mode .navbar .navbar-nav .nav-link,
+        body.islamic-blog-route-page.dark-mode .navbar .navbar-nav .nav-link:visited,
+        body.islamic-blog-route-page.dark-mode .navbar .navbar-nav .nav-link:hover,
+        body.islamic-blog-route-page.dark-mode .navbar .navbar-nav .nav-link:focus-visible,
+        body.islamic-blog-route-page.dark-mode .navbar .navbar-nav .nav-link:active {
+            color: #ffffff !important;
+            background: transparent !important;
+            box-shadow: none !important;
+        }
+
+        body.islamic-blog-route-page.dark-mode .navbar .navbar-brand.surat-brand-lockup .surat-brand-icon--light {
+            opacity: 0;
+        }
+
+        body.islamic-blog-route-page.dark-mode .navbar .navbar-brand.surat-brand-lockup .surat-brand-icon--dark {
+            opacity: 1;
+        }
+
+        body.islamic-blog-route-page.dark-mode .navbar .navbar-brand.surat-brand-lockup .surat-brand-wordmark-img,
+        body.islamic-blog-route-page.dark-mode .navbar .navbar-toggler-icon {
+            filter: brightness(0) invert(1);
+        }
+
+        body.islamic-blog-route-page.dark-mode .navbar .navbar-toggler {
+            border-color: rgba(255, 255, 255, 0.14) !important;
+            background: #232529 !important;
+            box-shadow: none !important;
+        }
+
+        body.islamic-blog-route-page.dark-mode .navbar .dropdown-menu {
+            background: #232529 !important;
+            border-color: rgba(255, 255, 255, 0.12) !important;
+            box-shadow: none !important;
+        }
+
+        body.islamic-blog-route-page.dark-mode .navbar .dropdown-item {
+            color: #ffffff !important;
+        }
+
+        body.islamic-blog-route-page.dark-mode .navbar .dropdown-item:hover,
+        body.islamic-blog-route-page.dark-mode .navbar .dropdown-item:focus-visible {
+            background: rgba(255, 255, 255, 0.06) !important;
+        }
+
 	        @media (max-width: 768px) {
 	            .navbar .navbar-collapse #globalThemeToggle {
 	                width: 100%;
@@ -1121,12 +1191,21 @@
                 box-shadow: none !important;
             }
 
+            body.islamic-blog-route-page.dark-mode .navbar.navbar-transparent,
+            body.islamic-blog-route-page.dark-mode .navbar.navbar-transparent .navbar-collapse.show,
+            body.islamic-blog-route-page.dark-mode .navbar.navbar-transparent .navbar-collapse.collapsing {
+                background: #232529 !important;
+                border-color: rgba(255, 255, 255, 0.12) !important;
+                box-shadow: none !important;
+            }
+
             body.home-route-page.dark-mode .navbar.navbar-transparent .navbar-collapse .nav-link,
             body.radio-route-page.dark-mode .navbar.navbar-transparent .navbar-collapse .nav-link,
             body.content-route-page.dark-mode .navbar.navbar-transparent .navbar-collapse .nav-link,
             body.digital-library-route-page.dark-mode .navbar.navbar-transparent .navbar-collapse .nav-link,
             body.dua-route-page.dark-mode .navbar.navbar-transparent .navbar-collapse .nav-link,
-            body.seerah-route-page.dark-mode .navbar.navbar-transparent .navbar-collapse .nav-link {
+            body.seerah-route-page.dark-mode .navbar.navbar-transparent .navbar-collapse .nav-link,
+            body.islamic-blog-route-page.dark-mode .navbar.navbar-transparent .navbar-collapse .nav-link {
                 color: #ffffff !important;
             }
         }
@@ -1364,7 +1443,7 @@
 
 </head>
 
-<body @class(['surat-route-page' => $isSuratRoute, 'home-route-page' => $isHomeRoute, 'radio-route-page' => $isRadioRoute, 'content-route-page' => $isContentRoute, 'digital-library-route-page' => $isDigitalLibraryRoute, 'dua-route-page' => $isDuaRoute, 'seerah-route-page' => $isSeerahRoute, 'auth-route-page' => $isAuthRoute])>
+<body @class(['surat-route-page' => $isSuratRoute, 'home-route-page' => $isHomeRoute, 'radio-route-page' => $isRadioRoute, 'content-route-page' => $isContentRoute, 'digital-library-route-page' => $isDigitalLibraryRoute, 'islamic-blog-route-page' => $isIslamicBlogRoute, 'dua-route-page' => $isDuaRoute, 'seerah-route-page' => $isSeerahRoute, 'auth-route-page' => $isAuthRoute])>
     <script>
         (function() {
             try {
@@ -1604,7 +1683,7 @@
     <script defer src="{{ $assetUrls['js.app'] }}"></script>
 	    <script>
 	        document.addEventListener('DOMContentLoaded', () => {
-	            // Global theme toggle for supported routes only: /, /home, /surat, /radio, /content, /digital-library, /dua, /seerah
+	            // Global theme toggle for supported routes only: /, /home, /surat, /radio, /content, /digital-library, /islamic-blog, /dua, /seerah
 	            try {
 	                const toggleBtn = document.getElementById('globalThemeToggle');
 	                if (toggleBtn) {
@@ -1616,6 +1695,7 @@
 	                        'radio-route-page',
 	                        'content-route-page',
 	                        'digital-library-route-page',
+	                        'islamic-blog-route-page',
 	                        'dua-route-page',
 	                        'seerah-route-page',
 	                    ];
