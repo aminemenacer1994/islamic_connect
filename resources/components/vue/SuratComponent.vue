@@ -3,7 +3,7 @@
         :class="{
             'container-fluid': isTabletOrMobile,
             'container': !isTabletOrMobile,
-            'has-audio-player': bottomAudioPlayerEnabled && showAudioPlayer && !isSingleWordPreviewActive && !translationAudioIsPlaying,
+            'has-audio-player': bottomAudioPlayerEnabled && showAudioPlayer && !isSingleWordPreviewActive,
             'has-sidebar': !isMemorisationToolbarVisible,
             'sidebar-collapsed': sidebarCollapsed && !isMemorisationToolbarVisible,
             'memorisation-offcanvas-open': isMemorisationToolbarVisible,
@@ -6715,7 +6715,7 @@
         <!-- Global Custom Audio Player -->
         <teleport to="body">
             <div
-                v-if="bottomAudioPlayerEnabled && showAudioPlayer && !isSingleWordPreviewActive && !translationAudioIsPlaying"
+                v-if="bottomAudioPlayerEnabled && showAudioPlayer && !isSingleWordPreviewActive"
                 class="audio-player-container"
                 :class="{ 'is-dark-theme': isDarkTheme }"
                 :style="audioPlayerContainerStyle"
