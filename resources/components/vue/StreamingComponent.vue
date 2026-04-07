@@ -25,7 +25,7 @@
       <div class="filters-header d-flex justify-content-between align-items-center mb-2">
         <h4 class="fw-semibold pt-2 pl-2">Filters</h4>
         <button class="btn btn-sm btn-outline-secondary toggle-filters" @click="toggleFilters" :aria-expanded="showFilters" :aria-controls="'filters-body'">
-          <i :class="showFilters ? 'fas fa-chevron-up' : 'fas fa-chevron-down'"></i>
+          <i :class="showFilters ? 'bi bi-chevron-up' : 'bi bi-chevron-down'"></i>
           <span class="ms-1">{{ showFilters ? 'Hide' : 'Show' }}</span>
         </button>
       </div>
@@ -64,7 +64,7 @@
         <div class="fg-item fg-search">
           <div class="input-group search-capsule">
             <span class="input-group-text bg-white border-0">
-              <i class="fas fa-search"></i>
+              <i class="bi bi-search"></i>
             </span>
             <label for="channelSearch" class="visually-hidden">Search channels</label>
             <input ref="searchInput" id="channelSearch" v-model="searchQuery" type="text"
@@ -84,7 +84,7 @@
     <!-- <section v-if="favorites.length > 0" class="mb-5" aria-label="Favorite channels" role="region"
       :aria-expanded="showFavorites" :aria-labelledby="'favorites-heading'">
       <h2 class="fw-bold mb-3 d-flex align-items-center">
-        <h2 aria-label="Toggle favorite channels section" class="fw-bold mb-4 d-flex align-items-center" @click="toggleFavoritesSection" :aria-expanded="showFavorites" aria-controls="favorites-panel" id="all-channels-heading">Favorite Channels ({{ favorites.length }}) <i :class="showFavorites ? 'fas fa-chevron-up ms-2' : 'fas fa-chevron-down ms-2'"></i></h2>  
+        <h2 aria-label="Toggle favorite channels section" class="fw-bold mb-4 d-flex align-items-center" @click="toggleFavoritesSection" :aria-expanded="showFavorites" aria-controls="favorites-panel" id="all-channels-heading">Favorite Channels ({{ favorites.length }}) <i :class="showFavorites ? 'bi bi-chevron-up ms-2' : 'bi bi-chevron-down ms-2'"></i></h2>  
       </h2>
       <div v-if="showFavorites" id="favorites-panel"
         class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4" role="list">
@@ -95,7 +95,7 @@
               -- Media/logo removed by request --
               <button class="star-toggle ucard__star" @click="toggleFavorite(channel)" :aria-pressed="isFavorite(channel)"
                 :aria-label="isFavorite(channel) ? 'Remove from favorites' : 'Add to favorites'">
-                <i :class="isFavorite(channel) ? 'fas fa-star' : 'far fa-star'" class="star-icon"></i>
+                <i :class="isFavorite(channel) ? 'bi bi-star-fill' : 'bi bi-star'" class="star-icon"></i>
               </button>
               <div class="channel-body body--compact ucard__body">
               <h5 class="fw-bold mb-2" :id="`fav-title-${index}`">{{ channel.name }}</h5>
@@ -103,9 +103,9 @@
                 <p class="description-text">{{ channel.description }}</p>
               </div>
               <div class="container mb-2 d-flex justify-content-between small text-muted meta-row">
-                <span><i class="fas fa-users me-1"></i>{{ channel.viewers || 'N/A' }} Joined</span>
-                <span><i class="fas fa-map-marker-alt me-1"></i>{{ channel.location || 'Not specified' }}</span>
-                <span><i class="fas fa-clock me-1"></i>{{ channel.schedule || 'No schedule' }}</span>
+                <span><i class="bi bi-people-fill me-1"></i>{{ channel.viewers || 'N/A' }} Joined</span>
+                <span><i class="bi bi-geo-alt-fill me-1"></i>{{ channel.location || 'Not specified' }}</span>
+                <span><i class="bi bi-clock-fill me-1"></i>{{ channel.schedule || 'No schedule' }}</span>
               </div>
               <div class="mb-2 chips-row">
                 <span class="badge chip me-1">{{ channel.category }}</span>
@@ -117,18 +117,18 @@
                   rel="noopener noreferrer" class="action-link"
                   title="YouTube Channel" aria-label="Visit YouTube Channel"
                   @click="debugLink(channel.youtubeChannel, 'YouTube Channel')">
-                  <i class="fab fa-youtube"></i>
+                  <i class="bi bi-youtube"></i>
                   <small>Channel</small>
                 </a>
                 <a v-if="channel.playlistUrl" :href="channel.playlistUrl || '#'" target="_blank"
                   rel="noopener noreferrer" class="action-link"
                   title="Playlists" aria-label="View Playlists" @click="debugLink(channel.playlistUrl, 'Playlists')">
-                  <i class="fas fa-list-ul"></i>
+                  <i class="bi bi-list-task"></i>
                   <small>Playlists</small>
                 </a>
                 <a v-if="channel.websiteUrl" :href="channel.websiteUrl || '#'" target="_blank" rel="noopener noreferrer" class="action-link"
                   title="Website" aria-label="Visit Website" @click="debugLink(channel.websiteUrl, 'Website')">
-                  <i class="fas fa-link"></i>
+                  <i class="bi bi-link-45deg"></i>
                   <small>Website</small>
                 </a>
                 <a v-if="channel.youtubeChannel"
@@ -136,13 +136,13 @@
                   rel="noopener noreferrer" class="action-link"
                   title="Videos" aria-label="View Videos"
                   @click="debugLink(channel.youtubeChannel + '/videos', 'Videos')">
-                  <i class="fas fa-video"></i>
+                  <i class="bi bi-video-fill"></i>
                   <small>Videos</small>
                 </a>
                 <a :href="getWhatsAppShareUrl(channel)" target="_blank" rel="noopener noreferrer" class="action-link"
                 title="Videos" aria-label="View Videos"
                 @click.prevent="shareToWhatsApp(channel)">
-                <i class="fas fa-share"></i>
+                <i class="bi bi-share-fill"></i>
                 <small>Share</small>
               </a>
               </div>
@@ -176,9 +176,9 @@
                 <p class="description-text">{{ channel.description }}</p>
               </div>
               <div class="container mt-3 d-flex justify-content-between small text-muted meta-row">
-                <span><i class="fas fa-users me-1"></i>{{ channel.viewers || 'N/A' }} Joined</span>
-                <span><i class="fas fa-clock me-1"></i>{{ channel.schedule ? channel.schedule : 'No schedule' }}</span>
-                <span><i class="fas fa-map-marker-alt me-1"></i>{{ channel.location || 'Not specified' }}</span>
+                <span><i class="bi bi-people-fill me-1"></i>{{ channel.viewers || 'N/A' }} Joined</span>
+                <span><i class="bi bi-clock-fill me-1"></i>{{ channel.schedule ? channel.schedule : 'No schedule' }}</span>
+                <span><i class="bi bi-geo-alt-fill me-1"></i>{{ channel.location || 'Not specified' }}</span>
               </div>
               <div class="mt-3">
                 <span class="badge bg-primary me-1">{{ channel.category }}</span>
@@ -189,37 +189,37 @@
                 <a v-if="channel.youtubeChannel" :href="channel.youtubeChannel || '#'" target="_blank"
                   rel="noopener noreferrer" class="action-link" title="YouTube Channel"
                   aria-label="Visit YouTube Channel" @click="debugLink(channel.youtubeChannel, 'YouTube Channel')">
-                  <i class="fab fa-youtube"></i>
+                  <i class="bi bi-youtube"></i>
                   <small>Channel</small>
                 </a>
                 <a v-if="channel.playlistUrl" :href="channel.playlistUrl || '#'" target="_blank"
                   rel="noopener noreferrer" class="action-link" title="Playlists" aria-label="View Playlists"
                   @click="debugLink(channel.playlistUrl, 'Playlists')">
-                  <i class="fas fa-list-ul"></i>
+                  <i class="bi bi-list-task"></i>
                   <small>Playlists</small>
                 </a>
                 <!-- <a v-if="channel.playlistUrl" :href="channel.playlistUrl || '#'" target="_blank" rel="noopener noreferrer"
                 style="display: flex; flex-direction: column; align-items: center; padding: 8px; border-radius: 6px; transition: background-color 0.3s, transform 0.2s; min-width: 60px; text-decoration: none; color: #6c757d;"
                 title="Playlists" aria-label="View Playlists" @click="debugLink(channel.playlistUrl, 'Playlists')">
-                <i style="font-size: 1.2rem; margin-bottom: 4px; color: #6c757d;" class="fas fa-inbox"></i>
+                <i style="font-size: 1.2rem; margin-bottom: 4px; color: #6c757d;" class="bi bi-inbox-fill"></i>
                 <small style="font-size: 0.8rem;">Posts</small>
               </a> -->
                 <a v-if="channel.websiteUrl" :href="channel.websiteUrl || '#'" target="_blank" rel="noopener noreferrer"
                   class="action-link" title="Website" aria-label="Visit Website"
                   @click="debugLink(channel.websiteUrl, 'Website')">
-                  <i class="fas fa-link"></i>
+                  <i class="bi bi-link-45deg"></i>
                   <small>Website</small>
                 </a>
                 <a v-if="channel.youtubeChannel"
                   :href="channel.youtubeChannel ? channel.youtubeChannel + '/videos' : '#'" target="_blank"
                   rel="noopener noreferrer" class="action-link" title="Videos" aria-label="View Videos"
                   @click="debugLink(channel.youtubeChannel + '/videos', 'Videos')">
-                  <i class="fas fa-video"></i>
+                  <i class="bi bi-video-fill"></i>
                   <small>Videos</small>
                 </a>
                 <a :href="getWhatsAppShareUrl(channel)" target="_blank" rel="noopener noreferrer" class="action-link"
                   title="Share" aria-label="Share channel via WhatsApp" @click.prevent="shareToWhatsApp(channel)">
-                  <i class="fas fa-share"></i>
+                  <i class="bi bi-share-fill"></i>
                   <small>Share</small>
                 </a>
 

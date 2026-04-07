@@ -122,7 +122,7 @@
         </div>
         <div class="col-3" style="background: lighgrey">
          <h6 class="report-mistake" data-bs-toggle="modal" data-bs-target="#exampleModal">
-          <i class="fas fa-fw fa-edit mr-2"></i>Report Mistake
+          <i class="bi bi-pencil-square me-2"></i>Report Mistake
          </h6>
         </div>
        </div>

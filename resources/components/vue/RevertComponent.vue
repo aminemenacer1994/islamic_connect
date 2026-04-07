@@ -218,7 +218,7 @@
                     @click="openSearchInfoModal"
                     aria-label="About global search"
                   >
-                    <i class="fas fa-info-circle" aria-hidden="true"></i>
+                    <i class="bi bi-info-circle-fill" aria-hidden="true"></i>
                     <span class="visually-hidden">Info</span>
                   </button>
                 </div>
@@ -1407,7 +1407,7 @@
                   <ul class="search-info-list">
                     <li class="search-info-card">
                       <div class="search-info-card-title">
-                        <i class="fas fa-layer-group search-info-icon" aria-hidden="true"></i>
+                        <i class="bi bi-stack search-info-icon" aria-hidden="true"></i>
                         Search coverage
                       </div>
                       <p class="search-info-card-text">
@@ -1416,7 +1416,7 @@
                     </li>
                     <li class="search-info-card">
                       <div class="search-info-card-title">
-                        <i class="fas fa-quote-left search-info-icon" aria-hidden="true"></i>
+                        <i class="bi bi-quote search-info-icon" aria-hidden="true"></i>
                         Phrase matching
                       </div>
                       <p class="search-info-card-text">
@@ -1425,7 +1425,7 @@
                     </li>
                     <li class="search-info-card">
                       <div class="search-info-card-title">
-                        <i class="fas fa-filter search-info-icon" aria-hidden="true"></i>
+                        <i class="bi bi-filter search-info-icon" aria-hidden="true"></i>
                         Category filter
                       </div>
                       <p class="search-info-card-text">
@@ -1434,7 +1434,7 @@
                     </li>
                     <li class="search-info-card">
                       <div class="search-info-card-title">
-                        <i class="fas fa-location-arrow search-info-icon" aria-hidden="true"></i>
+                        <i class="bi bi-send-fill search-info-icon" aria-hidden="true"></i>
                         Jump to results
                       </div>
                       <p class="search-info-card-text">
@@ -1443,7 +1443,7 @@
                     </li>
                     <li class="search-info-card">
                       <div class="search-info-card-title">
-                        <i class="fas fa-highlighter search-info-icon" aria-hidden="true"></i>
+                        <i class="bi bi-pencil-fill search-info-icon" aria-hidden="true"></i>
                         Highlighting
                       </div>
                       <p class="search-info-card-text">

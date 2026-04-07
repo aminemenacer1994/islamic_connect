@@ -283,7 +283,7 @@ export default {
                     id: "feature-read-flow",
                     priority: 1,
                     area: "Reading",
-                    iconClass: "fa-book-open",
+                    iconClass: "bi-book",
                     title: "Read ayahs with Arabic, translation, and transliteration",
                     summary:
                         "Each ayah card is built for focused reading, with Arabic text first and optional translation/transliteration beneath it.",
@@ -302,7 +302,7 @@ export default {
                     id: "feature-audio-playback",
                     priority: 2,
                     area: "Audio",
-                    iconClass: "fa-headphones",
+                    iconClass: "bi-headphones",
                     title: "Play ayah audio with full playback controls",
                     summary:
                         "You can play a single ayah or continue through the surah with controls for pause, rewind, forward, speed, volume, and stop.",
@@ -321,7 +321,7 @@ export default {
                     id: "feature-advanced-search",
                     priority: 3,
                     area: "Search",
-                    iconClass: "fa-search",
+                    iconClass: "bi-search",
                     title: "Search across the full Quran instantly",
                     summary:
                         "The advanced search bar scans ayahs and translation content across surahs and shows matched references in a result panel.",
@@ -339,7 +339,7 @@ export default {
                     id: "feature-voice-search",
                     priority: 4,
                     area: "Search",
-                    iconClass: "fa-microphone",
+                    iconClass: "bi-mic",
                     title: "Use voice search for hands-free discovery",
                     summary:
                         "If your browser supports speech recognition, you can speak your query and run advanced Quran search without typing.",
@@ -356,7 +356,7 @@ export default {
                     id: "feature-reciter-selection",
                     priority: 5,
                     area: "Audio",
-                    iconClass: "fa-user",
+                    iconClass: "bi-person",
                     title: "Switch reciters to match your listening preference",
                     summary:
                         "You can choose a reciter voice and the audio stream updates to that reciter for surah playback and ayah playback.",
@@ -373,7 +373,7 @@ export default {
                     id: "feature-translation-selection",
                     priority: 6,
                     area: "Understanding",
-                    iconClass: "fa-language",
+                    iconClass: "bi-translate",
                     title: "Choose translation language/version",
                     summary:
                         "Translations can be switched at any time so you read the tafsir-friendly wording that suits your study style.",
@@ -390,7 +390,7 @@ export default {
                     id: "feature-translation-toggle",
                     priority: 7,
                     area: "Reading",
-                    iconClass: "fa-toggle-on",
+                    iconClass: "bi-toggle-on",
                     title: "Toggle translation and transliteration visibility",
                     summary:
                         "You can hide or show translation/transliteration for each ayah and also use global toggles for all visible ayahs.",
@@ -408,7 +408,7 @@ export default {
                     id: "feature-font-size",
                     priority: 8,
                     area: "Accessibility",
-                    iconClass: "fa-text-height",
+                    iconClass: "bi-type",
                     title: "Adjust reading font size with + and - controls",
                     summary:
                         "Arabic and supporting text can be scaled up or down, helping you read comfortably on desktop and mobile.",
@@ -427,7 +427,7 @@ export default {
                     id: "feature-quran-font-picker",
                     priority: 9,
                     area: "Accessibility",
-                    iconClass: "fa-font",
+                    iconClass: "bi-fonts",
                     title: "Apply Quranic font styles with live preview",
                     summary:
                         "The Quran font picker lets you select a script style and preview it before applying it across the page.",
@@ -444,7 +444,7 @@ export default {
                     id: "feature-tajweed",
                     priority: 10,
                     area: "Learning",
-                    iconClass: "fa-palette",
+                    iconClass: "bi-palette",
                     title: "Toggle tajweed colors directly in the Arabic text",
                     summary:
                         "Tajweed coloring can be turned on for recitation guidance so highlighted Arabic rules appear directly inside each ayah.",
@@ -461,7 +461,7 @@ export default {
                     id: "feature-word-highlight",
                     priority: 11,
                     area: "Learning",
-                    iconClass: "fa-highlighter",
+                    iconClass: "bi-pencil-square",
                     title: "Turn on word-for-word highlighting during playback",
                     summary:
                         "As audio plays, each spoken word can highlight in sync, helping you track pronunciation and pacing.",
@@ -478,7 +478,7 @@ export default {
                     id: "feature-word-translation",
                     priority: 12,
                     area: "Learning",
-                    iconClass: "fa-spell-check",
+                    iconClass: "bi-spellcheck",
                     title: "Enable word-for-word translation support",
                     summary:
                         "Word-level translation can be shown so each Arabic segment is easier to connect with meaning while reading.",
@@ -495,7 +495,7 @@ export default {
                     id: "feature-bookmarks",
                     priority: 13,
                     area: "Study",
-                    iconClass: "fa-bookmark",
+                    iconClass: "bi-bookmark",
                     title: "Save ayahs with quick bookmarks",
                     summary:
                         "Any ayah can be bookmarked for later review, creating a fast way to return to verses you are reflecting on.",
@@ -512,7 +512,7 @@ export default {
                     id: "feature-share-copy",
                     priority: 14,
                     area: "Sharing",
-                    iconClass: "fa-share-alt",
+                    iconClass: "bi-share",
                     title: "Copy or share ayahs in one tap",
                     summary:
                         "Built-in quick actions let you copy an ayah text or share it directly to WhatsApp without leaving the page.",
@@ -529,7 +529,7 @@ export default {
                     id: "feature-download",
                     priority: 15,
                     area: "Offline",
-                    iconClass: "fa-download",
+                    iconClass: "bi-download",
                     title: "Download ayah audio and full surah audio",
                     summary:
                         "You can download individual ayah MP3 files or full surah MP3 files for offline listening.",
@@ -547,7 +547,7 @@ export default {
                     id: "feature-surah-info",
                     priority: 16,
                     area: "Context",
-                    iconClass: "fa-info-circle",
+                    iconClass: "bi-info-circle",
                     title: "Open surah information and metadata",
                     summary:
                         "Surah info gives context such as name, revelation place, ayah count, and additional explanatory content.",
@@ -564,7 +564,7 @@ export default {
                     id: "feature-navigation",
                     priority: 17,
                     area: "Navigation",
-                    iconClass: "fa-compass",
+                    iconClass: "bi-compass",
                     title: "Navigate quickly with sidebar and mobile controls",
                     summary:
                         "Desktop sidebar and mobile offcanvas controls help you jump between surahs and keep navigation simple.",
@@ -582,7 +582,7 @@ export default {
                     id: "feature-ui-utilities",
                     priority: 18,
                     area: "Utility",
-                    iconClass: "fa-sliders-h",
+                    iconClass: "bi-sliders-vertical",
                     title: "Use quick utility controls for focus",
                     summary:
                         "You can hide/show the search panel, collapse/restore sticky tools, and jump back to top with one click.",
@@ -12957,15 +12957,23 @@ export default {
             await this.seekToAyahWord(index, ayah, displayWordIndex);
         },
         initializeSuratOnboardingState() {
-            this.hasCompletedSuratOnboarding =
-                this.readScopedPreferenceWithLegacy(
-                    this.suratOnboardingCompletedPreferenceBaseKey
-                ) === "1";
-            this.suratOnboardingCurrentStep = 1;
-            if (this.hasCompletedSuratOnboarding) return;
-            this.$nextTick(() => {
-                this.openSuratOnboarding({ step: 1 });
-            });
+            if (typeof window === "undefined" || !window.localStorage) return;
+            try {
+                const globalCompleted =
+                    localStorage.getItem("ic_surat_onboarding_verified") === "1";
+                this.hasCompletedSuratOnboarding =
+                    globalCompleted ||
+                    this.readScopedPreferenceWithLegacy(
+                        this.suratOnboardingCompletedPreferenceBaseKey
+                    ) === "1";
+                this.suratOnboardingCurrentStep = 1;
+                if (this.hasCompletedSuratOnboarding) return;
+                this.$nextTick(() => {
+                    this.openSuratOnboarding({ step: 1 });
+                });
+            } catch (_) {
+                // Ignore storage/nextTick errors during init
+            }
         },
         setSuratOnboardingStep(step) {
             const total = Math.max(
@@ -12990,6 +12998,7 @@ export default {
         },
         finishSuratOnboarding() {
             this.hasCompletedSuratOnboarding = true;
+            localStorage.setItem("ic_surat_onboarding_verified", "1");
             this.writeScopedBooleanPreference(
                 this.suratOnboardingCompletedPreferenceBaseKey,
                 true
@@ -21298,19 +21307,17 @@ export default {
         async initializeBookmarkAuth() {
             await this.evaluateBookmarkAuth();
             if (!this.bookmarkAuthenticated) {
-                this.savedAyahKeys = {};
-                this.savedAyahsLoaded = true;
-                this.savedBookmarkRecords = {};
-                this.savedBookmarkRecordsLoaded = true;
-                this.savedBookmarkRecordsStorageKey = "";
-                this.isSavedBookmarksPanelOpen = false;
-                this.clearSavedBookmarksSelection();
-                this.resetSavedBookmarksDeleteConfirm();
-                this.pinnedAyahs = {};
-                this.pinnedAyahStorageKey = "";
-                this.pinnedSectionUiStateStorageKey = "";
-                this.isPinnedSectionCollapsed = false;
-                this.isPinnedSectionHidden = false;
+                // Initialize storage keys and load data for anonymous users
+                // to ensure features like bookmarks and playlists work while logged out.
+                await this.initializeSavedAyahStorageKey();
+                await this.loadSavedAyahs();
+                await this.initializeSavedBookmarkRecordsStorageKey();
+                await this.loadSavedBookmarkRecords();
+                await this.initializePinnedAyahStorageKey();
+                await this.loadPinnedAyahs();
+                await this.initializePinnedSectionUiStorageKey();
+                await this.loadPinnedSectionUiPreference();
+                await this.initializeReflectionCacheKey();
                 return;
             }
             await this.loadSavedAyahs();
@@ -21790,6 +21797,30 @@ export default {
             await this.fetchSavedBookmarkFolders();
             this.activeSavedBookmarkFolderId = "all";
             this.isSavedBookmarksPanelOpen = this.hasSavedBookmarks;
+        },
+        toggleSavedBookmarksPanel() {
+            if (this.isSavedBookmarksPanelOpen) {
+                this.closeSavedBookmarksPanel();
+                return;
+            }
+            this.showSavedBookmarksPanel();
+        },
+        showSavedBookmarksPanel() {
+            this.isMemorisationToolbarVisible = false;
+            this.showCustomPlaylistPanel = false;
+            this.isSavedBookmarksPanelOpen = true;
+            if (!this.hasSavedBookmarks) {
+                this.showToast("Fetching your bookmarks...");
+                this.loadSavedBookmarksData();
+            }
+        },
+        loadSavedBookmarksData() {
+            this.loadSavedAyahs().then(() => {
+                this.isSavedBookmarksPanelOpen = this.hasSavedBookmarks;
+                if (!this.hasSavedBookmarks) {
+                    this.showToast("No bookmarks found yet.");
+                }
+            });
         },
         closeSavedBookmarksPanel() {
             if (this.savedBookmarksDeleteBusy) return;
@@ -30664,17 +30695,9 @@ export default {
             }
             this.selectPlaylist(nextId);
         },
-        ensurePlaylistAuth(
-            message = "Please log in to create, edit, or add playlists.",
-            ayah = null
-        ) {
-            if (this.bookmarkAuthenticated) return true;
-            if (ayah) {
-                this.showAyahAuthWarning(ayah, message);
-                return false;
-            }
-            this.showAuthAlert(message);
-            return false;
+        ensurePlaylistAuth() {
+            // Permit both authenticated and guest users to manage playlists.
+            return true;
         },
         getPlaylistAccentColor(playlist) {
             const palette = [

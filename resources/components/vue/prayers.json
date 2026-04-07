@@ -157,35 +157,35 @@
           "start": "Dawn",
           "end": "Sunrise",
           "rakahs": "2",
-          "icon": "fas fa-sun"
+          "icon": "bi bi-sun-fill"
         },
         {
           "name": "Dhuhr",
           "start": "After noon",
           "end": "Asr",
           "rakahs": "4",
-          "icon": "fas fa-sun"
+          "icon": "bi bi-sun-fill"
         },
         {
           "name": "Asr",
           "start": "Late afternoon",
           "end": "Sunset",
           "rakahs": "4",
-          "icon": "fas fa-sun"
+          "icon": "bi bi-sun-fill"
         },
         {
           "name": "Maghrib",
           "start": "After sunset",
           "end": "Dusk",
           "rakahs": "3",
-          "icon": "fas fa-moon"
+          "icon": "bi bi-moon-fill"
         },
         {
           "name": "Isha",
           "start": "Dusk",
           "end": "Dawn",
           "rakahs": "4",
-          "icon": "fas fa-moon"
+          "icon": "bi bi-moon-fill"
         }
       ]
     },
@@ -196,19 +196,19 @@
         {
           "title": "Qibla Direction",
           "description": "Find the accurate direction to face during prayer",
-          "icon": "fas fa-compass",
+          "icon": "bi bi-compass-fill",
           "buttonText": "Find Qibla"
         },
         {
           "title": "Prayer Times",
           "description": "Get precise prayer schedules for your location",
-          "icon": "fas fa-clock",
+          "icon": "bi bi-clock-fill",
           "buttonText": "Set Location"
         },
         {
           "title": "Wudu Guide",
           "description": "Learn the proper method of ablution",
-          "icon": "fas fa-water",
+          "icon": "bi bi-droplet-fill",
           "buttonText": "Learn Wudu"
         }
       ]

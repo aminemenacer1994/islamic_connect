@@ -21,9 +21,9 @@ export default {
   data() {
     return {
       trustHighlights: [
-        { icon: "fas fa-shield-alt", label: "Secure and privacy-first" },
-        { icon: "fas fa-bolt", label: "Fast, no signup needed" },
-        { icon: "fas fa-universal-access", label: "Built for accessibility" },
+        { icon: "bi bi-shield-lock-fill", label: "Secure and privacy-first" },
+        { icon: "bi bi-lightning-fill", label: "Fast, no signup needed" },
+        { icon: "bi bi-universal-access", label: "Built for accessibility" },
       ],
       seoStats: [
         { value: "100%", label: "Accessibility score" },
@@ -59,19 +59,19 @@ export default {
       objectives: [
         {
           index: "01",
-          icon: "fas fa-book-open",
+          icon: "bi bi-book",
           title: "Advance Public Education",
           desc: "Provide clear, reliable resources on Islamic teachings, history, and values.",
         },
         {
           index: "02",
-          icon: "fas fa-users",
+          icon: "bi bi-people-fill",
           title: "Promote Harmony",
           desc: "Encourage understanding and challenge prejudice through practical education.",
         },
         {
           index: "03",
-          icon: "fas fa-laptop-code",
+          icon: "bi bi-laptop",
           title: "Build Digital Access",
           desc: "Maintain tools, platforms, and AI-assisted workflows that support everyday learning.",
         },
@@ -110,7 +110,7 @@ export default {
       communityChannels: [
         {
           type: "whatsapp",
-          icon: "fab fa-whatsapp",
+          icon: "bi bi-whatsapp",
           name: "WhatsApp Channel",
           caption: "Daily verses and instant reminders",
           cta: "Join WhatsApp",
@@ -118,7 +118,7 @@ export default {
         },
         {
           type: "telegram",
-          icon: "fab fa-telegram",
+          icon: "bi bi-telegram",
           name: "Telegram Community",
           caption: "Long-form reflections and discussions",
           cta: "Join Telegram",
@@ -146,12 +146,6 @@ export default {
       maxMessageLength: 1200,
       ayah: null,
       ayahInterval: null,
-      partners: [
-        { name: "AnaAtlou", icon: "fas fa-leaf" },
-        { name: "iPray", icon: "fas fa-scroll" },
-        { name: "Algerian Quran", icon: "fas fa-clock" },
-        { name: "Quranly", icon: "fas fa-university" },
-      ],
     };
   },
   computed: {
@@ -199,7 +193,7 @@ export default {
     this.fetchRandomAyah();
     this.ayahInterval = setInterval(() => {
       this.fetchRandomAyah();
-    }, 30000);
+    }, 86400000);
 
     if (typeof window !== "undefined") {
       window.addEventListener("keydown", this.handleGlobalKeydown);

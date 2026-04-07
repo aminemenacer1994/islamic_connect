@@ -11,15 +11,15 @@
             </p>
             <div class="resources-summary">
               <span class="summary-chip">
-                <i class="fas fa-layer-group" aria-hidden="true"></i>
+                <i class="bi bi-stack" aria-hidden="true"></i>
                 {{ cards.length }} categories
               </span>
               <span class="summary-chip">
-                <i class="fas fa-check-circle" aria-hidden="true"></i>
+                <i class="bi bi-check-circle-fill" aria-hidden="true"></i>
                 {{ totalResources }} curated resources
               </span>
               <span class="summary-chip">
-                <i class="fas fa-calendar-check" aria-hidden="true"></i>
+                <i class="bi bi-calendar-check-fill" aria-hidden="true"></i>
                 Last content review: February 2026
               </span>
             </div>
@@ -60,7 +60,7 @@
                         <h4 class="resource-item__title">{{ item.title }}</h4>
                       </div>
                       <span class="resource-item__status">
-                        <i class="fas fa-check-circle" aria-hidden="true"></i>
+                        <i class="bi bi-check-circle-fill" aria-hidden="true"></i>
                         Curated
                       </span>
                     </header>
@@ -98,7 +98,7 @@
                         target="_blank"
                         rel="noopener"
                       >
-                        <i class="fas fa-external-link-alt" aria-hidden="true"></i>
+                        <i class="bi bi-box-arrow-up-right" aria-hidden="true"></i>
                         Visit
                       </a>
                       <button
@@ -106,7 +106,7 @@
                         class="btn btn-sm btn-resource btn-resource--solid"
                         @click="openModal(item, card.title)"
                       >
-                        <i class="fas fa-info-circle" aria-hidden="true"></i>
+                        <i class="bi bi-info-circle-fill" aria-hidden="true"></i>
                         Details
                       </button>
                     </div>
@@ -178,7 +178,7 @@
             target="_blank"
             rel="noopener"
           >
-            <i class="fas fa-external-link-alt" aria-hidden="true"></i>
+            <i class="bi bi-box-arrow-up-right" aria-hidden="true"></i>
             Open resource
           </a>
         </div>
@@ -197,12 +197,12 @@ export default {
           title: "Mobile Apps",
           description: "Portable tools for daily worship routines, Quran reading, and remembrance.",
           audience: "Best for everyday mobile learning",
-          icon: "fas fa-mobile-alt",
+          icon: "bi bi-phone-fill",
           items: [
             {
               title: "Quran by Quran.com",
               kind: "Quran app",
-              icon: "fas fa-book-open",
+              icon: "bi bi-book-half",
               iconBg: "linear-gradient(135deg, #0ea5a4, #0f766e)",
               description:
                 "Open-source Quran app with strong translation quality, tafsir integration, and recitation controls.",
@@ -221,7 +221,7 @@ export default {
             {
               title: "Muslim Pro",
               kind: "Daily companion",
-              icon: "fas fa-compass",
+              icon: "bi bi-compass-fill",
               iconBg: "linear-gradient(135deg, #2563eb, #1d4ed8)",
               description: "All in one app for salah timing, qibla, duas, and Quran access.",
               features: ["Location based prayer times", "Qibla and mosque finder", "Hijri calendar support"],
@@ -239,7 +239,7 @@ export default {
             {
               title: "Athan by IslamicFinder",
               kind: "Prayer time app",
-              icon: "fas fa-bell",
+              icon: "bi bi-bell-fill",
               iconBg: "linear-gradient(135deg, #0f766e, #115e59)",
               description:
                 "Prayer schedule app focused on athan alerts, qibla direction, and nearby mosque discovery.",
@@ -258,7 +258,7 @@ export default {
             {
               title: "Hisnul Muslim",
               kind: "Dua reference app",
-              icon: "fas fa-hands-helping",
+              icon: "bi bi-hands",
               iconBg: "linear-gradient(135deg, #d97706, #b45309)",
               description:
                 "Digital reference of authentic duas from Quran and sahih narrations with simple offline access.",
@@ -277,7 +277,7 @@ export default {
             {
               title: "Hadith Collection (Greentech)",
               kind: "Hadith app",
-              icon: "fas fa-book-reader",
+              icon: "bi bi-book-fill",
               iconBg: "linear-gradient(135deg, #334155, #1e293b)",
               description: "Searchable hadith app with major collections and grading visibility.",
               features: ["Bukhari and Muslim included", "Grade display", "Arabic and English browsing"],
@@ -298,12 +298,12 @@ export default {
           title: "Websites",
           description: "Trusted web platforms for studying Quran, hadith, fiqh, and guided learning pathways.",
           audience: "Best for deeper study on desktop and tablet",
-          icon: "fas fa-globe",
+          icon: "bi bi-globe",
           items: [
             {
               title: "Quran.com",
               kind: "Quran website",
-              icon: "fas fa-quran",
+              icon: "bi bi-book-half",
               iconBg: "linear-gradient(135deg, #0ea5a4, #14b8a6)",
               description: "Highly trusted Quran portal with recitation, tafsir, and translation comparison.",
               features: ["Reliable translation set", "Tafsir views", "Recitation controls"],
@@ -321,7 +321,7 @@ export default {
             {
               title: "Sunnah.com",
               kind: "Hadith website",
-              icon: "fas fa-scroll",
+              icon: "bi bi-scroll-fill",
               iconBg: "linear-gradient(135deg, #1d4ed8, #1e40af)",
               description: "Hadith portal for major collections with clear chapter organization and grading.",
               features: ["Major books indexed", "Narration numbering", "Search by topic and collection"],
@@ -339,7 +339,7 @@ export default {
             {
               title: "SeekersGuidance",
               kind: "Learning platform",
-              icon: "fas fa-graduation-cap",
+              icon: "bi bi-mortarboard-fill",
               iconBg: "linear-gradient(135deg, #0f766e, #0d9488)",
               description: "Structured Islamic courses and scholar-reviewed answers across key subjects.",
               features: ["Free curriculum paths", "Qualified instructors", "Fiqh and aqidah tracks"],
@@ -357,7 +357,7 @@ export default {
             {
               title: "IslamQA.info",
               kind: "Fatwa archive",
-              icon: "fas fa-question-circle",
+              icon: "bi bi-question-circle-fill",
               iconBg: "linear-gradient(135deg, #475569, #334155)",
               description: "Large fatwa and topic archive with evidence references and clear legal framing.",
               features: ["Topic based filtering", "Reference-driven answers", "Multi-language support"],
@@ -375,7 +375,7 @@ export default {
             {
               title: "IslamicFinder",
               kind: "Prayer and utility site",
-              icon: "fas fa-mosque",
+              icon: "bi bi-bank",
               iconBg: "linear-gradient(135deg, #16a34a, #15803d)",
               description: "Long-running Islamic utility site with prayer tools and location-based services.",
               features: ["Prayer time engine", "Qibla finder", "Islamic calendar tools"],
@@ -396,12 +396,12 @@ export default {
           title: "Books",
           description: "Foundational hadith books and practical references used in teaching and personal study.",
           audience: "Best for text-focused learners and study circles",
-          icon: "fas fa-book",
+          icon: "bi bi-book",
           items: [
             {
               title: "Sahih al-Bukhari",
               kind: "Hadith collection",
-              icon: "fas fa-book-open",
+              icon: "bi bi-book-half",
               iconBg: "linear-gradient(135deg, #b45309, #92400e)",
               description: "Primary sahih hadith collection with wide scholarly acceptance and usage.",
               features: ["Compiled by Imam al-Bukhari", "Extensive chapter structure", "Foundational source"],
@@ -419,7 +419,7 @@ export default {
             {
               title: "Sahih Muslim",
               kind: "Hadith collection",
-              icon: "fas fa-book-reader",
+              icon: "bi bi-book-fill",
               iconBg: "linear-gradient(135deg, #c2410c, #9a3412)",
               description: "Canonical sahih collection often studied alongside Sahih al-Bukhari.",
               features: ["Compiled by Imam Muslim", "Strong narration quality", "Used in core hadith study"],
@@ -437,7 +437,7 @@ export default {
             {
               title: "Riyad as-Salihin",
               kind: "Practical hadith guide",
-              icon: "fas fa-heart",
+              icon: "bi bi-heart-fill",
               iconBg: "linear-gradient(135deg, #0ea5a4, #0f766e)",
               description: "Daily-practice hadith collection covering adab, worship, and character building.",
               features: ["Compiled by Imam al-Nawawi", "Theme-based chapters", "Suitable for daily reading"],
@@ -455,7 +455,7 @@ export default {
             {
               title: "Al-Muwatta",
               kind: "Hadith and fiqh text",
-              icon: "fas fa-balance-scale",
+              icon: "bi bi-scales",
               iconBg: "linear-gradient(135deg, #334155, #1f2937)",
               description: "Early hadith and fiqh work reflecting Madinan legal practice and narration.",
               features: ["Compiled by Imam Malik", "Early juristic framework", "Referenced in legal studies"],
@@ -473,7 +473,7 @@ export default {
             {
               title: "40 Hadith Nawawi",
               kind: "Concise hadith primer",
-              icon: "fas fa-list-ol",
+              icon: "bi bi-list-ol",
               iconBg: "linear-gradient(135deg, #2563eb, #1e3a8a)",
               description: "Compact set of core narrations widely used for creed, ethics, and memorization.",
               features: ["Forty key narrations", "Strong educational value", "Common in beginner curricula"],
@@ -494,12 +494,12 @@ export default {
           title: "Scriptures and Tafsir",
           description: "Primary Quran text and core tafsir references for verse-by-verse understanding.",
           audience: "Best for tafsir-backed Quran study",
-          icon: "fas fa-scroll",
+          icon: "bi bi-scroll-fill",
           items: [
             {
               title: "The Quran (Al-Quran al-Kareem)",
               kind: "Primary scripture",
-              icon: "fas fa-quran",
+              icon: "bi bi-book-half",
               iconBg: "linear-gradient(135deg, #0f766e, #0d9488)",
               description: "The final revelation and central source for belief, worship, and guidance.",
               features: ["Canonical Arabic text", "Recitation support", "Parallel translation options"],
@@ -517,7 +517,7 @@ export default {
             {
               title: "Tafsir Ibn Kathir",
               kind: "Classical tafsir",
-              icon: "fas fa-feather-alt",
+              icon: "bi bi-feather",
               iconBg: "linear-gradient(135deg, #14532d, #166534)",
               description: "Well-known Sunni tafsir linking verses to hadith and narrations from early scholars.",
               features: ["Narration-based method", "Broad scholarly usage", "Strong source linkage"],
@@ -535,7 +535,7 @@ export default {
             {
               title: "Tafsir As-Sa'di",
               kind: "Concise tafsir",
-              icon: "fas fa-lightbulb",
+              icon: "bi bi-lightbulb-fill",
               iconBg: "linear-gradient(135deg, #0891b2, #0e7490)",
               description: "Readable tafsir focused on practical guidance, spiritual reflection, and clarity.",
               features: ["Short explanatory style", "Easy reading flow", "Practical message focus"],
@@ -553,7 +553,7 @@ export default {
             {
               title: "Tafsir Al-Jalalayn",
               kind: "Classical concise tafsir",
-              icon: "fas fa-pen-nib",
+              icon: "bi bi-pen-fill",
               iconBg: "linear-gradient(135deg, #4338ca, #3730a3)",
               description: "Compact classical tafsir emphasizing linguistic explanation and concise verse meaning.",
               features: ["Classical author lineage", "Concise style", "Useful language notes"],
@@ -571,7 +571,7 @@ export default {
             {
               title: "Mushaf Madinah (King Fahd Complex)",
               kind: "Standard mushaf edition",
-              icon: "fas fa-certificate",
+              icon: "bi bi-patch-check-fill",
               iconBg: "linear-gradient(135deg, #334155, #0f172a)",
               description: "Widely distributed Uthmani script mushaf with standardized typography and layout.",
               features: ["Uthmani script style", "Reliable publishing body", "Print and digital resources"],
@@ -610,12 +610,12 @@ export default {
     metadataEntries(item) {
       const metadata = item?.metadata || {};
       return [
-        { label: "Type", value: metadata.type, icon: "fas fa-tag" },
-        { label: "Access", value: metadata.access, icon: "fas fa-laptop" },
-        { label: "Language", value: metadata.language, icon: "fas fa-language" },
-        { label: "Level", value: metadata.level, icon: "fas fa-graduation-cap" },
-        { label: "Cost", value: metadata.cost, icon: "fas fa-wallet" },
-        { label: "Reviewed", value: metadata.reviewed, icon: "fas fa-clock" },
+        { label: "Type", value: metadata.type, icon: "bi bi-tag-fill" },
+        { label: "Access", value: metadata.access, icon: "bi bi-laptop" },
+        { label: "Language", value: metadata.language, icon: "bi bi-translate" },
+        { label: "Level", value: metadata.level, icon: "bi bi-mortarboard-fill" },
+        { label: "Cost", value: metadata.cost, icon: "bi bi-wallet2" },
+        { label: "Reviewed", value: metadata.reviewed, icon: "bi bi-clock-fill" },
       ].filter((entry) => Boolean(entry.value));
     },
   },

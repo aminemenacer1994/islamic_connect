@@ -591,8 +591,16 @@
                                             class="dropdown-item advanced-quran-more-item"
                                             @click="toggleCustomPlaylistPanel">
                                             <i class="bi bi-music-note-list" aria-hidden="true"></i>
-                                            <span class="advanced-quran-more-item-label">Saved playlist</span>
+                                            <span class="advanced-quran-more-item-label">Saved playlists</span>
                                             <span class="advanced-quran-more-item-meta">{{ savedPlaylistAyahCountAll }}</span>
+                                        </button>
+                                        <button
+                                            type="button"
+                                            class="dropdown-item advanced-quran-more-item"
+                                            @click="toggleSavedBookmarksPanel">
+                                            <i class="bi bi-bookmarks-fill" aria-hidden="true"></i>
+                                            <span class="advanced-quran-more-item-label">Saved bookmarks</span>
+                                            <span class="advanced-quran-more-item-meta">{{ savedBookmarksList.length }}</span>
                                         </button>
                                         <button
                                             type="button"
@@ -602,6 +610,7 @@
                                             <span class="advanced-quran-more-item-label">Compare translation</span>
                                         </button>
                                         <button
+                                            v-if="false"
                                             type="button"
                                             class="dropdown-item advanced-quran-more-item"
                                             @click="toggleMemorisationToolbar">
@@ -1049,8 +1058,16 @@
                             class="dropdown-item advanced-quran-more-item"
                             @click="toggleCustomPlaylistPanel">
                             <i class="bi bi-music-note-list" aria-hidden="true"></i>
-                            <span class="advanced-quran-more-item-label">Saved playlist</span>
+                            <span class="advanced-quran-more-item-label">Saved playlists</span>
                             <span class="advanced-quran-more-item-meta">{{ savedPlaylistAyahCountAll }}</span>
+                        </button>
+                        <button
+                            type="button"
+                            class="dropdown-item advanced-quran-more-item"
+                            @click="toggleSavedBookmarksPanel">
+                            <i class="bi bi-bookmarks-fill" aria-hidden="true"></i>
+                            <span class="advanced-quran-more-item-label">Saved bookmarks</span>
+                            <span class="advanced-quran-more-item-meta">{{ savedBookmarksList.length }}</span>
                         </button>
                         <button
                             type="button"
@@ -1060,6 +1077,7 @@
                             <span class="advanced-quran-more-item-label">Compare translation</span>
                         </button>
                         <button
+                            v-if="false"
                             type="button"
                             class="dropdown-item advanced-quran-more-item"
                             @click="toggleMemorisationToolbar">
@@ -3989,15 +4007,15 @@
                     ? 'Restore next step'
                     : 'Minimize next step'
                     " @click="toggleNextStepMinimized" class="next-step-toggle">
-                    <i class="fas" :class="isNextStepMinimized
-                        ? 'fa-expand-alt'
-                        : 'fa-compress-alt'
+                    <i class="bi" :class="isNextStepMinimized
+                        ? 'bi-fullscreen'
+                        : 'bi-fullscreen-exit'
                         " aria-hidden="true"></i>
                 </button>
                 <div class="d-flex align-items-start gap-3 text-start">
                     <div class="flex-shrink-0 mt-1">
                         <div class="next-step-icon-circle">
-                            <i class="fas fa-quran"></i>
+                            <i class="bi bi-book-half"></i>
                         </div>
                     </div>
                     <div class="flex-grow-1">
@@ -4008,7 +4026,7 @@
                             <a href="/history" class="fw-semibold text-decoration-none next-step-link">
                                 Explore the Seerah timeline
                             </a>
-                            <i class="fas fa-arrow-up-right-from-square ms-1 next-step-link-icon"></i>
+                            <i class="bi bi-box-arrow-up-right ms-1 next-step-link-icon"></i>
                         </div>
                         <p v-show="!isNextStepMinimized" class="mb-3 next-step-text">
                             Learning how the Qur’an was preserved is a beautiful beginning. When you’re ready, gently
@@ -4022,7 +4040,7 @@
                         <a v-show="!isNextStepMinimized" href="/mission"
                             class="btn btn-sm fw-semibold text-white px-3 py-2 next-step-cta">
                             Explore Seerah
-                            <i class="fas fa-arrow-up-right-from-square ms-2"></i>
+                            <i class="bi bi-box-arrow-up-right ms-2"></i>
                         </a>
                     </div>
                     
@@ -6099,7 +6117,7 @@
                                                 class="btn surah-settings-action-btn"
                                                 @click="openFontPickerFromSettings"
                                                 aria-label="Open Quranic fonts settings">
-                                                <i class="fas fa-font" aria-hidden="true"></i>
+                                                <i class="bi bi-fonts" aria-hidden="true"></i>
                                                 <span>Quranic fonts</span>
                                             </button>
                                             <button

@@ -7,7 +7,7 @@
         <div class="saved-playlists-panel-head">
             <div class="saved-playlists-panel-heading">
                 <span class="saved-playlists-panel-kicker">
-                    <i class="fas fa-music" aria-hidden="true"></i>
+                    <i class="bi bi-music-note-list" aria-hidden="true"></i>
                     Playlists
                 </span>
                 <h3 id="savedPlaylistsPanelTitle" class="saved-playlists-panel-title mb-1">
@@ -22,14 +22,14 @@
                 class="btn saved-playlists-close-btn"
                 aria-label="Close saved playlists panel"
                 @click="$emit('close')">
-                <i class="fas fa-times" aria-hidden="true"></i>
+                <i class="bi bi-x-lg" aria-hidden="true"></i>
             </button>
         </div>
 
         <div class="saved-playlists-flow" aria-label="Saved playlist steps">
             <div class="saved-playlists-flow-step">
                 <span class="saved-playlists-flow-icon">
-                    <i class="fas fa-filter" aria-hidden="true"></i>
+                    <i class="bi bi-filter" aria-hidden="true"></i>
                 </span>
                 <div>
                     <strong>1. Filter</strong>
@@ -38,7 +38,7 @@
             </div>
             <div class="saved-playlists-flow-step">
                 <span class="saved-playlists-flow-icon">
-                    <i class="fas fa-sliders-h" aria-hidden="true"></i>
+                    <i class="bi bi-sliders" aria-hidden="true"></i>
                 </span>
                 <div>
                     <strong>2. Manage</strong>
@@ -47,7 +47,7 @@
             </div>
             <div class="saved-playlists-flow-step">
                 <span class="saved-playlists-flow-icon">
-                    <i class="fas fa-play" aria-hidden="true"></i>
+                    <i class="bi bi-play-fill" aria-hidden="true"></i>
                 </span>
                 <div>
                     <strong>3. Listen Or Open</strong>
@@ -66,7 +66,7 @@
                     class="btn saved-playlists-collection-pill saved-playlists-collection-pill-primary"
                     :class="{ 'is-active': isAllActive && !manageOpen }"
                     @click="handleAllClick">
-                    <i class="fas fa-th-large" aria-hidden="true"></i>
+                    <i class="bi bi-grid-3x3-gap-fill" aria-hidden="true"></i>
                     <span>All</span>
                 </button>
                 <button
@@ -74,7 +74,7 @@
                     class="btn saved-playlists-collection-pill saved-playlists-collection-pill-primary saved-playlists-collection-manage"
                     :class="{ 'is-active': manageOpen }"
                     @click="openManage">
-                    <i class="fas fa-sliders-h" aria-hidden="true"></i>
+                    <i class="bi bi-sliders" aria-hidden="true"></i>
                     <span>Manage</span>
                 </button>
             </div>
@@ -92,7 +92,7 @@
                     :class="{ 'is-active': !manageOpen && String(activePlaylistId) === String(playlist.id) }"
                     :title="playlist.name"
                     @click="handlePlaylistClick(playlist.id)">
-                    <i class="fas fa-headphones-alt" aria-hidden="true"></i>
+                    <i class="bi bi-headphones" aria-hidden="true"></i>
                     <span class="saved-playlists-collection-pill-title">{{ playlist.name }}</span>
                     <span class="saved-playlists-collection-pill-count">{{ playlist.itemCount || 0 }}</span>
                 </button>
@@ -129,7 +129,7 @@
                     class="btn saved-playlists-icon-btn saved-playlists-icon-btn-primary"
                     :disabled="busy || !newPlaylistName"
                     aria-label="Create playlist">
-                    <i class="fas fa-plus" aria-hidden="true"></i>
+                    <i class="bi bi-plus-lg" aria-hidden="true"></i>
                 </button>
             </form>
 
@@ -142,7 +142,7 @@
                     role="listitem">
                     <div class="saved-playlists-manage-row-main">
                         <span class="saved-playlists-manage-row-icon" aria-hidden="true">
-                            <i class="fas fa-headphones-alt"></i>
+                            <i class="bi bi-headphones"></i>
                         </span>
                         <div class="saved-playlists-manage-row-copy">
                             <template v-if="editingPlaylistId === playlist.id">
@@ -174,7 +174,7 @@
                             :disabled="busy"
                             :aria-label="`Rename ${playlist.name}`"
                             @click="beginEdit(playlist)">
-                            <i class="fas fa-pen" aria-hidden="true"></i>
+                            <i class="bi bi-pencil-square" aria-hidden="true"></i>
                         </button>
                         <button
                             v-else
@@ -183,7 +183,7 @@
                             :disabled="busy || !editingPlaylistName"
                             :aria-label="`Save ${playlist.name}`"
                             @click="confirmEdit(playlist)">
-                            <i class="fas fa-check" aria-hidden="true"></i>
+                            <i class="bi bi-check-lg" aria-hidden="true"></i>
                         </button>
                         <button
                             v-if="editingPlaylistId === playlist.id"
@@ -192,7 +192,7 @@
                             :disabled="busy"
                             aria-label="Cancel rename"
                             @click="cancelEdit">
-                            <i class="fas fa-times" aria-hidden="true"></i>
+                            <i class="bi bi-x-lg" aria-hidden="true"></i>
                         </button>
                         <button
                             type="button"
@@ -200,7 +200,7 @@
                             :disabled="busy"
                             :aria-label="`Delete ${playlist.name}`"
                             @click="requestPlaylistDelete(playlist)">
-                            <i class="fas fa-trash-alt" aria-hidden="true"></i>
+                            <i class="bi bi-trash3" aria-hidden="true"></i>
                         </button>
                     </div>
                     <div
@@ -214,7 +214,7 @@
                                 :disabled="busy"
                                 aria-label="Cancel delete"
                                 @click="cancelPlaylistDelete">
-                                <i class="fas fa-undo-alt" aria-hidden="true"></i>
+                                <i class="bi bi-arrow-counterclockwise" aria-hidden="true"></i>
                             </button>
                             <button
                                 type="button"
@@ -222,7 +222,7 @@
                                 :disabled="busy"
                                 :aria-label="`Confirm delete ${playlist.name}`"
                                 @click="confirmPlaylistDelete(playlist)">
-                                <i class="fas fa-check" aria-hidden="true"></i>
+                                <i class="bi bi-check-lg" aria-hidden="true"></i>
                             </button>
                         </div>
                     </div>
@@ -230,7 +230,7 @@
             </div>
 
             <div v-else class="saved-playlists-manage-empty">
-                <i class="fas fa-headphones-alt" aria-hidden="true"></i>
+                <i class="bi bi-headphones" aria-hidden="true"></i>
                 <span>Create your first playlist to organise saved ayahs beyond All.</span>
             </div>
         </div>
@@ -249,7 +249,7 @@
                     class="btn saved-playlists-toolbar-btn"
                     :disabled="deleteBusy"
                     @click="$emit('cancel-delete')">
-                    <i class="fas fa-times" aria-hidden="true"></i>
+                    <i class="bi bi-x-lg" aria-hidden="true"></i>
                     <span>Cancel</span>
                 </button>
                 <button
@@ -257,7 +257,7 @@
                     class="btn saved-playlists-toolbar-btn is-danger"
                     :disabled="deleteBusy"
                     @click="$emit('confirm-delete')">
-                    <i class="fas fa-trash-alt" aria-hidden="true"></i>
+                    <i class="bi bi-trash3" aria-hidden="true"></i>
                     <span>{{ deleteBusy ? "Deleting..." : "Delete" }}</span>
                 </button>
             </div>
@@ -274,10 +274,8 @@
                     class="btn saved-playlists-toolbar-btn"
                     :disabled="deleteBusy"
                     @click="$emit('toggle-select-all')">
-                    <i
-                        class="fas"
-                        :class="allSelected ? 'fa-times-square' : 'fa-check-square'"
-                        aria-hidden="true"></i>
+                        :class="allSelected ? 'bi-x-square' : 'bi-check-square'"
+                        aria-hidden="true">
                     <span>{{ allSelected ? "Unselect" : "Select all" }}</span>
                 </button>
                 <button
@@ -285,7 +283,7 @@
                     class="btn saved-playlists-toolbar-btn"
                     :disabled="!selectedCount || deleteBusy"
                     @click="$emit('clear-selection')">
-                    <i class="fas fa-eraser" aria-hidden="true"></i>
+                    <i class="bi bi-eraser-fill" aria-hidden="true"></i>
                     <span>Clear</span>
                 </button>
                 <button
@@ -293,7 +291,7 @@
                     class="btn saved-playlists-toolbar-btn is-danger"
                     :disabled="!selectedCount || deleteBusy"
                     @click="$emit('request-bulk-delete')">
-                    <i class="fas fa-trash-alt" aria-hidden="true"></i>
+                    <i class="bi bi-trash3" aria-hidden="true"></i>
                     <span>Delete</span>
                 </button>
             </div>
@@ -322,7 +320,7 @@
                             <span class="saved-playlists-card-check-indicator" aria-hidden="true">
                                 <i
                                     v-if="selectedKeySet.has(item.key)"
-                                    class="fas fa-check"></i>
+                                    class="bi bi-check-lg"></i>
                             </span>
                         </button>
                         <div class="saved-playlists-card-top-actions">
@@ -346,10 +344,6 @@
                                 :disabled="deleteBusy"
                                 :aria-label="item.isNowPlaying ? 'Pause ayah audio' : 'Play ayah audio'"
                                 @click="$emit('play-item', item.key)">
-                                <i
-                                    class="fas"
-                                    :class="item.isNowPlaying ? 'fa-pause' : 'fa-play'"
-                                    aria-hidden="true"></i>
                             </button>
                             <button
                                 v-if="item.canMoveUp"
@@ -358,7 +352,7 @@
                                 :disabled="deleteBusy || busy"
                                 aria-label="Move item up"
                                 @click="$emit('move-item-up', item.key)">
-                                <i class="fas fa-arrow-up" aria-hidden="true"></i>
+                                <i class="bi bi-arrow-up" aria-hidden="true"></i>
                             </button>
                             <button
                                 v-if="item.canMoveDown"
@@ -367,7 +361,7 @@
                                 :disabled="deleteBusy || busy"
                                 aria-label="Move item down"
                                 @click="$emit('move-item-down', item.key)">
-                                <i class="fas fa-arrow-down" aria-hidden="true"></i>
+                                <i class="bi bi-arrow-down" aria-hidden="true"></i>
                             </button>
                             <button
                                 type="button"
@@ -375,7 +369,7 @@
                                 :disabled="deleteBusy"
                                 :aria-label="`Delete ${item.surahName} ayah ${item.ayahNumber}`"
                                 @click="$emit('request-delete', item.key)">
-                                <i class="fas fa-trash-alt" aria-hidden="true"></i>
+                                <i class="bi bi-trash3" aria-hidden="true"></i>
                             </button>
                         </div>
                     </div>
@@ -387,7 +381,7 @@
                         :aria-label="`Open ${item.surahName} ayah ${item.ayahNumber}`"
                         @click="$emit('open-item', item.key)">
                         <span class="saved-playlists-card-icon" aria-hidden="true">
-                            <i class="fas fa-headphones-alt"></i>
+                            <i class="bi bi-headphones"></i>
                         </span>
                         <span class="saved-playlists-card-copy">
                             <span class="saved-playlists-card-title">{{ item.surahName }}</span>
@@ -429,7 +423,7 @@
 
         <div v-else class="saved-playlists-empty">
             <span class="saved-playlists-empty-icon" aria-hidden="true">
-                <i class="fas fa-music"></i>
+                <i class="bi bi-music-note-list"></i>
             </span>
             <h4 class="saved-playlists-empty-title mb-2">{{ emptyStateTitle }}</h4>
             <p class="saved-playlists-empty-copy mb-0">

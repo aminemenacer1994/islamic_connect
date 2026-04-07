@@ -269,7 +269,6 @@
                   <i class="bi bi-calendar3"></i>
                   <span class="meta-text">{{ formatDate(podcast.pubDate) }}</span>
                   <span v-if="isNewEpisode(podcast.pubDate)" class="new-badge" aria-label="New episode">NEW</span>
-
                 </div>
               </div>
             </div>

@@ -10,13 +10,13 @@
                     <button type="button" :title="nextStepMinimized ? 'Restore' : 'Minimize'"
                         :aria-label="nextStepMinimized ? 'Restore next step' : 'Minimize next step'"
                         @click="toggleNextStepMinimized" class="next-step-toggle">
-                        <i class="fas" :class="nextStepMinimized ? 'fa-expand-alt' : 'fa-compress-alt'"
+                        <i class="bi" :class="nextStepMinimized ? 'bi-fullscreen' : 'bi-fullscreen-exit'"
                             aria-hidden="true"></i>
                     </button>
                     <div class="d-flex align-items-start gap-3 text-start">
                         <div class="flex-shrink-0 mt-1">
                             <div class="next-step-icon-circle">
-                                <i class="fas fa-headphones" aria-hidden="true"></i>
+                                <i class="bi bi-headphones" aria-hidden="true"></i>
                             </div>
                         </div>
                         <div class="flex-grow-1">
@@ -27,7 +27,7 @@
                                 <a href="/surat" class="fw-semibold text-decoration-none next-step-link">
                                     Listen to Qur’anic recitations
                                 </a>
-                                <i class="fas fa-arrow-up-right-from-square ms-1 next-step-link-icon"></i>
+                                <i class="bi bi-box-arrow-up-right ms-1 next-step-link-icon"></i>
                             </div>
                             <p v-show="!nextStepMinimized" class="mb-3 next-step-text">
                                 As-salaamu alaikum if this is your first deep dive into Islam, let the verses you
@@ -40,7 +40,7 @@
                             <a v-show="!nextStepMinimized" href="/surat"
                                 class="btn btn-sm fw-semibold text-white px-3 py-2 next-step-cta">
                                 Listen Now
-                                <i class="fas fa-arrow-up-right-from-square ms-2"></i>
+                                <i class="bi bi-box-arrow-up-right ms-2"></i>
                             </a>
                         </div>
                     </div>

@@ -905,7 +905,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       currentBookmark: null,
       newFolder: {
         name: "",
-        icon: "fas fa-bookmark",
+        icon: "bi-bookmark",
         color: "primary"
       },
       isSaving: false,
@@ -925,21 +925,21 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       folderSearch: "",
       pendingDelete: null,
       iconPresets: [{
-        icon: "fas fa-bookmark"
+        icon: "bi-bookmark"
       }, {
-        icon: "fas fa-star"
+        icon: "bi-star"
       }, {
-        icon: "fas fa-heart"
+        icon: "bi-heart"
       }, {
-        icon: "fas fa-book"
+        icon: "bi-book"
       }, {
-        icon: "fas fa-book-open"
+        icon: "bi-book-half"
       }, {
-        icon: "fas fa-leaf"
+        icon: "bi-leaf"
       }, {
-        icon: "fas fa-mosque"
+        icon: "bi-bank"
       }, {
-        icon: "fas fa-kaaba"
+        icon: "bi-box-fill"
       }]
     };
   },
@@ -1146,7 +1146,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
     resetCreateForm() {
       this.newFolder = {
         name: "",
-        icon: "fas fa-bookmark",
+        icon: "bi-bookmark",
         color: "primary"
       };
     },
@@ -1274,14 +1274,17 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
         });
         await this.fetchCurrentBookmark();
         const successMessage = selectedIds.length ? "Ayah saved to your selected collections." : "Ayah saved. It is available in All.";
-        this.setFeedback(detachFailed ? "Bookmark saved, but some collections could not be removed." : successMessage, detachFailed ? "danger" : "success", {
-          autoClose: !detachFailed
+        this.setFeedback(detachFailed ? "Bookmark updated, but some collection removals failed." : successMessage, "success", {
+          autoClose: true
         });
         this.$emit("saved", _objectSpread(_objectSpread({}, payload), {}, {
           bookmark: this.currentBookmark
         }));
-      } catch (_) {
-        this.setFeedback("Failed to save the bookmark.", "danger");
+      } catch (error) {
+        var _error$response3;
+        const fallback = "Failed to save the bookmark.";
+        const msg = ((_error$response3 = error.response) === null || _error$response3 === void 0 || (_error$response3 = _error$response3.data) === null || _error$response3 === void 0 ? void 0 : _error$response3.message) || fallback;
+        this.setFeedback(msg, "danger");
       } finally {
         this.isSaving = false;
       }

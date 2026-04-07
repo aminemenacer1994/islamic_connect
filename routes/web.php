@@ -73,12 +73,15 @@ use App\Http\Controllers\DigitalLibraryController;
 use App\Http\Controllers\ReadController;
 use App\Http\Controllers\ResourcesController;
 use App\Http\Controllers\AiMessageReportController;
+use App\Http\Controllers\HajjController;
+
 
 // use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\Api\AyahBookmarkController;
 use App\Http\Controllers\Api\FolderController as ApiFolderController;
 use App\Http\Controllers\Api\SharedFolderController;
 use App\Http\Controllers\Api\AnalyticsController;
+
 use Illuminate\Http\Request;
 
 Route::get('/sitemap.xml', function () {
@@ -259,6 +262,8 @@ Route::get('/muslim', [MuslimController::class, 'index'])->name('muslim');
 
 Route::get('/guide', [GuideController::class, 'index'])->name('guide');
 Route::view('/ramadan-2026', 'ramadan_2026')->name('ramadan_2026');
+Route::view('/hajj','hajj')->name('hajj');
+
 Route::get('/quran', [QuranController::class, 'index']);
 Route::get('/contact', [ContactController::class, 'index']);
 // Route::get('/pricing', [PricingController::class, 'index'])->name('pricing');
@@ -349,6 +354,8 @@ Route::get('/books', [BooksController::class, 'index'])->name('books');
 Route::get('/convert', [ConvertController::class, 'index'])->name('convert');
 Route::get('/holy', [HolyController::class, 'index'])->name('holy');
 Route::get('/history', [HistoryController::class, 'index'])->name('history');
+Route::get('/hajj', [HajjController::class, 'index'])->name('hajj');
+
 Route::get('/read', [ReadController::class, 'index'])->name('read');
 Route::view('/islamic-blog', 'islamic-blog')->name('islamic_blog');
 Route::get('/media', [MediaController::class, 'index'])->name('media');

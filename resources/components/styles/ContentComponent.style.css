@@ -686,9 +686,10 @@
 /* Card Header */
 .podcast-meta {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
-  gap: 16px;
+  flex-wrap: wrap;
+  gap: 0.75rem 1rem;
 }
 
 .views-badge,
@@ -2009,11 +2010,14 @@
 .new-badge {
   background: #0db6a1;
   color: #fff;
-  font-size: 0.8rem;
-  font-weight: 700;
-  border-radius: 12px;
-  padding: 2px 8px;
-  letter-spacing: 0.5px;
+  font-size: 0.76rem;
+  font-weight: 800;
+  border-radius: 8px;
+  padding: 1px 6px;
+  margin-left: 0.4rem;
+  letter-spacing: 0.03em;
+  display: inline-block;
+  vertical-align: middle;
 }
 
 .podcast-desc {

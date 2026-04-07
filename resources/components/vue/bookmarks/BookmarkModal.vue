@@ -422,7 +422,7 @@ export default {
       currentBookmark: null,
       newFolder: {
         name: "",
-        icon: "fas fa-bookmark",
+        icon: "bi-bookmark",
         color: "primary",
       },
       isSaving: false,
@@ -442,14 +442,14 @@ export default {
       folderSearch: "",
       pendingDelete: null,
       iconPresets: [
-        { icon: "fas fa-bookmark" },
-        { icon: "fas fa-star" },
-        { icon: "fas fa-heart" },
-        { icon: "fas fa-book" },
-        { icon: "fas fa-book-open" },
-        { icon: "fas fa-leaf" },
-        { icon: "fas fa-mosque" },
-        { icon: "fas fa-kaaba" },
+        { icon: "bi-bookmark" },
+        { icon: "bi-star" },
+        { icon: "bi-heart" },
+        { icon: "bi-book" },
+        { icon: "bi-book-half" },
+        { icon: "bi-leaf" },
+        { icon: "bi-bank" },
+        { icon: "bi-box-fill" },
       ],
     };
   },
@@ -680,7 +680,7 @@ export default {
     resetCreateForm() {
       this.newFolder = {
         name: "",
-        icon: "fas fa-bookmark",
+        icon: "bi-bookmark",
         color: "primary",
       };
     },
@@ -829,15 +829,17 @@ export default {
 
         this.setFeedback(
           detachFailed
-            ? "Bookmark saved, but some collections could not be removed."
+            ? "Bookmark updated, but some collection removals failed."
             : successMessage,
-          detachFailed ? "danger" : "success",
-          { autoClose: !detachFailed }
+          "success",
+          { autoClose: true }
         );
 
         this.$emit("saved", { ...payload, bookmark: this.currentBookmark });
-      } catch (_) {
-        this.setFeedback("Failed to save the bookmark.", "danger");
+      } catch (error) {
+        const fallback = "Failed to save the bookmark.";
+        const msg = error.response?.data?.message || fallback;
+        this.setFeedback(msg, "danger");
       } finally {
         this.isSaving = false;
       }

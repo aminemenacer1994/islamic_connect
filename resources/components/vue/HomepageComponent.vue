@@ -19,7 +19,7 @@
                 </button>
               </div>
               <p class="ic-hero__badge">
-                <i class="fas fa-star" aria-hidden="true"></i>
+                <i class="bi bi-star-fill" aria-hidden="true"></i>
                 Trusted by Muslims worldwide
               </p>
               <h1 id="home-hero-title" class="ic-hero__title">
@@ -31,11 +31,11 @@
               </p>
               <div class="ic-hero__actions">
                 <a href="/surat" class="btn ic-btn ic-btn--solid">
-                  <i class="fas fa-book-open me-2" aria-hidden="true"></i>
+                  <i class="bi bi-book me-2" aria-hidden="true"></i>
                   Explore Quran
                 </a>
                 <a href="/dua" class="btn ic-btn ic-btn--outline">
-                  <i class="fas fa-hands me-2" aria-hidden="true"></i>
+                  <i class="bi bi-hands-fill me-2" aria-hidden="true"></i>
                   Read Duas
                 </a>
               </div>
@@ -112,7 +112,7 @@
       <div class="container ic-shell">
         <div class="ic-ayah-section__intro text-center">
           <p class="section-kicker">
-            <i class="fas fa-star-and-crescent me-1" aria-hidden="true"></i>
+            <i class="bi bi-moon-stars me-1" aria-hidden="true"></i>
             Ayah of the Day
           </p>
         </div>
@@ -141,7 +141,7 @@
                 <div class="ic-ayah-card__content">
                   <p class="ic-ayah-card__translation">"{{ ayah.english }}"</p>
                   <p class="ic-ayah-card__meta">
-                    <i class="fas fa-book-quran me-1" aria-hidden="true"></i>
+                    <i class="bi bi-book-half me-1" aria-hidden="true"></i>
                     <span>{{ ayah.surah }}</span>
                     <span class="ic-ayah-card__dot">·</span>
                     <span>{{ ayah.surahNumber }}:{{ ayah.numberInSurah }}</span>
@@ -185,29 +185,7 @@
         </div>
       </div>
     </section>
-    <section class="ic-section ic-section--partners" aria-labelledby="partners-heading">
-      <div class="container ic-shell">
-        <div class="section-intro text-center">
-          <p class="section-kicker">Collaborations</p>
-          <h2 id="partners-heading" class="section-title">Our Partners</h2>
-          <p class="section-lead">
-            We collaborate with trusted Islamic platforms and resources to ensure high-quality content and reliable
-            digital access.
-          </p>
-        </div>
 
-        <div class="row g-4 justify-content-center">
-          <div class="col-6 col-md-3" v-for="partner in partners" :key="partner.icon">
-            <article class="ic-partner-card h-100 text-center">
-              <div class="ic-partner-card__icon" aria-hidden="true">
-                <i :class="partner.icon"></i>
-              </div>
-              <h3 class="ic-partner-card__name">{{ partner.name }}</h3>
-            </article>
-          </div>
-        </div>
-      </div>
-    </section>
 
     <section class="ic-section" aria-labelledby="community-heading">
       <div class="container ic-shell">
@@ -220,7 +198,7 @@
               </p>
               <div class="ic-community__points">
                 <p v-for="point in communityPoints" :key="point" class="ic-community__point mb-0">
-                  <i class="fas fa-check-circle" aria-hidden="true"></i>
+                  <i class="bi bi-check-circle-fill" aria-hidden="true"></i>
                   <span>{{ point }}</span>
                 </p>
               </div>
@@ -247,7 +225,7 @@
                     </div>
                     <span class="ic-channel-card__cta">
                       {{ channel.cta }}
-                      <i class="fas fa-arrow-right" aria-hidden="true"></i>
+                      <i class="bi bi-arrow-right" aria-hidden="true"></i>
                     </span>
                   </a>
                 </div>
@@ -354,7 +332,7 @@
                       class="btn ic-btn ic-btn--solid w-100"
                       :disabled="isSubmitting || !isContactFormValid"
                     >
-                      <i class="fas fa-paper-plane me-2" aria-hidden="true"></i>
+                      <i class="bi bi-send-fill me-2" aria-hidden="true"></i>
                       {{ isSubmitting ? "Sending..." : "Send Message" }}
                     </button>
                     <small class="d-block mt-2 text-muted">Typical response time: within 24 hours.</small>
@@ -401,16 +379,16 @@
         </div>
         <div class="ic-footer__social text-center text-md-end">
           <a href="https://www.facebook.com/profile.php?id=61560313385599" aria-label="Visit our Facebook page" target="_blank" rel="noopener noreferrer">
-            <i class="fab fa-facebook-f" aria-hidden="true"></i>
+            <i class="bi bi-facebook" aria-hidden="true"></i>
           </a>
           <a href="https://x.com/islamiconnect24" aria-label="Visit our X (Twitter) profile" target="_blank" rel="noopener noreferrer">
-            <i class="fab fa-twitter" aria-hidden="true"></i>
+            <i class="bi bi-twitter-x" aria-hidden="true"></i>
           </a>
           <a href="https://www.linkedin.com/company/islamic-connect/" aria-label="Visit our LinkedIn page" target="_blank" rel="noopener noreferrer">
-            <i class="fab fa-linkedin" aria-hidden="true"></i>
+            <i class="bi bi-linkedin" aria-hidden="true"></i>
           </a>
           <a href="https://www.instagram.com/islamicconnect24/" aria-label="Visit our Instagram profile" target="_blank" rel="noopener noreferrer">
-            <i class="fab fa-instagram" aria-hidden="true"></i>
+            <i class="bi bi-instagram" aria-hidden="true"></i>
           </a>
         </div>
       </div>

@@ -159,139 +159,119 @@ const _hoisted_41 = {
 const _hoisted_42 = ["src", "alt"];
 const _hoisted_43 = ["href"];
 const _hoisted_44 = {
-  class: "ic-section ic-section--partners",
-  "aria-labelledby": "partners-heading"
+  class: "ic-section",
+  "aria-labelledby": "community-heading"
 };
 const _hoisted_45 = {
   class: "container ic-shell"
 };
 const _hoisted_46 = {
-  class: "row g-4 justify-content-center"
-};
-const _hoisted_47 = {
-  class: "ic-partner-card h-100 text-center"
-};
-const _hoisted_48 = {
-  class: "ic-partner-card__icon",
-  "aria-hidden": "true"
-};
-const _hoisted_49 = {
-  class: "ic-partner-card__name"
-};
-const _hoisted_50 = {
-  class: "ic-section",
-  "aria-labelledby": "community-heading"
-};
-const _hoisted_51 = {
-  class: "container ic-shell"
-};
-const _hoisted_52 = {
   class: "ic-community"
 };
-const _hoisted_53 = {
+const _hoisted_47 = {
   class: "row g-4 align-items-stretch"
 };
-const _hoisted_54 = {
+const _hoisted_48 = {
   class: "col-lg-7"
 };
-const _hoisted_55 = {
+const _hoisted_49 = {
   class: "ic-community__points"
 };
-const _hoisted_56 = {
+const _hoisted_50 = {
   class: "col-lg-5"
 };
-const _hoisted_57 = {
+const _hoisted_51 = {
   class: "row g-3 h-100"
 };
-const _hoisted_58 = ["href", "aria-label"];
-const _hoisted_59 = {
+const _hoisted_52 = ["href", "aria-label"];
+const _hoisted_53 = {
   class: "ic-channel-card__header"
 };
-const _hoisted_60 = {
+const _hoisted_54 = {
   class: "ic-channel-card__cta"
 };
-const _hoisted_61 = {
+const _hoisted_55 = {
   class: "ic-section ic-section--surface",
   "aria-labelledby": "contact-heading"
 };
-const _hoisted_62 = {
+const _hoisted_56 = {
   class: "container ic-shell"
 };
-const _hoisted_63 = {
+const _hoisted_57 = {
   class: "row justify-content-center"
 };
-const _hoisted_64 = {
+const _hoisted_58 = {
   class: "col-xl-9"
 };
-const _hoisted_65 = {
+const _hoisted_59 = {
   class: "contact-card"
 };
-const _hoisted_66 = {
+const _hoisted_60 = {
   class: "row g-3"
 };
-const _hoisted_67 = {
+const _hoisted_61 = {
   class: "col-md-6"
 };
-const _hoisted_68 = {
+const _hoisted_62 = {
   class: "col-md-6"
 };
-const _hoisted_69 = {
+const _hoisted_63 = {
   class: "col-md-6"
 };
-const _hoisted_70 = {
+const _hoisted_64 = {
   class: "col-md-6"
 };
-const _hoisted_71 = ["value"];
-const _hoisted_72 = {
+const _hoisted_65 = ["value"];
+const _hoisted_66 = {
   class: "col-12"
 };
-const _hoisted_73 = ["maxlength"];
-const _hoisted_74 = {
+const _hoisted_67 = ["maxlength"];
+const _hoisted_68 = {
   class: "contact-card__counter d-block mt-2 text-muted"
 };
-const _hoisted_75 = {
+const _hoisted_69 = {
   class: "col-12"
 };
-const _hoisted_76 = ["disabled"];
-const _hoisted_77 = {
+const _hoisted_70 = ["disabled"];
+const _hoisted_71 = {
   key: 0,
   class: "premium-dialog-overlay"
 };
-const _hoisted_78 = {
+const _hoisted_72 = {
   class: "premium-dialog-card",
   role: "dialog",
   "aria-modal": "true",
   "aria-live": "polite"
 };
-const _hoisted_79 = {
+const _hoisted_73 = {
   class: "premium-dialog-title"
 };
-const _hoisted_80 = {
+const _hoisted_74 = {
   class: "premium-dialog-message"
 };
-const _hoisted_81 = {
+const _hoisted_75 = {
   class: "premium-dialog-actions"
 };
-const _hoisted_82 = ["disabled"];
-const _hoisted_83 = ["disabled"];
-const _hoisted_84 = {
+const _hoisted_76 = ["disabled"];
+const _hoisted_77 = ["disabled"];
+const _hoisted_78 = {
   class: "premium-toast__copy"
 };
-const _hoisted_85 = {
+const _hoisted_79 = {
   class: "premium-toast__title mb-0"
 };
-const _hoisted_86 = {
+const _hoisted_80 = {
   class: "ic-footer",
   role: "contentinfo"
 };
-const _hoisted_87 = {
+const _hoisted_81 = {
   class: "container-fluid ic-shell ic-footer__inner"
 };
-const _hoisted_88 = {
+const _hoisted_82 = {
   class: "ic-footer__copy text-center text-md-start"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("article", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [ false ? (0) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), _cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<p class=\"ic-hero__badge\"><i class=\"fas fa-star\" aria-hidden=\"true\"></i> Trusted by Muslims worldwide </p><h1 id=\"home-hero-title\" class=\"ic-hero__title\"> Advancing Islamic Education, Harmony, and Digital Access for All </h1><p class=\"ic-hero__lead\"> We bridge the gap between tradition and technology, providing reliable resources and innovative tools to foster understanding and support your daily learning journey. </p><div class=\"ic-hero__actions\"><a href=\"/surat\" class=\"btn ic-btn ic-btn--solid\"><i class=\"fas fa-book-open me-2\" aria-hidden=\"true\"></i> Explore Quran </a><a href=\"/dua\" class=\"btn ic-btn ic-btn--outline\"><i class=\"fas fa-hands me-2\" aria-hidden=\"true\"></i> Read Duas </a></div>", 4)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_10, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.trustHighlights, item => {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("article", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [ false ? (0) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), _cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<p class=\"ic-hero__badge\"><i class=\"bi bi-star-fill\" aria-hidden=\"true\"></i> Trusted by Muslims worldwide </p><h1 id=\"home-hero-title\" class=\"ic-hero__title\"> Advancing Islamic Education, Harmony, and Digital Access for All </h1><p class=\"ic-hero__lead\"> We bridge the gap between tradition and technology, providing reliable resources and innovative tools to foster understanding and support your daily learning journey. </p><div class=\"ic-hero__actions\"><a href=\"/surat\" class=\"btn ic-btn ic-btn--solid\"><i class=\"bi bi-book me-2\" aria-hidden=\"true\"></i> Explore Quran </a><a href=\"/dua\" class=\"btn ic-btn ic-btn--outline\"><i class=\"bi bi-hands-fill me-2\" aria-hidden=\"true\"></i> Read Duas </a></div>", 4)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_10, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.trustHighlights, item => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
       key: item.label,
       class: "ic-hero__trust-item"
@@ -340,7 +320,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "section-kicker"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: "fas fa-star-and-crescent me-1",
+    class: "bi bi-moon-stars me-1",
     "aria-hidden": "true"
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Ayah of the Day ")])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Skeleton while loading "), !_ctx.ayah ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_30, [...(_cache[14] || (_cache[14] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"row align-items-center g-4\"><div class=\"col-lg-6 order-2 order-lg-1\"><div class=\"ic-ayah-skeleton__line ic-ayah-skeleton__line--md\"></div><div class=\"ic-ayah-skeleton__line ic-ayah-skeleton__line--sm mt-2\"></div><div class=\"ic-ayah-skeleton__line ic-ayah-skeleton__line--xs mt-3\"></div></div><div class=\"col-lg-6 order-1 order-lg-2 text-end\"><div class=\"ic-ayah-skeleton__line ic-ayah-skeleton__line--arabic ms-auto\"></div><div class=\"ic-ayah-skeleton__line ic-ayah-skeleton__line--arabic ms-auto mt-2\"></div></div></div>", 1)]))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Actual ayah content "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
     name: "ic-ayah-fade",
@@ -353,7 +333,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       class: "ic-ayah-card__ornament",
       "aria-hidden": "true"
     }, "﷽", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_31, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_32, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_33, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_34, "\"" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.ayah.english) + "\"", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_35, [_cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      class: "fas fa-book-quran me-1",
+      class: "bi bi-book-half me-1",
       "aria-hidden": "true"
     }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.ayah.surah), 1 /* TEXT */), _cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       class: "ic-ayah-card__dot"
@@ -381,36 +361,20 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       href: feature.href,
       class: "ic-link-card__cta"
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(feature.cta), 9 /* TEXT, PROPS */, _hoisted_43)])]);
-  }), 128 /* KEYED_FRAGMENT */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_44, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_45, [_cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    class: "section-intro text-center"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    class: "section-kicker"
-  }, "Collaborations"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
-    id: "partners-heading",
-    class: "section-title"
-  }, "Our Partners"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    class: "section-lead"
-  }, " We collaborate with trusted Islamic platforms and resources to ensure high-quality content and reliable digital access. ")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_46, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.partners, partner => {
-    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
-      class: "col-6 col-md-3",
-      key: partner.icon
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("article", _hoisted_47, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_48, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(partner.icon)
-    }, null, 2 /* CLASS */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_49, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(partner.name), 1 /* TEXT */)])]);
-  }), 128 /* KEYED_FRAGMENT */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_50, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_51, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("article", _hoisted_52, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_53, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_54, [_cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
+  }), 128 /* KEYED_FRAGMENT */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_44, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_45, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("article", _hoisted_46, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_47, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_48, [_cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
     id: "community-heading",
     class: "section-title mb-3"
-  }, "Stay Connected Every Day", -1 /* CACHED */)), _cache[23] || (_cache[23] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, "Stay Connected Every Day", -1 /* CACHED */)), _cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "section-lead mb-4"
-  }, " Join our community channels to receive reminders, reflections, and practical updates directly. ", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_55, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.communityPoints, point => {
+  }, " Join our community channels to receive reminders, reflections, and practical updates directly. ", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_49, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.communityPoints, point => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", {
       key: point,
       class: "ic-community__point mb-0"
-    }, [_cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      class: "fas fa-check-circle",
+    }, [_cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      class: "bi bi-check-circle-fill",
       "aria-hidden": "true"
     }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(point), 1 /* TEXT */)]);
-  }), 128 /* KEYED_FRAGMENT */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_56, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_57, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.communityChannels, channel => {
+  }), 128 /* KEYED_FRAGMENT */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_50, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_51, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.communityChannels, channel => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       class: "col-12",
       key: channel.name
@@ -420,30 +384,30 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       target: "_blank",
       rel: "noopener noreferrer",
       "aria-label": channel.cta
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_59, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_53, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(`ic-channel-card__icon ic-channel-card__icon--${channel.type}`),
       "aria-hidden": "true"
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(channel.icon)
-    }, null, 2 /* CLASS */)], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(channel.name), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(channel.caption), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_60, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(channel.cta) + " ", 1 /* TEXT */), _cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      class: "fas fa-arrow-right",
+    }, null, 2 /* CLASS */)], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(channel.name), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(channel.caption), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_54, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(channel.cta) + " ", 1 /* TEXT */), _cache[23] || (_cache[23] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      class: "bi bi-arrow-right",
       "aria-hidden": "true"
-    }, null, -1 /* CACHED */))])], 8 /* PROPS */, _hoisted_58)]);
-  }), 128 /* KEYED_FRAGMENT */))])])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_61, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_62, [_cache[34] || (_cache[34] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, null, -1 /* CACHED */))])], 8 /* PROPS */, _hoisted_52)]);
+  }), 128 /* KEYED_FRAGMENT */))])])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_55, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_56, [_cache[33] || (_cache[33] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "section-intro text-center"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
     id: "contact-heading",
     class: "section-title"
   }, "Contact the Team"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "section-lead"
-  }, "Share feedback, report an issue, or ask a question. We read every message.")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_63, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_64, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_65, [_cache[33] || (_cache[33] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, "Share feedback, report an issue, or ask a question. We read every message.")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_57, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_58, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_59, [_cache[32] || (_cache[32] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "contact-card__note mb-4"
   }, " We route messages by topic so the right person can follow up quickly. ", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
     onReset: _cache[6] || (_cache[6] = (...args) => _ctx.reset && _ctx.reset(...args)),
     onSubmit: _cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)((...args) => _ctx.sendMessage && _ctx.sendMessage(...args), ["prevent"])),
     role: "form",
     "aria-label": "Contact form"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_66, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_67, [_cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_60, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_61, [_cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     for: "firstname",
     class: "visually-hidden"
   }, "First Name", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
@@ -456,7 +420,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     autocomplete: "given-name",
     maxlength: "60",
     required: ""
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, _ctx.form.firstname]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_68, [_cache[26] || (_cache[26] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, _ctx.form.firstname]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_62, [_cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     for: "lastname",
     class: "visually-hidden"
   }, "Last Name", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
@@ -469,7 +433,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     autocomplete: "family-name",
     maxlength: "60",
     required: ""
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, _ctx.form.lastname]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_69, [_cache[27] || (_cache[27] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, _ctx.form.lastname]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_63, [_cache[26] || (_cache[26] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     for: "email",
     class: "visually-hidden"
   }, "Email Address", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
@@ -485,7 +449,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     spellcheck: "false",
     maxlength: "120",
     required: ""
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, _ctx.form.email]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_70, [_cache[29] || (_cache[29] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, _ctx.form.email]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_64, [_cache[28] || (_cache[28] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     for: "subject",
     class: "visually-hidden"
   }, "Subject", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
@@ -494,15 +458,15 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     name: "subject",
     class: "form-select form-select-lg",
     required: ""
-  }, [_cache[28] || (_cache[28] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+  }, [_cache[27] || (_cache[27] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     disabled: "",
     value: ""
   }, "Select subject", -1 /* CACHED */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.subjectOptions, option => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
       key: option.value,
       value: option.value
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(option.label), 9 /* TEXT, PROPS */, _hoisted_71);
-  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, _ctx.form.subject]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_72, [_cache[30] || (_cache[30] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(option.label), 9 /* TEXT, PROPS */, _hoisted_65);
+  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, _ctx.form.subject]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_66, [_cache[29] || (_cache[29] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     for: "message",
     class: "visually-hidden"
   }, "Message", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("textarea", {
@@ -514,28 +478,28 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     rows: "5",
     maxlength: _ctx.maxMessageLength,
     required: ""
-  }, null, 8 /* PROPS */, _hoisted_73), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, _ctx.form.message]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_74, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.messageCharacterCount) + "/" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.maxMessageLength) + " characters ", 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_75, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, 8 /* PROPS */, _hoisted_67), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, _ctx.form.message]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_68, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.messageCharacterCount) + "/" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.maxMessageLength) + " characters ", 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_69, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "submit",
     class: "btn ic-btn ic-btn--solid w-100",
     disabled: _ctx.isSubmitting || !_ctx.isContactFormValid
-  }, [_cache[31] || (_cache[31] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: "fas fa-paper-plane me-2",
+  }, [_cache[30] || (_cache[30] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    class: "bi bi-send-fill me-2",
     "aria-hidden": "true"
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.isSubmitting ? "Sending..." : "Send Message"), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_76), _cache[32] || (_cache[32] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", {
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.isSubmitting ? "Sending..." : "Send Message"), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_70), _cache[31] || (_cache[31] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", {
     class: "d-block mt-2 text-muted"
   }, "Typical response time: within 24 hours.", -1 /* CACHED */))])])], 32 /* NEED_HYDRATION */)])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
     name: "premium-dialog"
   }, {
-    default: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(() => [_ctx.confirmDialog.visible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_77, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_78, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_79, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.confirmDialog.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_80, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.confirmDialog.message), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_81, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    default: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(() => [_ctx.confirmDialog.visible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_71, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_72, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_73, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.confirmDialog.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_74, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.confirmDialog.message), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_75, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       class: "btn btn-outline-secondary",
       onClick: _cache[8] || (_cache[8] = (...args) => _ctx.handleCancel && _ctx.handleCancel(...args)),
       disabled: _ctx.isSubmitting
-    }, "Cancel", 8 /* PROPS */, _hoisted_82), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, "Cancel", 8 /* PROPS */, _hoisted_76), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       ref: "confirmPrimaryButton",
       class: "btn ic-btn ic-btn--solid",
       onClick: _cache[9] || (_cache[9] = (...args) => _ctx.handleConfirm && _ctx.handleConfirm(...args)),
       disabled: _ctx.isSubmitting
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.confirmDialog.confirmLabel), 9 /* TEXT, PROPS */, _hoisted_83)])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]),
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.confirmDialog.confirmLabel), 9 /* TEXT, PROPS */, _hoisted_77)])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]),
     _: 1 /* STABLE */
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
     name: "premium-toast"
@@ -545,18 +509,18 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["premium-toast", `premium-toast--${_ctx.toast.type}`]),
       role: "status",
       "aria-live": "polite"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_84, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_85, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.toast.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.toast.message), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_78, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_79, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.toast.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.toast.message), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       class: "btn-close btn-close-white",
       onClick: _cache[10] || (_cache[10] = (...args) => _ctx.dismissToast && _ctx.dismissToast(...args)),
       "aria-label": "Dismiss notification"
     })], 2 /* CLASS */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]),
     _: 1 /* STABLE */
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("footer", _hoisted_86, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_87, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_88, [_cache[35] || (_cache[35] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("footer", _hoisted_80, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_81, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_82, [_cache[34] || (_cache[34] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "me-1"
-  }, "©", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currentYear), 1 /* TEXT */), _cache[36] || (_cache[36] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+  }, "©", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currentYear), 1 /* TEXT */), _cache[35] || (_cache[35] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
     href: "https://islamiconnect.com/",
     class: "ic-footer__brand"
-  }, "islamiconnect.com", -1 /* CACHED */))]), _cache[37] || (_cache[37] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"ic-footer__social text-center text-md-end\"><a href=\"https://www.facebook.com/profile.php?id=61560313385599\" aria-label=\"Visit our Facebook page\" target=\"_blank\" rel=\"noopener noreferrer\"><i class=\"fab fa-facebook-f\" aria-hidden=\"true\"></i></a><a href=\"https://x.com/islamiconnect24\" aria-label=\"Visit our X (Twitter) profile\" target=\"_blank\" rel=\"noopener noreferrer\"><i class=\"fab fa-twitter\" aria-hidden=\"true\"></i></a><a href=\"https://www.linkedin.com/company/islamic-connect/\" aria-label=\"Visit our LinkedIn page\" target=\"_blank\" rel=\"noopener noreferrer\"><i class=\"fab fa-linkedin\" aria-hidden=\"true\"></i></a><a href=\"https://www.instagram.com/islamicconnect24/\" aria-label=\"Visit our Instagram profile\" target=\"_blank\" rel=\"noopener noreferrer\"><i class=\"fab fa-instagram\" aria-hidden=\"true\"></i></a></div>", 1))])])]);
+  }, "islamiconnect.com", -1 /* CACHED */))]), _cache[36] || (_cache[36] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"ic-footer__social text-center text-md-end\"><a href=\"https://www.facebook.com/profile.php?id=61560313385599\" aria-label=\"Visit our Facebook page\" target=\"_blank\" rel=\"noopener noreferrer\"><i class=\"bi bi-facebook\" aria-hidden=\"true\"></i></a><a href=\"https://x.com/islamiconnect24\" aria-label=\"Visit our X (Twitter) profile\" target=\"_blank\" rel=\"noopener noreferrer\"><i class=\"bi bi-twitter-x\" aria-hidden=\"true\"></i></a><a href=\"https://www.linkedin.com/company/islamic-connect/\" aria-label=\"Visit our LinkedIn page\" target=\"_blank\" rel=\"noopener noreferrer\"><i class=\"bi bi-linkedin\" aria-hidden=\"true\"></i></a><a href=\"https://www.instagram.com/islamicconnect24/\" aria-label=\"Visit our Instagram profile\" target=\"_blank\" rel=\"noopener noreferrer\"><i class=\"bi bi-instagram\" aria-hidden=\"true\"></i></a></div>", 1))])])]);
 }
 
 /***/ }),
@@ -593,13 +557,13 @@ const createToast = () => ({
   data() {
     return {
       trustHighlights: [{
-        icon: "fas fa-shield-alt",
+        icon: "bi bi-shield-lock-fill",
         label: "Secure and privacy-first"
       }, {
-        icon: "fas fa-bolt",
+        icon: "bi bi-lightning-fill",
         label: "Fast, no signup needed"
       }, {
-        icon: "fas fa-universal-access",
+        icon: "bi bi-universal-access",
         label: "Built for accessibility"
       }],
       seoStats: [{
@@ -635,17 +599,17 @@ const createToast = () => ({
       }],
       objectives: [{
         index: "01",
-        icon: "fas fa-book-open",
+        icon: "bi bi-book",
         title: "Advance Public Education",
         desc: "Provide clear, reliable resources on Islamic teachings, history, and values."
       }, {
         index: "02",
-        icon: "fas fa-users",
+        icon: "bi bi-people-fill",
         title: "Promote Harmony",
         desc: "Encourage understanding and challenge prejudice through practical education."
       }, {
         index: "03",
-        icon: "fas fa-laptop-code",
+        icon: "bi bi-laptop",
         title: "Build Digital Access",
         desc: "Maintain tools, platforms, and AI-assisted workflows that support everyday learning."
       }],
@@ -674,14 +638,14 @@ const createToast = () => ({
       communityPoints: ["Regular reminders and practical Quran learning updates", "Quick announcements for new tools and content", "Free access with simple one-tap joining"],
       communityChannels: [{
         type: "whatsapp",
-        icon: "fab fa-whatsapp",
+        icon: "bi bi-whatsapp",
         name: "WhatsApp Channel",
         caption: "Daily verses and instant reminders",
         cta: "Join WhatsApp",
         href: "https://whatsapp.com/channel/0029VbAsOvp59PwIp2zwyB1m"
       }, {
         type: "telegram",
-        icon: "fab fa-telegram",
+        icon: "bi bi-telegram",
         name: "Telegram Community",
         caption: "Long-form reflections and discussions",
         cta: "Join Telegram",
@@ -716,20 +680,7 @@ const createToast = () => ({
       isSubmitting: false,
       maxMessageLength: 1200,
       ayah: null,
-      ayahInterval: null,
-      partners: [{
-        name: "AnaAtlou",
-        icon: "fas fa-leaf"
-      }, {
-        name: "iPray",
-        icon: "fas fa-scroll"
-      }, {
-        name: "Algerian Quran",
-        icon: "fas fa-clock"
-      }, {
-        name: "Quranly",
-        icon: "fas fa-university"
-      }]
+      ayahInterval: null
     };
   },
   computed: {
@@ -772,7 +723,7 @@ const createToast = () => ({
     this.fetchRandomAyah();
     this.ayahInterval = setInterval(() => {
       this.fetchRandomAyah();
-    }, 30000);
+    }, 86400000);
     if (typeof window !== "undefined") {
       window.addEventListener("keydown", this.handleGlobalKeydown);
     }

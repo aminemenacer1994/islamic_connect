@@ -8,7 +8,7 @@
         <div class="hero-glass">
           <div class="hero-content">
             <div class="islamic-ornament">
-              <i class="fas fa-star-and-crescent"></i>
+              <i class="bi bi-moon-stars-fill"></i>
             </div>
             <h2 class="hero-title">{{ data.introduction.title }}</h2>
             <p class="hero-description">{{ data.introduction.content }}</p>
@@ -39,7 +39,7 @@
             <div class="card-glow"></div>
             <div class="card-header">
               <div class="status-indicator positive">
-                <i class="fas fa-check"></i>
+                <i class="bi bi-check-lg"></i>
               </div>
               <h3 class="card-title">Do's</h3>
             </div>
@@ -50,7 +50,7 @@
                 class="checklist-item"
               >
                 <div class="check-icon">
-                  <i class="fas fa-check-circle"></i>
+                  <i class="bi bi-check-circle-fill"></i>
                 </div>
                 <div class="check-content">
                   <strong>{{ item.title }}</strong>
@@ -65,7 +65,7 @@
             <div class="card-glow"></div>
             <div class="card-header">
               <div class="status-indicator negative">
-                <i class="fas fa-times"></i>
+                <i class="bi bi-x-lg"></i>
               </div>
               <h3 class="card-title">Don'ts</h3>
             </div>
@@ -76,7 +76,7 @@
                 class="checklist-item"
               >
                 <div class="check-icon">
-                  <i class="fas fa-times-circle"></i>
+                  <i class="bi bi-x-circle-fill"></i>
                 </div>
                 <div class="check-content">
                   <strong>{{ item.title }}</strong>
@@ -157,7 +157,7 @@
                   {{ data.steps.steps[currentStep].arabic }}
                 </div>
                 <div class="translation">
-                  <i class="fas fa-language"></i>
+                  <i class="bi bi-translate"></i>
                   {{ data.steps.steps[currentStep].translation }}
                 </div>
               </div>
@@ -169,7 +169,7 @@
                 @click="previousStep"
                 :disabled="currentStep === 0"
               >
-                <i class="fas fa-arrow-left"></i>
+                <i class="bi bi-arrow-left"></i>
                 Previous
               </button>
               <button 
@@ -178,7 +178,7 @@
                 :disabled="currentStep === data.steps.steps.length - 1"
               >
                 Next
-                <i class="fas fa-arrow-right"></i>
+                <i class="bi bi-arrow-right"></i>
               </button>
             </div>
           </div>
@@ -239,7 +239,7 @@
               <p>{{ resource.description }}</p>
               <button class="btn-resource">
                 {{ resource.buttonText }}
-                <i class="fas fa-arrow-right"></i>
+                <i class="bi bi-arrow-right"></i>
               </button>
             </div>
             <div class="resource-glow"></div>
@@ -254,7 +254,7 @@
         <div class="footer-content">
           <div class="footer-brand">
             <div class="brand-icon">
-              <i class="fas fa-mosque"></i>
+              <i class="bi bi-bank"></i>
             </div>
             <div>
               <p class="copyright">{{ data.footer.copyright }}</p>

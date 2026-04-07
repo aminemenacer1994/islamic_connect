@@ -19,11 +19,11 @@ __webpack_require__.r(__webpack_exports__);
         title: "Mobile Apps",
         description: "Portable tools for daily worship routines, Quran reading, and remembrance.",
         audience: "Best for everyday mobile learning",
-        icon: "fas fa-mobile-alt",
+        icon: "bi bi-phone-fill",
         items: [{
           title: "Quran by Quran.com",
           kind: "Quran app",
-          icon: "fas fa-book-open",
+          icon: "bi bi-book-half",
           iconBg: "linear-gradient(135deg, #0ea5a4, #0f766e)",
           description: "Open-source Quran app with strong translation quality, tafsir integration, and recitation controls.",
           features: ["Word by word lookup", "Multiple tafsir layers", "Bookmark and note support"],
@@ -40,7 +40,7 @@ __webpack_require__.r(__webpack_exports__);
         }, {
           title: "Muslim Pro",
           kind: "Daily companion",
-          icon: "fas fa-compass",
+          icon: "bi bi-compass-fill",
           iconBg: "linear-gradient(135deg, #2563eb, #1d4ed8)",
           description: "All in one app for salah timing, qibla, duas, and Quran access.",
           features: ["Location based prayer times", "Qibla and mosque finder", "Hijri calendar support"],
@@ -57,7 +57,7 @@ __webpack_require__.r(__webpack_exports__);
         }, {
           title: "Athan by IslamicFinder",
           kind: "Prayer time app",
-          icon: "fas fa-bell",
+          icon: "bi bi-bell-fill",
           iconBg: "linear-gradient(135deg, #0f766e, #115e59)",
           description: "Prayer schedule app focused on athan alerts, qibla direction, and nearby mosque discovery.",
           features: ["Athan reminders", "Qibla pointer", "Nearby masjid search"],
@@ -74,7 +74,7 @@ __webpack_require__.r(__webpack_exports__);
         }, {
           title: "Hisnul Muslim",
           kind: "Dua reference app",
-          icon: "fas fa-hands-helping",
+          icon: "bi bi-hands",
           iconBg: "linear-gradient(135deg, #d97706, #b45309)",
           description: "Digital reference of authentic duas from Quran and sahih narrations with simple offline access.",
           features: ["Quick category browsing", "Works offline", "Source references included"],
@@ -91,7 +91,7 @@ __webpack_require__.r(__webpack_exports__);
         }, {
           title: "Hadith Collection (Greentech)",
           kind: "Hadith app",
-          icon: "fas fa-book-reader",
+          icon: "bi bi-book-fill",
           iconBg: "linear-gradient(135deg, #334155, #1e293b)",
           description: "Searchable hadith app with major collections and grading visibility.",
           features: ["Bukhari and Muslim included", "Grade display", "Arabic and English browsing"],
@@ -110,11 +110,11 @@ __webpack_require__.r(__webpack_exports__);
         title: "Websites",
         description: "Trusted web platforms for studying Quran, hadith, fiqh, and guided learning pathways.",
         audience: "Best for deeper study on desktop and tablet",
-        icon: "fas fa-globe",
+        icon: "bi bi-globe",
         items: [{
           title: "Quran.com",
           kind: "Quran website",
-          icon: "fas fa-quran",
+          icon: "bi bi-book-half",
           iconBg: "linear-gradient(135deg, #0ea5a4, #14b8a6)",
           description: "Highly trusted Quran portal with recitation, tafsir, and translation comparison.",
           features: ["Reliable translation set", "Tafsir views", "Recitation controls"],
@@ -131,7 +131,7 @@ __webpack_require__.r(__webpack_exports__);
         }, {
           title: "Sunnah.com",
           kind: "Hadith website",
-          icon: "fas fa-scroll",
+          icon: "bi bi-scroll-fill",
           iconBg: "linear-gradient(135deg, #1d4ed8, #1e40af)",
           description: "Hadith portal for major collections with clear chapter organization and grading.",
           features: ["Major books indexed", "Narration numbering", "Search by topic and collection"],
@@ -148,7 +148,7 @@ __webpack_require__.r(__webpack_exports__);
         }, {
           title: "SeekersGuidance",
           kind: "Learning platform",
-          icon: "fas fa-graduation-cap",
+          icon: "bi bi-mortarboard-fill",
           iconBg: "linear-gradient(135deg, #0f766e, #0d9488)",
           description: "Structured Islamic courses and scholar-reviewed answers across key subjects.",
           features: ["Free curriculum paths", "Qualified instructors", "Fiqh and aqidah tracks"],
@@ -165,7 +165,7 @@ __webpack_require__.r(__webpack_exports__);
         }, {
           title: "IslamQA.info",
           kind: "Fatwa archive",
-          icon: "fas fa-question-circle",
+          icon: "bi bi-question-circle-fill",
           iconBg: "linear-gradient(135deg, #475569, #334155)",
           description: "Large fatwa and topic archive with evidence references and clear legal framing.",
           features: ["Topic based filtering", "Reference-driven answers", "Multi-language support"],
@@ -182,7 +182,7 @@ __webpack_require__.r(__webpack_exports__);
         }, {
           title: "IslamicFinder",
           kind: "Prayer and utility site",
-          icon: "fas fa-mosque",
+          icon: "bi bi-bank",
           iconBg: "linear-gradient(135deg, #16a34a, #15803d)",
           description: "Long-running Islamic utility site with prayer tools and location-based services.",
           features: ["Prayer time engine", "Qibla finder", "Islamic calendar tools"],
@@ -201,11 +201,11 @@ __webpack_require__.r(__webpack_exports__);
         title: "Books",
         description: "Foundational hadith books and practical references used in teaching and personal study.",
         audience: "Best for text-focused learners and study circles",
-        icon: "fas fa-book",
+        icon: "bi bi-book",
         items: [{
           title: "Sahih al-Bukhari",
           kind: "Hadith collection",
-          icon: "fas fa-book-open",
+          icon: "bi bi-book-half",
           iconBg: "linear-gradient(135deg, #b45309, #92400e)",
           description: "Primary sahih hadith collection with wide scholarly acceptance and usage.",
           features: ["Compiled by Imam al-Bukhari", "Extensive chapter structure", "Foundational source"],
@@ -222,7 +222,7 @@ __webpack_require__.r(__webpack_exports__);
         }, {
           title: "Sahih Muslim",
           kind: "Hadith collection",
-          icon: "fas fa-book-reader",
+          icon: "bi bi-book-fill",
           iconBg: "linear-gradient(135deg, #c2410c, #9a3412)",
           description: "Canonical sahih collection often studied alongside Sahih al-Bukhari.",
           features: ["Compiled by Imam Muslim", "Strong narration quality", "Used in core hadith study"],
@@ -239,7 +239,7 @@ __webpack_require__.r(__webpack_exports__);
         }, {
           title: "Riyad as-Salihin",
           kind: "Practical hadith guide",
-          icon: "fas fa-heart",
+          icon: "bi bi-heart-fill",
           iconBg: "linear-gradient(135deg, #0ea5a4, #0f766e)",
           description: "Daily-practice hadith collection covering adab, worship, and character building.",
           features: ["Compiled by Imam al-Nawawi", "Theme-based chapters", "Suitable for daily reading"],
@@ -256,7 +256,7 @@ __webpack_require__.r(__webpack_exports__);
         }, {
           title: "Al-Muwatta",
           kind: "Hadith and fiqh text",
-          icon: "fas fa-balance-scale",
+          icon: "bi bi-scales",
           iconBg: "linear-gradient(135deg, #334155, #1f2937)",
           description: "Early hadith and fiqh work reflecting Madinan legal practice and narration.",
           features: ["Compiled by Imam Malik", "Early juristic framework", "Referenced in legal studies"],
@@ -273,7 +273,7 @@ __webpack_require__.r(__webpack_exports__);
         }, {
           title: "40 Hadith Nawawi",
           kind: "Concise hadith primer",
-          icon: "fas fa-list-ol",
+          icon: "bi bi-list-ol",
           iconBg: "linear-gradient(135deg, #2563eb, #1e3a8a)",
           description: "Compact set of core narrations widely used for creed, ethics, and memorization.",
           features: ["Forty key narrations", "Strong educational value", "Common in beginner curricula"],
@@ -292,11 +292,11 @@ __webpack_require__.r(__webpack_exports__);
         title: "Scriptures and Tafsir",
         description: "Primary Quran text and core tafsir references for verse-by-verse understanding.",
         audience: "Best for tafsir-backed Quran study",
-        icon: "fas fa-scroll",
+        icon: "bi bi-scroll-fill",
         items: [{
           title: "The Quran (Al-Quran al-Kareem)",
           kind: "Primary scripture",
-          icon: "fas fa-quran",
+          icon: "bi bi-book-half",
           iconBg: "linear-gradient(135deg, #0f766e, #0d9488)",
           description: "The final revelation and central source for belief, worship, and guidance.",
           features: ["Canonical Arabic text", "Recitation support", "Parallel translation options"],
@@ -313,7 +313,7 @@ __webpack_require__.r(__webpack_exports__);
         }, {
           title: "Tafsir Ibn Kathir",
           kind: "Classical tafsir",
-          icon: "fas fa-feather-alt",
+          icon: "bi bi-feather",
           iconBg: "linear-gradient(135deg, #14532d, #166534)",
           description: "Well-known Sunni tafsir linking verses to hadith and narrations from early scholars.",
           features: ["Narration-based method", "Broad scholarly usage", "Strong source linkage"],
@@ -330,7 +330,7 @@ __webpack_require__.r(__webpack_exports__);
         }, {
           title: "Tafsir As-Sa'di",
           kind: "Concise tafsir",
-          icon: "fas fa-lightbulb",
+          icon: "bi bi-lightbulb-fill",
           iconBg: "linear-gradient(135deg, #0891b2, #0e7490)",
           description: "Readable tafsir focused on practical guidance, spiritual reflection, and clarity.",
           features: ["Short explanatory style", "Easy reading flow", "Practical message focus"],
@@ -347,7 +347,7 @@ __webpack_require__.r(__webpack_exports__);
         }, {
           title: "Tafsir Al-Jalalayn",
           kind: "Classical concise tafsir",
-          icon: "fas fa-pen-nib",
+          icon: "bi bi-pen-fill",
           iconBg: "linear-gradient(135deg, #4338ca, #3730a3)",
           description: "Compact classical tafsir emphasizing linguistic explanation and concise verse meaning.",
           features: ["Classical author lineage", "Concise style", "Useful language notes"],
@@ -364,7 +364,7 @@ __webpack_require__.r(__webpack_exports__);
         }, {
           title: "Mushaf Madinah (King Fahd Complex)",
           kind: "Standard mushaf edition",
-          icon: "fas fa-certificate",
+          icon: "bi bi-patch-check-fill",
           iconBg: "linear-gradient(135deg, #334155, #0f172a)",
           description: "Widely distributed Uthmani script mushaf with standardized typography and layout.",
           features: ["Uthmani script style", "Reliable publishing body", "Print and digital resources"],
@@ -403,27 +403,27 @@ __webpack_require__.r(__webpack_exports__);
       return [{
         label: "Type",
         value: metadata.type,
-        icon: "fas fa-tag"
+        icon: "bi bi-tag-fill"
       }, {
         label: "Access",
         value: metadata.access,
-        icon: "fas fa-laptop"
+        icon: "bi bi-laptop"
       }, {
         label: "Language",
         value: metadata.language,
-        icon: "fas fa-language"
+        icon: "bi bi-translate"
       }, {
         label: "Level",
         value: metadata.level,
-        icon: "fas fa-graduation-cap"
+        icon: "bi bi-mortarboard-fill"
       }, {
         label: "Cost",
         value: metadata.cost,
-        icon: "fas fa-wallet"
+        icon: "bi bi-wallet2"
       }, {
         label: "Reviewed",
         value: metadata.reviewed,
-        icon: "fas fa-clock"
+        icon: "bi bi-clock-fill"
       }].filter(entry => Boolean(entry.value));
     }
   }
@@ -589,15 +589,15 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, "Islamic Apps and Learning Resources", -1 /* CACHED */)), _cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "lead subhead"
   }, " Curated resources for Quran study, hadith learning, and daily worship. Every entry includes quick metadata so users can compare format, language, learning level, and access at a glance. ", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_7, [_cache[4] || (_cache[4] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: "fas fa-layer-group",
+    class: "bi bi-stack",
     "aria-hidden": "true"
   }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.cards.length) + " categories ", 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_8, [_cache[5] || (_cache[5] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: "fas fa-check-circle",
+    class: "bi bi-check-circle-fill",
     "aria-hidden": "true"
   }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.totalResources) + " curated resources ", 1 /* TEXT */)]), _cache[6] || (_cache[6] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "summary-chip"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: "fas fa-calendar-check",
+    class: "bi bi-calendar-check-fill",
     "aria-hidden": "true"
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Last content review: February 2026 ")], -1 /* CACHED */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.cards, card => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
@@ -623,7 +623,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       }, null, 2 /* CLASS */)], 4 /* STYLE */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_20, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.kind), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", _hoisted_21, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.title), 1 /* TEXT */)]), _cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
         class: "resource-item__status"
       }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-        class: "fas fa-check-circle",
+        class: "bi bi-check-circle-fill",
         "aria-hidden": "true"
       }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Curated ")], -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_22, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.description), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.metadataEntries(item), entry => {
         return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", {
@@ -644,14 +644,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         target: "_blank",
         rel: "noopener"
       }, [...(_cache[11] || (_cache[11] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-        class: "fas fa-external-link-alt",
+        class: "bi bi-box-arrow-up-right",
         "aria-hidden": "true"
       }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Visit ", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_27), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
         type: "button",
         class: "btn btn-sm btn-resource btn-resource--solid",
         onClick: $event => $options.openModal(item, card.title)
       }, [...(_cache[12] || (_cache[12] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-        class: "fas fa-info-circle",
+        class: "bi bi-info-circle-fill",
         "aria-hidden": "true"
       }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Details ", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_28)])]);
     }), 128 /* KEYED_FRAGMENT */))])])]);
@@ -699,7 +699,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     target: "_blank",
     rel: "noopener"
   }, [...(_cache[15] || (_cache[15] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: "fas fa-external-link-alt",
+    class: "bi bi-box-arrow-up-right",
     "aria-hidden": "true"
   }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Open resource ", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_44)])], 8 /* PROPS */, _hoisted_29)], 32 /* NEED_HYDRATION */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
 }

@@ -742,7 +742,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[0] || (_cache[0] = (...args) => $options.toggleNextStepMinimized && $options.toggleNextStepMinimized(...args)),
     class: "next-step-toggle"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["fas", $data.nextStepMinimized ? 'fa-expand-alt' : 'fa-compress-alt']),
+    class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", $data.nextStepMinimized ? 'bi-fullscreen' : 'bi-fullscreen-exit']),
     "aria-hidden": "true"
   }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_4), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [_cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "flex-shrink-0 mt-1"
@@ -751,7 +751,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     role: "img",
     "aria-label": "Gentle prayer time guide"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: "fas fa-clock",
+    class: "bi bi-clock",
     "aria-hidden": "true"
   })])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [_cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "mb-2 fw-semibold text-uppercase next-step-eyebrow"
@@ -760,7 +760,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "fw-semibold text-decoration-none d-inline-flex align-items-center gap-1 next-step-link",
     "aria-label": "Open the Prayer Times companion"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Check Prayer Times "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: "fas fa-arrow-up-right-from-square next-step-link-icon",
+    class: "bi bi-box-arrow-up-right next-step-link-icon",
     "aria-hidden": "true"
   })], -1 /* CACHED */)]))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $data.nextStepMinimized]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_8, [...(_cache[10] || (_cache[10] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Found your Qibla and need the schedule next? Our Prayer Times guide can flow from alignment to Salah with confidence. ", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
     href: "/prayer",
@@ -769,7 +769,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     href: "/prayer",
     class: "btn btn-sm fw-semibold text-white px-3 py-2 d-inline-flex align-items-center next-step-cta"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Open Prayer Times"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: "fas fa-praying-hands ms-2",
+    class: "bi bi-hands ms-2",
     "aria-hidden": "true"
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "visually-hidden"

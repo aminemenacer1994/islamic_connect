@@ -13,12 +13,12 @@
         <button type="button" :title="nextStepMinimized ? 'Restore' : 'Minimize'"
           :aria-label="nextStepMinimized ? 'Restore next step' : 'Minimize next step'" @click="toggleNextStepMinimized"
           class="next-step-toggle">
-          <i class="fas" :class="nextStepMinimized ? 'fa-expand-alt' : 'fa-compress-alt'" aria-hidden="true"></i>
+          <i class="bi" :class="nextStepMinimized ? 'bi-fullscreen' : 'bi-fullscreen-exit'" aria-hidden="true"></i>
         </button>
         <div class="d-flex align-items-start gap-3 text-start">
           <div class="flex-shrink-0 mt-1">
             <div class="next-step-icon-circle" role="img" aria-label="Gentle prayer time guide">
-              <i class="fas fa-clock" aria-hidden="true"></i>
+              <i class="bi bi-clock" aria-hidden="true"></i>
             </div>
           </div>
           <div class="flex-grow-1">
@@ -30,7 +30,7 @@
               <a href="/prayer" class="fw-semibold text-decoration-none d-inline-flex align-items-center gap-1 next-step-link"
                 aria-label="Open the Prayer Times companion">
                 Check Prayer Times
-                <i class="fas fa-arrow-up-right-from-square next-step-link-icon" aria-hidden="true"></i>
+                <i class="bi bi-box-arrow-up-right next-step-link-icon" aria-hidden="true"></i>
               </a>
             </div>
             <p v-show="!nextStepMinimized" class="mb-3 next-step-text">
@@ -44,7 +44,7 @@
             <div v-show="!nextStepMinimized" class="d-flex flex-wrap gap-2">
               <a href="/prayer" class="btn btn-sm fw-semibold text-white px-3 py-2 d-inline-flex align-items-center next-step-cta">
                 <span>Open Prayer Times</span>
-                <i class="fas fa-praying-hands ms-2" aria-hidden="true"></i>
+                <i class="bi bi-hands ms-2" aria-hidden="true"></i>
                 <span class="visually-hidden">Open the accessible Prayer Times experience</span>
               </a>
             </div>

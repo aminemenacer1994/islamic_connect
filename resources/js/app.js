@@ -277,6 +277,7 @@ const asyncComponentLoaders = {
   "shared-folder-view": () => import("./components/bookmarks/SharedFolderView.vue"),
   "resources-component": () => import("./components/ResourcesComponent.vue"),
   "ramadan-2026-component": () => import("./components/Ramadan2026Component.vue"),
+  "hajj-component": () => import("../components/vue/HajjComponent.vue"),
   "ai-component": () => import("./components/AiComponent.vue"),
 };
 

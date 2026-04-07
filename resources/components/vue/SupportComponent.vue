@@ -113,7 +113,7 @@
               </div>
               <p class="text-danger small mb-3" v-if="insightError">{{ insightError }}</p>
               <div class="history-note mb-3" v-if="historyMessage">
-                <i class="fas fa-heart"></i>
+                <i class="bi bi-heart-fill"></i>
                 <span>{{ historyMessage }}</span>
               </div>
 
@@ -155,15 +155,15 @@
               <!-- Trust Indicators -->
               <div class="trust-indicators mb-4">
                 <div class="trust-item">
-                  <i class="fas fa-lock"></i>
+                  <i class="bi bi-lock-fill"></i>
                   <span>Secure Payment</span>
                 </div>
                 <div class="trust-item">
-                  <i class="fas fa-shield-alt"></i>
+                  <i class="bi bi-shield-lock-fill"></i>
                   <span>SSL Encrypted</span>
                 </div>
                 <div class="trust-item">
-                  <i class="fas fa-certificate"></i>
+                  <i class="bi bi-patch-check-fill"></i>
                   <span>Stripe Verified</span>
                 </div>
               </div>
@@ -183,24 +183,24 @@
                 </div>
               </div>
               <p class="thank-you-message" v-if="thankYouMessage">
-                <i class="fas fa-star me-2"></i>
+                <i class="bi bi-star-fill me-2"></i>
                 {{ thankYouMessage }}
               </p>
 
               <!-- Submit Button -->
               <button class="btn btn-primary w-100" @click="processDonation" :disabled="!isValidAmount">
-                <i class="fas fa-lock me-2"></i>
+                <i class="bi bi-lock-fill me-2"></i>
                 Proceed to Secure Payment
               </button>
 
               <div class="email-note text-center text-muted mt-3">
-                <i class="fas fa-envelope-open-text me-1"></i>
+                <i class="bi bi-envelope-open-fill me-1"></i>
                 We'll send a confirmation email once Stripe processes your gift.
               </div>
 
               <div class="security-guarantee text-center mt-3">
                 <p class="small text-muted">
-                  <i class="fas fa-shield-alt me-1"></i>
+                  <i class="bi bi-shield-lock-fill me-1"></i>
                   Your contribution is securely processed by Stripe. We never store your payment details.
                 </p>
               </div>
