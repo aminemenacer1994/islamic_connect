@@ -1,1964 +1,1176 @@
 <template>
-  <div class="hajj-guide-premium">
-    <!-- Premium Progress Bar -->
-    <div class="progress-bar">
-      <div class="progress-fill" :style="{ width: scrollProgress + '%' }"></div>
-    </div>
-
-    <!-- Elegant Sticky Header -->
-    <header class="premium-header" :class="{ 'scrolled': isScrolled }">
-      <div class="header-content">
-        <div class="brand">
-          <span class="brand-icon">🕋</span>
-          <span class="brand-name">The Sacred Journey</span>
-        </div>
-        
-        <nav class="premium-nav">
-          <button 
-            v-for="tab in content.navigation.tabs" 
-            :key="tab.id"
-            class="nav-tab" 
-            :class="{ active: activeSection === tab.id }"
-            @click="scrollToSection(tab.id)"
-          >
-            <i :class="tab.icon"></i>
-            <span>{{ tab.label }}</span>
-          </button>
-        </nav>
-      </div>
-    </header>
-
-    <!-- Hero Section -->
-    <section class="hero-premium" id="hero">
-      <div class="hero-overlay"></div>
-      <div class="hero-pattern"></div>
-      <div class="hero-content">
-        <div class="hero-bismillah">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
-        <h1 class="hero-title">
-          Hajj <span class="hero-accent">&</span> <em>Umrah</em>
-        </h1>
-        <p class="hero-subtitle">
-          A meticulously crafted, scholar-verified guide to the two most sacred journeys in Islam — 
-          designed with reverence, precision, and love.
-        </p>
-        <div class="hero-actions">
-          <button class="btn-primary" @click="scrollToSection('umrah')">
-            Begin Umrah Guide
-            <span class="btn-arrow">→</span>
-          </button>
-          <button class="btn-secondary" @click="scrollToSection('hajj')">
-            Explore Hajj
-          </button>
-        </div>
-        <div class="hero-meta">
-          <span class="meta-item">📚 Scholarly Verified</span>
-          <span class="meta-item">🌙 Updated 1446 AH</span>
-          <span class="meta-item">🔒 Privacy First</span>
-        </div>
-      </div>
-      <div class="hero-scroll-indicator">
-        <div class="scroll-mouse"></div>
-        <span>Discover</span>
-      </div>
-    </section>
-
-    <!-- Search Bar -->
-    <section class="search-premium">
-      <div class="search-container">
-        <div class="search-input-wrapper">
-          <i class="search-icon fas fa-search"></i>
-          <input 
-            type="text" 
-            v-model="searchQuery" 
-            @focus="showSearchDropdown = true"
-            @blur="hideSearchDropdown"
-            placeholder="Search rituals, rulings, days, or questions..."
-            class="search-input"
-          >
-          <button class="search-btn" @click="performSearch">Search</button>
-        </div>
-        
-        <transition name="slide-fade">
-          <div class="search-results" v-if="showSearchDropdown && filteredSearchResults.length">
-            <div 
-              v-for="(result, idx) in filteredSearchResults" 
-              :key="idx"
-              class="search-result-item"
-              @click="navigateToResult(result)"
-            >
-              <span class="result-category">{{ result.category }}</span>
-              <span class="result-title">{{ result.title }}</span>
-            </div>
-          </div>
-        </transition>
-      </div>
-    </section>
-
-    <!-- Basics Section -->
-    <section class="section-premium" id="basics">
-      <div class="section-header">
-        <span class="section-eyebrow">Chapter I</span>
-        <h2 class="section-title">Understanding the Sacred Pilgrimages</h2>
-        <p class="section-description">
-          Foundational knowledge for your spiritual journey — clarity before action.
-        </p>
-      </div>
-
-      <div class="cards-grid">
-        <div 
-          v-for="(card, idx) in content.basics.cards" 
-          :key="idx"
-          class="premium-card"
-        >
-          <div class="card-icon">
-            <i :class="card.icon"></i>
-          </div>
-          <h3 class="card-title">{{ card.title }}</h3>
-          <p class="card-description">{{ card.description }}</p>
-          <div class="card-note">
-            <span class="note-label">{{ card.noteTitle }}:</span>
-            <span class="note-text">{{ card.note }}</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Hajj Types -->
-      <div class="hajj-types-container">
-        <div class="hajj-types-card">
-          <div class="types-header">
-            <h3>{{ content.basics.hajjTypes.title }}</h3>
-            <span class="types-badge">Recommended</span>
-          </div>
-          <p class="types-description">{{ content.basics.hajjTypes.description }}</p>
-          <div class="types-progress">
-            <div class="progress-bar-mini">
-              <div class="progress-fill-mini" :style="{ width: content.basics.hajjTypes.progress }"></div>
-            </div>
-            <span class="progress-label">{{ content.basics.hajjTypes.progress }} of pilgrims choose this method</span>
-          </div>
-          <p class="types-note">{{ content.basics.hajjTypes.note }}</p>
-        </div>
-      </div>
-
-      <!-- Kaaba Image -->
-      <div class="image-showcase">
-        <div class="image-wrapper">
-          <img :src="content.basics.image.url" :alt="content.basics.image.alt" class="showcase-image">
-          <div class="image-caption">{{ content.basics.image.caption }}</div>
-        </div>
-      </div>
-
-      <!-- Talbiyah Audio -->
-      <div class="audio-player">
-        <div class="player-header">
-          <i class="fas fa-headphones-alt"></i>
-          <span>{{ content.basics.audio.title }}</span>
-        </div>
-        <p class="player-description">{{ content.basics.audio.description }}</p>
-        <audio :src="content.basics.audio.src" controls class="audio-control"></audio>
-      </div>
-    </section>
-
-    <!-- Umrah Steps Section -->
-    <section class="section-premium alt-bg" id="umrah">
-      <div class="section-header">
-        <span class="section-eyebrow">Chapter II</span>
-        <h2 class="section-title">Umrah — A Step-by-Step Journey</h2>
-        <p class="section-description">
-          Four sacred acts that transform the heart — performed with intention and grace.
-        </p>
-      </div>
-
-      <div class="steps-timeline">
-        <div 
-          v-for="(step, idx) in content.umrah.steps" 
-          :key="idx"
-          class="timeline-item"
-        >
-          <div class="timeline-marker">
-            <span class="marker-number">{{ String(idx + 1).padStart(2, '0') }}</span>
-            <div class="marker-line" v-if="idx < content.umrah.steps.length - 1"></div>
-          </div>
-          <div class="timeline-content">
-            <h3 class="step-title">{{ step.title }}</h3>
-            <p class="step-description">{{ step.description }}</p>
-            <div class="step-tip">
-              <i class="fas fa-lightbulb"></i>
-              <span>{{ step.tip }}</span>
-            </div>
-            <a :href="step.video" target="_blank" class="step-video-link">
-              <i class="fas fa-play-circle"></i>
-              Watch Tutorial
+  <div class="pg">
+    <div class="main-container">
+      
+      <!-- SIMPLIFIED HERO SECTION -->
+      <header class="hero">
+        <div class="hero-content">
+          <div class="bismillah">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
+          <h1 class="hero-title">Your Complete Guide to Hajj & Umrah</h1>
+          <p class="hero-subtitle">Step-by-step guidance for the sacred pilgrimage, verified by Islamic scholars and updated for 1447 AH.</p>
+          
+          <div class="hero-actions">
+            <button class="btn-primary" @click="scrollToSection('basics')">Begin Your Journey</button>
+            <a :href="pdfs.completeGuide" download class="btn-secondary">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+              Download Full Guide
             </a>
           </div>
         </div>
-      </div>
+      </header>
 
-      <!-- Umrah Conclusion -->
-      <div class="conclusion-card">
-        <h4>{{ content.umrah.conclusion.title }}</h4>
-        <p>{{ content.umrah.conclusion.text }}</p>
-      </div>
-    </section>
+      <!-- Chapter I: Basics - TEXT LEFT, IMAGE RIGHT -->
+      <div class="sec fade-in-section" id="basics">
+        <div class="content-grid">
+          <div class="text-content">
+            <span class="eyebrow">Chapter I</span>
+            <h2 class="sec-title">Understanding Hajj & Umrah</h2>
+            <p class="lead-text">The pilgrimage to Makkah is one of the most profound acts of worship in Islam, representing the unity of Muslims worldwide and the submission to Allah's command.</p>
+            
+            <div class="content-block">
+              <h3>What is Hajj?</h3>
+              <p>Hajj is the fifth pillar of Islam and an obligatory act of worship for every Muslim who is physically and financially able to perform it at least once in their lifetime. It takes place during the Islamic month of Dhul Hijjah and commemorates the trials of Prophet Ibrahim (AS), his wife Hajar, and their son Ismail (AS).</p>
+              <p>The pilgrimage involves a series of rituals performed over 5-6 days, including wearing the Ihram (sacred state), standing at Arafat, stoning the pillars representing Satan, and circumambulating the Kaaba.</p>
+            </div>
 
-    <!-- Hajj Days Section -->
-    <section class="section-premium" id="hajj">
-      <div class="section-header">
-        <span class="section-eyebrow">Chapter III</span>
-        <h2 class="section-title">Hajj — The Journey of a Lifetime</h2>
-        <p class="section-description">
-          Day by day through the blessed ten days — from Mina to Muzdalifah to Arafah.
-        </p>
-      </div>
+            <div class="content-block">
+              <h3>What is Umrah?</h3>
+              <p>Umrah, often called the "minor pilgrimage," can be performed at any time of the year and is highly recommended (Sunnah Mu'akkadah). While shorter and less complex than Hajj, it carries immense spiritual reward and serves as a means of seeking forgiveness and drawing closer to Allah.</p>
+              <p>Umrah consists of four main acts: entering Ihram, performing Tawaf (circumambulation of the Kaaba), Sa'i (walking between Safa and Marwa), and cutting or shaving the hair.</p>
+            </div>
 
-      <div class="hajj-days-grid">
-        <div 
-          v-for="(day, idx) in content.hajj.days" 
-          :key="idx"
-          class="day-card"
-        >
-          <div class="day-header">
-            <span class="day-date">{{ day.date }}</span>
-            <h3 class="day-title">{{ day.title }}</h3>
+            <div class="key-differences">
+              <h4>Key Differences</h4>
+              <ul>
+                <li><strong>Timing:</strong> Hajj is specific to Dhul Hijjah (8th-13th), while Umrah can be performed year-round</li>
+                <li><strong>Duration:</strong> Hajj takes 5-6 days; Umrah can be completed in a few hours</li>
+                <li><strong>Obligation:</strong> Hajj is obligatory once in a lifetime; Umrah is voluntary but highly rewarded</li>
+                <li><strong>Rituals:</strong> Hajj includes additional rites like standing at Arafat and stoning at Mina</li>
+              </ul>
+            </div>
           </div>
-          <p class="day-description">{{ day.description }}</p>
-          <div class="day-reminder" v-if="day.reminder">
-            <i class="fas fa-bell"></i>
-            <span>{{ day.reminder }}</span>
-          </div>
-          <div class="day-image" v-if="day.image">
-            <img :src="day.image" :alt="day.title" class="day-img">
-          </div>
-        </div>
-      </div>
-
-      <!-- Farewell Tawaf -->
-      <div class="farewell-card">
-        <div class="farewell-icon">🕋</div>
-        <h4>{{ content.hajj.farewell.title }}</h4>
-        <p>{{ content.hajj.farewell.description }}</p>
-        <cite>Sahih Muslim 1327</cite>
-      </div>
-    </section>
-
-    <!-- Do's & Don'ts Section -->
-    <section class="section-premium alt-bg" id="dosdonts">
-      <div class="section-header">
-        <span class="section-eyebrow">Chapter IV</span>
-        <h2 class="section-title">Rules & Etiquette in Ihram</h2>
-        <p class="section-description">
-          What honors the sacred state — and what to avoid while in devotion.
-        </p>
-      </div>
-
-      <div class="rules-grid">
-        <!-- Do's -->
-        <div class="rules-card positive">
-          <div class="rules-header">
-            <i class="fas fa-check-circle"></i>
-            <span>{{ content.dosAndDonts.dos.title }}</span>
-          </div>
-          <ul class="rules-list">
-            <li v-for="(item, idx) in content.dosAndDonts.dos.items" :key="idx">
-              <i class="fas fa-check"></i>
-              <span>{{ item }}</span>
-            </li>
-          </ul>
-        </div>
-
-        <!-- Don'ts -->
-        <div class="rules-card negative">
-          <div class="rules-header">
-            <i class="fas fa-times-circle"></i>
-            <span>{{ content.dosAndDonts.donts.title }}</span>
-          </div>
-          <ul class="rules-list">
-            <li v-for="(item, idx) in content.dosAndDonts.donts.items" :key="idx">
-              <i class="fas fa-times"></i>
-              <span>{{ item }}</span>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <!-- Resources & FAQ Section -->
-    <section class="section-premium" id="resources">
-      <div class="section-header">
-        <span class="section-eyebrow">Chapter V</span>
-        <h2 class="section-title">Resources & Guidance</h2>
-        <p class="section-description">
-          Trusted tools, scholarly references, and answers to your questions.
-        </p>
-      </div>
-
-      <div class="resources-grid">
-        <!-- Apps -->
-        <div class="resource-card">
-          <h4>{{ content.resources.apps.title }}</h4>
-          <div class="app-list">
-            <div 
-              v-for="(app, idx) in content.resources.apps.items" 
-              :key="idx"
-              class="app-item"
+          
+          <div class="image-content">
+            <img 
+              src="https://images.pexels.com/photos/2347321/pexels-photo-2347321.jpeg?auto=compress&cs=tinysrgb&w=800" 
+              alt="The Holy Kaaba in Masjid al-Haram"
+              loading="lazy"
             >
-              <div class="app-icon">📱</div>
-              <div class="app-info">
-                <span class="app-name">{{ app.name }}</span>
-                <span class="app-desc">{{ app.description }}</span>
+            <div class="image-caption">The Holy Kaaba - The focal point of Islamic worship</div>
+          </div>
+        </div>
+
+        <div class="section-download">
+          <a :href="pdfs.basicsGuide" download class="download-btn">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+            <span>Download Chapter 1: Basics (PDF)</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Chapter II: Umrah Steps - TEXT LEFT, IMAGE RIGHT -->
+      <div class="sec alt fade-in-section" id="umrah">
+        <div class="content-grid">
+          <div class="text-content">
+            <span class="eyebrow">Chapter II</span>
+            <h2 class="sec-title">Performing Umrah: A Complete Guide</h2>
+            <p class="lead-text">Umrah is a beautiful act of worship that purifies the soul and brings one closer to Allah. Follow these steps carefully to ensure your Umrah is performed correctly.</p>
+
+            <div class="step-card">
+              <div class="step-number">01</div>
+              <div class="step-content">
+                <h3>Ihram - The Sacred State</h3>
+                <p>Before crossing the Miqat (boundary), purify yourself with ghusl (ritual bath), trim your nails, and remove scented products. Men wear two white unstitched cloths; women wear modest clothing covering the body except face and hands.</p>
+                <p class="important-note"><strong>Important:</strong> Make your Niyyah (intention) for Umrah and recite the Talbiyah: "Labbayk Allahumma Umrah" (Here I am, O Allah, for Umrah).</p>
+              </div>
+            </div>
+
+            <div class="step-card">
+              <div class="step-number">02</div>
+              <div class="step-content">
+                <h3>Tawaf - Circumambulation</h3>
+                <p>Upon entering Masjid al-Haram, proceed to the Kaaba and perform Tawaf - seven counter-clockwise circuits starting and ending at the Black Stone (Hajar al-Aswad). If possible, kiss or touch the Black Stone; otherwise, point to it and say "Bismillah, Allahu Akbar."</p>
+                <p>During the first three circuits, men should perform Ramal (brisk walking with short steps). Recite Quran, make dhikr, or supplicate as you circle the House of Allah.</p>
+              </div>
+            </div>
+
+            <div class="step-card">
+              <div class="step-number">03</div>
+              <div class="step-content">
+                <h3>Sa'i - Walking Between Safa and Marwa</h3>
+                <p>After Tawaf, pray two rak'at behind Maqam Ibrahim if possible. Then proceed to Safa and walk seven times between Safa and Marwa, commemorating Hajar's search for water for her son Ismail.</p>
+                <p>Men should walk briskly between the green markers. Recite: "Indeed, Safa and Marwa are among the symbols of Allah" (Quran 2:158) when starting at each hill.</p>
+              </div>
+            </div>
+
+            <div class="step-card">
+              <div class="step-number">04</div>
+              <div class="step-content">
+                <h3>Tahallul - Exiting Ihram</h3>
+                <p>Complete your Umrah by cutting or shaving your hair. Men are recommended to shave their heads completely (Halq), though trimming at least an inch is permissible (Taqsir). Women should trim about a fingertip's length.</p>
+                <p>Once completed, you exit the state of Ihram and all restrictions are lifted. Your Umrah is now complete - may Allah accept it!</p>
               </div>
             </div>
           </div>
-        </div>
-
-        <!-- PDFs -->
-        <div class="resource-card">
-          <h4>{{ content.resources.pdfs.title }}</h4>
-          <div class="pdf-list">
-            <a 
-              v-for="(pdf, idx) in content.resources.pdfs.items" 
-              :key="idx"
-              :href="pdf.link"
-              target="_blank"
-              class="pdf-item"
+          
+          <div class="image-content">
+            <img 
+              src="https://images.pexels.com/photos/1579426/pexels-photo-1579426.jpeg?auto=compress&cs=tinysrgb&w=800" 
+              alt="Pilgrims performing Tawaf around the Kaaba"
+              loading="lazy"
             >
-              <i class="fas fa-file-pdf"></i>
-              <span>{{ pdf.name }}</span>
-              <i class="fas fa-external-link-alt"></i>
-            </a>
+            <div class="image-caption">Pilgrims performing Tawaf around the Kaaba</div>
           </div>
         </div>
+
+        <div class="section-download">
+          <a :href="pdfs.umrahGuide" download class="download-btn">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+            <span>Download Umrah Step-by-Step Guide (PDF)</span>
+          </a>
+        </div>
       </div>
 
-      <!-- FAQ Accordion -->
-      <div class="faq-container">
-        <h4>{{ content.faq.title }}</h4>
-        <div 
-          v-for="(faq, idx) in content.faq.items" 
-          :key="idx"
-          class="faq-item"
-          :class="{ open: openFaqIndex === idx }"
-        >
-          <button class="faq-question" @click="toggleFaq(idx)">
-            <span>{{ faq.question }}</span>
-            <i class="fas fa-chevron-down"></i>
-          </button>
-          <div class="faq-answer">
-            <p>{{ faq.answer }}</p>
+      <!-- Chapter III: Hajj Days - TEXT LEFT, IMAGE RIGHT -->
+      <div class="sec fade-in-section" id="hajj">
+        <div class="content-grid">
+          <div class="text-content">
+            <span class="eyebrow">Chapter III</span>
+            <h2 class="sec-title">The Days of Hajj</h2>
+            <p class="lead-text">Hajj is performed over specific days in Dhul Hijjah. Each day carries unique rituals and spiritual significance.</p>
+
+            <div class="day-card-detailed">
+              <div class="day-header">
+                <span class="day-number">Day 1</span>
+                <span class="day-date">8th Dhul Hijjah - Day of Tarwiyah</span>
+              </div>
+              <div class="day-body">
+                <p><strong>Morning:</strong> Enter Ihram from your location (Makkah if performing Tamattu). Make intention for Hajj and recite Talbiyah.</p>
+                <p><strong>Afternoon:</strong> Travel to Mina (8km from Makkah). Spend the day and night in prayer, Quran recitation, and preparation for Arafat.</p>
+                <p><strong>Prayers:</strong> Pray Dhuhr, Asr, Maghrib, Isha, and Fajr in Mina. Shorten the four-rak'at prayers to two rak'at each (Qasr) but do not combine them.</p>
+              </div>
+            </div>
+
+            <div class="day-card-detailed">
+              <div class="day-header">
+                <span class="day-number">Day 2</span>
+                <span class="day-date">9th Dhul Hijjah - Day of Arafah</span>
+              </div>
+              <div class="day-body">
+                <p><strong>After Fajr:</strong> Remain in Mina until sunrise, then proceed to Arafat.</p>
+                <p><strong>At Arafat:</strong> This is the most important day of Hajj. From after Dhuhr until sunset, stand in sincere supplication and remembrance of Allah. The Prophet (ﷺ) said: "Hajj is Arafah."</p>
+                <p><strong>Dua:</strong> Raise your hands and make heartfelt dua. The best supplication is on the Day of Arafah. Recite: "La ilaha illallah wahdahu la sharika lah..."</p>
+                <p><strong>After Sunset:</strong> Depart calmly to Muzdalifah. Do not pray Maghrib yet.</p>
+              </div>
+            </div>
+
+            <div class="day-card-detailed">
+              <div class="day-header">
+                <span class="day-number">Night</span>
+                <span class="day-date">9th-10th Dhul Hijjah - Night at Muzdalifah</span>
+              </div>
+              <div class="day-body">
+                <p><strong>At Muzdalifah:</strong> Pray Maghrib and Isha combined (Maghrib 3 rak'at, Isha 2 rak'at with one salam). Rest under the open sky.</p>
+                <p><strong>Collect Pebbles:</strong> Gather 49-70 small pebbles (about the size of a chickpea) for stoning the Jamarat. It's recommended to collect them at Muzdalifah.</p>
+                <p><strong>Fajr:</strong> Pray Fajr early and remain in supplication until it's very light (Isfar), then depart for Mina before sunrise.</p>
+              </div>
+            </div>
+
+            <div class="day-card-detailed">
+              <div class="day-header">
+                <span class="day-number">Day 3</span>
+                <span class="day-date">10th Dhul Hijjah - Eid al-Adha</span>
+              </div>
+              <div class="day-body">
+                <p><strong>At Mina:</strong> Stone Jamarat al-Aqabah (the largest pillar) with seven pebbles, saying "Allahu Akbar" with each throw.</p>
+                <p><strong>Sacrifice:</strong> Perform or arrange the sacrifice (Qurbani/Hadi). This is obligatory for those performing Hajj Tamattu or Qiran.</p>
+                <p><strong>Shave/Trim:</strong> Shave or trim your hair (this is the first Tahallul - partial release from Ihram).</p>
+                <p><strong>Tawaf al-Ifadah:</strong> Go to Makkah and perform Tawaf al-Ifadah (also called Tawaf al-Ziyarah) - seven circuits around the Kaaba. This is a pillar of Hajj.</p>
+                <p><strong>Sa'i:</strong> If you haven't done Sa'i for Hajj yet, perform it now (seven walks between Safa and Marwa).</p>
+                <p><strong>Return to Mina:</strong> Go back to Mina to spend the night.</p>
+              </div>
+            </div>
+
+            <div class="day-card-detailed">
+              <div class="day-header">
+                <span class="day-number">Days 4-5</span>
+                <span class="day-date">11th-13th Dhul Hijjah - Days of Tashreeq</span>
+              </div>
+              <div class="day-body">
+                <p><strong>Stoning:</strong> Each day after Dhuhr, stone all three Jamarat (small, medium, large) with seven pebbles each, starting with the smallest.</p>
+                <p><strong>Supplication:</strong> After stoning the small and medium pillars, face the Qibla and make dua. Do not make dua after the largest pillar.</p>
+                <p><strong>Departure:</strong> You may leave Mina on the 12th before sunset (Nafar Awwal) or stay until the 13th (Nafar Thani - more virtuous).</p>
+              </div>
+            </div>
+
+            <div class="day-card-detailed">
+              <div class="day-header">
+                <span class="day-number">Final</span>
+                <span class="day-date">Tawaf al-Wada - Farewell Tawaf</span>
+              </div>
+              <div class="day-body">
+                <p>Before leaving Makkah, perform Tawaf al-Wada (Farewell Tawaf) - seven circuits around the Kaaba. This is obligatory for those living outside the Miqat boundaries.</p>
+                <p>After this, depart with the hope of returning and the promise of a Hajj Mabroor (accepted pilgrimage).</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="image-content">
+            <img 
+              src="https://images.pexels.com/photos/2347338/pexels-photo-2347338.jpeg?auto=compress&cs=tinysrgb&w=800" 
+              alt="Pilgrims at Mount Arafat"
+              loading="lazy"
+            >
+            <div class="image-caption">The plains of Arafat on the Day of Arafah</div>
           </div>
         </div>
-      </div>
-    </section>
 
-    <!-- Closing Dua -->
-    <section class="closing-dua">
-      <div class="dua-content">
-        <div class="dua-arabic">رَبَّنَا تَقَبَّلْ مِنَّا ۖ إِنَّكَ أَنتَ السَّمِيعُ الْعَلِيمُ</div>
-        <p class="dua-english">"Our Lord, accept [this] from us. Indeed, You are the Hearing, the Knowing."</p>
-        <span class="dua-reference">Surah Al-Baqarah 2:127</span>
-        <p class="closing-message">{{ content.closingMessage }}</p>
+        <div class="section-download">
+          <a :href="pdfs.hajjGuide" download class="download-btn">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+            <span>Download Complete Hajj Guide (PDF)</span>
+          </a>
+        </div>
       </div>
-    </section>
 
-    <!-- Footer -->
-    <footer class="premium-footer">
-      <div class="footer-content">
-        <div class="footer-brand">
-          <span class="footer-icon">🕋</span>
-          <span>The Sacred Journey</span>
+      <!-- Chapter IV: Ihram Rules - TEXT LEFT, IMAGE RIGHT -->
+      <div class="sec alt fade-in-section" id="ihram">
+        <div class="content-grid">
+          <div class="text-content">
+            <span class="eyebrow">Chapter IV</span>
+            <h2 class="sec-title">Ihram: Rules & Etiquette</h2>
+            <p class="lead-text">When you enter the state of Ihram, certain acts become prohibited to maintain the sanctity of this sacred state.</p>
+
+            <div class="rules-section">
+              <h3>Prohibited Acts in Ihram</h3>
+              <div class="rule-category">
+                <h4>For Both Men and Women:</h4>
+                <ul>
+                  <li>Cutting hair or nails (any part of the body)</li>
+                  <li>Using perfume or scented products (soap, shampoo, deodorant with fragrance)</li>
+                  <li>Hunting land animals or assisting in hunting</li>
+                  <li>Cutting or uprooting plants within the Haram boundaries</li>
+                  <li>Sexual relations, marriage contracts, or proposing marriage</li>
+                  <li>Wearing gloves (covering hands)</li>
+                  <li>Arguing, fighting, or using foul language</li>
+                </ul>
+              </div>
+
+              <div class="rule-category">
+                <h4>Specifically for Men:</h4>
+                <ul>
+                  <li>Wearing stitched clothing (shirts, pants, underwear, turbans)</li>
+                  <li>Covering the head with anything that touches it (caps, scarves, hoods)</li>
+                  <li>Wearing shoes that cover the ankles</li>
+                </ul>
+              </div>
+
+              <div class="rule-category">
+                <h4>Specifically for Women:</h4>
+                <ul>
+                  <li>Covering the face with niqab or burqa (may use umbrella or lower gaze)</li>
+                  <li>Wearing gloves</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="permitted-section">
+              <h3>Permitted Acts in Ihram</h3>
+              <ul class="permitted-list">
+                <li>Showering or bathing with unscented soap</li>
+                <li>Changing your Ihram garments</li>
+                <li>Wearing a belt, money pouch, or watch</li>
+                <li>Using an umbrella or seeking shade</li>
+                <li>Wearing glasses or sunglasses</li>
+                <li>Applying unscented medical ointments</li>
+                <li>Killing harmful creatures (scorpions, snakes, rats, crows)</li>
+                <li>Eating, drinking, and sleeping normally</li>
+              </ul>
+            </div>
+
+            <div class="fidya-section">
+              <h3>Fidyah (Expiation) for Violations</h3>
+              <p>If you unintentionally violate any prohibition, you must offer Fidyah:</p>
+              <ul>
+                <li><strong>Minor violations:</strong> Feeding six poor people, or fasting three days, or sacrificing a sheep</li>
+                <li><strong>Shaving hair due to illness:</strong> Fasting three days, feeding six poor people, or sacrificing a sheep</li>
+                <li><strong>Sexual relations before first Tahallul:</strong> This invalidates Hajj and requires a major sacrifice (camel or cow), completing the Hajj, and repeating it the following year</li>
+              </ul>
+            </div>
+          </div>
+          
+          <div class="image-content">
+            <img 
+              src="https://images.pexels.com/photos/356056/pexels-photo-356056.jpeg?auto=compress&cs=tinysrgb&w=800" 
+              alt="White Ihram clothing for Hajj"
+              loading="lazy"
+            >
+            <div class="image-caption">The simple white Ihram garments symbolizing equality before Allah</div>
+          </div>
         </div>
-        
-        <div class="footer-disclaimer">
-          <p><strong>Disclaimer:</strong> {{ content.disclaimer.text }}</p>
-        </div>
-        
-        <div class="footer-attribution">
-          <p>{{ content.attribution }}</p>
-        </div>
-        
-        <div class="footer-copy">
-          <span>© 1446 AH / 2025 CE — Islamic Connect</span>
-          <span>Made with reverence in Nottingham, England 🇬🇧</span>
+
+        <div class="section-download">
+          <a :href="pdfs.ihramRules" download class="download-btn">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+            <span>Download Ihram Rules Reference (PDF)</span>
+          </a>
         </div>
       </div>
-    </footer>
+
+      <!-- Chapter V: Duas & Supplications - TEXT LEFT, IMAGE RIGHT -->
+      <div class="sec fade-in-section" id="duas">
+        <div class="content-grid">
+          <div class="text-content">
+            <span class="eyebrow">Chapter V</span>
+            <h2 class="sec-title">Essential Duas for Hajj & Umrah</h2>
+            <p class="lead-text">Supplication is the essence of worship. Here are the most important duas to recite during your pilgrimage.</p>
+
+            <div class="dua-card">
+              <div class="dua-header">
+                <span class="dua-label">Talbiyah</span>
+                <span class="dua-when">Recited continuously in Ihram</span>
+              </div>
+              <div class="dua-arabic">لَبَّيْكَ اللَّهُمَّ لَبَّيْكَ، لَبَّيْكَ لَا شَرِيكَ لَكَ لَبَّيْكَ، إِنَّ الْحَمْدَ وَالنِّعْمَةَ لَكَ وَالْمُلْكَ، لَا شَرِيكَ لَكَ</div>
+              <div class="dua-transliteration">Labbayk Allahumma labbayk. Labbayka la sharika laka labbayk. Innal-hamda wan-ni'mata laka wal-mulk, la sharika lak.</div>
+              <div class="dua-translation">"Here I am, O Allah, here I am. Here I am, You have no partner, here I am. Verily all praise and blessings are Yours, and all sovereignty, You have no partner."</div>
+            </div>
+
+            <div class="dua-card">
+              <div class="dua-header">
+                <span class="dua-label">Starting Tawaf</span>
+                <span class="dua-when">At the Black Stone</span>
+              </div>
+              <div class="dua-arabic">بِسْمِ اللَّهِ وَاللَّهُ أَكْبَرُ</div>
+              <div class="dua-transliteration">Bismillah, Allahu Akbar</div>
+              <div class="dua-translation">"In the name of Allah, and Allah is the Greatest"</div>
+            </div>
+
+            <div class="dua-card">
+              <div class="dua-header">
+                <span class="dua-label">Between Rukn Yamani and Black Stone</span>
+                <span class="dua-when">During Tawaf</span>
+              </div>
+              <div class="dua-arabic">رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ</div>
+              <div class="dua-transliteration">Rabbana atina fid-dunya hasanatan wa fil-akhirati hasanatan wa qina 'adhaban-nar</div>
+              <div class="dua-translation">"Our Lord, give us in this world good and in the Hereafter good, and protect us from the punishment of the Fire" (Quran 2:201)</div>
+            </div>
+
+            <div class="dua-card">
+              <div class="dua-header">
+                <span class="dua-label">At Safa and Marwa</span>
+                <span class="dua-when">Starting Sa'i</span>
+              </div>
+              <div class="dua-arabic">إِنَّ الصَّفَا وَالْمَرْوَةَ مِن شَعَائِرِ اللَّهِ ۖ فَمَنْ حَجَّ الْبَيْتَ أَوِ اعْتَمَرَ فَلَا جُنَاحَ عَلَيْهِ أَن يَطَّوَّفَ بِهِمَا</div>
+              <div class="dua-transliteration">Innas-Safa wal-Marwata min sha'a'irillah. Faman hajjal-Bayta awi'tamara fala junaha 'alayhi an yattawwafa bihima</div>
+              <div class="dua-translation">"Indeed, Safa and Marwa are among the symbols of Allah. So whoever makes Hajj to the House or performs Umrah - there is no blame upon him for walking between them" (Quran 2:158)</div>
+            </div>
+
+            <div class="dua-card">
+              <div class="dua-header">
+                <span class="dua-label">Day of Arafah</span>
+                <span class="dua-when">Best supplication</span>
+              </div>
+              <div class="dua-arabic">لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ، وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ</div>
+              <div class="dua-transliteration">La ilaha illallahu wahdahu la sharika lah, lahul-mulku wa lahul-hamdu, wa huwa 'ala kulli shay'in qadir</div>
+              <div class="dua-translation">"There is no god but Allah alone, He has no partner, to Him belongs the dominion and to Him belongs all praise, and He is over all things omnipotent"</div>
+            </div>
+
+            <div class="dua-card">
+              <div class="dua-header">
+                <span class="dua-label">At Stoning Jamarat</span>
+                <span class="dua-when">With each pebble</span>
+              </div>
+              <div class="dua-arabic">اللَّهُ أَكْبَرُ</div>
+              <div class="dua-transliteration">Allahu Akbar</div>
+              <div class="dua-translation">"Allah is the Greatest"</div>
+            </div>
+          </div>
+          
+          <div class="image-content">
+            <img 
+              src="https://images.pexels.com/photos/1264210/pexels-photo-1264210.jpeg?auto=compress&cs=tinysrgb&w=800" 
+              alt="Quran and prayer beads"
+              loading="lazy"
+            >
+            <div class="image-caption">The Quran - Your guide and companion during Hajj</div>
+          </div>
+        </div>
+
+        <div class="section-download">
+          <a :href="pdfs.duasCollection" download class="download-btn">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+            <span>Download Complete Duas Booklet (PDF)</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Chapter VI: Practical Tips - TEXT LEFT, IMAGE RIGHT -->
+      <div class="sec alt fade-in-section" id="tips">
+        <div class="content-grid">
+          <div class="text-content">
+            <span class="eyebrow">Chapter VI</span>
+            <h2 class="sec-title">Practical Tips for a Smooth Pilgrimage</h2>
+            <p class="lead-text">Prepare yourself physically, mentally, and spiritually for the journey ahead.</p>
+
+            <div class="tip-category">
+              <h3>Before You Travel</h3>
+              <ul>
+                <li><strong>Health Check:</strong> Visit your doctor for a check-up and required vaccinations (Meningitis ACWY is mandatory)</li>
+                <li><strong>Physical Fitness:</strong> Start walking 5-10km daily to build stamina for the long walks</li>
+                <li><strong>Learn the Rites:</strong> Study the rituals thoroughly before departure</li>
+                <li><strong>Travel Insurance:</strong> Ensure you have comprehensive coverage</li>
+                <li><strong>Documents:</strong> Keep copies of passport, visa, tickets, and hotel bookings</li>
+                <li><strong>Money:</strong> Carry Saudi Riyals in small denominations</li>
+              </ul>
+            </div>
+
+            <div class="tip-category">
+              <h3>Packing Essentials</h3>
+              <ul>
+                <li><strong>Ihram:</strong> Two white unstitched cloths (men), modest clothing (women)</li>
+                <li><strong>Footwear:</strong> Comfortable sandals that expose the ankle bone</li>
+                <li><strong>Hygiene:</strong> Unscented soap, shampoo, toothpaste, and miswak</li>
+                <li><strong>Medications:</strong> Personal prescriptions, pain relievers, band-aids, blister pads</li>
+                <li><strong>Comfort:</strong> Umbrella (highly recommended for shade), water bottle, small backpack</li>
+                <li><strong>Electronics:</strong> Phone charger, power bank, universal adapter</li>
+                <li><strong>Important:</strong> Small Quran, dua book, prayer rug (optional)</li>
+              </ul>
+            </div>
+
+            <div class="tip-category">
+              <h3>During Hajj/Umrah</h3>
+              <ul>
+                <li><strong>Hydration:</strong> Drink Zamzam water and stay hydrated, especially in heat</li>
+                <li><strong>Pace Yourself:</strong> Don't rush; the rituals can be performed calmly</li>
+                <li><strong>Group Safety:</strong> Stay with your group and have a meeting point</li>
+                <li><strong>Patience:</strong> Expect crowds and delays; maintain good character</li>
+                <li><strong>Focus:</strong> Remember your intention - this is worship, not tourism</li>
+                <li><strong>Rest:</strong> Sleep when possible; the schedule is demanding</li>
+                <li><strong>Food:</strong> Eat light, nutritious meals; avoid heavy foods</li>
+              </ul>
+            </div>
+
+            <div class="tip-category">
+              <h3>Important Reminders</h3>
+              <ul>
+                <li><strong>Women's Health:</strong> If menstruation begins, continue all rites except Tawaf and Sa'i</li>
+                <li><strong>Lost Items:</strong> Report immediately to authorities; keep valuables secure</li>
+                <li><strong>Emergency:</strong> Save emergency numbers: 997 (Hajj hotline), 999 (police), 997 (ambulance)</li>
+                <li><strong>Respect:</strong> Be mindful of other pilgrims; help the elderly and weak</li>
+                <li><strong>Photography:</strong> Avoid taking photos of others without permission, especially during prayer</li>
+              </ul>
+            </div>
+          </div>
+          
+          <div class="image-content">
+            <img 
+              src="https://images.pexels.com/photos/325185/pexels-photo-325185.jpeg?auto=compress&cs=tinysrgb&w=800" 
+              alt="Travel preparation and packing"
+              loading="lazy"
+            >
+            <div class="image-caption">Proper preparation ensures a focused and peaceful pilgrimage</div>
+          </div>
+        </div>
+
+        <div class="section-download">
+          <a :href="pdfs.packingChecklist" download class="download-btn">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+            <span>Download Packing Checklist (PDF)</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Closing -->
+      <div class="closing">
+        <div class="closing-arabic">رَبَّنَا تَقَبَّلْ مِنَّا ۖ إِنَّكَ أَنتَ السَّمِيعُ الْعَلِيمُ</div>
+        <p class="closing-en">"Our Lord, accept [this] from us. Indeed, You are the Hearing, the Knowing."</p>
+        <span class="closing-ref">Surah Al-Baqarah 2:127</span>
+        <p class="closing-msg">May Allah accept your pilgrimage, forgive your sins, and grant you a Hajj Mabroor (accepted pilgrimage). Ameen.</p>
+        
+        <div class="final-downloads">
+          <a :href="pdfs.completeGuide" download class="download-all">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+            <span>Download Complete Hajj & Umrah Guide (Full PDF)</span>
+          </a>
+        </div>
+      </div>
+
+    </div>
   </div>
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onUnmounted } from 'vue';
-import content from '../../data/hajj-umrah-content.json';
+import { ref, onMounted } from 'vue';
 
-// --- State ---
-const scrollProgress = ref(0);
-const isScrolled = ref(false);
-const activeSection = ref('basics');
-const searchQuery = ref('');
-const showSearchDropdown = ref(false);
-const openFaqIndex = ref(null);
-
-// --- Search Data Index ---
-const searchIndex = computed(() => {
-  const items = [];
-  
-  // Basics
-  content.basics.cards.forEach(card => {
-    items.push({
-      category: 'Basics',
-      title: card.title,
-      section: 'basics'
-    });
-  });
-  
-  // Umrah Steps
-  content.umrah.steps.forEach((step, idx) => {
-    items.push({
-      category: 'Umrah',
-      title: `Step ${idx + 1}: ${step.title}`,
-      section: 'umrah'
-    });
-  });
-  
-  // Hajj Days
-  content.hajj.days.forEach(day => {
-    items.push({
-      category: 'Hajj',
-      title: day.title,
-      section: 'hajj'
-    });
-  });
-  
-  // Do's & Don'ts
-  content.dosAndDonts.dos.items.forEach(item => {
-    items.push({
-      category: 'Rules',
-      title: `Do: ${item.substring(0, 60)}...`,
-      section: 'dosdonts'
-    });
-  });
-  
-  // FAQ
-  content.faq.items.forEach(faq => {
-    items.push({
-      category: 'FAQ',
-      title: faq.question,
-      section: 'resources'
-    });
-  });
-  
-  return items;
-});
-
-const filteredSearchResults = computed(() => {
-  const query = searchQuery.value.toLowerCase().trim();
-  if (!query) return [];
-  
-  return searchIndex.value.filter(item => 
-    item.title.toLowerCase().includes(query) || 
-    item.category.toLowerCase().includes(query)
-  ).slice(0, 8);
-});
-
-// --- Methods ---
-const handleScroll = () => {
-  const doc = document.documentElement;
-  const total = doc.scrollHeight - doc.clientHeight;
-  scrollProgress.value = (doc.scrollTop / total) * 100;
-  isScrolled.value = doc.scrollTop > 100;
-  
-  // Update active section
-  const sections = ['basics', 'umrah', 'hajj', 'dosdonts', 'resources'];
-  for (const section of sections) {
-    const el = document.getElementById(section);
-    if (el) {
-      const rect = el.getBoundingClientRect();
-      if (rect.top <= 150 && rect.bottom >= 150) {
-        activeSection.value = section;
-        break;
-      }
-    }
-  }
+// PDF Links - Replace with your actual PDF URLs
+const pdfs = {
+  completeGuide: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
+  basicsGuide: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
+  umrahGuide: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
+  hajjGuide: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
+  ihramRules: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
+  duasCollection: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
+  packingChecklist: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf'
 };
 
 const scrollToSection = (id) => {
-  const el = document.getElementById(id);
-  if (el) {
-    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    activeSection.value = id;
+  const element = document.getElementById(id);
+  if (element) {
+    element.scrollIntoView({ behavior: 'smooth' });
   }
 };
 
-const performSearch = () => {
-  if (filteredSearchResults.value.length > 0) {
-    showSearchDropdown.value = true;
-  }
-};
-
-const navigateToResult = (result) => {
-  scrollToSection(result.section);
-  searchQuery.value = '';
-  showSearchDropdown.value = false;
-};
-
-const hideSearchDropdown = () => {
-  setTimeout(() => {
-    showSearchDropdown.value = false;
-  }, 200);
-};
-
-const toggleFaq = (index) => {
-  openFaqIndex.value = openFaqIndex.value === index ? null : index;
-};
-
-// --- Lifecycle ---
+// Animation on scroll
 onMounted(() => {
-  window.addEventListener('scroll', handleScroll);
-  handleScroll(); // Initial check
-});
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1 });
 
-onUnmounted(() => {
-  window.removeEventListener('scroll', handleScroll);
+  document.querySelectorAll('.fade-in-section').forEach(el => observer.observe(el));
 });
 </script>
 
 <style scoped>
-/* ═══════════════════════════════════════════════════════
-   PREMIUM COLOR PALETTE & VARIABLES
-   ═══════════════════════════════════════════════════════ */
-.hajj-guide-premium {
-  /* Deep, luxurious base */
-  --bg-primary: #0f0d0a;
-  --bg-secondary: #1a1712;
-  --bg-tertiary: #25211a;
-  --bg-card: #1e1a14;
-  --bg-card-hover: #2a251d;
+/* === VARIABLES === */
+.pg {
+  --green: #0f5132;
+  --green-light: #e8f5ef;
+  --green-mid: #2d8f63;
+  --green-dark: #0a3022;
+  --gold: #c5a059;
+  --cream: #f8f6f2;
+  --cream-dark: #f0ede6;
+  --text: #1c2b24;
+  --text-muted: #5a7a68;
+  --text-hint: #8aaa96;
+  --shadow-sm: 0 2px 8px rgba(15, 81, 50, 0.08);
+  --shadow-md: 0 4px 16px rgba(15, 81, 50, 0.12);
+  --shadow-lg: 0 8px 32px rgba(15, 81, 50, 0.18);
   
-  /* Rich gold accents */
-  --gold-primary: #c9a961;
-  --gold-light: #e8d4a8;
-  --gold-glow: rgba(201, 169, 97, 0.15);
-  --gold-border: rgba(201, 169, 97, 0.3);
-  
-  /* Elegant greens */
-  --green-primary: #1b4d3e;
-  --green-light: #2d7a64;
-  --green-glow: rgba(45, 122, 100, 0.1);
-  
-  /* Sophisticated neutrals */
-  --text-primary: #f8f5f0;
-  --text-secondary: #d4c9b8;
-  --text-muted: #8a7f6e;
-  --text-inverse: #0f0d0a;
-  
-  /* Premium borders & shadows */
-  --border-subtle: rgba(212, 201, 184, 0.1);
-  --border-accent: rgba(201, 169, 97, 0.4);
-  --shadow-soft: 0 4px 24px rgba(0, 0, 0, 0.3);
-  --shadow-elevated: 0 8px 40px rgba(0, 0, 0, 0.4);
-  --shadow-glow: 0 0 40px rgba(201, 169, 97, 0.1);
-  
-  /* Typography */
-  --font-serif: 'Cormorant Garamond', 'Georgia', serif;
-  --font-sans: 'Inter', 'DM Sans', system-ui, sans-serif;
-  --font-arabic: 'Noto Nastaliq Urdu', serif;
-  
-  /* Transitions */
-  --transition-smooth: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  --transition-spring: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
-  
-  /* Spacing */
-  --radius-sm: 8px;
-  --radius-md: 16px;
-  --radius-lg: 24px;
-  --radius-xl: 32px;
-  --radius-full: 9999px;
-  
-  --container-max: 1200px;
-  --section-padding: clamp(4rem, 8vw, 6rem);
-  
-  font-family: var(--font-sans);
-  background: var(--bg-primary);
-  color: var(--text-primary);
-  line-height: 1.7;
-  overflow-x: hidden;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-.hajj-guide-premium *,
-.hajj-guide-premium *::before,
-.hajj-guide-premium *::after {
+  font-family: 'Georgia', var(--font-serif, serif);
+  background: linear-gradient(180deg, var(--cream) 0%, var(--cream-dark) 100%);
+  color: var(--text);
+  width: 100%;
   box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+  font-size: 17px;
+  line-height: 1.7;
 }
 
-/* ═══════════════════════════════════════════════════════
-   PROGRESS BAR
-   ═══════════════════════════════════════════════════════ */
-.progress-bar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: rgba(255, 255, 255, 0.05);
-  z-index: 1000;
-  backdrop-filter: blur(4px);
-}
-
-.progress-fill {
-  height: 100%;
-  background: linear-gradient(90deg, var(--green-primary), var(--gold-primary));
-  transition: width 0.15s ease-out;
-  box-shadow: 0 0 20px var(--gold-glow);
-}
-
-/* ═══════════════════════════════════════════════════════
-   PREMIUM HEADER
-   ═══════════════════════════════════════════════════════ */
-.premium-header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 999;
-  padding: 1rem 2rem;
-  transition: var(--transition-smooth);
-  background: transparent;
-}
-
-.premium-header.scrolled {
-  background: rgba(15, 13, 10, 0.95);
-  backdrop-filter: blur(20px);
-  border-bottom: 1px solid var(--border-subtle);
-  padding: 0.75rem 2rem;
-  box-shadow: var(--shadow-soft);
-}
-
-.header-content {
-  max-width: var(--container-max);
+.main-container {
+  max-width: 1200px;
   margin: 0 auto;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 2rem;
+  padding: 0 2rem;
 }
 
-.brand {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  font-family: var(--font-serif);
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: var(--text-primary);
-  letter-spacing: -0.02em;
+/* === ANIMATIONS === */
+.fade-in-section {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+.fade-in-section.visible {
+  opacity: 1;
+  transform: none;
 }
 
-.brand-icon {
-  font-size: 1.5rem;
-}
-
-.brand-name {
-  background: linear-gradient(135deg, var(--gold-light), var(--gold-primary));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.premium-nav {
-  display: flex;
-  gap: 0.5rem;
-  background: rgba(255, 255, 255, 0.03);
-  padding: 0.25rem;
-  border-radius: var(--radius-full);
-  border: 1px solid var(--border-subtle);
-}
-
-.nav-tab {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.6rem 1.2rem;
-  background: transparent;
-  border: none;
-  border-radius: var(--radius-full);
-  font-size: 0.85rem;
-  font-weight: 500;
-  color: var(--text-secondary);
-  cursor: pointer;
-  transition: var(--transition-smooth);
-  white-space: nowrap;
-}
-
-.nav-tab:hover {
-  color: var(--text-primary);
-  background: rgba(255, 255, 255, 0.05);
-}
-
-.nav-tab.active {
-  background: linear-gradient(135deg, var(--green-primary), var(--green-light));
-  color: var(--text-primary);
-  box-shadow: 0 4px 20px rgba(45, 122, 100, 0.3);
-}
-
-.nav-tab i {
-  font-size: 0.9rem;
-}
-
-/* ═══════════════════════════════════════════════════════
-   HERO SECTION
-   ═══════════════════════════════════════════════════════ */
-.hero-premium {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+/* === SIMPLIFIED HERO === */
+.hero {
+  padding: 5rem 2rem 4rem;
   text-align: center;
-  padding: clamp(4rem, 8vw, 6rem) 2rem;
-  position: relative;
-  overflow: hidden;
-  background: radial-gradient(ellipse at top, var(--bg-secondary) 0%, var(--bg-primary) 70%);
+  background: linear-gradient(135deg, var(--green-light) 0%, var(--green) 100%);
+  border-radius: 0 0 24px 24px;
+  margin-bottom: 3rem;
+  box-shadow: var(--shadow-lg);
 }
 
-.hero-overlay {
-  position: absolute;
-  inset: 0;
-  background: 
-    radial-gradient(circle at 30% 20%, var(--gold-glow) 0%, transparent 50%),
-    radial-gradient(circle at 70% 80%, var(--green-glow) 0%, transparent 50%);
-  pointer-events: none;
-}
-
-.hero-pattern {
-  position: absolute;
-  inset: 0;
-  opacity: 0.03;
-  background-image: 
-    repeating-linear-gradient(45deg, var(--gold-primary) 0, var(--gold-primary) 1px, transparent 0, transparent 50%),
-    repeating-linear-gradient(-45deg, var(--gold-primary) 0, var(--gold-primary) 1px, transparent 0, transparent 50%);
-  background-size: 40px 40px;
-  pointer-events: none;
-}
-
-.hero-content {
-  position: relative;
-  z-index: 2;
-  max-width: 800px;
-  animation: fadeInUp 0.8s ease-out;
-}
-
-.hero-bismillah {
-  font-family: var(--font-arabic);
-  font-size: clamp(1.5rem, 3vw, 2rem);
-  color: var(--gold-primary);
-  margin-bottom: 2rem;
-  letter-spacing: 0.05em;
-  opacity: 0.9;
+.bismillah {
+  font-size: 28px;
+  color: var(--green-dark);
+  margin-bottom: 1.5rem;
+  display: block;
+  font-family: 'Georgia', serif;
 }
 
 .hero-title {
-  font-family: var(--font-serif);
-  font-size: clamp(2.5rem, 8vw, 5rem);
-  font-weight: 600;
-  line-height: 1.1;
-  margin-bottom: 1.5rem;
-  letter-spacing: -0.03em;
-}
-
-.hero-title .hero-accent {
-  color: var(--gold-primary);
-  font-style: normal;
-}
-
-.hero-title em {
-  font-style: italic;
-  color: var(--gold-light);
+  font-size: 48px;
   font-weight: 400;
+  color: var(--green-dark);
+  margin-bottom: 1rem;
+  font-family: 'Georgia', serif;
+  font-style: italic;
 }
 
 .hero-subtitle {
-  font-size: clamp(1rem, 2.5vw, 1.25rem);
-  color: var(--text-secondary);
+  font-size: 19px;
+  color: var(--text-muted);
   max-width: 600px;
-  margin: 0 auto 3rem;
-  font-weight: 300;
-  line-height: 1.8;
+  margin: 0 auto 2.5rem;
+  line-height: 1.6;
+  font-family: system-ui, sans-serif;
 }
 
 .hero-actions {
   display: flex;
-  gap: 1rem;
+  gap: 16px;
   justify-content: center;
   flex-wrap: wrap;
-  margin-bottom: 3rem;
-}
-
-.btn-primary,
-.btn-secondary {
-  padding: 1rem 2rem;
-  border-radius: var(--radius-full);
-  font-size: 0.95rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: var(--transition-smooth);
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  border: none;
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, var(--gold-primary), var(--gold-light));
-  color: var(--text-inverse);
-  box-shadow: 0 4px 24px rgba(201, 169, 97, 0.3);
+  padding: 16px 32px;
+  background: var(--green);
+  color: #fff;
+  border: none;
+  border-radius: 50px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: var(--shadow-md);
 }
-
 .btn-primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 32px rgba(201, 169, 97, 0.5);
-}
-
-.btn-primary .btn-arrow {
-  transition: transform 0.3s ease;
-}
-
-.btn-primary:hover .btn-arrow {
-  transform: translateX(4px);
+  box-shadow: var(--shadow-lg);
+  background: var(--green-dark);
 }
 
 .btn-secondary {
-  background: rgba(255, 255, 255, 0.05);
-  color: var(--text-primary);
-  border: 1px solid var(--border-subtle);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 32px;
+  background: #fff;
+  color: var(--green);
+  border: 2px solid var(--green);
+  border-radius: 50px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
 }
-
 .btn-secondary:hover {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: var(--gold-border);
+  background: var(--green-light);
   transform: translateY(-2px);
 }
 
-.hero-meta {
-  display: flex;
-  gap: 1.5rem;
-  justify-content: center;
-  flex-wrap: wrap;
-  font-size: 0.85rem;
-  color: var(--text-muted);
-}
-
-.meta-item {
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-}
-
-.hero-scroll-indicator {
-  position: absolute;
-  bottom: 2rem;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.75rem;
-  color: var(--text-muted);
-  font-size: 0.8rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  animation: fadeIn 1s 0.5s ease forwards;
-}
-
-.scroll-mouse {
-  width: 24px;
-  height: 40px;
-  border: 2px solid var(--text-muted);
-  border-radius: 12px;
-  position: relative;
-  animation: scrollBounce 2s infinite;
-}
-
-.scroll-mouse::before {
-  content: '';
-  position: absolute;
-  top: 8px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 4px;
-  height: 8px;
-  background: var(--gold-primary);
-  border-radius: 2px;
-  animation: scrollWheel 2s infinite;
-}
-
-/* ═══════════════════════════════════════════════════════
-   SEARCH SECTION
-   ═══════════════════════════════════════════════════════ */
-.search-premium {
-  padding: 2rem;
-  background: var(--bg-secondary);
-  border-bottom: 1px solid var(--border-subtle);
-  position: sticky;
-  top: 70px;
-  z-index: 100;
-}
-
-.search-container {
-  max-width: 700px;
-  margin: 0 auto;
-  position: relative;
-}
-
-.search-input-wrapper {
-  display: flex;
-  align-items: center;
-  background: var(--bg-card);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-lg);
-  padding: 0.5rem;
-  transition: var(--transition-smooth);
-}
-
-.search-input-wrapper:focus-within {
-  border-color: var(--gold-border);
-  box-shadow: 0 0 0 3px var(--gold-glow);
-}
-
-.search-icon {
-  padding: 0.75rem 1rem;
-  color: var(--text-muted);
-  font-size: 1rem;
-}
-
-.search-input {
-  flex: 1;
-  background: transparent;
-  border: none;
-  padding: 0.75rem 0;
-  font-size: 1rem;
-  color: var(--text-primary);
-  font-family: var(--font-sans);
-  outline: none;
-}
-
-.search-input::placeholder {
-  color: var(--text-muted);
-}
-
-.search-btn {
-  padding: 0.75rem 1.5rem;
-  background: var(--green-primary);
-  color: var(--text-primary);
-  border: none;
-  border-radius: var(--radius-md);
-  font-size: 0.9rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: var(--transition-smooth);
-}
-
-.search-btn:hover {
-  background: var(--green-light);
-}
-
-.search-results {
-  position: absolute;
-  top: calc(100% + 0.5rem);
-  left: 0;
-  right: 0;
-  background: var(--bg-card);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-elevated);
-  overflow: hidden;
-  z-index: 50;
-  max-height: 400px;
-  overflow-y: auto;
-}
-
-.search-result-item {
-  padding: 1rem 1.5rem;
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-  transition: background 0.2s ease;
-}
-
-.search-result-item:hover {
-  background: var(--bg-card-hover);
-}
-
-.result-category {
-  font-size: 0.75rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--gold-primary);
-}
-
-.result-title {
-  font-size: 0.95rem;
-  color: var(--text-primary);
-  line-height: 1.4;
-}
-
-/* ═══════════════════════════════════════════════════════
-   SECTIONS
-   ═══════════════════════════════════════════════════════ */
-.section-premium {
-  padding: var(--section-padding) 2rem;
-  max-width: var(--container-max);
-  margin: 0 auto;
-}
-
-.section-premium.alt-bg {
-  background: var(--bg-secondary);
-}
-
-.section-header {
-  text-align: center;
-  max-width: 700px;
-  margin: 0 auto 4rem;
-}
-
-.section-eyebrow {
-  display: inline-block;
-  font-size: 0.75rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.2em;
-  color: var(--gold-primary);
-  margin-bottom: 1rem;
-  padding: 0.4rem 1rem;
-  background: rgba(201, 169, 97, 0.1);
-  border-radius: var(--radius-full);
-}
-
-.section-title {
-  font-family: var(--font-serif);
-  font-size: clamp(1.75rem, 4vw, 2.5rem);
-  font-weight: 600;
-  color: var(--text-primary);
-  line-height: 1.2;
-  margin-bottom: 1rem;
-}
-
-.section-description {
-  font-size: 1.1rem;
-  color: var(--text-secondary);
-  line-height: 1.7;
-  font-weight: 300;
-}
-
-/* ═══════════════════════════════════════════════════════
-   CARDS GRID
-   ═══════════════════════════════════════════════════════ */
-.cards-grid {
+/* === CONTENT GRID (TEXT LEFT, IMAGE RIGHT) === */
+.content-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 2rem;
-  margin-bottom: 4rem;
-}
-
-.premium-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-lg);
-  padding: 2rem;
-  transition: var(--transition-smooth);
-  position: relative;
-  overflow: hidden;
-}
-
-.premium-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: linear-gradient(90deg, var(--green-primary), var(--gold-primary));
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.premium-card:hover {
-  transform: translateY(-4px);
-  border-color: var(--gold-border);
-  box-shadow: var(--shadow-elevated);
-}
-
-.premium-card:hover::before {
-  opacity: 1;
-}
-
-.card-icon {
-  width: 56px;
-  height: 56px;
-  border-radius: var(--radius-md);
-  background: linear-gradient(135deg, var(--green-primary), var(--green-light));
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 1.5rem;
-  font-size: 1.5rem;
-  color: var(--text-primary);
-}
-
-.card-title {
-  font-family: var(--font-serif);
-  font-size: 1.4rem;
-  font-weight: 600;
-  color: var(--text-primary);
-  margin-bottom: 1rem;
-  line-height: 1.3;
-}
-
-.card-description {
-  font-size: 0.95rem;
-  color: var(--text-secondary);
-  line-height: 1.7;
-  margin-bottom: 1.5rem;
-}
-
-.card-note {
-  padding: 1rem;
-  background: rgba(201, 169, 97, 0.08);
-  border-left: 3px solid var(--gold-primary);
-  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
-  font-size: 0.85rem;
-}
-
-.note-label {
-  font-weight: 600;
-  color: var(--gold-light);
-  display: block;
-  margin-bottom: 0.25rem;
-}
-
-.note-text {
-  color: var(--text-secondary);
-}
-
-/* ═══════════════════════════════════════════════════════
-   HAJJ TYPES
-   ═══════════════════════════════════════════════════════ */
-.hajj-types-container {
-  margin: 4rem 0;
-}
-
-.hajj-types-card {
-  background: linear-gradient(135deg, var(--bg-card), var(--bg-tertiary));
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-lg);
-  padding: 2.5rem;
-  position: relative;
-  overflow: hidden;
-}
-
-.hajj-types-card::before {
-  content: '';
-  position: absolute;
-  top: -50%;
-  right: -50%;
-  width: 200%;
-  height: 200%;
-  background: radial-gradient(circle, var(--gold-glow) 0%, transparent 70%);
-  pointer-events: none;
-}
-
-.types-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 1.5rem;
-  position: relative;
-}
-
-.types-header h3 {
-  font-family: var(--font-serif);
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: var(--text-primary);
-}
-
-.types-badge {
-  padding: 0.4rem 1rem;
-  background: var(--green-primary);
-  color: var(--text-primary);
-  border-radius: var(--radius-full);
-  font-size: 0.8rem;
-  font-weight: 500;
-}
-
-.types-description {
-  font-size: 1rem;
-  color: var(--text-secondary);
-  line-height: 1.7;
-  margin-bottom: 2rem;
-}
-
-.types-progress {
-  margin-bottom: 1.5rem;
-}
-
-.progress-bar-mini {
-  height: 6px;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: var(--radius-full);
-  overflow: hidden;
-  margin-bottom: 0.5rem;
-}
-
-.progress-fill-mini {
-  height: 100%;
-  background: linear-gradient(90deg, var(--green-primary), var(--gold-primary));
-  border-radius: var(--radius-full);
-  transition: width 1s ease-out;
-}
-
-.progress-label {
-  font-size: 0.85rem;
-  color: var(--text-muted);
-}
-
-.types-note {
-  font-size: 0.9rem;
-  color: var(--gold-light);
-  font-style: italic;
-}
-
-/* ═══════════════════════════════════════════════════════
-   IMAGE SHOWCASE
-   ═══════════════════════════════════════════════════════ */
-.image-showcase {
-  margin: 4rem 0;
-}
-
-.image-wrapper {
-  position: relative;
-  border-radius: var(--radius-lg);
-  overflow: hidden;
-  border: 1px solid var(--border-subtle);
-}
-
-.showcase-image {
-  width: 100%;
-  height: auto;
-  display: block;
-  transition: transform 0.5s ease;
-}
-
-.image-wrapper:hover .showcase-image {
-  transform: scale(1.02);
-}
-
-.image-caption {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 1rem 1.5rem;
-  background: linear-gradient(to top, rgba(15, 13, 10, 0.9), transparent);
-  color: var(--text-secondary);
-  font-size: 0.9rem;
-}
-
-/* ═══════════════════════════════════════════════════════
-   AUDIO PLAYER
-   ═══════════════════════════════════════════════════════ */
-.audio-player {
-  background: var(--bg-card);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-lg);
-  padding: 2rem;
-  margin-top: 2rem;
-}
-
-.player-header {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  margin-bottom: 1rem;
-  color: var(--gold-primary);
-  font-weight: 500;
-}
-
-.player-description {
-  font-size: 0.95rem;
-  color: var(--text-secondary);
-  margin-bottom: 1.5rem;
-  line-height: 1.6;
-}
-
-.audio-control {
-  width: 100%;
-  border-radius: var(--radius-full);
-  background: var(--bg-tertiary);
-}
-
-/* ═══════════════════════════════════════════════════════
-   TIMELINE STEPS
-   ═══════════════════════════════════════════════════════ */
-.steps-timeline {
-  position: relative;
-  padding-left: 2rem;
-}
-
-.timeline-item {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 2rem;
-  padding: 2rem 0;
-  position: relative;
-}
-
-.timeline-marker {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  position: relative;
-}
-
-.marker-number {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, var(--gold-primary), var(--gold-light));
-  color: var(--text-inverse);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--font-serif);
-  font-weight: 600;
-  font-size: 1.1rem;
-  z-index: 2;
-}
-
-.marker-line {
-  position: absolute;
-  top: 48px;
-  bottom: -2rem;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 2px;
-  background: var(--border-subtle);
-}
-
-.timeline-content {
-  background: var(--bg-card);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-lg);
-  padding: 1.75rem;
-  transition: var(--transition-smooth);
-}
-
-.timeline-content:hover {
-  border-color: var(--gold-border);
-  box-shadow: var(--shadow-soft);
-}
-
-.step-title {
-  font-family: var(--font-serif);
-  font-size: 1.3rem;
-  font-weight: 600;
-  color: var(--text-primary);
-  margin-bottom: 0.75rem;
-}
-
-.step-description {
-  font-size: 0.95rem;
-  color: var(--text-secondary);
-  line-height: 1.7;
-  margin-bottom: 1rem;
-}
-
-.step-tip {
-  display: flex;
-  gap: 0.75rem;
-  padding: 1rem;
-  background: rgba(201, 169, 97, 0.08);
-  border-radius: var(--radius-md);
-  font-size: 0.9rem;
-  color: var(--text-secondary);
-  margin-bottom: 1rem;
-}
-
-.step-tip i {
-  color: var(--gold-primary);
-  flex-shrink: 0;
-  margin-top: 0.2rem;
-}
-
-.step-video-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  color: var(--gold-light);
-  text-decoration: none;
-  font-size: 0.9rem;
-  font-weight: 500;
-  transition: var(--transition-smooth);
-}
-
-.step-video-link:hover {
-  color: var(--gold-primary);
-}
-
-.conclusion-card {
-  background: linear-gradient(135deg, var(--green-primary), var(--green-light));
-  border-radius: var(--radius-lg);
-  padding: 2rem;
-  margin-top: 3rem;
-  text-align: center;
-}
-
-.conclusion-card h4 {
-  font-family: var(--font-serif);
-  font-size: 1.3rem;
-  font-weight: 600;
-  color: var(--text-primary);
-  margin-bottom: 1rem;
-}
-
-.conclusion-card p {
-  color: rgba(255, 255, 255, 0.9);
-  line-height: 1.7;
-  font-size: 1rem;
-}
-
-/* ═══════════════════════════════════════════════════════
-   HAJJ DAYS GRID
-   ═══════════════════════════════════════════════════════ */
-.hajj-days-grid {
-  display: grid;
-  gap: 1.5rem;
+  grid-template-columns: 1fr 400px;
+  gap: 4rem;
+  align-items: start;
   margin-bottom: 3rem;
 }
 
-.day-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-lg);
-  padding: 2rem;
-  transition: var(--transition-smooth);
+.text-content {
+  max-width: 100%;
 }
 
-.day-card:hover {
-  border-color: var(--gold-border);
-  transform: translateX(4px);
-  box-shadow: var(--shadow-soft);
+.image-content {
+  position: sticky;
+  top: 2rem;
+}
+
+.image-content img {
+  width: 100%;
+  border-radius: 16px;
+  box-shadow: var(--shadow-lg);
+  display: block;
+}
+
+.image-caption {
+  text-align: center;
+  font-size: 14px;
+  color: var(--text-hint);
+  margin-top: 0.75rem;
+  font-style: italic;
+  font-family: system-ui, sans-serif;
+}
+
+/* === TYPOGRAPHY === */
+.eyebrow {
+  font-size: 13px;
+  letter-spacing: 0.15em;
+  color: var(--green);
+  text-transform: uppercase;
+  font-family: system-ui, sans-serif;
+  display: block;
+  margin-bottom: 1rem;
+  font-weight: 700;
+}
+
+.sec-title {
+  font-size: 36px;
+  font-weight: 400;
+  color: var(--text);
+  font-style: italic;
+  font-family: 'Georgia', serif;
+  margin-bottom: 1.5rem;
+}
+
+.lead-text {
+  font-size: 19px;
+  color: var(--text-muted);
+  line-height: 1.7;
+  margin-bottom: 2.5rem;
+  font-family: system-ui, sans-serif;
+}
+
+.content-block {
+  margin-bottom: 2.5rem;
+}
+
+.content-block h3 {
+  font-size: 24px;
+  color: var(--green-dark);
+  margin-bottom: 1rem;
+  font-family: 'Georgia', serif;
+  font-style: italic;
+}
+
+.content-block p {
+  color: var(--text-muted);
+  line-height: 1.8;
+  margin-bottom: 1rem;
+}
+
+.key-differences {
+  background: var(--green-light);
+  padding: 2rem;
+  border-radius: 12px;
+  margin-top: 2rem;
+}
+
+.key-differences h4 {
+  font-size: 20px;
+  color: var(--green-dark);
+  margin-bottom: 1rem;
+  font-family: 'Georgia', serif;
+}
+
+.key-differences ul {
+  list-style: none;
+  padding: 0;
+}
+
+.key-differences li {
+  padding: 0.75rem 0;
+  border-bottom: 1px solid rgba(15, 81, 50, 0.1);
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+.key-differences li:last-child {
+  border-bottom: none;
+}
+
+.key-differences strong {
+  color: var(--green);
+}
+
+/* === STEP CARDS === */
+.step-card {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 2.5rem;
+  padding-bottom: 2.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.step-number {
+  font-size: 48px;
+  font-weight: 700;
+  color: var(--green);
+  opacity: 0.2;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.step-content h3 {
+  font-size: 22px;
+  color: var(--green-dark);
+  margin-bottom: 0.75rem;
+  font-family: 'Georgia', serif;
+}
+
+.step-content p {
+  color: var(--text-muted);
+  line-height: 1.7;
+  margin-bottom: 0.75rem;
+}
+
+.important-note {
+  background: var(--green-light);
+  padding: 1rem;
+  border-radius: 8px;
+  border-left: 4px solid var(--green);
+  margin-top: 1rem;
+}
+
+/* === DAY CARDS === */
+.day-card-detailed {
+  background: var(--cream);
+  border-radius: 12px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: var(--shadow-sm);
 }
 
 .day-header {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  gap: 1rem;
-  margin-bottom: 1rem;
+  margin-bottom: 1.25rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid var(--green-light);
+}
+
+.day-number {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--green);
+  opacity: 0.3;
 }
 
 .day-date {
-  padding: 0.4rem 1rem;
-  background: rgba(201, 169, 97, 0.15);
-  color: var(--gold-light);
-  border-radius: var(--radius-full);
-  font-size: 0.8rem;
+  font-size: 16px;
   font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
+  color: var(--green-dark);
+  font-family: system-ui, sans-serif;
 }
 
-.day-title {
-  font-family: var(--font-serif);
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: var(--text-primary);
-}
-
-.day-description {
-  font-size: 0.95rem;
-  color: var(--text-secondary);
+.day-body p {
+  color: var(--text-muted);
   line-height: 1.7;
   margin-bottom: 1rem;
 }
 
-.day-reminder {
-  display: flex;
-  gap: 0.75rem;
-  padding: 1rem;
-  background: rgba(45, 122, 100, 0.1);
-  border-left: 3px solid var(--green-primary);
-  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
-  font-size: 0.9rem;
-  color: var(--text-secondary);
+.day-body strong {
+  color: var(--green);
+}
+
+/* === RULES SECTIONS === */
+.rules-section, .permitted-section, .fidya-section {
+  margin-bottom: 2.5rem;
+}
+
+.rules-section h3, .permitted-section h3, .fidya-section h3 {
+  font-size: 24px;
+  color: var(--green-dark);
+  margin-bottom: 1.5rem;
+  font-family: 'Georgia', serif;
+}
+
+.rule-category {
+  margin-bottom: 2rem;
+}
+
+.rule-category h4 {
+  font-size: 18px;
+  color: var(--green);
   margin-bottom: 1rem;
-}
-
-.day-reminder i {
-  color: var(--green-light);
-  flex-shrink: 0;
-  margin-top: 0.2rem;
-}
-
-.day-image {
-  margin-top: 1rem;
-  border-radius: var(--radius-md);
-  overflow: hidden;
-}
-
-.day-img {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-  display: block;
-  transition: transform 0.3s ease;
-}
-
-.day-image:hover .day-img {
-  transform: scale(1.05);
-}
-
-.farewell-card {
-  background: linear-gradient(135deg, var(--bg-tertiary), var(--bg-card));
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-lg);
-  padding: 2.5rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  gap: 1.5rem;
-}
-
-.farewell-icon {
-  font-size: 3rem;
-  color: var(--gold-primary);
-}
-
-.farewell-card h4 {
-  font-family: var(--font-serif);
-  font-size: 1.4rem;
+  font-family: system-ui, sans-serif;
   font-weight: 600;
-  color: var(--text-primary);
 }
 
-.farewell-card p {
-  color: var(--text-secondary);
-  line-height: 1.7;
-  max-width: 600px;
-}
-
-.farewell-card cite {
-  font-size: 0.85rem;
-  color: var(--gold-light);
-  font-style: normal;
-}
-
-/* ═══════════════════════════════════════════════════════
-   RULES GRID
-   ═══════════════════════════════════════════════════════ */
-.rules-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 2rem;
-}
-
-.rules-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-lg);
-  overflow: hidden;
-}
-
-.rules-header {
-  padding: 1.25rem 1.75rem;
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  font-weight: 600;
-  font-size: 0.9rem;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-}
-
-.rules-card.positive .rules-header {
-  background: var(--green-primary);
-  color: var(--text-primary);
-}
-
-.rules-card.negative .rules-header {
-  background: #8b2e2e;
-  color: var(--text-primary);
-}
-
-.rules-header i {
-  font-size: 1.1rem;
-}
-
-.rules-list {
+.rule-category ul {
   list-style: none;
-  padding: 1.5rem;
+  padding: 0;
 }
 
-.rules-list li {
-  display: flex;
-  gap: 0.75rem;
-  padding: 0.85rem 0;
-  border-bottom: 1px solid var(--border-subtle);
-  font-size: 0.9rem;
-  color: var(--text-secondary);
+.rule-category li {
+  padding: 0.5rem 0;
+  padding-left: 1.5rem;
+  position: relative;
+  color: var(--text-muted);
   line-height: 1.6;
 }
 
-.rules-list li:last-child {
-  border-bottom: none;
+.rule-category li:before {
+  content: "•";
+  color: var(--green);
+  position: absolute;
+  left: 0;
+  font-weight: bold;
 }
 
-.rules-list li i {
-  flex-shrink: 0;
-  margin-top: 0.2rem;
-}
-
-.rules-card.positive .rules-list li i {
-  color: var(--green-light);
-}
-
-.rules-card.negative .rules-list li i {
-  color: #c96565;
-}
-
-/* ═══════════════════════════════════════════════════════
-   RESOURCES GRID
-   ═══════════════════════════════════════════════════════ */
-.resources-grid {
+.permitted-list {
+  list-style: none;
+  padding: 0;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 2rem;
-  margin-bottom: 3rem;
-}
-
-.resource-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-lg);
-  padding: 2rem;
-}
-
-.resource-card h4 {
-  font-family: var(--font-serif);
-  font-size: 1.3rem;
-  font-weight: 600;
-  color: var(--text-primary);
-  margin-bottom: 1.5rem;
-}
-
-.app-list,
-.pdf-list {
-  display: flex;
-  flex-direction: column;
+  grid-template-columns: 1fr 1fr;
   gap: 1rem;
 }
 
-.app-item {
-  display: flex;
-  gap: 1rem;
+.permitted-list li {
+  padding: 0.75rem 1rem;
+  background: var(--green-light);
+  border-radius: 8px;
+  color: var(--green-dark);
+  font-size: 15px;
+}
+
+.fidya-section ul {
+  list-style: none;
+  padding: 0;
+}
+
+.fidya-section li {
   padding: 1rem;
-  background: rgba(255, 255, 255, 0.03);
-  border-radius: var(--radius-md);
-  transition: var(--transition-smooth);
-}
-
-.app-item:hover {
-  background: rgba(255, 255, 255, 0.06);
-}
-
-.app-icon {
-  font-size: 1.5rem;
-  flex-shrink: 0;
-}
-
-.app-info {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-}
-
-.app-name {
-  font-weight: 500;
-  color: var(--text-primary);
-  font-size: 0.95rem;
-}
-
-.app-desc {
-  font-size: 0.85rem;
+  background: #fff8f8;
+  border-left: 4px solid #b84a2e;
+  margin-bottom: 1rem;
+  border-radius: 0 8px 8px 0;
   color: var(--text-muted);
-  line-height: 1.5;
+  line-height: 1.6;
 }
 
-.pdf-item {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  padding: 1rem;
-  background: rgba(255, 255, 255, 0.03);
-  border-radius: var(--radius-md);
-  text-decoration: none;
-  color: var(--text-secondary);
-  transition: var(--transition-smooth);
-  font-size: 0.9rem;
-}
-
-.pdf-item:hover {
-  background: rgba(255, 255, 255, 0.06);
-  color: var(--text-primary);
-}
-
-.pdf-item i:first-child {
-  color: #c96565;
-}
-
-.pdf-item i:last-child {
-  margin-left: auto;
-  font-size: 0.8rem;
-  opacity: 0.6;
-}
-
-/* ═══════════════════════════════════════════════════════
-   FAQ ACCORDION
-   ═══════════════════════════════════════════════════════ */
-.faq-container {
-  background: var(--bg-card);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-lg);
+/* === DUA CARDS === */
+.dua-card {
+  background: var(--cream);
+  border-radius: 12px;
   padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: var(--shadow-sm);
 }
 
-.faq-container h4 {
-  font-family: var(--font-serif);
-  font-size: 1.3rem;
-  font-weight: 600;
-  color: var(--text-primary);
-  margin-bottom: 1.5rem;
-}
-
-.faq-item {
-  border-bottom: 1px solid var(--border-subtle);
-}
-
-.faq-item:last-child {
-  border-bottom: none;
-}
-
-.faq-question {
-  width: 100%;
-  text-align: left;
-  background: none;
-  border: none;
-  padding: 1.25rem 0;
-  font-size: 1rem;
-  font-weight: 500;
-  color: var(--text-primary);
-  cursor: pointer;
+.dua-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 1rem;
-  transition: color 0.2s ease;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid var(--green-light);
 }
 
-.faq-question:hover {
-  color: var(--gold-light);
+.dua-label {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--green-dark);
+  font-family: 'Georgia', serif;
 }
 
-.faq-question i {
-  transition: transform 0.3s ease;
-  flex-shrink: 0;
-}
-
-.faq-item.open .faq-question i {
-  transform: rotate(180deg);
-}
-
-.faq-answer {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.4s ease, padding 0.4s ease;
-}
-
-.faq-item.open .faq-answer {
-  max-height: 500px;
-  padding-bottom: 1.25rem;
-}
-
-.faq-answer p {
-  font-size: 0.95rem;
-  color: var(--text-secondary);
-  line-height: 1.7;
-}
-
-/* ═══════════════════════════════════════════════════════
-   CLOSING DUA
-   ═══════════════════════════════════════════════════════ */
-.closing-dua {
-  padding: 6rem 2rem;
-  background: linear-gradient(135deg, var(--bg-secondary), var(--bg-primary));
-  text-align: center;
-}
-
-.dua-content {
-  max-width: 700px;
-  margin: 0 auto;
+.dua-when {
+  font-size: 13px;
+  color: var(--text-hint);
+  font-family: system-ui, sans-serif;
+  font-style: italic;
 }
 
 .dua-arabic {
-  font-family: var(--font-arabic);
-  font-size: clamp(1.5rem, 4vw, 2.25rem);
-  color: var(--gold-primary);
+  font-size: 26px;
+  text-align: right;
+  color: var(--green-dark);
+  margin-bottom: 1rem;
+  line-height: 2;
+  font-family: 'Traditional Arabic', 'Arial', serif;
+  direction: rtl;
+}
+
+.dua-transliteration {
+  font-size: 15px;
+  color: var(--text-muted);
+  font-style: italic;
+  margin-bottom: 0.75rem;
+  font-family: system-ui, sans-serif;
+}
+
+.dua-translation {
+  font-size: 16px;
+  color: var(--text);
+  line-height: 1.6;
+  font-family: system-ui, sans-serif;
+}
+
+/* === TIP CATEGORIES === */
+.tip-category {
+  margin-bottom: 2.5rem;
+}
+
+.tip-category h3 {
+  font-size: 22px;
+  color: var(--green-dark);
+  margin-bottom: 1.25rem;
+  font-family: 'Georgia', serif;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid var(--green-light);
+}
+
+.tip-category ul {
+  list-style: none;
+  padding: 0;
+}
+
+.tip-category li {
+  padding: 0.75rem 0;
+  color: var(--text-muted);
+  line-height: 1.6;
+  border-bottom: 1px solid rgba(15, 81, 50, 0.05);
+}
+
+.tip-category li:last-child {
+  border-bottom: none;
+}
+
+.tip-category strong {
+  color: var(--green);
+}
+
+/* === SECTIONS === */
+.sec {
+  padding: 5rem 0;
+  border-bottom: 1px solid rgba(15, 81, 50, 0.06);
+}
+
+.sec.alt {
+  background: transparent;
+}
+
+/* === PDF DOWNLOAD BUTTONS === */
+.section-download {
+  text-align: center;
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 2px dashed rgba(15, 81, 50, 0.15);
+}
+
+.download-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 28px;
+  background: var(--green);
+  color: #fff;
+  border-radius: 50px;
+  font-size: 16px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  box-shadow: var(--shadow-md);
+  border: none;
+  cursor: pointer;
+}
+
+.download-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+  background: var(--green-dark);
+}
+
+.download-btn svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* === CLOSING === */
+.closing {
+  padding: 5rem 2rem;
+  text-align: center;
+  background: linear-gradient(180deg, var(--green-light) 0%, var(--cream) 100%);
+  border-radius: 0 0 24px 24px;
+  margin-top: 3rem;
+}
+
+.closing-arabic {
+  font-family: 'Traditional Arabic', 'Georgia', serif;
+  font-size: 36px;
+  color: var(--green-dark);
   margin-bottom: 1.5rem;
   line-height: 1.8;
 }
 
-.dua-english {
-  font-family: var(--font-serif);
-  font-size: 1.25rem;
+.closing-en {
+  font-size: 19px;
+  color: var(--text-muted);
   font-style: italic;
-  color: var(--text-secondary);
+  font-family: 'Georgia', serif;
   margin-bottom: 1rem;
-  line-height: 1.6;
 }
 
-.dua-reference {
+.closing-ref {
+  font-size: 13px;
+  color: var(--green);
+  letter-spacing: 0.06em;
+  font-family: system-ui, sans-serif;
   display: block;
-  font-size: 0.85rem;
-  color: var(--gold-light);
+  text-transform: uppercase;
   margin-bottom: 2rem;
-  letter-spacing: 0.05em;
-}
-
-.closing-message {
-  font-size: 1.1rem;
-  color: var(--text-secondary);
-  line-height: 1.7;
-}
-
-/* ═══════════════════════════════════════════════════════
-   FOOTER
-   ═══════════════════════════════════════════════════════ */
-.premium-footer {
-  background: var(--bg-secondary);
-  border-top: 1px solid var(--border-subtle);
-  padding: 4rem 2rem 2rem;
-}
-
-.footer-content {
-  max-width: var(--container-max);
-  margin: 0 auto;
-}
-
-.footer-brand {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  font-family: var(--font-serif);
-  font-size: 1.2rem;
   font-weight: 600;
-  color: var(--text-primary);
-  margin-bottom: 2rem;
 }
 
-.footer-brand .footer-icon {
-  font-size: 1.5rem;
-}
-
-.footer-disclaimer,
-.footer-attribution {
-  margin-bottom: 1.5rem;
-}
-
-.footer-disclaimer p,
-.footer-attribution p {
-  font-size: 0.9rem;
+.closing-msg {
+  font-size: 17px;
   color: var(--text-muted);
-  line-height: 1.7;
+  max-width: 600px;
+  margin: 0 auto 2.5rem;
+  line-height: 1.8;
+  font-family: system-ui, sans-serif;
 }
 
-.footer-disclaimer strong {
-  color: var(--text-secondary);
+.final-downloads {
+  margin-top: 2rem;
 }
 
-.footer-copy {
-  padding-top: 2rem;
-  border-top: 1px solid var(--border-subtle);
-  display: flex;
-  justify-content: space-between;
+.download-all {
+  display: inline-flex;
   align-items: center;
-  flex-wrap: wrap;
-  gap: 1rem;
-  font-size: 0.85rem;
-  color: var(--text-muted);
-}
-
-/* ═══════════════════════════════════════════════════════
-   ANIMATIONS
-   ═══════════════════════════════════════════════════════ */
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-@keyframes scrollBounce {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(8px); }
-}
-
-@keyframes scrollWheel {
-  0% { opacity: 1; transform: translateX(-50%) translateY(0); }
-  100% { opacity: 0; transform: translateX(-50%) translateY(12px); }
-}
-
-.slide-fade-enter-active,
-.slide-fade-leave-active {
+  gap: 12px;
+  padding: 18px 36px;
+  background: var(--green);
+  color: #fff;
+  border-radius: 50px;
+  font-size: 17px;
+  font-weight: 600;
+  text-decoration: none;
   transition: all 0.3s ease;
+  box-shadow: var(--shadow-lg);
 }
 
-.slide-fade-enter-from,
-.slide-fade-leave-to {
-  opacity: 0;
-  transform: translateY(-10px);
+.download-all:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 40px rgba(15, 81, 50, 0.3);
+  background: var(--green-dark);
 }
 
-/* ═══════════════════════════════════════════════════════
-   RESPONSIVE
-   ═══════════════════════════════════════════════════════ */
+/* === RESPONSIVE === */
+@media (max-width: 1024px) {
+  .content-grid {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+  
+  .image-content {
+    position: relative;
+    top: 0;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  .hero-title {
+    font-size: 40px;
+  }
+}
+
 @media (max-width: 768px) {
-  .header-content {
-    flex-direction: column;
-    gap: 1rem;
+  .main-container {
+    padding: 0 1.5rem;
   }
   
-  .premium-nav {
-    flex-wrap: wrap;
-    justify-content: center;
+  .hero {
+    padding: 4rem 1.5rem 3rem;
   }
   
-  .nav-tab {
-    padding: 0.5rem 1rem;
-    font-size: 0.8rem;
+  .hero-title {
+    font-size: 32px;
+  }
+  
+  .hero-subtitle {
+    font-size: 17px;
   }
   
   .hero-actions {
@@ -1966,70 +1178,51 @@ onUnmounted(() => {
     align-items: center;
   }
   
-  .btn-primary,
-  .btn-secondary {
+  .btn-primary, .btn-secondary {
     width: 100%;
-    max-width: 300px;
+    max-width: 320px;
     justify-content: center;
   }
   
-  .hero-meta {
-    flex-direction: column;
-    gap: 0.75rem;
+  .sec-title {
+    font-size: 28px;
   }
   
-  .timeline-item {
-    grid-template-columns: 1fr;
-    gap: 1rem;
-    padding-left: 1rem;
-  }
-  
-  .timeline-marker {
-    flex-direction: row;
-    gap: 1rem;
-  }
-  
-  .marker-line {
-    top: 24px;
-    left: 23px;
-    right: auto;
-    bottom: auto;
-    height: calc(100% + 2rem);
-    width: 2px;
-  }
-  
-  .rules-grid,
-  .resources-grid {
+  .permitted-list {
     grid-template-columns: 1fr;
   }
   
-  .footer-copy {
+  .step-card {
     flex-direction: column;
-    text-align: center;
+    gap: 1rem;
+  }
+  
+  .step-number {
+    font-size: 36px;
+  }
+  
+  .dua-arabic {
+    font-size: 22px;
   }
 }
 
-/* Smooth scrolling for anchor links */
-html {
-  scroll-behavior: smooth;
-  scroll-padding-top: 100px;
-}
-
-/* Custom scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: var(--bg-primary);
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--border-subtle);
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--gold-border);
+@media (max-width: 480px) {
+  .hero-title {
+    font-size: 28px;
+  }
+  
+  .sec-title {
+    font-size: 26px;
+  }
+  
+  .day-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  
+  .day-number {
+    font-size: 24px;
+  }
 }
 </style>
