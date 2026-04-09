@@ -3,32 +3,24 @@
     <div class="main-container">
       <header class="hero fade-in-section">
         <div class="hero-copy">
-          <p class="hero-arabic">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</p>
-          <span class="hero-kicker">Hajj & Umrah Guide</span>
-          <h1 class="hero-title">A cleaner, sourced guide for Hajj and Umrah.</h1>
-          <p class="hero-subtitle">
-            This page focuses on the core rites, common mistakes, official health guidance, and a more careful
-            reference trail. Primary texts and official Saudi resources remain the standard, while short videos
-            are treated as supplementary refreshers only.
-          </p>
+          <p class="hero-arabic">{{ hero.arabic }}</p>
+          <span class="hero-kicker">{{ hero.kicker }}</span>
+          <h1 class="hero-title">{{ hero.title }}</h1>
+          <p class="hero-subtitle">{{ hero.subtitle }}</p>
+
+          <div class="hero-proof">
+            <span v-for="item in hero.proofPills" :key="item" class="hero-proof-pill">{{ item }}</span>
+          </div>
 
           <div class="hero-actions">
-            <button class="btn-primary" @click="scrollToSection('guides')">Download real guides</button>
-            <button class="btn-secondary" @click="scrollToSection('umrah')">Review the rites</button>
+            <button class="hero-btn-primary" @click="scrollToSection(hero.primaryButton.target)">{{ hero.primaryButton.label }}</button>
+            <button class="hero-btn-secondary" @click="scrollToSection(hero.secondaryButton.target)">{{ hero.secondaryButton.label }}</button>
           </div>
 
           <div class="hero-trust">
-            <div class="trust-item">
-              <strong>Primary texts</strong>
-              <span>Qur'an and hadith references shown inside the page.</span>
-            </div>
-            <div class="trust-item">
-              <strong>Official travel guidance</strong>
-              <span>Nusuk and Saudi MOH sources included below.</span>
-            </div>
-            <div class="trust-item">
-              <strong>Cleaner presentation</strong>
-              <span>Less noise, more whitespace, fewer distracting links.</span>
+            <div v-for="item in hero.trustItems" :key="item.title" class="trust-item">
+              <strong>{{ item.title }}</strong>
+              <span>{{ item.text }}</span>
             </div>
           </div>
         </div>
@@ -41,12 +33,10 @@
 
       <section class="sec fade-in-section" id="guides">
         <div class="sec-hd sec-hd-center">
-          <span class="eyebrow">Downloads</span>
-          <h2 class="sec-title">Real PDF guides</h2>
+          <span class="eyebrow">{{ guidesSection.eyebrow }}</span>
+          <h2 class="sec-title">{{ guidesSection.title }}</h2>
           <div class="sec-ornament"><span class="sec-ornament-dot"></span></div>
-          <p class="sec-desc">
-            These buttons now point to actual guides and official health documents instead of dummy files.
-          </p>
+          <p class="sec-desc">{{ guidesSection.description }}</p>
         </div>
 
         <div class="pdf-grid">
@@ -54,29 +44,76 @@
             <span class="pdf-label">{{ guide.label }}</span>
             <h3>{{ guide.title }}</h3>
             <p>{{ guide.desc }}</p>
-            <button class="download-btn" @click="downloadPdf(guide)">
-              Download PDF
-            </button>
+            <button class="download-btn" @click="downloadPdf(guide)">{{ labels.downloadPdf }}</button>
           </article>
         </div>
       </section>
 
-      <section class="sec alt fade-in-section" id="basics">
+      <section
+        id="basics"
+        class="sec alt fade-in-section study-section"
+        :class="{ 'print-target': printSectionId === 'basics' }"
+        :style="getSectionStyle('basics')"
+      >
         <div class="sec-header-with-image">
           <div class="sec-hd">
-            <span class="eyebrow">Chapter I</span>
-            <h2 class="sec-title">Foundations before the journey</h2>
+            <span class="eyebrow">{{ sections.basics.eyebrow }}</span>
+            <h2 class="sec-title">{{ sections.basics.title }}</h2>
             <div class="sec-ornament"><span class="sec-ornament-dot"></span></div>
-            <p class="sec-desc">
-              Learn the obligation, the categories of Hajj, and the difference between foundational rulings and
-              personal cases that still require a scholar.
-            </p>
+            <p class="sec-desc">{{ sections.basics.description }}</p>
+            <div class="section-tools" data-section-tools>
+              <button class="section-tool-btn section-tool-btn--whatsapp" @click="shareSectionOnWhatsApp('basics', sections.basics.title)">
+                <span class="tool-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.8 14.8L2 22l5.4-1.2A10 10 0 1 0 12 2Zm0 18a8 8 0 0 1-4.1-1.1l-.3-.2-3.2.7.7-3.1-.2-.3A8 8 0 1 1 12 20Zm4-5.5c-.2-.1-1.3-.6-1.5-.7s-.4-.1-.6.1-.6.7-.7.8-.3.2-.5.1a6.6 6.6 0 0 1-1.9-1.2 7.2 7.2 0 0 1-1.3-1.7c-.1-.2 0-.4.1-.5l.4-.5c.2-.3.1-.4 0-.5l-.6-1.5c-.1-.2-.3-.2-.5-.2h-.4c-.2 0-.5.1-.7.4s-.9.9-.9 2.1 1 2.4 1.1 2.6c.1.2 2 3 4.9 4.1.7.3 1.2.4 1.7.5.7.1 1.4.1 1.9-.1.6-.2 1.3-.6 1.4-1.1.2-.5.2-1 .1-1.1s-.2-.1-.4-.2Z"/></svg>
+                </span>
+                <span>{{ labels.shareWhatsApp }}</span>
+              </button>
+              <button class="section-tool-btn section-tool-btn--copy" @click="copySectionText('basics')">
+                <span class="tool-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 1H6a2 2 0 0 0-2 2v12h2V3h10zm3 4H10a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2Zm0 16H10V7h9z"/></svg>
+                </span>
+                <span>{{ copiedSectionId === 'basics' ? labels.copied : labels.copyToClipboard }}</span>
+              </button>
+              <button class="section-tool-btn section-tool-btn--print" @click="printSection('basics')">
+                <span class="tool-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 8V3H6v5h12Zm-2-3v1H8V5Zm2 4H6a4 4 0 0 0-4 4v4h4v4h12v-4h4v-4a4 4 0 0 0-4-4Zm-2 10H8v-5h8Zm2-7.5a1.25 1.25 0 1 1 0 2.5 1.25 1.25 0 0 1 0-2.5Z"/></svg>
+                </span>
+                <span>{{ labels.printSection }}</span>
+              </button>
+              <div class="font-controls">
+                <div class="font-chip">
+                  <span class="tool-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 20h2.6l1.7-4h7.4l1.7 4H20L13.7 5h-3.4Zm5.1-6 2.9-6.9 2.9 6.9ZM3 4v2h4.5v10h2V6H14V4Z"/></svg>
+                  </span>
+                  <span class="font-label">{{ labels.textSize }}</span>
+                </div>
+                <div class="font-actions">
+                  <button
+                    class="font-btn"
+                    :disabled="getSectionScale('basics') <= MIN_SECTION_FONT_SCALE"
+                    :aria-label="`Decrease text size for ${sections.basics.title}`"
+                    @click="changeSectionFontSize('basics', -SECTION_FONT_STEP)"
+                  >
+                    {{ labels.decreaseTextSize }}
+                  </button>
+                  <span class="font-scale">{{ formatSectionScale('basics') }}</span>
+                  <button
+                    class="font-btn"
+                    :disabled="getSectionScale('basics') >= MAX_SECTION_FONT_SCALE"
+                    :aria-label="`Increase text size for ${sections.basics.title}`"
+                    @click="changeSectionFontSize('basics', SECTION_FONT_STEP)"
+                  >
+                    {{ labels.increaseTextSize }}
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
 
           <div class="sec-image">
             <img :src="sectionImages.basics.src" :alt="sectionImages.basics.alt" loading="lazy">
             <div class="image-overlay"></div>
-            <div class="image-credit">{{ sectionImages.basics.credit }}</div>
+            <div class="image-credit">{{ labels.imageCreditPrefix }} {{ sectionImages.basics.credit }}</div>
           </div>
         </div>
 
@@ -98,7 +135,7 @@
         </div>
 
         <div class="reference-panel">
-          <h4>Key references</h4>
+          <h4>{{ labels.keyReferences }}</h4>
           <div class="reference-list">
             <div v-for="item in sectionReferences.basics" :key="item.title" class="reference-item">
               <strong>{{ item.title }}</strong>
@@ -108,22 +145,71 @@
         </div>
       </section>
 
-      <section class="sec fade-in-section" id="umrah">
+      <section
+        id="umrah"
+        class="sec fade-in-section study-section"
+        :class="{ 'print-target': printSectionId === 'umrah' }"
+        :style="getSectionStyle('umrah')"
+      >
         <div class="sec-header-with-image">
           <div class="sec-hd">
-            <span class="eyebrow">Chapter II</span>
-            <h2 class="sec-title">Umrah step by step</h2>
+            <span class="eyebrow">{{ sections.umrah.eyebrow }}</span>
+            <h2 class="sec-title">{{ sections.umrah.title }}</h2>
             <div class="sec-ornament"><span class="sec-ornament-dot"></span></div>
-            <p class="sec-desc">
-              The Umrah sequence is short, but mistakes usually happen through haste, crowd pressure, or
-              uncertainty at the miqat and during tawaf.
-            </p>
+            <p class="sec-desc">{{ sections.umrah.description }}</p>
+            <div class="section-tools" data-section-tools>
+              <button class="section-tool-btn section-tool-btn--whatsapp" @click="shareSectionOnWhatsApp('umrah', sections.umrah.title)">
+                <span class="tool-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.8 14.8L2 22l5.4-1.2A10 10 0 1 0 12 2Zm0 18a8 8 0 0 1-4.1-1.1l-.3-.2-3.2.7.7-3.1-.2-.3A8 8 0 1 1 12 20Zm4-5.5c-.2-.1-1.3-.6-1.5-.7s-.4-.1-.6.1-.6.7-.7.8-.3.2-.5.1a6.6 6.6 0 0 1-1.9-1.2 7.2 7.2 0 0 1-1.3-1.7c-.1-.2 0-.4.1-.5l.4-.5c.2-.3.1-.4 0-.5l-.6-1.5c-.1-.2-.3-.2-.5-.2h-.4c-.2 0-.5.1-.7.4s-.9.9-.9 2.1 1 2.4 1.1 2.6c.1.2 2 3 4.9 4.1.7.3 1.2.4 1.7.5.7.1 1.4.1 1.9-.1.6-.2 1.3-.6 1.4-1.1.2-.5.2-1 .1-1.1s-.2-.1-.4-.2Z"/></svg>
+                </span>
+                <span>{{ labels.shareWhatsApp }}</span>
+              </button>
+              <button class="section-tool-btn section-tool-btn--copy" @click="copySectionText('umrah')">
+                <span class="tool-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 1H6a2 2 0 0 0-2 2v12h2V3h10zm3 4H10a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2Zm0 16H10V7h9z"/></svg>
+                </span>
+                <span>{{ copiedSectionId === 'umrah' ? labels.copied : labels.copyToClipboard }}</span>
+              </button>
+              <button class="section-tool-btn section-tool-btn--print" @click="printSection('umrah')">
+                <span class="tool-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 8V3H6v5h12Zm-2-3v1H8V5Zm2 4H6a4 4 0 0 0-4 4v4h4v4h12v-4h4v-4a4 4 0 0 0-4-4Zm-2 10H8v-5h8Zm2-7.5a1.25 1.25 0 1 1 0 2.5 1.25 1.25 0 0 1 0-2.5Z"/></svg>
+                </span>
+                <span>{{ labels.printSection }}</span>
+              </button>
+              <div class="font-controls">
+                <div class="font-chip">
+                  <span class="tool-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 20h2.6l1.7-4h7.4l1.7 4H20L13.7 5h-3.4Zm5.1-6 2.9-6.9 2.9 6.9ZM3 4v2h4.5v10h2V6H14V4Z"/></svg>
+                  </span>
+                  <span class="font-label">{{ labels.textSize }}</span>
+                </div>
+                <div class="font-actions">
+                  <button
+                    class="font-btn"
+                    :disabled="getSectionScale('umrah') <= MIN_SECTION_FONT_SCALE"
+                    :aria-label="`Decrease text size for ${sections.umrah.title}`"
+                    @click="changeSectionFontSize('umrah', -SECTION_FONT_STEP)"
+                  >
+                    {{ labels.decreaseTextSize }}
+                  </button>
+                  <span class="font-scale">{{ formatSectionScale('umrah') }}</span>
+                  <button
+                    class="font-btn"
+                    :disabled="getSectionScale('umrah') >= MAX_SECTION_FONT_SCALE"
+                    :aria-label="`Increase text size for ${sections.umrah.title}`"
+                    @click="changeSectionFontSize('umrah', SECTION_FONT_STEP)"
+                  >
+                    {{ labels.increaseTextSize }}
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
 
           <div class="sec-image">
             <img :src="sectionImages.umrah.src" :alt="sectionImages.umrah.alt" loading="lazy">
             <div class="image-overlay"></div>
-            <div class="image-credit">{{ sectionImages.umrah.credit }}</div>
+            <div class="image-credit">{{ labels.imageCreditPrefix }} {{ sectionImages.umrah.credit }}</div>
           </div>
         </div>
 
@@ -143,15 +229,12 @@
         </div>
 
         <div class="conclusion">
-          <h4>After Umrah</h4>
-          <p>
-            When the hair is trimmed or shaved, Ihram ends. For Tamattu', the pilgrim remains out of Ihram
-            until entering Ihram again for Hajj on the 8th of Dhul-Hijjah.
-          </p>
+          <h4>{{ sections.umrah.conclusion.title }}</h4>
+          <p>{{ sections.umrah.conclusion.text }}</p>
         </div>
 
         <div class="reference-panel">
-          <h4>Key references</h4>
+          <h4>{{ labels.keyReferences }}</h4>
           <div class="reference-list">
             <div v-for="item in sectionReferences.umrah" :key="item.title" class="reference-item">
               <strong>{{ item.title }}</strong>
@@ -161,22 +244,53 @@
         </div>
       </section>
 
-      <section class="sec alt fade-in-section" id="hajj">
+      <section
+        id="hajj"
+        class="sec alt fade-in-section study-section"
+        :class="{ 'print-target': printSectionId === 'hajj' }"
+        :style="getSectionStyle('hajj')"
+      >
         <div class="sec-header-with-image">
           <div class="sec-hd">
-            <span class="eyebrow">Chapter III</span>
-            <h2 class="sec-title">The major days of Hajj</h2>
+            <span class="eyebrow">{{ sections.hajj.eyebrow }}</span>
+            <h2 class="sec-title">{{ sections.hajj.title }}</h2>
             <div class="sec-ornament"><span class="sec-ornament-dot"></span></div>
-            <p class="sec-desc">
-              The order of the days matters, but the greatest misunderstanding is forgetting that Arafah is the
-              center of the pilgrimage.
-            </p>
+            <p class="sec-desc">{{ sections.hajj.description }}</p>
+            <div class="section-tools" data-section-tools>
+              <button class="section-tool-btn section-tool-btn--whatsapp" @click="shareSectionOnWhatsApp('hajj', sections.hajj.title)">
+                <span class="tool-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.8 14.8L2 22l5.4-1.2A10 10 0 1 0 12 2Zm0 18a8 8 0 0 1-4.1-1.1l-.3-.2-3.2.7.7-3.1-.2-.3A8 8 0 1 1 12 20Zm4-5.5c-.2-.1-1.3-.6-1.5-.7s-.4-.1-.6.1-.6.7-.7.8-.3.2-.5.1a6.6 6.6 0 0 1-1.9-1.2 7.2 7.2 0 0 1-1.3-1.7c-.1-.2 0-.4.1-.5l.4-.5c.2-.3.1-.4 0-.5l-.6-1.5c-.1-.2-.3-.2-.5-.2h-.4c-.2 0-.5.1-.7.4s-.9.9-.9 2.1 1 2.4 1.1 2.6c.1.2 2 3 4.9 4.1.7.3 1.2.4 1.7.5.7.1 1.4.1 1.9-.1.6-.2 1.3-.6 1.4-1.1.2-.5.2-1 .1-1.1s-.2-.1-.4-.2Z"/></svg></span>
+                <span>{{ labels.shareWhatsApp }}</span>
+              </button>
+              <button class="section-tool-btn section-tool-btn--copy" @click="copySectionText('hajj')">
+                <span class="tool-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 1H6a2 2 0 0 0-2 2v12h2V3h10zm3 4H10a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2Zm0 16H10V7h9z"/></svg></span>
+                <span>{{ copiedSectionId === 'hajj' ? labels.copied : labels.copyToClipboard }}</span>
+              </button>
+              <button class="section-tool-btn section-tool-btn--print" @click="printSection('hajj')">
+                <span class="tool-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 8V3H6v5h12Zm-2-3v1H8V5Zm2 4H6a4 4 0 0 0-4 4v4h4v4h12v-4h4v-4a4 4 0 0 0-4-4Zm-2 10H8v-5h8Zm2-7.5a1.25 1.25 0 1 1 0 2.5 1.25 1.25 0 0 1 0-2.5Z"/></svg></span>
+                <span>{{ labels.printSection }}</span>
+              </button>
+              <div class="font-controls">
+                <div class="font-chip">
+                  <span class="tool-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 20h2.6l1.7-4h7.4l1.7 4H20L13.7 5h-3.4Zm5.1-6 2.9-6.9 2.9 6.9ZM3 4v2h4.5v10h2V6H14V4Z"/></svg></span>
+                  <span class="font-label">{{ labels.textSize }}</span>
+                </div>
+                <div class="font-actions">
+                  <button class="font-btn" :disabled="getSectionScale('hajj') <= MIN_SECTION_FONT_SCALE" :aria-label="`Decrease text size for ${sections.hajj.title}`" @click="changeSectionFontSize('hajj', -SECTION_FONT_STEP)">
+                    {{ labels.decreaseTextSize }}
+                  </button>
+                  <span class="font-scale">{{ formatSectionScale('hajj') }}</span>
+                  <button class="font-btn" :disabled="getSectionScale('hajj') >= MAX_SECTION_FONT_SCALE" :aria-label="`Increase text size for ${sections.hajj.title}`" @click="changeSectionFontSize('hajj', SECTION_FONT_STEP)">
+                    {{ labels.increaseTextSize }}
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
 
           <div class="sec-image">
             <img :src="sectionImages.hajj.src" :alt="sectionImages.hajj.alt" loading="lazy">
             <div class="image-overlay"></div>
-            <div class="image-credit">{{ sectionImages.hajj.credit }}</div>
+            <div class="image-credit">{{ labels.imageCreditPrefix }} {{ sectionImages.hajj.credit }}</div>
           </div>
         </div>
 
@@ -195,17 +309,14 @@
         </div>
 
         <div class="farewell">
-          <div class="farewell-arabic">طواف الوداع</div>
-          <h4>Farewell Tawaf</h4>
-          <p>
-            Before leaving Makkah, the pilgrim makes a final tawaf unless exempted by a recognized reason such
-            as menstruation. Keep the ending dignified and avoid turning it into a rushed photo stop.
-          </p>
-          <cite>Reference: Sahih Muslim 1327</cite>
+          <div class="farewell-arabic">{{ sections.hajj.farewell.arabic }}</div>
+          <h4>{{ sections.hajj.farewell.title }}</h4>
+          <p>{{ sections.hajj.farewell.text }}</p>
+          <cite>{{ sections.hajj.farewell.reference }}</cite>
         </div>
 
         <div class="reference-panel">
-          <h4>Key references</h4>
+          <h4>{{ labels.keyReferences }}</h4>
           <div class="reference-list">
             <div v-for="item in sectionReferences.hajj" :key="item.title" class="reference-item">
               <strong>{{ item.title }}</strong>
@@ -215,22 +326,53 @@
         </div>
       </section>
 
-      <section class="sec fade-in-section" id="mistakes">
+      <section
+        id="mistakes"
+        class="sec fade-in-section study-section"
+        :class="{ 'print-target': printSectionId === 'mistakes' }"
+        :style="getSectionStyle('mistakes')"
+      >
         <div class="sec-header-with-image">
           <div class="sec-hd">
-            <span class="eyebrow">Chapter IV</span>
-            <h2 class="sec-title">Common mistakes to avoid</h2>
+            <span class="eyebrow">{{ sections.mistakes.eyebrow }}</span>
+            <h2 class="sec-title">{{ sections.mistakes.title }}</h2>
             <div class="sec-ornament"><span class="sec-ornament-dot"></span></div>
-            <p class="sec-desc">
-              These are recurring problems that do not come from lack of sincerity, but from poor preparation,
-              pressure, and imitation without knowledge.
-            </p>
+            <p class="sec-desc">{{ sections.mistakes.description }}</p>
+            <div class="section-tools" data-section-tools>
+              <button class="section-tool-btn section-tool-btn--whatsapp" @click="shareSectionOnWhatsApp('mistakes', sections.mistakes.title)">
+                <span class="tool-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.8 14.8L2 22l5.4-1.2A10 10 0 1 0 12 2Zm0 18a8 8 0 0 1-4.1-1.1l-.3-.2-3.2.7.7-3.1-.2-.3A8 8 0 1 1 12 20Zm4-5.5c-.2-.1-1.3-.6-1.5-.7s-.4-.1-.6.1-.6.7-.7.8-.3.2-.5.1a6.6 6.6 0 0 1-1.9-1.2 7.2 7.2 0 0 1-1.3-1.7c-.1-.2 0-.4.1-.5l.4-.5c.2-.3.1-.4 0-.5l-.6-1.5c-.1-.2-.3-.2-.5-.2h-.4c-.2 0-.5.1-.7.4s-.9.9-.9 2.1 1 2.4 1.1 2.6c.1.2 2 3 4.9 4.1.7.3 1.2.4 1.7.5.7.1 1.4.1 1.9-.1.6-.2 1.3-.6 1.4-1.1.2-.5.2-1 .1-1.1s-.2-.1-.4-.2Z"/></svg></span>
+                <span>{{ labels.shareWhatsApp }}</span>
+              </button>
+              <button class="section-tool-btn section-tool-btn--copy" @click="copySectionText('mistakes')">
+                <span class="tool-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 1H6a2 2 0 0 0-2 2v12h2V3h10zm3 4H10a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2Zm0 16H10V7h9z"/></svg></span>
+                <span>{{ copiedSectionId === 'mistakes' ? labels.copied : labels.copyToClipboard }}</span>
+              </button>
+              <button class="section-tool-btn section-tool-btn--print" @click="printSection('mistakes')">
+                <span class="tool-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 8V3H6v5h12Zm-2-3v1H8V5Zm2 4H6a4 4 0 0 0-4 4v4h4v4h12v-4h4v-4a4 4 0 0 0-4-4Zm-2 10H8v-5h8Zm2-7.5a1.25 1.25 0 1 1 0 2.5 1.25 1.25 0 0 1 0-2.5Z"/></svg></span>
+                <span>{{ labels.printSection }}</span>
+              </button>
+              <div class="font-controls">
+                <div class="font-chip">
+                  <span class="tool-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 20h2.6l1.7-4h7.4l1.7 4H20L13.7 5h-3.4Zm5.1-6 2.9-6.9 2.9 6.9ZM3 4v2h4.5v10h2V6H14V4Z"/></svg></span>
+                  <span class="font-label">{{ labels.textSize }}</span>
+                </div>
+                <div class="font-actions">
+                  <button class="font-btn" :disabled="getSectionScale('mistakes') <= MIN_SECTION_FONT_SCALE" :aria-label="`Decrease text size for ${sections.mistakes.title}`" @click="changeSectionFontSize('mistakes', -SECTION_FONT_STEP)">
+                    {{ labels.decreaseTextSize }}
+                  </button>
+                  <span class="font-scale">{{ formatSectionScale('mistakes') }}</span>
+                  <button class="font-btn" :disabled="getSectionScale('mistakes') >= MAX_SECTION_FONT_SCALE" :aria-label="`Increase text size for ${sections.mistakes.title}`" @click="changeSectionFontSize('mistakes', SECTION_FONT_STEP)">
+                    {{ labels.increaseTextSize }}
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
 
           <div class="sec-image">
             <img :src="sectionImages.mistakes.src" :alt="sectionImages.mistakes.alt" loading="lazy">
             <div class="image-overlay"></div>
-            <div class="image-credit">{{ sectionImages.mistakes.credit }}</div>
+            <div class="image-credit">{{ labels.imageCreditPrefix }} {{ sectionImages.mistakes.credit }}</div>
           </div>
         </div>
 
@@ -243,7 +385,7 @@
         </div>
 
         <div class="reference-panel">
-          <h4>Key references</h4>
+          <h4>{{ labels.keyReferences }}</h4>
           <div class="reference-list">
             <div v-for="item in sectionReferences.mistakes" :key="item.title" class="reference-item">
               <strong>{{ item.title }}</strong>
@@ -253,22 +395,53 @@
         </div>
       </section>
 
-      <section class="sec alt fade-in-section" id="health">
+      <section
+        id="health"
+        class="sec alt fade-in-section study-section"
+        :class="{ 'print-target': printSectionId === 'health' }"
+        :style="getSectionStyle('health')"
+      >
         <div class="sec-header-with-image">
           <div class="sec-hd">
-            <span class="eyebrow">Chapter V</span>
-            <h2 class="sec-title">Health, safety, and readiness</h2>
+            <span class="eyebrow">{{ sections.health.eyebrow }}</span>
+            <h2 class="sec-title">{{ sections.health.title }}</h2>
             <div class="sec-ornament"><span class="sec-ornament-dot"></span></div>
-            <p class="sec-desc">
-              Physical ability and official health requirements are part of real-world Hajj preparation, not an
-              afterthought. Recheck them close to travel because they can change.
-            </p>
+            <p class="sec-desc">{{ sections.health.description }}</p>
+            <div class="section-tools" data-section-tools>
+              <button class="section-tool-btn section-tool-btn--whatsapp" @click="shareSectionOnWhatsApp('health', sections.health.title)">
+                <span class="tool-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.8 14.8L2 22l5.4-1.2A10 10 0 1 0 12 2Zm0 18a8 8 0 0 1-4.1-1.1l-.3-.2-3.2.7.7-3.1-.2-.3A8 8 0 1 1 12 20Zm4-5.5c-.2-.1-1.3-.6-1.5-.7s-.4-.1-.6.1-.6.7-.7.8-.3.2-.5.1a6.6 6.6 0 0 1-1.9-1.2 7.2 7.2 0 0 1-1.3-1.7c-.1-.2 0-.4.1-.5l.4-.5c.2-.3.1-.4 0-.5l-.6-1.5c-.1-.2-.3-.2-.5-.2h-.4c-.2 0-.5.1-.7.4s-.9.9-.9 2.1 1 2.4 1.1 2.6c.1.2 2 3 4.9 4.1.7.3 1.2.4 1.7.5.7.1 1.4.1 1.9-.1.6-.2 1.3-.6 1.4-1.1.2-.5.2-1 .1-1.1s-.2-.1-.4-.2Z"/></svg></span>
+                <span>{{ labels.shareWhatsApp }}</span>
+              </button>
+              <button class="section-tool-btn section-tool-btn--copy" @click="copySectionText('health')">
+                <span class="tool-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 1H6a2 2 0 0 0-2 2v12h2V3h10zm3 4H10a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2Zm0 16H10V7h9z"/></svg></span>
+                <span>{{ copiedSectionId === 'health' ? labels.copied : labels.copyToClipboard }}</span>
+              </button>
+              <button class="section-tool-btn section-tool-btn--print" @click="printSection('health')">
+                <span class="tool-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 8V3H6v5h12Zm-2-3v1H8V5Zm2 4H6a4 4 0 0 0-4 4v4h4v4h12v-4h4v-4a4 4 0 0 0-4-4Zm-2 10H8v-5h8Zm2-7.5a1.25 1.25 0 1 1 0 2.5 1.25 1.25 0 0 1 0-2.5Z"/></svg></span>
+                <span>{{ labels.printSection }}</span>
+              </button>
+              <div class="font-controls">
+                <div class="font-chip">
+                  <span class="tool-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 20h2.6l1.7-4h7.4l1.7 4H20L13.7 5h-3.4Zm5.1-6 2.9-6.9 2.9 6.9ZM3 4v2h4.5v10h2V6H14V4Z"/></svg></span>
+                  <span class="font-label">{{ labels.textSize }}</span>
+                </div>
+                <div class="font-actions">
+                  <button class="font-btn" :disabled="getSectionScale('health') <= MIN_SECTION_FONT_SCALE" :aria-label="`Decrease text size for ${sections.health.title}`" @click="changeSectionFontSize('health', -SECTION_FONT_STEP)">
+                    {{ labels.decreaseTextSize }}
+                  </button>
+                  <span class="font-scale">{{ formatSectionScale('health') }}</span>
+                  <button class="font-btn" :disabled="getSectionScale('health') >= MAX_SECTION_FONT_SCALE" :aria-label="`Increase text size for ${sections.health.title}`" @click="changeSectionFontSize('health', SECTION_FONT_STEP)">
+                    {{ labels.increaseTextSize }}
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
 
           <div class="sec-image">
             <img :src="sectionImages.health.src" :alt="sectionImages.health.alt" loading="lazy">
             <div class="image-overlay"></div>
-            <div class="image-credit">{{ sectionImages.health.credit }}</div>
+            <div class="image-credit">{{ labels.imageCreditPrefix }} {{ sectionImages.health.credit }}</div>
           </div>
         </div>
 
@@ -289,13 +462,10 @@
           </article>
         </div>
 
-        <div class="section-note">
-          Official vaccination rules, seasonal public-health measures, and entry conditions must be checked
-          against the Saudi Ministry of Health and Nusuk near departure.
-        </div>
+        <div class="section-note">{{ sections.health.note }}</div>
 
         <div class="reference-panel">
-          <h4>Key references</h4>
+          <h4>{{ labels.keyReferences }}</h4>
           <div class="reference-list">
             <div v-for="item in sectionReferences.health" :key="item.title" class="reference-item">
               <strong>{{ item.title }}</strong>
@@ -305,22 +475,53 @@
         </div>
       </section>
 
-      <section class="sec fade-in-section" id="rules">
+      <section
+        id="rules"
+        class="sec fade-in-section study-section"
+        :class="{ 'print-target': printSectionId === 'rules' }"
+        :style="getSectionStyle('rules')"
+      >
         <div class="sec-header-with-image">
           <div class="sec-hd">
-            <span class="eyebrow">Chapter VI</span>
-            <h2 class="sec-title">Ihram rules and etiquette</h2>
+            <span class="eyebrow">{{ sections.rules.eyebrow }}</span>
+            <h2 class="sec-title">{{ sections.rules.title }}</h2>
             <div class="sec-ornament"><span class="sec-ornament-dot"></span></div>
-            <p class="sec-desc">
-              Know the difference between what remains permitted, what is prohibited, and what should be taken
-              to a scholar when an error happens.
-            </p>
+            <p class="sec-desc">{{ sections.rules.description }}</p>
+            <div class="section-tools" data-section-tools>
+              <button class="section-tool-btn section-tool-btn--whatsapp" @click="shareSectionOnWhatsApp('rules', sections.rules.title)">
+                <span class="tool-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.8 14.8L2 22l5.4-1.2A10 10 0 1 0 12 2Zm0 18a8 8 0 0 1-4.1-1.1l-.3-.2-3.2.7.7-3.1-.2-.3A8 8 0 1 1 12 20Zm4-5.5c-.2-.1-1.3-.6-1.5-.7s-.4-.1-.6.1-.6.7-.7.8-.3.2-.5.1a6.6 6.6 0 0 1-1.9-1.2 7.2 7.2 0 0 1-1.3-1.7c-.1-.2 0-.4.1-.5l.4-.5c.2-.3.1-.4 0-.5l-.6-1.5c-.1-.2-.3-.2-.5-.2h-.4c-.2 0-.5.1-.7.4s-.9.9-.9 2.1 1 2.4 1.1 2.6c.1.2 2 3 4.9 4.1.7.3 1.2.4 1.7.5.7.1 1.4.1 1.9-.1.6-.2 1.3-.6 1.4-1.1.2-.5.2-1 .1-1.1s-.2-.1-.4-.2Z"/></svg></span>
+                <span>{{ labels.shareWhatsApp }}</span>
+              </button>
+              <button class="section-tool-btn section-tool-btn--copy" @click="copySectionText('rules')">
+                <span class="tool-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 1H6a2 2 0 0 0-2 2v12h2V3h10zm3 4H10a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2Zm0 16H10V7h9z"/></svg></span>
+                <span>{{ copiedSectionId === 'rules' ? labels.copied : labels.copyToClipboard }}</span>
+              </button>
+              <button class="section-tool-btn section-tool-btn--print" @click="printSection('rules')">
+                <span class="tool-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 8V3H6v5h12Zm-2-3v1H8V5Zm2 4H6a4 4 0 0 0-4 4v4h4v4h12v-4h4v-4a4 4 0 0 0-4-4Zm-2 10H8v-5h8Zm2-7.5a1.25 1.25 0 1 1 0 2.5 1.25 1.25 0 0 1 0-2.5Z"/></svg></span>
+                <span>{{ labels.printSection }}</span>
+              </button>
+              <div class="font-controls">
+                <div class="font-chip">
+                  <span class="tool-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 20h2.6l1.7-4h7.4l1.7 4H20L13.7 5h-3.4Zm5.1-6 2.9-6.9 2.9 6.9ZM3 4v2h4.5v10h2V6H14V4Z"/></svg></span>
+                  <span class="font-label">{{ labels.textSize }}</span>
+                </div>
+                <div class="font-actions">
+                  <button class="font-btn" :disabled="getSectionScale('rules') <= MIN_SECTION_FONT_SCALE" :aria-label="`Decrease text size for ${sections.rules.title}`" @click="changeSectionFontSize('rules', -SECTION_FONT_STEP)">
+                    {{ labels.decreaseTextSize }}
+                  </button>
+                  <span class="font-scale">{{ formatSectionScale('rules') }}</span>
+                  <button class="font-btn" :disabled="getSectionScale('rules') >= MAX_SECTION_FONT_SCALE" :aria-label="`Increase text size for ${sections.rules.title}`" @click="changeSectionFontSize('rules', SECTION_FONT_STEP)">
+                    {{ labels.increaseTextSize }}
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
 
           <div class="sec-image">
             <img :src="sectionImages.rules.src" :alt="sectionImages.rules.alt" loading="lazy">
             <div class="image-overlay"></div>
-            <div class="image-credit">{{ sectionImages.rules.credit }}</div>
+            <div class="image-credit">{{ labels.imageCreditPrefix }} {{ sectionImages.rules.credit }}</div>
           </div>
         </div>
 
@@ -328,7 +529,7 @@
           <article class="rules-card">
             <div class="rules-hdr pos">
               <svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>
-              Permissible acts
+              {{ sections.rules.permissibleTitle }}
             </div>
             <ul class="rules-list">
               <li v-for="item in rules.permissible" :key="item">
@@ -343,7 +544,7 @@
           <article class="rules-card">
             <div class="rules-hdr neg">
               <svg viewBox="0 0 24 24" fill="currentColor"><path d="m19 6.41-1.41-1.41L12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
-              Prohibited acts
+              {{ sections.rules.prohibitedTitle }}
             </div>
             <ul class="rules-list">
               <li v-for="item in rules.prohibited" :key="item">
@@ -356,13 +557,10 @@
           </article>
         </div>
 
-        <div class="section-note">
-          If an error happened because of illness, forgetfulness, or necessity, do not improvise the ruling.
-          Ask a qualified scholar about validity, fidyah, and what must be repeated.
-        </div>
+        <div class="section-note">{{ sections.rules.note }}</div>
 
         <div class="reference-panel">
-          <h4>Key references</h4>
+          <h4>{{ labels.keyReferences }}</h4>
           <div class="reference-list">
             <div v-for="item in sectionReferences.rules" :key="item.title" class="reference-item">
               <strong>{{ item.title }}</strong>
@@ -372,22 +570,53 @@
         </div>
       </section>
 
-      <section class="sec alt fade-in-section" id="spiritual">
+      <section
+        id="spiritual"
+        class="sec alt fade-in-section study-section"
+        :class="{ 'print-target': printSectionId === 'spiritual' }"
+        :style="getSectionStyle('spiritual')"
+      >
         <div class="sec-header-with-image">
           <div class="sec-hd">
-            <span class="eyebrow">Chapter VII</span>
-            <h2 class="sec-title">Spiritual preparation</h2>
+            <span class="eyebrow">{{ sections.spiritual.eyebrow }}</span>
+            <h2 class="sec-title">{{ sections.spiritual.title }}</h2>
             <div class="sec-ornament"><span class="sec-ornament-dot"></span></div>
-            <p class="sec-desc">
-              The outward rites are stronger when repentance, humility, patience, and learning have already
-              started before travel.
-            </p>
+            <p class="sec-desc">{{ sections.spiritual.description }}</p>
+            <div class="section-tools" data-section-tools>
+              <button class="section-tool-btn section-tool-btn--whatsapp" @click="shareSectionOnWhatsApp('spiritual', sections.spiritual.title)">
+                <span class="tool-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.8 14.8L2 22l5.4-1.2A10 10 0 1 0 12 2Zm0 18a8 8 0 0 1-4.1-1.1l-.3-.2-3.2.7.7-3.1-.2-.3A8 8 0 1 1 12 20Zm4-5.5c-.2-.1-1.3-.6-1.5-.7s-.4-.1-.6.1-.6.7-.7.8-.3.2-.5.1a6.6 6.6 0 0 1-1.9-1.2 7.2 7.2 0 0 1-1.3-1.7c-.1-.2 0-.4.1-.5l.4-.5c.2-.3.1-.4 0-.5l-.6-1.5c-.1-.2-.3-.2-.5-.2h-.4c-.2 0-.5.1-.7.4s-.9.9-.9 2.1 1 2.4 1.1 2.6c.1.2 2 3 4.9 4.1.7.3 1.2.4 1.7.5.7.1 1.4.1 1.9-.1.6-.2 1.3-.6 1.4-1.1.2-.5.2-1 .1-1.1s-.2-.1-.4-.2Z"/></svg></span>
+                <span>{{ labels.shareWhatsApp }}</span>
+              </button>
+              <button class="section-tool-btn section-tool-btn--copy" @click="copySectionText('spiritual')">
+                <span class="tool-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 1H6a2 2 0 0 0-2 2v12h2V3h10zm3 4H10a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2Zm0 16H10V7h9z"/></svg></span>
+                <span>{{ copiedSectionId === 'spiritual' ? labels.copied : labels.copyToClipboard }}</span>
+              </button>
+              <button class="section-tool-btn section-tool-btn--print" @click="printSection('spiritual')">
+                <span class="tool-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 8V3H6v5h12Zm-2-3v1H8V5Zm2 4H6a4 4 0 0 0-4 4v4h4v4h12v-4h4v-4a4 4 0 0 0-4-4Zm-2 10H8v-5h8Zm2-7.5a1.25 1.25 0 1 1 0 2.5 1.25 1.25 0 0 1 0-2.5Z"/></svg></span>
+                <span>{{ labels.printSection }}</span>
+              </button>
+              <div class="font-controls">
+                <div class="font-chip">
+                  <span class="tool-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 20h2.6l1.7-4h7.4l1.7 4H20L13.7 5h-3.4Zm5.1-6 2.9-6.9 2.9 6.9ZM3 4v2h4.5v10h2V6H14V4Z"/></svg></span>
+                  <span class="font-label">{{ labels.textSize }}</span>
+                </div>
+                <div class="font-actions">
+                  <button class="font-btn" :disabled="getSectionScale('spiritual') <= MIN_SECTION_FONT_SCALE" :aria-label="`Decrease text size for ${sections.spiritual.title}`" @click="changeSectionFontSize('spiritual', -SECTION_FONT_STEP)">
+                    {{ labels.decreaseTextSize }}
+                  </button>
+                  <span class="font-scale">{{ formatSectionScale('spiritual') }}</span>
+                  <button class="font-btn" :disabled="getSectionScale('spiritual') >= MAX_SECTION_FONT_SCALE" :aria-label="`Increase text size for ${sections.spiritual.title}`" @click="changeSectionFontSize('spiritual', SECTION_FONT_STEP)">
+                    {{ labels.increaseTextSize }}
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
 
           <div class="sec-image">
             <img :src="sectionImages.spiritual.src" :alt="sectionImages.spiritual.alt" loading="lazy">
             <div class="image-overlay"></div>
-            <div class="image-credit">{{ sectionImages.spiritual.credit }}</div>
+            <div class="image-credit">{{ labels.imageCreditPrefix }} {{ sectionImages.spiritual.credit }}</div>
           </div>
         </div>
 
@@ -401,7 +630,7 @@
         </div>
 
         <div class="reference-panel">
-          <h4>Key references</h4>
+          <h4>{{ labels.keyReferences }}</h4>
           <div class="reference-list">
             <div v-for="item in sectionReferences.spiritual" :key="item.title" class="reference-item">
               <strong>{{ item.title }}</strong>
@@ -413,13 +642,10 @@
 
       <section class="sec fade-in-section" id="shorts">
         <div class="sec-hd sec-hd-center">
-          <span class="eyebrow">Supplementary Media</span>
-          <h2 class="sec-title">Short visual refreshers</h2>
+          <span class="eyebrow">{{ sections.shorts.eyebrow }}</span>
+          <h2 class="sec-title">{{ sections.shorts.title }}</h2>
           <div class="sec-ornament"><span class="sec-ornament-dot"></span></div>
-          <p class="sec-desc">
-            These short videos are supplementary visual refreshers only. They are not the standard for legal
-            rulings. Keep the Qur'an, hadith, and the PDF guides below above any short clip.
-          </p>
+          <p class="sec-desc">{{ sections.shorts.description }}</p>
         </div>
 
         <div class="shorts-grid">
@@ -428,6 +654,7 @@
               <iframe
                 :src="`https://www.youtube-nocookie.com/embed/${video.id}`"
                 :title="video.title"
+                loading="lazy"
                 frameborder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 allowfullscreen
@@ -442,15 +669,46 @@
         </div>
       </section>
 
-      <section class="sec alt fade-in-section" id="resources">
+      <section
+        id="resources"
+        class="sec alt fade-in-section study-section"
+        :class="{ 'print-target': printSectionId === 'resources' }"
+        :style="getSectionStyle('resources')"
+      >
         <div class="sec-hd sec-hd-center">
-          <span class="eyebrow">Chapter VIII</span>
-          <h2 class="sec-title">Key references and official resources</h2>
+          <span class="eyebrow">{{ sections.resources.eyebrow }}</span>
+          <h2 class="sec-title">{{ sections.resources.title }}</h2>
           <div class="sec-ornament"><span class="sec-ornament-dot"></span></div>
-          <p class="sec-desc">
-            These are intentionally displayed as non-clickable reference blocks, so the page behaves more like a
-            study guide than a link directory. The PDF buttons above remain downloadable.
-          </p>
+          <p class="sec-desc">{{ sections.resources.description }}</p>
+          <div class="section-tools section-tools-center" data-section-tools>
+            <button class="section-tool-btn section-tool-btn--whatsapp" @click="shareSectionOnWhatsApp('resources', sections.resources.title)">
+              <span class="tool-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.8 14.8L2 22l5.4-1.2A10 10 0 1 0 12 2Zm0 18a8 8 0 0 1-4.1-1.1l-.3-.2-3.2.7.7-3.1-.2-.3A8 8 0 1 1 12 20Zm4-5.5c-.2-.1-1.3-.6-1.5-.7s-.4-.1-.6.1-.6.7-.7.8-.3.2-.5.1a6.6 6.6 0 0 1-1.9-1.2 7.2 7.2 0 0 1-1.3-1.7c-.1-.2 0-.4.1-.5l.4-.5c.2-.3.1-.4 0-.5l-.6-1.5c-.1-.2-.3-.2-.5-.2h-.4c-.2 0-.5.1-.7.4s-.9.9-.9 2.1 1 2.4 1.1 2.6c.1.2 2 3 4.9 4.1.7.3 1.2.4 1.7.5.7.1 1.4.1 1.9-.1.6-.2 1.3-.6 1.4-1.1.2-.5.2-1 .1-1.1s-.2-.1-.4-.2Z"/></svg></span>
+              <span>{{ labels.shareWhatsApp }}</span>
+            </button>
+            <button class="section-tool-btn section-tool-btn--copy" @click="copySectionText('resources')">
+              <span class="tool-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 1H6a2 2 0 0 0-2 2v12h2V3h10zm3 4H10a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2Zm0 16H10V7h9z"/></svg></span>
+              <span>{{ copiedSectionId === 'resources' ? labels.copied : labels.copyToClipboard }}</span>
+            </button>
+            <button class="section-tool-btn section-tool-btn--print" @click="printSection('resources')">
+              <span class="tool-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 8V3H6v5h12Zm-2-3v1H8V5Zm2 4H6a4 4 0 0 0-4 4v4h4v4h12v-4h4v-4a4 4 0 0 0-4-4Zm-2 10H8v-5h8Zm2-7.5a1.25 1.25 0 1 1 0 2.5 1.25 1.25 0 0 1 0-2.5Z"/></svg></span>
+              <span>{{ labels.printSection }}</span>
+            </button>
+            <div class="font-controls">
+              <div class="font-chip">
+                <span class="tool-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 20h2.6l1.7-4h7.4l1.7 4H20L13.7 5h-3.4Zm5.1-6 2.9-6.9 2.9 6.9ZM3 4v2h4.5v10h2V6H14V4Z"/></svg></span>
+                <span class="font-label">{{ labels.textSize }}</span>
+              </div>
+              <div class="font-actions">
+                <button class="font-btn" :disabled="getSectionScale('resources') <= MIN_SECTION_FONT_SCALE" :aria-label="`Decrease text size for ${sections.resources.title}`" @click="changeSectionFontSize('resources', -SECTION_FONT_STEP)">
+                  {{ labels.decreaseTextSize }}
+                </button>
+                <span class="font-scale">{{ formatSectionScale('resources') }}</span>
+                <button class="font-btn" :disabled="getSectionScale('resources') >= MAX_SECTION_FONT_SCALE" :aria-label="`Increase text size for ${sections.resources.title}`" @click="changeSectionFontSize('resources', SECTION_FONT_STEP)">
+                  {{ labels.increaseTextSize }}
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
 
         <div class="resource-grid">
@@ -463,7 +721,7 @@
         </div>
 
         <div class="faq-wrap">
-          <h4>Common questions</h4>
+          <h4>{{ labels.faqTitle }}</h4>
           <div v-for="(faq, index) in faqs" :key="faq.q" class="faq-item" :class="{ open: activeFaq === index }">
             <button class="faq-q" @click="toggleFaq(index)">
               <span>{{ faq.q }}</span>
@@ -477,22 +735,53 @@
         </div>
       </section>
 
-      <section class="sec fade-in-section" id="post-hajj">
+      <section
+        id="post-hajj"
+        class="sec fade-in-section study-section"
+        :class="{ 'print-target': printSectionId === 'post-hajj' }"
+        :style="getSectionStyle('post-hajj')"
+      >
         <div class="sec-header-with-image">
           <div class="sec-hd">
-            <span class="eyebrow">Closing</span>
-            <h2 class="sec-title">Returning home with acceptance in mind</h2>
+            <span class="eyebrow">{{ sections.postHajj.eyebrow }}</span>
+            <h2 class="sec-title">{{ sections.postHajj.title }}</h2>
             <div class="sec-ornament"><span class="sec-ornament-dot"></span></div>
-            <p class="sec-desc">
-              The journey is not measured by photographs or stories, but by repentance, steadier prayer, better
-              conduct, and a sincere hope that Allah accepted it.
-            </p>
+            <p class="sec-desc">{{ sections.postHajj.description }}</p>
+            <div class="section-tools" data-section-tools>
+              <button class="section-tool-btn section-tool-btn--whatsapp" @click="shareSectionOnWhatsApp('post-hajj', sections.postHajj.title)">
+                <span class="tool-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.8 14.8L2 22l5.4-1.2A10 10 0 1 0 12 2Zm0 18a8 8 0 0 1-4.1-1.1l-.3-.2-3.2.7.7-3.1-.2-.3A8 8 0 1 1 12 20Zm4-5.5c-.2-.1-1.3-.6-1.5-.7s-.4-.1-.6.1-.6.7-.7.8-.3.2-.5.1a6.6 6.6 0 0 1-1.9-1.2 7.2 7.2 0 0 1-1.3-1.7c-.1-.2 0-.4.1-.5l.4-.5c.2-.3.1-.4 0-.5l-.6-1.5c-.1-.2-.3-.2-.5-.2h-.4c-.2 0-.5.1-.7.4s-.9.9-.9 2.1 1 2.4 1.1 2.6c.1.2 2 3 4.9 4.1.7.3 1.2.4 1.7.5.7.1 1.4.1 1.9-.1.6-.2 1.3-.6 1.4-1.1.2-.5.2-1 .1-1.1s-.2-.1-.4-.2Z"/></svg></span>
+                <span>{{ labels.shareWhatsApp }}</span>
+              </button>
+              <button class="section-tool-btn section-tool-btn--copy" @click="copySectionText('post-hajj')">
+                <span class="tool-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 1H6a2 2 0 0 0-2 2v12h2V3h10zm3 4H10a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2Zm0 16H10V7h9z"/></svg></span>
+                <span>{{ copiedSectionId === 'post-hajj' ? labels.copied : labels.copyToClipboard }}</span>
+              </button>
+              <button class="section-tool-btn section-tool-btn--print" @click="printSection('post-hajj')">
+                <span class="tool-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 8V3H6v5h12Zm-2-3v1H8V5Zm2 4H6a4 4 0 0 0-4 4v4h4v4h12v-4h4v-4a4 4 0 0 0-4-4Zm-2 10H8v-5h8Zm2-7.5a1.25 1.25 0 1 1 0 2.5 1.25 1.25 0 0 1 0-2.5Z"/></svg></span>
+                <span>{{ labels.printSection }}</span>
+              </button>
+              <div class="font-controls">
+                <div class="font-chip">
+                  <span class="tool-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 20h2.6l1.7-4h7.4l1.7 4H20L13.7 5h-3.4Zm5.1-6 2.9-6.9 2.9 6.9ZM3 4v2h4.5v10h2V6H14V4Z"/></svg></span>
+                  <span class="font-label">{{ labels.textSize }}</span>
+                </div>
+                <div class="font-actions">
+                  <button class="font-btn" :disabled="getSectionScale('post-hajj') <= MIN_SECTION_FONT_SCALE" :aria-label="`Decrease text size for ${sections.postHajj.title}`" @click="changeSectionFontSize('post-hajj', -SECTION_FONT_STEP)">
+                    {{ labels.decreaseTextSize }}
+                  </button>
+                  <span class="font-scale">{{ formatSectionScale('post-hajj') }}</span>
+                  <button class="font-btn" :disabled="getSectionScale('post-hajj') >= MAX_SECTION_FONT_SCALE" :aria-label="`Increase text size for ${sections.postHajj.title}`" @click="changeSectionFontSize('post-hajj', SECTION_FONT_STEP)">
+                    {{ labels.increaseTextSize }}
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
 
           <div class="sec-image">
             <img :src="sectionImages.postHajj.src" :alt="sectionImages.postHajj.alt" loading="lazy">
             <div class="image-overlay"></div>
-            <div class="image-credit">{{ sectionImages.postHajj.credit }}</div>
+            <div class="image-credit">{{ labels.imageCreditPrefix }} {{ sectionImages.postHajj.credit }}</div>
           </div>
         </div>
 
@@ -512,18 +801,45 @@
         </div>
       </section>
 
+      <section class="sec alt fade-in-section summary-end" id="summary">
+        <div class="sec-hd sec-hd-center">
+          <span class="eyebrow">{{ sections.summary.eyebrow }}</span>
+          <h2 class="sec-title">{{ sections.summary.title }}</h2>
+          <div class="sec-ornament"><span class="sec-ornament-dot"></span></div>
+          <p class="sec-desc">{{ sections.summary.description }}</p>
+          <div class="summary-pills">
+            <span class="summary-pill">
+              <span class="tool-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M5 4h14v2H5Zm0 7h14v2H5Zm0 7h10v2H5Z"/></svg></span>
+              {{ summaryMetrics.words }} words
+            </span>
+            <span class="summary-pill">
+              <span class="tool-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1a11 11 0 1 0 11 11A11 11 0 0 0 12 1Zm1 11.4 4.1 2.4-1 1.7L11 13V6h2Z"/></svg></span>
+              {{ summaryMetrics.readTime }} min read
+            </span>
+          </div>
+        </div>
+
+        <div class="summary-card">
+          <span class="resource-label">{{ summarySection.kicker }}</span>
+          <p class="summary-intro">{{ summarySection.intro }}</p>
+          <div class="summary-points">
+            <article v-for="point in summarySection.points" :key="point" class="summary-point">
+              <span class="summary-point-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>
+              </span>
+              <p>{{ point }}</p>
+            </article>
+          </div>
+          <div class="summary-footer">{{ summarySection.footer }}</div>
+        </div>
+      </section>
+
       <div class="disclaimer-section fade-in-section">
         <div class="disclaimer-box">
-          <h4>Scope of this page</h4>
-          <p class="ref-text">
-            This guide aims to stay close to primary texts, established instructional guides, and official Saudi
-            health and logistics sources. It does not replace a scholar for illness, menstruation, fidyah,
-            missed rites, disputes between madhhabs, or complicated travel restrictions.
-          </p>
+          <h4>{{ disclaimer.title }}</h4>
+          <p class="ref-text">{{ disclaimer.text }}</p>
           <ul class="ref-list">
-            <li>Qur'anic anchors used here: 3:97, 2:158, 2:196, 2:203, 2:127.</li>
-            <li>Hadith anchors used here: Bukhari 1524, Ibn Majah 3015, Muslim 1327, Nasa'i 3062, Nasa'i 2622.</li>
-            <li>Official operational guidance used here: Nusuk and Saudi Ministry of Health documents current for 1447H / 2026.</li>
+            <li v-for="item in disclaimer.items" :key="item">{{ item }}</li>
           </ul>
         </div>
 
@@ -532,452 +848,134 @@
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M1 21h22L12 2 1 21zm11-3h-1v-1h1zm0-3h-1v-4h1z"/></svg>
           </div>
           <div class="warning-content">
-            <h4>Important note</h4>
-            <p>
-              “Scholarly approved” in practice still means verifying your personal case with a qualified scholar.
-              This page gives the mainstream structure and source trail, not a personalized fatwa.
-            </p>
+            <h4>{{ disclaimer.warningTitle }}</h4>
+            <p>{{ disclaimer.warningText }}</p>
           </div>
         </div>
       </div>
 
       <div class="closing fade-in-section">
-        <div class="closing-arabic">رَبَّنَا تَقَبَّلْ مِنَّا ۖ إِنَّكَ أَنتَ السَّمِيعُ الْعَلِيمُ</div>
+        <div class="closing-arabic">{{ closing.arabic }}</div>
         <div class="closing-div"><span class="sec-ornament-dot"></span></div>
-        <p class="closing-en">Our Lord, accept this from us. You are the All-Hearing, the All-Knowing.</p>
-        <span class="closing-ref">Qur'an 2:127</span>
-        <p class="closing-msg">
-          May Allah grant every pilgrim a sound journey, a valid pilgrimage, and a return marked by humility,
-          gratitude, and firmer obedience.
-        </p>
+        <p class="closing-en">{{ closing.translation }}</p>
+        <span class="closing-ref">{{ closing.reference }}</span>
+        <p class="closing-msg">{{ closing.message }}</p>
       </div>
     </div>
+
+    <button class="ai-summary-fab" :class="{ active: isAiSummaryOpen && !isAiSummaryMinimized }" :aria-label="labels.aiSummaryFab" @click="toggleAiSummary">
+      <span class="tool-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2 9.6 8.1 3 10.5l6.1 2.4L12 19l2.9-6.1L21 10.5l-6.1-2.4Z"/></svg>
+      </span>
+      <span class="ai-summary-fab-label">{{ labels.aiSummaryFab }}</span>
+    </button>
+
+    <aside v-if="isAiSummaryOpen" class="ai-summary-panel" :class="{ minimized: isAiSummaryMinimized, maximized: isAiSummaryMaximized }">
+      <div class="ai-summary-header">
+        <div>
+          <span class="resource-label">{{ summarySection.kicker }}</span>
+          <h3>{{ summarySection.title }}</h3>
+        </div>
+        <div class="ai-summary-controls">
+          <button class="ai-summary-control" @click="toggleAiSummaryMinimize" :aria-label="isAiSummaryMinimized ? 'Restore AI summary' : 'Minimize AI summary'">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 11h12v2H6z"/></svg>
+          </button>
+          <button class="ai-summary-control" @click="toggleAiSummaryMaximize" :aria-label="isAiSummaryMaximized ? 'Restore AI summary size' : 'Maximize AI summary'">
+            <svg v-if="!isAiSummaryMaximized" viewBox="0 0 24 24" fill="currentColor"><path d="M7 7h10v10H7zm2 2v6h6V9z"/></svg>
+            <svg v-else viewBox="0 0 24 24" fill="currentColor"><path d="M8 8h8v8H8zm-2 2H4V4h6v2H6zm14 0V6h-4V4h6v6zm-10 10H4v-6h2v4h4zm10 0h-6v-2h4v-4h2z"/></svg>
+          </button>
+          <button class="ai-summary-control ai-summary-control--close" @click="closeAiSummary" aria-label="Close AI summary">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="m18.3 5.7-1.4-1.4L12 9.2 7.1 4.3 5.7 5.7 10.6 10.6 5.7 15.5l1.4 1.4 4.9-4.9 4.9 4.9 1.4-1.4-4.9-4.9z"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <div v-if="!isAiSummaryMinimized" class="ai-summary-body">
+        <div class="summary-pills">
+          <span class="summary-pill">
+            <span class="tool-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M5 4h14v2H5Zm0 7h14v2H5Zm0 7h10v2H5Z"/></svg></span>
+            {{ summaryMetrics.words }} words
+          </span>
+          <span class="summary-pill">
+            <span class="tool-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1a11 11 0 1 0 11 11A11 11 0 0 0 12 1Zm1 11.4 4.1 2.4-1 1.7L11 13V6h2Z"/></svg></span>
+            {{ summaryMetrics.readTime }} min read
+          </span>
+        </div>
+        <p class="summary-intro">{{ summarySection.intro }}</p>
+        <div class="ai-summary-points">
+          <div v-for="point in summarySection.points" :key="point" class="ai-summary-point">
+            <span class="summary-point-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>
+            </span>
+            <p>{{ point }}</p>
+          </div>
+        </div>
+        <div class="ai-summary-footer">{{ summarySection.footer }}</div>
+      </div>
+    </aside>
   </div>
 </template>
 
 <script setup>
-import { onBeforeUnmount, onMounted, ref } from 'vue';
+import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
+import hajjUmrahContent from '../../data/hajj-umrah-content.json';
 
-const heroImage = {
-  src: 'https://images.pexels.com/photos/28209449/pexels-photo-28209449.jpeg?cs=srgb&dl=pexels-neo-evenger-1772575973-28209449.jpg&fm=jpg',
-  alt: 'Pilgrims in prayer near the sacred sanctuary'
-};
+const content = hajjUmrahContent;
+const labels = content.labels;
+const hero = content.hero;
+const heroImage = content.heroImage;
+const guidesSection = content.guidesSection;
+const sections = content.sections;
+const sectionImages = content.sectionImages;
+const pdfGuides = content.pdfGuides;
+const basicsCards = content.basicsCards;
+const hajjTypes = content.hajjTypes;
+const umrahSteps = content.umrahSteps;
+const hajjDays = content.hajjDays;
+const commonMistakes = content.commonMistakes;
+const healthReadiness = content.healthReadiness;
+const rules = content.rules;
+const spiritualPrep = content.spiritualPrep;
+const shorts = content.shorts;
+const resources = content.resources;
+const faqs = content.faqs;
+const postHajjSteps = content.postHajjSteps;
+const summarySection = content.summarySection;
+const sectionReferences = content.sectionReferences;
+const disclaimer = content.disclaimer;
+const closing = content.closing;
 
-const sectionImages = {
-  basics: {
-    src: 'https://images.pexels.com/photos/28209449/pexels-photo-28209449.jpeg?cs=srgb&dl=pexels-neo-evenger-1772575973-28209449.jpg&fm=jpg',
-    alt: 'Pilgrims gathered for worship near the Grand Mosque',
-    credit: 'Image source: Pexels'
-  },
-  umrah: {
-    src: 'https://images.pexels.com/photos/13459175/pexels-photo-13459175.jpeg?cs=srgb&dl=pexels-busrasahjn-13459175.jpg&fm=jpg',
-    alt: 'Mosque and courtyard scene suited to worship and reflection',
-    credit: 'Image source: Pexels'
-  },
-  hajj: {
-    src: 'https://images.pexels.com/photos/12662176/pexels-photo-12662176.jpeg?cs=srgb&dl=pexels-muhammad-abdullah-2002371-12662176.jpg&fm=jpg',
-    alt: 'Large gathering of worshippers in congregational prayer',
-    credit: 'Image source: Pexels'
-  },
-  mistakes: {
-    src: 'https://images.pexels.com/photos/19657349/pexels-photo-19657349.jpeg?cs=srgb&dl=pexels-bilalfurkankosar-19657349.jpg&fm=jpg',
-    alt: 'Worshippers praying inside a mosque',
-    credit: 'Image source: Pexels'
-  },
-  health: {
-    src: 'https://images.pexels.com/photos/28209449/pexels-photo-28209449.jpeg?cs=srgb&dl=pexels-neo-evenger-1772575973-28209449.jpg&fm=jpg',
-    alt: 'Pilgrims resting and moving carefully in a sacred setting',
-    credit: 'Image source: Pexels'
-  },
-  rules: {
-    src: 'https://images.pexels.com/photos/13459175/pexels-photo-13459175.jpeg?cs=srgb&dl=pexels-busrasahjn-13459175.jpg&fm=jpg',
-    alt: 'Mosque architecture and calm prayer environment',
-    credit: 'Image source: Pexels'
-  },
-  spiritual: {
-    src: 'https://images.pexels.com/photos/19657349/pexels-photo-19657349.jpeg?cs=srgb&dl=pexels-bilalfurkankosar-19657349.jpg&fm=jpg',
-    alt: 'Interior mosque scene suitable to reflection and worship',
-    credit: 'Image source: Pexels'
-  },
-  postHajj: {
-    src: 'https://images.pexels.com/photos/12662176/pexels-photo-12662176.jpeg?cs=srgb&dl=pexels-muhammad-abdullah-2002371-12662176.jpg&fm=jpg',
-    alt: 'Congregational prayer after a gathering of worshippers',
-    credit: 'Image source: Pexels'
-  }
-};
-
-const pdfGuides = [
-  {
-    label: 'Scholarly guide',
-    title: 'Hajj and Umrah step by step',
-    desc: 'A practical rites guide hosted by IslamHouse.',
-    url: 'https://d1.islamhouse.com/data/en/ih_books/single2/en-hajj-umrah.pdf',
-    filename: 'hajj-umrah-step-by-step.pdf'
-  },
-  {
-    label: 'Detailed manual',
-    title: "How to perform the rituals of Hajj, Umrah and visiting the Prophet's Masjid",
-    desc: 'A longer instructional manual hosted by IslamHouse.',
-    url: 'https://d1.islamhouse.com/data/en/ih_books/single/en-dalil-98.pdf',
-    filename: 'rituals-of-hajj-umrah-and-visiting-the-prophets-masjid.pdf'
-  },
-  {
-    label: 'Official health PDF',
-    title: 'Saudi Hajj health requirements 1447H / 2026',
-    desc: 'Official Ministry of Health requirements and recommendations.',
-    url: 'https://www.moh.gov.sa/HealthAwareness/Pilgrims-Health/Documents/Hajj-Health-Requirements-English-language.pdf',
-    filename: 'saudi-hajj-health-requirements-1447H-2026.pdf'
-  },
-  {
-    label: 'Official health guide',
-    title: 'General guide for health of Hajj and Umrah pilgrims',
-    desc: 'A practical English health guide from the Saudi Ministry of Health.',
-    url: 'https://www.moh.gov.sa/HealthAwareness/Pilgrims-Health/Documents/English.pdf',
-    filename: 'general-guide-for-health-of-hajj-and-umrah-pilgrims.pdf'
-  }
-];
-
-const basicsCards = [
-  {
-    num: '01',
-    title: 'Hajj is obligatory for the one who is able',
-    desc: 'The obligation is tied to ability: physical capacity, financial capacity, and a workable route to the pilgrimage.',
-    note: "Reference: Qur'an 3:97."
-  },
-  {
-    num: '02',
-    title: 'Umrah is not casual travel',
-    desc: "The Qur'an joins Hajj and Umrah in one verse, and the jurists discuss its exact legal weight. In any case, it is a legislated act of worship, not tourism.",
-    note: "Reference: Qur'an 2:196."
-  },
-  {
-    num: '03',
-    title: 'Accepted Hajj brings immense reward',
-    desc: 'The Prophet taught that an accepted Hajj has no reward except Paradise, and one Umrah to the next expiates what came between them.',
-    note: "Reference: Sunan an-Nasa'i 2622."
-  },
-  {
-    num: '04',
-    title: 'Learning the rites is part of the rite',
-    desc: 'A pilgrim should not rely on crowd movement alone. Study before travel and ask when the issue affects validity or fidyah.',
-    note: "Reference: Sunan an-Nasa'i 3062."
-  }
-];
-
-const hajjTypes = [
-  {
-    title: "Tamattu'",
-    desc: "Perform Umrah in the months of Hajj, leave Ihram, then re-enter Ihram for Hajj on the 8th of Dhul-Hijjah.",
-    note: 'Often the clearest path for many first-time pilgrims.'
-  },
-  {
-    title: 'Qiran',
-    desc: 'Enter Ihram for Umrah and Hajj together and remain in Ihram until the major rites are completed.',
-    note: 'Useful in some travel plans, but it keeps the pilgrim in Ihram longer.'
-  },
-  {
-    title: 'Ifrad',
-    desc: 'Enter Ihram for Hajj alone without combining Umrah into the same Ihram.',
-    note: 'The practical choice depends on circumstances, group planning, and fiqh guidance.'
-  }
-];
-
-const umrahSteps = [
-  {
-    num: '01',
-    title: 'Enter Ihram at the miqat',
-    desc: 'Make intention and begin Talbiyah at or before the appointed miqat. Do not cross the miqat casually and plan to fix it later.',
-    tip: 'Prepare clothing and intention before reaching the boundary if you are flying or moving with a group.',
-    ref: 'Reference: Sahih al-Bukhari 1524.'
-  },
-  {
-    num: '02',
-    title: 'Perform Tawaf with calmness',
-    desc: 'Circle the Kaaba seven times, beginning from the Black Stone area. The purpose is worship, not speed or crowd aggression.',
-    tip: 'If reaching the Black Stone is difficult, pointing from a distance is enough. Do not harm others.',
-    ref: "Reference: General Prophetic rite sequence and the instruction to learn the rituals in Sunan an-Nasa'i 3062."
-  },
-  {
-    num: '03',
-    title: "Complete Sa'i between Safa and Marwah",
-    desc: "Walk the required lengths between Safa and Marwah. The Qur'an names them among the symbols of Allah.",
-    tip: 'Keep your dua and dhikr steady even when the space is crowded.',
-    ref: "Reference: Qur'an 2:158."
-  },
-  {
-    num: '04',
-    title: 'Trim or shave the hair',
-    desc: 'Men shave or shorten the hair; women cut a small amount from the ends. This ends the state of Ihram for Umrah.',
-    tip: 'Do not leave this until confusion sets in. It is the closing act of the Umrah.',
-    ref: 'Reference: Established Prophetic practice in the rites.'
-  }
-];
-
-const hajjDays = [
-  {
-    date: '8 Dhul-Hijjah',
-    title: 'Mina',
-    desc: "Pilgrims go to Mina and spend the day and night there in prayer and preparation. Tamattu' pilgrims enter Ihram for Hajj on this day.",
-    reminder: 'Use the day to settle your mind before Arafah.',
-    ref: 'Reference: The Farewell Pilgrimage sequence in the hadith corpus.'
-  },
-  {
-    date: '9 Dhul-Hijjah',
-    title: 'Arafah',
-    desc: 'Standing at Arafah is the central pillar of Hajj. The pilgrim remains within the boundaries of Arafah until sunset in repentance and supplication.',
-    reminder: 'Missing Arafah is not a small mistake. It is the defining station of Hajj.',
-    ref: "Reference: 'Hajj is Arafah' in Sunan Ibn Majah 3015."
-  },
-  {
-    date: 'Night of 10 Dhul-Hijjah',
-    title: 'Muzdalifah',
-    desc: 'After sunset, pilgrims move to Muzdalifah, combine Maghrib and Isha there, rest, and prepare for the next day.',
-    reminder: 'Stay with your group safely and keep movement orderly.',
-    ref: 'Reference: The Farewell Pilgrimage sequence in the hadith corpus.'
-  },
-  {
-    date: '10 Dhul-Hijjah',
-    title: 'Stoning, sacrifice, shaving, and Tawaf al-Ifadah',
-    desc: 'Pilgrims stone Jamrat al-Aqabah, arrange sacrifice where due, shave or trim the hair, and perform Tawaf al-Ifadah, with Sa\'i where due.',
-    reminder: 'Some ordering concessions exist in the Sunnah, but specific cases should still be checked carefully.',
-    ref: "Reference: Qur'an 2:196 and the Prophetic rite sequence."
-  },
-  {
-    date: '11 to 13 Dhul-Hijjah',
-    title: 'Days of Tashriq',
-    desc: 'The pilgrim stays in Mina and stones the three Jamarat on the appointed days while continuing remembrance of Allah.',
-    reminder: "The Qur'an allows leaving after two days or staying for a third.",
-    ref: "Reference: Qur'an 2:203."
-  }
-];
-
-const commonMistakes = [
-  {
-    title: 'Crossing the miqat without entering Ihram',
-    desc: 'This is one of the most common practical mistakes for travellers who are distracted, unprepared, or following a group loosely.',
-    note: 'Fixing this can involve more than simply making intention later. Ask a scholar promptly.'
-  },
-  {
-    title: 'Treating crowd pressure as permission to harm others',
-    desc: 'The rites do not become more valid because they were done aggressively. Pushing and elbowing at the Black Stone area is not devotion.',
-    note: 'Preserving worship and preserving people both matter.'
-  },
-  {
-    title: 'Copying rituals without knowing what is essential',
-    desc: 'Many pilgrims imitate others without knowing whether an act is a pillar, a duty, or a recommended Sunnah.',
-    note: "Reference trail: use the guides and hadith anchors on this page instead of crowd imitation."
-  },
-  {
-    title: 'Assuming every violation invalidates the pilgrimage',
-    desc: 'Some mistakes require repentance, some require fidyah, and some affect validity more seriously than others. These are not all the same.',
-    note: 'This is exactly where qualified scholarly advice becomes necessary.'
-  }
-];
-
-const healthReadiness = [
-  {
-    title: 'Official readiness checks',
-    items: [
-      'Check current Saudi vaccination and public-health requirements close to departure.',
-      'Review whether age, pregnancy, severe illness, or chronic conditions affect your ability to travel.',
-      'Keep official booking, visa, and identification records organized before departure.'
-    ]
-  },
-  {
-    title: 'On-the-ground practical care',
-    items: [
-      'Hydrate consistently and avoid leaving basic fatigue or heat stress untreated.',
-      'Use unscented hygiene items if you will be in Ihram.',
-      'Carry only what you can realistically manage in crowds and long walks.',
-      'If you are medically vulnerable, speak to your doctor and your scholar before travel.'
-    ]
-  }
-];
-
-const rules = {
-  permissible: [
-    'Using an umbrella, belt, bag, watch, glasses, and shade.',
-    'Bathing and washing with unscented products when needed.',
-    'Seeking medical care, rest, and crowd safety.',
-    'Reciting Qur\'an, making dua, and helping fellow pilgrims.'
-  ],
-  prohibited: [
-    'Applying perfume after entering Ihram.',
-    'Cutting hair or trimming nails without a recognized excuse and ruling.',
-    'Marital relations and conduct leading directly to them.',
-    'For men: stitched regular clothing and covering the head.',
-    'For women: treating the niqab and gloves as Ihram wear.',
-    'Hunting land game while in the sacred state.'
-  ]
-};
-
-const spiritualPrep = [
-  {
-    step: '01',
-    title: 'Repair wrongs before travel',
-    desc: 'Return what belongs to people, settle what you can, and ask forgiveness where you have harmed others.',
-    ref: 'A sacred journey should not begin carelessly with neglected rights.'
-  },
-  {
-    step: '02',
-    title: 'Learn the rituals before the crowd teaches you badly',
-    desc: 'Study the order, the common errors, and the places where you must stop and ask a scholar.',
-    ref: "Reference: 'Learn your rituals from me' in Sunan an-Nasa'i 3062."
-  },
-  {
-    step: '03',
-    title: 'Train for patience',
-    desc: 'Crowds, heat, waiting, and exhaustion are part of the test. The heart should prepare for restraint before the body arrives there.',
-    ref: 'Accepted Hajj is tied to upright conduct, not just outward movement.'
-  },
-  {
-    step: '04',
-    title: 'Keep the intention simple',
-    desc: 'Do not turn pilgrimage into a performance, travel trophy, or social showcase. Intend worship, repentance, and acceptance.',
-    ref: "Reference: Qur'an 2:127 as a model dua for acceptance."
-  }
-];
-
-const shorts = [
-  {
-    id: 'HfUhWfYsnsA',
-    channel: 'Tajweed Online',
-    title: 'Step by step guide on how to perform Umrah',
-    note: 'Useful as a visual refresher for sequence. Check fiqh details against the PDF guides and textual references.'
-  },
-  {
-    id: 'xIgK2ahrXL8',
-    channel: 'Brief visual guide',
-    title: 'How to perform Umrah step by step',
-    note: 'Included as a short visual walkthrough, not as an independent legal authority.'
-  },
-  {
-    id: 'T0SNUkkg9pw',
-    channel: 'Aaj TV Official',
-    title: 'Pilgrims gather in Arafat for the Day of Arafah',
-    note: 'Useful for visual context around one of the central days of Hajj. Do not use it as a fiqh source.'
-  }
-];
-
-const resources = [
-  {
-    label: 'Primary text',
-    title: "Qur'an 3:97",
-    desc: 'The foundational verse for the obligation of Hajj upon the one who is able.',
-    url: 'https://quran.com/3/97'
-  },
-  {
-    label: 'Primary text',
-    title: "Qur'an 2:158, 2:196, 2:203",
-    desc: 'Key verses for Sa\'i, completion of Hajj and Umrah, and the appointed days in Mina.',
-    url: 'https://quran.com/2/158 • https://quran.com/2/196 • https://quran.com/2/203'
-  },
-  {
-    label: 'Hadith',
-    title: 'Bukhari 1524, Ibn Majah 3015, Muslim 1327, Nasa\'i 3062, Nasa\'i 2622',
-    desc: 'Miqat, Arafah, farewell tawaf, learning the rites, and the reward of accepted Hajj.',
-    url: 'https://sunnah.com/bukhari:1524 • https://sunnah.com/ibnmajah:3015 • https://sunnah.com/muslim:1327 • https://sunnah.com/nasai:3062 • https://sunnah.com/nasai:2622'
-  },
-  {
-    label: 'Official planning',
-    title: 'Nusuk and Nusuk Hajj',
-    desc: 'Official Saudi planning and registration resources for Umrah and Hajj services.',
-    url: 'https://www.nusuk.sa/en • https://hajj.nusuk.sa/?language=en'
-  },
-  {
-    label: 'Official health',
-    title: 'Saudi Ministry of Health pilgrim guidance',
-    desc: 'Current health pages and official health documents for pilgrims.',
-    url: 'https://www.moh.gov.sa/en/HealthAwareness/Pilgrims-Health/pages/default.aspx'
-  }
-];
-
-const faqs = [
-  {
-    q: 'What if I miss standing at Arafah?',
-    a: 'Standing at Arafah is central to Hajj. A pilgrim who misses it faces a serious validity issue and should seek immediate scholarly guidance about what follows.',
-    ref: "Reference: 'Hajj is Arafah' in Sunan Ibn Majah 3015."
-  },
-  {
-    q: 'Can I leave Mina after two days?',
-    a: 'Yes. The Qur\'an allows departure after two days of the appointed days or staying longer without sin when done properly.',
-    ref: "Reference: Qur'an 2:203."
-  },
-  {
-    q: 'Are the short videos enough to learn the rites?',
-    a: 'No. They can help you visualize the sequence, but they should not replace the Qur\'an, hadith, trusted scholars, and structured written guides.',
-    ref: 'Use the short videos only as supplementary refreshers.'
-  },
-  {
-    q: 'Where should I verify health and travel rules near departure?',
-    a: 'Check Nusuk and the Saudi Ministry of Health close to your travel date. Do not rely on old screenshots or old group messages.',
-    ref: 'Operational guidance can change from season to season.'
-  }
-];
-
-const postHajjSteps = [
-  {
-    num: '01',
-    title: 'Ask for acceptance, not praise',
-    desc: 'The right response after worship is humility and dua that Allah accepted it.',
-    tip: 'Keep the dua of acceptance on your tongue.',
-    ref: "Reference: Qur'an 2:127."
-  },
-  {
-    num: '02',
-    title: 'Protect the obligations first',
-    desc: 'The strongest sign of benefit is steadier prayer, better honesty, and more guarded speech when you return.',
-    tip: 'Start with salah, family rights, and daily dhikr.',
-    ref: 'Accepted Hajj should leave a trace in conduct.'
-  },
-  {
-    num: '03',
-    title: 'Carry the manners of pilgrimage home',
-    desc: 'Patience, gentleness, and restraint in crowded sacred places should not disappear at the airport.',
-    tip: 'Bring the softened character home, not just souvenirs and stories.',
-    ref: "Reference: Sunan an-Nasa'i 2622 for the reward of accepted Hajj."
-  }
-];
-
-const sectionReferences = {
-  basics: [
-    { title: "Qur'an 3:97", url: 'https://quran.com/3/97' },
-    { title: "Qur'an 2:196", url: 'https://quran.com/2/196' },
-    { title: "Sunan an-Nasa'i 2622", url: 'https://sunnah.com/nasai:2622' },
-    { title: "Sunan an-Nasa'i 3062", url: 'https://sunnah.com/nasai:3062' }
-  ],
-  umrah: [
-    { title: 'Sahih al-Bukhari 1524', url: 'https://sunnah.com/bukhari:1524' },
-    { title: "Qur'an 2:158", url: 'https://quran.com/2/158' },
-    { title: "Sunan an-Nasa'i 3062", url: 'https://sunnah.com/nasai:3062' }
-  ],
-  hajj: [
-    { title: 'Sunan Ibn Majah 3015', url: 'https://sunnah.com/ibnmajah:3015' },
-    { title: "Qur'an 2:196", url: 'https://quran.com/2/196' },
-    { title: "Qur'an 2:203", url: 'https://quran.com/2/203' },
-    { title: 'Sahih Muslim 1327', url: 'https://sunnah.com/muslim:1327' }
-  ],
-  mistakes: [
-    { title: 'IslamHouse step-by-step guide', url: 'https://d1.islamhouse.com/data/en/ih_books/single2/en-hajj-umrah.pdf' },
-    { title: "Sunan an-Nasa'i 3062", url: 'https://sunnah.com/nasai:3062' }
-  ],
-  health: [
-    { title: 'Saudi MOH pilgrim health page', url: 'https://www.moh.gov.sa/en/HealthAwareness/Pilgrims-Health/pages/default.aspx' },
-    { title: 'Saudi Hajj Health Requirements PDF', url: 'https://www.moh.gov.sa/HealthAwareness/Pilgrims-Health/Documents/Hajj-Health-Requirements-English-language.pdf' },
-    { title: 'General Guide for Health of Hajj and Umrah Pilgrims PDF', url: 'https://www.moh.gov.sa/HealthAwareness/Pilgrims-Health/Documents/English.pdf' }
-  ],
-  rules: [
-    { title: "Qur'an 2:196", url: 'https://quran.com/2/196' },
-    { title: "Sunan an-Nasa'i 3062", url: 'https://sunnah.com/nasai:3062' }
-  ],
-  spiritual: [
-    { title: "Sunan an-Nasa'i 3062", url: 'https://sunnah.com/nasai:3062' },
-    { title: "Sunan an-Nasa'i 2622", url: 'https://sunnah.com/nasai:2622' },
-    { title: "Qur'an 2:127", url: 'https://quran.com/2/127' }
-  ]
-};
+const DEFAULT_SECTION_FONT_SCALE = 1;
+const MIN_SECTION_FONT_SCALE = 0.9;
+const MAX_SECTION_FONT_SCALE = 1.2;
+const SECTION_FONT_STEP = 0.08;
+const sectionIds = ['basics', 'umrah', 'hajj', 'mistakes', 'health', 'rules', 'spiritual', 'resources', 'post-hajj'];
 
 const activeFaq = ref(0);
+const copiedSectionId = ref(null);
+const printSectionId = ref(null);
+const isAiSummaryOpen = ref(false);
+const isAiSummaryMinimized = ref(false);
+const isAiSummaryMaximized = ref(false);
+const sectionFontScales = ref(
+  sectionIds.reduce((accumulator, id) => {
+    accumulator[id] = DEFAULT_SECTION_FONT_SCALE;
+    return accumulator;
+  }, {})
+);
+
+let copyFeedbackTimeout;
+
+const summaryMetrics = computed(() => {
+  const text = [summarySection.intro, ...summarySection.points, summarySection.footer].join(' ').trim();
+  const words = text ? text.split(/\s+/).filter(Boolean).length : 0;
+  const readTime = Math.max(1, Math.ceil(words / 180));
+
+  return {
+    words,
+    readTime
+  };
+});
 
 const scrollToSection = (id) => {
   const element = document.getElementById(id);
@@ -988,6 +986,147 @@ const scrollToSection = (id) => {
 
 const toggleFaq = (index) => {
   activeFaq.value = activeFaq.value === index ? null : index;
+};
+
+const getSectionScale = (sectionId) => sectionFontScales.value[sectionId] ?? DEFAULT_SECTION_FONT_SCALE;
+
+const getSectionStyle = (sectionId) => ({
+  '--section-font-scale': getSectionScale(sectionId)
+});
+
+const formatSectionScale = (sectionId) => `${Math.round(getSectionScale(sectionId) * 100)}%`;
+
+const changeSectionFontSize = (sectionId, delta) => {
+  const nextScale = Math.min(
+    MAX_SECTION_FONT_SCALE,
+    Math.max(MIN_SECTION_FONT_SCALE, Number((getSectionScale(sectionId) + delta).toFixed(2)))
+  );
+
+  sectionFontScales.value = {
+    ...sectionFontScales.value,
+    [sectionId]: nextScale
+  };
+};
+
+const getSectionElement = (sectionId) => document.getElementById(sectionId);
+
+const getSectionDescription = (sectionId) => {
+  const section = getSectionElement(sectionId);
+  return section?.querySelector('.sec-desc')?.textContent?.trim() ?? '';
+};
+
+const buildSectionText = (sectionId) => {
+  const section = getSectionElement(sectionId);
+  if (!section) {
+    return '';
+  }
+
+  const clone = section.cloneNode(true);
+  clone.querySelectorAll('[data-section-tools], .image-credit').forEach((element) => element.remove());
+
+  return clone.innerText.replace(/\n{3,}/g, '\n\n').trim();
+};
+
+const fallbackCopyText = (text) => {
+  const textarea = document.createElement('textarea');
+  textarea.value = text;
+  textarea.setAttribute('readonly', 'true');
+  textarea.style.position = 'fixed';
+  textarea.style.opacity = '0';
+  textarea.style.pointerEvents = 'none';
+  document.body.appendChild(textarea);
+  textarea.select();
+  document.execCommand('copy');
+  document.body.removeChild(textarea);
+};
+
+const setCopiedState = (sectionId) => {
+  copiedSectionId.value = sectionId;
+  window.clearTimeout(copyFeedbackTimeout);
+  copyFeedbackTimeout = window.setTimeout(() => {
+    copiedSectionId.value = null;
+  }, 1800);
+};
+
+const copySectionText = async (sectionId) => {
+  const text = buildSectionText(sectionId);
+  if (!text) {
+    return;
+  }
+
+  try {
+    await navigator.clipboard.writeText(text);
+  } catch (error) {
+    fallbackCopyText(text);
+  }
+
+  setCopiedState(sectionId);
+};
+
+const shareSectionOnWhatsApp = (sectionId, title) => {
+  const description = getSectionDescription(sectionId);
+  const baseUrl = window.location.href.split('#')[0];
+  const shareUrl = `${baseUrl}#${sectionId}`;
+  const text = description ? `${title}\n\n${description}\n\n${shareUrl}` : `${title}\n\n${shareUrl}`;
+  window.open(`https://web.whatsapp.com/send?text=${encodeURIComponent(text)}`, '_blank', 'noopener,noreferrer');
+};
+
+const clearPrintTarget = () => {
+  printSectionId.value = null;
+};
+
+const printSection = (sectionId) => {
+  printSectionId.value = sectionId;
+  window.setTimeout(() => {
+    window.print();
+  }, 80);
+};
+
+const openAiSummary = () => {
+  isAiSummaryOpen.value = true;
+  isAiSummaryMinimized.value = false;
+};
+
+const toggleAiSummary = () => {
+  if (!isAiSummaryOpen.value) {
+    openAiSummary();
+    return;
+  }
+
+  if (isAiSummaryMinimized.value) {
+    isAiSummaryMinimized.value = false;
+    return;
+  }
+
+  isAiSummaryOpen.value = false;
+  isAiSummaryMaximized.value = false;
+};
+
+const toggleAiSummaryMinimize = () => {
+  if (!isAiSummaryOpen.value) {
+    openAiSummary();
+    return;
+  }
+
+  isAiSummaryMinimized.value = !isAiSummaryMinimized.value;
+  if (isAiSummaryMinimized.value) {
+    isAiSummaryMaximized.value = false;
+  }
+};
+
+const toggleAiSummaryMaximize = () => {
+  if (!isAiSummaryOpen.value) {
+    openAiSummary();
+  }
+
+  isAiSummaryMinimized.value = false;
+  isAiSummaryMaximized.value = !isAiSummaryMaximized.value;
+};
+
+const closeAiSummary = () => {
+  isAiSummaryOpen.value = false;
+  isAiSummaryMinimized.value = false;
+  isAiSummaryMaximized.value = false;
 };
 
 const downloadPdf = (guide) => {
@@ -1004,6 +1143,19 @@ const downloadPdf = (guide) => {
 let sectionObserver;
 
 onMounted(() => {
+  window.addEventListener('afterprint', clearPrintTarget);
+
+  const animatedSections = Array.from(document.querySelectorAll('.fade-in-section'));
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const compactViewport = window.matchMedia('(max-width: 768px)').matches;
+
+  if (prefersReducedMotion || compactViewport) {
+    animatedSections.forEach((element) => {
+      element.classList.add('visible');
+    });
+    return;
+  }
+
   sectionObserver = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
@@ -1015,15 +1167,19 @@ onMounted(() => {
     { threshold: 0.12 }
   );
 
-  document.querySelectorAll('.fade-in-section').forEach((element) => {
+  animatedSections.forEach((element) => {
     sectionObserver.observe(element);
   });
 });
 
 onBeforeUnmount(() => {
+  window.removeEventListener('afterprint', clearPrintTarget);
+
   if (sectionObserver) {
     sectionObserver.disconnect();
   }
+
+  window.clearTimeout(copyFeedbackTimeout);
 });
 </script>
 
@@ -1051,18 +1207,19 @@ onBeforeUnmount(() => {
   font-family: Georgia, var(--font-serif, serif);
   font-size: 18px;
   line-height: 1.7;
+  overflow-x: clip;
 }
 
 .main-container {
-  max-width: 1180px;
+  max-width: 1460px;
   margin: 0 auto;
   padding: 0 2rem 5rem;
 }
 
 .fade-in-section {
   opacity: 0;
-  transform: translateY(24px);
-  transition: opacity 0.75s ease, transform 0.75s ease;
+  transform: translateY(12px);
+  transition: opacity 0.45s ease, transform 0.45s ease;
 }
 
 .fade-in-section.visible {
@@ -1070,21 +1227,33 @@ onBeforeUnmount(() => {
   transform: none;
 }
 
-.hover-lift {
-  transition: transform 0.28s ease, box-shadow 0.28s ease;
-}
-
-.hover-lift:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-md);
+.sec,
+.disclaimer-section,
+.closing {
+  content-visibility: auto;
+  contain-intrinsic-size: 780px;
 }
 
 .hero {
   display: grid;
-  grid-template-columns: minmax(0, 1.15fr) minmax(300px, 0.85fr);
-  gap: 2.5rem;
+  grid-template-columns: minmax(0, 1.42fr) minmax(420px, 0.9fr);
+  gap: 3.75rem;
   align-items: center;
-  padding: 4.75rem 0 3.5rem;
+  padding: 3.75rem 4rem;
+  margin-top: 1.4rem;
+  background:
+    radial-gradient(circle at top left, rgba(233, 223, 208, 0.45), transparent 34%),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(246, 240, 231, 0.92));
+  border: 1px solid rgba(215, 230, 216, 0.95);
+  border-radius: 34px;
+  box-shadow: var(--shadow-md);
+  scroll-margin-top: 7rem;
+}
+
+.hero-copy {
+  max-width: 860px;
+  position: relative;
+  z-index: 1;
 }
 
 .hero-arabic {
@@ -1116,10 +1285,13 @@ onBeforeUnmount(() => {
 .hero-title {
   margin: 0 0 1rem;
   color: var(--green-dark);
-  font-size: clamp(2.7rem, 5vw, 4.8rem);
-  line-height: 1.03;
+  max-width: 10.6ch;
+  font-size: clamp(3.15rem, 5.2vw, 5.45rem);
+  line-height: 0.97;
+  letter-spacing: -0.03em;
   font-style: italic;
   font-weight: 500;
+  text-wrap: balance;
 }
 
 .hero-subtitle,
@@ -1141,15 +1313,40 @@ onBeforeUnmount(() => {
   line-height: 1.9;
 }
 
+.hero-subtitle {
+  max-width: 720px;
+}
+
+.hero-proof {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  margin-top: 1.15rem;
+}
+
+.hero-proof-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 0.8rem;
+  background: rgba(255, 255, 255, 0.84);
+  border: 1px solid var(--green-line);
+  border-radius: 999px;
+  color: var(--green-dark);
+  font-family: system-ui, sans-serif;
+  font-size: 0.84rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
 .hero-actions {
   display: flex;
   gap: 1rem;
-  margin: 1.8rem 0 1.6rem;
+  margin: 2rem 0 1.8rem;
   flex-wrap: wrap;
 }
 
-.btn-primary,
-.btn-secondary,
+.hero-btn-primary,
+.hero-btn-secondary,
 .download-btn {
   border-radius: 999px;
   padding: 0.95rem 1.35rem;
@@ -1161,32 +1358,57 @@ onBeforeUnmount(() => {
   transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
 }
 
-.btn-primary,
+.hero-btn-primary,
 .download-btn {
   background: var(--green);
   color: #fff;
+  box-shadow: 0 14px 30px rgba(27, 91, 57, 0.16);
 }
 
-.btn-primary:hover,
+.hero-btn-primary:hover,
+.hero-btn-primary:focus,
+.hero-btn-primary:active,
 .download-btn:hover {
   transform: translateY(-1px);
   background: var(--green-dark);
 }
 
-.btn-secondary {
+.hero-btn-primary {
+  background: var(--green) !important;
+  border-color: var(--green) !important;
+  color: #fff !important;
+}
+
+.hero-btn-primary:hover,
+.hero-btn-primary:focus,
+.hero-btn-primary:active {
+  background: var(--green-dark) !important;
+  border-color: var(--green-dark) !important;
+  color: #fff !important;
+}
+
+.hero-btn-secondary {
   background: #fff;
   color: var(--green-dark);
   border-color: var(--green-line);
 }
 
-.btn-secondary:hover {
+.hero-btn-secondary:hover,
+.hero-btn-secondary:focus,
+.hero-btn-secondary:active {
   transform: translateY(-1px);
   background: var(--green-soft);
 }
 
+.hero-btn-secondary {
+  background: #fff !important;
+  border-color: var(--green-line) !important;
+  color: var(--green-dark) !important;
+}
+
 .hero-trust {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 1rem;
 }
 
@@ -1234,7 +1456,8 @@ onBeforeUnmount(() => {
 }
 
 .hero-visual {
-  min-height: 420px;
+  min-height: 560px;
+  align-self: stretch;
 }
 
 .hero-visual img,
@@ -1255,6 +1478,7 @@ onBeforeUnmount(() => {
 
 .sec {
   padding: 4.4rem 0;
+  scroll-margin-top: 7rem;
 }
 
 .sec.alt {
@@ -1328,6 +1552,190 @@ onBeforeUnmount(() => {
   margin: 0 auto;
 }
 
+.study-section {
+  --section-font-scale: 1;
+}
+
+.study-section .sec-desc,
+.study-section .card p,
+.study-section .type-card p,
+.study-section .day-body,
+.study-section .tl-body p,
+.study-section .resource-card p,
+.study-section .ref-text,
+.study-section .faq-a p,
+.study-section .warning-content p,
+.study-section .closing-msg,
+.study-section .rules-list li {
+  font-size: calc(1rem * var(--section-font-scale));
+}
+
+.study-section .card h3,
+.study-section .type-card h3,
+.study-section .resource-card h3,
+.study-section .tl-body h3,
+.study-section .day-head h3,
+.study-section .conclusion h4,
+.study-section .farewell h4,
+.study-section .faq-wrap h4,
+.study-section .warning-box h4 {
+  font-size: calc(1.5rem * var(--section-font-scale));
+}
+
+.study-section .card-note,
+.study-section .type-note,
+.study-section .section-note,
+.study-section .tl-tip,
+.study-section .day-reminder,
+.study-section .tl-ref,
+.study-section .faq-ref,
+.study-section .day-ref,
+.study-section .resource-url,
+.study-section .trust-item span,
+.study-section .reference-item span {
+  font-size: calc(0.9rem * var(--section-font-scale));
+}
+
+.study-section .faq-q {
+  font-size: calc(1rem * var(--section-font-scale));
+}
+
+.section-tools {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 1.4rem;
+}
+
+.section-tools-center {
+  justify-content: center;
+  margin: 1.4rem auto 0;
+}
+
+.section-tool-btn,
+.font-btn {
+  border: 1px solid rgba(18, 54, 34, 0.12);
+  background: rgba(255, 255, 255, 0.95);
+  color: var(--green-dark);
+  font-family: system-ui, sans-serif;
+  font-size: 0.84rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+  min-width: 0;
+}
+
+.section-tool-btn {
+  min-height: 46px;
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.7rem;
+  text-align: center;
+}
+
+.section-tool-btn:hover,
+.font-btn:hover {
+  transform: translateY(-1px);
+  background: #fff;
+}
+
+.section-tool-btn:disabled,
+.font-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.section-tool-btn--whatsapp {
+  color: #127955;
+  border-color: rgba(18, 121, 85, 0.34);
+  background: rgba(18, 121, 85, 0.05);
+}
+
+.section-tool-btn--copy {
+  color: #1860ad;
+  border-color: rgba(24, 96, 173, 0.28);
+  background: rgba(24, 96, 173, 0.05);
+}
+
+.section-tool-btn--print {
+  color: #1f2937;
+  border-color: rgba(31, 41, 55, 0.18);
+  background: rgba(31, 41, 55, 0.04);
+}
+
+.tool-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 0.95rem;
+  height: 0.95rem;
+  flex-shrink: 0;
+}
+
+.tool-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.font-controls {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  min-height: 46px;
+  padding: 0 0 0 0.1rem;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  font-family: system-ui, sans-serif;
+}
+
+.font-chip {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  min-width: 0;
+  padding: 0 0.15rem;
+}
+
+.font-label {
+  color: var(--green-dark);
+  font-size: 0.84rem;
+  font-weight: 600;
+  line-height: 1.3;
+  white-space: nowrap;
+}
+
+.font-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  flex-wrap: nowrap;
+  min-width: 0;
+}
+
+.font-scale {
+  min-width: 2.35rem;
+  padding: 0.1rem 0;
+  text-align: center;
+  color: var(--green-dark);
+  font-size: 0.84rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.font-btn {
+  min-width: 46px;
+  min-height: 46px;
+  padding: 0 0.7rem;
+  border-radius: 999px;
+}
+
 .sec-image {
   aspect-ratio: 4 / 3;
 }
@@ -1364,6 +1772,10 @@ onBeforeUnmount(() => {
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
 }
 
+.pdf-grid {
+  align-items: start;
+}
+
 .shorts-grid {
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
 }
@@ -1388,9 +1800,15 @@ onBeforeUnmount(() => {
 .card,
 .type-card,
 .resource-card,
-.pdf-card,
 .short-copy {
   padding: 1.6rem;
+}
+
+.pdf-card {
+  display: grid;
+  gap: 1rem;
+  align-content: start;
+  padding: 1.85rem;
 }
 
 .card h3,
@@ -1411,6 +1829,12 @@ onBeforeUnmount(() => {
   line-height: 1.25;
   font-style: italic;
   font-weight: 500;
+}
+
+.pdf-card h3 {
+  max-width: 14ch;
+  margin-bottom: 0.2rem;
+  text-wrap: balance;
 }
 
 .card-note,
@@ -1601,15 +2025,17 @@ onBeforeUnmount(() => {
 }
 
 .pdf-card {
-  padding: 1.6rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.9rem;
+  padding: 1.85rem;
+  gap: 1rem;
+  border-radius: 24px;
 }
 
 .pdf-card .download-btn {
-  margin-top: auto;
+  margin-top: 0.35rem;
   width: fit-content;
+  padding: 0.85rem 1.2rem;
+  border-radius: 18px;
+  box-shadow: none;
 }
 
 .reference-panel {
@@ -1703,6 +2129,238 @@ onBeforeUnmount(() => {
   height: 100%;
 }
 
+.summary-end {
+  position: relative;
+}
+
+.summary-pills {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.8rem;
+  margin-top: 1.2rem;
+}
+
+.summary-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.7rem 1rem;
+  background: rgba(255, 255, 255, 0.94);
+  border: 1px solid var(--green-line);
+  border-radius: 999px;
+  color: var(--green-dark);
+  font-family: system-ui, sans-serif;
+  font-size: 0.84rem;
+  font-weight: 700;
+  box-shadow: var(--shadow-sm);
+}
+
+.summary-card,
+.ai-summary-panel {
+  background: rgba(255, 255, 255, 0.96);
+  border: 1px solid rgba(215, 230, 216, 0.95);
+  border-radius: 26px;
+  box-shadow: var(--shadow-md);
+}
+
+.summary-card {
+  margin-top: 2rem;
+  padding: 2rem;
+}
+
+.summary-intro,
+.summary-point p,
+.ai-summary-point p,
+.summary-footer,
+.ai-summary-footer {
+  margin: 0;
+  color: var(--text-muted);
+  font-family: system-ui, sans-serif;
+  line-height: 1.8;
+}
+
+.summary-intro {
+  margin-top: 0.9rem;
+  font-size: 1rem;
+}
+
+.summary-points,
+.ai-summary-points {
+  display: grid;
+  gap: 0.9rem;
+  margin-top: 1.35rem;
+}
+
+.summary-points {
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.summary-point,
+.ai-summary-point {
+  display: flex;
+  gap: 0.8rem;
+  align-items: flex-start;
+  padding: 1rem 1.05rem;
+  background: rgba(238, 246, 239, 0.65);
+  border: 1px solid rgba(215, 230, 216, 0.95);
+  border-radius: 18px;
+}
+
+.summary-point-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.2rem;
+  height: 1.2rem;
+  color: var(--green);
+  flex-shrink: 0;
+  margin-top: 0.15rem;
+}
+
+.summary-point-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.summary-footer,
+.ai-summary-footer {
+  margin-top: 1.2rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--green-line);
+  font-size: 0.94rem;
+}
+
+.ai-summary-fab {
+  position: fixed;
+  right: 1.25rem;
+  bottom: 1.25rem;
+  z-index: 2500;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  min-height: 54px;
+  padding: 0.7rem 1rem 0.7rem 0.9rem;
+  border: 1px solid rgba(255, 255, 255, 0.96);
+  border-radius: 999px;
+  background: radial-gradient(circle at 30% 30%, #2b7a4f, var(--green-dark));
+  color: #fff;
+  box-shadow: 0 18px 36px rgba(18, 54, 34, 0.26);
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+}
+
+.ai-summary-fab:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 24px 40px rgba(18, 54, 34, 0.32);
+}
+
+.ai-summary-fab.active {
+  background: radial-gradient(circle at 30% 30%, #327f55, #183f29);
+}
+
+.ai-summary-fab .tool-icon {
+  width: 1.1rem;
+  height: 1.1rem;
+}
+
+.ai-summary-fab-label {
+  font-family: system-ui, sans-serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+.ai-summary-panel {
+  position: fixed;
+  right: 1.4rem;
+  bottom: 5.8rem;
+  top: 5.5rem;
+  z-index: 2499;
+  width: min(400px, calc(100vw - 2rem));
+  max-height: calc(100vh - 11.8rem);
+  overflow: hidden;
+}
+
+.ai-summary-panel.maximized {
+  width: min(640px, calc(100vw - 2rem));
+}
+
+.ai-summary-panel.minimized {
+  width: min(360px, calc(100vw - 2rem));
+}
+
+.ai-summary-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.2rem 1.2rem 1rem;
+  border-bottom: 1px solid var(--green-line);
+}
+
+.ai-summary-header h3 {
+  margin: 0.35rem 0 0;
+  color: var(--green-dark);
+  font-size: 1.35rem;
+  line-height: 1.2;
+  font-style: italic;
+  font-weight: 500;
+}
+
+.ai-summary-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.ai-summary-control {
+  width: 38px;
+  height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--green-line);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.96);
+  color: var(--green-dark);
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.ai-summary-control:hover {
+  background: var(--green-soft);
+  transform: translateY(-1px);
+}
+
+.ai-summary-control--close {
+  color: var(--danger);
+}
+
+.ai-summary-control svg {
+  width: 18px;
+  height: 18px;
+}
+
+.ai-summary-body {
+  padding: 1.2rem;
+  max-height: calc(100vh - 14rem);
+  overflow: auto;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .hover-lift {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .hover-lift:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+  }
+}
+
 .disclaimer-section {
   padding: 4rem 0 2rem;
 }
@@ -1761,8 +2419,17 @@ onBeforeUnmount(() => {
     grid-template-columns: 1fr;
   }
 
+  .hero {
+    padding: 2.75rem;
+    gap: 2rem;
+  }
+
   .hero-visual {
-    min-height: 340px;
+    min-height: 420px;
+  }
+
+  .ai-summary-panel.maximized {
+    width: min(560px, calc(100vw - 2rem));
   }
 }
 
@@ -1772,21 +2439,70 @@ onBeforeUnmount(() => {
   }
 
   .hero {
-    padding: 4rem 0 3rem;
+    padding: 2rem 1.7rem;
+    margin-top: 1rem;
+    border-radius: 28px;
   }
 
   .hero-title {
-    font-size: 2.6rem;
+    max-width: none;
+    font-size: 2.95rem;
   }
 
   .hero-actions {
     flex-direction: column;
   }
 
-  .btn-primary,
-  .btn-secondary,
+  .hero-proof {
+    justify-content: flex-start;
+  }
+
+  .hero-btn-primary,
+  .hero-btn-secondary,
   .download-btn {
     width: 100%;
+  }
+
+  .section-tools {
+    gap: 0.6rem;
+  }
+
+  .section-tool-btn,
+  .font-controls {
+    width: auto;
+    max-width: 100%;
+  }
+
+  .font-controls {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .summary-card {
+    padding: 1.45rem;
+  }
+
+  .summary-points {
+    grid-template-columns: 1fr;
+  }
+
+  .ai-summary-fab {
+    right: 1rem;
+    left: auto;
+    bottom: 1rem;
+    min-height: 50px;
+    padding: 0.65rem 0.9rem 0.65rem 0.8rem;
+  }
+
+  .ai-summary-panel,
+  .ai-summary-panel.maximized,
+  .ai-summary-panel.minimized {
+    right: 1rem;
+    left: 1rem;
+    top: 5rem;
+    bottom: 5.6rem;
+    width: auto;
+    max-height: none;
   }
 
   .sec {
@@ -1830,8 +2546,113 @@ onBeforeUnmount(() => {
     font-size: 2.25rem;
   }
 
+  .hero {
+    padding: 1.35rem;
+  }
+
   .reference-list {
     grid-template-columns: 1fr;
+  }
+
+  .summary-pill {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .section-tool-btn {
+    min-height: 42px;
+    padding-inline: 0.85rem;
+  }
+
+  .font-actions {
+    gap: 0.5rem;
+  }
+
+  .font-btn {
+    min-width: 42px;
+    min-height: 42px;
+  }
+
+  .ai-summary-header {
+    flex-direction: column;
+  }
+
+  .ai-summary-controls {
+    width: 100%;
+    justify-content: flex-end;
+  }
+
+  .hero-visual {
+    min-height: 360px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fade-in-section,
+  .fade-in-section.visible,
+  .section-tool-btn,
+  .font-btn,
+  .hero-btn-primary,
+  .hero-btn-secondary,
+  .download-btn,
+  .ai-summary-fab,
+  .ai-summary-control {
+    transition: none !important;
+    transform: none !important;
+  }
+}
+
+@media print {
+  .pg {
+    background: #fff;
+  }
+
+  .main-container {
+    max-width: none;
+    padding: 0;
+  }
+
+  .main-container > * {
+    display: none !important;
+  }
+
+  .main-container > .sec.print-target {
+    display: block !important;
+    padding: 0 !important;
+    border: 0 !important;
+  }
+
+  .fade-in-section,
+  .fade-in-section.visible {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .sec.print-target .section-tools,
+  .sec.print-target .sec-image,
+  .sec.print-target .image-credit,
+  .sec.print-target .image-overlay,
+  .ai-summary-fab,
+  .ai-summary-panel {
+    display: none !important;
+  }
+
+  .sec.print-target .sec-header-with-image {
+    display: block;
+  }
+
+  .sec.print-target .card,
+  .sec.print-target .type-card,
+  .sec.print-target .day-card,
+  .sec.print-target .rules-card,
+  .sec.print-target .resource-card,
+  .sec.print-target .conclusion,
+  .sec.print-target .farewell,
+  .sec.print-target .warning-box,
+  .sec.print-target .disclaimer-box {
+    box-shadow: none;
+    background: #fff;
+    border-color: #d9d9d9;
   }
 }
 </style>
