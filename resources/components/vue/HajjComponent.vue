@@ -1,5 +1,5 @@
 <template>
-  <div class="pg">
+  <div class="pg" :class="{ 'is-dark': isDarkMode }">
     <div class="main-container">
       <header class="hero fade-in-section">
         <div class="hero-copy">
@@ -931,6 +931,7 @@ const sectionIds = ['basics', 'umrah', 'hajj', 'mistakes', 'health', 'rules', 's
 const activeFaq = ref(0);
 const copiedSectionId = ref(null);
 const printSectionId = ref(null);
+const isDarkMode = ref(false);
 const isAiSummaryOpen = ref(false);
 const isAiSummaryMaximized = ref(false);
 const sectionFontScales = ref(
@@ -941,6 +942,7 @@ const sectionFontScales = ref(
 );
 
 let copyFeedbackTimeout;
+let themeObserver;
 
 const summaryMetrics = computed(() => {
   const text = [summarySection.intro, ...summarySection.points, summarySection.footer].join(' ').trim();
@@ -1082,10 +1084,28 @@ const downloadPdf = (guide) => {
   document.body.removeChild(link);
 };
 
+const syncDarkMode = () => {
+  const rootTheme = document.documentElement.getAttribute('data-bs-theme');
+  isDarkMode.value = document.body?.classList.contains('dark-mode')
+    || document.documentElement.classList.contains('dark-mode')
+    || rootTheme === 'dark';
+};
+
 let sectionObserver;
 
 onMounted(() => {
+  syncDarkMode();
   window.addEventListener('afterprint', clearPrintTarget);
+
+  themeObserver = new MutationObserver(() => {
+    syncDarkMode();
+  });
+
+  if (document.body) {
+    themeObserver.observe(document.body, { attributes: true, attributeFilter: ['class', 'data-bs-theme', 'data-theme'] });
+  }
+
+  themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['class', 'data-bs-theme', 'data-theme'] });
 
   const animatedSections = Array.from(document.querySelectorAll('.fade-in-section'));
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -1116,6 +1136,10 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
   window.removeEventListener('afterprint', clearPrintTarget);
+
+  if (themeObserver) {
+    themeObserver.disconnect();
+  }
 
   if (sectionObserver) {
     sectionObserver.disconnect();
@@ -1150,6 +1174,126 @@ onBeforeUnmount(() => {
   font-size: 18px;
   line-height: 1.7;
   overflow-x: clip;
+}
+
+.pg.is-dark {
+  --green: #69c6a2;
+  --green-dark: #f2f7f4;
+  --green-soft: rgba(105, 198, 162, 0.14);
+  --green-line: rgba(255, 255, 255, 0.12);
+  --paper: #232529;
+  --cream: #1c1f23;
+  --sand: #2b3035;
+  --gold: #d0b27a;
+  --text: #f2f7f4;
+  --text-muted: #c6d0ca;
+  --text-soft: #97a59e;
+  --danger: #f0b297;
+  --danger-soft: rgba(138, 76, 51, 0.16);
+  --shadow-sm: 0 10px 24px rgba(0, 0, 0, 0.24);
+  --shadow-md: 0 24px 54px rgba(0, 0, 0, 0.34);
+  background: linear-gradient(180deg, var(--paper) 0%, var(--cream) 100%);
+}
+
+.pg.is-dark .hero,
+.pg.is-dark .card,
+.pg.is-dark .type-card,
+.pg.is-dark .day-card,
+.pg.is-dark .rules-card,
+.pg.is-dark .resource-card,
+.pg.is-dark .pdf-card,
+.pg.is-dark .short-card,
+.pg.is-dark .conclusion,
+.pg.is-dark .farewell,
+.pg.is-dark .disclaimer-box,
+.pg.is-dark .warning-box,
+.pg.is-dark .summary-card,
+.pg.is-dark .ai-summary-panel {
+  background: rgba(32, 36, 40, 0.92);
+  border-color: rgba(255, 255, 255, 0.1);
+  box-shadow: var(--shadow-md);
+}
+
+.pg.is-dark .hero {
+  background:
+    radial-gradient(circle at top left, rgba(105, 198, 162, 0.1), transparent 34%),
+    linear-gradient(135deg, rgba(34, 38, 43, 0.98), rgba(27, 30, 34, 0.94));
+}
+
+.pg.is-dark .hero-proof-pill,
+.pg.is-dark .trust-item,
+.pg.is-dark .reference-item,
+.pg.is-dark .resource-url,
+.pg.is-dark .tl-ref,
+.pg.is-dark .faq-ref,
+.pg.is-dark .day-ref,
+.pg.is-dark .card-note,
+.pg.is-dark .type-note,
+.pg.is-dark .section-note,
+.pg.is-dark .tl-tip,
+.pg.is-dark .day-reminder,
+.pg.is-dark .summary-point,
+.pg.is-dark .summary-pill {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.pg.is-dark .hero-btn-secondary,
+.pg.is-dark .section-tool-btn,
+.pg.is-dark .font-btn,
+.pg.is-dark .ai-summary-panel-btn {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 255, 255, 0.1);
+  color: var(--text);
+}
+
+.pg.is-dark .section-tool-btn--copy {
+  color: #8fc5ff;
+  border-color: rgba(143, 197, 255, 0.28);
+  background: rgba(143, 197, 255, 0.08);
+}
+
+.pg.is-dark .section-tool-btn--whatsapp {
+  color: #84d5aa;
+  border-color: rgba(132, 213, 170, 0.28);
+  background: rgba(132, 213, 170, 0.08);
+}
+
+.pg.is-dark .section-tool-btn--print {
+  color: #f2f7f4;
+  border-color: rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.pg.is-dark .day-head {
+  background: rgba(105, 198, 162, 0.08);
+  border-bottom-color: rgba(255, 255, 255, 0.1);
+}
+
+.pg.is-dark .rules-hdr.pos {
+  background: rgba(105, 198, 162, 0.12);
+}
+
+.pg.is-dark .rules-hdr.neg {
+  background: rgba(240, 178, 151, 0.14);
+}
+
+.pg.is-dark .image-credit,
+.pg.is-dark .ai-summary-fab {
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+.pg.is-dark .faq-item,
+.pg.is-dark .reference-panel,
+.pg.is-dark .summary-footer {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.pg.is-dark .ai-summary-panel {
+  box-shadow:
+    0 28px 64px rgba(0, 0, 0, 0.42),
+    0 0 0 1px rgba(255, 255, 255, 0.06),
+    0 0 0 10px rgba(0, 0, 0, 0.18);
 }
 
 .main-container {
@@ -2341,6 +2485,261 @@ onBeforeUnmount(() => {
 
 .ai-summary-card {
   margin-top: 1rem;
+}
+
+.pg.is-dark {
+  background: linear-gradient(180deg, var(--paper) 0%, var(--cream) 100%);
+  color: var(--text);
+}
+
+.pg.is-dark .hero,
+.pg.is-dark .card,
+.pg.is-dark .type-card,
+.pg.is-dark .day-card,
+.pg.is-dark .rules-card,
+.pg.is-dark .resource-card,
+.pg.is-dark .pdf-card,
+.pg.is-dark .short-card,
+.pg.is-dark .conclusion,
+.pg.is-dark .farewell,
+.pg.is-dark .disclaimer-box,
+.pg.is-dark .warning-box,
+.pg.is-dark .summary-card,
+.pg.is-dark .ai-summary-panel {
+  background: rgba(32, 36, 40, 0.94) !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+  box-shadow: var(--shadow-md) !important;
+}
+
+.pg.is-dark .hero {
+  background:
+    radial-gradient(circle at top left, rgba(105, 198, 162, 0.1), transparent 34%),
+    linear-gradient(135deg, rgba(34, 38, 43, 0.98), rgba(27, 30, 34, 0.94)) !important;
+}
+
+.pg.is-dark .hero-title,
+.pg.is-dark .sec-title,
+.pg.is-dark .card h3,
+.pg.is-dark .type-card h3,
+.pg.is-dark .resource-card h3,
+.pg.is-dark .pdf-card h3,
+.pg.is-dark .short-copy h3,
+.pg.is-dark .tl-body h3,
+.pg.is-dark .day-head h3,
+.pg.is-dark .conclusion h4,
+.pg.is-dark .farewell h4,
+.pg.is-dark .faq-wrap h4,
+.pg.is-dark .disclaimer-box h4,
+.pg.is-dark .warning-box h4,
+.pg.is-dark .farewell-arabic,
+.pg.is-dark .closing-arabic,
+.pg.is-dark .hero-arabic,
+.pg.is-dark .trust-item strong,
+.pg.is-dark .reference-item strong {
+  color: var(--text) !important;
+}
+
+.pg.is-dark .hero-title {
+  color: #eef7f1 !important;
+  text-shadow: none !important;
+}
+
+.pg.is-dark .hero-subtitle,
+.pg.is-dark .sec-desc,
+.pg.is-dark .card p,
+.pg.is-dark .type-card p,
+.pg.is-dark .day-body,
+.pg.is-dark .tl-body p,
+.pg.is-dark .resource-card p,
+.pg.is-dark .pdf-card p,
+.pg.is-dark .ref-text,
+.pg.is-dark .faq-a p,
+.pg.is-dark .warning-content p,
+.pg.is-dark .closing-msg,
+.pg.is-dark .trust-item span,
+.pg.is-dark .reference-item span,
+.pg.is-dark .summary-intro,
+.pg.is-dark .summary-point p,
+.pg.is-dark .summary-footer,
+.pg.is-dark .farewell cite,
+.pg.is-dark .farewell p,
+.pg.is-dark .closing-ref,
+.pg.is-dark .faq-q,
+.pg.is-dark .rules-list li {
+  color: var(--text-muted) !important;
+}
+
+.pg.is-dark .hero-proof-pill,
+.pg.is-dark .trust-item,
+.pg.is-dark .reference-item,
+.pg.is-dark .resource-url,
+.pg.is-dark .tl-ref,
+.pg.is-dark .faq-ref,
+.pg.is-dark .day-ref,
+.pg.is-dark .card-note,
+.pg.is-dark .type-note,
+.pg.is-dark .section-note,
+.pg.is-dark .tl-tip,
+.pg.is-dark .day-reminder,
+.pg.is-dark .summary-point,
+.pg.is-dark .summary-pill {
+  background: rgba(255, 255, 255, 0.04) !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.pg.is-dark .type-note,
+.pg.is-dark .day-reminder,
+.pg.is-dark .tl-ref,
+.pg.is-dark .faq-ref,
+.pg.is-dark .day-ref,
+.pg.is-dark .card-note,
+.pg.is-dark .resource-url,
+.pg.is-dark .summary-pill {
+  color: var(--text-muted) !important;
+}
+
+.pg.is-dark .hero-btn-primary,
+.pg.is-dark .download-btn {
+  background: linear-gradient(135deg, #5fc59e, #3f8b6f) !important;
+  border-color: #5fc59e !important;
+  color: #10251a !important;
+  box-shadow: 0 14px 30px rgba(20, 70, 53, 0.28) !important;
+}
+
+.pg.is-dark .hero-btn-primary:hover,
+.pg.is-dark .hero-btn-primary:focus,
+.pg.is-dark .hero-btn-primary:active,
+.pg.is-dark .download-btn:hover {
+  background: linear-gradient(135deg, #78d4af, #4c9e80) !important;
+  border-color: #78d4af !important;
+  color: #10251a !important;
+}
+
+.pg.is-dark .hero-btn-secondary {
+  background: rgba(255, 255, 255, 0.06) !important;
+  border-color: rgba(255, 255, 255, 0.14) !important;
+  color: var(--text) !important;
+}
+
+.pg.is-dark .hero-btn-secondary:hover,
+.pg.is-dark .hero-btn-secondary:focus,
+.pg.is-dark .hero-btn-secondary:active {
+  background: rgba(255, 255, 255, 0.1) !important;
+}
+
+.pg.is-dark .section-tool-btn,
+.pg.is-dark .font-btn,
+.pg.is-dark .ai-summary-panel-btn {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+  color: var(--text) !important;
+}
+
+.pg.is-dark .section-tool-btn--copy {
+  color: #9bcfff !important;
+  border-color: rgba(155, 207, 255, 0.25) !important;
+  background: rgba(155, 207, 255, 0.08) !important;
+}
+
+.pg.is-dark .section-tool-btn--whatsapp {
+  color: #89ddb0 !important;
+  border-color: rgba(137, 221, 176, 0.25) !important;
+  background: rgba(137, 221, 176, 0.08) !important;
+}
+
+.pg.is-dark .section-tool-btn--print {
+  color: #e8efeb !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+  background: rgba(255, 255, 255, 0.05) !important;
+}
+
+.pg.is-dark .image-credit {
+  background: rgba(22, 25, 28, 0.82) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  color: var(--text) !important;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.24) !important;
+}
+
+.pg.is-dark .tl-num {
+  background: rgba(255, 255, 255, 0.96) !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+  color: #5fc59e !important;
+}
+
+.pg.is-dark .tl-line {
+  background: linear-gradient(180deg, rgba(208, 178, 122, 0.9), rgba(208, 178, 122, 0.15)) !important;
+}
+
+.pg.is-dark .day-head {
+  background: rgba(105, 198, 162, 0.08) !important;
+  border-bottom-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.pg.is-dark .rules-hdr.pos {
+  background: rgba(105, 198, 162, 0.14) !important;
+  color: #dff6eb !important;
+}
+
+.pg.is-dark .rules-hdr.neg {
+  background: rgba(240, 178, 151, 0.14) !important;
+  color: #f3c3ad !important;
+}
+
+.pg.is-dark .faq-item,
+.pg.is-dark .reference-panel,
+.pg.is-dark .summary-footer {
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.pg.is-dark .hero,
+.pg.is-dark .card,
+.pg.is-dark .type-card,
+.pg.is-dark .day-card,
+.pg.is-dark .rules-card,
+.pg.is-dark .resource-card,
+.pg.is-dark .pdf-card,
+.pg.is-dark .short-card,
+.pg.is-dark .conclusion,
+.pg.is-dark .farewell,
+.pg.is-dark .disclaimer-box,
+.pg.is-dark .warning-box,
+.pg.is-dark .summary-card {
+  border-color: rgba(255, 255, 255, 0.06) !important;
+}
+
+.pg.is-dark .day-head,
+.pg.is-dark .faq-item,
+.pg.is-dark .reference-panel,
+.pg.is-dark .summary-footer,
+.pg.is-dark .farewell {
+  border-color: rgba(255, 255, 255, 0.06) !important;
+}
+
+.pg.is-dark .faq-q svg,
+.pg.is-dark .summary-point-icon,
+.pg.is-dark .dot-y {
+  color: #7dd4aa !important;
+  fill: currentColor !important;
+}
+
+.pg.is-dark .dot-n {
+  color: #f0b297 !important;
+}
+
+.pg.is-dark .ai-summary-fab {
+  border-color: rgba(255, 255, 255, 0.14) !important;
+  box-shadow:
+    0 18px 36px rgba(0, 0, 0, 0.34),
+    0 0 0 1px rgba(255, 255, 255, 0.06) !important;
+}
+
+.pg.is-dark .ai-summary-panel {
+  background: rgba(28, 31, 35, 0.98) !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+  box-shadow:
+    0 28px 64px rgba(0, 0, 0, 0.42),
+    0 0 0 1px rgba(255, 255, 255, 0.06),
+    0 0 0 10px rgba(0, 0, 0, 0.18) !important;
 }
 
 @media (hover: hover) and (pointer: fine) {
