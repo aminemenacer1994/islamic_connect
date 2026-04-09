@@ -8,10 +8,10 @@
     "copyToClipboard": "Copy",
     "copied": "Copied",
     "printSection": "Print",
+    "aiSummaryFab": "AI Summary",
     "textSize": "Text size",
     "decreaseTextSize": "A-",
     "increaseTextSize": "A+",
-    "aiSummaryFab": "AI Summary",
     "wordCount": "Word count",
     "readTime": "Read time"
   },
@@ -49,8 +49,8 @@
     ]
   },
   "heroImage": {
-    "src": "https://images.pexels.com/photos/12662176/pexels-photo-12662176.jpeg?cs=srgb&dl=pexels-muhammad-abdullah-2002371-12662176.jpg&fm=jpg",
-    "alt": "Worshippers gathered in prayer in a sacred setting"
+    "src": "https://images.pexels.com/photos/13459175/pexels-photo-13459175.jpeg?cs=srgb&dl=pexels-busrasahjn-13459175.jpg&fm=jpg",
+    "alt": "A calm mosque and courtyard scene suited to worship and reflection"
   },
   "sectionImages": {
     "basics": {
@@ -188,7 +188,7 @@
       "description": "The journey is not measured by photographs or stories, but by repentance, steadier prayer, better conduct, and a sincere hope that Allah accepted it."
     },
     "summary": {
-      "eyebrow": "Final recap",
+      "eyebrow": "AI summary",
       "title": "A concise end summary",
       "description": "Use this as a fast recap after reading the full guide, not as a replacement for the primary texts, the PDF guides, or a scholar in personal cases."
     }
@@ -426,28 +426,10 @@
       "url": "https://sunnah.com/bukhari:1524"
     },
     {
-      "label": "Hadith",
-      "title": "Sunan Ibn Majah 3015",
-      "desc": "The well-known narration establishing the centrality of Arafah in Hajj.",
-      "url": "https://sunnah.com/ibnmajah:3015"
-    },
-    {
-      "label": "Hadith",
-      "title": "Sahih Muslim 1327",
-      "desc": "The reference for farewell tawaf before leaving Makkah.",
-      "url": "https://sunnah.com/muslim:1327"
-    },
-    {
       "label": "Official planning",
       "title": "Nusuk",
       "desc": "Official Saudi planning resource for Umrah services, permits, and visitor guidance.",
       "url": "https://www.nusuk.sa/en"
-    },
-    {
-      "label": "Official planning",
-      "title": "Nusuk Hajj",
-      "desc": "Official Hajj registration and package portal for supported countries and providers.",
-      "url": "https://hajj.nusuk.sa/?language=en"
     },
     {
       "label": "Official health",

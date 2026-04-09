@@ -41,9 +41,11 @@
 
         <div class="pdf-grid">
           <article v-for="guide in pdfGuides" :key="guide.url" class="pdf-card hover-lift">
-            <span class="pdf-label">{{ guide.label }}</span>
-            <h3>{{ guide.title }}</h3>
-            <p>{{ guide.desc }}</p>
+            <div class="pdf-card-copy">
+              <span class="pdf-label">{{ guide.label }}</span>
+              <h3>{{ guide.title }}</h3>
+              <p>{{ guide.desc }}</p>
+            </div>
             <button class="download-btn" @click="downloadPdf(guide)">{{ labels.downloadPdf }}</button>
           </article>
         </div>
@@ -801,39 +803,6 @@
         </div>
       </section>
 
-      <section class="sec alt fade-in-section summary-end" id="summary">
-        <div class="sec-hd sec-hd-center">
-          <span class="eyebrow">{{ sections.summary.eyebrow }}</span>
-          <h2 class="sec-title">{{ sections.summary.title }}</h2>
-          <div class="sec-ornament"><span class="sec-ornament-dot"></span></div>
-          <p class="sec-desc">{{ sections.summary.description }}</p>
-          <div class="summary-pills">
-            <span class="summary-pill">
-              <span class="tool-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M5 4h14v2H5Zm0 7h14v2H5Zm0 7h10v2H5Z"/></svg></span>
-              {{ summaryMetrics.words }} words
-            </span>
-            <span class="summary-pill">
-              <span class="tool-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1a11 11 0 1 0 11 11A11 11 0 0 0 12 1Zm1 11.4 4.1 2.4-1 1.7L11 13V6h2Z"/></svg></span>
-              {{ summaryMetrics.readTime }} min read
-            </span>
-          </div>
-        </div>
-
-        <div class="summary-card">
-          <span class="resource-label">{{ summarySection.kicker }}</span>
-          <p class="summary-intro">{{ summarySection.intro }}</p>
-          <div class="summary-points">
-            <article v-for="point in summarySection.points" :key="point" class="summary-point">
-              <span class="summary-point-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>
-              </span>
-              <p>{{ point }}</p>
-            </article>
-          </div>
-          <div class="summary-footer">{{ summarySection.footer }}</div>
-        </div>
-      </section>
-
       <div class="disclaimer-section fade-in-section">
         <div class="disclaimer-box">
           <h4>{{ disclaimer.title }}</h4>
@@ -863,35 +832,40 @@
       </div>
     </div>
 
-    <button class="ai-summary-fab" :class="{ active: isAiSummaryOpen && !isAiSummaryMinimized }" :aria-label="labels.aiSummaryFab" @click="toggleAiSummary">
+    <button
+      v-if="!isAiSummaryOpen"
+      class="ai-summary-fab"
+      :aria-label="labels.aiSummaryFab"
+      @click="openAiSummary"
+    >
       <span class="tool-icon" aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2 9.6 8.1 3 10.5l6.1 2.4L12 19l2.9-6.1L21 10.5l-6.1-2.4Z"/></svg>
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2.8 1.9 5.3 5.3 1.9-5.3 1.9-1.9 5.3-1.9-5.3-5.3-1.9 5.3-1.9Zm6.2 10.9.9 2.5 2.5.9-2.5.9-.9 2.5-.9-2.5-2.5-.9 2.5-.9Z"/></svg>
       </span>
-      <span class="ai-summary-fab-label">{{ labels.aiSummaryFab }}</span>
     </button>
 
-    <aside v-if="isAiSummaryOpen" class="ai-summary-panel" :class="{ minimized: isAiSummaryMinimized, maximized: isAiSummaryMaximized }">
-      <div class="ai-summary-header">
+    <aside
+      v-else
+      class="ai-summary-panel"
+      :class="{ 'ai-summary-panel--maximized': isAiSummaryMaximized }"
+    >
+      <div class="ai-summary-panel-header">
         <div>
-          <span class="resource-label">{{ summarySection.kicker }}</span>
-          <h3>{{ summarySection.title }}</h3>
+          <span class="eyebrow">{{ summarySection.kicker }}</span>
+          <h3 class="ai-summary-panel-title">{{ summarySection.title }}</h3>
         </div>
-        <div class="ai-summary-controls">
-          <button class="ai-summary-control" @click="toggleAiSummaryMinimize" :aria-label="isAiSummaryMinimized ? 'Restore AI summary' : 'Minimize AI summary'">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 11h12v2H6z"/></svg>
-          </button>
-          <button class="ai-summary-control" @click="toggleAiSummaryMaximize" :aria-label="isAiSummaryMaximized ? 'Restore AI summary size' : 'Maximize AI summary'">
+        <div class="ai-summary-panel-actions">
+          <button class="ai-summary-panel-btn" :aria-label="isAiSummaryMaximized ? 'Restore AI summary size' : 'Maximize AI summary'" @click="toggleAiSummaryMaximize">
             <svg v-if="!isAiSummaryMaximized" viewBox="0 0 24 24" fill="currentColor"><path d="M7 7h10v10H7zm2 2v6h6V9z"/></svg>
-            <svg v-else viewBox="0 0 24 24" fill="currentColor"><path d="M8 8h8v8H8zm-2 2H4V4h6v2H6zm14 0V6h-4V4h6v6zm-10 10H4v-6h2v4h4zm10 0h-6v-2h4v-4h2z"/></svg>
+            <svg v-else viewBox="0 0 24 24" fill="currentColor"><path d="M7 10h7V3h3v11H7zm3 4h7v7H10zm-3 0h2v7H2v-7zm11-4h4v4h-2v-2h-2z"/></svg>
           </button>
-          <button class="ai-summary-control ai-summary-control--close" @click="closeAiSummary" aria-label="Close AI summary">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="m18.3 5.7-1.4-1.4L12 9.2 7.1 4.3 5.7 5.7 10.6 10.6 5.7 15.5l1.4 1.4 4.9-4.9 4.9 4.9 1.4-1.4-4.9-4.9z"/></svg>
+          <button class="ai-summary-panel-btn ai-summary-panel-btn--close" aria-label="Close AI summary" @click="closeAiSummary">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="m18.3 5.7-1-1L12 10l-5.3-5.3-1 1L11 11l-5.3 5.3 1 1L12 12l5.3 5.3 1-1L13 11z"/></svg>
           </button>
         </div>
       </div>
 
-      <div v-if="!isAiSummaryMinimized" class="ai-summary-body">
-        <div class="summary-pills">
+      <div class="ai-summary-panel-body">
+        <div class="summary-pills ai-summary-panel-pills">
           <span class="summary-pill">
             <span class="tool-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M5 4h14v2H5Zm0 7h14v2H5Zm0 7h10v2H5Z"/></svg></span>
             {{ summaryMetrics.words }} words
@@ -901,16 +875,19 @@
             {{ summaryMetrics.readTime }} min read
           </span>
         </div>
-        <p class="summary-intro">{{ summarySection.intro }}</p>
-        <div class="ai-summary-points">
-          <div v-for="point in summarySection.points" :key="point" class="ai-summary-point">
-            <span class="summary-point-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>
-            </span>
-            <p>{{ point }}</p>
+
+        <div class="summary-card ai-summary-card">
+          <p class="summary-intro">{{ summarySection.intro }}</p>
+          <div class="summary-points">
+            <article v-for="point in summarySection.points" :key="point" class="summary-point">
+              <span class="summary-point-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>
+              </span>
+              <p>{{ point }}</p>
+            </article>
           </div>
+          <div class="summary-footer">{{ summarySection.footer }}</div>
         </div>
-        <div class="ai-summary-footer">{{ summarySection.footer }}</div>
       </div>
     </aside>
   </div>
@@ -955,7 +932,6 @@ const activeFaq = ref(0);
 const copiedSectionId = ref(null);
 const printSectionId = ref(null);
 const isAiSummaryOpen = ref(false);
-const isAiSummaryMinimized = ref(false);
 const isAiSummaryMaximized = ref(false);
 const sectionFontScales = ref(
   sectionIds.reduce((accumulator, id) => {
@@ -1084,49 +1060,15 @@ const printSection = (sectionId) => {
 
 const openAiSummary = () => {
   isAiSummaryOpen.value = true;
-  isAiSummaryMinimized.value = false;
-};
-
-const toggleAiSummary = () => {
-  if (!isAiSummaryOpen.value) {
-    openAiSummary();
-    return;
-  }
-
-  if (isAiSummaryMinimized.value) {
-    isAiSummaryMinimized.value = false;
-    return;
-  }
-
-  isAiSummaryOpen.value = false;
-  isAiSummaryMaximized.value = false;
-};
-
-const toggleAiSummaryMinimize = () => {
-  if (!isAiSummaryOpen.value) {
-    openAiSummary();
-    return;
-  }
-
-  isAiSummaryMinimized.value = !isAiSummaryMinimized.value;
-  if (isAiSummaryMinimized.value) {
-    isAiSummaryMaximized.value = false;
-  }
-};
-
-const toggleAiSummaryMaximize = () => {
-  if (!isAiSummaryOpen.value) {
-    openAiSummary();
-  }
-
-  isAiSummaryMinimized.value = false;
-  isAiSummaryMaximized.value = !isAiSummaryMaximized.value;
 };
 
 const closeAiSummary = () => {
   isAiSummaryOpen.value = false;
-  isAiSummaryMinimized.value = false;
   isAiSummaryMaximized.value = false;
+};
+
+const toggleAiSummaryMaximize = () => {
+  isAiSummaryMaximized.value = !isAiSummaryMaximized.value;
 };
 
 const downloadPdf = (guide) => {
@@ -1214,6 +1156,64 @@ onBeforeUnmount(() => {
   max-width: 1460px;
   margin: 0 auto;
   padding: 0 2rem 5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.hero {
+  order: 1;
+}
+
+.main-container > #basics {
+  order: 2;
+}
+
+.main-container > #guides {
+  order: 3;
+}
+
+.main-container > #spiritual {
+  order: 4;
+}
+
+.main-container > #umrah {
+  order: 5;
+}
+
+.main-container > #hajj {
+  order: 6;
+}
+
+.main-container > #rules {
+  order: 7;
+}
+
+.main-container > #health {
+  order: 8;
+}
+
+.main-container > #mistakes {
+  order: 9;
+}
+
+.main-container > #resources {
+  order: 10;
+}
+
+.main-container > #post-hajj {
+  order: 11;
+}
+
+.main-container > #shorts {
+  order: 12;
+}
+
+.main-container > .disclaimer-section {
+  order: 13;
+}
+
+.main-container > .closing {
+  order: 14;
 }
 
 .fade-in-section {
@@ -1240,7 +1240,7 @@ onBeforeUnmount(() => {
   gap: 3.75rem;
   align-items: center;
   padding: 3.75rem 4rem;
-  margin-top: 1.4rem;
+  margin-top: 0;
   background:
     radial-gradient(circle at top left, rgba(233, 223, 208, 0.45), transparent 34%),
     linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(246, 240, 231, 0.92));
@@ -1482,8 +1482,8 @@ onBeforeUnmount(() => {
 }
 
 .sec.alt {
-  border-top: 1px solid var(--green-line);
-  border-bottom: 1px solid var(--green-line);
+  border-top: 0;
+  border-bottom: 0;
 }
 
 .sec-header-with-image {
@@ -1627,8 +1627,8 @@ onBeforeUnmount(() => {
 }
 
 .section-tool-btn {
-  min-height: 46px;
-  padding: 0.5rem 1rem;
+  min-height: 40px;
+  padding: 0.38rem 0.78rem;
   border-radius: 999px;
   position: relative;
   display: flex;
@@ -1673,8 +1673,8 @@ onBeforeUnmount(() => {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 0.95rem;
-  height: 0.95rem;
+  width: 0.88rem;
+  height: 0.88rem;
   flex-shrink: 0;
 }
 
@@ -1686,9 +1686,9 @@ onBeforeUnmount(() => {
 .font-controls {
   display: inline-flex;
   align-items: center;
-  gap: 0.45rem;
-  min-height: 46px;
-  padding: 0 0 0 0.1rem;
+  gap: 0.35rem;
+  min-height: 40px;
+  padding: 0;
   background: transparent;
   border: 0;
   border-radius: 0;
@@ -1696,19 +1696,11 @@ onBeforeUnmount(() => {
 }
 
 .font-chip {
-  display: flex;
-  align-items: center;
-  gap: 0.45rem;
-  min-width: 0;
-  padding: 0 0.15rem;
+  display: none;
 }
 
 .font-label {
-  color: var(--green-dark);
-  font-size: 0.84rem;
-  font-weight: 600;
-  line-height: 1.3;
-  white-space: nowrap;
+  display: none;
 }
 
 .font-actions {
@@ -1720,19 +1712,13 @@ onBeforeUnmount(() => {
 }
 
 .font-scale {
-  min-width: 2.35rem;
-  padding: 0.1rem 0;
-  text-align: center;
-  color: var(--green-dark);
-  font-size: 0.84rem;
-  font-weight: 700;
-  white-space: nowrap;
+  display: none;
 }
 
 .font-btn {
-  min-width: 46px;
-  min-height: 46px;
-  padding: 0 0.7rem;
+  min-width: 40px;
+  min-height: 40px;
+  padding: 0 0.55rem;
   border-radius: 999px;
 }
 
@@ -1773,7 +1759,7 @@ onBeforeUnmount(() => {
 }
 
 .pdf-grid {
-  align-items: start;
+  align-items: stretch;
 }
 
 .shorts-grid {
@@ -1805,10 +1791,16 @@ onBeforeUnmount(() => {
 }
 
 .pdf-card {
-  display: grid;
+  display: flex;
+  flex-direction: column;
   gap: 1rem;
-  align-content: start;
   padding: 1.85rem;
+  height: 100%;
+}
+
+.pdf-card-copy {
+  display: grid;
+  gap: 0.9rem;
 }
 
 .card h3,
@@ -2031,7 +2023,7 @@ onBeforeUnmount(() => {
 }
 
 .pdf-card .download-btn {
-  margin-top: 0.35rem;
+  margin-top: auto;
   width: fit-content;
   padding: 0.85rem 1.2rem;
   border-radius: 18px;
@@ -2114,11 +2106,15 @@ onBeforeUnmount(() => {
 
 .short-card {
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
 .short-frame {
   position: relative;
-  aspect-ratio: 9 / 16;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  max-height: none;
   background: #000;
 }
 
@@ -2127,10 +2123,6 @@ onBeforeUnmount(() => {
   inset: 0;
   width: 100%;
   height: 100%;
-}
-
-.summary-end {
-  position: relative;
 }
 
 .summary-pills {
@@ -2156,8 +2148,7 @@ onBeforeUnmount(() => {
   box-shadow: var(--shadow-sm);
 }
 
-.summary-card,
-.ai-summary-panel {
+.summary-card {
   background: rgba(255, 255, 255, 0.96);
   border: 1px solid rgba(215, 230, 216, 0.95);
   border-radius: 26px;
@@ -2171,9 +2162,8 @@ onBeforeUnmount(() => {
 
 .summary-intro,
 .summary-point p,
-.ai-summary-point p,
 .summary-footer,
-.ai-summary-footer {
+.summary-footer {
   margin: 0;
   color: var(--text-muted);
   font-family: system-ui, sans-serif;
@@ -2185,8 +2175,7 @@ onBeforeUnmount(() => {
   font-size: 1rem;
 }
 
-.summary-points,
-.ai-summary-points {
+.summary-points {
   display: grid;
   gap: 0.9rem;
   margin-top: 1.35rem;
@@ -2196,8 +2185,7 @@ onBeforeUnmount(() => {
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
 }
 
-.summary-point,
-.ai-summary-point {
+.summary-point {
   display: flex;
   gap: 0.8rem;
   align-items: flex-start;
@@ -2223,8 +2211,7 @@ onBeforeUnmount(() => {
   height: 100%;
 }
 
-.summary-footer,
-.ai-summary-footer {
+.summary-footer {
   margin-top: 1.2rem;
   padding-top: 1rem;
   border-top: 1px solid var(--green-line);
@@ -2233,121 +2220,127 @@ onBeforeUnmount(() => {
 
 .ai-summary-fab {
   position: fixed;
-  right: 1.25rem;
-  bottom: 1.25rem;
-  z-index: 2500;
+  right: 1.4rem;
+  bottom: 1.4rem;
+  z-index: 2600;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.6rem;
-  min-height: 54px;
-  padding: 0.7rem 1rem 0.7rem 0.9rem;
+  width: 54px;
+  height: 54px;
+  padding: 0;
   border: 1px solid rgba(255, 255, 255, 0.96);
-  border-radius: 999px;
+  border-radius: 18px;
   background: radial-gradient(circle at 30% 30%, #2b7a4f, var(--green-dark));
   color: #fff;
   box-shadow: 0 18px 36px rgba(18, 54, 34, 0.26);
   cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .ai-summary-fab:hover {
   transform: translateY(-2px);
-  box-shadow: 0 24px 40px rgba(18, 54, 34, 0.32);
-}
-
-.ai-summary-fab.active {
-  background: radial-gradient(circle at 30% 30%, #327f55, #183f29);
+  box-shadow: 0 24px 42px rgba(18, 54, 34, 0.32);
 }
 
 .ai-summary-fab .tool-icon {
-  width: 1.1rem;
-  height: 1.1rem;
-}
-
-.ai-summary-fab-label {
-  font-family: system-ui, sans-serif;
-  font-size: 0.85rem;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  white-space: nowrap;
+  width: 1.15rem;
+  height: 1.15rem;
 }
 
 .ai-summary-panel {
   position: fixed;
   right: 1.4rem;
-  bottom: 5.8rem;
-  top: 5.5rem;
-  z-index: 2499;
-  width: min(400px, calc(100vw - 2rem));
-  max-height: calc(100vh - 11.8rem);
-  overflow: hidden;
-}
-
-.ai-summary-panel.maximized {
-  width: min(640px, calc(100vw - 2rem));
-}
-
-.ai-summary-panel.minimized {
-  width: min(360px, calc(100vw - 2rem));
-}
-
-.ai-summary-header {
+  bottom: 1.4rem;
+  z-index: 2600;
+  width: min(430px, calc(100vw - 2.8rem));
+  height: min(88vh, 920px);
+  max-height: min(88vh, 920px);
   display: flex;
-  align-items: flex-start;
+  flex-direction: column;
+  border: 1px solid rgba(255, 255, 255, 0.96);
+  border-radius: 24px;
+  background: rgba(255, 253, 249, 0.98);
+  box-shadow:
+    0 28px 64px rgba(18, 54, 34, 0.22),
+    0 0 0 1px rgba(18, 54, 34, 0.06),
+    0 0 0 10px rgba(255, 253, 249, 0.22);
+  backdrop-filter: blur(12px);
+  overflow: hidden;
+  overscroll-behavior: contain;
+}
+
+.ai-summary-panel--maximized {
+  width: min(620px, calc(100vw - 2.8rem));
+  height: min(92vh, 1080px);
+  max-height: min(92vh, 1080px);
+}
+
+.ai-summary-panel-header {
+  display: flex;
+  align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  padding: 1.2rem 1.2rem 1rem;
+  padding: 1rem 1.1rem 0.85rem;
   border-bottom: 1px solid var(--green-line);
 }
 
-.ai-summary-header h3 {
+.ai-summary-panel-title {
   margin: 0.35rem 0 0;
   color: var(--green-dark);
-  font-size: 1.35rem;
-  line-height: 1.2;
+  font-size: 1.55rem;
+  line-height: 1.1;
   font-style: italic;
   font-weight: 500;
+  max-width: 12ch;
 }
 
-.ai-summary-controls {
-  display: flex;
+.ai-summary-panel-actions {
+  display: inline-flex;
   align-items: center;
-  gap: 0.45rem;
+  gap: 0.55rem;
 }
 
-.ai-summary-control {
-  width: 38px;
-  height: 38px;
+.ai-summary-panel-btn {
+  width: 42px;
+  height: 42px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   border: 1px solid var(--green-line);
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.96);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.92);
   color: var(--green-dark);
   cursor: pointer;
-  transition: background 0.2s ease, transform 0.2s ease;
+  transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
 }
 
-.ai-summary-control:hover {
-  background: var(--green-soft);
+.ai-summary-panel-btn:hover {
   transform: translateY(-1px);
+  background: #fff;
 }
 
-.ai-summary-control--close {
-  color: var(--danger);
-}
-
-.ai-summary-control svg {
+.ai-summary-panel-btn svg {
   width: 18px;
   height: 18px;
 }
 
-.ai-summary-body {
-  padding: 1.2rem;
-  max-height: calc(100vh - 14rem);
-  overflow: auto;
+.ai-summary-panel-btn--close {
+  color: var(--danger);
+}
+
+.ai-summary-panel-body {
+  padding: 0 1.1rem 1.1rem;
+  overflow-y: auto;
+  scrollbar-gutter: stable;
+}
+
+.ai-summary-panel-pills {
+  justify-content: flex-start;
+}
+
+.ai-summary-card {
+  margin-top: 1rem;
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -2428,9 +2421,6 @@ onBeforeUnmount(() => {
     min-height: 420px;
   }
 
-  .ai-summary-panel.maximized {
-    width: min(560px, calc(100vw - 2rem));
-  }
 }
 
 @media (max-width: 768px) {
@@ -2440,7 +2430,7 @@ onBeforeUnmount(() => {
 
   .hero {
     padding: 2rem 1.7rem;
-    margin-top: 1rem;
+    margin-top: 0;
     border-radius: 28px;
   }
 
@@ -2486,23 +2476,12 @@ onBeforeUnmount(() => {
     grid-template-columns: 1fr;
   }
 
-  .ai-summary-fab {
+  .ai-summary-panel {
     right: 1rem;
-    left: auto;
     bottom: 1rem;
-    min-height: 50px;
-    padding: 0.65rem 0.9rem 0.65rem 0.8rem;
-  }
-
-  .ai-summary-panel,
-  .ai-summary-panel.maximized,
-  .ai-summary-panel.minimized {
-    right: 1rem;
-    left: 1rem;
-    top: 5rem;
-    bottom: 5.6rem;
-    width: auto;
-    max-height: none;
+    width: min(400px, calc(100vw - 2rem));
+    height: min(86vh, 860px);
+    max-height: min(86vh, 860px);
   }
 
   .sec {
@@ -2559,6 +2538,31 @@ onBeforeUnmount(() => {
     justify-content: center;
   }
 
+  .ai-summary-fab {
+    right: 0.75rem;
+    bottom: 0.75rem;
+    width: 48px;
+    height: 48px;
+  }
+
+  .ai-summary-panel,
+  .ai-summary-panel--maximized {
+    right: 0.75rem;
+    left: 0.75rem;
+    bottom: 0.75rem;
+    width: auto;
+    height: 88vh;
+    max-height: 88vh;
+  }
+
+  .ai-summary-panel-header {
+    padding: 1rem;
+  }
+
+  .ai-summary-panel-body {
+    padding: 0 1rem 1rem;
+  }
+
   .section-tool-btn {
     min-height: 42px;
     padding-inline: 0.85rem;
@@ -2571,15 +2575,6 @@ onBeforeUnmount(() => {
   .font-btn {
     min-width: 42px;
     min-height: 42px;
-  }
-
-  .ai-summary-header {
-    flex-direction: column;
-  }
-
-  .ai-summary-controls {
-    width: 100%;
-    justify-content: flex-end;
   }
 
   .hero-visual {
@@ -2596,7 +2591,7 @@ onBeforeUnmount(() => {
   .hero-btn-secondary,
   .download-btn,
   .ai-summary-fab,
-  .ai-summary-control {
+  .ai-summary-panel-btn {
     transition: none !important;
     transform: none !important;
   }
