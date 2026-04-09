@@ -1,1228 +1,1837 @@
 <template>
   <div class="pg">
     <div class="main-container">
-      
-      <!-- SIMPLIFIED HERO SECTION -->
-      <header class="hero">
-        <div class="hero-content">
-          <div class="bismillah">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
-          <h1 class="hero-title">Your Complete Guide to Hajj & Umrah</h1>
-          <p class="hero-subtitle">Step-by-step guidance for the sacred pilgrimage, verified by Islamic scholars and updated for 1447 AH.</p>
-          
+      <header class="hero fade-in-section">
+        <div class="hero-copy">
+          <p class="hero-arabic">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</p>
+          <span class="hero-kicker">Hajj & Umrah Guide</span>
+          <h1 class="hero-title">A cleaner, sourced guide for Hajj and Umrah.</h1>
+          <p class="hero-subtitle">
+            This page focuses on the core rites, common mistakes, official health guidance, and a more careful
+            reference trail. Primary texts and official Saudi resources remain the standard, while short videos
+            are treated as supplementary refreshers only.
+          </p>
+
           <div class="hero-actions">
-            <button class="btn-primary" @click="scrollToSection('basics')">Begin Your Journey</button>
-            <a :href="pdfs.completeGuide" download class="btn-secondary">
-              <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
-              Download Full Guide
-            </a>
+            <button class="btn-primary" @click="scrollToSection('guides')">Download real guides</button>
+            <button class="btn-secondary" @click="scrollToSection('umrah')">Review the rites</button>
           </div>
+
+          <div class="hero-trust">
+            <div class="trust-item">
+              <strong>Primary texts</strong>
+              <span>Qur'an and hadith references shown inside the page.</span>
+            </div>
+            <div class="trust-item">
+              <strong>Official travel guidance</strong>
+              <span>Nusuk and Saudi MOH sources included below.</span>
+            </div>
+            <div class="trust-item">
+              <strong>Cleaner presentation</strong>
+              <span>Less noise, more whitespace, fewer distracting links.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-visual">
+          <img :src="heroImage.src" :alt="heroImage.alt" loading="lazy">
+          <div class="hero-image-overlay"></div>
         </div>
       </header>
 
-      <!-- Chapter I: Basics - TEXT LEFT, IMAGE RIGHT -->
-      <div class="sec fade-in-section" id="basics">
-        <div class="content-grid">
-          <div class="text-content">
+      <section class="sec fade-in-section" id="guides">
+        <div class="sec-hd sec-hd-center">
+          <span class="eyebrow">Downloads</span>
+          <h2 class="sec-title">Real PDF guides</h2>
+          <div class="sec-ornament"><span class="sec-ornament-dot"></span></div>
+          <p class="sec-desc">
+            These buttons now point to actual guides and official health documents instead of dummy files.
+          </p>
+        </div>
+
+        <div class="pdf-grid">
+          <article v-for="guide in pdfGuides" :key="guide.url" class="pdf-card hover-lift">
+            <span class="pdf-label">{{ guide.label }}</span>
+            <h3>{{ guide.title }}</h3>
+            <p>{{ guide.desc }}</p>
+            <button class="download-btn" @click="downloadPdf(guide)">
+              Download PDF
+            </button>
+          </article>
+        </div>
+      </section>
+
+      <section class="sec alt fade-in-section" id="basics">
+        <div class="sec-header-with-image">
+          <div class="sec-hd">
             <span class="eyebrow">Chapter I</span>
-            <h2 class="sec-title">Understanding Hajj & Umrah</h2>
-            <p class="lead-text">The pilgrimage to Makkah is one of the most profound acts of worship in Islam, representing the unity of Muslims worldwide and the submission to Allah's command.</p>
-            
-            <div class="content-block">
-              <h3>What is Hajj?</h3>
-              <p>Hajj is the fifth pillar of Islam and an obligatory act of worship for every Muslim who is physically and financially able to perform it at least once in their lifetime. It takes place during the Islamic month of Dhul Hijjah and commemorates the trials of Prophet Ibrahim (AS), his wife Hajar, and their son Ismail (AS).</p>
-              <p>The pilgrimage involves a series of rituals performed over 5-6 days, including wearing the Ihram (sacred state), standing at Arafat, stoning the pillars representing Satan, and circumambulating the Kaaba.</p>
-            </div>
-
-            <div class="content-block">
-              <h3>What is Umrah?</h3>
-              <p>Umrah, often called the "minor pilgrimage," can be performed at any time of the year and is highly recommended (Sunnah Mu'akkadah). While shorter and less complex than Hajj, it carries immense spiritual reward and serves as a means of seeking forgiveness and drawing closer to Allah.</p>
-              <p>Umrah consists of four main acts: entering Ihram, performing Tawaf (circumambulation of the Kaaba), Sa'i (walking between Safa and Marwa), and cutting or shaving the hair.</p>
-            </div>
-
-            <div class="key-differences">
-              <h4>Key Differences</h4>
-              <ul>
-                <li><strong>Timing:</strong> Hajj is specific to Dhul Hijjah (8th-13th), while Umrah can be performed year-round</li>
-                <li><strong>Duration:</strong> Hajj takes 5-6 days; Umrah can be completed in a few hours</li>
-                <li><strong>Obligation:</strong> Hajj is obligatory once in a lifetime; Umrah is voluntary but highly rewarded</li>
-                <li><strong>Rituals:</strong> Hajj includes additional rites like standing at Arafat and stoning at Mina</li>
-              </ul>
-            </div>
+            <h2 class="sec-title">Foundations before the journey</h2>
+            <div class="sec-ornament"><span class="sec-ornament-dot"></span></div>
+            <p class="sec-desc">
+              Learn the obligation, the categories of Hajj, and the difference between foundational rulings and
+              personal cases that still require a scholar.
+            </p>
           </div>
-          
-          <div class="image-content">
-            <img 
-              src="https://images.pexels.com/photos/2347321/pexels-photo-2347321.jpeg?auto=compress&cs=tinysrgb&w=800" 
-              alt="The Holy Kaaba in Masjid al-Haram"
-              loading="lazy"
-            >
-            <div class="image-caption">The Holy Kaaba - The focal point of Islamic worship</div>
+
+          <div class="sec-image">
+            <img :src="sectionImages.basics.src" :alt="sectionImages.basics.alt" loading="lazy">
+            <div class="image-overlay"></div>
+            <div class="image-credit">{{ sectionImages.basics.credit }}</div>
           </div>
         </div>
 
-        <div class="section-download">
-          <a :href="pdfs.basicsGuide" download class="download-btn">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
-            <span>Download Chapter 1: Basics (PDF)</span>
-          </a>
+        <div class="cards-grid">
+          <article v-for="card in basicsCards" :key="card.num" class="card hover-lift">
+            <span class="card-num">{{ card.num }}</span>
+            <h3>{{ card.title }}</h3>
+            <p>{{ card.desc }}</p>
+            <div class="card-note">{{ card.note }}</div>
+          </article>
         </div>
-      </div>
 
-      <!-- Chapter II: Umrah Steps - TEXT LEFT, IMAGE RIGHT -->
-      <div class="sec alt fade-in-section" id="umrah">
-        <div class="content-grid">
-          <div class="text-content">
+        <div class="types-grid">
+          <article v-for="type in hajjTypes" :key="type.title" class="type-card hover-lift">
+            <h3>{{ type.title }}</h3>
+            <p>{{ type.desc }}</p>
+            <div class="type-note">{{ type.note }}</div>
+          </article>
+        </div>
+
+        <div class="reference-panel">
+          <h4>Key references</h4>
+          <div class="reference-list">
+            <div v-for="item in sectionReferences.basics" :key="item.title" class="reference-item">
+              <strong>{{ item.title }}</strong>
+              <span>{{ item.url }}</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="sec fade-in-section" id="umrah">
+        <div class="sec-header-with-image">
+          <div class="sec-hd">
             <span class="eyebrow">Chapter II</span>
-            <h2 class="sec-title">Performing Umrah: A Complete Guide</h2>
-            <p class="lead-text">Umrah is a beautiful act of worship that purifies the soul and brings one closer to Allah. Follow these steps carefully to ensure your Umrah is performed correctly.</p>
-
-            <div class="step-card">
-              <div class="step-number">01</div>
-              <div class="step-content">
-                <h3>Ihram - The Sacred State</h3>
-                <p>Before crossing the Miqat (boundary), purify yourself with ghusl (ritual bath), trim your nails, and remove scented products. Men wear two white unstitched cloths; women wear modest clothing covering the body except face and hands.</p>
-                <p class="important-note"><strong>Important:</strong> Make your Niyyah (intention) for Umrah and recite the Talbiyah: "Labbayk Allahumma Umrah" (Here I am, O Allah, for Umrah).</p>
-              </div>
-            </div>
-
-            <div class="step-card">
-              <div class="step-number">02</div>
-              <div class="step-content">
-                <h3>Tawaf - Circumambulation</h3>
-                <p>Upon entering Masjid al-Haram, proceed to the Kaaba and perform Tawaf - seven counter-clockwise circuits starting and ending at the Black Stone (Hajar al-Aswad). If possible, kiss or touch the Black Stone; otherwise, point to it and say "Bismillah, Allahu Akbar."</p>
-                <p>During the first three circuits, men should perform Ramal (brisk walking with short steps). Recite Quran, make dhikr, or supplicate as you circle the House of Allah.</p>
-              </div>
-            </div>
-
-            <div class="step-card">
-              <div class="step-number">03</div>
-              <div class="step-content">
-                <h3>Sa'i - Walking Between Safa and Marwa</h3>
-                <p>After Tawaf, pray two rak'at behind Maqam Ibrahim if possible. Then proceed to Safa and walk seven times between Safa and Marwa, commemorating Hajar's search for water for her son Ismail.</p>
-                <p>Men should walk briskly between the green markers. Recite: "Indeed, Safa and Marwa are among the symbols of Allah" (Quran 2:158) when starting at each hill.</p>
-              </div>
-            </div>
-
-            <div class="step-card">
-              <div class="step-number">04</div>
-              <div class="step-content">
-                <h3>Tahallul - Exiting Ihram</h3>
-                <p>Complete your Umrah by cutting or shaving your hair. Men are recommended to shave their heads completely (Halq), though trimming at least an inch is permissible (Taqsir). Women should trim about a fingertip's length.</p>
-                <p>Once completed, you exit the state of Ihram and all restrictions are lifted. Your Umrah is now complete - may Allah accept it!</p>
-              </div>
-            </div>
+            <h2 class="sec-title">Umrah step by step</h2>
+            <div class="sec-ornament"><span class="sec-ornament-dot"></span></div>
+            <p class="sec-desc">
+              The Umrah sequence is short, but mistakes usually happen through haste, crowd pressure, or
+              uncertainty at the miqat and during tawaf.
+            </p>
           </div>
-          
-          <div class="image-content">
-            <img 
-              src="https://images.pexels.com/photos/1579426/pexels-photo-1579426.jpeg?auto=compress&cs=tinysrgb&w=800" 
-              alt="Pilgrims performing Tawaf around the Kaaba"
-              loading="lazy"
-            >
-            <div class="image-caption">Pilgrims performing Tawaf around the Kaaba</div>
+
+          <div class="sec-image">
+            <img :src="sectionImages.umrah.src" :alt="sectionImages.umrah.alt" loading="lazy">
+            <div class="image-overlay"></div>
+            <div class="image-credit">{{ sectionImages.umrah.credit }}</div>
           </div>
         </div>
 
-        <div class="section-download">
-          <a :href="pdfs.umrahGuide" download class="download-btn">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
-            <span>Download Umrah Step-by-Step Guide (PDF)</span>
-          </a>
+        <div class="tl">
+          <article v-for="(step, index) in umrahSteps" :key="step.num" class="tl-item">
+            <div class="tl-left">
+              <div class="tl-num">{{ step.num }}</div>
+              <div v-if="index !== umrahSteps.length - 1" class="tl-line"></div>
+            </div>
+            <div class="tl-body">
+              <h3>{{ step.title }}</h3>
+              <p>{{ step.desc }}</p>
+              <div class="tl-tip">{{ step.tip }}</div>
+              <div class="tl-ref">{{ step.ref }}</div>
+            </div>
+          </article>
         </div>
-      </div>
 
-      <!-- Chapter III: Hajj Days - TEXT LEFT, IMAGE RIGHT -->
-      <div class="sec fade-in-section" id="hajj">
-        <div class="content-grid">
-          <div class="text-content">
+        <div class="conclusion">
+          <h4>After Umrah</h4>
+          <p>
+            When the hair is trimmed or shaved, Ihram ends. For Tamattu', the pilgrim remains out of Ihram
+            until entering Ihram again for Hajj on the 8th of Dhul-Hijjah.
+          </p>
+        </div>
+
+        <div class="reference-panel">
+          <h4>Key references</h4>
+          <div class="reference-list">
+            <div v-for="item in sectionReferences.umrah" :key="item.title" class="reference-item">
+              <strong>{{ item.title }}</strong>
+              <span>{{ item.url }}</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="sec alt fade-in-section" id="hajj">
+        <div class="sec-header-with-image">
+          <div class="sec-hd">
             <span class="eyebrow">Chapter III</span>
-            <h2 class="sec-title">The Days of Hajj</h2>
-            <p class="lead-text">Hajj is performed over specific days in Dhul Hijjah. Each day carries unique rituals and spiritual significance.</p>
-
-            <div class="day-card-detailed">
-              <div class="day-header">
-                <span class="day-number">Day 1</span>
-                <span class="day-date">8th Dhul Hijjah - Day of Tarwiyah</span>
-              </div>
-              <div class="day-body">
-                <p><strong>Morning:</strong> Enter Ihram from your location (Makkah if performing Tamattu). Make intention for Hajj and recite Talbiyah.</p>
-                <p><strong>Afternoon:</strong> Travel to Mina (8km from Makkah). Spend the day and night in prayer, Quran recitation, and preparation for Arafat.</p>
-                <p><strong>Prayers:</strong> Pray Dhuhr, Asr, Maghrib, Isha, and Fajr in Mina. Shorten the four-rak'at prayers to two rak'at each (Qasr) but do not combine them.</p>
-              </div>
-            </div>
-
-            <div class="day-card-detailed">
-              <div class="day-header">
-                <span class="day-number">Day 2</span>
-                <span class="day-date">9th Dhul Hijjah - Day of Arafah</span>
-              </div>
-              <div class="day-body">
-                <p><strong>After Fajr:</strong> Remain in Mina until sunrise, then proceed to Arafat.</p>
-                <p><strong>At Arafat:</strong> This is the most important day of Hajj. From after Dhuhr until sunset, stand in sincere supplication and remembrance of Allah. The Prophet (ﷺ) said: "Hajj is Arafah."</p>
-                <p><strong>Dua:</strong> Raise your hands and make heartfelt dua. The best supplication is on the Day of Arafah. Recite: "La ilaha illallah wahdahu la sharika lah..."</p>
-                <p><strong>After Sunset:</strong> Depart calmly to Muzdalifah. Do not pray Maghrib yet.</p>
-              </div>
-            </div>
-
-            <div class="day-card-detailed">
-              <div class="day-header">
-                <span class="day-number">Night</span>
-                <span class="day-date">9th-10th Dhul Hijjah - Night at Muzdalifah</span>
-              </div>
-              <div class="day-body">
-                <p><strong>At Muzdalifah:</strong> Pray Maghrib and Isha combined (Maghrib 3 rak'at, Isha 2 rak'at with one salam). Rest under the open sky.</p>
-                <p><strong>Collect Pebbles:</strong> Gather 49-70 small pebbles (about the size of a chickpea) for stoning the Jamarat. It's recommended to collect them at Muzdalifah.</p>
-                <p><strong>Fajr:</strong> Pray Fajr early and remain in supplication until it's very light (Isfar), then depart for Mina before sunrise.</p>
-              </div>
-            </div>
-
-            <div class="day-card-detailed">
-              <div class="day-header">
-                <span class="day-number">Day 3</span>
-                <span class="day-date">10th Dhul Hijjah - Eid al-Adha</span>
-              </div>
-              <div class="day-body">
-                <p><strong>At Mina:</strong> Stone Jamarat al-Aqabah (the largest pillar) with seven pebbles, saying "Allahu Akbar" with each throw.</p>
-                <p><strong>Sacrifice:</strong> Perform or arrange the sacrifice (Qurbani/Hadi). This is obligatory for those performing Hajj Tamattu or Qiran.</p>
-                <p><strong>Shave/Trim:</strong> Shave or trim your hair (this is the first Tahallul - partial release from Ihram).</p>
-                <p><strong>Tawaf al-Ifadah:</strong> Go to Makkah and perform Tawaf al-Ifadah (also called Tawaf al-Ziyarah) - seven circuits around the Kaaba. This is a pillar of Hajj.</p>
-                <p><strong>Sa'i:</strong> If you haven't done Sa'i for Hajj yet, perform it now (seven walks between Safa and Marwa).</p>
-                <p><strong>Return to Mina:</strong> Go back to Mina to spend the night.</p>
-              </div>
-            </div>
-
-            <div class="day-card-detailed">
-              <div class="day-header">
-                <span class="day-number">Days 4-5</span>
-                <span class="day-date">11th-13th Dhul Hijjah - Days of Tashreeq</span>
-              </div>
-              <div class="day-body">
-                <p><strong>Stoning:</strong> Each day after Dhuhr, stone all three Jamarat (small, medium, large) with seven pebbles each, starting with the smallest.</p>
-                <p><strong>Supplication:</strong> After stoning the small and medium pillars, face the Qibla and make dua. Do not make dua after the largest pillar.</p>
-                <p><strong>Departure:</strong> You may leave Mina on the 12th before sunset (Nafar Awwal) or stay until the 13th (Nafar Thani - more virtuous).</p>
-              </div>
-            </div>
-
-            <div class="day-card-detailed">
-              <div class="day-header">
-                <span class="day-number">Final</span>
-                <span class="day-date">Tawaf al-Wada - Farewell Tawaf</span>
-              </div>
-              <div class="day-body">
-                <p>Before leaving Makkah, perform Tawaf al-Wada (Farewell Tawaf) - seven circuits around the Kaaba. This is obligatory for those living outside the Miqat boundaries.</p>
-                <p>After this, depart with the hope of returning and the promise of a Hajj Mabroor (accepted pilgrimage).</p>
-              </div>
-            </div>
+            <h2 class="sec-title">The major days of Hajj</h2>
+            <div class="sec-ornament"><span class="sec-ornament-dot"></span></div>
+            <p class="sec-desc">
+              The order of the days matters, but the greatest misunderstanding is forgetting that Arafah is the
+              center of the pilgrimage.
+            </p>
           </div>
-          
-          <div class="image-content">
-            <img 
-              src="https://images.pexels.com/photos/2347338/pexels-photo-2347338.jpeg?auto=compress&cs=tinysrgb&w=800" 
-              alt="Pilgrims at Mount Arafat"
-              loading="lazy"
-            >
-            <div class="image-caption">The plains of Arafat on the Day of Arafah</div>
+
+          <div class="sec-image">
+            <img :src="sectionImages.hajj.src" :alt="sectionImages.hajj.alt" loading="lazy">
+            <div class="image-overlay"></div>
+            <div class="image-credit">{{ sectionImages.hajj.credit }}</div>
           </div>
         </div>
 
-        <div class="section-download">
-          <a :href="pdfs.hajjGuide" download class="download-btn">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
-            <span>Download Complete Hajj Guide (PDF)</span>
-          </a>
+        <div class="days-grid">
+          <article v-for="day in hajjDays" :key="day.date" class="day-card hover-lift">
+            <div class="day-head">
+              <span class="day-date">{{ day.date }}</span>
+              <h3>{{ day.title }}</h3>
+            </div>
+            <div class="day-body">
+              <p>{{ day.desc }}</p>
+              <div class="day-reminder">{{ day.reminder }}</div>
+              <div class="day-ref">{{ day.ref }}</div>
+            </div>
+          </article>
         </div>
-      </div>
 
-      <!-- Chapter IV: Ihram Rules - TEXT LEFT, IMAGE RIGHT -->
-      <div class="sec alt fade-in-section" id="ihram">
-        <div class="content-grid">
-          <div class="text-content">
+        <div class="farewell">
+          <div class="farewell-arabic">طواف الوداع</div>
+          <h4>Farewell Tawaf</h4>
+          <p>
+            Before leaving Makkah, the pilgrim makes a final tawaf unless exempted by a recognized reason such
+            as menstruation. Keep the ending dignified and avoid turning it into a rushed photo stop.
+          </p>
+          <cite>Reference: Sahih Muslim 1327</cite>
+        </div>
+
+        <div class="reference-panel">
+          <h4>Key references</h4>
+          <div class="reference-list">
+            <div v-for="item in sectionReferences.hajj" :key="item.title" class="reference-item">
+              <strong>{{ item.title }}</strong>
+              <span>{{ item.url }}</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="sec fade-in-section" id="mistakes">
+        <div class="sec-header-with-image">
+          <div class="sec-hd">
             <span class="eyebrow">Chapter IV</span>
-            <h2 class="sec-title">Ihram: Rules & Etiquette</h2>
-            <p class="lead-text">When you enter the state of Ihram, certain acts become prohibited to maintain the sanctity of this sacred state.</p>
-
-            <div class="rules-section">
-              <h3>Prohibited Acts in Ihram</h3>
-              <div class="rule-category">
-                <h4>For Both Men and Women:</h4>
-                <ul>
-                  <li>Cutting hair or nails (any part of the body)</li>
-                  <li>Using perfume or scented products (soap, shampoo, deodorant with fragrance)</li>
-                  <li>Hunting land animals or assisting in hunting</li>
-                  <li>Cutting or uprooting plants within the Haram boundaries</li>
-                  <li>Sexual relations, marriage contracts, or proposing marriage</li>
-                  <li>Wearing gloves (covering hands)</li>
-                  <li>Arguing, fighting, or using foul language</li>
-                </ul>
-              </div>
-
-              <div class="rule-category">
-                <h4>Specifically for Men:</h4>
-                <ul>
-                  <li>Wearing stitched clothing (shirts, pants, underwear, turbans)</li>
-                  <li>Covering the head with anything that touches it (caps, scarves, hoods)</li>
-                  <li>Wearing shoes that cover the ankles</li>
-                </ul>
-              </div>
-
-              <div class="rule-category">
-                <h4>Specifically for Women:</h4>
-                <ul>
-                  <li>Covering the face with niqab or burqa (may use umbrella or lower gaze)</li>
-                  <li>Wearing gloves</li>
-                </ul>
-              </div>
-            </div>
-
-            <div class="permitted-section">
-              <h3>Permitted Acts in Ihram</h3>
-              <ul class="permitted-list">
-                <li>Showering or bathing with unscented soap</li>
-                <li>Changing your Ihram garments</li>
-                <li>Wearing a belt, money pouch, or watch</li>
-                <li>Using an umbrella or seeking shade</li>
-                <li>Wearing glasses or sunglasses</li>
-                <li>Applying unscented medical ointments</li>
-                <li>Killing harmful creatures (scorpions, snakes, rats, crows)</li>
-                <li>Eating, drinking, and sleeping normally</li>
-              </ul>
-            </div>
-
-            <div class="fidya-section">
-              <h3>Fidyah (Expiation) for Violations</h3>
-              <p>If you unintentionally violate any prohibition, you must offer Fidyah:</p>
-              <ul>
-                <li><strong>Minor violations:</strong> Feeding six poor people, or fasting three days, or sacrificing a sheep</li>
-                <li><strong>Shaving hair due to illness:</strong> Fasting three days, feeding six poor people, or sacrificing a sheep</li>
-                <li><strong>Sexual relations before first Tahallul:</strong> This invalidates Hajj and requires a major sacrifice (camel or cow), completing the Hajj, and repeating it the following year</li>
-              </ul>
-            </div>
+            <h2 class="sec-title">Common mistakes to avoid</h2>
+            <div class="sec-ornament"><span class="sec-ornament-dot"></span></div>
+            <p class="sec-desc">
+              These are recurring problems that do not come from lack of sincerity, but from poor preparation,
+              pressure, and imitation without knowledge.
+            </p>
           </div>
-          
-          <div class="image-content">
-            <img 
-              src="https://images.pexels.com/photos/356056/pexels-photo-356056.jpeg?auto=compress&cs=tinysrgb&w=800" 
-              alt="White Ihram clothing for Hajj"
-              loading="lazy"
-            >
-            <div class="image-caption">The simple white Ihram garments symbolizing equality before Allah</div>
+
+          <div class="sec-image">
+            <img :src="sectionImages.mistakes.src" :alt="sectionImages.mistakes.alt" loading="lazy">
+            <div class="image-overlay"></div>
+            <div class="image-credit">{{ sectionImages.mistakes.credit }}</div>
           </div>
         </div>
 
-        <div class="section-download">
-          <a :href="pdfs.ihramRules" download class="download-btn">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
-            <span>Download Ihram Rules Reference (PDF)</span>
-          </a>
+        <div class="cards-grid">
+          <article v-for="item in commonMistakes" :key="item.title" class="card hover-lift">
+            <h3>{{ item.title }}</h3>
+            <p>{{ item.desc }}</p>
+            <div class="card-note">{{ item.note }}</div>
+          </article>
         </div>
-      </div>
 
-      <!-- Chapter V: Duas & Supplications - TEXT LEFT, IMAGE RIGHT -->
-      <div class="sec fade-in-section" id="duas">
-        <div class="content-grid">
-          <div class="text-content">
+        <div class="reference-panel">
+          <h4>Key references</h4>
+          <div class="reference-list">
+            <div v-for="item in sectionReferences.mistakes" :key="item.title" class="reference-item">
+              <strong>{{ item.title }}</strong>
+              <span>{{ item.url }}</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="sec alt fade-in-section" id="health">
+        <div class="sec-header-with-image">
+          <div class="sec-hd">
             <span class="eyebrow">Chapter V</span>
-            <h2 class="sec-title">Essential Duas for Hajj & Umrah</h2>
-            <p class="lead-text">Supplication is the essence of worship. Here are the most important duas to recite during your pilgrimage.</p>
-
-            <div class="dua-card">
-              <div class="dua-header">
-                <span class="dua-label">Talbiyah</span>
-                <span class="dua-when">Recited continuously in Ihram</span>
-              </div>
-              <div class="dua-arabic">لَبَّيْكَ اللَّهُمَّ لَبَّيْكَ، لَبَّيْكَ لَا شَرِيكَ لَكَ لَبَّيْكَ، إِنَّ الْحَمْدَ وَالنِّعْمَةَ لَكَ وَالْمُلْكَ، لَا شَرِيكَ لَكَ</div>
-              <div class="dua-transliteration">Labbayk Allahumma labbayk. Labbayka la sharika laka labbayk. Innal-hamda wan-ni'mata laka wal-mulk, la sharika lak.</div>
-              <div class="dua-translation">"Here I am, O Allah, here I am. Here I am, You have no partner, here I am. Verily all praise and blessings are Yours, and all sovereignty, You have no partner."</div>
-            </div>
-
-            <div class="dua-card">
-              <div class="dua-header">
-                <span class="dua-label">Starting Tawaf</span>
-                <span class="dua-when">At the Black Stone</span>
-              </div>
-              <div class="dua-arabic">بِسْمِ اللَّهِ وَاللَّهُ أَكْبَرُ</div>
-              <div class="dua-transliteration">Bismillah, Allahu Akbar</div>
-              <div class="dua-translation">"In the name of Allah, and Allah is the Greatest"</div>
-            </div>
-
-            <div class="dua-card">
-              <div class="dua-header">
-                <span class="dua-label">Between Rukn Yamani and Black Stone</span>
-                <span class="dua-when">During Tawaf</span>
-              </div>
-              <div class="dua-arabic">رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ</div>
-              <div class="dua-transliteration">Rabbana atina fid-dunya hasanatan wa fil-akhirati hasanatan wa qina 'adhaban-nar</div>
-              <div class="dua-translation">"Our Lord, give us in this world good and in the Hereafter good, and protect us from the punishment of the Fire" (Quran 2:201)</div>
-            </div>
-
-            <div class="dua-card">
-              <div class="dua-header">
-                <span class="dua-label">At Safa and Marwa</span>
-                <span class="dua-when">Starting Sa'i</span>
-              </div>
-              <div class="dua-arabic">إِنَّ الصَّفَا وَالْمَرْوَةَ مِن شَعَائِرِ اللَّهِ ۖ فَمَنْ حَجَّ الْبَيْتَ أَوِ اعْتَمَرَ فَلَا جُنَاحَ عَلَيْهِ أَن يَطَّوَّفَ بِهِمَا</div>
-              <div class="dua-transliteration">Innas-Safa wal-Marwata min sha'a'irillah. Faman hajjal-Bayta awi'tamara fala junaha 'alayhi an yattawwafa bihima</div>
-              <div class="dua-translation">"Indeed, Safa and Marwa are among the symbols of Allah. So whoever makes Hajj to the House or performs Umrah - there is no blame upon him for walking between them" (Quran 2:158)</div>
-            </div>
-
-            <div class="dua-card">
-              <div class="dua-header">
-                <span class="dua-label">Day of Arafah</span>
-                <span class="dua-when">Best supplication</span>
-              </div>
-              <div class="dua-arabic">لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ، وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ</div>
-              <div class="dua-transliteration">La ilaha illallahu wahdahu la sharika lah, lahul-mulku wa lahul-hamdu, wa huwa 'ala kulli shay'in qadir</div>
-              <div class="dua-translation">"There is no god but Allah alone, He has no partner, to Him belongs the dominion and to Him belongs all praise, and He is over all things omnipotent"</div>
-            </div>
-
-            <div class="dua-card">
-              <div class="dua-header">
-                <span class="dua-label">At Stoning Jamarat</span>
-                <span class="dua-when">With each pebble</span>
-              </div>
-              <div class="dua-arabic">اللَّهُ أَكْبَرُ</div>
-              <div class="dua-transliteration">Allahu Akbar</div>
-              <div class="dua-translation">"Allah is the Greatest"</div>
-            </div>
+            <h2 class="sec-title">Health, safety, and readiness</h2>
+            <div class="sec-ornament"><span class="sec-ornament-dot"></span></div>
+            <p class="sec-desc">
+              Physical ability and official health requirements are part of real-world Hajj preparation, not an
+              afterthought. Recheck them close to travel because they can change.
+            </p>
           </div>
-          
-          <div class="image-content">
-            <img 
-              src="https://images.pexels.com/photos/1264210/pexels-photo-1264210.jpeg?auto=compress&cs=tinysrgb&w=800" 
-              alt="Quran and prayer beads"
-              loading="lazy"
-            >
-            <div class="image-caption">The Quran - Your guide and companion during Hajj</div>
+
+          <div class="sec-image">
+            <img :src="sectionImages.health.src" :alt="sectionImages.health.alt" loading="lazy">
+            <div class="image-overlay"></div>
+            <div class="image-credit">{{ sectionImages.health.credit }}</div>
           </div>
         </div>
 
-        <div class="section-download">
-          <a :href="pdfs.duasCollection" download class="download-btn">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
-            <span>Download Complete Duas Booklet (PDF)</span>
-          </a>
+        <div class="rules-grid">
+          <article v-for="group in healthReadiness" :key="group.title" class="rules-card">
+            <div class="rules-hdr pos">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2 3 7v5c0 5.1 3.4 9.8 9 11 5.6-1.2 9-5.9 9-11V7zm-1 14-4-4 1.4-1.4 2.6 2.6 5.6-5.6L18 9z"/></svg>
+              {{ group.title }}
+            </div>
+            <ul class="rules-list">
+              <li v-for="item in group.items" :key="item">
+                <span class="dot-y">
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>
+                </span>
+                {{ item }}
+              </li>
+            </ul>
+          </article>
         </div>
-      </div>
 
-      <!-- Chapter VI: Practical Tips - TEXT LEFT, IMAGE RIGHT -->
-      <div class="sec alt fade-in-section" id="tips">
-        <div class="content-grid">
-          <div class="text-content">
+        <div class="section-note">
+          Official vaccination rules, seasonal public-health measures, and entry conditions must be checked
+          against the Saudi Ministry of Health and Nusuk near departure.
+        </div>
+
+        <div class="reference-panel">
+          <h4>Key references</h4>
+          <div class="reference-list">
+            <div v-for="item in sectionReferences.health" :key="item.title" class="reference-item">
+              <strong>{{ item.title }}</strong>
+              <span>{{ item.url }}</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="sec fade-in-section" id="rules">
+        <div class="sec-header-with-image">
+          <div class="sec-hd">
             <span class="eyebrow">Chapter VI</span>
-            <h2 class="sec-title">Practical Tips for a Smooth Pilgrimage</h2>
-            <p class="lead-text">Prepare yourself physically, mentally, and spiritually for the journey ahead.</p>
-
-            <div class="tip-category">
-              <h3>Before You Travel</h3>
-              <ul>
-                <li><strong>Health Check:</strong> Visit your doctor for a check-up and required vaccinations (Meningitis ACWY is mandatory)</li>
-                <li><strong>Physical Fitness:</strong> Start walking 5-10km daily to build stamina for the long walks</li>
-                <li><strong>Learn the Rites:</strong> Study the rituals thoroughly before departure</li>
-                <li><strong>Travel Insurance:</strong> Ensure you have comprehensive coverage</li>
-                <li><strong>Documents:</strong> Keep copies of passport, visa, tickets, and hotel bookings</li>
-                <li><strong>Money:</strong> Carry Saudi Riyals in small denominations</li>
-              </ul>
-            </div>
-
-            <div class="tip-category">
-              <h3>Packing Essentials</h3>
-              <ul>
-                <li><strong>Ihram:</strong> Two white unstitched cloths (men), modest clothing (women)</li>
-                <li><strong>Footwear:</strong> Comfortable sandals that expose the ankle bone</li>
-                <li><strong>Hygiene:</strong> Unscented soap, shampoo, toothpaste, and miswak</li>
-                <li><strong>Medications:</strong> Personal prescriptions, pain relievers, band-aids, blister pads</li>
-                <li><strong>Comfort:</strong> Umbrella (highly recommended for shade), water bottle, small backpack</li>
-                <li><strong>Electronics:</strong> Phone charger, power bank, universal adapter</li>
-                <li><strong>Important:</strong> Small Quran, dua book, prayer rug (optional)</li>
-              </ul>
-            </div>
-
-            <div class="tip-category">
-              <h3>During Hajj/Umrah</h3>
-              <ul>
-                <li><strong>Hydration:</strong> Drink Zamzam water and stay hydrated, especially in heat</li>
-                <li><strong>Pace Yourself:</strong> Don't rush; the rituals can be performed calmly</li>
-                <li><strong>Group Safety:</strong> Stay with your group and have a meeting point</li>
-                <li><strong>Patience:</strong> Expect crowds and delays; maintain good character</li>
-                <li><strong>Focus:</strong> Remember your intention - this is worship, not tourism</li>
-                <li><strong>Rest:</strong> Sleep when possible; the schedule is demanding</li>
-                <li><strong>Food:</strong> Eat light, nutritious meals; avoid heavy foods</li>
-              </ul>
-            </div>
-
-            <div class="tip-category">
-              <h3>Important Reminders</h3>
-              <ul>
-                <li><strong>Women's Health:</strong> If menstruation begins, continue all rites except Tawaf and Sa'i</li>
-                <li><strong>Lost Items:</strong> Report immediately to authorities; keep valuables secure</li>
-                <li><strong>Emergency:</strong> Save emergency numbers: 997 (Hajj hotline), 999 (police), 997 (ambulance)</li>
-                <li><strong>Respect:</strong> Be mindful of other pilgrims; help the elderly and weak</li>
-                <li><strong>Photography:</strong> Avoid taking photos of others without permission, especially during prayer</li>
-              </ul>
-            </div>
+            <h2 class="sec-title">Ihram rules and etiquette</h2>
+            <div class="sec-ornament"><span class="sec-ornament-dot"></span></div>
+            <p class="sec-desc">
+              Know the difference between what remains permitted, what is prohibited, and what should be taken
+              to a scholar when an error happens.
+            </p>
           </div>
-          
-          <div class="image-content">
-            <img 
-              src="https://images.pexels.com/photos/325185/pexels-photo-325185.jpeg?auto=compress&cs=tinysrgb&w=800" 
-              alt="Travel preparation and packing"
-              loading="lazy"
-            >
-            <div class="image-caption">Proper preparation ensures a focused and peaceful pilgrimage</div>
+
+          <div class="sec-image">
+            <img :src="sectionImages.rules.src" :alt="sectionImages.rules.alt" loading="lazy">
+            <div class="image-overlay"></div>
+            <div class="image-credit">{{ sectionImages.rules.credit }}</div>
           </div>
         </div>
 
-        <div class="section-download">
-          <a :href="pdfs.packingChecklist" download class="download-btn">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
-            <span>Download Packing Checklist (PDF)</span>
-          </a>
+        <div class="rules-grid">
+          <article class="rules-card">
+            <div class="rules-hdr pos">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>
+              Permissible acts
+            </div>
+            <ul class="rules-list">
+              <li v-for="item in rules.permissible" :key="item">
+                <span class="dot-y">
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>
+                </span>
+                {{ item }}
+              </li>
+            </ul>
+          </article>
+
+          <article class="rules-card">
+            <div class="rules-hdr neg">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="m19 6.41-1.41-1.41L12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+              Prohibited acts
+            </div>
+            <ul class="rules-list">
+              <li v-for="item in rules.prohibited" :key="item">
+                <span class="dot-n">
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="m19 6.41-1.41-1.41L12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+                </span>
+                {{ item }}
+              </li>
+            </ul>
+          </article>
+        </div>
+
+        <div class="section-note">
+          If an error happened because of illness, forgetfulness, or necessity, do not improvise the ruling.
+          Ask a qualified scholar about validity, fidyah, and what must be repeated.
+        </div>
+
+        <div class="reference-panel">
+          <h4>Key references</h4>
+          <div class="reference-list">
+            <div v-for="item in sectionReferences.rules" :key="item.title" class="reference-item">
+              <strong>{{ item.title }}</strong>
+              <span>{{ item.url }}</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="sec alt fade-in-section" id="spiritual">
+        <div class="sec-header-with-image">
+          <div class="sec-hd">
+            <span class="eyebrow">Chapter VII</span>
+            <h2 class="sec-title">Spiritual preparation</h2>
+            <div class="sec-ornament"><span class="sec-ornament-dot"></span></div>
+            <p class="sec-desc">
+              The outward rites are stronger when repentance, humility, patience, and learning have already
+              started before travel.
+            </p>
+          </div>
+
+          <div class="sec-image">
+            <img :src="sectionImages.spiritual.src" :alt="sectionImages.spiritual.alt" loading="lazy">
+            <div class="image-overlay"></div>
+            <div class="image-credit">{{ sectionImages.spiritual.credit }}</div>
+          </div>
+        </div>
+
+        <div class="cards-grid">
+          <article v-for="item in spiritualPrep" :key="item.step" class="card hover-lift">
+            <span class="card-num">Step {{ item.step }}</span>
+            <h3>{{ item.title }}</h3>
+            <p>{{ item.desc }}</p>
+            <div class="card-note">{{ item.ref }}</div>
+          </article>
+        </div>
+
+        <div class="reference-panel">
+          <h4>Key references</h4>
+          <div class="reference-list">
+            <div v-for="item in sectionReferences.spiritual" :key="item.title" class="reference-item">
+              <strong>{{ item.title }}</strong>
+              <span>{{ item.url }}</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="sec fade-in-section" id="shorts">
+        <div class="sec-hd sec-hd-center">
+          <span class="eyebrow">Supplementary Media</span>
+          <h2 class="sec-title">Short visual refreshers</h2>
+          <div class="sec-ornament"><span class="sec-ornament-dot"></span></div>
+          <p class="sec-desc">
+            These short videos are supplementary visual refreshers only. They are not the standard for legal
+            rulings. Keep the Qur'an, hadith, and the PDF guides below above any short clip.
+          </p>
+        </div>
+
+        <div class="shorts-grid">
+          <article v-for="video in shorts" :key="video.id" class="short-card">
+            <div class="short-frame">
+              <iframe
+                :src="`https://www.youtube-nocookie.com/embed/${video.id}`"
+                :title="video.title"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen
+              ></iframe>
+            </div>
+            <div class="short-copy">
+              <span class="resource-label">{{ video.channel }}</span>
+              <h3>{{ video.title }}</h3>
+              <p>{{ video.note }}</p>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="sec alt fade-in-section" id="resources">
+        <div class="sec-hd sec-hd-center">
+          <span class="eyebrow">Chapter VIII</span>
+          <h2 class="sec-title">Key references and official resources</h2>
+          <div class="sec-ornament"><span class="sec-ornament-dot"></span></div>
+          <p class="sec-desc">
+            These are intentionally displayed as non-clickable reference blocks, so the page behaves more like a
+            study guide than a link directory. The PDF buttons above remain downloadable.
+          </p>
+        </div>
+
+        <div class="resource-grid">
+          <article v-for="resource in resources" :key="resource.title" class="resource-card hover-lift">
+            <span class="resource-label">{{ resource.label }}</span>
+            <h3>{{ resource.title }}</h3>
+            <p>{{ resource.desc }}</p>
+            <div class="resource-url">{{ resource.url }}</div>
+          </article>
+        </div>
+
+        <div class="faq-wrap">
+          <h4>Common questions</h4>
+          <div v-for="(faq, index) in faqs" :key="faq.q" class="faq-item" :class="{ open: activeFaq === index }">
+            <button class="faq-q" @click="toggleFaq(index)">
+              <span>{{ faq.q }}</span>
+              <svg viewBox="0 0 24 24"><path d="m7 10 5 5 5-5z"/></svg>
+            </button>
+            <div class="faq-a">
+              <p>{{ faq.a }}</p>
+              <div class="faq-ref">{{ faq.ref }}</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="sec fade-in-section" id="post-hajj">
+        <div class="sec-header-with-image">
+          <div class="sec-hd">
+            <span class="eyebrow">Closing</span>
+            <h2 class="sec-title">Returning home with acceptance in mind</h2>
+            <div class="sec-ornament"><span class="sec-ornament-dot"></span></div>
+            <p class="sec-desc">
+              The journey is not measured by photographs or stories, but by repentance, steadier prayer, better
+              conduct, and a sincere hope that Allah accepted it.
+            </p>
+          </div>
+
+          <div class="sec-image">
+            <img :src="sectionImages.postHajj.src" :alt="sectionImages.postHajj.alt" loading="lazy">
+            <div class="image-overlay"></div>
+            <div class="image-credit">{{ sectionImages.postHajj.credit }}</div>
+          </div>
+        </div>
+
+        <div class="tl">
+          <article v-for="(step, index) in postHajjSteps" :key="step.num" class="tl-item">
+            <div class="tl-left">
+              <div class="tl-num">{{ step.num }}</div>
+              <div v-if="index !== postHajjSteps.length - 1" class="tl-line"></div>
+            </div>
+            <div class="tl-body">
+              <h3>{{ step.title }}</h3>
+              <p>{{ step.desc }}</p>
+              <div class="tl-tip">{{ step.tip }}</div>
+              <div class="tl-ref">{{ step.ref }}</div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <div class="disclaimer-section fade-in-section">
+        <div class="disclaimer-box">
+          <h4>Scope of this page</h4>
+          <p class="ref-text">
+            This guide aims to stay close to primary texts, established instructional guides, and official Saudi
+            health and logistics sources. It does not replace a scholar for illness, menstruation, fidyah,
+            missed rites, disputes between madhhabs, or complicated travel restrictions.
+          </p>
+          <ul class="ref-list">
+            <li>Qur'anic anchors used here: 3:97, 2:158, 2:196, 2:203, 2:127.</li>
+            <li>Hadith anchors used here: Bukhari 1524, Ibn Majah 3015, Muslim 1327, Nasa'i 3062, Nasa'i 2622.</li>
+            <li>Official operational guidance used here: Nusuk and Saudi Ministry of Health documents current for 1447H / 2026.</li>
+          </ul>
+        </div>
+
+        <div class="warning-box">
+          <div class="warning-icon">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M1 21h22L12 2 1 21zm11-3h-1v-1h1zm0-3h-1v-4h1z"/></svg>
+          </div>
+          <div class="warning-content">
+            <h4>Important note</h4>
+            <p>
+              “Scholarly approved” in practice still means verifying your personal case with a qualified scholar.
+              This page gives the mainstream structure and source trail, not a personalized fatwa.
+            </p>
+          </div>
         </div>
       </div>
 
-      <!-- Closing -->
-      <div class="closing">
+      <div class="closing fade-in-section">
         <div class="closing-arabic">رَبَّنَا تَقَبَّلْ مِنَّا ۖ إِنَّكَ أَنتَ السَّمِيعُ الْعَلِيمُ</div>
-        <p class="closing-en">"Our Lord, accept [this] from us. Indeed, You are the Hearing, the Knowing."</p>
-        <span class="closing-ref">Surah Al-Baqarah 2:127</span>
-        <p class="closing-msg">May Allah accept your pilgrimage, forgive your sins, and grant you a Hajj Mabroor (accepted pilgrimage). Ameen.</p>
-        
-        <div class="final-downloads">
-          <a :href="pdfs.completeGuide" download class="download-all">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
-            <span>Download Complete Hajj & Umrah Guide (Full PDF)</span>
-          </a>
-        </div>
+        <div class="closing-div"><span class="sec-ornament-dot"></span></div>
+        <p class="closing-en">Our Lord, accept this from us. You are the All-Hearing, the All-Knowing.</p>
+        <span class="closing-ref">Qur'an 2:127</span>
+        <p class="closing-msg">
+          May Allah grant every pilgrim a sound journey, a valid pilgrimage, and a return marked by humility,
+          gratitude, and firmer obedience.
+        </p>
       </div>
-
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { onBeforeUnmount, onMounted, ref } from 'vue';
 
-// PDF Links - Replace with your actual PDF URLs
-const pdfs = {
-  completeGuide: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
-  basicsGuide: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
-  umrahGuide: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
-  hajjGuide: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
-  ihramRules: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
-  duasCollection: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
-  packingChecklist: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf'
+const heroImage = {
+  src: 'https://images.pexels.com/photos/28209449/pexels-photo-28209449.jpeg?cs=srgb&dl=pexels-neo-evenger-1772575973-28209449.jpg&fm=jpg',
+  alt: 'Pilgrims in prayer near the sacred sanctuary'
 };
+
+const sectionImages = {
+  basics: {
+    src: 'https://images.pexels.com/photos/28209449/pexels-photo-28209449.jpeg?cs=srgb&dl=pexels-neo-evenger-1772575973-28209449.jpg&fm=jpg',
+    alt: 'Pilgrims gathered for worship near the Grand Mosque',
+    credit: 'Image source: Pexels'
+  },
+  umrah: {
+    src: 'https://images.pexels.com/photos/13459175/pexels-photo-13459175.jpeg?cs=srgb&dl=pexels-busrasahjn-13459175.jpg&fm=jpg',
+    alt: 'Mosque and courtyard scene suited to worship and reflection',
+    credit: 'Image source: Pexels'
+  },
+  hajj: {
+    src: 'https://images.pexels.com/photos/12662176/pexels-photo-12662176.jpeg?cs=srgb&dl=pexels-muhammad-abdullah-2002371-12662176.jpg&fm=jpg',
+    alt: 'Large gathering of worshippers in congregational prayer',
+    credit: 'Image source: Pexels'
+  },
+  mistakes: {
+    src: 'https://images.pexels.com/photos/19657349/pexels-photo-19657349.jpeg?cs=srgb&dl=pexels-bilalfurkankosar-19657349.jpg&fm=jpg',
+    alt: 'Worshippers praying inside a mosque',
+    credit: 'Image source: Pexels'
+  },
+  health: {
+    src: 'https://images.pexels.com/photos/28209449/pexels-photo-28209449.jpeg?cs=srgb&dl=pexels-neo-evenger-1772575973-28209449.jpg&fm=jpg',
+    alt: 'Pilgrims resting and moving carefully in a sacred setting',
+    credit: 'Image source: Pexels'
+  },
+  rules: {
+    src: 'https://images.pexels.com/photos/13459175/pexels-photo-13459175.jpeg?cs=srgb&dl=pexels-busrasahjn-13459175.jpg&fm=jpg',
+    alt: 'Mosque architecture and calm prayer environment',
+    credit: 'Image source: Pexels'
+  },
+  spiritual: {
+    src: 'https://images.pexels.com/photos/19657349/pexels-photo-19657349.jpeg?cs=srgb&dl=pexels-bilalfurkankosar-19657349.jpg&fm=jpg',
+    alt: 'Interior mosque scene suitable to reflection and worship',
+    credit: 'Image source: Pexels'
+  },
+  postHajj: {
+    src: 'https://images.pexels.com/photos/12662176/pexels-photo-12662176.jpeg?cs=srgb&dl=pexels-muhammad-abdullah-2002371-12662176.jpg&fm=jpg',
+    alt: 'Congregational prayer after a gathering of worshippers',
+    credit: 'Image source: Pexels'
+  }
+};
+
+const pdfGuides = [
+  {
+    label: 'Scholarly guide',
+    title: 'Hajj and Umrah step by step',
+    desc: 'A practical rites guide hosted by IslamHouse.',
+    url: 'https://d1.islamhouse.com/data/en/ih_books/single2/en-hajj-umrah.pdf',
+    filename: 'hajj-umrah-step-by-step.pdf'
+  },
+  {
+    label: 'Detailed manual',
+    title: "How to perform the rituals of Hajj, Umrah and visiting the Prophet's Masjid",
+    desc: 'A longer instructional manual hosted by IslamHouse.',
+    url: 'https://d1.islamhouse.com/data/en/ih_books/single/en-dalil-98.pdf',
+    filename: 'rituals-of-hajj-umrah-and-visiting-the-prophets-masjid.pdf'
+  },
+  {
+    label: 'Official health PDF',
+    title: 'Saudi Hajj health requirements 1447H / 2026',
+    desc: 'Official Ministry of Health requirements and recommendations.',
+    url: 'https://www.moh.gov.sa/HealthAwareness/Pilgrims-Health/Documents/Hajj-Health-Requirements-English-language.pdf',
+    filename: 'saudi-hajj-health-requirements-1447H-2026.pdf'
+  },
+  {
+    label: 'Official health guide',
+    title: 'General guide for health of Hajj and Umrah pilgrims',
+    desc: 'A practical English health guide from the Saudi Ministry of Health.',
+    url: 'https://www.moh.gov.sa/HealthAwareness/Pilgrims-Health/Documents/English.pdf',
+    filename: 'general-guide-for-health-of-hajj-and-umrah-pilgrims.pdf'
+  }
+];
+
+const basicsCards = [
+  {
+    num: '01',
+    title: 'Hajj is obligatory for the one who is able',
+    desc: 'The obligation is tied to ability: physical capacity, financial capacity, and a workable route to the pilgrimage.',
+    note: "Reference: Qur'an 3:97."
+  },
+  {
+    num: '02',
+    title: 'Umrah is not casual travel',
+    desc: "The Qur'an joins Hajj and Umrah in one verse, and the jurists discuss its exact legal weight. In any case, it is a legislated act of worship, not tourism.",
+    note: "Reference: Qur'an 2:196."
+  },
+  {
+    num: '03',
+    title: 'Accepted Hajj brings immense reward',
+    desc: 'The Prophet taught that an accepted Hajj has no reward except Paradise, and one Umrah to the next expiates what came between them.',
+    note: "Reference: Sunan an-Nasa'i 2622."
+  },
+  {
+    num: '04',
+    title: 'Learning the rites is part of the rite',
+    desc: 'A pilgrim should not rely on crowd movement alone. Study before travel and ask when the issue affects validity or fidyah.',
+    note: "Reference: Sunan an-Nasa'i 3062."
+  }
+];
+
+const hajjTypes = [
+  {
+    title: "Tamattu'",
+    desc: "Perform Umrah in the months of Hajj, leave Ihram, then re-enter Ihram for Hajj on the 8th of Dhul-Hijjah.",
+    note: 'Often the clearest path for many first-time pilgrims.'
+  },
+  {
+    title: 'Qiran',
+    desc: 'Enter Ihram for Umrah and Hajj together and remain in Ihram until the major rites are completed.',
+    note: 'Useful in some travel plans, but it keeps the pilgrim in Ihram longer.'
+  },
+  {
+    title: 'Ifrad',
+    desc: 'Enter Ihram for Hajj alone without combining Umrah into the same Ihram.',
+    note: 'The practical choice depends on circumstances, group planning, and fiqh guidance.'
+  }
+];
+
+const umrahSteps = [
+  {
+    num: '01',
+    title: 'Enter Ihram at the miqat',
+    desc: 'Make intention and begin Talbiyah at or before the appointed miqat. Do not cross the miqat casually and plan to fix it later.',
+    tip: 'Prepare clothing and intention before reaching the boundary if you are flying or moving with a group.',
+    ref: 'Reference: Sahih al-Bukhari 1524.'
+  },
+  {
+    num: '02',
+    title: 'Perform Tawaf with calmness',
+    desc: 'Circle the Kaaba seven times, beginning from the Black Stone area. The purpose is worship, not speed or crowd aggression.',
+    tip: 'If reaching the Black Stone is difficult, pointing from a distance is enough. Do not harm others.',
+    ref: "Reference: General Prophetic rite sequence and the instruction to learn the rituals in Sunan an-Nasa'i 3062."
+  },
+  {
+    num: '03',
+    title: "Complete Sa'i between Safa and Marwah",
+    desc: "Walk the required lengths between Safa and Marwah. The Qur'an names them among the symbols of Allah.",
+    tip: 'Keep your dua and dhikr steady even when the space is crowded.',
+    ref: "Reference: Qur'an 2:158."
+  },
+  {
+    num: '04',
+    title: 'Trim or shave the hair',
+    desc: 'Men shave or shorten the hair; women cut a small amount from the ends. This ends the state of Ihram for Umrah.',
+    tip: 'Do not leave this until confusion sets in. It is the closing act of the Umrah.',
+    ref: 'Reference: Established Prophetic practice in the rites.'
+  }
+];
+
+const hajjDays = [
+  {
+    date: '8 Dhul-Hijjah',
+    title: 'Mina',
+    desc: "Pilgrims go to Mina and spend the day and night there in prayer and preparation. Tamattu' pilgrims enter Ihram for Hajj on this day.",
+    reminder: 'Use the day to settle your mind before Arafah.',
+    ref: 'Reference: The Farewell Pilgrimage sequence in the hadith corpus.'
+  },
+  {
+    date: '9 Dhul-Hijjah',
+    title: 'Arafah',
+    desc: 'Standing at Arafah is the central pillar of Hajj. The pilgrim remains within the boundaries of Arafah until sunset in repentance and supplication.',
+    reminder: 'Missing Arafah is not a small mistake. It is the defining station of Hajj.',
+    ref: "Reference: 'Hajj is Arafah' in Sunan Ibn Majah 3015."
+  },
+  {
+    date: 'Night of 10 Dhul-Hijjah',
+    title: 'Muzdalifah',
+    desc: 'After sunset, pilgrims move to Muzdalifah, combine Maghrib and Isha there, rest, and prepare for the next day.',
+    reminder: 'Stay with your group safely and keep movement orderly.',
+    ref: 'Reference: The Farewell Pilgrimage sequence in the hadith corpus.'
+  },
+  {
+    date: '10 Dhul-Hijjah',
+    title: 'Stoning, sacrifice, shaving, and Tawaf al-Ifadah',
+    desc: 'Pilgrims stone Jamrat al-Aqabah, arrange sacrifice where due, shave or trim the hair, and perform Tawaf al-Ifadah, with Sa\'i where due.',
+    reminder: 'Some ordering concessions exist in the Sunnah, but specific cases should still be checked carefully.',
+    ref: "Reference: Qur'an 2:196 and the Prophetic rite sequence."
+  },
+  {
+    date: '11 to 13 Dhul-Hijjah',
+    title: 'Days of Tashriq',
+    desc: 'The pilgrim stays in Mina and stones the three Jamarat on the appointed days while continuing remembrance of Allah.',
+    reminder: "The Qur'an allows leaving after two days or staying for a third.",
+    ref: "Reference: Qur'an 2:203."
+  }
+];
+
+const commonMistakes = [
+  {
+    title: 'Crossing the miqat without entering Ihram',
+    desc: 'This is one of the most common practical mistakes for travellers who are distracted, unprepared, or following a group loosely.',
+    note: 'Fixing this can involve more than simply making intention later. Ask a scholar promptly.'
+  },
+  {
+    title: 'Treating crowd pressure as permission to harm others',
+    desc: 'The rites do not become more valid because they were done aggressively. Pushing and elbowing at the Black Stone area is not devotion.',
+    note: 'Preserving worship and preserving people both matter.'
+  },
+  {
+    title: 'Copying rituals without knowing what is essential',
+    desc: 'Many pilgrims imitate others without knowing whether an act is a pillar, a duty, or a recommended Sunnah.',
+    note: "Reference trail: use the guides and hadith anchors on this page instead of crowd imitation."
+  },
+  {
+    title: 'Assuming every violation invalidates the pilgrimage',
+    desc: 'Some mistakes require repentance, some require fidyah, and some affect validity more seriously than others. These are not all the same.',
+    note: 'This is exactly where qualified scholarly advice becomes necessary.'
+  }
+];
+
+const healthReadiness = [
+  {
+    title: 'Official readiness checks',
+    items: [
+      'Check current Saudi vaccination and public-health requirements close to departure.',
+      'Review whether age, pregnancy, severe illness, or chronic conditions affect your ability to travel.',
+      'Keep official booking, visa, and identification records organized before departure.'
+    ]
+  },
+  {
+    title: 'On-the-ground practical care',
+    items: [
+      'Hydrate consistently and avoid leaving basic fatigue or heat stress untreated.',
+      'Use unscented hygiene items if you will be in Ihram.',
+      'Carry only what you can realistically manage in crowds and long walks.',
+      'If you are medically vulnerable, speak to your doctor and your scholar before travel.'
+    ]
+  }
+];
+
+const rules = {
+  permissible: [
+    'Using an umbrella, belt, bag, watch, glasses, and shade.',
+    'Bathing and washing with unscented products when needed.',
+    'Seeking medical care, rest, and crowd safety.',
+    'Reciting Qur\'an, making dua, and helping fellow pilgrims.'
+  ],
+  prohibited: [
+    'Applying perfume after entering Ihram.',
+    'Cutting hair or trimming nails without a recognized excuse and ruling.',
+    'Marital relations and conduct leading directly to them.',
+    'For men: stitched regular clothing and covering the head.',
+    'For women: treating the niqab and gloves as Ihram wear.',
+    'Hunting land game while in the sacred state.'
+  ]
+};
+
+const spiritualPrep = [
+  {
+    step: '01',
+    title: 'Repair wrongs before travel',
+    desc: 'Return what belongs to people, settle what you can, and ask forgiveness where you have harmed others.',
+    ref: 'A sacred journey should not begin carelessly with neglected rights.'
+  },
+  {
+    step: '02',
+    title: 'Learn the rituals before the crowd teaches you badly',
+    desc: 'Study the order, the common errors, and the places where you must stop and ask a scholar.',
+    ref: "Reference: 'Learn your rituals from me' in Sunan an-Nasa'i 3062."
+  },
+  {
+    step: '03',
+    title: 'Train for patience',
+    desc: 'Crowds, heat, waiting, and exhaustion are part of the test. The heart should prepare for restraint before the body arrives there.',
+    ref: 'Accepted Hajj is tied to upright conduct, not just outward movement.'
+  },
+  {
+    step: '04',
+    title: 'Keep the intention simple',
+    desc: 'Do not turn pilgrimage into a performance, travel trophy, or social showcase. Intend worship, repentance, and acceptance.',
+    ref: "Reference: Qur'an 2:127 as a model dua for acceptance."
+  }
+];
+
+const shorts = [
+  {
+    id: 'HfUhWfYsnsA',
+    channel: 'Tajweed Online',
+    title: 'Step by step guide on how to perform Umrah',
+    note: 'Useful as a visual refresher for sequence. Check fiqh details against the PDF guides and textual references.'
+  },
+  {
+    id: 'xIgK2ahrXL8',
+    channel: 'Brief visual guide',
+    title: 'How to perform Umrah step by step',
+    note: 'Included as a short visual walkthrough, not as an independent legal authority.'
+  },
+  {
+    id: 'T0SNUkkg9pw',
+    channel: 'Aaj TV Official',
+    title: 'Pilgrims gather in Arafat for the Day of Arafah',
+    note: 'Useful for visual context around one of the central days of Hajj. Do not use it as a fiqh source.'
+  }
+];
+
+const resources = [
+  {
+    label: 'Primary text',
+    title: "Qur'an 3:97",
+    desc: 'The foundational verse for the obligation of Hajj upon the one who is able.',
+    url: 'https://quran.com/3/97'
+  },
+  {
+    label: 'Primary text',
+    title: "Qur'an 2:158, 2:196, 2:203",
+    desc: 'Key verses for Sa\'i, completion of Hajj and Umrah, and the appointed days in Mina.',
+    url: 'https://quran.com/2/158 • https://quran.com/2/196 • https://quran.com/2/203'
+  },
+  {
+    label: 'Hadith',
+    title: 'Bukhari 1524, Ibn Majah 3015, Muslim 1327, Nasa\'i 3062, Nasa\'i 2622',
+    desc: 'Miqat, Arafah, farewell tawaf, learning the rites, and the reward of accepted Hajj.',
+    url: 'https://sunnah.com/bukhari:1524 • https://sunnah.com/ibnmajah:3015 • https://sunnah.com/muslim:1327 • https://sunnah.com/nasai:3062 • https://sunnah.com/nasai:2622'
+  },
+  {
+    label: 'Official planning',
+    title: 'Nusuk and Nusuk Hajj',
+    desc: 'Official Saudi planning and registration resources for Umrah and Hajj services.',
+    url: 'https://www.nusuk.sa/en • https://hajj.nusuk.sa/?language=en'
+  },
+  {
+    label: 'Official health',
+    title: 'Saudi Ministry of Health pilgrim guidance',
+    desc: 'Current health pages and official health documents for pilgrims.',
+    url: 'https://www.moh.gov.sa/en/HealthAwareness/Pilgrims-Health/pages/default.aspx'
+  }
+];
+
+const faqs = [
+  {
+    q: 'What if I miss standing at Arafah?',
+    a: 'Standing at Arafah is central to Hajj. A pilgrim who misses it faces a serious validity issue and should seek immediate scholarly guidance about what follows.',
+    ref: "Reference: 'Hajj is Arafah' in Sunan Ibn Majah 3015."
+  },
+  {
+    q: 'Can I leave Mina after two days?',
+    a: 'Yes. The Qur\'an allows departure after two days of the appointed days or staying longer without sin when done properly.',
+    ref: "Reference: Qur'an 2:203."
+  },
+  {
+    q: 'Are the short videos enough to learn the rites?',
+    a: 'No. They can help you visualize the sequence, but they should not replace the Qur\'an, hadith, trusted scholars, and structured written guides.',
+    ref: 'Use the short videos only as supplementary refreshers.'
+  },
+  {
+    q: 'Where should I verify health and travel rules near departure?',
+    a: 'Check Nusuk and the Saudi Ministry of Health close to your travel date. Do not rely on old screenshots or old group messages.',
+    ref: 'Operational guidance can change from season to season.'
+  }
+];
+
+const postHajjSteps = [
+  {
+    num: '01',
+    title: 'Ask for acceptance, not praise',
+    desc: 'The right response after worship is humility and dua that Allah accepted it.',
+    tip: 'Keep the dua of acceptance on your tongue.',
+    ref: "Reference: Qur'an 2:127."
+  },
+  {
+    num: '02',
+    title: 'Protect the obligations first',
+    desc: 'The strongest sign of benefit is steadier prayer, better honesty, and more guarded speech when you return.',
+    tip: 'Start with salah, family rights, and daily dhikr.',
+    ref: 'Accepted Hajj should leave a trace in conduct.'
+  },
+  {
+    num: '03',
+    title: 'Carry the manners of pilgrimage home',
+    desc: 'Patience, gentleness, and restraint in crowded sacred places should not disappear at the airport.',
+    tip: 'Bring the softened character home, not just souvenirs and stories.',
+    ref: "Reference: Sunan an-Nasa'i 2622 for the reward of accepted Hajj."
+  }
+];
+
+const sectionReferences = {
+  basics: [
+    { title: "Qur'an 3:97", url: 'https://quran.com/3/97' },
+    { title: "Qur'an 2:196", url: 'https://quran.com/2/196' },
+    { title: "Sunan an-Nasa'i 2622", url: 'https://sunnah.com/nasai:2622' },
+    { title: "Sunan an-Nasa'i 3062", url: 'https://sunnah.com/nasai:3062' }
+  ],
+  umrah: [
+    { title: 'Sahih al-Bukhari 1524', url: 'https://sunnah.com/bukhari:1524' },
+    { title: "Qur'an 2:158", url: 'https://quran.com/2/158' },
+    { title: "Sunan an-Nasa'i 3062", url: 'https://sunnah.com/nasai:3062' }
+  ],
+  hajj: [
+    { title: 'Sunan Ibn Majah 3015', url: 'https://sunnah.com/ibnmajah:3015' },
+    { title: "Qur'an 2:196", url: 'https://quran.com/2/196' },
+    { title: "Qur'an 2:203", url: 'https://quran.com/2/203' },
+    { title: 'Sahih Muslim 1327', url: 'https://sunnah.com/muslim:1327' }
+  ],
+  mistakes: [
+    { title: 'IslamHouse step-by-step guide', url: 'https://d1.islamhouse.com/data/en/ih_books/single2/en-hajj-umrah.pdf' },
+    { title: "Sunan an-Nasa'i 3062", url: 'https://sunnah.com/nasai:3062' }
+  ],
+  health: [
+    { title: 'Saudi MOH pilgrim health page', url: 'https://www.moh.gov.sa/en/HealthAwareness/Pilgrims-Health/pages/default.aspx' },
+    { title: 'Saudi Hajj Health Requirements PDF', url: 'https://www.moh.gov.sa/HealthAwareness/Pilgrims-Health/Documents/Hajj-Health-Requirements-English-language.pdf' },
+    { title: 'General Guide for Health of Hajj and Umrah Pilgrims PDF', url: 'https://www.moh.gov.sa/HealthAwareness/Pilgrims-Health/Documents/English.pdf' }
+  ],
+  rules: [
+    { title: "Qur'an 2:196", url: 'https://quran.com/2/196' },
+    { title: "Sunan an-Nasa'i 3062", url: 'https://sunnah.com/nasai:3062' }
+  ],
+  spiritual: [
+    { title: "Sunan an-Nasa'i 3062", url: 'https://sunnah.com/nasai:3062' },
+    { title: "Sunan an-Nasa'i 2622", url: 'https://sunnah.com/nasai:2622' },
+    { title: "Qur'an 2:127", url: 'https://quran.com/2/127' }
+  ]
+};
+
+const activeFaq = ref(0);
 
 const scrollToSection = (id) => {
   const element = document.getElementById(id);
   if (element) {
-    element.scrollIntoView({ behavior: 'smooth' });
+    element.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 };
 
-// Animation on scroll
-onMounted(() => {
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-      }
-    });
-  }, { threshold: 0.1 });
+const toggleFaq = (index) => {
+  activeFaq.value = activeFaq.value === index ? null : index;
+};
 
-  document.querySelectorAll('.fade-in-section').forEach(el => observer.observe(el));
+const downloadPdf = (guide) => {
+  const link = document.createElement('a');
+  link.href = guide.url;
+  link.download = guide.filename;
+  link.target = '_blank';
+  link.rel = 'noopener noreferrer';
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+};
+
+let sectionObserver;
+
+onMounted(() => {
+  sectionObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    },
+    { threshold: 0.12 }
+  );
+
+  document.querySelectorAll('.fade-in-section').forEach((element) => {
+    sectionObserver.observe(element);
+  });
+});
+
+onBeforeUnmount(() => {
+  if (sectionObserver) {
+    sectionObserver.disconnect();
+  }
 });
 </script>
 
 <style scoped>
-/* === VARIABLES === */
 .pg {
-  --green: #0f5132;
-  --green-light: #e8f5ef;
-  --green-mid: #2d8f63;
-  --green-dark: #0a3022;
-  --gold: #c5a059;
-  --cream: #f8f6f2;
-  --cream-dark: #f0ede6;
-  --text: #1c2b24;
-  --text-muted: #5a7a68;
-  --text-hint: #8aaa96;
-  --shadow-sm: 0 2px 8px rgba(15, 81, 50, 0.08);
-  --shadow-md: 0 4px 16px rgba(15, 81, 50, 0.12);
-  --shadow-lg: 0 8px 32px rgba(15, 81, 50, 0.18);
-  
-  font-family: 'Georgia', var(--font-serif, serif);
-  background: linear-gradient(180deg, var(--cream) 0%, var(--cream-dark) 100%);
+  --green: #1b5b39;
+  --green-dark: #123622;
+  --green-soft: #eef6ef;
+  --green-line: #d7e6d8;
+  --paper: #fffdf9;
+  --cream: #f6f0e7;
+  --sand: #e9dfd0;
+  --gold: #9a7338;
+  --text: #1c2822;
+  --text-muted: #5d6d62;
+  --text-soft: #77857c;
+  --danger: #8a4c33;
+  --danger-soft: #fbf2ee;
+  --shadow-sm: 0 8px 24px rgba(18, 54, 34, 0.06);
+  --shadow-md: 0 18px 42px rgba(18, 54, 34, 0.1);
+
+  min-height: 100%;
+  background: linear-gradient(180deg, var(--paper) 0%, var(--cream) 100%);
   color: var(--text);
-  width: 100%;
-  box-sizing: border-box;
-  font-size: 17px;
+  font-family: Georgia, var(--font-serif, serif);
+  font-size: 18px;
   line-height: 1.7;
 }
 
 .main-container {
-  max-width: 1200px;
+  max-width: 1180px;
   margin: 0 auto;
-  padding: 0 2rem;
+  padding: 0 2rem 5rem;
 }
 
-/* === ANIMATIONS === */
 .fade-in-section {
   opacity: 0;
   transform: translateY(24px);
-  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+  transition: opacity 0.75s ease, transform 0.75s ease;
 }
+
 .fade-in-section.visible {
   opacity: 1;
   transform: none;
 }
 
-/* === SIMPLIFIED HERO === */
-.hero {
-  padding: 5rem 2rem 4rem;
-  text-align: center;
-  background: linear-gradient(135deg, var(--green-light) 0%, var(--green) 100%);
-  border-radius: 0 0 24px 24px;
-  margin-bottom: 3rem;
-  box-shadow: var(--shadow-lg);
+.hover-lift {
+  transition: transform 0.28s ease, box-shadow 0.28s ease;
 }
 
-.bismillah {
-  font-size: 28px;
+.hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(300px, 0.85fr);
+  gap: 2.5rem;
+  align-items: center;
+  padding: 4.75rem 0 3.5rem;
+}
+
+.hero-arabic {
+  margin: 0 0 0.9rem;
   color: var(--green-dark);
-  margin-bottom: 1.5rem;
-  display: block;
-  font-family: 'Georgia', serif;
+  font-size: 1.8rem;
+  line-height: 1.55;
+}
+
+.hero-kicker,
+.eyebrow,
+.resource-label,
+.pdf-label,
+.card-num,
+.day-date {
+  display: inline-block;
+  color: var(--green);
+  font-family: system-ui, sans-serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.hero-kicker {
+  margin-bottom: 0.8rem;
 }
 
 .hero-title {
-  font-size: 48px;
-  font-weight: 400;
+  margin: 0 0 1rem;
   color: var(--green-dark);
-  margin-bottom: 1rem;
-  font-family: 'Georgia', serif;
+  font-size: clamp(2.7rem, 5vw, 4.8rem);
+  line-height: 1.03;
   font-style: italic;
+  font-weight: 500;
 }
 
-.hero-subtitle {
-  font-size: 19px;
+.hero-subtitle,
+.sec-desc,
+.card p,
+.type-card p,
+.day-body,
+.tl-body p,
+.resource-card p,
+.pdf-card p,
+.ref-text,
+.faq-a p,
+.warning-content p,
+.closing-msg {
+  margin: 0;
   color: var(--text-muted);
-  max-width: 600px;
-  margin: 0 auto 2.5rem;
-  line-height: 1.6;
   font-family: system-ui, sans-serif;
+  font-size: 1rem;
+  line-height: 1.9;
 }
 
 .hero-actions {
   display: flex;
-  gap: 16px;
-  justify-content: center;
+  gap: 1rem;
+  margin: 1.8rem 0 1.6rem;
   flex-wrap: wrap;
 }
 
-.btn-primary {
-  padding: 16px 32px;
-  background: var(--green);
-  color: #fff;
-  border: none;
-  border-radius: 50px;
-  font-size: 16px;
+.btn-primary,
+.btn-secondary,
+.download-btn {
+  border-radius: 999px;
+  padding: 0.95rem 1.35rem;
+  border: 1px solid transparent;
+  font-family: system-ui, sans-serif;
+  font-size: 0.96rem;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: var(--shadow-md);
+  transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
 }
-.btn-primary:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-lg);
+
+.btn-primary,
+.download-btn {
+  background: var(--green);
+  color: #fff;
+}
+
+.btn-primary:hover,
+.download-btn:hover {
+  transform: translateY(-1px);
   background: var(--green-dark);
 }
 
 .btn-secondary {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 16px 32px;
   background: #fff;
-  color: var(--green);
-  border: 2px solid var(--green);
-  border-radius: 50px;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  text-decoration: none;
+  color: var(--green-dark);
+  border-color: var(--green-line);
 }
+
 .btn-secondary:hover {
-  background: var(--green-light);
-  transform: translateY(-2px);
+  transform: translateY(-1px);
+  background: var(--green-soft);
 }
 
-/* === CONTENT GRID (TEXT LEFT, IMAGE RIGHT) === */
-.content-grid {
+.hero-trust {
   display: grid;
-  grid-template-columns: 1fr 400px;
-  gap: 4rem;
-  align-items: start;
-  margin-bottom: 3rem;
-}
-
-.text-content {
-  max-width: 100%;
-}
-
-.image-content {
-  position: sticky;
-  top: 2rem;
-}
-
-.image-content img {
-  width: 100%;
-  border-radius: 16px;
-  box-shadow: var(--shadow-lg);
-  display: block;
-}
-
-.image-caption {
-  text-align: center;
-  font-size: 14px;
-  color: var(--text-hint);
-  margin-top: 0.75rem;
-  font-style: italic;
-  font-family: system-ui, sans-serif;
-}
-
-/* === TYPOGRAPHY === */
-.eyebrow {
-  font-size: 13px;
-  letter-spacing: 0.15em;
-  color: var(--green);
-  text-transform: uppercase;
-  font-family: system-ui, sans-serif;
-  display: block;
-  margin-bottom: 1rem;
-  font-weight: 700;
-}
-
-.sec-title {
-  font-size: 36px;
-  font-weight: 400;
-  color: var(--text);
-  font-style: italic;
-  font-family: 'Georgia', serif;
-  margin-bottom: 1.5rem;
-}
-
-.lead-text {
-  font-size: 19px;
-  color: var(--text-muted);
-  line-height: 1.7;
-  margin-bottom: 2.5rem;
-  font-family: system-ui, sans-serif;
-}
-
-.content-block {
-  margin-bottom: 2.5rem;
-}
-
-.content-block h3 {
-  font-size: 24px;
-  color: var(--green-dark);
-  margin-bottom: 1rem;
-  font-family: 'Georgia', serif;
-  font-style: italic;
-}
-
-.content-block p {
-  color: var(--text-muted);
-  line-height: 1.8;
-  margin-bottom: 1rem;
-}
-
-.key-differences {
-  background: var(--green-light);
-  padding: 2rem;
-  border-radius: 12px;
-  margin-top: 2rem;
-}
-
-.key-differences h4 {
-  font-size: 20px;
-  color: var(--green-dark);
-  margin-bottom: 1rem;
-  font-family: 'Georgia', serif;
-}
-
-.key-differences ul {
-  list-style: none;
-  padding: 0;
-}
-
-.key-differences li {
-  padding: 0.75rem 0;
-  border-bottom: 1px solid rgba(15, 81, 50, 0.1);
-  color: var(--text-muted);
-  line-height: 1.6;
-}
-
-.key-differences li:last-child {
-  border-bottom: none;
-}
-
-.key-differences strong {
-  color: var(--green);
-}
-
-/* === STEP CARDS === */
-.step-card {
-  display: flex;
-  gap: 1.5rem;
-  margin-bottom: 2.5rem;
-  padding-bottom: 2.5rem;
-  border-bottom: 1px solid var(--border);
-}
-
-.step-number {
-  font-size: 48px;
-  font-weight: 700;
-  color: var(--green);
-  opacity: 0.2;
-  line-height: 1;
-  flex-shrink: 0;
-}
-
-.step-content h3 {
-  font-size: 22px;
-  color: var(--green-dark);
-  margin-bottom: 0.75rem;
-  font-family: 'Georgia', serif;
-}
-
-.step-content p {
-  color: var(--text-muted);
-  line-height: 1.7;
-  margin-bottom: 0.75rem;
-}
-
-.important-note {
-  background: var(--green-light);
-  padding: 1rem;
-  border-radius: 8px;
-  border-left: 4px solid var(--green);
-  margin-top: 1rem;
-}
-
-/* === DAY CARDS === */
-.day-card-detailed {
-  background: var(--cream);
-  border-radius: 12px;
-  padding: 2rem;
-  margin-bottom: 2rem;
-  box-shadow: var(--shadow-sm);
-}
-
-.day-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1.25rem;
-  padding-bottom: 1rem;
-  border-bottom: 2px solid var(--green-light);
-}
-
-.day-number {
-  font-size: 32px;
-  font-weight: 700;
-  color: var(--green);
-  opacity: 0.3;
-}
-
-.day-date {
-  font-size: 16px;
-  font-weight: 600;
-  color: var(--green-dark);
-  font-family: system-ui, sans-serif;
-}
-
-.day-body p {
-  color: var(--text-muted);
-  line-height: 1.7;
-  margin-bottom: 1rem;
-}
-
-.day-body strong {
-  color: var(--green);
-}
-
-/* === RULES SECTIONS === */
-.rules-section, .permitted-section, .fidya-section {
-  margin-bottom: 2.5rem;
-}
-
-.rules-section h3, .permitted-section h3, .fidya-section h3 {
-  font-size: 24px;
-  color: var(--green-dark);
-  margin-bottom: 1.5rem;
-  font-family: 'Georgia', serif;
-}
-
-.rule-category {
-  margin-bottom: 2rem;
-}
-
-.rule-category h4 {
-  font-size: 18px;
-  color: var(--green);
-  margin-bottom: 1rem;
-  font-family: system-ui, sans-serif;
-  font-weight: 600;
-}
-
-.rule-category ul {
-  list-style: none;
-  padding: 0;
-}
-
-.rule-category li {
-  padding: 0.5rem 0;
-  padding-left: 1.5rem;
-  position: relative;
-  color: var(--text-muted);
-  line-height: 1.6;
-}
-
-.rule-category li:before {
-  content: "•";
-  color: var(--green);
-  position: absolute;
-  left: 0;
-  font-weight: bold;
-}
-
-.permitted-list {
-  list-style: none;
-  padding: 0;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 1rem;
 }
 
-.permitted-list li {
-  padding: 0.75rem 1rem;
-  background: var(--green-light);
-  border-radius: 8px;
+.trust-item,
+.reference-item,
+.resource-url,
+.tl-ref,
+.faq-ref,
+.day-ref,
+.card-note,
+.type-note,
+.section-note,
+.tl-tip,
+.day-reminder {
+  background: rgba(255, 255, 255, 0.78);
+  border: 1px solid var(--green-line);
+  border-radius: 16px;
+  padding: 0.95rem 1rem;
+  font-family: system-ui, sans-serif;
+}
+
+.trust-item strong,
+.reference-item strong {
+  display: block;
+  margin-bottom: 0.4rem;
   color: var(--green-dark);
-  font-size: 15px;
+  font-size: 0.92rem;
 }
 
-.fidya-section ul {
-  list-style: none;
-  padding: 0;
-}
-
-.fidya-section li {
-  padding: 1rem;
-  background: #fff8f8;
-  border-left: 4px solid #b84a2e;
-  margin-bottom: 1rem;
-  border-radius: 0 8px 8px 0;
+.trust-item span,
+.reference-item span {
   color: var(--text-muted);
-  line-height: 1.6;
+  font-size: 0.9rem;
+  line-height: 1.7;
+  word-break: break-word;
 }
 
-/* === DUA CARDS === */
-.dua-card {
-  background: var(--cream);
-  border-radius: 12px;
-  padding: 2rem;
-  margin-bottom: 2rem;
+.hero-visual,
+.sec-image {
+  position: relative;
+  overflow: hidden;
+  border-radius: 24px;
+  background: var(--sand);
   box-shadow: var(--shadow-sm);
 }
 
-.dua-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1.5rem;
-  padding-bottom: 1rem;
-  border-bottom: 2px solid var(--green-light);
+.hero-visual {
+  min-height: 420px;
 }
 
-.dua-label {
-  font-size: 20px;
-  font-weight: 600;
-  color: var(--green-dark);
-  font-family: 'Georgia', serif;
+.hero-visual img,
+.sec-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
-.dua-when {
-  font-size: 13px;
-  color: var(--text-hint);
-  font-family: system-ui, sans-serif;
-  font-style: italic;
+.hero-image-overlay,
+.image-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(18, 54, 34, 0.05), rgba(18, 54, 34, 0.18));
+  pointer-events: none;
 }
 
-.dua-arabic {
-  font-size: 26px;
-  text-align: right;
-  color: var(--green-dark);
-  margin-bottom: 1rem;
-  line-height: 2;
-  font-family: 'Traditional Arabic', 'Arial', serif;
-  direction: rtl;
-}
-
-.dua-transliteration {
-  font-size: 15px;
-  color: var(--text-muted);
-  font-style: italic;
-  margin-bottom: 0.75rem;
-  font-family: system-ui, sans-serif;
-}
-
-.dua-translation {
-  font-size: 16px;
-  color: var(--text);
-  line-height: 1.6;
-  font-family: system-ui, sans-serif;
-}
-
-/* === TIP CATEGORIES === */
-.tip-category {
-  margin-bottom: 2.5rem;
-}
-
-.tip-category h3 {
-  font-size: 22px;
-  color: var(--green-dark);
-  margin-bottom: 1.25rem;
-  font-family: 'Georgia', serif;
-  padding-bottom: 0.75rem;
-  border-bottom: 2px solid var(--green-light);
-}
-
-.tip-category ul {
-  list-style: none;
-  padding: 0;
-}
-
-.tip-category li {
-  padding: 0.75rem 0;
-  color: var(--text-muted);
-  line-height: 1.6;
-  border-bottom: 1px solid rgba(15, 81, 50, 0.05);
-}
-
-.tip-category li:last-child {
-  border-bottom: none;
-}
-
-.tip-category strong {
-  color: var(--green);
-}
-
-/* === SECTIONS === */
 .sec {
-  padding: 5rem 0;
-  border-bottom: 1px solid rgba(15, 81, 50, 0.06);
+  padding: 4.4rem 0;
 }
 
 .sec.alt {
-  background: transparent;
+  border-top: 1px solid var(--green-line);
+  border-bottom: 1px solid var(--green-line);
 }
 
-/* === PDF DOWNLOAD BUTTONS === */
-.section-download {
+.sec-header-with-image {
+  display: grid;
+  grid-template-columns: minmax(0, 1.08fr) minmax(300px, 0.92fr);
+  gap: 2.8rem;
+  align-items: center;
+  margin-bottom: 2.5rem;
+}
+
+.sec-hd {
+  text-align: left;
+}
+
+.sec-hd-center {
+  max-width: 760px;
+  margin: 0 auto 2.4rem;
   text-align: center;
-  margin-top: 3rem;
-  padding-top: 2rem;
-  border-top: 2px dashed rgba(15, 81, 50, 0.15);
 }
 
-.download-btn {
+.sec-title {
+  margin: 0 0 1rem;
+  color: var(--text);
+  font-size: clamp(2rem, 3.6vw, 3rem);
+  line-height: 1.08;
+  font-style: italic;
+  font-weight: 500;
+}
+
+.sec-ornament,
+.closing-div {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  justify-content: flex-start;
+  margin: 0 0 1.25rem;
+}
+
+.sec-hd-center .sec-ornament,
+.closing-div {
+  justify-content: center;
+}
+
+.sec-ornament::before,
+.sec-ornament::after,
+.closing-div::before,
+.closing-div::after {
+  content: '';
+  width: 72px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+
+.sec-ornament-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--gold);
+}
+
+.sec-desc {
+  max-width: 640px;
+}
+
+.sec-hd-center .sec-desc {
+  margin: 0 auto;
+}
+
+.sec-image {
+  aspect-ratio: 4 / 3;
+}
+
+.image-credit {
+  position: absolute;
+  left: 1rem;
+  bottom: 1rem;
+  padding: 0.45rem 0.7rem;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 999px;
+  color: var(--green-dark);
+  font-family: system-ui, sans-serif;
+  font-size: 0.75rem;
+}
+
+.cards-grid,
+.types-grid,
+.days-grid,
+.rules-grid,
+.resource-grid,
+.pdf-grid,
+.shorts-grid {
+  display: grid;
+  gap: 1.3rem;
+}
+
+.cards-grid,
+.types-grid,
+.days-grid,
+.rules-grid,
+.resource-grid,
+.pdf-grid {
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+}
+
+.shorts-grid {
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+
+.card,
+.type-card,
+.day-card,
+.rules-card,
+.resource-card,
+.pdf-card,
+.conclusion,
+.farewell,
+.short-card,
+.disclaimer-box,
+.warning-box {
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid rgba(215, 230, 216, 0.9);
+  border-radius: 20px;
+  box-shadow: var(--shadow-sm);
+}
+
+.card,
+.type-card,
+.resource-card,
+.pdf-card,
+.short-copy {
+  padding: 1.6rem;
+}
+
+.card h3,
+.type-card h3,
+.resource-card h3,
+.pdf-card h3,
+.short-copy h3,
+.tl-body h3,
+.day-head h3,
+.conclusion h4,
+.farewell h4,
+.faq-wrap h4,
+.disclaimer-box h4,
+.warning-box h4 {
+  margin: 0 0 0.75rem;
+  color: var(--text);
+  font-size: 1.5rem;
+  line-height: 1.25;
+  font-style: italic;
+  font-weight: 500;
+}
+
+.card-note,
+.type-note,
+.section-note,
+.tl-tip,
+.day-reminder,
+.tl-ref,
+.faq-ref,
+.day-ref,
+.resource-url {
+  margin-top: 1rem;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  line-height: 1.7;
+  word-break: break-word;
+}
+
+.type-note,
+.day-reminder {
+  background: #fbf6ed;
+  border-color: #e8d7bb;
+  color: #6c5220;
+}
+
+.tl {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.tl-item {
+  display: grid;
+  grid-template-columns: 66px minmax(0, 1fr);
+  padding: 0 0 2rem;
+}
+
+.tl-item:last-child {
+  padding-bottom: 0;
+}
+
+.tl-left {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.tl-num {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  border: 1px solid var(--green-line);
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--green);
+  font-family: system-ui, sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.tl-line {
+  width: 1px;
+  flex: 1;
+  margin-top: 0.75rem;
+  background: linear-gradient(180deg, var(--gold), rgba(154, 115, 56, 0));
+}
+
+.tl-body {
+  padding-left: 1rem;
+}
+
+.conclusion,
+.farewell,
+.disclaimer-box,
+.warning-box {
+  padding: 1.7rem;
+}
+
+.farewell {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.farewell-arabic,
+.closing-arabic {
+  color: var(--green-dark);
+  font-size: 2rem;
+  line-height: 1.6;
+}
+
+.farewell cite,
+.closing-ref {
+  display: block;
+  margin-top: 0.7rem;
+  color: var(--text-soft);
+  font-family: system-ui, sans-serif;
+  font-size: 0.82rem;
+  font-style: normal;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.day-card {
+  overflow: hidden;
+}
+
+.day-head {
+  padding: 1.3rem 1.4rem 1rem;
+  border-bottom: 1px solid var(--green-line);
+  background: rgba(238, 246, 239, 0.7);
+}
+
+.day-body {
+  padding: 1.4rem;
+}
+
+.rules-hdr {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 1rem 1.25rem;
+  font-family: system-ui, sans-serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.rules-hdr svg {
+  width: 18px;
+  height: 18px;
+}
+
+.rules-hdr.pos {
+  background: var(--green-soft);
+  color: var(--green-dark);
+}
+
+.rules-hdr.neg {
+  background: var(--danger-soft);
+  color: var(--danger);
+}
+
+.rules-list {
+  list-style: none;
+  margin: 0;
+  padding: 1.35rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.rules-list li {
+  display: flex;
+  gap: 0.85rem;
+  align-items: flex-start;
+  color: var(--text-muted);
+  font-family: system-ui, sans-serif;
+  font-size: 0.97rem;
+  line-height: 1.7;
+}
+
+.dot-y,
+.dot-n {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  padding: 14px 28px;
-  background: var(--green);
-  color: #fff;
-  border-radius: 50px;
-  font-size: 16px;
-  font-weight: 500;
-  text-decoration: none;
-  transition: all 0.3s ease;
-  box-shadow: var(--shadow-md);
-  border: none;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+.dot-y {
+  color: var(--green);
+}
+
+.dot-n {
+  color: var(--danger);
+}
+
+.dot-y svg,
+.dot-n svg {
+  width: 16px;
+  height: 16px;
+}
+
+.pdf-card {
+  padding: 1.6rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.pdf-card .download-btn {
+  margin-top: auto;
+  width: fit-content;
+}
+
+.reference-panel {
+  margin-top: 2rem;
+  padding-top: 1.2rem;
+  border-top: 1px solid var(--green-line);
+}
+
+.reference-panel h4 {
+  margin: 0 0 0.9rem;
+  color: var(--green-dark);
+  font-family: system-ui, sans-serif;
+  font-size: 0.86rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.reference-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 0.9rem;
+}
+
+.resource-url {
+  background: rgba(255, 255, 255, 0.7);
+  user-select: all;
+}
+
+.faq-wrap {
+  margin-top: 2.8rem;
+}
+
+.faq-item {
+  border-top: 1px solid var(--green-line);
+}
+
+.faq-q {
+  width: 100%;
+  padding: 1.2rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  border: 0;
+  background: transparent;
+  color: var(--text);
+  font-family: system-ui, sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  text-align: left;
   cursor: pointer;
 }
 
-.download-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-lg);
-  background: var(--green-dark);
-}
-
-.download-btn svg {
+.faq-q svg {
   width: 20px;
   height: 20px;
+  fill: var(--text-soft);
+  transition: transform 0.2s ease, fill 0.2s ease;
+  flex-shrink: 0;
 }
 
-/* === CLOSING === */
-.closing {
-  padding: 5rem 2rem;
-  text-align: center;
-  background: linear-gradient(180deg, var(--green-light) 0%, var(--cream) 100%);
-  border-radius: 0 0 24px 24px;
-  margin-top: 3rem;
+.faq-item.open .faq-q svg {
+  transform: rotate(180deg);
+  fill: var(--green);
 }
 
-.closing-arabic {
-  font-family: 'Traditional Arabic', 'Georgia', serif;
-  font-size: 36px;
-  color: var(--green-dark);
-  margin-bottom: 1.5rem;
+.faq-a {
+  display: none;
+  padding-bottom: 1.2rem;
+}
+
+.faq-item.open .faq-a {
+  display: block;
+}
+
+.short-card {
+  overflow: hidden;
+}
+
+.short-frame {
+  position: relative;
+  aspect-ratio: 9 / 16;
+  background: #000;
+}
+
+.short-frame iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.disclaimer-section {
+  padding: 4rem 0 2rem;
+}
+
+.ref-list {
+  margin: 1rem 0 0;
+  padding-left: 1.2rem;
+  color: var(--text-muted);
+  font-family: system-ui, sans-serif;
+  font-size: 0.95rem;
   line-height: 1.8;
+}
+
+.warning-box {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+  background: var(--danger-soft);
+  border-color: rgba(138, 76, 51, 0.15);
+}
+
+.warning-icon {
+  color: var(--danger);
+  flex-shrink: 0;
+}
+
+.warning-icon svg {
+  width: 26px;
+  height: 26px;
+}
+
+.warning-content h4,
+.warning-content p {
+  color: var(--danger);
+}
+
+.closing {
+  padding: 4rem 0 1rem;
+  text-align: center;
 }
 
 .closing-en {
-  font-size: 19px;
+  margin: 0;
   color: var(--text-muted);
+  font-size: 1.1rem;
   font-style: italic;
-  font-family: 'Georgia', serif;
-  margin-bottom: 1rem;
 }
 
-.closing-ref {
-  font-size: 13px;
-  color: var(--green);
-  letter-spacing: 0.06em;
-  font-family: system-ui, sans-serif;
-  display: block;
-  text-transform: uppercase;
-  margin-bottom: 2rem;
-  font-weight: 600;
-}
-
-.closing-msg {
-  font-size: 17px;
-  color: var(--text-muted);
-  max-width: 600px;
-  margin: 0 auto 2.5rem;
-  line-height: 1.8;
-  font-family: system-ui, sans-serif;
-}
-
-.final-downloads {
-  margin-top: 2rem;
-}
-
-.download-all {
-  display: inline-flex;
-  align-items: center;
-  gap: 12px;
-  padding: 18px 36px;
-  background: var(--green);
-  color: #fff;
-  border-radius: 50px;
-  font-size: 17px;
-  font-weight: 600;
-  text-decoration: none;
-  transition: all 0.3s ease;
-  box-shadow: var(--shadow-lg);
-}
-
-.download-all:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 12px 40px rgba(15, 81, 50, 0.3);
-  background: var(--green-dark);
-}
-
-/* === RESPONSIVE === */
 @media (max-width: 1024px) {
-  .content-grid {
+  .main-container {
+    padding: 0 1.5rem 4rem;
+  }
+
+  .hero,
+  .sec-header-with-image {
     grid-template-columns: 1fr;
-    gap: 3rem;
   }
-  
-  .image-content {
-    position: relative;
-    top: 0;
-    max-width: 600px;
-    margin: 0 auto;
-  }
-  
-  .hero-title {
-    font-size: 40px;
+
+  .hero-visual {
+    min-height: 340px;
   }
 }
 
 @media (max-width: 768px) {
   .main-container {
-    padding: 0 1.5rem;
+    padding: 0 1.2rem 3.5rem;
   }
-  
+
   .hero {
-    padding: 4rem 1.5rem 3rem;
+    padding: 4rem 0 3rem;
   }
-  
+
   .hero-title {
-    font-size: 32px;
+    font-size: 2.6rem;
   }
-  
-  .hero-subtitle {
-    font-size: 17px;
-  }
-  
+
   .hero-actions {
     flex-direction: column;
-    align-items: center;
   }
-  
-  .btn-primary, .btn-secondary {
+
+  .btn-primary,
+  .btn-secondary,
+  .download-btn {
     width: 100%;
-    max-width: 320px;
-    justify-content: center;
   }
-  
-  .sec-title {
-    font-size: 28px;
+
+  .sec {
+    padding: 3.7rem 0;
   }
-  
-  .permitted-list {
-    grid-template-columns: 1fr;
+
+  .card,
+  .type-card,
+  .resource-card,
+  .pdf-card,
+  .short-copy,
+  .conclusion,
+  .farewell,
+  .disclaimer-box,
+  .warning-box {
+    padding: 1.35rem;
   }
-  
-  .step-card {
+
+  .tl-item {
+    grid-template-columns: 56px minmax(0, 1fr);
+  }
+
+  .tl-num {
+    width: 40px;
+    height: 40px;
+    font-size: 0.88rem;
+  }
+
+  .farewell-arabic,
+  .closing-arabic {
+    font-size: 1.7rem;
+  }
+
+  .warning-box {
     flex-direction: column;
-    gap: 1rem;
-  }
-  
-  .step-number {
-    font-size: 36px;
-  }
-  
-  .dua-arabic {
-    font-size: 22px;
   }
 }
 
 @media (max-width: 480px) {
   .hero-title {
-    font-size: 28px;
+    font-size: 2.25rem;
   }
-  
-  .sec-title {
-    font-size: 26px;
-  }
-  
-  .day-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.5rem;
-  }
-  
-  .day-number {
-    font-size: 24px;
+
+  .reference-list {
+    grid-template-columns: 1fr;
   }
 }
 </style>
