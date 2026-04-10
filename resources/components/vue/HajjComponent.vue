@@ -969,29 +969,119 @@ import { jsPDF } from 'jspdf';
 import hajjUmrahContent from '../../data/hajj-umrah-content.json';
 
 const content = hajjUmrahContent;
-const labels = content.labels;
-const hero = content.hero;
-const heroImage = content.heroImage;
-const guidesSection = content.guidesSection;
-const sections = content.sections;
-const sectionImages = content.sectionImages;
-const pdfGuides = content.pdfGuides;
-const basicsCards = content.basicsCards;
-const hajjTypes = content.hajjTypes;
-const umrahSteps = content.umrahSteps;
-const hajjDays = content.hajjDays;
-const commonMistakes = content.commonMistakes;
-const healthReadiness = content.healthReadiness;
-const rules = content.rules;
-const spiritualPrep = content.spiritualPrep;
-const shorts = content.shorts;
-const resources = content.resources;
-const faqs = content.faqs;
-const postHajjSteps = content.postHajjSteps;
-const summarySection = content.summarySection;
-const sectionReferences = content.sectionReferences;
-const disclaimer = content.disclaimer;
-const closing = content.closing;
+const labels = {
+  downloadPdf: 'Download PDF',
+  keyReferences: 'Key references',
+  imageCreditPrefix: 'Image source:',
+  faqTitle: 'Common questions',
+  shareWhatsApp: 'WhatsApp',
+  copyToClipboard: 'Copy',
+  copied: 'Copied',
+  printSection: 'Print',
+  aiSummaryFab: 'AI Summary',
+  textSize: 'Text size',
+  decreaseTextSize: 'A-',
+  increaseTextSize: 'A+',
+  wordCount: 'Word count',
+  readTime: 'Read time',
+  ...(content.labels || {})
+};
+const hero = {
+  kicker: 'Hajj & Umrah Guide',
+  title: 'The rites and references you actually need.',
+  subtitle: '',
+  proofPills: [],
+  primaryButton: { label: 'Open guide', target: 'guides' },
+  secondaryButton: { label: 'Start with Umrah', target: 'umrah' },
+  trustItems: [],
+  ...(content.hero || {})
+};
+const guidesSection = {
+  eyebrow: 'Downloads',
+  title: 'PDF guides',
+  description: '',
+  ...(content.guidesSection || {})
+};
+const sections = {
+  basics: { eyebrow: '', title: 'Foundations', description: '' },
+  umrah: { eyebrow: '', title: 'Umrah', description: '', conclusion: { title: '', text: '' } },
+  hajj: { eyebrow: '', title: 'Hajj', description: '', farewell: { arabic: '', title: '', text: '', reference: '' } },
+  mistakes: { eyebrow: '', title: 'Common mistakes', description: '' },
+  health: { eyebrow: '', title: 'Health and readiness', description: '', note: '' },
+  rules: { eyebrow: '', title: 'Ihram rules', description: '', permissibleTitle: '', prohibitedTitle: '', note: '' },
+  spiritual: { eyebrow: '', title: 'Spiritual preparation', description: '' },
+  shorts: { eyebrow: 'Shorts', title: 'Educational shorts', description: '' },
+  resources: { eyebrow: '', title: 'Resources', description: '' },
+  postHajj: { eyebrow: '', title: 'After Hajj', description: '' },
+  summary: { eyebrow: '', title: '', description: '' },
+  ...(content.sections || {})
+};
+const defaultSectionImage = {
+  src: 'https://images.pexels.com/photos/13459175/pexels-photo-13459175.jpeg?cs=srgb&dl=pexels-busrasahjn-13459175.jpg&fm=jpg',
+  alt: 'A mosque and courtyard scene suited to worship and reflection',
+  credit: 'Pexels'
+};
+const sectionImages = {
+  basics: defaultSectionImage,
+  umrah: defaultSectionImage,
+  hajj: defaultSectionImage,
+  mistakes: defaultSectionImage,
+  health: defaultSectionImage,
+  rules: defaultSectionImage,
+  spiritual: defaultSectionImage,
+  postHajj: defaultSectionImage,
+  ...(content.sectionImages || {})
+};
+const pdfGuides = content.pdfGuides || [];
+const basicsCards = content.basicsCards || [];
+const hajjTypes = content.hajjTypes || [];
+const umrahSteps = content.umrahSteps || [];
+const hajjDays = content.hajjDays || [];
+const commonMistakes = content.commonMistakes || [];
+const healthReadiness = content.healthReadiness || [];
+const rules = {
+  permissible: [],
+  prohibited: [],
+  ...(content.rules || {})
+};
+const spiritualPrep = content.spiritualPrep || [];
+const shorts = content.shorts || [];
+const resources = content.resources || [];
+const faqs = content.faqs || [];
+const postHajjSteps = content.postHajjSteps || [];
+const summarySection = {
+  kicker: 'Summary',
+  title: 'The page in one clear recap',
+  intro: '',
+  points: [],
+  footer: '',
+  ...(content.summarySection || {})
+};
+const sectionReferences = {
+  basics: [],
+  umrah: [],
+  hajj: [],
+  mistakes: [],
+  health: [],
+  rules: [],
+  spiritual: [],
+  ...(content.sectionReferences || {})
+};
+const disclaimer = {
+  title: '',
+  text: '',
+  items: [],
+  warningTitle: '',
+  warningText: '',
+  ...(content.disclaimer || {})
+};
+const closing = {
+  arabic: '',
+  translation: '',
+  reference: '',
+  message: '',
+  ...(content.closing || {})
+};
 
 const DEFAULT_SECTION_FONT_SCALE = 1;
 const MIN_SECTION_FONT_SCALE = 0.9;

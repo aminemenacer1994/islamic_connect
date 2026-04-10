@@ -17,14 +17,9 @@
   },
   "hero": {
     "arabic": "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ",
-    "kicker": "Hajj & Umrah Guide",
-    "title": "The rites and references you actually need.",
-    "subtitle": "A clear, source-led Hajj and Umrah guide built around the core rites, common mistakes, official health guidance, and the references pilgrims return to most.",
-    "proofPills": [
-      "Qur'an 3:97",
-      "Bukhari 1524",
-      "Muslim 1327"
-    ],
+    "title": "The complete Hajj & Umrah guide you actually need.",
+    "subtitle": "A clear, source-led Hajj and Umrah guide built around the core Hajj & Umrah, common errors, official health requirements, and the references pilgrims return to most.",
+    
     "primaryButton": {
       "label": "Download the guides",
       "target": "guides"
@@ -40,7 +35,7 @@
       },
       {
         "title": "Official travel guidance",
-        "text": "Nusuk and Saudi MOH guidance is separated from general reminders."
+        "text": "Nusuk and Saudi MOH requirements are included and separated from general reminders."
       },
       {
         "title": "Focused structure",
@@ -49,75 +44,75 @@
     ]
   },
   "heroImage": {
-    "src": "https://images.pexels.com/photos/13459175/pexels-photo-13459175.jpeg?cs=srgb&dl=pexels-busrasahjn-13459175.jpg&fm=jpg",
+    "src": "https://images.pexels.com/photos/13459175/pexels-photo-13459175.jpeg",
     "alt": "A calm mosque and courtyard scene suited to worship and reflection"
   },
   "sectionImages": {
     "basics": {
-      "src": "https://images.pexels.com/photos/28209449/pexels-photo-28209449.jpeg?cs=srgb&dl=pexels-neo-evenger-1772575973-28209449.jpg&fm=jpg",
-      "alt": "Pilgrims gathered for worship near the Grand Mosque",
+      "src": "https://images.pexels.com/photos/28209449/pexels-photo-28209449.jpeg",
+      "alt": "Pilgrims gathered for worship near the Sacred Mosque",
       "credit": "Pexels"
     },
     "umrah": {
-      "src": "https://images.pexels.com/photos/13459175/pexels-photo-13459175.jpeg?cs=srgb&dl=pexels-busrasahjn-13459175.jpg&fm=jpg",
+      "src": "https://images.pexels.com/photos/13459175/pexels-photo-13459175.jpeg",
       "alt": "Mosque and courtyard scene suited to worship and reflection",
       "credit": "Pexels"
     },
     "hajj": {
-      "src": "https://images.pexels.com/photos/12662176/pexels-photo-12662176.jpeg?cs=srgb&dl=pexels-muhammad-abdullah-2002371-12662176.jpg&fm=jpg",
+      "src": "https://images.pexels.com/photos/12662176/pexels-photo-12662176.jpeg",
       "alt": "Large gathering of worshippers in congregational prayer",
       "credit": "Pexels"
     },
     "mistakes": {
-      "src": "https://images.pexels.com/photos/19657349/pexels-photo-19657349.jpeg?cs=srgb&dl=pexels-bilalfurkankosar-19657349.jpg&fm=jpg",
+      "src": "https://images.pexels.com/photos/19657349/pexels-photo-19657349.jpeg",
       "alt": "Worshippers praying inside a mosque",
       "credit": "Pexels"
     },
     "health": {
-      "src": "https://images.pexels.com/photos/28209449/pexels-photo-28209449.jpeg?cs=srgb&dl=pexels-neo-evenger-1772575973-28209449.jpg&fm=jpg",
+      "src": "https://images.pexels.com/photos/28209449/pexels-photo-28209449.jpeg",
       "alt": "Pilgrims resting and moving carefully in a sacred setting",
       "credit": "Pexels"
     },
     "rules": {
-      "src": "https://images.pexels.com/photos/13459175/pexels-photo-13459175.jpeg?cs=srgb&dl=pexels-busrasahjn-13459175.jpg&fm=jpg",
+      "src": "https://images.pexels.com/photos/13459175/pexels-photo-13459175.jpeg",
       "alt": "Mosque architecture and calm prayer environment",
       "credit": "Pexels"
     },
     "spiritual": {
-      "src": "https://images.pexels.com/photos/19657349/pexels-photo-19657349.jpeg?cs=srgb&dl=pexels-bilalfurkankosar-19657349.jpg&fm=jpg",
+      "src": "https://images.pexels.com/photos/19657349/pexels-photo-19657349.jpeg",
       "alt": "Interior mosque scene suitable to reflection and worship",
       "credit": "Pexels"
     },
     "postHajj": {
-      "src": "https://images.pexels.com/photos/12662176/pexels-photo-12662176.jpeg?cs=srgb&dl=pexels-muhammad-abdullah-2002371-12662176.jpg&fm=jpg",
+      "src": "https://images.pexels.com/photos/12662176/pexels-photo-12662176.jpeg",
       "alt": "Congregational prayer after a gathering of worshippers",
       "credit": "Pexels"
     }
   },
   "guidesSection": {
     "eyebrow": "Downloads",
-    "title": "Three PDF guides",
-    "description": "These downloads point to three real guides: two instructional references and one official health document."
+    "title": "Essential PDF guides",
+    "description": "These downloads point to authoritative guides from trusted Islamic sources and official Saudi health requirements."
   },
   "pdfGuides": [
     {
-      "label": "Scholarly guide",
+      "label": "Comprehensive manual",
+      "title": "How to perform the manasik of Hajj and Umrah",
+      "desc": "Detailed instructional manual by Shaykh Muhammad ibn Sālih al-'Uthaymīn, a renowned Islamic scholar.",
+      "url": "https://d1.islamhouse.com/data/en/ih_books/single/en-dalil-98.pdf",
+      "filename": "manasik-of-hajj-and-umrah-al-uthaymeen.pdf"
+    },
+    {
+      "label": "Step-by-step guide",
       "title": "Hajj and Umrah step by step",
-      "desc": "A practical rites guide hosted by IslamHouse.",
+      "desc": "A practical manasik guide prepared by the Agency of Islamic Enlightenment in Hajj.",
       "url": "https://d1.islamhouse.com/data/en/ih_books/single2/en-hajj-umrah.pdf",
       "filename": "hajj-umrah-step-by-step.pdf"
     },
     {
-      "label": "Detailed manual",
-      "title": "How to perform the rituals of Hajj, Umrah and visiting the Prophet's Masjid",
-      "desc": "A longer instructional manual hosted by IslamHouse.",
-      "url": "https://d1.islamhouse.com/data/en/ih_books/single/en-dalil-98.pdf",
-      "filename": "rituals-of-hajj-umrah-and-visiting-the-prophets-masjid.pdf"
-    },
-    {
       "label": "Official health PDF",
       "title": "Saudi Hajj health requirements 1447H / 2026",
-      "desc": "Official Ministry of Health requirements and recommendations.",
+      "desc": "Official Ministry of Health requirements and recommendations. Verify with the live MOH website before travel.",
       "url": "https://www.moh.gov.sa/HealthAwareness/Pilgrims-Health/Documents/Hajj-Health-Requirements-English-language.pdf",
       "filename": "saudi-hajj-health-requirements-1447H-2026.pdf"
     }
@@ -126,12 +121,12 @@
     "basics": {
       "eyebrow": "Chapter I",
       "title": "Foundations before the journey",
-      "description": "Learn the obligation, the categories of Hajj, and the difference between foundational rulings and personal cases that still require a scholar."
+      "description": "Learn the obligation, the categories of Hajj, and the difference between foundational rulings and personal cases that require a scholar."
     },
     "umrah": {
       "eyebrow": "Chapter II",
       "title": "Umrah step by step",
-      "description": "The Umrah sequence is short, but mistakes usually happen through haste, crowd pressure, or uncertainty at the miqat and during tawaf.",
+      "description": "The Umrah sequence is short, but errors usually happen through haste, crowd pressure, or uncertainty at the miqat and during tawaf.",
       "conclusion": {
         "title": "After Umrah",
         "text": "When the hair is trimmed or shaved, Ihram ends. For Tamattu', the pilgrim remains out of Ihram until entering Ihram again for Hajj on the 8th of Dhul-Hijjah."
@@ -143,21 +138,21 @@
       "description": "The order of the days matters, but the greatest misunderstanding is forgetting that Arafah is the center of the pilgrimage.",
       "farewell": {
         "arabic": "طواف الوداع",
-        "title": "Farewell Tawaf",
-        "text": "Before leaving Makkah, the pilgrim makes a final tawaf unless exempted by a recognized reason such as menstruation. Keep the ending dignified and avoid turning it into a rushed photo stop.",
+        "title": "Tawaf al-Wada (Farewell Tawaf)",
+        "text": "Before leaving Makkah, the pilgrim makes a final tawaf unless exempted by a recognized reason. Keep the ending dignified and avoid turning it into a rushed photo stop.",
         "reference": "Reference: Sahih Muslim 1327"
       }
     },
     "mistakes": {
       "eyebrow": "Chapter IV",
-      "title": "Common mistakes to avoid",
+      "title": "Common errors to avoid",
       "description": "These are recurring problems that do not come from lack of sincerity, but from poor preparation, pressure, and imitation without knowledge."
     },
     "health": {
       "eyebrow": "Chapter V",
       "title": "Health, safety, and readiness",
-      "description": "Physical ability and official health requirements are part of real-world Hajj preparation, not an afterthought. Recheck them close to travel because they can change.",
-      "note": "Official vaccination rules, seasonal public-health measures, and entry conditions must be checked against the Saudi Ministry of Health and Nusuk near departure."
+      "description": "Physical ability and official health requirements are part of real-world Hajj preparation. Recheck them close to travel because they can change.",
+      "note": "The Ministry of Health requires the meningococcal vaccine for all pilgrims. The seasonal flu vaccine and COVID-19 vaccine are recommended."
     },
     "rules": {
       "eyebrow": "Chapter VI",
@@ -170,7 +165,7 @@
     "spiritual": {
       "eyebrow": "Chapter VII",
       "title": "Spiritual preparation",
-      "description": "The outward rites are stronger when repentance, humility, patience, and learning have already started before travel."
+      "description": "The outward manasik are stronger when repentance, humility, patience, and learning have already started before travel."
     },
     "shorts": {
       "eyebrow": "Supplementary Media",
@@ -180,7 +175,7 @@
     "resources": {
       "eyebrow": "Chapter VIII",
       "title": "Key references and official resources",
-      "description": "These are intentionally displayed as non-clickable reference blocks, with one reference per card, so the page behaves more like a study guide than a link directory. The PDF buttons above remain downloadable."
+      "description": "These are displayed as reference blocks, with one reference per card, so the page behaves more like a study guide than a link directory. The PDF buttons above remain downloadable."
     },
     "postHajj": {
       "eyebrow": "Closing",
@@ -197,24 +192,24 @@
     {
       "num": "01",
       "title": "Hajj is obligatory for the one who is able",
-      "desc": "The obligation is tied to ability: physical capacity, financial capacity, and a workable route to the pilgrimage.",
+      "desc": "The obligation is tied to ability: physical capacity, financial capacity, and a safe route to the pilgrimage.",
       "note": "Reference: Qur'an 3:97."
     },
     {
       "num": "02",
       "title": "Umrah is not casual travel",
-      "desc": "The Qur'an joins Hajj and Umrah in one verse, and the jurists discuss its exact legal weight. In any case, it is a legislated act of worship, not tourism.",
+      "desc": "The Qur'an joins Hajj and Umrah in one verse. It is a legislated act of worship, not tourism.",
       "note": "Reference: Qur'an 2:196."
     },
     {
       "num": "03",
       "title": "Accepted Hajj brings immense reward",
-      "desc": "The Prophet taught that an accepted Hajj has no reward except Paradise, and one Umrah to the next expiates what came between them.",
+      "desc": "The Prophet ﷺ taught that an accepted Hajj has no reward except Paradise, and one Umrah to the next expiates what came between them.",
       "note": "Reference: Sunan an-Nasa'i 2622."
     },
     {
       "num": "04",
-      "title": "Learning the rites is part of the rite",
+      "title": "Learning the manasik is part of the obligation",
       "desc": "A pilgrim should not rely on crowd movement alone. Study before travel and ask when the issue affects validity or fidyah.",
       "note": "Reference: Sunan an-Nasa'i 3062."
     }
@@ -227,8 +222,8 @@
     },
     {
       "title": "Qiran",
-      "desc": "Enter Ihram for Umrah and Hajj together and remain in Ihram until the major rites are completed.",
-      "note": "Useful in some travel plans, but it keeps the pilgrim in Ihram longer."
+      "desc": "Enter Ihram for Umrah and Hajj together and remain in Ihram until the major manasik are completed.",
+      "note": "Keeps the pilgrim in Ihram longer than Tamattu'."
     },
     {
       "title": "Ifrad",
@@ -240,16 +235,16 @@
     {
       "num": "01",
       "title": "Enter Ihram at the miqat",
-      "desc": "Make intention and begin Talbiyah at or before the appointed miqat. Do not cross the miqat casually and plan to fix it later.",
-      "tip": "Prepare clothing and intention before reaching the boundary if you are flying or moving with a group.",
+      "desc": "Make intention and begin Talbiyah at or before the appointed miqat. Do not cross the miqat without Ihram.",
+      "tip": "Prepare clothing and intention before reaching the boundary.",
       "ref": "Reference: Sahih al-Bukhari 1524."
     },
     {
       "num": "02",
       "title": "Perform Tawaf with calmness",
       "desc": "Circle the Kaaba seven times, beginning from the Black Stone area. The purpose is worship, not speed or crowd aggression.",
-      "tip": "If reaching the Black Stone is difficult, pointing from a distance is enough. Do not harm others.",
-      "ref": "Reference: General Prophetic rite sequence and the instruction to learn the rituals in Sunan an-Nasa'i 3062."
+      "tip": "If reaching the Black Stone is difficult, pointing from a distance is sufficient. Do not harm others.",
+      "ref": "Reference: The instruction to learn the manasik in Sunan an-Nasa'i 3062."
     },
     {
       "num": "03",
@@ -262,8 +257,8 @@
       "num": "04",
       "title": "Trim or shave the hair",
       "desc": "Men shave or shorten the hair; women cut a small amount from the ends. This ends the state of Ihram for Umrah.",
-      "tip": "Do not leave this until confusion sets in. It is the closing act of the Umrah.",
-      "ref": "Reference: Established Prophetic practice in the rites."
+      "tip": "This is the closing act of the Umrah.",
+      "ref": "Reference: Established Prophetic practice in the manasik."
     }
   ],
   "hajjDays": [
@@ -278,7 +273,7 @@
       "date": "9 Dhul-Hijjah",
       "title": "Arafah",
       "desc": "Standing at Arafah is the central pillar of Hajj. The pilgrim remains within the boundaries of Arafah until sunset in repentance and supplication.",
-      "reminder": "Missing Arafah is not a small mistake. It is the defining station of Hajj.",
+      "reminder": "Missing Arafah is not a small error. It is the defining station of Hajj.",
       "ref": "Reference: 'Hajj is Arafah' in Sunan Ibn Majah 3015."
     },
     {
@@ -291,14 +286,14 @@
     {
       "date": "10 Dhul-Hijjah",
       "title": "Stoning, sacrifice, shaving, and Tawaf al-Ifadah",
-      "desc": "Pilgrims stone Jamrat al-Aqabah, arrange sacrifice where due, shave or trim the hair, and perform Tawaf al-Ifadah, with Sa'i where due.",
-      "reminder": "Some ordering concessions exist in the Sunnah, but specific cases should still be checked carefully.",
-      "ref": "Reference: Qur'an 2:196 and the Prophetic rite sequence."
+      "desc": "Pilgrims stone Jamrat al-Aqabah, arrange sacrifice, shave or trim the hair, and perform Tawaf al-Ifadah.",
+      "reminder": "Some ordering concessions exist in the Sunnah.",
+      "ref": "Reference: Qur'an 2:196 and the Prophetic manasik sequence."
     },
     {
       "date": "11 to 13 Dhul-Hijjah",
       "title": "Days of Tashriq",
-      "desc": "The pilgrim stays in Mina and stones the three Jamarat on the appointed days while continuing remembrance of Allah.",
+      "desc": "The pilgrim stays in Mina and stones the three Jamarat on the appointed days.",
       "reminder": "The Qur'an allows leaving after two days or staying for a third.",
       "ref": "Reference: Qur'an 2:203."
     }
@@ -306,22 +301,22 @@
   "commonMistakes": [
     {
       "title": "Crossing the miqat without entering Ihram",
-      "desc": "This is one of the most common practical mistakes for travellers who are distracted, unprepared, or following a group loosely.",
-      "note": "Fixing this can involve more than simply making intention later. Ask a scholar promptly."
+      "desc": "This is a common practical error for travellers who are distracted or unprepared.",
+      "note": "Ask a scholar promptly about how to rectify this."
     },
     {
-      "title": "Treating crowd pressure as permission to harm others",
-      "desc": "The rites do not become more valid because they were done aggressively. Pushing and elbowing at the Black Stone area is not devotion.",
-      "note": "Preserving worship and preserving people both matter."
+      "title": "Harming others during the manasik",
+      "desc": "Pushing and elbowing at the Black Stone area is not devotion. Harming believers is prohibited while kissing the Black Stone is Sunnah.",
+      "note": "Preserving the dignity of Muslims is obligatory."
     },
     {
-      "title": "Copying rituals without knowing what is essential",
+      "title": "Copying actions without knowing what is essential",
       "desc": "Many pilgrims imitate others without knowing whether an act is a pillar, a duty, or a recommended Sunnah.",
-      "note": "Reference trail: use the guides and hadith anchors on this page instead of crowd imitation."
+      "note": "Use the guides and hadith anchors on this page instead of crowd imitation."
     },
     {
       "title": "Assuming every violation invalidates the pilgrimage",
-      "desc": "Some mistakes require repentance, some require fidyah, and some affect validity more seriously than others. These are not all the same.",
+      "desc": "Some errors require repentance, some require fidyah, and some affect validity more seriously than others.",
       "note": "This is exactly where qualified scholarly advice becomes necessary."
     }
   ],
@@ -329,7 +324,8 @@
     {
       "title": "Official readiness checks",
       "items": [
-        "Check current Saudi vaccination and public-health requirements close to departure.",
+        "The meningococcal vaccine is mandatory for all pilgrims. The seasonal flu and COVID-19 vaccines are recommended.",
+        "Pilgrims must be free from infectious diseases and serious chronic conditions such as chronic kidney failure, chronic heart failure, and active cancer.",
         "Review whether age, pregnancy, severe illness, or chronic conditions affect your ability to travel.",
         "Keep official booking, visa, and identification records organized before departure."
       ]
@@ -338,7 +334,7 @@
       "title": "On-the-ground practical care",
       "items": [
         "Hydrate consistently and avoid leaving basic fatigue or heat stress untreated.",
-        "Use unscented hygiene items if you will be in Ihram.",
+        "Use unscented hygiene items while in Ihram.",
         "Carry only what you can realistically manage in crowds and long walks.",
         "If you are medically vulnerable, speak to your doctor and your scholar before travel."
       ]
@@ -369,9 +365,9 @@
     },
     {
       "step": "02",
-      "title": "Learn the rituals before the crowd teaches you badly",
+      "title": "Learn the manasik before the crowd teaches you badly",
       "desc": "Study the order, the common errors, and the places where you must stop and ask a scholar.",
-      "ref": "Reference: 'Learn your rituals from me' in Sunan an-Nasa'i 3062."
+      "ref": "Reference: 'Learn your manasik from me' in Sunan an-Nasa'i 3062."
     },
     {
       "step": "03",
@@ -408,55 +404,55 @@
   ],
   "resources": [
     {
-      "label": "Primary text",
-      "title": "Qur'an 3:97",
-      "desc": "The foundational verse for the obligation of Hajj upon the one who is able.",
-      "url": "https://quran.com/3/97"
-    },
-    {
-      "label": "Primary text",
-      "title": "Qur'an 2:158",
-      "desc": "The core verse for Safa and Marwah and the Sa'i rite.",
-      "url": "https://quran.com/2/158"
-    },
-    {
-      "label": "Hadith",
-      "title": "Sahih al-Bukhari 1524",
-      "desc": "The miqat reference most pilgrims need for entering Ihram correctly.",
-      "url": "https://sunnah.com/bukhari:1524"
-    },
-    {
       "label": "Official planning",
-      "title": "Nusuk",
-      "desc": "Official Saudi planning resource for Umrah services, permits, and visitor guidance.",
+      "title": "Nusuk Platform",
+      "desc": "The official Saudi government platform for planning Hajj and Umrah, including visa applications, permits, and booking services.",
       "url": "https://www.nusuk.sa/en"
     },
     {
       "label": "Official health",
-      "title": "Saudi Ministry of Health pilgrim guidance",
-      "desc": "Current health pages and official health documents for pilgrims.",
-      "url": "https://www.moh.gov.sa/en/HealthAwareness/Pilgrims-Health/pages/default.aspx"
+      "title": "Saudi Ministry of Health - Pilgrim's Health",
+      "desc": "The official source for all health requirements, vaccinations, and public health guidance for pilgrims.",
+      "url": "https://www.moh.gov.sa/en/HealthAwareness/Pilgrims-Health/Pages/default.aspx"
+    },
+    {
+      "label": "Scholarly Reference",
+      "title": "Islam Question & Answer (IslamQA)",
+      "desc": "Educational website supervised by Shaykh Muhammad Salih Al-Munajjid, providing authoritative answers to Islamic questions based on the Qur'an and Sunnah.",
+      "url": "https://islamqa.info/en"
+    },
+    {
+      "label": "Hadith Reference",
+      "title": "Sunnah.com",
+      "desc": "Comprehensive online collection of the six major hadith books (Kutub al-Sittah) with English translations and authentic chains of narration.",
+      "url": "https://sunnah.com"
+    },
+    {
+      "label": "Qur'an Reference",
+      "title": "Quran.com",
+      "desc": "Complete Qur'an with multiple translations, tafsir, and recitations from trusted scholars and reciters.",
+      "url": "https://quran.com"
     }
   ],
   "faqs": [
     {
       "q": "What if I miss standing at Arafah?",
-      "a": "Standing at Arafah is central to Hajj. A pilgrim who misses it faces a serious validity issue and should seek immediate scholarly guidance about what follows.",
+      "a": "Standing at Arafah is central to Hajj. A pilgrim who misses it faces a serious validity issue and should seek immediate scholarly guidance.",
       "ref": "Reference: 'Hajj is Arafah' in Sunan Ibn Majah 3015."
     },
     {
       "q": "Can I leave Mina after two days?",
-      "a": "Yes. The Qur'an allows departure after two days of the appointed days or staying longer without sin when done properly.",
+      "a": "Yes. The Qur'an allows departure after two days of the appointed days or staying longer when done properly.",
       "ref": "Reference: Qur'an 2:203."
     },
     {
-      "q": "Are the short videos enough to learn the rites?",
-      "a": "No. They can help you visualize the sequence, but they should not replace the Qur'an, hadith, trusted scholars, and structured written guides.",
+      "q": "Are the short videos enough to learn the manasik?",
+      "a": "No. They can help visualize the sequence, but should not replace the Qur'an, hadith, trusted scholars, and structured written guides.",
       "ref": "Use the short videos only as supplementary refreshers."
     },
     {
       "q": "Where should I verify health and travel rules near departure?",
-      "a": "Check Nusuk and the Saudi Ministry of Health close to your travel date. Do not rely on old screenshots or old group messages.",
+      "a": "Check Nusuk and the Saudi Ministry of Health close to your travel date. Do not rely on old screenshots or group messages.",
       "ref": "Operational guidance can change from season to season."
     }
   ],
@@ -486,15 +482,15 @@
   "summarySection": {
     "kicker": "AI summary",
     "title": "The page in one clear recap",
-    "intro": "This guide starts with the obligation of Hajj, then walks through Umrah, the major days of Hajj, common mistakes, health readiness, Ihram rules, spiritual preparation, and what should remain after the journey.",
+    "intro": "This guide starts with the obligation of Hajj, then walks through Umrah, the major days of Hajj, common errors, health readiness, Ihram rules, spiritual preparation, and what should remain after the journey.",
     "points": [
       "Hajj is tied to ability, and serious personal cases still need a qualified scholar.",
-      "Arafah is the central station of Hajj, while Tawaf, Sa'i, and the order of the major rites must be learned before travel.",
-      "Crowd pressure, health neglect, and imitation without knowledge are among the most common causes of mistakes.",
-      "Official planning and health checks should be verified close to departure through Nusuk and the Saudi Ministry of Health.",
+      "Arafah is the central station of Hajj. Tawaf, Sa'i, and the order of the manasik must be learned before travel.",
+      "Crowd pressure, health neglect, and imitation without knowledge are among the most common causes of errors.",
+      "Official planning through Nusuk and health checks through the Saudi Ministry of Health should be verified close to departure.",
       "The strongest sign of benefit after Hajj or Umrah is better worship, steadier character, and sincere hope for acceptance."
     ],
-    "footer": "Read the full sections for detail, then return to this recap when you want the essentials quickly."
+    "footer": "Read the full sections for detail, then return to this recap for the essentials."
   },
   "sectionReferences": {
     "basics": [
@@ -549,10 +545,6 @@
     ],
     "mistakes": [
       {
-        "title": "IslamHouse step-by-step guide",
-        "url": "https://d1.islamhouse.com/data/en/ih_books/single2/en-hajj-umrah.pdf"
-      },
-      {
         "title": "Sunan an-Nasa'i 3062",
         "url": "https://sunnah.com/nasai:3062"
       }
@@ -560,15 +552,11 @@
     "health": [
       {
         "title": "Saudi MOH pilgrim health page",
-        "url": "https://www.moh.gov.sa/en/HealthAwareness/Pilgrims-Health/pages/default.aspx"
+        "url": "https://www.moh.gov.sa/en/HealthAwareness/Pilgrims-Health/Pages/default.aspx"
       },
       {
         "title": "Saudi Hajj Health Requirements PDF",
         "url": "https://www.moh.gov.sa/HealthAwareness/Pilgrims-Health/Documents/Hajj-Health-Requirements-English-language.pdf"
-      },
-      {
-        "title": "General Guide for Health of Hajj and Umrah Pilgrims PDF",
-        "url": "https://www.moh.gov.sa/HealthAwareness/Pilgrims-Health/Documents/English.pdf"
       }
     ],
     "rules": [
@@ -598,14 +586,14 @@
   },
   "disclaimer": {
     "title": "Scope of this page",
-    "text": "This guide aims to stay close to primary texts, established instructional guides, and official Saudi health and logistics sources. It does not replace a scholar for illness, menstruation, fidyah, missed rites, disputes between madhhabs, or complicated travel restrictions.",
+    "text": "This guide aims to stay close to primary texts, established instructional guides, and official Saudi health and logistics sources. It does not replace a scholar for illness, menstruation, fidyah, missed manasik, disputes between madhhabs, or complicated travel restrictions.",
     "items": [
       "Qur'anic anchors used here: 3:97, 2:158, 2:196, 2:203, 2:127.",
       "Hadith anchors used here: Bukhari 1524, Ibn Majah 3015, Muslim 1327, Nasa'i 3062, Nasa'i 2622.",
-      "Official operational guidance used here: Nusuk and Saudi Ministry of Health documents current for 1447H / 2026."
+      "Official operational guidance: Nusuk, Saudi Ministry of Health, and Saudi Ministry of Hajj and Umrah."
     ],
     "warningTitle": "Important note",
-    "warningText": "Scholarly approved in practice still means verifying your personal case with a qualified scholar. This page gives the mainstream structure and source trail, not a personalized fatwa."
+    "warningText": "This page provides a mainstream structure and source trail, not a personalized fatwa. For personal cases, consult a qualified scholar. Verified sources like IslamQA or official authorities can provide reliable guidance."
   },
   "closing": {
     "arabic": "رَبَّنَا تَقَبَّلْ مِنَّا ۖ إِنَّكَ أَنتَ السَّمِيعُ الْعَلِيمُ",
