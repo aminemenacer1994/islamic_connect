@@ -5952,7 +5952,7 @@
         <teleport to="body">
             <div class="modal fade surah-settings-modal-shell" id="surahSettingsModal" tabindex="-1" aria-labelledby="surahSettingsLabel"
                 aria-hidden="true" data-bs-backdrop="true">
-                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable surah-settings-dialog">
+                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-fullscreen-md-down surah-settings-dialog">
                     <div class="modal-content surah-settings-modal" :class="{ 'surat-dark-modal': isDarkTheme }">
                         <div class="modal-header">
                             <div class="surah-settings-heading">

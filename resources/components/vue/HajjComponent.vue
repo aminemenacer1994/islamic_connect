@@ -2,32 +2,66 @@
   <div class="pg" :class="{ 'is-dark': isDarkMode }">
     <div class="main-container">
       <header class="hero fade-in-section">
-        <div class="hero-copy">
-          <p class="hero-arabic">{{ hero.arabic }}</p>
-          <span class="hero-kicker">{{ hero.kicker }}</span>
-          <h1 class="hero-title">{{ hero.title }}</h1>
-          <p class="hero-subtitle">{{ hero.subtitle }}</p>
+        <div class="hero-shell">
+          <div class="hero-copy hero-copy--full">
+            <div class="hero-copy-inner">
+              <div class="hero-heading-block">
+                <div class="hero-topline">
+                  <span class="hero-kicker">{{ hero.kicker }}</span>
+                  <span class="hero-search-meta">Source-led guide</span>
+                </div>
+                <h1 class="hero-title">{{ hero.title }}</h1>
+                <p class="hero-subtitle">{{ hero.subtitle }}</p>
+                <div class="hero-proof" aria-label="Key references">
+                  <span v-for="pill in hero.proofPills" :key="pill" class="hero-proof-pill">{{ pill }}</span>
+                </div>
+              </div>
 
-          <div class="hero-proof">
-            <span v-for="item in hero.proofPills" :key="item" class="hero-proof-pill">{{ item }}</span>
-          </div>
+              <div class="hero-actions">
+                <button type="button" class="hero-btn-primary" @click="scrollToSection(hero.primaryButton.target)">{{ hero.primaryButton.label }}</button>
+                <button type="button" class="hero-btn-secondary" @click="scrollToSection(hero.secondaryButton.target)">{{ hero.secondaryButton.label }}</button>
+              </div>
 
-          <div class="hero-actions">
-            <button class="hero-btn-primary" @click="scrollToSection(hero.primaryButton.target)">{{ hero.primaryButton.label }}</button>
-            <button class="hero-btn-secondary" @click="scrollToSection(hero.secondaryButton.target)">{{ hero.secondaryButton.label }}</button>
-          </div>
-
-          <div class="hero-trust">
-            <div v-for="item in hero.trustItems" :key="item.title" class="trust-item">
-              <strong>{{ item.title }}</strong>
-              <span>{{ item.text }}</span>
+              <div class="hero-tools-panel">
+                <div class="hero-panel-head">
+                  <div>
+                    <span class="hero-search-kicker">Search the guide</span>
+                    <p class="hero-panel-copy">Find a rite, rule, or health topic and jump straight to the first relevant section.</p>
+                  </div>
+                  <span class="hero-search-meta hero-search-meta--live">{{ searchMatchLabel }}</span>
+                </div>
+                <div class="hero-search-panel">
+                  <div class="hero-search-field">
+                    <span class="hero-search-icon" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M10 4a6 6 0 1 0 3.9 10.56l4.27 4.27 1.41-1.41-4.27-4.27A6 6 0 0 0 10 4Zm0 2a4 4 0 1 1 0 8 4 4 0 0 1 0-8Z"/></svg>
+                    </span>
+                    <input
+                      v-model.trim="searchQuery"
+                      type="search"
+                      class="hero-search-input"
+                      placeholder="Search rites, health, Ihram, Arafah..."
+                      aria-label="Search this guide"
+                      @keydown.enter.prevent="focusFirstSearchResult"
+                    >
+                    <button v-if="searchQuery" type="button" class="hero-search-clear" @click="clearSearch">
+                      Clear
+                    </button>
+                  </div>
+                  <div class="hero-search-feedback">
+                    <span class="hero-search-hint">Press Enter to jump to the first match.</span>
+                    <button
+                      v-if="searchFirstMatchSectionId"
+                      type="button"
+                      class="hero-search-jump-btn"
+                      @click="focusFirstSearchResult"
+                    >
+                      Jump to first result
+                    </button>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-
-        <div class="hero-visual">
-          <img :src="heroImage.src" :alt="heroImage.alt" loading="lazy">
-          <div class="hero-image-overlay"></div>
         </div>
       </header>
 
@@ -81,6 +115,10 @@
                   <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 8V3H6v5h12Zm-2-3v1H8V5Zm2 4H6a4 4 0 0 0-4 4v4h4v4h12v-4h4v-4a4 4 0 0 0-4-4Zm-2 10H8v-5h8Zm2-7.5a1.25 1.25 0 1 1 0 2.5 1.25 1.25 0 0 1 0-2.5Z"/></svg>
                 </span>
                 <span>{{ labels.printSection }}</span>
+              </button>
+              <button class="section-tool-btn section-tool-btn--pdf" @click="downloadSectionPdf('basics', sections.basics.title)">
+                <span class="tool-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 2H7a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7Zm0 2.5L16.5 7H14ZM8.5 13.5h1.6c1.3 0 2.1-.8 2.1-2s-.8-2-2.1-2H8.5Zm1.4-2.9h.3c.6 0 1 .3 1 .9s-.4.9-1 .9h-.3Zm3.3 4.9h1.4v-2h.4c1.3 0 2.2-.8 2.2-2s-.9-2-2.2-2h-1.8Zm1.4-4.9h.4c.6 0 1 .3 1 .9s-.4.9-1 .9h-.4Zm3.2 4.9h1.4v-1.9h1.6v-1.2h-1.6v-.9h1.8V10.3h-3.2Z"/></svg></span>
+                <span>{{ labels.downloadPdf }}</span>
               </button>
               <div class="font-controls">
                 <div class="font-chip">
@@ -178,6 +216,10 @@
                 </span>
                 <span>{{ labels.printSection }}</span>
               </button>
+              <button class="section-tool-btn section-tool-btn--pdf" @click="downloadSectionPdf('umrah', sections.umrah.title)">
+                <span class="tool-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 2H7a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7Zm0 2.5L16.5 7H14ZM8.5 13.5h1.6c1.3 0 2.1-.8 2.1-2s-.8-2-2.1-2H8.5Zm1.4-2.9h.3c.6 0 1 .3 1 .9s-.4.9-1 .9h-.3Zm3.3 4.9h1.4v-2h.4c1.3 0 2.2-.8 2.2-2s-.9-2-2.2-2h-1.8Zm1.4-4.9h.4c.6 0 1 .3 1 .9s-.4.9-1 .9h-.4Zm3.2 4.9h1.4v-1.9h1.6v-1.2h-1.6v-.9h1.8V10.3h-3.2Z"/></svg></span>
+                <span>{{ labels.downloadPdf }}</span>
+              </button>
               <div class="font-controls">
                 <div class="font-chip">
                   <span class="tool-icon" aria-hidden="true">
@@ -271,6 +313,10 @@
                 <span class="tool-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 8V3H6v5h12Zm-2-3v1H8V5Zm2 4H6a4 4 0 0 0-4 4v4h4v4h12v-4h4v-4a4 4 0 0 0-4-4Zm-2 10H8v-5h8Zm2-7.5a1.25 1.25 0 1 1 0 2.5 1.25 1.25 0 0 1 0-2.5Z"/></svg></span>
                 <span>{{ labels.printSection }}</span>
               </button>
+              <button class="section-tool-btn section-tool-btn--pdf" @click="downloadSectionPdf('hajj', sections.hajj.title)">
+                <span class="tool-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 2H7a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7Zm0 2.5L16.5 7H14ZM8.5 13.5h1.6c1.3 0 2.1-.8 2.1-2s-.8-2-2.1-2H8.5Zm1.4-2.9h.3c.6 0 1 .3 1 .9s-.4.9-1 .9h-.3Zm3.3 4.9h1.4v-2h.4c1.3 0 2.2-.8 2.2-2s-.9-2-2.2-2h-1.8Zm1.4-4.9h.4c.6 0 1 .3 1 .9s-.4.9-1 .9h-.4Zm3.2 4.9h1.4v-1.9h1.6v-1.2h-1.6v-.9h1.8V10.3h-3.2Z"/></svg></span>
+                <span>{{ labels.downloadPdf }}</span>
+              </button>
               <div class="font-controls">
                 <div class="font-chip">
                   <span class="tool-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 20h2.6l1.7-4h7.4l1.7 4H20L13.7 5h-3.4Zm5.1-6 2.9-6.9 2.9 6.9ZM3 4v2h4.5v10h2V6H14V4Z"/></svg></span>
@@ -353,6 +399,10 @@
                 <span class="tool-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 8V3H6v5h12Zm-2-3v1H8V5Zm2 4H6a4 4 0 0 0-4 4v4h4v4h12v-4h4v-4a4 4 0 0 0-4-4Zm-2 10H8v-5h8Zm2-7.5a1.25 1.25 0 1 1 0 2.5 1.25 1.25 0 0 1 0-2.5Z"/></svg></span>
                 <span>{{ labels.printSection }}</span>
               </button>
+              <button class="section-tool-btn section-tool-btn--pdf" @click="downloadSectionPdf('mistakes', sections.mistakes.title)">
+                <span class="tool-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 2H7a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7Zm0 2.5L16.5 7H14ZM8.5 13.5h1.6c1.3 0 2.1-.8 2.1-2s-.8-2-2.1-2H8.5Zm1.4-2.9h.3c.6 0 1 .3 1 .9s-.4.9-1 .9h-.3Zm3.3 4.9h1.4v-2h.4c1.3 0 2.2-.8 2.2-2s-.9-2-2.2-2h-1.8Zm1.4-4.9h.4c.6 0 1 .3 1 .9s-.4.9-1 .9h-.4Zm3.2 4.9h1.4v-1.9h1.6v-1.2h-1.6v-.9h1.8V10.3h-3.2Z"/></svg></span>
+                <span>{{ labels.downloadPdf }}</span>
+              </button>
               <div class="font-controls">
                 <div class="font-chip">
                   <span class="tool-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 20h2.6l1.7-4h7.4l1.7 4H20L13.7 5h-3.4Zm5.1-6 2.9-6.9 2.9 6.9ZM3 4v2h4.5v10h2V6H14V4Z"/></svg></span>
@@ -421,6 +471,10 @@
               <button class="section-tool-btn section-tool-btn--print" @click="printSection('health')">
                 <span class="tool-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 8V3H6v5h12Zm-2-3v1H8V5Zm2 4H6a4 4 0 0 0-4 4v4h4v4h12v-4h4v-4a4 4 0 0 0-4-4Zm-2 10H8v-5h8Zm2-7.5a1.25 1.25 0 1 1 0 2.5 1.25 1.25 0 0 1 0-2.5Z"/></svg></span>
                 <span>{{ labels.printSection }}</span>
+              </button>
+              <button class="section-tool-btn section-tool-btn--pdf" @click="downloadSectionPdf('health', sections.health.title)">
+                <span class="tool-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 2H7a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7Zm0 2.5L16.5 7H14ZM8.5 13.5h1.6c1.3 0 2.1-.8 2.1-2s-.8-2-2.1-2H8.5Zm1.4-2.9h.3c.6 0 1 .3 1 .9s-.4.9-1 .9h-.3Zm3.3 4.9h1.4v-2h.4c1.3 0 2.2-.8 2.2-2s-.9-2-2.2-2h-1.8Zm1.4-4.9h.4c.6 0 1 .3 1 .9s-.4.9-1 .9h-.4Zm3.2 4.9h1.4v-1.9h1.6v-1.2h-1.6v-.9h1.8V10.3h-3.2Z"/></svg></span>
+                <span>{{ labels.downloadPdf }}</span>
               </button>
               <div class="font-controls">
                 <div class="font-chip">
@@ -501,6 +555,10 @@
               <button class="section-tool-btn section-tool-btn--print" @click="printSection('rules')">
                 <span class="tool-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 8V3H6v5h12Zm-2-3v1H8V5Zm2 4H6a4 4 0 0 0-4 4v4h4v4h12v-4h4v-4a4 4 0 0 0-4-4Zm-2 10H8v-5h8Zm2-7.5a1.25 1.25 0 1 1 0 2.5 1.25 1.25 0 0 1 0-2.5Z"/></svg></span>
                 <span>{{ labels.printSection }}</span>
+              </button>
+              <button class="section-tool-btn section-tool-btn--pdf" @click="downloadSectionPdf('rules', sections.rules.title)">
+                <span class="tool-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 2H7a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7Zm0 2.5L16.5 7H14ZM8.5 13.5h1.6c1.3 0 2.1-.8 2.1-2s-.8-2-2.1-2H8.5Zm1.4-2.9h.3c.6 0 1 .3 1 .9s-.4.9-1 .9h-.3Zm3.3 4.9h1.4v-2h.4c1.3 0 2.2-.8 2.2-2s-.9-2-2.2-2h-1.8Zm1.4-4.9h.4c.6 0 1 .3 1 .9s-.4.9-1 .9h-.4Zm3.2 4.9h1.4v-1.9h1.6v-1.2h-1.6v-.9h1.8V10.3h-3.2Z"/></svg></span>
+                <span>{{ labels.downloadPdf }}</span>
               </button>
               <div class="font-controls">
                 <div class="font-chip">
@@ -596,6 +654,10 @@
               <button class="section-tool-btn section-tool-btn--print" @click="printSection('spiritual')">
                 <span class="tool-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 8V3H6v5h12Zm-2-3v1H8V5Zm2 4H6a4 4 0 0 0-4 4v4h4v4h12v-4h4v-4a4 4 0 0 0-4-4Zm-2 10H8v-5h8Zm2-7.5a1.25 1.25 0 1 1 0 2.5 1.25 1.25 0 0 1 0-2.5Z"/></svg></span>
                 <span>{{ labels.printSection }}</span>
+              </button>
+              <button class="section-tool-btn section-tool-btn--pdf" @click="downloadSectionPdf('spiritual', sections.spiritual.title)">
+                <span class="tool-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 2H7a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7Zm0 2.5L16.5 7H14ZM8.5 13.5h1.6c1.3 0 2.1-.8 2.1-2s-.8-2-2.1-2H8.5Zm1.4-2.9h.3c.6 0 1 .3 1 .9s-.4.9-1 .9h-.3Zm3.3 4.9h1.4v-2h.4c1.3 0 2.2-.8 2.2-2s-.9-2-2.2-2h-1.8Zm1.4-4.9h.4c.6 0 1 .3 1 .9s-.4.9-1 .9h-.4Zm3.2 4.9h1.4v-1.9h1.6v-1.2h-1.6v-.9h1.8V10.3h-3.2Z"/></svg></span>
+                <span>{{ labels.downloadPdf }}</span>
               </button>
               <div class="font-controls">
                 <div class="font-chip">
@@ -695,6 +757,10 @@
               <span class="tool-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 8V3H6v5h12Zm-2-3v1H8V5Zm2 4H6a4 4 0 0 0-4 4v4h4v4h12v-4h4v-4a4 4 0 0 0-4-4Zm-2 10H8v-5h8Zm2-7.5a1.25 1.25 0 1 1 0 2.5 1.25 1.25 0 0 1 0-2.5Z"/></svg></span>
               <span>{{ labels.printSection }}</span>
             </button>
+            <button class="section-tool-btn section-tool-btn--pdf" @click="downloadSectionPdf('resources', sections.resources.title)">
+              <span class="tool-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 2H7a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7Zm0 2.5L16.5 7H14ZM8.5 13.5h1.6c1.3 0 2.1-.8 2.1-2s-.8-2-2.1-2H8.5Zm1.4-2.9h.3c.6 0 1 .3 1 .9s-.4.9-1 .9h-.3Zm3.3 4.9h1.4v-2h.4c1.3 0 2.2-.8 2.2-2s-.9-2-2.2-2h-1.8Zm1.4-4.9h.4c.6 0 1 .3 1 .9s-.4.9-1 .9h-.4Zm3.2 4.9h1.4v-1.9h1.6v-1.2h-1.6v-.9h1.8V10.3h-3.2Z"/></svg></span>
+              <span>{{ labels.downloadPdf }}</span>
+            </button>
             <div class="font-controls">
               <div class="font-chip">
                 <span class="tool-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 20h2.6l1.7-4h7.4l1.7 4H20L13.7 5h-3.4Zm5.1-6 2.9-6.9 2.9 6.9ZM3 4v2h4.5v10h2V6H14V4Z"/></svg></span>
@@ -761,6 +827,10 @@
               <button class="section-tool-btn section-tool-btn--print" @click="printSection('post-hajj')">
                 <span class="tool-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 8V3H6v5h12Zm-2-3v1H8V5Zm2 4H6a4 4 0 0 0-4 4v4h4v4h12v-4h4v-4a4 4 0 0 0-4-4Zm-2 10H8v-5h8Zm2-7.5a1.25 1.25 0 1 1 0 2.5 1.25 1.25 0 0 1 0-2.5Z"/></svg></span>
                 <span>{{ labels.printSection }}</span>
+              </button>
+              <button class="section-tool-btn section-tool-btn--pdf" @click="downloadSectionPdf('post-hajj', sections.postHajj.title)">
+                <span class="tool-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 2H7a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7Zm0 2.5L16.5 7H14ZM8.5 13.5h1.6c1.3 0 2.1-.8 2.1-2s-.8-2-2.1-2H8.5Zm1.4-2.9h.3c.6 0 1 .3 1 .9s-.4.9-1 .9h-.3Zm3.3 4.9h1.4v-2h.4c1.3 0 2.2-.8 2.2-2s-.9-2-2.2-2h-1.8Zm1.4-4.9h.4c.6 0 1 .3 1 .9s-.4.9-1 .9h-.4Zm3.2 4.9h1.4v-1.9h1.6v-1.2h-1.6v-.9h1.8V10.3h-3.2Z"/></svg></span>
+                <span>{{ labels.downloadPdf }}</span>
               </button>
               <div class="font-controls">
                 <div class="font-chip">
@@ -894,7 +964,8 @@
 </template>
 
 <script setup>
-import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
+import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue';
+import { jsPDF } from 'jspdf';
 import hajjUmrahContent from '../../data/hajj-umrah-content.json';
 
 const content = hajjUmrahContent;
@@ -927,6 +998,7 @@ const MIN_SECTION_FONT_SCALE = 0.9;
 const MAX_SECTION_FONT_SCALE = 1.2;
 const SECTION_FONT_STEP = 0.08;
 const sectionIds = ['basics', 'umrah', 'hajj', 'mistakes', 'health', 'rules', 'spiritual', 'resources', 'post-hajj'];
+const SEARCH_SKIP_SELECTOR = '.hero, .section-tools, .ai-summary-panel, .ai-summary-fab, button, a, input, textarea, select, svg, mark[data-search-highlight], script, style, noscript';
 
 const activeFaq = ref(0);
 const copiedSectionId = ref(null);
@@ -934,6 +1006,10 @@ const printSectionId = ref(null);
 const isDarkMode = ref(false);
 const isAiSummaryOpen = ref(false);
 const isAiSummaryMaximized = ref(false);
+const searchQuery = ref('');
+const searchMatchCount = ref(0);
+const searchMatchedSectionIds = ref([]);
+const searchFirstMatchSectionId = ref('');
 const sectionFontScales = ref(
   sectionIds.reduce((accumulator, id) => {
     accumulator[id] = DEFAULT_SECTION_FONT_SCALE;
@@ -943,6 +1019,22 @@ const sectionFontScales = ref(
 
 let copyFeedbackTimeout;
 let themeObserver;
+
+const searchableSectionIds = ['guides', 'basics', 'spiritual', 'umrah', 'hajj', 'rules', 'health', 'mistakes', 'resources', 'post-hajj', 'shorts'];
+
+const searchMatchLabel = computed(() => {
+  if (!searchQuery.value) {
+    return 'Type one or more keywords to search the guide';
+  }
+
+  if (!searchMatchCount.value) {
+    return 'No matches found';
+  }
+
+  const sectionCount = searchMatchedSectionIds.value.length;
+  const sectionLabel = sectionCount ? ` across ${sectionCount} section${sectionCount === 1 ? '' : 's'}` : '';
+  return `${searchMatchCount.value} match${searchMatchCount.value === 1 ? '' : 'es'} highlighted${sectionLabel}`;
+});
 
 const summaryMetrics = computed(() => {
   const text = [summarySection.intro, ...summarySection.points, summarySection.footer].join(' ').trim();
@@ -960,6 +1052,147 @@ const scrollToSection = (id) => {
   if (element) {
     element.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
+};
+
+const clearSearchHighlights = (root) => {
+  if (!root) {
+    return;
+  }
+
+  root.querySelectorAll('mark[data-search-highlight]').forEach((mark) => {
+    const parent = mark.parentNode;
+    if (!parent) {
+      return;
+    }
+
+    parent.replaceChild(document.createTextNode(mark.textContent ?? ''), mark);
+    parent.normalize();
+  });
+};
+
+const escapeRegExp = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+const applySearchHighlights = () => {
+  const root = document.querySelector('.main-container');
+  if (!root) {
+    searchMatchCount.value = 0;
+    searchMatchedSectionIds.value = [];
+    searchFirstMatchSectionId.value = '';
+    return;
+  }
+
+  clearSearchHighlights(root);
+
+  const term = searchQuery.value.trim();
+  if (!term) {
+    searchMatchCount.value = 0;
+    searchMatchedSectionIds.value = [];
+    searchFirstMatchSectionId.value = '';
+    return;
+  }
+
+  const terms = Array.from(new Set(
+    term
+      .split(/\s+/)
+      .map((item) => item.trim())
+      .filter((item) => item.length >= 2)
+  ));
+
+  if (!terms.length) {
+    searchMatchCount.value = 0;
+    searchMatchedSectionIds.value = [];
+    searchFirstMatchSectionId.value = '';
+    return;
+  }
+
+  const pattern = new RegExp(`(${terms.map(escapeRegExp).join('|')})`, 'gi');
+  const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+    acceptNode(node) {
+      const parent = node.parentElement;
+
+      if (!parent || !node.textContent?.trim()) {
+        return NodeFilter.FILTER_REJECT;
+      }
+
+      if (parent.closest(SEARCH_SKIP_SELECTOR)) {
+        return NodeFilter.FILTER_REJECT;
+      }
+
+      return NodeFilter.FILTER_ACCEPT;
+    }
+  });
+
+  const textNodes = [];
+  let currentNode = walker.nextNode();
+
+  while (currentNode) {
+    textNodes.push(currentNode);
+    currentNode = walker.nextNode();
+  }
+
+  let matches = 0;
+  const matchedSections = new Set();
+  let firstMatchSectionId = '';
+
+  textNodes.forEach((node) => {
+    const text = node.textContent ?? '';
+    if (!pattern.test(text)) {
+      pattern.lastIndex = 0;
+      return;
+    }
+
+    pattern.lastIndex = 0;
+
+    const fragment = document.createDocumentFragment();
+    let lastIndex = 0;
+
+    text.replace(pattern, (match, _group, offset) => {
+      if (offset > lastIndex) {
+        fragment.appendChild(document.createTextNode(text.slice(lastIndex, offset)));
+      }
+
+      const mark = document.createElement('mark');
+      mark.dataset.searchHighlight = 'true';
+      mark.textContent = match;
+      fragment.appendChild(mark);
+      matches += 1;
+
+      const section = node.parentElement?.closest('section[id]');
+      const sectionId = section?.id;
+      if (sectionId) {
+        matchedSections.add(sectionId);
+        if (!firstMatchSectionId) {
+          firstMatchSectionId = sectionId;
+        }
+      }
+
+      lastIndex = offset + match.length;
+
+      return match;
+    });
+
+    if (lastIndex < text.length) {
+      fragment.appendChild(document.createTextNode(text.slice(lastIndex)));
+    }
+
+    node.parentNode?.replaceChild(fragment, node);
+  });
+
+  searchMatchCount.value = matches;
+  searchMatchedSectionIds.value = searchableSectionIds.filter((id) => matchedSections.has(id));
+  searchFirstMatchSectionId.value = firstMatchSectionId;
+};
+
+const clearSearch = () => {
+  searchQuery.value = '';
+};
+
+const focusFirstSearchResult = () => {
+  if (!searchFirstMatchSectionId.value) {
+    return;
+  }
+
+  scrollToSection(searchFirstMatchSectionId.value);
 };
 
 const toggleFaq = (index) => {
@@ -993,6 +1226,12 @@ const getSectionDescription = (sectionId) => {
   return section?.querySelector('.sec-desc')?.textContent?.trim() ?? '';
 };
 
+const slugifyFileName = (value) => value
+  .toLowerCase()
+  .replace(/[^a-z0-9]+/g, '-')
+  .replace(/^-+|-+$/g, '')
+  .replace(/-{2,}/g, '-');
+
 const buildSectionText = (sectionId) => {
   const section = getSectionElement(sectionId);
   if (!section) {
@@ -1003,6 +1242,153 @@ const buildSectionText = (sectionId) => {
   clone.querySelectorAll('[data-section-tools], .image-credit').forEach((element) => element.remove());
 
   return clone.innerText.replace(/\n{3,}/g, '\n\n').trim();
+};
+
+const normalizePdfText = (value) => value.replace(/\s+/g, ' ').trim();
+
+const buildSectionPdfBlocks = (sectionId) => {
+  const section = getSectionElement(sectionId);
+  if (!section) {
+    return [];
+  }
+
+  const clone = section.cloneNode(true);
+  clone.querySelectorAll('[data-section-tools], .image-credit, .sec-head, .eyebrow, .sec-title, .sec-desc').forEach((element) => {
+    element.remove();
+  });
+
+  const blocks = [];
+  const pushBlock = (kind, lines) => {
+    const text = (Array.isArray(lines) ? lines : [lines])
+      .map((line) => normalizePdfText(String(line ?? '')))
+      .filter(Boolean)
+      .join('\n');
+
+    if (text) {
+      blocks.push({ kind, text });
+    }
+  };
+
+  const readText = (element, selector) => normalizePdfText(selector ? (element.querySelector(selector)?.textContent ?? '') : (element?.textContent ?? ''));
+
+  const addCardCollection = (container, noteLabel = 'Note') => {
+    container.querySelectorAll('article').forEach((article) => {
+      const number = readText(article, '.card-num, .tl-num, .day-date');
+      const title = readText(article, 'h3');
+      const body = readText(article, 'p');
+      const note = readText(article, '.card-note, .type-note, .day-reminder, .tl-tip, .section-note, .resource-url');
+      const reference = readText(article, '.tl-ref, .day-ref');
+
+      pushBlock('body', [
+        number && title ? `${number}. ${title}` : (title || number),
+        body,
+        note ? `${noteLabel}: ${note}` : '',
+        reference ? `Reference: ${reference}` : ''
+      ]);
+    });
+  };
+
+  Array.from(clone.children).forEach((child) => {
+    if (
+      child.classList.contains('sec-header-with-image')
+      || child.matches('[data-section-tools], .sec-image')
+    ) {
+      return;
+    }
+
+    if (child.classList.contains('cards-grid')) {
+      addCardCollection(child);
+      return;
+    }
+
+    if (child.classList.contains('types-grid')) {
+      addCardCollection(child);
+      return;
+    }
+
+    if (child.classList.contains('tl')) {
+      addCardCollection(child, 'Reminder');
+      return;
+    }
+
+    if (child.classList.contains('days-grid')) {
+      addCardCollection(child, 'Reminder');
+      return;
+    }
+
+    if (child.classList.contains('rules-grid')) {
+      child.querySelectorAll('.rules-card').forEach((card) => {
+        const heading = readText(card, '.rules-hdr');
+        const items = Array.from(card.querySelectorAll('.rules-list li')).map((item) => `- ${readText(item)}`);
+        pushBlock('body', [heading, ...items]);
+      });
+      return;
+    }
+
+    if (child.classList.contains('resource-grid')) {
+      child.querySelectorAll('.resource-card').forEach((card) => {
+        pushBlock('body', [
+          readText(card, '.resource-label'),
+          readText(card, 'h3'),
+          readText(card, 'p'),
+          readText(card, '.resource-url')
+        ]);
+      });
+      return;
+    }
+
+    if (child.classList.contains('reference-panel')) {
+      const heading = readText(child, 'h4');
+      if (heading) {
+        pushBlock('heading', heading);
+      }
+      child.querySelectorAll('.reference-item').forEach((item) => {
+        pushBlock('reference', [
+          readText(item, 'strong'),
+          readText(item, 'span')
+        ]);
+      });
+      return;
+    }
+
+    if (child.classList.contains('faq-wrap')) {
+      const heading = readText(child, 'h4');
+      if (heading) {
+        pushBlock('heading', heading);
+      }
+      child.querySelectorAll('.faq-item').forEach((item) => {
+        pushBlock('body', [
+          `Q: ${readText(item, '.faq-q span')}`,
+          `A: ${readText(item, '.faq-a p')}`,
+          readText(item, '.faq-ref') ? `Reference: ${readText(item, '.faq-ref')}` : ''
+        ]);
+      });
+      return;
+    }
+
+    if (child.classList.contains('conclusion') || child.classList.contains('farewell') || child.classList.contains('disclaimer-box') || child.classList.contains('warning-box')) {
+      pushBlock('body', [
+        readText(child, 'h4'),
+        readText(child, '.farewell-arabic'),
+        readText(child, '.ref-text, p'),
+        ...Array.from(child.querySelectorAll('li')).map((item) => `- ${readText(item)}`),
+        readText(child, 'cite, .closing-ref')
+      ]);
+      return;
+    }
+
+    if (child.classList.contains('section-note')) {
+      pushBlock('note', child.textContent ?? '');
+      return;
+    }
+
+    const fallbackText = normalizePdfText(child.textContent ?? '');
+    if (fallbackText) {
+      pushBlock('body', fallbackText);
+    }
+  });
+
+  return blocks;
 };
 
 const fallbackCopyText = (text) => {
@@ -1058,6 +1444,161 @@ const printSection = (sectionId) => {
   window.setTimeout(() => {
     window.print();
   }, 80);
+};
+
+const downloadSectionPdf = (sectionId, title) => {
+  const bodyBlocks = buildSectionPdfBlocks(sectionId);
+  if (!bodyBlocks.length) {
+    return;
+  }
+
+  const pdf = new jsPDF({
+    orientation: 'portrait',
+    unit: 'pt',
+    format: 'a4'
+  });
+
+  const pageWidth = pdf.internal.pageSize.getWidth();
+  const pageHeight = pdf.internal.pageSize.getHeight();
+  const margin = 52;
+  const contentWidth = pageWidth - (margin * 2);
+  const pageInnerBottom = pageHeight - margin;
+  const baseLineHeight = 18;
+  let cursorY = margin;
+  const baseUrl = typeof window !== 'undefined' ? window.location.href.split('#')[0] : '';
+  const sectionUrl = baseUrl ? `${baseUrl}#${sectionId}` : '';
+
+  const ensureSpace = (heightNeeded = baseLineHeight) => {
+    if (cursorY + heightNeeded <= pageInnerBottom) {
+      return;
+    }
+
+    pdf.addPage();
+    cursorY = margin;
+  };
+
+  const addWrappedText = (content, options = {}) => {
+    const {
+      fontSize = 12,
+      fontStyle = 'normal',
+      color = [28, 40, 34],
+      gapAfter = 14,
+      lineHeight = baseLineHeight
+    } = options;
+
+    pdf.setFont('helvetica', fontStyle);
+    pdf.setFontSize(fontSize);
+    pdf.setTextColor(...color);
+    pdf.setLineHeightFactor(lineHeight / fontSize);
+
+    const lines = pdf.splitTextToSize(content, contentWidth);
+    const blockHeight = lines.length * lineHeight;
+
+    ensureSpace(blockHeight + gapAfter);
+
+    pdf.text(lines, margin, cursorY);
+    cursorY += blockHeight + gapAfter;
+  };
+
+  pdf.setDrawColor(23, 102, 95);
+  pdf.setFillColor(237, 246, 245);
+  pdf.roundedRect(margin, cursorY, contentWidth, 56, 14, 14, 'FD');
+  pdf.setFont('helvetica', 'bold');
+  pdf.setFontSize(11);
+  pdf.setTextColor(23, 102, 95);
+  pdf.text('Islamic Connect', margin + 16, cursorY + 20);
+  pdf.setFont('helvetica', 'normal');
+  pdf.setFontSize(9.5);
+  pdf.setTextColor(93, 109, 98);
+  pdf.text('Hajj & Umrah Guide', margin + 16, cursorY + 37);
+  cursorY += 76;
+
+  pdf.setFont('helvetica', 'bold');
+  pdf.setFontSize(22);
+  pdf.setTextColor(15, 73, 68);
+  const titleLines = pdf.splitTextToSize(title, contentWidth);
+  ensureSpace(titleLines.length * 26 + 12);
+  pdf.text(titleLines, margin, cursorY);
+  cursorY += (titleLines.length * 26) + 10;
+
+  const description = getSectionDescription(sectionId);
+  if (description) {
+    addWrappedText(description, {
+      fontSize: 11.5,
+      color: [93, 109, 98],
+      gapAfter: 18,
+      lineHeight: 17
+    });
+  }
+
+  pdf.setDrawColor(210, 227, 223);
+  pdf.line(margin, cursorY, margin + contentWidth, cursorY);
+  cursorY += 18;
+
+  bodyBlocks.forEach((block) => {
+    if (block.kind === 'heading') {
+      addWrappedText(block.text, {
+        fontSize: 13,
+        fontStyle: 'bold',
+        color: [15, 73, 68],
+        gapAfter: 10,
+        lineHeight: 17
+      });
+      return;
+    }
+
+    if (block.kind === 'reference') {
+      addWrappedText(block.text, {
+        fontSize: 10.5,
+        color: [93, 109, 98],
+        gapAfter: 12,
+        lineHeight: 15
+      });
+      return;
+    }
+
+    if (block.kind === 'note') {
+      addWrappedText(block.text, {
+        fontSize: 11,
+        color: [93, 109, 98],
+        gapAfter: 14,
+        lineHeight: 16
+      });
+      return;
+    }
+
+    addWrappedText(block.text, {
+      fontSize: 11.5,
+      color: [28, 40, 34],
+      gapAfter: 14,
+      lineHeight: 17
+    });
+  });
+
+  if (sectionUrl) {
+    cursorY += 4;
+    ensureSpace(30);
+    pdf.setDrawColor(210, 227, 223);
+    pdf.line(margin, cursorY, margin + contentWidth, cursorY);
+    cursorY += 18;
+    addWrappedText(`Section link: ${sectionUrl}`, {
+      fontSize: 10,
+      color: [93, 109, 98],
+      gapAfter: 0,
+      lineHeight: 14
+    });
+  }
+
+  const pageCount = pdf.getNumberOfPages();
+  for (let pageNumber = 1; pageNumber <= pageCount; pageNumber += 1) {
+    pdf.setPage(pageNumber);
+    pdf.setFont('helvetica', 'normal');
+    pdf.setFontSize(9.5);
+    pdf.setTextColor(120, 132, 125);
+    pdf.text(`${title}  •  Page ${pageNumber} of ${pageCount}`, margin, pageHeight - 24);
+  }
+
+  pdf.save(`${slugifyFileName(title)}.pdf`);
 };
 
 const openAiSummary = () => {
@@ -1134,8 +1675,24 @@ onMounted(() => {
   });
 });
 
+watch(searchQuery, async () => {
+  await nextTick();
+  applySearchHighlights();
+});
+
+watch(activeFaq, async () => {
+  if (!searchQuery.value) {
+    return;
+  }
+
+  await nextTick();
+  applySearchHighlights();
+});
+
 onBeforeUnmount(() => {
   window.removeEventListener('afterprint', clearPrintTarget);
+
+  clearSearchHighlights(document.querySelector('.main-container'));
 
   if (themeObserver) {
     themeObserver.disconnect();
@@ -1151,10 +1708,10 @@ onBeforeUnmount(() => {
 
 <style scoped>
 .pg {
-  --green: #1b5b39;
-  --green-dark: #123622;
-  --green-soft: #eef6ef;
-  --green-line: #d7e6d8;
+  --green: #17665f;
+  --green-dark: #0f4944;
+  --green-soft: #edf6f5;
+  --green-line: #d2e3df;
   --paper: #fffdf9;
   --cream: #f6f0e7;
   --sand: #e9dfd0;
@@ -1164,6 +1721,14 @@ onBeforeUnmount(() => {
   --text-soft: #77857c;
   --danger: #8a4c33;
   --danger-soft: #fbf2ee;
+  --hero-panel-bg: rgba(255, 255, 255, 0.74);
+  --hero-panel-border: rgba(18, 54, 34, 0.08);
+  --hero-input-bg: rgba(255, 255, 255, 0.92);
+  --hero-input-border: rgba(18, 54, 34, 0.12);
+  --hero-pill-bg: rgba(255, 255, 255, 0.88);
+  --hero-highlight-bg: #f4e39b;
+  --hero-highlight-text: #233026;
+  --page-gutter: clamp(1rem, 2.4vw, 2.8rem);
   --shadow-sm: 0 8px 24px rgba(18, 54, 34, 0.06);
   --shadow-md: 0 18px 42px rgba(18, 54, 34, 0.1);
 
@@ -1177,9 +1742,9 @@ onBeforeUnmount(() => {
 }
 
 .pg.is-dark {
-  --green: #69c6a2;
+  --green: #4a9b92;
   --green-dark: #f2f7f4;
-  --green-soft: rgba(105, 198, 162, 0.14);
+  --green-soft: rgba(74, 155, 146, 0.16);
   --green-line: rgba(255, 255, 255, 0.12);
   --paper: #232529;
   --cream: #1c1f23;
@@ -1190,6 +1755,13 @@ onBeforeUnmount(() => {
   --text-soft: #97a59e;
   --danger: #f0b297;
   --danger-soft: rgba(138, 76, 51, 0.16);
+  --hero-panel-bg: rgba(255, 255, 255, 0.04);
+  --hero-panel-border: rgba(255, 255, 255, 0.1);
+  --hero-input-bg: rgba(16, 19, 22, 0.86);
+  --hero-input-border: rgba(255, 255, 255, 0.12);
+  --hero-pill-bg: rgba(255, 255, 255, 0.05);
+  --hero-highlight-bg: rgba(208, 178, 122, 0.34);
+  --hero-highlight-text: #fff8e8;
   --shadow-sm: 0 10px 24px rgba(0, 0, 0, 0.24);
   --shadow-md: 0 24px 54px rgba(0, 0, 0, 0.34);
   background: linear-gradient(180deg, var(--paper) 0%, var(--cream) 100%);
@@ -1217,7 +1789,42 @@ onBeforeUnmount(() => {
 .pg.is-dark .hero {
   background:
     radial-gradient(circle at top left, rgba(105, 198, 162, 0.1), transparent 34%),
+    radial-gradient(circle at 82% 18%, rgba(208, 178, 122, 0.08), transparent 24%),
     linear-gradient(135deg, rgba(34, 38, 43, 0.98), rgba(27, 30, 34, 0.94));
+}
+
+.pg.is-dark .hero-copy-inner {
+  background: none;
+  box-shadow: none;
+}
+
+.pg.is-dark .hero-tools-panel {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 18px 36px rgba(0, 0, 0, 0.22);
+}
+
+.pg.is-dark .hero-search-field {
+  background: rgba(15, 18, 21, 0.9);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.18);
+}
+
+.pg.is-dark .hero-jump-pill,
+.pg.is-dark .hero-search-clear,
+.pg.is-dark .hero-search-jump-btn,
+.pg.is-dark .hero-search-result-pill,
+.pg.is-dark .hero-btn-secondary {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: transparent;
+  color: var(--text);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.16);
+}
+
+.pg.is-dark .hero-jump-pill:hover,
+.pg.is-dark .hero-jump-pill:focus,
+.pg.is-dark .hero-search-clear:hover,
+.pg.is-dark .hero-search-clear:focus {
+  background: rgba(105, 198, 162, 0.12);
 }
 
 .pg.is-dark .hero-proof-pill,
@@ -1254,15 +1861,21 @@ onBeforeUnmount(() => {
 }
 
 .pg.is-dark .section-tool-btn--whatsapp {
-  color: #84d5aa;
-  border-color: rgba(132, 213, 170, 0.28);
-  background: rgba(132, 213, 170, 0.08);
+  color: #7fc6bc;
+  border-color: rgba(127, 198, 188, 0.28);
+  background: rgba(127, 198, 188, 0.1);
 }
 
 .pg.is-dark .section-tool-btn--print {
   color: #f2f7f4;
   border-color: rgba(255, 255, 255, 0.14);
   background: rgba(255, 255, 255, 0.05);
+}
+
+.pg.is-dark .section-tool-btn--pdf {
+  color: #ffaba3;
+  border-color: rgba(255, 171, 163, 0.26);
+  background: rgba(180, 35, 24, 0.16);
 }
 
 .pg.is-dark .day-head {
@@ -1297,9 +1910,10 @@ onBeforeUnmount(() => {
 }
 
 .main-container {
-  max-width: 1460px;
+  width: 100%;
+  max-width: 1320px;
   margin: 0 auto;
-  padding: 0 2rem 5rem;
+  padding: 0 var(--page-gutter) 5rem;
   display: flex;
   flex-direction: column;
 }
@@ -1379,35 +1993,79 @@ onBeforeUnmount(() => {
 }
 
 .hero {
-  display: grid;
-  grid-template-columns: minmax(0, 1.42fr) minmax(420px, 0.9fr);
-  gap: 3.75rem;
-  align-items: center;
-  padding: 3.75rem 4rem;
+  position: relative;
+  width: calc(100vw - (var(--page-gutter) * 2));
+  margin-left: calc(50% - 50vw + var(--page-gutter));
+  margin-right: calc(50% - 50vw + var(--page-gutter));
+  padding: 0;
   margin-top: 0;
   background:
-    radial-gradient(circle at top left, rgba(233, 223, 208, 0.45), transparent 34%),
-    linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(246, 240, 231, 0.92));
-  border: 1px solid rgba(215, 230, 216, 0.95);
-  border-radius: 34px;
-  box-shadow: var(--shadow-md);
+    radial-gradient(circle at top left, rgba(233, 223, 208, 0.44), transparent 32%),
+    radial-gradient(circle at 82% 18%, rgba(27, 91, 57, 0.1), transparent 26%),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(246, 240, 231, 0.95));
+  border: 0;
+  border-radius: 42px;
+  box-shadow:
+    0 24px 56px rgba(18, 54, 34, 0.1),
+    0 0 0 1px rgba(255, 255, 255, 0.5);
   scroll-margin-top: 7rem;
+  overflow: hidden;
+}
+
+.hero-shell {
+  display: block;
+  padding: clamp(1.7rem, 3vw, 3rem) clamp(1rem, 2vw, 1.6rem);
 }
 
 .hero-copy {
-  max-width: 860px;
+  width: 100%;
   position: relative;
   z-index: 1;
 }
 
+.hero-copy--full {
+  max-width: 1120px;
+  margin: 0 auto;
+}
+
+.hero-copy-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  padding: clamp(1.15rem, 1.8vw, 1.9rem) 0;
+  border-radius: 0;
+  background: none;
+  border: 0;
+  backdrop-filter: none;
+  box-shadow: none;
+}
+
+.hero-heading-block {
+  width: 100%;
+  max-width: 960px;
+  margin: 0 auto;
+  text-align: center;
+}
+
 .hero-arabic {
-  margin: 0 0 0.9rem;
+  margin: 0 0 0.55rem;
   color: var(--green-dark);
-  font-size: 1.8rem;
-  line-height: 1.55;
+  font-size: clamp(1.4rem, 2vw, 1.82rem);
+  line-height: 1.45;
+}
+
+.hero-topline {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-bottom: 0.9rem;
 }
 
 .hero-kicker,
+.hero-search-kicker,
 .eyebrow,
 .resource-label,
 .pdf-label,
@@ -1423,19 +2081,42 @@ onBeforeUnmount(() => {
 }
 
 .hero-kicker {
-  margin-bottom: 0.8rem;
+  margin-bottom: 0;
+}
+
+.hero-search-meta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 34px;
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.82);
+  border: 0;
+  color: var(--green-dark);
+  font-family: system-ui, sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  box-shadow: 0 10px 20px rgba(18, 54, 34, 0.08);
+}
+
+.hero-search-meta--live {
+  border: 1px solid rgba(18, 54, 34, 0.08);
+  background: rgba(255, 255, 255, 0.92);
 }
 
 .hero-title {
-  margin: 0 0 1rem;
-  color: var(--green-dark);
-  max-width: 10.6ch;
-  font-size: clamp(3.15rem, 5.2vw, 5.45rem);
-  line-height: 0.97;
+  margin: 0;
+  color: #123622 !important;
+  max-width: none;
+  width: 100%;
+  font-size: clamp(2.8rem, 4.8vw, 5.6rem);
+  line-height: 1;
   letter-spacing: -0.03em;
   font-style: italic;
   font-weight: 500;
   text-wrap: balance;
+  text-shadow: none;
 }
 
 .hero-subtitle,
@@ -1458,35 +2139,239 @@ onBeforeUnmount(() => {
 }
 
 .hero-subtitle {
-  max-width: 720px;
+  max-width: min(72ch, 100%);
+  font-size: 1.02rem;
+  line-height: 1.8;
+  color: var(--text-muted);
+  margin: 0.95rem auto 0;
+  text-align: center;
 }
 
 .hero-proof {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.7rem;
-  margin-top: 1.15rem;
+  justify-content: center;
+  gap: 0.6rem;
+  margin-top: 1rem;
 }
 
 .hero-proof-pill {
   display: inline-flex;
   align-items: center;
-  padding: 0.5rem 0.8rem;
-  background: rgba(255, 255, 255, 0.84);
-  border: 1px solid var(--green-line);
+  justify-content: center;
+  min-height: 36px;
+  padding: 0.42rem 0.85rem;
   border-radius: 999px;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(18, 54, 34, 0.08);
+  box-shadow: 0 10px 20px rgba(18, 54, 34, 0.06);
   color: var(--green-dark);
   font-family: system-ui, sans-serif;
   font-size: 0.84rem;
-  font-weight: 600;
-  letter-spacing: 0.02em;
+  font-weight: 700;
+  line-height: 1.2;
 }
 
 .hero-actions {
   display: flex;
-  gap: 1rem;
-  margin: 2rem 0 1.8rem;
   flex-wrap: wrap;
+  gap: 0.9rem;
+  margin-top: 1.25rem;
+  justify-content: center;
+}
+
+.hero-tools-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.95rem;
+  margin-top: 1.35rem;
+  padding: 1.15rem;
+  width: 100%;
+  max-width: 980px;
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(18, 54, 34, 0.08);
+  border-radius: 24px;
+  backdrop-filter: blur(14px);
+  box-shadow: 0 20px 38px rgba(18, 54, 34, 0.08);
+}
+
+.hero-search-panel,
+.hero-jump-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.hero-panel-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  text-align: left;
+}
+
+.hero-panel-copy {
+  margin: 0.25rem 0 0;
+  color: var(--text-muted);
+  font-family: system-ui, sans-serif;
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.hero-search-field {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-height: 56px;
+  padding: 0.65rem 0.8rem;
+  background: rgba(255, 255, 255, 0.98);
+  border: 1px solid rgba(18, 54, 34, 0.08);
+  border-radius: 20px;
+  box-shadow: 0 12px 24px rgba(18, 54, 34, 0.05);
+}
+
+.hero-search-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--green);
+  flex-shrink: 0;
+}
+
+.hero-search-icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+.hero-search-input {
+  width: 100%;
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  padding: 0;
+  background: transparent;
+  color: var(--text);
+  font-family: system-ui, sans-serif;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.hero-search-input::placeholder {
+  color: var(--text-soft);
+}
+
+.hero-search-clear {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  min-height: 34px;
+  padding: 0.35rem 0.72rem;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(23, 102, 95, 0.08);
+  color: var(--green-dark);
+  font-family: system-ui, sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+  box-shadow: none;
+}
+
+.hero-search-clear:hover,
+.hero-search-clear:focus {
+  transform: translateY(-1px);
+  background: rgba(23, 102, 95, 0.16);
+}
+
+.hero-search-feedback {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.hero-search-hint,
+.hero-search-status,
+.hero-search-results-label {
+  color: var(--text-muted);
+  font-family: system-ui, sans-serif;
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.hero-search-jump-btn,
+.hero-search-result-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 34px;
+  padding: 0.38rem 0.72rem;
+  border: 1px solid rgba(18, 54, 34, 0.1);
+  border-radius: 999px;
+  background: rgba(23, 102, 95, 0.08);
+  color: var(--green-dark);
+  font-family: system-ui, sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  line-height: 1.2;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.hero-search-jump-btn:hover,
+.hero-search-jump-btn:focus,
+.hero-search-result-pill:hover,
+.hero-search-result-pill:focus {
+  transform: translateY(-1px);
+  background: rgba(23, 102, 95, 0.16);
+}
+
+.hero-search-results {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.hero-search-result-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center;
+}
+
+.hero-jump-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center;
+}
+
+.hero-jump-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 34px;
+  padding: 0.38rem 0.72rem;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.84);
+  color: var(--green-dark);
+  font-family: system-ui, sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  line-height: 1.2;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+  box-shadow: 0 10px 18px rgba(18, 54, 34, 0.06);
+}
+
+.hero-jump-pill:hover,
+.hero-jump-pill:focus {
+  transform: translateY(-1px);
+  background: var(--green-soft);
 }
 
 .hero-btn-primary,
@@ -1550,12 +2435,6 @@ onBeforeUnmount(() => {
   color: var(--green-dark) !important;
 }
 
-.hero-trust {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1rem;
-}
-
 .trust-item,
 .reference-item,
 .resource-url,
@@ -1600,8 +2479,32 @@ onBeforeUnmount(() => {
 }
 
 .hero-visual {
-  min-height: 560px;
+  min-height: clamp(280px, 54vh, 460px);
+  max-height: clamp(280px, 54vh, 460px);
   align-self: stretch;
+  border-radius: 34px;
+  border: 0;
+  box-shadow: 0 22px 40px rgba(18, 54, 34, 0.12);
+}
+
+.hero-visual-badge {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  display: inline-flex;
+  align-items: center;
+  min-height: 38px;
+  padding: 0.45rem 0.85rem;
+  background: rgba(255, 253, 249, 0.9);
+  border: 1px solid rgba(18, 54, 34, 0.08);
+  border-radius: 999px;
+  color: var(--green-dark);
+  font-family: system-ui, sans-serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  box-shadow: 0 12px 24px rgba(18, 54, 34, 0.12);
 }
 
 .hero-visual img,
@@ -1618,6 +2521,14 @@ onBeforeUnmount(() => {
   inset: 0;
   background: linear-gradient(180deg, rgba(18, 54, 34, 0.05), rgba(18, 54, 34, 0.18));
   pointer-events: none;
+}
+
+mark[data-search-highlight] {
+  padding: 0.06em 0.22em;
+  border-radius: 0.32em;
+  background: var(--hero-highlight-bg);
+  color: var(--hero-highlight-text);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.03);
 }
 
 .sec {
@@ -1796,9 +2707,9 @@ onBeforeUnmount(() => {
 }
 
 .section-tool-btn--whatsapp {
-  color: #127955;
-  border-color: rgba(18, 121, 85, 0.34);
-  background: rgba(18, 121, 85, 0.05);
+  color: #17665f;
+  border-color: rgba(23, 102, 95, 0.3);
+  background: rgba(23, 102, 95, 0.06);
 }
 
 .section-tool-btn--copy {
@@ -1811,6 +2722,12 @@ onBeforeUnmount(() => {
   color: #1f2937;
   border-color: rgba(31, 41, 55, 0.18);
   background: rgba(31, 41, 55, 0.04);
+}
+
+.section-tool-btn--pdf {
+  color: #b42318;
+  border-color: rgba(180, 35, 24, 0.24);
+  background: rgba(180, 35, 24, 0.06);
 }
 
 .tool-icon {
@@ -2375,7 +3292,7 @@ onBeforeUnmount(() => {
   padding: 0;
   border: 1px solid rgba(255, 255, 255, 0.96);
   border-radius: 18px;
-  background: radial-gradient(circle at 30% 30%, #2b7a4f, var(--green-dark));
+  background: radial-gradient(circle at 30% 30%, #2b837a, var(--green-dark));
   color: #fff;
   box-shadow: 0 18px 36px rgba(18, 54, 34, 0.26);
   cursor: pointer;
@@ -2540,7 +3457,7 @@ onBeforeUnmount(() => {
 }
 
 .pg.is-dark .hero-title {
-  color: #eef7f1 !important;
+  color: #ffffff !important;
   text-shadow: none !important;
 }
 
@@ -2587,6 +3504,13 @@ onBeforeUnmount(() => {
   border-color: rgba(255, 255, 255, 0.1) !important;
 }
 
+.pg.is-dark .hero-search-meta {
+  background: rgba(255, 255, 255, 0.06) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  color: var(--text) !important;
+  box-shadow: none !important;
+}
+
 .pg.is-dark .type-note,
 .pg.is-dark .day-reminder,
 .pg.is-dark .tl-ref,
@@ -2600,19 +3524,19 @@ onBeforeUnmount(() => {
 
 .pg.is-dark .hero-btn-primary,
 .pg.is-dark .download-btn {
-  background: linear-gradient(135deg, #5fc59e, #3f8b6f) !important;
-  border-color: #5fc59e !important;
-  color: #10251a !important;
-  box-shadow: 0 14px 30px rgba(20, 70, 53, 0.28) !important;
+  background: linear-gradient(135deg, #2f8077, #1e5f59) !important;
+  border-color: #2f8077 !important;
+  color: #ffffff !important;
+  box-shadow: 0 14px 30px rgba(18, 63, 58, 0.32) !important;
 }
 
 .pg.is-dark .hero-btn-primary:hover,
 .pg.is-dark .hero-btn-primary:focus,
 .pg.is-dark .hero-btn-primary:active,
 .pg.is-dark .download-btn:hover {
-  background: linear-gradient(135deg, #78d4af, #4c9e80) !important;
-  border-color: #78d4af !important;
-  color: #10251a !important;
+  background: linear-gradient(135deg, #389087, #236964) !important;
+  border-color: #389087 !important;
+  color: #ffffff !important;
 }
 
 .pg.is-dark .hero-btn-secondary {
@@ -2642,15 +3566,21 @@ onBeforeUnmount(() => {
 }
 
 .pg.is-dark .section-tool-btn--whatsapp {
-  color: #89ddb0 !important;
-  border-color: rgba(137, 221, 176, 0.25) !important;
-  background: rgba(137, 221, 176, 0.08) !important;
+  color: #7fc6bc !important;
+  border-color: rgba(127, 198, 188, 0.26) !important;
+  background: rgba(127, 198, 188, 0.1) !important;
 }
 
 .pg.is-dark .section-tool-btn--print {
   color: #e8efeb !important;
   border-color: rgba(255, 255, 255, 0.12) !important;
   background: rgba(255, 255, 255, 0.05) !important;
+}
+
+.pg.is-dark .section-tool-btn--pdf {
+  color: #ffaba3 !important;
+  border-color: rgba(255, 171, 163, 0.26) !important;
+  background: rgba(180, 35, 24, 0.16) !important;
 }
 
 .pg.is-dark .image-credit {
@@ -2660,10 +3590,28 @@ onBeforeUnmount(() => {
   box-shadow: 0 8px 18px rgba(0, 0, 0, 0.24) !important;
 }
 
+.pg.is-dark .hero-visual-badge {
+  background: rgba(22, 25, 28, 0.82) !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+  color: var(--text) !important;
+}
+
+.pg.is-dark .hero-search-input {
+  color: var(--text) !important;
+}
+
+.pg.is-dark .hero-search-input::placeholder {
+  color: var(--text-soft) !important;
+}
+
+.pg.is-dark .hero-search-hint {
+  color: var(--text-muted) !important;
+}
+
 .pg.is-dark .tl-num {
   background: rgba(255, 255, 255, 0.96) !important;
   border-color: rgba(255, 255, 255, 0.2) !important;
-  color: #5fc59e !important;
+  color: #2f8077 !important;
 }
 
 .pg.is-dark .tl-line {
@@ -2671,7 +3619,7 @@ onBeforeUnmount(() => {
 }
 
 .pg.is-dark .day-head {
-  background: rgba(105, 198, 162, 0.08) !important;
+  background: rgba(74, 155, 146, 0.1) !important;
   border-bottom-color: rgba(255, 255, 255, 0.1) !important;
 }
 
@@ -2742,6 +3690,16 @@ onBeforeUnmount(() => {
     0 0 0 10px rgba(0, 0, 0, 0.18) !important;
 }
 
+.pg .hero-title {
+  color: #1b5b39 !important;
+  -webkit-text-fill-color: #1b5b39 !important;
+}
+
+.pg.is-dark .hero-title {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
 @media (hover: hover) and (pointer: fine) {
   .hover-lift {
     transition: transform 0.2s ease, box-shadow 0.2s ease;
@@ -2802,40 +3760,83 @@ onBeforeUnmount(() => {
 }
 
 @media (max-width: 1024px) {
-  .main-container {
-    padding: 0 1.5rem 4rem;
+  .pg {
+    --page-gutter: 1.25rem;
   }
 
-  .hero,
+  .main-container {
+    padding: 0 var(--page-gutter) 4rem;
+  }
+
+  .hero-shell,
   .sec-header-with-image {
     grid-template-columns: 1fr;
   }
 
   .hero {
-    padding: 2.75rem;
-    gap: 2rem;
+    border-radius: 34px;
+  }
+
+  .hero-copy-inner {
+    padding: 1rem;
   }
 
   .hero-visual {
-    min-height: 420px;
+    min-height: 340px;
+    max-height: 340px;
+  }
+
+  .hero-utility-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-trust {
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   }
 
 }
 
 @media (max-width: 768px) {
+  .pg {
+    --page-gutter: 0.95rem;
+  }
+
   .main-container {
-    padding: 0 1.2rem 3.5rem;
+    padding: 0 var(--page-gutter) 3.5rem;
   }
 
   .hero {
-    padding: 2rem 1.7rem;
     margin-top: 0;
     border-radius: 28px;
   }
 
+  .hero-copy-inner {
+    padding: 0.95rem;
+    border-radius: 24px;
+  }
+
   .hero-title {
     max-width: none;
-    font-size: 2.95rem;
+    font-size: 3rem;
+  }
+
+  .hero-subtitle {
+    max-width: 100%;
+  }
+
+  .hero-topline {
+    align-items: center;
+    justify-content: center;
+  }
+
+  .hero-panel-head {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .hero-utility-grid {
+    margin-top: 1.35rem;
   }
 
   .hero-actions {
@@ -2843,13 +3844,27 @@ onBeforeUnmount(() => {
   }
 
   .hero-proof {
-    justify-content: flex-start;
+    justify-content: center;
   }
 
   .hero-btn-primary,
   .hero-btn-secondary,
   .download-btn {
     width: 100%;
+  }
+
+  .hero-search-panel,
+  .hero-jump-panel {
+    padding: 0.95rem;
+    border-radius: 20px;
+  }
+
+  .hero-search-field {
+    min-height: 54px;
+  }
+
+  .hero-trust {
+    grid-template-columns: 1fr;
   }
 
   .section-tools {
@@ -2924,8 +3939,54 @@ onBeforeUnmount(() => {
     font-size: 2.25rem;
   }
 
+  .hero-subtitle {
+    max-width: 100%;
+  }
+
   .hero {
-    padding: 1.35rem;
+    border-radius: 24px;
+  }
+
+  .hero-copy-inner {
+    padding: 0.85rem;
+  }
+
+  .hero-topline {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .hero-search-meta {
+    min-height: 34px;
+    padding-inline: 0.75rem;
+  }
+
+  .hero-search-field {
+    flex-wrap: wrap;
+    padding: 0.75rem;
+  }
+
+  .hero-search-clear {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .hero-proof {
+    gap: 0.5rem;
+  }
+
+  .hero-proof-pill,
+  .hero-search-meta--live {
+    width: 100%;
+  }
+
+  .hero-jump-pills {
+    gap: 0.5rem;
+  }
+
+  .hero-jump-pill {
+    font-size: 0.84rem;
+    padding: 0.52rem 0.78rem;
   }
 
   .reference-list {
@@ -2977,7 +4038,8 @@ onBeforeUnmount(() => {
   }
 
   .hero-visual {
-    min-height: 360px;
+    min-height: 280px;
+    max-height: 280px;
   }
 }
 

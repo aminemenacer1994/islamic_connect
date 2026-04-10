@@ -10,10 +10,13 @@ use App\Models\BookmarkEvent;
 use App\Models\Folder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 class AyahBookmarkController extends Controller
 {
     use BookmarkSessionAware;
+
+    private static ?bool $bookmarkFolderHasPositionColumn = null;
 
     public function index(Request $request)
     {
@@ -37,12 +40,17 @@ class AyahBookmarkController extends Controller
         $folderId = $request->query('folder_id');
         if ($folderId) {
             $this->applyOwnerScope(Folder::query(), $request)->findOrFail($folderId);
-            $bookmarks = $this->applyOwnerScope(Bookmark::query(), $request)
+            $bookmarksQuery = $this->applyOwnerScope(Bookmark::query(), $request)
                 ->select('bookmarks.*')
                 ->join('bookmark_folder', 'bookmark_folder.bookmark_id', '=', 'bookmarks.id')
                 ->where('bookmark_folder.folder_id', $folderId)
-                ->with(['folders:id,name,color,icon', 'ayah'])
-                ->orderBy('bookmark_folder.position')
+                ->with(['folders:id,name,color,icon', 'ayah']);
+
+            if ($this->supportsBookmarkFolderPosition()) {
+                $bookmarksQuery->orderBy('bookmark_folder.position');
+            }
+
+            $bookmarks = $bookmarksQuery
                 ->orderByDesc('bookmark_folder.created_at')
                 ->get();
 
@@ -262,6 +270,12 @@ class AyahBookmarkController extends Controller
 
     public function reorder(Request $request)
     {
+        if (!$this->supportsBookmarkFolderPosition()) {
+            return response()->json([
+                'message' => 'Bookmark order updated.',
+            ]);
+        }
+
         $validated = $request->validate([
             'folder_id' => 'required|integer',
             'bookmark_ids' => 'required|array',
@@ -299,6 +313,10 @@ class AyahBookmarkController extends Controller
 
     protected function reindexFolderBookmarks(int $folderId): void
     {
+        if (!$this->supportsBookmarkFolderPosition()) {
+            return;
+        }
+
         $rows = DB::table('bookmark_folder')
             ->where('folder_id', $folderId)
             ->orderByDesc('created_at')
@@ -344,5 +362,20 @@ class AyahBookmarkController extends Controller
             abort(403, 'Unable to resolve bookmark owner.');
         }
         return $constraint;
+    }
+
+    private function supportsBookmarkFolderPosition(): bool
+    {
+        if (self::$bookmarkFolderHasPositionColumn !== null) {
+            return self::$bookmarkFolderHasPositionColumn;
+        }
+
+        try {
+            self::$bookmarkFolderHasPositionColumn = Schema::hasColumn('bookmark_folder', 'position');
+        } catch (\Throwable $exception) {
+            self::$bookmarkFolderHasPositionColumn = false;
+        }
+
+        return self::$bookmarkFolderHasPositionColumn;
     }
 }

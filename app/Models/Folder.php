@@ -18,6 +18,7 @@ class Folder extends Model
         'icon',
         'color',
         'is_smart',
+        'position',
         'user_id',
         'session_id',
     ];

@@ -90,6 +90,17 @@ export default {
           cta: "Open Ramadan Guide",
           tags: ["Ramadan", "Fasting", "Daily Plan"],
         },
+        {
+          id: "hajj-umrah-guide",
+          title: "Hajj & Umrah Guide",
+          description:
+            "A source-led Hajj and Umrah guide covering the core rites, practical preparation, key references, and downloadable section tools.",
+          audience: "pilgrimage",
+          level: "All Levels",
+          href: "/hajj",
+          cta: "Open Hajj & Umrah Guide",
+          tags: ["Hajj", "Umrah", "Pilgrimage"],
+        },
       ],
     };
   },
@@ -106,6 +117,7 @@ export default {
         revert: "Reverts",
         youth: "Youth",
         seasonal: "Seasonal",
+        pilgrimage: "Pilgrimage",
       };
       return audienceMap[audience] || "Guide";
     },

@@ -7,13 +7,15 @@ use App\Http\Controllers\Traits\BookmarkSessionAware;
 use App\Models\Folder;
 use App\Models\SmartFolder;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Validation\Rule;
 
 class FolderController extends Controller
 {
     use BookmarkSessionAware;
+
+    private static ?bool $foldersHavePositionColumn = null;
 
     private const RULE_TYPES = ['surah', 'juz', 'revelation_type', 'topic', 'tag'];
 
@@ -35,10 +37,15 @@ class FolderController extends Controller
             return response()->json(['data' => []]);
         }
 
-        $folders = $this->applyOwnerScope(Folder::query(), $request)
+        $foldersQuery = $this->applyOwnerScope(Folder::query(), $request)
             ->with(['smartFolder', 'sharedFolder'])
-            ->withCount('bookmarks')
-            ->orderByRaw('COALESCE(position, 0) ASC')
+            ->withCount('bookmarks');
+
+        if ($this->supportsFolderPosition()) {
+            $foldersQuery->orderByRaw('COALESCE(position, 0) ASC');
+        }
+
+        $folders = $foldersQuery
             ->orderByDesc('updated_at')
             ->get();
 
@@ -90,16 +97,17 @@ class FolderController extends Controller
 
     public function store(Request $request)
     {
-        $user = Auth::user();
-
         $ownerData = $this->ownerPayload($request);
+        if (empty($ownerData)) {
+            abort(403, 'Unable to resolve bookmark owner.');
+        }
 
         $validated = $request->validate([
             'name' => [
                 'required',
                 'string',
                 'max:255',
-                Rule::unique('folders', 'name')->where('user_id', $user->id)->whereNull('deleted_at'),
+                $this->buildFolderNameUniqueRule($ownerData),
             ],
             'icon' => 'nullable|string|max:40',
             'color' => ['nullable', 'string', Rule::in(self::BOOTSTRAP_COLORS)],
@@ -117,19 +125,25 @@ class FolderController extends Controller
 
         $folder = null;
 
-        $positionQuery = $this->applyOwnerScope(Folder::query(), $request);
-        $maxPosition = $positionQuery->max('position');
+        $maxPosition = $this->supportsFolderPosition()
+            ? $this->applyOwnerScope(Folder::query(), $request)->max('position')
+            : null;
 
-        DB::transaction(function () use ($validated, $user, $isSmart, $ownerData, $maxPosition, &$folder) {
-            $folder = Folder::create([
+        DB::transaction(function () use ($validated, $isSmart, $ownerData, $maxPosition, &$folder) {
+            $attributes = [
                 'name' => $validated['name'],
                 'icon' => $validated['icon'] ?? null,
                 'color' => $validated['color'] ?? null,
                 'is_smart' => $isSmart,
-                'position' => ($maxPosition ?? -1) + 1,
-                'user_id' => $user->id,
+                'user_id' => $ownerData['user_id'] ?? null,
                 'session_id' => $ownerData['session_id'] ?? null,
-            ]);
+            ];
+
+            if ($this->supportsFolderPosition()) {
+                $attributes['position'] = ($maxPosition ?? -1) + 1;
+            }
+
+            $folder = Folder::create($attributes);
 
             if ($isSmart) {
                 SmartFolder::create([
@@ -156,7 +170,10 @@ class FolderController extends Controller
                 'required',
                 'string',
                 'max:255',
-                Rule::unique('folders', 'name')->where('user_id', $folder->user_id)->whereNull('deleted_at')->ignore($folder->id),
+                $this->buildFolderNameUniqueRule([
+                    'user_id' => $folder->user_id,
+                    'session_id' => $folder->session_id,
+                ], $folder->id),
             ],
             'icon' => 'nullable|string|max:40',
             'color' => ['nullable', 'string', Rule::in(self::BOOTSTRAP_COLORS)],
@@ -263,6 +280,12 @@ class FolderController extends Controller
 
     public function reorder(Request $request)
     {
+        if (!$this->supportsFolderPosition()) {
+            return response()->json([
+                'message' => 'Folder order updated.',
+            ]);
+        }
+
         $validated = $request->validate([
             'folder_ids' => 'required|array',
             'folder_ids.*' => 'integer',
@@ -325,9 +348,14 @@ class FolderController extends Controller
             ]);
         }
 
-        $bookmarks = $folder->bookmarks()
-            ->with(['folders:id,name,color,icon', 'ayah'])
-            ->orderBy('bookmark_folder.position')
+        $bookmarksQuery = $folder->bookmarks()
+            ->with(['folders:id,name,color,icon', 'ayah']);
+
+        if ($this->supportsBookmarkFolderPosition()) {
+            $bookmarksQuery->orderBy('bookmark_folder.position');
+        }
+
+        $bookmarks = $bookmarksQuery
             ->orderByDesc('bookmark_folder.created_at')
             ->get();
 
@@ -335,5 +363,47 @@ class FolderController extends Controller
             'data' => $bookmarks,
             'source' => 'manual',
         ]);
+    }
+
+    private function buildFolderNameUniqueRule(array $ownerData, ?int $ignoreId = null): Rule
+    {
+        $rule = Rule::unique('folders', 'name')->where(function ($query) use ($ownerData) {
+            $query->whereNull('deleted_at');
+
+            if (!empty($ownerData['user_id'])) {
+                $query->where('user_id', $ownerData['user_id']);
+                return;
+            }
+
+            if (!empty($ownerData['session_id'])) {
+                $query->where('session_id', $ownerData['session_id']);
+            }
+        });
+
+        return $ignoreId ? $rule->ignore($ignoreId) : $rule;
+    }
+
+    private function supportsFolderPosition(): bool
+    {
+        if (self::$foldersHavePositionColumn !== null) {
+            return self::$foldersHavePositionColumn;
+        }
+
+        try {
+            self::$foldersHavePositionColumn = Schema::hasColumn('folders', 'position');
+        } catch (\Throwable $exception) {
+            self::$foldersHavePositionColumn = false;
+        }
+
+        return self::$foldersHavePositionColumn;
+    }
+
+    private function supportsBookmarkFolderPosition(): bool
+    {
+        try {
+            return Schema::hasColumn('bookmark_folder', 'position');
+        } catch (\Throwable $exception) {
+            return false;
+        }
     }
 }

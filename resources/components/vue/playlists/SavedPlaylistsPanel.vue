@@ -274,8 +274,10 @@
                     class="btn saved-playlists-toolbar-btn"
                     :disabled="deleteBusy"
                     @click="$emit('toggle-select-all')">
+                    <i
+                        class="bi"
                         :class="allSelected ? 'bi-x-square' : 'bi-check-square'"
-                        aria-hidden="true">
+                        aria-hidden="true"></i>
                     <span>{{ allSelected ? "Unselect" : "Select all" }}</span>
                 </button>
                 <button
@@ -344,6 +346,10 @@
                                 :disabled="deleteBusy"
                                 :aria-label="item.isNowPlaying ? 'Pause ayah audio' : 'Play ayah audio'"
                                 @click="$emit('play-item', item.key)">
+                                <i
+                                    class="bi"
+                                    :class="item.isNowPlaying ? 'bi-pause-fill' : 'bi-play-fill'"
+                                    aria-hidden="true"></i>
                             </button>
                             <button
                                 v-if="item.canMoveUp"
