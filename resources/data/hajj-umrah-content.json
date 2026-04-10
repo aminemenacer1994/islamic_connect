@@ -21,8 +21,8 @@
     "subtitle": "A clear, source-led Hajj and Umrah guide built around the core Hajj & Umrah, common errors, official health requirements, and the references pilgrims return to most.",
     
     "primaryButton": {
-      "label": "Download the guides",
-      "target": "guides"
+      "label": "Begin with Hajj essentials",
+      "target": "basics"
     },
     "secondaryButton": {
       "label": "Start with Umrah",
@@ -175,7 +175,7 @@
     "resources": {
       "eyebrow": "Chapter VIII",
       "title": "Key references and official resources",
-      "description": "These are displayed as reference blocks, with one reference per card, so the page behaves more like a study guide than a link directory. The PDF buttons above remain downloadable."
+      "description": "The content in this guide is retrieved from five trusted Islamic sources only: Quran.com, Sunnah.com, IslamQA, the Nusuk Platform, and the Saudi Ministry of Health."
     },
     "postHajj": {
       "eyebrow": "Closing",
@@ -404,34 +404,44 @@
   ],
   "resources": [
     {
-      "label": "Official planning",
+      "label": "Official Saudi government",
       "title": "Nusuk Platform",
-      "desc": "The official Saudi government platform for planning Hajj and Umrah, including visa applications, permits, and booking services.",
-      "url": "https://www.nusuk.sa/en"
+      "authority": "Official Saudi government",
+      "desc": "Official Saudi government platform used for Hajj and Umrah planning, permits, visas, and provider information.",
+      "url": "https://www.nusuk.sa/en",
+      "display": "Official Saudi government"
     },
     {
-      "label": "Official health",
+      "label": "Official health authority",
       "title": "Saudi Ministry of Health - Pilgrim's Health",
-      "desc": "The official source for all health requirements, vaccinations, and public health guidance for pilgrims.",
-      "url": "https://www.moh.gov.sa/en/HealthAwareness/Pilgrims-Health/Pages/default.aspx"
+      "authority": "Official health authority",
+      "desc": "Official health authority for pilgrim vaccination rules, health requirements, and seasonal medical guidance.",
+      "url": "https://www.moh.gov.sa/en/HealthAwareness/Pilgrims-Health/Pages/default.aspx",
+      "display": "Official health authority"
     },
     {
-      "label": "Scholarly Reference",
-      "title": "Islam Question & Answer (IslamQA)",
-      "desc": "Educational website supervised by Shaykh Muhammad Salih Al-Munajjid, providing authoritative answers to Islamic questions based on the Qur'an and Sunnah.",
-      "url": "https://islamqa.info/en"
+      "label": "Islamic Q&A",
+      "title": "IslamQA",
+      "authority": "Islamic Q&A",
+      "desc": "Islamic question-and-answer reference used for issue-based explanations grounded in Qur'an and Sunnah.",
+      "url": "https://islamqa.info/en",
+      "display": "Islamic Q&A"
     },
     {
       "label": "Hadith Reference",
       "title": "Sunnah.com",
-      "desc": "Comprehensive online collection of the six major hadith books (Kutub al-Sittah) with English translations and authentic chains of narration.",
-      "url": "https://sunnah.com"
+      "authority": "Hadith reference",
+      "desc": "Primary hadith reference used for the narrations cited across the Hajj and Umrah guidance in this guide.",
+      "url": "https://sunnah.com",
+      "display": "Hadith reference"
     },
     {
-      "label": "Qur'an Reference",
+      "label": "Qur'anic Reference",
       "title": "Quran.com",
-      "desc": "Complete Qur'an with multiple translations, tafsir, and recitations from trusted scholars and reciters.",
-      "url": "https://quran.com"
+      "authority": "Qur'anic reference",
+      "desc": "Primary Qur'anic reference used for the verses cited throughout the guide.",
+      "url": "https://quran.com",
+      "display": "Qur'anic reference"
     }
   ],
   "faqs": [

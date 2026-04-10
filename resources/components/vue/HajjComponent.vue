@@ -26,7 +26,7 @@
                 <div class="hero-panel-head">
                   <div>
                     <span class="hero-search-kicker">Search the guide</span>
-                    <p class="hero-panel-copy">Find a rite, rule, or health topic and jump straight to the first relevant section.</p>
+                    <p class="hero-panel-copy">Find a manasik step, rule, or health topic and jump straight to the first relevant section.</p>
                   </div>
                   <span class="hero-search-meta hero-search-meta--live">{{ searchMatchLabel }}</span>
                 </div>
@@ -39,7 +39,7 @@
                       v-model.trim="searchQuery"
                       type="search"
                       class="hero-search-input"
-                      placeholder="Search rites, health, Ihram, Arafah..."
+                      placeholder="Search manasik, health, Ihram, Arafah..."
                       aria-label="Search this guide"
                       @keydown.enter.prevent="focusFirstSearchResult"
                     >
@@ -64,6 +64,133 @@
           </div>
         </div>
       </header>
+
+      <section id="maps" class="sec fade-in-section route-maps-section">
+        <div class="sec-hd sec-hd-center route-maps-header">
+          <span class="eyebrow">{{ mapsSection.eyebrow }}</span>
+          <h2 class="sec-title">{{ mapsSection.title }}</h2>
+          <div class="sec-ornament"><span class="sec-ornament-dot"></span></div>
+          <p class="sec-desc">{{ mapsSection.description }}</p>
+        </div>
+
+        <div class="route-map-grid">
+          <article
+            ref="umrahMapCard"
+            class="route-map-card hover-lift"
+            :class="{
+              'route-map-card--collapsed': mapPanels.umrah.collapsed,
+              'route-map-card--fullscreen': activeFullscreenMap === 'umrah'
+            }"
+          >
+            <div class="route-map-card-head">
+              <div>
+                <span class="route-map-label">{{ pilgrimageMaps.umrah.badge }}</span>
+                <h3>{{ pilgrimageMaps.umrah.title }}</h3>
+                <p class="route-map-copy">{{ pilgrimageMaps.umrah.description }}</p>
+                <p class="route-map-helper">{{ pilgrimageMaps.umrah.helper }}</p>
+              </div>
+              <div class="route-map-toolbar" data-map-export-ignore="true">
+                <button type="button" class="route-map-action" :aria-label="mapPanels.umrah.collapsed ? 'Show Umrah route map' : 'Minimize Umrah route map'" @click="toggleMapCollapse('umrah')">
+                  <svg v-if="!mapPanels.umrah.collapsed" viewBox="0 0 24 24" fill="currentColor"><path d="M5 11h14v2H5z"/></svg>
+                  <svg v-else viewBox="0 0 24 24" fill="currentColor"><path d="M11 5h2v14h-2zM5 11h14v2H5z"/></svg>
+                </button>
+                <button type="button" class="route-map-action" :aria-label="activeFullscreenMap === 'umrah' ? 'Exit fullscreen Umrah route map' : 'Open Umrah route map in fullscreen'" @click="toggleMapFullscreen('umrah')">
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 3H3v4h2V5h2zm12 0h-4v2h2v2h2zM5 15H3v6h6v-2H5zm16 0h-2v4h-4v2h6z"/></svg>
+                </button>
+                <button type="button" class="route-map-action" aria-label="Download Umrah route map" @click="downloadMapCard('umrah')">
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3v10.17l3.59-3.58L17 11l-5 5-5-5 1.41-1.41L11 13.17V3zM5 19h14v2H5z"/></svg>
+                </button>
+                <button type="button" class="route-map-action" aria-label="Print Umrah route map" @click="printMapCard('umrah')">
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 8V3H6v5h12Zm-2-3v1H8V5Zm2 4H6a4 4 0 0 0-4 4v4h4v4h12v-4h4v-4a4 4 0 0 0-4-4Zm-2 10H8v-5h8Zm2-7.5a1.25 1.25 0 1 1 0 2.5 1.25 1.25 0 0 1 0-2.5Z"/></svg>
+                </button>
+              </div>
+            </div>
+
+            <div v-show="!mapPanels.umrah.collapsed" class="route-map-card-body">
+              <div class="route-map-frame">
+                <div ref="umrahMapElement" class="route-map-canvas"></div>
+              </div>
+              <div class="route-map-note">{{ pilgrimageMaps.umrah.note }}</div>
+
+              <div class="route-map-stops">
+                <button
+                  v-for="stop in pilgrimageMaps.umrah.stops"
+                  :key="stop.id"
+                  type="button"
+                  class="route-map-stop"
+                  @click="focusMapStop('umrah', stop.id)"
+                >
+                  <span class="route-map-stop-num">{{ stop.step }}</span>
+                  <span class="route-map-stop-copy">
+                    <strong>{{ stop.title }}</strong>
+                    <span>{{ stop.detail }}</span>
+                  </span>
+                </button>
+              </div>
+            </div>
+          </article>
+
+          <article
+            ref="hajjMapCard"
+            class="route-map-card hover-lift"
+            :class="{
+              'route-map-card--collapsed': mapPanels.hajj.collapsed,
+              'route-map-card--fullscreen': activeFullscreenMap === 'hajj'
+            }"
+          >
+            <div class="route-map-card-head">
+              <div>
+                <span class="route-map-label">{{ pilgrimageMaps.hajj.badge }}</span>
+                <h3>{{ pilgrimageMaps.hajj.title }}</h3>
+                <p class="route-map-copy">{{ pilgrimageMaps.hajj.description }}</p>
+                <p class="route-map-helper">{{ pilgrimageMaps.hajj.helper }}</p>
+              </div>
+              <div class="route-map-toolbar" data-map-export-ignore="true">
+                <button type="button" class="route-map-action" :aria-label="mapPanels.hajj.collapsed ? 'Show Hajj route map' : 'Minimize Hajj route map'" @click="toggleMapCollapse('hajj')">
+                  <svg v-if="!mapPanels.hajj.collapsed" viewBox="0 0 24 24" fill="currentColor"><path d="M5 11h14v2H5z"/></svg>
+                  <svg v-else viewBox="0 0 24 24" fill="currentColor"><path d="M11 5h2v14h-2zM5 11h14v2H5z"/></svg>
+                </button>
+                <button type="button" class="route-map-action" :aria-label="activeFullscreenMap === 'hajj' ? 'Exit fullscreen Hajj route map' : 'Open Hajj route map in fullscreen'" @click="toggleMapFullscreen('hajj')">
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 3H3v4h2V5h2zm12 0h-4v2h2v2h2zM5 15H3v6h6v-2H5zm16 0h-2v4h-4v2h6z"/></svg>
+                </button>
+                <button type="button" class="route-map-action" aria-label="Download Hajj route map" @click="downloadMapCard('hajj')">
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3v10.17l3.59-3.58L17 11l-5 5-5-5 1.41-1.41L11 13.17V3zM5 19h14v2H5z"/></svg>
+                </button>
+                <button type="button" class="route-map-action" aria-label="Print Hajj route map" @click="printMapCard('hajj')">
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 8V3H6v5h12Zm-2-3v1H8V5Zm2 4H6a4 4 0 0 0-4 4v4h4v4h12v-4h4v-4a4 4 0 0 0-4-4Zm-2 10H8v-5h8Zm2-7.5a1.25 1.25 0 1 1 0 2.5 1.25 1.25 0 0 1 0-2.5Z"/></svg>
+                </button>
+              </div>
+            </div>
+
+            <div v-show="!mapPanels.hajj.collapsed" class="route-map-card-body">
+              <div class="route-map-frame">
+                <div ref="hajjMapElement" class="route-map-canvas"></div>
+              </div>
+              <div class="route-map-note">{{ pilgrimageMaps.hajj.note }}</div>
+
+              <div class="route-map-stops">
+                <button
+                  v-for="stop in pilgrimageMaps.hajj.stops"
+                  :key="stop.id"
+                  type="button"
+                  class="route-map-stop"
+                  @click="focusMapStop('hajj', stop.id)"
+                >
+                  <span class="route-map-stop-num">{{ stop.step }}</span>
+                  <span class="route-map-stop-copy">
+                    <strong>{{ stop.title }}</strong>
+                    <span>{{ stop.detail }}</span>
+                  </span>
+                </button>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <div class="route-map-disclaimer">
+          {{ mapsSection.note }}
+        </div>
+      </section>
 
       <section class="sec fade-in-section" id="guides">
         <div class="sec-hd sec-hd-center">
@@ -179,7 +306,7 @@
           <div class="reference-list">
             <div v-for="item in sectionReferences.basics" :key="item.title" class="reference-item">
               <strong>{{ item.title }}</strong>
-              <span>{{ item.url }}</span>
+              <span>{{ getReferenceDisplayText(item) }}</span>
             </div>
           </div>
         </div>
@@ -282,7 +409,7 @@
           <div class="reference-list">
             <div v-for="item in sectionReferences.umrah" :key="item.title" class="reference-item">
               <strong>{{ item.title }}</strong>
-              <span>{{ item.url }}</span>
+              <span>{{ getReferenceDisplayText(item) }}</span>
             </div>
           </div>
         </div>
@@ -368,7 +495,7 @@
           <div class="reference-list">
             <div v-for="item in sectionReferences.hajj" :key="item.title" class="reference-item">
               <strong>{{ item.title }}</strong>
-              <span>{{ item.url }}</span>
+              <span>{{ getReferenceDisplayText(item) }}</span>
             </div>
           </div>
         </div>
@@ -441,7 +568,7 @@
           <div class="reference-list">
             <div v-for="item in sectionReferences.mistakes" :key="item.title" class="reference-item">
               <strong>{{ item.title }}</strong>
-              <span>{{ item.url }}</span>
+              <span>{{ getReferenceDisplayText(item) }}</span>
             </div>
           </div>
         </div>
@@ -525,7 +652,7 @@
           <div class="reference-list">
             <div v-for="item in sectionReferences.health" :key="item.title" class="reference-item">
               <strong>{{ item.title }}</strong>
-              <span>{{ item.url }}</span>
+              <span>{{ getReferenceDisplayText(item) }}</span>
             </div>
           </div>
         </div>
@@ -624,7 +751,7 @@
           <div class="reference-list">
             <div v-for="item in sectionReferences.rules" :key="item.title" class="reference-item">
               <strong>{{ item.title }}</strong>
-              <span>{{ item.url }}</span>
+              <span>{{ getReferenceDisplayText(item) }}</span>
             </div>
           </div>
         </div>
@@ -698,7 +825,7 @@
           <div class="reference-list">
             <div v-for="item in sectionReferences.spiritual" :key="item.title" class="reference-item">
               <strong>{{ item.title }}</strong>
-              <span>{{ item.url }}</span>
+              <span>{{ getReferenceDisplayText(item) }}</span>
             </div>
           </div>
         </div>
@@ -779,12 +906,23 @@
           </div>
         </div>
 
+        <div class="trusted-sources-callout">
+          <span class="trusted-sources-kicker">Guide content is retrieved from these 5 trusted Islamic sources only</span>
+          <div class="trusted-sources-list">
+            <article v-for="resource in resources" :key="`trusted-${resource.title}`" class="trusted-source-item">
+              <strong>{{ resource.title }}</strong>
+              <span>{{ resource.authority || getResourceDisplayText(resource) }}</span>
+            </article>
+          </div>
+        </div>
+
         <div class="resource-grid">
           <article v-for="resource in resources" :key="resource.title" class="resource-card hover-lift">
             <span class="resource-label">{{ resource.label }}</span>
             <h3>{{ resource.title }}</h3>
+            <div v-if="resource.authority" class="resource-authority">{{ resource.authority }}</div>
             <p>{{ resource.desc }}</p>
-            <div class="resource-url">{{ resource.url }}</div>
+            <div class="resource-url">{{ getResourceDisplayText(resource) }}</div>
           </article>
         </div>
 
@@ -903,6 +1041,16 @@
     </div>
 
     <button
+      v-if="showScrollTop"
+      type="button"
+      class="scroll-top-btn"
+      aria-label="Scroll to top"
+      @click="scrollToTop"
+    >
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 5.2 5.6 11.6l1.4 1.4 4-4V19h2V9l4 4 1.4-1.4z"/></svg>
+    </button>
+
+    <button
       v-if="!isAiSummaryOpen"
       class="ai-summary-fab"
       :aria-label="labels.aiSummaryFab"
@@ -935,17 +1083,6 @@
       </div>
 
       <div class="ai-summary-panel-body">
-        <div class="summary-pills ai-summary-panel-pills">
-          <span class="summary-pill">
-            <span class="tool-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M5 4h14v2H5Zm0 7h14v2H5Zm0 7h10v2H5Z"/></svg></span>
-            {{ summaryMetrics.words }} words
-          </span>
-          <span class="summary-pill">
-            <span class="tool-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1a11 11 0 1 0 11 11A11 11 0 0 0 12 1Zm1 11.4 4.1 2.4-1 1.7L11 13V6h2Z"/></svg></span>
-            {{ summaryMetrics.readTime }} min read
-          </span>
-        </div>
-
         <div class="summary-card ai-summary-card">
           <p class="summary-intro">{{ summarySection.intro }}</p>
           <div class="summary-points">
@@ -964,8 +1101,11 @@
 </template>
 
 <script setup>
-import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue';
+import { computed, nextTick, onBeforeUnmount, onMounted, reactive, ref, watch } from 'vue';
+import html2canvas from 'html2canvas';
 import { jsPDF } from 'jspdf';
+import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
 import hajjUmrahContent from '../../data/hajj-umrah-content.json';
 
 const content = hajjUmrahContent;
@@ -988,7 +1128,7 @@ const labels = {
 };
 const hero = {
   kicker: 'Hajj & Umrah Guide',
-  title: 'The rites and references you actually need.',
+  title: 'The complete Hajj & Umrah guide you actually need.',
   subtitle: '',
   proofPills: [],
   primaryButton: { label: 'Open guide', target: 'guides' },
@@ -1082,6 +1222,104 @@ const closing = {
   message: '',
   ...(content.closing || {})
 };
+const mapsSection = {
+  eyebrow: 'Interactive maps',
+  title: 'Trace the pilgrimage route before you travel',
+  description: 'Hover a stop for context, click a pin to jump to the matching guide section, and expand either map when you want a wider planning view.',
+  note: 'To avoid false precision, the Umrah map pins only the shared fixed manasik sites inside Masjid al-Haram, because miqat points differ by arrival route and hair cutting can happen in different places. The Hajj map pins the principal holy-site stations, while exact tent sectors and walking lanes can vary by permit and crowd management.'
+};
+const pilgrimageMaps = {
+  umrah: {
+    title: 'Umrah route map',
+    badge: 'Shared fixed sites',
+    description: 'A compact map of the shared fixed manasik stations used for Tawaf and Sa’i inside Masjid al-Haram.',
+    helper: 'Use the minus button to close the map and the fullscreen button to open or close it in full view. The default view keeps every stop visible at once.',
+    note: 'The map starts at the common on-site manasik stops. Miqat remains route-dependent, so it is intentionally explained in the written guide rather than pinned as one misleading universal point.',
+    downloadName: 'umrah-route-map',
+    center: [21.4232, 39.8269],
+    maxZoom: 18,
+    focusZoom: 17,
+    stops: [
+      {
+        id: 'kaaba',
+        step: '01',
+        title: 'Kaaba and Tawaf',
+        detail: 'Seven circuits around the Kaaba begin from the Black Stone side and stay within Masjid al-Haram.',
+        coords: [21.42252, 39.82621],
+        target: 'umrah'
+      },
+      {
+        id: 'safa',
+        step: '02',
+        title: 'Safa',
+        detail: 'Sa’i begins at Safa after Tawaf. This point marks the southern start of the Sa’i corridor.',
+        coords: [21.42316, 39.82711],
+        target: 'umrah'
+      },
+      {
+        id: 'marwah',
+        step: '03',
+        title: 'Marwah',
+        detail: 'The seventh leg of Sa’i ends at Marwah before the pilgrim shaves or trims the hair to exit Ihram.',
+        coords: [21.42386, 39.82748],
+        target: 'umrah'
+      }
+    ]
+  },
+  hajj: {
+    title: 'Hajj route map',
+    badge: 'Principal stations',
+    description: 'The main Hajj stations from Mina to Arafah, Muzdalifah, Jamarat, and back to Masjid al-Haram.',
+    helper: 'Use the minus button to close the map and the fullscreen button to open or close it in full view. The default view keeps every stop visible at once.',
+    note: 'This route highlights the principal stations described in the Hajj sequence. Operators can assign different tent sectors and crowd-managed paths, but these are the main pilgrimage locations pilgrims move through.',
+    downloadName: 'hajj-route-map',
+    center: [21.3965, 39.905],
+    maxZoom: 14,
+    focusZoom: 14,
+    stops: [
+      {
+        id: 'mina',
+        step: '01',
+        title: 'Mina',
+        detail: 'Pilgrims spend the 8th of Dhul-Hijjah in Mina before leaving for Arafah the next morning.',
+        coords: [21.41333, 39.89333],
+        target: 'hajj'
+      },
+      {
+        id: 'arafah',
+        step: '02',
+        title: 'Arafah',
+        detail: 'Standing within the boundaries of Arafah on the 9th is the central pillar of Hajj.',
+        coords: [21.35472, 39.98389],
+        target: 'hajj'
+      },
+      {
+        id: 'muzdalifah',
+        step: '03',
+        title: 'Muzdalifah',
+        detail: 'After sunset, pilgrims move here to combine prayers, rest, and collect pebbles.',
+        coords: [21.3925, 39.93778],
+        target: 'hajj'
+      },
+      {
+        id: 'jamarat',
+        step: '04',
+        title: 'Jamarat Bridge',
+        detail: 'Jamrat al-Aqabah is stoned on the 10th, and the three Jamarat are pelted during the Days of Tashriq.',
+        coords: [21.42139, 39.87278],
+        target: 'hajj'
+      },
+      {
+        id: 'haram',
+        step: '05',
+        title: 'Masjid al-Haram',
+        detail: 'Pilgrims return to Makkah for Tawaf al-Ifadah, and later for Tawaf al-Wada before departure.',
+        coords: [21.42252, 39.82621],
+        target: 'hajj'
+      }
+    ]
+  }
+};
 
 const DEFAULT_SECTION_FONT_SCALE = 1;
 const MIN_SECTION_FONT_SCALE = 0.9;
@@ -1096,10 +1334,20 @@ const printSectionId = ref(null);
 const isDarkMode = ref(false);
 const isAiSummaryOpen = ref(false);
 const isAiSummaryMaximized = ref(false);
+const showScrollTop = ref(false);
 const searchQuery = ref('');
 const searchMatchCount = ref(0);
 const searchMatchedSectionIds = ref([]);
 const searchFirstMatchSectionId = ref('');
+const activeFullscreenMap = ref('');
+const umrahMapElement = ref(null);
+const hajjMapElement = ref(null);
+const umrahMapCard = ref(null);
+const hajjMapCard = ref(null);
+const mapPanels = reactive({
+  umrah: { collapsed: false },
+  hajj: { collapsed: false }
+});
 const sectionFontScales = ref(
   sectionIds.reduce((accumulator, id) => {
     accumulator[id] = DEFAULT_SECTION_FONT_SCALE;
@@ -1109,8 +1357,19 @@ const sectionFontScales = ref(
 
 let copyFeedbackTimeout;
 let themeObserver;
+let sectionObserver;
+let mapResizeObserver;
+const leafletMaps = {};
+const leafletMarkers = {
+  umrah: new Map(),
+  hajj: new Map()
+};
+const handleMapWindowResize = () => {
+  refreshLeafletMap('umrah');
+  refreshLeafletMap('hajj');
+};
 
-const searchableSectionIds = ['guides', 'basics', 'spiritual', 'umrah', 'hajj', 'rules', 'health', 'mistakes', 'resources', 'post-hajj', 'shorts'];
+const searchableSectionIds = ['maps', 'guides', 'basics', 'spiritual', 'umrah', 'hajj', 'rules', 'health', 'mistakes', 'resources', 'post-hajj', 'shorts'];
 
 const searchMatchLabel = computed(() => {
   if (!searchQuery.value) {
@@ -1126,22 +1385,19 @@ const searchMatchLabel = computed(() => {
   return `${searchMatchCount.value} match${searchMatchCount.value === 1 ? '' : 'es'} highlighted${sectionLabel}`;
 });
 
-const summaryMetrics = computed(() => {
-  const text = [summarySection.intro, ...summarySection.points, summarySection.footer].join(' ').trim();
-  const words = text ? text.split(/\s+/).filter(Boolean).length : 0;
-  const readTime = Math.max(1, Math.ceil(words / 180));
-
-  return {
-    words,
-    readTime
-  };
-});
-
 const scrollToSection = (id) => {
   const element = document.getElementById(id);
   if (element) {
     element.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
+};
+
+const updateScrollTopVisibility = () => {
+  showScrollTop.value = window.scrollY > Math.max(420, window.innerHeight * 0.55);
+};
+
+const scrollToTop = () => {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 };
 
 const clearSearchHighlights = (root) => {
@@ -1285,6 +1541,465 @@ const focusFirstSearchResult = () => {
   scrollToSection(searchFirstMatchSectionId.value);
 };
 
+const getMapCardElement = (mapId) => (mapId === 'umrah' ? umrahMapCard.value : hajjMapCard.value);
+const getMapContainerElement = (mapId) => (mapId === 'umrah' ? umrahMapElement.value : hajjMapElement.value);
+const wait = (duration = 180) => new Promise((resolve) => window.setTimeout(resolve, duration));
+
+const escapeHtml = (value = '') => String(value)
+  .replace(/&/g, '&amp;')
+  .replace(/</g, '&lt;')
+  .replace(/>/g, '&gt;')
+  .replace(/"/g, '&quot;')
+  .replace(/'/g, '&#39;');
+
+const invalidateLeafletMap = (mapId) => {
+  const map = leafletMaps[mapId];
+  if (!map) {
+    return;
+  }
+
+  window.setTimeout(() => {
+    map.invalidateSize({ pan: false, debounceMoveend: true });
+  }, 160);
+};
+
+const fitMapToRoute = (mapId) => {
+  const map = leafletMaps[mapId];
+  const mapConfig = pilgrimageMaps[mapId];
+  if (!map || !mapConfig?.stops?.length) {
+    return;
+  }
+
+  const bounds = L.latLngBounds(mapConfig.stops.map((stop) => stop.coords));
+  map.fitBounds(bounds, {
+    padding: [48, 48],
+    maxZoom: mapConfig.maxZoom
+  });
+};
+
+const refreshLeafletMap = (mapId) => {
+  [0, 120, 320, 640].forEach((delay) => {
+    window.setTimeout(() => {
+      invalidateLeafletMap(mapId);
+      fitMapToRoute(mapId);
+    }, delay);
+  });
+};
+
+const createRouteMarkerIcon = (step) => L.divIcon({
+  className: 'route-map-marker-wrapper',
+  html: `<span class="route-map-marker">${escapeHtml(step)}</span>`,
+  iconSize: [36, 36],
+  iconAnchor: [18, 18],
+  popupAnchor: [0, -14]
+});
+
+const buildPopupMarkup = (stop) => `
+  <div class="route-map-popup">
+    <span class="route-map-popup-step">Step ${escapeHtml(stop.step)}</span>
+    <strong>${escapeHtml(stop.title)}</strong>
+    <p>${escapeHtml(stop.detail)}</p>
+    <span class="route-map-popup-link">Click to open this part of the guide</span>
+  </div>
+`;
+
+const buildMapExportStyles = (darkMode = false) => `
+  body {
+    margin: 0;
+    padding: 28px;
+    background: ${darkMode ? '#1f2327' : '#fffdf9'};
+    color: ${darkMode ? '#f2f7f4' : '#1c2822'};
+    font-family: Arial, sans-serif;
+  }
+  .map-export {
+    border-radius: 24px;
+    border: 1px solid ${darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(18,54,34,0.08)'};
+    background: ${darkMode ? '#262b30' : '#ffffff'};
+    padding: 24px;
+    box-shadow: 0 22px 44px ${darkMode ? 'rgba(0,0,0,0.28)' : 'rgba(18,54,34,0.1)'};
+  }
+  .map-export-label {
+    display: inline-block;
+    margin-bottom: 12px;
+    padding: 6px 12px;
+    border-radius: 999px;
+    background: ${darkMode ? 'rgba(127,198,188,0.1)' : 'rgba(23,102,95,0.08)'};
+    color: ${darkMode ? '#9ae2d4' : '#17665f'};
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .map-export h1 {
+    margin: 0 0 10px;
+    font-size: 34px;
+    line-height: 1.15;
+    font-style: italic;
+    font-weight: 600;
+  }
+  .map-export p {
+    margin: 0 0 18px;
+    color: ${darkMode ? '#c6d0ca' : '#5d6d62'};
+    font-size: 15px;
+    line-height: 1.7;
+  }
+  .map-export-note {
+    margin-top: 18px;
+    padding: 14px 16px;
+    border-radius: 18px;
+    border: 1px solid ${darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(23,102,95,0.1)'};
+    background: ${darkMode ? 'rgba(255,255,255,0.04)' : 'rgba(23,102,95,0.06)'};
+  }
+  .map-export-stops {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    margin-top: 18px;
+  }
+  .map-export-stop {
+    display: grid;
+    grid-template-columns: 40px minmax(0, 1fr);
+    gap: 12px;
+    align-items: flex-start;
+    padding: 14px;
+    border-radius: 18px;
+    border: 1px solid ${darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(18,54,34,0.08)'};
+    background: ${darkMode ? 'rgba(255,255,255,0.04)' : 'rgba(255,255,255,0.92)'};
+  }
+  .map-export-stop-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: ${darkMode ? '#2f8077' : '#17665f'};
+    color: #fff;
+    font-size: 14px;
+    font-weight: 700;
+  }
+  .map-export-stop strong {
+    display: block;
+    margin-bottom: 4px;
+    font-size: 16px;
+    color: ${darkMode ? '#ffffff' : '#162620'};
+  }
+  .map-export-stop span {
+    color: ${darkMode ? '#c6d0ca' : '#5d6d62'};
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  .map-export-svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    margin-top: 8px;
+    border-radius: 22px;
+    overflow: hidden;
+    background: ${darkMode ? '#202428' : '#edf6f5'};
+  }
+`;
+
+const getMapSchematicGeometry = (mapId, width = 1040, height = 560) => {
+  const stops = pilgrimageMaps[mapId].stops;
+  const paddingX = 82;
+  const paddingY = 70;
+  const lats = stops.map((stop) => stop.coords[0]);
+  const lons = stops.map((stop) => stop.coords[1]);
+  const minLat = Math.min(...lats);
+  const maxLat = Math.max(...lats);
+  const minLon = Math.min(...lons);
+  const maxLon = Math.max(...lons);
+  const latSpan = Math.max(maxLat - minLat, 0.0001);
+  const lonSpan = Math.max(maxLon - minLon, 0.0001);
+
+  return stops.map((stop) => {
+    const x = paddingX + ((stop.coords[1] - minLon) / lonSpan) * (width - (paddingX * 2));
+    const y = paddingY + (((maxLat - stop.coords[0]) / latSpan) * (height - (paddingY * 2)));
+    return { ...stop, x, y };
+  });
+};
+
+const buildMapSchematicSvg = (mapId, darkMode = false) => {
+  const width = 1040;
+  const height = 560;
+  const points = getMapSchematicGeometry(mapId, width, height);
+  const path = points.map((point) => `${point.x.toFixed(1)},${point.y.toFixed(1)}`).join(' ');
+  const background = darkMode ? '#21262b' : '#edf6f5';
+  const panel = darkMode ? '#262c31' : '#ffffff';
+  const stroke = darkMode ? '#2f8077' : '#17665f';
+  const text = darkMode ? '#f2f7f4' : '#17312b';
+  const muted = darkMode ? '#c6d0ca' : '#5d6d62';
+  const halo = darkMode ? '#1f2327' : '#ffffff';
+
+  const labels = points.map((point, index) => {
+    const isLeft = index % 2 === 0;
+    const boxWidth = 180;
+    const boxHeight = 56;
+    const boxX = Math.max(20, Math.min(width - boxWidth - 20, point.x + (isLeft ? 18 : -boxWidth - 18)));
+    const boxY = Math.max(16, Math.min(height - boxHeight - 16, point.y - 28));
+    return `
+      <g>
+        <rect x="${boxX}" y="${boxY}" width="${boxWidth}" height="${boxHeight}" rx="16" fill="${panel}" fill-opacity="${darkMode ? 0.88 : 0.94}" stroke="${darkMode ? 'rgba(255,255,255,0.08)' : 'rgba(18,54,34,0.08)'}" />
+        <text x="${boxX + 14}" y="${boxY + 22}" font-family="Arial, sans-serif" font-size="15" font-weight="700" fill="${text}">${escapeHtml(point.title)}</text>
+        <text x="${boxX + 14}" y="${boxY + 40}" font-family="Arial, sans-serif" font-size="12.5" fill="${muted}">${escapeHtml(point.step)} • ${escapeHtml(point.target)}</text>
+      </g>
+    `;
+  }).join('');
+
+  const dots = points.map((point) => `
+    <g>
+      <circle cx="${point.x}" cy="${point.y}" r="22" fill="${stroke}" stroke="${halo}" stroke-width="4"></circle>
+      <text x="${point.x}" y="${point.y + 5}" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" font-weight="700" fill="#ffffff">${escapeHtml(point.step)}</text>
+    </g>
+  `).join('');
+
+  return `
+    <svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" class="map-export-svg" role="img" aria-label="${escapeHtml(pilgrimageMaps[mapId].title)}">
+      <defs>
+        <linearGradient id="route-bg-${mapId}" x1="0" x2="1" y1="0" y2="1">
+          <stop offset="0%" stop-color="${background}" />
+          <stop offset="100%" stop-color="${panel}" />
+        </linearGradient>
+      </defs>
+      <rect x="0" y="0" width="${width}" height="${height}" rx="24" fill="url(#route-bg-${mapId})"></rect>
+      <g opacity="${darkMode ? '0.12' : '0.08'}">
+        ${Array.from({ length: 10 }).map((_, index) => `<line x1="${60 + (index * 100)}" y1="32" x2="${60 + (index * 100)}" y2="${height - 32}" stroke="${stroke}" stroke-width="1" />`).join('')}
+        ${Array.from({ length: 5 }).map((_, index) => `<line x1="32" y1="${70 + (index * 110)}" x2="${width - 32}" y2="${70 + (index * 110)}" stroke="${stroke}" stroke-width="1" />`).join('')}
+      </g>
+      <polyline points="${path}" fill="none" stroke="${stroke}" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" opacity="0.88"></polyline>
+      ${dots}
+      ${labels}
+    </svg>
+  `;
+};
+
+const buildMapExportMarkup = (mapId, darkMode = isDarkMode.value) => {
+  const mapConfig = pilgrimageMaps[mapId];
+  const stopsMarkup = mapConfig.stops.map((stop) => `
+    <div class="map-export-stop">
+      <span class="map-export-stop-num">${escapeHtml(stop.step)}</span>
+      <div>
+        <strong>${escapeHtml(stop.title)}</strong>
+        <span>${escapeHtml(stop.detail)}</span>
+      </div>
+    </div>
+  `).join('');
+
+  return `
+    <div class="map-export">
+      <span class="map-export-label">${escapeHtml(mapConfig.badge)}</span>
+      <h1>${escapeHtml(mapConfig.title)}</h1>
+      <p>${escapeHtml(mapConfig.description)}</p>
+      ${buildMapSchematicSvg(mapId, darkMode)}
+      <p class="map-export-note">${escapeHtml(mapConfig.note)}</p>
+      <div class="map-export-stops">${stopsMarkup}</div>
+    </div>
+  `;
+};
+
+const renderMapExportCanvas = async (mapId) => {
+  const wrapper = document.createElement('div');
+  wrapper.style.position = 'fixed';
+  wrapper.style.left = '-99999px';
+  wrapper.style.top = '0';
+  wrapper.style.width = '1180px';
+  wrapper.style.padding = '0';
+  wrapper.style.zIndex = '-1';
+  wrapper.innerHTML = `
+    <style>${buildMapExportStyles(isDarkMode.value)}</style>
+    ${buildMapExportMarkup(mapId, isDarkMode.value)}
+  `;
+
+  document.body.appendChild(wrapper);
+  await wait(60);
+
+  const target = wrapper.querySelector('.map-export');
+  const canvas = await html2canvas(target, {
+    backgroundColor: isDarkMode.value ? '#1f2327' : '#fffdf9',
+    scale: 2,
+    logging: false
+  });
+
+  document.body.removeChild(wrapper);
+  return canvas;
+};
+
+const createRouteMap = (mapId) => {
+  const mapConfig = pilgrimageMaps[mapId];
+  const container = getMapContainerElement(mapId);
+
+  if (!mapConfig || !container || leafletMaps[mapId]) {
+    return;
+  }
+
+  const map = L.map(container, {
+    zoomControl: false,
+    attributionControl: false,
+    scrollWheelZoom: false,
+    dragging: true,
+    tap: false
+  });
+
+  leafletMaps[mapId] = map;
+  L.control.zoom({ position: 'bottomright' }).addTo(map);
+  L.control.attribution({ position: 'bottomleft', prefix: false }).addAttribution('&copy; OpenStreetMap contributors').addTo(map);
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    crossOrigin: 'anonymous',
+    attribution: '&copy; OpenStreetMap contributors'
+  }).addTo(map);
+
+  const latLngs = mapConfig.stops.map((stop) => stop.coords);
+  const line = L.polyline(latLngs, {
+    color: '#17665f',
+    weight: 4,
+    opacity: 0.92,
+    lineCap: 'round',
+    lineJoin: 'round'
+  }).addTo(map);
+
+  mapConfig.stops.forEach((stop) => {
+    const marker = L.marker(stop.coords, { icon: createRouteMarkerIcon(stop.step) }).addTo(map);
+    marker.bindTooltip(`${stop.step}. ${stop.title}`, {
+      direction: 'top',
+      offset: [0, -18],
+      opacity: 0.98,
+      className: 'route-map-tooltip'
+    });
+    marker.bindPopup(buildPopupMarkup(stop), {
+      className: 'route-map-popup-shell',
+      closeButton: false,
+      offset: [0, -12],
+      autoPanPadding: [28, 28]
+    });
+
+    marker.on('mouseover', () => {
+      marker.openPopup();
+    });
+
+    marker.on('mouseout', () => {
+      marker.closePopup();
+    });
+
+    marker.on('click', () => {
+      scrollToSection(stop.target);
+      marker.openPopup();
+    });
+
+    leafletMarkers[mapId].set(stop.id, marker);
+  });
+
+  if (latLngs.length > 1) {
+    map.fitBounds(line.getBounds(), {
+      padding: [48, 48],
+      maxZoom: mapConfig.maxZoom
+    });
+  } else {
+    map.setView(mapConfig.center, mapConfig.maxZoom);
+  }
+};
+
+const initRouteMaps = () => {
+  createRouteMap('umrah');
+  createRouteMap('hajj');
+  refreshLeafletMap('umrah');
+  refreshLeafletMap('hajj');
+};
+
+const focusMapStop = (mapId, stopId) => {
+  const stop = pilgrimageMaps[mapId]?.stops.find((item) => item.id === stopId);
+  const marker = leafletMarkers[mapId].get(stopId);
+  const map = leafletMaps[mapId];
+
+  if (!stop || !marker || !map) {
+    return;
+  }
+
+  map.flyTo(stop.coords, pilgrimageMaps[mapId].focusZoom || map.getZoom(), {
+    animate: true,
+    duration: 0.7
+  });
+  marker.openPopup();
+};
+
+const toggleMapCollapse = async (mapId) => {
+  mapPanels[mapId].collapsed = !mapPanels[mapId].collapsed;
+  await nextTick();
+  refreshLeafletMap(mapId);
+};
+
+const handleFullscreenChange = async () => {
+  const fullscreenElement = document.fullscreenElement;
+  if (fullscreenElement === umrahMapCard.value) {
+    activeFullscreenMap.value = 'umrah';
+  } else if (fullscreenElement === hajjMapCard.value) {
+    activeFullscreenMap.value = 'hajj';
+  } else {
+    activeFullscreenMap.value = '';
+  }
+
+  await nextTick();
+  refreshLeafletMap('umrah');
+  refreshLeafletMap('hajj');
+};
+
+const toggleMapFullscreen = async (mapId) => {
+  const card = getMapCardElement(mapId);
+  if (!card) {
+    return;
+  }
+
+  if (document.fullscreenElement === card) {
+    await document.exitFullscreen();
+    return;
+  }
+
+  if (document.fullscreenElement) {
+    await document.exitFullscreen();
+  }
+
+  if (card.requestFullscreen) {
+    await card.requestFullscreen();
+  }
+};
+
+const downloadMapCard = async (mapId) => {
+  const canvas = await renderMapExportCanvas(mapId);
+
+  const link = document.createElement('a');
+  link.href = canvas.toDataURL('image/png');
+  link.download = `${pilgrimageMaps[mapId].downloadName}.png`;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+};
+
+const printMapCard = async (mapId) => {
+  const printWindow = window.open('', '_blank', 'noopener,noreferrer,width=1200,height=900');
+  if (!printWindow) {
+    return;
+  }
+
+  printWindow.document.write(`
+    <html>
+      <head>
+        <title>${escapeHtml(pilgrimageMaps[mapId].title)}</title>
+        <style>${buildMapExportStyles(isDarkMode.value)}</style>
+      </head>
+      <body>
+        ${buildMapExportMarkup(mapId, isDarkMode.value)}
+      </body>
+    </html>
+  `);
+  printWindow.document.close();
+  printWindow.focus();
+  printWindow.addEventListener('load', () => {
+    printWindow.print();
+  }, { once: true });
+};
+
 const toggleFaq = (index) => {
   activeFaq.value = activeFaq.value === index ? null : index;
 };
@@ -1314,6 +2029,34 @@ const getSectionElement = (sectionId) => document.getElementById(sectionId);
 const getSectionDescription = (sectionId) => {
   const section = getSectionElement(sectionId);
   return section?.querySelector('.sec-desc')?.textContent?.trim() ?? '';
+};
+
+const getReferenceDisplayText = (item = {}) => {
+  const url = item.url || '';
+
+  if (url.includes('quran.com')) {
+    return 'Qur\'anic reference';
+  }
+
+  if (url.includes('sunnah.com')) {
+    return 'Hadith reference';
+  }
+
+  return item.display || url.replace(/^https?:\/\//, '').replace(/\/$/, '') || '';
+};
+
+const getResourceDisplayText = (resource = {}) => {
+  const url = resource.url || '';
+
+  if (url === 'https://quran.com') {
+    return 'Qur\'anic reference';
+  }
+
+  if (url === 'https://sunnah.com') {
+    return 'Hadith reference';
+  }
+
+  return resource.display || url.replace(/^https?:\/\//, '').replace(/\/$/, '') || '';
 };
 
 const slugifyFileName = (value) => value
@@ -1722,11 +2465,13 @@ const syncDarkMode = () => {
     || rootTheme === 'dark';
 };
 
-let sectionObserver;
-
 onMounted(() => {
   syncDarkMode();
+  updateScrollTopVisibility();
   window.addEventListener('afterprint', clearPrintTarget);
+  window.addEventListener('resize', handleMapWindowResize);
+  window.addEventListener('scroll', updateScrollTopVisibility, { passive: true });
+  document.addEventListener('fullscreenchange', handleFullscreenChange);
 
   themeObserver = new MutationObserver(() => {
     syncDarkMode();
@@ -1737,6 +2482,18 @@ onMounted(() => {
   }
 
   themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['class', 'data-bs-theme', 'data-theme'] });
+  initRouteMaps();
+
+  if (typeof ResizeObserver !== 'undefined') {
+    mapResizeObserver = new ResizeObserver(() => {
+      refreshLeafletMap('umrah');
+      refreshLeafletMap('hajj');
+    });
+
+    [umrahMapCard.value, hajjMapCard.value, umrahMapElement.value, hajjMapElement.value]
+      .filter(Boolean)
+      .forEach((element) => mapResizeObserver.observe(element));
+  }
 
   const animatedSections = Array.from(document.querySelectorAll('.fade-in-section'));
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -1781,6 +2538,9 @@ watch(activeFaq, async () => {
 
 onBeforeUnmount(() => {
   window.removeEventListener('afterprint', clearPrintTarget);
+  window.removeEventListener('resize', handleMapWindowResize);
+  window.removeEventListener('scroll', updateScrollTopVisibility);
+  document.removeEventListener('fullscreenchange', handleFullscreenChange);
 
   clearSearchHighlights(document.querySelector('.main-container'));
 
@@ -1791,6 +2551,14 @@ onBeforeUnmount(() => {
   if (sectionObserver) {
     sectionObserver.disconnect();
   }
+
+  if (mapResizeObserver) {
+    mapResizeObserver.disconnect();
+  }
+
+  Object.values(leafletMaps).forEach((mapInstance) => {
+    mapInstance?.remove();
+  });
 
   window.clearTimeout(copyFeedbackTimeout);
 });
@@ -1858,6 +2626,7 @@ onBeforeUnmount(() => {
 }
 
 .pg.is-dark .hero,
+.pg.is-dark .route-map-card,
 .pg.is-dark .card,
 .pg.is-dark .type-card,
 .pg.is-dark .day-card,
@@ -1999,6 +2768,105 @@ onBeforeUnmount(() => {
     0 0 0 10px rgba(0, 0, 0, 0.18);
 }
 
+.pg.is-dark .route-map-disclaimer,
+.pg.is-dark .route-map-note,
+.pg.is-dark .route-map-stop {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.pg.is-dark .route-map-label {
+  background: rgba(127, 198, 188, 0.1);
+  color: #9ae2d4;
+}
+
+.pg.is-dark .route-map-copy,
+.pg.is-dark .route-map-helper,
+.pg.is-dark .route-map-note,
+.pg.is-dark .route-map-stop-copy span,
+.pg.is-dark .route-map-disclaimer {
+  color: var(--text-muted);
+}
+
+.pg.is-dark .route-map-card-head h3,
+.pg.is-dark .route-map-stop-copy strong {
+  color: var(--text);
+}
+
+.pg.is-dark .trusted-sources-callout,
+.pg.is-dark .trusted-source-item {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.pg.is-dark .trusted-sources-kicker,
+.pg.is-dark .trusted-source-item strong {
+  color: var(--text);
+}
+
+.pg.is-dark .trusted-source-item span,
+.pg.is-dark .resource-authority {
+  color: var(--text-muted);
+}
+
+.pg.is-dark .route-map-action {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.12);
+  color: var(--text);
+}
+
+.pg.is-dark .route-map-frame {
+  background: rgba(255, 255, 255, 0.04);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.08),
+    0 18px 34px rgba(0, 0, 0, 0.2);
+}
+
+.pg.is-dark .route-map-stop-num {
+  background: #2f8077;
+  box-shadow: 0 12px 22px rgba(47, 128, 119, 0.24);
+}
+
+.pg.is-dark :deep(.leaflet-control-attribution) {
+  background: rgba(24, 27, 30, 0.88);
+  color: #c6d0ca;
+}
+
+.pg.is-dark :deep(.route-map-marker) {
+  background: #2f8077;
+  box-shadow:
+    0 12px 22px rgba(47, 128, 119, 0.24),
+    0 0 0 3px rgba(21, 24, 27, 0.92);
+}
+
+.pg.is-dark :deep(.route-map-tooltip) {
+  background: rgba(26, 30, 33, 0.96);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.pg.is-dark :deep(.route-map-tooltip .leaflet-tooltip-content) {
+  color: #f2f7f4;
+}
+
+.pg.is-dark :deep(.route-map-popup-shell .leaflet-popup-content-wrapper) {
+  background: rgba(28, 31, 35, 0.98);
+  color: #f2f7f4;
+  box-shadow: 0 18px 36px rgba(0, 0, 0, 0.34);
+}
+
+.pg.is-dark :deep(.route-map-popup-step),
+.pg.is-dark :deep(.route-map-popup-link) {
+  color: #9ae2d4;
+}
+
+.pg.is-dark :deep(.route-map-popup strong) {
+  color: #ffffff;
+}
+
+.pg.is-dark :deep(.route-map-popup p) {
+  color: #c6d0ca;
+}
+
 .main-container {
   width: 100%;
   max-width: 1320px;
@@ -2016,35 +2884,35 @@ onBeforeUnmount(() => {
   order: 2;
 }
 
-.main-container > #guides {
+.main-container > #hajj {
   order: 3;
 }
 
-.main-container > #spiritual {
+.main-container > #umrah {
   order: 4;
 }
 
-.main-container > #umrah {
-  order: 5;
-}
-
-.main-container > #hajj {
+.main-container > #maps {
   order: 6;
 }
 
 .main-container > #rules {
-  order: 7;
+  order: 6;
 }
 
 .main-container > #health {
-  order: 8;
+  order: 7;
 }
 
 .main-container > #mistakes {
-  order: 9;
+  order: 8;
 }
 
 .main-container > #resources {
+  order: 9;
+}
+
+.main-container > #spiritual {
   order: 10;
 }
 
@@ -2056,12 +2924,16 @@ onBeforeUnmount(() => {
   order: 12;
 }
 
-.main-container > .disclaimer-section {
+.main-container > #guides {
   order: 13;
 }
 
-.main-container > .closing {
+.main-container > .disclaimer-section {
   order: 14;
+}
+
+.main-container > .closing {
+  order: 15;
 }
 
 .fade-in-section {
@@ -2621,6 +3493,362 @@ mark[data-search-highlight] {
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.03);
 }
 
+.route-maps-section {
+  padding-top: 3.4rem;
+  content-visibility: visible;
+  contain: none;
+}
+
+.route-maps-header {
+  max-width: 840px;
+}
+
+.route-map-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.route-map-card,
+.route-map-disclaimer {
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid rgba(215, 230, 216, 0.9);
+  border-radius: 24px;
+  box-shadow: var(--shadow-sm);
+}
+
+.route-map-card {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1.5rem;
+  min-height: 0;
+  height: auto;
+}
+
+.route-map-card-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.route-map-label {
+  display: inline-flex;
+  align-items: center;
+  min-height: 32px;
+  padding: 0.35rem 0.7rem;
+  border-radius: 999px;
+  background: rgba(23, 102, 95, 0.08);
+  color: var(--green);
+  font-family: system-ui, sans-serif;
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.route-map-card-head h3 {
+  margin: 0.8rem 0 0.35rem;
+  color: var(--text);
+  font-size: 1.55rem;
+  line-height: 1.22;
+  font-style: italic;
+  font-weight: 500;
+}
+
+.route-map-copy,
+.route-map-helper,
+.route-map-note,
+.route-map-stop-copy span,
+.route-map-disclaimer {
+  color: var(--text-muted);
+  font-family: system-ui, sans-serif;
+  font-size: 0.95rem;
+  line-height: 1.75;
+}
+
+.route-map-helper {
+  margin: 0.55rem 0 0;
+  color: var(--green-dark);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.route-map-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.45rem;
+  flex-shrink: 0;
+}
+
+.route-map-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  border: 1px solid rgba(18, 54, 34, 0.12);
+  background: rgba(255, 255, 255, 0.96);
+  color: var(--green-dark);
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+}
+
+.route-map-action svg {
+  width: 18px;
+  height: 18px;
+}
+
+.route-map-action:hover,
+.route-map-action:focus {
+  transform: translateY(-1px);
+  background: #fff;
+}
+
+.route-map-card-body {
+  display: grid;
+  gap: 1rem;
+}
+
+.route-map-frame {
+  border-radius: 22px;
+  overflow: hidden;
+  background: linear-gradient(180deg, rgba(237, 246, 245, 0.82), rgba(255, 255, 255, 0.92));
+  box-shadow: inset 0 0 0 1px rgba(18, 54, 34, 0.06), 0 18px 34px rgba(18, 54, 34, 0.08);
+}
+
+.route-map-canvas {
+  width: 100%;
+  height: 360px;
+}
+
+.route-map-note {
+  padding: 0.92rem 1rem;
+  border-radius: 18px;
+  background: rgba(23, 102, 95, 0.06);
+  border: 1px solid rgba(23, 102, 95, 0.1);
+}
+
+.route-map-stops {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0.85rem;
+}
+
+.route-map-stop {
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr);
+  gap: 0.85rem;
+  align-items: flex-start;
+  width: 100%;
+  padding: 0.9rem 0.95rem;
+  border-radius: 18px;
+  border: 1px solid rgba(18, 54, 34, 0.08);
+  background: rgba(255, 255, 255, 0.92);
+  text-align: left;
+  cursor: pointer;
+  transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+
+.route-map-stop:hover,
+.route-map-stop:focus {
+  transform: translateY(-1px);
+  border-color: rgba(23, 102, 95, 0.18);
+  background: #fff;
+}
+
+.route-map-stop-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: var(--green);
+  color: #fff;
+  font-family: system-ui, sans-serif;
+  font-size: 0.86rem;
+  font-weight: 700;
+  line-height: 1;
+  box-shadow: 0 12px 20px rgba(23, 102, 95, 0.16);
+}
+
+.route-map-stop-copy {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.route-map-stop-copy strong {
+  color: var(--text);
+  font-family: system-ui, sans-serif;
+  font-size: 0.98rem;
+  line-height: 1.4;
+}
+
+.route-map-disclaimer {
+  margin-top: 1rem;
+  padding: 1rem 1.2rem;
+}
+
+.route-map-card--fullscreen {
+  padding: 1.4rem;
+}
+
+.route-map-card--collapsed {
+  align-self: start;
+}
+
+.route-map-card--fullscreen .route-map-canvas {
+  height: calc(100vh - 280px);
+  min-height: 520px;
+}
+
+.route-map-card:fullscreen {
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  overflow: auto;
+  padding: 1.4rem;
+  background: var(--paper);
+}
+
+.route-map-card:fullscreen .route-map-card-body {
+  flex: 1;
+}
+
+.route-map-card:fullscreen .route-map-canvas {
+  height: calc(100vh - 280px);
+  min-height: 520px;
+}
+
+:deep(.leaflet-container) {
+  width: 100%;
+  height: 100%;
+  background: #e9f1ec;
+  font-family: system-ui, sans-serif;
+}
+
+:deep(.leaflet-container img),
+:deep(.leaflet-container svg),
+:deep(.leaflet-container canvas) {
+  max-width: none !important;
+  max-height: none !important;
+}
+
+:deep(.leaflet-container .leaflet-tile),
+:deep(.leaflet-container .leaflet-tile-pane img),
+:deep(.leaflet-container img.leaflet-marker-icon),
+:deep(.leaflet-container img.leaflet-marker-shadow) {
+  width: auto !important;
+  height: auto !important;
+}
+
+:deep(.leaflet-tile-pane),
+:deep(.leaflet-overlay-pane),
+:deep(.leaflet-map-pane),
+:deep(.leaflet-marker-pane) {
+  opacity: 1;
+  visibility: visible;
+}
+
+:deep(.leaflet-overlay-pane svg),
+:deep(svg.leaflet-zoom-animated),
+:deep(.leaflet-zoom-animated) {
+  width: auto !important;
+  height: auto !important;
+  overflow: visible !important;
+}
+
+:deep(.leaflet-control-zoom a) {
+  color: #16312b;
+}
+
+:deep(.leaflet-control-attribution) {
+  background: rgba(255, 255, 255, 0.9);
+  color: #44564f;
+  font-size: 0.72rem;
+}
+
+:deep(.route-map-marker-wrapper) {
+  background: transparent;
+  border: 0;
+}
+
+:deep(.route-map-marker) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #17665f;
+  color: #fff;
+  font-family: system-ui, sans-serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  line-height: 1;
+  box-shadow: 0 12px 22px rgba(23, 102, 95, 0.28), 0 0 0 3px rgba(255, 255, 255, 0.9);
+}
+
+:deep(.route-map-tooltip) {
+  border: 0;
+  border-radius: 999px;
+  box-shadow: 0 14px 28px rgba(18, 54, 34, 0.12);
+}
+
+:deep(.route-map-tooltip .leaflet-tooltip-content) {
+  padding: 0.15rem 0.1rem;
+  color: #153730;
+  font-family: system-ui, sans-serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+:deep(.route-map-popup-shell .leaflet-popup-content-wrapper) {
+  border-radius: 18px;
+  box-shadow: 0 18px 36px rgba(18, 54, 34, 0.16);
+}
+
+:deep(.route-map-popup-shell .leaflet-popup-content) {
+  margin: 0;
+}
+
+:deep(.route-map-popup) {
+  display: grid;
+  gap: 0.35rem;
+  min-width: 220px;
+  padding: 0.95rem 1rem;
+}
+
+:deep(.route-map-popup-step),
+:deep(.route-map-popup-link) {
+  color: #17665f;
+  font-family: system-ui, sans-serif;
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+:deep(.route-map-popup strong) {
+  color: #13241f;
+  font-family: system-ui, sans-serif;
+  font-size: 1rem;
+}
+
+:deep(.route-map-popup p) {
+  margin: 0;
+  color: #50615b;
+  font-family: system-ui, sans-serif;
+  font-size: 0.9rem;
+  line-height: 1.55;
+}
+
 .sec {
   padding: 4.4rem 0;
   scroll-margin-top: 7rem;
@@ -3173,6 +4401,64 @@ mark[data-search-highlight] {
   border-radius: 24px;
 }
 
+.trusted-sources-callout {
+  margin: 2rem 0 1.4rem;
+  padding: 1.3rem;
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid var(--green-line);
+  box-shadow: var(--shadow-sm);
+}
+
+.trusted-sources-kicker {
+  display: inline-block;
+  margin-bottom: 1rem;
+  color: var(--green-dark);
+  font-family: system-ui, sans-serif;
+  font-size: 0.86rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.trusted-sources-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 0.9rem;
+}
+
+.trusted-source-item {
+  padding: 1rem 1.05rem;
+  border-radius: 18px;
+  background: rgba(23, 102, 95, 0.05);
+  border: 1px solid rgba(23, 102, 95, 0.1);
+}
+
+.trusted-source-item strong {
+  display: block;
+  color: var(--green-dark);
+  font-family: system-ui, sans-serif;
+  font-size: 0.94rem;
+  font-weight: 700;
+  line-height: 1.45;
+}
+
+.trusted-source-item span {
+  margin-top: 0.25rem;
+  color: var(--text-muted);
+  font-family: system-ui, sans-serif;
+  font-size: 0.84rem;
+  line-height: 1.6;
+}
+
+.resource-authority {
+  margin-top: 0.25rem;
+  color: var(--text-muted);
+  font-family: system-ui, sans-serif;
+  font-size: 0.84rem;
+  line-height: 1.6;
+}
+
 .pdf-card .download-btn {
   margin-top: auto;
   width: fit-content;
@@ -3397,6 +4683,37 @@ mark[data-search-highlight] {
 .ai-summary-fab .tool-icon {
   width: 1.15rem;
   height: 1.15rem;
+}
+
+.scroll-top-btn {
+  position: fixed;
+  left: 1.4rem;
+  bottom: 1.4rem;
+  z-index: 2600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  padding: 0;
+  border: 1px solid rgba(18, 54, 34, 0.08);
+  border-radius: 18px;
+  background: rgba(255, 253, 249, 0.96);
+  color: var(--green-dark);
+  box-shadow: 0 18px 36px rgba(18, 54, 34, 0.18);
+  backdrop-filter: blur(10px);
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.scroll-top-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 24px 44px rgba(18, 54, 34, 0.24);
+}
+
+.scroll-top-btn svg {
+  width: 1.12rem;
+  height: 1.12rem;
 }
 
 .ai-summary-panel {
@@ -3771,6 +5088,15 @@ mark[data-search-highlight] {
     0 0 0 1px rgba(255, 255, 255, 0.06) !important;
 }
 
+.pg.is-dark .scroll-top-btn {
+  border-color: rgba(255, 255, 255, 0.12) !important;
+  background: rgba(28, 31, 35, 0.94) !important;
+  color: #ffffff !important;
+  box-shadow:
+    0 18px 36px rgba(0, 0, 0, 0.32),
+    0 0 0 1px rgba(255, 255, 255, 0.06) !important;
+}
+
 .pg.is-dark .ai-summary-panel {
   background: rgba(28, 31, 35, 0.98) !important;
   border-color: rgba(255, 255, 255, 0.12) !important;
@@ -3871,6 +5197,18 @@ mark[data-search-highlight] {
     padding: 1rem;
   }
 
+  .route-map-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .route-map-card-head {
+    flex-direction: column;
+  }
+
+  .route-map-toolbar {
+    justify-content: flex-start;
+  }
+
   .hero-visual {
     min-height: 340px;
     max-height: 340px;
@@ -3953,6 +5291,29 @@ mark[data-search-highlight] {
     min-height: 54px;
   }
 
+  .route-map-card {
+    padding: 1.2rem;
+  }
+
+  .route-map-canvas {
+    height: 300px;
+  }
+
+  .route-map-card--fullscreen .route-map-canvas {
+    height: 430px;
+    min-height: 430px;
+  }
+
+  .route-map-stop {
+    grid-template-columns: 38px minmax(0, 1fr);
+  }
+
+  .route-map-stop-num {
+    width: 38px;
+    height: 38px;
+    font-size: 0.8rem;
+  }
+
   .hero-trust {
     grid-template-columns: 1fr;
   }
@@ -4025,6 +5386,24 @@ mark[data-search-highlight] {
 }
 
 @media (max-width: 480px) {
+  .route-map-toolbar {
+    gap: 0.35rem;
+  }
+
+  .route-map-action {
+    width: 36px;
+    height: 36px;
+  }
+
+  .route-map-canvas {
+    height: 260px;
+  }
+
+  .route-map-card--fullscreen .route-map-canvas {
+    height: 360px;
+    min-height: 360px;
+  }
+
   .hero-title {
     font-size: 2.25rem;
   }
@@ -4095,6 +5474,13 @@ mark[data-search-highlight] {
     height: 48px;
   }
 
+  .scroll-top-btn {
+    left: 0.75rem;
+    bottom: 0.75rem;
+    width: 48px;
+    height: 48px;
+  }
+
   .ai-summary-panel,
   .ai-summary-panel--maximized {
     right: 0.75rem;
@@ -4141,6 +5527,7 @@ mark[data-search-highlight] {
   .hero-btn-primary,
   .hero-btn-secondary,
   .download-btn,
+  .scroll-top-btn,
   .ai-summary-fab,
   .ai-summary-panel-btn {
     transition: none !important;
@@ -4178,6 +5565,7 @@ mark[data-search-highlight] {
   .sec.print-target .sec-image,
   .sec.print-target .image-credit,
   .sec.print-target .image-overlay,
+  .scroll-top-btn,
   .ai-summary-fab,
   .ai-summary-panel {
     display: none !important;
