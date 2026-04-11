@@ -211,7 +211,8 @@
 
 .mission-shell.is-dark .action-item.action-success,
 .mission-shell.is-dark .action-item.action-primary,
-.mission-shell.is-dark .action-item.action-danger {
+.mission-shell.is-dark .action-item.action-danger,
+.mission-shell.is-dark .action-item.action-report {
   color: #ffffff;
   background: #232529;
 }
@@ -1676,6 +1677,12 @@ mark {
   color: #842029;
   border-color: rgba(220, 38, 38, 0.3);
   background-color: rgba(220, 38, 38, 0.12);
+}
+
+.action-item.action-report {
+  color: #92400e;
+  border-color: rgba(245, 158, 11, 0.38);
+  background-color: rgba(245, 158, 11, 0.14);
 }
 
 /* Navigation buttons (consistent brand color + focus) */

@@ -942,6 +942,18 @@
   transform: none;
 }
 
+.dua-action-btn--report {
+  color: #92400e;
+  border-color: rgba(245, 158, 11, 0.38);
+  background: rgba(245, 158, 11, 0.12);
+}
+
+.dua-action-btn--report:hover {
+  color: #78350f;
+  border-color: rgba(245, 158, 11, 0.55);
+  background: rgba(245, 158, 11, 0.2);
+}
+
 .dua-action-btn i {
   font-size: 1rem;
 }

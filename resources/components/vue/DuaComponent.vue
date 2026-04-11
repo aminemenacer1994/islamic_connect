@@ -405,6 +405,16 @@
                   <button class="dua-action-btn" @click="printDua(dua)" aria-label="Print Dua">
                     <i class="bi bi-printer-fill"></i>
                   </button>
+                  <button
+                    class="dua-action-btn dua-action-btn--report"
+                    @click="openSectionReport({
+                      sectionId: `dua-${dua.id}`,
+                      sectionTitle: `${dua.title} (${category.name})`,
+                    })"
+                    :aria-label="`Report an issue with ${dua.title}`"
+                    title="Report an issue">
+                    <i class="bi bi-flag-fill"></i>
+                  </button>
                 </div>
               </div>
             </article>
@@ -449,6 +459,8 @@
         <i class="bi bi-arrow-up-short" aria-hidden="true"></i>
       </button>
     </transition>
+
+    <SectionReportModal ref="sectionReportModal" page-name="Dua Library" />
   </main>
 </template>
 

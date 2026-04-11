@@ -185,6 +185,11 @@
 
             <!-- Export -->
             <div class="action-group" role="group" aria-label="Export">
+              <button class="action-item action-report" @click="openCurrentEventReport" title="Report an issue"
+                aria-label="Report an issue with this event">
+                <i class="bi bi-flag"></i>
+                <span class="label d-none d-md-inline ms-1">Report</span>
+              </button>
 
               <!-- Play Button aligned to the end -->
               <button class="play-toggle play-btn-circle" :class="{ playing: isAudioPlaying[currentIndex] }"
@@ -391,6 +396,8 @@
         </div>
       </div>
     </div>
+
+    <SectionReportModal ref="sectionReportModal" page-name="Seerah Timeline" />
   </div>
 </template>
 

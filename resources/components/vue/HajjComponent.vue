@@ -71,6 +71,12 @@
           <h2 class="sec-title">{{ mapsSection.title }}</h2>
           <div class="sec-ornament"><span class="sec-ornament-dot"></span></div>
           <p class="sec-desc">{{ mapsSection.description }}</p>
+          <div class="section-tools section-tools-center" data-section-tools>
+            <button class="section-tool-btn section-tool-btn--report" @click="openSectionReport('maps', mapsSection.title)" :aria-label="`Report an issue in ${mapsSection.title}`">
+              <span class="tool-icon" aria-hidden="true"><i class="bi bi-flag"></i></span>
+              <span>Report</span>
+            </button>
+          </div>
         </div>
 
         <div class="route-map-grid">
@@ -198,6 +204,12 @@
           <h2 class="sec-title">{{ guidesSection.title }}</h2>
           <div class="sec-ornament"><span class="sec-ornament-dot"></span></div>
           <p class="sec-desc">{{ guidesSection.description }}</p>
+          <div class="section-tools section-tools-center" data-section-tools>
+            <button class="section-tool-btn section-tool-btn--report" @click="openSectionReport('guides', guidesSection.title)" :aria-label="`Report an issue in ${guidesSection.title}`">
+              <span class="tool-icon" aria-hidden="true"><i class="bi bi-flag"></i></span>
+              <span>Report</span>
+            </button>
+          </div>
         </div>
 
         <div class="pdf-grid">
@@ -246,6 +258,10 @@
               <button class="section-tool-btn section-tool-btn--pdf" @click="downloadSectionPdf('basics', sections.basics.title)">
                 <span class="tool-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 2H7a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7Zm0 2.5L16.5 7H14ZM8.5 13.5h1.6c1.3 0 2.1-.8 2.1-2s-.8-2-2.1-2H8.5Zm1.4-2.9h.3c.6 0 1 .3 1 .9s-.4.9-1 .9h-.3Zm3.3 4.9h1.4v-2h.4c1.3 0 2.2-.8 2.2-2s-.9-2-2.2-2h-1.8Zm1.4-4.9h.4c.6 0 1 .3 1 .9s-.4.9-1 .9h-.4Zm3.2 4.9h1.4v-1.9h1.6v-1.2h-1.6v-.9h1.8V10.3h-3.2Z"/></svg></span>
                 <span>{{ labels.downloadPdf }}</span>
+              </button>
+              <button class="section-tool-btn section-tool-btn--report" @click="openSectionReport('basics', sections.basics.title)" :aria-label="`Report an issue in ${sections.basics.title}`">
+                <span class="tool-icon" aria-hidden="true"><i class="bi bi-flag"></i></span>
+                <span>Report</span>
               </button>
               <div class="font-controls">
                 <div class="font-chip">
@@ -347,6 +363,10 @@
                 <span class="tool-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 2H7a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7Zm0 2.5L16.5 7H14ZM8.5 13.5h1.6c1.3 0 2.1-.8 2.1-2s-.8-2-2.1-2H8.5Zm1.4-2.9h.3c.6 0 1 .3 1 .9s-.4.9-1 .9h-.3Zm3.3 4.9h1.4v-2h.4c1.3 0 2.2-.8 2.2-2s-.9-2-2.2-2h-1.8Zm1.4-4.9h.4c.6 0 1 .3 1 .9s-.4.9-1 .9h-.4Zm3.2 4.9h1.4v-1.9h1.6v-1.2h-1.6v-.9h1.8V10.3h-3.2Z"/></svg></span>
                 <span>{{ labels.downloadPdf }}</span>
               </button>
+              <button class="section-tool-btn section-tool-btn--report" @click="openSectionReport('umrah', sections.umrah.title)" :aria-label="`Report an issue in ${sections.umrah.title}`">
+                <span class="tool-icon" aria-hidden="true"><i class="bi bi-flag"></i></span>
+                <span>Report</span>
+              </button>
               <div class="font-controls">
                 <div class="font-chip">
                   <span class="tool-icon" aria-hidden="true">
@@ -444,6 +464,10 @@
                 <span class="tool-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 2H7a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7Zm0 2.5L16.5 7H14ZM8.5 13.5h1.6c1.3 0 2.1-.8 2.1-2s-.8-2-2.1-2H8.5Zm1.4-2.9h.3c.6 0 1 .3 1 .9s-.4.9-1 .9h-.3Zm3.3 4.9h1.4v-2h.4c1.3 0 2.2-.8 2.2-2s-.9-2-2.2-2h-1.8Zm1.4-4.9h.4c.6 0 1 .3 1 .9s-.4.9-1 .9h-.4Zm3.2 4.9h1.4v-1.9h1.6v-1.2h-1.6v-.9h1.8V10.3h-3.2Z"/></svg></span>
                 <span>{{ labels.downloadPdf }}</span>
               </button>
+              <button class="section-tool-btn section-tool-btn--report" @click="openSectionReport('hajj', sections.hajj.title)" :aria-label="`Report an issue in ${sections.hajj.title}`">
+                <span class="tool-icon" aria-hidden="true"><i class="bi bi-flag"></i></span>
+                <span>Report</span>
+              </button>
               <div class="font-controls">
                 <div class="font-chip">
                   <span class="tool-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 20h2.6l1.7-4h7.4l1.7 4H20L13.7 5h-3.4Zm5.1-6 2.9-6.9 2.9 6.9ZM3 4v2h4.5v10h2V6H14V4Z"/></svg></span>
@@ -530,6 +554,10 @@
                 <span class="tool-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 2H7a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7Zm0 2.5L16.5 7H14ZM8.5 13.5h1.6c1.3 0 2.1-.8 2.1-2s-.8-2-2.1-2H8.5Zm1.4-2.9h.3c.6 0 1 .3 1 .9s-.4.9-1 .9h-.3Zm3.3 4.9h1.4v-2h.4c1.3 0 2.2-.8 2.2-2s-.9-2-2.2-2h-1.8Zm1.4-4.9h.4c.6 0 1 .3 1 .9s-.4.9-1 .9h-.4Zm3.2 4.9h1.4v-1.9h1.6v-1.2h-1.6v-.9h1.8V10.3h-3.2Z"/></svg></span>
                 <span>{{ labels.downloadPdf }}</span>
               </button>
+              <button class="section-tool-btn section-tool-btn--report" @click="openSectionReport('mistakes', sections.mistakes.title)" :aria-label="`Report an issue in ${sections.mistakes.title}`">
+                <span class="tool-icon" aria-hidden="true"><i class="bi bi-flag"></i></span>
+                <span>Report</span>
+              </button>
               <div class="font-controls">
                 <div class="font-chip">
                   <span class="tool-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 20h2.6l1.7-4h7.4l1.7 4H20L13.7 5h-3.4Zm5.1-6 2.9-6.9 2.9 6.9ZM3 4v2h4.5v10h2V6H14V4Z"/></svg></span>
@@ -602,6 +630,10 @@
               <button class="section-tool-btn section-tool-btn--pdf" @click="downloadSectionPdf('health', sections.health.title)">
                 <span class="tool-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 2H7a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7Zm0 2.5L16.5 7H14ZM8.5 13.5h1.6c1.3 0 2.1-.8 2.1-2s-.8-2-2.1-2H8.5Zm1.4-2.9h.3c.6 0 1 .3 1 .9s-.4.9-1 .9h-.3Zm3.3 4.9h1.4v-2h.4c1.3 0 2.2-.8 2.2-2s-.9-2-2.2-2h-1.8Zm1.4-4.9h.4c.6 0 1 .3 1 .9s-.4.9-1 .9h-.4Zm3.2 4.9h1.4v-1.9h1.6v-1.2h-1.6v-.9h1.8V10.3h-3.2Z"/></svg></span>
                 <span>{{ labels.downloadPdf }}</span>
+              </button>
+              <button class="section-tool-btn section-tool-btn--report" @click="openSectionReport('health', sections.health.title)" :aria-label="`Report an issue in ${sections.health.title}`">
+                <span class="tool-icon" aria-hidden="true"><i class="bi bi-flag"></i></span>
+                <span>Report</span>
               </button>
               <div class="font-controls">
                 <div class="font-chip">
@@ -686,6 +718,10 @@
               <button class="section-tool-btn section-tool-btn--pdf" @click="downloadSectionPdf('rules', sections.rules.title)">
                 <span class="tool-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 2H7a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7Zm0 2.5L16.5 7H14ZM8.5 13.5h1.6c1.3 0 2.1-.8 2.1-2s-.8-2-2.1-2H8.5Zm1.4-2.9h.3c.6 0 1 .3 1 .9s-.4.9-1 .9h-.3Zm3.3 4.9h1.4v-2h.4c1.3 0 2.2-.8 2.2-2s-.9-2-2.2-2h-1.8Zm1.4-4.9h.4c.6 0 1 .3 1 .9s-.4.9-1 .9h-.4Zm3.2 4.9h1.4v-1.9h1.6v-1.2h-1.6v-.9h1.8V10.3h-3.2Z"/></svg></span>
                 <span>{{ labels.downloadPdf }}</span>
+              </button>
+              <button class="section-tool-btn section-tool-btn--report" @click="openSectionReport('rules', sections.rules.title)" :aria-label="`Report an issue in ${sections.rules.title}`">
+                <span class="tool-icon" aria-hidden="true"><i class="bi bi-flag"></i></span>
+                <span>Report</span>
               </button>
               <div class="font-controls">
                 <div class="font-chip">
@@ -786,6 +822,10 @@
                 <span class="tool-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 2H7a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7Zm0 2.5L16.5 7H14ZM8.5 13.5h1.6c1.3 0 2.1-.8 2.1-2s-.8-2-2.1-2H8.5Zm1.4-2.9h.3c.6 0 1 .3 1 .9s-.4.9-1 .9h-.3Zm3.3 4.9h1.4v-2h.4c1.3 0 2.2-.8 2.2-2s-.9-2-2.2-2h-1.8Zm1.4-4.9h.4c.6 0 1 .3 1 .9s-.4.9-1 .9h-.4Zm3.2 4.9h1.4v-1.9h1.6v-1.2h-1.6v-.9h1.8V10.3h-3.2Z"/></svg></span>
                 <span>{{ labels.downloadPdf }}</span>
               </button>
+              <button class="section-tool-btn section-tool-btn--report" @click="openSectionReport('spiritual', sections.spiritual.title)" :aria-label="`Report an issue in ${sections.spiritual.title}`">
+                <span class="tool-icon" aria-hidden="true"><i class="bi bi-flag"></i></span>
+                <span>Report</span>
+              </button>
               <div class="font-controls">
                 <div class="font-chip">
                   <span class="tool-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 20h2.6l1.7-4h7.4l1.7 4H20L13.7 5h-3.4Zm5.1-6 2.9-6.9 2.9 6.9ZM3 4v2h4.5v10h2V6H14V4Z"/></svg></span>
@@ -837,6 +877,12 @@
           <h2 class="sec-title">{{ sections.shorts.title }}</h2>
           <div class="sec-ornament"><span class="sec-ornament-dot"></span></div>
           <p class="sec-desc">{{ sections.shorts.description }}</p>
+          <div class="section-tools section-tools-center" data-section-tools>
+            <button class="section-tool-btn section-tool-btn--report" @click="openSectionReport('shorts', sections.shorts.title)" :aria-label="`Report an issue in ${sections.shorts.title}`">
+              <span class="tool-icon" aria-hidden="true"><i class="bi bi-flag"></i></span>
+              <span>Report</span>
+            </button>
+          </div>
         </div>
 
         <div class="shorts-grid">
@@ -887,6 +933,10 @@
             <button class="section-tool-btn section-tool-btn--pdf" @click="downloadSectionPdf('resources', sections.resources.title)">
               <span class="tool-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 2H7a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7Zm0 2.5L16.5 7H14ZM8.5 13.5h1.6c1.3 0 2.1-.8 2.1-2s-.8-2-2.1-2H8.5Zm1.4-2.9h.3c.6 0 1 .3 1 .9s-.4.9-1 .9h-.3Zm3.3 4.9h1.4v-2h.4c1.3 0 2.2-.8 2.2-2s-.9-2-2.2-2h-1.8Zm1.4-4.9h.4c.6 0 1 .3 1 .9s-.4.9-1 .9h-.4Zm3.2 4.9h1.4v-1.9h1.6v-1.2h-1.6v-.9h1.8V10.3h-3.2Z"/></svg></span>
               <span>{{ labels.downloadPdf }}</span>
+            </button>
+            <button class="section-tool-btn section-tool-btn--report" @click="openSectionReport('resources', sections.resources.title)" :aria-label="`Report an issue in ${sections.resources.title}`">
+              <span class="tool-icon" aria-hidden="true"><i class="bi bi-flag"></i></span>
+              <span>Report</span>
             </button>
             <div class="font-controls">
               <div class="font-chip">
@@ -970,6 +1020,10 @@
                 <span class="tool-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 2H7a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7Zm0 2.5L16.5 7H14ZM8.5 13.5h1.6c1.3 0 2.1-.8 2.1-2s-.8-2-2.1-2H8.5Zm1.4-2.9h.3c.6 0 1 .3 1 .9s-.4.9-1 .9h-.3Zm3.3 4.9h1.4v-2h.4c1.3 0 2.2-.8 2.2-2s-.9-2-2.2-2h-1.8Zm1.4-4.9h.4c.6 0 1 .3 1 .9s-.4.9-1 .9h-.4Zm3.2 4.9h1.4v-1.9h1.6v-1.2h-1.6v-.9h1.8V10.3h-3.2Z"/></svg></span>
                 <span>{{ labels.downloadPdf }}</span>
               </button>
+              <button class="section-tool-btn section-tool-btn--report" @click="openSectionReport('post-hajj', sections.postHajj.title)" :aria-label="`Report an issue in ${sections.postHajj.title}`">
+                <span class="tool-icon" aria-hidden="true"><i class="bi bi-flag"></i></span>
+                <span>Report</span>
+              </button>
               <div class="font-controls">
                 <div class="font-chip">
                   <span class="tool-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 20h2.6l1.7-4h7.4l1.7 4H20L13.7 5h-3.4Zm5.1-6 2.9-6.9 2.9 6.9ZM3 4v2h4.5v10h2V6H14V4Z"/></svg></span>
@@ -1040,6 +1094,8 @@
       </div>
     </div>
 
+    <SectionReportModal ref="sectionReportModal" page-name="Hajj & Umrah Guide" />
+
     <button
       v-if="showScrollTop"
       type="button"
@@ -1107,6 +1163,7 @@ import { jsPDF } from 'jspdf';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import hajjUmrahContent from '../../data/hajj-umrah-content.json';
+import SectionReportModal from './modals/SectionReportModal.vue';
 
 const content = hajjUmrahContent;
 const labels = {
@@ -1344,6 +1401,7 @@ const umrahMapElement = ref(null);
 const hajjMapElement = ref(null);
 const umrahMapCard = ref(null);
 const hajjMapCard = ref(null);
+const sectionReportModal = ref(null);
 const mapPanels = reactive({
   umrah: { collapsed: false },
   hajj: { collapsed: false }
@@ -1398,6 +1456,14 @@ const updateScrollTopVisibility = () => {
 
 const scrollToTop = () => {
   window.scrollTo({ top: 0, behavior: 'smooth' });
+};
+
+const openSectionReport = (sectionId, sectionTitle) => {
+  sectionReportModal.value?.open({
+    pageName: 'Hajj & Umrah Guide',
+    sectionId,
+    sectionTitle
+  });
 };
 
 const clearSearchHighlights = (root) => {
@@ -4046,6 +4112,12 @@ mark[data-search-highlight] {
   color: #b42318;
   border-color: rgba(180, 35, 24, 0.24);
   background: rgba(180, 35, 24, 0.06);
+}
+
+.section-tool-btn--report {
+  color: #92400e;
+  border-color: rgba(245, 158, 11, 0.38);
+  background: rgba(245, 158, 11, 0.14);
 }
 
 .tool-icon {

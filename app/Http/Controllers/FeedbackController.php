@@ -22,9 +22,9 @@ class FeedbackController extends Controller
     public function sendMessage(Request $request)
     {
         $this->validate($request, [
-            'firstname' => 'required',
-            'lastname' => 'required',
-            'email' => ['required', 'email', 'max:255'],
+            'firstname' => ['nullable', 'string', 'max:60'],
+            'lastname' => ['nullable', 'string', 'max:60'],
+            'email' => ['nullable', 'email', 'max:255'],
             'mobile' => ['nullable', 'string', 'regex:/^[0-9]{10,15}$/'],
             'subject' => ['required', Rule::in(Feedback::subjectValues())],
             'message' => ['required', 'string', 'max:2000'],
@@ -38,6 +38,10 @@ class FeedbackController extends Controller
         $feedback->subject = $request->subject;
         $feedback->message = $request->message;
         $feedback->save();
+
+        return response()->json([
+            'message' => 'Message sent successfully',
+        ]);
         
     }
 }

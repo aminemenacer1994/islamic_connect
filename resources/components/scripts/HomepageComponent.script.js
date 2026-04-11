@@ -128,6 +128,7 @@ export default {
       subjectOptions: [
         { value: "enquiry", label: "General enquiry" },
         { value: "bug report", label: "Bug report" },
+        { value: "content error", label: "Content error" },
         { value: "feature request", label: "Feature request" },
         { value: "comment", label: "Comment" },
         { value: "question", label: "Question" },

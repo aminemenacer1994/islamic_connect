@@ -658,6 +658,9 @@ const createToast = () => ({
         value: "bug report",
         label: "Bug report"
       }, {
+        value: "content error",
+        label: "Content error"
+      }, {
         value: "feature request",
         label: "Feature request"
       }, {

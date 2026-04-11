@@ -4,8 +4,12 @@ import { ref } from 'vue';
 import { fetchUserIdFromApi, resolveClientUserId } from '../utils/bookmarkAuth';
 import { useDuaRecommender } from '../../js/composables/useDuaRecommender';
 import duaCollectionData from '../vue/duaCollection.json';
+import SectionReportModal from '../vue/modals/SectionReportModal.vue';
 const { createDuaMetadata } = require('../utils/duaSlugs');
 export default {
+  components: {
+    SectionReportModal,
+  },
   setup() {
     const recommendationInput = ref('');
     const {
@@ -283,6 +287,12 @@ export default {
       if (filterType === 'tag') this.selectedTag = '';
       if (filterType === 'view') this.viewMode = 'all';
       this.resetPagination();
+    },
+    openSectionReport(context = {}) {
+      this.$refs.sectionReportModal?.open({
+        pageName: 'Dua Library',
+        ...context,
+      });
     },
     async resolveStorageScope() {
       const resolvedId = await fetchUserIdFromApi();

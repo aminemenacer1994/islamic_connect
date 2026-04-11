@@ -3,6 +3,7 @@ import { jsPDF } from 'jspdf';
 // JSON modules default-export the entire object; access its events property.
 import eventsData from '../vue/prophet_events.json';
 import SeerahMapComponent from '../vue/SeerahMapComponent.vue';
+import SectionReportModal from '../vue/modals/SectionReportModal.vue';
 
 const SEERAH_DATASET_API = 'https://datasets-server.huggingface.co';
 const SEERAH_DATASET_NAME = 'mustknowislam/seera_events';
@@ -60,6 +61,7 @@ export default {
   name: 'SeerahTimeline',
   components: {
     SeerahMapComponent,
+    SectionReportModal,
   },
   data() {
     return {
@@ -256,6 +258,15 @@ export default {
       if (!Number.isInteger(index)) return;
       if (index < 0 || index >= this.events.length) return;
       this.selectEvent(index);
+    },
+    openCurrentEventReport() {
+      const event = this.currentEvent || {};
+      const title = event.title || `Event ${this.displayIndex}`;
+      this.$refs.sectionReportModal?.open({
+        pageName: 'Seerah Timeline',
+        sectionId: `mission-event-${this.currentIndex}`,
+        sectionTitle: event.year ? `${title} (${event.year})` : title,
+      });
     },
     async loadSeerahMapPoints() {
       this.mapLoading = true;

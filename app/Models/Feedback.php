@@ -14,6 +14,7 @@ class Feedback extends Model
     public const SUBJECT_OPTIONS = [
         'enquiry' => 'General enquiry',
         'bug report' => 'Bug report',
+        'content error' => 'Content error',
         'feature request' => 'Feature request',
         'comment' => 'Comment',
         'question' => 'Question',

@@ -1,5 +1,160 @@
 (self["webpackChunk"] = self["webpackChunk"] || []).push([["resources_js_components_DuaComponent_vue"],{
 
+/***/ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/components/vue/modals/SectionReportModal.vue?vue&type=script&lang=js":
+/*!*********************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/components/vue/modals/SectionReportModal.vue?vue&type=script&lang=js ***!
+  \*********************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
+function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == typeof i ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != typeof i) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+
+const REPORT_OPTIONS = [{
+  value: 'bug report',
+  label: 'Bug'
+}, {
+  value: 'content error',
+  label: 'Content error'
+}, {
+  value: 'feature request',
+  label: 'Feature request'
+}];
+const emptyForm = () => ({
+  firstname: '',
+  email: '',
+  reportType: 'content error',
+  title: '',
+  description: ''
+});
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: 'SectionReportModal',
+  props: {
+    pageName: {
+      type: String,
+      default: ''
+    }
+  },
+  data() {
+    return {
+      modalId: `section-report-modal-${Math.random().toString(36).slice(2, 10)}`,
+      reportOptions: REPORT_OPTIONS,
+      context: {},
+      form: emptyForm(),
+      submitting: false,
+      statusMessage: '',
+      statusType: ''
+    };
+  },
+  computed: {
+    sectionLabel() {
+      return this.context.sectionTitle || this.context.sectionId || '';
+    },
+    canSubmit() {
+      return Boolean(this.form.reportType && this.form.email.trim() && this.form.title.trim() && this.form.description.trim());
+    },
+    statusClass() {
+      return this.statusType === 'success' ? 'alert-success' : 'alert-danger';
+    }
+  },
+  mounted() {
+    this.$nextTick(() => {
+      const modalElement = this.getModalElement();
+      if (modalElement) {
+        modalElement.addEventListener('hidden.bs.modal', this.handleHidden);
+      }
+    });
+  },
+  beforeUnmount() {
+    const modalElement = this.getModalElement();
+    if (modalElement) {
+      modalElement.removeEventListener('hidden.bs.modal', this.handleHidden);
+    }
+  },
+  methods: {
+    open(context = {}) {
+      var _window$bootstrap;
+      this.context = _objectSpread(_objectSpread({}, context), {}, {
+        pageName: context.pageName || this.pageName
+      });
+      this.statusMessage = '';
+      this.statusType = '';
+      const modalElement = this.getModalElement();
+      const ModalCtor = typeof window !== 'undefined' ? (_window$bootstrap = window.bootstrap) === null || _window$bootstrap === void 0 ? void 0 : _window$bootstrap.Modal : null;
+      if (modalElement && ModalCtor) {
+        ModalCtor.getOrCreateInstance(modalElement, {
+          backdrop: true
+        }).show();
+      }
+    },
+    getModalElement() {
+      if (typeof document === 'undefined') {
+        return null;
+      }
+      return document.getElementById(this.modalId);
+    },
+    close() {
+      var _window$bootstrap2;
+      const modalElement = this.getModalElement();
+      const ModalCtor = typeof window !== 'undefined' ? (_window$bootstrap2 = window.bootstrap) === null || _window$bootstrap2 === void 0 ? void 0 : _window$bootstrap2.Modal : null;
+      if (modalElement && ModalCtor) {
+        var _ModalCtor$getInstanc;
+        (_ModalCtor$getInstanc = ModalCtor.getInstance(modalElement)) === null || _ModalCtor$getInstanc === void 0 || _ModalCtor$getInstanc.hide();
+      }
+    },
+    handleHidden() {
+      this.form = emptyForm();
+      this.statusMessage = '';
+      this.statusType = '';
+      this.submitting = false;
+    },
+    buildMessage() {
+      const pageUrl = typeof window !== 'undefined' ? window.location.href : '';
+      const lines = [`Report title: ${this.form.title.trim()}`, `Page: ${this.context.pageName || this.pageName || 'Unknown page'}`, `Section: ${this.context.sectionTitle || this.context.sectionId || 'Unknown section'}`, this.context.sectionId ? `Section ID: ${this.context.sectionId}` : '', pageUrl ? `URL: ${pageUrl}` : '', '', 'Description:', this.form.description.trim()];
+      return lines.filter(line => line !== '').join('\n');
+    },
+    async submitReport() {
+      if (!this.canSubmit || this.submitting) {
+        return;
+      }
+      this.submitting = true;
+      this.statusMessage = '';
+      this.statusType = '';
+      try {
+        await axios__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/send-message', {
+          firstname: this.form.firstname.trim(),
+          lastname: '',
+          email: this.form.email.trim(),
+          mobile: '',
+          subject: this.form.reportType,
+          message: this.buildMessage()
+        });
+        this.statusType = 'success';
+        this.statusMessage = 'Report submitted. Thank you.';
+        window.setTimeout(() => {
+          this.close();
+        }, 900);
+      } catch (error) {
+        var _error$response;
+        this.statusType = 'error';
+        this.statusMessage = (error === null || error === void 0 || (_error$response = error.response) === null || _error$response === void 0 || (_error$response = _error$response.data) === null || _error$response === void 0 ? void 0 : _error$response.message) || 'Unable to submit this report right now.';
+      } finally {
+        this.submitting = false;
+      }
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/DuaComponent.vue?vue&type=script&lang=js":
 /*!*******************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/DuaComponent.vue?vue&type=script&lang=js ***!
@@ -260,27 +415,29 @@ const _hoisted_83 = ["onClick"];
 const _hoisted_84 = ["onClick"];
 const _hoisted_85 = ["onClick"];
 const _hoisted_86 = ["onClick"];
-const _hoisted_87 = {
+const _hoisted_87 = ["onClick", "aria-label"];
+const _hoisted_88 = {
   key: 1,
   class: "d-flex justify-content-center mt-4"
 };
-const _hoisted_88 = {
+const _hoisted_89 = {
   "aria-label": "Dua pagination"
 };
-const _hoisted_89 = {
+const _hoisted_90 = {
   class: "pagination dua-pagination"
 };
-const _hoisted_90 = ["onClick"];
 const _hoisted_91 = ["onClick"];
 const _hoisted_92 = ["onClick"];
+const _hoisted_93 = ["onClick"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
+  const _component_SectionReportModal = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("SectionReportModal");
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("main", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["container-fluid dua-shell py-4", {
       'is-dark': _ctx.isDarkMode
     }]),
     role: "main",
     "aria-labelledby": "dua-title"
-  }, [_cache[60] || (_cache[60] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<section class=\"container-fluid dua-content-shell dua-hero mb-4\" data-v-4b4cde72><div class=\"dua-hero-text\" data-v-4b4cde72><p class=\"dua-kicker mb-2\" data-v-4b4cde72>Dua Collection</p><h1 id=\"dua-title\" class=\"fw-bold mb-2 dua-title\" data-v-4b4cde72>Dua Library</h1><p class=\"dua-hero-subtitle mb-0 dua-lead\" data-v-4b4cde72> Find authentic duas by theme, then save or share what you need. </p></div></section><section class=\"container-fluid dua-content-shell mb-3\" aria-label=\"Sources and authenticity disclaimer\" data-v-4b4cde72><div class=\"dua-disclaimer-banner\" data-v-4b4cde72><p class=\"dua-disclaimer-note mb-0\" data-v-4b4cde72><strong data-v-4b4cde72>Resources &amp; Attribution | Sources &amp; Authenticity:</strong> We do not claim ownership of this content. These duas are compiled from authentic Islamic sources including the Qur&#39;an, Sahih al-Bukhari, Sahih Muslim, and other trusted hadith collections. </p></div></section>", 2)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, [_cache[61] || (_cache[61] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<section class=\"container-fluid dua-content-shell dua-hero mb-4\" data-v-4b4cde72><div class=\"dua-hero-text\" data-v-4b4cde72><p class=\"dua-kicker mb-2\" data-v-4b4cde72>Dua Collection</p><h1 id=\"dua-title\" class=\"fw-bold mb-2 dua-title\" data-v-4b4cde72>Dua Library</h1><p class=\"dua-hero-subtitle mb-0 dua-lead\" data-v-4b4cde72> Find authentic duas by theme, then save or share what you need. </p></div></section><section class=\"container-fluid dua-content-shell mb-3\" aria-label=\"Sources and authenticity disclaimer\" data-v-4b4cde72><div class=\"dua-disclaimer-banner\" data-v-4b4cde72><p class=\"dua-disclaimer-note mb-0\" data-v-4b4cde72><strong data-v-4b4cde72>Resources &amp; Attribution | Sources &amp; Authenticity:</strong> We do not claim ownership of this content. These duas are compiled from authentic Islamic sources including the Qur&#39;an, Sahih al-Bukhari, Sahih Muslim, and other trusted hadith collections. </p></div></section>", 2)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     id: "tab-all",
     type: "button",
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["dua-tab-btn", {
@@ -644,8 +801,18 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "aria-label": "Print Dua"
       }, [...(_cache[56] || (_cache[56] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
         class: "bi bi-printer-fill"
-      }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_86)])])], 14 /* CLASS, STYLE, PROPS */, _hoisted_61)]);
-    }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), !category.collapsed && category.duas.length > _ctx.duasPerPage ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_87, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("nav", _hoisted_88, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_89, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", {
+      }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_86), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+        class: "dua-action-btn dua-action-btn--report",
+        onClick: $event => _ctx.openSectionReport({
+          sectionId: `dua-${dua.id}`,
+          sectionTitle: `${dua.title} (${category.name})`
+        }),
+        "aria-label": `Report an issue with ${dua.title}`,
+        title: "Report an issue"
+      }, [...(_cache[57] || (_cache[57] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+        class: "bi bi-flag-fill"
+      }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_87)])])], 14 /* CLASS, STYLE, PROPS */, _hoisted_61)]);
+    }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), !category.collapsed && category.duas.length > _ctx.duasPerPage ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_88, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("nav", _hoisted_89, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_90, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", {
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["page-item", {
         disabled: _ctx.currentPage[category.id] === 1
       }])
@@ -653,9 +820,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       class: "page-link",
       onClick: $event => _ctx.changePage('prev', category.id),
       "aria-label": "Previous page"
-    }, [...(_cache[57] || (_cache[57] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    }, [...(_cache[58] || (_cache[58] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       "aria-hidden": "true"
-    }, "« Previous", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_90)], 2 /* CLASS */), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.totalPages(category.duas), page => {
+    }, "« Previous", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_91)], 2 /* CLASS */), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.totalPages(category.duas), page => {
       return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
         key: page,
         class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["page-item", {
@@ -664,7 +831,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
         class: "page-link",
         onClick: $event => _ctx.currentPage[category.id] = page
-      }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(page), 9 /* TEXT, PROPS */, _hoisted_91)], 2 /* CLASS */);
+      }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(page), 9 /* TEXT, PROPS */, _hoisted_92)], 2 /* CLASS */);
     }), 128 /* KEYED_FRAGMENT */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", {
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["page-item", {
         disabled: _ctx.currentPage[category.id] === _ctx.totalPages(category.duas)
@@ -673,9 +840,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       class: "page-link",
       onClick: $event => _ctx.changePage('next', category.id),
       "aria-label": "Next page"
-    }, [...(_cache[58] || (_cache[58] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    }, [...(_cache[59] || (_cache[59] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       "aria-hidden": "true"
-    }, "Next »", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_92)], 2 /* CLASS */)])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 8 /* PROPS */, _hoisted_53);
+    }, "Next »", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_93)], 2 /* CLASS */)])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 8 /* PROPS */, _hoisted_53);
   }), 128 /* KEYED_FRAGMENT */))], 8 /* PROPS */, _hoisted_52), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
     name: "fade"
   }, {
@@ -686,12 +853,189 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onClick: _cache[23] || (_cache[23] = (...args) => _ctx.scrollToTop && _ctx.scrollToTop(...args)),
       "aria-label": "Scroll to top",
       title: "Scroll to top"
-    }, [...(_cache[59] || (_cache[59] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [...(_cache[60] || (_cache[60] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-arrow-up-short",
       "aria-hidden": "true"
     }, null, -1 /* CACHED */)]))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]),
     _: 1 /* STABLE */
-  })], 2 /* CLASS */);
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_SectionReportModal, {
+    ref: "sectionReportModal",
+    "page-name": "Dua Library"
+  }, null, 512 /* NEED_PATCH */)], 2 /* CLASS */);
+}
+
+/***/ }),
+
+/***/ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/components/vue/modals/SectionReportModal.vue?vue&type=template&id=697eead3&scoped=true":
+/*!*************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/components/vue/modals/SectionReportModal.vue?vue&type=template&id=697eead3&scoped=true ***!
+  \*************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* binding */ render)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+
+const _hoisted_1 = ["id", "aria-labelledby"];
+const _hoisted_2 = {
+  class: "modal-dialog modal-dialog-centered section-report-dialog"
+};
+const _hoisted_3 = {
+  class: "modal-content section-report-modal"
+};
+const _hoisted_4 = {
+  class: "modal-header"
+};
+const _hoisted_5 = ["id"];
+const _hoisted_6 = {
+  class: "modal-body"
+};
+const _hoisted_7 = {
+  key: 0,
+  class: "section-report-context mb-3"
+};
+const _hoisted_8 = {
+  class: "section-report-contact-grid mb-3"
+};
+const _hoisted_9 = ["for"];
+const _hoisted_10 = ["id", "disabled"];
+const _hoisted_11 = ["for"];
+const _hoisted_12 = ["id", "disabled"];
+const _hoisted_13 = {
+  class: "mb-3"
+};
+const _hoisted_14 = ["for"];
+const _hoisted_15 = ["id", "disabled"];
+const _hoisted_16 = ["value"];
+const _hoisted_17 = {
+  class: "mb-3"
+};
+const _hoisted_18 = ["for"];
+const _hoisted_19 = ["id", "disabled"];
+const _hoisted_20 = ["for"];
+const _hoisted_21 = ["id", "disabled"];
+const _hoisted_22 = {
+  class: "section-report-counter d-block mt-2"
+};
+const _hoisted_23 = {
+  class: "modal-footer"
+};
+const _hoisted_24 = ["disabled"];
+const _hoisted_25 = ["disabled"];
+const _hoisted_26 = {
+  key: 0,
+  class: "spinner-border spinner-border-sm me-2",
+  "aria-hidden": "true"
+};
+function render(_ctx, _cache, $props, $setup, $data, $options) {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Teleport, {
+    to: "body"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    class: "modal fade section-report-root",
+    id: $data.modalId,
+    tabindex: "-1",
+    "aria-labelledby": `${$data.modalId}-label`,
+    "aria-hidden": "true"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[6] || (_cache[6] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    class: "section-report-kicker mb-1"
+  }, "Report a mistake", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+    class: "modal-title",
+    id: `${$data.modalId}-label`
+  }, "Report this section", 8 /* PROPS */, _hoisted_5)]), _cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    type: "button",
+    class: "btn-close",
+    "data-bs-dismiss": "modal",
+    "aria-label": "Close"
+  }, null, -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
+    onSubmit: _cache[5] || (_cache[5] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)((...args) => $options.submitReport && $options.submitReport(...args), ["prevent"]))
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [$options.sectionLabel ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_7, [_cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Section", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.sectionLabel), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.statusMessage ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+    key: 1,
+    class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["alert mb-3", $options.statusClass]),
+    role: "status"
+  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.statusMessage), 3 /* TEXT, CLASS */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    class: "form-label",
+    for: `${$data.modalId}-firstname`
+  }, [...(_cache[9] || (_cache[9] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("First name ", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "(optional)", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_9), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    id: `${$data.modalId}-firstname`,
+    "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => $data.form.firstname = $event),
+    type: "text",
+    class: "form-control",
+    maxlength: "60",
+    placeholder: "Your first name",
+    autocomplete: "given-name",
+    disabled: $data.submitting
+  }, null, 8 /* PROPS */, _hoisted_10), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.form.firstname, void 0, {
+    trim: true
+  }]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    class: "form-label",
+    for: `${$data.modalId}-email`
+  }, "Email address", 8 /* PROPS */, _hoisted_11), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    id: `${$data.modalId}-email`,
+    "onUpdate:modelValue": _cache[1] || (_cache[1] = $event => $data.form.email = $event),
+    type: "email",
+    class: "form-control",
+    maxlength: "255",
+    placeholder: "you@example.com",
+    autocomplete: "email",
+    disabled: $data.submitting,
+    required: ""
+  }, null, 8 /* PROPS */, _hoisted_12), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.form.email, void 0, {
+    trim: true
+  }]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    class: "form-label",
+    for: `${$data.modalId}-type`
+  }, "Report a", 8 /* PROPS */, _hoisted_14), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+    id: `${$data.modalId}-type`,
+    "onUpdate:modelValue": _cache[2] || (_cache[2] = $event => $data.form.reportType = $event),
+    class: "form-select",
+    disabled: $data.submitting,
+    required: ""
+  }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.reportOptions, option => {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
+      key: option.value,
+      value: option.value
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(option.label), 9 /* TEXT, PROPS */, _hoisted_16);
+  }), 128 /* KEYED_FRAGMENT */))], 8 /* PROPS */, _hoisted_15), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.form.reportType]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    class: "form-label",
+    for: `${$data.modalId}-title`
+  }, "Title", 8 /* PROPS */, _hoisted_18), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    id: `${$data.modalId}-title`,
+    "onUpdate:modelValue": _cache[3] || (_cache[3] = $event => $data.form.title = $event),
+    type: "text",
+    class: "form-control",
+    maxlength: "120",
+    placeholder: "Short summary",
+    disabled: $data.submitting,
+    required: ""
+  }, null, 8 /* PROPS */, _hoisted_19), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.form.title, void 0, {
+    trim: true
+  }]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    class: "form-label",
+    for: `${$data.modalId}-description`
+  }, "Description", 8 /* PROPS */, _hoisted_20), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("textarea", {
+    id: `${$data.modalId}-description`,
+    "onUpdate:modelValue": _cache[4] || (_cache[4] = $event => $data.form.description = $event),
+    class: "form-control",
+    rows: "5",
+    maxlength: "1200",
+    placeholder: "What should we review?",
+    disabled: $data.submitting,
+    required: ""
+  }, null, 8 /* PROPS */, _hoisted_21), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.form.description, void 0, {
+    trim: true
+  }]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_22, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.form.description.length) + "/1200 characters", 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    type: "button",
+    class: "btn btn-outline-secondary",
+    "data-bs-dismiss": "modal",
+    disabled: $data.submitting
+  }, " Close ", 8 /* PROPS */, _hoisted_24), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    type: "submit",
+    class: "btn btn-warning section-report-submit",
+    disabled: $data.submitting || !$options.canSubmit
+  }, [$data.submitting ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_26)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.submitting ? 'Sending...' : 'Submit report'), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_25)])], 32 /* NEED_HYDRATION */)])])], 8 /* PROPS */, _hoisted_1)]);
 }
 
 /***/ }),
@@ -712,6 +1056,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _utils_bookmarkAuth__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils/bookmarkAuth */ "./resources/js/utils/bookmarkAuth.js");
 /* harmony import */ var _js_composables_useDuaRecommender__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../js/composables/useDuaRecommender */ "./resources/js/composables/useDuaRecommender.js");
 /* harmony import */ var _vue_duaCollection_json__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../vue/duaCollection.json */ "./resources/components/vue/duaCollection.json");
+/* harmony import */ var _vue_modals_SectionReportModal_vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../vue/modals/SectionReportModal.vue */ "./resources/components/vue/modals/SectionReportModal.vue");
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
@@ -722,10 +1067,14 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
 
 
 
+
 const {
   createDuaMetadata
 } = __webpack_require__(/*! ../utils/duaSlugs */ "./resources/js/utils/duaSlugs.js");
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  components: {
+    SectionReportModal: _vue_modals_SectionReportModal_vue__WEBPACK_IMPORTED_MODULE_5__["default"]
+  },
   setup() {
     const recommendationInput = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)('');
     const {
@@ -985,6 +1334,12 @@ const {
       if (filterType === 'tag') this.selectedTag = '';
       if (filterType === 'view') this.viewMode = 'all';
       this.resetPagination();
+    },
+    openSectionReport(context = {}) {
+      var _this$$refs$sectionRe;
+      (_this$$refs$sectionRe = this.$refs.sectionReportModal) === null || _this$$refs$sectionRe === void 0 || _this$$refs$sectionRe.open(_objectSpread({
+        pageName: 'Dua Library'
+      }, context));
     },
     async resolveStorageScope() {
       const resolvedId = await (0,_utils_bookmarkAuth__WEBPACK_IMPORTED_MODULE_2__.fetchUserIdFromApi)();
@@ -1592,6 +1947,19 @@ const {
 
 /***/ }),
 
+/***/ "./node_modules/mini-css-extract-plugin/dist/loader.js??clonedRuleSet-11.use[0]!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-11.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-11.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/components/vue/modals/SectionReportModal.vue?vue&type=style&index=0&id=697eead3&scoped=true&lang=css":
+/*!********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/mini-css-extract-plugin/dist/loader.js??clonedRuleSet-11.use[0]!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-11.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-11.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/components/vue/modals/SectionReportModal.vue?vue&type=style&index=0&id=697eead3&scoped=true&lang=css ***!
+  \********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
 /***/ "./node_modules/mini-css-extract-plugin/dist/loader.js??clonedRuleSet-11.use[0]!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-11.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-11.use[2]!./resources/components/styles/DuaComponent.style.css?vue&type=style&index=0&id=4b4cde72&scoped=true&lang=css&external":
 /*!**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/mini-css-extract-plugin/dist/loader.js??clonedRuleSet-11.use[0]!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-11.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-11.use[2]!./resources/components/styles/DuaComponent.style.css?vue&type=style&index=0&id=4b4cde72&scoped=true&lang=css&external ***!
@@ -1617,7 +1985,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (/* reexport safe */ _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_DuaComponent_script_js_vue_type_script_lang_js_external__WEBPACK_IMPORTED_MODULE_0__["default"])
 /* harmony export */ });
 /* harmony import */ var _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_DuaComponent_script_js_vue_type_script_lang_js_external__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./DuaComponent.script.js?vue&type=script&lang=js&external */ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./resources/components/scripts/DuaComponent.script.js?vue&type=script&lang=js&external");
- 
+
 
 /***/ }),
 
@@ -1693,6 +2061,83 @@ module.exports = /*#__PURE__*/JSON.parse('{"categories":[{"id":1,"name":"Supplic
 
 /***/ }),
 
+/***/ "./resources/components/vue/modals/SectionReportModal.vue":
+/*!****************************************************************!*\
+  !*** ./resources/components/vue/modals/SectionReportModal.vue ***!
+  \****************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _SectionReportModal_vue_vue_type_template_id_697eead3_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./SectionReportModal.vue?vue&type=template&id=697eead3&scoped=true */ "./resources/components/vue/modals/SectionReportModal.vue?vue&type=template&id=697eead3&scoped=true");
+/* harmony import */ var _SectionReportModal_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SectionReportModal.vue?vue&type=script&lang=js */ "./resources/components/vue/modals/SectionReportModal.vue?vue&type=script&lang=js");
+/* harmony import */ var _SectionReportModal_vue_vue_type_style_index_0_id_697eead3_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./SectionReportModal.vue?vue&type=style&index=0&id=697eead3&scoped=true&lang=css */ "./resources/components/vue/modals/SectionReportModal.vue?vue&type=style&index=0&id=697eead3&scoped=true&lang=css");
+/* harmony import */ var _node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+
+
+
+
+;
+
+
+const __exports__ = /*#__PURE__*/(0,_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_SectionReportModal_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_SectionReportModal_vue_vue_type_template_id_697eead3_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render],['__scopeId',"data-v-697eead3"],['__file',"resources/components/vue/modals/SectionReportModal.vue"]])
+/* hot reload */
+if (false) // removed by dead control flow
+{}
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__exports__);
+
+/***/ }),
+
+/***/ "./resources/components/vue/modals/SectionReportModal.vue?vue&type=script&lang=js":
+/*!****************************************************************************************!*\
+  !*** ./resources/components/vue/modals/SectionReportModal.vue?vue&type=script&lang=js ***!
+  \****************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* reexport safe */ _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_SectionReportModal_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"])
+/* harmony export */ });
+/* harmony import */ var _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_SectionReportModal_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./SectionReportModal.vue?vue&type=script&lang=js */ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/components/vue/modals/SectionReportModal.vue?vue&type=script&lang=js");
+
+
+/***/ }),
+
+/***/ "./resources/components/vue/modals/SectionReportModal.vue?vue&type=style&index=0&id=697eead3&scoped=true&lang=css":
+/*!************************************************************************************************************************!*\
+  !*** ./resources/components/vue/modals/SectionReportModal.vue?vue&type=style&index=0&id=697eead3&scoped=true&lang=css ***!
+  \************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_clonedRuleSet_11_use_0_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_11_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_11_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_SectionReportModal_vue_vue_type_style_index_0_id_697eead3_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/mini-css-extract-plugin/dist/loader.js??clonedRuleSet-11.use[0]!../../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-11.use[1]!../../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../../node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-11.use[2]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./SectionReportModal.vue?vue&type=style&index=0&id=697eead3&scoped=true&lang=css */ "./node_modules/mini-css-extract-plugin/dist/loader.js??clonedRuleSet-11.use[0]!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-11.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-11.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/components/vue/modals/SectionReportModal.vue?vue&type=style&index=0&id=697eead3&scoped=true&lang=css");
+
+
+/***/ }),
+
+/***/ "./resources/components/vue/modals/SectionReportModal.vue?vue&type=template&id=697eead3&scoped=true":
+/*!**********************************************************************************************************!*\
+  !*** ./resources/components/vue/modals/SectionReportModal.vue?vue&type=template&id=697eead3&scoped=true ***!
+  \**********************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* reexport safe */ _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_SectionReportModal_vue_vue_type_template_id_697eead3_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render)
+/* harmony export */ });
+/* harmony import */ var _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_SectionReportModal_vue_vue_type_template_id_697eead3_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./SectionReportModal.vue?vue&type=template&id=697eead3&scoped=true */ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/components/vue/modals/SectionReportModal.vue?vue&type=template&id=697eead3&scoped=true");
+
+
+/***/ }),
+
 /***/ "./resources/js/components/DuaComponent.vue":
 /*!**************************************************!*\
   !*** ./resources/js/components/DuaComponent.vue ***!
@@ -1732,7 +2177,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (/* reexport safe */ _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_DuaComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"])
 /* harmony export */ });
 /* harmony import */ var _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_DuaComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./DuaComponent.vue?vue&type=script&lang=js */ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/DuaComponent.vue?vue&type=script&lang=js");
- 
+
 
 /***/ }),
 

@@ -10,6 +10,7 @@ return new class extends Migration
     private const SUBJECTS = [
         'enquiry',
         'bug report',
+        'content error',
         'feature request',
         'comment',
         'question',
