@@ -383,8 +383,6 @@
                                             aria-expanded="false"
                                             aria-label="Open more memorisation tools">
                                             <i class="bi bi-three-dots-vertical" aria-hidden="true"></i>
-                                            <span>More</span>
-                                            <small>Tools</small>
                                         </button>
                                         <div class="dropdown-menu dropdown-menu-end advanced-quran-more-menu memorisation-toolbar-overflow-menu">
                                             <button
@@ -416,6 +414,7 @@
                                         type="button"
                                         class="btn memorisation-toolbar-start-btn"
                                         @click="startMemorisationSession">
+                                        <i class="bi bi-play-fill" style="margin-right: 0.2rem;" aria-hidden="true"></i>
                                         <span>Start Session</span>
                                         <small>{{ memorisationStartButtonHint }}</small>
                                     </button>
@@ -729,115 +728,153 @@
                         <p>{{ memorisationSessionStatusLabel }}</p>
                     </div>
 
-                    <div class="memorisation-toolbar-flow" aria-label="Beginner memorisation flow">
-                        <label class="memorisation-toolbar-flow-field memorisation-toolbar-flow-field--surah">
-                            <span>Surah</span>
-                            <select
-                                class="form-select memorisation-toolbar-flow-control"
-                                v-model="selectedSurah"
-                                @change="onMemorisationToolbarSurahChange"
-                                aria-label="Select memorisation surah">
-                                <option
-                                    v-for="surah in filteredSurahs"
-                                    :key="`memorisation-toolbar-surah-${surah.number}`"
-                                    :value="String(surah.number)">
-                                    {{ surah.number }}. {{ surah.englishName }}
-                                </option>
-                            </select>
-                        </label>
+                    <div class="memorisation-toolbar-flow-pipeline" aria-label="Beginner memorisation sequence">
+                        
+                        <!-- Step 1: Select Ayahs -->
+                        <div class="memorisation-pipeline-step memorisation-pipeline-step--1">
+                            <div class="memorisation-pipeline-header">
+                                <span class="memorisation-pipeline-badge">1</span>
+                                <span class="memorisation-pipeline-title">Select Ayahs</span>
+                            </div>
+                            <div class="memorisation-pipeline-controls">
+                                <label class="memorisation-toolbar-flow-field memorisation-toolbar-flow-field--surah">
+                                    <span>Surah</span>
+                                    <select
+                                        class="form-select memorisation-toolbar-flow-control"
+                                        v-model="selectedSurah"
+                                        @change="onMemorisationToolbarSurahChange"
+                                        aria-label="Select memorisation surah">
+                                        <option
+                                            v-for="surah in filteredSurahs"
+                                            :key="`memorisation-toolbar-surah-${surah.number}`"
+                                            :value="String(surah.number)">
+                                            {{ surah.number }}. {{ surah.englishName }}
+                                        </option>
+                                    </select>
+                                </label>
 
-                        <div class="memorisation-toolbar-flow-field memorisation-toolbar-flow-field--range">
-                            <span>Range</span>
-                            <div class="memorisation-toolbar-range-inputs">
-                                <input
-                                    type="number"
-                                    class="form-control memorisation-toolbar-flow-control"
-                                    v-model.number="memorisationRangeStart"
-                                    min="1"
-                                    :max="Math.max(totalAyahs || 1, 1)"
-                                    @change="onMemorisationToolbarRangeChange"
-                                    aria-label="Memorisation range start ayah" />
-                                <span>to</span>
-                                <input
-                                    type="number"
-                                    class="form-control memorisation-toolbar-flow-control"
-                                    v-model.number="memorisationRangeEnd"
-                                    :min="memorisationRangeStart || 1"
-                                    :max="Math.max(totalAyahs || 1, 1)"
-                                    @change="onMemorisationToolbarRangeChange"
-                                    aria-label="Memorisation range end ayah" />
+                                <div class="memorisation-toolbar-flow-field memorisation-toolbar-flow-field--range">
+                                    <span>Range</span>
+                                    <div class="memorisation-toolbar-range-inputs">
+                                        <input
+                                            type="number"
+                                            class="form-control memorisation-toolbar-flow-control"
+                                            v-model.number="memorisationRangeStart"
+                                            min="1"
+                                            :max="Math.max(totalAyahs || 1, 1)"
+                                            @change="onMemorisationToolbarRangeChange"
+                                            aria-label="Memorisation range start ayah" />
+                                        <span>to</span>
+                                        <input
+                                            type="number"
+                                            class="form-control memorisation-toolbar-flow-control"
+                                            v-model.number="memorisationRangeEnd"
+                                            :min="memorisationRangeStart || 1"
+                                            :max="Math.max(totalAyahs || 1, 1)"
+                                            @change="onMemorisationToolbarRangeChange"
+                                            aria-label="Memorisation range end ayah" />
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
-                        <div class="memorisation-toolbar-tools-strip" role="group" aria-label="Beginner memorisation tools">
-                            <button
-                                v-for="tool in memorisationPrimaryToolOptions"
-                                :key="`memorisation-toolbar-tool-${tool.key}`"
-                                type="button"
-                                class="btn memorisation-toolbar-tool-btn memorisation-toolbar-tool-btn--beginner"
-                                :class="{
-                                    'is-active': tool.active,
-                                    'is-selected': memorisationSelectedQuickTool === tool.key
-                                }"
-                                :aria-pressed="tool.active ? 'true' : 'false'"
-                                @click="handleMemorisationBeginnerTool(tool.key)">
-                                <i class="bi" :class="tool.icon" aria-hidden="true"></i>
-                                <span>{{ tool.label }}</span>
-                                <small>{{ tool.stateLabel }}</small>
-                            </button>
-                            <div class="dropdown memorisation-toolbar-overflow">
-                                <button
-                                    type="button"
-                                    class="btn memorisation-toolbar-tool-btn memorisation-toolbar-tool-btn--beginner memorisation-toolbar-overflow-btn dropdown-toggle"
-                                    data-bs-toggle="dropdown"
-                                    aria-expanded="false"
-                                    aria-label="Open more memorisation tools">
-                                    <i class="bi bi-three-dots-vertical" aria-hidden="true"></i>
-                                    <span>More</span>
-                                    <small>Tools</small>
-                                </button>
-                                <div class="dropdown-menu dropdown-menu-end advanced-quran-more-menu memorisation-toolbar-overflow-menu">
+                        <!-- Step 2: Pick Helpers -->
+                        <div class="memorisation-pipeline-step memorisation-pipeline-step--2">
+                            <div class="memorisation-pipeline-header">
+                                <span class="memorisation-pipeline-badge">2</span>
+                                <span class="memorisation-pipeline-title">Pick helpers</span>
+                            </div>
+                            <div class="memorisation-pipeline-controls">
+                                <div class="memorisation-toolbar-tools-strip" role="group" aria-label="Beginner memorisation tools">
                                     <button
-                                        v-for="tool in memorisationOverflowToolOptions"
-                                        :key="`memorisation-toolbar-overflow-${tool.key}`"
+                                        v-for="tool in memorisationPrimaryToolOptions"
+                                        :key="`memorisation-toolbar-tool-${tool.key}`"
                                         type="button"
-                                        class="dropdown-item advanced-quran-more-item memorisation-toolbar-overflow-item"
-                                        :class="{ 'is-enabled': tool.active }"
+                                        class="btn memorisation-toolbar-tool-btn memorisation-toolbar-tool-btn--beginner"
+                                        :class="{
+                                            'is-active': tool.active,
+                                            'is-selected': memorisationSelectedQuickTool === tool.key
+                                        }"
+                                        :aria-pressed="tool.active ? 'true' : 'false'"
+                                        :title="tool.description"
                                         @click="handleMemorisationBeginnerTool(tool.key)">
                                         <i class="bi" :class="tool.icon" aria-hidden="true"></i>
-                                        <span class="advanced-quran-more-item-label">{{ tool.label }}</span>
-                                        <span class="advanced-quran-more-item-meta">{{ tool.stateLabel }}</span>
-                                    </button>
-                                    <button
-                                        type="button"
-                                        class="dropdown-item advanced-quran-more-item memorisation-toolbar-overflow-item"
-                                        @click="openAdvancedMemorisationToolsPanel">
-                                        <i class="bi bi-layout-sidebar-inset-reverse" aria-hidden="true"></i>
-                                        <span class="advanced-quran-more-item-label">Open Advanced Tools</span>
+                                        <span class="memorisation-tool-text-group">
+                                            <span class="memorisation-tool-label">
+                                                {{ tool.label }}
+                                                <span class="memorisation-tool-state">{{ tool.stateLabel }}</span>
+                                            </span>
+                                            <small class="memorisation-tool-desc-micro">{{ tool.shortDesc }}</small>
+                                        </span>
                                     </button>
                                 </div>
                             </div>
                         </div>
 
-                        <button
-                            type="button"
-                            class="btn memorisation-toolbar-start-btn"
-                            @click="startMemorisationSession">
-                            <span>Start Session</span>
-                            <small>{{ memorisationStartButtonHint }}</small>
-                        </button>
+                        <!-- Step 3: Begin -->
+                        <div class="memorisation-pipeline-step memorisation-pipeline-step--3">
+                            <div class="memorisation-pipeline-header">
+                                <span class="memorisation-pipeline-badge">3</span>
+                                <span class="memorisation-pipeline-title">Begin</span>
+                            </div>
+                            <div class="memorisation-pipeline-controls">
+                                <button
+                                    type="button"
+                                    class="btn memorisation-toolbar-start-btn"
+                                    @click="startMemorisationSession">
+                                    <span>Start Session</span>
+                                    <small>{{ memorisationStartButtonHint }}</small>
+                                </button>
 
-                        <button
-                            type="button"
-                            class="btn memorisation-toolbar-close-btn memorisation-toolbar-close-btn--minimal"
-                            @click="toggleMemorisationToolbar"
-                            aria-label="Close memorisation toolbar">
-                            <i class="bi bi-x-lg" aria-hidden="true"></i>
-                        </button>
+                                <div class="memorisation-pipeline-actions">
+                                    <div class="dropdown memorisation-toolbar-overflow memorisation-toolbar-overflow--end">
+                                        <button
+                                            type="button"
+                                            class="btn memorisation-toolbar-overflow-btn dropdown-toggle"
+                                            data-bs-toggle="dropdown"
+                                            aria-expanded="false"
+                                            aria-label="Open more memorisation tools">
+                                            <i class="bi bi-three-dots-vertical" aria-hidden="true"></i>
+                                        </button>
+                                        <div class="dropdown-menu dropdown-menu-end advanced-quran-more-menu memorisation-toolbar-overflow-menu">
+                                            <button
+                                                v-for="tool in memorisationOverflowToolOptions"
+                                                :key="`memorisation-toolbar-overflow2-${tool.key}`"
+                                                type="button"
+                                                class="dropdown-item advanced-quran-more-item memorisation-toolbar-overflow-item"
+                                                :class="{ 'is-enabled': tool.active }"
+                                                :title="tool.description"
+                                                @click="handleMemorisationBeginnerTool(tool.key)">
+                                                <i class="bi" :class="tool.icon" aria-hidden="true"></i>
+                                                <span class="advanced-quran-more-item-label">{{ tool.label }}</span>
+                                                <span class="advanced-quran-more-item-meta">{{ tool.stateLabel }}</span>
+                                            </button>
+                                            <button
+                                                type="button"
+                                                class="dropdown-item advanced-quran-more-item memorisation-toolbar-overflow-item"
+                                                @click="openAdvancedMemorisationToolsPanel">
+                                                <i class="bi bi-layout-sidebar-inset-reverse" aria-hidden="true"></i>
+                                                <span class="advanced-quran-more-item-label">Open Advanced Tools</span>
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <button
+                                        type="button"
+                                        class="btn memorisation-toolbar-close-btn memorisation-toolbar-close-btn--minimal"
+                                        @click="toggleMemorisationToolbar"
+                                        aria-label="Close memorisation toolbar">
+                                        <i class="bi bi-x-lg" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
 
                     <div class="memorisation-toolbar-guidance-row">
                         <p class="memorisation-toolbar-selected-description mb-0">
+                            <i class="bi bi-info-circle-fill"></i>
                             <strong>Tip:</strong> {{ activeMemorisationQuickToolDescription }}
                         </p>
                     </div>

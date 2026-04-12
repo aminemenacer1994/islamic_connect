@@ -10404,6 +10404,10 @@ h1.display-5 {
     }
 }
 
+.surat-premium.memorisation-offcanvas-open .row[role="list"] {
+    padding-top: 6rem !important;
+}
+
 @media (min-width: 1200px) {
     .surat-premium.has-sidebar
         .quran-toolbar-sticky.quran-toolbar-fixed-shell
@@ -44541,23 +44545,27 @@ h1.display-5 {
 .surat-premium .quran-toolbar.memorisation-toolbar-compact:has(.memorisation-toolbar-layout--beginner),
 .surat-premium .memorisation-toolbar-layout--beginner,
 .surat-premium .memorisation-mobile-quick-panel--beginner {
-    --memo-beginner-bg: #ffffff;
-    --memo-beginner-soft: #f6faf8;
-    --memo-beginner-soft-strong: #edf7f3;
-    --memo-beginner-border: rgba(15, 91, 83, 0.14);
-    --memo-beginner-border-strong: rgba(15, 91, 83, 0.28);
-    --memo-beginner-text: #0f2925;
-    --memo-beginner-muted: #5d716d;
-    --memo-beginner-accent: #0f766e;
-    --memo-beginner-accent-strong: #0b5f58;
-    --memo-beginner-accent-soft: rgba(15, 118, 110, 0.1);
-    gap: 0.48rem !important;
+    --memo-beginner-bg: #f8fdfb;
+    --memo-beginner-surface: #ffffff;
+    --memo-beginner-soft: #eef6f2;
+    --memo-beginner-soft-strong: #e2f0eb;
+    --memo-beginner-border: rgba(15, 91, 83, 0.08);
+    --memo-beginner-border-strong: rgba(15, 91, 83, 0.4);
+    --memo-beginner-text: #134e48;
+    --memo-beginner-muted: #6b8a85;
+    --memo-beginner-accent: #0d9488;
+    --memo-beginner-accent-strong: #0f766e;
+    --memo-beginner-accent-soft: rgba(13, 148, 136, 0.08);
+    gap: 0.55rem !important;
 }
 
 .surat-premium .quran-toolbar.memorisation-toolbar-compact:has(.memorisation-toolbar-layout--beginner) {
-    border: 1px solid var(--memo-beginner-border) !important;
-    background: var(--memo-beginner-bg) !important;
-    box-shadow: 0 16px 34px rgba(15, 35, 33, 0.1) !important;
+    border: 2px solid #0f766e !important;
+    background: #ffffff !important;
+    box-shadow:
+        0 4px 12px rgba(15, 118, 110, 0.08),
+        0 12px 32px rgba(15, 118, 110, 0.15),
+        0 24px 64px rgba(15, 118, 110, 0.2) !important;
 }
 
 .surat-premium .memorisation-toolbar-intro--beginner {
@@ -44566,7 +44574,7 @@ h1.display-5 {
     justify-content: space-between !important;
     gap: 0.75rem !important;
     max-width: none !important;
-    padding: 0 !important;
+    padding: 0 0.1rem !important;
 }
 
 .surat-premium .memorisation-toolbar-surah-name,
@@ -44584,8 +44592,9 @@ h1.display-5 {
 .surat-premium .memorisation-mobile-main-surah-name strong {
     min-width: 0 !important;
     color: var(--memo-beginner-text) !important;
-    font-size: 1rem !important;
-    font-weight: 850 !important;
+    font-size: 0.95rem !important;
+    font-weight: 800 !important;
+    letter-spacing: -0.01em !important;
     overflow: hidden !important;
     text-overflow: ellipsis !important;
     white-space: nowrap !important;
@@ -44595,169 +44604,330 @@ h1.display-5 {
 .surat-premium .memorisation-mobile-surah-title span[dir="rtl"],
 .surat-premium .memorisation-mobile-main-surah-name span[dir="rtl"] {
     color: var(--memo-beginner-muted) !important;
-    font-weight: 750 !important;
+    font-weight: 700 !important;
+    font-size: 0.92rem !important;
     line-height: 1.35 !important;
     white-space: nowrap !important;
+    opacity: 0.75 !important;
 }
 
 .surat-premium .memorisation-toolbar-trust-pill {
     display: inline-flex !important;
     align-items: center !important;
-    min-height: 24px !important;
-    padding: 0.18rem 0.5rem !important;
-    border-radius: 8px !important;
-    background: var(--memo-beginner-accent-soft) !important;
-    color: var(--memo-beginner-accent-strong) !important;
-    font-size: 0.72rem !important;
-    font-weight: 850 !important;
+    min-height: 22px !important;
+    padding: 0.14rem 0.55rem !important;
+    border-radius: 999px !important;
+    background: linear-gradient(135deg, rgba(13, 148, 136, 0.1) 0%, rgba(15, 118, 110, 0.06) 100%) !important;
+    color: var(--memo-beginner-accent) !important;
+    font-size: 0.68rem !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.02em !important;
+    text-transform: uppercase !important;
     white-space: nowrap !important;
 }
 
 .surat-premium .memorisation-toolbar-intro--beginner p {
     margin: 0 !important;
     color: var(--memo-beginner-muted) !important;
-    font-size: 0.82rem !important;
-    font-weight: 750 !important;
+    font-size: 0.78rem !important;
+    font-weight: 600 !important;
     white-space: nowrap !important;
+    opacity: 0.8 !important;
 }
 
-.surat-premium .memorisation-toolbar-flow {
-    display: grid !important;
-    grid-template-columns: minmax(160px, 1.05fr) minmax(132px, 0.8fr) minmax(0, 4fr) minmax(176px, 0.95fr) 42px !important;
-    gap: 0.42rem !important;
-    align-items: center !important;
+.surat-premium .memorisation-toolbar-flow-pipeline {
+    display: flex !important;
+    align-items: stretch !important;
+    gap: 1.25rem !important;
     width: 100% !important;
+    padding: 0.2rem 0 !important;
+}
+
+.surat-premium .memorisation-pipeline-step {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0.6rem !important;
+    min-width: 0 !important;
+    justify-content: flex-end !important;
+}
+
+.surat-premium .memorisation-pipeline-step:nth-child(2) {
+    flex: 1 1 auto !important;
+}
+
+.surat-premium .memorisation-pipeline-header {
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.45rem !important;
+    padding-left: 0.2rem !important;
+}
+
+.surat-premium .memorisation-pipeline-badge {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 18px !important;
+    height: 18px !important;
+    border-radius: 50% !important;
+    background: var(--memo-beginner-accent) !important;
+    color: #ffffff !important;
+    font-size: 0.65rem !important;
+    font-weight: 800 !important;
+    line-height: 1 !important;
+}
+
+.surat-premium .memorisation-pipeline-title {
+    font-size: 0.72rem !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.04em !important;
+    color: var(--memo-beginner-text) !important;
+    opacity: 0.8 !important;
+    line-height: 1 !important;
+}
+
+.surat-premium .memorisation-pipeline-controls {
+    display: flex !important;
+    align-items: stretch !important;
+    gap: 0.45rem !important;
+    height: 42px !important;
+    min-height: 42px !important;
+}
+
+.surat-premium .memorisation-pipeline-actions {
+    display: flex !important;
+    align-items: stretch !important;
+    gap: 0.75rem !important;
+    padding-left: 0.9rem !important;
+    margin-left: 0.35rem !important;
+    border-left: 1.5px solid var(--memo-beginner-border) !important;
 }
 
 .surat-premium .memorisation-toolbar-flow-field {
     min-width: 0 !important;
-    display: grid !important;
-    gap: 0.12rem !important;
     min-height: 42px !important;
-    padding: 0.28rem 0.5rem !important;
-    border-radius: 8px !important;
-    border: 1px solid var(--memo-beginner-border) !important;
-    background: var(--memo-beginner-soft) !important;
+    height: 42px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 0.75rem !important;
+    padding: 0 0.85rem !important;
+    border-radius: 12px !important;
+    border: 1.5px solid var(--memo-beginner-border-strong) !important;
+    background: var(--memo-beginner-surface) !important;
+    box-shadow: 0 1px 2px rgba(15, 35, 33, 0.04) !important;
+    transition: all 0.18s ease !important;
+}
+
+.surat-premium .memorisation-toolbar-flow-field:hover,
+.surat-premium .memorisation-toolbar-flow-field:focus-within {
+    border-color: var(--memo-beginner-accent) !important;
+    box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.08) !important;
+    transform: translateY(-1px) !important;
 }
 
 .surat-premium .memorisation-toolbar-flow-field > span {
     color: var(--memo-beginner-muted) !important;
-    font-size: 0.68rem !important;
-    font-weight: 850 !important;
-    letter-spacing: 0 !important;
+    font-size: 0.7rem !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.03em !important;
+    text-transform: uppercase !important;
+    white-space: nowrap !important;
 }
 
 .surat-premium .memorisation-toolbar-flow-control {
-    min-height: 22px !important;
-    height: 22px !important;
-    padding: 0 !important;
-    border: 0 !important;
-    background: transparent !important;
+    flex: 0 1 auto !important;
+    min-width: 0 !important;
+    max-width: 130px !important;
+    height: 28px !important;
+    padding: 0 0.5rem !important;
+    border: none !important;
+    border-radius: 7px !important;
+    background: var(--memo-beginner-soft) !important;
     color: var(--memo-beginner-text) !important;
+    font-size: 0.74rem !important;
+    font-weight: 700 !important;
+    text-align: right !important;
+    line-height: 28px !important;
     box-shadow: none !important;
-    font-size: 0.86rem !important;
-    font-weight: 800 !important;
+    appearance: none !important;
+    cursor: pointer !important;
+    transition: background 0.15s ease !important;
+}
+
+.surat-premium .memorisation-toolbar-flow-control:hover {
+    background: var(--memo-beginner-soft-strong) !important;
 }
 
 .surat-premium .memorisation-toolbar-range-inputs {
-    display: grid !important;
-    grid-template-columns: minmax(34px, 1fr) auto minmax(34px, 1fr) !important;
-    gap: 0.35rem !important;
+    display: flex !important;
     align-items: center !important;
+    gap: 0.35rem !important;
+    height: 100% !important;
+}
+
+.surat-premium .memorisation-toolbar-range-inputs .memorisation-toolbar-flow-control {
+    width: 42px !important;
+    height: 28px !important;
+    padding: 0 !important;
+    text-align: center !important;
+    line-height: 28px !important;
 }
 
 .surat-premium .memorisation-toolbar-range-inputs span {
+    font-size: 0.68rem !important;
+    font-weight: 700 !important;
     color: var(--memo-beginner-muted) !important;
-    font-size: 0.76rem !important;
-    font-weight: 800 !important;
+    text-transform: lowercase !important;
+    opacity: 0.6 !important;
 }
 
 .surat-premium .memorisation-toolbar-tools-strip {
+    display: flex !important;
+    gap: 0.4rem !important;
+    width: 100% !important;
+    align-items: stretch !important;
+}
+
+.surat-premium .memorisation-toolbar-tools-strip > * {
+    flex: 1 1 0 !important;
     min-width: 0 !important;
-    display: grid !important;
-    grid-template-columns: repeat(4, minmax(98px, 1fr)) !important;
-    gap: 0.38rem !important;
-    align-items: center !important;
 }
 
 .surat-premium .memorisation-toolbar-tool-btn--beginner {
     min-width: 0 !important;
     min-height: 42px !important;
     height: 42px !important;
-    align-self: center !important;
+    width: 100% !important;
     display: inline-flex !important;
     align-items: center !important;
     justify-content: flex-start !important;
-    gap: 0.34rem !important;
-    padding: 0.34rem 0.48rem !important;
-    border-radius: 8px !important;
-    border: 1px solid var(--memo-beginner-border) !important;
-    background: var(--memo-beginner-bg) !important;
+    gap: 0.65rem !important;
+    padding: 0 0.85rem !important;
+    border-radius: 12px !important;
+    border: 1.5px solid var(--memo-beginner-border-strong) !important;
+    background: var(--memo-beginner-surface) !important;
     color: var(--memo-beginner-text) !important;
-    box-shadow: none !important;
-    transition: background-color 0.18s ease, border-color 0.18s ease, color 0.18s ease, transform 0.18s ease !important;
+    box-shadow: 0 1px 2px rgba(15, 35, 33, 0.04) !important;
+    transition: all 0.18s ease !important;
+    cursor: pointer !important;
 }
 
 .surat-premium .memorisation-toolbar-tool-btn--beginner i {
     flex: 0 0 auto !important;
     color: var(--memo-beginner-accent) !important;
-    font-size: 0.9rem !important;
+    font-size: 0.95rem !important;
+    opacity: 0.9 !important;
 }
 
-.surat-premium .memorisation-toolbar-tool-btn--beginner span,
-.surat-premium .memorisation-toolbar-tool-btn--beginner small {
+.surat-premium .memorisation-tool-text-group {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    justify-content: center !important;
+    gap: 0.15rem !important;
     min-width: 0 !important;
-    overflow: hidden !important;
-    text-overflow: ellipsis !important;
+}
+
+.surat-premium .memorisation-tool-label {
+    display: flex !important;
+    align-items: center !important;
+    font-size: 0.82rem !important;
+    font-weight: 700 !important;
+    letter-spacing: -0.005em !important;
+    color: var(--memo-beginner-text) !important;
+    line-height: 1 !important;
     white-space: nowrap !important;
-    text-align: left !important;
 }
 
-.surat-premium .memorisation-toolbar-tool-btn--beginner span {
-    font-size: 0.75rem !important;
-    font-weight: 850 !important;
-}
-
-.surat-premium .memorisation-toolbar-tool-btn--beginner small {
-    flex: 0 0 auto !important;
-    margin-left: auto !important;
-    min-width: 28px !important;
-    padding: 0.08rem 0.28rem !important;
-    border: 1px solid var(--memo-beginner-border) !important;
-    border-radius: 999px !important;
+.surat-premium .memorisation-tool-state {
+    margin-left: 0.5rem !important;
+    padding: 0.16rem 0.45rem !important;
+    border-radius: 8px !important;
     background: var(--memo-beginner-soft) !important;
     color: var(--memo-beginner-muted) !important;
-    font-size: 0.62rem !important;
-    font-weight: 760 !important;
-    text-align: center !important;
+    font-size: 0.65rem !important;
+    font-weight: 700 !important;
     line-height: 1 !important;
+}
+
+.surat-premium .memorisation-tool-desc-micro {
+    font-size: 0.65rem !important;
+    font-weight: 500 !important;
+    opacity: 0.75 !important;
+    color: var(--memo-beginner-muted) !important;
+    line-height: 1.1 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
 }
 
 .surat-premium .memorisation-toolbar-tool-btn--beginner:hover,
 .surat-premium .memorisation-toolbar-tool-btn--beginner:focus-visible {
-    border-color: var(--memo-beginner-border-strong) !important;
-    background: var(--memo-beginner-soft) !important;
+    border-color: var(--memo-beginner-accent) !important;
+    background: var(--memo-beginner-surface) !important;
     color: var(--memo-beginner-text) !important;
     transform: translateY(-1px) !important;
+    box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.08) !important;
 }
 
 .surat-premium .memorisation-toolbar-tool-btn--beginner.is-active {
-    border-color: var(--memo-beginner-border-strong) !important;
+    border-color: var(--memo-beginner-accent) !important;
     background: var(--memo-beginner-accent-soft) !important;
+    color: var(--memo-beginner-accent-strong) !important;
+    box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.06), 0 1px 2px rgba(15, 35, 33, 0.04) !important;
+}
+
+.surat-premium .memorisation-toolbar-tool-btn--beginner.is-active i {
+    color: var(--memo-beginner-accent) !important;
+    opacity: 1 !important;
+}
+
+.surat-premium .memorisation-toolbar-tool-btn--beginner.is-active small {
+    background: rgba(13, 148, 136, 0.12) !important;
     color: var(--memo-beginner-accent-strong) !important;
 }
 
 .surat-premium .memorisation-toolbar-tool-btn--beginner.is-selected {
-    box-shadow: inset 0 0 0 1px var(--memo-beginner-border-strong) !important;
+    box-shadow: inset 0 0 0 1.5px var(--memo-beginner-border-strong), 0 1px 3px rgba(15, 35, 33, 0.04) !important;
 }
 
 .surat-premium .memorisation-toolbar-overflow {
     min-width: 0 !important;
     display: block !important;
+    flex: 0 0 40px !important;
+}
+
+/* The end overflow (⋮) sits between Start Session and × in the grid */
+.surat-premium .memorisation-toolbar-overflow--end {
+    display: inline-grid !important;
+    place-items: center !important;
+    width: 40px !important;
+    height: 40px !important;
+    border-radius: 12px !important;
 }
 
 .surat-premium .memorisation-toolbar-overflow-btn {
-    width: 100% !important;
+    width: 42px !important;
+    min-width: 42px !important;
+    height: 42px !important;
+    min-height: 42px !important;
+    display: inline-grid !important;
+    place-items: center !important;
+    padding: 0 !important;
+    border-radius: 12px !important;
+    border: 1.5px solid var(--memo-beginner-border-strong) !important;
+    background: var(--memo-beginner-surface) !important;
+    color: var(--memo-beginner-muted) !important;
+    font-size: 0.9rem !important;
+    box-shadow: 0 1px 2px rgba(15, 35, 33, 0.04) !important;
+    transition: all 0.18s ease !important;
+    cursor: pointer !important;
+}
+
+.surat-premium .memorisation-toolbar-overflow-btn:hover {
+    border-color: var(--memo-beginner-accent) !important;
+    box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.08) !important;
 }
 
 .surat-premium .memorisation-toolbar-overflow-btn::after {
@@ -44766,11 +44936,16 @@ h1.display-5 {
 
 .surat-premium .memorisation-toolbar-overflow-menu {
     min-width: 260px !important;
+    border-radius: 14px !important;
+    border: 1px solid rgba(15, 91, 83, 0.06) !important;
+    box-shadow: 0 12px 40px rgba(15, 35, 33, 0.12) !important;
+    padding: 0.4rem !important;
 }
 
 .surat-premium .memorisation-toolbar-overflow-item.is-enabled {
     color: var(--memo-beginner-accent-strong) !important;
-    background: var(--memo-beginner-accent-soft) !important;
+    background: rgba(13, 148, 136, 0.06) !important;
+    border-radius: 10px !important;
 }
 
 .surat-premium .memorisation-toolbar-start-btn {
@@ -44780,27 +44955,38 @@ h1.display-5 {
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
-    gap: 0.4rem !important;
-    padding: 0.4rem 0.72rem !important;
-    border-radius: 8px !important;
-    border: 1px solid transparent !important;
+    gap: 0.45rem !important;
+    padding: 0 1rem !important;
+    border-radius: 12px !important;
+    border: none !important;
     background: var(--memo-beginner-accent) !important;
     color: #ffffff !important;
-    box-shadow: 0 12px 24px rgba(15, 118, 110, 0.22) !important;
-    font-weight: 850 !important;
+    box-shadow:
+        0 1px 2px rgba(13, 148, 136, 0.2),
+        0 4px 12px rgba(13, 148, 136, 0.15) !important;
+    font-size: 0.82rem !important;
+    font-weight: 750 !important;
+    letter-spacing: -0.01em !important;
     text-align: center !important;
+    transition: all 0.2s ease !important;
+    cursor: pointer !important;
+}
+
+.surat-premium .memorisation-toolbar-start-btn span {
+    font-size: inherit !important;
+    font-weight: inherit !important;
 }
 
 .surat-premium .memorisation-toolbar-start-btn small {
     display: inline-flex !important;
     align-items: center !important;
-    min-height: 20px !important;
-    padding: 0.08rem 0.34rem !important;
-    border-radius: 999px !important;
-    background: rgba(255, 255, 255, 0.18) !important;
-    color: rgba(255, 255, 255, 0.84) !important;
+    min-height: 18px !important;
+    padding: 0.08rem 0.35rem !important;
+    border-radius: 6px !important;
+    background: rgba(255, 255, 255, 0.2) !important;
+    color: rgba(255, 255, 255, 0.9) !important;
     font-size: 0.62rem !important;
-    font-weight: 760 !important;
+    font-weight: 600 !important;
 }
 
 .surat-premium .memorisation-toolbar-start-btn:hover,
@@ -44808,18 +44994,35 @@ h1.display-5 {
     background: var(--memo-beginner-accent-strong) !important;
     color: #ffffff !important;
     transform: translateY(-1px) !important;
+    box-shadow:
+        0 2px 4px rgba(13, 148, 136, 0.25),
+        0 8px 20px rgba(13, 148, 136, 0.2) !important;
 }
 
 .surat-premium .memorisation-toolbar-close-btn--minimal {
     width: 42px !important;
     min-width: 42px !important;
-    height: auto !important;
+    height: 42px !important;
     min-height: 42px !important;
-    align-self: center !important;
-    border-radius: 8px !important;
-    border: 1px solid var(--memo-beginner-border) !important;
-    background: var(--memo-beginner-soft) !important;
+    display: inline-grid !important;
+    place-items: center !important;
+    padding: 0 !important;
+    border-radius: 12px !important;
+    border: 1.5px solid var(--memo-beginner-border-strong) !important;
+    background: var(--memo-beginner-surface) !important;
     color: var(--memo-beginner-muted) !important;
+    font-size: 0.85rem !important;
+    box-shadow: 0 1px 2px rgba(15, 35, 33, 0.04) !important;
+    transition: all 0.18s ease !important;
+    cursor: pointer !important;
+}
+
+.surat-premium .memorisation-toolbar-close-btn--minimal:hover,
+.surat-premium .memorisation-toolbar-close-btn--minimal:focus-visible {
+    border-color: #dc2626 !important;
+    background: #fef2f2 !important;
+    color: #dc2626 !important;
+    box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.08) !important;
 }
 
 .surat-premium .memorisation-toolbar-guidance-row {
@@ -44830,26 +45033,32 @@ h1.display-5 {
 }
 
 .surat-premium .memorisation-toolbar-selected-description {
-    min-height: 30px !important;
+    min-height: 28px !important;
     width: 100% !important;
     display: flex !important;
     align-items: center !important;
-    gap: 0.28rem !important;
-    padding: 0.36rem 0.55rem !important;
-    border: 1px solid var(--memo-beginner-border) !important;
-    border-radius: 8px !important;
-    background: var(--memo-beginner-soft) !important;
-    color: var(--memo-beginner-muted) !important;
+    gap: 0.45rem !important;
+    padding: 0.4rem 0.8rem !important;
+    border: 1.5px solid var(--memo-beginner-border-strong) !important;
+    border-radius: 10px !important;
+    background: var(--memo-beginner-surface) !important;
+    color: var(--memo-beginner-text) !important;
     font-size: 0.78rem !important;
-    font-weight: 720 !important;
+    font-weight: 500 !important;
     overflow: hidden !important;
     text-overflow: ellipsis !important;
     white-space: nowrap !important;
+    box-shadow: 0 1px 3px rgba(13, 148, 136, 0.04) !important;
+}
+
+.surat-premium .memorisation-toolbar-selected-description i {
+    color: var(--memo-beginner-accent) !important;
+    font-size: 0.95rem !important;
 }
 
 .surat-premium .memorisation-toolbar-selected-description strong {
     color: var(--memo-beginner-accent-strong) !important;
-    font-weight: 900 !important;
+    font-weight: 700 !important;
 }
 
 .surat-premium .memorisation-toolbar-advanced-link--inline {
@@ -44984,34 +45193,72 @@ h1.display-5 {
 .surat-premium.surat-theme-dark .quran-toolbar.memorisation-toolbar-compact:has(.memorisation-toolbar-layout--beginner),
 .surat-premium.surat-theme-dark .memorisation-toolbar-layout--beginner,
 .surat-premium.surat-theme-dark .memorisation-mobile-quick-panel--beginner {
-    --memo-beginner-bg: #111827;
-    --memo-beginner-soft: #182233;
-    --memo-beginner-soft-strong: #1f2937;
-    --memo-beginner-border: rgba(148, 163, 184, 0.2);
-    --memo-beginner-border-strong: rgba(94, 234, 212, 0.38);
-    --memo-beginner-text: #f8fafc;
-    --memo-beginner-muted: rgba(226, 232, 240, 0.74);
-    --memo-beginner-accent: #5eead4;
-    --memo-beginner-accent-strong: #99f6e4;
-    --memo-beginner-accent-soft: rgba(45, 212, 191, 0.12);
+    --memo-beginner-bg: #0f1720;
+    --memo-beginner-surface: #182230;
+    --memo-beginner-soft: rgba(255, 255, 255, 0.04);
+    --memo-beginner-soft-strong: rgba(255, 255, 255, 0.07);
+    --memo-beginner-border: rgba(148, 163, 184, 0.1);
+    --memo-beginner-border-strong: rgba(94, 234, 212, 0.45);
+    --memo-beginner-text: #e2e8f0;
+    --memo-beginner-muted: rgba(226, 232, 240, 0.6);
+    --memo-beginner-accent: #2dd4bf;
+    --memo-beginner-accent-strong: #5eead4;
+    --memo-beginner-accent-soft: rgba(45, 212, 191, 0.08);
 }
 
 .surat-premium.surat-theme-dark .quran-toolbar.memorisation-toolbar-compact:has(.memorisation-toolbar-layout--beginner),
 .surat-premium.surat-theme-dark .memorisation-onboarding-overlay {
-    background: var(--memo-beginner-bg) !important;
-    border-color: var(--memo-beginner-border) !important;
-    box-shadow: 0 22px 48px rgba(0, 0, 0, 0.36) !important;
+    background: #0f172a !important;
+    border: 2px solid var(--memo-beginner-accent) !important;
+    box-shadow:
+        0 4px 12px rgba(0, 0, 0, 0.4),
+        0 12px 32px rgba(0, 0, 0, 0.7),
+        0 24px 64px rgba(0, 0, 0, 0.9) !important;
+}
+
+.surat-premium.surat-theme-dark .quran-toolbar.memorisation-toolbar-compact:has(.memorisation-toolbar-layout--beginner) {
+    background-image: none !important;
+    background-color: #0f172a !important;
 }
 
 .surat-premium.surat-theme-dark .memorisation-toolbar-start-btn,
 .surat-premium.surat-theme-dark .memorisation-onboarding-primary {
     background: var(--memo-beginner-accent) !important;
     color: #042f2e !important;
-    box-shadow: 0 12px 26px rgba(45, 212, 191, 0.18) !important;
+    box-shadow:
+        0 1px 2px rgba(45, 212, 191, 0.2),
+        0 4px 12px rgba(45, 212, 191, 0.1) !important;
 }
 
 .surat-premium.surat-theme-dark .memorisation-toolbar-start-btn small {
-    color: rgba(4, 47, 46, 0.76) !important;
+    color: rgba(4, 47, 46, 0.8) !important;
+    background: rgba(0, 0, 0, 0.15) !important;
+}
+
+.surat-premium.surat-theme-dark .memorisation-toolbar-flow-field,
+.surat-premium.surat-theme-dark .memorisation-toolbar-tool-btn--beginner,
+.surat-premium.surat-theme-dark .memorisation-toolbar-overflow-btn,
+.surat-premium.surat-theme-dark .memorisation-toolbar-close-btn--minimal {
+    background: var(--memo-beginner-surface) !important;
+    border-color: rgba(148, 163, 184, 0.35) !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25) !important;
+}
+
+.surat-premium.surat-theme-dark .memorisation-toolbar-tool-btn--beginner:hover,
+.surat-premium.surat-theme-dark .memorisation-toolbar-tool-btn--beginner:focus-visible,
+.surat-premium.surat-theme-dark .memorisation-toolbar-flow-field:hover,
+.surat-premium.surat-theme-dark .memorisation-toolbar-flow-field:focus-within,
+.surat-premium.surat-theme-dark .memorisation-toolbar-overflow-btn:hover {
+    border-color: var(--memo-beginner-accent) !important;
+    box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.15) !important;
+}
+
+.surat-premium.surat-theme-dark .memorisation-toolbar-close-btn--minimal:hover,
+.surat-premium.surat-theme-dark .memorisation-toolbar-close-btn--minimal:focus-visible {
+    border-color: #ef4444 !important;
+    background: rgba(220, 38, 38, 0.12) !important;
+    color: #fca5a5 !important;
+    box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1) !important;
 }
 
 .surat-premium.surat-theme-dark .memorisation-mobile-actions {
@@ -45019,37 +45266,34 @@ h1.display-5 {
 }
 
 @media (max-width: 1399.98px) {
-    .surat-premium .memorisation-toolbar-flow {
-        grid-template-columns: minmax(150px, 0.95fr) minmax(126px, 0.7fr) minmax(0, 3.8fr) minmax(166px, 0.9fr) 42px !important;
-    }
-
     .surat-premium .memorisation-toolbar-tools-strip {
-        grid-template-columns: repeat(4, minmax(92px, 1fr)) !important;
+        gap: 0.35rem !important;
     }
 }
 
 @media (max-width: 1199.98px) {
-    .surat-premium .memorisation-toolbar-flow {
+    .surat-premium .memorisation-toolbar-flow-pipeline {
         display: flex !important;
         overflow-x: auto !important;
-        padding-bottom: 0.25rem !important;
+        padding-bottom: 0.5rem !important;
         scroll-snap-type: x proximity !important;
+        -webkit-overflow-scrolling: touch !important;
     }
 
-    .surat-premium .memorisation-toolbar-flow-field--surah {
-        flex: 0 0 210px !important;
-    }
-
-    .surat-premium .memorisation-toolbar-flow-field--range {
-        flex: 0 0 158px !important;
+    .surat-premium .memorisation-pipeline-step {
+        flex: 0 0 auto !important;
+        width: max-content !important;
+        min-width: max-content !important;
+        scroll-snap-align: start !important;
     }
 
     .surat-premium .memorisation-toolbar-tools-strip {
-        flex: 0 0 min(440px, 56vw) !important;
+        display: flex !important;
     }
 
     .surat-premium .memorisation-toolbar-start-btn {
-        flex: 0 0 156px !important;
+        flex: 0 0 auto !important;
+        width: 156px !important;
     }
 
     .surat-premium .memorisation-toolbar-close-btn--minimal {

@@ -1781,6 +1781,7 @@ export default {
                     icon: "bi-arrow-repeat",
                     active: !!this.memorisationRangeLoopEnabled,
                     stateLabel: this.memorisationRangeLoopEnabled ? "On" : "Off",
+                    shortDesc: "Auto-repeat range",
                     description: this.memorisationRangeLoopEnabled
                         ? "Repeats the selected ayahs so you can practise without touching the controls."
                         : "Turn this on when you want the same ayahs to replay automatically.",
@@ -1791,6 +1792,7 @@ export default {
                     icon: "bi-play-circle",
                     active: true,
                     stateLabel: playback.beginnerLabel || "Normal",
+                    shortDesc: "Recitation flow",
                     description:
                         playback.description ||
                         "Choose how the recitation moves through your selected ayahs.",
@@ -1801,6 +1803,7 @@ export default {
                     icon: "bi-mic",
                     active: !!this.memorisationRepeatAfterEnabled,
                     stateLabel: this.memorisationRepeatAfterEnabled ? "On" : "Off",
+                    shortDesc: "Recite after audio",
                     description: this.memorisationRepeatAfterEnabled
                         ? "The reciter pauses after each ayah so you can repeat it out loud."
                         : "Turn this on when you want time to repeat after the reciter.",
@@ -1811,6 +1814,7 @@ export default {
                     icon: "bi-eye-slash",
                     active: !!this.isMemorisationMode,
                     stateLabel: this.isMemorisationMode ? "On" : "Off",
+                    shortDesc: "Hide ayahs to test recall",
                     description: this.isMemorisationMode
                         ? "Keeps focus on one ayah at a time for recall practice."
                         : "Use this when you are ready to test what you remember.",
@@ -1821,6 +1825,7 @@ export default {
                     icon: "bi-palette",
                     active: !!this.showTajweed,
                     stateLabel: this.showTajweed ? "On" : "Off",
+                    shortDesc: "Pronunciation colors",
                     description: this.showTajweed
                         ? "Tajweed colours are visible to support cleaner recitation."
                         : "Show tajweed colours when you need recitation support.",
@@ -1831,6 +1836,7 @@ export default {
                     icon: "bi-translate",
                     active: !!this.showWordTranslation,
                     stateLabel: this.showWordTranslation ? "On" : "Off",
+                    shortDesc: "Word-by-word hints",
                     description: this.showWordTranslation
                         ? "Word meanings are visible to help connect words with meaning."
                         : "Show word meanings when a word needs a quick reminder.",
@@ -1841,6 +1847,7 @@ export default {
                     icon: "bi-input-cursor-text",
                     active: !!this.isTransliterationAllEnabled,
                     stateLabel: this.isTransliterationAllEnabled ? "On" : "Off",
+                    shortDesc: "Reading assist letters",
                     description: this.isTransliterationAllEnabled
                         ? "Transliteration is visible for reading support."
                         : "Show transliteration if Arabic reading support helps you start.",
@@ -1851,6 +1858,7 @@ export default {
                     icon: "bi-card-text",
                     active: !!this.isTranslationAllEnabled,
                     stateLabel: this.isTranslationAllEnabled ? "On" : "Off",
+                    shortDesc: "Language translation",
                     description: this.isTranslationAllEnabled
                         ? "Translation is visible so the meaning stays close."
                         : "Show translation when you want the meaning beside the ayah.",
