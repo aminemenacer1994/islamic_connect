@@ -59571,10 +59571,10 @@ to {
     gap: 0.24rem;
 }
 .advanced-quran-mobile-controls[data-v-637d02d8] {
-    margin-top: 0.62rem;
-    padding: 0.58rem;
-    border: 1px solid rgba(11, 107, 89, 0.22);
-    border-radius: 16px;
+    margin-top: 0;
+    padding: 0.65rem;
+    border: 1px solid rgba(15, 110, 99, 0.28);
+    border-radius: 18px;
     background: #ffffff !important;
     background-color: #ffffff !important;
     position: relative;
@@ -59582,7 +59582,7 @@ to {
     isolation: isolate;
     display: grid;
     gap: 0.5rem;
-    box-shadow: 0 10px 22px rgba(15, 53, 48, 0.09);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
     transition: transform 0.26s cubic-bezier(0.22, 1, 0.36, 1),
         box-shadow 0.26s ease, border-color 0.26s ease,
         background-color 0.26s ease, opacity 0.2s ease;
@@ -61945,7 +61945,7 @@ to {
     border-radius: 24px;
     /* border: 1px solid rgba(15, 110, 99, 0.06); */
     /* box-shadow: 0 18px 40px rgba(15, 53, 48, 0.08); */
-    padding: 26px 22px 32px;
+    padding: 0 22px 32px;
     width: min(1500px, calc(100% - 32px));
     max-width: none;
     margin-inline: auto;
@@ -61970,7 +61970,10 @@ body.quran-reading-fullscreen-active .navbar,body.quran-reading-fullscreen-activ
 }
 @media (max-width: 1199.98px) {
 .surat-premium[data-v-637d02d8] {
-        margin-top: calc(var(--navbar-h, 72px) * 0.15);
+        margin-top: 0;
+        width: 100%;
+        padding: 4px 12px 24px;
+        border-radius: 0;
 }
 }
 .surat-premium.has-sidebar[data-v-637d02d8] {
@@ -63346,8 +63349,8 @@ body.quran-reading-fullscreen-active .navbar,body.quran-reading-fullscreen-activ
 .ayah-surface[data-v-637d02d8] {
     border-radius: 18px;
     /* background: #ffffff; */
-    border: 1px solid rgba(15, 110, 99, 0.07);
-    box-shadow: 0 10px 26px rgba(15, 53, 48, 0.06);
+    border: 1px solid rgba(15, 110, 99, 0.18);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
     padding: 18px 20px;
     transition: transform 0.2s ease, box-shadow 0.2s ease,
         border-color 0.2s ease;
@@ -67543,9 +67546,9 @@ h1.display-5[data-v-637d02d8] {
 }
 .quran-toolbar-sticky[data-v-637d02d8] {
     position: sticky;
-    top: calc(var(--nav-offset, var(--navbar-h, 72px)) + 10px);
+    top: var(--nav-offset, var(--navbar-h, 72px));
     z-index: 1000;
-    margin: 4px 0 10px;
+    margin: 0 0 10px;
 }
 .quran-toolbar-sticky.is-mobile-playlist-shell[data-v-637d02d8] {
     position: static;
@@ -67556,7 +67559,7 @@ h1.display-5[data-v-637d02d8] {
 @media (min-width: 992px) {
 .quran-toolbar-sticky.quran-toolbar-fixed-shell[data-v-637d02d8] {
         position: sticky;
-        top: calc(var(--nav-offset, var(--navbar-h, 72px)) + 10px);
+        top: var(--nav-offset, var(--navbar-h, 72px));
         min-height: 0;
 }
 .quran-toolbar-sticky.quran-toolbar-fixed-shell .quran-toolbar[data-v-637d02d8],
@@ -67571,6 +67574,23 @@ h1.display-5[data-v-637d02d8] {
 }
 .surat-premium.memorisation-offcanvas-open .row[role="list"][data-v-637d02d8] {
     padding-top: 6rem !important;
+}
+
+/* Hide specific ayah actions in memorisation mode */
+.surat-premium.memorisation-offcanvas-open .ayah-menu-trigger[data-v-637d02d8],
+.surat-premium.memorisation-offcanvas-open .ayah-tafseer-dropdown[data-v-637d02d8],
+.surat-premium.memorisation-offcanvas-open .ayah-header-download-btn[data-v-637d02d8],
+.surat-premium.memorisation-offcanvas-open .ayah-arabic-audio-btn[data-v-637d02d8] {
+    display: none !important;
+}
+
+/* Ensure Arabic verse stays on the right when audio button is hidden */
+.surat-premium.memorisation-offcanvas-open .ayah-arabic-inline-shell[data-v-637d02d8] {
+    grid-template-columns: 1fr !important;
+}
+.surat-premium.memorisation-offcanvas-open .ayah-arabic-inline-shell .arabic-text[data-v-637d02d8] {
+    text-align: right !important;
+    justify-self: end;
 }
 @media (min-width: 1200px) {
 .surat-premium.has-sidebar
@@ -73366,8 +73386,9 @@ to {
 }
 .quran-reader-hero[data-v-637d02d8] {
     position: relative;
-    margin-bottom: 1.15rem !important;
-    padding: 1.35rem 1.25rem 1.05rem;
+    margin-top: 0 !important;
+    margin-bottom: 0.85rem !important;
+    padding: 0.75rem 1.25rem 0.65rem;
     border-radius: 22px;
     border: 1px solid var(--surat-line-soft);
     background:
@@ -80404,9 +80425,11 @@ to {
         border-radius: 12px !important;
 }
 .surat-premium.mobile-compact-layout .advanced-quran-mobile-controls[data-v-637d02d8] {
-        padding: 0.56rem !important;
-        gap: 0.46rem !important;
-        border-radius: 13px !important;
+        padding: 0.75rem !important;
+        gap: 0.5rem !important;
+        border-radius: 18px !important;
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05) !important;
+        border: 1px solid rgba(15, 110, 99, 0.25) !important;
 }
 .surat-premium.mobile-compact-layout .advanced-quran-mobile-main-row[data-v-637d02d8] {
         grid-template-columns: minmax(0, 1fr) 44px 44px !important;
@@ -80451,8 +80474,10 @@ to {
         margin-bottom: 0.34rem !important;
 }
 .surat-premium.mobile-compact-layout .ayah-surface[data-v-637d02d8] {
-        padding: 0.56rem 0.64rem !important;
-        border-radius: 11px !important;
+        padding: 0.85rem 1rem !important;
+        border-radius: 16px !important;
+        border: 1px solid rgba(15, 110, 99, 0.2) !important;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
 }
 .surat-premium.mobile-compact-layout .ayah-card-header[data-v-637d02d8] {
         align-items: flex-start !important;
@@ -90790,7 +90815,7 @@ body.surat-page-shell-dark .modal-content .form-control::placeholder,body.surat-
     --surat-theme-panel: rgba(7, 25, 47, 0.9);
     --surat-theme-panel-soft: rgba(11, 35, 63, 0.92);
     --surat-theme-panel-strong: #103257;
-    --surat-theme-border: rgba(255, 255, 255, 0.16);
+    --surat-theme-border: rgba(255, 255, 255, 0.32);
     --surat-theme-border-strong: rgba(255, 255, 255, 0.3);
     --surat-theme-mint: #fff;
     --surat-theme-mint-soft: #fff;
@@ -91127,10 +91152,10 @@ body.surat-page-shell-dark .modal-content .form-control::placeholder,body.surat-
 .surat-premium.surat-theme-dark.performance-optimized .ayah-surface[data-v-637d02d8],
 .surat-premium.surat-theme-dark.performance-optimized .ayah-card-container:hover .ayah-surface[data-v-637d02d8],
 .surat-premium.surat-theme-dark.performance-optimized .ayah-surface[data-v-637d02d8] {
-    background: rgba(7, 25, 47, 0.72) !important;
+    background: rgba(10, 31, 58, 0.8) !important;
     border: 1px solid var(--surat-theme-border) !important;
-    border-radius: 18px !important;
-    box-shadow: 0 12px 28px rgba(0, 8, 22, 0.22) !important;
+    border-radius: 20px !important;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.6), 0 4px 6px -2px rgba(0, 0, 0, 0.4) !important;
 }
 .surat-premium.surat-theme-dark .ayah-card-container:hover .ayah-surface[data-v-637d02d8] {
     background: rgba(10, 31, 58, 0.92) !important;
@@ -94748,7 +94773,7 @@ to {
 .surat-premium .quran-toolbar-sticky.memorisation-toolbar-sticky.memorisation-toolbar-active[data-v-637d02d8] {
         position: sticky !important;
         top: calc(var(--nav-offset, var(--navbar-h, 72px)) + 10px) !important;
-        z-index: 1300 !important;
+        z-index: 1010 !important;
 }
 }
 @media (max-width: 991.98px) {
@@ -96903,20 +96928,24 @@ to {
     gap: 0.55rem !important;
 }
 .surat-premium .quran-toolbar.memorisation-toolbar-compact[data-v-637d02d8]:has(.memorisation-toolbar-layout--beginner) {
-    border: 2px solid #0f766e !important;
-    background: #ffffff !important;
-    box-shadow:
-        0 4px 12px rgba(15, 118, 110, 0.08),
-        0 12px 32px rgba(15, 118, 110, 0.15),
-        0 24px 64px rgba(15, 118, 110, 0.2) !important;
+    border: 1px solid rgba(15, 118, 110, 0.2) !important;
+    background: rgba(255, 255, 255, 0.98) !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    box-shadow: 
+        0 10px 25px -5px rgba(0, 0, 0, 0.1),
+        0 20px 48px -12px rgba(0, 0, 0, 0.2) !important;
+}
+.surat-premium .memorisation-toolbar-layout--beginner[data-v-637d02d8] {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0.65rem !important;
+    padding: 0.75rem 1.25rem !important;
+    border-radius: 16px !important;
+    background: transparent !important;
 }
 .surat-premium .memorisation-toolbar-intro--beginner[data-v-637d02d8] {
-    display: flex !important;
-    align-items: center !important;
-    justify-content: space-between !important;
-    gap: 0.75rem !important;
-    max-width: none !important;
-    padding: 0 0.1rem !important;
+    display: none !important;
 }
 .surat-premium .memorisation-toolbar-surah-name[data-v-637d02d8],
 .surat-premium .memorisation-mobile-surah-title[data-v-637d02d8],
@@ -96932,7 +96961,7 @@ to {
 .surat-premium .memorisation-mobile-main-surah-name strong[data-v-637d02d8] {
     min-width: 0 !important;
     color: var(--memo-beginner-text) !important;
-    font-size: 0.95rem !important;
+    font-size: 0.85rem !important;
     font-weight: 800 !important;
     letter-spacing: -0.01em !important;
     overflow: hidden !important;
@@ -96976,12 +97005,12 @@ to {
     align-items: stretch !important;
     gap: 1.25rem !important;
     width: 100% !important;
-    padding: 0.2rem 0 !important;
+    padding: 0 !important;
 }
 .surat-premium .memorisation-pipeline-step[data-v-637d02d8] {
     display: flex !important;
     flex-direction: column !important;
-    gap: 0.6rem !important;
+    gap: 0.65rem !important;
     min-width: 0 !important;
     justify-content: flex-end !important;
 }
@@ -96998,8 +97027,8 @@ to {
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-    width: 18px !important;
-    height: 18px !important;
+    width: 15px !important;
+    height: 15px !important;
     border-radius: 50% !important;
     background: var(--memo-beginner-accent) !important;
     color: #ffffff !important;
@@ -97008,12 +97037,12 @@ to {
     line-height: 1 !important;
 }
 .surat-premium .memorisation-pipeline-title[data-v-637d02d8] {
-    font-size: 0.72rem !important;
+    font-size: 0.65rem !important;
     font-weight: 700 !important;
     text-transform: uppercase !important;
-    letter-spacing: 0.04em !important;
+    letter-spacing: 0.03em !important;
     color: var(--memo-beginner-text) !important;
-    opacity: 0.8 !important;
+    opacity: 0.95 !important;
     line-height: 1 !important;
 }
 .surat-premium .memorisation-pipeline-controls[data-v-637d02d8] {
@@ -97033,18 +97062,18 @@ to {
 }
 .surat-premium .memorisation-toolbar-flow-field[data-v-637d02d8] {
     min-width: 0 !important;
-    min-height: 42px !important;
-    height: 42px !important;
+    min-height: 44px !important;
+    height: 44px !important;
     display: inline-flex !important;
     align-items: center !important;
     justify-content: space-between !important;
-    gap: 0.75rem !important;
-    padding: 0 0.85rem !important;
+    gap: 0.6rem !important;
+    padding: 0 0.7rem !important;
     border-radius: 12px !important;
-    border: 1.5px solid var(--memo-beginner-border-strong) !important;
+    border: 1px solid rgba(15, 91, 83, 0.1) !important;
     background: var(--memo-beginner-surface) !important;
-    box-shadow: 0 1px 2px rgba(15, 35, 33, 0.04) !important;
-    transition: all 0.18s ease !important;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.04) !important;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 .surat-premium .memorisation-toolbar-flow-field[data-v-637d02d8]:hover,
 .surat-premium .memorisation-toolbar-flow-field[data-v-637d02d8]:focus-within {
@@ -97054,8 +97083,8 @@ to {
 }
 .surat-premium .memorisation-toolbar-flow-field > span[data-v-637d02d8] {
     color: var(--memo-beginner-muted) !important;
-    font-size: 0.7rem !important;
-    font-weight: 600 !important;
+    font-size: 0.640rem !important;
+    font-weight: 700 !important;
     letter-spacing: 0.03em !important;
     text-transform: uppercase !important;
     white-space: nowrap !important;
@@ -97063,23 +97092,26 @@ to {
 .surat-premium .memorisation-toolbar-flow-control[data-v-637d02d8] {
     flex: 0 1 auto !important;
     min-width: 0 !important;
-    max-width: 130px !important;
+    max-width: 160px !important;
     height: 28px !important;
-    padding: 0 0.5rem !important;
+    padding: 0 1.8rem 0 0.75rem !important;
     border: none !important;
-    border-radius: 7px !important;
+    border-radius: 8px !important;
     background: var(--memo-beginner-soft) !important;
     color: var(--memo-beginner-text) !important;
-    font-size: 0.74rem !important;
+    font-size: 0.75rem !important;
     font-weight: 700 !important;
     text-align: right !important;
     line-height: 28px !important;
     box-shadow: none !important;
     -webkit-appearance: none !important;
-       -moz-appearance: none !important;
-            appearance: none !important;
+    -moz-appearance: none !important;
+    appearance: none !important;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='rgba(13, 148, 136, 0.8)' class='bi bi-chevron-down' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E") !important;
+    background-repeat: no-repeat !important;
+    background-position: right 0.5rem center !important;
     cursor: pointer !important;
-    transition: background 0.15s ease !important;
+    transition: all 0.15s ease !important;
 }
 .surat-premium .memorisation-toolbar-flow-control[data-v-637d02d8]:hover {
     background: var(--memo-beginner-soft-strong) !important;
@@ -97091,11 +97123,13 @@ to {
     height: 100% !important;
 }
 .surat-premium .memorisation-toolbar-range-inputs .memorisation-toolbar-flow-control[data-v-637d02d8] {
-    width: 42px !important;
-    height: 28px !important;
-    padding: 0 !important;
+    max-width: 48px !important;
+    width: 48px !important;
+    height: 24px !important;
+    padding: 0 0.2rem !important;
     text-align: center !important;
-    line-height: 28px !important;
+    line-height: 24px !important;
+    background-image: none !important;
 }
 .surat-premium .memorisation-toolbar-range-inputs span[data-v-637d02d8] {
     font-size: 0.68rem !important;
@@ -97111,25 +97145,24 @@ to {
     align-items: stretch !important;
 }
 .surat-premium .memorisation-toolbar-tools-strip[data-v-637d02d8] > * {
-    flex: 1 1 0 !important;
+    flex: 1 1 auto !important;
     min-width: 0 !important;
 }
 .surat-premium .memorisation-toolbar-tool-btn--beginner[data-v-637d02d8] {
     min-width: 0 !important;
-    min-height: 42px !important;
-    height: 42px !important;
-    width: 100% !important;
+    min-height: 44px !important;
+    height: 44px !important;
     display: inline-flex !important;
     align-items: center !important;
-    justify-content: flex-start !important;
+    justify-content: space-between !important;
     gap: 0.65rem !important;
     padding: 0 0.85rem !important;
     border-radius: 12px !important;
-    border: 1.5px solid var(--memo-beginner-border-strong) !important;
+    border: 1px solid rgba(15, 91, 83, 0.1) !important;
     background: var(--memo-beginner-surface) !important;
     color: var(--memo-beginner-text) !important;
-    box-shadow: 0 1px 2px rgba(15, 35, 33, 0.04) !important;
-    transition: all 0.18s ease !important;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.04) !important;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
     cursor: pointer !important;
 }
 .surat-premium .memorisation-toolbar-tool-btn--beginner i[data-v-637d02d8] {
@@ -97143,31 +97176,31 @@ to {
     flex-direction: column !important;
     align-items: flex-start !important;
     justify-content: center !important;
-    gap: 0.15rem !important;
+    gap: 0.05rem !important;
     min-width: 0 !important;
 }
 .surat-premium .memorisation-tool-label[data-v-637d02d8] {
     display: flex !important;
     align-items: center !important;
-    font-size: 0.82rem !important;
+    font-size: 0.72rem !important;
     font-weight: 700 !important;
     letter-spacing: -0.005em !important;
     color: var(--memo-beginner-text) !important;
-    line-height: 1 !important;
+    line-height: 1.2 !important;
     white-space: nowrap !important;
 }
 .surat-premium .memorisation-tool-state[data-v-637d02d8] {
-    margin-left: 0.5rem !important;
-    padding: 0.16rem 0.45rem !important;
-    border-radius: 8px !important;
+    margin-left: 0.35rem !important;
+    padding: 0.18rem 0.5rem !important;
+    border-radius: 9px !important;
     background: var(--memo-beginner-soft) !important;
     color: var(--memo-beginner-muted) !important;
-    font-size: 0.65rem !important;
+    font-size: 0.62rem !important;
     font-weight: 700 !important;
     line-height: 1 !important;
 }
 .surat-premium .memorisation-tool-desc-micro[data-v-637d02d8] {
-    font-size: 0.65rem !important;
+    font-size: 0.6rem !important;
     font-weight: 500 !important;
     opacity: 0.75 !important;
     color: var(--memo-beginner-muted) !important;
@@ -97188,7 +97221,8 @@ to {
     border-color: var(--memo-beginner-accent) !important;
     background: var(--memo-beginner-accent-soft) !important;
     color: var(--memo-beginner-accent-strong) !important;
-    box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.06), 0 1px 2px rgba(15, 35, 33, 0.04) !important;
+    /* Reduced shadow border thickness */
+    box-shadow: 0 4px 8px -2px rgba(0, 0, 0, 0.08) !important;
 }
 .surat-premium .memorisation-toolbar-tool-btn--beginner.is-active i[data-v-637d02d8] {
     color: var(--memo-beginner-accent) !important;
@@ -97199,7 +97233,8 @@ to {
     color: var(--memo-beginner-accent-strong) !important;
 }
 .surat-premium .memorisation-toolbar-tool-btn--beginner.is-selected[data-v-637d02d8] {
-    box-shadow: inset 0 0 0 1.5px var(--memo-beginner-border-strong), 0 1px 3px rgba(15, 35, 33, 0.04) !important;
+    /* Reduced shadow border thickness to 1px instead of 2px */
+    box-shadow: 0 0 0 1px var(--memo-beginner-accent), 0 8px 16px -4px rgba(13, 148, 136, 0.15) !important;
 }
 .surat-premium .memorisation-toolbar-overflow[data-v-637d02d8] {
     min-width: 0 !important;
@@ -97252,14 +97287,14 @@ to {
     border-radius: 10px !important;
 }
 .surat-premium .memorisation-toolbar-start-btn[data-v-637d02d8] {
-    min-height: 42px !important;
-    height: 42px !important;
+    min-height: 44px !important;
+    height: 44px !important;
     align-self: center !important;
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
-    gap: 0.45rem !important;
-    padding: 0 1rem !important;
+    gap: 0.65rem !important;
+    padding: 0 1.25rem !important;
     border-radius: 12px !important;
     border: none !important;
     background: var(--memo-beginner-accent) !important;
@@ -97281,9 +97316,9 @@ to {
 .surat-premium .memorisation-toolbar-start-btn small[data-v-637d02d8] {
     display: inline-flex !important;
     align-items: center !important;
-    min-height: 18px !important;
-    padding: 0.08rem 0.35rem !important;
-    border-radius: 6px !important;
+    min-height: 22px !important;
+    padding: 0.15rem 0.55rem !important;
+    border-radius: 8px !important;
     background: rgba(255, 255, 255, 0.2) !important;
     color: rgba(255, 255, 255, 0.9) !important;
     font-size: 0.62rem !important;
@@ -97307,11 +97342,11 @@ to {
     place-items: center !important;
     padding: 0 !important;
     border-radius: 12px !important;
-    border: 1.5px solid var(--memo-beginner-border-strong) !important;
+    border: 1px solid rgba(15, 91, 83, 0.1) !important;
     background: var(--memo-beginner-surface) !important;
     color: var(--memo-beginner-muted) !important;
     font-size: 0.85rem !important;
-    box-shadow: 0 1px 2px rgba(15, 35, 33, 0.04) !important;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.04) !important;
     transition: all 0.18s ease !important;
     cursor: pointer !important;
 }
@@ -97323,32 +97358,81 @@ to {
     box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.08) !important;
 }
 .surat-premium .memorisation-toolbar-guidance-row[data-v-637d02d8] {
+    width: 100% !important;
+    margin-top: 0.15rem !important;
+}
+.surat-premium .memorisation-toolbar-guidance-content[data-v-637d02d8] {
     display: flex !important;
     align-items: center !important;
-    justify-content: flex-start !important;
-    gap: 0.5rem !important;
+    gap: 0.6rem !important;
+    padding: 0.35rem 0.75rem !important;
+    background: var(--memo-beginner-accent-soft) !important;
+    border: 1px solid var(--memo-beginner-border) !important;
+    border-radius: 10px !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+}
+.surat-premium .memorisation-toolbar-guidance-content[data-v-637d02d8]:hover {
+    background: var(--memo-beginner-soft-strong) !important;
+    border-color: var(--memo-beginner-border-strong) !important;
+}
+.surat-premium .memorisation-toolbar-guidance-content[data-v-637d02d8]:active {
+    transform: scale(0.995) !important;
+}
+.surat-premium .memorisation-guidance-icon[data-v-637d02d8] {
+    font-size: 0.85rem !important;
+    color: var(--memo-beginner-accent) !important;
+    flex-shrink: 0 !important;
+}
+.surat-premium .memorisation-guidance-label-text[data-v-637d02d8] {
+    font-size: 0.65rem !important;
+    font-weight: 800 !important;
+    color: var(--memo-beginner-accent) !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.03em !important;
+    white-space: nowrap !important;
+    flex-shrink: 0 !important;
 }
 .surat-premium .memorisation-toolbar-selected-description[data-v-637d02d8] {
-    min-height: 28px !important;
-    width: 100% !important;
-    display: flex !important;
-    align-items: center !important;
-    gap: 0.45rem !important;
-    padding: 0.4rem 0.8rem !important;
-    border: 1.5px solid var(--memo-beginner-border-strong) !important;
-    border-radius: 10px !important;
-    background: var(--memo-beginner-surface) !important;
+    margin: 0 !important;
+    font-size: 0.74rem !important;
+    line-height: 1.25 !important;
     color: var(--memo-beginner-text) !important;
-    font-size: 0.78rem !important;
-    font-weight: 500 !important;
+    opacity: 0.9 !important;
+    flex: 1 !important;
     overflow: hidden !important;
-    text-overflow: ellipsis !important;
-    white-space: nowrap !important;
-    box-shadow: 0 1px 3px rgba(13, 148, 136, 0.04) !important;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 1 !important;
+    -webkit-box-orient: vertical !important;
+    text-align: left !important;
 }
-.surat-premium .memorisation-toolbar-selected-description i[data-v-637d02d8] {
+.surat-premium .memorisation-toolbar-guidance-row:not(.is-collapsed) .memorisation-toolbar-selected-description[data-v-637d02d8] {
+    -webkit-line-clamp: 3 !important;
+}
+.surat-premium .memorisation-guidance-placeholder[data-v-637d02d8] {
+    opacity: 0.5 !important;
+    font-style: italic !important;
+    font-size: 0.72rem !important;
+}
+.surat-premium .memorisation-guidance-chevron[data-v-637d02d8] {
+    font-size: 0.75rem !important;
     color: var(--memo-beginner-accent) !important;
-    font-size: 0.95rem !important;
+    opacity: 0.6 !important;
+    flex-shrink: 0 !important;
+    margin-left: 0.2rem !important;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+.surat-premium .memorisation-toolbar-guidance-row:not(.is-collapsed) .memorisation-guidance-chevron[data-v-637d02d8] {
+    transform: rotate(180deg) !important;
+}
+@keyframes memoTipSlideIn-637d02d8 {
+from { opacity: 0; transform: translateY(-10px) scale(0.98);
+}
+to { opacity: 1; transform: translateY(0) scale(1);
+}
+}
+.surat-premium .memorisation-toolbar-guidance-row.is-collapsed[data-v-637d02d8] {
+    margin-top: 0.15rem !important;
 }
 .surat-premium .memorisation-toolbar-selected-description strong[data-v-637d02d8] {
     color: var(--memo-beginner-accent-strong) !important;
@@ -97478,20 +97562,21 @@ to {
     --memo-beginner-soft-strong: rgba(255, 255, 255, 0.07);
     --memo-beginner-border: rgba(148, 163, 184, 0.1);
     --memo-beginner-border-strong: rgba(94, 234, 212, 0.45);
-    --memo-beginner-text: #e2e8f0;
-    --memo-beginner-muted: rgba(226, 232, 240, 0.6);
+    --memo-beginner-text: #f8fafc;
+    --memo-beginner-muted: rgba(241, 245, 249, 0.9);
     --memo-beginner-accent: #2dd4bf;
-    --memo-beginner-accent-strong: #5eead4;
-    --memo-beginner-accent-soft: rgba(45, 212, 191, 0.08);
+    --memo-beginner-accent-strong: #99f6e4;
+    --memo-beginner-accent-soft: rgba(45, 212, 191, 0.2);
 }
 .surat-premium.surat-theme-dark .quran-toolbar.memorisation-toolbar-compact[data-v-637d02d8]:has(.memorisation-toolbar-layout--beginner),
 .surat-premium.surat-theme-dark .memorisation-onboarding-overlay[data-v-637d02d8] {
-    background: #0f172a !important;
-    border: 2px solid var(--memo-beginner-accent) !important;
+    background: rgba(15, 23, 42, 0.92) !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    border: 1px solid rgba(45, 212, 191, 0.3) !important;
     box-shadow:
-        0 4px 12px rgba(0, 0, 0, 0.4),
-        0 12px 32px rgba(0, 0, 0, 0.7),
-        0 24px 64px rgba(0, 0, 0, 0.9) !important;
+        0 10px 25px -5px rgba(0, 0, 0, 0.5),
+        0 20px 48px -12px rgba(0, 0, 0, 0.7) !important;
 }
 .surat-premium.surat-theme-dark .quran-toolbar.memorisation-toolbar-compact[data-v-637d02d8]:has(.memorisation-toolbar-layout--beginner) {
     background-image: none !important;
@@ -97514,8 +97599,8 @@ to {
 .surat-premium.surat-theme-dark .memorisation-toolbar-overflow-btn[data-v-637d02d8],
 .surat-premium.surat-theme-dark .memorisation-toolbar-close-btn--minimal[data-v-637d02d8] {
     background: var(--memo-beginner-surface) !important;
-    border-color: rgba(148, 163, 184, 0.35) !important;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35) !important;
 }
 .surat-premium.surat-theme-dark .memorisation-toolbar-tool-btn--beginner[data-v-637d02d8]:hover,
 .surat-premium.surat-theme-dark .memorisation-toolbar-tool-btn--beginner[data-v-637d02d8]:focus-visible,
@@ -97535,54 +97620,116 @@ to {
 .surat-premium.surat-theme-dark .memorisation-mobile-actions[data-v-637d02d8] {
     background: linear-gradient(180deg, rgba(17, 24, 39, 0), var(--memo-beginner-bg) 36%) !important;
 }
-@media (max-width: 1399.98px) {
-.surat-premium .memorisation-toolbar-tools-strip[data-v-637d02d8] {
+@media (max-width: 991.98px) {
+.surat-premium .memorisation-toolbar-layout--beginner[data-v-637d02d8] {
+        padding: 0.45rem !important;
         gap: 0.35rem !important;
 }
-}
-@media (max-width: 1199.98px) {
 .surat-premium .memorisation-toolbar-flow-pipeline[data-v-637d02d8] {
-        display: flex !important;
-        overflow-x: auto !important;
-        padding-bottom: 0.5rem !important;
-        scroll-snap-type: x proximity !important;
-        -webkit-overflow-scrolling: touch !important;
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 0.75rem !important;
 }
 .surat-premium .memorisation-pipeline-step[data-v-637d02d8] {
-        flex: 0 0 auto !important;
-        width: -moz-max-content !important;
-        width: max-content !important;
-        min-width: -moz-max-content !important;
-        min-width: max-content !important;
-        scroll-snap-align: start !important;
+        width: 100% !important;
+        border-bottom: 1px solid var(--memo-beginner-border) !important;
+        padding-bottom: 0.45rem !important;
+        gap: 0.3rem !important;
+}
+.surat-premium .memorisation-pipeline-header[data-v-637d02d8] {
+        margin-bottom: 0.1rem !important;
+}
+.surat-premium .memorisation-pipeline-badge[data-v-637d02d8] {
+        width: 18px !important;
+        height: 18px !important;
+        font-size: 0.65rem !important;
+}
+.surat-premium .memorisation-pipeline-title[data-v-637d02d8] {
+        font-size: 0.72rem !important;
+}
+.surat-premium .memorisation-pipeline-controls[data-v-637d02d8] {
+        flex-direction: column !important;
+        align-items: stretch !important;
+        height: auto !important;
+        gap: 0.3rem !important;
+}
+.surat-premium .memorisation-toolbar-flow-field[data-v-637d02d8] {
+        height: 40px !important;
+        min-height: 40px !important;
+        padding: 0 0.85rem !important;
+        border-radius: 10px !important;
 }
 .surat-premium .memorisation-toolbar-tools-strip[data-v-637d02d8] {
-        display: flex !important;
+        display: grid !important;
+        grid-template-columns: repeat(3, 1fr) !important;
+        gap: 0.35rem !important;
+}
+.surat-premium .memorisation-toolbar-tool-btn--beginner[data-v-637d02d8] {
+        height: 48px !important;
+        min-height: 48px !important;
+        padding: 0 0.75rem !important;
+        flex-direction: row !important;
+        justify-content: center !important;
+        gap: 0.5rem !important;
+        border-radius: 10px !important;
+}
+.surat-premium .memorisation-tool-text-group[data-v-637d02d8] {
+        display: none !important; /* Hide labels on very small tablets to save space, keep icons */
+}
+.surat-premium .memorisation-toolbar-tool-btn--beginner i[data-v-637d02d8] {
+        font-size: 1rem !important;
+        margin: 0 !important;
 }
 .surat-premium .memorisation-toolbar-start-btn[data-v-637d02d8] {
-        flex: 0 0 auto !important;
-        width: 156px !important;
+        height: 42px !important;
+        min-height: 42px !important;
+        font-size: 0.85rem !important;
+        border-radius: 12px !important;
 }
-.surat-premium .memorisation-toolbar-close-btn--minimal[data-v-637d02d8] {
-        flex: 0 0 42px !important;
+.surat-premium .memorisation-pipeline-actions[data-v-637d02d8] {
+        padding-top: 0.35rem !important;
+        padding-left: 0 !important;
+        margin-left: 0 !important;
+        border-left: none !important;
+        border-top: 1px solid var(--memo-beginner-border) !important;
+        margin-top: 0.15rem !important;
+        gap: 0.3rem !important;
 }
 }
-@media (max-width: 767.98px) {
-.surat-premium .memorisation-mobile-flow-grid[data-v-637d02d8] {
-        grid-template-columns: minmax(0, 1fr) !important;
+@media (max-width: 575.98px) {
+.surat-premium .memorisation-toolbar-tools-strip[data-v-637d02d8] {
+        grid-template-columns: repeat(3, 1fr) !important;
 }
-.surat-premium .memorisation-mobile-actions[data-v-637d02d8] {
-        grid-template-columns: minmax(0, 1fr) !important;
+.surat-premium .memorisation-toolbar-guidance-content[data-v-637d02d8] {
+        padding: 0.3rem 0.6rem !important;
+        gap: 0.45rem !important;
 }
-.surat-premium .memorisation-toolbar-surah-name[data-v-637d02d8],
-    .surat-premium .memorisation-mobile-surah-title[data-v-637d02d8],
-    .surat-premium .memorisation-mobile-main-surah-name[data-v-637d02d8] {
-        flex-wrap: wrap !important;
+.surat-premium .memorisation-toolbar-selected-description[data-v-637d02d8] {
+        font-size: 0.72rem !important;
+        -webkit-line-clamp: 2 !important;
 }
-.surat-premium .memorisation-onboarding-overlay[data-v-637d02d8] {
-        left: 1rem !important;
-        right: 1rem !important;
-        width: auto !important;
+.surat-premium .memorisation-toolbar-guidance-row:not(.is-collapsed) .memorisation-toolbar-selected-description[data-v-637d02d8] {
+        -webkit-line-clamp: 5 !important;
+}
+.surat-premium .memorisation-tool-text-group[data-v-637d02d8] {
+        display: flex !important;
+        flex-direction: column !important;
+}
+.surat-premium .memorisation-tool-label[data-v-637d02d8] {
+        font-size: 0.7rem !important;
+}
+.surat-premium .memorisation-tool-desc-micro[data-v-637d02d8] {
+        display: none !important;
+}
+.surat-premium .memorisation-toolbar-tool-btn--beginner[data-v-637d02d8] {
+        height: 42px !important;
+        min-height: 42px !important;
+        flex-direction: column !important;
+        gap: 0 !important;
+        padding: 0.2rem !important;
+}
+.surat-premium .memorisation-toolbar-tool-btn--beginner i[data-v-637d02d8] {
+        font-size: 0.9rem !important;
 }
 }
 

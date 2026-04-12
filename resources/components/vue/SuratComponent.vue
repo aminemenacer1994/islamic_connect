@@ -21,14 +21,14 @@
         }"
         :style="quranFontStyle"
         role="main" aria-label="Quran Explorer">
-        <div v-if="!isMemorisationToolbarVisible" class="row justify-content-center text-center mb-3 reading-fullscreen-chrome quran-reader-hero">
+        <div v-if="!isMemorisationToolbarVisible" class="row justify-content-center text-center reading-fullscreen-chrome quran-reader-hero">
             <div class="col-lg-9 col-xl-8">
-                <h1 class="display-5 pb-3 fw-bold">The Holy Quran</h1>
+                <h1 class="display-5 fw-bold">The Holy Quran</h1>
             </div>
         </div>
         <div
             v-if="!isMemorisationToolbarVisible && (shouldShowContinueReadingCard || desktopSurahContext.englishName || desktopSurahContext.arabicName)"
-            class="continue-surah-container mb-3">
+            class="continue-surah-container mb-2">
             <div class="row container g-3 align-items-center continue-surah-row">
                 <div
                     v-if="shouldShowContinueReadingCard"
@@ -872,11 +872,16 @@
 
                     </div>
 
-                    <div class="memorisation-toolbar-guidance-row">
-                        <p class="memorisation-toolbar-selected-description mb-0">
-                            <i class="bi bi-info-circle-fill"></i>
-                            <strong>Tip:</strong> {{ activeMemorisationQuickToolDescription }}
-                        </p>
+                    <div class="memorisation-toolbar-guidance-row" :class="{ 'is-collapsed': !isMemorisationTipVisible }">
+                        <div class="memorisation-toolbar-guidance-content" @click="toggleMemorisationTip">
+                            <i class="bi bi-lightbulb-fill memorisation-guidance-icon"></i>
+                            <span class="memorisation-guidance-label-text">Practice Tip:</span>
+                            <p class="memorisation-toolbar-selected-description">
+                                <span v-if="isMemorisationTipVisible">{{ activeMemorisationQuickToolDescription }}</span>
+                                <span v-else class="memorisation-guidance-placeholder">Tap to view helpful practice tip...</span>
+                            </p>
+                            <i class="bi bi-chevron-down memorisation-guidance-chevron"></i>
+                        </div>
                     </div>
 
                     <div

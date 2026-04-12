@@ -1180,6 +1180,10 @@ export default {
             memorisationOffcanvasDockedWidth: 400,
             isMemorisationAdvancedOpen: false,
             isMemorisationReadingAidsOpen: false,
+            isMemorisationTipVisible: (() => {
+                const stored = localStorage.getItem("ic_memorisation_tip_visible_v1");
+                return stored === null ? true : stored === "true";
+            })(),
             isMemorisationMode: false,
             memorisationFocusIndex: 0,
             memorisationLastWorkedIndex: null,
@@ -1777,33 +1781,33 @@ export default {
             return [
                 {
                     key: "loopRange",
-                    label: "Loop",
+                    label: "Repeat range",
                     icon: "bi-arrow-repeat",
                     active: !!this.memorisationRangeLoopEnabled,
                     stateLabel: this.memorisationRangeLoopEnabled ? "On" : "Off",
-                    shortDesc: "Auto-repeat range",
+                    shortDesc: "Auto-repeat selection",
                     description: this.memorisationRangeLoopEnabled
                         ? "Repeats the selected ayahs so you can practise without touching the controls."
                         : "Turn this on when you want the same ayahs to replay automatically.",
                 },
                 {
                     key: "playbackMode",
-                    label: "Play mode",
+                    label: "Audio flow",
                     icon: "bi-play-circle",
                     active: true,
                     stateLabel: playback.beginnerLabel || "Normal",
-                    shortDesc: "Recitation flow",
+                    shortDesc: "Verse sequence",
                     description:
                         playback.description ||
                         "Choose how the recitation moves through your selected ayahs.",
                 },
                 {
                     key: "repeatAfter",
-                    label: "Repeat",
+                    label: "Listen & Repeat",
                     icon: "bi-mic",
                     active: !!this.memorisationRepeatAfterEnabled,
                     stateLabel: this.memorisationRepeatAfterEnabled ? "On" : "Off",
-                    shortDesc: "Recite after audio",
+                    shortDesc: "Gap after reciter",
                     description: this.memorisationRepeatAfterEnabled
                         ? "The reciter pauses after each ayah so you can repeat it out loud."
                         : "Turn this on when you want time to repeat after the reciter.",
@@ -12732,6 +12736,10 @@ export default {
             } catch (_) {
                 this.showToast("Memorisation tools are coming soon.", 3200);
             }
+        },
+        toggleMemorisationTip() {
+            this.isMemorisationTipVisible = !this.isMemorisationTipVisible;
+            localStorage.setItem("ic_memorisation_tip_visible_v1", this.isMemorisationTipVisible);
         },
         toggleMemorisationAdvanced() {
             this.isMemorisationAdvancedOpen = !this.isMemorisationAdvancedOpen;
