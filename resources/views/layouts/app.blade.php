@@ -1438,6 +1438,20 @@
             z-index: 1080 !important;
         }
 
+        body.surat-route-page .offcanvas.memorisation-offcanvas {
+            top: 0 !important;
+            bottom: 0 !important;
+            height: 100dvh !important;
+            max-height: 100dvh !important;
+            z-index: 1260 !important;
+        }
+
+        body.surat-route-page:has(.offcanvas.memorisation-offcanvas.show) .offcanvas-backdrop {
+            top: 0 !important;
+            height: 100dvh !important;
+            z-index: 1250 !important;
+        }
+
         body.surat-route-page .modal {
             padding:
                 var(--surat-overlay-gap)

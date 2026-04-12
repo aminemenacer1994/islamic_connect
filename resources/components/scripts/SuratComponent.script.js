@@ -1412,12 +1412,12 @@ export default {
                 playbackMode: "continuous",
                 quranFontId: "",
                 singleAyahFocus: false,
-                rangeLoopEnabled: false,
+                rangeLoopEnabled: true,
                 rangeLoopDelay: 3,
                 rangeLoopDelayIsCustom: false,
                 rangeLoopShowCountdown: true,
 	                rangeLoopAlertSound: "off",
-	                showTajweed: false,
+	                showTajweed: true,
 	                showWordTranslation: false,
 	                showWordTranslationTooltip: false,
                 repeatAfterReciterEnabled: false,
@@ -1444,6 +1444,11 @@ export default {
             autoNextAnimatedIndex: null,
             autoNextAnimationTimer: null,
             isBlurNextAyahEnabled: false,
+            memorisationSelectedQuickTool: "loopRange",
+            memorisationSessionStatusMessage: "Ready to begin",
+            isMemorisationOnboardingVisible: false,
+            memorisationOnboardingStorageKey:
+                "ic_memorisation_beginner_onboarding_v1",
             hifdhAuthStorageKey: "ic_hifdh_auth_user_v1",
             hifdhSchedulerStorageKey: "ic_hifdh_scheduler_v1",
             hifdhCheckpointDays: [1, 3, 7, 14, 30],
@@ -1723,7 +1728,7 @@ export default {
             );
         },
         isMemorisationAdvancedMode() {
-            return false;
+            return !!this.isMemorisationAdvancedOpen;
         },
         memorisationQuickPlaybackModeOptions() {
             const options = Array.isArray(this.playbackModeOptions)
@@ -1733,9 +1738,9 @@ export default {
                 ...option,
                 beginnerLabel:
                     option.value === "continuous"
-                        ? "Continuous"
+                        ? "Normal"
                         : option.value === "repeat"
-                        ? "Auto repeat"
+                        ? "Repeat"
                         : "Manual",
                 description:
                     option.value === "continuous"
@@ -1752,6 +1757,128 @@ export default {
                     (option) => option.value === this.playbackMode
                 ) || options[0] || null
             );
+        },
+        memorisationRangeLabel() {
+            const start = Number(this.memorisationRangeStart || 1);
+            const end = Number(this.memorisationRangeEnd || start);
+            return `${Math.max(1, start)}-${Math.max(Math.max(1, start), end)}`;
+        },
+        memorisationSessionStatusLabel() {
+            return (
+                this.memorisationSessionStatusMessage ||
+                `Ready to begin Ayah ${this.memorisationRangeLabel}`
+            );
+        },
+        memorisationStartButtonHint() {
+            return `Ayah ${this.memorisationRangeLabel}`;
+        },
+        memorisationBeginnerToolOptions() {
+            const playback = this.activeMemorisationPlaybackModeOption || {};
+            return [
+                {
+                    key: "loopRange",
+                    label: "Loop",
+                    icon: "bi-arrow-repeat",
+                    active: !!this.memorisationRangeLoopEnabled,
+                    stateLabel: this.memorisationRangeLoopEnabled ? "On" : "Off",
+                    description: this.memorisationRangeLoopEnabled
+                        ? "Repeats the selected ayahs so you can practise without touching the controls."
+                        : "Turn this on when you want the same ayahs to replay automatically.",
+                },
+                {
+                    key: "playbackMode",
+                    label: "Play mode",
+                    icon: "bi-play-circle",
+                    active: true,
+                    stateLabel: playback.beginnerLabel || "Normal",
+                    description:
+                        playback.description ||
+                        "Choose how the recitation moves through your selected ayahs.",
+                },
+                {
+                    key: "repeatAfter",
+                    label: "Repeat",
+                    icon: "bi-mic",
+                    active: !!this.memorisationRepeatAfterEnabled,
+                    stateLabel: this.memorisationRepeatAfterEnabled ? "On" : "Off",
+                    description: this.memorisationRepeatAfterEnabled
+                        ? "The reciter pauses after each ayah so you can repeat it out loud."
+                        : "Turn this on when you want time to repeat after the reciter.",
+                },
+                {
+                    key: "testMode",
+                    label: "Test mode",
+                    icon: "bi-eye-slash",
+                    active: !!this.isMemorisationMode,
+                    stateLabel: this.isMemorisationMode ? "On" : "Off",
+                    description: this.isMemorisationMode
+                        ? "Keeps focus on one ayah at a time for recall practice."
+                        : "Use this when you are ready to test what you remember.",
+                },
+                {
+                    key: "tajweed",
+                    label: "Tajweed",
+                    icon: "bi-palette",
+                    active: !!this.showTajweed,
+                    stateLabel: this.showTajweed ? "On" : "Off",
+                    description: this.showTajweed
+                        ? "Tajweed colours are visible to support cleaner recitation."
+                        : "Show tajweed colours when you need recitation support.",
+                },
+                {
+                    key: "wordMeaning",
+                    label: "Word meaning",
+                    icon: "bi-translate",
+                    active: !!this.showWordTranslation,
+                    stateLabel: this.showWordTranslation ? "On" : "Off",
+                    description: this.showWordTranslation
+                        ? "Word meanings are visible to help connect words with meaning."
+                        : "Show word meanings when a word needs a quick reminder.",
+                },
+                {
+                    key: "transliteration",
+                    label: "Transliteration",
+                    icon: "bi-input-cursor-text",
+                    active: !!this.isTransliterationAllEnabled,
+                    stateLabel: this.isTransliterationAllEnabled ? "On" : "Off",
+                    description: this.isTransliterationAllEnabled
+                        ? "Transliteration is visible for reading support."
+                        : "Show transliteration if Arabic reading support helps you start.",
+                },
+                {
+                    key: "translation",
+                    label: "Translation",
+                    icon: "bi-card-text",
+                    active: !!this.isTranslationAllEnabled,
+                    stateLabel: this.isTranslationAllEnabled ? "On" : "Off",
+                    description: this.isTranslationAllEnabled
+                        ? "Translation is visible so the meaning stays close."
+                        : "Show translation when you want the meaning beside the ayah.",
+                },
+            ];
+        },
+        memorisationPrimaryToolOptions() {
+            return this.memorisationBeginnerToolOptions.filter((tool) =>
+                ["loopRange", "playbackMode", "repeatAfter"].includes(tool.key)
+            );
+        },
+        memorisationOverflowToolOptions() {
+            return this.memorisationBeginnerToolOptions.filter((tool) =>
+                [
+                    "testMode",
+                    "tajweed",
+                    "wordMeaning",
+                    "transliteration",
+                    "translation",
+                ].includes(tool.key)
+            );
+        },
+        activeMemorisationQuickToolDescription() {
+            const selected =
+                this.memorisationBeginnerToolOptions.find(
+                    (tool) => tool.key === this.memorisationSelectedQuickTool
+                ) || this.memorisationBeginnerToolOptions[0];
+            return selected?.description || "Choose a tool to see how it helps.";
         },
         memorisationDraftMaxAyah() {
             const targetSurah = String(
@@ -5937,6 +6064,13 @@ export default {
                 "suratIsBlurNextAyahEnabled",
                 newVal
             );
+            if (newVal && this.isMemorisationToolbarVisible) {
+                this.enableMemorisationFocusMode({
+                    activitySource: "toggle-blur-next",
+                    announce: false,
+                    toast: false,
+                });
+            }
         },
         isMemorisationMode(newVal) {
             this.persistMemorisationModeSetting();
@@ -11840,6 +11974,20 @@ export default {
             this.memorisationOffcanvasInstance = instance;
             instance.show();
         },
+        setMemorisationToolsDepth(mode = "beginner") {
+            this.isMemorisationAdvancedOpen = mode === "advanced";
+        },
+        openAdvancedMemorisationToolsPanel() {
+            this.setMemorisationToolsDepth("advanced");
+            const toolsDropdown = this.$refs?.memoToolbarToolsDropdown;
+            if (
+                toolsDropdown &&
+                typeof toolsDropdown.removeAttribute === "function"
+            ) {
+                toolsDropdown.removeAttribute("open");
+            }
+            this.openMemorisationOffcanvas();
+        },
         closeMemorisationOffcanvas() {
             const instance =
                 this.getBootstrapOffcanvasInstance(this.$refs.memorisationOffcanvas) ||
@@ -11968,6 +12116,7 @@ export default {
             this.applyMemorisationRange();
             this.memorisationFocusIndex = 0;
             this.selectCard(0);
+            this.memorisationSessionStatusMessage = `Ready to begin Ayah ${this.memorisationRangeLabel}`;
             this.syncMemorisationDraftFromCurrentSession();
         },
         async onMemorisationToolbarReciterChange() {
@@ -11993,6 +12142,7 @@ export default {
             this.memorisationRangeStart = start;
             this.memorisationRangeEnd = end;
             this.applyMemorisationRange();
+            this.memorisationSessionStatusMessage = `Ready to begin Ayah ${this.memorisationRangeLabel}`;
             this.syncMemorisationDraftFromCurrentSession();
         },
         onMemorisationToolbarDelayChange() {
@@ -12020,20 +12170,201 @@ export default {
                 dropdown.removeAttribute("open");
             }
         },
-	        onMemorisationToolbarToggleRangeLoop(nextValue = null) {
-	            this.memorisationRangeLoopEnabled =
-	                typeof nextValue === "boolean"
-	                    ? nextValue
-	                    : !this.memorisationRangeLoopEnabled;
+        cycleMemorisationPlaybackMode() {
+            const modes = ["continuous", "repeat", "manual"];
+            const currentIndex = modes.indexOf(String(this.playbackMode || ""));
+            const nextMode = modes[(currentIndex + 1 + modes.length) % modes.length];
+            this.onMemorisationToolbarPlaybackModeChange(nextMode);
+        },
+        handleMemorisationBeginnerTool(key = "") {
+            const normalized = String(key || "");
+            this.memorisationSelectedQuickTool = normalized || "loopRange";
+            switch (normalized) {
+                case "loopRange":
+                    this.onMemorisationToolbarToggleRangeLoop();
+                    break;
+                case "playbackMode":
+                    this.cycleMemorisationPlaybackMode();
+                    break;
+                case "testMode":
+                    this.toggleMemorisationToolbarFlag("singleAyahFocus");
+                    break;
+                case "tajweed":
+                    this.toggleMemorisationToolbarFlag("tajweed");
+                    break;
+                case "wordMeaning":
+                    this.toggleMemorisationToolbarFlag("wordMeaning");
+                    break;
+                case "repeatAfter":
+                    this.toggleMemorisationToolbarFlag("repeatAfter");
+                    break;
+                case "transliteration":
+                    this.toggleMemorisationToolbarFlag("transliteration");
+                    break;
+                case "translation":
+                    this.toggleMemorisationToolbarFlag("translation");
+                    break;
+                default:
+                    return;
+            }
+            this.memorisationSessionStatusMessage = `Ready to begin Ayah ${this.memorisationRangeLabel}`;
+        },
+        onMemorisationToolbarToggleRangeLoop(nextValue = null) {
+            this.memorisationRangeLoopEnabled =
+                typeof nextValue === "boolean"
+                    ? nextValue
+                    : !this.memorisationRangeLoopEnabled;
             if (!this.memorisationRangeLoopEnabled) {
                 this.clearMemorisationRangeLoopRestartState();
             }
-	            this.syncMemorisationDraftFromCurrentSession();
-	        },
-	        getDefaultMemorisationReciterIdentifier() {
-	            const preferredReciter = "ar.alafasy";
-	            const availableReciters = Array.isArray(this.recitersSorted)
-	                ? this.recitersSorted
+            this.syncMemorisationDraftFromCurrentSession();
+        },
+        toggleMemorisationToolbarFlag(flag = "") {
+            switch (flag) {
+                case "singleAyahFocus":
+                    this.toggleMemorisationMode();
+                    break;
+                case "blurNextAyah":
+                    this.toggleBlurNextAyah();
+                    break;
+                case "tajweed":
+                    this.toggleToolbarTajweed();
+                    break;
+                case "wordMeaning":
+                    this.toggleToolbarWordTranslation();
+                    break;
+                case "wordAudio":
+                    this.toggleToolbarWordAudio();
+                    break;
+                case "transliteration":
+                    this.toggleToolbarTransliteration();
+                    break;
+                case "translation":
+                    this.toggleToolbarTranslation();
+                    break;
+                case "sessionHistory":
+                    this.memorisationSessionHistoryEnabled =
+                        !this.memorisationSessionHistoryEnabled;
+                    if (!this.memorisationSessionHistoryEnabled) {
+                        this.clearActiveSessionHistoryTracker();
+                    }
+                    this.showModeToggleToast(
+                        "Session history",
+                        this.memorisationSessionHistoryEnabled
+                    );
+                    break;
+                case "chaining":
+                    this.memorisationChainingEnabled =
+                        !this.memorisationChainingEnabled;
+                    this.resetMemorisationChainingProgress({
+                        stopAudio: false,
+                        preserveCompleted: false,
+                    });
+                    this.showModeToggleToast(
+                        "Chaining method",
+                        this.memorisationChainingEnabled
+                    );
+                    break;
+                case "verseCountdown":
+                    this.memorisationVerseCountdownEnabled =
+                        !this.memorisationVerseCountdownEnabled;
+                    this.verseCountdownHasPlaybackStarted = false;
+                    this.verseCountdownFinalAyahRecited = false;
+                    this.verseCountdownCompletionNotified = false;
+                    this.clearVerseCountdownCelebrationState();
+                    this.showModeToggleToast(
+                        "Verse countdown",
+                        this.memorisationVerseCountdownEnabled
+                    );
+                    break;
+                case "repeatAfter":
+                    this.memorisationRepeatAfterEnabled =
+                        !this.memorisationRepeatAfterEnabled;
+                    this.isMemorisationRepeatAfterSettingsOpen =
+                        this.memorisationRepeatAfterEnabled;
+                    if (!this.memorisationRepeatAfterEnabled) {
+                        this.clearMemorisationRepeatPauseState({
+                            stopRecording: true,
+                        });
+                    }
+                    this.showModeToggleToast(
+                        "Repeat After Reciter",
+                        this.memorisationRepeatAfterEnabled
+                    );
+                    break;
+                default:
+                    return;
+            }
+            this.syncMemorisationDraftFromCurrentSession();
+        },
+        async startMemorisationSession() {
+            if (!this.isMemorisationToolbarVisible) {
+                this.isMemorisationToolbarVisible = true;
+            }
+            this.onMemorisationToolbarRangeChange();
+            const startAyah = Math.max(1, Number(this.memorisationRangeStart || 1));
+            const endAyah = Math.max(startAyah, Number(this.memorisationRangeEnd || startAyah));
+            let startIndex = this.resolveAyahIndexByNumber(startAyah);
+            if (startIndex < 0) {
+                startIndex = 0;
+            }
+            this.memorisationFocusIndex = startIndex;
+            this.selectCard(startIndex);
+            this.scrollToAyahIndex(startIndex, {
+                behavior: "smooth",
+                settle: true,
+                force: true,
+            });
+            this.memorisationSessionStatusMessage = `Memorising Ayah ${startAyah}-${endAyah}`;
+            this.syncMemorisationDraftFromCurrentSession();
+            this.showToast(this.memorisationSessionStatusMessage, 2800);
+            this.announce(this.memorisationSessionStatusMessage);
+            this.playAudio(startIndex);
+        },
+        maybeShowMemorisationOnboarding() {
+            if (typeof window === "undefined" || !window.localStorage) return;
+            try {
+                if (
+                    localStorage.getItem(this.memorisationOnboardingStorageKey) ===
+                    "1"
+                ) {
+                    return;
+                }
+                this.isMemorisationOnboardingVisible = true;
+            } catch (_) {
+                this.isMemorisationOnboardingVisible = true;
+            }
+        },
+        dismissMemorisationOnboarding() {
+            this.isMemorisationOnboardingVisible = false;
+            try {
+                localStorage.setItem(this.memorisationOnboardingStorageKey, "1");
+            } catch (_) {}
+        },
+        async startMemorisationOnboardingWithAlFatiha() {
+            this.dismissMemorisationOnboarding();
+            try {
+                if (String(this.selectedSurah || "") !== "1") {
+                    await this.selectSurah("1", { skipScroll: true });
+                    this.selectedSurah = "1";
+                }
+                const maxAyah = Math.max(1, Number(this.totalAyahs || 7));
+                this.memorisationRangeStart = 1;
+                this.memorisationRangeEnd = Math.min(7, maxAyah);
+                this.memorisationRangeLoopEnabled = true;
+                this.showTajweed = true;
+                this.setPlaybackMode("continuous");
+                await this.$nextTick();
+                await this.startMemorisationSession();
+            } catch (error) {
+                console.error("Unable to start memorisation onboarding:", error);
+                this.showToast("Could not start Al-Fatiha right now.", 2600);
+            }
+        },
+        getDefaultMemorisationReciterIdentifier() {
+            const preferredReciter = "ar.alafasy";
+            const availableReciters = Array.isArray(this.recitersSorted)
+                ? this.recitersSorted
                 : [];
             const hasPreferred = availableReciters.some(
                 (reciter) =>
@@ -12065,14 +12396,14 @@ export default {
                 playbackMode: "continuous",
                 quranFontId: "",
                 singleAyahFocus: false,
-                rangeLoopEnabled: false,
+                rangeLoopEnabled: true,
                 rangeLoopDelay: 3,
                 rangeLoopShowCountdown: true,
                 rangeLoopAlertSound: "off",
                 blurNextAyah: false,
                 translationVisible: false,
 	                transliterationVisible: false,
-	                showTajweed: false,
+	                showTajweed: true,
 	                showWordTranslation: false,
 	                showWordTranslationTooltip: false,
                 repeatAfterReciterEnabled: false,
@@ -12367,6 +12698,8 @@ export default {
                 this.populateMemorisationDraft();
             }
             this.persistMemorisationActivePresetId("");
+            this.memorisationSessionStatusMessage = `Ready to begin Ayah ${this.memorisationRangeLabel}`;
+            this.maybeShowMemorisationOnboarding();
             this.showModeToggleToast("Memorisation tools", true);
             this.syncMemorisationToolsUrlState(true);
         },
@@ -12968,6 +13301,12 @@ export default {
                     ) === "1";
                 this.suratOnboardingCurrentStep = 1;
                 if (this.hasCompletedSuratOnboarding) return;
+                if (
+                    this.shouldAutoOpenMemorisationToolsFromQuery() ||
+                    this.shouldRestoreMemorisationToolbarOnLoad
+                ) {
+                    return;
+                }
                 this.$nextTick(() => {
                     this.openSuratOnboarding({ step: 1 });
                 });
@@ -18395,16 +18734,44 @@ export default {
             this.applyMemorisationRange();
             this.announce("Memorisation range reset.");
         },
-        toggleMemorisationMode() {
-            this.isMemorisationMode = !this.isMemorisationMode;
-            if (this.isMemorisationMode) {
-                this.memorisationFocusIndex = this.activeAyahIndex;
-                this.selectCard(this.memorisationFocusIndexSafe);
-                this.scrollToAyahIndex(this.memorisationFocusIndexSafe);
-                this.announce(`Verse mode enabled. Focused on verse ${this.memorisationFocusIndexSafe + 1}.`);
-            } else {
-                this.announce("Verse mode disabled.");
+        enableMemorisationFocusMode({
+            activitySource = "toggle-test-mode",
+            announce = true,
+            toast = true,
+        } = {}) {
+            if (this.isMemorisationMode) return false;
+            this.isMemorisationMode = true;
+            this.memorisationFocusIndex = this.activeAyahIndex;
+            this.selectCard(this.memorisationFocusIndexSafe);
+            this.scrollToAyahIndex(this.memorisationFocusIndexSafe);
+            if (announce) {
+                this.announce(
+                    `Verse mode enabled. Focused on verse ${
+                        this.memorisationFocusIndexSafe + 1
+                    }.`
+                );
             }
+            if (toast) {
+                this.showModeToggleToast("Verse focus", true);
+            }
+            this.persistMemorisationModeSetting();
+            this.refreshSessionHistoryTracker({
+                activitySource,
+                ayahNumber: this.memorisationCurrentAyahNumber,
+            });
+            return true;
+        },
+        toggleMemorisationMode() {
+            if (!this.isMemorisationMode) {
+                this.enableMemorisationFocusMode();
+                return;
+            }
+
+            this.isMemorisationMode = false;
+            if (this.isBlurNextAyahEnabled) {
+                this.isBlurNextAyahEnabled = false;
+            }
+            this.announce("Verse mode disabled.");
             this.showModeToggleToast("Verse focus", this.isMemorisationMode);
             this.persistMemorisationModeSetting();
             this.refreshSessionHistoryTracker({
@@ -23600,10 +23967,12 @@ export default {
             try {
                 const url = new URL(window.location.href);
                 const basePath = url.pathname.replace(/\/memorisation\/?$/, "") || "/surat";
-                url.pathname = isOpen
-                    ? `${basePath.replace(/\/$/, "")}/memorisation`
-                    : basePath;
-                url.searchParams.delete("open");
+                url.pathname = basePath;
+                if (isOpen) {
+                    url.searchParams.set("open", "memorisation");
+                } else {
+                    url.searchParams.delete("open");
+                }
 
                 const surahNumber = Number(
                     this.surahDetails?.surahNumber || this.selectedSurah || 0
@@ -23713,7 +24082,6 @@ export default {
                     this.syncMemorisationToolsUrlState(true);
                 }
                 await this.$nextTick();
-                this.openMemorisationOffcanvas();
                 return true;
             } catch (error) {
                 console.error(
