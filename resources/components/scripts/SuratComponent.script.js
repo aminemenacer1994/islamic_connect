@@ -18,6 +18,9 @@ import {
     readReviewQueue,
     writeReviewQueue,
 } from "./reviewQueueStorage";
+import { GUIDED_TOUR_DATA, guidedTourMethods } from "./surat.guided-tour";
+import { LEARNING_PATHS, learningPathMethods } from "./surat.learning-paths";
+import { PRONUNCIATION_GUIDES, pronunciationMethods } from "./surat.pronunciation";
 export default {
     name: "SuratComponent",
     components: {
@@ -35,6 +38,10 @@ export default {
             isSidebarWideLayout: false,
             isReadingFullscreen: false,
             isDeepFocusMode: false,
+            ...GUIDED_TOUR_DATA,
+            learningPaths: LEARNING_PATHS,
+            activeLearningPath: null,
+            pronunciationGuides: PRONUNCIATION_GUIDES,
             isDarkTheme: (() => {
                 if (typeof window === "undefined") return false;
                 try {
@@ -1180,10 +1187,7 @@ export default {
             memorisationOffcanvasDockedWidth: 400,
             isMemorisationAdvancedOpen: false,
             isMemorisationReadingAidsOpen: false,
-            isMemorisationTipVisible: (() => {
-                const stored = localStorage.getItem("ic_memorisation_tip_visible_v1");
-                return stored === null ? true : stored === "true";
-            })(),
+
             isMemorisationMode: false,
             memorisationFocusIndex: 0,
             memorisationLastWorkedIndex: null,
@@ -1885,13 +1889,7 @@ export default {
                 ].includes(tool.key)
             );
         },
-        activeMemorisationQuickToolDescription() {
-            const selected =
-                this.memorisationBeginnerToolOptions.find(
-                    (tool) => tool.key === this.memorisationSelectedQuickTool
-                ) || this.memorisationBeginnerToolOptions[0];
-            return selected?.description || "Choose a tool to see how it helps.";
-        },
+
         memorisationDraftMaxAyah() {
             const targetSurah = String(
                 this.memorisationDraft?.surahNumber || this.selectedSurah || ""
@@ -6202,7 +6200,12 @@ export default {
     created() {
         // postpone loading until we know the authentication status
     },
-        async mounted() {
+    async mounted() {
+        if (!this.hasSeenTour) {
+            setTimeout(() => {
+                this.startGuidedTour();
+            }, 1500);
+        }
         if (typeof window !== "undefined") {
             if ("scrollRestoration" in window.history) {
                 window.history.scrollRestoration = "manual";
@@ -12737,10 +12740,7 @@ export default {
                 this.showToast("Memorisation tools are coming soon.", 3200);
             }
         },
-        toggleMemorisationTip() {
-            this.isMemorisationTipVisible = !this.isMemorisationTipVisible;
-            localStorage.setItem("ic_memorisation_tip_visible_v1", this.isMemorisationTipVisible);
-        },
+
         toggleMemorisationAdvanced() {
             this.isMemorisationAdvancedOpen = !this.isMemorisationAdvancedOpen;
             if (this.isMemorisationAdvancedOpen) {
@@ -32465,5 +32465,8 @@ export default {
                 window.bootstrap.Offcanvas.getOrCreateInstance(el);
             instance.hide();
         },
+        ...learningPathMethods,
+        ...pronunciationMethods,
+        ...guidedTourMethods,
     },
 };

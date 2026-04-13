@@ -69228,7 +69228,6 @@ to {
     padding-right: 0;
 }
 .translation-row--collapsed[data-v-637d02d8] {
-    min-height: 80px;
 }
 .translation-copy[data-v-637d02d8] {
     flex: 1;
@@ -97357,86 +97356,11 @@ to {
     color: #dc2626 !important;
     box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.08) !important;
 }
-.surat-premium .memorisation-toolbar-guidance-row[data-v-637d02d8] {
-    width: 100% !important;
-    margin-top: 0.15rem !important;
-}
-.surat-premium .memorisation-toolbar-guidance-content[data-v-637d02d8] {
-    display: flex !important;
-    align-items: center !important;
-    gap: 0.6rem !important;
-    padding: 0.35rem 0.75rem !important;
-    background: var(--memo-beginner-accent-soft) !important;
-    border: 1px solid var(--memo-beginner-border) !important;
-    border-radius: 10px !important;
-    cursor: pointer !important;
-    transition: all 0.2s ease !important;
-}
-.surat-premium .memorisation-toolbar-guidance-content[data-v-637d02d8]:hover {
-    background: var(--memo-beginner-soft-strong) !important;
-    border-color: var(--memo-beginner-border-strong) !important;
-}
-.surat-premium .memorisation-toolbar-guidance-content[data-v-637d02d8]:active {
-    transform: scale(0.995) !important;
-}
-.surat-premium .memorisation-guidance-icon[data-v-637d02d8] {
-    font-size: 0.85rem !important;
-    color: var(--memo-beginner-accent) !important;
-    flex-shrink: 0 !important;
-}
-.surat-premium .memorisation-guidance-label-text[data-v-637d02d8] {
-    font-size: 0.65rem !important;
-    font-weight: 800 !important;
-    color: var(--memo-beginner-accent) !important;
-    text-transform: uppercase !important;
-    letter-spacing: 0.03em !important;
-    white-space: nowrap !important;
-    flex-shrink: 0 !important;
-}
-.surat-premium .memorisation-toolbar-selected-description[data-v-637d02d8] {
-    margin: 0 !important;
-    font-size: 0.74rem !important;
-    line-height: 1.25 !important;
-    color: var(--memo-beginner-text) !important;
-    opacity: 0.9 !important;
-    flex: 1 !important;
-    overflow: hidden !important;
-    display: -webkit-box !important;
-    -webkit-line-clamp: 1 !important;
-    -webkit-box-orient: vertical !important;
-    text-align: left !important;
-}
-.surat-premium .memorisation-toolbar-guidance-row:not(.is-collapsed) .memorisation-toolbar-selected-description[data-v-637d02d8] {
-    -webkit-line-clamp: 3 !important;
-}
-.surat-premium .memorisation-guidance-placeholder[data-v-637d02d8] {
-    opacity: 0.5 !important;
-    font-style: italic !important;
-    font-size: 0.72rem !important;
-}
-.surat-premium .memorisation-guidance-chevron[data-v-637d02d8] {
-    font-size: 0.75rem !important;
-    color: var(--memo-beginner-accent) !important;
-    opacity: 0.6 !important;
-    flex-shrink: 0 !important;
-    margin-left: 0.2rem !important;
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-}
-.surat-premium .memorisation-toolbar-guidance-row:not(.is-collapsed) .memorisation-guidance-chevron[data-v-637d02d8] {
-    transform: rotate(180deg) !important;
-}
 @keyframes memoTipSlideIn-637d02d8 {
 from { opacity: 0; transform: translateY(-10px) scale(0.98);
 }
 to { opacity: 1; transform: translateY(0) scale(1);
 }
-}
-.surat-premium .memorisation-toolbar-guidance-row.is-collapsed[data-v-637d02d8] {
-    margin-top: 0.15rem !important;
-}
-.surat-premium .memorisation-toolbar-selected-description strong[data-v-637d02d8] {
-    color: var(--memo-beginner-accent-strong) !important;
-    font-weight: 700 !important;
 }
 .surat-premium .memorisation-toolbar-advanced-link--inline[data-v-637d02d8] {
     width: auto !important;
@@ -97699,17 +97623,6 @@ to { opacity: 1; transform: translateY(0) scale(1);
 @media (max-width: 575.98px) {
 .surat-premium .memorisation-toolbar-tools-strip[data-v-637d02d8] {
         grid-template-columns: repeat(3, 1fr) !important;
-}
-.surat-premium .memorisation-toolbar-guidance-content[data-v-637d02d8] {
-        padding: 0.3rem 0.6rem !important;
-        gap: 0.45rem !important;
-}
-.surat-premium .memorisation-toolbar-selected-description[data-v-637d02d8] {
-        font-size: 0.72rem !important;
-        -webkit-line-clamp: 2 !important;
-}
-.surat-premium .memorisation-toolbar-guidance-row:not(.is-collapsed) .memorisation-toolbar-selected-description[data-v-637d02d8] {
-        -webkit-line-clamp: 5 !important;
 }
 .surat-premium .memorisation-tool-text-group[data-v-637d02d8] {
         display: flex !important;

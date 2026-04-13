@@ -406,9 +406,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <p class="memorisation-toolbar-selected-description mb-0">
-                                    <strong>Tip:</strong> {{ activeMemorisationQuickToolDescription }}
-                                </p>
+
                                 <div class="memorisation-mobile-actions">
                                     <button
                                         type="button"
@@ -804,7 +802,6 @@
                                                 {{ tool.label }}
                                                 <span class="memorisation-tool-state">{{ tool.stateLabel }}</span>
                                             </span>
-                                            <small class="memorisation-tool-desc-micro">{{ tool.shortDesc }}</small>
                                         </span>
                                     </button>
                                 </div>
@@ -872,17 +869,7 @@
 
                     </div>
 
-                    <div class="memorisation-toolbar-guidance-row" :class="{ 'is-collapsed': !isMemorisationTipVisible }">
-                        <div class="memorisation-toolbar-guidance-content" @click="toggleMemorisationTip">
-                            <i class="bi bi-lightbulb-fill memorisation-guidance-icon"></i>
-                            <span class="memorisation-guidance-label-text">Practice Tip:</span>
-                            <p class="memorisation-toolbar-selected-description">
-                                <span v-if="isMemorisationTipVisible">{{ activeMemorisationQuickToolDescription }}</span>
-                                <span v-else class="memorisation-guidance-placeholder">Tap to view helpful practice tip...</span>
-                            </p>
-                            <i class="bi bi-chevron-down memorisation-guidance-chevron"></i>
-                        </div>
-                    </div>
+
 
                     <div
                         v-if="isMemorisationOnboardingVisible"
@@ -5155,6 +5142,7 @@
                                     <p class="ayah-card-copy-label mb-0">Translation</p>
                                 </div>
                                 <div
+                                    v-if="shouldShowTranslationForRepeatPause(item) || isTransliterationVisibleFor(item)"
                                     class="translation-row"
                                     :class="{
                                         'translation-row--collapsed': !shouldShowTranslationForRepeatPause(item),
