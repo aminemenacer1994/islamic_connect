@@ -1,5 +1,5 @@
 <template>
-  <div class="">
+  <div class="discover-islam">
 
     <!-- ─── HERO ─── -->
     <section class="di-hero">
@@ -18,63 +18,69 @@
         <div class="hero-orb orb-3"></div>
       </div>
 
-      <div class="hero-content">
-        <div class="hero-eyebrow">
-          <span class="eyebrow-line"></span>
-          <span class="eyebrow-text">Scholar-Verified Guide</span>
-          <span class="eyebrow-line"></span>
-        </div>
+      <div class="container-fluid hero-container">
+        <div class="hero-grid">
+          <div class="hero-content">
+            <div class="hero-eyebrow">
+              <span class="eyebrow-line"></span>
+              <span class="eyebrow-text">Scholar-Verified Guide</span>
+              <span class="eyebrow-line"></span>
+            </div>
 
-        <h1 class="hero-headline">
-          <span class="headline-arabic">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</span>
-          <span class="headline-main">Discover<br><em>Islam</em></span>
-        </h1>
+            <h1 class="hero-headline">
+              <span class="headline-arabic">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</span>
+              <span class="headline-main">Discover<br><em>Islam</em></span>
+            </h1>
 
-        <p class="hero-desc">
-          A comprehensive, deeply researched guide to understanding Islam — its beliefs, pillars, practices, and eternal wisdom.
-        </p>
-
-        <!-- Search -->
-        <div class="hero-search-wrap">
-          <div class="hero-search-box" :class="{ focused: searchFocused }">
-            <svg class="search-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-            <input
-              v-model="searchQuery"
-              type="text"
-              class="search-inp"
-              placeholder="Search pillars, prayers, prophets…"
-              @focus="searchFocused = true"
-              @blur="searchFocused = false"
-              @keydown.escape="searchQuery = ''"
-            />
-            <button class="search-go" @click="triggerSearch">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-            </button>
+            <p class="hero-desc">
+              A comprehensive, deeply researched guide to understanding Islam — its beliefs, pillars, practices, and eternal wisdom.
+            </p>
           </div>
-          <transition name="dropdown">
-            <div v-if="filteredSections.length > 0" class="search-dropdown">
-              <div
-                v-for="h in filteredSections"
-                :key="h.id"
-                class="search-hit"
-                @click="scrollToSection(h.id)"
-              >
-                <span class="hit-icon">{{ h.emoji }}</span>
-                <div class="hit-info">
-                  <div class="hit-title">{{ h.title }}</div>
-                  <div class="hit-excerpt">{{ h.excerpt }}</div>
+
+          <div class="hero-actions">
+            <!-- Search -->
+            <div class="hero-search-wrap">
+              <div class="hero-search-box" :class="{ focused: searchFocused }">
+                <svg class="search-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                <input
+                  v-model="searchQuery"
+                  type="text"
+                  class="search-inp"
+                  placeholder="Search pillars, prayers, prophets…"
+                  @focus="searchFocused = true"
+                  @blur="searchFocused = false"
+                  @keydown.escape="searchQuery = ''"
+                />
+                <button class="search-go" @click="triggerSearch">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </button>
+              </div>
+              <transition name="dropdown">
+                <div v-if="filteredSections.length > 0" class="search-dropdown">
+                  <div
+                    v-for="h in filteredSections"
+                    :key="h.id"
+                    class="search-hit"
+                    @click="scrollToSection(h.id)"
+                  >
+                    <span class="hit-icon">{{ h.emoji }}</span>
+                    <div class="hit-info">
+                      <div class="hit-title">{{ h.title }}</div>
+                      <div class="hit-excerpt">{{ h.excerpt }}</div>
+                    </div>
+                    <svg class="hit-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                  </div>
                 </div>
-                <svg class="hit-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </transition>
+            </div>
+
+            <!-- Stats -->
+            <div class="hero-pillars">
+              <div class="pillar-chip" v-for="chip in heroChips" :key="chip.label">
+                <span class="chip-num">{{ chip.num }}</span>
+                <span class="chip-label">{{ chip.label }}</span>
               </div>
             </div>
-          </transition>
-        </div>
-
-        <!-- Stats -->
-        <div class="hero-pillars">
-          <div class="pillar-chip" v-for="chip in heroChips" :key="chip.label">
-            <span class="chip-num">{{ chip.num }}</span>
-            <span class="chip-label">{{ chip.label }}</span>
           </div>
         </div>
       </div>
@@ -142,17 +148,6 @@
           </div>
         </div>
 
-        <div class="photo-duo">
-          <figure class="photo-fig">
-            <img src="https://images.pexels.com/photos/2715373/pexels-photo-2715373.jpeg?auto=compress&cs=tinysrgb&w=900" alt="Mosque architecture" loading="lazy" />
-            <figcaption>Sacred Architecture</figcaption>
-          </figure>
-          <figure class="photo-fig">
-            <img src="https://images.pexels.com/photos/1162251/pexels-photo-1162251.jpeg?auto=compress&cs=tinysrgb&w=900" alt="Quran recitation" loading="lazy" />
-            <figcaption>Divine Revelation</figcaption>
-          </figure>
-        </div>
-
         <div class="video-embed">
           <iframe src="https://www.youtube.com/embed/1w2KtO13m_4?rel=0" title="Introduction to Islam" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
           <div class="video-label">▶ Introduction to Islam — Scholar Verified</div>
@@ -168,7 +163,29 @@
         </div>
         <h2 class="section-title">The <em>Shahada</em></h2>
 
-        <div class="shahada-monument">
+        <div class="section-tools" aria-label="Section tools">
+          <button type="button" class="tool-pill tool-pill--wa" @click="shareWhatsApp('shahada')">WhatsApp</button>
+          <button type="button" class="tool-pill tool-pill--copy" @click="copyToClipboard('shahada')">{{ copiedSectionId === 'shahada' ? 'Copied' : 'Copy' }}</button>
+          <button type="button" class="tool-pill tool-pill--print" @click="printSection('shahada')">Print</button>
+          <button type="button" class="tool-pill tool-pill--pdf" @click="downloadPdf('shahada')">Download PDF</button>
+          <button type="button" class="tool-pill tool-pill--report" @click="reportSection('shahada')">Report</button>
+          <button type="button" class="tool-circle" @click="decreaseFont('shahada')">A-</button>
+          <button type="button" class="tool-circle" @click="increaseFont('shahada')">A+</button>
+          <button type="button" class="tool-pill tool-pill--ai" @click="toggleAiSummary('shahada')">{{ aiSummarySectionId === 'shahada' ? 'Hide Summary' : 'AI Summary' }}</button>
+        </div>
+        <div v-if="aiSummarySectionId === 'shahada'" class="ai-summary-inline" role="note">
+          <div class="ai-summary-title">Summary</div>
+          <ul class="ai-summary-points">
+            <li v-for="p in aiSummaryPoints" :key="p">{{ p }}</li>
+          </ul>
+        </div>
+
+        <div
+          ref="tool_shahada"
+          class="shahada-monument section-tool-target"
+          :class="{ 'print-target': printSectionId === 'shahada' }"
+          :style="{ '--tool-scale': sectionFontScale.shahada }"
+        >
           <div class="shahada-geo-ring"></div>
           <div class="shahada-inner">
             <p class="shd-arabic">أَشْهَدُ أَنْ لَا إِلَٰهَ إِلَّا اللَّهُ وَأَشْهَدُ أَنَّ مُحَمَّدًا رَسُولُ اللَّهِ</p>
@@ -193,7 +210,21 @@
           <div class="split-text">
             <p class="section-lead">Allah is the Arabic word for God — the One, Unique, Eternal Creator of all existence. Islam teaches that Allah has no partners, no children, no equals, and is unlike anything in creation.</p>
             <p class="body-copy">He is all-knowing (Al-ʿAlim), all-powerful (Al-Qadir), and ever-merciful (Ar-Rahman, Ar-Rahim). Allah communicates with humanity through prophets and revealed scriptures.</p>
-            <div class="quran-quote">
+            <div class="section-tools section-tools--compact" aria-label="Quote tools">
+              <button type="button" class="tool-pill tool-pill--wa" @click="shareWhatsApp('allah_quote')">WhatsApp</button>
+              <button type="button" class="tool-pill tool-pill--copy" @click="copyToClipboard('allah_quote')">{{ copiedSectionId === 'allah_quote' ? 'Copied' : 'Copy' }}</button>
+              <button type="button" class="tool-pill tool-pill--print" @click="printSection('allah_quote')">Print</button>
+              <button type="button" class="tool-pill tool-pill--pdf" @click="downloadPdf('allah_quote')">Download PDF</button>
+              <button type="button" class="tool-pill tool-pill--report" @click="reportSection('allah_quote')">Report</button>
+              <button type="button" class="tool-circle" @click="decreaseFont('allah_quote')">A-</button>
+              <button type="button" class="tool-circle" @click="increaseFont('allah_quote')">A+</button>
+            </div>
+            <div
+              ref="tool_allah_quote"
+              class="quran-quote section-tool-target"
+              :class="{ 'print-target': printSectionId === 'allah_quote' }"
+              :style="{ '--tool-scale': sectionFontScale.allah_quote }"
+            >
               <span class="qq-mark">"</span>
               <p>He is Allah, other than whom there is no deity, Knower of the unseen and the witnessed. He is the Entirely Merciful, the Especially Merciful.</p>
               <cite>— Quran 59:22</cite>
@@ -220,7 +251,29 @@
         </div>
         <h2 class="section-title">Prophet <em>Muhammad ﷺ</em></h2>
 
-        <div class="prophet-layout">
+        <div class="section-tools" aria-label="Section tools">
+          <button type="button" class="tool-pill tool-pill--wa" @click="shareWhatsApp('prophet')">WhatsApp</button>
+          <button type="button" class="tool-pill tool-pill--copy" @click="copyToClipboard('prophet')">{{ copiedSectionId === 'prophet' ? 'Copied' : 'Copy' }}</button>
+          <button type="button" class="tool-pill tool-pill--print" @click="printSection('prophet')">Print</button>
+          <button type="button" class="tool-pill tool-pill--pdf" @click="downloadPdf('prophet')">Download PDF</button>
+          <button type="button" class="tool-pill tool-pill--report" @click="reportSection('prophet')">Report</button>
+          <button type="button" class="tool-circle" @click="decreaseFont('prophet')">A-</button>
+          <button type="button" class="tool-circle" @click="increaseFont('prophet')">A+</button>
+          <button type="button" class="tool-pill tool-pill--ai" @click="toggleAiSummary('prophet')">{{ aiSummarySectionId === 'prophet' ? 'Hide Summary' : 'AI Summary' }}</button>
+        </div>
+        <div v-if="aiSummarySectionId === 'prophet'" class="ai-summary-inline" role="note">
+          <div class="ai-summary-title">Summary</div>
+          <ul class="ai-summary-points">
+            <li v-for="p in aiSummaryPoints" :key="p">{{ p }}</li>
+          </ul>
+        </div>
+
+        <div
+          ref="tool_prophet"
+          class="prophet-layout section-tool-target"
+          :class="{ 'print-target': printSectionId === 'prophet' }"
+          :style="{ '--tool-scale': sectionFontScale.prophet }"
+        >
           <div class="prophet-img-col">
             <div class="prophet-img-frame">
               <img src="https://images.pexels.com/photos/2170756/pexels-photo-2170756.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Masjid an-Nabawi" loading="lazy" />
@@ -255,7 +308,29 @@
         </div>
         <h2 class="section-title">The Holy <em>Quran</em></h2>
 
-        <div class="split-layout reverse">
+        <div class="section-tools" aria-label="Section tools">
+          <button type="button" class="tool-pill tool-pill--wa" @click="shareWhatsApp('quran')">WhatsApp</button>
+          <button type="button" class="tool-pill tool-pill--copy" @click="copyToClipboard('quran')">{{ copiedSectionId === 'quran' ? 'Copied' : 'Copy' }}</button>
+          <button type="button" class="tool-pill tool-pill--print" @click="printSection('quran')">Print</button>
+          <button type="button" class="tool-pill tool-pill--pdf" @click="downloadPdf('quran')">Download PDF</button>
+          <button type="button" class="tool-pill tool-pill--report" @click="reportSection('quran')">Report</button>
+          <button type="button" class="tool-circle" @click="decreaseFont('quran')">A-</button>
+          <button type="button" class="tool-circle" @click="increaseFont('quran')">A+</button>
+          <button type="button" class="tool-pill tool-pill--ai" @click="toggleAiSummary('quran')">{{ aiSummarySectionId === 'quran' ? 'Hide Summary' : 'AI Summary' }}</button>
+        </div>
+        <div v-if="aiSummarySectionId === 'quran'" class="ai-summary-inline" role="note">
+          <div class="ai-summary-title">Summary</div>
+          <ul class="ai-summary-points">
+            <li v-for="p in aiSummaryPoints" :key="p">{{ p }}</li>
+          </ul>
+        </div>
+
+        <div
+          ref="tool_quran"
+          class="split-layout reverse section-tool-target"
+          :class="{ 'print-target': printSectionId === 'quran' }"
+          :style="{ '--tool-scale': sectionFontScale.quran }"
+        >
           <div class="split-text">
             <p class="section-lead">The Quran is the literal word of Allah (SWT), revealed to Prophet Muhammad ﷺ over 23 years through Angel Jibreel — the primary source of Islamic law, ethics, and spiritual guidance.</p>
             <ul class="fact-strips">
@@ -292,35 +367,59 @@
         </div>
         <h2 class="section-title"><em>Salah</em> — Five Daily Prayers</h2>
 
-        <div class="prayer-timeline">
-          <div class="prayer-card" v-for="prayer in prayers" :key="prayer.name" :style="{ '--prayer-color': prayer.color, '--prayer-bg': prayer.bg }">
-            <div class="prayer-sky">{{ prayer.sky }}</div>
-            <div class="prayer-time-badge">{{ prayer.time }}</div>
-            <div class="prayer-name">{{ prayer.name }}</div>
-            <div class="prayer-arabic">{{ prayer.arabic }}</div>
-            <div class="prayer-rakah">{{ prayer.rakah }} Rak'ahs</div>
-          </div>
+        <div class="section-tools" aria-label="Section tools">
+          <button type="button" class="tool-pill tool-pill--wa" @click="shareWhatsApp('salah')">WhatsApp</button>
+          <button type="button" class="tool-pill tool-pill--copy" @click="copyToClipboard('salah')">{{ copiedSectionId === 'salah' ? 'Copied' : 'Copy' }}</button>
+          <button type="button" class="tool-pill tool-pill--print" @click="printSection('salah')">Print</button>
+          <button type="button" class="tool-pill tool-pill--pdf" @click="downloadPdf('salah')">Download PDF</button>
+          <button type="button" class="tool-pill tool-pill--report" @click="reportSection('salah')">Report</button>
+          <button type="button" class="tool-circle" @click="decreaseFont('salah')">A-</button>
+          <button type="button" class="tool-circle" @click="increaseFont('salah')">A+</button>
+          <button type="button" class="tool-pill tool-pill--ai" @click="toggleAiSummary('salah')">{{ aiSummarySectionId === 'salah' ? 'Hide Summary' : 'AI Summary' }}</button>
+        </div>
+        <div v-if="aiSummarySectionId === 'salah'" class="ai-summary-inline" role="note">
+          <div class="ai-summary-title">Summary</div>
+          <ul class="ai-summary-points">
+            <li v-for="p in aiSummaryPoints" :key="p">{{ p }}</li>
+          </ul>
         </div>
 
-        <div class="split-layout" style="margin-top: 3rem">
-          <div class="split-text">
-            <p class="body-copy">Salah is the ritual prayer performed five times daily at prescribed times, involving specific postures, Quranic recitations, and remembrance of Allah. Wudu (ritual ablution) must be observed beforehand. Prayer faces the Qiblah — the direction of the Ka'bah in Makkah.</p>
-            <div class="quran-quote">
-              <span class="qq-mark">"</span>
-              <p>Maintain with care the [obligatory] prayers and stand before Allah, devoutly obedient.</p>
-              <cite>— Quran 2:238</cite>
+        <div
+          ref="tool_salah"
+          class="section-tool-target"
+          :class="{ 'print-target': printSectionId === 'salah' }"
+          :style="{ '--tool-scale': sectionFontScale.salah }"
+        >
+          <div class="prayer-timeline">
+            <div class="prayer-card" v-for="prayer in prayers" :key="prayer.name" :style="{ '--prayer-color': prayer.color, '--prayer-bg': prayer.bg }">
+              <div class="prayer-sky">{{ prayer.sky }}</div>
+              <div class="prayer-time-badge">{{ prayer.time }}</div>
+              <div class="prayer-name">{{ prayer.name }}</div>
+              <div class="prayer-arabic">{{ prayer.arabic }}</div>
+              <div class="prayer-rakah">{{ prayer.rakah }} Rak'ahs</div>
             </div>
           </div>
-          <div class="split-img">
-            <div class="img-frame-green">
-              <img src="https://images.pexels.com/photos/2695984/pexels-photo-2695984.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Muslim praying" loading="lazy" />
-            </div>
-          </div>
-        </div>
 
-        <div class="video-embed compact">
-          <iframe src="https://www.youtube.com/embed/-K6HlXzJegk?rel=0" title="How to Pray" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
-          <div class="video-label">▶ How to Perform Salah — Step by Step</div>
+          <div class="split-layout" style="margin-top: 3rem">
+            <div class="split-text">
+              <p class="body-copy">Salah is the ritual prayer performed five times daily at prescribed times, involving specific postures, Quranic recitations, and remembrance of Allah. Wudu (ritual ablution) must be observed beforehand. Prayer faces the Qiblah — the direction of the Ka'bah in Makkah.</p>
+              <div class="quran-quote">
+                <span class="qq-mark">"</span>
+                <p>Maintain with care the [obligatory] prayers and stand before Allah, devoutly obedient.</p>
+                <cite>— Quran 2:238</cite>
+              </div>
+            </div>
+            <div class="split-img">
+              <div class="img-frame-green">
+                <img src="https://images.pexels.com/photos/2695984/pexels-photo-2695984.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Muslim praying" loading="lazy" />
+              </div>
+            </div>
+          </div>
+
+          <div class="video-embed compact">
+            <iframe src="https://www.youtube.com/embed/-K6HlXzJegk?rel=0" title="How to Pray" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+            <div class="video-label">▶ How to Perform Salah — Step by Step</div>
+          </div>
         </div>
       </section>
 
@@ -333,7 +432,29 @@
         </div>
         <h2 class="section-title"><em>Zakat</em> — Obligatory Charity</h2>
 
-        <div class="split-layout">
+        <div class="section-tools" aria-label="Section tools">
+          <button type="button" class="tool-pill tool-pill--wa" @click="shareWhatsApp('zakat')">WhatsApp</button>
+          <button type="button" class="tool-pill tool-pill--copy" @click="copyToClipboard('zakat')">{{ copiedSectionId === 'zakat' ? 'Copied' : 'Copy' }}</button>
+          <button type="button" class="tool-pill tool-pill--print" @click="printSection('zakat')">Print</button>
+          <button type="button" class="tool-pill tool-pill--pdf" @click="downloadPdf('zakat')">Download PDF</button>
+          <button type="button" class="tool-pill tool-pill--report" @click="reportSection('zakat')">Report</button>
+          <button type="button" class="tool-circle" @click="decreaseFont('zakat')">A-</button>
+          <button type="button" class="tool-circle" @click="increaseFont('zakat')">A+</button>
+          <button type="button" class="tool-pill tool-pill--ai" @click="toggleAiSummary('zakat')">{{ aiSummarySectionId === 'zakat' ? 'Hide Summary' : 'AI Summary' }}</button>
+        </div>
+        <div v-if="aiSummarySectionId === 'zakat'" class="ai-summary-inline" role="note">
+          <div class="ai-summary-title">Summary</div>
+          <ul class="ai-summary-points">
+            <li v-for="p in aiSummaryPoints" :key="p">{{ p }}</li>
+          </ul>
+        </div>
+
+        <div
+          ref="tool_zakat"
+          class="split-layout section-tool-target"
+          :class="{ 'print-target': printSectionId === 'zakat' }"
+          :style="{ '--tool-scale': sectionFontScale.zakat }"
+        >
           <div class="split-text">
             <p class="section-lead">Zakat is the compulsory giving of <strong>2.5%</strong> of one's total accumulated wealth above the Nisab threshold to eligible recipients — purifying wealth and reducing inequality.</p>
             <p class="body-copy">It is due once a year and distinct from voluntary charity (Sadaqah). The Nisab threshold equals approximately 87.48g of gold in value.</p>
@@ -361,7 +482,29 @@
         </div>
         <h2 class="section-title"><em>Sawm</em> — Fasting in Ramadan</h2>
 
-        <div class="split-layout reverse">
+        <div class="section-tools" aria-label="Section tools">
+          <button type="button" class="tool-pill tool-pill--wa" @click="shareWhatsApp('sawm')">WhatsApp</button>
+          <button type="button" class="tool-pill tool-pill--copy" @click="copyToClipboard('sawm')">{{ copiedSectionId === 'sawm' ? 'Copied' : 'Copy' }}</button>
+          <button type="button" class="tool-pill tool-pill--print" @click="printSection('sawm')">Print</button>
+          <button type="button" class="tool-pill tool-pill--pdf" @click="downloadPdf('sawm')">Download PDF</button>
+          <button type="button" class="tool-pill tool-pill--report" @click="reportSection('sawm')">Report</button>
+          <button type="button" class="tool-circle" @click="decreaseFont('sawm')">A-</button>
+          <button type="button" class="tool-circle" @click="increaseFont('sawm')">A+</button>
+          <button type="button" class="tool-pill tool-pill--ai" @click="toggleAiSummary('sawm')">{{ aiSummarySectionId === 'sawm' ? 'Hide Summary' : 'AI Summary' }}</button>
+        </div>
+        <div v-if="aiSummarySectionId === 'sawm'" class="ai-summary-inline" role="note">
+          <div class="ai-summary-title">Summary</div>
+          <ul class="ai-summary-points">
+            <li v-for="p in aiSummaryPoints" :key="p">{{ p }}</li>
+          </ul>
+        </div>
+
+        <div
+          ref="tool_sawm"
+          class="split-layout reverse section-tool-target"
+          :class="{ 'print-target': printSectionId === 'sawm' }"
+          :style="{ '--tool-scale': sectionFontScale.sawm }"
+        >
           <div class="split-text">
             <p class="section-lead">Muslims abstain from food, drink, smoking, and sexual relations from Fajr (dawn) to Maghrib (sunset) during Ramadan — the 9th month of the Hijri calendar.</p>
             <ul class="star-list">
@@ -395,6 +538,29 @@
         </div>
         <h2 class="section-title"><em>Hajj</em> — Pilgrimage to Makkah</h2>
 
+        <div class="section-tools" aria-label="Section tools">
+          <button type="button" class="tool-pill tool-pill--wa" @click="shareWhatsApp('hajj')">WhatsApp</button>
+          <button type="button" class="tool-pill tool-pill--copy" @click="copyToClipboard('hajj')">{{ copiedSectionId === 'hajj' ? 'Copied' : 'Copy' }}</button>
+          <button type="button" class="tool-pill tool-pill--print" @click="printSection('hajj')">Print</button>
+          <button type="button" class="tool-pill tool-pill--pdf" @click="downloadPdf('hajj')">Download PDF</button>
+          <button type="button" class="tool-pill tool-pill--report" @click="reportSection('hajj')">Report</button>
+          <button type="button" class="tool-circle" @click="decreaseFont('hajj')">A-</button>
+          <button type="button" class="tool-circle" @click="increaseFont('hajj')">A+</button>
+          <button type="button" class="tool-pill tool-pill--ai" @click="toggleAiSummary('hajj')">{{ aiSummarySectionId === 'hajj' ? 'Hide Summary' : 'AI Summary' }}</button>
+        </div>
+        <div v-if="aiSummarySectionId === 'hajj'" class="ai-summary-inline" role="note">
+          <div class="ai-summary-title">Summary</div>
+          <ul class="ai-summary-points">
+            <li v-for="p in aiSummaryPoints" :key="p">{{ p }}</li>
+          </ul>
+        </div>
+
+        <div
+          ref="tool_hajj"
+          class="section-tool-target"
+          :class="{ 'print-target': printSectionId === 'hajj' }"
+          :style="{ '--tool-scale': sectionFontScale.hajj }"
+        >
         <div class="split-layout">
           <div class="split-text">
             <p class="section-lead">Obligatory at least once in a lifetime for every adult Muslim who is physically and financially able, Hajj takes place in Dhul Hijjah — the 12th Islamic month.</p>
@@ -420,6 +586,7 @@
           <img src="https://images.pexels.com/photos/5997945/pexels-photo-5997945.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Ka'bah – Makkah" loading="lazy" />
           <figcaption>The Ka'bah — Al-Masjid Al-Haram, Makkah</figcaption>
         </figure>
+        </div>
       </section>
 
       <!-- ── AFTERLIFE ── -->
@@ -431,7 +598,29 @@
         </div>
         <h2 class="section-title">The <em>Afterlife</em> (Akhirah)</h2>
 
-        <div class="split-layout reverse">
+        <div class="section-tools" aria-label="Section tools">
+          <button type="button" class="tool-pill tool-pill--wa" @click="shareWhatsApp('afterlife')">WhatsApp</button>
+          <button type="button" class="tool-pill tool-pill--copy" @click="copyToClipboard('afterlife')">{{ copiedSectionId === 'afterlife' ? 'Copied' : 'Copy' }}</button>
+          <button type="button" class="tool-pill tool-pill--print" @click="printSection('afterlife')">Print</button>
+          <button type="button" class="tool-pill tool-pill--pdf" @click="downloadPdf('afterlife')">Download PDF</button>
+          <button type="button" class="tool-pill tool-pill--report" @click="reportSection('afterlife')">Report</button>
+          <button type="button" class="tool-circle" @click="decreaseFont('afterlife')">A-</button>
+          <button type="button" class="tool-circle" @click="increaseFont('afterlife')">A+</button>
+          <button type="button" class="tool-pill tool-pill--ai" @click="toggleAiSummary('afterlife')">{{ aiSummarySectionId === 'afterlife' ? 'Hide Summary' : 'AI Summary' }}</button>
+        </div>
+        <div v-if="aiSummarySectionId === 'afterlife'" class="ai-summary-inline" role="note">
+          <div class="ai-summary-title">Summary</div>
+          <ul class="ai-summary-points">
+            <li v-for="p in aiSummaryPoints" :key="p">{{ p }}</li>
+          </ul>
+        </div>
+
+        <div
+          ref="tool_afterlife"
+          class="split-layout reverse section-tool-target"
+          :class="{ 'print-target': printSectionId === 'afterlife' }"
+          :style="{ '--tool-scale': sectionFontScale.afterlife }"
+        >
           <div class="split-text">
             <p class="section-lead">Islam teaches that this worldly life is temporary and that every soul will be resurrected and judged for their deeds on the Day of Judgement (Yawm al-Qiyama).</p>
             <p class="body-copy">The afterlife (Akhirah) is eternal and far greater than this world. The Quran describes Jannah (Paradise) as a place of unimaginable bliss and Jahannam (Hell) as a place of punishment.</p>
@@ -554,22 +743,24 @@
         </div>
       </section>
 
-      <!-- ── CLOSING ── -->
-      <div class="di-closing">
-        <div class="closing-geo"></div>
-        <span class="closing-crescent">☽</span>
-        <blockquote>
-          "Whoever treads a path seeking knowledge, Allah will make easy for him a path to Paradise."
-        </blockquote>
-        <cite>— Prophet Muhammad ﷺ &nbsp;|&nbsp; Sahih Muslim 2699</cite>
-        <p class="closing-attribution">Content compiled from the Quran, Sahih Bukhari, Sahih Muslim, and scholarly consensus. For educational purposes only. Please consult a qualified Islamic scholar for personal religious guidance.</p>
-      </div>
-
     </main>
+
+    <button
+      v-if="showScrollTop"
+      type="button"
+      class="scroll-top-fab"
+      aria-label="Scroll to top"
+      @click="scrollToTop"
+    >
+      ↑
+    </button>
   </div>
 </template>
 
 <script>
+import html2canvas from 'html2canvas'
+import { jsPDF } from 'jspdf'
+
 export default {
   name: 'DiscoverIslam',
   data() {
@@ -578,6 +769,22 @@ export default {
       mobileMenuOpen: false,
       searchQuery: '',
       searchFocused: false,
+      copiedSectionId: null,
+      printSectionId: null,
+      showScrollTop: false,
+      aiSummarySectionId: null,
+      aiSummaryPoints: [],
+      sectionFontScale: {
+        shahada: 1,
+        allah_quote: 1,
+        prophet: 1,
+        quran: 1,
+        salah: 1,
+        zakat: 1,
+        sawm: 1,
+        hajj: 1,
+        afterlife: 1,
+      },
 
       heroChips: [
         { num: '6', label: 'Pillars of Faith' },
@@ -836,6 +1043,26 @@ export default {
   },
 
   methods: {
+    getToolEl(id) {
+      const map = {
+        shahada: 'tool_shahada',
+        allah_quote: 'tool_allah_quote',
+        prophet: 'tool_prophet',
+        quran: 'tool_quran',
+        salah: 'tool_salah',
+        zakat: 'tool_zakat',
+        sawm: 'tool_sawm',
+        hajj: 'tool_hajj',
+        afterlife: 'tool_afterlife',
+      }
+      const refKey = map[id]
+      return refKey ? this.$refs[refKey] : null
+    },
+    getToolText(id) {
+      const el = this.getToolEl(id)
+      if (!el) return ''
+      return (el.innerText || '').trim()
+    },
     triggerSearch() {
       if (this.filteredSections.length > 0) {
         this.scrollToSection(this.filteredSections[0].id)
@@ -852,13 +1079,122 @@ export default {
       this.faqs.forEach(f => f.open = false)
       if (!wasOpen) this.faqs[index].open = true
     },
+    shareWhatsApp(sectionId) {
+      const text = this.getToolText(sectionId)
+      const url = `${window.location.origin}${window.location.pathname}#${sectionId === 'allah_quote' ? 'allah' : sectionId}`
+      const payload = [text, '', url].filter(Boolean).join('\n')
+      window.open(`https://web.whatsapp.com/send?text=${encodeURIComponent(payload)}`, '_blank', 'noopener,noreferrer')
+    },
+    async copyToClipboard(sectionId) {
+      const text = this.getToolText(sectionId)
+      if (!text) return
+      try {
+        await navigator.clipboard.writeText(text)
+        this.copiedSectionId = sectionId
+        window.setTimeout(() => {
+          if (this.copiedSectionId === sectionId) this.copiedSectionId = null
+        }, 1400)
+      } catch (_) {
+        // Fallback
+        const ta = document.createElement('textarea')
+        ta.value = text
+        ta.style.position = 'fixed'
+        ta.style.left = '-9999px'
+        document.body.appendChild(ta)
+        ta.select()
+        try { document.execCommand('copy') } catch (_) {}
+        document.body.removeChild(ta)
+        this.copiedSectionId = sectionId
+        window.setTimeout(() => {
+          if (this.copiedSectionId === sectionId) this.copiedSectionId = null
+        }, 1400)
+      }
+    },
+    printSection(sectionId) {
+      this.printSectionId = sectionId
+      this.$nextTick(() => window.print())
+    },
+    async downloadPdf(sectionId) {
+      const el = this.getToolEl(sectionId)
+      if (!el) return
+      const canvas = await html2canvas(el, {
+        scale: 2,
+        useCORS: true,
+        backgroundColor: null,
+        windowWidth: document.documentElement.clientWidth,
+      })
+      const imgData = canvas.toDataURL('image/png')
+      const pdf = new jsPDF('p', 'pt', 'a4')
+      const pageWidth = pdf.internal.pageSize.getWidth()
+      const pageHeight = pdf.internal.pageSize.getHeight()
+      const ratio = Math.min(pageWidth / canvas.width, pageHeight / canvas.height)
+      const imgWidth = canvas.width * ratio
+      const imgHeight = canvas.height * ratio
+      const x = (pageWidth - imgWidth) / 2
+      const y = 28
+
+      // Multi-page if needed
+      let remainingHeight = imgHeight
+      let pageY = y
+      pdf.addImage(imgData, 'PNG', x, pageY, imgWidth, imgHeight)
+      remainingHeight -= (pageHeight - y * 2)
+      while (remainingHeight > 0) {
+        pdf.addPage()
+        pageY = y - (imgHeight - remainingHeight)
+        pdf.addImage(imgData, 'PNG', x, pageY, imgWidth, imgHeight)
+        remainingHeight -= (pageHeight - y * 2)
+      }
+
+      const safeName = `${sectionId}`.replace(/[^a-z0-9_-]/gi, '_').toLowerCase()
+      pdf.save(`islam-${safeName}.pdf`)
+    },
+    increaseFont(sectionId) {
+      const cur = this.sectionFontScale[sectionId] || 1
+      this.sectionFontScale[sectionId] = Math.min(1.25, Math.round((cur + 0.05) * 100) / 100)
+    },
+    decreaseFont(sectionId) {
+      const cur = this.sectionFontScale[sectionId] || 1
+      this.sectionFontScale[sectionId] = Math.max(0.9, Math.round((cur - 0.05) * 100) / 100)
+    },
+    toggleAiSummary(sectionId) {
+      if (this.aiSummarySectionId === sectionId) {
+        this.aiSummarySectionId = null
+        this.aiSummaryPoints = []
+        return
+      }
+      const text = this.getToolText(sectionId)
+      const cleaned = text.replace(/\s+/g, ' ').trim()
+      const sentences = cleaned.split(/(?<=[.!?])\s+/).filter(Boolean)
+      const points = []
+      for (const s of sentences.slice(0, 5)) {
+        const short = s.length > 140 ? `${s.slice(0, 137)}…` : s
+        if (!points.includes(short)) points.push(short)
+      }
+      this.aiSummarySectionId = sectionId
+      this.aiSummaryPoints = points.length ? points : ['No summary available for this section yet.']
+    },
+    reportSection(sectionId) {
+      const text = this.getToolText(sectionId).slice(0, 1200)
+      const title = sectionId === 'allah_quote' ? 'Quran quote' : sectionId
+      const url = `${window.location.origin}${window.location.pathname}#${sectionId === 'allah_quote' ? 'allah' : sectionId}`
+      const params = new URLSearchParams({
+        subject: `Report issue: ${title}`,
+        message: `${url}\n\n${text}`,
+      })
+      window.location.href = `/contact?${params.toString()}`
+    },
     handleScroll() {
       this.navScrolled = window.scrollY > 60
+      this.showScrollTop = window.scrollY > 700
+    },
+    scrollToTop() {
+      window.scrollTo({ top: 0, behavior: 'smooth' })
     }
   },
 
   mounted() {
     window.addEventListener('scroll', this.handleScroll, { passive: true })
+    window.addEventListener('afterprint', () => { this.printSectionId = null })
 
     const io = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
@@ -888,14 +1224,14 @@ export default {
    ══════════════════════════════════════════════ */
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600&family=Amiri:ital@0;1&display=swap');
 
-:root {
+.discover-islam {
   /* ── Islamic Green Palette ── */
-  --forest:      #1a4731;
-  --green-deep:  #1e5c3e;
-  --green-mid:   #267a50;
-  --green:       #2d9564;
-  --green-med:   #3aad78;
-  --green-light: #5ec697;
+  --forest:      #163c2b;
+  --green-deep:  #1a5440;
+  --green-mid:   #1f6d4a;
+  --green:       #248b5b;
+  --green-med:   #2ea26f;
+  --green-light: #55b98a;
   --green-pale:  #b8e8d0;
   --green-mist:  #dff3eb;
   --green-frost: #eef8f3;
@@ -948,20 +1284,137 @@ export default {
   --shadow-xl:    0 28px 80px rgba(26,71,49,0.18);
 }
 
-*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-html { scroll-behavior: smooth; }
-
-body {
+.discover-islam, .discover-islam * { box-sizing: border-box; }
+.discover-islam { scroll-behavior: smooth; }
+.discover-islam {
   background: var(--green-ice);
   font-family: var(--ff-body);
   color: var(--text-main);
   line-height: 1.7;
   overflow-x: hidden;
 }
-
-h1, h2, h3, h4, blockquote {
+.discover-islam h1,
+.discover-islam h2,
+.discover-islam h3,
+.discover-islam h4,
+.discover-islam blockquote {
   font-family: var(--ff-display);
   font-weight: 600;
+}
+
+.section-tool-target { font-size: calc(1em * var(--tool-scale, 1)); }
+
+/* ──────────────────────────────
+   Section tools (WhatsApp/Copy/Print/PDF/Report/Font)
+   ────────────────────────────── */
+.section-tools {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 0.9rem;
+  align-items: center;
+  margin: 1.15rem 0 0.9rem;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.section-tools::-webkit-scrollbar { display: none; }
+.section-tools--secondary { margin-top: 0.35rem; }
+.section-tools--compact { margin: 1rem 0 0.75rem; gap: 0.75rem; }
+
+.tool-pill {
+  border: 1px solid rgba(15, 23, 42, 0.10);
+  background: rgba(255, 255, 255, 0.86);
+  color: var(--text-main);
+  border-radius: 999px;
+  padding: 0.65rem 1.25rem;
+  font-weight: 700;
+  font-size: 0.98rem;
+  line-height: 1;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease, border-color 0.18s ease;
+  white-space: nowrap;
+}
+.tool-pill:hover { transform: translateY(-1px); box-shadow: var(--shadow-md); }
+.tool-pill:active { transform: translateY(0); }
+
+.tool-pill--wa { border-color: rgba(34, 197, 94, 0.28); background: rgba(34, 197, 94, 0.10); color: #0f5132; }
+.tool-pill--copy { border-color: rgba(59, 130, 246, 0.28); background: rgba(59, 130, 246, 0.10); color: #0b4aa3; }
+.tool-pill--print { border-color: rgba(15, 23, 42, 0.12); background: rgba(15, 23, 42, 0.04); color: rgba(15, 23, 42, 0.88); }
+.tool-pill--pdf { border-color: rgba(239, 68, 68, 0.28); background: rgba(239, 68, 68, 0.10); color: #991b1b; }
+.tool-pill--report { border-color: rgba(245, 158, 11, 0.34); background: rgba(245, 158, 11, 0.10); color: #92400e; }
+.tool-pill--ai { border-color: rgba(85, 185, 138, 0.38); background: rgba(85, 185, 138, 0.12); color: var(--forest); }
+
+.tool-circle {
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  border: 1px solid rgba(15, 23, 42, 0.10);
+  background: rgba(255, 255, 255, 0.92);
+  font-weight: 800;
+  color: var(--forest);
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+  flex: 0 0 auto;
+}
+.tool-circle:hover { transform: translateY(-1px); box-shadow: var(--shadow-md); }
+
+:root[data-theme="dark"] .tool-pill,
+:root[data-theme="dark"] .tool-circle {
+  border-color: rgba(255,255,255,0.12);
+  background: rgba(15, 24, 20, 0.75);
+  color: rgba(255,255,255,0.90);
+}
+:root[data-theme="dark"] .tool-pill--wa { background: rgba(34, 197, 94, 0.14); color: rgba(255,255,255,0.92); }
+:root[data-theme="dark"] .tool-pill--copy { background: rgba(59, 130, 246, 0.16); color: rgba(255,255,255,0.92); }
+:root[data-theme="dark"] .tool-pill--pdf { background: rgba(239, 68, 68, 0.16); color: rgba(255,255,255,0.92); }
+:root[data-theme="dark"] .tool-pill--report { background: rgba(245, 158, 11, 0.16); color: rgba(255,255,255,0.92); }
+:root[data-theme="dark"] .tool-pill--ai { background: rgba(99, 209, 161, 0.18); color: rgba(255,255,255,0.92); }
+
+.ai-summary-inline {
+  border: 1px solid var(--border-soft);
+  background: var(--green-frost);
+  border-radius: var(--r-lg);
+  padding: 1rem 1.15rem;
+  margin: 0 0 1.25rem;
+}
+.ai-summary-title { font-weight: 800; color: var(--forest); margin-bottom: 0.5rem; }
+.ai-summary-points { margin: 0; padding-left: 1.1rem; color: var(--text-soft); }
+.ai-summary-points li { margin: 0.25rem 0; }
+
+/* Scroll-to-top FAB */
+.scroll-top-fab {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  width: 54px;
+  height: 54px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.18);
+  background: linear-gradient(135deg, var(--forest) 0%, var(--green-mid) 100%);
+  color: rgba(255,255,255,0.92);
+  box-shadow: var(--shadow-xl);
+  z-index: 999;
+  font-weight: 900;
+  font-size: 1.15rem;
+}
+.scroll-top-fab:hover { transform: translateY(-2px); }
+
+@media print {
+  .section-tools,
+  .scroll-top-fab,
+  .hero-search-wrap,
+  .hero-scroll-hint { display: none !important; }
+
+  .discover-islam * { visibility: hidden; }
+  .section-tool-target.print-target,
+  .section-tool-target.print-target * { visibility: visible; }
+  .section-tool-target.print-target {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+  }
 }
 
 /* ──────────────────────────────
@@ -969,13 +1422,13 @@ h1, h2, h3, h4, blockquote {
    ────────────────────────────── */
 .di-hero {
   background: linear-gradient(150deg, var(--forest) 0%, var(--green-deep) 40%, #1a4a38 70%, #0f2e1e 100%);
-  min-height: 100svh;
+  min-height: min(72svh, 720px);
   position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 9rem 2rem 8rem;
+  padding: clamp(4rem, 5.8vw, 6rem) 1.25rem clamp(3.5rem, 4.8vw, 5rem);
   text-align: center;
   overflow: hidden;
 }
@@ -1003,7 +1456,7 @@ h1, h2, h3, h4, blockquote {
 }
 .orb-3 {
   width: 350px; height: 350px;
-  background: radial-gradient(circle, rgba(94,198,151,0.15) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(85,185,138,0.16) 0%, transparent 70%);
   top: 45%; left: 25%;
   animation: orb-drift 22s ease-in-out infinite alternate;
 }
@@ -1013,6 +1466,16 @@ h1, h2, h3, h4, blockquote {
 }
 
 .hero-content { position: relative; z-index: 2; max-width: 800px; width: 100%; }
+.hero-container { position: relative; z-index: 2; max-width: 1240px; }
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 2.75rem;
+  align-items: center;
+}
+.hero-actions { width: 100%; }
+.hero-actions .hero-search-wrap { margin: 0 0 1.5rem; max-width: 100%; }
+.hero-actions .hero-pillars { justify-content: flex-start; }
 
 .hero-eyebrow {
   display: flex; align-items: center; justify-content: center;
@@ -1059,7 +1522,7 @@ h1, h2, h3, h4, blockquote {
 .hero-search-box {
   display: flex; align-items: center;
   background: rgba(255,255,255,0.08);
-  border: 1px solid rgba(94,198,151,0.3);
+  border: 1px solid rgba(85,185,138,0.30);
   border-radius: 60px; padding: 0.4rem;
   transition: all 0.3s ease;
   backdrop-filter: blur(12px);
@@ -1067,7 +1530,7 @@ h1, h2, h3, h4, blockquote {
 .hero-search-box.focused {
   border-color: var(--green-light);
   background: rgba(255,255,255,0.12);
-  box-shadow: 0 0 0 4px rgba(94,198,151,0.12), 0 20px 60px rgba(0,0,0,0.3);
+  box-shadow: 0 0 0 4px rgba(85,185,138,0.12), 0 20px 60px rgba(0,0,0,0.3);
 }
 .search-ico { color: rgba(255,255,255,0.4); width: 18px; margin: 0 0.8rem; flex-shrink: 0; }
 .search-inp {
@@ -1087,23 +1550,32 @@ h1, h2, h3, h4, blockquote {
 
 .search-dropdown {
   position: absolute; top: calc(100% + 0.8rem); left: 0; right: 0;
-  background: var(--white); border-radius: var(--r-lg);
-  box-shadow: var(--shadow-xl); overflow: hidden; z-index: 200;
-  border: 1px solid var(--border-soft);
+  background: rgba(12, 26, 19, 0.92);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-xl);
+  overflow: auto;
+  z-index: 200;
+  border: 1px solid rgba(255,255,255,0.10);
+  max-height: 320px;
+  backdrop-filter: blur(14px);
 }
+.search-dropdown::-webkit-scrollbar { width: 8px; }
+.search-dropdown::-webkit-scrollbar-track { background: rgba(255,255,255,0.06); }
+.search-dropdown::-webkit-scrollbar-thumb { background: rgba(85,185,138,0.35); border-radius: 999px; }
+.search-dropdown::-webkit-scrollbar-thumb:hover { background: rgba(85,185,138,0.50); }
 .search-hit {
   display: flex; align-items: center; gap: 1rem;
   padding: 1rem 1.25rem; cursor: pointer;
   transition: background 0.18s ease;
-  border-bottom: 1px solid var(--green-frost);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
   text-align: left;
 }
 .search-hit:last-child { border-bottom: none; }
-.search-hit:hover { background: var(--green-frost); }
+.search-hit:hover { background: rgba(85,185,138,0.12); }
 .hit-icon { font-size: 1.3rem; flex-shrink: 0; width: 30px; text-align: center; }
 .hit-info { flex: 1; min-width: 0; }
-.hit-title { font-weight: 600; color: var(--forest); font-size: 0.88rem; }
-.hit-excerpt { font-size: 0.73rem; color: var(--text-muted); margin-top: 0.1rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.hit-title { font-weight: 700; color: rgba(255,255,255,0.92); font-size: 0.98rem; }
+.hit-excerpt { font-size: 0.86rem; color: rgba(255,255,255,0.70); margin-top: 0.12rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .hit-arrow { width: 15px; color: var(--green-med); flex-shrink: 0; }
 
 .dropdown-enter-active, .dropdown-leave-active { transition: all 0.2s ease; }
@@ -1116,7 +1588,7 @@ h1, h2, h3, h4, blockquote {
 .pillar-chip {
   display: flex; flex-direction: column; align-items: center;
   background: rgba(255,255,255,0.07);
-  border: 1px solid rgba(94,198,151,0.22);
+  border: 1px solid rgba(85,185,138,0.22);
   border-radius: var(--r-md);
   padding: 1.1rem 1.6rem;
   backdrop-filter: blur(10px);
@@ -1124,7 +1596,7 @@ h1, h2, h3, h4, blockquote {
 }
 .pillar-chip:hover {
   border-color: var(--green-light);
-  background: rgba(94,198,151,0.12);
+  background: rgba(85,185,138,0.12);
   transform: translateY(-4px);
   box-shadow: var(--shadow-green);
 }
@@ -1156,6 +1628,7 @@ h1, h2, h3, h4, blockquote {
   line-height: 0; z-index: 1;
 }
 .hero-wave-bottom svg { width: 100%; height: 80px; }
+.hero-wave-bottom path { fill: var(--green-ice) !important; }
 
 /* ──────────────────────────────
    MAIN CONTENT
@@ -1321,7 +1794,7 @@ h1, h2, h3, h4, blockquote {
   position: absolute; top: 50%; left: 50%;
   transform: translate(-50%, -50%);
   width: 110%; padding-top: 110%; border-radius: 50%;
-  border: 1px solid rgba(94,198,151,0.08);
+  border: 1px solid rgba(85,185,138,0.10);
   pointer-events: none;
 }
 .shahada-inner { position: relative; z-index: 2; max-width: 740px; margin: 0 auto; }
@@ -1605,42 +2078,6 @@ h1, h2, h3, h4, blockquote {
 .faq-expand-enter-from, .faq-expand-leave-to { max-height: 0; opacity: 0; padding-bottom: 0; }
 .faq-expand-enter-to, .faq-expand-leave-from { max-height: 300px; opacity: 1; }
 
-/* ── Closing ── */
-.di-closing {
-  background: linear-gradient(150deg, var(--forest) 0%, var(--green-deep) 60%, #0f2e1e 100%);
-  border-radius: var(--r-2xl);
-  padding: 5rem 3.5rem;
-  text-align: center; position: relative; overflow: hidden;
-  margin-top: 2rem; box-shadow: var(--shadow-xl);
-}
-.closing-geo {
-  position: absolute; inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80' opacity='0.05'%3E%3Cpolygon points='40,4 51,29 78,29 55,46 63,71 40,55 17,71 25,46 2,29 29,29' fill='none' stroke='%235ec697' stroke-width='1'/%3E%3C/svg%3E");
-  background-size: 80px 80px;
-}
-.closing-crescent {
-  display: block; font-size: 2.8rem; color: var(--green-light);
-  margin-bottom: 1.75rem; position: relative; z-index: 1;
-}
-.di-closing blockquote {
-  font-family: var(--ff-display); font-style: italic;
-  font-size: clamp(1.15rem, 2.5vw, 1.6rem);
-  color: rgba(255,255,255,0.92); line-height: 1.65;
-  max-width: 600px; margin: 0 auto 1.1rem;
-  position: relative; z-index: 1;
-}
-.di-closing cite {
-  font-size: 0.82rem; color: var(--green-light);
-  font-style: normal; font-weight: 600; letter-spacing: 0.5px;
-  position: relative; z-index: 1;
-}
-.closing-attribution {
-  margin-top: 2.5rem; font-size: 0.72rem;
-  color: rgba(255,255,255,0.28);
-  max-width: 700px; margin-left: auto; margin-right: auto;
-  line-height: 1.7; position: relative; z-index: 1;
-}
-
 /* ── RESPONSIVE ── */
 @media (max-width: 900px) {
   .twin-grid { grid-template-columns: 1fr; }
@@ -1656,11 +2093,16 @@ h1, h2, h3, h4, blockquote {
   .prayer-timeline { grid-template-columns: 1fr 1fr; }
   .photo-duo { grid-template-columns: 1fr; }
   .zakat-grid { grid-template-columns: 1fr; }
-  .shahada-monument, .di-closing { padding: 3rem 1.75rem; }
+  .shahada-monument { padding: 3rem 1.75rem; }
   .hero-pillars { gap: 0.75rem; }
   .pillar-chip { padding: 0.9rem 1.15rem; }
   .video-embed iframe { height: 240px; }
   .di-main { padding: 3.5rem 1.5rem 5rem; }
+}
+@media (max-width: 980px) {
+  .hero-grid { grid-template-columns: 1fr; gap: 2rem; }
+  .hero-actions .hero-pillars { justify-content: center; }
+  .hero-actions .hero-search-wrap { max-width: 640px; margin-left: auto; margin-right: auto; }
 }
 @media (max-width: 480px) {
   .prayer-timeline { grid-template-columns: 1fr; }

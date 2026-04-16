@@ -2,5 +2,5 @@
 @section('content')
 <div>
   <islam-component></islam-component>
-<div>
+</div>
 @endsection

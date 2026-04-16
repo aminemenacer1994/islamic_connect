@@ -592,8 +592,6 @@
 <script>
 import contentData from './discover-islam-content.json';
 
-const PEXELS_API_KEY = 'dhOLH00j9E1bBV53cMmEpaHPnrRR3WGzl3vRGXnPNbquONCjpZeKEr3f';
-
 export default {
   name: 'DiscoverIslam',
   data() {
@@ -639,13 +637,11 @@ export default {
 
       for (const q of queries) {
         try {
-          const response = await fetch(`https://api.pexels.com/v1/search?query=${encodeURIComponent(q.query)}&per_page=1`, {
-            headers: { 'Authorization': PEXELS_API_KEY }
+          const response = await fetch(`/api/pexels/search?query=${encodeURIComponent(q.query)}&per_page=1`, {
+            headers: { 'Accept': 'application/json' }
           });
           const data = await response.json();
-          if (data.photos && data.photos.length > 0) {
-            this[q.key] = data.photos[0].src.large;
-          }
+          if (data && data.url) this[q.key] = data.url;
         } catch (error) {
           console.error(`Failed to fetch ${q.key}:`, error);
           this[q.key] = 'https://images.pexels.com/photos/2715373/pexels-photo-2715373.jpeg';

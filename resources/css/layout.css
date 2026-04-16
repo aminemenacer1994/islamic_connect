@@ -99,6 +99,40 @@ textarea {
     transition: color .15s ease, background-color .15s ease, border-color .15s ease, box-shadow .15s ease, transform .15s ease;
 }
 
+/* Theme-friendly form controls (overrides legacy Bootstrap blue focus ring) */
+.form-control,
+.form-select,
+.input-group-text {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    border-color: var(--border-color);
+}
+
+.form-control::placeholder {
+    color: color-mix(in srgb, var(--text-secondary) 85%, transparent);
+}
+
+.form-control:focus,
+.form-select:focus {
+    color: var(--text-primary) !important;
+    background-color: var(--bg-primary) !important;
+    border-color: var(--accent-color) !important;
+    outline: 0 !important;
+    box-shadow: 0 0 0 0.2rem rgba(var(--bs-primary-rgb, 11, 128, 111), 0.22) !important;
+}
+
+:root[data-theme="dark"] .form-control,
+:root[data-theme="dark"] .form-select,
+:root[data-theme="dark"] .input-group-text {
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+    border-color: var(--border-color);
+}
+
+:root[data-theme="dark"] .form-control::placeholder {
+    color: color-mix(in srgb, var(--text-secondary) 90%, transparent);
+}
+
 a,
 button,
 [role="button"],

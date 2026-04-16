@@ -1,25 +1,43 @@
+/* Default to light theme (so pages without `data-theme` still render correctly). */
+:root,
 :root[data-theme="light"] {
     --bg-primary: #ffffff;
-    --bg-secondary: #f8f9fa;
-    --text-primary: #1a1a1a;
-    --text-secondary: #666666;
-    --accent-color: #228B22;
-    --accent-color-light: #228B22;
-    --border-color: #dee2e6;
-    --hover-bg: rgba(0, 0, 0, 0.05);
-    --shadow-color: rgba(0, 0, 0, 0.1);
+    --bg-secondary: #f6faf9;
+    --text-primary: #0f1f16;
+    --text-secondary: #3d5c49;
+    --accent-color: #0b806f;
+    --accent-color-700: #0b5d4b;
+    --accent-color-light: #13a27f;
+    --border-color: #e3eee9;
+    --hover-bg: rgba(11, 128, 111, 0.08);
+    --shadow-color: rgba(15, 23, 42, 0.08);
+
+    /* Bootstrap color hooks */
+    --bs-primary: var(--accent-color);
+    --bs-primary-rgb: 11, 128, 111;
+    --bs-link-color: var(--accent-color-700);
+    --bs-link-hover-color: var(--accent-color);
+    --bs-focus-ring-color: rgba(11, 128, 111, 0.28);
 }
 
 :root[data-theme="dark"] {
-    --bg-primary: #1a1a1a;
-    --bg-secondary: #2d2d2d;
-    --text-primary: #ffffff;
-    --text-secondary: #b3b3b3;
-    --accent-color: #228B22;
-    --accent-color-light: #228B22;
-    --border-color: #404040;
-    --hover-bg: rgba(255, 255, 255, 0.05);
-    --shadow-color: rgba(0, 0, 0, 0.3);
+    --bg-primary: #0b1410;
+    --bg-secondary: #0f1c16;
+    --text-primary: rgba(255, 255, 255, 0.92);
+    --text-secondary: rgba(255, 255, 255, 0.72);
+    --accent-color: #2ea26f;
+    --accent-color-700: #55b98a;
+    --accent-color-light: #63d1a1;
+    --border-color: rgba(255, 255, 255, 0.12);
+    --hover-bg: rgba(99, 209, 161, 0.10);
+    --shadow-color: rgba(0, 0, 0, 0.45);
+
+    /* Bootstrap color hooks */
+    --bs-primary: var(--accent-color);
+    --bs-primary-rgb: 46, 162, 111;
+    --bs-link-color: var(--accent-color-700);
+    --bs-link-hover-color: var(--accent-color-light);
+    --bs-focus-ring-color: rgba(99, 209, 161, 0.26);
 }
 
 /* Shared brand accents (available in both themes) */

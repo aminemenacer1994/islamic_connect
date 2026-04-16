@@ -103,6 +103,10 @@ return [
         'base' => env('ISLAMHOUSE_API_BASE', 'https://api3.islamhouse.com/v3'),
         'version' => env('ISLAMHOUSE_API_VERSION', 'v3'),
     ],
+    'pexels' => [
+        'key' => env('PEXELS_API_KEY'),
+        'base' => env('PEXELS_API_BASE', 'https://api.pexels.com/v1'),
+    ],
 
     'islamic_content_api' => [
         'base' => env('ISLAMIC_CONTENT_API_BASE'),

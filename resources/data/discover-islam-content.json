@@ -50,8 +50,9 @@
         "Hajj (Pilgrimage to Mecca)"
       ]
     },
-    "image": "https://www.pexels.com/search/islamic%20prayer%20mosque/",
-    "video": "https://www.youtube.com/watch?v=6Jwa4MccRLw"
+    "imageQuery": "islamic prayer mosque",
+    "image": "https://images.pexels.com/photos/2715373/pexels-photo-2715373.jpeg?auto=compress&cs=tinysrgb&w=1200",
+    "video": "https://www.youtube.com/embed/6Jwa4MccRLw?rel=0"
   },
   "shahada": {
     "title": "The Shahada (Declaration of Faith)",
@@ -60,15 +61,17 @@
     "translation": "I bear witness that there is no god but Allah, and I bear witness that Muhammad is the Messenger of Allah",
     "explanation": "The Shahada is the first pillar of Islam and the gateway to the faith. By sincerely reciting it with understanding and conviction, one becomes a Muslim.",
     "reference": "Sahih Muslim (via Riyad as-Salihin 412) - The Prophet ﷺ said: 'Whoever testifies that there is no god but Allah alone, without partner, and that Muhammad is His servant and Messenger... Allah will forbid the Fire from touching him' (or admit him to Paradise according to narrations).",
-    "image": "https://www.pexels.com/search/muslim%20prayer%20hands/",
-    "video": "https://www.youtube.com/watch?v=SsXHcObCLJw"
+    "imageQuery": "muslim praying qibla",
+    "image": "https://images.pexels.com/photos/2695984/pexels-photo-2695984.jpeg?auto=compress&cs=tinysrgb&w=1200",
+    "video": "https://www.youtube.com/embed/SsXHcObCLJw?rel=0"
   },
   "allah": {
     "title": "Who is Allah?",
     "description": "Allah is the Arabic name for the One True God. He is the Creator, Sustainer, and Owner of all that exists. Islam emphasizes strict monotheism (Tawhid). To Allah belong the Most Beautiful Names (Asma ul-Husna).",
     "quranReference": "Say: He is Allah, the One. Allah, the Eternal Refuge. He neither begets nor is born, nor is there to Him any equivalent. (Surah Al-Ikhlas 112:1-4)",
-    "image": "https://www.pexels.com/search/sky%20clouds%20light%20nature/",
-    "video": "https://www.youtube.com/watch?v=g3yG6rU9Uys"
+    "imageQuery": "sky clouds light nature",
+    "image": "https://images.pexels.com/photos/1162251/pexels-photo-1162251.jpeg?auto=compress&cs=tinysrgb&w=1200",
+    "video": "https://www.youtube.com/embed/g3yG6rU9Uys?rel=0"
   },
   "asmaUlHusna": {
     "title": "99 Beautiful Names of Allah (Asma ul-Husna)",
@@ -174,8 +177,8 @@
       { "arabic": "ٱلرَّشِيدُ", "transliteration": "Ar-Rashīd", "meaning": "The Rightly Guided" },
       { "arabic": "ٱلصَّبُورُ", "transliteration": "Aṣ-Ṣabūr", "meaning": "The Patient" }
     ],
-    "image": "https://www.pexels.com/search/islamic%20calligraphy%20names%20of%20allah/",
-    "video": "https://www.youtube.com/watch?v=g3yG6rU9Uys"
+    "image": "https://images.pexels.com/photos/3832028/pexels-photo-3832028.jpeg?auto=compress&cs=tinysrgb&w=1200",
+    "video": "https://www.youtube.com/embed/g3yG6rU9Uys?rel=0"
   },
   "prophet": {
     "title": "Prophet Muhammad ﷺ",
@@ -189,8 +192,9 @@
     ],
     "quranReference": "And indeed, you are of a great moral character. (Surah Al-Qalam 68:4)",
     "hadithReference": "The Prophet ﷺ said: 'I have been sent to perfect good character.' (al-Muwatta 1614)",
-    "image": "https://www.pexels.com/search/medina%20mosque%20green%20dome/",
-    "video": "https://www.youtube.com/results?search_query=seerah+of+prophet+muhammad+for+beginners+yaqeen"
+    "imageQuery": "medina mosque green dome",
+    "image": "https://images.pexels.com/photos/2170756/pexels-photo-2170756.jpeg?auto=compress&cs=tinysrgb&w=1200",
+    "video": "https://www.youtube.com/embed?listType=search&list=seerah+of+prophet+muhammad+for+beginners+yaqeen"
   },
   "quran": {
     "title": "The Holy Quran",
@@ -203,8 +207,9 @@
       "No single letter has changed in 1,400 years"
     ],
     "reference": "Indeed, it is We who sent down the Quran and indeed, We will be its guardian. (Surah Al-Hijr 15:9)",
-    "image": "https://www.pexels.com/search/quran%20book%20reading/",
-    "video": "https://www.youtube.com/results?search_query=beautiful+quran+recitation+with+translation"
+    "imageQuery": "quran book reading",
+    "image": "https://images.pexels.com/photos/3832028/pexels-photo-3832028.jpeg?auto=compress&cs=tinysrgb&w=1200",
+    "video": "https://www.youtube.com/embed?listType=search&list=beautiful+quran+recitation+with+translation"
   },
   "salah": {
     "title": "Salah (The Five Daily Prayers)",
@@ -224,8 +229,9 @@
       "Physical and spiritual cleansing"
     ],
     "reference": "Recite what has been revealed to you of the Book and establish prayer. Indeed, prayer prohibits immorality and wrongdoing. (Surah Al-Ankabut 29:45)",
-    "image": "https://www.pexels.com/search/muslim%20praying%20mosque/",
-    "video": "https://www.youtube.com/watch?v=zalLv2NY98k"
+    "imageQuery": "muslim praying mosque",
+    "image": "https://images.pexels.com/photos/2695984/pexels-photo-2695984.jpeg?auto=compress&cs=tinysrgb&w=1200",
+    "video": "https://www.youtube.com/embed/zalLv2NY98k?rel=0"
   },
   "zakat": {
     "title": "Zakat (Charity)",
@@ -241,8 +247,9 @@
       "The stranded traveler"
     ],
     "reference": "Zakah expenditures are only for the poor and for the needy... (Surah At-Tawbah 9:60)",
-    "image": "https://www.pexels.com/search/charity%20helping%20hand/",
-    "video": "https://www.youtube.com/results?search_query=zakat+explained+for+beginners+islam"
+    "imageQuery": "charity helping hand",
+    "image": "https://images.pexels.com/photos/5997945/pexels-photo-5997945.jpeg?auto=compress&cs=tinysrgb&w=1200",
+    "video": "https://www.youtube.com/embed?listType=search&list=zakat+explained+for+beginners+islam"
   },
   "sawm": {
     "title": "Sawm (Fasting in Ramadan)",
@@ -255,8 +262,9 @@
       "Forgiveness of past sins"
     ],
     "reference": "O you who have believed, decreed upon you is fasting as it was decreed upon those before you that you may become righteous. (Surah Al-Baqarah 2:183)",
-    "image": "https://www.pexels.com/search/dates%20water%20iftar/",
-    "video": "https://www.youtube.com/results?search_query=ramadan+fasting+guide+for+beginners"
+    "imageQuery": "dates water iftar",
+    "image": "https://images.pexels.com/photos/2804380/pexels-photo-2804380.jpeg?auto=compress&cs=tinysrgb&w=1200",
+    "video": "https://www.youtube.com/embed?listType=search&list=ramadan+fasting+guide+for+beginners"
   },
   "hajj": {
     "title": "Hajj (Pilgrimage)",
@@ -270,8 +278,9 @@
       "Sacrifice (Qurbani)"
     ],
     "reference": "And [due] to Allah from the people is a pilgrimage to the House - for whoever is able to find thereto a way. (Surah Ali 'Imran 3:97)",
-    "image": "https://www.pexels.com/search/kaaba%20mecca%20pilgrims/",
-    "video": "https://www.youtube.com/results?search_query=hajj+step+by+step+explained+for+beginners"
+    "imageQuery": "kaaba mecca pilgrims",
+    "image": "https://images.pexels.com/photos/5997945/pexels-photo-5997945.jpeg?auto=compress&cs=tinysrgb&w=1200",
+    "video": "https://www.youtube.com/embed?listType=search&list=hajj+step+by+step+explained+for+beginners"
   },
   "afterlife": {
     "title": "Belief in the Afterlife",
@@ -286,8 +295,9 @@
       "Hellfire (Jahannam) — punishment"
     ],
     "reference": "Every soul will taste death. And you will be paid in full your reward on the Day of Resurrection. (Surah Ali 'Imran 3:185)",
-    "image": "https://www.pexels.com/search/sunset%20sky%20clouds/",
-    "video": "https://www.youtube.com/results?search_query=islamic+afterlife+explained+day+of+judgment"
+    "imageQuery": "sunset sky clouds",
+    "image": "https://images.pexels.com/photos/1162251/pexels-photo-1162251.jpeg?auto=compress&cs=tinysrgb&w=1200",
+    "video": "https://www.youtube.com/embed?listType=search&list=islamic+afterlife+explained+day+of+judgment"
   },
   "dosAndDonts": {
     "dos": [
