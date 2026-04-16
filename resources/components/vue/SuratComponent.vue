@@ -200,7 +200,7 @@
             </div>
         </transition>
         <div
-            v-if="showReaderToolbar && isTabletOrMobile"
+            v-if="showReaderToolbar && isTabletOrMobile && !isMemorisationToolbarVisible"
             class="row justify-content-center mb-3">
             <div class="col-12 col-xl-10">
                 <div

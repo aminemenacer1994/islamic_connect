@@ -279,6 +279,7 @@ const asyncComponentLoaders = {
   "ramadan-2026-component": () => import("./components/Ramadan2026Component.vue"),
   "hajj-component": () => import("../components/vue/HajjComponent.vue"),
   "ai-component": () => import("./components/AiComponent.vue"),
+  "islam-component": () => import("./components/IslamComponent.vue"),
 };
 
 const registerAsyncComponent = (name, loader) => {

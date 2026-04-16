@@ -1,0 +1,252 @@
+{
+  "disclaimer": {
+    "text": "This guide is for educational purposes only. All information has been verified from the 5 most trusted Islamic sources: Quran.com (Sahih International translation), Sunnah.com (authentic Hadith), Islamweb.net, Dar Al-Iftaa Al-Misriyyah, and Saudi Ministry of Islamic Affairs. Always consult a qualified scholar for specific religious rulings."
+  },
+  "attribution": "Content compiled from: Quran (Sahih International), Sahih Bukhari, Sahih Muslim, Islamweb (Fatwa Committee), Dar Al-Iftaa Al-Misriyyah. All references are cited inline. Images sourced from Pexels (licensed free for use).",
+  "sources": [
+    { "name": "Quran.com", "url": "https://quran.com" },
+    { "name": "Sunnah.com", "url": "https://sunnah.com" },
+    { "name": "Islamweb.net", "url": "https://www.islamweb.net" },
+    { "name": "Dar Al-Iftaa Al-Misriyyah", "url": "https://www.dar-alifta.org" },
+    { "name": "Saudi Ministry of Islamic Affairs", "url": "https://www.moia.gov.sa" }
+  ],
+  "hero": {
+    "title": "Discover Islam",
+    "subtitle": "A complete introduction to the faith of 1.8+ billion Muslims",
+    "badge": "Scholarly Verified"
+  },
+  "searchKeywords": [
+    "Allah", "Muhammad", "Quran", "prayer", "fasting", "zakat", "hajj", "iman", "islam", "muslim", "shahada", "salah", "ramadan"
+  ],
+  "basics": {
+    "title": "What is Islam?",
+    "icon": "fas fa-star-of-life",
+    "description": "Islam is the final and complete revelation from Allah (God) to humanity. It means 'submission to the will of Allah' and is a religion of peace, mercy, and justice.",
+    "coreBeliefs": {
+      "title": "The Six Pillars of Iman (Faith)",
+      "items": [
+        "Belief in Allah (The One and Only God)",
+        "Belief in the Angels",
+        "Belief in the Revealed Books (Quran as final)",
+        "Belief in the Messengers (Muhammad ﷺ as final)",
+        "Belief in the Day of Judgment",
+        "Belief in Divine Decree (Qadr)"
+      ]
+    },
+    "corePractices": {
+      "title": "The Five Pillars of Islam",
+      "items": [
+        "Shahada (Declaration of Faith)",
+        "Salah (Five Daily Prayers)",
+        "Zakat (Charity - 2.5% of savings)",
+        "Sawm (Fasting in Ramadan)",
+        "Hajj (Pilgrimage to Mecca)"
+      ]
+    },
+    "imageSearch": "islamic prayer mosque",
+    "videoSearch": "introduction to islam"
+  },
+  "shahada": {
+    "title": "The Shahada (Declaration of Faith)",
+    "arabic": "أشهد أن لا إله إلا الله وأشهد أن محمدًا رسول الله",
+    "transliteration": "Ash-hadu an la ilaha illa Allah, wa ash-hadu anna Muhammadan Rasul Allah",
+    "translation": "I bear witness that there is no god worthy of worship except Allah, and I bear witness that Muhammad is the Messenger of Allah",
+    "explanation": "The Shahada is the first pillar of Islam and the gateway to the faith. By sincerely reciting it with understanding and conviction, one becomes a Muslim.",
+    "reference": "Sahih Muslim 8c - The Prophet ﷺ said: 'Whoever testifies that there is no god but Allah alone, without partner, and that Muhammad is His servant and messenger... Allah will admit him into Paradise.'",
+    "imageSearch": "person praying qibla",
+    "videoSearch": "shahada declaration"
+  },
+  "allah": {
+    "title": "Who is Allah?",
+    "description": "Allah is the Arabic name for the One True God. He is the Creator, Sustainer, and Owner of all that exists. Islam emphasizes strict monotheism (Tawhid).",
+    "attributes": [
+      "Ar-Rahman (The Most Merciful)",
+      "Ar-Rahim (The Most Compassionate)",
+      "Al-Malik (The King)",
+      "Al-Quddus (The Holy)",
+      "As-Salam (The Source of Peace)"
+    ],
+    "quranReference": "Say: He is Allah, the One. Allah, the Eternal Refuge. He neither begets nor is born, nor is there to Him any equivalent. (Surah Al-Ikhlas 112:1-4)",
+    "imageSearch": "sky clouds light nature",
+    "videoSearch": "99 names of allah"
+  },
+  "prophet": {
+    "title": "Prophet Muhammad ﷺ",
+    "description": "Muhammad ibn Abdullah (570-632 CE) is the final messenger sent by Allah to all humanity. He is the example of perfect character and conduct.",
+    "keyTeachings": [
+      "Honesty and truthfulness in all dealings",
+      "Mercy to all creation, including animals",
+      "Justice even against oneself",
+      "Kindness to parents and neighbors",
+      "Forgiveness and patience in adversity"
+    ],
+    "quranReference": "And indeed, you are of a great moral character. (Surah Al-Qalam 68:4)",
+    "hadithReference": "The Prophet ﷺ said: 'I have been sent to perfect good character.' (Musnad Ahmad)",
+    "imageSearch": "medina mosque green dome",
+    "videoSearch": "seerah prophet muhammad"
+  },
+  "quran": {
+    "title": "The Holy Quran",
+    "description": "The Quran is the literal word of Allah revealed to Prophet Muhammad ﷺ over 23 years. It remains unchanged in its original Arabic text.",
+    "facts": [
+      "114 chapters (Surahs)",
+      "Over 6,000 verses (Ayahs)",
+      "Revealed over 23 years",
+      "Memorized by millions worldwide",
+      "No single letter has changed in 1,400 years"
+    ],
+    "reference": "Indeed, it is We who sent down the Quran and indeed, We will be its guardian. (Surah Al-Hijr 15:9)",
+    "imageSearch": "quran book reading",
+    "videoSearch": "quran recitation"
+  },
+  "salah": {
+    "title": "Salah (The Five Daily Prayers)",
+    "description": "Salah is the second pillar of Islam and the most important act of worship after faith. It is performed five times daily at specific times.",
+    "prayers": [
+      { "name": "Fajr", "time": "Before dawn", "rakahs": 2 },
+      { "name": "Dhuhr", "time": "After noon", "rakahs": 4 },
+      { "name": "Asr", "time": "Afternoon", "rakahs": 4 },
+      { "name": "Maghrib", "time": "Just after sunset", "rakahs": 3 },
+      { "name": "Isha", "time": "Night", "rakahs": 4 }
+    ],
+    "benefits": [
+      "Connects the believer directly to Allah",
+      "Discipline and time management",
+      "Purification from sins",
+      "Community bonding in congregation",
+      "Physical and spiritual cleansing"
+    ],
+    "reference": "Recite what has been revealed to you of the Book and establish prayer. Indeed, prayer prohibits immorality and wrongdoing. (Surah Al-Ankabut 29:45)",
+    "imageSearch": "muslim praying mosque",
+    "videoSearch": "how to pray salah"
+  },
+  "zakat": {
+    "title": "Zakat (Charity)",
+    "description": "Zakat is the third pillar of Islam — a mandatory charity of 2.5% on wealth held for one lunar year. It purifies wealth and helps the poor.",
+    "eligibleRecipients": [
+      "The poor (Al-Fuqara)",
+      "The needy (Al-Masakin)",
+      "Zakat administrators",
+      "Those whose hearts are to be reconciled",
+      "Freeing captives",
+      "Those in debt",
+      "In the cause of Allah",
+      "The stranded traveler"
+    ],
+    "reference": "Zakah expenditures are only for the poor and for the needy... (Surah At-Tawbah 9:60)",
+    "imageSearch": "charity helping hand",
+    "videoSearch": "zakat explained"
+  },
+  "sawm": {
+    "title": "Sawm (Fasting in Ramadan)",
+    "description": "Fasting during the month of Ramadan is the fourth pillar of Islam. Muslims abstain from food, drink, and marital relations from dawn to sunset.",
+    "benefits": [
+      "Develops God-consciousness (Taqwa)",
+      "Empathy for the hungry and poor",
+      "Physical and spiritual detox",
+      "Increased worship and Quran recitation",
+      "Forgiveness of past sins"
+    ],
+    "reference": "O you who have believed, decreed upon you is fasting as it was decreed upon those before you that you may become righteous. (Surah Al-Baqarah 2:183)",
+    "imageSearch": "dates water iftar",
+    "videoSearch": "ramadan fasting guide"
+  },
+  "hajj": {
+    "title": "Hajj (Pilgrimage)",
+    "description": "Hajj is the fifth pillar of Islam — obligatory once in a lifetime for those physically and financially able. It occurs annually in Mecca during Dhul-Hijjah.",
+    "keyRituals": [
+      "Ihram (Sacred state)",
+      "Tawaf (Circling the Kaaba)",
+      "Sa'i (Walking between Safa and Marwah)",
+      "Standing at Arafat",
+      "Stoning the pillars",
+      "Sacrifice (Qurbani)"
+    ],
+    "reference": "And [due] to Allah from the people is a pilgrimage to the House - for whoever is able to find thereto a way. (Surah Ali 'Imran 3:97)",
+    "imageSearch": "kaaba mecca pilgrims",
+    "videoSearch": "hajj step by step"
+  },
+  "afterlife": {
+    "title": "Belief in the Afterlife",
+    "description": "Muslims believe in life after death — the Day of Judgment when every soul will be held accountable for their deeds.",
+    "concepts": [
+      "Grave questioning (Munkar and Nakir)",
+      "Resurrection of the body and soul",
+      "Gathering for judgment (Hasher)",
+      "Scales of deeds (Meezan)",
+      "Bridge over Hellfire (Sirat)",
+      "Paradise (Jannah) — eternal bliss",
+      "Hellfire (Jahannam) — punishment"
+    ],
+    "reference": "Every soul will taste death. And you will be paid in full your reward on the Day of Resurrection. (Surah Ali 'Imran 3:185)",
+    "imageSearch": "sunset sky clouds",
+    "videoSearch": "islamic afterlife"
+  },
+  "dosAndDonts": {
+    "dos": [
+      "Establish the five daily prayers on time",
+      "Recite and reflect on the Quran daily",
+      "Give charity regularly, even a small amount",
+      "Be honest and truthful in all dealings",
+      "Respect parents and maintain family ties",
+      "Seek knowledge throughout life",
+      "Make Du'a (supplication) to Allah for all needs",
+      "Follow the Sunnah of Prophet Muhammad ﷺ"
+    ],
+    "donts": [
+      "Shirk (Associating partners with Allah) — the greatest sin",
+      "Murder and taking innocent life",
+      "Consuming alcohol or intoxicants",
+      "Eating pork or improperly slaughtered meat",
+      "Gambling and all forms of usury (Riba)",
+      "Backbiting, slander, and gossip",
+      "Zina (Adultery and fornication)",
+      "Arrogance and looking down on others"
+    ]
+  },
+  "faqs": [
+    {
+      "question": "How does one become a Muslim?",
+      "answer": "To become a Muslim, one must sincerely recite the Shahada: 'Ash-hadu an la ilaha illa Allah, wa ash-hadu anna Muhammadan Rasul Allah' (I bear witness that there is no god worthy of worship except Allah, and I bear witness that Muhammad is the Messenger of Allah). This should be said with full understanding and conviction. After that, the person should learn and gradually practice the five daily prayers and other pillars."
+    },
+    {
+      "question": "What is the difference between Islam, Iman, and Ihsan?",
+      "answer": "Islam refers to the outward actions (the 5 pillars). Iman refers to the inner beliefs (the 6 pillars of faith). Ihsan refers to worshipping Allah as if you see Him, knowing He sees you. The Prophet ﷺ explained these in the famous Hadith of Jibril (Sahih Muslim 8)."
+    },
+    {
+      "question": "Do Muslims worship the same God as other religions?",
+      "answer": "Muslims worship Allah — the One and Only God, Creator of the heavens and earth. He has no partners, no children, and no equals. Islam rejects the concept of the Trinity and any human or idol worship. Allah says: 'Say: He is Allah, the One' (112:1)."
+    },
+    {
+      "question": "Why do Muslims pray five times a day?",
+      "answer": "The five daily prayers were ordained by Allah during the Prophet's ﷺ night journey (Isra and Mi'raj). They serve as direct connection between the servant and Allah, provide spiritual discipline, and serve as a constant reminder of one's purpose. The Quran says: 'Indeed, prayer prohibits immorality and wrongdoing' (29:45)."
+    },
+    {
+      "question": "What is the role of women in Islam?",
+      "answer": "Islam elevated the status of women, granting them rights to inheritance, education, marriage consent, and property ownership 1,400 years ago. Women and men are equal in spiritual reward. They are partners in life. The Prophet ﷺ said: 'The best of you are those best to their women' (Sunan al-Tirmidhi)."
+    },
+    {
+      "question": "Are all Muslims Arab?",
+      "answer": "No. Only about 15-20% of Muslims are Arab. The largest Muslim populations are in Indonesia, Pakistan, India, Bangladesh, and Nigeria. Muslims come from every race, ethnicity, and nationality. Islam is a universal religion for all humanity."
+    }
+  ],
+  "appsAndResources": {
+    "apps": [
+      { "name": "Quran Majeed", "description": "Full Quran with translation, audio, and tafsir" },
+      { "name": "Muslim Pro", "description": "Prayer times, Qibla direction, and Quran" },
+      { "name": "Sunnah.com", "description": "Search authentic hadith collections" },
+      { "name": "Learn Quran Tajwid", "description": "Learn proper Quran pronunciation" }
+    ],
+    "websites": [
+      { "name": "Quran.com", "url": "https://quran.com" },
+      { "name": "Sunnah.com", "url": "https://sunnah.com" },
+      { "name": "Islamweb.net", "url": "https://www.islamweb.net" },
+      { "name": "Dar Al-Iftaa", "url": "https://www.dar-alifta.org" }
+    ],
+    "youtubeChannels": [
+      { "name": "Yaqeen Institute", "url": "https://youtube.com/yaqeeninstitute" },
+      { "name": "Islamic Guidance", "url": "https://youtube.com/islamicguidance" }
+    ]
+  },
+  "closingMessage": "May Allah guide us all to the straight path and increase us in knowledge and faith. Ameen."
+}
