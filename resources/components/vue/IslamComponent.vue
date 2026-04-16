@@ -24,6 +24,7 @@
                   placeholder="Search Islam, pillars, prophets, prayers..."
                   v-model="searchQuery"
                   @input="filterContent"
+                  @keyup.enter="filterContent"
                 />
                 <button class="search-btn" @click="filterContent">
                   <i class="fas fa-arrow-right"></i>
@@ -49,16 +50,18 @@
           </div>
         </div>
       </div>
+
+      <!-- Hero Wave -->
       <div class="hero-wave-bottom">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 120" preserveAspectRatio="none">
-          <path fill="#FEF9EF" d="M0,64L80,69.3C160,75,320,85,480,80C640,75,800,53,960,53.3C1120,53,1280,75,1360,85.3L1440,96L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z"></path>
+          <path fill="#F0F8F4" d="M0,64L80,69.3C160,75,320,85,480,80C640,75,800,53,960,53.3C1120,53,1280,75,1360,85.3L1440,96L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z"></path>
         </svg>
       </div>
     </section>
 
     <div class="container main-container">
       <!-- Disclaimer Alert -->
-      <div class="alert alert-custom-warning mb-4">
+      <div class="alert alert-custom-warning mb-5">
         <i class="fas fa-exclamation-triangle me-2"></i>
         <strong>Disclaimer:</strong> {{ contentData.disclaimer.text }}
       </div>
@@ -113,21 +116,21 @@
           </div>
         </div>
 
-        <!-- Pexels Image -->
+        <!-- Image -->
         <div class="image-card mt-4">
           <img
             :src="basicsImage"
             :alt="contentData.basics.title"
-            class="img-fluid rounded-4"
+            class="img-fluid"
           />
           <div class="image-caption">Image: Sacred Islamic architecture | Source: Pexels</div>
         </div>
 
-        <!-- Video Embed -->
+        <!-- Video -->
         <div class="video-card mt-4">
           <iframe
             width="100%"
-            height="400"
+            height="420"
             :src="basicsVideoUrl"
             title="Introduction to Islam"
             frameborder="0"
@@ -141,7 +144,7 @@
       <!-- Section 2: Shahada -->
       <section class="content-section" id="shahada">
         <div class="section-header">
-          <div class="section-icon bg-success-custom">
+          <div class="section-icon">
             <i class="fas fa-certificate"></i>
           </div>
           <h2>{{ contentData.shahada.title }}</h2>
@@ -159,7 +162,7 @@
         </div>
 
         <div class="image-card mt-4">
-          <img :src="shahadaImage" alt="Prayer" class="img-fluid rounded-4" />
+          <img :src="shahadaImage" alt="Prayer" class="img-fluid" />
           <div class="image-caption">Image: A moment of devotion | Source: Pexels</div>
         </div>
       </section>
@@ -191,7 +194,7 @@
           </div>
           <div class="col-md-5">
             <div class="image-card">
-              <img :src="allahImage" alt="Allah" class="img-fluid rounded-4" />
+              <img :src="allahImage" alt="Allah" class="img-fluid" />
             </div>
           </div>
         </div>
@@ -220,7 +223,7 @@
           </div>
           <div class="col-md-6">
             <div class="image-card">
-              <img :src="prophetImage" alt="Medina Mosque" class="img-fluid rounded-4" />
+              <img :src="prophetImage" alt="Medina Mosque" class="img-fluid" />
             </div>
           </div>
         </div>
@@ -262,7 +265,7 @@
           </div>
           <div class="col-md-6">
             <div class="image-card">
-              <img :src="quranImage" alt="Quran" class="img-fluid rounded-4" />
+              <img :src="quranImage" alt="Quran" class="img-fluid" />
             </div>
             <div class="video-card mt-3">
               <iframe
@@ -317,7 +320,7 @@
           </div>
           <div class="col-md-6">
             <div class="image-card">
-              <img :src="salahImage" alt="Praying Muslim" class="img-fluid rounded-4" />
+              <img :src="salahImage" alt="Praying Muslim" class="img-fluid" />
             </div>
             <div class="video-card mt-3">
               <iframe
@@ -360,7 +363,7 @@
           </div>
           <div class="col-md-6">
             <div class="image-card">
-              <img :src="zakatImage" alt="Charity" class="img-fluid rounded-4" />
+              <img :src="zakatImage" alt="Charity" class="img-fluid" />
             </div>
           </div>
         </div>
@@ -393,7 +396,7 @@
           </div>
           <div class="col-md-6">
             <div class="image-card">
-              <img :src="sawmImage" alt="Iftar" class="img-fluid rounded-4" />
+              <img :src="sawmImage" alt="Iftar" class="img-fluid" />
             </div>
           </div>
         </div>
@@ -426,7 +429,7 @@
           </div>
           <div class="col-md-6">
             <div class="image-card">
-              <img :src="hajjImage" alt="Kaaba" class="img-fluid rounded-4" />
+              <img :src="hajjImage" alt="Kaaba" class="img-fluid" />
             </div>
           </div>
         </div>
@@ -459,7 +462,7 @@
           </div>
           <div class="col-md-6">
             <div class="image-card">
-              <img :src="afterlifeImage" alt="Sunset" class="img-fluid rounded-4" />
+              <img :src="afterlifeImage" alt="Sunset" class="img-fluid" />
             </div>
           </div>
         </div>
@@ -587,9 +590,8 @@
 </template>
 
 <script>
-import contentData from '../../data/discover-islam-content.json';
+import contentData from './discover-islam-content.json';
 
-// Pexels API Key
 const PEXELS_API_KEY = 'dhOLH00j9E1bBV53cMmEpaHPnrRR3WGzl3vRGXnPNbquONCjpZeKEr3f';
 
 export default {
@@ -600,7 +602,7 @@ export default {
       searchQuery: '',
       searchResults: [],
       openFaq: null,
-      // Images from Pexels
+      // Pexels Images
       basicsImage: '',
       shahadaImage: '',
       allahImage: '',
@@ -646,14 +648,15 @@ export default {
           }
         } catch (error) {
           console.error(`Failed to fetch ${q.key}:`, error);
-          // Fallback images
           this[q.key] = 'https://images.pexels.com/photos/2715373/pexels-photo-2715373.jpeg';
         }
       }
     },
+
     toggleFaq(index) {
       this.openFaq = this.openFaq === index ? null : index;
     },
+
     filterContent() {
       if (!this.searchQuery.trim()) {
         this.searchResults = [];
@@ -664,7 +667,6 @@ export default {
       const results = [];
       let id = 0;
 
-      // Search through sections
       const sections = [
         { name: 'basics', title: 'What is Islam?', content: this.contentData.basics.description, icon: 'fas fa-star-of-life' },
         { name: 'shahada', title: 'Shahada', content: this.contentData.shahada.explanation, icon: 'fas fa-certificate' },
@@ -689,7 +691,6 @@ export default {
         }
       });
 
-      // Search through FAQs
       this.contentData.faqs.forEach((faq, idx) => {
         if (faq.question.toLowerCase().includes(query)) {
           results.push({
@@ -704,6 +705,7 @@ export default {
 
       this.searchResults = results;
     },
+
     scrollToSection(sectionId) {
       const element = document.getElementById(sectionId);
       if (element) {
@@ -717,125 +719,122 @@ export default {
 </script>
 
 <style scoped>
-/* ===== Custom Color Variables (Green to Beige) ===== */
-:root {
-  --green-deep: #1B4D1F;
-  --green-primary: #2C6E2F;
-  --green-soft: #4A8B4D;
-  --green-light: #E8F3E8;
-  --beige-deep: #C9B896;
-  --beige-primary: #DFD0B2;
-  --beige-soft: #F5EFE2;
-  --beige-light: #FEF9EF;
-  --cream: #FFFDF7;
-  --shadow-sm: 0 10px 30px rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 20px 40px rgba(0, 0, 0, 0.08);
-  --shadow-lg: 0 30px 50px rgba(0, 0, 0, 0.12);
-}
-
+/* ====================== LIGHT ISLAMIC GREEN THEME ====================== */
 .discover-islam {
-  background: var(--cream);
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  line-height: 1.6;
-  color: #2C3E2F;
+  background: #F0F8F4;
+  min-height: 100vh;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
-/* ===== Hero Section ===== */
+.main-container {
+  background: #ffffff;
+  padding: 4rem 1.5rem;
+  border-radius: 0 0 24px 24px;
+  box-shadow: 0 10px 40px rgba(0, 168, 107, 0.08);
+}
+
+/* Hero */
 .hero-section {
-  background: linear-gradient(135deg, var(--green-deep) 0%, var(--beige-deep) 100%);
-  position: relative;
-  padding: 4rem 0 3rem;
+  background: linear-gradient(135deg, #00A86B 0%, #4CAF7A 100%);
   color: white;
+  padding: 5.5rem 0 3.5rem;
+  position: relative;
   overflow: hidden;
 }
 
 .hero-overlay {
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" opacity="0.05"%3E%3Cpath fill="white" d="M10,10 L20,10 L20,20 L10,20 Z M30,30 L40,30 L40,40 L30,40 Z M50,50 L60,50 L60,60 L50,60 Z M70,70 L80,70 L80,80 L70,80 Z"/%3E%3C/svg%3E');
-  background-repeat: repeat;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.15);
+  z-index: 1;
 }
 
-.hero-container {
+.hero-container > * {
   position: relative;
   z-index: 2;
 }
 
 .hero-badge {
-  background: rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(10px);
-  display: inline-block;
-  padding: 0.5rem 1.25rem;
+  display: inline-flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.25);
+  padding: 8px 20px;
   border-radius: 50px;
-  font-size: 0.85rem;
-  margin-bottom: 1.5rem;
+  font-size: 0.95rem;
+  backdrop-filter: blur(8px);
+  margin-bottom: 1rem;
 }
 
 .hero-title {
-  font-size: 3rem;
-  font-weight: 800;
+  font-size: 3.2rem;
+  font-weight: 700;
+  line-height: 1.1;
   margin-bottom: 1rem;
-  letter-spacing: -0.02em;
+  color: #ffffff;
 }
 
 .title-icon {
-  font-size: 2.5rem;
-  margin-right: 0.5rem;
+  font-size: 3.5rem;
+  margin-right: 12px;
+  vertical-align: middle;
 }
 
 .hero-subtitle {
-  font-size: 1.2rem;
-  opacity: 0.9;
-  margin-bottom: 2rem;
+  font-size: 1.35rem;
+  opacity: 0.95;
+  max-width: 620px;
+  margin: 0 auto 2.5rem;
 }
 
-/* Search */
+/* Search Bar */
 .search-wrapper {
-  max-width: 550px;
-  margin: 0 auto;
   position: relative;
+  max-width: 620px;
+  margin: 0 auto;
 }
 
 .search-input-group {
   display: flex;
-  align-items: center;
   background: white;
-  border-radius: 60px;
-  padding: 0.25rem;
-  box-shadow: var(--shadow-lg);
+  border-radius: 9999px;
+  box-shadow: 0 12px 35px rgba(0, 168, 107, 0.18);
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.search-input-group:focus-within {
+  box-shadow: 0 15px 45px rgba(0, 168, 107, 0.28);
+  transform: translateY(-2px);
 }
 
 .search-icon {
-  color: #999;
-  margin-left: 1.25rem;
+  color: #00A86B;
+  padding: 0 1.25rem;
+  font-size: 1.35rem;
+  display: flex;
+  align-items: center;
 }
 
 .search-input {
   flex: 1;
   border: none;
-  padding: 0.9rem 0.5rem;
-  font-size: 1rem;
+  padding: 1.15rem 0.75rem;
+  font-size: 1.1rem;
   outline: none;
-  background: transparent;
+  color: #1F3A2F;
 }
 
 .search-btn {
-  background: var(--green-primary);
-  border: none;
+  background: #00A86B;
   color: white;
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  cursor: pointer;
-  transition: all 0.3s;
+  border: none;
+  width: 58px;
+  font-size: 1.25rem;
+  transition: background 0.3s ease;
 }
 
 .search-btn:hover {
-  background: var(--green-deep);
-  transform: scale(1.02);
+  background: #006D4A;
 }
 
 .search-results {
@@ -844,453 +843,271 @@ export default {
   left: 0;
   right: 0;
   background: white;
-  border-radius: 20px;
-  box-shadow: var(--shadow-lg);
-  margin-top: 0.75rem;
+  border-radius: 16px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.12);
+  margin-top: 12px;
+  max-height: 380px;
+  overflow-y: auto;
   z-index: 100;
-  overflow: hidden;
 }
 
 .search-result-item {
   padding: 1rem 1.25rem;
   display: flex;
-  align-items: center;
-  gap: 1rem;
+  gap: 14px;
   cursor: pointer;
   transition: background 0.2s;
   border-bottom: 1px solid #f0f0f0;
 }
 
 .search-result-item:hover {
-  background: var(--green-light);
+  background: #F0F8F4;
 }
 
 .result-icon {
-  color: var(--green-primary);
-  font-size: 1.2rem;
-  width: 24px;
+  color: #00A86B;
+  font-size: 1.4rem;
+  margin-top: 4px;
 }
 
-.result-title {
-  font-weight: 600;
-  color: var(--green-deep);
-}
-
-.result-excerpt {
-  font-size: 0.8rem;
-  color: #666;
-}
-
-/* Hero Wave */
-.hero-wave-bottom {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  line-height: 0;
-}
-
-.hero-wave-bottom svg {
-  width: 100%;
-  height: 60px;
-}
-
-/* ===== Main Container ===== */
-.main-container {
-  padding: 3rem 0;
-}
-
-/* ===== Section Styles ===== */
-.content-section {
-  margin-bottom: 4rem;
-}
-
+/* Section Header */
 .section-header {
   text-align: center;
-  margin-bottom: 2.5rem;
+  margin-bottom: 3rem;
 }
 
 .section-icon {
-  width: 70px;
-  height: 70px;
-  background: linear-gradient(135deg, var(--green-primary), var(--green-soft));
-  border-radius: 50%;
-  display: inline-flex;
+  width: 78px;
+  height: 78px;
+  display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 1rem;
-  box-shadow: 0 10px 25px rgba(44, 110, 47, 0.3);
-}
-
-.section-icon i {
-  font-size: 2rem;
+  font-size: 2.2rem;
+  background: linear-gradient(135deg, #00A86B, #4CAF7A);
   color: white;
+  border-radius: 50%;
+  margin: 0 auto 1.25rem;
+  box-shadow: 0 8px 25px rgba(0, 168, 107, 0.25);
 }
 
 .section-header h2 {
-  font-size: 2rem;
+  color: #1F3A2F;
   font-weight: 700;
-  color: var(--green-deep);
-  margin-bottom: 0.5rem;
+  font-size: 2.35rem;
 }
 
 .section-subtitle {
-  color: #7A8B7B;
-  font-size: 1rem;
+  color: #4A665A;
+  max-width: 700px;
+  margin: 0 auto;
 }
 
-/* ===== Cards ===== */
-.info-card {
+/* Cards */
+.info-card,
+.shahada-card,
+.dos-card,
+.donts-card,
+.resources-card {
   background: white;
-  border-radius: 24px;
-  padding: 1.8rem;
-  box-shadow: var(--shadow-sm);
-  transition: all 0.3s ease;
-  height: 100%;
+  border-radius: 20px;
+  padding: 2rem;
+  box-shadow: 0 10px 30px rgba(0, 168, 107, 0.09);
+  border: 1px solid #E8F5EF;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.info-card:hover {
-  transform: translateY(-3px);
-  box-shadow: var(--shadow-md);
-}
-
-.card-icon-header {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  margin-bottom: 1.25rem;
+.info-card:hover,
+.shahada-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 45px rgba(0, 168, 107, 0.15);
 }
 
 .card-icon-header i {
-  font-size: 1.8rem;
-  color: var(--green-primary);
+  color: #00A86B;
+  font-size: 2rem;
+  margin-right: 12px;
 }
 
 .card-icon-header h3 {
-  font-size: 1.3rem;
-  font-weight: 700;
-  color: var(--green-deep);
+  display: inline-block;
   margin: 0;
+  color: #1F3A2F;
 }
 
-.icon-list {
-  list-style: none;
-  padding: 0;
-}
-
-.icon-list li {
-  margin-bottom: 0.75rem;
-  display: flex;
+/* Badges & Boxes */
+.name-badge,
+.reference-box,
+.quran-box {
+  background: #E8F5EF;
+  color: #006D4A;
+  padding: 10px 16px;
+  border-radius: 12px;
+  display: inline-flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: 8px;
+  font-size: 0.95rem;
+  margin: 4px;
 }
 
-.icon-list i {
-  color: var(--green-primary);
-  font-size: 1rem;
-  width: 20px;
-}
-
-/* Image Card */
-.image-card {
-  border-radius: 24px;
-  overflow: hidden;
-  box-shadow: var(--shadow-sm);
-}
-
-.image-card img {
-  width: 100%;
-  height: 250px;
-  object-fit: cover;
-}
-
-.image-caption, .video-caption {
-  font-size: 0.7rem;
-  color: #999;
-  padding: 0.5rem;
-  text-align: center;
-  background: #f9f9f9;
-}
-
-/* Video Card */
-.video-card {
-  border-radius: 24px;
-  overflow: hidden;
-  box-shadow: var(--shadow-sm);
-}
-
-.video-card iframe {
-  width: 100%;
-  height: 250px;
-}
-
-/* Shahada Card */
-.shahada-card {
-  background: linear-gradient(135deg, var(--green-light), var(--beige-soft));
-  padding: 2rem;
-  border-radius: 24px;
-  text-align: center;
-}
-
-.shahada-arabic {
-  font-size: 2rem;
-  font-family: 'Amiri', 'Traditional Arabic', serif;
-  margin-bottom: 1rem;
-}
-
-.shahada-transliteration {
-  font-size: 1.1rem;
-  color: var(--green-deep);
-  margin-bottom: 0.5rem;
-}
-
-.shahada-translation {
-  font-style: italic;
-  color: #555;
-}
-
-/* Names Grid */
 .names-grid {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-top: 0.5rem;
+  gap: 8px;
 }
 
-.name-badge {
-  background: var(--green-light);
-  padding: 0.3rem 0.8rem;
-  border-radius: 50px;
-  font-size: 0.8rem;
-  color: var(--green-primary);
-}
-
-/* Reference Box */
-.reference-box, .quran-box {
-  background: var(--beige-soft);
-  padding: 0.75rem 1rem;
-  border-radius: 16px;
-  font-size: 0.85rem;
-  display: flex;
-  gap: 0.75rem;
-  align-items: flex-start;
-}
-
-.reference-box i, .quran-box i {
-  color: var(--green-primary);
-  font-size: 1rem;
-  margin-top: 0.2rem;
-}
-
-/* Custom Table */
+/* Table */
 .table-custom {
-  background: white;
-  border-radius: 16px;
+  border-radius: 12px;
   overflow: hidden;
 }
 
 .table-custom th {
-  background: var(--green-primary);
-  color: white;
-  border: none;
-}
-
-.table-custom td {
-  border-color: #eee;
+  background: #E8F5EF;
+  color: #006D4A;
+  font-weight: 600;
 }
 
 /* Do's & Don'ts */
-.dos-card, .donts-card {
-  border-radius: 24px;
-  overflow: hidden;
-  box-shadow: var(--shadow-sm);
-  height: 100%;
-}
-
 .card-header-dos {
-  background: var(--green-primary);
+  background: #00A86B;
   color: white;
+  border-radius: 16px 16px 0 0;
   padding: 1rem 1.5rem;
   font-weight: 600;
 }
 
 .card-header-donts {
-  background: #C0392B;
+  background: #E63946;
   color: white;
+  border-radius: 16px 16px 0 0;
   padding: 1rem 1.5rem;
   font-weight: 600;
 }
 
-.card-body-dos, .card-body-donts {
-  background: white;
+.card-body-dos,
+.card-body-donts {
   padding: 1.5rem;
 }
 
-.list-icon {
-  list-style: none;
-  padding: 0;
-  margin: 0;
+/* Alert */
+.alert-custom-warning {
+  background: #FFF4E5;
+  border-color: #FFE0B3;
+  color: #B35C00;
 }
 
-.list-icon li {
-  margin-bottom: 0.85rem;
-  display: flex;
-  align-items: flex-start;
-  gap: 0.75rem;
+/* Image & Video */
+.image-card img {
+  border-radius: 18px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  width: 100%;
+}
+
+.image-caption,
+.video-caption {
+  text-align: center;
   font-size: 0.9rem;
+  color: #6B7E75;
+  margin-top: 12px;
+}
+
+.video-card {
+  background: white;
+  border-radius: 18px;
+  padding: 12px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
 }
 
 /* FAQ */
 .faq-grid {
-  background: white;
-  border-radius: 24px;
-  padding: 0.5rem;
-  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
 .faq-item {
-  border-bottom: 1px solid #eee;
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 6px 20px rgba(0, 168, 107, 0.08);
 }
 
 .faq-question {
   width: 100%;
   text-align: left;
+  padding: 1.25rem 1.5rem;
   background: none;
   border: none;
-  padding: 1rem;
   font-weight: 600;
-  color: var(--green-deep);
-  cursor: pointer;
+  color: #1F3A2F;
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  transition: all 0.2s;
-}
-
-.faq-question:hover {
-  background: var(--green-light);
-  border-radius: 16px;
-}
-
-.faq-question i {
-  color: var(--green-primary);
+  gap: 12px;
+  font-size: 1.05rem;
 }
 
 .faq-answer {
+  padding: 0 1.5rem 0;
   max-height: 0;
   overflow: hidden;
-  transition: max-height 0.3s ease;
-  padding: 0 1rem;
-  color: #555;
-  font-size: 0.9rem;
-  line-height: 1.6;
+  transition: all 0.3s ease;
+  color: #4A665A;
 }
 
 .faq-answer-open {
+  padding-bottom: 1.5rem;
   max-height: 300px;
-  padding: 0 1rem 1rem 1rem;
 }
 
-/* Resources */
-.resources-card {
-  background: white;
-  border-radius: 24px;
-  padding: 1.5rem;
-  box-shadow: var(--shadow-sm);
-  height: 100%;
-}
-
-.resources-card h4 {
-  font-size: 1.2rem;
-  font-weight: 700;
-  color: var(--green-deep);
-  margin-bottom: 1rem;
-}
-
-.resource-list {
-  list-style: none;
-  padding: 0;
-}
-
-.resource-list li {
-  margin-bottom: 0.75rem;
-}
-
-.resource-link {
-  color: var(--green-primary);
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-}
-
-.resource-link:hover {
-  text-decoration: underline;
-}
-
-/* Closing Message */
+/* Closing & Attribution */
 .closing-message {
-  background: linear-gradient(135deg, var(--green-light), var(--beige-soft));
-  padding: 2rem;
-  border-radius: 28px;
+  background: linear-gradient(135deg, #E8F5EF, #F0F8F4);
+  border-radius: 20px;
+  padding: 2.5rem;
   text-align: center;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 1rem;
+  color: #1F3A2F;
+  margin-top: 3rem;
 }
 
-.closing-message i {
-  color: var(--green-primary);
-}
-
-/* Attribution */
 .attribution-box {
-  background: var(--beige-soft);
-  padding: 1rem;
-  border-radius: 16px;
   text-align: center;
-  font-size: 0.7rem;
-  color: #666;
+  color: #6B7E75;
+  font-size: 0.9rem;
 }
 
-/* Alert Custom */
-.alert-custom-warning {
-  background: var(--beige-soft);
-  border-left: 4px solid #C0392B;
-  border-radius: 16px;
-  color: #5a3e1b;
+/* General */
+h1, h2, h3, h4 {
+  color: #1F3A2F;
 }
 
-/* Bootstrap Overrides */
+ul.icon-list,
+.list-icon {
+  padding-left: 0;
+  list-style: none;
+}
+
+ul.icon-list li,
+.list-icon li {
+  padding: 8px 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
 .text-success-custom {
-  color: var(--green-primary) !important;
-}
-
-.bg-success-custom {
-  background: var(--green-primary) !important;
+  color: #00A86B;
 }
 
 /* Responsive */
 @media (max-width: 768px) {
   .hero-title {
+    font-size: 2.6rem;
+  }
+  .section-header h2 {
     font-size: 2rem;
   }
-  
-  .section-header h2 {
-    font-size: 1.6rem;
-  }
-  
-  .shahada-arabic {
-    font-size: 1.2rem;
-  }
-  
-  .video-card iframe {
-    height: 200px;
-  }
-  
-  .image-card img {
-    height: 200px;
+  .main-container {
+    padding: 2.5rem 1rem;
   }
 }
 </style>

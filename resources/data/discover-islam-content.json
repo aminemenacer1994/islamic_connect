@@ -1,8 +1,15 @@
 {
   "disclaimer": {
-    "text": "This guide is for educational purposes only. All information has been verified from the 5 most trusted Islamic sources: Quran.com (Sahih International translation), Sunnah.com (authentic Hadith), Islamweb.net, Dar Al-Iftaa Al-Misriyyah, and Saudi Ministry of Islamic Affairs. Always consult a qualified scholar for specific religious rulings."
+    "text": "This guide is for educational purposes only. All information has been verified from the most trusted Islamic sources: Quran.com (Sahih International translation), Sunnah.com (authentic Hadith collections), Islamweb.net, Dar Al-Iftaa Al-Misriyyah, and Saudi Ministry of Islamic Affairs. Always consult a qualified scholar for specific religious rulings."
   },
-  "attribution": "Content compiled from: Quran (Sahih International), Sahih Bukhari, Sahih Muslim, Islamweb (Fatwa Committee), Dar Al-Iftaa Al-Misriyyah. All references are cited inline. Images sourced from Pexels (licensed free for use).",
+  "attribution": "Content compiled from: Quran (Sahih International), Sahih Bukhari, Sahih Muslim, al-Muwatta, Sunan al-Tirmidhi, Islamweb (Fatwa Committee), Dar Al-Iftaa Al-Misriyyah. All references are cited inline. Images sourced from Pexels (free for use). Videos from respected educational Islamic YouTube channels.",
+  "theme": {
+    "backgroundColor": "#2E9F90",
+    "titleColor": "#006D5B",
+    "accentColor": "#006D5B",
+    "textColor": "#2C3E50",
+    "description": "Light teal green background with deep teal titles for a calm, peaceful Islamic aesthetic."
+  },
   "sources": [
     { "name": "Quran.com", "url": "https://quran.com" },
     { "name": "Sunnah.com", "url": "https://sunnah.com" },
@@ -12,11 +19,11 @@
   ],
   "hero": {
     "title": "Discover Islam",
-    "subtitle": "A complete introduction to the faith of 1.8+ billion Muslims",
+    "subtitle": "A complete introduction to the faith of over 2 billion Muslims",
     "badge": "Scholarly Verified"
   },
   "searchKeywords": [
-    "Allah", "Muhammad", "Quran", "prayer", "fasting", "zakat", "hajj", "iman", "islam", "muslim", "shahada", "salah", "ramadan"
+    "Allah", "Muhammad", "Quran", "prayer", "fasting", "zakat", "hajj", "iman", "islam", "muslim", "shahada", "salah", "ramadan", "asma ul husna"
   ],
   "basics": {
     "title": "What is Islam?",
@@ -38,37 +45,137 @@
       "items": [
         "Shahada (Declaration of Faith)",
         "Salah (Five Daily Prayers)",
-        "Zakat (Charity - 2.5% of savings)",
+        "Zakat (Charity - 2.5% of qualifying savings)",
         "Sawm (Fasting in Ramadan)",
         "Hajj (Pilgrimage to Mecca)"
       ]
     },
-    "imageSearch": "islamic prayer mosque",
-    "videoSearch": "introduction to islam"
+    "image": "https://www.pexels.com/search/islamic%20prayer%20mosque/",
+    "video": "https://www.youtube.com/watch?v=6Jwa4MccRLw"
   },
   "shahada": {
     "title": "The Shahada (Declaration of Faith)",
     "arabic": "أشهد أن لا إله إلا الله وأشهد أن محمدًا رسول الله",
     "transliteration": "Ash-hadu an la ilaha illa Allah, wa ash-hadu anna Muhammadan Rasul Allah",
-    "translation": "I bear witness that there is no god worthy of worship except Allah, and I bear witness that Muhammad is the Messenger of Allah",
+    "translation": "I bear witness that there is no god but Allah, and I bear witness that Muhammad is the Messenger of Allah",
     "explanation": "The Shahada is the first pillar of Islam and the gateway to the faith. By sincerely reciting it with understanding and conviction, one becomes a Muslim.",
-    "reference": "Sahih Muslim 8c - The Prophet ﷺ said: 'Whoever testifies that there is no god but Allah alone, without partner, and that Muhammad is His servant and messenger... Allah will admit him into Paradise.'",
-    "imageSearch": "person praying qibla",
-    "videoSearch": "shahada declaration"
+    "reference": "Sahih Muslim (via Riyad as-Salihin 412) - The Prophet ﷺ said: 'Whoever testifies that there is no god but Allah alone, without partner, and that Muhammad is His servant and Messenger... Allah will forbid the Fire from touching him' (or admit him to Paradise according to narrations).",
+    "image": "https://www.pexels.com/search/muslim%20prayer%20hands/",
+    "video": "https://www.youtube.com/watch?v=SsXHcObCLJw"
   },
   "allah": {
     "title": "Who is Allah?",
-    "description": "Allah is the Arabic name for the One True God. He is the Creator, Sustainer, and Owner of all that exists. Islam emphasizes strict monotheism (Tawhid).",
-    "attributes": [
-      "Ar-Rahman (The Most Merciful)",
-      "Ar-Rahim (The Most Compassionate)",
-      "Al-Malik (The King)",
-      "Al-Quddus (The Holy)",
-      "As-Salam (The Source of Peace)"
-    ],
+    "description": "Allah is the Arabic name for the One True God. He is the Creator, Sustainer, and Owner of all that exists. Islam emphasizes strict monotheism (Tawhid). To Allah belong the Most Beautiful Names (Asma ul-Husna).",
     "quranReference": "Say: He is Allah, the One. Allah, the Eternal Refuge. He neither begets nor is born, nor is there to Him any equivalent. (Surah Al-Ikhlas 112:1-4)",
-    "imageSearch": "sky clouds light nature",
-    "videoSearch": "99 names of allah"
+    "image": "https://www.pexels.com/search/sky%20clouds%20light%20nature/",
+    "video": "https://www.youtube.com/watch?v=g3yG6rU9Uys"
+  },
+  "asmaUlHusna": {
+    "title": "99 Beautiful Names of Allah (Asma ul-Husna)",
+    "description": "Allah has 99 Beautiful Names. Learning and calling upon Him by these names is highly recommended. Here is the complete authentic list with meanings:",
+    "names": [
+      { "arabic": "ٱلرَّحْمَٰنُ", "transliteration": "Ar-Raḥmān", "meaning": "The Most or Entirely Merciful" },
+      { "arabic": "ٱلرَّحِيمُ", "transliteration": "Ar-Raḥīm", "meaning": "The Especially Merciful" },
+      { "arabic": "ٱلْمَلِكُ", "transliteration": "Al-Malik", "meaning": "The King and Owner of Dominion" },
+      { "arabic": "ٱلْقُدُّوسُ", "transliteration": "Al-Quddūs", "meaning": "The Absolutely Pure" },
+      { "arabic": "ٱلسَّلَامُ", "transliteration": "As-Salām", "meaning": "The Perfection and Giver of Peace" },
+      { "arabic": "ٱلْمُؤْمِنُ", "transliteration": "Al-Muʾmin", "meaning": "The Bestower of Security" },
+      { "arabic": "ٱلْمُهَيْمِنُ", "transliteration": "Al-Muhaymin", "meaning": "The Guardian" },
+      { "arabic": "ٱلْعَزِيزُ", "transliteration": "Al-ʿAzīz", "meaning": "The Almighty" },
+      { "arabic": "ٱلْجَبَّارُ", "transliteration": "Al-Jabbār", "meaning": "The Compeller" },
+      { "arabic": "ٱلْمُتَكَبِّرُ", "transliteration": "Al-Mutakabbir", "meaning": "The Supreme" },
+      { "arabic": "ٱلْخَالِقُ", "transliteration": "Al-Khāliq", "meaning": "The Creator" },
+      { "arabic": "ٱلْبَارِئُ", "transliteration": "Al-Bāriʾ", "meaning": "The Originator" },
+      { "arabic": "ٱلْمُصَوِّرُ", "transliteration": "Al-Muṣawwir", "meaning": "The Fashioner" },
+      { "arabic": "ٱلْغَفَّارُ", "transliteration": "Al-Ghaffār", "meaning": "The Forgiver" },
+      { "arabic": "ٱلْقَهَّارُ", "transliteration": "Al-Qahhār", "meaning": "The Subduer" },
+      { "arabic": "ٱلْوَهَّابُ", "transliteration": "Al-Wahhāb", "meaning": "The Bestower" },
+      { "arabic": "ٱلرَّزَّاقُ", "transliteration": "Ar-Razzāq", "meaning": "The Provider" },
+      { "arabic": "ٱلْفَتَّاحُ", "transliteration": "Al-Fattāḥ", "meaning": "The Opener" },
+      { "arabic": "ٱلْعَلِيمُ", "transliteration": "Al-ʿAlīm", "meaning": "The All-Knowing" },
+      { "arabic": "ٱلْقَابِضُ", "transliteration": "Al-Qābiḍ", "meaning": "The Withholder" },
+      { "arabic": "ٱلْبَاسِطُ", "transliteration": "Al-Bāsiṭ", "meaning": "The Expander" },
+      { "arabic": "ٱلْخَافِضُ", "transliteration": "Al-Khāfiḍ", "meaning": "The Abaser" },
+      { "arabic": "ٱلرَّافِعُ", "transliteration": "Ar-Rāfiʿ", "meaning": "The Exalter" },
+      { "arabic": "ٱلْمُعِزُّ", "transliteration": "Al-Muʿizz", "meaning": "The Bestower of Honour" },
+      { "arabic": "ٱلْمُذِلُّ", "transliteration": "Al-Mudhill", "meaning": "The Humiliator" },
+      { "arabic": "ٱلسَّمِيعُ", "transliteration": "As-Samīʿ", "meaning": "The All-Hearing" },
+      { "arabic": "ٱلْبَصِيرُ", "transliteration": "Al-Baṣīr", "meaning": "The All-Seeing" },
+      { "arabic": "ٱلْحَكَمُ", "transliteration": "Al-Ḥakam", "meaning": "The Judge" },
+      { "arabic": "ٱلْعَدْلُ", "transliteration": "Al-ʿAdl", "meaning": "The Just" },
+      { "arabic": "ٱللَّطِيفُ", "transliteration": "Al-Laṭīf", "meaning": "The Subtle" },
+      { "arabic": "ٱلْخَبِيرُ", "transliteration": "Al-Khabīr", "meaning": "The Aware" },
+      { "arabic": "ٱلْحَلِيمُ", "transliteration": "Al-Ḥalīm", "meaning": "The Forbearing" },
+      { "arabic": "ٱلْعَظِيمُ", "transliteration": "Al-ʿAẓīm", "meaning": "The Magnificent" },
+      { "arabic": "ٱلْغَفُورُ", "transliteration": "Al-Ghafūr", "meaning": "The Forgiving" },
+      { "arabic": "ٱلشَّكُورُ", "transliteration": "Ash-Shakūr", "meaning": "The Appreciative" },
+      { "arabic": "ٱلْعَلِيُّ", "transliteration": "Al-ʿAlī", "meaning": "The Most High" },
+      { "arabic": "ٱلْكَبِيرُ", "transliteration": "Al-Kabīr", "meaning": "The Greatest" },
+      { "arabic": "ٱلْحَفِيظُ", "transliteration": "Al-Ḥafīẓ", "meaning": "The Preserver" },
+      { "arabic": "ٱلْمُقِيتُ", "transliteration": "Al-Muqīt", "meaning": "The Nourisher" },
+      { "arabic": "ٱلْحَسِيبُ", "transliteration": "Al-Ḥasīb", "meaning": "The Reckoner" },
+      { "arabic": "ٱلْجَلِيلُ", "transliteration": "Al-Jalīl", "meaning": "The Majestic" },
+      { "arabic": "ٱلْكَرِيمُ", "transliteration": "Al-Karīm", "meaning": "The Generous" },
+      { "arabic": "ٱلرَّقِيبُ", "transliteration": "Ar-Raqīb", "meaning": "The Watchful" },
+      { "arabic": "ٱلْمُجِيبُ", "transliteration": "Al-Mujīb", "meaning": "The Responsive" },
+      { "arabic": "ٱلْوَاسِعُ", "transliteration": "Al-Wāsiʿ", "meaning": "The All-Encompassing" },
+      { "arabic": "ٱلْحَكِيمُ", "transliteration": "Al-Ḥakīm", "meaning": "The Wise" },
+      { "arabic": "ٱلْوَدُودُ", "transliteration": "Al-Wadūd", "meaning": "The Loving" },
+      { "arabic": "ٱلْمَجِيدُ", "transliteration": "Al-Majīd", "meaning": "The Glorious" },
+      { "arabic": "ٱلْبَاعِثُ", "transliteration": "Al-Bāʿith", "meaning": "The Resurrector" },
+      { "arabic": "ٱلشَّهِيدُ", "transliteration": "Ash-Shahīd", "meaning": "The Witness" },
+      { "arabic": "ٱلْحَقُّ", "transliteration": "Al-Ḥaqq", "meaning": "The Truth" },
+      { "arabic": "ٱلْوَكِيلُ", "transliteration": "Al-Wakīl", "meaning": "The Trustee" },
+      { "arabic": "ٱلْقَوِيُّ", "transliteration": "Al-Qawī", "meaning": "The Strong" },
+      { "arabic": "ٱلْمَتِينُ", "transliteration": "Al-Matīn", "meaning": "The Firm" },
+      { "arabic": "ٱلْوَلِيُّ", "transliteration": "Al-Walī", "meaning": "The Ally" },
+      { "arabic": "ٱلْحَمِيدُ", "transliteration": "Al-Ḥamīd", "meaning": "The Praiseworthy" },
+      { "arabic": "ٱلْمُحْصِي", "transliteration": "Al-Muḥṣī", "meaning": "The Accountant" },
+      { "arabic": "ٱلْمُبْدِئُ", "transliteration": "Al-Mubdiʾ", "meaning": "The Originator" },
+      { "arabic": "ٱلْمُعِيدُ", "transliteration": "Al-Muʿīd", "meaning": "The Restorer" },
+      { "arabic": "ٱلْمُحْيِي", "transliteration": "Al-Muḥyī", "meaning": "The Giver of Life" },
+      { "arabic": "ٱلْمُمِيتُ", "transliteration": "Al-Mumīt", "meaning": "The Bringer of Death" },
+      { "arabic": "ٱلْحَيُّ", "transliteration": "Al-Ḥayy", "meaning": "The Ever-Living" },
+      { "arabic": "ٱلْقَيُّومُ", "transliteration": "Al-Qayyūm", "meaning": "The Self-Subsisting" },
+      { "arabic": "ٱلْوَاجِدُ", "transliteration": "Al-Wājid", "meaning": "The Finder" },
+      { "arabic": "ٱلْمَاجِدُ", "transliteration": "Al-Mājid", "meaning": "The Illustrious" },
+      { "arabic": "ٱلْوَاحِدُ", "transliteration": "Al-Wāḥid", "meaning": "The Unique" },
+      { "arabic": "ٱلْأَحَدُ", "transliteration": "Al-Aḥad", "meaning": "The One" },
+      { "arabic": "ٱلصَّمَدُ", "transliteration": "Aṣ-Ṣamad", "meaning": "The Eternal Refuge" },
+      { "arabic": "ٱلْقَادِرُ", "transliteration": "Al-Qādir", "meaning": "The Capable" },
+      { "arabic": "ٱلْمُقْتَدِرُ", "transliteration": "Al-Muqtadir", "meaning": "The Omnipotent" },
+      { "arabic": "ٱلْمُقَدِّمُ", "transliteration": "Al-Muqaddim", "meaning": "The Expediter" },
+      { "arabic": "ٱلْمُؤَخِّرُ", "transliteration": "Al-Muʾakhkhir", "meaning": "The Delayer" },
+      { "arabic": "ٱلْأَوَّلُ", "transliteration": "Al-Awwal", "meaning": "The First" },
+      { "arabic": "ٱلْآخِرُ", "transliteration": "Al-Ākhir", "meaning": "The Last" },
+      { "arabic": "ٱلظَّاهِرُ", "transliteration": "Aẓ-Ẓāhir", "meaning": "The Manifest" },
+      { "arabic": "ٱلْبَاطِنُ", "transliteration": "Al-Bāṭin", "meaning": "The Hidden" },
+      { "arabic": "ٱلْوَالِي", "transliteration": "Al-Wālī", "meaning": "The Governor" },
+      { "arabic": "ٱلْمُتَعَالِي", "transliteration": "Al-Mutaʿālī", "meaning": "The Exalted" },
+      { "arabic": "ٱلْبَرُّ", "transliteration": "Al-Barr", "meaning": "The Source of Goodness" },
+      { "arabic": "ٱلتَّوَّابُ", "transliteration": "At-Tawwāb", "meaning": "The Acceptor of Repentance" },
+      { "arabic": "ٱلْمُنْتَقِمُ", "transliteration": "Al-Muntaqim", "meaning": "The Avenger" },
+      { "arabic": "ٱلْعَفُوُّ", "transliteration": "Al-ʿAfūw", "meaning": "The Pardoner" },
+      { "arabic": "ٱلرَّءُوفُ", "transliteration": "Ar-Raʾūf", "meaning": "The Compassionate" },
+      { "arabic": "مَالِكُ ٱلْمُلْكِ", "transliteration": "Mālik al-Mulk", "meaning": "The Owner of Sovereignty" },
+      { "arabic": "ذُو ٱلْجَلَالِ وَٱلْإِكْرَامِ", "transliteration": "Dhū al-Jalāli wa al-Ikrām", "meaning": "The Lord of Majesty and Honour" },
+      { "arabic": "ٱلْمُقْسِطُ", "transliteration": "Al-Muqsiṭ", "meaning": "The Equitable" },
+      { "arabic": "ٱلْجَامِعُ", "transliteration": "Al-Jāmiʿ", "meaning": "The Gatherer" },
+      { "arabic": "ٱلْغَنِيُّ", "transliteration": "Al-Ghanī", "meaning": "The Self-Sufficient" },
+      { "arabic": "ٱلْمُغْنِي", "transliteration": "Al-Mughnī", "meaning": "The Enricher" },
+      { "arabic": "ٱلْمَانِعُ", "transliteration": "Al-Māniʿ", "meaning": "The Preventer" },
+      { "arabic": "ٱلضَّارُّ", "transliteration": "Aḍ-Ḍārr", "meaning": "The Afflicter" },
+      { "arabic": "ٱلنَّافِعُ", "transliteration": "An-Nāfiʿ", "meaning": "The Benefactor" },
+      { "arabic": "ٱلنُّورُ", "transliteration": "An-Nūr", "meaning": "The Light" },
+      { "arabic": "ٱلْهَادِي", "transliteration": "Al-Hādī", "meaning": "The Guide" },
+      { "arabic": "ٱلْبَدِيعُ", "transliteration": "Al-Badīʿ", "meaning": "The Incomparable" },
+      { "arabic": "ٱلْبَاقِي", "transliteration": "Al-Bāqī", "meaning": "The Everlasting" },
+      { "arabic": "ٱلْوَارِثُ", "transliteration": "Al-Wārith", "meaning": "The Inheritor" },
+      { "arabic": "ٱلرَّشِيدُ", "transliteration": "Ar-Rashīd", "meaning": "The Rightly Guided" },
+      { "arabic": "ٱلصَّبُورُ", "transliteration": "Aṣ-Ṣabūr", "meaning": "The Patient" }
+    ],
+    "image": "https://www.pexels.com/search/islamic%20calligraphy%20names%20of%20allah/",
+    "video": "https://www.youtube.com/watch?v=g3yG6rU9Uys"
   },
   "prophet": {
     "title": "Prophet Muhammad ﷺ",
@@ -81,9 +188,9 @@
       "Forgiveness and patience in adversity"
     ],
     "quranReference": "And indeed, you are of a great moral character. (Surah Al-Qalam 68:4)",
-    "hadithReference": "The Prophet ﷺ said: 'I have been sent to perfect good character.' (Musnad Ahmad)",
-    "imageSearch": "medina mosque green dome",
-    "videoSearch": "seerah prophet muhammad"
+    "hadithReference": "The Prophet ﷺ said: 'I have been sent to perfect good character.' (al-Muwatta 1614)",
+    "image": "https://www.pexels.com/search/medina%20mosque%20green%20dome/",
+    "video": "https://www.youtube.com/results?search_query=seerah+of+prophet+muhammad+for+beginners+yaqeen"
   },
   "quran": {
     "title": "The Holy Quran",
@@ -96,8 +203,8 @@
       "No single letter has changed in 1,400 years"
     ],
     "reference": "Indeed, it is We who sent down the Quran and indeed, We will be its guardian. (Surah Al-Hijr 15:9)",
-    "imageSearch": "quran book reading",
-    "videoSearch": "quran recitation"
+    "image": "https://www.pexels.com/search/quran%20book%20reading/",
+    "video": "https://www.youtube.com/results?search_query=beautiful+quran+recitation+with+translation"
   },
   "salah": {
     "title": "Salah (The Five Daily Prayers)",
@@ -117,12 +224,12 @@
       "Physical and spiritual cleansing"
     ],
     "reference": "Recite what has been revealed to you of the Book and establish prayer. Indeed, prayer prohibits immorality and wrongdoing. (Surah Al-Ankabut 29:45)",
-    "imageSearch": "muslim praying mosque",
-    "videoSearch": "how to pray salah"
+    "image": "https://www.pexels.com/search/muslim%20praying%20mosque/",
+    "video": "https://www.youtube.com/watch?v=zalLv2NY98k"
   },
   "zakat": {
     "title": "Zakat (Charity)",
-    "description": "Zakat is the third pillar of Islam — a mandatory charity of 2.5% on wealth held for one lunar year. It purifies wealth and helps the poor.",
+    "description": "Zakat is the third pillar of Islam — a mandatory charity of 2.5% on qualifying wealth held for one lunar year above the nisab threshold. It purifies wealth and helps the poor.",
     "eligibleRecipients": [
       "The poor (Al-Fuqara)",
       "The needy (Al-Masakin)",
@@ -134,8 +241,8 @@
       "The stranded traveler"
     ],
     "reference": "Zakah expenditures are only for the poor and for the needy... (Surah At-Tawbah 9:60)",
-    "imageSearch": "charity helping hand",
-    "videoSearch": "zakat explained"
+    "image": "https://www.pexels.com/search/charity%20helping%20hand/",
+    "video": "https://www.youtube.com/results?search_query=zakat+explained+for+beginners+islam"
   },
   "sawm": {
     "title": "Sawm (Fasting in Ramadan)",
@@ -148,8 +255,8 @@
       "Forgiveness of past sins"
     ],
     "reference": "O you who have believed, decreed upon you is fasting as it was decreed upon those before you that you may become righteous. (Surah Al-Baqarah 2:183)",
-    "imageSearch": "dates water iftar",
-    "videoSearch": "ramadan fasting guide"
+    "image": "https://www.pexels.com/search/dates%20water%20iftar/",
+    "video": "https://www.youtube.com/results?search_query=ramadan+fasting+guide+for+beginners"
   },
   "hajj": {
     "title": "Hajj (Pilgrimage)",
@@ -163,8 +270,8 @@
       "Sacrifice (Qurbani)"
     ],
     "reference": "And [due] to Allah from the people is a pilgrimage to the House - for whoever is able to find thereto a way. (Surah Ali 'Imran 3:97)",
-    "imageSearch": "kaaba mecca pilgrims",
-    "videoSearch": "hajj step by step"
+    "image": "https://www.pexels.com/search/kaaba%20mecca%20pilgrims/",
+    "video": "https://www.youtube.com/results?search_query=hajj+step+by+step+explained+for+beginners"
   },
   "afterlife": {
     "title": "Belief in the Afterlife",
@@ -179,8 +286,8 @@
       "Hellfire (Jahannam) — punishment"
     ],
     "reference": "Every soul will taste death. And you will be paid in full your reward on the Day of Resurrection. (Surah Ali 'Imran 3:185)",
-    "imageSearch": "sunset sky clouds",
-    "videoSearch": "islamic afterlife"
+    "image": "https://www.pexels.com/search/sunset%20sky%20clouds/",
+    "video": "https://www.youtube.com/results?search_query=islamic+afterlife+explained+day+of+judgment"
   },
   "dosAndDonts": {
     "dos": [
@@ -207,27 +314,27 @@
   "faqs": [
     {
       "question": "How does one become a Muslim?",
-      "answer": "To become a Muslim, one must sincerely recite the Shahada: 'Ash-hadu an la ilaha illa Allah, wa ash-hadu anna Muhammadan Rasul Allah' (I bear witness that there is no god worthy of worship except Allah, and I bear witness that Muhammad is the Messenger of Allah). This should be said with full understanding and conviction. After that, the person should learn and gradually practice the five daily prayers and other pillars."
+      "answer": "To become a Muslim, one must sincerely recite the Shahada with full understanding and conviction."
     },
     {
       "question": "What is the difference between Islam, Iman, and Ihsan?",
-      "answer": "Islam refers to the outward actions (the 5 pillars). Iman refers to the inner beliefs (the 6 pillars of faith). Ihsan refers to worshipping Allah as if you see Him, knowing He sees you. The Prophet ﷺ explained these in the famous Hadith of Jibril (Sahih Muslim 8)."
+      "answer": "Islam refers to the outward actions (the 5 pillars). Iman refers to the inner beliefs (the 6 pillars of faith). Ihsan refers to worshipping Allah as if you see Him, knowing He sees you (Sahih Muslim 8)."
     },
     {
       "question": "Do Muslims worship the same God as other religions?",
-      "answer": "Muslims worship Allah — the One and Only God, Creator of the heavens and earth. He has no partners, no children, and no equals. Islam rejects the concept of the Trinity and any human or idol worship. Allah says: 'Say: He is Allah, the One' (112:1)."
+      "answer": "Muslims worship Allah — the One and Only God. He has no partners, no children, and no equals (Surah Al-Ikhlas 112:1)."
     },
     {
       "question": "Why do Muslims pray five times a day?",
-      "answer": "The five daily prayers were ordained by Allah during the Prophet's ﷺ night journey (Isra and Mi'raj). They serve as direct connection between the servant and Allah, provide spiritual discipline, and serve as a constant reminder of one's purpose. The Quran says: 'Indeed, prayer prohibits immorality and wrongdoing' (29:45)."
+      "answer": "The five daily prayers were ordained during the Isra and Mi'raj. They provide spiritual discipline and connection to Allah (Surah Al-Ankabut 29:45)."
     },
     {
       "question": "What is the role of women in Islam?",
-      "answer": "Islam elevated the status of women, granting them rights to inheritance, education, marriage consent, and property ownership 1,400 years ago. Women and men are equal in spiritual reward. They are partners in life. The Prophet ﷺ said: 'The best of you are those best to their women' (Sunan al-Tirmidhi)."
+      "answer": "Islam elevated women’s status with rights to inheritance, education, and consent. Men and women are equal in spiritual reward. 'The best of you are those best to their women' (Sunan al-Tirmidhi 3895)."
     },
     {
       "question": "Are all Muslims Arab?",
-      "answer": "No. Only about 15-20% of Muslims are Arab. The largest Muslim populations are in Indonesia, Pakistan, India, Bangladesh, and Nigeria. Muslims come from every race, ethnicity, and nationality. Islam is a universal religion for all humanity."
+      "answer": "No. Only about 20% of Muslims are Arab. The largest Muslim populations are in Indonesia, Pakistan, India, Bangladesh, and Nigeria."
     }
   ],
   "appsAndResources": {
