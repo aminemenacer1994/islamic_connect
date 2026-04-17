@@ -1184,9 +1184,10 @@ export default {
             memorisationPresetEditorTargetId: "",
             memorisationPresetEditorError: "",
             isRestoringMemorisationSnapshot: false,
-            memorisationOffcanvasDockedWidth: 400,
+            memorisationOffcanvasDockedWidth: 600,
             isMemorisationAdvancedOpen: false,
             isMemorisationReadingAidsOpen: false,
+            selectedMemorisationSessionHistoryId: "",
 
             isMemorisationMode: false,
             memorisationFocusIndex: 0,
@@ -1445,6 +1446,7 @@ export default {
                 chainingMethodBlurProgression: "off",
                 chainingMethodCompletionAction: "none",
                 sessionHistoryEnabled: false,
+                sessionName: "",
             },
             countdownSeconds: 0,
             isCountdownActive: false,
@@ -1475,6 +1477,7 @@ export default {
             hifdhPlanModalShownHandler: null,
             hifdhPlanModalHiddenHandler: null,
             hifdhConfettiTimeouts: [],
+            memorisationConfettiTimeouts: [],
             isHifdhResetConfirmVisible: false,
             hifdhFeedbackChoices: [
                 { value: "strong", label: "Strong" },
@@ -1737,6 +1740,9 @@ export default {
         },
         isMemorisationAdvancedMode() {
             return !!this.isMemorisationAdvancedOpen;
+        },
+        canSaveMemorisationSession() {
+            return Number(this.userId || 0) > 0;
         },
         memorisationQuickPlaybackModeOptions() {
             const options = Array.isArray(this.playbackModeOptions)
@@ -4197,11 +4203,11 @@ export default {
             return {
                 "--ic-quran-arabic-font": stack,
                 "--memorisation-panel-current-width": `${Math.min(
-                    640,
+                    780,
                     Math.max(
                         320,
                         Math.round(
-                            Number(this.memorisationOffcanvasDockedWidth) || 400
+                            Number(this.memorisationOffcanvasDockedWidth) || 600
                         )
                     )
                 )}px`,
@@ -5504,6 +5510,27 @@ export default {
         },
     },
     watch: {
+        isMemorisationOffcanvasVisible(next) {
+            if (next) {
+                this.$nextTick(() => this.syncMemorisationOffcanvasDockedWidth());
+                if (!String(this.selectedMemorisationSessionHistoryId || "").trim()) {
+                    const firstEntry = Array.isArray(this.sessionHistoryEntries)
+                        ? this.sessionHistoryEntries[0]
+                        : null;
+                    if (firstEntry?.id) {
+                        this.selectedMemorisationSessionHistoryId = String(firstEntry.id);
+                    }
+                }
+            }
+            if (typeof document === "undefined") return;
+            try {
+                const shouldLock = !!next && !!this.isTabletOrMobile;
+                document.body.classList.toggle(
+                    "memorisation-sidebar-lock",
+                    shouldLock
+                );
+            } catch (_) {}
+        },
         savedAyahKeys: {
             deep: true,
             handler(next) {
@@ -5561,6 +5588,9 @@ export default {
         userId(next, prev) {
             if (this.bookmarkStorageUserId) return;
             if (String(next || "") === String(prev || "")) return;
+            if (!(Number(next || 0) > 0) && this.memorisationDraft) {
+                this.memorisationDraft.sessionHistoryEnabled = false;
+            }
             this.loadCustomPlaylist();
             this.loadContinueReadingUiState();
             this.loadContinueReadingProgress();
@@ -6629,34 +6659,7 @@ export default {
             );
         });
         this.$nextTick(() => {
-            const offcanvasEl = this.$refs.memorisationOffcanvas;
-            if (!offcanvasEl) return;
-            this.memorisationOffcanvasShowHandler = () => {
-                this.isMemorisationOffcanvasVisible = true;
-                this.hideSurahOffcanvasIfOpen();
-                this.syncMemorisationOffcanvasDockedWidth();
-            };
-            this.memorisationOffcanvasShownHandler = () => {
-                this.isMemorisationOffcanvasVisible = true;
-                this.hideSurahOffcanvasIfOpen();
-                this.syncMemorisationOffcanvasDockedWidth();
-            };
-            this.memorisationOffcanvasHiddenHandler = () => {
-                this.isMemorisationOffcanvasVisible = false;
-                this.hideMemorisationSubmitAlert();
-            };
-            offcanvasEl.addEventListener(
-                "show.bs.offcanvas",
-                this.memorisationOffcanvasShowHandler
-            );
-            offcanvasEl.addEventListener(
-                "shown.bs.offcanvas",
-                this.memorisationOffcanvasShownHandler
-            );
-            offcanvasEl.addEventListener(
-                "hidden.bs.offcanvas",
-                this.memorisationOffcanvasHiddenHandler
-            );
+            // Measure sidebar width for layout vars.
             this.syncMemorisationOffcanvasDockedWidth();
         });
         this.$nextTick(() => {
@@ -7030,45 +7033,6 @@ export default {
             } catch (_) {}
             this.verseCountdownCompleteModalInstance = null;
         }
-        const memorisationOffcanvasEl =
-            this.$refs?.memorisationOffcanvas ||
-            document.getElementById("memorisationOffcanvas");
-        if (
-            memorisationOffcanvasEl &&
-            this.memorisationOffcanvasShowHandler
-        ) {
-            memorisationOffcanvasEl.removeEventListener(
-                "show.bs.offcanvas",
-                this.memorisationOffcanvasShowHandler
-            );
-            this.memorisationOffcanvasShowHandler = null;
-        }
-        if (
-            memorisationOffcanvasEl &&
-            this.memorisationOffcanvasShownHandler
-        ) {
-            memorisationOffcanvasEl.removeEventListener(
-                "shown.bs.offcanvas",
-                this.memorisationOffcanvasShownHandler
-            );
-            this.memorisationOffcanvasShownHandler = null;
-        }
-        if (
-            memorisationOffcanvasEl &&
-            this.memorisationOffcanvasHiddenHandler
-        ) {
-            memorisationOffcanvasEl.removeEventListener(
-                "hidden.bs.offcanvas",
-                this.memorisationOffcanvasHiddenHandler
-            );
-            this.memorisationOffcanvasHiddenHandler = null;
-        }
-        if (this.memorisationOffcanvasInstance) {
-            try {
-                this.memorisationOffcanvasInstance.hide();
-            } catch (_) {}
-            this.memorisationOffcanvasInstance = null;
-        }
         const surahOffcanvasEl =
             this.$refs?.surahOffcanvas || document.getElementById("surahOffcanvas");
         if (surahOffcanvasEl && this.surahOffcanvasShowHandler) {
@@ -7081,6 +7045,7 @@ export default {
         this.isMemorisationOffcanvasVisible = false;
         this.disposeHifdhTooltips();
         this.clearHifdhConfettiLayers();
+        this.clearMemorisationConfettiLayers();
     },
 	        beforeDestroy() {
 	            this.stopTranslationAudio();
@@ -7344,45 +7309,6 @@ export default {
                 } catch (_) {}
                 this.verseCountdownCompleteModalInstance = null;
             }
-            const memorisationOffcanvasEl =
-                this.$refs?.memorisationOffcanvas ||
-                document.getElementById("memorisationOffcanvas");
-            if (
-                memorisationOffcanvasEl &&
-                this.memorisationOffcanvasShowHandler
-            ) {
-                memorisationOffcanvasEl.removeEventListener(
-                    "show.bs.offcanvas",
-                    this.memorisationOffcanvasShowHandler
-                );
-                this.memorisationOffcanvasShowHandler = null;
-            }
-            if (
-                memorisationOffcanvasEl &&
-                this.memorisationOffcanvasShownHandler
-            ) {
-                memorisationOffcanvasEl.removeEventListener(
-                    "shown.bs.offcanvas",
-                    this.memorisationOffcanvasShownHandler
-                );
-                this.memorisationOffcanvasShownHandler = null;
-            }
-            if (
-                memorisationOffcanvasEl &&
-                this.memorisationOffcanvasHiddenHandler
-            ) {
-                memorisationOffcanvasEl.removeEventListener(
-                    "hidden.bs.offcanvas",
-                    this.memorisationOffcanvasHiddenHandler
-                );
-                this.memorisationOffcanvasHiddenHandler = null;
-            }
-            if (this.memorisationOffcanvasInstance) {
-                try {
-                    this.memorisationOffcanvasInstance.hide();
-                } catch (_) {}
-                this.memorisationOffcanvasInstance = null;
-            }
             const surahOffcanvasEl =
                 this.$refs?.surahOffcanvas ||
                 document.getElementById("surahOffcanvas");
@@ -7396,6 +7322,7 @@ export default {
             this.isMemorisationOffcanvasVisible = false;
             this.disposeHifdhTooltips();
             this.clearHifdhConfettiLayers();
+            this.clearMemorisationConfettiLayers();
         },
     methods: {
         ...voiceCommandMethods,
@@ -10471,7 +10398,9 @@ export default {
                     this.normaliseMemorisationChainingCompletionAction(
                         chainingMethodCompletionActionRaw
                     ),
-                sessionHistoryEnabled: !!draft.sessionHistoryEnabled,
+                sessionHistoryEnabled:
+                    Number(this.userId || 0) > 0 && !!draft.sessionHistoryEnabled,
+                sessionName: String(draft.sessionName || "").trim().slice(0, 80),
             };
         },
         normaliseMemorisationPresetName(name = "") {
@@ -11026,10 +10955,17 @@ export default {
                     this.normaliseMemorisationChainingCompletionAction(
                         chainingMethodCompletionActionSource
                     ),
-                sessionHistoryEnabled: !!(
+                sessionHistoryEnabled:
+                    Number(this.userId || 0) > 0 &&
+                    !!(
                     sessionHistoryEnabledSource ??
                     this.memorisationSessionHistoryEnabled
                 ),
+                sessionName: String(
+                    config.sessionName ?? this.memorisationDraft?.sessionName ?? ""
+                )
+                    .trim()
+                    .slice(0, 80),
                 blurNextAyah: !!(
                     config.blurNextAyah ??
                     config.isBlurNextAyahEnabled ??
@@ -11977,17 +11913,11 @@ export default {
         },
         openMemorisationOffcanvas() {
             this.hideSurahOffcanvasIfOpen();
-            this.syncMemorisationOffcanvasDockedWidth();
             this.resetDesktopToolbarScrollPosition();
-            const instance = this.getBootstrapOffcanvasInstance(
-                this.$refs.memorisationOffcanvas
-            );
-            if (!instance) {
-                this.isMemorisationOffcanvasVisible = true;
-                return;
-            }
-            this.memorisationOffcanvasInstance = instance;
-            instance.show();
+            this.isMemorisationOffcanvasVisible = true;
+            this.$nextTick(() => {
+                this.syncMemorisationOffcanvasDockedWidth();
+            });
         },
         setMemorisationToolsDepth(mode = "beginner") {
             this.isMemorisationAdvancedOpen = mode === "advanced";
@@ -12004,14 +11934,24 @@ export default {
             this.openMemorisationOffcanvas();
         },
         closeMemorisationOffcanvas() {
-            const instance =
-                this.getBootstrapOffcanvasInstance(this.$refs.memorisationOffcanvas) ||
-                this.memorisationOffcanvasInstance;
-            if (!instance) {
-                this.isMemorisationOffcanvasVisible = false;
+            this.isMemorisationOffcanvasVisible = false;
+            this.hideMemorisationSubmitAlert();
+        },
+        async loadSelectedMemorisationSessionFromOffcanvas() {
+            const targetId = String(this.selectedMemorisationSessionHistoryId || "").trim();
+            if (!targetId) return;
+            const entries = Array.isArray(this.sessionHistoryEntries)
+                ? this.sessionHistoryEntries
+                : [];
+            const targetEntry = entries.find(
+                (entry) => String(entry?.id || "") === targetId
+            );
+            if (!targetEntry) {
+                this.showToast("Saved session was not found.", 2600);
                 return;
             }
-            instance.hide();
+            await this.reloadSessionHistoryEntry(targetEntry);
+            this.showToast("Saved session loaded.", 2200);
         },
         getHifdhPlanPanelInstance() {
             const modalEl = document.getElementById("hifdhPlanModal");
@@ -12088,6 +12028,7 @@ export default {
                 : this.memorisationLastWorkedIndex;
             this.isMemorisationToolbarVisible = false;
             this.closeMemorisationOffcanvas();
+            this.isMemorisationAdvancedOpen = false;
             this.resetDesktopToolbarScrollPosition();
             let restoredSession = false;
             if (restoreSession) {
@@ -12316,6 +12257,7 @@ export default {
             if (!this.isMemorisationToolbarVisible) {
                 this.isMemorisationToolbarVisible = true;
             }
+            this.isMemorisationMode = true;
             this.onMemorisationToolbarRangeChange();
             const startAyah = Math.max(1, Number(this.memorisationRangeStart || 1));
             const endAyah = Math.max(startAyah, Number(this.memorisationRangeEnd || startAyah));
@@ -12335,6 +12277,35 @@ export default {
             this.showToast(this.memorisationSessionStatusMessage, 2800);
             this.announce(this.memorisationSessionStatusMessage);
             this.playAudio(startIndex);
+        },
+        async startMemorisationBeginnerSession() {
+            if (this.isMemorisationDraftSubmitting) return;
+            this.isMemorisationDraftSubmitting = true;
+            try {
+                const draft = this.normaliseMemorisationDraftValues();
+                const applied = await this.applyMemorisationSessionConfig(
+                    {
+                        ...draft,
+                        surahNumber: String(this.selectedSurah || draft.surahNumber || ""),
+                        reciterIdentifier:
+                            this.selectedReciter || draft.reciterIdentifier,
+                        rangeStart: this.memorisationRangeStart,
+                        rangeEnd: this.memorisationRangeEnd,
+                        blurNextAyah: this.isBlurNextAyahEnabled,
+                        sessionHistoryEnabled:
+                            !!this.memorisationDraft.sessionHistoryEnabled,
+                    },
+                    {
+                        showSubmitAlert: false,
+                        closeOffcanvas: false,
+                        syncDraft: true,
+                    }
+                );
+                if (!applied) return;
+                await this.startMemorisationSession();
+            } finally {
+                this.isMemorisationDraftSubmitting = false;
+            }
         },
         maybeShowMemorisationOnboarding() {
             if (typeof window === "undefined" || !window.localStorage) return;
@@ -12717,6 +12688,10 @@ export default {
             this.maybeShowMemorisationOnboarding();
             this.showModeToggleToast("Memorisation tools", true);
             this.syncMemorisationToolsUrlState(true);
+            if (!this.isMobile) {
+                this.setMemorisationToolsDepth("beginner");
+                this.openMemorisationOffcanvas();
+            }
         },
         openMemorisationComingSoonModal() {
             const el = this.$refs?.memorisationComingSoonModal;
@@ -14748,6 +14723,11 @@ export default {
                 })
                 .filter(Boolean);
             const note = String(entry.note || "").trim().slice(0, 280);
+            const sessionName = String(
+                entry.sessionName || entry.sessionConfig?.sessionName || ""
+            )
+                .trim()
+                .slice(0, 80);
             return {
                 id: String(entry.id || this.createSessionHistoryEntryId()),
                 sessionId: String(entry.sessionId || entry.id || ""),
@@ -14785,6 +14765,7 @@ export default {
                         ? this.resolveSessionHistoryAccuracyScore(sessionConfig)
                         : this.resolveSessionHistoryAccuracyScore(entry),
                 note,
+                sessionName,
                 completionReason: String(
                     entry.completionReason || entry.reason || "completed"
                 ).trim(),
@@ -14883,7 +14864,8 @@ export default {
             const { reason = "started", config = null } = options || {};
             if (
                 !this.isMemorisationToolbarVisible ||
-                !this.memorisationSessionHistoryEnabled
+                !this.memorisationSessionHistoryEnabled ||
+                Number(this.userId || 0) <= 0
             ) {
                 return null;
             }
@@ -14919,6 +14901,11 @@ export default {
                 versesCoveredLookup: Object.create(null),
                 repetitionsCompleted: 0,
                 note: "",
+                sessionName: String(
+                    normalizedConfig.sessionName || this.memorisationDraft?.sessionName || ""
+                )
+                    .trim()
+                    .slice(0, 80),
                 accuracyScore: this.resolveSessionHistoryAccuracyScore(
                     normalizedConfig
                 ),
@@ -15051,6 +15038,11 @@ export default {
                         ? this.resolveSessionHistoryAccuracyScore(sessionConfig)
                         : tracker.accuracyScore,
                 note: String(tracker.note || "").trim(),
+                sessionName: String(
+                    tracker.sessionName || sessionConfig.sessionName || ""
+                )
+                    .trim()
+                    .slice(0, 80),
                 completionReason: reason,
                 sessionConfig,
             });
@@ -15101,6 +15093,13 @@ export default {
             ];
             this.setSessionHistoryEntries(nextEntries);
             this.persistSessionHistory();
+            if (String(reason || "").trim() === "completed") {
+                this.showToast(
+                    `Session complete${entry.sessionName ? `: ${entry.sessionName}` : ""}.`,
+                    2600
+                );
+                this.triggerMemorisationCompletionConfetti();
+            }
             this.maybeCelebrateSessionHistoryMilestones(entry, previousEntries);
             return entry;
         },
@@ -15115,7 +15114,7 @@ export default {
                     Number(nextStats.bestStreak || 0) >= milestone
                 ) {
                     messages.push(
-                        `${milestone}-day streak reached. MashaAllah, keep the Quran close.`
+                        `Achievement unlocked: ${milestone}-day streak. MashaAllah, keep the Quran close.`
                     );
                 }
             });
@@ -15124,7 +15123,7 @@ export default {
             const nextCompletedSurah = this.findFirstCompletedSurahSession(nextEntries);
             if (!previousCompletedSurah && nextCompletedSurah) {
                 messages.push(
-                    `First full surah saved: ${nextCompletedSurah.surahName}.`
+                    `Achievement unlocked: First full surah saved (${nextCompletedSurah.surahName}).`
                 );
             }
             if (!messages.length || !entry) return;
@@ -16837,6 +16836,56 @@ export default {
                 });
             }
             this.hifdhConfettiTimeouts = [];
+        },
+        triggerMemorisationCompletionConfetti() {
+            if (typeof document === "undefined") return;
+            if (
+                typeof window !== "undefined" &&
+                window.matchMedia &&
+                window.matchMedia("(prefers-reduced-motion: reduce)").matches
+            ) {
+                return;
+            }
+            const layer = document.createElement("div");
+            layer.className = "memorisation-confetti-layer";
+            layer.setAttribute("aria-hidden", "true");
+            const palette = ["#10b981", "#14b8a6", "#22c55e", "#60a5fa", "#f59e0b"];
+            for (let i = 0; i < 34; i += 1) {
+                const piece = document.createElement("span");
+                piece.className = "memorisation-confetti-piece";
+                piece.style.setProperty("--memo-confetti-x", `${Math.round(Math.random() * 100)}%`);
+                piece.style.setProperty("--memo-confetti-delay", `${(Math.random() * 0.2).toFixed(2)}s`);
+                piece.style.setProperty("--memo-confetti-duration", `${(0.9 + Math.random() * 1.0).toFixed(2)}s`);
+                piece.style.setProperty(
+                    "--memo-confetti-color",
+                    palette[Math.floor(Math.random() * palette.length)]
+                );
+                layer.appendChild(piece);
+            }
+            document.body.appendChild(layer);
+            const timeoutId = setTimeout(() => {
+                if (layer && layer.parentNode) {
+                    layer.parentNode.removeChild(layer);
+                }
+            }, 2300);
+            this.memorisationConfettiTimeouts.push(timeoutId);
+        },
+        clearMemorisationConfettiLayers() {
+            if (typeof document !== "undefined") {
+                document
+                    .querySelectorAll(".memorisation-confetti-layer")
+                    .forEach((node) => {
+                        if (node && node.parentNode) {
+                            node.parentNode.removeChild(node);
+                        }
+                    });
+            }
+            if (Array.isArray(this.memorisationConfettiTimeouts)) {
+                this.memorisationConfettiTimeouts.forEach((timeoutId) => {
+                    clearTimeout(timeoutId);
+                });
+            }
+            this.memorisationConfettiTimeouts = [];
         },
         async quickStartSurahTwoDemoRange() {
             const surahNumber = 2;
@@ -29102,6 +29151,24 @@ export default {
                 checked ? "Word tooltip enabled." : "Word tooltip disabled."
             );
             this.showModeToggleToast("Word tooltip", checked);
+        },
+        toggleToolbarWordMeaningWithTooltip() {
+            const checked = !(this.showWordTranslation && this.showWordTranslationTooltip);
+            this.showWordTranslation = checked;
+            this.showWordTranslationTooltip = checked;
+            if (this.settingsDraft) {
+                this.settingsDraft.showWordTranslation = checked;
+                this.settingsDraft.showWordTranslationTooltip = checked;
+            }
+            if (checked) {
+                this.enrichSurahWithQuranSegments().catch(() => {});
+            }
+            this.announce(
+                checked
+                    ? "Word meaning and tooltip enabled."
+                    : "Word meaning and tooltip disabled."
+            );
+            this.showModeToggleToast("Word meaning", checked);
         },
         toggleToolbarTransliterationSync() {
             const checked = !this.transliterationWordHighlightEnabled;

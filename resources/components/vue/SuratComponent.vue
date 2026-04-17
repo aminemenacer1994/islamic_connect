@@ -1,12 +1,12 @@
 <template>
     <div class="surat-premium"
         :class="{
-            'container-fluid': isTabletOrMobile,
-            'container': !isTabletOrMobile,
+            'container-fluid': true,
             'has-audio-player': bottomAudioPlayerEnabled && showAudioPlayer && !isSingleWordPreviewActive,
             'has-sidebar': !isMemorisationToolbarVisible,
             'sidebar-collapsed': sidebarCollapsed && !isMemorisationToolbarVisible,
             'memorisation-offcanvas-open': isMemorisationToolbarVisible,
+            'memorisation-sidebar-open': isMemorisationOffcanvasVisible,
             'toolbar-scroll-disabled': !toolbarScrollEnabled,
             'is-theme-switching': isThemeSwitching,
             'mobile-toolbar-pinned': isTabletOrMobile && isToolbarPinned,
@@ -399,9 +399,9 @@
                                             <button
                                                 type="button"
                                                 class="dropdown-item advanced-quran-more-item memorisation-toolbar-overflow-item"
-                                                @click="openAdvancedMemorisationToolsPanel">
+                                                @click="openMemorisationOffcanvas">
                                                 <i class="bi bi-layout-sidebar-inset-reverse" aria-hidden="true"></i>
-                                                <span class="advanced-quran-more-item-label">Open Advanced Tools</span>
+                                                <span class="advanced-quran-more-item-label">Open Tools Sidebar</span>
                                             </button>
                                         </div>
                                     </div>
@@ -452,16 +452,16 @@
 
                             <div class="advanced-quran-mobile-action-grid">
                                 <button
-                                    v-if="!isMemorisationToolbarVisible && hasSavedBookmarks"
+                                    v-if="!isMemorisationToolbarVisible"
                                     type="button"
                                     class="btn advanced-quran-mobile-action-btn"
-                                    :class="{ 'is-enabled': isSavedBookmarksPanelOpen }"
-                                    @click="handleSavedBookmarksButtonClick"
-                                    aria-label="View all saved bookmarks"
-                                    title="View all saved bookmarks">
-	                                    <i class="bi bi-bookmarks" aria-hidden="true"></i>
-	                                    <span class="advanced-quran-mobile-action-label">Saved bookmarks</span>
-	                                    <span class="advanced-quran-mobile-action-btn-state">{{ savedBookmarksList.length }}</span>
+                                    :class="{ 'is-enabled': isMemorisationOffcanvasVisible }"
+                                    @click="openMemorisationOffcanvas"
+                                    aria-label="Open sessions panel"
+                                    title="Sessions">
+	                                    <i class="bi bi-clock-history" aria-hidden="true"></i>
+	                                    <span class="advanced-quran-mobile-action-label">Sessions</span>
+	                                    <span class="advanced-quran-mobile-action-btn-state">Open</span>
 	                                </button>
                                 <button
                                     v-if="!isMemorisationToolbarVisible"
@@ -482,7 +482,7 @@
                                     </span>
                                 </button>
                                 <button
-                                    v-if="!isMemorisationToolbarVisible"
+                                    v-if="false"
                                     type="button"
                                     class="btn advanced-quran-mobile-action-btn"
                                     :class="{ 'is-enabled': showWordTranslationTooltip }"
@@ -503,14 +503,14 @@
                                     v-if="!isMemorisationToolbarVisible"
                                     type="button"
                                     class="btn advanced-quran-mobile-action-btn"
-                                    :class="{ 'is-enabled': showWordTranslation }"
-                                    @click="toggleToolbarWordTranslation"
-                                    aria-label="Toggle word-for-word translation"
-                                    title="Show or hide word-for-word translation beneath Arabic words.">
+                                    :class="{ 'is-enabled': showWordTranslation && showWordTranslationTooltip }"
+                                    @click="toggleToolbarWordMeaningWithTooltip"
+                                    aria-label="Toggle word meaning with tooltip"
+                                    title="Show or hide word meaning with tooltip.">
                                     <i class="bi bi-translate" aria-hidden="true"></i>
-                                    <span class="advanced-quran-mobile-action-label">Word-for-word</span>
+                                    <span class="advanced-quran-mobile-action-label">Word meaning</span>
                                     <span class="advanced-quran-mobile-action-btn-state">
-                                        {{ showWordTranslation ? "On" : "Off" }}
+                                        {{ showWordTranslation && showWordTranslationTooltip ? "On" : "Off" }}
                                     </span>
                                 </button>
                                 <button
@@ -542,7 +542,7 @@
                                     </span>
                                 </button>
                                 <button
-                                    v-if="!isMemorisationToolbarVisible"
+                                    v-if="false"
                                     type="button"
                                     class="btn advanced-quran-mobile-action-btn"
                                     :class="{ 'is-enabled': transliterationWordHighlightEnabled }"
@@ -560,7 +560,7 @@
                                     </span>
                                 </button>
                                 <div
-                                    v-if="!isMemorisationToolbarVisible"
+                                    v-if="false"
                                     class="dropdown advanced-quran-mobile-more">
                                     <button
                                         type="button"
@@ -692,9 +692,19 @@
                 @click="setReaderToolbarVisibility(true)">
                 <i class="bi bi-layout-text-sidebar-reverse" aria-hidden="true"></i>
                 <span>Show reader tools</span>
-            </button>
+                </button>
         </div>
-        <div v-if="!isMemorisationOffcanvasVisible && (surahDetails || currentSurahInfo) && ((!isTabletOrMobile && ((showDesktopToolbar && showReaderToolbar) || showCustomPlaylistPanel)) || (isTabletOrMobile && showCustomPlaylistPanel))"
+        <section
+            v-if="isMemorisationToolbarVisible"
+            class="memorisation-tools-hero ltr-text"
+            aria-label="Quran Memorisation Tools intro">
+            <h2 class="mb-0">Quran Memorisation Tools</h2>
+            <p class="mb-0">
+                A focused memorisation workspace for setting your session, shaping repetition and recall support, and tracking progress.
+                It connects setup, listening, and revision so daily practice turns into long-term retention and confident recitation.
+            </p>
+        </section>
+        <div v-if="(surahDetails || currentSurahInfo) && ((!isTabletOrMobile && ((showDesktopToolbar && showReaderToolbar) || showCustomPlaylistPanel)) || (isTabletOrMobile && showCustomPlaylistPanel))"
             class="quran-toolbar-sticky ltr-text"
             :class="{
                 'quran-toolbar-fixed-shell': showDesktopToolbar && !isTabletOrMobile,
@@ -714,7 +724,7 @@
                     'memorisation-toolbar-compact':
                         isMemorisationToolbarVisible
                 }">
-                <div v-if="isMemorisationToolbarVisible" class="memorisation-toolbar-layout memorisation-toolbar-layout--beginner">
+                <div v-if="false" class="memorisation-toolbar-layout memorisation-toolbar-layout--beginner">
                     <div class="memorisation-toolbar-intro memorisation-toolbar-intro--beginner">
                         <div class="memorisation-toolbar-surah-name">
                             <span class="memorisation-toolbar-trust-pill">Beginner friendly</span>
@@ -849,9 +859,9 @@
                                             <button
                                                 type="button"
                                                 class="dropdown-item advanced-quran-more-item memorisation-toolbar-overflow-item"
-                                                @click="openAdvancedMemorisationToolsPanel">
+                                                @click="openMemorisationOffcanvas">
                                                 <i class="bi bi-layout-sidebar-inset-reverse" aria-hidden="true"></i>
-                                                <span class="advanced-quran-more-item-label">Open Advanced Tools</span>
+                                                <span class="advanced-quran-more-item-label">Open Tools Sidebar</span>
                                             </button>
                                         </div>
                                     </div>
@@ -904,29 +914,25 @@
                     </div>
                 </div>
 
-                <div
-                    v-if="!isMemorisationToolbarVisible"
-                    class="quran-toolbar-reader-actions">
+                <div class="quran-toolbar-reader-actions">
                     <div class="quran-toolbar-scroll-track">
                         <button
-                            v-if="!isReaderToolbarMinimized && hasSavedBookmarks"
+                            v-if="isMemorisationToolbarVisible && !isReaderToolbarMinimized"
                             type="button"
-                            class="quran-toolbar-btn quran-toolbar-btn-toggle quran-toolbar-btn-reader-control quran-toolbar-btn-bookmarks"
-                            :class="{ 'is-enabled': isSavedBookmarksPanelOpen }"
-                            @click="handleSavedBookmarksButtonClick"
-                            aria-label="View all saved bookmarks"
-                            title="View all saved bookmarks">
+                            class="quran-toolbar-btn quran-toolbar-btn-toggle quran-toolbar-btn-reader-control"
+                            :class="{ 'is-enabled': isMemorisationOffcanvasVisible }"
+                            @click="isMemorisationOffcanvasVisible ? closeMemorisationOffcanvas() : openMemorisationOffcanvas()"
+                            :aria-label="isMemorisationOffcanvasVisible ? 'Close tools panel' : 'Open tools panel'">
                             <span class="quran-toolbar-btn-main">
                                 <span class="quran-toolbar-btn-icon-shell" aria-hidden="true">
-                                    <i class="bi bi-bookmarks"></i>
+                                    <i class="bi bi-layout-sidebar-inset-reverse"></i>
                                 </span>
                                 <span class="quran-toolbar-btn-copy">
-                                    <span class="quran-toolbar-btn-text">Saved bookmarks</span>
+                                    <span class="quran-toolbar-btn-text">Tools</span>
                                 </span>
                             </span>
-                            <span class="quran-toolbar-btn-state">{{ savedBookmarksList.length }}</span>
+                            <span class="quran-toolbar-btn-state">{{ isMemorisationOffcanvasVisible ? "Open" : "Closed" }}</span>
                         </button>
-
                         <button
                             v-if="!isReaderToolbarMinimized"
                             type="button"
@@ -948,7 +954,7 @@
                         </button>
 
                         <button
-                            v-if="!isReaderToolbarMinimized"
+                            v-if="false"
                             type="button"
                             class="quran-toolbar-btn quran-toolbar-btn-toggle quran-toolbar-btn-reader-control"
                             :class="{ 'is-enabled': showWordTranslationTooltip }"
@@ -971,18 +977,37 @@
                             v-if="!isReaderToolbarMinimized"
                             type="button"
                             class="quran-toolbar-btn quran-toolbar-btn-toggle quran-toolbar-btn-reader-control"
-                            :class="{ 'is-enabled': showWordTranslation }"
-                            @click="toggleToolbarWordTranslation"
-                            aria-label="Toggle word-for-word translation">
+                            :class="{ 'is-enabled': showWordTranslation && showWordTranslationTooltip }"
+                            @click="toggleToolbarWordMeaningWithTooltip"
+                            aria-label="Toggle word meaning with tooltip">
                             <span class="quran-toolbar-btn-main">
                                 <span class="quran-toolbar-btn-icon-shell" aria-hidden="true">
                                     <i class="bi bi-translate"></i>
                                 </span>
                                 <span class="quran-toolbar-btn-copy">
-                                    <span class="quran-toolbar-btn-text">Word-for-word</span>
+                                    <span class="quran-toolbar-btn-text">Word meaning</span>
                                 </span>
                             </span>
-                            <span class="quran-toolbar-btn-state">{{ showWordTranslation ? "On" : "Off" }}</span>
+                            <span class="quran-toolbar-btn-state">{{ showWordTranslation && showWordTranslationTooltip ? "On" : "Off" }}</span>
+                        </button>
+                        <button
+                            v-if="!isReaderToolbarMinimized"
+                            type="button"
+                            class="quran-toolbar-btn quran-toolbar-btn-toggle quran-toolbar-btn-reader-control"
+                            :class="{ 'is-enabled': showWordTranslationTooltip }"
+                            @click="toggleToolbarWordAudio"
+                            :aria-label="showWordTranslationTooltip
+                                ? 'Turn tooltip off'
+                                : 'Turn tooltip on'">
+                            <span class="quran-toolbar-btn-main">
+                                <span class="quran-toolbar-btn-icon-shell" aria-hidden="true">
+                                    <i class="bi bi-info-circle"></i>
+                                </span>
+                                <span class="quran-toolbar-btn-copy">
+                                    <span class="quran-toolbar-btn-text">Tooltip</span>
+                                </span>
+                            </span>
+                            <span class="quran-toolbar-btn-state">{{ showWordTranslationTooltip ? "On" : "Off" }}</span>
                         </button>
                         <button
                             v-if="!isReaderToolbarMinimized"
@@ -1042,7 +1067,16 @@
                             <span class="quran-toolbar-btn-state">{{ transliterationWordHighlightEnabled ? "On" : "Off" }}</span>
                         </button>
                     </div>
-                    <div class="dropdown quran-toolbar-more">
+                    <button
+                        v-if="isMemorisationToolbarVisible && !isReaderToolbarMinimized"
+                        type="button"
+                        class="quran-toolbar-btn quran-toolbar-memorisation-exit"
+                        @click="deactivateMemorisationToolbar()"
+                        aria-label="Exit memorisation tools"
+                        title="Exit memorisation tools">
+                        <i class="bi bi-x-lg" aria-hidden="true"></i>
+                    </button>
+                    <div v-if="!isMemorisationToolbarVisible && !isReaderToolbarMinimized" class="dropdown quran-toolbar-more">
                         <button
                             type="button"
                             class="quran-toolbar-btn quran-toolbar-btn-icon quran-toolbar-more-toggle dropdown-toggle"
@@ -1182,1183 +1216,681 @@
         </teleport>
         </div>
 
-        <!-- Memorisation Offcanvas -->
-        <teleport to="body">
-            <div
-                class="offcanvas offcanvas-end surah-offcanvas memorisation-offcanvas"
-                :class="{ 'surat-dark-modal': isDarkTheme }"
-                tabindex="-1"
-                id="memorisationOffcanvas"
-                ref="memorisationOffcanvas"
-                data-bs-scroll="false"
-                data-bs-backdrop="true"
-                data-bs-keyboard="true"
-                aria-labelledby="memorisationOffcanvasLabel">
-                <div class="offcanvas-header">
-                    <h4 class="offcanvas-title" id="memorisationOffcanvasLabel"><b>Memorisation Tools</b></h4>
-                    <button type="button" class="btn-close text-reset" @click="closeMemorisationToolsPanel" aria-label="Close"></button>
+        <!-- Memorisation right offcanvas -->
+        <div
+            class="memorisation-sidebar-backdrop"
+            :class="{ 'is-open': isMemorisationOffcanvasVisible && isTabletOrMobile }"
+            role="presentation"
+            aria-hidden="true"
+            @click="closeMemorisationOffcanvas"></div>
+        <aside
+            id="memorisationOffcanvas"
+            ref="memorisationOffcanvas"
+            class="memorisation-sidebar memorisation-offcanvas"
+            :class="{
+                'is-open': isMemorisationOffcanvasVisible,
+                'surat-dark-modal': isDarkTheme
+            }"
+            :aria-hidden="isMemorisationOffcanvasVisible ? 'false' : 'true'"
+            aria-label="Memorisation tools offcanvas">
+            <div class="offcanvas-header">
+                <h4 class="offcanvas-title" id="memorisationOffcanvasLabel"><b>Memorisation Tools</b></h4>
+                <button type="button" class="btn-close text-reset" @click="closeMemorisationToolsPanel" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                <div class="memorisation-tools-tabs" role="tablist" aria-label="Memorisation tool level">
+                    <button
+                        type="button"
+                        class="btn memorisation-tools-tab"
+                        :class="{ 'is-active': !isMemorisationAdvancedMode }"
+                        :aria-selected="!isMemorisationAdvancedMode ? 'true' : 'false'"
+                        @click="setMemorisationToolsDepth('beginner')">
+                        Beginner
+                    </button>
+                    <button
+                        type="button"
+                        class="btn memorisation-tools-tab"
+                        :class="{ 'is-active': isMemorisationAdvancedMode }"
+                        :aria-selected="isMemorisationAdvancedMode ? 'true' : 'false'"
+                        @click="setMemorisationToolsDepth('advanced')">
+                        Advanced
+                    </button>
                 </div>
-                <div class="offcanvas-body">
-                    <div class="surah-offcanvas-section memorisation-offcanvas-focus">
-                        <div class="memorisation-offcanvas-focus-head">
-                            <h5 class="memorisation-offcanvas-focus-title mb-1">Memorisation Focus</h5>
-                            <p class="memorisation-offcanvas-focus-subtitle mb-0">Focus on one ayah, then advance with calm repetition.</p>
-                        </div>
-                        <div v-if="desktopSurahContext.englishName" class="memorisation-offcanvas-focus-meta">
-                            <span class="memorisation-context-pill">
-                                {{ desktopSurahContext.number }}. {{ desktopSurahContext.englishName }}
-                            </span>
-                            <span class="memorisation-context-pill memorisation-context-pill--ayah">
-                                Ayah {{ memorisationCurrentAyahNumber }} / {{ totalAyahs || "—" }}
-                            </span>
-                        </div>
-                        <div
-                            class="memorisation-header-progress"
-                            role="progressbar"
-                            aria-label="Memorisation progress in selected range"
-                            :aria-valuemin="0"
-                            :aria-valuemax="100"
-                            :aria-valuenow="memorisationProgressPercent"
-                            :aria-valuetext="memorisationProgressLabel">
-                            <span
-                                class="memorisation-header-progress-fill"
-                                :style="{ width: `${memorisationProgressPercent}%` }"></span>
-                        </div>
-                    </div>
 
-                    <section class="surah-offcanvas-section memorisation-offcanvas-panel memorisation-offcanvas-mode-panel" aria-label="Memorisation tools depth">
-                        <div class="memorisation-offcanvas-mode-copy">
-                            <h5 class="memorisation-offcanvas-section-title">Tool depth</h5>
-                            <p class="memorisation-offcanvas-section-subtitle mb-0">
-                                Start simple, then open advanced controls when the session needs more structure.
-                            </p>
-                        </div>
-                        <div class="memorisation-offcanvas-mode-switch" role="group" aria-label="Choose memorisation tools depth">
-                            <button
-                                type="button"
-                                class="btn memorisation-offcanvas-mode-btn"
-                                :class="{ 'is-active': !isMemorisationAdvancedMode }"
-                                :aria-pressed="!isMemorisationAdvancedMode ? 'true' : 'false'"
-                                @click="setMemorisationToolsDepth('beginner')">
-                                Beginner
-                            </button>
-                            <button
-                                type="button"
-                                class="btn memorisation-offcanvas-mode-btn"
-                                :class="{ 'is-active': isMemorisationAdvancedMode }"
-                                :aria-pressed="isMemorisationAdvancedMode ? 'true' : 'false'"
-                                @click="setMemorisationToolsDepth('advanced')">
-                                Advanced
-                            </button>
-                        </div>
-                    </section>
-
-                    <section
-                        v-if="isMemorisationAdvancedMode"
-                        class="surah-offcanvas-section memorisation-offcanvas-panel memorisation-hifz-plan-launch"
-                        :class="{ 'is-collapsed': isHifzPlanPanelCollapsed }"
-                        aria-label="Hifz plan quick access">
-                        <div class="memorisation-hifz-plan-launch-head">
-                            <div>
-                                <h5 class="memorisation-offcanvas-section-title">Hifz Plan</h5>
-                                <p class="memorisation-offcanvas-section-subtitle mb-0">
-                                    Build structured memorization plans with automatic daily targets and rescheduling.
-                                </p>
-                            </div>
-                            <div class="memorisation-hifz-plan-launch-head-actions">
-                                <button
-                                    type="button"
-                                    class="btn memorisation-hifz-plan-tool-btn memorisation-hifz-plan-tool-btn-primary"
-                                    :disabled="hasHifzPlans && (!activeHifzPlanTodayEntry || activeHifzPlanTodayEntry.isRestDay)"
-                                    @click="hasHifzPlans ? openActiveHifzTodayTarget({ closeOffcanvas: true, closeDashboard: true }) : openHifzPlanWizard()">
-                                    {{ hasHifzPlans ? "Start today's target" : "Create new plan" }}
-                                </button>
-                                <button
-                                    type="button"
-                                    class="btn memorisation-panel-seed-btn"
-                                    @click="seedHifzPlans({ announce: true })"
-                                    aria-label="Restore starter Hifz plans"
-                                    title="Restore starter plans">
-                                    <i class="bi bi-stars" aria-hidden="true"></i>
-                                </button>
-                                <button
-                                    type="button"
-                                    class="btn memorisation-hifz-plan-collapse-btn"
-                                    @click="toggleHifzPlanPanelCollapsed"
-                                    :aria-label="isHifzPlanPanelCollapsed ? 'Expand Hifz Plan' : 'Collapse Hifz Plan'"
-                                    :title="isHifzPlanPanelCollapsed ? 'Expand Hifz Plan' : 'Collapse Hifz Plan'"
-                                    :aria-expanded="(!isHifzPlanPanelCollapsed).toString()">
-                                    <span class="memorisation-preset-count" aria-hidden="true">
-                                        {{ hifzPlansSorted.length }}
-                                    </span>
-                                    <i
-                                        class="bi"
-                                        :class="isHifzPlanPanelCollapsed ? 'bi-chevron-down' : 'bi-chevron-up'"
-                                        aria-hidden="true"></i>
-                                </button>
+                <div v-if="!isMemorisationAdvancedMode" class="memorisation-beginner-panel" aria-label="Beginner session setup">
+                    <section class="memorisation-tools-card" aria-label="Session foundation">
+                        <div class="memorisation-tools-card-head">
+                            <div class="memorisation-tools-card-title">
+                                <h5 class="mb-0"><i class="bi bi-sliders2 me-1" aria-hidden="true"></i>Setup</h5>
+                                <p class="mb-0">Pick surah, reciter, and range. This sets your memorisation target.</p>
                             </div>
                         </div>
-
-                        <div v-show="!isHifzPlanPanelCollapsed" class="memorisation-hifz-plan-launch-body">
-                            <div v-if="hasHifzPlans" class="memorisation-hifz-plan-summary-wrap">
-                                <div class="memorisation-hifz-plan-plan-row">
-                                    <label class="memorisation-offcanvas-field mb-0">
-                                        <span class="form-label surah-offcanvas-label">Active plan</span>
-                                        <select
-                                            class="form-select surah-offcanvas-select"
-                                            v-model="hifzActivePlanId"
-                                            @change="onHifzActivePlanChanged"
-                                            aria-label="Select active Hifz plan">
-                                            <option
-                                                v-for="plan in hifzPlansSorted"
-                                                :key="plan.id"
-                                                :value="plan.id">
-                                                {{ plan.name }}
-                                            </option>
-                                        </select>
-                                    </label>
-                                    <button
-                                        type="button"
-                                        class="btn memorisation-hifz-plan-delete-btn"
-                                        @click="deleteActiveHifzPlan"
-                                        aria-label="Delete active Hifz plan"
-                                        title="Delete active plan">
-                                        <i class="bi bi-trash3" aria-hidden="true"></i>
-                                    </button>
-                                </div>
-                                    <button
-                                        type="button"
-                                        class="memorisation-hifz-plan-summary-card"
-                                        @click="openHifzPlanDashboard"
-                                        aria-label="Open current Hifz plan dashboard">
-                                    <div class="memorisation-hifz-plan-summary-head">
-                                        <div class="memorisation-hifz-plan-summary-title-row">
-                                            <strong>{{ activeHifzPlan?.name || "Hifz Plan" }}</strong>
-                                            <span
-                                                v-if="activeHifzPlanIsSeeded"
-                                                class="memorisation-demo-badge memorisation-demo-badge--inline">
-                                                Starter
-                                            </span>
-                                        </div>
-                                        <small>{{ activeHifzPlan?.targetLabel || "" }}</small>
-                                    </div>
-                                    <div class="memorisation-hifz-plan-summary-progress">
-                                        <span>{{ activeHifzPlanProgressLabel }}</span>
-                                        <span>{{ activeHifzPlanProgressPercent }}%</span>
-                                    </div>
-                                    <div class="progress memorisation-hifz-plan-progress-track" role="progressbar" aria-label="Hifz plan progress" :aria-valuemin="0" :aria-valuemax="100" :aria-valuenow="activeHifzPlanProgressPercent">
-                                        <div
-                                            class="progress-bar memorisation-hifz-plan-progress-bar"
-                                            :style="{ width: `${activeHifzPlanProgressPercent}%` }"></div>
-                                    </div>
-                                    <p class="memorisation-hifz-plan-summary-target mb-0">
-                                        {{ activeHifzPlanTodayTargetSentence }}
-                                    </p>
-                                    <p class="memorisation-hifz-plan-summary-ahead-behind mb-0">
-                                        {{ activeHifzPlanAheadBehindLabel }}
-                                    </p>
-                                </button>
-                                <p class="memorisation-hifz-plan-summary-hint mb-0">
-                                    Tap the card to manage schedule and calendar.
-                                </p>
-                                <p class="memorisation-hifz-plan-sync-note mb-0">
-                                    Sync active: Daily Goals and Review Queue update automatically from your current plan.
-                                </p>
-                                <div v-if="hasOnlySeededHifzPlans" class="memorisation-starter-note">
-                                    Starter plans are already loaded. Pick one and adjust or replace it any time.
-                                </div>
-                                <div v-if="hasOnlySeededHifzPlans" class="memorisation-hifz-plan-starter-grid">
-                                    <button
-                                        v-for="plan in seededHifzPlans"
-                                        :key="`starter-plan-${plan.id}`"
-                                        type="button"
-                                        class="memorisation-hifz-plan-starter-btn"
-                                        :class="{ 'is-active': hifzActivePlanId === plan.id }"
-                                        @click="activateHifzPlan(plan.id)">
-                                        <span class="memorisation-demo-badge memorisation-demo-badge--inline">Starter</span>
-                                        <strong>{{ plan.name }}</strong>
-                                        <small>{{ plan.targetLabel }}</small>
-                                    </button>
-                                </div>
-                            </div>
-                            <div v-else class="memorisation-hifz-plan-empty-state">
-                                <p class="memorisation-hifz-plan-empty mb-0">
-                                    No plans yet. Load starter plans or create your own schedule from scratch.
-                                </p>
-                                <div class="memorisation-empty-actions">
-                                    <button
-                                        type="button"
-                                        class="btn memorisation-hifz-plan-tool-btn memorisation-hifz-plan-tool-btn-primary"
-                                        @click="seedHifzPlans({ announce: true })">
-                                        Load starter plans
-                                    </button>
-                                    <button
-                                        type="button"
-                                        class="btn memorisation-hifz-plan-tool-btn"
-                                        @click="openHifzPlanWizard()">
-                                        Create my own
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-
-                    <section v-if="isMemorisationAdvancedMode" class="surah-offcanvas-section memorisation-offcanvas-panel memorisation-preset-panel" aria-label="One-click presets">
-                        <div class="memorisation-preset-panel-head">
-                            <div>
-                                <h5 class="memorisation-offcanvas-section-title">One-Click Presets</h5>
-                                <p class="memorisation-offcanvas-section-subtitle mb-0">
-                                    Save this full setup and tap any preset card to load instantly.
-                                </p>
-                            </div>
-                            <div class="memorisation-preset-panel-head-actions">
-                                <button
-                                    type="button"
-                                    class="btn memorisation-preset-collapse-btn"
-                                    @click="toggleMemorisationPresetPanelCollapsed"
-                                    :aria-label="isMemorisationPresetPanelCollapsed ? 'Expand presets' : 'Collapse presets'"
-                                    :title="isMemorisationPresetPanelCollapsed ? 'Expand presets' : 'Collapse presets'"
-                                    :aria-expanded="(!isMemorisationPresetPanelCollapsed).toString()">
-                                    <span class="memorisation-preset-count" aria-hidden="true">
-                                        {{ sortedMemorisationPresets.length }}
-                                    </span>
-                                    <i
-                                        class="bi"
-                                        :class="isMemorisationPresetPanelCollapsed ? 'bi-chevron-down' : 'bi-chevron-up'"
-                                        aria-hidden="true"></i>
-                                </button>
-                                <button
-                                    type="button"
-                                    class="btn memorisation-panel-seed-btn"
-                                    @click="seedMemorisationPresets({ announce: true })"
-                                    aria-label="Restore starter one-click presets"
-                                    title="Restore starter presets">
-                                    <i class="bi bi-stars" aria-hidden="true"></i>
-                                </button>
-                                <button
-                                    type="button"
-                                    class="btn memorisation-preset-create-icon"
-                                    @click="openMemorisationPresetNameEditor()"
-                                    aria-label="Create a new one-click preset"
-                                    title="Create preset">
-                                    <i class="bi bi-plus-lg" aria-hidden="true"></i>
-                                </button>
-                            </div>
-                        </div>
-
-                        <div v-show="!isMemorisationPresetPanelCollapsed" class="memorisation-preset-panel-body">
-                            <div v-if="isMemorisationPresetEditorVisible" class="memorisation-preset-editor">
-                                <label class="form-label surah-offcanvas-label mb-0" for="memorisationPresetNameInput">
-                                    {{ memorisationPresetEditorMode === "rename" ? "Rename preset" : "Preset name" }}
-                                </label>
-                                <input
-                                    id="memorisationPresetNameInput"
-                                    ref="memorisationPresetNameInput"
-                                    type="text"
-                                    class="form-control surah-offcanvas-input memorisation-preset-editor-input"
-                                    v-model="memorisationPresetEditorName"
-                                    maxlength="60"
-                                    placeholder="e.g. Fajr Routine"
-                                    @keydown.enter.prevent="submitMemorisationPresetNameEditor"
-                                    @keydown.esc.prevent="closeMemorisationPresetNameEditor" />
-                                <p v-if="memorisationPresetEditorError" class="memorisation-preset-editor-error mb-0" role="status" aria-live="polite">
-                                    {{ memorisationPresetEditorError }}
-                                </p>
-                                <div class="memorisation-preset-editor-actions">
-                                    <button
-                                        type="button"
-                                        class="btn memorisation-preset-editor-btn"
-                                        @click="closeMemorisationPresetNameEditor">
-                                        Cancel
-                                    </button>
-                                    <button
-                                        type="button"
-                                        class="btn memorisation-preset-editor-btn memorisation-preset-editor-btn-submit"
-                                        @click="submitMemorisationPresetNameEditor">
-                                        {{ memorisationPresetEditorMode === "rename" ? "Update" : "Save" }}
-                                    </button>
-                                </div>
-                            </div>
-
-                            <div v-if="hasMemorisationPresets" class="memorisation-preset-list-wrap">
-                                <div v-if="hasOnlySeededMemorisationPresets" class="memorisation-starter-note">
-                                    Starter presets are ready. Tap any card to begin, then rename or overwrite it later.
-                                </div>
-                                <div class="memorisation-preset-list">
-                                <article
-                                    v-for="preset in sortedMemorisationPresets"
-                                    :key="preset.id"
-                                    class="memorisation-preset-card"
-                                    :class="{
-                                        'is-favorite': preset.favorite,
-                                        'is-active': memorisationActivePresetId === preset.id
-                                    }"
-                                    role="button"
-                                    tabindex="0"
-                                    @click="loadMemorisationPreset(preset.id)"
-                                    @keydown.enter.prevent="loadMemorisationPreset(preset.id)"
-                                    @keydown.space.prevent="loadMemorisationPreset(preset.id)"
-                                    :aria-label="`Load preset ${preset.name}`">
-                                    <div class="memorisation-preset-card-head">
-                                        <div class="memorisation-preset-card-title-wrap">
-                                            <strong class="memorisation-preset-card-name">{{ preset.name }}</strong>
-                                            <span
-                                                v-if="isSeededMemorisationPreset(preset)"
-                                                class="memorisation-demo-badge memorisation-demo-badge--inline">
-                                                Starter
-                                            </span>
-                                        </div>
-                                        <div class="memorisation-preset-head-actions">
-                                            <button
-                                                type="button"
-                                                class="btn memorisation-preset-icon-btn"
-                                                :class="{ 'is-favorite': preset.favorite }"
-                                                @click.stop="toggleMemorisationPresetFavorite(preset.id)"
-                                                :aria-label="preset.favorite ? `Unstar preset ${preset.name}` : `Star preset ${preset.name}`"
-                                                :title="preset.favorite ? 'Unstar preset' : 'Star preset'">
-                                                <i class="bi" :class="preset.favorite ? 'bi-star-fill' : 'bi-star'" aria-hidden="true"></i>
-                                            </button>
-                                            <button
-                                                type="button"
-                                                class="btn memorisation-preset-icon-btn"
-                                                :disabled="isMemorisationDraftSubmitting"
-                                                @click.stop="openMemorisationPresetNameEditor({ presetId: preset.id })"
-                                                :aria-label="`Rename preset ${preset.name}`"
-                                                title="Rename preset">
-                                                <i class="bi bi-pencil" aria-hidden="true"></i>
-                                            </button>
-                                            <button
-                                                type="button"
-                                                class="btn memorisation-preset-icon-btn memorisation-preset-icon-btn-delete"
-                                                :disabled="isMemorisationDraftSubmitting"
-                                                @click.stop="deleteMemorisationPreset(preset.id)"
-                                                :aria-label="`Delete preset ${preset.name}`"
-                                                title="Delete preset">
-                                                <i class="bi bi-trash3" aria-hidden="true"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <p class="memorisation-preset-card-meta mb-0">
-                                        {{ describeMemorisationPreset(preset) }}
-                                    </p>
-                                    <div
-                                        v-if="isSeededMemorisationPreset(preset)"
-                                        class="memorisation-preset-card-footer">
-                                        Load this starter, then tweak anything you want.
-                                    </div>
-                                </article>
-                                </div>
-                            </div>
-                            <div v-else class="memorisation-preset-empty-state">
-                                <p class="memorisation-preset-empty mb-0">
-                                    No presets yet. Load the starter set or save your current setup.
-                                </p>
-                                <div class="memorisation-empty-actions">
-                                    <button
-                                        type="button"
-                                        class="btn memorisation-preset-editor-btn memorisation-preset-editor-btn-submit"
-                                        @click="seedMemorisationPresets({ announce: true })">
-                                        Load starter presets
-                                    </button>
-                                    <button
-                                        type="button"
-                                        class="btn memorisation-preset-editor-btn"
-                                        @click="openMemorisationPresetNameEditor()">
-                                        Create my own
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-
-                    <section class="surah-offcanvas-section memorisation-offcanvas-panel memorisation-offcanvas-panel--beginner" aria-label="Session setup">
-                        <h5 class="memorisation-offcanvas-section-title">Session Setup</h5>
-                        <div class="memorisation-offcanvas-grid">
-                            <label class="memorisation-offcanvas-field memorisation-offcanvas-field--full">
-                                <span class="form-label surah-offcanvas-label">Surah name</span>
-                                <select class="form-select surah-offcanvas-select" v-model="memorisationDraft.surahNumber" @change="syncMemorisationDraftRangeForSurah">
-                                    <option value="" disabled>Select surah</option>
-                                    <option v-for="surah in filteredSurahs" :key="`memorisation-surah-${surah.number}`" :value="String(surah.number)">
-                                        {{ surah.number }} · {{ surah.englishName }}
+                        <div class="memorisation-tools-grid">
+                            <label class="memorisation-tools-field memorisation-tools-field--full">
+                                <span class="memorisation-tools-label">Surah name</span>
+                                <select
+                                    class="form-select memorisation-tools-control"
+                                    v-model="selectedSurah"
+                                    @change="onMemorisationToolbarSurahChange"
+                                    aria-label="Select surah">
+                                    <option v-for="surah in filteredSurahs" :key="`beginner-surah-${surah.number}`" :value="String(surah.number)">
+                                        {{ surah.number }}. {{ surah.englishName }}
                                     </option>
                                 </select>
+                                <small class="memorisation-tools-field-hint">Sets the chapter context so your memorisation stays focused on one target.</small>
                             </label>
 
-                            <label class="memorisation-offcanvas-field">
-                                <span class="form-label surah-offcanvas-label">Reciter name</span>
-                                <select class="form-select surah-offcanvas-select" v-model="memorisationDraft.reciterIdentifier">
-                                    <option value="" disabled>Select a reciter</option>
-                                    <option v-for="reciter in recitersSorted" :key="`memorisation-draft-reciter-${reciter.identifier}`" :value="reciter.identifier">
+                            <label class="memorisation-tools-field memorisation-tools-field--full">
+                                <span class="memorisation-tools-label">Reciter name</span>
+                                <select
+                                    class="form-select memorisation-tools-control"
+                                    v-model="selectedReciter"
+                                    @change="onMemorisationToolbarReciterChange"
+                                    aria-label="Select reciter">
+                                    <option v-for="reciter in recitersSorted" :key="`beginner-reciter-${reciter.identifier}`" :value="reciter.identifier">
                                         {{ reciter.englishName }}
                                     </option>
                                 </select>
+                                <small class="memorisation-tools-field-hint">Keeps one voice pattern, which improves auditory recall and rhythm memory.</small>
                             </label>
 
-                            <label class="memorisation-offcanvas-field">
-                                <span class="form-label surah-offcanvas-label">Recitation speed</span>
-                                <select class="form-select surah-offcanvas-select" v-model.number="memorisationDraft.playbackSpeed">
-                                    <option v-for="speed in playbackSpeeds" :key="`memorisation-draft-speed-${speed}`" :value="speed">
-                                        {{ speed }}x
+                            <label class="memorisation-tools-field memorisation-tools-field--full">
+                                <span class="memorisation-tools-label">Ayah range</span>
+                                <div class="memorisation-tools-range">
+                                    <input
+                                        type="number"
+                                        class="form-control memorisation-tools-control"
+                                        v-model.number="memorisationRangeStart"
+                                        min="1"
+                                        :max="Math.max(totalAyahs || 1, 1)"
+                                        @change="onMemorisationToolbarRangeChange"
+                                        aria-label="Range start ayah" />
+                                    <span class="memorisation-tools-range-sep">to</span>
+                                    <input
+                                        type="number"
+                                        class="form-control memorisation-tools-control"
+                                        v-model.number="memorisationRangeEnd"
+                                        :min="memorisationRangeStart || 1"
+                                        :max="Math.max(totalAyahs || 1, 1)"
+                                        @change="onMemorisationToolbarRangeChange"
+                                        aria-label="Range end ayah" />
+                                </div>
+                                <small class="memorisation-tools-field-hint">Defines a manageable chunk so repetition can build sequence retention.</small>
+                            </label>
+                        </div>
+                    </section>
+
+                    <section class="memorisation-tools-card" aria-label="Recitation flow">
+                        <div class="memorisation-tools-card-head">
+                            <div class="memorisation-tools-card-title">
+                                <h5 class="mb-0"><i class="bi bi-play-circle me-1" aria-hidden="true"></i>Playback</h5>
+                                <p class="mb-0">These controls work together to control pace, repetition, and recall cycles.</p>
+                            </div>
+                        </div>
+                        <div class="memorisation-tools-grid">
+                            <label class="memorisation-tools-field">
+                                <span class="memorisation-tools-label">Recitation speed</span>
+                                <select
+                                    class="form-select memorisation-tools-control"
+                                    v-model.number="memorisationDraft.playbackSpeed"
+                                    aria-label="Recitation speed">
+                                    <option v-for="speed in playbackSpeeds" :key="`beginner-speed-${speed}`" :value="Number(speed)">
+                                        {{ Number(speed) }}x
                                     </option>
                                 </select>
+                                <small class="memorisation-tools-field-hint">Slower speeds improve pronunciation and detail; normal speeds train fluency.</small>
                             </label>
 
-                            <label class="memorisation-offcanvas-field memorisation-offcanvas-field--full">
-                                <span class="form-label surah-offcanvas-label">Ayah range</span>
-                                <div class="memorisation-offcanvas-range">
-                                    <input
-                                        type="number"
-                                        class="form-control surah-offcanvas-input"
-                                        v-model.number="memorisationDraft.rangeStart"
-                                        min="1"
-                                        :max="memorisationDraftMaxAyah"
-                                        aria-label="Memorisation range start ayah">
-                                    <span class="memorisation-offcanvas-range-separator">to</span>
-                                    <input
-                                        type="number"
-                                        class="form-control surah-offcanvas-input"
-                                        v-model.number="memorisationDraft.rangeEnd"
-                                        :min="memorisationDraft.rangeStart || 1"
-                                        :max="memorisationDraftMaxAyah"
-                                        aria-label="Memorisation range end ayah">
-                                </div>
-                            </label>
-
-                            <label class="memorisation-offcanvas-field">
-                                <span class="form-label surah-offcanvas-label">Delay per ayah (sec)</span>
+                            <label class="memorisation-tools-field">
+                                <span class="memorisation-tools-label">Delay per ayah</span>
                                 <input
                                     type="number"
-                                    class="form-control surah-offcanvas-input"
+                                    class="form-control memorisation-tools-control"
                                     v-model.number="memorisationDraft.verseDelay"
                                     min="0"
                                     max="60"
-                                    aria-label="Delay time per ayah in seconds">
+                                    @change="notifyAyahDelayChange"
+                                    aria-label="Delay per ayah" />
+                                <small class="memorisation-tools-field-hint">Adds thinking time between ayahs for active recall before the next verse.</small>
                             </label>
 
-                            <label v-if="isMemorisationAdvancedMode" class="memorisation-offcanvas-field">
-                                <span class="form-label surah-offcanvas-label">Repetitions per ayah</span>
+                            <label class="memorisation-tools-field">
+                                <span class="memorisation-tools-label">Playback mode</span>
+                                <select class="form-select memorisation-tools-control" v-model="memorisationDraft.playbackMode" aria-label="Playback mode">
+                                    <option value="continuous">Continuous</option>
+                                    <option value="repeat">Repeat</option>
+                                    <option value="manual">Manual</option>
+                                </select>
+                                <small class="memorisation-tools-field-hint">Controls progression style: flow continuously, repeat automatically, or move manually.</small>
+                            </label>
+
+                            <label class="memorisation-tools-field">
+                                <span class="memorisation-tools-label">Repetition count</span>
                                 <input
                                     type="number"
-                                    class="form-control surah-offcanvas-input"
+                                    class="form-control memorisation-tools-control"
                                     v-model.number="memorisationDraft.repetitionCount"
                                     min="1"
                                     max="99"
-                                    aria-label="Repetitions per ayah">
+                                    aria-label="Repetition count" />
+                                <small class="memorisation-tools-field-hint">Higher repetition strengthens short-term encoding into longer-term retention.</small>
                             </label>
 
-                            <label class="memorisation-offcanvas-field">
-                                <span class="form-label surah-offcanvas-label">Playback mode</span>
-                                <select class="form-select surah-offcanvas-select" v-model="memorisationDraft.playbackMode">
-                                    <option v-for="option in memorisationQuickPlaybackModeOptions" :key="`memorisation-draft-mode-${option.value}`" :value="option.value">
-                                        {{ option.beginnerLabel }}
-                                    </option>
-                                </select>
-                            </label>
-
-                            <label v-if="isMemorisationAdvancedMode" class="memorisation-offcanvas-field">
-                                <span class="form-label surah-offcanvas-label">Quranic fonts</span>
-                                <select class="form-select surah-offcanvas-select" v-model="memorisationDraft.quranFontId">
-                                    <option v-if="!quranFonts.length" :value="selectedQuranFontId">
-                                        {{ activeQuranFont?.label || "Current font" }}
-                                    </option>
-                                    <option v-for="font in quranFonts" :key="`memorisation-draft-font-${font.id}`" :value="font.id">
-                                        {{ font.label }}
-                                    </option>
-                                </select>
-                            </label>
-
-                            <label class="memorisation-offcanvas-toggle-row memorisation-offcanvas-field memorisation-offcanvas-field--full memorisation-range-loop-field">
-                                <span class="memorisation-offcanvas-toggle-copy">
-                                    <strong>Loop again after range has finished</strong>
-                                    <small>Restart from the first ayah when this selected range is completed.</small>
+                            <label class="memorisation-tools-switch memorisation-tools-field--full">
+                                <span class="memorisation-tools-switch-copy">
+                                    <strong>Range loop</strong>
+                                    <small>Automatically replays the full range so you reinforce sequence memory without restarting manually.</small>
                                 </span>
                                 <span class="form-check form-switch mb-0">
                                     <input
                                         class="form-check-input"
                                         type="checkbox"
                                         v-model="memorisationDraft.rangeLoopEnabled"
-                                        aria-label="Loop range when finished">
+                                        aria-label="Toggle range loop" />
                                 </span>
                             </label>
+                            <label class="memorisation-tools-field memorisation-tools-field--full">
+                                <span class="memorisation-tools-label">Loop delay (sec)</span>
+                                <input
+                                    type="number"
+                                    class="form-control memorisation-tools-control"
+                                    v-model.number="memorisationDraft.rangeLoopDelay"
+                                    min="0"
+                                    max="300"
+                                    aria-label="Loop delay" />
+                                <small class="memorisation-tools-field-hint">Small pauses between loops reduce fatigue while keeping recall momentum.</small>
+                            </label>
+                        </div>
+                    </section>
 
-                            <label v-if="isMemorisationAdvancedMode" class="memorisation-offcanvas-toggle-row memorisation-offcanvas-field memorisation-offcanvas-field--full">
-                                <span class="memorisation-offcanvas-toggle-copy">
-                                    <strong>Test Mode</strong>
-                                    <small>Focus on one ayah at a time so you can recite from memory without the next ayah giving it away.</small>
-                                </span>
-                                <span class="form-check form-switch mb-0">
-                                    <input
-                                        class="form-check-input"
-                                        type="checkbox"
-                                        v-model="memorisationDraft.singleAyahFocus"
-                                        aria-label="Toggle test mode">
-                                </span>
-                            </label>
-                            <div v-if="isMemorisationAdvancedMode" class="memorisation-test-mode-callout memorisation-offcanvas-field memorisation-offcanvas-field--full">
-                                <div class="memorisation-test-mode-callout-copy">
-                                    <span class="memorisation-test-mode-callout-badge">Recall support</span>
-                                    <strong>Use this after you warm up the range.</strong>
-                                    <small>Test Mode is the cleanest way to check if the ayah is really in your memory, not just on the screen.</small>
-                                </div>
-                                <button
-                                    type="button"
-                                    class="btn memorisation-test-mode-callout-btn"
-                                    @click="memorisationDraft.singleAyahFocus = !memorisationDraft.singleAyahFocus">
-                                    {{ memorisationDraft.singleAyahFocus ? "Turn off" : "Turn on" }}
-                                </button>
+                    <section class="memorisation-tools-card" aria-label="Recall support and continuity">
+                        <div class="memorisation-tools-card-head">
+                            <div class="memorisation-tools-card-title">
+                                <h5 class="mb-0"><i class="bi bi-lightbulb me-1" aria-hidden="true"></i>Support</h5>
+                                <p class="mb-0">Use blur for recall testing and save sessions to continue later.</p>
                             </div>
-                            <label v-if="isMemorisationAdvancedMode" class="memorisation-offcanvas-toggle-row memorisation-offcanvas-field memorisation-offcanvas-field--full">
-                                <span class="memorisation-offcanvas-toggle-copy">
-                                    <strong>Blur next ayah</strong>
-                                    <small>Keep the next ayah softened during Test Mode until you are ready to move forward.</small>
+                            <button
+                                type="button"
+                                class="btn memorisation-tools-link-btn"
+                                @click="openSessionHistoryModal()"
+                                aria-label="Open sessions history">
+                                <i class="bi bi-clock-history" aria-hidden="true"></i>
+                                <span>History</span>
+                            </button>
+                        </div>
+                        <div class="memorisation-tools-grid">
+                            <label class="memorisation-tools-field memorisation-tools-field--full">
+                                <span class="memorisation-tools-label">Session name</span>
+                                <input
+                                    type="text"
+                                    class="form-control memorisation-tools-control"
+                                    v-model.trim="memorisationDraft.sessionName"
+                                    maxlength="80"
+                                    :disabled="!canSaveMemorisationSession"
+                                    placeholder="e.g. Fatiha Morning Review"
+                                    aria-label="Session name" />
+                                <small class="memorisation-tools-field-hint">Give this session a clear name so you can find it quickly in Saved session.</small>
+                            </label>
+                            <label class="memorisation-tools-switch memorisation-tools-field--full">
+                                <span class="memorisation-tools-switch-copy">
+                                    <strong>Blur ayah</strong>
+                                    <small>Softens the next ayah so your brain retrieves from memory first, then verifies.</small>
                                 </span>
                                 <span class="form-check form-switch mb-0">
                                     <input
                                         class="form-check-input"
                                         type="checkbox"
                                         v-model="isBlurNextAyahEnabled"
-                                        aria-label="Toggle blur next ayah">
+                                        aria-label="Toggle blur ayah" />
+                                </span>
+                            </label>
+
+                            <label class="memorisation-tools-switch memorisation-tools-field--full">
+                                <span class="memorisation-tools-switch-copy">
+                                    <strong>Save session</strong>
+                                    <small v-if="canSaveMemorisationSession">Stores completed sessions so you can resume patterns, compare consistency, and reload progress.</small>
+                                    <small v-else>Login required to save named sessions and keep persistent history.</small>
+                                </span>
+                                <span class="form-check form-switch mb-0">
+                                    <input
+                                        class="form-check-input"
+                                        type="checkbox"
+                                        v-model="memorisationDraft.sessionHistoryEnabled"
+                                        :disabled="!canSaveMemorisationSession"
+                                        aria-label="Toggle save session" />
                                 </span>
                             </label>
                         </div>
                     </section>
 
-                    <section v-if="isMemorisationAdvancedMode" class="surah-offcanvas-section memorisation-offcanvas-panel" aria-label="Session tools">
-                        <h5 class="memorisation-offcanvas-section-title">Session Tools</h5>
-                        <p class="memorisation-offcanvas-section-subtitle mb-0">
-                            Turn on only the helpers you need. Most sessions work well with one or two.
-                        </p>
-                        <div class="memorisation-offcanvas-tool-list">
-                            <label class="memorisation-offcanvas-toggle-row memorisation-offcanvas-toggle-row--with-action">
-                                <span class="memorisation-offcanvas-toggle-copy">
-                                    <strong>Session History</strong>
-                                    <small>Auto-save finished sessions so you can look back without doing anything extra.</small>
+                    <div class="memorisation-beginner-actions">
+                        <button
+                            type="button"
+                            class="btn memorisation-tools-action-btn memorisation-tools-action-btn--primary"
+                            @click="startMemorisationBeginnerSession">
+                            Start Session
+                        </button>
+                        <button
+                            type="button"
+                            class="btn memorisation-tools-action-btn"
+                            @click="cancelMemorisationOffcanvas">
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+
+                <div v-else class="memorisation-advanced-panel" aria-label="Advanced memorisation setup">
+                    <section class="memorisation-tools-card" aria-label="Advanced setup">
+                        <div class="memorisation-tools-card-head">
+                            <div class="memorisation-tools-card-title">
+                                <h5 class="mb-0"><i class="bi bi-sliders2 me-1" aria-hidden="true"></i>Setup</h5>
+                                <p class="mb-0">Basic setup from Beginner mode. Advanced tools below build on this setup.</p>
+                            </div>
+                        </div>
+                        <div class="memorisation-tools-grid">
+                            <label class="memorisation-tools-field memorisation-tools-field--full">
+                                <span class="memorisation-tools-label">Surah name</span>
+                                <select
+                                    class="form-select memorisation-tools-control"
+                                    v-model="selectedSurah"
+                                    @change="onMemorisationToolbarSurahChange"
+                                    aria-label="Select surah">
+                                    <option v-for="surah in filteredSurahs" :key="`advanced-surah-${surah.number}`" :value="String(surah.number)">
+                                        {{ surah.number }}. {{ surah.englishName }}
+                                    </option>
+                                </select>
+                            </label>
+
+                            <label class="memorisation-tools-field memorisation-tools-field--full">
+                                <span class="memorisation-tools-label">Reciter name</span>
+                                <select
+                                    class="form-select memorisation-tools-control"
+                                    v-model="selectedReciter"
+                                    @change="onMemorisationToolbarReciterChange"
+                                    aria-label="Select reciter">
+                                    <option v-for="reciter in recitersSorted" :key="`advanced-reciter-${reciter.identifier}`" :value="reciter.identifier">
+                                        {{ reciter.englishName }}
+                                    </option>
+                                </select>
+                            </label>
+
+                            <label class="memorisation-tools-field memorisation-tools-field--full">
+                                <span class="memorisation-tools-label">Ayah range</span>
+                                <div class="memorisation-tools-range">
+                                    <input
+                                        type="number"
+                                        class="form-control memorisation-tools-control"
+                                        v-model.number="memorisationRangeStart"
+                                        min="1"
+                                        :max="Math.max(totalAyahs || 1, 1)"
+                                        @change="onMemorisationToolbarRangeChange"
+                                        aria-label="Range start ayah" />
+                                    <span class="memorisation-tools-range-sep">to</span>
+                                    <input
+                                        type="number"
+                                        class="form-control memorisation-tools-control"
+                                        v-model.number="memorisationRangeEnd"
+                                        :min="memorisationRangeStart || 1"
+                                        :max="Math.max(totalAyahs || 1, 1)"
+                                        @change="onMemorisationToolbarRangeChange"
+                                        aria-label="Range end ayah" />
+                                </div>
+                            </label>
+
+                            <label class="memorisation-tools-field">
+                                <span class="memorisation-tools-label">Recitation speed</span>
+                                <select
+                                    class="form-select memorisation-tools-control"
+                                    v-model.number="memorisationDraft.playbackSpeed"
+                                    aria-label="Recitation speed">
+                                    <option v-for="speed in playbackSpeeds" :key="`advanced-speed-${speed}`" :value="Number(speed)">
+                                        {{ Number(speed) }}x
+                                    </option>
+                                </select>
+                            </label>
+
+                            <label class="memorisation-tools-field">
+                                <span class="memorisation-tools-label">Delay per ayah</span>
+                                <input
+                                    type="number"
+                                    class="form-control memorisation-tools-control"
+                                    v-model.number="memorisationDraft.verseDelay"
+                                    min="0"
+                                    max="60"
+                                    @change="notifyAyahDelayChange"
+                                    aria-label="Delay per ayah" />
+                            </label>
+
+                            <label class="memorisation-tools-switch memorisation-tools-field--full">
+                                <span class="memorisation-tools-switch-copy">
+                                    <strong>Blur ayah</strong>
+                                    <small>Blur previous and next ayah while keeping current ayah clear for recall.</small>
                                 </span>
-                                <span class="memorisation-offcanvas-toggle-actions">
-                                    <button
-                                        type="button"
-                                        class="btn memorisation-tool-settings-btn"
-                                        aria-label="Open session history"
-                                        title="Open session history"
-                                        @click.stop.prevent="openSessionHistoryModal()">
-                                        <i class="bi bi-clock-history" aria-hidden="true"></i>
-                                    </button>
-                                    <span class="form-check form-switch mb-0">
-                                        <input
-                                            class="form-check-input"
-                                            type="checkbox"
-                                            v-model="memorisationDraft.sessionHistoryEnabled"
-                                            aria-label="Toggle session history">
-                                    </span>
+                                <span class="form-check form-switch mb-0">
+                                    <input
+                                        class="form-check-input"
+                                        type="checkbox"
+                                        v-model="isBlurNextAyahEnabled"
+                                        aria-label="Toggle blur ayah" />
                                 </span>
                             </label>
-                            <div
-                                v-if="memorisationDraft.sessionHistoryEnabled"
-                                class="memorisation-session-history-preview memorisation-offcanvas-field memorisation-offcanvas-field--full">
-                                <div class="memorisation-session-history-preview-head">
-                                    <div class="memorisation-session-history-preview-copy">
-                                        <span class="memorisation-session-history-preview-eyebrow">{{ sessionHistoryPreviewEyebrow }}</span>
-                                        <strong class="memorisation-session-history-preview-title">{{ sessionHistoryPreviewTitle }}</strong>
-                                        <small class="d-block">{{ sessionHistoryPreviewSubtitle }}</small>
-                                    </div>
-                                    <button
-                                        type="button"
-                                        class="btn memorisation-session-history-preview-btn"
-                                        @click="openSessionHistoryModal()">
-                                        <i class="bi bi-clock-history" aria-hidden="true"></i>
-                                        View history
-                                    </button>
-                                </div>
-                                <div
-                                    v-if="sessionHistoryPreviewEntries.length"
-                                    class="memorisation-session-history-preview-list"
-                                    role="list"
-                                    aria-label="Recent session history preview">
-                                    <button
-                                        v-for="entry in sessionHistoryPreviewEntries"
-                                        :key="entry.id"
-                                        type="button"
-                                        class="memorisation-session-history-preview-item"
-                                        @click="openSessionHistoryModal(entry.id)">
-                                        <span class="memorisation-session-history-preview-item-main">
-                                            <span class="memorisation-session-history-preview-item-title-row">
-                                                <strong>{{ formatSessionHistoryRange(entry) }}</strong>
-                                                <span
-                                                    v-if="isSeededSessionHistoryEntry(entry)"
-                                                    class="memorisation-demo-badge memorisation-demo-badge--inline">
-                                                    Starter
-                                                </span>
-                                            </span>
-                                            <small>{{ formatSessionHistoryDateTime(entry.endedAt) }}</small>
-                                        </span>
-                                        <span class="memorisation-session-history-preview-item-meta">
-                                            {{ formatSessionHistoryDuration(entry.durationMs, { short: true }) }}
-                                        </span>
-                                    </button>
-                                </div>
-                                <div v-else class="memorisation-session-history-preview-empty-state">
-                                    <p class="memorisation-session-history-preview-empty mb-0">
-                                        No saved sessions yet. Load starter history or finish a session to begin.
-                                    </p>
-                                    <button
-                                        type="button"
-                                        class="btn memorisation-session-history-preview-btn"
-                                        @click="loadStarterSessionHistory({ announce: true, focusFirst: false })">
-                                        <i class="bi bi-stars" aria-hidden="true"></i>
-                                        Load starter history
-                                    </button>
-                                </div>
+
+                            <label class="memorisation-tools-switch memorisation-tools-field--full">
+                                <span class="memorisation-tools-switch-copy">
+                                    <strong>Save session</strong>
+                                    <small v-if="canSaveMemorisationSession">Save your work and reload it later from Saved session.</small>
+                                    <small v-else>Login required to save named sessions and keep persistent history.</small>
+                                </span>
+                                <span class="form-check form-switch mb-0">
+                                    <input
+                                        class="form-check-input"
+                                        type="checkbox"
+                                        v-model="memorisationDraft.sessionHistoryEnabled"
+                                        :disabled="!canSaveMemorisationSession"
+                                        aria-label="Toggle save session" />
+                                </span>
+                            </label>
+                            <label class="memorisation-tools-field memorisation-tools-field--full">
+                                <span class="memorisation-tools-label">Session name</span>
+                                <input
+                                    type="text"
+                                    class="form-control memorisation-tools-control"
+                                    v-model.trim="memorisationDraft.sessionName"
+                                    maxlength="80"
+                                    :disabled="!canSaveMemorisationSession"
+                                    placeholder="e.g. Evening Chain Set A"
+                                    aria-label="Session name" />
+                            </label>
+                        </div>
+                    </section>
+
+                    <section class="memorisation-tools-card" aria-label="Playback and repetition settings">
+                        <div class="memorisation-tools-card-head">
+                            <div class="memorisation-tools-card-title">
+                                <h5 class="mb-0"><i class="bi bi-play-circle me-1" aria-hidden="true"></i>Playback</h5>
+                                <p class="mb-0">These controls shape repetition cycles and are linked to setup values above.</p>
                             </div>
-                            <label class="memorisation-offcanvas-toggle-row memorisation-offcanvas-toggle-row--with-action">
-                                <span class="memorisation-offcanvas-toggle-copy">
-                                    <strong>Chaining Method</strong>
-                                    <small>Pick one clear flow: learn new ayat first, then smooth the joins.</small>
+                        </div>
+                        <div class="memorisation-tools-grid">
+                            <label class="memorisation-tools-field">
+                                <span class="memorisation-tools-label">Playback mode</span>
+                                <select class="form-select memorisation-tools-control" v-model="memorisationDraft.playbackMode" aria-label="Playback mode">
+                                    <option value="continuous">Continuous</option>
+                                    <option value="repeat">Repeat</option>
+                                    <option value="manual">Manual</option>
+                                </select>
+                            </label>
+                            <label class="memorisation-tools-field">
+                                <span class="memorisation-tools-label">Repetition count</span>
+                                <input
+                                    type="number"
+                                    class="form-control memorisation-tools-control"
+                                    v-model.number="memorisationDraft.repetitionCount"
+                                    min="1"
+                                    max="99"
+                                    aria-label="Repetition count" />
+                            </label>
+                            <label class="memorisation-tools-switch memorisation-tools-field--full">
+                                <span class="memorisation-tools-switch-copy">
+                                    <strong>Range loop</strong>
+                                    <small>Replay the selected range after finishing.</small>
+                                </span>
+                                <span class="form-check form-switch mb-0">
+                                    <input
+                                        class="form-check-input"
+                                        type="checkbox"
+                                        v-model="memorisationDraft.rangeLoopEnabled"
+                                        aria-label="Toggle range loop" />
+                                </span>
+                            </label>
+                            <label class="memorisation-tools-field memorisation-tools-field--full">
+                                <span class="memorisation-tools-label">Loop delay (sec)</span>
+                                <input
+                                    type="number"
+                                    class="form-control memorisation-tools-control"
+                                    v-model.number="memorisationDraft.rangeLoopDelay"
+                                    min="0"
+                                    max="300"
+                                    aria-label="Loop delay in seconds" />
+                            </label>
+                            <label class="memorisation-tools-switch memorisation-tools-field--full">
+                                <span class="memorisation-tools-switch-copy">
+                                    <strong>Single ayah focus</strong>
+                                    <small>Test one ayah at a time before auto progressing.</small>
+                                </span>
+                                <span class="form-check form-switch mb-0">
+                                    <input
+                                        class="form-check-input"
+                                        type="checkbox"
+                                        v-model="memorisationDraft.singleAyahFocus"
+                                        aria-label="Toggle single ayah focus" />
+                                </span>
+                            </label>
+                        </div>
+                    </section>
+
+                    <section class="memorisation-tools-card" aria-label="Repeat after reciter settings">
+                        <div class="memorisation-tools-card-head">
+                            <div class="memorisation-tools-card-title">
+                                <h5 class="mb-0"><i class="bi bi-arrow-repeat me-1" aria-hidden="true"></i>Repeat</h5>
+                                <p class="mb-0">Adds guided pauses and recall support while repeating each ayah.</p>
+                            </div>
+                        </div>
+                        <div class="memorisation-tools-grid">
+                            <label class="memorisation-tools-switch memorisation-tools-field--full">
+                                <span class="memorisation-tools-switch-copy">
+                                    <strong>Enable repeat after reciter</strong>
+                                    <small>Adds a pause so you can repeat each ayah.</small>
+                                </span>
+                                <span class="form-check form-switch mb-0">
+                                    <input
+                                        class="form-check-input"
+                                        type="checkbox"
+                                        v-model="memorisationDraft.repeatAfterReciterEnabled"
+                                        aria-label="Toggle repeat after reciter" />
+                                </span>
+                            </label>
+                            <label class="memorisation-tools-field">
+                                <span class="memorisation-tools-label">Pause mode</span>
+                                <select class="form-select memorisation-tools-control" v-model="memorisationDraft.repeatAfterReciterPauseMode" aria-label="Repeat pause mode">
+                                    <option value="2">2 seconds</option>
+                                    <option value="3">3 seconds</option>
+                                    <option value="5">5 seconds</option>
+                                    <option value="manual">Until tap</option>
+                                </select>
+                            </label>
+                            <label class="memorisation-tools-field">
+                                <span class="memorisation-tools-label">Verse text mode</span>
+                                <select class="form-select memorisation-tools-control" v-model="memorisationDraft.repeatAfterReciterVerseTextMode" aria-label="Repeat verse text mode">
+                                    <option value="show">Show</option>
+                                    <option value="dimmed">Dimmed</option>
+                                    <option value="hide">Hide</option>
+                                </select>
+                            </label>
+                            <label class="memorisation-tools-switch memorisation-tools-field--full">
+                                <span class="memorisation-tools-switch-copy">
+                                    <strong>Show translation assist</strong>
+                                    <small>Keep translation visible during repeat pauses.</small>
+                                </span>
+                                <span class="form-check form-switch mb-0">
+                                    <input
+                                        class="form-check-input"
+                                        type="checkbox"
+                                        v-model="memorisationDraft.repeatAfterReciterShowTranslation"
+                                        aria-label="Toggle translation assist during repeat pause" />
+                                </span>
+                            </label>
+                        </div>
+                    </section>
+
+                    <section class="memorisation-tools-card" aria-label="Chaining method settings">
+                        <div class="memorisation-tools-card-head">
+                            <div class="memorisation-tools-card-title">
+                                <h5 class="mb-0"><i class="bi bi-diagram-3 me-1" aria-hidden="true"></i>Chaining</h5>
+                                <p class="mb-0">Links ayahs progressively so memory is built in connected steps.</p>
+                            </div>
+                        </div>
+                        <div class="memorisation-tools-grid">
+                            <label class="memorisation-tools-switch memorisation-tools-field--full">
+                                <span class="memorisation-tools-switch-copy">
+                                    <strong>Enable chaining method</strong>
+                                    <small>Practice ayahs in linked rounds to reinforce memory.</small>
                                 </span>
                                 <span class="form-check form-switch mb-0">
                                     <input
                                         class="form-check-input"
                                         type="checkbox"
                                         v-model="memorisationDraft.chainingMethodEnabled"
-                                        aria-label="Toggle chaining method">
+                                        aria-label="Toggle chaining method" />
                                 </span>
                             </label>
-                            <div
-                                v-if="memorisationDraft.chainingMethodEnabled"
-                                class="memorisation-chaining-settings memorisation-offcanvas-field memorisation-offcanvas-field--full"
-                                :class="`is-mode-${memorisationDraft.chainingMethodMode}`">
-                                <div class="memorisation-chaining-settings-head">
-                                    <div>
-                                        <span class="memorisation-chaining-step-label">Choose a flow</span>
-                                        <h6 class="memorisation-chaining-settings-title mb-0">Pick how you want to build this range</h6>
-                                        <p class="memorisation-chaining-settings-subtitle mb-0">
-                                            Start with Learn New Verses. Switch to Smooth Transitions once the words feel familiar.
-                                        </p>
-                                    </div>
-                                </div>
+                            <label class="memorisation-tools-field">
+                                <span class="memorisation-tools-label">Chain mode</span>
+                                <select class="form-select memorisation-tools-control" v-model="memorisationDraft.chainingMethodMode" aria-label="Chaining mode">
+                                    <option value="cumulative">Cumulative</option>
+                                    <option value="bridging">Bridging</option>
+                                </select>
+                            </label>
+                            <label class="memorisation-tools-field">
+                                <span class="memorisation-tools-label">Repetition strategy</span>
+                                <select class="form-select memorisation-tools-control" v-model="memorisationDraft.chainingMethodRepetitionStrategy" aria-label="Chaining repetition strategy">
+                                    <option value="3">3 rounds</option>
+                                    <option value="5">5 rounds</option>
+                                    <option value="mastered">Until mastered</option>
+                                </select>
+                            </label>
+                            <label class="memorisation-tools-field">
+                                <span class="memorisation-tools-label">Audio guidance</span>
+                                <select class="form-select memorisation-tools-control" v-model="memorisationDraft.chainingMethodAudioGuidance" aria-label="Chaining audio guidance">
+                                    <option value="qari-first">Qari first</option>
+                                    <option value="user-first">User first</option>
+                                    <option value="silent">Silent</option>
+                                </select>
+                            </label>
+                            <label class="memorisation-tools-field">
+                                <span class="memorisation-tools-label">Blur progression</span>
+                                <select class="form-select memorisation-tools-control" v-model="memorisationDraft.chainingMethodBlurProgression" aria-label="Chaining blur progression">
+                                    <option value="off">Off</option>
+                                    <option value="gentle">Gentle</option>
+                                    <option value="progressive">Progressive</option>
+                                </select>
+                            </label>
+                            <label class="memorisation-tools-field memorisation-tools-field--full">
+                                <span class="memorisation-tools-label">After completion</span>
+                                <select class="form-select memorisation-tools-control" v-model="memorisationDraft.chainingMethodCompletionAction" aria-label="Chaining completion action">
+                                    <option value="none">None</option>
+                                    <option value="test">Switch to test mode</option>
+                                    <option value="playlist">Save to playlist</option>
+                                    <option value="share">Share session</option>
+                                </select>
+                            </label>
+                            <label class="memorisation-tools-switch memorisation-tools-field--full">
+                                <span class="memorisation-tools-switch-copy">
+                                    <strong>Auto advance</strong>
+                                    <small>Move forward automatically when the round is complete.</small>
+                                </span>
+                                <span class="form-check form-switch mb-0">
+                                    <input
+                                        class="form-check-input"
+                                        type="checkbox"
+                                        v-model="memorisationDraft.chainingMethodAutoAdvance"
+                                        aria-label="Toggle chaining auto advance" />
+                                </span>
+                            </label>
+                        </div>
+                    </section>
 
-                                <div class="memorisation-chaining-mode-switcher" role="tablist" aria-label="Select chaining method mode">
-                                    <button
-                                        v-for="option in memorisationChainingModeOptions"
-                                        :key="`memorisation-chaining-mode-${option.value}`"
-                                        type="button"
-                                        class="btn memorisation-chaining-mode-btn"
-                                        :class="[
-                                            `is-${option.value}`,
-                                            { 'is-active': memorisationDraft.chainingMethodMode === option.value }
-                                        ]"
-                                        :aria-pressed="memorisationDraft.chainingMethodMode === option.value ? 'true' : 'false'"
-                                        @click="memorisationDraft.chainingMethodMode = option.value">
-                                        <div class="memorisation-chaining-mode-btn-top">
-                                            <span class="memorisation-chaining-mode-btn-tag">
-                                                {{ option.value === "bridging" ? "Best once wording feels familiar" : "Best for brand-new verses" }}
-                                            </span>
-                                            <span class="memorisation-chaining-mode-btn-indicator" aria-hidden="true">
-                                                <i
-                                                    class="bi"
-                                                    :class="memorisationDraft.chainingMethodMode === option.value ? 'bi-check-lg' : 'bi-circle'"></i>
-                                            </span>
-                                        </div>
-                                        <span class="memorisation-chaining-mode-btn-label">{{ option.label }}</span>
-                                        <small>{{ option.description }}</small>
-                                    </button>
-                                </div>
-
-                                <section class="memorisation-chaining-hero" :class="`is-${memorisationDraft.chainingMethodMode}`">
-                                    <div class="memorisation-chaining-hero-copy">
-                                        <span class="memorisation-chaining-step-label">This round looks like</span>
-                                        <strong>{{ memorisationChainingSelectedModeMeta.summary }}</strong>
-                                        <small>{{ memorisationChainingSelectedModeMeta.description }}</small>
-                                    </div>
-                                    <div class="memorisation-chaining-preview-links" aria-hidden="true">
-                                        <span class="memorisation-chaining-preview-link is-complete">1</span>
-                                        <span class="memorisation-chaining-preview-link is-complete">2</span>
-                                        <span class="memorisation-chaining-preview-link is-active">3</span>
-                                        <span class="memorisation-chaining-preview-link">4</span>
-                                        <span class="memorisation-chaining-preview-link">5</span>
-                                    </div>
-                                </section>
-
-                                <section class="memorisation-chaining-setup-panel">
-                                    <div class="memorisation-chaining-setup-head">
-                                        <span class="memorisation-chaining-step-label">Start simple</span>
-                                        <small>Choose a session style first. Open more options only if you need them.</small>
-                                    </div>
-
-                                    <div class="memorisation-chaining-setup-list">
-                                        <section class="memorisation-chaining-setup-row">
-                                            <div class="memorisation-chaining-setup-copy">
-                                                <span class="memorisation-chaining-setup-label">Session style</span>
-                                                <small>{{ memorisationChainingQuickSetupSummary }}</small>
-                                            </div>
-                                            <div class="memorisation-chaining-chip-row" role="group" aria-label="Chaining practice style">
-                                                <button
-                                                    v-for="option in memorisationChainingQuickSetupOptions"
-                                                    :key="`memorisation-chaining-quick-${option.value}`"
-                                                    type="button"
-                                                    class="btn memorisation-chaining-chip"
-                                                    :class="{ 'is-active': memorisationChainingQuickSetupValue === option.value }"
-                                                    :aria-pressed="memorisationChainingQuickSetupValue === option.value ? 'true' : 'false'"
-                                                    @click="applyMemorisationChainingQuickSetup(option.value)">
-                                                    {{ option.label }}
-                                                </button>
-                                            </div>
-                                        </section>
-                                    </div>
-
-                                    <details class="memorisation-chaining-advanced">
-                                        <summary class="memorisation-chaining-advanced-toggle">
-                                            More options
-                                        </summary>
-
-                                        <div class="memorisation-chaining-advanced-grid">
-                                            <section class="memorisation-chaining-advanced-item">
-                                                <div class="memorisation-chaining-setup-copy">
-                                                    <span class="memorisation-chaining-setup-label">After the chain ends</span>
-                                                    <small>Choose what happens when you finish the range.</small>
-                                                </div>
-                                                <div class="memorisation-chaining-chip-row" role="group" aria-label="Chaining completion action">
-                                                    <button
-                                                        v-for="option in memorisationChainingCompletionActionOptions"
-                                                        :key="`memorisation-chaining-complete-${option.value}`"
-                                                        type="button"
-                                                        class="btn memorisation-chaining-chip"
-                                                        :class="{ 'is-active': memorisationDraft.chainingMethodCompletionAction === option.value }"
-                                                        :aria-pressed="memorisationDraft.chainingMethodCompletionAction === option.value ? 'true' : 'false'"
-                                                        @click="memorisationDraft.chainingMethodCompletionAction = option.value">
-                                                        {{ option.label }}
-                                                    </button>
-                                                </div>
-                                            </section>
-
-                                            <section class="memorisation-chaining-advanced-item">
-                                                <div class="memorisation-chaining-setup-copy">
-                                                    <span class="memorisation-chaining-setup-label">Repeats</span>
-                                                    <small>New ayah reps</small>
-                                                </div>
-                                                <div class="memorisation-chaining-chip-row" role="group" aria-label="Chaining repetitions per verse">
-                                                    <button
-                                                        v-for="option in memorisationChainingRepetitionOptions"
-                                                        :key="`memorisation-chaining-repeat-${option.value}`"
-                                                        type="button"
-                                                        class="btn memorisation-chaining-chip"
-                                                        :class="{ 'is-active': memorisationDraft.chainingMethodRepetitionStrategy === option.value }"
-                                                        :aria-pressed="memorisationDraft.chainingMethodRepetitionStrategy === option.value ? 'true' : 'false'"
-                                                        @click="memorisationDraft.chainingMethodRepetitionStrategy = option.value">
-                                                        {{ option.label }}
-                                                    </button>
-                                                </div>
-                                            </section>
-
-                                            <section class="memorisation-chaining-advanced-item">
-                                                <div class="memorisation-chaining-setup-copy">
-                                                    <span class="memorisation-chaining-setup-label">Audio</span>
-                                                    <small>Who leads the round</small>
-                                                </div>
-                                                <div class="memorisation-chaining-chip-row" role="group" aria-label="Chaining audio guidance mode">
-                                                    <button
-                                                        v-for="option in memorisationChainingAudioGuidanceOptions"
-                                                        :key="`memorisation-chaining-audio-${option.value}`"
-                                                        type="button"
-                                                        class="btn memorisation-chaining-chip"
-                                                        :class="{ 'is-active': memorisationDraft.chainingMethodAudioGuidance === option.value }"
-                                                        :aria-pressed="memorisationDraft.chainingMethodAudioGuidance === option.value ? 'true' : 'false'"
-                                                        @click="memorisationDraft.chainingMethodAudioGuidance = option.value">
-                                                        {{ option.label }}
-                                                    </button>
-                                                </div>
-                                            </section>
-
-                                            <section class="memorisation-chaining-advanced-item memorisation-chaining-advanced-item--toggle">
-                                                <div class="memorisation-chaining-setup-copy">
-                                                    <span class="memorisation-chaining-setup-label">Auto-next</span>
-                                                    <small>{{ memorisationChainingAutoAdvanceHelperLabel }}</small>
-                                                </div>
-                                                <label class="memorisation-chaining-toggle-inline">
-                                                    <span
-                                                        class="memorisation-chaining-toggle-state"
-                                                        :class="[
-                                                            {
-                                                                'is-on':
-                                                                    isMemorisationChainingAutoAdvanceAvailable &&
-                                                                    memorisationDraft.chainingMethodAutoAdvance,
-                                                                'is-disabled': !isMemorisationChainingAutoAdvanceAvailable
-                                                            }
-                                                        ]">
-                                                        {{ memorisationChainingAutoAdvanceStatusLabel }}
-                                                    </span>
-                                                    <span class="form-check form-switch mb-0">
-                                                        <input
-                                                            class="form-check-input"
-                                                            type="checkbox"
-                                                            v-model="memorisationDraft.chainingMethodAutoAdvance"
-                                                            :disabled="!isMemorisationChainingAutoAdvanceAvailable"
-                                                            aria-label="Toggle chaining auto advance">
-                                                    </span>
-                                                </label>
-                                            </section>
-
-                                            <section class="memorisation-chaining-advanced-item">
-                                                <div class="memorisation-chaining-setup-copy">
-                                                    <span class="memorisation-chaining-setup-label">Blur</span>
-                                                    <small>Recall support</small>
-                                                </div>
-                                                <div class="memorisation-chaining-chip-row" role="group" aria-label="Chaining blur progression">
-                                                    <button
-                                                        v-for="option in memorisationChainingBlurOptions"
-                                                        :key="`memorisation-chaining-blur-${option.value}`"
-                                                        type="button"
-                                                        class="btn memorisation-chaining-chip"
-                                                        :class="{ 'is-active': memorisationDraft.chainingMethodBlurProgression === option.value }"
-                                                        :aria-pressed="memorisationDraft.chainingMethodBlurProgression === option.value ? 'true' : 'false'"
-                                                        @click="memorisationDraft.chainingMethodBlurProgression = option.value">
-                                                        {{ option.label }}
-                                                    </button>
-                                                </div>
-                                            </section>
-                                        </div>
-                                    </details>
-                                </section>
-
-                                <div class="memorisation-chaining-footer-inline">
-                                    <span class="memorisation-chaining-start-pill">{{ memorisationChainingDraftRangeLabel }}</span>
-                                    <div class="memorisation-chaining-footer-copy">
-                                        <strong>{{ memorisationChainingStartActionLabel }}</strong>
-                                        <small>{{ memorisationChainingSelectedModeMeta.footer }}</small>
-                                    </div>
-                                </div>
+                    <section class="memorisation-tools-card" aria-label="Session support tools">
+                        <div class="memorisation-tools-card-head">
+                            <div class="memorisation-tools-card-title">
+                                <h5 class="mb-0"><i class="bi bi-clock-history me-1" aria-hidden="true"></i>History</h5>
+                                <p class="mb-0">Track saved sessions and reload previous progress.</p>
                             </div>
-                            <label class="memorisation-offcanvas-toggle-row memorisation-offcanvas-toggle-row--with-action">
-                                <span class="memorisation-offcanvas-toggle-copy">
-                                    <strong>Verse Countdown</strong>
-                                    <small>Track remaining verses with live progress, ETA, and completion feedback.</small>
+                            <button
+                                type="button"
+                                class="btn memorisation-tools-link-btn"
+                                @click="openSessionHistoryModal()"
+                                aria-label="Open sessions history">
+                                <i class="bi bi-clock-history" aria-hidden="true"></i>
+                                <span>History</span>
+                            </button>
+                        </div>
+                        <div class="memorisation-tools-grid">
+                            <label class="memorisation-tools-switch memorisation-tools-field--full">
+                                <span class="memorisation-tools-switch-copy">
+                                    <strong>Verse countdown</strong>
+                                    <small>Show progress to the end of the selected range.</small>
                                 </span>
                                 <span class="form-check form-switch mb-0">
                                     <input
                                         class="form-check-input"
                                         type="checkbox"
                                         v-model="memorisationDraft.verseCountdownEnabled"
-                                        aria-label="Toggle verse countdown display">
+                                        aria-label="Toggle verse countdown" />
                                 </span>
                             </label>
-                            <div
-                                v-if="memorisationDraft.verseCountdownEnabled"
-                                class="memorisation-verse-countdown-settings memorisation-offcanvas-field memorisation-offcanvas-field--full">
-                                <div class="memorisation-verse-countdown-note">
-                                    <i class="bi bi-info-circle-fill" aria-hidden="true"></i>
-                                    <span>The countdown appears after you press play and follows your live session progress.</span>
-                                </div>
-                                <label class="memorisation-offcanvas-field memorisation-offcanvas-field--full">
-                                    <span class="form-label surah-offcanvas-label">Countdown display style</span>
-                                    <select
-                                        class="form-select surah-offcanvas-select"
-                                        v-model="memorisationDraft.verseCountdownDisplayStyle"
-                                        aria-label="Verse countdown display style">
-                                        <option value="combined">Combined</option>
-                                        <option value="progress">Progress bar</option>
-                                        <option value="circle">Circle counter</option>
-                                        <option value="text">Text only</option>
-                                        <option value="percentage">Percentage only</option>
-                                    </select>
-                                </label>
-                                <label class="memorisation-offcanvas-field memorisation-offcanvas-field--full">
-                                    <span class="form-label surah-offcanvas-label">Countdown position</span>
-                                    <select
-                                        class="form-select surah-offcanvas-select"
-                                        v-model="memorisationDraft.verseCountdownPosition"
-                                        aria-label="Verse countdown position">
-                                        <option value="floating">Floating widget (top right)</option>
-                                        <option value="title">Title bar (above verses)</option>
-                                    </select>
-                                </label>
-                            </div>
-                            <label class="memorisation-offcanvas-toggle-row">
-                                <span class="memorisation-offcanvas-toggle-copy">
-                                    <strong>Tajweed colors</strong>
-                                    <small>Show tajweed colouring in Quran text.</small>
-                                </span>
-                                <span class="form-check form-switch mb-0">
-                                    <input class="form-check-input" type="checkbox" v-model="memorisationDraft.showTajweed" aria-label="Toggle tajweed colors">
-                                </span>
-                            </label>
-                            <label class="memorisation-offcanvas-toggle-row">
-                                <span class="memorisation-offcanvas-toggle-copy">
-                                    <strong>All words meaning</strong>
-                                    <small>Show word-level meanings below the ayah text.</small>
-                                </span>
-                                <span class="form-check form-switch mb-0">
-                                    <input class="form-check-input" type="checkbox" v-model="memorisationDraft.showWordTranslation" aria-label="Toggle all words meaning">
-                                </span>
-                            </label>
-                            <label class="memorisation-offcanvas-toggle-row">
-                                <span class="memorisation-offcanvas-toggle-copy">
-                                    <strong>Word for word meaning + audio</strong>
-                                    <small>Enable tap-to-hear audio with word-by-word meaning.</small>
-                                </span>
-                                <span class="form-check form-switch mb-0">
-                                    <input class="form-check-input" type="checkbox" v-model="memorisationDraft.showWordTranslationTooltip" aria-label="Toggle word for word meaning and audio">
-                                </span>
-                            </label>
-                            <label class="memorisation-offcanvas-toggle-row memorisation-offcanvas-toggle-row--with-action">
-                                <span class="memorisation-offcanvas-toggle-copy">
-                                    <strong>Repeat After Reciter</strong>
-                                    <small>Let the reciter pause after each ayah so you can repeat it yourself.</small>
-                                </span>
-                                <span class="memorisation-offcanvas-toggle-actions">
-                                    <button
-                                        type="button"
-                                        class="btn memorisation-tool-settings-btn"
-                                        :disabled="!memorisationDraft.repeatAfterReciterEnabled"
-                                        :aria-expanded="memorisationDraft.repeatAfterReciterEnabled && isMemorisationRepeatAfterSettingsOpen ? 'true' : 'false'"
-                                        aria-label="Open Repeat After Reciter settings"
-                                        title="Repeat After Reciter settings"
-                                        @click.stop.prevent="toggleMemorisationRepeatAfterDraftSettings">
-                                        <i class="bi bi-gear-fill" aria-hidden="true"></i>
-                                    </button>
-                                    <span class="form-check form-switch mb-0">
-                                        <input
-                                            class="form-check-input"
-                                            type="checkbox"
-                                            v-model="memorisationDraft.repeatAfterReciterEnabled"
-                                            @change="onMemorisationRepeatAfterDraftToggle"
-                                            aria-label="Toggle Repeat After Reciter">
-                                    </span>
-                                </span>
-                            </label>
-                            <div
-                                v-if="memorisationDraft.repeatAfterReciterEnabled && isMemorisationRepeatAfterSettingsOpen"
-                                class="memorisation-repeat-after-settings memorisation-offcanvas-field memorisation-offcanvas-field--full">
-                                <div class="memorisation-repeat-after-head">
-                                    <span class="form-label surah-offcanvas-label">Repeat after each ayah</span>
-                                    <small class="memorisation-repeat-after-head-copy">
-                                        Pick a pause length, then choose how much help stays on screen.
-                                    </small>
-                                </div>
-                                <section class="memorisation-repeat-after-card">
-                                    <div class="memorisation-repeat-after-card-head">
-                                        <strong>Pause length</strong>
-                                        <small>How long you get to repeat</small>
-                                    </div>
-                                    <div class="memorisation-repeat-after-delay-row" role="group" aria-label="Pause length after each ayah">
-                                        <button
-                                            type="button"
-                                            class="btn memorisation-repeat-after-delay-btn"
-                                            :class="{ 'is-active': memorisationDraft.repeatAfterReciterPauseMode === '2' }"
-                                            @click="memorisationDraft.repeatAfterReciterPauseMode = '2'">
-                                            2s
-                                        </button>
-                                        <button
-                                            type="button"
-                                            class="btn memorisation-repeat-after-delay-btn"
-                                            :class="{ 'is-active': memorisationDraft.repeatAfterReciterPauseMode === '3' }"
-                                            @click="memorisationDraft.repeatAfterReciterPauseMode = '3'">
-                                            3s
-                                        </button>
-                                        <button
-                                            type="button"
-                                            class="btn memorisation-repeat-after-delay-btn"
-                                            :class="{ 'is-active': memorisationDraft.repeatAfterReciterPauseMode === '5' }"
-                                            @click="memorisationDraft.repeatAfterReciterPauseMode = '5'">
-                                            5s
-                                        </button>
-                                        <button
-                                            type="button"
-                                            class="btn memorisation-repeat-after-delay-btn"
-                                            :class="{ 'is-active': memorisationDraft.repeatAfterReciterPauseMode === 'manual' }"
-                                            @click="memorisationDraft.repeatAfterReciterPauseMode = 'manual'">
-                                            Manual
-                                        </button>
-                                    </div>
-                                </section>
-                                <section class="memorisation-repeat-after-card">
-                                    <div class="memorisation-repeat-after-card-head">
-                                        <strong>Screen help</strong>
-                                        <small>{{ memorisationRepeatAfterDraftPauseLabel }} · choose the amount of help you want.</small>
-                                    </div>
-                                    <div class="memorisation-repeat-after-support-row" role="group" aria-label="Repeat After support preset">
-                                        <button
-                                            type="button"
-                                            class="btn memorisation-repeat-after-support-btn"
-                                            :class="{ 'is-active': memorisationRepeatAfterDraftSupportPreset === 'full' }"
-                                            @click="applyMemorisationRepeatAfterSupportPreset('full')">
-                                            Full help
-                                        </button>
-                                        <button
-                                            type="button"
-                                            class="btn memorisation-repeat-after-support-btn"
-                                            :class="{ 'is-active': memorisationRepeatAfterDraftSupportPreset === 'balanced' }"
-                                            @click="applyMemorisationRepeatAfterSupportPreset('balanced')">
-                                            Balanced
-                                        </button>
-                                        <button
-                                            type="button"
-                                            class="btn memorisation-repeat-after-support-btn"
-                                            :class="{ 'is-active': memorisationRepeatAfterDraftSupportPreset === 'recall' }"
-                                            @click="applyMemorisationRepeatAfterSupportPreset('recall')">
-                                            Recall
-                                        </button>
-                                    </div>
-                                    <p class="memorisation-repeat-after-support-summary mb-0">
-                                        {{ memorisationRepeatAfterDraftSupportSummary }}
-                                    </p>
-                                </section>
-                                <details class="memorisation-repeat-after-advanced">
-                                    <summary class="memorisation-repeat-after-advanced-toggle">
-                                        More options
-                                    </summary>
-                                    <div class="memorisation-repeat-after-advanced-body">
-                                        <div class="memorisation-repeat-after-simple-grid">
-                                            <label class="memorisation-repeat-after-card memorisation-repeat-after-card--toggle">
-                                                <div class="memorisation-repeat-after-card-head">
-                                                    <strong>Meaning</strong>
-                                                    <small>Keep translation visible during your pause.</small>
-                                                </div>
-                                                <span class="form-check form-switch mb-0">
-                                                    <input
-                                                        class="form-check-input"
-                                                        type="checkbox"
-                                                        v-model="memorisationDraft.repeatAfterReciterShowTranslation"
-                                                        aria-label="Show translation during repeat pause">
-                                                </span>
-                                            </label>
-                                            <section class="memorisation-repeat-after-card">
-                                                <div class="memorisation-repeat-after-card-head">
-                                                    <strong>Arabic text</strong>
-                                                    <small>How visible the ayah stays while you repeat.</small>
-                                                </div>
-                                                <div class="memorisation-repeat-after-verse-row" role="group" aria-label="Verse text visibility during pause">
-                                                    <button
-                                                        type="button"
-                                                        class="btn memorisation-repeat-after-verse-btn"
-                                                        :class="{ 'is-active': memorisationDraft.repeatAfterReciterVerseTextMode === 'show' }"
-                                                        @click="memorisationDraft.repeatAfterReciterVerseTextMode = 'show'">
-                                                        Show
-                                                    </button>
-                                                    <button
-                                                        type="button"
-                                                        class="btn memorisation-repeat-after-verse-btn"
-                                                        :class="{ 'is-active': memorisationDraft.repeatAfterReciterVerseTextMode === 'dimmed' }"
-                                                        @click="memorisationDraft.repeatAfterReciterVerseTextMode = 'dimmed'">
-                                                        Dim
-                                                    </button>
-                                                    <button
-                                                        type="button"
-                                                        class="btn memorisation-repeat-after-verse-btn"
-                                                        :class="{ 'is-active': memorisationDraft.repeatAfterReciterVerseTextMode === 'hide' }"
-                                                        @click="memorisationDraft.repeatAfterReciterVerseTextMode = 'hide'">
-                                                        Hide
-                                                    </button>
-                                                </div>
-                                            </section>
-                                        </div>
-                                        <label class="memorisation-repeat-after-card memorisation-repeat-after-card--toggle">
-                                            <div class="memorisation-repeat-after-card-head">
-                                                <strong>Save voice repeats on this device</strong>
-                                                <small>Optional. Record during the pause and keep up to 3 clips per ayah.</small>
-                                            </div>
-                                            <span class="form-check form-switch mb-0">
-                                                <input
-                                                    class="form-check-input"
-                                                    type="checkbox"
-                                                    v-model="memorisationDraft.repeatAfterReciterRecordEnabled"
-                                                    aria-label="Enable repetition recording">
-                                            </span>
-                                        </label>
-                                        <div
-                                            v-if="memorisationDraft.repeatAfterReciterRecordEnabled && memorisationRepeatAfterRecordingCount"
-                                            class="memorisation-repeat-library">
-                                            <div class="memorisation-repeat-library-head">
-                                                <span class="form-label surah-offcanvas-label mb-0">Repetition library</span>
-                                                <small class="memorisation-repeat-library-count">
-                                                    {{ memorisationRepeatAfterRecordingCount }} saved clip{{ memorisationRepeatAfterRecordingCount === 1 ? '' : 's' }}
-                                                </small>
-                                            </div>
-                                            <label class="memorisation-offcanvas-field memorisation-offcanvas-field--full mb-0">
-                                                <small class="memorisation-repeat-library-hint mb-0">
-                                                    Select an ayah, then listen, compare with ayah audio, or download.
-                                                </small>
-                                                <select
-                                                    class="form-select memorisation-repeat-library-select"
-                                                    :value="memorisationRepeatRecordingSelectionKeyResolved"
-                                                    @change="onMemorisationRepeatRecordingSelectionChange"
-                                                    aria-label="Select saved repetition ayah">
-                                                    <option
-                                                        v-for="option in memorisationRepeatRecordingAyahOptions"
-                                                        :key="option.key"
-                                                        :value="option.key">
-                                                        {{ option.label }}
-                                                    </option>
-                                                </select>
-                                            </label>
-                                            <div
-                                                class="memorisation-repeat-library-actions"
-                                                role="group"
-                                                aria-label="Saved repetition clip actions">
-                                                <button
-                                                    type="button"
-                                                    class="btn memorisation-repeat-library-btn memorisation-repeat-library-btn--primary"
-                                                    :disabled="!memorisationRepeatRecordingSelectedLatest"
-                                                    @click="listenSelectedMemorisationRepeatRecording">
-                                                    <i class="bi bi-play-circle" aria-hidden="true"></i>
-                                                    Listen clip
-                                                </button>
-                                                <button
-                                                    type="button"
-                                                    class="btn memorisation-repeat-library-btn memorisation-repeat-library-btn--primary"
-                                                    :disabled="!memorisationRepeatRecordingSelectedLatest"
-                                                    @click="compareSelectedMemorisationRepeatRecordingWithAyah">
-                                                    <i class="bi bi-arrow-left-right" aria-hidden="true"></i>
-                                                    Compare with ayah
-                                                </button>
-                                                <button
-                                                    type="button"
-                                                    class="btn memorisation-repeat-library-btn"
-                                                    :disabled="!memorisationRepeatRecordingSelectedLatest"
-                                                    @click="downloadSelectedMemorisationRepeatRecording">
-                                                    <i class="bi bi-download" aria-hidden="true"></i>
-                                                    Download clip
-                                                </button>
-                                            </div>
-                                            <p
-                                                v-if="memorisationRepeatRecordingPlaybackStatusText"
-                                                class="memorisation-repeat-library-status mb-0">
-                                                {{ memorisationRepeatRecordingPlaybackStatusText }}
-                                            </p>
-                                        </div>
-                                        <p
-                                            v-else-if="memorisationDraft.repeatAfterReciterRecordEnabled"
-                                            class="memorisation-repeat-after-meta mb-0">
-                                            No saved clips yet.
-                                        </p>
-                                    </div>
-                                </details>
-                            </div>
                         </div>
                     </section>
 
-                    <div
-                        v-if="isMemorisationSubmitAlertVisible"
-                        class="alert memorisation-submit-alert"
-                        role="status"
-                        aria-live="polite"
-                        aria-atomic="true">
-                        <i class="bi bi-check-circle-fill" aria-hidden="true"></i>
-                        <span>{{ memorisationSubmitAlertMessage }}</span>
-                    </div>
-
-                    <div class="memorisation-offcanvas-actions">
-                        <button type="button" class="btn btn-outline-secondary memorisation-offcanvas-btn" @click="cancelMemorisationOffcanvas">
+                    <div class="memorisation-beginner-actions">
+                        <button
+                            type="button"
+                            class="btn memorisation-tools-action-btn memorisation-tools-action-btn--primary"
+                            @click="startMemorisationBeginnerSession">
+                            Start Session
+                        </button>
+                        <button
+                            type="button"
+                            class="btn memorisation-tools-action-btn"
+                            @click="cancelMemorisationOffcanvas">
                             Cancel
-                        </button>
-                        <button type="button" class="btn btn-outline-secondary memorisation-offcanvas-btn memorisation-offcanvas-btn-reset" @click="resetMemorisationDraftForm">
-                            Reset all changes
-                        </button>
-                        <button type="button" class="btn memorisation-offcanvas-btn memorisation-offcanvas-btn-submit" :disabled="isMemorisationDraftSubmitting" @click="submitMemorisationOffcanvas">
-                            {{ isMemorisationDraftSubmitting ? memorisationOffcanvasSubmittingLabel : memorisationOffcanvasSubmitButtonLabel }}
                         </button>
                     </div>
                 </div>
+
+                <section class="memorisation-tools-card" aria-label="Load saved session">
+                    <div class="memorisation-tools-card-head">
+                        <div class="memorisation-tools-card-title">
+                            <h5 class="mb-0"><i class="bi bi-folder2-open me-1" aria-hidden="true"></i>Saved session</h5>
+                            <p class="mb-0">Load a previous session to continue from your saved setup.</p>
+                        </div>
+                    </div>
+                    <div class="memorisation-tools-grid">
+                        <label class="memorisation-tools-field memorisation-tools-field--full">
+                            <span class="memorisation-tools-label">Choose session</span>
+                            <select class="form-select memorisation-tools-control" v-model="selectedMemorisationSessionHistoryId" aria-label="Choose saved session">
+                                <option value="">Select a saved session</option>
+                                <option
+                                    v-for="entry in (Array.isArray(sessionHistoryEntries) ? sessionHistoryEntries.slice(0, 20) : [])"
+                                    :key="`memo-session-load-${entry.id}`"
+                                    :value="entry.id">
+                                    {{ entry.sessionName || formatSessionHistoryRange(entry) }} - {{ entry.createdAtLabel || entry.dateLabel || 'Saved' }}
+                                </option>
+                            </select>
+                        </label>
+                        <button
+                            type="button"
+                            class="btn memorisation-tools-secondary-btn"
+                            :disabled="!selectedMemorisationSessionHistoryId"
+                            @click="loadSelectedMemorisationSessionFromOffcanvas">
+                            <i class="bi bi-arrow-clockwise" aria-hidden="true"></i>
+                            <span>Load session</span>
+                        </button>
+                    </div>
+                </section>
+
+                <div
+                    v-if="isMemorisationSubmitAlertVisible"
+                    class="alert memorisation-submit-alert"
+                    role="status"
+                    aria-live="polite"
+                    aria-atomic="true">
+                    <i class="bi bi-check-circle-fill" aria-hidden="true"></i>
+                    <span>{{ memorisationSubmitAlertMessage }}</span>
+                </div>
+
             </div>
-        </teleport>
+        </aside>
 
         <teleport to="body">
             <div
