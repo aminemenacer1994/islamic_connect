@@ -106308,11 +106308,10 @@ to {
   gap: 0.5rem;
   background: var(--green-frost);
   border: 1px solid var(--border-soft);
-  border-radius: 25px;
+  border-radius: 30px;
   padding: 15px;
-  font-size: 0.54rem;
+  font-size: 0.74rem;
   color: var(--text-muted);
-  /* margin: 0.5rem 1.6rem 1.4rem; */
 }
 .ref-pill.centered {
   display: flex;

@@ -101,8 +101,9 @@
       <!-- Disclaimer -->
       <div class="di-disclaimer">
         <span class="disclaimer-shield">🛡</span>
-        <p><strong>Scholarly Verified:</strong> {{ configData.disclaimer.text }}</p>
+        <strong>Scholarly Verified:</strong><h5 class="line-height:1.5rem"> {{ configData.disclaimer.text }}</h5>
       </div>
+      
 
       <!-- ── WHAT IS ISLAM ── -->
       <section class="di-section" id="basics">
@@ -139,10 +140,7 @@
           </div>
         </div>
 
-        <iframe :src="configData.basics.video" title="Beautiful Quran Recitation"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowfullscreen loading="lazy" style="width: 100%; height: 400px; border: none;">
-        </iframe>
+        
       </section>
 
       <!-- ── SHAHADA ── -->
@@ -158,7 +156,7 @@
           <button type="button" class="tool-pill tool-pill--wa" @click="shareWhatsApp('shahada')">WhatsApp</button>
           <button type="button" class="tool-pill tool-pill--copy" @click="copyToClipboard('shahada')">{{ copiedSectionId
             === 'shahada' ? 'Copied' : 'Copy' }}</button>
-          <button type="button" class="tool-pill tool-pill--print" @click="printSection('shahada')">Print</button>
+          <!-- <button type="button" class="tool-pill tool-pill--print" @click="printSection('shahada')">Print</button> -->
           <button type="button" class="tool-pill tool-pill--pdf" @click="downloadPdf('shahada')">Download PDF</button>
           <button type="button" class="tool-pill tool-pill--report" @click="reportSection('shahada')">Report</button>
           <button type="button" class="tool-circle" @click="decreaseFont('shahada')">A-</button>
@@ -206,8 +204,8 @@
                 @click="shareWhatsApp('allah_quote')">WhatsApp</button>
               <button type="button" class="tool-pill tool-pill--copy" @click="copyToClipboard('allah_quote')">{{
                 copiedSectionId === 'allah_quote' ? 'Copied' : 'Copy' }}</button>
-              <button type="button" class="tool-pill tool-pill--print"
-                @click="printSection('allah_quote')">Print</button>
+              <!-- <button type="button" class="tool-pill tool-pill--print"
+                @click="printSection('allah_quote')">Print</button> -->
               <button type="button" class="tool-pill tool-pill--pdf" @click="downloadPdf('allah_quote')">Download
                 PDF</button>
               <button type="button" class="tool-pill tool-pill--report"
@@ -245,7 +243,7 @@
           <button type="button" class="tool-pill tool-pill--wa" @click="shareWhatsApp('prophet')">WhatsApp</button>
           <button type="button" class="tool-pill tool-pill--copy" @click="copyToClipboard('prophet')">{{ copiedSectionId
             === 'prophet' ? 'Copied' : 'Copy' }}</button>
-          <button type="button" class="tool-pill tool-pill--print" @click="printSection('prophet')">Print</button>
+          <!-- <button type="button" class="tool-pill tool-pill--print" @click="printSection('prophet')">Print</button> -->
           <button type="button" class="tool-pill tool-pill--pdf" @click="downloadPdf('prophet')">Download PDF</button>
           <button type="button" class="tool-pill tool-pill--report" @click="reportSection('prophet')">Report</button>
           <button type="button" class="tool-circle" @click="decreaseFont('prophet')">A-</button>
@@ -295,7 +293,7 @@
           <button type="button" class="tool-pill tool-pill--wa" @click="shareWhatsApp('quran')">WhatsApp</button>
           <button type="button" class="tool-pill tool-pill--copy" @click="copyToClipboard('quran')">{{ copiedSectionId
             === 'quran' ? 'Copied' : 'Copy' }}</button>
-          <button type="button" class="tool-pill tool-pill--print" @click="printSection('quran')">Print</button>
+          <!-- <button type="button" class="tool-pill tool-pill--print" @click="printSection('quran')">Print</button> -->
           <button type="button" class="tool-pill tool-pill--pdf" @click="downloadPdf('quran')">Download PDF</button>
           <button type="button" class="tool-pill tool-pill--report" @click="reportSection('quran')">Report</button>
           <button type="button" class="tool-circle" @click="decreaseFont('quran')">A-</button>
@@ -348,7 +346,7 @@
           <button type="button" class="tool-pill tool-pill--wa" @click="shareWhatsApp('salah')">WhatsApp</button>
           <button type="button" class="tool-pill tool-pill--copy" @click="copyToClipboard('salah')">{{ copiedSectionId
             === 'salah' ? 'Copied' : 'Copy' }}</button>
-          <button type="button" class="tool-pill tool-pill--print" @click="printSection('salah')">Print</button>
+          <!-- <button type="button" class="tool-pill tool-pill--print" @click="printSection('salah')">Print</button> -->
           <button type="button" class="tool-pill tool-pill--pdf" @click="downloadPdf('salah')">Download PDF</button>
           <button type="button" class="tool-pill tool-pill--report" @click="reportSection('salah')">Report</button>
           <button type="button" class="tool-circle" @click="decreaseFont('salah')">A-</button>
@@ -408,7 +406,7 @@
           <button type="button" class="tool-pill tool-pill--wa" @click="shareWhatsApp('zakat')">WhatsApp</button>
           <button type="button" class="tool-pill tool-pill--copy" @click="copyToClipboard('zakat')">{{ copiedSectionId
             === 'zakat' ? 'Copied' : 'Copy' }}</button>
-          <button type="button" class="tool-pill tool-pill--print" @click="printSection('zakat')">Print</button>
+          <!-- <button type="button" class="tool-pill tool-pill--print" @click="printSection('zakat')">Print</button> -->
           <button type="button" class="tool-pill tool-pill--pdf" @click="downloadPdf('zakat')">Download PDF</button>
           <button type="button" class="tool-pill tool-pill--report" @click="reportSection('zakat')">Report</button>
           <button type="button" class="tool-circle" @click="decreaseFont('zakat')">A-</button>
@@ -456,7 +454,7 @@
           <button type="button" class="tool-pill tool-pill--wa" @click="shareWhatsApp('sawm')">WhatsApp</button>
           <button type="button" class="tool-pill tool-pill--copy" @click="copyToClipboard('sawm')">{{ copiedSectionId
             === 'sawm' ? 'Copied' : 'Copy' }}</button>
-          <button type="button" class="tool-pill tool-pill--print" @click="printSection('sawm')">Print</button>
+          <!-- <button type="button" class="tool-pill tool-pill--print" @click="printSection('sawm')">Print</button> -->
           <button type="button" class="tool-pill tool-pill--pdf" @click="downloadPdf('sawm')">Download PDF</button>
           <button type="button" class="tool-pill tool-pill--report" @click="reportSection('sawm')">Report</button>
           <button type="button" class="tool-circle" @click="decreaseFont('sawm')">A-</button>
@@ -504,7 +502,7 @@
           <button type="button" class="tool-pill tool-pill--wa" @click="shareWhatsApp('hajj')">WhatsApp</button>
           <button type="button" class="tool-pill tool-pill--copy" @click="copyToClipboard('hajj')">{{ copiedSectionId
             === 'hajj' ? 'Copied' : 'Copy' }}</button>
-          <button type="button" class="tool-pill tool-pill--print" @click="printSection('hajj')">Print</button>
+          <!-- <button type="button" class="tool-pill tool-pill--print" @click="printSection('hajj')">Print</button> -->
           <button type="button" class="tool-pill tool-pill--pdf" @click="downloadPdf('hajj')">Download PDF</button>
           <button type="button" class="tool-pill tool-pill--report" @click="reportSection('hajj')">Report</button>
           <button type="button" class="tool-circle" @click="decreaseFont('hajj')">A-</button>
@@ -562,7 +560,7 @@
           <button type="button" class="tool-pill tool-pill--wa" @click="shareWhatsApp('afterlife')">WhatsApp</button>
           <button type="button" class="tool-pill tool-pill--copy" @click="copyToClipboard('afterlife')">{{
             copiedSectionId === 'afterlife' ? 'Copied' : 'Copy' }}</button>
-          <button type="button" class="tool-pill tool-pill--print" @click="printSection('afterlife')">Print</button>
+          <!-- <button type="button" class="tool-pill tool-pill--print" @click="printSection('afterlife')">Print</button> -->
           <button type="button" class="tool-pill tool-pill--pdf" @click="downloadPdf('afterlife')">Download PDF</button>
           <button type="button" class="tool-pill tool-pill--report" @click="reportSection('afterlife')">Report</button>
           <button type="button" class="tool-circle" @click="decreaseFont('afterlife')">A-</button>
@@ -2152,11 +2150,10 @@ export default {
   gap: 0.5rem;
   background: var(--green-frost);
   border: 1px solid var(--border-soft);
-  border-radius: 25px;
+  border-radius: 30px;
   padding: 15px;
-  font-size: 0.54rem;
+  font-size: 0.74rem;
   color: var(--text-muted);
-  /* margin: 0.5rem 1.6rem 1.4rem; */
 }
 
 .ref-pill.centered {
