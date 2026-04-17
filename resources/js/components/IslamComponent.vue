@@ -23,17 +23,17 @@
           <div class="hero-content">
             <div class="hero-eyebrow">
               <span class="eyebrow-line"></span>
-              <span class="eyebrow-text">Scholar-Verified Guide</span>
+              <span class="eyebrow-text">{{ configData.hero.badge }}</span>
               <span class="eyebrow-line"></span>
             </div>
 
             <h1 class="hero-headline">
               <span class="headline-arabic">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</span>
-              <span class="headline-main">Discover<br><em>Islam</em></span>
+              <span class="headline-main">Discover<br><em>{{ configData.hero.title }}</em></span>
             </h1>
 
             <p class="hero-desc">
-              A comprehensive, deeply researched guide to understanding Islam — its beliefs, pillars, practices, and eternal wisdom.
+              {{ configData.hero.subtitle }}
             </p>
           </div>
 
@@ -76,7 +76,7 @@
 
             <!-- Stats -->
             <div class="hero-pillars">
-              <div class="pillar-chip" v-for="chip in heroChips" :key="chip.label">
+              <div class="pillar-chip" v-for="chip in configData.hero.stats" :key="chip.label">
                 <span class="chip-num">{{ chip.num }}</span>
                 <span class="chip-label">{{ chip.label }}</span>
               </div>
@@ -103,7 +103,7 @@
       <!-- Disclaimer -->
       <div class="di-disclaimer">
         <span class="disclaimer-shield">🛡</span>
-        <p><strong>Scholarly Verified:</strong> Content drawn from the Quran, Sahih Bukhari, Sahih Muslim, and established scholarly consensus. For personal rulings, consult a qualified Islamic scholar.</p>
+        <p><strong>Scholarly Verified:</strong> {{ configData.disclaimer.text }}</p>
       </div>
 
       <!-- ── WHAT IS ISLAM ── -->
@@ -114,44 +114,39 @@
           <span class="section-tag">Foundation</span>
         </div>
         <h2 class="section-title">What is <em>Islam?</em></h2>
-        <p class="section-lead">The word Islam comes from the Arabic root S-L-M — meaning <strong>peace</strong> and <strong>submission</strong>. It is a complete way of life centred on submission to the will of Allah (God).</p>
+        <p class="section-lead">{{ configData.basics.description }}</p>
 
         <div class="twin-grid">
           <div class="twin-card card-faith">
             <div class="twin-card-header">
               <span class="tc-icon">✦</span>
-              <h3>6 Pillars of Faith <em>(Iman)</em></h3>
+              <h3>{{ configData.basics.coreBeliefs.title }}</h3>
             </div>
             <ul class="check-list">
-              <li><span class="cl-dot"></span>Belief in Allah — the One God</li>
-              <li><span class="cl-dot"></span>Belief in the Angels (Mala'ika)</li>
-              <li><span class="cl-dot"></span>Belief in the Revealed Books (Kutub)</li>
-              <li><span class="cl-dot"></span>Belief in the Prophets &amp; Messengers</li>
-              <li><span class="cl-dot"></span>Belief in the Day of Judgement</li>
-              <li><span class="cl-dot"></span>Belief in Divine Decree (Qadar)</li>
+              <li v-for="item in configData.basics.coreBeliefs.items" :key="item"><span class="cl-dot"></span>{{ item }}</li>
             </ul>
-            <div class="ref-pill">📖 Sahih Muslim 8 — Hadith of Jibril</div>
+            <div class="ref-pill">{{ configData.basics.coreBeliefs.reference }}</div>
           </div>
           <div class="twin-card card-pillars">
             <div class="twin-card-header">
               <span class="tc-icon">🕌</span>
-              <h3>5 Pillars of Islam <em>(Arkan)</em></h3>
+              <h3>{{ configData.basics.corePractices.title }}</h3>
             </div>
             <ul class="check-list">
-              <li><span class="cl-dot gold"></span>Shahada — Declaration of Faith</li>
-              <li><span class="cl-dot gold"></span>Salah — Five Daily Prayers</li>
-              <li><span class="cl-dot gold"></span>Zakat — Obligatory Charity (2.5%)</li>
-              <li><span class="cl-dot gold"></span>Sawm — Fasting during Ramadan</li>
-              <li><span class="cl-dot gold"></span>Hajj — Pilgrimage to Makkah</li>
+              <li v-for="item in configData.basics.corePractices.items" :key="item"><span class="cl-dot gold"></span>{{ item }}</li>
             </ul>
-            <div class="ref-pill">📖 Sahih Bukhari 8 — Pillars of Islam</div>
+            <div class="ref-pill">{{ configData.basics.corePractices.reference }}</div>
           </div>
         </div>
 
-        <div class="video-embed">
-          <iframe src="https://www.youtube.com/embed/1w2KtO13m_4?rel=0" title="Introduction to Islam" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
-          <div class="video-label">▶ Introduction to Islam — Scholar Verified</div>
-        </div>
+        <iframe 
+          :src="configData.basics.video" 
+          title="Beautiful Quran Recitation" 
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+          allowfullscreen 
+          loading="lazy"
+          style="width: 100%; height: 400px; border: none;">
+        </iframe>
       </section>
 
       <!-- ── SHAHADA ── -->
@@ -188,11 +183,11 @@
         >
           <div class="shahada-geo-ring"></div>
           <div class="shahada-inner">
-            <p class="shd-arabic">أَشْهَدُ أَنْ لَا إِلَٰهَ إِلَّا اللَّهُ وَأَشْهَدُ أَنَّ مُحَمَّدًا رَسُولُ اللَّهِ</p>
-            <p class="shd-roman">Ash-hadu an lā ilāha illallāh, wa ash-hadu anna Muḥammadan rasūlullāh</p>
-            <p class="shd-trans">"I bear witness that there is no god but Allah, and I bear witness that Muhammad is the messenger of Allah."</p>
-            <p class="shd-body">The Shahada is the gateway into Islam. Uttering it with sincere conviction — understanding that Allah alone deserves worship and that Muhammad ﷺ is His final messenger — makes one a Muslim. It echoes through the Adhan five times daily.</p>
-            <div class="ref-pill centered">📖 Sahih Bukhari 1 — Conditions discussed by Imam an-Nawawi</div>
+            <p class="shd-arabic">{{ configData.shahada.arabic }}</p>
+            <p class="shd-roman">{{ configData.shahada.transliteration }}</p>
+            <p class="shd-trans">{{ configData.shahada.translation }}</p>
+            <p class="shd-body">{{ configData.shahada.explanation }}</p>
+            <div class="ref-pill centered">📖 {{ configData.shahada.reference }}</div>
           </div>
         </div>
       </section>
@@ -208,7 +203,7 @@
 
         <div class="split-layout">
           <div class="split-text">
-            <p class="section-lead">Allah is the Arabic word for God — the One, Unique, Eternal Creator of all existence. Islam teaches that Allah has no partners, no children, no equals, and is unlike anything in creation.</p>
+            <p class="section-lead">{{ configData.allah.description }}</p>
             <p class="body-copy">He is all-knowing (Al-ʿAlim), all-powerful (Al-Qadir), and ever-merciful (Ar-Rahman, Ar-Rahim). Allah communicates with humanity through prophets and revealed scriptures.</p>
             <div class="section-tools section-tools--compact" aria-label="Quote tools">
               <button type="button" class="tool-pill tool-pill--wa" @click="shareWhatsApp('allah_quote')">WhatsApp</button>
@@ -226,14 +221,13 @@
               :style="{ '--tool-scale': sectionFontScale.allah_quote }"
             >
               <span class="qq-mark">"</span>
-              <p>He is Allah, other than whom there is no deity, Knower of the unseen and the witnessed. He is the Entirely Merciful, the Especially Merciful.</p>
-              <cite>— Quran 59:22</cite>
+              <p>{{ configData.allah.quranReference }}</p>
             </div>
           </div>
           <div class="split-names">
-            <h4 class="names-title">99 Beautiful Names <em>(Asma ul-Husna)</em></h4>
+            <h4 class="names-title">{{ configData.asmaUlHusna.title }}</h4>
             <div class="names-cloud">
-              <span class="name-tag" v-for="name in allahNames" :key="name.ar" :title="name.en">
+              <span class="name-tag" v-for="name in configData.asmaUlHusna.names" :key="name.ar" :title="name.en">
                 <span class="name-ar">{{ name.ar }}</span>
                 <span class="name-en">{{ name.en }}</span>
               </span>
@@ -276,24 +270,19 @@
         >
           <div class="prophet-img-col">
             <div class="prophet-img-frame">
-              <img src="https://images.pexels.com/photos/2170756/pexels-photo-2170756.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Masjid an-Nabawi" loading="lazy" />
+              <img :src="configData.prophet.image" alt="Masjid an-Nabawi" loading="lazy" />
               <div class="img-caption-overlay">Masjid an-Nabawi — Madinah</div>
             </div>
           </div>
           <div class="prophet-text-col">
-            <p class="body-copy">Muhammad ibn Abdullah ﷺ was born in Makkah in 570 CE. At 40, he received his first revelation through Angel Jibreel. Over 23 years he conveyed the complete message of Islam. He is the Seal of the Prophets — no messenger will come after him.</p>
+            <p class="body-copy">{{ configData.prophet.description }}</p>
             <h4 class="sub-heading">Key Teachings ﷺ</h4>
             <ul class="star-list">
-              <li>Monotheism — worship Allah alone without partners</li>
-              <li>Kindness to family, neighbours, and all creation</li>
-              <li>Honesty and trustworthiness in all dealings</li>
-              <li>Justice, equality, and the rights of the poor</li>
-              <li>Seeking knowledge as a duty upon every Muslim</li>
-              <li>"I was only sent as a mercy to the worlds"</li>
+              <li v-for="teaching in configData.prophet.keyTeachings" :key="teaching">{{ teaching }}</li>
             </ul>
             <div class="twin-refs">
-              <div class="ref-pill">📖 Quran 21:107 — Mercy to the worlds</div>
-              <div class="ref-pill">📖 Sahih Muslim 2564 — Love for others</div>
+              <div class="ref-pill">📖 {{ configData.prophet.quranReference }}</div>
+              <div class="ref-pill">📖 {{ configData.prophet.hadithReference }}</div>
             </div>
           </div>
         </div>
@@ -332,28 +321,27 @@
           :style="{ '--tool-scale': sectionFontScale.quran }"
         >
           <div class="split-text">
-            <p class="section-lead">The Quran is the literal word of Allah (SWT), revealed to Prophet Muhammad ﷺ over 23 years through Angel Jibreel — the primary source of Islamic law, ethics, and spiritual guidance.</p>
+            <p class="section-lead">{{ configData.quran.description }}</p>
             <ul class="fact-strips">
-              <li><span class="fs-num">114</span><span class="fs-label">Surahs (Chapters)</span></li>
-              <li><span class="fs-num">6,236</span><span class="fs-label">Ayaat (Verses)</span></li>
-              <li><span class="fs-num">30</span><span class="fs-label">Juz (Parts)</span></li>
-              <li><span class="fs-num">10M+</span><span class="fs-label">Huffaz worldwide</span></li>
+              <li v-for="fact in configData.quran.facts" :key="fact">
+                <span class="fs-num">{{ fact.split(' ')[0] }}</span>
+                <span class="fs-label">{{ fact.split(' ').slice(1).join(' ') }}</span>
+              </li>
             </ul>
             <div class="quran-quote">
               <span class="qq-mark">"</span>
-              <p>This is the Book about which there is no doubt, a guidance for those conscious of Allah.</p>
-              <cite>— Quran 2:2</cite>
+              <p>{{ configData.quran.reference }}</p>
             </div>
           </div>
           <div class="split-img">
             <div class="img-frame-green">
-              <img src="https://images.pexels.com/photos/3832028/pexels-photo-3832028.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Open Quran" loading="lazy" />
+              <img :src="configData.quran.image" alt="Open Quran" loading="lazy" />
             </div>
           </div>
         </div>
 
         <div class="video-embed">
-          <iframe src="https://www.youtube.com/embed/YDNT2R5_nbE?rel=0" title="Quran Recitation" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+          <iframe :src="configData.quran.video" title="Quran Recitation" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
           <div class="video-label">▶ Beautiful Quran Recitation</div>
         </div>
       </section>
@@ -391,7 +379,7 @@
           :style="{ '--tool-scale': sectionFontScale.salah }"
         >
           <div class="prayer-timeline">
-            <div class="prayer-card" v-for="prayer in prayers" :key="prayer.name" :style="{ '--prayer-color': prayer.color, '--prayer-bg': prayer.bg }">
+            <div class="prayer-card" v-for="prayer in configData.salah.prayers" :key="prayer.name" :style="{ '--prayer-color': prayer.color, '--prayer-bg': prayer.bg }">
               <div class="prayer-sky">{{ prayer.sky }}</div>
               <div class="prayer-time-badge">{{ prayer.time }}</div>
               <div class="prayer-name">{{ prayer.name }}</div>
@@ -402,22 +390,21 @@
 
           <div class="split-layout" style="margin-top: 3rem">
             <div class="split-text">
-              <p class="body-copy">Salah is the ritual prayer performed five times daily at prescribed times, involving specific postures, Quranic recitations, and remembrance of Allah. Wudu (ritual ablution) must be observed beforehand. Prayer faces the Qiblah — the direction of the Ka'bah in Makkah.</p>
+              <p class="body-copy">{{ configData.salah.description }}</p>
               <div class="quran-quote">
                 <span class="qq-mark">"</span>
-                <p>Maintain with care the [obligatory] prayers and stand before Allah, devoutly obedient.</p>
-                <cite>— Quran 2:238</cite>
+                <p>{{ configData.salah.reference }}</p>
               </div>
             </div>
             <div class="split-img">
               <div class="img-frame-green">
-                <img src="https://images.pexels.com/photos/2695984/pexels-photo-2695984.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Muslim praying" loading="lazy" />
+                <img :src="configData.salah.image" alt="Muslim praying" loading="lazy" />
               </div>
             </div>
           </div>
 
           <div class="video-embed compact">
-            <iframe src="https://www.youtube.com/embed/-K6HlXzJegk?rel=0" title="How to Pray" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+            <iframe :src="configData.salah.video" title="How to Pray" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
             <div class="video-label">▶ How to Perform Salah — Step by Step</div>
           </div>
         </div>
@@ -456,18 +443,17 @@
           :style="{ '--tool-scale': sectionFontScale.zakat }"
         >
           <div class="split-text">
-            <p class="section-lead">Zakat is the compulsory giving of <strong>2.5%</strong> of one's total accumulated wealth above the Nisab threshold to eligible recipients — purifying wealth and reducing inequality.</p>
+            <p class="section-lead">{{ configData.zakat.description }}</p>
             <p class="body-copy">It is due once a year and distinct from voluntary charity (Sadaqah). The Nisab threshold equals approximately 87.48g of gold in value.</p>
             <div class="quran-quote">
               <span class="qq-mark">"</span>
-              <p>Take from their wealth a charity by which you purify them and cause them to increase.</p>
-              <cite>— Quran 9:103</cite>
+              <p>{{ configData.zakat.reference }}</p>
             </div>
           </div>
           <div class="split-text">
             <h4 class="sub-heading">8 Eligible Recipients <em>(Quran 9:60)</em></h4>
             <ul class="zakat-grid">
-              <li v-for="recipient in zakatRecipients" :key="recipient">{{ recipient }}</li>
+              <li v-for="recipient in configData.zakat.eligibleRecipients" :key="recipient">{{ recipient }}</li>
             </ul>
           </div>
         </div>
@@ -506,24 +492,18 @@
           :style="{ '--tool-scale': sectionFontScale.sawm }"
         >
           <div class="split-text">
-            <p class="section-lead">Muslims abstain from food, drink, smoking, and sexual relations from Fajr (dawn) to Maghrib (sunset) during Ramadan — the 9th month of the Hijri calendar.</p>
+            <p class="section-lead">{{ configData.sawm.description }}</p>
             <ul class="star-list">
-              <li>Spiritual purification and closeness to Allah</li>
-              <li>Development of self-discipline and gratitude</li>
-              <li>Empathy for those who suffer from hunger</li>
-              <li>Laylat al-Qadr — better than 1,000 months</li>
-              <li>Increased Quran recitation and Tarawih prayers</li>
-              <li>Community gathering and spiritual renewal</li>
+              <li v-for="benefit in configData.sawm.benefits" :key="benefit">{{ benefit }}</li>
             </ul>
             <div class="quran-quote">
               <span class="qq-mark">"</span>
-              <p>Decreed upon you is fasting as it was decreed upon those before you that you may become righteous.</p>
-              <cite>— Quran 2:183</cite>
+              <p>{{ configData.sawm.reference }}</p>
             </div>
           </div>
           <div class="split-img">
             <div class="img-frame-green">
-              <img src="https://images.pexels.com/photos/2804380/pexels-photo-2804380.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Iftar meal at sunset" loading="lazy" />
+              <img :src="configData.sawm.image" alt="Iftar meal at sunset" loading="lazy" />
             </div>
           </div>
         </div>
@@ -563,18 +543,17 @@
         >
         <div class="split-layout">
           <div class="split-text">
-            <p class="section-lead">Obligatory at least once in a lifetime for every adult Muslim who is physically and financially able, Hajj takes place in Dhul Hijjah — the 12th Islamic month.</p>
+            <p class="section-lead">{{ configData.hajj.description }}</p>
             <p class="body-copy">Pilgrims wear simple white garments (Ihram) symbolising equality before Allah, commemorating the trials of Prophet Ibrahim ﷺ and his family.</p>
             <div class="quran-quote">
               <span class="qq-mark">"</span>
-              <p>And [due] to Allah from the people is a pilgrimage to the House — for whoever is able to find thereto a way.</p>
-              <cite>— Quran 3:97</cite>
+              <p>{{ configData.hajj.reference }}</p>
             </div>
           </div>
           <div class="split-text">
             <h4 class="sub-heading">Key Rituals</h4>
             <ul class="hajj-steps">
-              <li v-for="(step, i) in hajjSteps" :key="step">
+              <li v-for="(step, i) in configData.hajj.keyRituals" :key="step">
                 <span class="step-num">{{ i + 1 }}</span>
                 <span>{{ step }}</span>
               </li>
@@ -583,7 +562,7 @@
         </div>
 
         <figure class="hero-photo">
-          <img src="https://images.pexels.com/photos/5997945/pexels-photo-5997945.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Ka'bah – Makkah" loading="lazy" />
+          <img :src="configData.hajj.image" alt="Ka'bah – Makkah" loading="lazy" />
           <figcaption>The Ka'bah — Al-Masjid Al-Haram, Makkah</figcaption>
         </figure>
         </div>
@@ -622,18 +601,17 @@
           :style="{ '--tool-scale': sectionFontScale.afterlife }"
         >
           <div class="split-text">
-            <p class="section-lead">Islam teaches that this worldly life is temporary and that every soul will be resurrected and judged for their deeds on the Day of Judgement (Yawm al-Qiyama).</p>
+            <p class="section-lead">{{ configData.afterlife.description }}</p>
             <p class="body-copy">The afterlife (Akhirah) is eternal and far greater than this world. The Quran describes Jannah (Paradise) as a place of unimaginable bliss and Jahannam (Hell) as a place of punishment.</p>
             <div class="quran-quote">
               <span class="qq-mark">"</span>
-              <p>Every soul will taste death, and you will only be given your full compensation on the Day of Resurrection.</p>
-              <cite>— Quran 3:185</cite>
+              <p>{{ configData.afterlife.reference }}</p>
             </div>
           </div>
           <div class="split-text">
             <h4 class="sub-heading">Stages of the Afterlife</h4>
             <ul class="afterlife-stages">
-              <li v-for="stage in afterlifeStages" :key="stage.name">
+              <li v-for="stage in configData.afterlife.concepts" :key="stage.name">
                 <span class="stage-icon">{{ stage.icon }}</span>
                 <div>
                   <strong>{{ stage.name }}</strong>
@@ -661,7 +639,7 @@
               <h3>Recommended <em>(Mustahabb / Fard)</em></h3>
             </div>
             <ul class="check-list">
-              <li v-for="item in dosList" :key="item"><span class="cl-dot"></span>{{ item }}</li>
+              <li v-for="item in configData.dosAndDonts.dos" :key="item"><span class="cl-dot"></span>{{ item }}</li>
             </ul>
           </div>
           <div class="twin-card card-donts">
@@ -670,7 +648,7 @@
               <h3>Prohibited <em>(Haram)</em></h3>
             </div>
             <ul class="check-list">
-              <li v-for="item in dontsList" :key="item"><span class="cl-dot red"></span>{{ item }}</li>
+              <li v-for="item in configData.dosAndDonts.donts" :key="item"><span class="cl-dot red"></span>{{ item }}</li>
             </ul>
           </div>
         </div>
@@ -687,7 +665,7 @@
         <p class="section-lead" style="margin-bottom: 2.5rem">Answered with care, nuance, and scholarly grounding.</p>
 
         <div class="faq-accordion">
-          <div v-for="(faq, i) in faqs" :key="i" class="faq-entry" :class="{ open: faq.open }">
+          <div v-for="(faq, i) in faqsList" :key="i" class="faq-entry" :class="{ open: faq.open }">
             <button class="faq-trigger" @click="toggleFaq(i)">
               <span class="faq-q-num">{{ String(i + 1).padStart(2, '0') }}</span>
               <span class="faq-q-text">{{ faq.question }}</span>
@@ -716,11 +694,11 @@
               <h3>Recommended Apps</h3>
             </div>
             <ul class="resource-list">
-              <li v-for="app in apps" :key="app.name">
+              <li v-for="app in configData.appsAndResources.apps" :key="app.name">
                 <div class="res-icon">{{ app.icon }}</div>
                 <div>
                   <strong>{{ app.name }}</strong>
-                  <p>{{ app.desc }}</p>
+                  <p>{{ app.description }}</p>
                 </div>
               </li>
             </ul>
@@ -731,11 +709,11 @@
               <h3>Trusted Websites &amp; Channels</h3>
             </div>
             <ul class="resource-list">
-              <li v-for="site in websites" :key="site.name">
+              <li v-for="site in websitesList" :key="site.name">
                 <div class="res-icon">{{ site.icon }}</div>
                 <div>
                   <a :href="site.url" target="_blank" rel="noopener">{{ site.name }}</a>
-                  <p>{{ site.desc }}</p>
+                  <p>{{ site.description }}</p>
                 </div>
               </li>
             </ul>
@@ -760,11 +738,13 @@
 <script>
 import html2canvas from 'html2canvas'
 import { jsPDF } from 'jspdf'
+import configData from '../../data/discover-islam-content.json'
 
 export default {
   name: 'DiscoverIslam',
   data() {
     return {
+      configData: configData,
       navScrolled: false,
       mobileMenuOpen: false,
       searchQuery: '',
@@ -785,246 +765,7 @@ export default {
         hajj: 1,
         afterlife: 1,
       },
-
-      heroChips: [
-        { num: '6', label: 'Pillars of Faith' },
-        { num: '5', label: 'Pillars of Islam' },
-        { num: '114', label: 'Surahs in Quran' },
-        { num: '99', label: 'Names of Allah' },
-      ],
-
-      sections: [
-        { id: 'basics', emoji: '☪', title: 'What is Islam?', excerpt: 'The complete way of life — submission to Allah, covering core beliefs and five pillars.' },
-        { id: 'shahada', emoji: '🌙', title: 'The Shahada', excerpt: 'The declaration of faith — the first and most fundamental pillar.' },
-        { id: 'allah', emoji: '✦', title: 'Who is Allah?', excerpt: 'The One, Unique, Eternal Creator — 99 names, no partners.' },
-        { id: 'prophet', emoji: '⭐', title: 'Prophet Muhammad ﷺ', excerpt: 'The final messenger of Allah, born in Makkah 570 CE.' },
-        { id: 'quran', emoji: '📖', title: 'The Holy Quran', excerpt: '114 chapters, 6,236 verses — literal word of Allah.' },
-        { id: 'salah', emoji: '🕌', title: 'Salah — Daily Prayers', excerpt: 'Five prayers daily: Fajr, Dhuhr, Asr, Maghrib, Isha.' },
-        { id: 'zakat', emoji: '💛', title: 'Zakat — Charity', excerpt: '2.5% of savings given to those in need each year.' },
-        { id: 'sawm', emoji: '🌙', title: 'Sawm — Fasting', excerpt: 'Month-long fast during Ramadan, the 9th Islamic month.' },
-        { id: 'hajj', emoji: '🕋', title: 'Hajj — Pilgrimage', excerpt: 'Once-in-a-lifetime journey to Makkah in Dhul Hijjah.' },
-        { id: 'afterlife', emoji: '⏳', title: 'The Afterlife', excerpt: 'Resurrection, Judgement, Jannah and Jahannam.' },
-        { id: 'dosdonts', emoji: '📋', title: "Do's & Don'ts", excerpt: 'Recommended and prohibited actions in Islamic law.' },
-        { id: 'faq', emoji: '❓', title: 'FAQ', excerpt: 'Common questions answered with scholarly grounding.' },
-        { id: 'resources', emoji: '📱', title: 'Apps & Resources', excerpt: 'Muslim Pro, Quran.com, SeekersGuidance, Yaqeen and more.' },
-      ],
-
-      // All 99 Names of Allah with Arabic and English transliterations
-      allahNames: [
-        { ar: 'الرَّحْمَٰن', en: 'Ar-Rahman — The Most Gracious' },
-        { ar: 'الرَّحِيم', en: 'Ar-Rahim — The Most Merciful' },
-        { ar: 'الْمَلِك', en: 'Al-Malik — The King' },
-        { ar: 'الْقُدُّوس', en: 'Al-Quddus — The Most Holy' },
-        { ar: 'السَّلَام', en: 'As-Salam — The Source of Peace' },
-        { ar: 'الْمُؤْمِن', en: 'Al-Mumin — The Guardian of Faith' },
-        { ar: 'الْمُهَيْمِن', en: 'Al-Muhaymin — The Protector' },
-        { ar: 'الْعَزِيز', en: 'Al-Aziz — The Almighty' },
-        { ar: 'الْجَبَّار', en: 'Al-Jabbar — The Compeller' },
-        { ar: 'الْمُتَكَبِّر', en: 'Al-Mutakabbir — The Majestic' },
-        { ar: 'الْخَالِق', en: 'Al-Khaliq — The Creator' },
-        { ar: 'الْبَارِئ', en: "Al-Bari' — The Originator" },
-        { ar: 'الْمُصَوِّر', en: 'Al-Musawwir — The Fashioner' },
-        { ar: 'الْغَفَّار', en: 'Al-Ghaffar — The Forgiving' },
-        { ar: 'الْقَهَّار', en: 'Al-Qahhar — The Subduer' },
-        { ar: 'الْوَهَّاب', en: 'Al-Wahhab — The Bestower' },
-        { ar: 'الرَّزَّاق', en: 'Ar-Razzaq — The Provider' },
-        { ar: 'الْفَتَّاح', en: 'Al-Fattah — The Opener' },
-        { ar: 'الْعَلِيم', en: "Al-'Alim — The All-Knowing" },
-        { ar: 'الْقَابِض', en: 'Al-Qabid — The Withholder' },
-        { ar: 'الْبَاسِط', en: 'Al-Basit — The Extender' },
-        { ar: 'الْخَافِض', en: 'Al-Khafid — The Reducer' },
-        { ar: 'الرَّافِع', en: "Al-Rafi' — The Exalter" },
-        { ar: 'الْمُعِزّ', en: "Al-Mu'izz — The Honourer" },
-        { ar: 'الْمُذِلّ', en: 'Al-Mudhill — The Humiliator' },
-        { ar: 'السَّمِيع', en: 'As-Sami — The All-Hearing' },
-        { ar: 'الْبَصِير', en: 'Al-Basir — The All-Seeing' },
-        { ar: 'الْحَكَم', en: 'Al-Hakam — The Judge' },
-        { ar: 'الْعَدْل', en: 'Al-Adl — The Just' },
-        { ar: 'اللَّطِيف', en: 'Al-Latif — The Subtle' },
-        { ar: 'الْخَبِير', en: 'Al-Khabir — The Aware' },
-        { ar: 'الْحَلِيم', en: 'Al-Halim — The Forbearing' },
-        { ar: 'الْعَظِيم', en: 'Al-Azim — The Magnificent' },
-        { ar: 'الْغَفُور', en: 'Al-Ghafur — The Forgiving' },
-        { ar: 'الشَّكُور', en: 'Ash-Shakur — The Appreciative' },
-        { ar: 'الْعَلِيّ', en: "Al-'Ali — The Most High" },
-        { ar: 'الْكَبِير', en: 'Al-Kabir — The Grand' },
-        { ar: 'الْحَفِيظ', en: 'Al-Hafiz — The Preserver' },
-        { ar: 'الْمُقِيت', en: 'Al-Muqit — The Sustainer' },
-        { ar: 'الْحَسِيب', en: 'Al-Hasib — The Reckoner' },
-        { ar: 'الْجَلِيل', en: 'Al-Jalil — The Majestic' },
-        { ar: 'الْكَرِيم', en: 'Al-Karim — The Generous' },
-        { ar: 'الرَّقِيب', en: 'Ar-Raqib — The Watchful' },
-        { ar: 'الْمُجِيب', en: 'Al-Mujib — The Responder' },
-        { ar: 'الْوَاسِع', en: 'Al-Wasi — The Vast' },
-        { ar: 'الْحَكِيم', en: 'Al-Hakim — The Wise' },
-        { ar: 'الْوَدُود', en: 'Al-Wadud — The Loving' },
-        { ar: 'الْمَجِيد', en: 'Al-Majid — The Glorious' },
-        { ar: 'الْبَاعِث', en: 'Al-Baith — The Resurrector' },
-        { ar: 'الشَّهِيد', en: 'Ash-Shahid — The Witness' },
-        { ar: 'الْحَقّ', en: 'Al-Haqq — The Truth' },
-        { ar: 'الْوَكِيل', en: 'Al-Wakil — The Trustee' },
-        { ar: 'الْقَوِيّ', en: "Al-Qawiyy — The Strong" },
-        { ar: 'الْمَتِين', en: 'Al-Matin — The Firm' },
-        { ar: 'الْوَلِيّ', en: "Al-Waliyy — The Protecting Friend" },
-        { ar: 'الْحَمِيد', en: 'Al-Hamid — The Praiseworthy' },
-        { ar: 'الْمُحْصِي', en: 'Al-Muhsi — The Counter' },
-        { ar: 'الْمُبْدِئ', en: "Al-Mubdi' — The Originator" },
-        { ar: 'الْمُعِيد', en: 'Al-Muid — The Restorer' },
-        { ar: 'الْمُحْيِي', en: 'Al-Muhyi — The Giver of Life' },
-        { ar: 'الْمُمِيت', en: 'Al-Mumit — The Taker of Life' },
-        { ar: 'الْحَيّ', en: 'Al-Hayy — The Ever-Living' },
-        { ar: 'الْقَيُّوم', en: 'Al-Qayyum — The Self-Subsisting' },
-        { ar: 'الْوَاجِد', en: 'Al-Wajid — The Finder' },
-        { ar: 'الْمَاجِد', en: 'Al-Majid — The Noble' },
-        { ar: 'الْوَاحِد', en: 'Al-Wahid — The One' },
-        { ar: 'الصَّمَد', en: 'As-Samad — The Eternal' },
-        { ar: 'الْقَادِر', en: 'Al-Qadir — The Able' },
-        { ar: 'الْمُقْتَدِر', en: 'Al-Muqtadir — The Powerful' },
-        { ar: 'الْمُقَدِّم', en: 'Al-Muqaddim — The Expediter' },
-        { ar: 'الْمُؤَخِّر', en: 'Al-Muakhkhir — The Delayer' },
-        { ar: 'الأَوَّل', en: 'Al-Awwal — The First' },
-        { ar: 'الآخِر', en: 'Al-Akhir — The Last' },
-        { ar: 'الظَّاهِر', en: 'Az-Zahir — The Manifest' },
-        { ar: 'الْبَاطِن', en: 'Al-Batin — The Hidden' },
-        { ar: 'الْوَالِي', en: 'Al-Wali — The Governor' },
-        { ar: 'الْمُتَعَالِي', en: "Al-Muta'ali — The Most Exalted" },
-        { ar: 'الْبَرّ', en: 'Al-Barr — The Source of Goodness' },
-        { ar: 'التَّوَّاب', en: 'At-Tawwab — The Ever-Pardoning' },
-        { ar: 'الْمُنْتَقِم', en: 'Al-Muntaqim — The Avenger' },
-        { ar: 'الْعَفُوّ', en: "Al-'Afuww — The Pardoner" },
-        { ar: 'الرَّؤُوف', en: "Ar-Ra'uf — The Compassionate" },
-        { ar: 'مَالِكُ الْمُلْك', en: 'Malik-ul-Mulk — Master of the Kingdom' },
-        { ar: 'ذُو الْجَلَال', en: 'Dhul Jalali — Lord of Majesty' },
-        { ar: 'الْمُقْسِط', en: 'Al-Muqsit — The Equitable' },
-        { ar: 'الْجَامِع', en: "Al-Jami' — The Gatherer" },
-        { ar: 'الْغَنِيّ', en: 'Al-Ghani — The Self-Sufficient' },
-        { ar: 'الْمُغْنِي', en: 'Al-Mughni — The Enricher' },
-        { ar: 'الْمَانِع', en: "Al-Mani' — The Preventer" },
-        { ar: 'الضَّارّ', en: 'Ad-Darr — The Distresser' },
-        { ar: 'النَّافِع', en: 'An-Nafi — The Propitious' },
-        { ar: 'النُّور', en: 'An-Nur — The Light' },
-        { ar: 'الْهَادِي', en: 'Al-Hadi — The Guide' },
-        { ar: 'الْبَدِيع', en: "Al-Badi' — The Originator" },
-        { ar: 'الْبَاقِي', en: 'Al-Baqi — The Everlasting' },
-        { ar: 'الْوَارِث', en: 'Al-Warith — The Inheritor' },
-        { ar: 'الرَّشِيد', en: 'Ar-Rashid — The Righteous Teacher' },
-        { ar: 'الصَّبُور', en: 'As-Sabur — The Patient' },
-      ],
-
-      prayers: [
-        { name: 'Fajr', arabic: 'الفجر', time: 'Dawn', rakah: 2, sky: '🌤', color: '#e8956d', bg: '#fff5ef' },
-        { name: 'Dhuhr', arabic: 'الظهر', time: 'Midday', rakah: 4, sky: '☀️', color: '#c49a1a', bg: '#fffbec' },
-        { name: 'Asr', arabic: 'العصر', time: 'Afternoon', rakah: 4, sky: '🌅', color: '#d47a44', bg: '#fff3e8' },
-        { name: 'Maghrib', arabic: 'المغرب', time: 'Sunset', rakah: 3, sky: '🌆', color: '#9d60d4', bg: '#f8f0ff' },
-        { name: 'Isha', arabic: 'العشاء', time: 'Night', rakah: 4, sky: '🌙', color: '#3a5fa8', bg: '#eef3ff' },
-      ],
-
-      zakatRecipients: [
-        'The poor (Fuqara)', 'The needy (Masakin)', 'Zakat administrators',
-        'Those to be reconciled', 'To free captives', 'Those in debt (Gharimin)',
-        'In the cause of Allah', 'The stranded traveller',
-      ],
-
-      hajjSteps: [
-        'Entering Ihram — sacred state of purity',
-        'Tawaf — circling the Ka\'bah 7 times',
-        'Sa\'i — walking between Safa & Marwa',
-        'Standing at Arafat — Day of Arafah',
-        'Overnight stay at Muzdalifah',
-        'Stoning of the Jamarat',
-      ],
-
-      afterlifeStages: [
-        { icon: '⚰', name: 'Barzakh', desc: 'The intermediate state in the grave after death.' },
-        { icon: '📯', name: 'The Trumpet Blow', desc: 'The end of this world — all creation perishes.' },
-        { icon: '🌅', name: 'Resurrection', desc: 'All souls raised on the plains of Mahshar.' },
-        { icon: '⚖', name: 'The Scales', desc: 'Deeds weighed on the Mizan with perfect justice.' },
-        { icon: '🌉', name: 'Al-Sirat', desc: 'The bridge over Hell crossed by all souls.' },
-        { icon: '🌺', name: 'Jannah or Jahannam', desc: 'Eternal Paradise or Hell based on the reckoning.' },
-      ],
-
-      dosList: [
-        'Pray the five daily prayers on time',
-        'Recite Bismillah before any action',
-        'Greet others with "As-salamu alaykum"',
-        'Be kind and respectful to parents',
-        'Give in charity — obligatory and voluntary',
-        'Maintain family ties (Silat ar-Rahim)',
-        'Seek knowledge throughout life',
-        'Eat only Halal food',
-        'Maintain ritual purity (Taharah)',
-      ],
-
-      dontsList: [
-        'Associating partners with Allah (Shirk)',
-        'Consuming alcohol, intoxicants, or pork',
-        'Riba (interest/usury) in financial dealings',
-        'Zina (adultery or fornication)',
-        'Stealing, cheating, or dishonest dealings',
-        'Backbiting (Gheebah) and slander',
-        'Murder or harming innocent people',
-        'Arrogance and pride (Kibr)',
-        'Breaking family ties without just cause',
-      ],
-
-      apps: [
-        { icon: '🕌', name: 'Muslim Pro', desc: 'Prayer times, Quran, Qibla, Adhan alerts' },
-        { icon: '📖', name: 'Quran Companion', desc: 'Memorisation tools, Tajweed, progress tracking' },
-        { icon: '⭐', name: 'Seerah App', desc: 'Life of the Prophet ﷺ in full detail' },
-        { icon: '🤖', name: 'Tarteel AI', desc: 'AI-powered Quran recitation correction' },
-        { icon: '🔔', name: 'Athan (Azan)', desc: 'Prayer times, Quran audio, Dhikr counter' },
-      ],
-
-      websites: [
-        { icon: '📚', name: 'islamqa.info', url: 'https://islamqa.info', desc: 'Scholarly Q&A — fatawa and rulings' },
-        { icon: '📜', name: 'sunnah.com', url: 'https://sunnah.com', desc: 'Complete Hadith collections online' },
-        { icon: '📖', name: 'quran.com', url: 'https://quran.com', desc: 'Quran with translation and tafsir' },
-        { icon: '🎓', name: 'yaqeeninstitute.org', url: 'https://yaqeeninstitute.org', desc: 'Academic Islamic research papers' },
-        { icon: '🌿', name: 'seekersguidance.org', url: 'https://seekersguidance.org', desc: 'Free Islamic learning courses' },
-      ],
-
-      faqs: [
-        {
-          question: 'What does "Islam" mean?',
-          answer: 'The word "Islam" comes from the Arabic root "S-L-M" which means peace and submission. Islam means "submission to the will of Allah (God)." A Muslim is one who submits to Allah. The word is closely related to "Salam" (peace) — thus Islam is often described as the path to peace through submission to God.',
-          open: false
-        },
-        {
-          question: 'Is Allah different from the God of Christianity and Judaism?',
-          answer: 'Muslims believe in the same God worshipped by Abraham, Moses, and Jesus (peace be upon them all). "Allah" is simply the Arabic word for God — Arab Christians also use the word "Allah." While theological differences exist between the Abrahamic faiths, Islam affirms One God, the Creator of all, who sent prophets including Abraham, Moses, Jesus, and Muhammad ﷺ.',
-          open: false
-        },
-        {
-          question: 'Do Muslims worship Muhammad ﷺ?',
-          answer: 'No. Muslims do not worship Prophet Muhammad ﷺ. He is revered as the final messenger of Allah, and Muslims follow his example (Sunnah) closely. But worship (Ibadah) is directed solely to Allah. The Shahada itself distinguishes clearly: "There is no god but Allah, and Muhammad is the messenger of Allah."',
-          open: false
-        },
-        {
-          question: 'What is Jihad?',
-          answer: 'The Arabic word "Jihad" means "struggle" or "striving." The greatest form, per Islamic tradition, is the inner struggle against one\'s own ego and desires (Jihad an-nafs). It also refers to striving in the cause of Allah — community work, education, and justice. Armed Jihad is subject to strict ethical rules in Islamic law and permissible only under very specific conditions.',
-          open: false
-        },
-        {
-          question: 'What is the role of women in Islam?',
-          answer: 'Islam affirms the spiritual equality of men and women before Allah — both equally accountable and equally deserving of Paradise. Women have the right to own property, pursue education, engage in business, and express their opinions. Cultural practices that oppress women are often contrary to authentic Islamic teaching.',
-          open: false
-        },
-        {
-          question: 'How do I become a Muslim?',
-          answer: 'Becoming a Muslim requires sincerely believing in and declaring the Shahada: "I bear witness that there is no god but Allah, and I bear witness that Muhammad is the messenger of Allah." It is recommended to say this in front of witnesses and perform a ritual bath (Ghusl). Many mosques and Islamic centres offer support for new Muslims (reverts).',
-          open: false
-        },
-        {
-          question: 'What is the difference between Sunni and Shia Islam?',
-          answer: 'The split arose after the Prophet\'s ﷺ death, primarily over community leadership. Sunni Muslims (~85–90% globally) believe Abu Bakr was the rightful first Caliph. Shia Muslims believe leadership should have passed to Ali ibn Abi Talib. Despite differences in practice and jurisprudence, both share the core beliefs and pillars of Islam.',
-          open: false
-        },
-        {
-          question: 'What is Halal food?',
-          answer: 'Halal (meaning "permissible") food is lawful for Muslims under Islamic law. Meat must be slaughtered humanely with Allah\'s name invoked. Pork, alcohol, and intoxicants are strictly forbidden (Haram). Halal certification is widely available on food products globally.',
-          open: false
-        }
-      ]
+      sections: configData.searchSections || []
     }
   },
 
@@ -1039,6 +780,21 @@ export default {
           s.id.toLowerCase().includes(q)
         )
         .slice(0, 5)
+    },
+    
+    faqsList() {
+      return this.configData.faqs.map(faq => ({ ...faq, open: false }))
+    },
+    
+    websitesList() {
+      const sites = []
+      if (this.configData.appsAndResources && this.configData.appsAndResources.websites) {
+        sites.push(...this.configData.appsAndResources.websites.map(site => ({ ...site, icon: '🌐' })))
+      }
+      if (this.configData.sources) {
+        sites.push(...this.configData.sources.map(source => ({ ...source, icon: '📚', description: 'Authoritative source' })))
+      }
+      return sites
     }
   },
 
@@ -1075,9 +831,9 @@ export default {
       this.mobileMenuOpen = false
     },
     toggleFaq(index) {
-      const wasOpen = this.faqs[index].open
-      this.faqs.forEach(f => f.open = false)
-      if (!wasOpen) this.faqs[index].open = true
+      const wasOpen = this.faqsList[index].open
+      this.faqsList.forEach(f => f.open = false)
+      if (!wasOpen) this.faqsList[index].open = true
     },
     shareWhatsApp(sectionId) {
       const text = this.getToolText(sectionId)
@@ -1095,7 +851,6 @@ export default {
           if (this.copiedSectionId === sectionId) this.copiedSectionId = null
         }, 1400)
       } catch (_) {
-        // Fallback
         const ta = document.createElement('textarea')
         ta.value = text
         ta.style.position = 'fixed'
@@ -1112,41 +867,109 @@ export default {
     },
     printSection(sectionId) {
       this.printSectionId = sectionId
-      this.$nextTick(() => window.print())
+      document.body.classList.add('print-mode')
+      this.$nextTick(() => {
+        window.print()
+      })
     },
     async downloadPdf(sectionId) {
       const el = this.getToolEl(sectionId)
       if (!el) return
+
+      // Hide all images temporarily
+      const imgs = el.querySelectorAll('img, iframe')
+      imgs.forEach(img => { img.dataset.origDisplay = img.style.display; img.style.display = 'none' })
+
+      // Save original styles
+      const origPadding = el.style.padding
+      const origBg = el.style.background
+      el.style.padding = '32px'
+      el.style.background = '#ffffff'
+
       const canvas = await html2canvas(el, {
         scale: 2,
         useCORS: true,
-        backgroundColor: null,
-        windowWidth: document.documentElement.clientWidth,
+        backgroundColor: '#ffffff',
+        ignoreElements: (element) => {
+          return element.tagName === 'IMG' || element.tagName === 'IFRAME' || element.tagName === 'VIDEO'
+        }
       })
+
+      // Restore everything
+      el.style.padding = origPadding
+      el.style.background = origBg
+      imgs.forEach(img => { img.style.display = img.dataset.origDisplay || '' })
+
       const imgData = canvas.toDataURL('image/png')
       const pdf = new jsPDF('p', 'pt', 'a4')
+      const margin = 48
       const pageWidth = pdf.internal.pageSize.getWidth()
       const pageHeight = pdf.internal.pageSize.getHeight()
-      const ratio = Math.min(pageWidth / canvas.width, pageHeight / canvas.height)
-      const imgWidth = canvas.width * ratio
-      const imgHeight = canvas.height * ratio
-      const x = (pageWidth - imgWidth) / 2
-      const y = 28
 
-      // Multi-page if needed
-      let remainingHeight = imgHeight
-      let pageY = y
-      pdf.addImage(imgData, 'PNG', x, pageY, imgWidth, imgHeight)
-      remainingHeight -= (pageHeight - y * 2)
-      while (remainingHeight > 0) {
-        pdf.addPage()
-        pageY = y - (imgHeight - remainingHeight)
-        pdf.addImage(imgData, 'PNG', x, pageY, imgWidth, imgHeight)
-        remainingHeight -= (pageHeight - y * 2)
+      // Draw title
+      const titleMap = {
+        shahada: 'The Shahada — First Pillar',
+        allah_quote: 'Who is Allah? — Theology',
+        prophet: 'Prophet Muhammad ﷺ — Prophethood',
+        quran: 'The Holy Quran — Scripture',
+        salah: 'Salah — Five Daily Prayers',
+        zakat: 'Zakat — Obligatory Charity',
+        sawm: 'Sawm — Fasting in Ramadan',
+        hajj: 'Hajj — Pilgrimage to Makkah',
+        afterlife: 'The Afterlife (Akhirah)',
+      }
+      const title = titleMap[sectionId] || sectionId
+
+      pdf.setFont('helvetica', 'bold')
+      pdf.setFontSize(16)
+      pdf.setTextColor(22, 101, 52) // green-800
+      pdf.text(title, margin, margin)
+
+      pdf.setDrawColor(22, 101, 52)
+      pdf.setLineWidth(0.5)
+      pdf.line(margin, margin + 8, pageWidth - margin, margin + 8)
+
+      const contentY = margin + 24
+      const availableWidth = pageWidth - margin * 2
+      const availableHeight = pageHeight - contentY - margin
+      const ratio = Math.min(availableWidth / canvas.width, availableHeight / canvas.height)
+      const imgWidth = canvas.width * ratio
+
+      // Paginate slices
+      let sourceY = 0
+      let firstPage = true
+      const sliceHeightPx = availableHeight / ratio
+
+      while (sourceY < canvas.height) {
+        if (!firstPage) {
+          pdf.addPage()
+          pdf.setFont('helvetica', 'bold')
+          pdf.setFontSize(11)
+          pdf.setTextColor(150, 150, 150)
+          pdf.text(title, margin, margin - 12)
+        }
+        firstPage = false
+
+        const remainingSource = canvas.height - sourceY
+        const thisSliceH = Math.min(sliceHeightPx, remainingSource)
+
+        const sliceCanvas = document.createElement('canvas')
+        sliceCanvas.width = canvas.width
+        sliceCanvas.height = thisSliceH
+        const ctx = sliceCanvas.getContext('2d')
+        ctx.fillStyle = '#ffffff'
+        ctx.fillRect(0, 0, sliceCanvas.width, sliceCanvas.height)
+        ctx.drawImage(canvas, 0, sourceY, canvas.width, thisSliceH, 0, 0, canvas.width, thisSliceH)
+
+        const sliceData = sliceCanvas.toDataURL('image/png')
+        const renderedH = thisSliceH * ratio
+        const startY = firstPage ? contentY : margin
+        pdf.addImage(sliceData, 'PNG', margin, startY, imgWidth, renderedH)
+        sourceY += thisSliceH
       }
 
-      const safeName = `${sectionId}`.replace(/[^a-z0-9_-]/gi, '_').toLowerCase()
-      pdf.save(`islam-${safeName}.pdf`)
+      const safeName = sectionId.replace(/[^a-z0-9_-]/gi, '_').toLowerCase()
+      pdf.save(`discover-islam-${safeName}.pdf`)
     },
     increaseFont(sectionId) {
       const cur = this.sectionFontScale[sectionId] || 1
@@ -1194,8 +1017,10 @@ export default {
 
   mounted() {
     window.addEventListener('scroll', this.handleScroll, { passive: true })
-    window.addEventListener('afterprint', () => { this.printSectionId = null })
-
+    window.addEventListener('afterprint', () => {
+      this.printSectionId = null
+      document.body.classList.remove('print-mode')
+    })
     const io = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -1302,8 +1127,18 @@ export default {
   font-weight: 600;
 }
 
-.section-tool-target { font-size: calc(1em * var(--tool-scale, 1)); }
+.section-tool-target {
+  font-size: calc(1rem * var(--tool-scale, 1));
+  transition: font-size 0.15s ease;
+}
 
+/* Ensure children inherit the scaled size */
+.section-tool-target p,
+.section-tool-target li,
+.section-tool-target div,
+.section-tool-target span {
+  font-size: inherit;
+}
 /* ──────────────────────────────
    Section tools (WhatsApp/Copy/Print/PDF/Report/Font)
    ────────────────────────────── */
@@ -1342,8 +1177,9 @@ export default {
 .tool-pill--copy { border-color: rgba(59, 130, 246, 0.28); background: rgba(59, 130, 246, 0.10); color: #0b4aa3; }
 .tool-pill--print { border-color: rgba(15, 23, 42, 0.12); background: rgba(15, 23, 42, 0.04); color: rgba(15, 23, 42, 0.88); }
 .tool-pill--pdf { border-color: rgba(239, 68, 68, 0.28); background: rgba(239, 68, 68, 0.10); color: #991b1b; }
-.tool-pill--report { border-color: rgba(245, 158, 11, 0.34); background: rgba(245, 158, 11, 0.10); color: #92400e; }
-.tool-pill--ai { border-color: rgba(85, 185, 138, 0.38); background: rgba(85, 185, 138, 0.12); color: var(--forest); }
+.tool-pill--report {
+  display: none !important;
+}.tool-pill--ai { border-color: rgba(85, 185, 138, 0.38); background: rgba(85, 185, 138, 0.12); color: var(--forest); }
 
 .tool-circle {
   width: 44px;
@@ -1401,19 +1237,31 @@ export default {
 .scroll-top-fab:hover { transform: translateY(-2px); }
 
 @media print {
+  body:not(.print-mode) * { display: none !important; }
+
+  body.print-mode * { display: none !important; }
+
+  body.print-mode .print-target,
+  body.print-mode .print-target * {
+    display: revert !important;
+  }
+
+  body.print-mode .print-target {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    padding: 24px !important;
+    background: #fff !important;
+    color: #000 !important;
+  }
+
+  /* Never print buttons, toolbars, nav */
   .section-tools,
   .scroll-top-fab,
-  .hero-search-wrap,
-  .hero-scroll-hint { display: none !important; }
-
-  .discover-islam * { visibility: hidden; }
-  .section-tool-target.print-target,
-  .section-tool-target.print-target * { visibility: visible; }
-  .section-tool-target.print-target {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
+  .di-hero,
+  .di-disclaimer {
+    display: none !important;
   }
 }
 

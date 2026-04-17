@@ -280,6 +280,8 @@ const asyncComponentLoaders = {
   "hajj-component": () => import("../components/vue/HajjComponent.vue"),
   "ai-component": () => import("./components/AiComponent.vue"),
   "islam-component": () => import("./components/IslamComponent.vue"),
+  "youth-component": () => import("./components/YouthComponent.vue"),
+
 };
 
 const registerAsyncComponent = (name, loader) => {

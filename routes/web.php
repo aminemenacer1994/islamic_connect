@@ -75,6 +75,7 @@ use App\Http\Controllers\ResourcesController;
 use App\Http\Controllers\AiMessageReportController;
 use App\Http\Controllers\HajjController;
 use App\Http\Controllers\IslamController;
+use App\Http\Controllers\YouthController;
 
 
 // use App\Http\Controllers\SubscriptionController;
@@ -357,6 +358,8 @@ Route::get('/holy', [HolyController::class, 'index'])->name('holy');
 Route::get('/history', [HistoryController::class, 'index'])->name('history');
 Route::get('/hajj', [HajjController::class, 'index'])->name('hajj');
 Route::get('/islam', [IslamController::class, 'index'])->name('islam');
+Route::get('/youth', [YouthController::class, 'index'])->name('youth');
+Route::get('/quran', [IslamController::class, 'index'])->name('islam');
 
 Route::get('/read', [ReadController::class, 'index'])->name('read');
 Route::view('/islamic-blog', 'islamic-blog')->name('islamic_blog');
