@@ -33,21 +33,25 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       searchQuery: '',
       searchFocused: false,
       copiedSectionId: null,
-      printSectionId: null,
       showScrollTop: false,
       aiSummarySectionId: null,
       aiSummaryPoints: [],
+      // Fixed: single definition with intended default scale
       sectionFontScale: {
-        shahada: 1,
-        allah_quote: 1,
-        prophet: 1,
-        quran: 1,
-        salah: 1,
-        zakat: 1,
-        sawm: 1,
-        hajj: 1,
-        afterlife: 1
+        shahada: 1.15,
+        allah_quote: 1.15,
+        prophet: 1.15,
+        quran: 1.15,
+        salah: 1.15,
+        zakat: 1.15,
+        sawm: 1.15,
+        hajj: 1.15,
+        afterlife: 1.15
       },
+      // Fixed: reactive FAQs (was mutating a computed property)
+      faqs: _data_discover_islam_content_json__WEBPACK_IMPORTED_MODULE_2__.faqs ? _data_discover_islam_content_json__WEBPACK_IMPORTED_MODULE_2__.faqs.map(faq => _objectSpread(_objectSpread({}, faq), {}, {
+        open: false
+      })) : [],
       sections: _data_discover_islam_content_json__WEBPACK_IMPORTED_MODULE_2__.searchSections || []
     };
   },
@@ -57,10 +61,9 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       if (!q) return [];
       return this.sections.filter(s => s.title.toLowerCase().includes(q) || s.excerpt.toLowerCase().includes(q) || s.id.toLowerCase().includes(q)).slice(0, 5);
     },
+    // Fixed: now returns the reactive data array
     faqsList() {
-      return this.configData.faqs.map(faq => _objectSpread(_objectSpread({}, faq), {}, {
-        open: false
-      }));
+      return this.faqs;
     },
     websitesList() {
       const sites = [];
@@ -113,10 +116,11 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       this.searchQuery = '';
       this.mobileMenuOpen = false;
     },
+    // Fixed: now mutates the reactive data array instead of computed
     toggleFaq(index) {
-      const wasOpen = this.faqsList[index].open;
-      this.faqsList.forEach(f => f.open = false);
-      if (!wasOpen) this.faqsList[index].open = true;
+      const wasOpen = this.faqs[index].open;
+      this.faqs.forEach(f => f.open = false);
+      if (!wasOpen) this.faqs[index].open = true;
     },
     shareWhatsApp(sectionId) {
       const text = this.getToolText(sectionId);
@@ -151,21 +155,83 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       }
     },
     printSection(sectionId) {
-      this.printSectionId = sectionId;
-      document.body.classList.add('print-mode');
-      this.$nextTick(() => {
-        window.print();
+      const targetEl = this.getToolEl(sectionId);
+      if (!targetEl) return;
+      const section = targetEl.closest('.di-section');
+      if (!section) return;
+
+      // Clone the section for printing
+      const cloneSection = section.cloneNode(true);
+      cloneSection.style.display = 'block';
+      cloneSection.style.padding = '20px';
+      cloneSection.style.backgroundColor = '#ffffff';
+
+      // Create print container
+      const printContainer = document.createElement('div');
+      printContainer.id = 'print-container';
+      printContainer.appendChild(cloneSection);
+
+      // Remove existing print container if any
+      const existingContainer = document.getElementById('print-container');
+      if (existingContainer) existingContainer.remove();
+      document.body.appendChild(printContainer);
+
+      // Add print styles
+      let printStyles = document.getElementById('temp-print-styles');
+      if (!printStyles) {
+        printStyles = document.createElement('style');
+        printStyles.id = 'temp-print-styles';
+        document.head.appendChild(printStyles);
+      }
+      printStyles.textContent = `
+        @media print {
+          body * {
+            visibility: hidden !important;
+          }
+          #print-container, #print-container * {
+            visibility: visible !important;
+          }
+          #print-container {
+            position: absolute !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: 100% !important;
+            margin: 0 !important;
+            padding: 20px !important;
+            box-sizing: border-box !important;
+            background: #ffffff !important;
+          }
+          .section-tools, .ai-summary-inline, .scroll-top-fab, .tool-pill, .tool-circle {
+            display: none !important;
+          }
+          img {
+            max-width: 100% !important;
+            height: auto !important;
+          }
+        }
+      `;
+
+      // Fixed: use afterprint event for reliable cleanup (prevents blank page)
+      const cleanupPrint = () => {
+        printContainer.remove();
+        if (printStyles) printStyles.remove();
+      };
+      window.addEventListener('afterprint', cleanupPrint, {
+        once: true
       });
+
+      // Trigger print
+      window.print();
     },
     async downloadPdf(sectionId) {
       const el = this.getToolEl(sectionId);
       if (!el) return;
 
-      // Hide all images temporarily
-      const imgs = el.querySelectorAll('img, iframe');
-      imgs.forEach(img => {
-        img.dataset.origDisplay = img.style.display;
-        img.style.display = 'none';
+      // Fixed: only hide videos/iframes — keep images visible and included in PDF
+      const mediaToHide = el.querySelectorAll('iframe, video');
+      mediaToHide.forEach(media => {
+        media.dataset.origDisplay = media.style.display;
+        media.style.display = 'none';
       });
 
       // Save original styles
@@ -178,15 +244,16 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
         useCORS: true,
         backgroundColor: '#ffffff',
         ignoreElements: element => {
-          return element.tagName === 'IMG' || element.tagName === 'IFRAME' || element.tagName === 'VIDEO';
+          // Fixed: only ignore videos/iframes (images are now captured)
+          return element.tagName === 'IFRAME' || element.tagName === 'VIDEO';
         }
       });
 
       // Restore everything
       el.style.padding = origPadding;
       el.style.background = origBg;
-      imgs.forEach(img => {
-        img.style.display = img.dataset.origDisplay || '';
+      mediaToHide.forEach(media => {
+        media.style.display = media.dataset.origDisplay || '';
       });
       const imgData = canvas.toDataURL('image/png');
       const pdf = new jspdf__WEBPACK_IMPORTED_MODULE_1__.jsPDF('p', 'pt', 'a4');
@@ -232,6 +299,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
           pdf.setTextColor(150, 150, 150);
           pdf.text(title, margin, margin - 12);
         }
+        const startY = firstPage ? contentY : margin;
         firstPage = false;
         const remainingSource = canvas.height - sourceY;
         const thisSliceH = Math.min(sliceHeightPx, remainingSource);
@@ -244,7 +312,6 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
         ctx.drawImage(canvas, 0, sourceY, canvas.width, thisSliceH, 0, 0, canvas.width, thisSliceH);
         const sliceData = sliceCanvas.toDataURL('image/png');
         const renderedH = thisSliceH * ratio;
-        const startY = firstPage ? contentY : margin;
         pdf.addImage(sliceData, 'PNG', margin, startY, imgWidth, renderedH);
         sourceY += thisSliceH;
       }
@@ -269,9 +336,10 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       const cleaned = text.replace(/\s+/g, ' ').trim();
       const sentences = cleaned.split(/(?<=[.!?])\s+/).filter(Boolean);
       const points = [];
+      // Fixed: removed ellipsis truncation — now shows full sentences (no "...")
       for (const s of sentences.slice(0, 5)) {
-        const short = s.length > 140 ? `${s.slice(0, 137)}…` : s;
-        if (!points.includes(short)) points.push(short);
+        const fullSentence = s.trim();
+        if (fullSentence && !points.includes(fullSentence)) points.push(fullSentence);
       }
       this.aiSummarySectionId = sectionId;
       this.aiSummaryPoints = points.length ? points : ['No summary available for this section yet.'];
@@ -298,12 +366,46 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
     }
   },
   mounted() {
+    if ('scrollRestoration' in history) {
+      history.scrollRestoration = 'manual';
+    }
+
+    // Restore saved scroll position
+    const savedScroll = sessionStorage.getItem('discover-islam-scroll');
+    if (savedScroll && !window.location.hash) {
+      this.$nextTick(() => {
+        window.scrollTo(0, parseInt(savedScroll));
+      });
+    }
+
+    // Save scroll position before page unload/refresh
+    window.addEventListener('beforeunload', () => {
+      sessionStorage.setItem('discover-islam-scroll', window.scrollY);
+    });
+
+    // Also save on scroll with debounce
+    let scrollTimer;
+    window.addEventListener('scroll', () => {
+      clearTimeout(scrollTimer);
+      scrollTimer = setTimeout(() => {
+        sessionStorage.setItem('discover-islam-scroll', window.scrollY);
+      }, 200);
+    });
+
+    // Handle hash links (don't override manual scroll)
+    if (window.location.hash) {
+      const targetId = window.location.hash.substring(1);
+      setTimeout(() => {
+        const target = document.getElementById(targetId);
+        if (target) {
+          target.scrollIntoView({
+            behavior: 'smooth'
+          });
+        }
+      }, 100);
+    }
     window.addEventListener('scroll', this.handleScroll, {
       passive: true
-    });
-    window.addEventListener('afterprint', () => {
-      this.printSectionId = null;
-      document.body.classList.remove('print-mode');
     });
     const io = new IntersectionObserver(entries => {
       entries.forEach(entry => {
@@ -397,10 +499,10 @@ const _hoisted_19 = {
   class: "hero-pillars"
 };
 const _hoisted_20 = {
-  class: "chip-num"
+  class: "chip-num text-white"
 };
 const _hoisted_21 = {
-  class: "chip-label"
+  class: "chip-label text-white"
 };
 const _hoisted_22 = {
   class: "di-main"
@@ -410,8 +512,7 @@ const _hoisted_23 = {
 };
 const _hoisted_24 = {
   class: "di-section",
-  id: "basics",
-  ref: "sectionEls"
+  id: "basics"
 };
 const _hoisted_25 = {
   class: "section-lead"
@@ -446,8 +547,7 @@ const _hoisted_34 = {
 const _hoisted_35 = ["src"];
 const _hoisted_36 = {
   class: "di-section",
-  id: "shahada",
-  ref: "sectionEls"
+  id: "shahada"
 };
 const _hoisted_37 = {
   class: "section-tools",
@@ -481,21 +581,20 @@ const _hoisted_45 = {
 };
 const _hoisted_46 = {
   class: "di-section",
-  id: "allah",
-  ref: "sectionEls"
+  id: "allah"
 };
 const _hoisted_47 = {
-  class: "split-layout"
-};
-const _hoisted_48 = {
   class: "split-text"
 };
-const _hoisted_49 = {
+const _hoisted_48 = {
   class: "section-lead"
 };
-const _hoisted_50 = {
+const _hoisted_49 = {
   class: "section-tools section-tools--compact",
   "aria-label": "Quote tools"
+};
+const _hoisted_50 = {
+  class: "quran-quote"
 };
 const _hoisted_51 = {
   class: "split-names"
@@ -515,8 +614,7 @@ const _hoisted_56 = {
 };
 const _hoisted_57 = {
   class: "di-section",
-  id: "prophet",
-  ref: "sectionEls"
+  id: "prophet"
 };
 const _hoisted_58 = {
   class: "section-tools",
@@ -557,8 +655,7 @@ const _hoisted_69 = {
 };
 const _hoisted_70 = {
   class: "di-section",
-  id: "quran",
-  ref: "sectionEls"
+  id: "quran"
 };
 const _hoisted_71 = {
   class: "section-tools",
@@ -598,284 +695,268 @@ const _hoisted_81 = {
 };
 const _hoisted_82 = ["src"];
 const _hoisted_83 = {
-  class: "video-embed"
-};
-const _hoisted_84 = ["src"];
-const _hoisted_85 = {
   class: "di-section",
-  id: "salah",
-  ref: "sectionEls"
+  id: "salah"
 };
-const _hoisted_86 = {
+const _hoisted_84 = {
   class: "section-tools",
   "aria-label": "Section tools"
 };
-const _hoisted_87 = {
+const _hoisted_85 = {
   key: 0,
   class: "ai-summary-inline",
   role: "note"
 };
-const _hoisted_88 = {
+const _hoisted_86 = {
   class: "ai-summary-points"
 };
-const _hoisted_89 = {
+const _hoisted_87 = {
   class: "prayer-timeline"
 };
-const _hoisted_90 = {
+const _hoisted_88 = {
   class: "prayer-sky"
 };
-const _hoisted_91 = {
+const _hoisted_89 = {
   class: "prayer-time-badge"
 };
-const _hoisted_92 = {
+const _hoisted_90 = {
   class: "prayer-name"
 };
-const _hoisted_93 = {
+const _hoisted_91 = {
   class: "prayer-arabic"
 };
-const _hoisted_94 = {
+const _hoisted_92 = {
   class: "prayer-rakah"
 };
-const _hoisted_95 = {
+const _hoisted_93 = {
   class: "split-layout",
   style: {
     "margin-top": "3rem"
   }
 };
-const _hoisted_96 = {
+const _hoisted_94 = {
   class: "split-text"
 };
-const _hoisted_97 = {
+const _hoisted_95 = {
   class: "body-copy"
 };
-const _hoisted_98 = {
+const _hoisted_96 = {
   class: "quran-quote"
 };
-const _hoisted_99 = {
+const _hoisted_97 = {
   class: "split-img"
 };
-const _hoisted_100 = {
+const _hoisted_98 = {
   class: "img-frame-green"
 };
-const _hoisted_101 = ["src"];
-const _hoisted_102 = {
-  class: "video-embed compact"
-};
-const _hoisted_103 = ["src"];
-const _hoisted_104 = {
+const _hoisted_99 = ["src"];
+const _hoisted_100 = {
   class: "di-section",
-  id: "zakat",
-  ref: "sectionEls"
+  id: "zakat"
+};
+const _hoisted_101 = {
+  class: "section-tools",
+  "aria-label": "Section tools"
+};
+const _hoisted_102 = {
+  key: 0,
+  class: "ai-summary-inline",
+  role: "note"
+};
+const _hoisted_103 = {
+  class: "ai-summary-points"
+};
+const _hoisted_104 = {
+  class: "split-text"
 };
 const _hoisted_105 = {
-  class: "section-tools",
-  "aria-label": "Section tools"
+  class: "section-lead"
 };
 const _hoisted_106 = {
-  key: 0,
-  class: "ai-summary-inline",
-  role: "note"
+  class: "quran-quote"
 };
 const _hoisted_107 = {
-  class: "ai-summary-points"
+  class: "split-text"
 };
 const _hoisted_108 = {
-  class: "split-text"
-};
-const _hoisted_109 = {
-  class: "section-lead"
-};
-const _hoisted_110 = {
-  class: "quran-quote"
-};
-const _hoisted_111 = {
-  class: "split-text"
-};
-const _hoisted_112 = {
   class: "zakat-grid"
 };
-const _hoisted_113 = {
+const _hoisted_109 = {
   class: "di-section",
-  id: "sawm",
-  ref: "sectionEls"
+  id: "sawm"
+};
+const _hoisted_110 = {
+  class: "section-tools",
+  "aria-label": "Section tools"
+};
+const _hoisted_111 = {
+  key: 0,
+  class: "ai-summary-inline",
+  role: "note"
+};
+const _hoisted_112 = {
+  class: "ai-summary-points"
+};
+const _hoisted_113 = {
+  class: "split-text"
 };
 const _hoisted_114 = {
-  class: "section-tools",
-  "aria-label": "Section tools"
+  class: "section-lead"
 };
 const _hoisted_115 = {
-  key: 0,
-  class: "ai-summary-inline",
-  role: "note"
-};
-const _hoisted_116 = {
-  class: "ai-summary-points"
-};
-const _hoisted_117 = {
-  class: "split-text"
-};
-const _hoisted_118 = {
-  class: "section-lead"
-};
-const _hoisted_119 = {
   class: "star-list"
 };
-const _hoisted_120 = {
+const _hoisted_116 = {
   class: "quran-quote"
 };
-const _hoisted_121 = {
+const _hoisted_117 = {
   class: "split-img"
 };
-const _hoisted_122 = {
+const _hoisted_118 = {
   class: "img-frame-green"
 };
-const _hoisted_123 = ["src"];
-const _hoisted_124 = {
+const _hoisted_119 = ["src"];
+const _hoisted_120 = {
   class: "di-section",
-  id: "hajj",
-  ref: "sectionEls"
+  id: "hajj"
 };
-const _hoisted_125 = {
+const _hoisted_121 = {
   class: "section-tools",
   "aria-label": "Section tools"
 };
-const _hoisted_126 = {
+const _hoisted_122 = {
   key: 0,
   class: "ai-summary-inline",
   role: "note"
 };
-const _hoisted_127 = {
+const _hoisted_123 = {
   class: "ai-summary-points"
 };
-const _hoisted_128 = {
+const _hoisted_124 = {
   class: "split-layout"
 };
-const _hoisted_129 = {
+const _hoisted_125 = {
   class: "split-text"
 };
-const _hoisted_130 = {
+const _hoisted_126 = {
   class: "section-lead"
 };
-const _hoisted_131 = {
+const _hoisted_127 = {
   class: "quran-quote"
 };
-const _hoisted_132 = {
+const _hoisted_128 = {
   class: "split-text"
 };
-const _hoisted_133 = {
+const _hoisted_129 = {
   class: "hajj-steps"
 };
-const _hoisted_134 = {
+const _hoisted_130 = {
   class: "step-num"
 };
-const _hoisted_135 = {
+const _hoisted_131 = {
   class: "hero-photo"
 };
-const _hoisted_136 = ["src"];
-const _hoisted_137 = {
+const _hoisted_132 = ["src"];
+const _hoisted_133 = {
   class: "di-section",
-  id: "afterlife",
-  ref: "sectionEls"
+  id: "afterlife"
 };
-const _hoisted_138 = {
+const _hoisted_134 = {
   class: "section-tools",
   "aria-label": "Section tools"
 };
-const _hoisted_139 = {
+const _hoisted_135 = {
   key: 0,
   class: "ai-summary-inline",
   role: "note"
 };
-const _hoisted_140 = {
+const _hoisted_136 = {
   class: "ai-summary-points"
 };
-const _hoisted_141 = {
+const _hoisted_137 = {
   class: "split-text"
 };
-const _hoisted_142 = {
+const _hoisted_138 = {
   class: "section-lead"
 };
-const _hoisted_143 = {
+const _hoisted_139 = {
   class: "quran-quote"
 };
-const _hoisted_144 = {
+const _hoisted_140 = {
   class: "split-text"
 };
-const _hoisted_145 = {
+const _hoisted_141 = {
   class: "afterlife-stages"
 };
-const _hoisted_146 = {
+const _hoisted_142 = {
   class: "stage-icon"
 };
-const _hoisted_147 = {
+const _hoisted_143 = {
   class: "di-section",
-  id: "dosdonts",
-  ref: "sectionEls"
+  id: "dosdonts"
 };
-const _hoisted_148 = {
+const _hoisted_144 = {
   class: "twin-grid"
 };
-const _hoisted_149 = {
+const _hoisted_145 = {
   class: "twin-card card-dos"
 };
-const _hoisted_150 = {
+const _hoisted_146 = {
   class: "check-list"
 };
-const _hoisted_151 = {
+const _hoisted_147 = {
   class: "twin-card card-donts"
 };
-const _hoisted_152 = {
+const _hoisted_148 = {
   class: "check-list"
 };
-const _hoisted_153 = {
+const _hoisted_149 = {
   class: "di-section",
-  id: "faq",
-  ref: "sectionEls"
+  id: "faq"
 };
-const _hoisted_154 = {
+const _hoisted_150 = {
   class: "faq-accordion"
 };
-const _hoisted_155 = ["onClick"];
-const _hoisted_156 = {
+const _hoisted_151 = ["onClick"];
+const _hoisted_152 = {
   class: "faq-q-num"
 };
-const _hoisted_157 = {
+const _hoisted_153 = {
   class: "faq-q-text"
 };
-const _hoisted_158 = {
+const _hoisted_154 = {
   class: "faq-toggle-icon"
 };
-const _hoisted_159 = {
+const _hoisted_155 = {
   key: 0,
   class: "faq-body"
 };
-const _hoisted_160 = {
+const _hoisted_156 = {
   class: "di-section",
-  id: "resources",
-  ref: "sectionEls"
+  id: "resources"
 };
-const _hoisted_161 = {
+const _hoisted_157 = {
   class: "twin-grid"
 };
-const _hoisted_162 = {
+const _hoisted_158 = {
   class: "twin-card"
+};
+const _hoisted_159 = {
+  class: "resource-list"
+};
+const _hoisted_160 = {
+  class: "res-icon"
+};
+const _hoisted_161 = {
+  class: "twin-card"
+};
+const _hoisted_162 = {
+  class: "resource-list"
 };
 const _hoisted_163 = {
-  class: "resource-list"
-};
-const _hoisted_164 = {
   class: "res-icon"
 };
-const _hoisted_165 = {
-  class: "twin-card"
-};
-const _hoisted_166 = {
-  class: "resource-list"
-};
-const _hoisted_167 = {
-  class: "res-icon"
-};
-const _hoisted_168 = ["href"];
+const _hoisted_164 = ["href"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" ─── HERO ─── "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_2, [_cache[85] || (_cache[85] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"hero-geo-bg\"><svg class=\"geo-svg\" viewBox=\"0 0 800 800\" xmlns=\"http://www.w3.org/2000/svg\"><defs><pattern id=\"star-pattern\" x=\"0\" y=\"0\" width=\"100\" height=\"100\" patternUnits=\"userSpaceOnUse\"><polygon points=\"50,5 61,35 95,35 68,57 79,91 50,70 21,91 32,57 5,35 39,35\" fill=\"none\" stroke=\"rgba(255,255,255,0.10)\" stroke-width=\"0.8\"></polygon><polygon points=\"50,15 58,38 82,38 63,52 70,75 50,62 30,75 37,52 18,38 42,38\" fill=\"none\" stroke=\"rgba(255,255,255,0.05)\" stroke-width=\"0.5\"></polygon></pattern></defs><rect width=\"100%\" height=\"100%\" fill=\"url(#star-pattern)\"></rect></svg><div class=\"hero-orb orb-1\"></div><div class=\"hero-orb orb-2\"></div><div class=\"hero-orb orb-3\"></div></div>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [_cache[77] || (_cache[77] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "eyebrow-line"
@@ -970,7 +1051,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "height": "400px",
       "border": "none"
     }
-  }, null, 8 /* PROPS */, _hoisted_35)], 512 /* NEED_PATCH */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" ── SHAHADA ── "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_36, [_cache[96] || (_cache[96] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"section-label-row\"><span class=\"section-num\">02</span><span class=\"section-rule\"></span><span class=\"section-tag\">First Pillar</span></div><h2 class=\"section-title\">The <em>Shahada</em></h2>", 2)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_37, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, 8 /* PROPS */, _hoisted_35)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" ── SHAHADA ── "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_36, [_cache[96] || (_cache[96] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"section-label-row\"><span class=\"section-num\">02</span><span class=\"section-rule\"></span><span class=\"section-tag\">First Pillar</span></div><h2 class=\"section-title\">The <em>Shahada</em></h2>", 2)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_37, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "tool-pill tool-pill--wa",
     onClick: _cache[5] || (_cache[5] = $event => $options.shareWhatsApp('shahada'))
@@ -1010,17 +1091,21 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(p), 1 /* TEXT */);
   }), 128 /* KEYED_FRAGMENT */))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     ref: "tool_shahada",
-    class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["shahada-monument section-tool-target", {
-      'print-target': $data.printSectionId === 'shahada'
-    }]),
+    class: "shahada-monument section-tool-target",
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
       '--tool-scale': $data.sectionFontScale.shahada
     })
   }, [_cache[95] || (_cache[95] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "shahada-geo-ring"
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_40, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_41, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.configData.shahada.arabic), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_42, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.configData.shahada.transliteration), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_43, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.configData.shahada.translation), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_44, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.configData.shahada.explanation), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_45, "📖 " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.configData.shahada.reference), 1 /* TEXT */)])], 6 /* CLASS, STYLE */)], 512 /* NEED_PATCH */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" ── ALLAH ── "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_46, [_cache[99] || (_cache[99] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"section-label-row\"><span class=\"section-num\">03</span><span class=\"section-rule\"></span><span class=\"section-tag\">Theology</span></div><h2 class=\"section-title\">Who is <em>Allah?</em></h2>", 2)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_47, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_48, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_49, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.configData.allah.description), 1 /* TEXT */), _cache[98] || (_cache[98] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_40, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_41, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.configData.shahada.arabic), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_42, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.configData.shahada.transliteration), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_43, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.configData.shahada.translation), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_44, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.configData.shahada.explanation), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_45, "📖 " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.configData.shahada.reference), 1 /* TEXT */)])], 4 /* STYLE */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" ── ALLAH ── "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_46, [_cache[99] || (_cache[99] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"section-label-row\"><span class=\"section-num\">03</span><span class=\"section-rule\"></span><span class=\"section-tag\">Theology</span></div><h2 class=\"section-title\">Who is <em>Allah?</em></h2>", 2)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    class: "split-layout section-tool-target",
+    ref: "tool_allah_quote",
+    style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
+      '--tool-scale': $data.sectionFontScale.allah_quote
+    })
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_47, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_48, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.configData.allah.description), 1 /* TEXT */), _cache[98] || (_cache[98] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "body-copy"
-  }, "He is all-knowing (Al-ʿAlim), all-powerful (Al-Qadir), and ever-merciful (Ar-Rahman, Ar-Rahim). Allah communicates with humanity through prophets and revealed scriptures.", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_50, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, "He is all-knowing (Al-ʿAlim), all-powerful (Al-Qadir), and ever-merciful (Ar-Rahman, Ar-Rahim). Allah communicates with humanity through prophets and revealed scriptures.", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_49, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "tool-pill tool-pill--wa",
     onClick: _cache[13] || (_cache[13] = $event => $options.shareWhatsApp('allah_quote'))
@@ -1048,23 +1133,15 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     type: "button",
     class: "tool-circle",
     onClick: _cache[19] || (_cache[19] = $event => $options.increaseFont('allah_quote'))
-  }, "A+")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    ref: "tool_allah_quote",
-    class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["quran-quote section-tool-target", {
-      'print-target': $data.printSectionId === 'allah_quote'
-    }]),
-    style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
-      '--tool-scale': $data.sectionFontScale.allah_quote
-    })
-  }, [_cache[97] || (_cache[97] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, "A+")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_50, [_cache[97] || (_cache[97] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "qq-mark"
-  }, "\"", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.configData.allah.quranReference), 1 /* TEXT */)], 6 /* CLASS, STYLE */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_51, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", _hoisted_52, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.configData.asmaUlHusna.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_53, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.configData.asmaUlHusna.names, name => {
+  }, "\"", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.configData.allah.quranReference), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_51, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", _hoisted_52, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.configData.asmaUlHusna.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_53, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.configData.asmaUlHusna.names, name => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", {
       class: "name-tag",
       key: name.ar,
       title: name.en
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_55, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(name.ar), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_56, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(name.en), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_54);
-  }), 128 /* KEYED_FRAGMENT */))])])])], 512 /* NEED_PATCH */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" ── PROPHET ── "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_57, [_cache[103] || (_cache[103] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"section-label-row\"><span class=\"section-num\">04</span><span class=\"section-rule\"></span><span class=\"section-tag\">Prophethood</span></div><h2 class=\"section-title\">Prophet <em>Muhammad ﷺ</em></h2>", 2)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_58, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }), 128 /* KEYED_FRAGMENT */))])])], 4 /* STYLE */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" ── PROPHET ── "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_57, [_cache[103] || (_cache[103] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"section-label-row\"><span class=\"section-num\">04</span><span class=\"section-rule\"></span><span class=\"section-tag\">Prophethood</span></div><h2 class=\"section-title\">Prophet <em>Muhammad ﷺ</em></h2>", 2)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_58, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "tool-pill tool-pill--wa",
     onClick: _cache[20] || (_cache[20] = $event => $options.shareWhatsApp('prophet'))
@@ -1104,9 +1181,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(p), 1 /* TEXT */);
   }), 128 /* KEYED_FRAGMENT */))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     ref: "tool_prophet",
-    class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["prophet-layout section-tool-target", {
-      'print-target': $data.printSectionId === 'prophet'
-    }]),
+    class: "prophet-layout section-tool-target",
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
       '--tool-scale': $data.sectionFontScale.prophet
     })
@@ -1122,7 +1197,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
       key: teaching
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(teaching), 1 /* TEXT */);
-  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_67, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_68, "📖 " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.configData.prophet.quranReference), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_69, "📖 " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.configData.prophet.hadithReference), 1 /* TEXT */)])])], 6 /* CLASS, STYLE */)], 512 /* NEED_PATCH */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" ── QURAN ── "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_70, [_cache[107] || (_cache[107] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"section-label-row\"><span class=\"section-num\">05</span><span class=\"section-rule\"></span><span class=\"section-tag\">Scripture</span></div><h2 class=\"section-title\">The Holy <em>Quran</em></h2>", 2)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_71, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_67, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_68, "📖 " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.configData.prophet.quranReference), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_69, "📖 " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.configData.prophet.hadithReference), 1 /* TEXT */)])])], 4 /* STYLE */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" ── QURAN ── "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_70, [_cache[106] || (_cache[106] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"section-label-row\"><span class=\"section-num\">05</span><span class=\"section-rule\"></span><span class=\"section-tag\">Scripture</span></div><h2 class=\"section-title\">The Holy <em>Quran</em></h2>", 2)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_71, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "tool-pill tool-pill--wa",
     onClick: _cache[28] || (_cache[28] = $event => $options.shareWhatsApp('quran'))
@@ -1162,9 +1237,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(p), 1 /* TEXT */);
   }), 128 /* KEYED_FRAGMENT */))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     ref: "tool_quran",
-    class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["split-layout reverse section-tool-target", {
-      'print-target': $data.printSectionId === 'quran'
-    }]),
+    class: "split-layout reverse section-tool-target",
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
       '--tool-scale': $data.sectionFontScale.quran
     })
@@ -1178,15 +1251,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     src: $data.configData.quran.image,
     alt: "Open Quran",
     loading: "lazy"
-  }, null, 8 /* PROPS */, _hoisted_82)])])], 6 /* CLASS, STYLE */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_83, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("iframe", {
-    src: $data.configData.quran.video,
-    title: "Quran Recitation",
-    allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture",
-    allowfullscreen: "",
-    loading: "lazy"
-  }, null, 8 /* PROPS */, _hoisted_84), _cache[106] || (_cache[106] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    class: "video-label"
-  }, "▶ Beautiful Quran Recitation", -1 /* CACHED */))])], 512 /* NEED_PATCH */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" ── SALAH ── "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_85, [_cache[111] || (_cache[111] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"section-label-row\"><span class=\"section-num\">06</span><span class=\"section-rule\"></span><span class=\"section-tag\">Second Pillar</span></div><h2 class=\"section-title\"><em>Salah</em> — Five Daily Prayers</h2>", 2)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_86, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, 8 /* PROPS */, _hoisted_82)])])], 4 /* STYLE */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" ── SALAH ── "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_83, [_cache[109] || (_cache[109] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"section-label-row\"><span class=\"section-num\">06</span><span class=\"section-rule\"></span><span class=\"section-tag\">Second Pillar</span></div><h2 class=\"section-title\"><em>Salah</em> — Five Daily Prayers</h2>", 2)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_84, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "tool-pill tool-pill--wa",
     onClick: _cache[36] || (_cache[36] = $event => $options.shareWhatsApp('salah'))
@@ -1218,21 +1283,19 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     type: "button",
     class: "tool-pill tool-pill--ai",
     onClick: _cache[43] || (_cache[43] = $event => $options.toggleAiSummary('salah'))
-  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.aiSummarySectionId === 'salah' ? 'Hide Summary' : 'AI Summary'), 1 /* TEXT */)]), $data.aiSummarySectionId === 'salah' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_87, [_cache[108] || (_cache[108] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.aiSummarySectionId === 'salah' ? 'Hide Summary' : 'AI Summary'), 1 /* TEXT */)]), $data.aiSummarySectionId === 'salah' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_85, [_cache[107] || (_cache[107] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "ai-summary-title"
-  }, "Summary", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_88, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.aiSummaryPoints, p => {
+  }, "Summary", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_86, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.aiSummaryPoints, p => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
       key: p
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(p), 1 /* TEXT */);
   }), 128 /* KEYED_FRAGMENT */))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     ref: "tool_salah",
-    class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["section-tool-target", {
-      'print-target': $data.printSectionId === 'salah'
-    }]),
+    class: "section-tool-target",
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
       '--tool-scale': $data.sectionFontScale.salah
     })
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_89, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.configData.salah.prayers, prayer => {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_87, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.configData.salah.prayers, prayer => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       class: "prayer-card",
       key: prayer.name,
@@ -1240,22 +1303,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         '--prayer-color': prayer.color,
         '--prayer-bg': prayer.bg
       })
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_90, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(prayer.sky), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_91, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(prayer.time), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_92, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(prayer.name), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_93, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(prayer.arabic), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_94, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(prayer.rakah) + " Rak'ahs", 1 /* TEXT */)], 4 /* STYLE */);
-  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_95, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_96, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_97, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.configData.salah.description), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_98, [_cache[109] || (_cache[109] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_88, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(prayer.sky), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_89, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(prayer.time), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_90, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(prayer.name), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_91, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(prayer.arabic), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_92, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(prayer.rakah) + " Rak'ahs", 1 /* TEXT */)], 4 /* STYLE */);
+  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_93, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_94, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_95, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.configData.salah.description), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_96, [_cache[108] || (_cache[108] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "qq-mark"
-  }, "\"", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.configData.salah.reference), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_99, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_100, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+  }, "\"", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.configData.salah.reference), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_97, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_98, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: $data.configData.salah.image,
     alt: "Muslim praying",
     loading: "lazy"
-  }, null, 8 /* PROPS */, _hoisted_101)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_102, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("iframe", {
-    src: $data.configData.salah.video,
-    title: "How to Pray",
-    allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture",
-    allowfullscreen: "",
-    loading: "lazy"
-  }, null, 8 /* PROPS */, _hoisted_103), _cache[110] || (_cache[110] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    class: "video-label"
-  }, "▶ How to Perform Salah — Step by Step", -1 /* CACHED */))])], 6 /* CLASS, STYLE */)], 512 /* NEED_PATCH */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" ── ZAKAT ── "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_104, [_cache[116] || (_cache[116] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"section-label-row\"><span class=\"section-num\">07</span><span class=\"section-rule\"></span><span class=\"section-tag\">Third Pillar</span></div><h2 class=\"section-title\"><em>Zakat</em> — Obligatory Charity</h2>", 2)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_105, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, 8 /* PROPS */, _hoisted_99)])])])], 4 /* STYLE */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" ── ZAKAT ── "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_100, [_cache[114] || (_cache[114] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"section-label-row\"><span class=\"section-num\">07</span><span class=\"section-rule\"></span><span class=\"section-tag\">Third Pillar</span></div><h2 class=\"section-title\"><em>Zakat</em> — Obligatory Charity</h2>", 2)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_101, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "tool-pill tool-pill--wa",
     onClick: _cache[44] || (_cache[44] = $event => $options.shareWhatsApp('zakat'))
@@ -1287,31 +1342,29 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     type: "button",
     class: "tool-pill tool-pill--ai",
     onClick: _cache[51] || (_cache[51] = $event => $options.toggleAiSummary('zakat'))
-  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.aiSummarySectionId === 'zakat' ? 'Hide Summary' : 'AI Summary'), 1 /* TEXT */)]), $data.aiSummarySectionId === 'zakat' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_106, [_cache[112] || (_cache[112] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.aiSummarySectionId === 'zakat' ? 'Hide Summary' : 'AI Summary'), 1 /* TEXT */)]), $data.aiSummarySectionId === 'zakat' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_102, [_cache[110] || (_cache[110] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "ai-summary-title"
-  }, "Summary", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_107, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.aiSummaryPoints, p => {
+  }, "Summary", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_103, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.aiSummaryPoints, p => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
       key: p
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(p), 1 /* TEXT */);
   }), 128 /* KEYED_FRAGMENT */))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     ref: "tool_zakat",
-    class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["split-layout section-tool-target", {
-      'print-target': $data.printSectionId === 'zakat'
-    }]),
+    class: "split-layout section-tool-target",
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
       '--tool-scale': $data.sectionFontScale.zakat
     })
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_108, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_109, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.configData.zakat.description), 1 /* TEXT */), _cache[114] || (_cache[114] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_104, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_105, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.configData.zakat.description), 1 /* TEXT */), _cache[112] || (_cache[112] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "body-copy"
-  }, "It is due once a year and distinct from voluntary charity (Sadaqah). The Nisab threshold equals approximately 87.48g of gold in value.", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_110, [_cache[113] || (_cache[113] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, "It is due once a year and distinct from voluntary charity (Sadaqah). The Nisab threshold equals approximately 87.48g of gold in value.", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_106, [_cache[111] || (_cache[111] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "qq-mark"
-  }, "\"", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.configData.zakat.reference), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_111, [_cache[115] || (_cache[115] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
+  }, "\"", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.configData.zakat.reference), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_107, [_cache[113] || (_cache[113] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
     class: "sub-heading"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("8 Eligible Recipients "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("em", null, "(Quran 9:60)")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_112, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.configData.zakat.eligibleRecipients, recipient => {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("8 Eligible Recipients "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("em", null, "(Quran 9:60)")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_108, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.configData.zakat.eligibleRecipients, recipient => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
       key: recipient
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(recipient), 1 /* TEXT */);
-  }), 128 /* KEYED_FRAGMENT */))])])], 6 /* CLASS, STYLE */)], 512 /* NEED_PATCH */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" ── SAWM ── "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_113, [_cache[119] || (_cache[119] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"section-label-row\"><span class=\"section-num\">08</span><span class=\"section-rule\"></span><span class=\"section-tag\">Fourth Pillar</span></div><h2 class=\"section-title\"><em>Sawm</em> — Fasting in Ramadan</h2>", 2)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_114, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }), 128 /* KEYED_FRAGMENT */))])])], 4 /* STYLE */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" ── SAWM ── "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_109, [_cache[117] || (_cache[117] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"section-label-row\"><span class=\"section-num\">08</span><span class=\"section-rule\"></span><span class=\"section-tag\">Fourth Pillar</span></div><h2 class=\"section-title\"><em>Sawm</em> — Fasting in Ramadan</h2>", 2)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_110, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "tool-pill tool-pill--wa",
     onClick: _cache[52] || (_cache[52] = $event => $options.shareWhatsApp('sawm'))
@@ -1343,31 +1396,29 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     type: "button",
     class: "tool-pill tool-pill--ai",
     onClick: _cache[59] || (_cache[59] = $event => $options.toggleAiSummary('sawm'))
-  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.aiSummarySectionId === 'sawm' ? 'Hide Summary' : 'AI Summary'), 1 /* TEXT */)]), $data.aiSummarySectionId === 'sawm' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_115, [_cache[117] || (_cache[117] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.aiSummarySectionId === 'sawm' ? 'Hide Summary' : 'AI Summary'), 1 /* TEXT */)]), $data.aiSummarySectionId === 'sawm' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_111, [_cache[115] || (_cache[115] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "ai-summary-title"
-  }, "Summary", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_116, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.aiSummaryPoints, p => {
+  }, "Summary", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_112, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.aiSummaryPoints, p => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
       key: p
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(p), 1 /* TEXT */);
   }), 128 /* KEYED_FRAGMENT */))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     ref: "tool_sawm",
-    class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["split-layout reverse section-tool-target", {
-      'print-target': $data.printSectionId === 'sawm'
-    }]),
+    class: "split-layout reverse section-tool-target",
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
       '--tool-scale': $data.sectionFontScale.sawm
     })
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_117, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_118, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.configData.sawm.description), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_119, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.configData.sawm.benefits, benefit => {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_113, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_114, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.configData.sawm.description), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_115, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.configData.sawm.benefits, benefit => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
       key: benefit
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(benefit), 1 /* TEXT */);
-  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_120, [_cache[118] || (_cache[118] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_116, [_cache[116] || (_cache[116] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "qq-mark"
-  }, "\"", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.configData.sawm.reference), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_121, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_122, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+  }, "\"", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.configData.sawm.reference), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_117, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_118, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: $data.configData.sawm.image,
     alt: "Iftar meal at sunset",
     loading: "lazy"
-  }, null, 8 /* PROPS */, _hoisted_123)])])], 6 /* CLASS, STYLE */)], 512 /* NEED_PATCH */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" ── HAJJ ── "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_124, [_cache[125] || (_cache[125] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"section-label-row\"><span class=\"section-num\">09</span><span class=\"section-rule\"></span><span class=\"section-tag\">Fifth Pillar</span></div><h2 class=\"section-title\"><em>Hajj</em> — Pilgrimage to Makkah</h2>", 2)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_125, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, 8 /* PROPS */, _hoisted_119)])])], 4 /* STYLE */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" ── HAJJ ── "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_120, [_cache[123] || (_cache[123] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"section-label-row\"><span class=\"section-num\">09</span><span class=\"section-rule\"></span><span class=\"section-tag\">Fifth Pillar</span></div><h2 class=\"section-title\"><em>Hajj</em> — Pilgrimage to Makkah</h2>", 2)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_121, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "tool-pill tool-pill--wa",
     onClick: _cache[60] || (_cache[60] = $event => $options.shareWhatsApp('hajj'))
@@ -1399,35 +1450,33 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     type: "button",
     class: "tool-pill tool-pill--ai",
     onClick: _cache[67] || (_cache[67] = $event => $options.toggleAiSummary('hajj'))
-  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.aiSummarySectionId === 'hajj' ? 'Hide Summary' : 'AI Summary'), 1 /* TEXT */)]), $data.aiSummarySectionId === 'hajj' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_126, [_cache[120] || (_cache[120] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.aiSummarySectionId === 'hajj' ? 'Hide Summary' : 'AI Summary'), 1 /* TEXT */)]), $data.aiSummarySectionId === 'hajj' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_122, [_cache[118] || (_cache[118] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "ai-summary-title"
-  }, "Summary", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_127, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.aiSummaryPoints, p => {
+  }, "Summary", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_123, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.aiSummaryPoints, p => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
       key: p
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(p), 1 /* TEXT */);
   }), 128 /* KEYED_FRAGMENT */))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     ref: "tool_hajj",
-    class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["section-tool-target", {
-      'print-target': $data.printSectionId === 'hajj'
-    }]),
+    class: "section-tool-target",
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
       '--tool-scale': $data.sectionFontScale.hajj
     })
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_128, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_129, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_130, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.configData.hajj.description), 1 /* TEXT */), _cache[122] || (_cache[122] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_124, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_125, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_126, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.configData.hajj.description), 1 /* TEXT */), _cache[120] || (_cache[120] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "body-copy"
-  }, "Pilgrims wear simple white garments (Ihram) symbolising equality before Allah, commemorating the trials of Prophet Ibrahim ﷺ and his family.", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_131, [_cache[121] || (_cache[121] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, "Pilgrims wear simple white garments (Ihram) symbolising equality before Allah, commemorating the trials of Prophet Ibrahim ﷺ and his family.", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_127, [_cache[119] || (_cache[119] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "qq-mark"
-  }, "\"", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.configData.hajj.reference), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_132, [_cache[123] || (_cache[123] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
+  }, "\"", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.configData.hajj.reference), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_128, [_cache[121] || (_cache[121] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
     class: "sub-heading"
-  }, "Key Rituals", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_133, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.configData.hajj.keyRituals, (step, i) => {
+  }, "Key Rituals", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_129, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.configData.hajj.keyRituals, (step, i) => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
       key: step
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_134, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(i + 1), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(step), 1 /* TEXT */)]);
-  }), 128 /* KEYED_FRAGMENT */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("figure", _hoisted_135, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_130, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(i + 1), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(step), 1 /* TEXT */)]);
+  }), 128 /* KEYED_FRAGMENT */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("figure", _hoisted_131, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: $data.configData.hajj.image,
     alt: "Ka'bah – Makkah",
     loading: "lazy"
-  }, null, 8 /* PROPS */, _hoisted_136), _cache[124] || (_cache[124] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("figcaption", null, "The Ka'bah — Al-Masjid Al-Haram, Makkah", -1 /* CACHED */))])], 6 /* CLASS, STYLE */)], 512 /* NEED_PATCH */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" ── AFTERLIFE ── "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_137, [_cache[130] || (_cache[130] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"section-label-row\"><span class=\"section-num\">10</span><span class=\"section-rule\"></span><span class=\"section-tag\">Eschatology</span></div><h2 class=\"section-title\">The <em>Afterlife</em> (Akhirah)</h2>", 2)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_138, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, 8 /* PROPS */, _hoisted_132), _cache[122] || (_cache[122] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("figcaption", null, "The Ka'bah — Al-Masjid Al-Haram, Makkah", -1 /* CACHED */))])], 4 /* STYLE */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" ── AFTERLIFE ── "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_133, [_cache[128] || (_cache[128] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"section-label-row\"><span class=\"section-num\">10</span><span class=\"section-rule\"></span><span class=\"section-tag\">Eschatology</span></div><h2 class=\"section-title\">The <em>Afterlife</em> (Akhirah)</h2>", 2)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_134, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "tool-pill tool-pill--wa",
     onClick: _cache[68] || (_cache[68] = $event => $options.shareWhatsApp('afterlife'))
@@ -1459,51 +1508,49 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     type: "button",
     class: "tool-pill tool-pill--ai",
     onClick: _cache[75] || (_cache[75] = $event => $options.toggleAiSummary('afterlife'))
-  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.aiSummarySectionId === 'afterlife' ? 'Hide Summary' : 'AI Summary'), 1 /* TEXT */)]), $data.aiSummarySectionId === 'afterlife' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_139, [_cache[126] || (_cache[126] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.aiSummarySectionId === 'afterlife' ? 'Hide Summary' : 'AI Summary'), 1 /* TEXT */)]), $data.aiSummarySectionId === 'afterlife' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_135, [_cache[124] || (_cache[124] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "ai-summary-title"
-  }, "Summary", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_140, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.aiSummaryPoints, p => {
+  }, "Summary", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_136, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.aiSummaryPoints, p => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
       key: p
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(p), 1 /* TEXT */);
   }), 128 /* KEYED_FRAGMENT */))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     ref: "tool_afterlife",
-    class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["split-layout reverse section-tool-target", {
-      'print-target': $data.printSectionId === 'afterlife'
-    }]),
+    class: "split-layout reverse section-tool-target",
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
       '--tool-scale': $data.sectionFontScale.afterlife
     })
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_141, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_142, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.configData.afterlife.description), 1 /* TEXT */), _cache[128] || (_cache[128] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_137, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_138, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.configData.afterlife.description), 1 /* TEXT */), _cache[126] || (_cache[126] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "body-copy"
-  }, "The afterlife (Akhirah) is eternal and far greater than this world. The Quran describes Jannah (Paradise) as a place of unimaginable bliss and Jahannam (Hell) as a place of punishment.", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_143, [_cache[127] || (_cache[127] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, "The afterlife (Akhirah) is eternal and far greater than this world. The Quran describes Jannah (Paradise) as a place of unimaginable bliss and Jahannam (Hell) as a place of punishment.", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_139, [_cache[125] || (_cache[125] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "qq-mark"
-  }, "\"", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.configData.afterlife.reference), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_144, [_cache[129] || (_cache[129] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
+  }, "\"", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.configData.afterlife.reference), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_140, [_cache[127] || (_cache[127] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
     class: "sub-heading"
-  }, "Stages of the Afterlife", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_145, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.configData.afterlife.concepts, stage => {
+  }, "Stages of the Afterlife", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_141, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.configData.afterlife.concepts, stage => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
       key: stage.name
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_146, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(stage.icon), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(stage.name), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(stage.desc), 1 /* TEXT */)])]);
-  }), 128 /* KEYED_FRAGMENT */))])])], 6 /* CLASS, STYLE */)], 512 /* NEED_PATCH */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" ── DO'S & DON'TS ── "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_147, [_cache[135] || (_cache[135] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"section-label-row\"><span class=\"section-num\">11</span><span class=\"section-rule\"></span><span class=\"section-tag\">Islamic Law</span></div><h2 class=\"section-title\">Do&#39;s &amp; <em>Don&#39;ts</em></h2>", 2)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_148, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_149, [_cache[132] || (_cache[132] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_142, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(stage.icon), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(stage.name), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(stage.desc), 1 /* TEXT */)])]);
+  }), 128 /* KEYED_FRAGMENT */))])])], 4 /* STYLE */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" ── DO'S & DON'TS ── "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_143, [_cache[133] || (_cache[133] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"section-label-row\"><span class=\"section-num\">11</span><span class=\"section-rule\"></span><span class=\"section-tag\">Islamic Law</span></div><h2 class=\"section-title\">Do&#39;s &amp; <em>Don&#39;ts</em></h2>", 2)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_144, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_145, [_cache[130] || (_cache[130] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "twin-card-header"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "tc-icon"
-  }, "✓"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Recommended "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("em", null, "(Mustahabb / Fard)")])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_150, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.configData.dosAndDonts.dos, item => {
+  }, "✓"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Recommended "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("em", null, "(Mustahabb / Fard)")])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_146, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.configData.dosAndDonts.dos, item => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
       key: item
-    }, [_cache[131] || (_cache[131] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    }, [_cache[129] || (_cache[129] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       class: "cl-dot"
     }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item), 1 /* TEXT */)]);
-  }), 128 /* KEYED_FRAGMENT */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_151, [_cache[134] || (_cache[134] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), 128 /* KEYED_FRAGMENT */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_147, [_cache[132] || (_cache[132] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "twin-card-header"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "tc-icon red"
-  }, "✕"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Prohibited "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("em", null, "(Haram)")])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_152, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.configData.dosAndDonts.donts, item => {
+  }, "✕"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Prohibited "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("em", null, "(Haram)")])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_148, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.configData.dosAndDonts.donts, item => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
       key: item
-    }, [_cache[133] || (_cache[133] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    }, [_cache[131] || (_cache[131] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       class: "cl-dot red"
     }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item), 1 /* TEXT */)]);
-  }), 128 /* KEYED_FRAGMENT */))])])])], 512 /* NEED_PATCH */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" ── FAQ ── "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_153, [_cache[136] || (_cache[136] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"section-label-row\"><span class=\"section-num\">12</span><span class=\"section-rule\"></span><span class=\"section-tag\">Questions</span></div><h2 class=\"section-title\">Common <em>Questions</em></h2><p class=\"section-lead\" style=\"margin-bottom:2.5rem;\">Answered with care, nuance, and scholarly grounding.</p>", 3)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_154, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.faqsList, (faq, i) => {
+  }), 128 /* KEYED_FRAGMENT */))])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" ── FAQ ── "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_149, [_cache[134] || (_cache[134] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"section-label-row\"><span class=\"section-num\">12</span><span class=\"section-rule\"></span><span class=\"section-tag\">Questions</span></div><h2 class=\"section-title\">Common <em>Questions</em></h2><p class=\"section-lead\" style=\"margin-bottom:2.5rem;\">Answered with care, nuance, and scholarly grounding.</p>", 3)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_150, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.faqsList, (faq, i) => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: i,
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["faq-entry", {
@@ -1512,33 +1559,33 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       class: "faq-trigger",
       onClick: $event => $options.toggleFaq(i)
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_156, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(String(i + 1).padStart(2, '0')), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_157, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(faq.question), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_158, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(faq.open ? '−' : '+'), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_155), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_152, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(String(i + 1).padStart(2, '0')), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_153, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(faq.question), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_154, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(faq.open ? '−' : '+'), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_151), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
       name: "faq-expand"
     }, {
-      default: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(() => [faq.open ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_159, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(faq.answer), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]),
+      default: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(() => [faq.open ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_155, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(faq.answer), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]),
       _: 2 /* DYNAMIC */
     }, 1024 /* DYNAMIC_SLOTS */)], 2 /* CLASS */);
-  }), 128 /* KEYED_FRAGMENT */))])], 512 /* NEED_PATCH */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" ── RESOURCES ── "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_160, [_cache[139] || (_cache[139] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"section-label-row\"><span class=\"section-num\">13</span><span class=\"section-rule\"></span><span class=\"section-tag\">Resources</span></div><h2 class=\"section-title\">Apps &amp; <em>Learning Resources</em></h2>", 2)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_161, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_162, [_cache[137] || (_cache[137] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), 128 /* KEYED_FRAGMENT */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" ── RESOURCES ── "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_156, [_cache[137] || (_cache[137] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"section-label-row\"><span class=\"section-num\">13</span><span class=\"section-rule\"></span><span class=\"section-tag\">Resources</span></div><h2 class=\"section-title\">Apps &amp; <em>Learning Resources</em></h2>", 2)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_157, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_158, [_cache[135] || (_cache[135] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "twin-card-header"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "tc-icon"
-  }, "📱"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", null, "Recommended Apps")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_163, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.configData.appsAndResources.apps, app => {
+  }, "📱"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", null, "Recommended Apps")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_159, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.configData.appsAndResources.apps, app => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
       key: app.name
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_164, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(app.icon), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(app.name), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(app.description), 1 /* TEXT */)])]);
-  }), 128 /* KEYED_FRAGMENT */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_165, [_cache[138] || (_cache[138] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_160, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(app.icon), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(app.name), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(app.description), 1 /* TEXT */)])]);
+  }), 128 /* KEYED_FRAGMENT */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_161, [_cache[136] || (_cache[136] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "twin-card-header"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "tc-icon"
-  }, "🌐"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", null, "Trusted Websites & Channels")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_166, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.websitesList, site => {
+  }, "🌐"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", null, "Trusted Websites & Channels")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_162, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.websitesList, site => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
       key: site.name
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_167, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(site.icon), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_163, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(site.icon), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
       href: site.url,
       target: "_blank",
       rel: "noopener"
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(site.name), 9 /* TEXT, PROPS */, _hoisted_168), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(site.description), 1 /* TEXT */)])]);
-  }), 128 /* KEYED_FRAGMENT */))])])])], 512 /* NEED_PATCH */)]), $data.showScrollTop ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(site.name), 9 /* TEXT, PROPS */, _hoisted_164), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(site.description), 1 /* TEXT */)])]);
+  }), 128 /* KEYED_FRAGMENT */))])])])])]), $data.showScrollTop ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
     key: 0,
     type: "button",
     class: "scroll-top-fab",
@@ -1567,7 +1614,7 @@ __webpack_require__.r(__webpack_exports__);
   \****************************************************/
 /***/ ((module) => {
 
-module.exports = /*#__PURE__*/JSON.parse('{"disclaimer":{"text":"This guide is for educational purposes only. All information has been verified from the most trusted Islamic sources: Quran.com (Sahih International translation), Sunnah.com (authentic Hadith collections), Islamweb.net, Dar Al-Iftaa Al-Misriyyah, and Saudi Ministry of Islamic Affairs. Always consult a qualified scholar for specific religious rulings."},"attribution":"Content compiled from: Quran (Sahih International), Sahih Bukhari, Sahih Muslim, al-Muwatta, Sunan al-Tirmidhi, Islamweb (Fatwa Committee), Dar Al-Iftaa Al-Misriyyah. All references are cited inline. Images sourced from Pexels (free for use). Videos from respected educational Islamic YouTube channels.","theme":{"backgroundColor":"#2E9F90","titleColor":"#006D5B","accentColor":"#006D5B","textColor":"#2C3E50","description":"Light teal green background with deep teal titles for a calm, peaceful Islamic aesthetic."},"sources":[{"name":"Quran.com","url":"https://quran.com"},{"name":"Sunnah.com","url":"https://sunnah.com"},{"name":"Islamweb.net","url":"https://www.islamweb.net"},{"name":"Dar Al-Iftaa Al-Misriyyah","url":"https://www.dar-alifta.org"},{"name":"Saudi Ministry of Islamic Affairs","url":"https://www.moia.gov.sa"}],"hero":{"title":"Discover Islam","subtitle":"A complete introduction to the faith of over 2 billion Muslims","badge":"Scholarly Verified","stats":[{"num":"6","label":"Pillars of Faith"},{"num":"5","label":"Pillars of Islam"},{"num":"114","label":"Surahs in Quran"},{"num":"99","label":"Names of Allah"}]},"searchSections":[{"id":"basics","emoji":"☪","title":"What is Islam?","excerpt":"The complete way of life — submission to Allah, covering core beliefs and five pillars."},{"id":"shahada","emoji":"🌙","title":"The Shahada","excerpt":"The declaration of faith — the first and most fundamental pillar."},{"id":"allah","emoji":"✦","title":"Who is Allah?","excerpt":"The One, Unique, Eternal Creator — 99 names, no partners."},{"id":"prophet","emoji":"⭐","title":"Prophet Muhammad ﷺ","excerpt":"The final messenger of Allah, born in Makkah 570 CE."},{"id":"quran","emoji":"📖","title":"The Holy Quran","excerpt":"114 chapters, 6,236 verses — literal word of Allah."},{"id":"salah","emoji":"🕌","title":"Salah — Daily Prayers","excerpt":"Five prayers daily: Fajr, Dhuhr, Asr, Maghrib, Isha."},{"id":"zakat","emoji":"💛","title":"Zakat — Charity","excerpt":"2.5% of savings given to those in need each year."},{"id":"sawm","emoji":"🌙","title":"Sawm — Fasting","excerpt":"Month-long fast during Ramadan, the 9th Islamic month."},{"id":"hajj","emoji":"🕋","title":"Hajj — Pilgrimage","excerpt":"Once-in-a-lifetime journey to Makkah in Dhul Hijjah."},{"id":"afterlife","emoji":"⏳","title":"The Afterlife","excerpt":"Resurrection, Judgement, Jannah and Jahannam."},{"id":"dosdonts","emoji":"📋","title":"Do\'s & Don\'ts","excerpt":"Recommended and prohibited actions in Islamic law."},{"id":"faq","emoji":"❓","title":"FAQ","excerpt":"Common questions answered with scholarly grounding."},{"id":"resources","emoji":"📱","title":"Apps & Resources","excerpt":"Muslim Pro, Quran.com, SeekersGuidance, Yaqeen and more."}],"basics":{"title":"What is Islam?","icon":"fas fa-star-of-life","description":"Islam is the final and complete revelation from Allah (God) to humanity. It means \'submission to the will of Allah\' and is a religion of peace, mercy, and justice.","coreBeliefs":{"title":"The Six Pillars of Iman (Faith)","items":["Belief in Allah (The One and Only God)","Belief in the Angels","Belief in the Revealed Books (Quran as final)","Belief in the Messengers (Muhammad ﷺ as final)","Belief in the Day of Judgment","Belief in Divine Decree (Qadr)"],"reference":"📖 Sahih Muslim 8 — Hadith of Jibril"},"corePractices":{"title":"The Five Pillars of Islam","items":["Shahada (Declaration of Faith)","Salah (Five Daily Prayers)","Zakat (Charity - 2.5% of qualifying savings)","Sawm (Fasting in Ramadan)","Hajj (Pilgrimage to Mecca)"],"reference":"📖 Sahih Bukhari 8 — Pillars of Islam"},"image":"https://images.pexels.com/photos/2715373/pexels-photo-2715373.jpeg?auto=compress&cs=tinysrgb&w=1200","video":"https://www.youtube.com/embed/zBWjfY3QPuY?rel=0"},"shahada":{"title":"The Shahada (Declaration of Faith)","arabic":"أشهد أن لا إله إلا الله وأشهد أن محمدًا رسول الله","transliteration":"Ash-hadu an la ilaha illa Allah, wa ash-hadu anna Muhammadan Rasul Allah","translation":"I bear witness that there is no god but Allah, and I bear witness that Muhammad is the Messenger of Allah","explanation":"The Shahada is the gateway into Islam. Uttering it with sincere conviction — understanding that Allah alone deserves worship and that Muhammad ﷺ is His final messenger — makes one a Muslim. It echoes through the Adhan five times daily.","reference":"Sahih Muslim (via Riyad as-Salihin 412) - The Prophet ﷺ said: \'Whoever testifies that there is no god but Allah alone, without partner, and that Muhammad is His servant and Messenger... Allah will forbid the Fire from touching him\' (or admit him to Paradise according to narrations).","image":"https://images.pexels.com/photos/2695984/pexels-photo-2695984.jpeg?auto=compress&cs=tinysrgb&w=1200","video":"https://www.youtube.com/embed/ecUX3l5iGYg?rel=0"},"allah":{"title":"Who is Allah?","description":"Allah is the Arabic word for God — the One, Unique, Eternal Creator of all existence. Islam teaches that Allah has no partners, no children, no equals, and is unlike anything in creation.","quranReference":"He is Allah, other than whom there is no deity, Knower of the unseen and the witnessed. He is the Entirely Merciful, the Especially Merciful. — Quran 59:22","image":"https://images.pexels.com/photos/1162251/pexels-photo-1162251.jpeg?auto=compress&cs=tinysrgb&w=1200","video":"https://www.youtube.com/embed/3jsb0KrmRdY?rel=0"},"asmaUlHusna":{"title":"99 Beautiful Names of Allah (Asma ul-Husna)","description":"Allah has 99 Beautiful Names. Learning and calling upon Him by these names is highly recommended. Here is the complete authentic list with meanings:","names":[{"ar":"الرَّحْمَٰن","en":"Ar-Rahman — The Most Gracious"},{"ar":"الرَّحِيم","en":"Ar-Rahim — The Most Merciful"},{"ar":"الْمَلِك","en":"Al-Malik — The King"},{"ar":"الْقُدُّوس","en":"Al-Quddus — The Most Holy"},{"ar":"السَّلَام","en":"As-Salam — The Source of Peace"},{"ar":"الْمُؤْمِن","en":"Al-Mumin — The Guardian of Faith"},{"ar":"الْمُهَيْمِن","en":"Al-Muhaymin — The Protector"},{"ar":"الْعَزِيز","en":"Al-Aziz — The Almighty"},{"ar":"الْجَبَّار","en":"Al-Jabbar — The Compeller"},{"ar":"الْمُتَكَبِّر","en":"Al-Mutakabbir — The Majestic"},{"ar":"الْخَالِق","en":"Al-Khaliq — The Creator"},{"ar":"الْبَارِئ","en":"Al-Bari\' — The Originator"},{"ar":"الْمُصَوِّر","en":"Al-Musawwir — The Fashioner"},{"ar":"الْغَفَّار","en":"Al-Ghaffar — The Forgiving"},{"ar":"الْقَهَّار","en":"Al-Qahhar — The Subduer"},{"ar":"الْوَهَّاب","en":"Al-Wahhab — The Bestower"},{"ar":"الرَّزَّاق","en":"Ar-Razzaq — The Provider"},{"ar":"الْفَتَّاح","en":"Al-Fattah — The Opener"},{"ar":"الْعَلِيم","en":"Al-\'Alim — The All-Knowing"},{"ar":"الْقَابِض","en":"Al-Qabid — The Withholder"},{"ar":"الْبَاسِط","en":"Al-Basit — The Extender"},{"ar":"الْخَافِض","en":"Al-Khafid — The Reducer"},{"ar":"الرَّافِع","en":"Al-Rafi\' — The Exalter"},{"ar":"الْمُعِزّ","en":"Al-Mu\'izz — The Honourer"},{"ar":"الْمُذِلّ","en":"Al-Mudhill — The Humiliator"},{"ar":"السَّمِيع","en":"As-Sami — The All-Hearing"},{"ar":"الْبَصِير","en":"Al-Basir — The All-Seeing"},{"ar":"الْحَكَم","en":"Al-Hakam — The Judge"},{"ar":"الْعَدْل","en":"Al-Adl — The Just"},{"ar":"اللَّطِيف","en":"Al-Latif — The Subtle"},{"ar":"الْخَبِير","en":"Al-Khabir — The Aware"},{"ar":"الْحَلِيم","en":"Al-Halim — The Forbearing"},{"ar":"الْعَظِيم","en":"Al-Azim — The Magnificent"},{"ar":"الْغَفُور","en":"Al-Ghafur — The Forgiving"},{"ar":"الشَّكُور","en":"Ash-Shakur — The Appreciative"},{"ar":"الْعَلِيّ","en":"Al-\'Ali — The Most High"},{"ar":"الْكَبِير","en":"Al-Kabir — The Grand"},{"ar":"الْحَفِيظ","en":"Al-Hafiz — The Preserver"},{"ar":"الْمُقِيت","en":"Al-Muqit — The Sustainer"},{"ar":"الْحَسِيب","en":"Al-Hasib — The Reckoner"},{"ar":"الْجَلِيل","en":"Al-Jalil — The Majestic"},{"ar":"الْكَرِيم","en":"Al-Karim — The Generous"},{"ar":"الرَّقِيب","en":"Ar-Raqib — The Watchful"},{"ar":"الْمُجِيب","en":"Al-Mujib — The Responder"},{"ar":"الْوَاسِع","en":"Al-Wasi — The Vast"},{"ar":"الْحَكِيم","en":"Al-Hakim — The Wise"},{"ar":"الْوَدُود","en":"Al-Wadud — The Loving"},{"ar":"الْمَجِيد","en":"Al-Majid — The Glorious"},{"ar":"الْبَاعِث","en":"Al-Baith — The Resurrector"},{"ar":"الشَّهِيد","en":"Ash-Shahid — The Witness"},{"ar":"الْحَقّ","en":"Al-Haqq — The Truth"},{"ar":"الْوَكِيل","en":"Al-Wakil — The Trustee"},{"ar":"الْقَوِيّ","en":"Al-Qawiyy — The Strong"},{"ar":"الْمَتِين","en":"Al-Matin — The Firm"},{"ar":"الْوَلِيّ","en":"Al-Waliyy — The Protecting Friend"},{"ar":"الْحَمِيد","en":"Al-Hamid — The Praiseworthy"},{"ar":"الْمُحْصِي","en":"Al-Muhsi — The Counter"},{"ar":"الْمُبْدِئ","en":"Al-Mubdi\' — The Originator"},{"ar":"الْمُعِيد","en":"Al-Muid — The Restorer"},{"ar":"الْمُحْيِي","en":"Al-Muhyi — The Giver of Life"},{"ar":"الْمُمِيت","en":"Al-Mumit — The Taker of Life"},{"ar":"الْحَيّ","en":"Al-Hayy — The Ever-Living"},{"ar":"الْقَيُّوم","en":"Al-Qayyum — The Self-Subsisting"},{"ar":"الْوَاجِد","en":"Al-Wajid — The Finder"},{"ar":"الْمَاجِد","en":"Al-Majid — The Noble"},{"ar":"الْوَاحِد","en":"Al-Wahid — The One"},{"ar":"الصَّمَد","en":"As-Samad — The Eternal"},{"ar":"الْقَادِر","en":"Al-Qadir — The Able"},{"ar":"الْمُقْتَدِر","en":"Al-Muqtadir — The Powerful"},{"ar":"الْمُقَدِّم","en":"Al-Muqaddim — The Expediter"},{"ar":"الْمُؤَخِّر","en":"Al-Muakhkhir — The Delayer"},{"ar":"الأَوَّل","en":"Al-Awwal — The First"},{"ar":"الآخِر","en":"Al-Akhir — The Last"},{"ar":"الظَّاهِر","en":"Az-Zahir — The Manifest"},{"ar":"الْبَاطِن","en":"Al-Batin — The Hidden"},{"ar":"الْوَالِي","en":"Al-Wali — The Governor"},{"ar":"الْمُتَعَالِي","en":"Al-Muta\'ali — The Most Exalted"},{"ar":"الْبَرّ","en":"Al-Barr — The Source of Goodness"},{"ar":"التَّوَّاب","en":"At-Tawwab — The Ever-Pardoning"},{"ar":"الْمُنْتَقِم","en":"Al-Muntaqim — The Avenger"},{"ar":"الْعَفُوّ","en":"Al-\'Afuww — The Pardoner"},{"ar":"الرَّؤُوف","en":"Ar-Ra\'uf — The Compassionate"},{"ar":"مَالِكُ الْمُلْك","en":"Malik-ul-Mulk — Master of the Kingdom"},{"ar":"ذُو الْجَلَال","en":"Dhul Jalali — Lord of Majesty"},{"ar":"الْمُقْسِط","en":"Al-Muqsit — The Equitable"},{"ar":"الْجَامِع","en":"Al-Jami\' — The Gatherer"},{"ar":"الْغَنِيّ","en":"Al-Ghani — The Self-Sufficient"},{"ar":"الْمُغْنِي","en":"Al-Mughni — The Enricher"},{"ar":"الْمَانِع","en":"Al-Mani\' — The Preventer"},{"ar":"الضَّارّ","en":"Ad-Darr — The Distresser"},{"ar":"النَّافِع","en":"An-Nafi — The Propitious"},{"ar":"النُّور","en":"An-Nur — The Light"},{"ar":"الْهَادِي","en":"Al-Hadi — The Guide"},{"ar":"الْبَدِيع","en":"Al-Badi\' — The Originator"},{"ar":"الْبَاقِي","en":"Al-Baqi — The Everlasting"},{"ar":"الْوَارِث","en":"Al-Warith — The Inheritor"},{"ar":"الرَّشِيد","en":"Ar-Rashid — The Righteous Teacher"},{"ar":"الصَّبُور","en":"As-Sabur — The Patient"}],"image":"https://images.pexels.com/photos/3832028/pexels-photo-3832028.jpeg?auto=compress&cs=tinysrgb&w=1200","video":"https://www.youtube.com/embed/g3yG6rU9Uys?rel=0"},"prophet":{"title":"Prophet Muhammad ﷺ","description":"Muhammad ibn Abdullah ﷺ was born in Makkah in 570 CE. At 40, he received his first revelation through Angel Jibreel. Over 23 years he conveyed the complete message of Islam. He is the Seal of the Prophets — no messenger will come after him.","keyTeachings":["Monotheism — worship Allah alone without partners","Kindness to family, neighbours, and all creation","Honesty and trustworthiness in all dealings","Justice, equality, and the rights of the poor","Seeking knowledge as a duty upon every Muslim","\\"I was only sent as a mercy to the worlds\\""],"quranReference":"Quran 21:107 — Mercy to the worlds","hadithReference":"Sahih Muslim 2564 — Love for others","image":"https://images.pexels.com/photos/12593672/pexels-photo-12593672.jpeg?auto=compress&cs=tinysrgb&w=1200","video":"https://www.youtube.com/embed/GOPiPx5tvB0?rel=0"},"quran":{"title":"The Holy Quran","description":"The Quran is the literal word of Allah (SWT), revealed to Prophet Muhammad ﷺ over 23 years through Angel Jibreel — the primary source of Islamic law, ethics, and spiritual guidance.","facts":["114 Surahs (Chapters)","6,236 Ayaat (Verses)","30 Juz (Parts)","10M+ Huffaz worldwide"],"reference":"This is the Book about which there is no doubt, a guidance for those conscious of Allah. — Quran 2:2","image":"https://images.pexels.com/photos/8522573/pexels-photo-8522573.jpeg?auto=compress&cs=tinysrgb&w=1200","video":"https://www.youtube.com/embed/YDNT2R5_nbE?rel=0"},"salah":{"title":"Salah (The Five Daily Prayers)","description":"Salah is the ritual prayer performed five times daily at prescribed times, involving specific postures, Quranic recitations, and remembrance of Allah. Wudu (ritual ablution) must be observed beforehand. Prayer faces the Qiblah — the direction of the Ka\'bah in Makkah.","prayers":[{"name":"Fajr","arabic":"الفجر","time":"Dawn","rakah":2,"sky":"🌤","color":"#e8956d","bg":"#fff5ef"},{"name":"Dhuhr","arabic":"الظهر","time":"Midday","rakah":4,"sky":"☀️","color":"#c49a1a","bg":"#fffbec"},{"name":"Asr","arabic":"العصر","time":"Afternoon","rakah":4,"sky":"🌅","color":"#d47a44","bg":"#fff3e8"},{"name":"Maghrib","arabic":"المغرب","time":"Sunset","rakah":3,"sky":"🌆","color":"#9d60d4","bg":"#f8f0ff"},{"name":"Isha","arabic":"العشاء","time":"Night","rakah":4,"sky":"🌙","color":"#3a5fa8","bg":"#eef3ff"}],"reference":"Maintain with care the [obligatory] prayers and stand before Allah, devoutly obedient. — Quran 2:238","image":"https://images.pexels.com/photos/36211997/pexels-photo-36211997.jpeg","video":"https://www.youtube.com/embed/-K6HlXzJegk?rel=0"},"zakat":{"title":"Zakat (Charity)","description":"Zakat is the compulsory giving of 2.5% of one\'s total accumulated wealth above the Nisab threshold to eligible recipients — purifying wealth and reducing inequality.","eligibleRecipients":["The poor (Fuqara)","The needy (Masakin)","Zakat administrators","Those to be reconciled","To free captives","Those in debt (Gharimin)","In the cause of Allah","The stranded traveller"],"reference":"Take from their wealth a charity by which you purify them and cause them to increase. — Quran 9:103","image":"https://images.pexels.com/photos/5997945/pexels-photo-5997945.jpeg?auto=compress&cs=tinysrgb&w=1200","video":"https://www.youtube.com/embed/27_NFmvwrpM?rel=0"},"sawm":{"title":"Sawm (Fasting in Ramadan)","description":"Muslims abstain from food, drink, smoking, and sexual relations from Fajr (dawn) to Maghrib (sunset) during Ramadan — the 9th month of the Hijri calendar.","benefits":["Spiritual purification and closeness to Allah","Development of self-discipline and gratitude","Empathy for those who suffer from hunger","Laylat al-Qadr — better than 1,000 months","Increased Quran recitation and Tarawih prayers","Community gathering and spiritual renewal"],"reference":"Decreed upon you is fasting as it was decreed upon those before you that you may become righteous. — Quran 2:183","image":"https://images.pexels.com/photos/7956566/pexels-photo-7956566.jpeg?auto=compress&cs=tinysrgb&w=800","video":"https://www.youtube.com/embed/lm6VL54f0os?rel=0"},"hajj":{"title":"Hajj (Pilgrimage)","description":"Obligatory at least once in a lifetime for every adult Muslim who is physically and financially able, Hajj takes place in Dhul Hijjah — the 12th Islamic month.","keyRituals":["Entering Ihram — sacred state of purity","Tawaf — circling the Ka\'bah 7 times","Sa\'i — walking between Safa & Marwa","Standing at Arafat — Day of Arafah","Overnight stay at Muzdalifah","Stoning of the Jamarat"],"reference":"And [due] to Allah from the people is a pilgrimage to the House — for whoever is able to find thereto a way. — Quran 3:97","image":"https://images.pexels.com/photos/35315919/pexels-photo-35315919.jpeg?auto=compress&cs=tinysrgb&w=800","video":"https://www.youtube.com/embed/jd9AVwtyp4Y?rel=0"},"afterlife":{"title":"Belief in the Afterlife","description":"Islam teaches that this worldly life is temporary and that every soul will be resurrected and judged for their deeds on the Day of Judgement (Yawm al-Qiyama).","concepts":[{"icon":"⚰","name":"Barzakh","desc":"The intermediate state in the grave after death."},{"icon":"📯","name":"The Trumpet Blow","desc":"The end of this world — all creation perishes."},{"icon":"🌅","name":"Resurrection","desc":"All souls raised on the plains of Mahshar."},{"icon":"⚖","name":"The Scales","desc":"Deeds weighed on the Mizan with perfect justice."},{"icon":"🌉","name":"Al-Sirat","desc":"The bridge over Hell crossed by all souls."},{"icon":"🌺","name":"Jannah or Jahannam","desc":"Eternal Paradise or Hell based on the reckoning."}],"reference":"Every soul will taste death, and you will only be given your full compensation on the Day of Resurrection. — Quran 3:185","image":"https://images.pexels.com/photos/1162251/pexels-photo-1162251.jpeg?auto=compress&cs=tinysrgb&w=1200","video":"https://www.youtube.com/embed/dffncQrws1I?rel=0"},"dosAndDonts":{"dos":["Pray the five daily prayers on time","Recite Bismillah before any action","Greet others with \\"As-salamu alaykum\\"","Be kind and respectful to parents","Give in charity — obligatory and voluntary","Maintain family ties (Silat ar-Rahim)","Seek knowledge throughout life","Eat only Halal food","Maintain ritual purity (Taharah)"],"donts":["Associating partners with Allah (Shirk)","Consuming alcohol, intoxicants, or pork","Riba (interest/usury) in financial dealings","Zina (adultery or fornication)","Stealing, cheating, or dishonest dealings","Backbiting (Gheebah) and slander","Murder or harming innocent people","Arrogance and pride (Kibr)","Breaking family ties without just cause"]},"faqs":[{"question":"How does one become a Muslim?","answer":"To become a Muslim, one must sincerely recite the Shahada with full understanding and conviction."},{"question":"What is the difference between Islam, Iman, and Ihsan?","answer":"Islam refers to the outward actions (the 5 pillars). Iman refers to the inner beliefs (the 6 pillars of faith). Ihsan refers to worshipping Allah as if you see Him, knowing He sees you (Sahih Muslim 8)."},{"question":"Do Muslims worship the same God as other religions?","answer":"Muslims worship Allah — the One and Only God. He has no partners, no children, and no equals (Surah Al-Ikhlas 112:1)."},{"question":"Why do Muslims pray five times a day?","answer":"The five daily prayers were ordained during the Isra and Mi\'raj. They provide spiritual discipline and connection to Allah (Surah Al-Ankabut 29:45)."},{"question":"What is the role of women in Islam?","answer":"Islam elevated women\'s status with rights to inheritance, education, and consent. Men and women are equal in spiritual reward. \'The best of you are those best to their women\' (Sunan al-Tirmidhi 3895)."},{"question":"Are all Muslims Arab?","answer":"No. Only about 20% of Muslims are Arab. The largest Muslim populations are in Indonesia, Pakistan, India, Bangladesh, and Nigeria."}],"appsAndResources":{"apps":[{"icon":"🕌","name":"Muslim Pro","description":"Prayer times, Quran, Qibla, Adhan alerts"},{"icon":"📖","name":"Quran Companion","description":"Memorisation tools, Tajweed, progress tracking"},{"icon":"⭐","name":"Seerah App","description":"Life of the Prophet ﷺ in full detail"},{"icon":"🤖","name":"Tarteel AI","description":"AI-powered Quran recitation correction"},{"icon":"🔔","name":"Athan (Azan)","description":"Prayer times, Quran audio, Dhikr counter"}],"websites":[{"icon":"📚","name":"islamqa.info","url":"https://islamqa.info","description":"Scholarly Q&A — fatawa and rulings"},{"icon":"📜","name":"sunnah.com","url":"https://sunnah.com","description":"Complete Hadith collections online"},{"icon":"📖","name":"quran.com","url":"https://quran.com","description":"Quran with translation and tafsir"},{"icon":"🎓","name":"yaqeeninstitute.org","url":"https://yaqeeninstitute.org","description":"Academic Islamic research papers"},{"icon":"🌿","name":"seekersguidance.org","url":"https://seekersguidance.org","description":"Free Islamic learning courses"}]}}');
+module.exports = /*#__PURE__*/JSON.parse('{"disclaimer":{"text":"This guide is for educational purposes only. All information has been verified from the most trusted Islamic sources: Quran.com (Sahih International translation), Sunnah.com (authentic Hadith collections), Islamweb.net, Dar Al-Iftaa Al-Misriyyah, and Saudi Ministry of Islamic Affairs. Always consult a qualified scholar for specific religious rulings."},"attribution":"Content compiled from: Quran (Sahih International), Sahih Bukhari, Sahih Muslim, al-Muwatta, Sunan al-Tirmidhi, Islamweb (Fatwa Committee), Dar Al-Iftaa Al-Misriyyah. All references are cited inline. Images sourced from Pexels (free for use). Videos from respected educational Islamic YouTube channels.","theme":{"backgroundColor":"#2E9F90","titleColor":"#006D5B","accentColor":"#006D5B","textColor":"#2C3E50","description":"Light teal green background with deep teal titles for a calm, peaceful Islamic aesthetic."},"hero":{"title":"Discover Islam","subtitle":"A complete introduction to the faith of over 2 billion Muslims","badge":"Scholarly Verified","stats":[{"num":"6","label":"Pillars of Faith"},{"num":"5","label":"Pillars of Islam"},{"num":"114","label":"Surahs in Quran"},{"num":"99","label":"Names of Allah"}]},"searchSections":[{"id":"basics","emoji":"☪","title":"What is Islam?","excerpt":"The complete way of life — submission to Allah, covering core beliefs and five pillars."},{"id":"shahada","emoji":"🌙","title":"The Shahada","excerpt":"The declaration of faith — the first and most fundamental pillar."},{"id":"allah","emoji":"✦","title":"Who is Allah?","excerpt":"The One, Unique, Eternal Creator — 99 names, no partners."},{"id":"prophet","emoji":"⭐","title":"Prophet Muhammad ﷺ","excerpt":"The final messenger of Allah, born in Makkah 570 CE."},{"id":"quran","emoji":"📖","title":"The Holy Quran","excerpt":"114 chapters, 6,236 verses — literal word of Allah."},{"id":"salah","emoji":"🕌","title":"Salah — Daily Prayers","excerpt":"Five prayers daily: Fajr, Dhuhr, Asr, Maghrib, Isha."},{"id":"zakat","emoji":"💛","title":"Zakat — Charity","excerpt":"2.5% of savings given to those in need each year."},{"id":"sawm","emoji":"🌙","title":"Sawm — Fasting","excerpt":"Month-long fast during Ramadan, the 9th Islamic month."},{"id":"hajj","emoji":"🕋","title":"Hajj — Pilgrimage","excerpt":"Once-in-a-lifetime journey to Makkah in Dhul Hijjah."},{"id":"afterlife","emoji":"⏳","title":"The Afterlife","excerpt":"Resurrection, Judgement, Jannah and Jahannam."},{"id":"dosdonts","emoji":"📋","title":"Do\'s & Don\'ts","excerpt":"Recommended and prohibited actions in Islamic law."},{"id":"faq","emoji":"❓","title":"FAQ","excerpt":"Common questions answered with scholarly grounding."},{"id":"resources","emoji":"📱","title":"Apps & Resources","excerpt":"Muslim Pro, Quran.com, SeekersGuidance, Yaqeen and more."}],"basics":{"title":"What is Islam?","icon":"fas fa-star-of-life","description":"Islam is the final and complete revelation from Allah (God) to humanity. It means \'submission to the will of Allah\' and is a religion of peace, mercy, and justice.","coreBeliefs":{"title":"The Six Pillars of Iman (Faith)","items":["Belief in Allah (The One and Only God)","Belief in the Angels","Belief in the Revealed Books (Quran as final)","Belief in the Messengers (Muhammad ﷺ as final)","Belief in the Day of Judgment","Belief in Divine Decree (Qadr)"],"reference":"📖 Sahih Muslim 8 — Hadith of Jibril"},"corePractices":{"title":"The Five Pillars of Islam","items":["Shahada (Declaration of Faith)","Salah (Five Daily Prayers)","Zakat (Charity - 2.5% of qualifying savings)","Sawm (Fasting in Ramadan)","Hajj (Pilgrimage to Mecca)"],"reference":"📖 Sahih Bukhari 8 — Pillars of Islam"},"image":"https://images.pexels.com/photos/2715373/pexels-photo-2715373.jpeg?auto=compress&cs=tinysrgb&w=800","video":"https://www.youtube.com/embed/_DhI-yvhsLA"},"shahada":{"title":"The Shahada (Declaration of Faith)","arabic":"أشهد أن لا إله إلا الله وأشهد أن محمدًا رسول الله","transliteration":"Ash-hadu an la ilaha illa Allah, wa ash-hadu anna Muhammadan Rasul Allah","translation":"I bear witness that there is no god but Allah, and I bear witness that Muhammad is the Messenger of Allah","explanation":"The Shahada is the gateway into Islam. Uttering it with sincere conviction — understanding that Allah alone deserves worship and that Muhammad ﷺ is His final messenger — makes one a Muslim. It echoes through the Adhan five times daily.","reference":"Sahih Muslim (via Riyad as-Salihin 412) - The Prophet ﷺ said: \'Whoever testifies that there is no god but Allah alone, without partner, and that Muhammad is His servant and Messenger... Allah will forbid the Fire from touching him\' (or admit him to Paradise according to narrations).","image":"https://images.pexels.com/photos/2695984/pexels-photo-2695984.jpeg?auto=compress&cs=tinysrgb&w=1200","video":"https://www.youtube.com/embed/ecUX3l5iGYg?rel=0"},"allah":{"title":"Who is Allah?","description":"Allah is the Arabic word for God — the One, Unique, Eternal Creator of all existence. Islam teaches that Allah has no partners, no children, no equals, and is unlike anything in creation.","quranReference":"He is Allah, other than whom there is no deity, Knower of the unseen and the witnessed. He is the Entirely Merciful, the Especially Merciful. — Quran 59:22","image":"https://images.pexels.com/photos/1162251/pexels-photo-1162251.jpeg?auto=compress&cs=tinysrgb&w=1200","video":"https://www.youtube.com/embed/YDhs1B9p4yw"},"asmaUlHusna":{"title":"99 Beautiful Names of Allah (Asma ul-Husna)","description":"Allah has 99 Beautiful Names. Learning and calling upon Him by these names is highly recommended. Here is the complete authentic list with meanings:","names":[{"ar":"الرَّحْمَٰن","en":"Ar-Rahman — The Most Gracious"},{"ar":"الرَّحِيم","en":"Ar-Rahim — The Most Merciful"},{"ar":"الْمَلِك","en":"Al-Malik — The King"},{"ar":"الْقُدُّوس","en":"Al-Quddus — The Most Holy"},{"ar":"السَّلَام","en":"As-Salam — The Source of Peace"},{"ar":"الْمُؤْمِن","en":"Al-Mumin — The Guardian of Faith"},{"ar":"الْمُهَيْمِن","en":"Al-Muhaymin — The Protector"},{"ar":"الْعَزِيز","en":"Al-Aziz — The Almighty"},{"ar":"الْجَبَّار","en":"Al-Jabbar — The Compeller"},{"ar":"الْمُتَكَبِّر","en":"Al-Mutakabbir — The Majestic"},{"ar":"الْخَالِق","en":"Al-Khaliq — The Creator"},{"ar":"الْبَارِئ","en":"Al-Bari\' — The Originator"},{"ar":"الْمُصَوِّر","en":"Al-Musawwir — The Fashioner"},{"ar":"الْغَفَّار","en":"Al-Ghaffar — The Forgiving"},{"ar":"الْقَهَّار","en":"Al-Qahhar — The Subduer"},{"ar":"الْوَهَّاب","en":"Al-Wahhab — The Bestower"},{"ar":"الرَّزَّاق","en":"Ar-Razzaq — The Provider"},{"ar":"الْفَتَّاح","en":"Al-Fattah — The Opener"},{"ar":"الْعَلِيم","en":"Al-\'Alim — The All-Knowing"},{"ar":"الْقَابِض","en":"Al-Qabid — The Withholder"},{"ar":"الْبَاسِط","en":"Al-Basit — The Extender"},{"ar":"الْخَافِض","en":"Al-Khafid — The Reducer"},{"ar":"الرَّافِع","en":"Al-Rafi\' — The Exalter"},{"ar":"الْمُعِزّ","en":"Al-Mu\'izz — The Honourer"},{"ar":"الْمُذِلّ","en":"Al-Mudhill — The Humiliator"},{"ar":"السَّمِيع","en":"As-Sami — The All-Hearing"},{"ar":"الْبَصِير","en":"Al-Basir — The All-Seeing"},{"ar":"الْحَكَم","en":"Al-Hakam — The Judge"},{"ar":"الْعَدْل","en":"Al-Adl — The Just"},{"ar":"اللَّطِيف","en":"Al-Latif — The Subtle"},{"ar":"الْخَبِير","en":"Al-Khabir — The Aware"},{"ar":"الْحَلِيم","en":"Al-Halim — The Forbearing"},{"ar":"الْعَظِيم","en":"Al-Azim — The Magnificent"},{"ar":"الْغَفُور","en":"Al-Ghafur — The Forgiving"},{"ar":"الشَّكُور","en":"Ash-Shakur — The Appreciative"},{"ar":"الْعَلِيّ","en":"Al-\'Ali — The Most High"},{"ar":"الْكَبِير","en":"Al-Kabir — The Grand"},{"ar":"الْحَفِيظ","en":"Al-Hafiz — The Preserver"},{"ar":"الْمُقِيت","en":"Al-Muqit — The Sustainer"},{"ar":"الْحَسِيب","en":"Al-Hasib — The Reckoner"},{"ar":"الْجَلِيل","en":"Al-Jalil — The Majestic"},{"ar":"الْكَرِيم","en":"Al-Karim — The Generous"},{"ar":"الرَّقِيب","en":"Ar-Raqib — The Watchful"},{"ar":"الْمُجِيب","en":"Al-Mujib — The Responder"},{"ar":"الْوَاسِع","en":"Al-Wasi — The Vast"},{"ar":"الْحَكِيم","en":"Al-Hakim — The Wise"},{"ar":"الْوَدُود","en":"Al-Wadud — The Loving"},{"ar":"الْمَجِيد","en":"Al-Majid — The Glorious"},{"ar":"الْبَاعِث","en":"Al-Baith — The Resurrector"},{"ar":"الشَّهِيد","en":"Ash-Shahid — The Witness"},{"ar":"الْحَقّ","en":"Al-Haqq — The Truth"},{"ar":"الْوَكِيل","en":"Al-Wakil — The Trustee"},{"ar":"الْقَوِيّ","en":"Al-Qawiyy — The Strong"},{"ar":"الْمَتِين","en":"Al-Matin — The Firm"},{"ar":"الْوَلِيّ","en":"Al-Waliyy — The Protecting Friend"},{"ar":"الْحَمِيد","en":"Al-Hamid — The Praiseworthy"},{"ar":"الْمُحْصِي","en":"Al-Muhsi — The Counter"},{"ar":"الْمُبْدِئ","en":"Al-Mubdi\' — The Originator"},{"ar":"الْمُعِيد","en":"Al-Muid — The Restorer"},{"ar":"الْمُحْيِي","en":"Al-Muhyi — The Giver of Life"},{"ar":"الْمُمِيت","en":"Al-Mumit — The Taker of Life"},{"ar":"الْحَيّ","en":"Al-Hayy — The Ever-Living"},{"ar":"الْقَيُّوم","en":"Al-Qayyum — The Self-Subsisting"},{"ar":"الْوَاجِد","en":"Al-Wajid — The Finder"},{"ar":"الْمَاجِد","en":"Al-Majid — The Noble"},{"ar":"الْوَاحِد","en":"Al-Wahid — The One"},{"ar":"الصَّمَد","en":"As-Samad — The Eternal"},{"ar":"الْقَادِر","en":"Al-Qadir — The Able"},{"ar":"الْمُقْتَدِر","en":"Al-Muqtadir — The Powerful"},{"ar":"الْمُقَدِّم","en":"Al-Muqaddim — The Expediter"},{"ar":"الْمُؤَخِّر","en":"Al-Muakhkhir — The Delayer"},{"ar":"الأَوَّل","en":"Al-Awwal — The First"},{"ar":"الآخِر","en":"Al-Akhir — The Last"},{"ar":"الظَّاهِر","en":"Az-Zahir — The Manifest"},{"ar":"الْبَاطِن","en":"Al-Batin — The Hidden"},{"ar":"الْوَالِي","en":"Al-Wali — The Governor"},{"ar":"الْمُتَعَالِي","en":"Al-Muta\'ali — The Most Exalted"},{"ar":"الْبَرّ","en":"Al-Barr — The Source of Goodness"},{"ar":"التَّوَّاب","en":"At-Tawwab — The Ever-Pardoning"},{"ar":"الْمُنْتَقِم","en":"Al-Muntaqim — The Avenger"},{"ar":"الْعَفُوّ","en":"Al-\'Afuww — The Pardoner"},{"ar":"الرَّؤُوف","en":"Ar-Ra\'uf — The Compassionate"},{"ar":"مَالِكُ الْمُلْك","en":"Malik-ul-Mulk — Master of the Kingdom"},{"ar":"ذُو الْجَلَال","en":"Dhul Jalali — Lord of Majesty"},{"ar":"الْمُقْسِط","en":"Al-Muqsit — The Equitable"},{"ar":"الْجَامِع","en":"Al-Jami\' — The Gatherer"},{"ar":"الْغَنِيّ","en":"Al-Ghani — The Self-Sufficient"},{"ar":"الْمُغْنِي","en":"Al-Mughni — The Enricher"},{"ar":"الْمَانِع","en":"Al-Mani\' — The Preventer"},{"ar":"الضَّارّ","en":"Ad-Darr — The Distresser"},{"ar":"النَّافِع","en":"An-Nafi — The Propitious"},{"ar":"النُّور","en":"An-Nur — The Light"},{"ar":"الْهَادِي","en":"Al-Hadi — The Guide"},{"ar":"الْبَدِيع","en":"Al-Badi\' — The Originator"},{"ar":"الْبَاقِي","en":"Al-Baqi — The Everlasting"},{"ar":"الْوَارِث","en":"Al-Warith — The Inheritor"},{"ar":"الرَّشِيد","en":"Ar-Rashid — The Righteous Teacher"},{"ar":"الصَّبُور","en":"As-Sabur — The Patient"}],"image":"https://images.pexels.com/photos/3832028/pexels-photo-3832028.jpeg?auto=compress&cs=tinysrgb&w=1200"},"prophet":{"title":"Prophet Muhammad ﷺ","description":"Muhammad ibn Abdullah ﷺ was born in Makkah in 570 CE. At 40, he received his first revelation through Angel Jibreel. Over 23 years he conveyed the complete message of Islam. He is the Seal of the Prophets — no messenger will come after him.","keyTeachings":["Monotheism - worship Allah alone without partners","Kindness to family, neighbours, and all creation","Honesty and trustworthiness in all dealings","Justice, equality, and the rights of the poor","Seeking knowledge as a duty upon every Muslim","\\"I was only sent as a mercy to the worlds\\""],"quranReference":"Quran 21:107 — Mercy to the worlds","hadithReference":"Sahih Muslim 2564 — Love for others","image":"https://images.pexels.com/photos/12593672/pexels-photo-12593672.jpeg?auto=compress&cs=tinysrgb&w=1200","video":"https://www.youtube.com/embed/GOPiPx5tvB0?rel=0"},"quran":{"title":"The Holy Quran","description":"The Quran is the literal word of Allah (SWT), revealed to Prophet Muhammad ﷺ over 23 years through Angel Jibreel — the primary source of Islamic law, ethics, and spiritual guidance.","facts":["114 Surahs (Chapters)","6,236 Ayaat (Verses)","30 Juz (Parts)","10M+ Huffaz worldwide"],"reference":"This is the Book about which there is no doubt, a guidance for those conscious of Allah. — Quran 2:2","image":"https://images.pexels.com/photos/8522573/pexels-photo-8522573.jpeg?auto=compress&cs=tinysrgb&w=1200","video":"https://www.youtube.com/embed/YDNT2R5_nbE?rel=0"},"salah":{"title":"Salah (The Five Daily Prayers)","description":"Salah is the ritual prayer performed five times daily at prescribed times, involving specific postures, Quranic recitations, and remembrance of Allah. Wudu (ritual ablution) must be observed beforehand. Prayer faces the Qiblah — the direction of the Ka\'bah in Makkah.","prayers":[{"name":"Fajr","arabic":"الفجر","time":"Dawn","rakah":2,"sky":"🌤","color":"#e8956d","bg":"#fff5ef"},{"name":"Dhuhr","arabic":"الظهر","time":"Midday","rakah":4,"sky":"☀️","color":"#c49a1a","bg":"#fffbec"},{"name":"Asr","arabic":"العصر","time":"Afternoon","rakah":4,"sky":"🌅","color":"#d47a44","bg":"#fff3e8"},{"name":"Maghrib","arabic":"المغرب","time":"Sunset","rakah":3,"sky":"🌆","color":"#9d60d4","bg":"#f8f0ff"},{"name":"Isha","arabic":"العشاء","time":"Night","rakah":4,"sky":"🌙","color":"#3a5fa8","bg":"#eef3ff"}],"reference":"Maintain with care the [obligatory] prayers and stand before Allah, devoutly obedient. — Quran 2:238","image":"https://images.pexels.com/photos/36211997/pexels-photo-36211997.jpeg"},"zakat":{"title":"Zakat (Charity)","description":"Zakat is the compulsory giving of 2.5% of one\'s total accumulated wealth above the Nisab threshold to eligible recipients — purifying wealth and reducing inequality.","eligibleRecipients":["The poor (Fuqara)","The needy (Masakin)","Zakat administrators","Those to be reconciled","To free captives","Those in debt (Gharimin)","In the cause of Allah","The stranded traveller"],"reference":"Take from their wealth a charity by which you purify them and cause them to increase. — Quran 9:103","image":"https://images.pexels.com/photos/5997945/pexels-photo-5997945.jpeg?auto=compress&cs=tinysrgb&w=1200","video":"https://www.youtube.com/embed/27_NFmvwrpM?rel=0"},"sawm":{"title":"Sawm (Fasting in Ramadan)","description":"Muslims abstain from food, drink, smoking, and sexual relations from Fajr (dawn) to Maghrib (sunset) during Ramadan — the 9th month of the Hijri calendar.","benefits":["Spiritual purification and closeness to Allah","Development of self-discipline and gratitude","Empathy for those who suffer from hunger","Laylat al-Qadr — better than 1,000 months","Increased Quran recitation and Tarawih prayers","Community gathering and spiritual renewal"],"reference":"Decreed upon you is fasting as it was decreed upon those before you that you may become righteous. — Quran 2:183","image":"https://images.pexels.com/photos/7956566/pexels-photo-7956566.jpeg?auto=compress&cs=tinysrgb&w=800","video":"https://www.youtube.com/embed/lm6VL54f0os?rel=0"},"hajj":{"title":"Hajj (Pilgrimage)","description":"Obligatory at least once in a lifetime for every adult Muslim who is physically and financially able, Hajj takes place in Dhul Hijjah — the 12th Islamic month.","keyRituals":["Entering Ihram — sacred state of purity","Tawaf — circling the Ka\'bah 7 times","Sa\'i — walking between Safa & Marwa","Standing at Arafat — Day of Arafah","Overnight stay at Muzdalifah","Stoning of the Jamarat"],"reference":"And [due] to Allah from the people is a pilgrimage to the House — for whoever is able to find thereto a way. — Quran 3:97","image":"https://images.pexels.com/photos/35315919/pexels-photo-35315919.jpeg?auto=compress&cs=tinysrgb&w=800","video":"https://www.youtube.com/embed/jd9AVwtyp4Y?rel=0"},"afterlife":{"title":"Belief in the Afterlife","description":"Islam teaches that this worldly life is temporary and that every soul will be resurrected and judged for their deeds on the Day of Judgement (Yawm al-Qiyama).","concepts":[{"icon":"⚰","name":"Barzakh","desc":"The intermediate state in the grave after death."},{"icon":"📯","name":"The Trumpet Blow","desc":"The end of this world — all creation perishes."},{"icon":"🌅","name":"Resurrection","desc":"All souls raised on the plains of Mahshar."},{"icon":"⚖","name":"The Scales","desc":"Deeds weighed on the Mizan with perfect justice."},{"icon":"🌉","name":"Al-Sirat","desc":"The bridge over Hell crossed by all souls."},{"icon":"🌺","name":"Jannah or Jahannam","desc":"Eternal Paradise or Hell based on the reckoning."}],"reference":"Every soul will taste death, and you will only be given your full compensation on the Day of Resurrection. — Quran 3:185","image":"https://images.pexels.com/photos/1162251/pexels-photo-1162251.jpeg?auto=compress&cs=tinysrgb&w=1200","video":"https://www.youtube.com/embed/dffncQrws1I?rel=0"},"dosAndDonts":{"dos":["Pray the five daily prayers on time","Recite Bismillah before any action","Greet others with \\"As-salamu alaykum\\"","Be kind and respectful to parents","Give in charity — obligatory and voluntary","Maintain family ties (Silat ar-Rahim)","Seek knowledge throughout life","Eat only Halal food","Maintain ritual purity (Taharah)"],"donts":["Associating partners with Allah (Shirk)","Consuming alcohol, intoxicants, or pork","Riba (interest/usury) in financial dealings","Zina (adultery or fornication)","Stealing, cheating, or dishonest dealings","Backbiting (Gheebah) and slander","Murder or harming innocent people","Arrogance and pride (Kibr)","Breaking family ties without just cause"]},"faqs":[{"question":"How does one become a Muslim?","answer":"To become a Muslim, one must sincerely recite the Shahada with full understanding and conviction."},{"question":"What is the difference between Islam, Iman, and Ihsan?","answer":"Islam refers to the outward actions (the 5 pillars). Iman refers to the inner beliefs (the 6 pillars of faith). Ihsan refers to worshipping Allah as if you see Him, knowing He sees you (Sahih Muslim 8)."},{"question":"Do Muslims worship the same God as other religions?","answer":"Muslims worship Allah — the One and Only God. He has no partners, no children, and no equals (Surah Al-Ikhlas 112:1)."},{"question":"Why do Muslims pray five times a day?","answer":"The five daily prayers were ordained during the Isra and Mi\'raj. They provide spiritual discipline and connection to Allah (Surah Al-Ankabut 29:45)."},{"question":"What is the role of women in Islam?","answer":"Islam elevated women\'s status with rights to inheritance, education, and consent. Men and women are equal in spiritual reward. \'The best of you are those best to their women\' (Sunan al-Tirmidhi 3895)."},{"question":"Are all Muslims Arab?","answer":"No. Only about 20% of Muslims are Arab. The largest Muslim populations are in Indonesia, Pakistan, India, Bangladesh, and Nigeria."}],"appsAndResources":{"apps":[{"icon":"🕌","name":"Muslim Pro","description":"Prayer times, Quran, Qibla, Adhan alerts"},{"icon":"📖","name":"Quran Companion","description":"Memorisation tools, Tajweed, progress tracking"},{"icon":"⭐","name":"Seerah App","description":"Life of the Prophet ﷺ in full detail"},{"icon":"🤖","name":"Tarteel AI","description":"AI-powered Quran recitation correction"},{"icon":"🔔","name":"Athan (Azan)","description":"Prayer times, Quran audio, Dhikr counter"}],"websites":[{"icon":"📚","name":"islamqa.info","url":"https://islamqa.info","description":"Scholarly Q&A — fatawa and rulings"},{"icon":"📜","name":"sunnah.com","url":"https://sunnah.com","description":"Complete Hadith collections online"},{"icon":"📖","name":"quran.com","url":"https://quran.com","description":"Quran with translation and tafsir"},{"icon":"🎓","name":"yaqeeninstitute.org","url":"https://yaqeeninstitute.org","description":"Academic Islamic research papers"},{"icon":"🌿","name":"seekersguidance.org","url":"https://seekersguidance.org","description":"Free Islamic learning courses"}]}}');
 
 /***/ }),
 

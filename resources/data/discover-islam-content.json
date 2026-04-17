@@ -10,13 +10,6 @@
     "textColor": "#2C3E50",
     "description": "Light teal green background with deep teal titles for a calm, peaceful Islamic aesthetic."
   },
-  "sources": [
-    { "name": "Quran.com", "url": "https://quran.com" },
-    { "name": "Sunnah.com", "url": "https://sunnah.com" },
-    { "name": "Islamweb.net", "url": "https://www.islamweb.net" },
-    { "name": "Dar Al-Iftaa Al-Misriyyah", "url": "https://www.dar-alifta.org" },
-    { "name": "Saudi Ministry of Islamic Affairs", "url": "https://www.moia.gov.sa" }
-  ],
   "hero": {
     "title": "Discover Islam",
     "subtitle": "A complete introduction to the faith of over 2 billion Muslims",
@@ -70,8 +63,8 @@
       ],
       "reference": "📖 Sahih Bukhari 8 — Pillars of Islam"
     },
-    "image": "https://images.pexels.com/photos/2715373/pexels-photo-2715373.jpeg?auto=compress&cs=tinysrgb&w=1200",
-    "video": "https://www.youtube.com/embed/zBWjfY3QPuY?rel=0"
+    "image": "https://images.pexels.com/photos/2715373/pexels-photo-2715373.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "video": "https://www.youtube.com/embed/_DhI-yvhsLA"
   },
   "shahada": {
     "title": "The Shahada (Declaration of Faith)",
@@ -88,7 +81,7 @@
     "description": "Allah is the Arabic word for God — the One, Unique, Eternal Creator of all existence. Islam teaches that Allah has no partners, no children, no equals, and is unlike anything in creation.",
     "quranReference": "He is Allah, other than whom there is no deity, Knower of the unseen and the witnessed. He is the Entirely Merciful, the Especially Merciful. — Quran 59:22",
     "image": "https://images.pexels.com/photos/1162251/pexels-photo-1162251.jpeg?auto=compress&cs=tinysrgb&w=1200",
-    "video": "https://www.youtube.com/embed/3jsb0KrmRdY?rel=0"
+    "video": "https://www.youtube.com/embed/YDhs1B9p4yw"
   },
   "asmaUlHusna": {
     "title": "99 Beautiful Names of Allah (Asma ul-Husna)",
@@ -193,14 +186,13 @@
       { "ar": "الرَّشِيد", "en": "Ar-Rashid — The Righteous Teacher" },
       { "ar": "الصَّبُور", "en": "As-Sabur — The Patient" }
     ],
-    "image": "https://images.pexels.com/photos/3832028/pexels-photo-3832028.jpeg?auto=compress&cs=tinysrgb&w=1200",
-    "video": "https://www.youtube.com/embed/g3yG6rU9Uys?rel=0"
+    "image": "https://images.pexels.com/photos/3832028/pexels-photo-3832028.jpeg?auto=compress&cs=tinysrgb&w=1200"
   },
   "prophet": {
     "title": "Prophet Muhammad ﷺ",
     "description": "Muhammad ibn Abdullah ﷺ was born in Makkah in 570 CE. At 40, he received his first revelation through Angel Jibreel. Over 23 years he conveyed the complete message of Islam. He is the Seal of the Prophets — no messenger will come after him.",
     "keyTeachings": [
-      "Monotheism — worship Allah alone without partners",
+      "Monotheism - worship Allah alone without partners",
       "Kindness to family, neighbours, and all creation",
       "Honesty and trustworthiness in all dealings",
       "Justice, equality, and the rights of the poor",
@@ -237,8 +229,7 @@
       { "name": "Isha", "arabic": "العشاء", "time": "Night", "rakah": 4, "sky": "🌙", "color": "#3a5fa8", "bg": "#eef3ff" }
     ],
     "reference": "Maintain with care the [obligatory] prayers and stand before Allah, devoutly obedient. — Quran 2:238",
-    "image": "https://images.pexels.com/photos/36211997/pexels-photo-36211997.jpeg",
-    "video": "https://www.youtube.com/embed/-K6HlXzJegk?rel=0"
+    "image": "https://images.pexels.com/photos/36211997/pexels-photo-36211997.jpeg"
   },
   "zakat": {
     "title": "Zakat (Charity)",
