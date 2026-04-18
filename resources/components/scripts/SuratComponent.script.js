@@ -1184,8 +1184,16 @@ export default {
             memorisationPresetEditorTargetId: "",
             memorisationPresetEditorError: "",
             isRestoringMemorisationSnapshot: false,
-            memorisationOffcanvasDockedWidth: 600,
+            memorisationOffcanvasDockedWidth: 520,
             isMemorisationAdvancedOpen: false,
+            memorisationAdvancedSectionExpanded: {
+                setup: true,
+                playback: true,
+                repeat: true,
+                chaining: true,
+                history: true,
+                saved: true,
+            },
             isMemorisationReadingAidsOpen: false,
             selectedMemorisationSessionHistoryId: "",
 
@@ -5522,6 +5530,8 @@ export default {
                     }
                 }
             }
+            this.$nextTick(() => this.scheduleAudioPlayerLayoutUpdate());
+            this.scheduleAudioPlayerLayoutUpdate(220);
             if (typeof document === "undefined") return;
             try {
                 const shouldLock = !!next && !!this.isTabletOrMobile;
@@ -9210,12 +9220,75 @@ export default {
             const style = {
                 fontSize: `${this.effectiveArabicFontSize}px`,
             };
+            if (
+                this.isMemorisationToolbarVisible &&
+                this.isMemorisationOffcanvasVisible &&
+                !this.isTabletOrMobile
+            ) {
+                style.paddingRight = "0.35rem";
+            }
             if (blurAmount > 0) {
                 const blurValue = `blur(${blurAmount.toFixed(2)}px)`;
                 style.filter = blurValue;
                 style.WebkitFilter = blurValue;
             }
             return style;
+        },
+        getMemorisationContentLaneStyle() {
+            if (
+                !this.isMemorisationToolbarVisible ||
+                !this.isMemorisationOffcanvasVisible ||
+                this.isTabletOrMobile
+            ) {
+                return null;
+            }
+            const panelWidth = Math.max(
+                360,
+                Number(this.memorisationOffcanvasDockedWidth || 520)
+            );
+            const gutter = 8;
+            return {
+                width: `calc(100vw - ${panelWidth}px - ${gutter}px)`,
+                maxWidth: `calc(100vw - ${panelWidth}px - ${gutter}px)`,
+                marginLeft: "0",
+                marginRight: "auto",
+                paddingRight: "6px",
+                boxSizing: "border-box",
+                overflow: "hidden",
+            };
+        },
+        getAyahListContainerStyle() {
+            const style = !this.isMemorisationModeActive
+                ? {
+                      paddingTop: `${this.topSpacerHeight}px`,
+                      paddingBottom: `${this.bottomSpacerHeight}px`,
+                  }
+                : {};
+            if (
+                this.isMemorisationToolbarVisible &&
+                this.isMemorisationOffcanvasVisible &&
+                !this.isTabletOrMobile
+            ) {
+                Object.assign(style, this.getMemorisationContentLaneStyle(), {
+                    paddingRight: "6px",
+                });
+            }
+            return Object.keys(style).length ? style : null;
+        },
+        getAyahCardContainerStyle() {
+            if (
+                !this.isMemorisationToolbarVisible ||
+                !this.isMemorisationOffcanvasVisible ||
+                this.isTabletOrMobile
+            ) {
+                return null;
+            }
+            return {
+                maxWidth: "calc(100% - 6px)",
+                flex: "0 0 calc(100% - 6px)",
+                marginRight: "6px",
+                boxSizing: "border-box",
+            };
         },
         resetMemorisationChainingProgress(options = {}) {
             const {
@@ -11894,6 +11967,7 @@ export default {
                     `${absoluteTop}px`
                 );
             } catch (_) {}
+            this.scheduleAudioPlayerLayoutUpdate();
         },
         resetDesktopToolbarScrollPosition() {
             if (this.isTabletOrMobile) return;
@@ -11911,9 +11985,52 @@ export default {
                 }
             });
         },
+        prepareMemorisationToolsEntry() {
+            try {
+                this.closeAudioPlayer?.();
+            } catch (_) {}
+            if (typeof window !== "undefined") {
+                try {
+                    window.scrollTo({ top: 0, behavior: "smooth" });
+                } catch (_) {
+                    window.scrollTo(0, 0);
+                }
+            }
+        },
+        getDefaultMemorisationAdvancedSectionState() {
+            return {
+                setup: true,
+                playback: true,
+                repeat: true,
+                chaining: true,
+                history: true,
+                saved: true,
+            };
+        },
+        resetMemorisationAdvancedSections() {
+            this.memorisationAdvancedSectionExpanded =
+                this.getDefaultMemorisationAdvancedSectionState();
+        },
+        isMemorisationAdvancedSectionOpen(sectionKey = "") {
+            const key = String(sectionKey || "").trim();
+            return this.memorisationAdvancedSectionExpanded?.[key] !== false;
+        },
+        toggleMemorisationAdvancedSection(sectionKey = "") {
+            const key = String(sectionKey || "").trim();
+            if (!key) return;
+            this.memorisationAdvancedSectionExpanded = {
+                ...this.getDefaultMemorisationAdvancedSectionState(),
+                ...(this.memorisationAdvancedSectionExpanded || {}),
+                [key]: !this.isMemorisationAdvancedSectionOpen(key),
+            };
+        },
         openMemorisationOffcanvas() {
+            this.prepareMemorisationToolsEntry();
             this.hideSurahOffcanvasIfOpen();
             this.resetDesktopToolbarScrollPosition();
+            if (this.isMemorisationAdvancedOpen) {
+                this.resetMemorisationAdvancedSections();
+            }
             this.isMemorisationOffcanvasVisible = true;
             this.$nextTick(() => {
                 this.syncMemorisationOffcanvasDockedWidth();
@@ -11921,6 +12038,10 @@ export default {
         },
         setMemorisationToolsDepth(mode = "beginner") {
             this.isMemorisationAdvancedOpen = mode === "advanced";
+            if (this.isMemorisationAdvancedOpen) {
+                this.resetMemorisationAdvancedSections();
+                this.triggerMemorisationCompletionConfetti();
+            }
         },
         openAdvancedMemorisationToolsPanel() {
             this.setMemorisationToolsDepth("advanced");
@@ -11936,6 +12057,21 @@ export default {
         closeMemorisationOffcanvas() {
             this.isMemorisationOffcanvasVisible = false;
             this.hideMemorisationSubmitAlert();
+        },
+        async exitLoadedMemorisationSession() {
+            await this.applyMemorisationDefaultSession({
+                syncDraft: true,
+                scroll: true,
+            });
+            this.selectedMemorisationSessionHistoryId = "";
+            this.memorisationSessionStatusMessage =
+                "Default memorisation session loaded: Al-Fatiha 1-7";
+            this.showToast("Returned to default memorisation session.", 2400);
+            this.announce("Returned to default memorisation session.");
+            this.$nextTick(() => {
+                this.syncMemorisationOffcanvasDockedWidth();
+                this.resetDesktopToolbarScrollPosition();
+            });
         },
         async loadSelectedMemorisationSessionFromOffcanvas() {
             const targetId = String(this.selectedMemorisationSessionHistoryId || "").trim();
@@ -12673,6 +12809,7 @@ export default {
             this.hideMemorisationSubmitAlert();
             this.memorisationSessionSnapshot =
                 this.buildCurrentMemorisationSessionSnapshot();
+            this.prepareMemorisationToolsEntry();
             this.isMemorisationToolbarVisible = true;
             try {
                 await this.applyMemorisationDefaultSession({
@@ -12687,6 +12824,7 @@ export default {
             this.memorisationSessionStatusMessage = `Ready to begin Ayah ${this.memorisationRangeLabel}`;
             this.maybeShowMemorisationOnboarding();
             this.showModeToggleToast("Memorisation tools", true);
+            this.triggerMemorisationCompletionConfetti();
             this.syncMemorisationToolsUrlState(true);
             if (!this.isMobile) {
                 this.setMemorisationToolsDepth("beginner");
@@ -30750,11 +30888,15 @@ export default {
                 this.audioPlayerContainerStyle = null;
                 return;
             }
-            const boundedLeft = Math.max(
+            const shouldOffsetForToolsPanel =
+                !!this.isMemorisationToolbarVisible &&
+                !!this.isMemorisationOffcanvasVisible &&
+                !this.isTabletOrMobile;
+            let boundedLeft = Math.max(
                 0,
                 Math.round(Math.min(Math.max(rect.left, 0), viewportWidth))
             );
-            const boundedRight = Math.max(
+            let boundedRight = Math.max(
                 0,
                 Math.round(
                     Math.min(
@@ -30763,9 +30905,29 @@ export default {
                     )
                 )
             );
+            let panelOffset = 0;
+            if (shouldOffsetForToolsPanel) {
+                const panelRect =
+                    this.$refs?.memorisationOffcanvas?.getBoundingClientRect?.() ||
+                    null;
+                const measuredPanelWidth = Number(
+                    panelRect?.width || this.memorisationOffcanvasDockedWidth || 0
+                );
+                if (Number.isFinite(measuredPanelWidth) && measuredPanelWidth > 0) {
+                    panelOffset = Math.round(measuredPanelWidth);
+                }
+            }
+            if (shouldOffsetForToolsPanel) {
+                boundedLeft = 0;
+                boundedRight = 0;
+            }
+            const boundedRightWithPanelOffset = Math.max(
+                0,
+                Math.min(viewportWidth, boundedRight + panelOffset)
+            );
             this.audioPlayerContainerStyle = {
                 left: `${boundedLeft}px`,
-                right: `${boundedRight}px`,
+                right: `${boundedRightWithPanelOffset}px`,
                 width: "auto",
                 maxWidth: "none",
             };

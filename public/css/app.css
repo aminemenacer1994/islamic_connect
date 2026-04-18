@@ -58714,6 +58714,447 @@ to {
     box-shadow: 0 8px 20px rgba(11, 61, 46, 0.07);
     padding: 0.72rem 0.86rem 0.46rem;
 }
+
+/* Right memorisation panel refinement and theme parity. */
+[data-v-637d02d8]:root {
+    --memorisation-panel-docked-width: clamp(380px, 32vw, 560px);
+}
+.memorisation-sidebar[data-v-637d02d8],
+.memorisation-offcanvas[data-v-637d02d8] {
+    width: var(--memorisation-panel-current-width, var(--memorisation-panel-docked-width)) !important;
+    max-width: min(100vw, var(--memorisation-panel-current-width, var(--memorisation-panel-docked-width))) !important;
+}
+.memorisation-offcanvas[data-v-637d02d8] {
+    --memo-panel-bg: #f7fbf9;
+    --memo-panel-surface: #ffffff;
+    --memo-panel-surface-soft: #edf7f3;
+    --memo-panel-border: rgba(15, 71, 65, 0.14);
+    --memo-panel-border-strong: rgba(15, 71, 65, 0.22);
+    --memo-panel-text: #112f2a;
+    --memo-panel-muted: #55706a;
+    --memo-panel-accent: #0f766e;
+    --memo-panel-accent-soft: rgba(15, 118, 110, 0.1);
+    background: var(--memo-panel-bg) !important;
+    border-left: 1px solid var(--memo-panel-border-strong) !important;
+    color: var(--memo-panel-text) !important;
+    box-shadow: -18px 0 36px rgba(15, 53, 48, 0.08) !important;
+}
+.memorisation-offcanvas.surat-dark-modal[data-v-637d02d8] {
+    --memo-panel-bg: #181a1f;
+    --memo-panel-surface: #20242b;
+    --memo-panel-surface-soft: #151922;
+    --memo-panel-border: #343a46;
+    --memo-panel-border-strong: #424b59;
+    --memo-panel-text: #f3f4f6;
+    --memo-panel-muted: #cbd5e1;
+    --memo-panel-accent: #2dd4bf;
+    --memo-panel-accent-soft: rgba(45, 212, 191, 0.12);
+    background: var(--memo-panel-bg) !important;
+    color: var(--memo-panel-text) !important;
+}
+.memorisation-offcanvas .offcanvas-header[data-v-637d02d8] {
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 4 !important;
+    min-height: 68px !important;
+    padding: 0.85rem 1rem !important;
+    border-bottom: 1px solid var(--memo-panel-border) !important;
+    background: var(--memo-panel-surface) !important;
+    box-shadow: 0 8px 20px rgba(15, 53, 48, 0.06) !important;
+}
+.memorisation-offcanvas .offcanvas-title[data-v-637d02d8] {
+    margin: 0 !important;
+    color: var(--memo-panel-text) !important;
+    font-size: 1.35rem !important;
+    line-height: 1.1 !important;
+    letter-spacing: 0 !important;
+}
+.memorisation-offcanvas .btn-close[data-v-637d02d8] {
+    width: 38px !important;
+    height: 38px !important;
+    margin: 0 !important;
+    border-radius: 8px !important;
+    border: 1px solid var(--memo-panel-border) !important;
+    background-color: var(--memo-panel-surface-soft) !important;
+    opacity: 1 !important;
+}
+.memorisation-offcanvas.surat-dark-modal .btn-close[data-v-637d02d8] {
+    filter: invert(1) grayscale(100%) brightness(160%) !important;
+}
+.memorisation-offcanvas .offcanvas-body[data-v-637d02d8] {
+    padding: 0.8rem !important;
+    gap: 0.7rem !important;
+    background: var(--memo-panel-bg) !important;
+}
+.memorisation-tools-tabs[data-v-637d02d8] {
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 3 !important;
+    gap: 0.35rem !important;
+    padding: 0.3rem !important;
+    border-radius: 8px !important;
+    border: 1px solid var(--memo-panel-border) !important;
+    background: var(--memo-panel-surface) !important;
+    box-shadow: 0 8px 18px rgba(15, 53, 48, 0.05) !important;
+}
+.memorisation-tools-tab[data-v-637d02d8] {
+    min-height: 38px !important;
+    border-radius: 8px !important;
+    color: var(--memo-panel-muted) !important;
+    font-weight: 800 !important;
+    letter-spacing: 0 !important;
+}
+.memorisation-tools-tab.is-active[data-v-637d02d8] {
+    background: var(--memo-panel-accent) !important;
+    border-color: var(--memo-panel-accent) !important;
+    color: #ffffff !important;
+    box-shadow: none !important;
+}
+.memorisation-beginner-panel[data-v-637d02d8],
+.memorisation-advanced-panel[data-v-637d02d8] {
+    gap: 0.7rem !important;
+}
+.memorisation-tools-card[data-v-637d02d8] {
+    border-radius: 8px !important;
+    border: 1px solid var(--memo-panel-border) !important;
+    background: var(--memo-panel-surface) !important;
+    color: var(--memo-panel-text) !important;
+    padding: 0.82rem !important;
+    box-shadow: 0 8px 18px rgba(15, 53, 48, 0.045) !important;
+}
+.memorisation-offcanvas.surat-dark-modal .memorisation-tools-card[data-v-637d02d8],
+.memorisation-offcanvas.surat-dark-modal .memorisation-tools-tabs[data-v-637d02d8] {
+    box-shadow: none !important;
+}
+.memorisation-tools-card-head[data-v-637d02d8] {
+    align-items: center !important;
+    margin-bottom: 0.65rem !important;
+    padding-bottom: 0.55rem !important;
+    border-bottom: 1px solid var(--memo-panel-border) !important;
+}
+.memorisation-tools-card-title h5[data-v-637d02d8] {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 0.4rem !important;
+    color: var(--memo-panel-text) !important;
+    font-size: 1rem !important;
+    line-height: 1.2 !important;
+    letter-spacing: 0 !important;
+}
+.memorisation-tools-card-title h5 i[data-v-637d02d8] {
+    width: 28px !important;
+    height: 28px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin: 0 !important;
+    border-radius: 8px !important;
+    background: var(--memo-panel-accent-soft) !important;
+    color: var(--memo-panel-accent) !important;
+}
+.memorisation-tools-card-title p[data-v-637d02d8],
+.memorisation-tools-field-hint[data-v-637d02d8],
+.memorisation-tools-switch-copy small[data-v-637d02d8] {
+    color: var(--memo-panel-muted) !important;
+    font-size: 0.78rem !important;
+    line-height: 1.35 !important;
+}
+.memorisation-tools-grid[data-v-637d02d8] {
+    gap: 0.58rem !important;
+}
+@media (min-width: 420px) {
+.memorisation-tools-grid[data-v-637d02d8] {
+        grid-template-columns: 1fr !important;
+}
+}
+
+/* Absolute final override: toolbar/content keeps a gutter; audio meets the panel edge. */
+@media (min-width: 992px) {
+.surat-premium.memorisation-sidebar-open[data-v-637d02d8] {
+        --memorisation-content-right-offset: calc(
+            var(--memorisation-panel-current-width, var(--memorisation-panel-docked-width, 520px)) + 24px
+        ) !important;
+}
+.audio-player-container.is-memorisation-tools-panel-open[data-v-637d02d8] {
+        right: var(--memorisation-panel-current-width, var(--memorisation-panel-docked-width, 520px)) !important;
+}
+}
+@media (min-width: 520px) {
+.memorisation-tools-grid[data-v-637d02d8] {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+}
+.memorisation-tools-field--full[data-v-637d02d8] {
+        grid-column: 1 / -1 !important;
+}
+}
+.memorisation-tools-label[data-v-637d02d8] {
+    color: var(--memo-panel-muted) !important;
+    font-size: 0.7rem !important;
+    letter-spacing: 0.08em !important;
+}
+.memorisation-tools-control[data-v-637d02d8] {
+    min-height: 40px !important;
+    border-radius: 8px !important;
+    border: 1px solid var(--memo-panel-border) !important;
+    background: var(--memo-panel-surface-soft) !important;
+    color: var(--memo-panel-text) !important;
+    padding: 0.46rem 0.58rem !important;
+}
+.memorisation-tools-control[data-v-637d02d8]:focus {
+    border-color: var(--memo-panel-accent) !important;
+    box-shadow: 0 0 0 0.18rem var(--memo-panel-accent-soft) !important;
+}
+.memorisation-tools-control[data-v-637d02d8]::-moz-placeholder {
+    color: var(--memo-panel-muted) !important;
+    opacity: 0.85 !important;
+}
+.memorisation-tools-control[data-v-637d02d8]::placeholder {
+    color: var(--memo-panel-muted) !important;
+    opacity: 0.85 !important;
+}
+.memorisation-tools-switch[data-v-637d02d8] {
+    min-height: 56px !important;
+    border-radius: 8px !important;
+    border: 1px solid var(--memo-panel-border) !important;
+    background: var(--memo-panel-surface-soft) !important;
+    color: var(--memo-panel-text) !important;
+    padding: 0.58rem 0.64rem !important;
+}
+.memorisation-tools-switch-copy strong[data-v-637d02d8] {
+    color: var(--memo-panel-text) !important;
+    font-size: 0.9rem !important;
+    line-height: 1.2 !important;
+}
+.memorisation-tools-range[data-v-637d02d8] {
+    gap: 0.45rem !important;
+}
+.memorisation-tools-range-sep[data-v-637d02d8] {
+    color: var(--memo-panel-muted) !important;
+}
+.memorisation-tools-link-btn[data-v-637d02d8],
+.memorisation-tools-secondary-btn[data-v-637d02d8],
+.memorisation-tools-action-btn[data-v-637d02d8] {
+    border-radius: 8px !important;
+    border: 1px solid var(--memo-panel-border) !important;
+    background: var(--memo-panel-surface-soft) !important;
+    color: var(--memo-panel-text) !important;
+    box-shadow: none !important;
+}
+.memorisation-tools-link-btn[data-v-637d02d8]:hover,
+.memorisation-tools-secondary-btn[data-v-637d02d8]:hover,
+.memorisation-tools-action-btn[data-v-637d02d8]:hover,
+.memorisation-tools-link-btn[data-v-637d02d8]:focus-visible,
+.memorisation-tools-secondary-btn[data-v-637d02d8]:focus-visible,
+.memorisation-tools-action-btn[data-v-637d02d8]:focus-visible {
+    border-color: var(--memo-panel-border-strong) !important;
+    color: var(--memo-panel-text) !important;
+}
+.memorisation-tools-action-btn--primary[data-v-637d02d8] {
+    background: var(--memo-panel-accent) !important;
+    border-color: var(--memo-panel-accent) !important;
+    color: #ffffff !important;
+}
+.memorisation-beginner-actions[data-v-637d02d8] {
+    position: sticky !important;
+    bottom: 0 !important;
+    z-index: 3 !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 0.55rem !important;
+    padding: 0.7rem 0 0.1rem !important;
+    background: linear-gradient(180deg, rgba(247, 251, 249, 0), var(--memo-panel-bg) 42%) !important;
+}
+.memorisation-offcanvas.surat-dark-modal .memorisation-beginner-actions[data-v-637d02d8] {
+    background: linear-gradient(180deg, rgba(24, 26, 31, 0), var(--memo-panel-bg) 42%) !important;
+}
+@media (min-width: 992px) {
+.surat-premium.memorisation-sidebar-open[data-v-637d02d8] {
+        --memorisation-content-right-offset: calc(
+            var(--memorisation-panel-current-width, var(--memorisation-panel-docked-width, 520px)) + 24px
+        ) !important;
+}
+.audio-player-container.is-memorisation-tools-panel-open[data-v-637d02d8] {
+        right: var(--memorisation-panel-current-width, var(--memorisation-panel-docked-width, 520px)) !important;
+}
+}
+@media (max-width: 991.98px) {
+.memorisation-sidebar[data-v-637d02d8],
+    .memorisation-offcanvas[data-v-637d02d8] {
+        width: min(100vw, 440px) !important;
+        max-width: 100vw !important;
+}
+.memorisation-offcanvas .offcanvas-body[data-v-637d02d8] {
+        padding: 0.65rem !important;
+}
+.memorisation-tools-grid[data-v-637d02d8] {
+        grid-template-columns: 1fr !important;
+}
+}
+@media (min-width: 992px) {
+.surat-premium.memorisation-sidebar-open[data-v-637d02d8] {
+        --memorisation-content-right-offset: calc(
+            var(--memorisation-panel-current-width, var(--memorisation-panel-docked-width, 520px)) + 24px
+        ) !important;
+}
+.audio-player-container.is-memorisation-tools-panel-open[data-v-637d02d8] {
+        right: var(--memorisation-panel-current-width, var(--memorisation-panel-docked-width, 520px)) !important;
+}
+}
+
+/* Professional offcanvas composition and lane reservation. */
+[data-v-637d02d8]:root {
+    --memorisation-panel-docked-width: clamp(360px, 30vw, 520px);
+}
+.memorisation-sidebar[data-v-637d02d8],
+.memorisation-offcanvas[data-v-637d02d8] {
+    width: var(--memorisation-panel-current-width, var(--memorisation-panel-docked-width)) !important;
+}
+.memorisation-panel-header[data-v-637d02d8],
+.memorisation-offcanvas .offcanvas-header[data-v-637d02d8] {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 0.75rem !important;
+    width: 100% !important;
+    min-height: 72px !important;
+    padding: 0.9rem 1rem !important;
+}
+.memorisation-panel-title-wrap[data-v-637d02d8] {
+    min-width: 0 !important;
+    display: grid !important;
+    gap: 0.18rem !important;
+}
+.memorisation-panel-eyebrow[data-v-637d02d8] {
+    display: inline-flex !important;
+    align-items: center !important;
+    width: -moz-fit-content !important;
+    width: fit-content !important;
+    border-radius: 8px !important;
+    background: var(--memo-panel-accent-soft) !important;
+    color: var(--memo-panel-accent) !important;
+    font-size: 0.68rem !important;
+    font-weight: 900 !important;
+    letter-spacing: 0.08em !important;
+    line-height: 1 !important;
+    padding: 0.28rem 0.42rem !important;
+    text-transform: uppercase !important;
+}
+.memorisation-panel-title-wrap .offcanvas-title[data-v-637d02d8] {
+    font-size: 1.35rem !important;
+    font-weight: 900 !important;
+    line-height: 1.12 !important;
+    white-space: nowrap !important;
+}
+.memorisation-panel-close-btn[data-v-637d02d8] {
+    flex: 0 0 42px !important;
+    width: 42px !important;
+    height: 42px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border-radius: 8px !important;
+    border: 1px solid var(--memo-panel-border) !important;
+    background: var(--memo-panel-surface-soft) !important;
+    color: var(--memo-panel-text) !important;
+    box-shadow: none !important;
+}
+.memorisation-panel-close-btn[data-v-637d02d8]:hover,
+.memorisation-panel-close-btn[data-v-637d02d8]:focus-visible {
+    border-color: var(--memo-panel-border-strong) !important;
+    background: var(--memo-panel-surface) !important;
+    color: var(--memo-panel-text) !important;
+}
+.memorisation-offcanvas .offcanvas-body[data-v-637d02d8] {
+    padding: 0.9rem !important;
+    gap: 0.8rem !important;
+}
+.memorisation-tools-tabs[data-v-637d02d8] {
+    margin: 0 0 0.1rem !important;
+}
+.memorisation-tools-tab[data-v-637d02d8] {
+    justify-content: center !important;
+    padding: 0.48rem 0.65rem !important;
+}
+.memorisation-tools-card[data-v-637d02d8] {
+    position: relative !important;
+    overflow: hidden !important;
+}
+.memorisation-tools-card[data-v-637d02d8]::before {
+    content: "" !important;
+    position: absolute !important;
+    inset: 0 auto 0 0 !important;
+    width: 3px !important;
+    background: var(--memo-panel-accent) !important;
+    opacity: 0.72 !important;
+}
+.memorisation-tools-card-head[data-v-637d02d8] {
+    padding-left: 0.15rem !important;
+}
+.memorisation-tools-field[data-v-637d02d8] {
+    min-width: 0 !important;
+}
+.memorisation-tools-control[data-v-637d02d8],
+.memorisation-tools-switch[data-v-637d02d8] {
+    width: 100% !important;
+}
+.memorisation-tools-switch[data-v-637d02d8] {
+    align-items: center !important;
+}
+.memorisation-tools-switch .form-check-input[data-v-637d02d8] {
+    cursor: pointer !important;
+}
+.memorisation-beginner-actions[data-v-637d02d8] {
+    margin: 0 !important;
+    border-top: 1px solid var(--memo-panel-border) !important;
+}
+.memorisation-tools-action-btn[data-v-637d02d8] {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 0.42rem !important;
+    min-height: 46px !important;
+    font-weight: 900 !important;
+}
+@media (min-width: 992px) {
+.surat-premium.memorisation-sidebar-open[data-v-637d02d8] {
+        --memorisation-content-right-offset: calc(
+            var(--memorisation-panel-current-width, var(--memorisation-panel-docked-width, 520px)) + 24px
+        ) !important;
+}
+.surat-premium.memorisation-sidebar-open .memorisation-tools-hero[data-v-637d02d8],
+    .surat-premium.memorisation-sidebar-open .quran-toolbar-sticky.quran-toolbar-fixed-shell[data-v-637d02d8],
+    .surat-premium.memorisation-sidebar-open .row[role="list"][data-v-637d02d8] {
+        width: calc(
+            100vw - var(--memorisation-content-right-offset) - (var(--memorisation-content-gutter, 24px) * 2)
+        ) !important;
+        max-width: calc(
+            100vw - var(--memorisation-content-right-offset) - (var(--memorisation-content-gutter, 24px) * 2)
+        ) !important;
+}
+.audio-player-container.is-memorisation-tools-panel-open[data-v-637d02d8] {
+        right: var(--memorisation-panel-current-width, var(--memorisation-panel-docked-width, 520px)) !important;
+}
+}
+@media (max-width: 991.98px) {
+.memorisation-panel-header[data-v-637d02d8],
+    .memorisation-offcanvas .offcanvas-header[data-v-637d02d8] {
+        min-height: 64px !important;
+        padding: 0.72rem 0.75rem !important;
+}
+.memorisation-panel-title-wrap .offcanvas-title[data-v-637d02d8] {
+        font-size: 1.18rem !important;
+}
+.memorisation-panel-close-btn[data-v-637d02d8] {
+        flex-basis: 40px !important;
+        width: 40px !important;
+        height: 40px !important;
+}
+.memorisation-offcanvas .offcanvas-body[data-v-637d02d8] {
+        padding: 0.65rem !important;
+}
+.memorisation-beginner-actions[data-v-637d02d8] {
+        grid-template-columns: 1fr 1fr !important;
+}
+}
 .advanced-quran-search.is-panel-hidden[data-v-637d02d8] {
     padding-bottom: 0;
 }
@@ -62000,7 +62441,7 @@ to {
     /* border: 1px solid rgba(15, 110, 99, 0.06); */
     /* box-shadow: 0 18px 40px rgba(15, 53, 48, 0.08); */
     padding: 0 22px 32px;
-    /* width: min(1500px, calc(100% - 32px)); */
+    width: min(1500px, calc(100% - 32px));
     max-width: none;
     margin-inline: auto;
     transition: width 0.28s ease, margin 0.28s ease, padding 0.28s ease,
@@ -98508,6 +98949,1114 @@ to {
 }
 }
 
+/* Final layout fixes */
+.surat-premium .memorisation-tools-hero h2[data-v-637d02d8] {
+    font-size: clamp(1.7rem, 2.8vw, 2.9rem);
+}
+.surat-premium .quran-toolbar-more .dropdown-menu[data-v-637d02d8],
+.surat-premium .memorisation-toolbar-overflow .dropdown-menu[data-v-637d02d8] {
+    max-width: min(94vw, 340px);
+}
+@media (min-width: 992px) {
+.surat-premium .quran-toolbar-reader-actions.is-memorisation-centered[data-v-637d02d8] {
+        grid-template-columns: minmax(0, 1fr) 54px;
+}
+.surat-premium .quran-toolbar-reader-actions.is-memorisation-centered .quran-toolbar-scroll-track.is-centered[data-v-637d02d8] {
+        justify-content: center;
+}
+.surat-premium.memorisation-sidebar-open .row[role="list"] > .ayah-card.ayah-card-container[data-v-637d02d8],
+    .surat-premium.memorisation-offcanvas-open .row[role="list"] > .ayah-card.ayah-card-container[data-v-637d02d8] {
+        max-width: 100% !important;
+        flex: 0 0 100% !important;
+}
+}
+@media (max-width: 991.98px) {
+.surat-premium .quran-toolbar-more .dropdown-menu[data-v-637d02d8],
+    .surat-premium .memorisation-toolbar-overflow .dropdown-menu[data-v-637d02d8] {
+        min-width: min(92vw, 300px);
+        right: 0;
+        left: auto;
+}
+}
+
+/* Force layer for memorisation tools layout, mobile, audio, and dark mode. */
+@media (min-width: 992px) {
+.audio-player-container.is-memorisation-tools-panel-open[data-v-637d02d8] {
+        left: 0 !important;
+        right: calc(var(--memorisation-panel-current-width, var(--memorisation-panel-docked-width, 600px)) + 16px) !important;
+        width: auto !important;
+        max-width: none !important;
+}
+}
+@media (max-width: 991.98px) {
+.audio-player-container.is-memorisation-tools-panel-open[data-v-637d02d8],
+    .audio-player-container[data-v-637d02d8] {
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+}
+.surat-premium.memorisation-offcanvas-open[data-v-637d02d8],
+    .surat-premium.memorisation-sidebar-open[data-v-637d02d8] {
+        padding-right: 0 !important;
+}
+.surat-premium .memorisation-tools-hero[data-v-637d02d8] {
+        margin: 0 auto 0.7rem !important;
+        padding: 0 0.75rem !important;
+        text-align: center !important;
+}
+.surat-premium .memorisation-tools-hero h2[data-v-637d02d8] {
+        font-size: 2rem !important;
+        line-height: 1.12 !important;
+        letter-spacing: 0 !important;
+}
+.surat-premium .memorisation-tools-hero p[data-v-637d02d8] {
+        max-width: 34rem !important;
+        font-size: 0.88rem !important;
+        line-height: 1.45 !important;
+}
+.surat-premium .quran-toolbar-sticky.memorisation-toolbar-sticky[data-v-637d02d8] {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin-inline: auto !important;
+        padding-inline: 0.35rem !important;
+}
+.surat-premium .quran-toolbar.quran-toolbar-reader.memorisation-toolbar-compact[data-v-637d02d8] {
+        width: 100% !important;
+        max-width: 100% !important;
+        padding: 0.55rem !important;
+        border-radius: 8px !important;
+}
+.surat-premium .quran-toolbar-reader-actions[data-v-637d02d8] {
+        display: grid !important;
+        grid-template-columns: minmax(0, 1fr) 44px !important;
+        gap: 0.45rem !important;
+        width: 100% !important;
+        min-width: 0 !important;
+}
+.surat-premium .quran-toolbar-scroll-track[data-v-637d02d8] {
+        display: flex !important;
+        gap: 0.45rem !important;
+        overflow-x: auto !important;
+        overflow-y: hidden !important;
+        scrollbar-width: none !important;
+        min-width: 0 !important;
+        width: 100% !important;
+}
+.surat-premium .quran-toolbar-scroll-track[data-v-637d02d8]::-webkit-scrollbar {
+        display: none !important;
+}
+.surat-premium .quran-toolbar.quran-toolbar-reader .quran-toolbar-btn-reader-control[data-v-637d02d8] {
+        min-width: 9.2rem !important;
+        min-height: 2.7rem !important;
+        border-radius: 8px !important;
+        padding: 0.42rem 0.5rem !important;
+}
+.surat-premium .quran-toolbar-memorisation-exit[data-v-637d02d8] {
+        min-width: 44px !important;
+        min-height: 44px !important;
+        border-radius: 8px !important;
+}
+.memorisation-sidebar[data-v-637d02d8],
+    .memorisation-offcanvas[data-v-637d02d8] {
+        top: var(--nav-offset, var(--navbar-h, 72px)) !important;
+        right: 0 !important;
+        left: auto !important;
+        width: 100vw !important;
+        max-width: 100vw !important;
+        height: calc(100dvh - var(--nav-offset, var(--navbar-h, 72px))) !important;
+        border-radius: 0 !important;
+}
+.memorisation-offcanvas .offcanvas-header[data-v-637d02d8] {
+        padding: 0.72rem 0.85rem !important;
+}
+.memorisation-offcanvas .offcanvas-title[data-v-637d02d8] {
+        font-size: 1.25rem !important;
+        letter-spacing: 0 !important;
+}
+.memorisation-offcanvas .offcanvas-body[data-v-637d02d8] {
+        padding: 0.7rem !important;
+        gap: 0.6rem !important;
+}
+.memorisation-tools-tabs[data-v-637d02d8] {
+        position: sticky !important;
+        top: 0 !important;
+        z-index: 2 !important;
+        border-radius: 8px !important;
+}
+.memorisation-tools-tab[data-v-637d02d8],
+    .memorisation-tools-card[data-v-637d02d8],
+    .memorisation-tools-control[data-v-637d02d8],
+    .memorisation-tools-switch[data-v-637d02d8],
+    .memorisation-tools-secondary-btn[data-v-637d02d8],
+    .memorisation-tools-action-btn[data-v-637d02d8] {
+        border-radius: 8px !important;
+}
+.memorisation-tools-card[data-v-637d02d8] {
+        padding: 0.72rem !important;
+}
+.memorisation-tools-card-head[data-v-637d02d8] {
+        margin-bottom: 0.58rem !important;
+        gap: 0.5rem !important;
+}
+.memorisation-tools-card-title h5[data-v-637d02d8] {
+        font-size: 1rem !important;
+        letter-spacing: 0 !important;
+}
+.memorisation-tools-card-title p[data-v-637d02d8],
+    .memorisation-tools-field-hint[data-v-637d02d8],
+    .memorisation-tools-switch-copy small[data-v-637d02d8] {
+        font-size: 0.78rem !important;
+        line-height: 1.35 !important;
+}
+.memorisation-tools-label[data-v-637d02d8] {
+        font-size: 0.7rem !important;
+        letter-spacing: 0.08em !important;
+}
+.memorisation-tools-control[data-v-637d02d8] {
+        min-height: 40px !important;
+        padding: 0.45rem 0.58rem !important;
+}
+.memorisation-tools-switch[data-v-637d02d8] {
+        padding: 0.55rem 0.58rem !important;
+}
+.memorisation-beginner-actions[data-v-637d02d8] {
+        position: sticky !important;
+        bottom: 0 !important;
+        z-index: 3 !important;
+        grid-template-columns: 1fr 1fr !important;
+        padding: 0.65rem 0 0 !important;
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0), #ffffff 42%) !important;
+}
+}
+.surat-premium.surat-theme-dark[data-v-637d02d8],
+.surat-premium.surat-theme-dark.memorisation-offcanvas-open[data-v-637d02d8],
+.surat-premium.surat-theme-dark.memorisation-mode[data-v-637d02d8] {
+    background: #181a1f !important;
+    color: #f3f4f6 !important;
+    box-shadow: none !important;
+}
+.surat-premium.surat-theme-dark .memorisation-tools-hero h2[data-v-637d02d8],
+.surat-premium.surat-theme-dark .memorisation-tools-hero p[data-v-637d02d8] {
+    color: #f3f4f6 !important;
+}
+.surat-premium.surat-theme-dark .quran-toolbar.quran-toolbar-reader[data-v-637d02d8],
+.surat-premium.surat-theme-dark .quran-toolbar.quran-toolbar-reader.memorisation-toolbar-compact[data-v-637d02d8] {
+    background: #20242b !important;
+    border-color: #343a46 !important;
+    box-shadow: none !important;
+}
+.surat-premium.surat-theme-dark .quran-toolbar.quran-toolbar-reader .quran-toolbar-btn-reader-control[data-v-637d02d8],
+.surat-premium.surat-theme-dark .quran-toolbar-memorisation-exit[data-v-637d02d8] {
+    background: #151922 !important;
+    border-color: #343a46 !important;
+    color: #f3f4f6 !important;
+    box-shadow: none !important;
+}
+.surat-premium.surat-theme-dark .quran-toolbar.quran-toolbar-reader .quran-toolbar-btn-reader-control.is-enabled[data-v-637d02d8] {
+    background: #123f39 !important;
+    border-color: #2dd4bf !important;
+}
+.surat-premium.surat-theme-dark .quran-toolbar.quran-toolbar-reader .quran-toolbar-btn-reader-control .quran-toolbar-btn-text[data-v-637d02d8],
+.surat-premium.surat-theme-dark .quran-toolbar.quran-toolbar-reader .quran-toolbar-btn-reader-control .quran-toolbar-btn-state[data-v-637d02d8] {
+    color: #f3f4f6 !important;
+}
+.surat-premium.surat-theme-dark .quran-toolbar.quran-toolbar-reader .quran-toolbar-btn-reader-control .quran-toolbar-btn-icon-shell[data-v-637d02d8] {
+    background: #27313c !important;
+    color: #5eead4 !important;
+}
+.surat-premium.surat-theme-dark .memorisation-offcanvas[data-v-637d02d8],
+.memorisation-offcanvas.surat-dark-modal[data-v-637d02d8] {
+    background: #10141c !important;
+    border-color: #2c3340 !important;
+    color: #f3f4f6 !important;
+    box-shadow: none !important;
+}
+.surat-premium.surat-theme-dark .memorisation-offcanvas .offcanvas-header[data-v-637d02d8],
+.memorisation-offcanvas.surat-dark-modal .offcanvas-header[data-v-637d02d8] {
+    background: #151a23 !important;
+    border-bottom-color: #2c3340 !important;
+}
+.surat-premium.surat-theme-dark .memorisation-offcanvas .offcanvas-title[data-v-637d02d8],
+.memorisation-offcanvas.surat-dark-modal .offcanvas-title[data-v-637d02d8] {
+    color: #f3f4f6 !important;
+}
+.surat-premium.surat-theme-dark .memorisation-tools-tabs[data-v-637d02d8],
+.surat-premium.surat-theme-dark .memorisation-tools-card[data-v-637d02d8],
+.surat-premium.surat-theme-dark .memorisation-tools-switch[data-v-637d02d8],
+.memorisation-offcanvas.surat-dark-modal .memorisation-tools-tabs[data-v-637d02d8],
+.memorisation-offcanvas.surat-dark-modal .memorisation-tools-card[data-v-637d02d8],
+.memorisation-offcanvas.surat-dark-modal .memorisation-tools-switch[data-v-637d02d8] {
+    background: #151a23 !important;
+    border-color: #2c3340 !important;
+    color: #f3f4f6 !important;
+    box-shadow: none !important;
+}
+.surat-premium.surat-theme-dark .memorisation-tools-control[data-v-637d02d8],
+.memorisation-offcanvas.surat-dark-modal .memorisation-tools-control[data-v-637d02d8] {
+    background: #1e2530 !important;
+    border-color: #3a4350 !important;
+    color: #f3f4f6 !important;
+}
+.surat-premium.surat-theme-dark .memorisation-tools-control[data-v-637d02d8]::-moz-placeholder, .memorisation-offcanvas.surat-dark-modal .memorisation-tools-control[data-v-637d02d8]::-moz-placeholder {
+    color: #9ca3af !important;
+}
+.surat-premium.surat-theme-dark .memorisation-tools-control[data-v-637d02d8]::placeholder,
+.memorisation-offcanvas.surat-dark-modal .memorisation-tools-control[data-v-637d02d8]::placeholder {
+    color: #9ca3af !important;
+}
+.surat-premium.surat-theme-dark .memorisation-tools-label[data-v-637d02d8],
+.surat-premium.surat-theme-dark .memorisation-tools-switch-copy strong[data-v-637d02d8],
+.surat-premium.surat-theme-dark .memorisation-tools-card-title h5[data-v-637d02d8],
+.memorisation-offcanvas.surat-dark-modal .memorisation-tools-label[data-v-637d02d8],
+.memorisation-offcanvas.surat-dark-modal .memorisation-tools-switch-copy strong[data-v-637d02d8],
+.memorisation-offcanvas.surat-dark-modal .memorisation-tools-card-title h5[data-v-637d02d8] {
+    color: #f3f4f6 !important;
+}
+.surat-premium.surat-theme-dark .memorisation-tools-card-title p[data-v-637d02d8],
+.surat-premium.surat-theme-dark .memorisation-tools-switch-copy small[data-v-637d02d8],
+.surat-premium.surat-theme-dark .memorisation-tools-field-hint[data-v-637d02d8],
+.memorisation-offcanvas.surat-dark-modal .memorisation-tools-card-title p[data-v-637d02d8],
+.memorisation-offcanvas.surat-dark-modal .memorisation-tools-switch-copy small[data-v-637d02d8],
+.memorisation-offcanvas.surat-dark-modal .memorisation-tools-field-hint[data-v-637d02d8] {
+    color: #cbd5e1 !important;
+}
+.surat-premium.surat-theme-dark .memorisation-tools-tab[data-v-637d02d8],
+.memorisation-offcanvas.surat-dark-modal .memorisation-tools-tab[data-v-637d02d8] {
+    color: #cbd5e1 !important;
+}
+.surat-premium.surat-theme-dark .memorisation-tools-tab.is-active[data-v-637d02d8],
+.memorisation-offcanvas.surat-dark-modal .memorisation-tools-tab.is-active[data-v-637d02d8] {
+    background: #123f39 !important;
+    border-color: #2dd4bf !important;
+    color: #ffffff !important;
+}
+.surat-premium.surat-theme-dark .memorisation-tools-action-btn[data-v-637d02d8],
+.surat-premium.surat-theme-dark .memorisation-tools-secondary-btn[data-v-637d02d8],
+.surat-premium.surat-theme-dark .memorisation-tools-link-btn[data-v-637d02d8],
+.memorisation-offcanvas.surat-dark-modal .memorisation-tools-action-btn[data-v-637d02d8],
+.memorisation-offcanvas.surat-dark-modal .memorisation-tools-secondary-btn[data-v-637d02d8],
+.memorisation-offcanvas.surat-dark-modal .memorisation-tools-link-btn[data-v-637d02d8] {
+    background: #1e2530 !important;
+    border-color: #3a4350 !important;
+    color: #f3f4f6 !important;
+}
+.surat-premium.surat-theme-dark .memorisation-tools-action-btn--primary[data-v-637d02d8],
+.memorisation-offcanvas.surat-dark-modal .memorisation-tools-action-btn--primary[data-v-637d02d8] {
+    background: #0f766e !important;
+    border-color: #0f766e !important;
+    color: #ffffff !important;
+}
+@media (max-width: 991.98px) {
+.surat-premium.surat-theme-dark .memorisation-beginner-actions[data-v-637d02d8],
+    .memorisation-offcanvas.surat-dark-modal .memorisation-beginner-actions[data-v-637d02d8] {
+        background: linear-gradient(180deg, rgba(16, 20, 28, 0), #10141c 42%) !important;
+}
+}
+
+/* Memorisation workspace correction: one content lane, one fixed tools lane. */
+.surat-premium.memorisation-offcanvas-open[data-v-637d02d8],
+.surat-premium.memorisation-mode[data-v-637d02d8] {
+    --memorisation-content-right-offset: 0px;
+    --memorisation-content-gutter: 24px;
+    width: 100vw !important;
+    max-width: 100vw !important;
+    margin-left: calc(50% - 50vw) !important;
+    margin-right: calc(50% - 50vw) !important;
+    padding-left: var(--memorisation-content-gutter) !important;
+    padding-right: var(--memorisation-content-gutter) !important;
+    border-radius: 0 !important;
+    overflow-x: clip !important;
+}
+.surat-premium.memorisation-sidebar-open[data-v-637d02d8] {
+    padding-right: var(--memorisation-content-gutter) !important;
+}
+@media (min-width: 992px) {
+.surat-premium.memorisation-sidebar-open[data-v-637d02d8] {
+        --memorisation-content-right-offset: calc(
+            var(--memorisation-panel-current-width, var(--memorisation-panel-docked-width, 600px)) + 16px
+        );
+}
+.surat-premium.memorisation-offcanvas-open .memorisation-tools-hero[data-v-637d02d8],
+    .surat-premium.memorisation-offcanvas-open .quran-toolbar-sticky.quran-toolbar-fixed-shell[data-v-637d02d8],
+    .surat-premium.memorisation-offcanvas-open .row[role="list"][data-v-637d02d8],
+    .surat-premium.memorisation-mode .memorisation-tools-hero[data-v-637d02d8],
+    .surat-premium.memorisation-mode .quran-toolbar-sticky.quran-toolbar-fixed-shell[data-v-637d02d8],
+    .surat-premium.memorisation-mode .row[role="list"][data-v-637d02d8] {
+        width: calc(
+            100vw - var(--memorisation-content-right-offset) - (var(--memorisation-content-gutter) * 2)
+        ) !important;
+        max-width: calc(
+            100vw - var(--memorisation-content-right-offset) - (var(--memorisation-content-gutter) * 2)
+        ) !important;
+        margin-left: 0 !important;
+        margin-right: auto !important;
+}
+.surat-premium.memorisation-offcanvas-open .quran-toolbar.quran-toolbar-reader[data-v-637d02d8],
+    .surat-premium.memorisation-mode .quran-toolbar.quran-toolbar-reader[data-v-637d02d8] {
+        width: 100% !important;
+        max-width: 100% !important;
+}
+.surat-premium.memorisation-offcanvas-open .row[role="list"][data-v-637d02d8],
+    .surat-premium.memorisation-mode .row[role="list"][data-v-637d02d8] {
+        padding-top: 1.35rem !important;
+        justify-content: center !important;
+}
+.surat-premium.memorisation-offcanvas-open .row[role="list"] > .ayah-card.ayah-card-container[data-v-637d02d8],
+    .surat-premium.memorisation-mode .row[role="list"] > .ayah-card.ayah-card-container[data-v-637d02d8] {
+        width: 100% !important;
+        max-width: 100% !important;
+        flex: 0 0 100% !important;
+}
+.audio-player-container.is-memorisation-tools-panel-open[data-v-637d02d8] {
+        left: 0 !important;
+        right: calc(var(--memorisation-panel-current-width, var(--memorisation-panel-docked-width, 600px)) + 16px) !important;
+        width: auto !important;
+        max-width: none !important;
+}
+}
+@media (max-width: 991.98px) {
+.surat-premium.memorisation-offcanvas-open[data-v-637d02d8],
+    .surat-premium.memorisation-mode[data-v-637d02d8] {
+        --memorisation-content-gutter: 10px;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        padding-left: var(--memorisation-content-gutter) !important;
+        padding-right: var(--memorisation-content-gutter) !important;
+        overflow-x: hidden !important;
+}
+.surat-premium.memorisation-offcanvas-open .memorisation-tools-hero[data-v-637d02d8],
+    .surat-premium.memorisation-offcanvas-open .quran-toolbar-sticky[data-v-637d02d8],
+    .surat-premium.memorisation-offcanvas-open .row[role="list"][data-v-637d02d8],
+    .surat-premium.memorisation-mode .memorisation-tools-hero[data-v-637d02d8],
+    .surat-premium.memorisation-mode .quran-toolbar-sticky[data-v-637d02d8],
+    .surat-premium.memorisation-mode .row[role="list"][data-v-637d02d8] {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+}
+.surat-premium.memorisation-offcanvas-open .row[role="list"][data-v-637d02d8],
+    .surat-premium.memorisation-mode .row[role="list"][data-v-637d02d8] {
+        padding-top: 1rem !important;
+}
+}
+
+/* Final winning layer for memorisation panel width, audio edge, and dark parity. */
+[data-v-637d02d8]:root {
+    --memorisation-panel-docked-width: clamp(380px, 32vw, 560px);
+}
+.memorisation-sidebar[data-v-637d02d8],
+.memorisation-offcanvas[data-v-637d02d8] {
+    width: var(--memorisation-panel-current-width, var(--memorisation-panel-docked-width)) !important;
+    max-width: min(100vw, var(--memorisation-panel-current-width, var(--memorisation-panel-docked-width))) !important;
+}
+.memorisation-offcanvas[data-v-637d02d8] {
+    --memo-panel-bg: #f7fbf9;
+    --memo-panel-surface: #ffffff;
+    --memo-panel-surface-soft: #edf7f3;
+    --memo-panel-border: rgba(15, 71, 65, 0.14);
+    --memo-panel-border-strong: rgba(15, 71, 65, 0.22);
+    --memo-panel-text: #112f2a;
+    --memo-panel-muted: #55706a;
+    --memo-panel-accent: #0f766e;
+    --memo-panel-accent-soft: rgba(15, 118, 110, 0.1);
+    background: var(--memo-panel-bg) !important;
+    border-left: 1px solid var(--memo-panel-border-strong) !important;
+    color: var(--memo-panel-text) !important;
+    box-shadow: -18px 0 36px rgba(15, 53, 48, 0.08) !important;
+}
+.memorisation-offcanvas.surat-dark-modal[data-v-637d02d8] {
+    --memo-panel-bg: #181a1f;
+    --memo-panel-surface: #20242b;
+    --memo-panel-surface-soft: #151922;
+    --memo-panel-border: #343a46;
+    --memo-panel-border-strong: #424b59;
+    --memo-panel-text: #f3f4f6;
+    --memo-panel-muted: #cbd5e1;
+    --memo-panel-accent: #2dd4bf;
+    --memo-panel-accent-soft: rgba(45, 212, 191, 0.12);
+    background: var(--memo-panel-bg) !important;
+    color: var(--memo-panel-text) !important;
+}
+.memorisation-offcanvas .offcanvas-header[data-v-637d02d8] {
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 4 !important;
+    min-height: 68px !important;
+    padding: 0.85rem 1rem !important;
+    border-bottom: 1px solid var(--memo-panel-border) !important;
+    background: var(--memo-panel-surface) !important;
+    box-shadow: 0 8px 20px rgba(15, 53, 48, 0.06) !important;
+}
+.memorisation-offcanvas .offcanvas-title[data-v-637d02d8] {
+    margin: 0 !important;
+    color: var(--memo-panel-text) !important;
+    font-size: 1.35rem !important;
+    line-height: 1.1 !important;
+    letter-spacing: 0 !important;
+}
+.memorisation-offcanvas .btn-close[data-v-637d02d8] {
+    width: 38px !important;
+    height: 38px !important;
+    margin: 0 !important;
+    border-radius: 8px !important;
+    border: 1px solid var(--memo-panel-border) !important;
+    background-color: var(--memo-panel-surface-soft) !important;
+    opacity: 1 !important;
+}
+.memorisation-offcanvas.surat-dark-modal .btn-close[data-v-637d02d8] {
+    filter: invert(1) grayscale(100%) brightness(160%) !important;
+}
+.memorisation-offcanvas .offcanvas-body[data-v-637d02d8] {
+    padding: 0.8rem !important;
+    gap: 0.7rem !important;
+    background: var(--memo-panel-bg) !important;
+}
+.memorisation-tools-tabs[data-v-637d02d8] {
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 3 !important;
+    gap: 0.35rem !important;
+    padding: 0.3rem !important;
+    border-radius: 8px !important;
+    border: 1px solid var(--memo-panel-border) !important;
+    background: var(--memo-panel-surface) !important;
+    box-shadow: 0 8px 18px rgba(15, 53, 48, 0.05) !important;
+}
+.memorisation-tools-tab[data-v-637d02d8] {
+    min-height: 38px !important;
+    border-radius: 8px !important;
+    color: var(--memo-panel-muted) !important;
+    font-weight: 800 !important;
+    letter-spacing: 0 !important;
+}
+.memorisation-tools-tab.is-active[data-v-637d02d8] {
+    background: var(--memo-panel-accent) !important;
+    border-color: var(--memo-panel-accent) !important;
+    color: #ffffff !important;
+    box-shadow: none !important;
+}
+.memorisation-beginner-panel[data-v-637d02d8],
+.memorisation-advanced-panel[data-v-637d02d8] {
+    gap: 0.7rem !important;
+}
+.memorisation-tools-card[data-v-637d02d8] {
+    border-radius: 8px !important;
+    border: 1px solid var(--memo-panel-border) !important;
+    background: var(--memo-panel-surface) !important;
+    color: var(--memo-panel-text) !important;
+    padding: 0.82rem !important;
+    box-shadow: 0 8px 18px rgba(15, 53, 48, 0.045) !important;
+}
+.memorisation-offcanvas.surat-dark-modal .memorisation-tools-card[data-v-637d02d8],
+.memorisation-offcanvas.surat-dark-modal .memorisation-tools-tabs[data-v-637d02d8] {
+    box-shadow: none !important;
+}
+.memorisation-tools-card-head[data-v-637d02d8] {
+    align-items: center !important;
+    margin-bottom: 0.65rem !important;
+    padding-bottom: 0.55rem !important;
+    border-bottom: 1px solid var(--memo-panel-border) !important;
+}
+.memorisation-tools-card-title h5[data-v-637d02d8] {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 0.4rem !important;
+    color: var(--memo-panel-text) !important;
+    font-size: 1rem !important;
+    line-height: 1.2 !important;
+    letter-spacing: 0 !important;
+}
+.memorisation-tools-card-title h5 i[data-v-637d02d8] {
+    width: 28px !important;
+    height: 28px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin: 0 !important;
+    border-radius: 8px !important;
+    background: var(--memo-panel-accent-soft) !important;
+    color: var(--memo-panel-accent) !important;
+}
+.memorisation-tools-card-title p[data-v-637d02d8],
+.memorisation-tools-field-hint[data-v-637d02d8],
+.memorisation-tools-switch-copy small[data-v-637d02d8] {
+    color: var(--memo-panel-muted) !important;
+    font-size: 0.78rem !important;
+    line-height: 1.35 !important;
+}
+.memorisation-tools-grid[data-v-637d02d8] {
+    gap: 0.58rem !important;
+}
+@media (min-width: 420px) {
+.memorisation-tools-grid[data-v-637d02d8] {
+        grid-template-columns: 1fr !important;
+}
+}
+@media (min-width: 520px) {
+.memorisation-tools-grid[data-v-637d02d8] {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+}
+.memorisation-tools-field--full[data-v-637d02d8] {
+        grid-column: 1 / -1 !important;
+}
+}
+.memorisation-tools-label[data-v-637d02d8] {
+    color: var(--memo-panel-muted) !important;
+    font-size: 0.7rem !important;
+    letter-spacing: 0.08em !important;
+}
+.memorisation-tools-control[data-v-637d02d8] {
+    min-height: 40px !important;
+    border-radius: 8px !important;
+    border: 1px solid var(--memo-panel-border) !important;
+    background: var(--memo-panel-surface-soft) !important;
+    color: var(--memo-panel-text) !important;
+    padding: 0.46rem 0.58rem !important;
+}
+.memorisation-tools-control[data-v-637d02d8]:focus {
+    border-color: var(--memo-panel-accent) !important;
+    box-shadow: 0 0 0 0.18rem var(--memo-panel-accent-soft) !important;
+}
+.memorisation-tools-control[data-v-637d02d8]::-moz-placeholder {
+    color: var(--memo-panel-muted) !important;
+    opacity: 0.85 !important;
+}
+.memorisation-tools-control[data-v-637d02d8]::placeholder {
+    color: var(--memo-panel-muted) !important;
+    opacity: 0.85 !important;
+}
+.memorisation-tools-switch[data-v-637d02d8] {
+    min-height: 56px !important;
+    border-radius: 8px !important;
+    border: 1px solid var(--memo-panel-border) !important;
+    background: var(--memo-panel-surface-soft) !important;
+    color: var(--memo-panel-text) !important;
+    padding: 0.58rem 0.64rem !important;
+}
+.memorisation-tools-switch-copy strong[data-v-637d02d8] {
+    color: var(--memo-panel-text) !important;
+    font-size: 0.9rem !important;
+    line-height: 1.2 !important;
+}
+.memorisation-tools-range[data-v-637d02d8] {
+    gap: 0.45rem !important;
+}
+.memorisation-tools-range-sep[data-v-637d02d8] {
+    color: var(--memo-panel-muted) !important;
+}
+.memorisation-tools-link-btn[data-v-637d02d8],
+.memorisation-tools-secondary-btn[data-v-637d02d8],
+.memorisation-tools-action-btn[data-v-637d02d8] {
+    border-radius: 8px !important;
+    border: 1px solid var(--memo-panel-border) !important;
+    background: var(--memo-panel-surface-soft) !important;
+    color: var(--memo-panel-text) !important;
+    box-shadow: none !important;
+}
+.memorisation-tools-link-btn[data-v-637d02d8]:hover,
+.memorisation-tools-secondary-btn[data-v-637d02d8]:hover,
+.memorisation-tools-action-btn[data-v-637d02d8]:hover,
+.memorisation-tools-link-btn[data-v-637d02d8]:focus-visible,
+.memorisation-tools-secondary-btn[data-v-637d02d8]:focus-visible,
+.memorisation-tools-action-btn[data-v-637d02d8]:focus-visible {
+    border-color: var(--memo-panel-border-strong) !important;
+    color: var(--memo-panel-text) !important;
+}
+.memorisation-tools-action-btn--primary[data-v-637d02d8] {
+    background: var(--memo-panel-accent) !important;
+    border-color: var(--memo-panel-accent) !important;
+    color: #ffffff !important;
+}
+.memorisation-beginner-actions[data-v-637d02d8] {
+    position: sticky !important;
+    bottom: 0 !important;
+    z-index: 3 !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 0.55rem !important;
+    padding: 0.7rem 0 0.1rem !important;
+    background: linear-gradient(180deg, rgba(247, 251, 249, 0), var(--memo-panel-bg) 42%) !important;
+}
+.memorisation-offcanvas.surat-dark-modal .memorisation-beginner-actions[data-v-637d02d8] {
+    background: linear-gradient(180deg, rgba(24, 26, 31, 0), var(--memo-panel-bg) 42%) !important;
+}
+@media (min-width: 992px) {
+.surat-premium.memorisation-sidebar-open[data-v-637d02d8] {
+        --memorisation-content-right-offset: var(--memorisation-panel-current-width, var(--memorisation-panel-docked-width, 520px)) !important;
+}
+.audio-player-container.is-memorisation-tools-panel-open[data-v-637d02d8] {
+        right: var(--memorisation-panel-current-width, var(--memorisation-panel-docked-width, 520px)) !important;
+}
+}
+@media (max-width: 991.98px) {
+.memorisation-sidebar[data-v-637d02d8],
+    .memorisation-offcanvas[data-v-637d02d8] {
+        width: min(100vw, 440px) !important;
+        max-width: 100vw !important;
+}
+.memorisation-offcanvas .offcanvas-body[data-v-637d02d8] {
+        padding: 0.65rem !important;
+}
+.memorisation-tools-grid[data-v-637d02d8] {
+        grid-template-columns: 1fr !important;
+}
+}
+
+/* Absolute last memorisation lane fix. */
+@media (min-width: 992px) {
+.surat-premium.memorisation-sidebar-open[data-v-637d02d8] {
+        --memorisation-content-right-offset: calc(var(--memorisation-panel-current-width, var(--memorisation-panel-docked-width, 520px)) + 24px) !important;
+}
+.audio-player-container.is-memorisation-tools-panel-open[data-v-637d02d8] {
+        right: var(--memorisation-panel-current-width, var(--memorisation-panel-docked-width, 520px)) !important;
+}
+}
+
+/* Final memorisation panel layout: fixed header/footer, sticky tabs, scrollable tools. */
+.memorisation-sidebar.memorisation-offcanvas[data-v-637d02d8],
+.memorisation-offcanvas[data-v-637d02d8] {
+    display: grid !important;
+    grid-template-rows: auto minmax(0, 1fr) auto !important;
+    overflow: hidden !important;
+}
+.memorisation-offcanvas .memorisation-panel-header[data-v-637d02d8] {
+    flex: 0 0 auto !important;
+    padding: 0.9rem 1.05rem 0.75rem !important;
+}
+.memorisation-offcanvas .offcanvas-body[data-v-637d02d8] {
+    min-height: 0 !important;
+    overflow-y: auto !important;
+    overscroll-behavior: contain !important;
+    padding: 0.95rem 1.05rem 1.15rem !important;
+    scrollbar-gutter: stable both-edges !important;
+}
+.memorisation-offcanvas .memorisation-tools-tabs[data-v-637d02d8] {
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 8 !important;
+    margin: -0.15rem 0 0.9rem !important;
+    padding: 0.28rem !important;
+    background: color-mix(in srgb, var(--memo-panel-bg) 94%, transparent) !important;
+    border: 1px solid var(--memo-panel-border) !important;
+    border-radius: 12px !important;
+    box-shadow: 0 10px 26px rgba(10, 37, 32, 0.07) !important;
+    backdrop-filter: blur(14px) saturate(1.2) !important;
+    -webkit-backdrop-filter: blur(14px) saturate(1.2) !important;
+}
+.memorisation-offcanvas.surat-dark-modal .memorisation-tools-tabs[data-v-637d02d8] {
+    box-shadow: 0 10px 26px rgba(0, 0, 0, 0.24) !important;
+}
+.memorisation-offcanvas .memorisation-beginner-panel[data-v-637d02d8],
+.memorisation-offcanvas .memorisation-advanced-panel[data-v-637d02d8] {
+    display: grid !important;
+    gap: 0.85rem !important;
+    padding: 0 0 0.25rem !important;
+}
+.memorisation-offcanvas .memorisation-tools-card[data-v-637d02d8] {
+    padding: 0.95rem !important;
+    border-radius: 13px !important;
+}
+.memorisation-offcanvas .memorisation-tools-grid[data-v-637d02d8] {
+    gap: 0.75rem !important;
+}
+.memorisation-panel-footer[data-v-637d02d8] {
+    position: relative !important;
+    z-index: 10 !important;
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important;
+    gap: 0.65rem !important;
+    padding: 0.85rem 1.05rem calc(0.85rem + env(safe-area-inset-bottom)) !important;
+    border-top: 1px solid var(--memo-panel-border) !important;
+    background: linear-gradient(180deg, color-mix(in srgb, var(--memo-panel-surface) 92%, transparent), var(--memo-panel-surface) 72%) !important;
+    box-shadow: 0 -14px 28px rgba(10, 37, 32, 0.08) !important;
+}
+.memorisation-offcanvas.surat-dark-modal .memorisation-panel-footer[data-v-637d02d8] {
+    box-shadow: 0 -14px 28px rgba(0, 0, 0, 0.32) !important;
+}
+.memorisation-panel-footer .memorisation-tools-action-btn[data-v-637d02d8] {
+    min-height: 48px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 0.4rem !important;
+    width: 100% !important;
+    font-size: 0.95rem !important;
+}
+@media (max-width: 991.98px) {
+.memorisation-offcanvas .memorisation-panel-header[data-v-637d02d8] {
+        padding: 0.8rem 0.9rem 0.65rem !important;
+}
+.memorisation-offcanvas .offcanvas-body[data-v-637d02d8] {
+        padding: 0.8rem 0.85rem 1rem !important;
+        scrollbar-gutter: auto !important;
+}
+.memorisation-offcanvas .memorisation-tools-tabs[data-v-637d02d8] {
+        margin-bottom: 0.75rem !important;
+}
+.memorisation-offcanvas .memorisation-tools-card[data-v-637d02d8] {
+        padding: 0.85rem !important;
+}
+.memorisation-panel-footer[data-v-637d02d8] {
+        gap: 0.55rem !important;
+        padding: 0.75rem 0.85rem calc(0.75rem + env(safe-area-inset-bottom)) !important;
+}
+}
+@media (max-width: 420px) {
+.memorisation-panel-footer[data-v-637d02d8] {
+        grid-template-columns: 1fr !important;
+}
+}
+
+/* Revert memorisation panel to the previous non-sticky interaction model. */
+.memorisation-sidebar.memorisation-offcanvas[data-v-637d02d8],
+.memorisation-offcanvas[data-v-637d02d8] {
+    display: flex !important;
+    flex-direction: column !important;
+    overflow: hidden !important;
+}
+.memorisation-offcanvas .offcanvas-body[data-v-637d02d8] {
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
+    overflow-y: auto !important;
+    padding: 1.25rem 1.35rem 1.45rem !important;
+    scrollbar-gutter: stable !important;
+}
+.memorisation-offcanvas .memorisation-tools-tabs[data-v-637d02d8] {
+    position: static !important;
+    top: auto !important;
+    z-index: auto !important;
+    margin: 0 0 1.15rem !important;
+    padding: 0.34rem !important;
+}
+.memorisation-offcanvas .memorisation-beginner-panel[data-v-637d02d8],
+.memorisation-offcanvas .memorisation-advanced-panel[data-v-637d02d8] {
+    display: grid !important;
+    gap: 1rem !important;
+    padding: 0.05rem 0 0.4rem !important;
+}
+.memorisation-offcanvas .memorisation-tools-card[data-v-637d02d8] {
+    padding: 1.1rem !important;
+    border-radius: 14px !important;
+}
+.memorisation-offcanvas .memorisation-tools-card-head[data-v-637d02d8] {
+    margin-bottom: 0.9rem !important;
+    padding-bottom: 0.75rem !important;
+}
+.memorisation-offcanvas .memorisation-tools-grid[data-v-637d02d8] {
+    gap: 0.85rem !important;
+}
+.memorisation-offcanvas .memorisation-tools-field[data-v-637d02d8] {
+    gap: 0.38rem !important;
+}
+.memorisation-offcanvas .memorisation-tools-switch[data-v-637d02d8] {
+    padding: 0.78rem 0.85rem !important;
+}
+.memorisation-beginner-actions[data-v-637d02d8] {
+    position: static !important;
+    bottom: auto !important;
+    z-index: auto !important;
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important;
+    gap: 0.8rem !important;
+    padding: 0.4rem 0 0.1rem !important;
+    margin-top: 0.1rem !important;
+    background: transparent !important;
+}
+.memorisation-panel-footer[data-v-637d02d8] {
+    display: none !important;
+}
+@media (max-width: 991.98px) {
+.memorisation-offcanvas .offcanvas-body[data-v-637d02d8] {
+        padding: 1rem 1rem 1.25rem !important;
+        scrollbar-gutter: auto !important;
+}
+.memorisation-offcanvas .memorisation-tools-tabs[data-v-637d02d8] {
+        margin-bottom: 1rem !important;
+}
+.memorisation-offcanvas .memorisation-tools-card[data-v-637d02d8] {
+        padding: 0.95rem !important;
+}
+.memorisation-beginner-actions[data-v-637d02d8] {
+        gap: 0.65rem !important;
+}
+}
+@media (max-width: 420px) {
+.memorisation-beginner-actions[data-v-637d02d8] {
+        grid-template-columns: 1fr !important;
+}
+}
+
+/* Final toolbar/sidebar composition: toolbar never runs underneath the open tools panel. */
+@media (min-width: 992px) {
+.surat-premium.memorisation-sidebar-open[data-v-637d02d8] {
+        --memorisation-open-panel-width: var(--memorisation-panel-current-width, var(--memorisation-panel-docked-width, 520px));
+        --memorisation-open-panel-gap: 28px;
+        --memorisation-open-content-width: calc(100vw - var(--memorisation-open-panel-width) - var(--memorisation-open-panel-gap));
+}
+.surat-premium.memorisation-sidebar-open .memorisation-tools-hero[data-v-637d02d8],
+    .surat-premium.memorisation-sidebar-open .quran-toolbar-sticky[data-v-637d02d8],
+    .surat-premium.memorisation-sidebar-open .row[role="list"][data-v-637d02d8] {
+        width: var(--memorisation-open-content-width) !important;
+        max-width: var(--memorisation-open-content-width) !important;
+        min-width: 0 !important;
+        margin-left: 0 !important;
+        margin-right: auto !important;
+        box-sizing: border-box !important;
+}
+.surat-premium.memorisation-sidebar-open .quran-toolbar-sticky[data-v-637d02d8] {
+        padding-right: 0 !important;
+        overflow: hidden !important;
+}
+.surat-premium.memorisation-sidebar-open .quran-toolbar.quran-toolbar-reader[data-v-637d02d8],
+    .surat-premium.memorisation-sidebar-open .quran-toolbar-reader-actions[data-v-637d02d8] {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        overflow: hidden !important;
+}
+.surat-premium.memorisation-sidebar-open .quran-toolbar-scroll-track[data-v-637d02d8] {
+        min-width: 0 !important;
+        max-width: 100% !important;
+        overflow-x: auto !important;
+        overflow-y: hidden !important;
+        scrollbar-width: none !important;
+}
+.surat-premium.memorisation-sidebar-open .quran-toolbar-scroll-track[data-v-637d02d8]::-webkit-scrollbar {
+        display: none !important;
+}
+}
+
+/* Cleaner offcanvas spacing and hierarchy. */
+.memorisation-sidebar.memorisation-offcanvas[data-v-637d02d8],
+.memorisation-offcanvas[data-v-637d02d8] {
+    border-left: 1px solid var(--memo-panel-border-strong) !important;
+    background: var(--memo-panel-bg) !important;
+}
+.memorisation-offcanvas .memorisation-panel-header[data-v-637d02d8],
+.memorisation-offcanvas .offcanvas-header[data-v-637d02d8] {
+    padding: 1.05rem 1.35rem 0.95rem !important;
+    min-height: 82px !important;
+    border-bottom: 1px solid var(--memo-panel-border) !important;
+    background: var(--memo-panel-surface) !important;
+}
+.memorisation-panel-title-wrap[data-v-637d02d8] {
+    gap: 0.18rem !important;
+}
+.memorisation-panel-eyebrow[data-v-637d02d8] {
+    letter-spacing: 0.18em !important;
+}
+.memorisation-panel-close-btn[data-v-637d02d8] {
+    width: 46px !important;
+    height: 46px !important;
+    border-radius: 12px !important;
+}
+.memorisation-offcanvas .offcanvas-body[data-v-637d02d8] {
+    padding: 1.35rem 1.45rem 1.6rem !important;
+}
+.memorisation-offcanvas .memorisation-tools-tabs[data-v-637d02d8] {
+    margin: 0 0 1.25rem !important;
+    padding: 0.4rem !important;
+    border-radius: 14px !important;
+}
+.memorisation-offcanvas .memorisation-beginner-panel[data-v-637d02d8],
+.memorisation-offcanvas .memorisation-advanced-panel[data-v-637d02d8] {
+    gap: 1.15rem !important;
+}
+.memorisation-offcanvas .memorisation-tools-card[data-v-637d02d8] {
+    padding: 1.18rem !important;
+    border-radius: 16px !important;
+}
+.memorisation-offcanvas .memorisation-tools-card-head[data-v-637d02d8] {
+    margin-bottom: 1rem !important;
+    padding-bottom: 0.85rem !important;
+}
+.memorisation-offcanvas .memorisation-tools-grid[data-v-637d02d8] {
+    gap: 0.95rem !important;
+}
+.memorisation-offcanvas .memorisation-tools-control[data-v-637d02d8] {
+    min-height: 44px !important;
+    padding: 0.58rem 0.7rem !important;
+}
+.memorisation-offcanvas .memorisation-tools-switch[data-v-637d02d8] {
+    min-height: 64px !important;
+    padding: 0.85rem 0.95rem !important;
+}
+.memorisation-offcanvas .memorisation-beginner-actions[data-v-637d02d8] {
+    gap: 0.85rem !important;
+    padding-top: 0.55rem !important;
+}
+@media (max-width: 991.98px) {
+.memorisation-offcanvas .memorisation-panel-header[data-v-637d02d8],
+    .memorisation-offcanvas .offcanvas-header[data-v-637d02d8] {
+        min-height: 72px !important;
+        padding: 0.85rem 1rem !important;
+}
+.memorisation-offcanvas .offcanvas-body[data-v-637d02d8] {
+        padding: 1rem 1rem 1.25rem !important;
+}
+.memorisation-offcanvas .memorisation-tools-tabs[data-v-637d02d8] {
+        margin-bottom: 1rem !important;
+}
+.memorisation-offcanvas .memorisation-tools-card[data-v-637d02d8] {
+        padding: 1rem !important;
+}
+}
+
+/* Final memorisation toolbar icon-only tools trigger. */
+.quran-toolbar-btn.quran-toolbar-tools-icon-only[data-v-637d02d8] {
+    width: 46px !important;
+    min-width: 46px !important;
+    max-width: 46px !important;
+    height: 42px !important;
+    min-height: 42px !important;
+    padding: 0 !important;
+    justify-content: center !important;
+}
+.quran-toolbar-btn.quran-toolbar-tools-icon-only .quran-toolbar-btn-icon-shell[data-v-637d02d8] {
+    margin: 0 !important;
+}
+.memorisation-mobile-tools-dropdown-btn[data-v-637d02d8] {
+    width: 42px !important;
+    min-width: 42px !important;
+    max-width: 42px !important;
+    padding-inline: 0 !important;
+}
+
+/* Final Surat cleanup: keep ayah tools inside ellipsis and simplify sidebar. */
+.ayah-card-header .ayah-tafseer-dropdown[data-v-637d02d8],
+.ayah-card-header .ayah-header-download-btn[data-v-637d02d8] {
+    display: none !important;
+}
+.sidebar-collapse-button-label[data-v-637d02d8] {
+    font-size: 0 !important;
+}
+.sidebar-collapse-button-label[data-v-637d02d8]::after {
+    content: "Collapse sidebar";
+    font-size: 0.88rem !important;
+}
+.sidebar-tabs .tab-btn[data-v-637d02d8]:nth-child(2),
+.sidebar-ayah-jump[data-v-637d02d8],
+.sidebar-info-button[data-v-637d02d8] {
+    display: none !important;
+}
+.sidebar-tabs[data-v-637d02d8] {
+    margin-bottom: 0.75rem !important;
+}
+.sidebar-tabs .tab-btn[data-v-637d02d8] {
+    min-height: 38px !important;
+    border-radius: 10px !important;
+}
+.sidebar-header.sidebar-header-sticky[data-v-637d02d8] {
+    padding: 0.85rem 0.75rem 0.75rem !important;
+}
+.sidebar-search-input[data-v-637d02d8] {
+    min-height: 42px !important;
+    border-radius: 14px !important;
+}
+.sidebar-list-container[data-v-637d02d8] {
+    padding-bottom: 1.5rem !important;
+}
+.sidebar-item[data-v-637d02d8] {
+    min-height: 54px !important;
+    padding: 0.65rem 0.75rem !important;
+    border-radius: 0 !important;
+}
+.sidebar-item .item-number[data-v-637d02d8] {
+    min-width: 1.65rem !important;
+    margin-right: 0.75rem !important;
+}
+.sidebar-surah-title-row[data-v-637d02d8],
+.sidebar-surah-name-pair[data-v-637d02d8] {
+    gap: 0.25rem !important;
+}
+.sidebar-surah-name-pair .item-title-ar[data-v-637d02d8] {
+    opacity: 0.82 !important;
+}
+
+/* Final sidebar spacing and transliteration tightening. */
+.surah-layout > .sticky-dropdown[data-v-637d02d8] {
+    padding: 0.85rem 0.75rem 1rem !important;
+}
+.sidebar-dark-content[data-v-637d02d8] {
+    gap: 0.65rem !important;
+}
+.sidebar-header.sidebar-header-sticky[data-v-637d02d8] {
+    padding: 0.9rem 0.85rem 0.85rem !important;
+}
+.sidebar-tabs[data-v-637d02d8] {
+    padding: 0.2rem !important;
+    gap: 0.35rem !important;
+}
+.sidebar-search-input[data-v-637d02d8] {
+    padding-inline: 1rem !important;
+}
+.sidebar-list-container[data-v-637d02d8] {
+    padding-inline: 0.35rem !important;
+}
+.sidebar-item[data-v-637d02d8] {
+    margin: 0.18rem 0.15rem !important;
+    padding: 0.72rem 0.85rem !important;
+    border-radius: 12px !important;
+}
+.sidebar-item.active[data-v-637d02d8] {
+    box-shadow: inset 3px 0 0 rgba(15, 118, 110, 0.85) !important;
+}
+.transliteration-text--word-aligned[data-v-637d02d8] {
+    word-spacing: 0 !important;
+}
+.ayah-card-copy .ayah-transliteration-word[data-v-637d02d8],[data-v-637d02d8] .ayah-transliteration-word {
+    margin: 0 0.025rem 0.12rem 0 !important;
+    padding: 0.015em 0.045em !important;
+    border-radius: 6px !important;
+}
+.surat-premium .ayah-card-copy .transliteration-text[data-v-637d02d8] {
+    line-height: 1.55 !important;
+    letter-spacing: 0 !important;
+}
+
+/* Advanced memorisation accordion controls. */
+.memorisation-section-toggle[data-v-637d02d8] {
+    width: 36px !important;
+    min-width: 36px !important;
+    height: 36px !important;
+    padding: 0 !important;
+    border-radius: 10px !important;
+    border: 1px solid var(--memo-panel-border) !important;
+    background: var(--memo-panel-surface-soft) !important;
+    color: var(--memo-panel-text) !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin-left: auto !important;
+    transition: transform 160ms ease, background-color 160ms ease, border-color 160ms ease !important;
+}
+.memorisation-section-toggle[data-v-637d02d8]:hover,
+.memorisation-section-toggle[data-v-637d02d8]:focus-visible {
+    transform: translateY(-1px) !important;
+    border-color: var(--memo-panel-border-strong) !important;
+    background: var(--memo-panel-accent-soft) !important;
+}
+.memorisation-section-toggle .bi[data-v-637d02d8] {
+    font-size: 0.92rem !important;
+    line-height: 1 !important;
+}
+.memorisation-advanced-section-body[data-v-637d02d8] {
+    animation: memo-section-expand-637d02d8 180ms ease both;
+}
+@keyframes memo-section-expand-637d02d8 {
+from {
+        opacity: 0;
+        transform: translateY(-4px);
+}
+to {
+        opacity: 1;
+        transform: translateY(0);
+}
+}
+
 
 .bookmark-manager[data-v-e5539dca] {
     padding: 1.5rem 1.25rem;
@@ -106299,6 +107848,42 @@ mark[data-search-highlight][data-v-44a8361a] {
   --shadow-lg: 0 16px 56px rgba(26, 71, 49, 0.14);
   --shadow-xl: 0 28px 80px rgba(26, 71, 49, 0.18);
 }
+:root[data-theme="dark"] .discover-islam {
+  --forest: #eefdf5;
+  --green-deep: #bbf7d0;
+  --green-mid: #86efac;
+  --green: #4ade80;
+  --green-med: #34d399;
+  --green-light: #a7f3d0;
+  --green-pale: rgba(74, 222, 128, 0.32);
+  --green-mist: #1d332b;
+  --green-frost: #182722;
+  --green-ice: #232529;
+  --gold: #facc15;
+  --gold-warm: #fde047;
+  --gold-bright: #fef08a;
+  --gold-pale: rgba(250, 204, 21, 0.14);
+  --gold-mist: rgba(250, 204, 21, 0.10);
+  --ink: #f8fafc;
+  --text-main: #f4f7f5;
+  --text-soft: #d6e3dc;
+  --text-muted: #aebdb5;
+  --text-light: #8ea098;
+  --white: #2d3034;
+  --surface: #232529;
+  --surface-2: #2a2d31;
+  --surface-3: #32363a;
+  --border: rgba(255, 255, 255, 0.18);
+  --border-soft: rgba(255, 255, 255, 0.12);
+  --rust: #fca5a5;
+  --rust-light: rgba(248, 113, 113, 0.18);
+  --rust-pale: rgba(248, 113, 113, 0.10);
+  --shadow-green: none;
+  --shadow-sm: none;
+  --shadow-md: none;
+  --shadow-lg: none;
+  --shadow-xl: none;
+}
 .discover-islam,
 .discover-islam * {
   box-sizing: border-box;
@@ -106397,7 +107982,9 @@ mark[data-search-highlight][data-v-44a8361a] {
   color: #991b1b;
 }
 .tool-pill--report {
-  display: none !important;
+  border-color: rgba(245, 158, 11, 0.30);
+  background: rgba(245, 158, 11, 0.12);
+  color: #854d0e;
 }
 .tool-pill--ai {
   border-color: rgba(85, 185, 138, 0.38);
@@ -106444,6 +108031,87 @@ mark[data-search-highlight][data-v-44a8361a] {
 }
 :root[data-theme="dark"] .tool-pill--ai {
   background: rgba(99, 209, 161, 0.18);
+  color: rgba(255, 255, 255, 0.92);
+}
+:root[data-theme="dark"] .discover-islam,
+:root[data-theme="dark"] body.islam-route-page,
+:root[data-theme="dark"] body.islam-route-page main#main-content,
+:root[data-theme="dark"] body.islam-route-page #app {
+  background: #232529 !important;
+  color: var(--text-main);
+}
+:root[data-theme="dark"] .hero-wave-bottom path {
+  fill: #232529 !important;
+}
+:root[data-theme="dark"] .di-disclaimer,
+:root[data-theme="dark"] .twin-card,
+:root[data-theme="dark"] .split-names,
+:root[data-theme="dark"] .prayer-card,
+:root[data-theme="dark"] .faq-accordion,
+:root[data-theme="dark"] .quran-quote,
+:root[data-theme="dark"] .zakat-grid li,
+:root[data-theme="dark"] .ref-pill,
+:root[data-theme="dark"] .ai-summary-inline {
+  background: var(--white);
+  border-color: var(--border-soft);
+  color: var(--text-main);
+  box-shadow: none;
+}
+:root[data-theme="dark"] .names-title {
+  background: var(--white);
+  border-color: var(--border-soft);
+}
+:root[data-theme="dark"] .section-title,
+:root[data-theme="dark"] .sub-heading,
+:root[data-theme="dark"] .names-title,
+:root[data-theme="dark"] .name-ar,
+:root[data-theme="dark"] .quran-quote p,
+:root[data-theme="dark"] .prayer-name,
+:root[data-theme="dark"] .afterlife-stages strong,
+:root[data-theme="dark"] .resource-list strong,
+:root[data-theme="dark"] .faq-q-text,
+:root[data-theme="dark"] .ai-summary-title,
+:root[data-theme="dark"] .di-disclaimer strong {
+  color: var(--forest);
+}
+:root[data-theme="dark"] .section-lead,
+:root[data-theme="dark"] .body-copy,
+:root[data-theme="dark"] .check-list li,
+:root[data-theme="dark"] .star-list li,
+:root[data-theme="dark"] .hajj-steps li,
+:root[data-theme="dark"] .zakat-grid li,
+:root[data-theme="dark"] .afterlife-stages p,
+:root[data-theme="dark"] .resource-list p,
+:root[data-theme="dark"] .faq-body,
+:root[data-theme="dark"] .ai-summary-points,
+:root[data-theme="dark"] .di-disclaimer p,
+:root[data-theme="dark"] .di-disclaimer h5,
+:root[data-theme="dark"] .name-en,
+:root[data-theme="dark"] .ref-pill {
+  color: var(--text-soft);
+}
+:root[data-theme="dark"] .resource-list a,
+:root[data-theme="dark"] .section-title em,
+:root[data-theme="dark"] .prayer-arabic {
+  color: var(--green-mid);
+}
+:root[data-theme="dark"] .check-list li,
+:root[data-theme="dark"] .star-list li,
+:root[data-theme="dark"] .hajj-steps li,
+:root[data-theme="dark"] .afterlife-stages li,
+:root[data-theme="dark"] .resource-list li,
+:root[data-theme="dark"] .faq-entry,
+:root[data-theme="dark"] .name-tag {
+  border-color: var(--border-soft);
+}
+:root[data-theme="dark"] .resource-list li:hover,
+:root[data-theme="dark"] .faq-trigger:hover,
+:root[data-theme="dark"] .faq-entry.open .faq-trigger,
+:root[data-theme="dark"] .name-tag:hover {
+  background: var(--surface-3);
+}
+:root[data-theme="dark"] .tool-pill--report {
+  background: rgba(245, 158, 11, 0.18);
   color: rgba(255, 255, 255, 0.92);
 }
 .ai-summary-inline {
@@ -106953,6 +108621,12 @@ to {
   font-size: 0.82rem;
   color: var(--text-soft);
   line-height: 1.6;
+}
+.di-disclaimer .disclaimer-text {
+  margin: 0;
+  color: var(--text-soft);
+  font-size: 1rem;
+  line-height: 1.5;
 }
 .di-disclaimer strong {
   color: var(--forest);

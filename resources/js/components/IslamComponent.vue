@@ -101,7 +101,7 @@
       <!-- Disclaimer -->
       <div class="di-disclaimer">
         <span class="disclaimer-shield">🛡</span>
-        <strong>Scholarly Verified:</strong><h5 class="line-height:1.5rem"> {{ configData.disclaimer.text }}</h5>
+        <strong>Scholarly Verified:</strong><h5 class="disclaimer-text"> {{ configData.disclaimer.text }}</h5>
       </div>
       
 
@@ -114,6 +114,11 @@
         </div>
         <h2 class="section-title">What is <em>Islam?</em></h2>
         <p class="section-lead">{{ configData.basics.description }}</p>
+
+        <div class="section-tools section-tools--secondary" aria-label="Section tools">
+          <button type="button" class="tool-pill tool-pill--print" @click="printSection('basics')">Print</button>
+          <button type="button" class="tool-pill tool-pill--report" @click="reportSection('basics')">Report</button>
+        </div>
 
         <div class="twin-grid">
           <div class="twin-card card-faith">
@@ -156,7 +161,7 @@
           <button type="button" class="tool-pill tool-pill--wa" @click="shareWhatsApp('shahada')">WhatsApp</button>
           <button type="button" class="tool-pill tool-pill--copy" @click="copyToClipboard('shahada')">{{ copiedSectionId
             === 'shahada' ? 'Copied' : 'Copy' }}</button>
-          <!-- <button type="button" class="tool-pill tool-pill--print" @click="printSection('shahada')">Print</button> -->
+          <button type="button" class="tool-pill tool-pill--print" @click="printSection('shahada')">Print</button>
           <button type="button" class="tool-pill tool-pill--pdf" @click="downloadPdf('shahada')">Download PDF</button>
           <button type="button" class="tool-pill tool-pill--report" @click="reportSection('shahada')">Report</button>
           <button type="button" class="tool-circle" @click="decreaseFont('shahada')">A-</button>
@@ -204,8 +209,8 @@
                 @click="shareWhatsApp('allah_quote')">WhatsApp</button>
               <button type="button" class="tool-pill tool-pill--copy" @click="copyToClipboard('allah_quote')">{{
                 copiedSectionId === 'allah_quote' ? 'Copied' : 'Copy' }}</button>
-              <!-- <button type="button" class="tool-pill tool-pill--print"
-                @click="printSection('allah_quote')">Print</button> -->
+              <button type="button" class="tool-pill tool-pill--print"
+                @click="printSection('allah_quote')">Print</button>
               <button type="button" class="tool-pill tool-pill--pdf" @click="downloadPdf('allah_quote')">Download
                 PDF</button>
               <button type="button" class="tool-pill tool-pill--report"
@@ -243,7 +248,7 @@
           <button type="button" class="tool-pill tool-pill--wa" @click="shareWhatsApp('prophet')">WhatsApp</button>
           <button type="button" class="tool-pill tool-pill--copy" @click="copyToClipboard('prophet')">{{ copiedSectionId
             === 'prophet' ? 'Copied' : 'Copy' }}</button>
-          <!-- <button type="button" class="tool-pill tool-pill--print" @click="printSection('prophet')">Print</button> -->
+          <button type="button" class="tool-pill tool-pill--print" @click="printSection('prophet')">Print</button>
           <button type="button" class="tool-pill tool-pill--pdf" @click="downloadPdf('prophet')">Download PDF</button>
           <button type="button" class="tool-pill tool-pill--report" @click="reportSection('prophet')">Report</button>
           <button type="button" class="tool-circle" @click="decreaseFont('prophet')">A-</button>
@@ -293,7 +298,7 @@
           <button type="button" class="tool-pill tool-pill--wa" @click="shareWhatsApp('quran')">WhatsApp</button>
           <button type="button" class="tool-pill tool-pill--copy" @click="copyToClipboard('quran')">{{ copiedSectionId
             === 'quran' ? 'Copied' : 'Copy' }}</button>
-          <!-- <button type="button" class="tool-pill tool-pill--print" @click="printSection('quran')">Print</button> -->
+          <button type="button" class="tool-pill tool-pill--print" @click="printSection('quran')">Print</button>
           <button type="button" class="tool-pill tool-pill--pdf" @click="downloadPdf('quran')">Download PDF</button>
           <button type="button" class="tool-pill tool-pill--report" @click="reportSection('quran')">Report</button>
           <button type="button" class="tool-circle" @click="decreaseFont('quran')">A-</button>
@@ -346,7 +351,7 @@
           <button type="button" class="tool-pill tool-pill--wa" @click="shareWhatsApp('salah')">WhatsApp</button>
           <button type="button" class="tool-pill tool-pill--copy" @click="copyToClipboard('salah')">{{ copiedSectionId
             === 'salah' ? 'Copied' : 'Copy' }}</button>
-          <!-- <button type="button" class="tool-pill tool-pill--print" @click="printSection('salah')">Print</button> -->
+          <button type="button" class="tool-pill tool-pill--print" @click="printSection('salah')">Print</button>
           <button type="button" class="tool-pill tool-pill--pdf" @click="downloadPdf('salah')">Download PDF</button>
           <button type="button" class="tool-pill tool-pill--report" @click="reportSection('salah')">Report</button>
           <button type="button" class="tool-circle" @click="decreaseFont('salah')">A-</button>
@@ -406,7 +411,7 @@
           <button type="button" class="tool-pill tool-pill--wa" @click="shareWhatsApp('zakat')">WhatsApp</button>
           <button type="button" class="tool-pill tool-pill--copy" @click="copyToClipboard('zakat')">{{ copiedSectionId
             === 'zakat' ? 'Copied' : 'Copy' }}</button>
-          <!-- <button type="button" class="tool-pill tool-pill--print" @click="printSection('zakat')">Print</button> -->
+          <button type="button" class="tool-pill tool-pill--print" @click="printSection('zakat')">Print</button>
           <button type="button" class="tool-pill tool-pill--pdf" @click="downloadPdf('zakat')">Download PDF</button>
           <button type="button" class="tool-pill tool-pill--report" @click="reportSection('zakat')">Report</button>
           <button type="button" class="tool-circle" @click="decreaseFont('zakat')">A-</button>
@@ -454,7 +459,7 @@
           <button type="button" class="tool-pill tool-pill--wa" @click="shareWhatsApp('sawm')">WhatsApp</button>
           <button type="button" class="tool-pill tool-pill--copy" @click="copyToClipboard('sawm')">{{ copiedSectionId
             === 'sawm' ? 'Copied' : 'Copy' }}</button>
-          <!-- <button type="button" class="tool-pill tool-pill--print" @click="printSection('sawm')">Print</button> -->
+          <button type="button" class="tool-pill tool-pill--print" @click="printSection('sawm')">Print</button>
           <button type="button" class="tool-pill tool-pill--pdf" @click="downloadPdf('sawm')">Download PDF</button>
           <button type="button" class="tool-pill tool-pill--report" @click="reportSection('sawm')">Report</button>
           <button type="button" class="tool-circle" @click="decreaseFont('sawm')">A-</button>
@@ -502,7 +507,7 @@
           <button type="button" class="tool-pill tool-pill--wa" @click="shareWhatsApp('hajj')">WhatsApp</button>
           <button type="button" class="tool-pill tool-pill--copy" @click="copyToClipboard('hajj')">{{ copiedSectionId
             === 'hajj' ? 'Copied' : 'Copy' }}</button>
-          <!-- <button type="button" class="tool-pill tool-pill--print" @click="printSection('hajj')">Print</button> -->
+          <button type="button" class="tool-pill tool-pill--print" @click="printSection('hajj')">Print</button>
           <button type="button" class="tool-pill tool-pill--pdf" @click="downloadPdf('hajj')">Download PDF</button>
           <button type="button" class="tool-pill tool-pill--report" @click="reportSection('hajj')">Report</button>
           <button type="button" class="tool-circle" @click="decreaseFont('hajj')">A-</button>
@@ -560,7 +565,7 @@
           <button type="button" class="tool-pill tool-pill--wa" @click="shareWhatsApp('afterlife')">WhatsApp</button>
           <button type="button" class="tool-pill tool-pill--copy" @click="copyToClipboard('afterlife')">{{
             copiedSectionId === 'afterlife' ? 'Copied' : 'Copy' }}</button>
-          <!-- <button type="button" class="tool-pill tool-pill--print" @click="printSection('afterlife')">Print</button> -->
+          <button type="button" class="tool-pill tool-pill--print" @click="printSection('afterlife')">Print</button>
           <button type="button" class="tool-pill tool-pill--pdf" @click="downloadPdf('afterlife')">Download PDF</button>
           <button type="button" class="tool-pill tool-pill--report" @click="reportSection('afterlife')">Report</button>
           <button type="button" class="tool-circle" @click="decreaseFont('afterlife')">A-</button>
@@ -610,6 +615,11 @@
         </div>
         <h2 class="section-title">Do's &amp; <em>Don'ts</em></h2>
 
+        <div class="section-tools section-tools--secondary" aria-label="Section tools">
+          <button type="button" class="tool-pill tool-pill--print" @click="printSection('dosdonts')">Print</button>
+          <button type="button" class="tool-pill tool-pill--report" @click="reportSection('dosdonts')">Report</button>
+        </div>
+
         <div class="twin-grid">
           <div class="twin-card card-dos">
             <div class="twin-card-header">
@@ -643,6 +653,11 @@
         <h2 class="section-title">Common <em>Questions</em></h2>
         <p class="section-lead" style="margin-bottom: 2.5rem">Answered with care, nuance, and scholarly grounding.</p>
 
+        <div class="section-tools section-tools--secondary" aria-label="Section tools">
+          <button type="button" class="tool-pill tool-pill--print" @click="printSection('faq')">Print</button>
+          <button type="button" class="tool-pill tool-pill--report" @click="reportSection('faq')">Report</button>
+        </div>
+
         <div class="faq-accordion">
           <div v-for="(faq, i) in faqsList" :key="i" class="faq-entry" :class="{ open: faq.open }">
             <button class="faq-trigger" @click="toggleFaq(i)">
@@ -665,6 +680,11 @@
           <span class="section-tag">Resources</span>
         </div>
         <h2 class="section-title">Apps &amp; <em>Learning Resources</em></h2>
+
+        <div class="section-tools section-tools--secondary" aria-label="Section tools">
+          <button type="button" class="tool-pill tool-pill--print" @click="printSection('resources')">Print</button>
+          <button type="button" class="tool-pill tool-pill--report" @click="reportSection('resources')">Report</button>
+        </div>
 
         <div class="twin-grid">
           <div class="twin-card">
@@ -740,7 +760,11 @@ export default {
       },
       // Fixed: reactive FAQs (was mutating a computed property)
       faqs: configData.faqs ? configData.faqs.map(faq => ({ ...faq, open: false })) : [],
-      sections: configData.searchSections || []
+      sections: configData.searchSections || [],
+      beforeUnloadHandler: null,
+      scrollSaveHandler: null,
+      documentClickHandler: null,
+      sectionObserver: null,
     }
   },
 
@@ -788,7 +812,8 @@ export default {
         afterlife: 'tool_afterlife',
       }
       const refKey = map[id]
-      return refKey ? this.$refs[refKey] : null
+      if (refKey && this.$refs[refKey]) return this.$refs[refKey]
+      return document.getElementById(id)
     },
     getToolText(id) {
       const el = this.getToolEl(id)
@@ -849,24 +874,24 @@ export default {
       const section = targetEl.closest('.di-section')
       if (!section) return
 
-      // Clone the section for printing
       const cloneSection = section.cloneNode(true)
+      cloneSection.classList.add('print-target')
       cloneSection.style.display = 'block'
       cloneSection.style.padding = '20px'
       cloneSection.style.backgroundColor = '#ffffff'
+      cloneSection.style.color = '#000000'
       
-      // Create print container
       const printContainer = document.createElement('div')
       printContainer.id = 'print-container'
+      printContainer.className = 'print-target'
       printContainer.appendChild(cloneSection)
       
-      // Remove existing print container if any
       const existingContainer = document.getElementById('print-container')
       if (existingContainer) existingContainer.remove()
       
       document.body.appendChild(printContainer)
+      document.body.classList.add('print-mode')
       
-      // Add print styles
       let printStyles = document.getElementById('temp-print-styles')
       if (!printStyles) {
         printStyles = document.createElement('style')
@@ -895,6 +920,10 @@ export default {
           .section-tools, .ai-summary-inline, .scroll-top-fab, .tool-pill, .tool-circle {
             display: none !important;
           }
+          .di-section {
+            opacity: 1 !important;
+            transform: none !important;
+          }
           img {
             max-width: 100% !important;
             height: auto !important;
@@ -902,52 +931,53 @@ export default {
         }
       `
       
-      // Fixed: use afterprint event for reliable cleanup (prevents blank page)
       const cleanupPrint = () => {
-        printContainer.remove()
+        document.body.classList.remove('print-mode')
+        if (printContainer.parentNode) printContainer.remove()
         if (printStyles) printStyles.remove()
       }
       window.addEventListener('afterprint', cleanupPrint, { once: true })
       
-      // Trigger print
-      window.print()
+      window.setTimeout(() => {
+        window.print()
+        window.setTimeout(cleanupPrint, 500)
+      }, 0)
     },
 
     async downloadPdf(sectionId) {
       const el = this.getToolEl(sectionId)
       if (!el) return
 
-      // Fixed: only hide videos/iframes — keep images visible and included in PDF
       const mediaToHide = el.querySelectorAll('iframe, video')
       mediaToHide.forEach(media => {
         media.dataset.origDisplay = media.style.display
         media.style.display = 'none'
       })
 
-      // Save original styles
       const origPadding = el.style.padding
       const origBg = el.style.background
       el.style.padding = '32px'
       el.style.background = '#ffffff'
 
-      const canvas = await html2canvas(el, {
-        scale: 2,
-        useCORS: true,
-        backgroundColor: '#ffffff',
-        ignoreElements: (element) => {
-          // Fixed: only ignore videos/iframes (images are now captured)
-          return element.tagName === 'IFRAME' || element.tagName === 'VIDEO'
-        }
-      })
+      let canvas
+      try {
+        canvas = await html2canvas(el, {
+          scale: 2,
+          useCORS: true,
+          backgroundColor: '#ffffff',
+          ignoreElements: (element) => {
+            return element.tagName === 'IFRAME' || element.tagName === 'VIDEO'
+          }
+        })
+      } finally {
+        el.style.padding = origPadding
+        el.style.background = origBg
+        mediaToHide.forEach(media => {
+          media.style.display = media.dataset.origDisplay || ''
+          delete media.dataset.origDisplay
+        })
+      }
 
-      // Restore everything
-      el.style.padding = origPadding
-      el.style.background = origBg
-      mediaToHide.forEach(media => {
-        media.style.display = media.dataset.origDisplay || ''
-      })
-
-      const imgData = canvas.toDataURL('image/png')
       const pdf = new jsPDF('p', 'pt', 'a4')
       const margin = 48
       const pageWidth = pdf.internal.pageSize.getWidth()
@@ -1077,19 +1107,19 @@ export default {
       })
     }
 
-    // Save scroll position before page unload/refresh
-    window.addEventListener('beforeunload', () => {
+    this.beforeUnloadHandler = () => {
       sessionStorage.setItem('discover-islam-scroll', window.scrollY)
-    })
+    }
+    window.addEventListener('beforeunload', this.beforeUnloadHandler)
 
-    // Also save on scroll with debounce
     let scrollTimer
-    window.addEventListener('scroll', () => {
+    this.scrollSaveHandler = () => {
       clearTimeout(scrollTimer)
       scrollTimer = setTimeout(() => {
         sessionStorage.setItem('discover-islam-scroll', window.scrollY)
       }, 200)
-    })
+    }
+    window.addEventListener('scroll', this.scrollSaveHandler, { passive: true })
 
     // Handle hash links (don't override manual scroll)
     if (window.location.hash) {
@@ -1104,24 +1134,29 @@ export default {
 
     window.addEventListener('scroll', this.handleScroll, { passive: true })
 
-    const io = new IntersectionObserver((entries) => {
+    this.sectionObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           entry.target.classList.add('in-view')
-          io.unobserve(entry.target)
+          this.sectionObserver.unobserve(entry.target)
         }
       })
     }, { threshold: 0.06, rootMargin: '0px 0px -50px 0px' })
 
-    document.querySelectorAll('.di-section').forEach(el => io.observe(el))
+    document.querySelectorAll('.di-section').forEach(el => this.sectionObserver.observe(el))
 
-    document.addEventListener('click', (e) => {
+    this.documentClickHandler = (e) => {
       if (!e.target.closest('.hero-search-wrap')) this.searchQuery = ''
-    })
+    }
+    document.addEventListener('click', this.documentClickHandler)
   },
 
   beforeUnmount() {
     window.removeEventListener('scroll', this.handleScroll)
+    if (this.beforeUnloadHandler) window.removeEventListener('beforeunload', this.beforeUnloadHandler)
+    if (this.scrollSaveHandler) window.removeEventListener('scroll', this.scrollSaveHandler)
+    if (this.documentClickHandler) document.removeEventListener('click', this.documentClickHandler)
+    if (this.sectionObserver) this.sectionObserver.disconnect()
   }
 }
 </script>
@@ -1195,6 +1230,43 @@ export default {
   --shadow-md: 0 6px 28px rgba(26, 71, 49, 0.10);
   --shadow-lg: 0 16px 56px rgba(26, 71, 49, 0.14);
   --shadow-xl: 0 28px 80px rgba(26, 71, 49, 0.18);
+}
+
+:root[data-theme="dark"] .discover-islam {
+  --forest: #eefdf5;
+  --green-deep: #bbf7d0;
+  --green-mid: #86efac;
+  --green: #4ade80;
+  --green-med: #34d399;
+  --green-light: #a7f3d0;
+  --green-pale: rgba(74, 222, 128, 0.32);
+  --green-mist: #1d332b;
+  --green-frost: #182722;
+  --green-ice: #232529;
+  --gold: #facc15;
+  --gold-warm: #fde047;
+  --gold-bright: #fef08a;
+  --gold-pale: rgba(250, 204, 21, 0.14);
+  --gold-mist: rgba(250, 204, 21, 0.10);
+  --ink: #f8fafc;
+  --text-main: #f4f7f5;
+  --text-soft: #d6e3dc;
+  --text-muted: #aebdb5;
+  --text-light: #8ea098;
+  --white: #2d3034;
+  --surface: #232529;
+  --surface-2: #2a2d31;
+  --surface-3: #32363a;
+  --border: rgba(255, 255, 255, 0.18);
+  --border-soft: rgba(255, 255, 255, 0.12);
+  --rust: #fca5a5;
+  --rust-light: rgba(248, 113, 113, 0.18);
+  --rust-pale: rgba(248, 113, 113, 0.10);
+  --shadow-green: none;
+  --shadow-sm: none;
+  --shadow-md: none;
+  --shadow-lg: none;
+  --shadow-xl: none;
 }
 
 .discover-islam,
@@ -1312,7 +1384,9 @@ export default {
 }
 
 .tool-pill--report {
-  display: none !important;
+  border-color: rgba(245, 158, 11, 0.30);
+  background: rgba(245, 158, 11, 0.12);
+  color: #854d0e;
 }
 
 .tool-pill--ai {
@@ -1368,6 +1442,97 @@ export default {
 
 :root[data-theme="dark"] .tool-pill--ai {
   background: rgba(99, 209, 161, 0.18);
+  color: rgba(255, 255, 255, 0.92);
+}
+
+:root[data-theme="dark"] .discover-islam,
+:root[data-theme="dark"] body.islam-route-page,
+:root[data-theme="dark"] body.islam-route-page main#main-content,
+:root[data-theme="dark"] body.islam-route-page #app {
+  background: #232529 !important;
+  color: var(--text-main);
+}
+
+:root[data-theme="dark"] .hero-wave-bottom path {
+  fill: #232529 !important;
+}
+
+:root[data-theme="dark"] .di-disclaimer,
+:root[data-theme="dark"] .twin-card,
+:root[data-theme="dark"] .split-names,
+:root[data-theme="dark"] .prayer-card,
+:root[data-theme="dark"] .faq-accordion,
+:root[data-theme="dark"] .quran-quote,
+:root[data-theme="dark"] .zakat-grid li,
+:root[data-theme="dark"] .ref-pill,
+:root[data-theme="dark"] .ai-summary-inline {
+  background: var(--white);
+  border-color: var(--border-soft);
+  color: var(--text-main);
+  box-shadow: none;
+}
+
+:root[data-theme="dark"] .names-title {
+  background: var(--white);
+  border-color: var(--border-soft);
+}
+
+:root[data-theme="dark"] .section-title,
+:root[data-theme="dark"] .sub-heading,
+:root[data-theme="dark"] .names-title,
+:root[data-theme="dark"] .name-ar,
+:root[data-theme="dark"] .quran-quote p,
+:root[data-theme="dark"] .prayer-name,
+:root[data-theme="dark"] .afterlife-stages strong,
+:root[data-theme="dark"] .resource-list strong,
+:root[data-theme="dark"] .faq-q-text,
+:root[data-theme="dark"] .ai-summary-title,
+:root[data-theme="dark"] .di-disclaimer strong {
+  color: var(--forest);
+}
+
+:root[data-theme="dark"] .section-lead,
+:root[data-theme="dark"] .body-copy,
+:root[data-theme="dark"] .check-list li,
+:root[data-theme="dark"] .star-list li,
+:root[data-theme="dark"] .hajj-steps li,
+:root[data-theme="dark"] .zakat-grid li,
+:root[data-theme="dark"] .afterlife-stages p,
+:root[data-theme="dark"] .resource-list p,
+:root[data-theme="dark"] .faq-body,
+:root[data-theme="dark"] .ai-summary-points,
+:root[data-theme="dark"] .di-disclaimer p,
+:root[data-theme="dark"] .di-disclaimer h5,
+:root[data-theme="dark"] .name-en,
+:root[data-theme="dark"] .ref-pill {
+  color: var(--text-soft);
+}
+
+:root[data-theme="dark"] .resource-list a,
+:root[data-theme="dark"] .section-title em,
+:root[data-theme="dark"] .prayer-arabic {
+  color: var(--green-mid);
+}
+
+:root[data-theme="dark"] .check-list li,
+:root[data-theme="dark"] .star-list li,
+:root[data-theme="dark"] .hajj-steps li,
+:root[data-theme="dark"] .afterlife-stages li,
+:root[data-theme="dark"] .resource-list li,
+:root[data-theme="dark"] .faq-entry,
+:root[data-theme="dark"] .name-tag {
+  border-color: var(--border-soft);
+}
+
+:root[data-theme="dark"] .resource-list li:hover,
+:root[data-theme="dark"] .faq-trigger:hover,
+:root[data-theme="dark"] .faq-entry.open .faq-trigger,
+:root[data-theme="dark"] .name-tag:hover {
+  background: var(--surface-3);
+}
+
+:root[data-theme="dark"] .tool-pill--report {
+  background: rgba(245, 158, 11, 0.18);
   color: rgba(255, 255, 255, 0.92);
 }
 
@@ -1956,6 +2121,13 @@ export default {
   font-size: 0.82rem;
   color: var(--text-soft);
   line-height: 1.6;
+}
+
+.di-disclaimer .disclaimer-text {
+  margin: 0;
+  color: var(--text-soft);
+  font-size: 1rem;
+  line-height: 1.5;
 }
 
 .di-disclaimer strong {

@@ -13,6 +13,7 @@
 	        $isHajjRoute = request()->is('hajj*');
 	        $isDigitalLibraryRoute = request()->is('digital-library');
 	        $isIslamicBlogRoute = request()->is('islamic-blog');
+	        $isIslamRoute = request()->is('islam');
 	        $isDuaRoute = request()->is('dua');
 	        $isSeerahRoute = request()->is('mission') || request()->is('seerah');
 	        $isAuthRoute = request()->is('login') || request()->is('register');
@@ -23,7 +24,7 @@
                 || request()->is('charity*')
                 || request()->is('stripe/*')
                 || request()->is('debug-checkout');
-	        $hasThemeToggle = ($isSuratRoute || $isHomeRoute || $isRadioRoute || $isContentRoute || $isHajjRoute || $isDigitalLibraryRoute || $isIslamicBlogRoute || $isDuaRoute || $isSeerahRoute || $isAuthRoute);
+	        $hasThemeToggle = ($isSuratRoute || $isHomeRoute || $isRadioRoute || $isContentRoute || $isHajjRoute || $isDigitalLibraryRoute || $isIslamicBlogRoute || $isIslamRoute || $isDuaRoute || $isSeerahRoute || $isAuthRoute);
 	        $defaultCanonical = $appUrl . ($path ? "/{$path}" : '');
 	        $canonicalUrl = trim($__env->yieldContent('canonical', $defaultCanonical));
         $metaTitle = trim($__env->yieldContent('meta_title', 'Islamic Connect, Accessible Quran & Community Tools'));
@@ -134,10 +135,11 @@
 	                var isContentRoute = {{ $isContentRoute ? 'true' : 'false' }};
 	                var isHajjRoute = {{ $isHajjRoute ? 'true' : 'false' }};
 	                var isDigitalLibraryRoute = {{ $isDigitalLibraryRoute ? 'true' : 'false' }};
+	                var isIslamRoute = {{ $isIslamRoute ? 'true' : 'false' }};
 	                var isDuaRoute = {{ $isDuaRoute ? 'true' : 'false' }};
 	                var isSeerahRoute = {{ $isSeerahRoute ? 'true' : 'false' }};
 	                var isAuthRoute = {{ $isAuthRoute ? 'true' : 'false' }};
-	                if (!isSuratRoute && !isHomeRoute && !isRadioRoute && !isContentRoute && !isHajjRoute && !isDigitalLibraryRoute && !isDuaRoute && !isSeerahRoute && !isAuthRoute) return;
+	                if (!isSuratRoute && !isHomeRoute && !isRadioRoute && !isContentRoute && !isHajjRoute && !isDigitalLibraryRoute && !isIslamRoute && !isDuaRoute && !isSeerahRoute && !isAuthRoute) return;
 
                 var storedSuratTheme = isSuratRoute ? localStorage.getItem('suratThemeMode') : null;
                 var storedRadioTheme = isRadioRoute ? localStorage.getItem('radioThemeMode') : null;
@@ -618,6 +620,9 @@
 	        body.islamic-blog-route-page.dark-mode,
 	        body.islamic-blog-route-page.dark-mode main#main-content,
 	        body.islamic-blog-route-page.dark-mode #app,
+	        body.islam-route-page.dark-mode,
+	        body.islam-route-page.dark-mode main#main-content,
+	        body.islam-route-page.dark-mode #app,
 	        body.dua-route-page.dark-mode,
 	        body.dua-route-page.dark-mode main#main-content,
 	        body.dua-route-page.dark-mode #app,
@@ -633,6 +638,7 @@
 	        body.hajj-route-page.dark-mode,
 	        body.digital-library-route-page.dark-mode,
 	        body.islamic-blog-route-page.dark-mode,
+	        body.islam-route-page.dark-mode,
 	        body.dua-route-page.dark-mode,
 	        body.seerah-route-page.dark-mode {
 	            --bs-body-bg: #232529;
@@ -722,6 +728,7 @@
 	        html.theme-transitioning .ic-home,
 	        html.theme-transitioning .radio-page,
 	        html.theme-transitioning .digital-library-page,
+	        html.theme-transitioning .discover-islam,
 	        html.theme-transitioning .dua-shell,
 	        html.theme-transitioning .mission-shell,
 	        html.theme-transitioning .podcast-page {
@@ -755,6 +762,7 @@
 	            html.theme-transitioning .ic-home,
 	            html.theme-transitioning .radio-page,
 	            html.theme-transitioning .digital-library-page,
+	            html.theme-transitioning .discover-islam,
 	            html.theme-transitioning .dua-shell,
 	            html.theme-transitioning .mission-shell,
 	            html.theme-transitioning .podcast-page,
@@ -795,6 +803,7 @@
 	        body.content-route-page.dark-mode .global-theme-toggle,
 	        body.hajj-route-page.dark-mode .global-theme-toggle,
 	        body.digital-library-route-page.dark-mode .global-theme-toggle,
+	        body.islam-route-page.dark-mode .global-theme-toggle,
 	        body.dua-route-page.dark-mode .global-theme-toggle,
 	        body.seerah-route-page.dark-mode .global-theme-toggle,
 	        body.surat-page-shell-dark .global-theme-toggle {
@@ -804,6 +813,7 @@
 	        body.content-route-page.dark-mode .global-theme-toggle,
 	        body.hajj-route-page.dark-mode .global-theme-toggle,
 	        body.digital-library-route-page.dark-mode .global-theme-toggle,
+	        body.islam-route-page.dark-mode .global-theme-toggle,
 	        body.dua-route-page.dark-mode .global-theme-toggle,
 	        body.seerah-route-page.dark-mode .global-theme-toggle {
 	            --ic-toggle-bg: rgba(255, 255, 255, 0.04);
@@ -1122,7 +1132,8 @@
             background: rgba(255, 255, 255, 0.06) !important;
         }
 
-        body.islamic-blog-route-page.dark-mode .navbar.navbar-transparent {
+        body.islamic-blog-route-page.dark-mode .navbar.navbar-transparent,
+        body.islam-route-page.dark-mode .navbar.navbar-transparent {
             background: #232529 !important;
             backdrop-filter: none !important;
             -webkit-backdrop-filter: none !important;
@@ -1137,43 +1148,60 @@
         body.islamic-blog-route-page.dark-mode .navbar .navbar-nav .nav-link:visited,
         body.islamic-blog-route-page.dark-mode .navbar .navbar-nav .nav-link:hover,
         body.islamic-blog-route-page.dark-mode .navbar .navbar-nav .nav-link:focus-visible,
-        body.islamic-blog-route-page.dark-mode .navbar .navbar-nav .nav-link:active {
+        body.islamic-blog-route-page.dark-mode .navbar .navbar-nav .nav-link:active,
+        body.islam-route-page.dark-mode .navbar.navbar-transparent .navbar-brand,
+        body.islam-route-page.dark-mode .navbar.navbar-transparent .nav-link,
+        body.islam-route-page.dark-mode .navbar.navbar-transparent .navbar-toggler,
+        body.islam-route-page.dark-mode .navbar .navbar-nav .nav-link,
+        body.islam-route-page.dark-mode .navbar .navbar-nav .nav-link:visited,
+        body.islam-route-page.dark-mode .navbar .navbar-nav .nav-link:hover,
+        body.islam-route-page.dark-mode .navbar .navbar-nav .nav-link:focus-visible,
+        body.islam-route-page.dark-mode .navbar .navbar-nav .nav-link:active {
             color: #ffffff !important;
             background: transparent !important;
             box-shadow: none !important;
         }
 
-        body.islamic-blog-route-page.dark-mode .navbar .navbar-brand.surat-brand-lockup .surat-brand-icon--light {
+        body.islamic-blog-route-page.dark-mode .navbar .navbar-brand.surat-brand-lockup .surat-brand-icon--light,
+        body.islam-route-page.dark-mode .navbar .navbar-brand.surat-brand-lockup .surat-brand-icon--light {
             opacity: 0;
         }
 
-        body.islamic-blog-route-page.dark-mode .navbar .navbar-brand.surat-brand-lockup .surat-brand-icon--dark {
+        body.islamic-blog-route-page.dark-mode .navbar .navbar-brand.surat-brand-lockup .surat-brand-icon--dark,
+        body.islam-route-page.dark-mode .navbar .navbar-brand.surat-brand-lockup .surat-brand-icon--dark {
             opacity: 1;
         }
 
         body.islamic-blog-route-page.dark-mode .navbar .navbar-brand.surat-brand-lockup .surat-brand-wordmark-img,
-        body.islamic-blog-route-page.dark-mode .navbar .navbar-toggler-icon {
+        body.islamic-blog-route-page.dark-mode .navbar .navbar-toggler-icon,
+        body.islam-route-page.dark-mode .navbar .navbar-brand.surat-brand-lockup .surat-brand-wordmark-img,
+        body.islam-route-page.dark-mode .navbar .navbar-toggler-icon {
             filter: brightness(0) invert(1);
         }
 
-        body.islamic-blog-route-page.dark-mode .navbar .navbar-toggler {
+        body.islamic-blog-route-page.dark-mode .navbar .navbar-toggler,
+        body.islam-route-page.dark-mode .navbar .navbar-toggler {
             border-color: rgba(255, 255, 255, 0.14) !important;
             background: #232529 !important;
             box-shadow: none !important;
         }
 
-        body.islamic-blog-route-page.dark-mode .navbar .dropdown-menu {
+        body.islamic-blog-route-page.dark-mode .navbar .dropdown-menu,
+        body.islam-route-page.dark-mode .navbar .dropdown-menu {
             background: #232529 !important;
             border-color: rgba(255, 255, 255, 0.12) !important;
             box-shadow: none !important;
         }
 
-        body.islamic-blog-route-page.dark-mode .navbar .dropdown-item {
+        body.islamic-blog-route-page.dark-mode .navbar .dropdown-item,
+        body.islam-route-page.dark-mode .navbar .dropdown-item {
             color: #ffffff !important;
         }
 
         body.islamic-blog-route-page.dark-mode .navbar .dropdown-item:hover,
-        body.islamic-blog-route-page.dark-mode .navbar .dropdown-item:focus-visible {
+        body.islamic-blog-route-page.dark-mode .navbar .dropdown-item:focus-visible,
+        body.islam-route-page.dark-mode .navbar .dropdown-item:hover,
+        body.islam-route-page.dark-mode .navbar .dropdown-item:focus-visible {
             background: rgba(255, 255, 255, 0.06) !important;
         }
 
@@ -1189,6 +1217,7 @@
             body.content-route-page.dark-mode .navbar.navbar-transparent,
             body.hajj-route-page.dark-mode .navbar.navbar-transparent,
             body.digital-library-route-page.dark-mode .navbar.navbar-transparent,
+            body.islam-route-page.dark-mode .navbar.navbar-transparent,
             body.dua-route-page.dark-mode .navbar.navbar-transparent,
             body.seerah-route-page.dark-mode .navbar.navbar-transparent {
                 background: #232529 !important;
@@ -1204,6 +1233,8 @@
             body.hajj-route-page.dark-mode .navbar.navbar-transparent .navbar-collapse.collapsing,
             body.digital-library-route-page.dark-mode .navbar.navbar-transparent .navbar-collapse.show,
             body.digital-library-route-page.dark-mode .navbar.navbar-transparent .navbar-collapse.collapsing,
+            body.islam-route-page.dark-mode .navbar.navbar-transparent .navbar-collapse.show,
+            body.islam-route-page.dark-mode .navbar.navbar-transparent .navbar-collapse.collapsing,
             body.dua-route-page.dark-mode .navbar.navbar-transparent .navbar-collapse.show,
             body.dua-route-page.dark-mode .navbar.navbar-transparent .navbar-collapse.collapsing,
             body.seerah-route-page.dark-mode .navbar.navbar-transparent .navbar-collapse.show,
@@ -1222,7 +1253,10 @@
 
             body.islamic-blog-route-page.dark-mode .navbar.navbar-transparent,
             body.islamic-blog-route-page.dark-mode .navbar.navbar-transparent .navbar-collapse.show,
-            body.islamic-blog-route-page.dark-mode .navbar.navbar-transparent .navbar-collapse.collapsing {
+            body.islamic-blog-route-page.dark-mode .navbar.navbar-transparent .navbar-collapse.collapsing,
+            body.islam-route-page.dark-mode .navbar.navbar-transparent,
+            body.islam-route-page.dark-mode .navbar.navbar-transparent .navbar-collapse.show,
+            body.islam-route-page.dark-mode .navbar.navbar-transparent .navbar-collapse.collapsing {
                 background: #232529 !important;
                 border-color: rgba(255, 255, 255, 0.12) !important;
                 box-shadow: none !important;
@@ -1233,6 +1267,7 @@
             body.content-route-page.dark-mode .navbar.navbar-transparent .navbar-collapse .nav-link,
             body.hajj-route-page.dark-mode .navbar.navbar-transparent .navbar-collapse .nav-link,
             body.digital-library-route-page.dark-mode .navbar.navbar-transparent .navbar-collapse .nav-link,
+            body.islam-route-page.dark-mode .navbar.navbar-transparent .navbar-collapse .nav-link,
             body.dua-route-page.dark-mode .navbar.navbar-transparent .navbar-collapse .nav-link,
             body.seerah-route-page.dark-mode .navbar.navbar-transparent .navbar-collapse .nav-link,
             body.islamic-blog-route-page.dark-mode .navbar.navbar-transparent .navbar-collapse .nav-link {
@@ -1487,7 +1522,7 @@
 
 </head>
 
-<body @class(['surat-route-page' => $isSuratRoute, 'home-route-page' => $isHomeRoute, 'radio-route-page' => $isRadioRoute, 'content-route-page' => $isContentRoute, 'hajj-route-page' => $isHajjRoute, 'digital-library-route-page' => $isDigitalLibraryRoute, 'islamic-blog-route-page' => $isIslamicBlogRoute, 'dua-route-page' => $isDuaRoute, 'seerah-route-page' => $isSeerahRoute, 'auth-route-page' => $isAuthRoute])>
+<body @class(['surat-route-page' => $isSuratRoute, 'home-route-page' => $isHomeRoute, 'radio-route-page' => $isRadioRoute, 'content-route-page' => $isContentRoute, 'hajj-route-page' => $isHajjRoute, 'digital-library-route-page' => $isDigitalLibraryRoute, 'islamic-blog-route-page' => $isIslamicBlogRoute, 'islam-route-page' => $isIslamRoute, 'dua-route-page' => $isDuaRoute, 'seerah-route-page' => $isSeerahRoute, 'auth-route-page' => $isAuthRoute])>
     <script>
         (function() {
             try {
@@ -1731,7 +1766,7 @@
     <script defer src="{{ $assetUrls['js.app'] }}"></script>
 	    <script>
 	        document.addEventListener('DOMContentLoaded', () => {
-	            // Global theme toggle for supported routes only: /, /home, /surat, /radio, /content, /hajj, /digital-library, /islamic-blog, /dua, /seerah
+	            // Global theme toggle for supported routes only: /, /home, /surat, /radio, /content, /hajj, /digital-library, /islamic-blog, /islam, /dua, /seerah
 	            try {
 	                const toggleBtn = document.getElementById('globalThemeToggle');
 	                if (toggleBtn) {
@@ -1745,6 +1780,7 @@
 	                        'hajj-route-page',
 	                        'digital-library-route-page',
 	                        'islamic-blog-route-page',
+	                        'islam-route-page',
 	                        'dua-route-page',
 	                        'seerah-route-page',
 	                    ];
