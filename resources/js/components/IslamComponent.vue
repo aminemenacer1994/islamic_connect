@@ -135,7 +135,7 @@
           <div class="twin-card card-pillars">
             <div class="twin-card-header">
               <span class="tc-icon">🕌</span>
-              <h3>{{ configData.basics.corePractices.title }}</h3>
+              <h3 class="text-white">{{ configData.basics.corePractices.title }}</h3>
             </div>
             <ul class="check-list">
               <li v-for="item in configData.basics.corePractices.items" :key="item"><span class="cl-dot gold"></span>{{
@@ -227,8 +227,8 @@
             <h4 class="names-title">{{ configData.asmaUlHusna.title }}</h4>
             <div class="names-cloud">
               <span class="name-tag" v-for="name in configData.asmaUlHusna.names" :key="name.ar" :title="name.en">
-                <span class="name-ar">{{ name.ar }}</span>
-                <span class="name-en">{{ name.en }}</span>
+                <span class="name-ar tex-white">{{ name.ar }}</span>
+                <span class="name-en text-white">{{ name.en }}</span>
               </span>
             </div>
           </div>
@@ -1233,11 +1233,11 @@ export default {
 }
 
 :root[data-theme="dark"] .discover-islam {
-  --forest: #eefdf5;
-  --green-deep: #bbf7d0;
-  --green-mid: #86efac;
-  --green: #4ade80;
-  --green-med: #34d399;
+  --forest: #123326;
+  --green-deep: #174934;
+  --green-mid: #2fce8d;
+  --green: #34d399;
+  --green-med: #4ade80;
   --green-light: #a7f3d0;
   --green-pale: rgba(74, 222, 128, 0.32);
   --green-mist: #1d332b;
@@ -1384,9 +1384,7 @@ export default {
 }
 
 .tool-pill--report {
-  border-color: rgba(245, 158, 11, 0.30);
-  background: rgba(245, 158, 11, 0.12);
-  color: #854d0e;
+  display: none !important;
 }
 
 .tool-pill--ai {
@@ -1435,11 +1433,6 @@ export default {
   color: rgba(255, 255, 255, 0.92);
 }
 
-:root[data-theme="dark"] .tool-pill--report {
-  background: rgba(245, 158, 11, 0.16);
-  color: rgba(255, 255, 255, 0.92);
-}
-
 :root[data-theme="dark"] .tool-pill--ai {
   background: rgba(99, 209, 161, 0.18);
   color: rgba(255, 255, 255, 0.92);
@@ -1472,6 +1465,25 @@ export default {
   box-shadow: none;
 }
 
+:root[data-theme="dark"] .di-disclaimer {
+  background: #2d3034;
+  border-left-color: var(--green-med);
+}
+
+:root[data-theme="dark"] .twin-card-header,
+:root[data-theme="dark"] .card-faith .twin-card-header,
+:root[data-theme="dark"] .card-pillars .twin-card-header,
+:root[data-theme="dark"] .card-dos .twin-card-header,
+:root[data-theme="dark"] .twin-card-header:not(.card-faith .twin-card-header):not(.card-pillars .twin-card-header):not(.card-dos .twin-card-header):not(.card-donts .twin-card-header) {
+  background: linear-gradient(135deg, #173c2c 0%, #206040 100%);
+}
+
+:root[data-theme="dark"] .twin-card-header h3,
+:root[data-theme="dark"] .twin-card-header h3 em {
+  color: #f4fff8;
+  opacity: 1;
+}
+
 :root[data-theme="dark"] .names-title {
   background: var(--white);
   border-color: var(--border-soft);
@@ -1488,7 +1500,7 @@ export default {
 :root[data-theme="dark"] .faq-q-text,
 :root[data-theme="dark"] .ai-summary-title,
 :root[data-theme="dark"] .di-disclaimer strong {
-  color: var(--forest);
+  color: #f4fff8;
 }
 
 :root[data-theme="dark"] .section-lead,
@@ -1532,8 +1544,7 @@ export default {
 }
 
 :root[data-theme="dark"] .tool-pill--report {
-  background: rgba(245, 158, 11, 0.18);
-  color: rgba(255, 255, 255, 0.92);
+  display: none !important;
 }
 
 .ai-summary-inline {
@@ -2138,7 +2149,10 @@ export default {
    SECTIONS
    ────────────────────────────── */
 .di-section {
-  margin-bottom: 7rem;
+  margin-bottom: 3rem;
+  padding-top: 2.5rem;
+  padding-bottom: 2.5rem;
+  scroll-margin-top: calc(var(--navbar-h, 72px) + 1rem);
   opacity: 0;
   transform: translateY(40px);
   transition: opacity 0.75s cubic-bezier(.22, .68, 0, 1.15), transform 0.75s cubic-bezier(.22, .68, 0, 1.15);
@@ -2319,13 +2333,16 @@ export default {
 .ref-pill {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 0.5rem;
   background: var(--green-frost);
   border: 1px solid var(--border-soft);
   border-radius: 30px;
-  padding: 15px;
+  padding: 0.85rem 1.25rem;
   font-size: 0.74rem;
   color: var(--text-muted);
+  line-height: 1.35;
+  text-align: center;
 }
 
 .ref-pill.centered {
@@ -2333,6 +2350,14 @@ export default {
   justify-content: center;
   margin: 1.75rem auto 0;
   width: fit-content;
+}
+
+.twin-card > .ref-pill {
+  display: flex;
+  width: fit-content;
+  min-width: min(100% - 3.2rem, 260px);
+  margin: 1rem auto 1.4rem;
+  padding: 0.85rem 1.25rem;
 }
 
 /* ── Photo duo ── */

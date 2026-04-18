@@ -10,7 +10,7 @@
           <i class="bi bi-people-fill"></i>
         </span>
         <div>
-          <h3 class="fw-bold mb-1">Reverts Stories</h3>
+          <h3 class="fw-bold mb-1">Revert Stories</h3>
           <p class="text-muted small mb-0">Short journeys from our community, handpicked for this chapter.</p>
         </div>
       </div>

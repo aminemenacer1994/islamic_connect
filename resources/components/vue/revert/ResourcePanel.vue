@@ -10,7 +10,8 @@
           <i class="bi bi-book"></i>
         </span>
         <div>
-          <h3 class="fw-bold mb-0">References & Resources</h3>
+          <h3 class="fw-bold mb-0">Foundational References</h3>
+          <p class="resources-header-subtitle mb-0">Only the essentials for quick review.</p>
         </div>
       </div>
       <div class="section-control-stack ms-auto">
@@ -48,12 +49,12 @@
     <div v-show="visible" class="resources-body">
       <div class="resources-intro">
         <div class="resources-intro-text">
-          <p class="resource-lead mb-0">Foundational references and practical tools for this chapter.</p>
+          <p class="resource-lead mb-0">A short, prioritised reference list for this chapter.</p>
           <p v-if="globalSearchActive" class="resource-filter-note mb-0">
             Showing matches for "<span class="resource-filter-term">{{ resourceSearchTerm }}</span>".
           </p>
           <p class="resource-entry-hint text-muted small mb-0">
-            Tap the clipboard icon next to any entry to copy the reference or resource detail for quick notes.
+            The list is intentionally compact so it stays scannable.
           </p>
         </div>
       </div>
@@ -62,7 +63,7 @@
         class="resource-grid"
       >
         <article
-          v-for="(section, sectionIndex) in resourceSectionsWithKeys"
+          v-for="(section, sectionIndex) in visibleResourceSections"
           :key="section.toggleKey"
           class="resource-section-card"
         >
@@ -203,6 +204,23 @@ export default {
       required: true
     }
   },
-  emits: ['decrease-font', 'increase-font', 'toggle-visibility']
+  emits: ['decrease-font', 'increase-font', 'toggle-visibility'],
+  computed: {
+    visibleResourceSections() {
+      const sections = Array.isArray(this.resourceSectionsWithKeys)
+        ? this.resourceSectionsWithKeys
+        : []
+      if (this.globalSearchActive) return sections
+      return sections.slice(0, 1).map((section) => ({
+        ...section,
+        items: (Array.isArray(section.items) ? section.items : [])
+          .slice(0, 2)
+          .map((item) => ({
+            ...item,
+            entries: (Array.isArray(item.entries) ? item.entries : []).slice(0, 3)
+          }))
+      }))
+    }
+  }
 }
 </script>

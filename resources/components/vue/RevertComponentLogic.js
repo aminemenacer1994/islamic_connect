@@ -34,7 +34,7 @@ const normalizeJson = (value) => {
 const VIDEO_ACCENT_PAIRS = [
   { primary: '#0f766e', secondary: '#5eead4' },
   { primary: '#1d4ed8', secondary: '#a5b4fc' },
-  { primary: '#7c2d12', secondary: '#fb923c' },
+  { primary: '#0f766e', secondary: '#d6a34a' },
   { primary: '#1e3a8a', secondary: '#3b82f6' },
   { primary: '#047857', secondary: '#34d399' },
   { primary: '#4c1d95', secondary: '#c084fc' }
@@ -381,21 +381,21 @@ const celebrateFinalChapter = (confettiFn) => {
       spread: 200,
       startVelocity: 70,
       scalar: 1.5,
-      colors: ['#facc15', '#fb923c', '#f472b6', '#38bdf8', '#22d3ee', '#a855f7']
+      colors: ['#facc15', '#d6a34a', '#34d399', '#38bdf8', '#22d3ee', '#a5b4fc']
     },
     {
       particleCount: 180,
       spread: 160,
       startVelocity: 50,
       drift: 0.5,
-      colors: ['#34d399', '#a5b4fc', '#fcd34d', '#fb7185']
+      colors: ['#34d399', '#a5b4fc', '#fcd34d', '#5eead4']
     },
     {
       particleCount: 140,
       spread: 190,
       startVelocity: 80,
       scalar: 1.6,
-      colors: ['#0ea5e9', '#f97316', '#10b981']
+      colors: ['#0ea5e9', '#d6a34a', '#10b981']
     }
   ]
 
@@ -490,6 +490,7 @@ export default defineComponent({
       nextPhaseAmountMinor: 199,
       helpGuideSteps: REVERTS_GUIDE_STEPS,
       shareFriendStatus: '',
+      offlineActionStatus: '',
       onboarding: normalizeJson(onboardingData),
       resourceCopyStatus: '',
       resourceSearchTerm: '',
@@ -561,6 +562,12 @@ export default defineComponent({
       showScrollFab: false,
       genderFilters: GENDER_FILTERS,
       showVideoFilters: true,
+      viewMode: 'serene',
+      viewModeOptions: [
+        { value: 'serene', label: 'Serene', icon: 'bi-water' },
+        { value: 'focus', label: 'Focus', icon: 'bi-bullseye' },
+        { value: 'contrast', label: 'Contrast', icon: 'bi-circle-half' }
+      ],
       reflectionNotes: {},
       reflectionInput: '',
       reflectionStatus: '',
@@ -928,11 +935,9 @@ export default defineComponent({
           icon: 'bi-lightbulb-fill',
           visible: this.secondarySectionsReady && this.insightsToShow.length > 0
         },
-        { id: 'share-uplift-section', label: 'Share & Uplift', icon: 'bi-share', visible: this.currentDuas.length > 0 },
         { id: 'chapter-tool-section', label: 'Chapter Tool', icon: 'bi-tools', visible: Boolean(this.chapterTool) },
         { id: 'common-questions-section', label: 'Common Questions', icon: 'bi-question-circle-fill' },
-        { id: 'motivation-section', label: 'Motivation', icon: 'bi-rocket-takeoff-fill' },
-        { id: 'resources-section', label: 'References & Resources', icon: 'bi-book' },
+        { id: 'resources-section', label: 'References', icon: 'bi-book' },
         { id: 'chapter-quiz-section', label: 'Chapter Quiz', icon: 'bi-journal-check' }
       ].filter(link => link.visible !== false)
     },
@@ -1348,14 +1353,6 @@ export default defineComponent({
   watch: {
     mobileNavOpen(open) {
       this.syncMobileNavScrollLock(open)
-      if (open) {
-        this.captureMobileNavFocusOrigin()
-        this.$nextTick(() => {
-          this.focusFirstMobileNavControl()
-        })
-        return
-      }
-      this.restoreMobileNavFocusOrigin()
     },
     selectedPill() {
       // Reload the chapter experience whenever navigation moves to another pill.
@@ -1481,6 +1478,7 @@ export default defineComponent({
       this.syncDailyChallenges()
       this.loadGentleStepCompletion()
       this.loadReflectionNotes()
+      this.loadViewModePreference()
       this.loadLessonOverviewRead()
       this.loadCuratedHighlightCompletion()
       if ('scrollRestoration' in window.history) {
@@ -2393,16 +2391,19 @@ export default defineComponent({
       const html = document.documentElement
       if (!body || !html) return
 
-      body.classList.remove('revert-mobile-nav-lock', 'modal-open', 'sidebar-open')
-      html.classList.remove('revert-mobile-nav-lock')
+      body.classList.remove('modal-open', 'sidebar-open')
+      if (!this.mobileNavOpen) {
+        body.classList.remove('revert-mobile-nav-lock')
+        html.classList.remove('revert-mobile-nav-lock')
+      }
 
-      if (body.style.overflow === 'hidden') {
+      if (!this.mobileNavOpen && body.style.overflow === 'hidden') {
         body.style.overflow = ''
       }
       if (body.style.paddingRight) {
         body.style.paddingRight = ''
       }
-      if (html.style.overflow === 'hidden') {
+      if (!this.mobileNavOpen && html.style.overflow === 'hidden') {
         html.style.overflow = ''
       }
 
@@ -2419,21 +2420,6 @@ export default defineComponent({
     bindScrollSafetyObserver() {
       if (typeof window === 'undefined' || typeof document === 'undefined') return
       this.enforceRevertScrollSafety()
-      if (typeof window.MutationObserver !== 'function') return
-      if (this.scrollSafetyObserver) return
-
-      this.scrollSafetyObserver = new window.MutationObserver(() => {
-        this.enforceRevertScrollSafety()
-      })
-
-      this.scrollSafetyObserver.observe(document.body, {
-        attributes: true,
-        attributeFilter: ['class', 'style']
-      })
-      this.scrollSafetyObserver.observe(document.documentElement, {
-        attributes: true,
-        attributeFilter: ['class', 'style']
-      })
     },
 
     teardownScrollSafetyObserver() {
@@ -2444,8 +2430,9 @@ export default defineComponent({
 
     syncMobileNavScrollLock(shouldOpen = this.mobileNavOpen) {
       if (typeof document === 'undefined' || typeof window === 'undefined') return
-      void shouldOpen
       this.enforceRevertScrollSafety()
+      document.body.classList.toggle('revert-mobile-nav-lock', Boolean(shouldOpen))
+      document.documentElement.classList.toggle('revert-mobile-nav-lock', Boolean(shouldOpen))
     },
 
     toggleMobileNav() {
@@ -2489,6 +2476,42 @@ export default defineComponent({
       if (step.id < this.maxStepReached) return 'Completed'
       if (step.id === this.maxStepReached) return 'In progress'
       return 'Locked'
+    },
+
+    loadViewModePreference() {
+      if (typeof window === 'undefined') return
+      const stored = localStorage.getItem('revertViewMode')
+      const allowed = this.viewModeOptions.map(option => option.value)
+      if (allowed.includes(stored)) {
+        this.viewMode = stored
+      }
+    },
+
+    setViewMode(mode) {
+      const allowed = this.viewModeOptions.map(option => option.value)
+      if (!allowed.includes(mode)) return
+      this.viewMode = mode
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('revertViewMode', mode)
+      }
+    },
+
+    expandAllCards() {
+      this.cardVisibility = {}
+      this.sectionVisibility = {}
+      this.triggerCopyAlert('All sections expanded.', 'success')
+    },
+
+    collapseSupportingCards() {
+      this.cardVisibility = {
+        guidedPathway: false,
+        shareFriend: false,
+        revertStories: false,
+        shareUplift: false,
+        resources: false,
+        motivation: false
+      }
+      this.triggerCopyAlert('Focus mode applied to supporting sections.', 'info')
     },
 
     sectionStatsFor(title) {
@@ -2899,8 +2922,7 @@ export default defineComponent({
       return `${text.slice(0, maxLength).trim()}...`
     },
     shouldAutoplayVideo() {
-      // Force autoplay for every video experience regardless of motion prefs.
-      return true
+      return !this.reduceMotionEnabled
     },
     startPreview(video) {
       if (this.isPlayingVideo(video) || this.isClipPlaying(video)) return
@@ -3424,7 +3446,7 @@ export default defineComponent({
         clearTimeout(this.copyAlertTimeout)
       }
       this.copyAlertMessage = message
-      this.copyAlertType = type
+      this.copyAlertType = type === 'danger' ? 'info' : type
       this.showCopyAlert = true
       this.copyAlertTimeout = setTimeout(() => {
         this.showCopyAlert = false
@@ -3454,6 +3476,112 @@ export default defineComponent({
     },
     printLessonOverview() {
       this.printContent('Lesson Overview', this.getLessonOverviewText())
+    },
+    getCurrentChapterStudyText() {
+      const lesson = this.currentLesson || {}
+      const title = lesson.title || `Chapter ${this.selectedPill || ''}`.trim() || 'Revert study chapter'
+      const summary = lesson.summary || 'Read slowly and return to what benefits your heart.'
+      const sections = this.overviewSectionsWithKeys.length
+        ? this.overviewSectionsWithKeys
+        : this.lessonSectionsWithKeys
+      const sectionText = sections
+        .slice(0, 5)
+        .map((section, index) => {
+          const heading = section.heading || section.title || `Section ${index + 1}`
+          const content = String(section.content || '')
+            .replace(/<[^>]*>/g, ' ')
+            .replace(/\s+/g, ' ')
+            .trim()
+          return `${index + 1}. ${heading}\n${content}`
+        })
+        .join('\n\n')
+      const refs = (this.resourceSectionsWithKeys || [])
+        .slice(0, 1)
+        .flatMap(section => (section.items || []).slice(0, 2))
+        .flatMap(item => (item.entries || []).slice(0, 3))
+        .join('\n')
+      return [
+        title,
+        '',
+        summary,
+        '',
+        sectionText,
+        refs ? `\nFoundational References\n${refs}` : '',
+        `\nIslamic Connect: ${this.getShareLink()}`
+      ].filter(Boolean).join('\n')
+    },
+    currentChapterSlug() {
+      return (this.currentLesson?.title || `chapter-${this.selectedPill || 'study'}`)
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/(^-|-$)/g, '') || 'revert-study'
+    },
+    downloadCurrentChapterPdf() {
+      try {
+        const doc = new jsPDF({ unit: 'pt', format: 'letter' })
+        const margin = 44
+        const pageWidth = doc.internal.pageSize.getWidth()
+        const pageHeight = doc.internal.pageSize.getHeight()
+        let cursorY = 52
+        const addText = (text, fontSize = 11, fontStyle = 'normal', gap = 10) => {
+          if (!text) return
+          doc.setFont('helvetica', fontStyle)
+          doc.setFontSize(fontSize)
+          const lines = doc.splitTextToSize(String(text), pageWidth - margin * 2)
+          const lineHeight = fontSize + 4
+          const needed = lines.length * lineHeight
+          if (cursorY + needed > pageHeight - margin) {
+            doc.addPage()
+            cursorY = margin
+          }
+          doc.text(lines, margin, cursorY)
+          cursorY += needed + gap
+        }
+
+        addText(this.currentLesson?.title || 'Revert Study Chapter', 18, 'bold', 14)
+        addText(this.currentLesson?.summary || '', 11, 'normal', 16)
+        const sections = this.overviewSectionsWithKeys.length
+          ? this.overviewSectionsWithKeys
+          : this.lessonSectionsWithKeys
+        sections.slice(0, 5).forEach((section, index) => {
+          addText(`${index + 1}. ${section.heading || section.title || 'Section'}`, 13, 'bold', 6)
+          addText(String(section.content || '').replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim(), 10, 'normal', 12)
+        })
+        const refs = (this.resourceSectionsWithKeys || [])
+          .slice(0, 1)
+          .flatMap(section => (section.items || []).slice(0, 2))
+          .flatMap(item => (item.entries || []).slice(0, 3))
+        if (refs.length) {
+          addText('Foundational References', 13, 'bold', 6)
+          refs.forEach(ref => addText(`- ${ref}`, 9, 'normal', 5))
+        }
+        doc.save(`${this.currentChapterSlug()}.pdf`)
+        this.offlineActionStatus = 'PDF downloaded.'
+        this.triggerCopyAlert('PDF downloaded.', 'success')
+        setTimeout(() => { this.offlineActionStatus = '' }, 3000)
+      } catch (error) {
+        this.reportAsyncError(error, 'download this chapter PDF')
+        this.offlineActionStatus = 'Unable to download right now.'
+        setTimeout(() => { this.offlineActionStatus = '' }, 4000)
+      }
+    },
+    saveCurrentChapterOffline() {
+      try {
+        const payload = {
+          chapterId: this.currentLesson?.chapterId || this.selectedPill,
+          title: this.currentLesson?.title || 'Revert study chapter',
+          savedAt: new Date().toISOString(),
+          text: this.getCurrentChapterStudyText()
+        }
+        localStorage.setItem('revertOfflineChapter', JSON.stringify(payload))
+        this.offlineActionStatus = 'Saved for offline reading on this device.'
+        this.triggerCopyAlert('Saved for offline reading.', 'success')
+        setTimeout(() => { this.offlineActionStatus = '' }, 3200)
+      } catch (error) {
+        this.reportAsyncError(error, 'save this chapter offline')
+        this.offlineActionStatus = 'Unable to save offline right now.'
+        setTimeout(() => { this.offlineActionStatus = '' }, 4000)
+      }
     },
     getDuasText() {
       if (!this.currentDuas.length) return ''

@@ -71,7 +71,7 @@
       <div class="row g-3">
 
         <!-- SIDEBAR (chapter progress + roadmap navigation) -->
-        <aside class="col-lg-3 col-md-3 mobile-nav-frame">
+        <aside class="col-12 col-md-3 mobile-nav-frame">
           <div
             class="navigation-card p-3 shadow-sm rounded-4"
             :class="{ 'mobile-open': mobileNavOpen }"
@@ -143,7 +143,7 @@
         </aside>
 
         <!-- MAIN CONTENT AREA (lesson overview + resources) -->
-        <section class="col-md-9 lesson-pane">
+        <section class="col-12 col-md-9 lesson-pane">
           <div class="mobile-chapter-select d-lg-none">
             <label class="form-label small text-muted fw-semibold" for="mobile-chapter-picker">
               Choose a chapter
@@ -176,134 +176,6 @@
             :max-step-reached="maxStepReached"
             @open-help="openHelpModal"
           />
-
-          <div class="section-jump-nav mb-4" role="navigation" aria-label="Section navigation">
-            <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-2">
-              <span class="fw-semibold small">Jump to section</span>
-              <span class="text-muted small">{{ sectionJumpLinks.length }} options</span>
-            </div>
-            <div class="section-jump-pillset">
-              <button
-                v-for="link in sectionJumpLinks"
-                :key="`inline-${link.id}`"
-                type="button"
-                class="section-jump-pill d-inline-flex align-items-center gap-2 text-start"
-                :class="{ active: activeSectionJumpId === link.id }"
-                :aria-current="activeSectionJumpId === link.id ? 'true' : 'false'"
-                :aria-label="`Jump to ${link.label}`"
-                @click="jumpToContentSection(link.id)">
-                <i class="bi" :class="link.icon" aria-hidden="true"></i>
-                <span>{{ link.label }}</span>
-              </button>
-            </div>
-          </div>
-
-          <!-- Global search -->
-          <div class="global-search-wrapper mb-4">
-            <div
-              id="global-search-section"
-              class="resource-search-panel global-search-panel section-typography"
-              :style="sectionFontStyle('globalSearch')">
-              <div class="resource-search-header">
-                <div>
-                  <h4 class="resource-search-title">Global Search</h4>
-                  <p class="resource-search-subtitle">
-                    Search the full chapter in one place.
-                  </p>
-                </div>
-                <div class="global-search-header-actions">
-                  <button
-                    type="button"
-                    class="global-search-info-btn"
-                    @click="openSearchInfoModal"
-                    aria-label="About global search"
-                  >
-                    <i class="bi bi-info-circle-fill" aria-hidden="true"></i>
-                    <span class="visually-hidden">Info</span>
-                  </button>
-                </div>
-              </div>
-              <div v-show="isCardVisible('globalSearch')">
-                <div class="resource-search-controls">
-                  <div class="resource-search-input">
-                    <i class="bi bi-search"></i>
-                    <input
-                      type="text"
-                      class="form-control"
-                      placeholder="Search the entire chapter"
-                      v-model="resourceSearchTerm"
-                      aria-label="Search the entire chapter"
-                    />
-                    <button
-                      v-if="resourceSearchTerm"
-                      type="button"
-                      class="btn btn-sm btn-outline-dark"
-                      @click="clearResourceSearch"
-                    >
-                      Clear
-                    </button>
-                  </div>
-                  <div class="resource-search-control">
-                    <label class="visually-hidden" for="global-search-category">Category</label>
-                    <select
-                      id="global-search-category"
-                      class="form-select form-select-sm"
-                      v-model="globalSearchCategory"
-                    >
-                      <option value="all">All categories</option>
-                      <option v-for="option in globalSearchCategoryOptions" :key="option.value" :value="option.value">
-                        {{ option.label }}
-                      </option>
-                    </select>
-                  </div>
-                </div>
-                <div v-if="globalSearchActive" class="global-search-results">
-                  <div class="global-search-summary">
-                    <span class="global-search-count">
-                      {{ globalSearchResultsCount }} results in {{ globalSearchSectionsCount }} categories
-                    </span>
-                  </div>
-                  <div v-if="globalSearchResultsFilteredByCategory.length" class="global-search-group-list">
-                    <article
-                      v-for="group in globalSearchResultsFilteredByCategory"
-                      :key="group.section"
-                      class="global-search-group"
-                    >
-                      <h5 class="global-search-group-title">
-                        <span class="global-search-group-icon" aria-hidden="true">
-                          <i class="bi" :class="globalSearchSectionIcon(group.section)"></i>
-                        </span>
-                        <span v-html="highlightResourceText(group.section)"></span>
-                        <span class="global-search-group-count">{{ group.results.length }}</span>
-                      </h5>
-                      <ul class="list-unstyled mb-0 global-search-result-list">
-                        <li
-                          v-for="(result, resultIndex) in group.results"
-                          :key="`${group.section}-${resultIndex}`"
-                          class="global-search-result"
-                        >
-                          <button
-                            type="button"
-                            class="global-search-result-button"
-                            :aria-label="`Jump to ${group.section}`"
-                            @click="scrollToGlobalSearchSection(group.section)"
-                          >
-                            <div class="global-search-result-heading">
-                              <p v-if="result.title" class="global-search-result-title" v-html="highlightResourceText(result.title)"></p>
-                            </div>
-                            <p v-if="result.snippet" class="global-search-result-snippet" v-html="highlightResourceText(result.snippet)"></p>
-                          </button>
-                        </li>
-                      </ul>
-                    </article>
-                  </div>
-                  <p v-else class="global-search-empty text-muted small">
-                    No matches yet. Try a different keyword.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
 
           <!-- Focus of the lesson -->
           <div
@@ -1007,7 +879,7 @@
           <!-- share and uplift -->
           <div
             id="share-uplift-section"
-            v-if="currentDuas.length"
+            v-if="false && currentDuas.length"
             class="content-card onboarding-card mb-4 rounded-5 shadow-lg section-typography section-share-uplift"
             :style="sectionFontStyle('shareUplift')"
           >
@@ -1135,7 +1007,7 @@
                   type="button"
                   class="chapter-tool-open"
                   @click="openChapterToolNewTab"
-                  aria-label="Open {{ chapterTool.title }} in a new tab">
+                  :aria-label="`Open ${chapterTool.title} in a new tab`">
                   <i class="bi bi-box-arrow-up-right fs-4"></i>
                 </button>
               </div>
@@ -1178,7 +1050,7 @@
                   </span>
                   <div>
                     <h3 class="fw-bold mb-1">Commonly Asked Questions</h3>
-                    <p class="text-muted small mb-0">Answers pulled from the chapter conversation.</p>
+                    <p class="text-muted small mb-0">Short answers for this chapter.</p>
                     <div v-if="commonQuestionsMeta.wordCount" class="section-header-meta">
                       <span class="section-meta-pill">{{ commonQuestionsMeta.wordCount }} words</span>
                       <span class="section-meta-pill">{{ commonQuestionsMeta.readTime }} min read</span>
@@ -1243,6 +1115,7 @@
           <!-- motivation -->
           <div
             id="motivation-section"
+            v-if="false"
             class="content-card onboarding-card mb-4 rounded-5 shadow-lg section-typography section-motivation"
             :style="sectionFontStyle('motivation')"
           >
@@ -1303,8 +1176,8 @@
             :is-section-font-max="isSectionFontMax('resources')"
             :resource-sections-with-keys="resourceSectionsWithKeys"
             :current-chapter-resources-layout="currentChapterResourcesLayout"
-            :global-search-active="globalSearchActive"
-            :resource-search-term="resourceSearchTerm"
+            :global-search-active="false"
+            :resource-search-term="''"
             :highlight-resource-text="highlightResourceText"
             :is-section-visible="isSectionVisible"
             :toggle-section-visibility="toggleSectionVisibility"

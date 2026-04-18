@@ -1184,7 +1184,7 @@ export default {
             memorisationPresetEditorTargetId: "",
             memorisationPresetEditorError: "",
             isRestoringMemorisationSnapshot: false,
-            memorisationOffcanvasDockedWidth: 520,
+            memorisationOffcanvasDockedWidth: 480,
             isMemorisationAdvancedOpen: false,
             memorisationAdvancedSectionExpanded: {
                 setup: true,
@@ -4215,7 +4215,7 @@ export default {
                     Math.max(
                         320,
                         Math.round(
-                            Number(this.memorisationOffcanvasDockedWidth) || 600
+                            Number(this.memorisationOffcanvasDockedWidth) || 480
                         )
                     )
                 )}px`,
@@ -9244,15 +9244,15 @@ export default {
             }
             const panelWidth = Math.max(
                 360,
-                Number(this.memorisationOffcanvasDockedWidth || 520)
+                Number(this.memorisationOffcanvasDockedWidth || 480)
             );
-            const gutter = 8;
+            const gutter = 30;
             return {
                 width: `calc(100vw - ${panelWidth}px - ${gutter}px)`,
                 maxWidth: `calc(100vw - ${panelWidth}px - ${gutter}px)`,
                 marginLeft: "0",
                 marginRight: "auto",
-                paddingRight: "6px",
+                paddingRight: "14px",
                 boxSizing: "border-box",
                 overflow: "hidden",
             };
@@ -9270,7 +9270,7 @@ export default {
                 !this.isTabletOrMobile
             ) {
                 Object.assign(style, this.getMemorisationContentLaneStyle(), {
-                    paddingRight: "6px",
+                    paddingRight: "14px",
                 });
             }
             return Object.keys(style).length ? style : null;
@@ -9284,9 +9284,9 @@ export default {
                 return null;
             }
             return {
-                maxWidth: "calc(100% - 6px)",
-                flex: "0 0 calc(100% - 6px)",
-                marginRight: "6px",
+                maxWidth: "calc(100% - 14px)",
+                flex: "0 0 calc(100% - 14px)",
+                marginRight: "14px",
                 boxSizing: "border-box",
             };
         },
@@ -10473,7 +10473,7 @@ export default {
                     ),
                 sessionHistoryEnabled:
                     Number(this.userId || 0) > 0 && !!draft.sessionHistoryEnabled,
-                sessionName: String(draft.sessionName || "").trim().slice(0, 80),
+                sessionName: "",
             };
         },
         normaliseMemorisationPresetName(name = "") {
@@ -11034,11 +11034,7 @@ export default {
                     sessionHistoryEnabledSource ??
                     this.memorisationSessionHistoryEnabled
                 ),
-                sessionName: String(
-                    config.sessionName ?? this.memorisationDraft?.sessionName ?? ""
-                )
-                    .trim()
-                    .slice(0, 80),
+                sessionName: "",
                 blurNextAyah: !!(
                     config.blurNextAyah ??
                     config.isBlurNextAyahEnabled ??
@@ -11985,17 +11981,39 @@ export default {
                 }
             });
         },
+        scrollMemorisationToolsTitleIntoView({ behavior = "smooth" } = {}) {
+            if (typeof window === "undefined") return;
+            const runScroll = () => {
+                try {
+                    const hero =
+                        this.$el?.querySelector?.(".memorisation-tools-hero") || null;
+                    const navbar =
+                        document.querySelector(".navbar, .site-navbar, header") || null;
+                    const navHeight = navbar?.getBoundingClientRect?.().height || 0;
+                    const targetTop = hero
+                        ? window.scrollY +
+                          hero.getBoundingClientRect().top -
+                          Math.max(8, Math.round(navHeight + 10))
+                        : 0;
+                    window.scrollTo({
+                        top: Math.max(0, Math.round(targetTop)),
+                        behavior,
+                    });
+                } catch (_) {
+                    window.scrollTo(0, 0);
+                }
+            };
+            runScroll();
+            window.requestAnimationFrame?.(() => runScroll());
+            setTimeout(runScroll, 180);
+        },
         prepareMemorisationToolsEntry() {
             try {
                 this.closeAudioPlayer?.();
             } catch (_) {}
-            if (typeof window !== "undefined") {
-                try {
-                    window.scrollTo({ top: 0, behavior: "smooth" });
-                } catch (_) {
-                    window.scrollTo(0, 0);
-                }
-            }
+            this.$nextTick(() => {
+                this.scrollMemorisationToolsTitleIntoView({ behavior: "smooth" });
+            });
         },
         getDefaultMemorisationAdvancedSectionState() {
             return {
@@ -12088,6 +12106,22 @@ export default {
             }
             await this.reloadSessionHistoryEntry(targetEntry);
             this.showToast("Saved session loaded.", 2200);
+        },
+        deleteSelectedMemorisationSessionFromOffcanvas() {
+            const targetId = String(this.selectedMemorisationSessionHistoryId || "").trim();
+            if (!targetId) return;
+            const entries = Array.isArray(this.sessionHistoryEntries)
+                ? this.sessionHistoryEntries
+                : [];
+            const nextEntries = entries.filter(
+                (entry) => String(entry?.id || "") !== targetId
+            );
+            if (nextEntries.length === entries.length) return;
+            this.setSessionHistoryEntries(nextEntries);
+            this.persistSessionHistory();
+            this.selectedMemorisationSessionHistoryId = "";
+            this.showToast("Saved session deleted.", 2200);
+            this.announce("Saved memorisation session deleted.");
         },
         getHifdhPlanPanelInstance() {
             const modalEl = document.getElementById("hifdhPlanModal");
@@ -13419,6 +13453,20 @@ export default {
             await this.seekToAyahWord(index, ayah, displayWordIndex);
         },
         initializeSuratOnboardingState() {
+            this.hasCompletedSuratOnboarding = true;
+            this.suratOnboardingCurrentStep = 1;
+            if (typeof window !== "undefined" && window.localStorage) {
+                try {
+                    localStorage.setItem("ic_surat_onboarding_verified", "1");
+                    this.writeScopedBooleanPreference(
+                        this.suratOnboardingCompletedPreferenceBaseKey,
+                        true
+                    );
+                } catch (_) {
+                    // Ignore storage errors; onboarding is intentionally disabled.
+                }
+            }
+            return;
             if (typeof window === "undefined" || !window.localStorage) return;
             try {
                 const globalCompleted =
@@ -13481,6 +13529,8 @@ export default {
             this.announce("Onboarding finished.");
         },
         openSuratOnboarding(options = {}) {
+            this.hasCompletedSuratOnboarding = true;
+            return;
             const { step = 1 } = options;
             const modalEl = document.getElementById(this.suratOnboardingModalId);
             if (!modalEl) return;
@@ -15039,11 +15089,7 @@ export default {
                 versesCoveredLookup: Object.create(null),
                 repetitionsCompleted: 0,
                 note: "",
-                sessionName: String(
-                    normalizedConfig.sessionName || this.memorisationDraft?.sessionName || ""
-                )
-                    .trim()
-                    .slice(0, 80),
+                sessionName: "",
                 accuracyScore: this.resolveSessionHistoryAccuracyScore(
                     normalizedConfig
                 ),
@@ -15176,11 +15222,7 @@ export default {
                         ? this.resolveSessionHistoryAccuracyScore(sessionConfig)
                         : tracker.accuracyScore,
                 note: String(tracker.note || "").trim(),
-                sessionName: String(
-                    tracker.sessionName || sessionConfig.sessionName || ""
-                )
-                    .trim()
-                    .slice(0, 80),
+                sessionName: "",
                 completionReason: reason,
                 sessionConfig,
             });

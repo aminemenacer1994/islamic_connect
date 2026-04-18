@@ -449,7 +449,7 @@
                                     </button>
                                 </div>
                                 <div
-                                    v-if="isMemorisationOnboardingVisible"
+                                    v-if="false && isMemorisationOnboardingVisible"
                                     class="memorisation-onboarding-overlay memorisation-onboarding-overlay--mobile"
                                     role="dialog"
                                     aria-label="Beginner memorisation welcome">
@@ -915,7 +915,7 @@
 
 
                     <div
-                        v-if="isMemorisationOnboardingVisible"
+                        v-if="false && isMemorisationOnboardingVisible"
                         class="memorisation-onboarding-overlay"
                         role="dialog"
                         aria-label="Beginner memorisation welcome">
@@ -1204,7 +1204,7 @@
 	                </button>
 
             </div>
-        <teleport to="body">
+        <teleport v-if="false" to="body">
             <div
                 v-if="showCustomPlaylistPanel"
                 class="saved-playlists-panel-backdrop"
@@ -1259,7 +1259,7 @@
         <aside
             id="memorisationOffcanvas"
             ref="memorisationOffcanvas"
-            class="memorisation-sidebar memorisation-offcanvas"
+            class="memorisation-sidebar memorisation-offcanvas memorisation-offcanvas-v2 memorisation-offcanvas-v3"
             :class="{
                 'is-open': isMemorisationOffcanvasVisible,
                 'surat-dark-modal': isDarkTheme
@@ -1270,6 +1270,9 @@
                 <div class="memorisation-panel-title-wrap">
                     <span class="memorisation-panel-eyebrow">Quran practice</span>
                     <h4 class="offcanvas-title" id="memorisationOffcanvasLabel">Memorisation Tools</h4>
+                    <p class="memorisation-panel-subtitle mb-0">
+                        {{ isMemorisationAdvancedMode ? 'Advanced setup for structured repetition.' : 'Beginner setup for a focused session.' }}
+                    </p>
                 </div>
                 <button
                     type="button"
@@ -1461,18 +1464,6 @@
                             </button>
                         </div>
                         <div class="memorisation-tools-grid">
-                            <label class="memorisation-tools-field memorisation-tools-field--full">
-                                <span class="memorisation-tools-label">Session name</span>
-                                <input
-                                    type="text"
-                                    class="form-control memorisation-tools-control"
-                                    v-model.trim="memorisationDraft.sessionName"
-                                    maxlength="80"
-                                    :disabled="!canSaveMemorisationSession"
-                                    placeholder="e.g. Fatiha Morning Review"
-                                    aria-label="Session name" />
-                                <small class="memorisation-tools-field-hint">Give this session a clear name so you can find it quickly in Saved session.</small>
-                            </label>
                             <label class="memorisation-tools-switch memorisation-tools-field--full">
                                 <span class="memorisation-tools-switch-copy">
                                     <strong>Blur ayah</strong>
@@ -1490,8 +1481,8 @@
                             <label class="memorisation-tools-switch memorisation-tools-field--full">
                                 <span class="memorisation-tools-switch-copy">
                                     <strong>Save session</strong>
-                                    <small v-if="canSaveMemorisationSession">Stores completed sessions so you can resume patterns, compare consistency, and reload progress.</small>
-                                    <small v-else>Login required to save named sessions and keep persistent history.</small>
+                                    <small v-if="canSaveMemorisationSession">Stores completed sessions automatically so you can reload the same setup later.</small>
+                                    <small v-else>Login required to save sessions in persistent local storage.</small>
                                 </span>
                                 <span class="form-check form-switch mb-0">
                                     <input
@@ -1525,23 +1516,33 @@
                                     </option>
                                 </select>
                             </label>
-	                            <button
-	                                type="button"
-	                                class="btn memorisation-tools-secondary-btn"
-	                                :disabled="!selectedMemorisationSessionHistoryId"
-	                                @click="loadSelectedMemorisationSessionFromOffcanvas">
-	                                <i class="bi bi-arrow-clockwise" aria-hidden="true"></i>
-	                                <span>Load session</span>
-	                            </button>
-	                                <button
-	                                    type="button"
-	                                    class="btn memorisation-tools-secondary-btn"
-	                                    @click="exitLoadedMemorisationSession">
-	                                    <i class="bi bi-box-arrow-left" aria-hidden="true"></i>
-	                                    <span>Exit session</span>
-	                                </button>
-	                        </div>
-	                    </section>
+                                <div class="memorisation-saved-session-actions memorisation-tools-field--full">
+                                    <button
+                                        type="button"
+                                        class="btn memorisation-tools-secondary-btn"
+                                        :disabled="!selectedMemorisationSessionHistoryId"
+                                        @click="loadSelectedMemorisationSessionFromOffcanvas">
+                                        <i class="bi bi-arrow-clockwise" aria-hidden="true"></i>
+                                        <span>Load</span>
+                                    </button>
+                                    <button
+                                        type="button"
+                                        class="btn memorisation-tools-secondary-btn"
+                                        @click="exitLoadedMemorisationSession">
+                                        <i class="bi bi-box-arrow-left" aria-hidden="true"></i>
+                                        <span>Reset</span>
+                                    </button>
+                                    <button
+                                        type="button"
+                                        class="btn memorisation-tools-secondary-btn memorisation-tools-danger-btn"
+                                        :disabled="!selectedMemorisationSessionHistoryId"
+                                        @click="deleteSelectedMemorisationSessionFromOffcanvas">
+                                        <i class="bi bi-trash3" aria-hidden="true"></i>
+                                        <span>Delete</span>
+                                    </button>
+                                </div>
+		                        </div>
+		                    </section>
 
                     <div class="memorisation-beginner-actions">
                         <button
@@ -1566,7 +1567,7 @@
                         <div class="memorisation-tools-card-head">
 	                            <div class="memorisation-tools-card-title">
 	                                <h5 class="mb-0"><i class="bi bi-sliders2 me-1" aria-hidden="true"></i>Setup</h5>
-	                                <p class="mb-0">Basic setup from Beginner mode. Advanced tools below build on this setup.</p>
+		                                <p class="mb-0">Choose what to practise first. Every advanced tool uses this surah, reciter, and ayah range.</p>
 	                            </div>
                                 <button
                                     type="button"
@@ -1585,11 +1586,12 @@
                                     v-model="selectedSurah"
                                     @change="onMemorisationToolbarSurahChange"
                                     aria-label="Select surah">
-                                    <option v-for="surah in filteredSurahs" :key="`advanced-surah-${surah.number}`" :value="String(surah.number)">
-                                        {{ surah.number }}. {{ surah.englishName }}
-                                    </option>
-                                </select>
-                            </label>
+	                                    <option v-for="surah in filteredSurahs" :key="`advanced-surah-${surah.number}`" :value="String(surah.number)">
+	                                        {{ surah.number }}. {{ surah.englishName }}
+	                                    </option>
+	                                </select>
+                                    <small class="memorisation-tools-field-hint">This sets the chapter for the whole session.</small>
+	                            </label>
 
                             <label class="memorisation-tools-field memorisation-tools-field--full">
                                 <span class="memorisation-tools-label">Reciter name</span>
@@ -1598,11 +1600,12 @@
                                     v-model="selectedReciter"
                                     @change="onMemorisationToolbarReciterChange"
                                     aria-label="Select reciter">
-                                    <option v-for="reciter in recitersSorted" :key="`advanced-reciter-${reciter.identifier}`" :value="reciter.identifier">
-                                        {{ reciter.englishName }}
-                                    </option>
-                                </select>
-                            </label>
+	                                    <option v-for="reciter in recitersSorted" :key="`advanced-reciter-${reciter.identifier}`" :value="reciter.identifier">
+	                                        {{ reciter.englishName }}
+	                                    </option>
+	                                </select>
+                                    <small class="memorisation-tools-field-hint">One reciter keeps the sound pattern consistent for recall.</small>
+	                            </label>
 
                             <label class="memorisation-tools-field memorisation-tools-field--full">
                                 <span class="memorisation-tools-label">Ayah range</span>
@@ -1623,9 +1626,10 @@
                                         :min="memorisationRangeStart || 1"
                                         :max="Math.max(totalAyahs || 1, 1)"
                                         @change="onMemorisationToolbarRangeChange"
-                                        aria-label="Range end ayah" />
-                                </div>
-                            </label>
+	                                        aria-label="Range end ayah" />
+	                                </div>
+                                    <small class="memorisation-tools-field-hint">A smaller range makes repetition easier to control and review.</small>
+	                            </label>
 
                             <label class="memorisation-tools-field">
                                 <span class="memorisation-tools-label">Recitation speed</span>
@@ -1633,11 +1637,12 @@
                                     class="form-select memorisation-tools-control"
                                     v-model.number="memorisationDraft.playbackSpeed"
                                     aria-label="Recitation speed">
-                                    <option v-for="speed in playbackSpeeds" :key="`advanced-speed-${speed}`" :value="Number(speed)">
-                                        {{ Number(speed) }}x
-                                    </option>
-                                </select>
-                            </label>
+	                                    <option v-for="speed in playbackSpeeds" :key="`advanced-speed-${speed}`" :value="Number(speed)">
+	                                        {{ Number(speed) }}x
+	                                    </option>
+	                                </select>
+                                    <small class="memorisation-tools-field-hint">Slower audio helps accuracy; normal speed builds fluent recitation.</small>
+	                            </label>
 
                             <label class="memorisation-tools-field">
                                 <span class="memorisation-tools-label">Delay per ayah</span>
@@ -1647,9 +1652,10 @@
                                     v-model.number="memorisationDraft.verseDelay"
                                     min="0"
                                     max="60"
-                                    @change="notifyAyahDelayChange"
-                                    aria-label="Delay per ayah" />
-                            </label>
+	                                    @change="notifyAyahDelayChange"
+	                                    aria-label="Delay per ayah" />
+                                    <small class="memorisation-tools-field-hint">Adds space after each ayah so you can recall before moving on.</small>
+	                            </label>
 
                             <label class="memorisation-tools-switch memorisation-tools-field--full">
                                 <span class="memorisation-tools-switch-copy">
@@ -1667,9 +1673,9 @@
 
                             <label class="memorisation-tools-switch memorisation-tools-field--full">
                                 <span class="memorisation-tools-switch-copy">
-                                    <strong>Save session</strong>
-                                    <small v-if="canSaveMemorisationSession">Save your work and reload it later from Saved session.</small>
-                                    <small v-else>Login required to save named sessions and keep persistent history.</small>
+	                                    <strong>Save session</strong>
+	                                    <small v-if="canSaveMemorisationSession">Save completed practice automatically and reload it later from Saved session.</small>
+	                                    <small v-else>Login required to save sessions in persistent local storage.</small>
                                 </span>
                                 <span class="form-check form-switch mb-0">
                                     <input
@@ -1680,25 +1686,14 @@
                                         aria-label="Toggle save session" />
                                 </span>
                             </label>
-                            <label class="memorisation-tools-field memorisation-tools-field--full">
-                                <span class="memorisation-tools-label">Session name</span>
-                                <input
-                                    type="text"
-                                    class="form-control memorisation-tools-control"
-                                    v-model.trim="memorisationDraft.sessionName"
-                                    maxlength="80"
-                                    :disabled="!canSaveMemorisationSession"
-                                    placeholder="e.g. Evening Chain Set A"
-                                    aria-label="Session name" />
-                            </label>
-                        </div>
+	                        </div>
                     </section>
 
                     <section class="memorisation-tools-card" aria-label="Playback and repetition settings">
                         <div class="memorisation-tools-card-head">
 	                            <div class="memorisation-tools-card-title">
 	                                <h5 class="mb-0"><i class="bi bi-play-circle me-1" aria-hidden="true"></i>Playback</h5>
-	                                <p class="mb-0">These controls shape repetition cycles and are linked to setup values above.</p>
+		                                <p class="mb-0">Control how the selected ayahs play, repeat, and pause during practice.</p>
 	                            </div>
                                 <button
                                     type="button"
@@ -1715,9 +1710,10 @@
                                 <select class="form-select memorisation-tools-control" v-model="memorisationDraft.playbackMode" aria-label="Playback mode">
                                     <option value="continuous">Continuous</option>
                                     <option value="repeat">Repeat</option>
-                                    <option value="manual">Manual</option>
-                                </select>
-                            </label>
+	                                    <option value="manual">Manual</option>
+	                                </select>
+                                    <small class="memorisation-tools-field-hint">Continuous moves forward, Repeat loops each ayah, Manual waits for you.</small>
+	                            </label>
                             <label class="memorisation-tools-field">
                                 <span class="memorisation-tools-label">Repetition count</span>
                                 <input
@@ -1725,13 +1721,14 @@
                                     class="form-control memorisation-tools-control"
                                     v-model.number="memorisationDraft.repetitionCount"
                                     min="1"
-                                    max="99"
-                                    aria-label="Repetition count" />
-                            </label>
+	                                    max="99"
+	                                    aria-label="Repetition count" />
+                                    <small class="memorisation-tools-field-hint">Sets how many times each ayah repeats before moving on.</small>
+	                            </label>
                             <label class="memorisation-tools-switch memorisation-tools-field--full">
                                 <span class="memorisation-tools-switch-copy">
                                     <strong>Range loop</strong>
-                                    <small>Replay the selected range after finishing.</small>
+	                                    <small>Replays the full range after it ends so sequence memory gets stronger.</small>
                                 </span>
                                 <span class="form-check form-switch mb-0">
                                     <input
@@ -1748,13 +1745,14 @@
                                     class="form-control memorisation-tools-control"
                                     v-model.number="memorisationDraft.rangeLoopDelay"
                                     min="0"
-                                    max="300"
-                                    aria-label="Loop delay in seconds" />
-                            </label>
+	                                    max="300"
+	                                    aria-label="Loop delay in seconds" />
+                                    <small class="memorisation-tools-field-hint">Adds a short break before the range starts again.</small>
+	                            </label>
                             <label class="memorisation-tools-switch memorisation-tools-field--full">
                                 <span class="memorisation-tools-switch-copy">
                                     <strong>Single ayah focus</strong>
-                                    <small>Test one ayah at a time before auto progressing.</small>
+	                                    <small>Keeps attention on one ayah before the session moves forward.</small>
                                 </span>
                                 <span class="form-check form-switch mb-0">
                                     <input
@@ -1771,7 +1769,7 @@
                         <div class="memorisation-tools-card-head">
 	                            <div class="memorisation-tools-card-title">
 	                                <h5 class="mb-0"><i class="bi bi-arrow-repeat me-1" aria-hidden="true"></i>Repeat</h5>
-	                                <p class="mb-0">Adds guided pauses and recall support while repeating each ayah.</p>
+		                                <p class="mb-0">Adds listen-and-repeat pauses so you practise active recall, not passive listening.</p>
 	                            </div>
                                 <button
                                     type="button"
@@ -1786,7 +1784,7 @@
                             <label class="memorisation-tools-switch memorisation-tools-field--full">
                                 <span class="memorisation-tools-switch-copy">
                                     <strong>Enable repeat after reciter</strong>
-                                    <small>Adds a pause so you can repeat each ayah.</small>
+	                                    <small>Plays the reciter first, then gives you time to repeat from memory.</small>
                                 </span>
                                 <span class="form-check form-switch mb-0">
                                     <input
@@ -1802,21 +1800,23 @@
                                     <option value="2">2 seconds</option>
                                     <option value="3">3 seconds</option>
                                     <option value="5">5 seconds</option>
-                                    <option value="manual">Until tap</option>
-                                </select>
-                            </label>
+	                                    <option value="manual">Until tap</option>
+	                                </select>
+                                    <small class="memorisation-tools-field-hint">Choose how long the recall pause lasts after each ayah.</small>
+	                            </label>
                             <label class="memorisation-tools-field">
                                 <span class="memorisation-tools-label">Verse text mode</span>
                                 <select class="form-select memorisation-tools-control" v-model="memorisationDraft.repeatAfterReciterVerseTextMode" aria-label="Repeat verse text mode">
                                     <option value="show">Show</option>
                                     <option value="dimmed">Dimmed</option>
-                                    <option value="hide">Hide</option>
-                                </select>
-                            </label>
+	                                    <option value="hide">Hide</option>
+	                                </select>
+                                    <small class="memorisation-tools-field-hint">Show, dim, or hide text while you test your memory.</small>
+	                            </label>
                             <label class="memorisation-tools-switch memorisation-tools-field--full">
                                 <span class="memorisation-tools-switch-copy">
                                     <strong>Show translation assist</strong>
-                                    <small>Keep translation visible during repeat pauses.</small>
+	                                    <small>Shows meaning as a support cue when recall needs context.</small>
                                 </span>
                                 <span class="form-check form-switch mb-0">
                                     <input
@@ -1833,7 +1833,7 @@
                         <div class="memorisation-tools-card-head">
 	                            <div class="memorisation-tools-card-title">
 	                                <h5 class="mb-0"><i class="bi bi-diagram-3 me-1" aria-hidden="true"></i>Chaining</h5>
-	                                <p class="mb-0">Links ayahs progressively so memory is built in connected steps.</p>
+		                                <p class="mb-0">Builds the range in linked steps so ayahs connect naturally in order.</p>
 	                            </div>
                                 <button
                                     type="button"
@@ -1848,7 +1848,7 @@
                             <label class="memorisation-tools-switch memorisation-tools-field--full">
                                 <span class="memorisation-tools-switch-copy">
                                     <strong>Enable chaining method</strong>
-                                    <small>Practice ayahs in linked rounds to reinforce memory.</small>
+	                                    <small>Practise ayah links in rounds so transitions become automatic.</small>
                                 </span>
                                 <span class="form-check form-switch mb-0">
                                     <input
@@ -1862,42 +1862,47 @@
                                 <span class="memorisation-tools-label">Chain mode</span>
                                 <select class="form-select memorisation-tools-control" v-model="memorisationDraft.chainingMethodMode" aria-label="Chaining mode">
                                     <option value="cumulative">Cumulative</option>
-                                    <option value="bridging">Bridging</option>
-                                </select>
-                            </label>
+	                                    <option value="bridging">Bridging</option>
+	                                </select>
+                                    <small class="memorisation-tools-field-hint">Cumulative adds from the start; Bridging focuses on transitions.</small>
+	                            </label>
                             <label class="memorisation-tools-field">
                                 <span class="memorisation-tools-label">Repetition strategy</span>
                                 <select class="form-select memorisation-tools-control" v-model="memorisationDraft.chainingMethodRepetitionStrategy" aria-label="Chaining repetition strategy">
                                     <option value="3">3 rounds</option>
                                     <option value="5">5 rounds</option>
-                                    <option value="mastered">Until mastered</option>
-                                </select>
-                            </label>
+	                                    <option value="mastered">Until mastered</option>
+	                                </select>
+                                    <small class="memorisation-tools-field-hint">Sets how many chain rounds to run before the next step.</small>
+	                            </label>
                             <label class="memorisation-tools-field">
                                 <span class="memorisation-tools-label">Audio guidance</span>
                                 <select class="form-select memorisation-tools-control" v-model="memorisationDraft.chainingMethodAudioGuidance" aria-label="Chaining audio guidance">
                                     <option value="qari-first">Qari first</option>
                                     <option value="user-first">User first</option>
-                                    <option value="silent">Silent</option>
-                                </select>
-                            </label>
+	                                    <option value="silent">Silent</option>
+	                                </select>
+                                    <small class="memorisation-tools-field-hint">Decide whether the reciter leads, you lead, or practice is silent.</small>
+	                            </label>
                             <label class="memorisation-tools-field">
                                 <span class="memorisation-tools-label">Blur progression</span>
                                 <select class="form-select memorisation-tools-control" v-model="memorisationDraft.chainingMethodBlurProgression" aria-label="Chaining blur progression">
                                     <option value="off">Off</option>
                                     <option value="gentle">Gentle</option>
-                                    <option value="progressive">Progressive</option>
-                                </select>
-                            </label>
+	                                    <option value="progressive">Progressive</option>
+	                                </select>
+                                    <small class="memorisation-tools-field-hint">Gradually reduces visual help as recall improves.</small>
+	                            </label>
                             <label class="memorisation-tools-field memorisation-tools-field--full">
                                 <span class="memorisation-tools-label">After completion</span>
                                 <select class="form-select memorisation-tools-control" v-model="memorisationDraft.chainingMethodCompletionAction" aria-label="Chaining completion action">
                                     <option value="none">None</option>
                                     <option value="test">Switch to test mode</option>
                                     <option value="playlist">Save to playlist</option>
-                                    <option value="share">Share session</option>
-                                </select>
-                            </label>
+	                                    <option value="share">Share session</option>
+	                                </select>
+                                    <small class="memorisation-tools-field-hint">Choose what happens after the chain practice is complete.</small>
+	                            </label>
                             <label class="memorisation-tools-switch memorisation-tools-field--full">
                                 <span class="memorisation-tools-switch-copy">
                                     <strong>Auto advance</strong>
@@ -1914,7 +1919,7 @@
                         </div>
                     </section>
 
-                    <section class="memorisation-tools-card" aria-label="Session support tools">
+	                    <section v-if="false" class="memorisation-tools-card" aria-label="Session support tools">
                         <div class="memorisation-tools-card-head">
 	                            <div class="memorisation-tools-card-title">
 	                                <h5 class="mb-0"><i class="bi bi-clock-history me-1" aria-hidden="true"></i>History</h5>
@@ -1982,23 +1987,33 @@
                                     </option>
                                 </select>
                             </label>
-	                            <button
-	                                type="button"
-	                                class="btn memorisation-tools-secondary-btn"
-	                                :disabled="!selectedMemorisationSessionHistoryId"
-	                                @click="loadSelectedMemorisationSessionFromOffcanvas">
-	                                <i class="bi bi-arrow-clockwise" aria-hidden="true"></i>
-	                                <span>Load session</span>
-	                            </button>
-	                                <button
-	                                    type="button"
-	                                    class="btn memorisation-tools-secondary-btn"
-	                                    @click="exitLoadedMemorisationSession">
-	                                    <i class="bi bi-box-arrow-left" aria-hidden="true"></i>
-	                                    <span>Exit session</span>
-	                                </button>
-	                        </div>
-	                    </section>
+                                <div class="memorisation-saved-session-actions memorisation-tools-field--full">
+                                    <button
+                                        type="button"
+                                        class="btn memorisation-tools-secondary-btn"
+                                        :disabled="!selectedMemorisationSessionHistoryId"
+                                        @click="loadSelectedMemorisationSessionFromOffcanvas">
+                                        <i class="bi bi-arrow-clockwise" aria-hidden="true"></i>
+                                        <span>Load</span>
+                                    </button>
+                                    <button
+                                        type="button"
+                                        class="btn memorisation-tools-secondary-btn"
+                                        @click="exitLoadedMemorisationSession">
+                                        <i class="bi bi-box-arrow-left" aria-hidden="true"></i>
+                                        <span>Reset</span>
+                                    </button>
+                                    <button
+                                        type="button"
+                                        class="btn memorisation-tools-secondary-btn memorisation-tools-danger-btn"
+                                        :disabled="!selectedMemorisationSessionHistoryId"
+                                        @click="deleteSelectedMemorisationSessionFromOffcanvas">
+                                        <i class="bi bi-trash3" aria-hidden="true"></i>
+                                        <span>Delete</span>
+                                    </button>
+                                </div>
+		                        </div>
+		                    </section>
 
                     <div class="memorisation-beginner-actions">
                         <button
@@ -4818,7 +4833,7 @@
                                 <div
                                     v-if="shouldShowTranslationForRepeatPause(item)"
                                     class="translation-header ltr-text">
-                                    <p class="ayah-card-copy-label mb-0">Translation</p>
+                                    <b class="ayah-card-copy-label mb-0">Translation</b>
                                 </div>
                                 <div
                                     v-if="shouldShowTranslationForRepeatPause(item) || isTransliterationVisibleFor(item)"
@@ -4862,7 +4877,7 @@
                                         <div
                                             v-if="isTransliterationVisibleFor(item) && !shouldHideVerseTextForRepeatPause(item.index)"
                                             class="transliteration-header ltr-text">
-                                            <p class="ayah-card-copy-label mb-0">Transliteration</p>
+                                            <b class="ayah-card-copy-label mb-0">Transliteration</b>
                                         </div>
                                         <p
 	                                            v-if="isTransliterationVisibleFor(item) && !shouldHideVerseTextForRepeatPause(item.index)"

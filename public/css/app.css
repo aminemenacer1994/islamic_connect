@@ -15234,6 +15234,670 @@ body.has-admin-sidebar .badge[data-status="cancelled"] {
   opacity: 1;
   transform: none;
 }
+/* Surat memorisation tools: global final override so the Laravel page gets the actual UI update. */
+.surat-premium.container-fluid .quran-toolbar-sticky.memorisation-toolbar-sticky.memorisation-toolbar-active,
+.surat-premium.container-fluid.toolbar-scroll-disabled .quran-toolbar-sticky.memorisation-toolbar-sticky.memorisation-toolbar-active,
+.surat-premium.container-fluid .quran-toolbar-sticky.quran-toolbar-fixed-shell.memorisation-toolbar-active {
+  position: sticky !important;
+  top: calc(var(--nav-offset, var(--navbar-h, 72px)) + 8px) !important;
+  z-index: 1090 !important;
+  margin: 0 0 1rem !important;
+  overflow: visible !important;
+  max-height: none !important;
+  pointer-events: auto !important;
+}
+@media (max-width: 991.98px) {
+  .surat-premium.container-fluid .quran-toolbar-sticky.memorisation-toolbar-sticky.memorisation-toolbar-active,
+  .surat-premium.container-fluid.toolbar-scroll-disabled .quran-toolbar-sticky.memorisation-toolbar-sticky.memorisation-toolbar-active {
+    position: sticky !important;
+    top: calc(var(--nav-offset, var(--navbar-h, 64px)) + 6px) !important;
+    z-index: 1090 !important;
+  }
+}
+@media (min-width: 992px) {
+  .surat-premium.container-fluid.memorisation-sidebar-open {
+    --memo-live-panel-width: var(--memorisation-panel-current-width, var(--memorisation-panel-docked-width, 520px));
+    --memo-live-content-width: calc(100vw - var(--memo-live-panel-width) - 18px);
+  }
+
+  .surat-premium.container-fluid.memorisation-sidebar-open .memorisation-tools-hero,
+  .surat-premium.container-fluid.memorisation-sidebar-open .quran-toolbar-sticky,
+  .surat-premium.container-fluid.memorisation-sidebar-open .row[role="list"] {
+    width: var(--memo-live-content-width) !important;
+    max-width: var(--memo-live-content-width) !important;
+    margin-left: 0 !important;
+    margin-right: auto !important;
+    padding-right: 12px !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
+  }
+
+  .surat-premium.container-fluid.memorisation-sidebar-open .quran-toolbar-reader,
+  .surat-premium.container-fluid.memorisation-sidebar-open .quran-toolbar-reader-actions,
+  .surat-premium.container-fluid.memorisation-sidebar-open .quran-toolbar-scroll-track {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    flex-wrap: nowrap !important;
+    scrollbar-width: none !important;
+  }
+
+  .surat-premium.container-fluid.memorisation-sidebar-open .quran-toolbar-scroll-track::-webkit-scrollbar {
+    display: none !important;
+  }
+}
+.memorisation-sidebar.memorisation-offcanvas {
+  --memo-panel-bg: #edf7f3;
+  --memo-panel-card: rgba(255, 255, 255, 0.94);
+  --memo-panel-field: #edf7f3;
+  --memo-panel-line: rgba(15, 71, 65, 0.14);
+  --memo-panel-line-strong: rgba(15, 71, 65, 0.22);
+  --memo-panel-ink: #0f302a;
+  --memo-panel-muted: #5f746f;
+  --memo-panel-brand: #0f766e;
+  --memo-panel-brand-soft: rgba(15, 118, 110, 0.1);
+  --memo-panel-danger: #b42318;
+  background:
+    radial-gradient(circle at 12% 0%, rgba(20, 184, 166, 0.18), transparent 30%),
+    linear-gradient(180deg, #f7fffc 0%, var(--memo-panel-bg) 100%) !important;
+  border-left: 1px solid var(--memo-panel-line-strong) !important;
+  box-shadow: -18px 0 50px rgba(9, 45, 39, 0.16) !important;
+  color: var(--memo-panel-ink) !important;
+}
+.memorisation-sidebar.memorisation-offcanvas.surat-dark-modal {
+  --memo-panel-bg: #0f172a;
+  --memo-panel-card: rgba(24, 35, 52, 0.96);
+  --memo-panel-field: #1f2a3d;
+  --memo-panel-line: rgba(148, 163, 184, 0.18);
+  --memo-panel-line-strong: rgba(148, 163, 184, 0.3);
+  --memo-panel-ink: #f8fafc;
+  --memo-panel-muted: #cbd5e1;
+  --memo-panel-brand: #2dd4bf;
+  --memo-panel-brand-soft: rgba(45, 212, 191, 0.12);
+  --memo-panel-danger: #fca5a5;
+  background:
+    radial-gradient(circle at 12% 0%, rgba(45, 212, 191, 0.14), transparent 32%),
+    linear-gradient(180deg, #111827 0%, var(--memo-panel-bg) 100%) !important;
+  box-shadow: -18px 0 50px rgba(0, 0, 0, 0.42) !important;
+}
+.memorisation-sidebar.memorisation-offcanvas .memorisation-panel-header,
+.memorisation-sidebar.memorisation-offcanvas .offcanvas-header {
+  min-height: 66px !important;
+  padding: 0.8rem 1rem !important;
+  background: rgba(255, 255, 255, 0.76) !important;
+  border-bottom: 1px solid var(--memo-panel-line) !important;
+  backdrop-filter: blur(18px) saturate(1.2) !important;
+  -webkit-backdrop-filter: blur(18px) saturate(1.2) !important;
+}
+.memorisation-sidebar.memorisation-offcanvas.surat-dark-modal .memorisation-panel-header,
+.memorisation-sidebar.memorisation-offcanvas.surat-dark-modal .offcanvas-header {
+  background: rgba(15, 23, 42, 0.82) !important;
+}
+.memorisation-sidebar.memorisation-offcanvas .memorisation-panel-eyebrow {
+  display: inline-flex !important;
+  width: -moz-fit-content !important;
+  width: fit-content !important;
+  padding: 0.2rem 0.55rem !important;
+  border-radius: 999px !important;
+  background: var(--memo-panel-brand-soft) !important;
+  color: var(--memo-panel-brand) !important;
+  font-size: 0.62rem !important;
+  line-height: 1 !important;
+  letter-spacing: 0.16em !important;
+}
+.memorisation-sidebar.memorisation-offcanvas .offcanvas-title {
+  margin-top: 0.3rem !important;
+  font-size: 1.2rem !important;
+  line-height: 1.08 !important;
+  color: var(--memo-panel-ink) !important;
+}
+.memorisation-sidebar.memorisation-offcanvas .memorisation-panel-close-btn {
+  width: 40px !important;
+  height: 40px !important;
+  border-radius: 14px !important;
+  border: 1px solid var(--memo-panel-line) !important;
+  background: var(--memo-panel-card) !important;
+  color: var(--memo-panel-ink) !important;
+  box-shadow: 0 8px 20px rgba(9, 45, 39, 0.08) !important;
+}
+.memorisation-sidebar.memorisation-offcanvas .offcanvas-body {
+  padding: 0.95rem 1rem 1.15rem !important;
+  background: transparent !important;
+}
+.memorisation-sidebar.memorisation-offcanvas .memorisation-tools-tabs {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 0.35rem !important;
+  margin: 0 0 0.9rem !important;
+  padding: 0.3rem !important;
+  border-radius: 16px !important;
+  border: 1px solid var(--memo-panel-line) !important;
+  background: var(--memo-panel-card) !important;
+  box-shadow: 0 12px 26px rgba(9, 45, 39, 0.08) !important;
+}
+.memorisation-sidebar.memorisation-offcanvas .memorisation-tools-tab {
+  min-height: 38px !important;
+  border-radius: 12px !important;
+  color: var(--memo-panel-muted) !important;
+  font-size: 0.92rem !important;
+  font-weight: 900 !important;
+}
+.memorisation-sidebar.memorisation-offcanvas .memorisation-tools-tab.is-active {
+  background: var(--memo-panel-brand) !important;
+  border-color: var(--memo-panel-brand) !important;
+  color: #fff !important;
+  box-shadow: 0 8px 18px rgba(15, 118, 110, 0.2) !important;
+}
+.memorisation-sidebar.memorisation-offcanvas .memorisation-beginner-panel,
+.memorisation-sidebar.memorisation-offcanvas .memorisation-advanced-panel {
+  gap: 0.78rem !important;
+}
+.memorisation-sidebar.memorisation-offcanvas .memorisation-tools-card {
+  position: relative !important;
+  padding: 0.88rem !important;
+  border-radius: 16px !important;
+  border: 1px solid var(--memo-panel-line) !important;
+  border-left: 3px solid var(--memo-panel-brand) !important;
+  background: var(--memo-panel-card) !important;
+  color: var(--memo-panel-ink) !important;
+  box-shadow: 0 10px 24px rgba(9, 45, 39, 0.07) !important;
+}
+.memorisation-sidebar.memorisation-offcanvas .memorisation-tools-card-head {
+  align-items: flex-start !important;
+  gap: 0.6rem !important;
+  margin-bottom: 0.72rem !important;
+  padding-bottom: 0.6rem !important;
+  border-bottom: 1px solid var(--memo-panel-line) !important;
+}
+.memorisation-sidebar.memorisation-offcanvas .memorisation-tools-card-title h5 {
+  color: var(--memo-panel-ink) !important;
+  font-size: 0.98rem !important;
+  line-height: 1.15 !important;
+}
+.memorisation-sidebar.memorisation-offcanvas .memorisation-tools-card-title h5 i {
+  width: 26px !important;
+  height: 26px !important;
+  border-radius: 9px !important;
+  background: var(--memo-panel-brand-soft) !important;
+  color: var(--memo-panel-brand) !important;
+}
+.memorisation-sidebar.memorisation-offcanvas .memorisation-tools-card-title p,
+.memorisation-sidebar.memorisation-offcanvas .memorisation-tools-field-hint,
+.memorisation-sidebar.memorisation-offcanvas .memorisation-tools-switch-copy small {
+  color: var(--memo-panel-muted) !important;
+  font-size: 0.76rem !important;
+  line-height: 1.32 !important;
+}
+.memorisation-sidebar.memorisation-offcanvas .memorisation-tools-grid {
+  gap: 0.68rem !important;
+}
+.memorisation-sidebar.memorisation-offcanvas .memorisation-tools-label {
+  color: var(--memo-panel-muted) !important;
+  font-size: 0.68rem !important;
+  letter-spacing: 0.09em !important;
+}
+.memorisation-sidebar.memorisation-offcanvas .memorisation-tools-control,
+.memorisation-sidebar.memorisation-offcanvas .memorisation-tools-switch {
+  border: 1px solid var(--memo-panel-line) !important;
+  background: var(--memo-panel-field) !important;
+  color: var(--memo-panel-ink) !important;
+  box-shadow: none !important;
+}
+.memorisation-sidebar.memorisation-offcanvas .memorisation-tools-control {
+  min-height: 40px !important;
+  border-radius: 12px !important;
+  padding: 0.48rem 0.62rem !important;
+}
+.memorisation-sidebar.memorisation-offcanvas .memorisation-tools-switch {
+  min-height: 54px !important;
+  border-radius: 13px !important;
+  padding: 0.66rem 0.72rem !important;
+}
+.memorisation-sidebar.memorisation-offcanvas .memorisation-section-toggle,
+.memorisation-sidebar.memorisation-offcanvas .memorisation-tools-link-btn,
+.memorisation-sidebar.memorisation-offcanvas .memorisation-tools-secondary-btn,
+.memorisation-sidebar.memorisation-offcanvas .memorisation-tools-action-btn {
+  border-radius: 12px !important;
+  border: 1px solid var(--memo-panel-line) !important;
+  background: var(--memo-panel-card) !important;
+  color: var(--memo-panel-ink) !important;
+  box-shadow: none !important;
+}
+.memorisation-sidebar.memorisation-offcanvas .memorisation-tools-action-btn--primary {
+  background: var(--memo-panel-brand) !important;
+  border-color: var(--memo-panel-brand) !important;
+  color: #fff !important;
+}
+.memorisation-sidebar.memorisation-offcanvas .memorisation-saved-session-actions {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 0.48rem !important;
+  width: 100% !important;
+}
+.memorisation-sidebar.memorisation-offcanvas .memorisation-saved-session-actions .memorisation-tools-secondary-btn {
+  min-height: 40px !important;
+  width: 100% !important;
+  padding-inline: 0.5rem !important;
+  white-space: nowrap !important;
+}
+.memorisation-sidebar.memorisation-offcanvas .memorisation-tools-danger-btn {
+  color: var(--memo-panel-danger) !important;
+  border-color: color-mix(in srgb, var(--memo-panel-danger) 36%, transparent) !important;
+  background: color-mix(in srgb, var(--memo-panel-danger) 8%, var(--memo-panel-card)) !important;
+}
+.memorisation-sidebar.memorisation-offcanvas .memorisation-beginner-actions {
+  gap: 0.6rem !important;
+  padding-top: 0.2rem !important;
+}
+@media (max-width: 520px) {
+  .memorisation-sidebar.memorisation-offcanvas .offcanvas-body {
+    padding: 0.78rem 0.78rem 1rem !important;
+  }
+
+  .memorisation-sidebar.memorisation-offcanvas .memorisation-tools-card {
+    padding: 0.78rem !important;
+  }
+
+  .memorisation-sidebar.memorisation-offcanvas .memorisation-saved-session-actions {
+    grid-template-columns: 1fr !important;
+  }
+}
+/* Surat memorisation tools v2: explicit class-based redesign and sticky toolbar. */
+body.surat-route-page .surat-premium.memorisation-offcanvas-open {
+  --memo-v2-panel-width: clamp(390px, 31vw, 470px);
+}
+body.surat-route-page .memorisation-sidebar.memorisation-offcanvas-v2 {
+  width: var(--memo-v2-panel-width) !important;
+  max-width: min(100vw, var(--memo-v2-panel-width)) !important;
+  background: #eef8f4 !important;
+  background-image:
+    radial-gradient(circle at 15% 0%, rgba(20, 184, 166, 0.18), transparent 34%),
+    linear-gradient(180deg, #f9fffc 0%, #eef8f4 100%) !important;
+  border-left: 1px solid rgba(15, 71, 65, 0.18) !important;
+  box-shadow: -22px 0 55px rgba(6, 33, 29, 0.18) !important;
+  color: #12342e !important;
+}
+body.surat-route-page .memorisation-sidebar.memorisation-offcanvas-v2.surat-dark-modal {
+  background: #0f172a !important;
+  background-image:
+    radial-gradient(circle at 15% 0%, rgba(45, 212, 191, 0.16), transparent 34%),
+    linear-gradient(180deg, #111827 0%, #0f172a 100%) !important;
+  border-left-color: rgba(148, 163, 184, 0.28) !important;
+  box-shadow: -22px 0 55px rgba(0, 0, 0, 0.44) !important;
+  color: #f8fafc !important;
+}
+body.surat-route-page .memorisation-sidebar.memorisation-offcanvas-v2 .memorisation-panel-header {
+  min-height: 86px !important;
+  padding: 1rem 1.1rem !important;
+  background: linear-gradient(135deg, #0f766e 0%, #0b5f58 100%) !important;
+  border-bottom: 0 !important;
+  color: #ffffff !important;
+  box-shadow: 0 14px 30px rgba(15, 118, 110, 0.22) !important;
+}
+body.surat-route-page .memorisation-sidebar.memorisation-offcanvas-v2.surat-dark-modal .memorisation-panel-header {
+  background: linear-gradient(135deg, #134e4a 0%, #0f172a 100%) !important;
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.36) !important;
+}
+body.surat-route-page .memorisation-sidebar.memorisation-offcanvas-v2 .memorisation-panel-eyebrow {
+  display: inline-flex !important;
+  width: -moz-fit-content !important;
+  width: fit-content !important;
+  padding: 0.2rem 0.58rem !important;
+  border-radius: 999px !important;
+  background: rgba(255, 255, 255, 0.16) !important;
+  color: #cffff7 !important;
+  font-size: 0.62rem !important;
+  letter-spacing: 0.18em !important;
+}
+body.surat-route-page .memorisation-sidebar.memorisation-offcanvas-v2 .offcanvas-title {
+  margin-top: 0.36rem !important;
+  color: #ffffff !important;
+  font-size: 1.26rem !important;
+  line-height: 1.05 !important;
+}
+body.surat-route-page .memorisation-sidebar.memorisation-offcanvas-v2 .memorisation-panel-close-btn {
+  width: 42px !important;
+  height: 42px !important;
+  border-radius: 14px !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  background: rgba(255, 255, 255, 0.14) !important;
+  color: #ffffff !important;
+  box-shadow: none !important;
+}
+body.surat-route-page .memorisation-sidebar.memorisation-offcanvas-v2 .offcanvas-body {
+  padding: 1rem 1.05rem 1.25rem !important;
+  background: transparent !important;
+}
+body.surat-route-page .memorisation-sidebar.memorisation-offcanvas-v2 .memorisation-tools-tabs {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 6 !important;
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 0.35rem !important;
+  margin: 0 0 0.95rem !important;
+  padding: 0.32rem !important;
+  border: 1px solid rgba(15, 71, 65, 0.12) !important;
+  border-radius: 999px !important;
+  background: rgba(255, 255, 255, 0.86) !important;
+  box-shadow: 0 12px 28px rgba(6, 33, 29, 0.1) !important;
+  backdrop-filter: blur(16px) saturate(1.15) !important;
+  -webkit-backdrop-filter: blur(16px) saturate(1.15) !important;
+}
+body.surat-route-page .memorisation-sidebar.memorisation-offcanvas-v2.surat-dark-modal .memorisation-tools-tabs {
+  background: rgba(15, 23, 42, 0.86) !important;
+  border-color: rgba(148, 163, 184, 0.2) !important;
+}
+body.surat-route-page .memorisation-sidebar.memorisation-offcanvas-v2 .memorisation-tools-tab {
+  min-height: 40px !important;
+  border-radius: 999px !important;
+  color: #58706a !important;
+  font-size: 0.9rem !important;
+  font-weight: 900 !important;
+}
+body.surat-route-page .memorisation-sidebar.memorisation-offcanvas-v2 .memorisation-tools-tab.is-active {
+  background: #0f766e !important;
+  border-color: #0f766e !important;
+  color: #ffffff !important;
+  box-shadow: 0 8px 18px rgba(15, 118, 110, 0.24) !important;
+}
+body.surat-route-page .memorisation-sidebar.memorisation-offcanvas-v2 .memorisation-beginner-panel,
+body.surat-route-page .memorisation-sidebar.memorisation-offcanvas-v2 .memorisation-advanced-panel {
+  gap: 0.82rem !important;
+}
+body.surat-route-page .memorisation-sidebar.memorisation-offcanvas-v2 .memorisation-tools-card {
+  padding: 0.9rem !important;
+  border-radius: 18px !important;
+  border: 1px solid rgba(15, 71, 65, 0.13) !important;
+  border-left: 4px solid #0f766e !important;
+  background: rgba(255, 255, 255, 0.92) !important;
+  box-shadow: 0 12px 26px rgba(6, 33, 29, 0.075) !important;
+}
+body.surat-route-page .memorisation-sidebar.memorisation-offcanvas-v2.surat-dark-modal .memorisation-tools-card {
+  border-color: rgba(148, 163, 184, 0.18) !important;
+  border-left-color: #2dd4bf !important;
+  background: rgba(24, 35, 52, 0.94) !important;
+  box-shadow: 0 12px 26px rgba(0, 0, 0, 0.24) !important;
+}
+body.surat-route-page .memorisation-sidebar.memorisation-offcanvas-v2 .memorisation-tools-card-head {
+  align-items: flex-start !important;
+  gap: 0.62rem !important;
+  margin-bottom: 0.72rem !important;
+  padding-bottom: 0.62rem !important;
+  border-bottom: 1px solid rgba(15, 71, 65, 0.1) !important;
+}
+body.surat-route-page .memorisation-sidebar.memorisation-offcanvas-v2 .memorisation-tools-card-title h5 {
+  color: #12342e !important;
+  font-size: 1rem !important;
+  line-height: 1.15 !important;
+}
+body.surat-route-page .memorisation-sidebar.memorisation-offcanvas-v2.surat-dark-modal .memorisation-tools-card-title h5 {
+  color: #f8fafc !important;
+}
+body.surat-route-page .memorisation-sidebar.memorisation-offcanvas-v2 .memorisation-tools-card-title h5 i {
+  width: 27px !important;
+  height: 27px !important;
+  border-radius: 10px !important;
+  background: rgba(15, 118, 110, 0.1) !important;
+  color: #0f766e !important;
+}
+body.surat-route-page .memorisation-sidebar.memorisation-offcanvas-v2 .memorisation-tools-card-title p,
+body.surat-route-page .memorisation-sidebar.memorisation-offcanvas-v2 .memorisation-tools-field-hint,
+body.surat-route-page .memorisation-sidebar.memorisation-offcanvas-v2 .memorisation-tools-switch-copy small {
+  color: #5f746f !important;
+  font-size: 0.76rem !important;
+  line-height: 1.32 !important;
+}
+body.surat-route-page .memorisation-sidebar.memorisation-offcanvas-v2.surat-dark-modal .memorisation-tools-card-title p,
+body.surat-route-page .memorisation-sidebar.memorisation-offcanvas-v2.surat-dark-modal .memorisation-tools-field-hint,
+body.surat-route-page .memorisation-sidebar.memorisation-offcanvas-v2.surat-dark-modal .memorisation-tools-switch-copy small {
+  color: #cbd5e1 !important;
+}
+body.surat-route-page .memorisation-sidebar.memorisation-offcanvas-v2 .memorisation-tools-grid {
+  gap: 0.68rem !important;
+}
+body.surat-route-page .memorisation-sidebar.memorisation-offcanvas-v2 .memorisation-tools-control,
+body.surat-route-page .memorisation-sidebar.memorisation-offcanvas-v2 .memorisation-tools-switch {
+  border: 1px solid rgba(15, 71, 65, 0.12) !important;
+  background: #edf7f3 !important;
+  color: #12342e !important;
+}
+body.surat-route-page .memorisation-sidebar.memorisation-offcanvas-v2.surat-dark-modal .memorisation-tools-control,
+body.surat-route-page .memorisation-sidebar.memorisation-offcanvas-v2.surat-dark-modal .memorisation-tools-switch {
+  border-color: rgba(148, 163, 184, 0.2) !important;
+  background: #1f2a3d !important;
+  color: #f8fafc !important;
+}
+body.surat-route-page .memorisation-sidebar.memorisation-offcanvas-v2 .memorisation-tools-control {
+  min-height: 40px !important;
+  border-radius: 12px !important;
+  padding: 0.48rem 0.62rem !important;
+}
+body.surat-route-page .memorisation-sidebar.memorisation-offcanvas-v2 .memorisation-tools-switch {
+  min-height: 54px !important;
+  border-radius: 14px !important;
+  padding: 0.66rem 0.72rem !important;
+}
+body.surat-route-page .memorisation-sidebar.memorisation-offcanvas-v2 .memorisation-saved-session-actions {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 0.48rem !important;
+  width: 100% !important;
+}
+body.surat-route-page .memorisation-sidebar.memorisation-offcanvas-v2 .memorisation-saved-session-actions .memorisation-tools-secondary-btn {
+  width: 100% !important;
+  min-height: 40px !important;
+  padding-inline: 0.5rem !important;
+  white-space: nowrap !important;
+}
+body.surat-route-page .memorisation-sidebar.memorisation-offcanvas-v2 .memorisation-tools-action-btn--primary {
+  background: #0f766e !important;
+  border-color: #0f766e !important;
+  color: #ffffff !important;
+}
+body.surat-route-page .surat-premium.container-fluid .quran-toolbar-sticky.memorisation-toolbar-active {
+  position: sticky !important;
+  top: calc(var(--nav-offset, var(--navbar-h, 72px)) + 8px) !important;
+  z-index: 1100 !important;
+}
+@media (min-width: 992px) {
+  body.surat-route-page .surat-premium.container-fluid.memorisation-sidebar-open {
+    --memo-v2-content-width: calc(100vw - var(--memo-v2-panel-width) - 18px);
+  }
+
+  body.surat-route-page .surat-premium.container-fluid.memorisation-sidebar-open .memorisation-tools-hero,
+  body.surat-route-page .surat-premium.container-fluid.memorisation-sidebar-open .quran-toolbar-sticky,
+  body.surat-route-page .surat-premium.container-fluid.memorisation-sidebar-open .row[role="list"] {
+    width: var(--memo-v2-content-width) !important;
+    max-width: var(--memo-v2-content-width) !important;
+    margin-left: 0 !important;
+    margin-right: auto !important;
+    padding-right: 12px !important;
+    overflow: hidden !important;
+    box-sizing: border-box !important;
+  }
+}
+@media (max-width: 520px) {
+  body.surat-route-page .memorisation-sidebar.memorisation-offcanvas-v2 .memorisation-saved-session-actions {
+    grid-template-columns: 1fr !important;
+  }
+}
+/* Surat memorisation v3 global guard: prevents the toolbar and ayahs from sliding under the tools panel. */
+body.surat-route-page .surat-premium.memorisation-offcanvas-open {
+  --memo-v3-panel-width: clamp(420px, 31vw, 480px);
+  --memo-v3-content-gap: 30px;
+}
+body.surat-route-page .memorisation-sidebar.memorisation-offcanvas-v3 {
+  width: var(--memo-v3-panel-width, 480px) !important;
+  max-width: min(100vw, var(--memo-v3-panel-width, 480px)) !important;
+  background: #eaf6f1 !important;
+  color: #12342e !important;
+  overflow: hidden !important;
+}
+body.surat-route-page .memorisation-sidebar.memorisation-offcanvas-v3 .memorisation-panel-header {
+  min-height: 106px !important;
+  padding: 1.05rem 1.2rem !important;
+  background: linear-gradient(135deg, #0f766e 0%, #0b5f58 55%, #0f3f3a 100%) !important;
+  color: #fff !important;
+  border-bottom: 0 !important;
+}
+body.surat-route-page .memorisation-sidebar.memorisation-offcanvas-v3 .offcanvas-title,
+body.surat-route-page .memorisation-sidebar.memorisation-offcanvas-v3 .memorisation-panel-subtitle {
+  color: #fff !important;
+}
+body.surat-route-page .memorisation-sidebar.memorisation-offcanvas-v3 .offcanvas-body {
+  padding: 1.25rem 1.25rem 1.45rem !important;
+}
+body.surat-route-page .memorisation-sidebar.memorisation-offcanvas-v3 .memorisation-tools-tabs {
+  position: relative !important;
+  top: auto !important;
+  border-radius: 18px !important;
+  margin-bottom: 1.15rem !important;
+}
+body.surat-route-page .memorisation-sidebar.memorisation-offcanvas-v3 .memorisation-tools-card {
+  padding: 1.08rem !important;
+  border-radius: 20px !important;
+  background: rgba(255, 255, 255, 0.96) !important;
+}
+@media (min-width: 992px) {
+  body.surat-route-page .surat-premium.memorisation-sidebar-open .memorisation-tools-hero,
+  body.surat-route-page .surat-premium.memorisation-sidebar-open .quran-toolbar-sticky,
+  body.surat-route-page .surat-premium.memorisation-sidebar-open .row[role="list"] {
+    width: calc(100vw - var(--memo-v3-panel-width, 480px) - var(--memo-v3-content-gap, 30px)) !important;
+    max-width: calc(100vw - var(--memo-v3-panel-width, 480px) - var(--memo-v3-content-gap, 30px)) !important;
+    margin-left: 0 !important;
+    margin-right: auto !important;
+    padding-right: 14px !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
+  }
+
+  body.surat-route-page .surat-premium.memorisation-sidebar-open .quran-toolbar-sticky.memorisation-toolbar-active {
+    position: sticky !important;
+    top: calc(var(--nav-offset, var(--navbar-h, 72px)) + 8px) !important;
+    z-index: 1040 !important;
+    contain: paint !important;
+  }
+
+  body.surat-route-page .surat-premium.memorisation-sidebar-open .quran-toolbar-reader,
+  body.surat-route-page .surat-premium.memorisation-sidebar-open .quran-toolbar-reader-actions,
+  body.surat-route-page .surat-premium.memorisation-sidebar-open .quran-toolbar-scroll-track {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    flex-wrap: nowrap !important;
+  }
+}
+/* Surat ayah row cleanup: compact body, plain translation/transliteration, no stretched footer. */
+body.surat-route-page .surat-premium .ayah-card-container .ayah-surface {
+  min-height: 0 !important;
+  height: auto !important;
+  padding: 1.05rem 1.1rem 1rem !important;
+  display: block !important;
+}
+body.surat-route-page .surat-premium .ayah-card-body {
+  flex: 0 0 auto !important;
+}
+body.surat-route-page .surat-premium .ayah-card-header,
+body.surat-route-page .surat-premium .ayah-card-copy {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+body.surat-route-page .surat-premium .ayah-card-header {
+  padding-top: 0 !important;
+  padding-bottom: 0.75rem !important;
+}
+body.surat-route-page .surat-premium .ayah-arabic-inline-shell {
+  --ayah-audio-control-size: 2.15rem;
+  gap: 0.75rem !important;
+  margin: 0.3rem 0 0.75rem !important;
+}
+body.surat-route-page .surat-premium .ayah-card-copy .arabic-text {
+  margin-bottom: 0 !important;
+  padding-top: 0 !important;
+  line-height: 2.05 !important;
+}
+body.surat-route-page .surat-premium .ayah-card-copy-label {
+  font-size: 0.78rem !important;
+  letter-spacing: 0.11em !important;
+}
+body.surat-route-page .surat-premium .translation-row,
+body.surat-route-page .surat-premium .translation-copy,
+body.surat-route-page .surat-premium .translation-inline-shell {
+  display: block !important;
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+body.surat-route-page .surat-premium .translation-inline-shell {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) auto !important;
+  align-items: center !important;
+  gap: 0.65rem !important;
+}
+body.surat-route-page .surat-premium .translation-text {
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  text-align: left !important;
+}
+body.surat-route-page .surat-premium .ayah-card-copy .transliteration-text {
+  display: block !important;
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  line-height: 1.55 !important;
+  text-align: left !important;
+}
+body.surat-route-page .surat-premium .translation-header,
+body.surat-route-page .surat-premium .transliteration-header {
+  margin: 0 0 0.25rem !important;
+  padding: 0 !important;
+}
+body.surat-route-page .surat-premium .transliteration-header {
+  margin-top: 0.45rem !important;
+}
+body.surat-route-page .surat-premium .ayah-card-copy {
+  gap: 0.45rem !important;
+}
+body.surat-route-page .surat-premium .ayah-card-footer {
+  margin-top: 0.95rem !important;
+  padding: 0.72rem 0 0 !important;
+  border-top: 1px solid rgba(16, 56, 51, 0.1) !important;
+  justify-content: space-between !important;
+  gap: 0.7rem !important;
+}
+body.surat-route-page .surat-premium .ayah-card-footer-main,
+body.surat-route-page .surat-premium .ayah-card-footer-text-controls {
+  gap: 0.45rem !important;
+  min-width: 0 !important;
+  flex-wrap: wrap !important;
+}
+body.surat-route-page .surat-premium .ayah-footer-action {
+  min-height: 36px !important;
+  padding: 0.38rem 0.7rem !important;
+  gap: 0.42rem !important;
+  font-size: 0.9rem !important;
+}
 
 
 /*
@@ -53710,19 +54374,19 @@ body.revert-mobile-nav-lock {
   }
 
   .mobile-nav-toggle {
-    top: calc(0.68rem + env(safe-area-inset-top, 0)) !important;
+    top: calc(4.35rem + env(safe-area-inset-top, 0)) !important;
     right: calc(0.72rem + env(safe-area-inset-right, 0)) !important;
     left: auto !important;
     width: 46px !important;
     height: 46px !important;
-    z-index: 1095 !important;
+    z-index: 5000 !important;
   }
 
   .lesson-pane {
     width: 100% !important;
     max-width: 100% !important;
     margin: 0 !important;
-    padding-top: 3.65rem !important;
+    padding-top: 7.2rem !important;
     padding-right: 0 !important;
     height: auto !important;
     max-height: none !important;
@@ -53733,7 +54397,7 @@ body.revert-mobile-nav-lock {
 
   .mobile-chapter-select {
     position: sticky;
-    top: calc(3.3rem + env(safe-area-inset-top, 0));
+    top: calc(7rem + env(safe-area-inset-top, 0));
     z-index: 1032;
     margin-bottom: 0.75rem !important;
     padding: 0.65rem 0.72rem !important;
@@ -53897,13 +54561,13 @@ body.revert-mobile-nav-lock {
   }
 
   .revert-shell [id$='-section'] {
-    scroll-margin-top: calc(4.9rem + env(safe-area-inset-top, 0));
+    scroll-margin-top: calc(8.4rem + env(safe-area-inset-top, 0));
   }
 }
 
 @media (max-width: 767.98px) {
   .lesson-pane {
-    padding-top: 3.45rem !important;
+    padding-top: 7rem !important;
   }
 
   .lesson-hero {
@@ -53932,7 +54596,7 @@ body.revert-mobile-nav-lock {
   }
 
   .mobile-chapter-select {
-    top: calc(3.1rem + env(safe-area-inset-top, 0));
+    top: calc(6.8rem + env(safe-area-inset-top, 0));
   }
 
   .card-header-icon {
@@ -54020,27 +54684,2267 @@ body.revert-mobile-nav-lock {
   }
 
   .mobile-chapter-select {
-    top: calc(2.95rem + env(safe-area-inset-top, 0));
+    top: calc(6.65rem + env(safe-area-inset-top, 0));
   }
 }
 
 @media (max-width: 991.98px) and (max-height: 540px) {
   .mobile-nav-toggle {
-    top: calc(0.45rem + env(safe-area-inset-top, 0)) !important;
+    top: calc(3.8rem + env(safe-area-inset-top, 0)) !important;
     width: 42px !important;
     height: 42px !important;
   }
 
   .lesson-pane {
-    padding-top: 3rem !important;
+    padding-top: 6.5rem !important;
   }
 
   .mobile-chapter-select {
-    top: calc(2.7rem + env(safe-area-inset-top, 0));
+    top: calc(6.2rem + env(safe-area-inset-top, 0));
   }
 
   .navigation-card {
     padding-top: calc(0.75rem + env(safe-area-inset-top, 0)) !important;
+  }
+}
+
+/* ===== Revert 2026 UX Revamp Layer ===== */
+
+:global(body) {
+  background: #f3f7f4 !important;
+}
+
+.revert-shell {
+  --revert-bg: #f3f7f4;
+  --revert-bg-2: #e6efe9;
+  --revert-ink: #10231f;
+  --revert-muted: #526660;
+  --revert-surface: #ffffff;
+  --revert-surface-2: #f8fbf8;
+  --revert-line: rgba(21, 67, 55, 0.16);
+  --revert-accent: #0d7c66;
+  --revert-accent-2: #d6a34a;
+  --revert-accent-3: #d19a2a;
+  --revert-focus: #1f8a70;
+  --revert-shadow: 0 16px 34px rgba(26, 55, 47, 0.13);
+  min-height: 100vh;
+  background:
+    linear-gradient(180deg, rgba(243, 247, 244, 0.92), rgba(230, 239, 233, 0.96)),
+    url('/images/hijabis.jpeg') center top / cover fixed !important;
+  color: var(--revert-ink);
+}
+
+.revert-shell.revert-theme-focus {
+  --revert-bg: #eff5f2;
+  --revert-bg-2: #dce8e2;
+  --revert-accent: #075f51;
+  --revert-accent-2: #c28a2f;
+  --revert-accent-3: #b67b12;
+}
+
+.revert-shell.revert-theme-contrast {
+  --revert-bg: #fbfffd;
+  --revert-bg-2: #eef7f2;
+  --revert-ink: #071512;
+  --revert-muted: #253833;
+  --revert-line: rgba(7, 21, 18, 0.32);
+  --revert-accent: #005f4f;
+  --revert-accent-2: #9a6b19;
+  --revert-accent-3: #8a5d00;
+}
+
+.revert-content {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.56), rgba(243, 247, 244, 0.86)) !important;
+}
+
+.revert-shell * {
+  letter-spacing: 0 !important;
+}
+
+.lesson-hero,
+.lesson-pane .content-card,
+.global-search-wrapper .resource-search-panel.global-search-panel,
+#guided-pathway-section,
+#guided-pathway-section #pathway-clips-section,
+.navigation-card,
+.actions-card,
+.study-command-bar,
+.section-jump-nav,
+.mobile-chapter-select,
+.custom-modal-card,
+.accordion-item-card,
+.clip-card,
+.video-card,
+.dua-card,
+.overview-highlight,
+.section-block,
+.section-stat-card,
+.premium-card,
+#resources-section .resource-section-card {
+  border-radius: 8px !important;
+}
+
+.lesson-hero {
+  min-height: 240px !important;
+  overflow: hidden;
+  background:
+    linear-gradient(90deg, rgba(6, 37, 31, 0.88) 0%, rgba(8, 70, 57, 0.72) 48%, rgba(214, 163, 74, 0.34) 100%),
+    url('/images/hijabis.jpeg') center 38% / cover !important;
+  border: 1px solid rgba(255, 255, 255, 0.22) !important;
+  box-shadow: var(--revert-shadow) !important;
+}
+
+.lesson-hero-gradient,
+.lesson-hero::before,
+.lesson-hero::after {
+  display: none !important;
+}
+
+.lesson-hero-content h1 {
+  font-size: 2.8rem !important;
+  line-height: 1.06;
+  max-width: 980px;
+  text-shadow: 0 3px 18px rgba(0, 0, 0, 0.36) !important;
+}
+
+.lesson-hero-content p {
+  max-width: 820px !important;
+  font-size: 1.06rem !important;
+}
+
+.hero-meta-chip {
+  border-radius: 8px !important;
+  background: rgba(255, 255, 255, 0.16) !important;
+  border: 1px solid rgba(255, 255, 255, 0.24) !important;
+  color: #ffffff !important;
+}
+
+.lesson-help-button,
+.mobile-nav-toggle,
+.scroll-top-fab {
+  border-radius: 8px !important;
+  background: var(--revert-accent) !important;
+  color: #fff !important;
+  border: 1px solid rgba(255, 255, 255, 0.28) !important;
+}
+
+.study-command-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.85rem;
+  padding: 0.85rem;
+  border: 1px solid var(--revert-line);
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 10px 24px rgba(26, 55, 47, 0.1);
+}
+
+.study-command-main,
+.study-command-actions,
+.study-theme-switcher {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.study-command-kicker {
+  color: var(--revert-muted);
+  font-size: 0.82rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.study-theme-btn,
+.study-action-btn {
+  min-height: 2.4rem;
+  border-radius: 8px;
+  border: 1px solid var(--revert-line);
+  background: var(--revert-surface-2);
+  color: var(--revert-ink);
+  font-weight: 800;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  padding: 0.45rem 0.72rem;
+  transition: transform 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+}
+
+.study-theme-btn.active,
+.study-action-btn:hover,
+.study-theme-btn:hover {
+  background: var(--revert-accent);
+  border-color: var(--revert-accent);
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+.study-action-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.navigation-card {
+  background: #10231f !important;
+  border: 1px solid rgba(255, 255, 255, 0.16) !important;
+  box-shadow: 0 18px 36px rgba(16, 35, 31, 0.24) !important;
+}
+
+.progress-bar-container {
+  background: rgba(255, 255, 255, 0.16) !important;
+}
+
+.progress-bar {
+  background: linear-gradient(90deg, var(--revert-accent-3), #51c9ba) !important;
+}
+
+.roadmap-pill {
+  min-height: 78px;
+  background: rgba(255, 255, 255, 0.08) !important;
+  border: 1px solid rgba(255, 255, 255, 0.14) !important;
+}
+
+.roadmap-pill:hover {
+  background: rgba(255, 255, 255, 0.14) !important;
+}
+
+.roadmap-pill.active {
+  background: linear-gradient(135deg, #f5fff9 0%, #c9eadf 100%) !important;
+  border-color: #ffffff !important;
+  box-shadow: inset 4px 0 0 var(--revert-accent-2), 0 14px 28px rgba(0, 0, 0, 0.18) !important;
+}
+
+.roadmap-pill.completed .dot-icon-step {
+  background: var(--revert-accent) !important;
+  color: #fff !important;
+}
+
+.dot-wrapper .dot-icon-step {
+  border-radius: 8px !important;
+  background: rgba(255, 255, 255, 0.14) !important;
+  border-color: rgba(255, 255, 255, 0.22) !important;
+  color: #fff !important;
+}
+
+.lesson-pane .content-card,
+.global-search-wrapper .resource-search-panel.global-search-panel,
+#guided-pathway-section,
+#guided-pathway-section #pathway-clips-section,
+.actions-card,
+.section-jump-nav {
+  background: var(--revert-surface) !important;
+  border: 1px solid var(--revert-line) !important;
+  box-shadow: var(--revert-shadow) !important;
+}
+
+.lesson-pane .content-card .card-header,
+#guided-pathway-section > .guided-pathway-header,
+#guided-pathway-section #pathway-clips-section .card-header {
+  background: linear-gradient(90deg, #f8fbf8, #eef6f0) !important;
+  border-bottom: 1px solid var(--revert-line) !important;
+}
+
+.card-header-icon {
+  border-radius: 8px !important;
+  background: var(--revert-accent) !important;
+  color: #fff !important;
+  box-shadow: none !important;
+}
+
+.card-header-icon i,
+.text-teal,
+.active-arrow {
+  color: var(--revert-accent) !important;
+}
+
+.card-header-icon i {
+  color: #fff !important;
+}
+
+.section-jump-pill {
+  border-radius: 8px !important;
+  background: #fff !important;
+  border: 1px solid var(--revert-line) !important;
+  color: var(--revert-ink) !important;
+  font-weight: 800;
+}
+
+.section-jump-pill.active,
+.section-jump-pill:hover {
+  background: var(--revert-accent) !important;
+  border-color: var(--revert-accent) !important;
+  color: #fff !important;
+}
+
+.resource-search-input,
+.global-search-panel .resource-search-control .form-select.form-select-sm,
+.mobile-chapter-select-pill,
+.form-control,
+.form-select {
+  border-radius: 8px !important;
+  border-color: var(--revert-line) !important;
+}
+
+.section-block,
+.overview-highlight,
+.global-search-group,
+.accordion-item-card,
+#resources-section .resource-section-card,
+.homework-task {
+  background: var(--revert-surface-2) !important;
+  border: 1px solid var(--revert-line) !important;
+}
+
+.overview-highlight {
+  border-top: 4px solid var(--revert-accent-3) !important;
+}
+
+.section-number,
+.insight-number,
+.step-badge {
+  border-radius: 8px !important;
+  background: var(--revert-accent-2) !important;
+  color: #fff !important;
+}
+
+.section-content,
+.section-content p,
+.section-content li,
+.lesson-pane .text-muted,
+.resource-search-subtitle,
+.global-search-result-snippet,
+.resource-entry-hint,
+.accordion-answer {
+  color: var(--revert-muted) !important;
+}
+
+.section-content p:first-child {
+  color: var(--revert-ink) !important;
+  font-size: 1.3em !important;
+}
+
+.section-content p:nth-child(2),
+.section-content p:nth-child(3),
+.section-content p:nth-child(4) {
+  color: var(--revert-accent) !important;
+  font-size: 1.08em !important;
+}
+
+.btn-teal,
+.next-btn,
+.btn-see-more,
+.share-action-btn.share-whatsapp,
+.completion-primary-btn {
+  border-radius: 8px !important;
+  background: var(--revert-accent) !important;
+  border-color: var(--revert-accent) !important;
+  color: #fff !important;
+  box-shadow: 0 10px 20px rgba(13, 124, 102, 0.2) !important;
+}
+
+.btn-outline-teal,
+.share-action-btn.share-copy,
+.completion-secondary-btn,
+.completion-ghost-btn {
+  border-radius: 8px !important;
+  border: 1px solid var(--revert-line) !important;
+  color: var(--revert-accent) !important;
+  background: #fff !important;
+}
+
+.section-font-controls {
+  border-radius: 8px !important;
+  background: #fff !important;
+}
+
+.section-font-btn,
+.section-toggle-btn,
+.chapter-tool-open,
+.global-search-info-btn {
+  border-radius: 8px !important;
+}
+
+.dua-card {
+  border: 1px solid rgba(13, 124, 102, 0.18) !important;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(248, 251, 248, 0.96)),
+    url('/images/calligraphy.png') right 1rem bottom 1rem / 86px auto no-repeat !important;
+}
+
+.dua-card:hover,
+.clip-card:hover,
+.video-card:hover,
+.premium-card:hover,
+.content-card:hover {
+  transform: translateY(-2px) !important;
+}
+
+.insight-card {
+  border-radius: 8px !important;
+  background: #ffffff !important;
+  border: 1px solid var(--revert-line) !important;
+  box-shadow: 0 8px 18px rgba(26, 55, 47, 0.08) !important;
+}
+
+.insight-card-accent {
+  background: var(--revert-accent-2) !important;
+}
+
+.quiz-motivation-panel,
+.quiz-focus-panel,
+.quiz-explanation-card,
+.quiz-feedback-panel,
+.quiz-option {
+  border-radius: 8px !important;
+  border: 1px solid var(--revert-line) !important;
+}
+
+.quiz-option {
+  background: #fff !important;
+  color: var(--revert-ink) !important;
+}
+
+.quiz-option:hover,
+.quiz-option--selected {
+  border-color: var(--revert-accent) !important;
+  box-shadow: 0 10px 18px rgba(13, 124, 102, 0.12) !important;
+}
+
+.quiz-option--correct {
+  background: #dff5ea !important;
+  border-color: var(--revert-accent) !important;
+}
+
+.quiz-option--incorrect {
+  background: #fde7eb !important;
+  border-color: var(--revert-accent-2) !important;
+}
+
+.video-feature-overlay {
+  background: linear-gradient(180deg, rgba(16, 35, 31, 0.08), rgba(16, 35, 31, 0.82)) !important;
+}
+
+.video-tag-badge,
+.section-meta-pill,
+.status-chip {
+  border-radius: 8px !important;
+  background: #eef6f0 !important;
+  color: var(--revert-accent) !important;
+  border: 1px solid rgba(13, 124, 102, 0.16) !important;
+}
+
+.status-chip.current {
+  background: #fff4d9 !important;
+  color: #76510a !important;
+}
+
+.status-chip.completed {
+  background: #dff5ea !important;
+}
+
+.actions-card {
+  position: sticky;
+  bottom: 0.75rem;
+  z-index: 30;
+}
+
+.custom-modal-backdrop {
+  background: rgba(16, 35, 31, 0.72) !important;
+}
+
+.revert-theme-contrast .lesson-pane .content-card,
+.revert-theme-contrast .global-search-wrapper .resource-search-panel.global-search-panel,
+.revert-theme-contrast #guided-pathway-section,
+.revert-theme-contrast .section-jump-nav,
+.revert-theme-contrast .study-command-bar {
+  border-width: 2px !important;
+}
+
+.revert-theme-contrast .section-content,
+.revert-theme-contrast .section-content p,
+.revert-theme-contrast .section-content li,
+.revert-theme-contrast .lesson-pane .text-muted {
+  color: var(--revert-ink) !important;
+}
+
+.reduce-motion .study-theme-btn,
+.reduce-motion .study-action-btn,
+.reduce-motion .dua-card,
+.reduce-motion .clip-card,
+.reduce-motion .video-card,
+.reduce-motion .content-card {
+  transition: none !important;
+}
+
+@media (max-width: 991.98px) {
+  .revert-shell {
+    background:
+      linear-gradient(180deg, rgba(243, 247, 244, 0.94), rgba(230, 239, 233, 0.98)),
+      url('/images/hijabis.jpeg') center top / cover scroll !important;
+  }
+
+  .study-command-bar {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .study-command-actions {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+
+  .study-action-btn.wide {
+    padding-left: 0.35rem;
+    padding-right: 0.35rem;
+  }
+
+  .actions-card {
+    position: static;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .lesson-hero-content h1 {
+    font-size: 1.7rem !important;
+  }
+
+  .lesson-hero-content p {
+    font-size: 0.94rem !important;
+  }
+
+  .study-command-actions,
+  .study-theme-switcher {
+    grid-template-columns: 1fr 1fr;
+    display: grid;
+    width: 100%;
+  }
+
+  .study-action-btn,
+  .study-theme-btn {
+    width: 100%;
+  }
+}
+
+/* ===== Revert Calm UX Layer =====
+   Final pass: softer scale, warmer surfaces, fewer oversized controls, calmer motion. */
+
+:global(body) {
+  background:
+    radial-gradient(circle at 10% 8%, rgba(245, 218, 171, 0.22), transparent 30%),
+    linear-gradient(180deg, #f7f4ee 0%, #edf4ef 48%, #e8f0ed 100%) !important;
+}
+
+.revert-shell {
+  --revert-bg: #f7f4ee;
+  --revert-bg-2: #edf4ef;
+  --revert-ink: #172b26;
+  --revert-muted: #667770;
+  --revert-soft: #faf8f2;
+  --revert-surface: rgba(255, 255, 255, 0.94);
+  --revert-surface-2: #fbfdf9;
+  --revert-line: rgba(41, 87, 73, 0.12);
+  --revert-accent: #157064;
+  --revert-accent-soft: rgba(21, 112, 100, 0.1);
+  --revert-warm: #c78a32;
+  --revert-rose: #d6a34a;
+  --revert-radius-sm: 12px;
+  --revert-radius-md: 18px;
+  --revert-radius-lg: 24px;
+  --revert-shadow-xs: 0 4px 12px rgba(24, 52, 43, 0.06);
+  --revert-shadow-sm: 0 10px 24px rgba(24, 52, 43, 0.08);
+  --revert-shadow-md: 0 18px 38px rgba(24, 52, 43, 0.1);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !important;
+  background:
+    linear-gradient(180deg, rgba(247, 244, 238, 0.96), rgba(237, 244, 239, 0.98)),
+    url('/images/hijabis.jpeg') center top / cover scroll !important;
+  color: var(--revert-ink) !important;
+}
+
+.revert-shell *,
+.revert-shell *::before,
+.revert-shell *::after {
+  letter-spacing: normal !important;
+}
+
+.revert-content {
+  padding-top: clamp(0.9rem, 1.6vw, 1.35rem) !important;
+  padding-bottom: clamp(1.25rem, 2vw, 2rem) !important;
+}
+
+.revert-content > .row {
+  --bs-gutter-x: clamp(0.8rem, 1.2vw, 1.15rem) !important;
+  --bs-gutter-y: clamp(0.8rem, 1.1vw, 1.05rem) !important;
+}
+
+.lesson-hero,
+.lesson-pane .content-card,
+.global-search-wrapper .resource-search-panel.global-search-panel,
+#guided-pathway-section,
+#guided-pathway-section #pathway-clips-section,
+.navigation-card,
+.actions-card,
+.study-command-bar,
+.section-jump-nav,
+.mobile-chapter-select,
+.custom-modal-card,
+.accordion-item-card,
+.clip-card,
+.video-card,
+.dua-card,
+.overview-highlight,
+.section-block,
+.section-stat-card,
+.premium-card,
+#resources-section .resource-section-card,
+.quiz-motivation-panel,
+.quiz-focus-panel,
+.quiz-explanation-card,
+.quiz-feedback-panel,
+.quiz-option {
+  border-radius: var(--revert-radius-md) !important;
+  border: 1px solid var(--revert-line) !important;
+  box-shadow: var(--revert-shadow-xs) !important;
+}
+
+.lesson-hero {
+  min-height: 176px !important;
+  padding: clamp(1.05rem, 2vw, 1.65rem) !important;
+  background:
+    linear-gradient(90deg, rgba(17, 64, 55, 0.86) 0%, rgba(21, 112, 100, 0.66) 58%, rgba(199, 138, 50, 0.36) 100%),
+    url('/images/hijabis.jpeg') center 42% / cover !important;
+  border-color: rgba(255, 255, 255, 0.28) !important;
+  box-shadow: var(--revert-shadow-md) !important;
+}
+
+.lesson-hero-content h1 {
+  font-size: clamp(1.8rem, 2.7vw, 2.45rem) !important;
+  line-height: 1.12 !important;
+  max-width: 760px !important;
+  margin-bottom: 0.65rem !important;
+  text-shadow: 0 4px 16px rgba(0, 0, 0, 0.28) !important;
+}
+
+.lesson-hero-content p {
+  max-width: 760px !important;
+  font-size: clamp(0.92rem, 1vw, 1rem) !important;
+  line-height: 1.58 !important;
+}
+
+.lesson-hero-meta,
+.hero-meta-chip {
+  gap: 0.45rem !important;
+}
+
+.hero-meta-chip,
+.video-tag-badge,
+.section-meta-pill,
+.status-chip {
+  min-height: 0 !important;
+  padding: 0.32rem 0.58rem !important;
+  border-radius: 999px !important;
+  font-size: 0.76rem !important;
+  font-weight: 700 !important;
+}
+
+.navigation-card {
+  background: rgba(255, 255, 255, 0.92) !important;
+  color: var(--revert-ink) !important;
+  padding: 0.95rem !important;
+  box-shadow: var(--revert-shadow-sm) !important;
+}
+
+.navigation-card .fw-bold,
+.navigation-card .fw-semibold,
+.navigation-card .text-muted,
+.navigation-card small,
+.navigation-card p,
+.navigation-card span {
+  color: inherit !important;
+}
+
+.navigation-card .text-muted,
+.navigation-card small {
+  color: var(--revert-muted) !important;
+}
+
+.progress-bar-container {
+  height: 0.46rem !important;
+  border-radius: 999px !important;
+  background: rgba(21, 112, 100, 0.12) !important;
+}
+
+.progress-bar {
+  border-radius: 999px !important;
+  background: linear-gradient(90deg, #78c6b8, var(--revert-warm)) !important;
+}
+
+.roadmap-header {
+  margin-top: 1rem !important;
+}
+
+.roadmap-pillset {
+  gap: 0.5rem !important;
+}
+
+.roadmap-pill {
+  min-height: 64px !important;
+  padding: 0.62rem 0.68rem !important;
+  border-radius: 14px !important;
+  background: #fbfdf9 !important;
+  color: var(--revert-ink) !important;
+  box-shadow: none !important;
+  transition: background-color 0.18s ease, border-color 0.18s ease, transform 0.18s ease !important;
+}
+
+.roadmap-pill:hover:not(:disabled),
+.roadmap-pill:focus-visible:not(:disabled) {
+  background: #f2faf6 !important;
+  border-color: rgba(21, 112, 100, 0.26) !important;
+  transform: translateY(-1px) !important;
+}
+
+.roadmap-pill.active {
+  background: linear-gradient(180deg, #eef9f4 0%, #fffaf0 100%) !important;
+  border-color: rgba(21, 112, 100, 0.24) !important;
+  box-shadow: inset 3px 0 0 var(--revert-accent), var(--revert-shadow-xs) !important;
+}
+
+.roadmap-pill.active p,
+.roadmap-pill.active small,
+.roadmap-pill.active i,
+.roadmap-pill.active span {
+  color: var(--revert-ink) !important;
+}
+
+.dot-wrapper .dot-icon-step,
+.roadmap-pill.completed .dot-icon-step {
+  width: 1.9rem !important;
+  height: 1.9rem !important;
+  min-width: 1.9rem !important;
+  border-radius: 999px !important;
+  background: var(--revert-accent-soft) !important;
+  border: 1px solid rgba(21, 112, 100, 0.18) !important;
+  color: var(--revert-accent) !important;
+  font-size: 0.78rem !important;
+}
+
+.roadmap-pill p {
+  font-size: 0.9rem !important;
+  line-height: 1.2 !important;
+}
+
+.roadmap-pill small {
+  font-size: 0.74rem !important;
+  line-height: 1.25 !important;
+}
+
+.study-command-bar,
+.section-jump-nav,
+.lesson-pane .content-card,
+.global-search-wrapper .resource-search-panel.global-search-panel,
+#guided-pathway-section,
+#guided-pathway-section #pathway-clips-section,
+.actions-card {
+  background: var(--revert-surface) !important;
+  box-shadow: var(--revert-shadow-xs) !important;
+}
+
+.study-command-bar {
+  padding: 0.65rem 0.75rem !important;
+  gap: 0.6rem !important;
+}
+
+.study-command-kicker {
+  font-size: 0.72rem !important;
+  font-weight: 700 !important;
+  text-transform: none !important;
+  color: var(--revert-muted) !important;
+}
+
+.study-theme-btn,
+.study-action-btn,
+.section-jump-pill,
+.section-font-btn,
+.section-toggle-btn,
+.chapter-tool-open,
+.global-search-info-btn,
+.btn-teal,
+.next-btn,
+.btn-see-more,
+.share-action-btn,
+.completion-primary-btn,
+.completion-secondary-btn,
+.completion-ghost-btn,
+.btn-outline-teal {
+  min-height: 2.12rem !important;
+  border-radius: 999px !important;
+  padding: 0.36rem 0.66rem !important;
+  font-size: 0.84rem !important;
+  font-weight: 700 !important;
+  box-shadow: none !important;
+  transition: background-color 0.18s ease, border-color 0.18s ease, color 0.18s ease, transform 0.18s ease !important;
+}
+
+.study-theme-btn,
+.study-action-btn,
+.section-jump-pill,
+.section-font-btn,
+.section-toggle-btn,
+.chapter-tool-open,
+.global-search-info-btn,
+.btn-outline-teal,
+.share-action-btn.share-copy,
+.completion-secondary-btn,
+.completion-ghost-btn {
+  background: #ffffff !important;
+  border: 1px solid var(--revert-line) !important;
+  color: var(--revert-ink) !important;
+}
+
+.study-theme-btn.active,
+.study-theme-btn:hover,
+.study-action-btn:hover,
+.section-jump-pill.active,
+.section-jump-pill:hover,
+.btn-teal,
+.next-btn,
+.btn-see-more,
+.share-action-btn.share-whatsapp,
+.completion-primary-btn {
+  background: var(--revert-accent) !important;
+  border-color: var(--revert-accent) !important;
+  color: #ffffff !important;
+  transform: translateY(-1px) !important;
+}
+
+.study-action-btn:disabled {
+  opacity: 0.44 !important;
+  transform: none !important;
+}
+
+.section-jump-nav {
+  padding: 0.7rem 0.8rem !important;
+  margin-bottom: 1rem !important;
+}
+
+.section-jump-pillset {
+  gap: 0.42rem !important;
+}
+
+.lesson-pane .content-card .card-header,
+#guided-pathway-section > .guided-pathway-header,
+#guided-pathway-section #pathway-clips-section .card-header {
+  padding: 0.78rem 0.95rem !important;
+  background: linear-gradient(180deg, #ffffff, #f7fbf8) !important;
+  border-bottom: 1px solid var(--revert-line) !important;
+}
+
+.lesson-pane .content-card .card-body,
+#guided-pathway-section #pathway-clips-section .card-body,
+.resource-search-panel.global-search-panel {
+  padding: 0.9rem 0.95rem 1rem !important;
+}
+
+.card-header-icon {
+  width: 2rem !important;
+  height: 2rem !important;
+  min-width: 2rem !important;
+  border-radius: 999px !important;
+  background: var(--revert-accent-soft) !important;
+  color: var(--revert-accent) !important;
+  box-shadow: none !important;
+}
+
+.card-header-icon i {
+  color: var(--revert-accent) !important;
+  font-size: 0.95rem !important;
+}
+
+.section-heading-actions h5,
+.content-card .card-header h2,
+.content-card .card-header h3,
+.resource-search-title {
+  font-size: clamp(1rem, 1.25vw, 1.18rem) !important;
+  line-height: 1.25 !important;
+  color: var(--revert-ink) !important;
+}
+
+.resource-search-subtitle,
+.section-content,
+.section-content p,
+.section-content li,
+.lesson-pane .text-muted,
+.global-search-result-snippet,
+.resource-entry-hint,
+.accordion-answer {
+  color: var(--revert-muted) !important;
+  line-height: 1.58 !important;
+}
+
+.section-content p:first-child,
+.section-content p:nth-child(2),
+.section-content p:nth-child(3),
+.section-content p:nth-child(4) {
+  color: var(--revert-muted) !important;
+  font-size: 1rem !important;
+}
+
+.section-block,
+.overview-highlight,
+.global-search-group,
+.accordion-item-card,
+#resources-section .resource-section-card,
+.homework-task,
+.insight-card,
+.quiz-option,
+.global-search-result-button,
+.resource-entry {
+  background: var(--revert-surface-2) !important;
+  border-color: var(--revert-line) !important;
+  box-shadow: none !important;
+}
+
+.overview-highlight {
+  border-top: 1px solid var(--revert-line) !important;
+}
+
+.section-number,
+.insight-number,
+.step-badge {
+  border-radius: 999px !important;
+  background: var(--revert-accent-soft) !important;
+  color: var(--revert-accent) !important;
+}
+
+.resource-search-input,
+.global-search-panel .resource-search-control .form-select.form-select-sm,
+.mobile-chapter-select-pill,
+.form-control,
+.form-select {
+  min-height: 2.65rem !important;
+  border-radius: 14px !important;
+  border-color: var(--revert-line) !important;
+  background-color: #ffffff !important;
+  box-shadow: none !important;
+}
+
+.global-search-panel .resource-search-input {
+  min-height: 2.8rem !important;
+  padding: 0.42rem 0.7rem !important;
+}
+
+.global-search-panel .resource-search-control .form-select.form-select-sm {
+  min-height: 2.8rem !important;
+}
+
+.dua-card {
+  background: linear-gradient(180deg, #fffdf8, #f8fbf8) !important;
+}
+
+.dua-card:hover,
+.clip-card:hover,
+.video-card:hover,
+.premium-card:hover,
+.content-card:hover,
+.insight-card:hover {
+  transform: translateY(-1px) !important;
+  box-shadow: var(--revert-shadow-sm) !important;
+}
+
+.video-card,
+.clip-card,
+.insight-card {
+  overflow: hidden !important;
+}
+
+.actions-card {
+  position: static !important;
+  bottom: auto !important;
+  z-index: auto !important;
+}
+
+.mobile-nav-toggle,
+.lesson-help-button,
+.scroll-top-fab {
+  width: 42px !important;
+  height: 42px !important;
+  min-width: 42px !important;
+  border-radius: 999px !important;
+  background: #ffffff !important;
+  color: var(--revert-accent) !important;
+  border: 1px solid var(--revert-line) !important;
+  box-shadow: var(--revert-shadow-xs) !important;
+}
+
+.revert-shell :focus-visible {
+  outline: 2px solid rgba(21, 112, 100, 0.42) !important;
+  outline-offset: 2px !important;
+  box-shadow: 0 0 0 4px rgba(21, 112, 100, 0.1) !important;
+}
+
+.revert-theme-contrast .lesson-pane .content-card,
+.revert-theme-contrast .global-search-wrapper .resource-search-panel.global-search-panel,
+.revert-theme-contrast #guided-pathway-section,
+.revert-theme-contrast .section-jump-nav,
+.revert-theme-contrast .study-command-bar {
+  border-width: 1px !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .revert-shell *,
+  .revert-shell *::before,
+  .revert-shell *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@media (max-width: 991.98px) {
+  .revert-shell {
+    background:
+      linear-gradient(180deg, rgba(247, 244, 238, 0.98), rgba(237, 244, 239, 0.99)),
+      url('/images/hijabis.jpeg') center top / cover scroll !important;
+  }
+
+  .navigation-card {
+    border-radius: 0 !important;
+    background: #fbfdf9 !important;
+  }
+
+  .lesson-pane {
+    padding-top: 5.8rem !important;
+  }
+
+  .mobile-chapter-select {
+    top: calc(5.65rem + env(safe-area-inset-top, 0)) !important;
+    padding: 0.55rem 0.6rem !important;
+    border-radius: var(--revert-radius-md) !important;
+  }
+
+  .study-command-bar {
+    padding: 0.62rem !important;
+  }
+
+  .study-command-actions {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 0.45rem !important;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .revert-content {
+    padding-left: 0.7rem !important;
+    padding-right: 0.7rem !important;
+  }
+
+  .lesson-pane {
+    padding-top: 5.55rem !important;
+  }
+
+  .lesson-hero {
+    min-height: 0 !important;
+    padding: 0.95rem !important;
+    border-radius: var(--revert-radius-md) !important;
+  }
+
+  .lesson-hero-content h1 {
+    font-size: clamp(1.42rem, 6.3vw, 1.82rem) !important;
+  }
+
+  .lesson-hero-content p {
+    font-size: 0.9rem !important;
+  }
+
+  .study-command-actions,
+  .study-theme-switcher {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 0.42rem !important;
+  }
+
+  .study-action-btn,
+  .study-theme-btn,
+  .section-jump-pill {
+    min-height: 2.25rem !important;
+    font-size: 0.82rem !important;
+  }
+
+  .lesson-pane .content-card .card-header,
+  #guided-pathway-section > .guided-pathway-header,
+  #guided-pathway-section #pathway-clips-section .card-header,
+  .lesson-pane .content-card .card-body,
+  #guided-pathway-section #pathway-clips-section .card-body,
+  .resource-search-panel.global-search-panel {
+    padding-left: 0.78rem !important;
+    padding-right: 0.78rem !important;
+  }
+}
+
+/* ===== Revert lightweight system polish ===== */
+
+.revert-shell {
+  --revert-accent-2: #d6a34a !important;
+  --revert-rose: #d6a34a !important;
+  --revert-shadow: 0 10px 24px rgba(24, 52, 43, 0.08) !important;
+  font-size: 0.95rem !important;
+}
+
+.revert-shell .text-danger,
+.revert-shell .alert-danger,
+.revert-shell .btn-danger,
+.revert-error-alert {
+  color: #6b4f12 !important;
+  background: #fff8e7 !important;
+  border-color: rgba(214, 163, 74, 0.28) !important;
+}
+
+.revert-shell .btn-danger,
+.revert-shell .alert-danger .btn-close {
+  box-shadow: none !important;
+}
+
+.offline-action-panel {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.85rem;
+  padding: 0.82rem 0.92rem;
+  border: 1px solid var(--revert-line);
+  border-radius: var(--revert-radius-md);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(251, 253, 249, 0.92));
+  box-shadow: var(--revert-shadow-xs);
+}
+
+.offline-action-copy {
+  min-width: 0;
+}
+
+.offline-action-kicker {
+  display: inline-flex;
+  margin-bottom: 0.18rem;
+  color: var(--revert-accent);
+  font-size: 0.72rem;
+  font-weight: 800;
+}
+
+.offline-action-title {
+  margin: 0;
+  color: var(--revert-ink);
+  font-size: 1rem;
+  line-height: 1.2;
+  font-weight: 800;
+}
+
+.offline-action-desc {
+  margin: 0.18rem 0 0;
+  color: var(--revert-muted);
+  font-size: 0.84rem;
+  line-height: 1.45;
+}
+
+.offline-action-buttons {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+.offline-action-btn {
+  min-height: 2.35rem !important;
+  border-radius: 999px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 0.42rem !important;
+  padding: 0.42rem 0.82rem !important;
+  font-size: 0.86rem !important;
+  font-weight: 800 !important;
+  box-shadow: none !important;
+}
+
+.offline-action-btn--primary {
+  border: 1px solid var(--revert-accent) !important;
+  background: var(--revert-accent) !important;
+  color: #ffffff !important;
+}
+
+.offline-action-btn--secondary {
+  border: 1px solid var(--revert-line) !important;
+  background: #ffffff !important;
+  color: var(--revert-ink) !important;
+}
+
+.offline-action-status {
+  flex: 0 0 100%;
+  color: var(--revert-accent);
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.resources-header-subtitle {
+  margin-top: 0.16rem;
+  color: var(--revert-muted);
+  font-size: 0.8rem;
+  line-height: 1.35;
+}
+
+.resources-shell .resources-body {
+  padding: 0.9rem 0.95rem 1rem !important;
+}
+
+.resources-shell .resources-intro {
+  margin-bottom: 0.75rem !important;
+  padding: 0.72rem 0.78rem !important;
+  border-radius: 16px !important;
+  background: #fbfdf9 !important;
+  border: 1px solid var(--revert-line) !important;
+}
+
+.resources-shell .resource-lead {
+  color: var(--revert-ink) !important;
+  font-size: 0.92rem !important;
+  font-weight: 800 !important;
+}
+
+.resources-shell .resource-grid {
+  gap: 0.75rem !important;
+}
+
+.resources-shell .resource-section-card {
+  padding: 0.82rem !important;
+  border-radius: 18px !important;
+}
+
+.resources-shell .resource-section-header {
+  padding-bottom: 0.55rem !important;
+  margin-bottom: 0.55rem !important;
+}
+
+.resources-shell .resource-section-title {
+  font-size: 0.98rem !important;
+  line-height: 1.25 !important;
+}
+
+.resources-shell .resource-group {
+  margin-bottom: 0.62rem !important;
+}
+
+.resources-shell .resource-group-label {
+  margin-bottom: 0.35rem !important;
+  color: var(--revert-accent) !important;
+  font-size: 0.78rem !important;
+  font-weight: 800 !important;
+}
+
+.resources-shell .resource-entry {
+  padding: 0.58rem 0.62rem !important;
+  border-radius: 14px !important;
+  gap: 0.55rem !important;
+}
+
+.resources-shell .resource-entry-reference,
+.resources-shell .resource-entry-detail {
+  font-size: 0.84rem !important;
+  line-height: 1.45 !important;
+}
+
+.resources-shell .resource-entry-copy-btn {
+  width: 2rem !important;
+  height: 2rem !important;
+  min-width: 2rem !important;
+  border-radius: 999px !important;
+  color: var(--revert-accent) !important;
+  background: #ffffff !important;
+  border: 1px solid var(--revert-line) !important;
+}
+
+.video-tag-badge,
+.video-card-duration,
+.video-feature-duration,
+.video-feature-source,
+.video-source-chip,
+.clip-card-badge {
+  background: #eef7f2 !important;
+  color: var(--revert-accent) !important;
+  border-color: rgba(21, 112, 100, 0.16) !important;
+}
+
+.video-feature-overlay {
+  background: linear-gradient(180deg, rgba(21, 43, 37, 0.04), rgba(21, 43, 37, 0.72)) !important;
+}
+
+.lesson-pane .content-card,
+.global-search-wrapper .resource-search-panel.global-search-panel,
+#guided-pathway-section,
+#guided-pathway-section #pathway-clips-section,
+.actions-card,
+.study-command-bar,
+.section-jump-nav,
+.offline-action-panel {
+  max-width: 100%;
+}
+
+.section-block,
+.overview-highlight,
+.global-search-result-button,
+.resource-entry,
+.quiz-option,
+.insight-card,
+.video-card,
+.clip-card,
+.dua-card {
+  transition: transform 0.16s ease, box-shadow 0.16s ease, border-color 0.16s ease, background-color 0.16s ease !important;
+}
+
+@media (min-width: 992px) {
+  .lesson-pane {
+    max-width: 980px;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .offline-action-panel {
+    align-items: stretch;
+    flex-direction: column;
+    padding: 0.78rem;
+  }
+
+  .offline-action-buttons {
+    display: grid;
+    grid-template-columns: 1fr;
+    width: 100%;
+  }
+
+  .offline-action-btn {
+    width: 100%;
+  }
+}
+
+html.dark-mode .revert-shell,
+:root[data-theme="dark"] .revert-shell {
+  --revert-bg: #111916 !important;
+  --revert-bg-2: #17221e !important;
+  --revert-ink: #eef7f2 !important;
+  --revert-muted: #b7c9c2 !important;
+  --revert-surface: #17211d !important;
+  --revert-surface-2: #1d2a25 !important;
+  --revert-line: rgba(213, 230, 222, 0.14) !important;
+  --revert-shadow-xs: 0 8px 20px rgba(0, 0, 0, 0.22) !important;
+  --revert-shadow: 0 14px 30px rgba(0, 0, 0, 0.26) !important;
+  background:
+    linear-gradient(180deg, rgba(17, 25, 22, 0.96), rgba(14, 22, 19, 0.98)),
+    url('/images/hijabis.jpeg') center top / cover fixed !important;
+}
+
+html.dark-mode .revert-content,
+:root[data-theme="dark"] .revert-content {
+  background: linear-gradient(180deg, rgba(17, 25, 22, 0.94), rgba(15, 23, 20, 0.98)) !important;
+}
+
+html.dark-mode .lesson-hero,
+:root[data-theme="dark"] .lesson-hero {
+  background:
+    linear-gradient(90deg, rgba(8, 22, 18, 0.94) 0%, rgba(9, 58, 49, 0.74) 55%, rgba(214, 163, 74, 0.22) 100%),
+    url('/images/hijabis.jpeg') center 38% / cover !important;
+}
+
+html.dark-mode .offline-action-panel,
+:root[data-theme="dark"] .offline-action-panel,
+html.dark-mode .resources-shell .resources-intro,
+:root[data-theme="dark"] .resources-shell .resources-intro,
+html.dark-mode .offline-action-btn--secondary,
+:root[data-theme="dark"] .offline-action-btn--secondary,
+html.dark-mode .resources-shell .resource-entry-copy-btn,
+:root[data-theme="dark"] .resources-shell .resource-entry-copy-btn {
+  background: var(--revert-surface-2) !important;
+  color: var(--revert-ink) !important;
+  border-color: var(--revert-line) !important;
+}
+
+html.dark-mode .video-tag-badge,
+html.dark-mode .video-card-duration,
+html.dark-mode .video-feature-duration,
+html.dark-mode .video-feature-source,
+html.dark-mode .video-source-chip,
+html.dark-mode .clip-card-badge,
+:root[data-theme="dark"] .video-tag-badge,
+:root[data-theme="dark"] .video-card-duration,
+:root[data-theme="dark"] .video-feature-duration,
+:root[data-theme="dark"] .video-feature-source,
+:root[data-theme="dark"] .video-source-chip,
+:root[data-theme="dark"] .clip-card-badge {
+  background: rgba(45, 212, 191, 0.12) !important;
+  color: #9ee7dc !important;
+  border-color: rgba(45, 212, 191, 0.18) !important;
+}
+
+/* ===== Revert full-width clarity pass ===== */
+
+.revert-content {
+  padding-inline: clamp(0.75rem, 2vw, 1.5rem) !important;
+}
+
+.revert-content > .row {
+  --bs-gutter-x: 0 !important;
+  --bs-gutter-y: 0 !important;
+}
+
+.lesson-pane {
+  flex: 0 0 100% !important;
+  width: 100% !important;
+  max-width: none !important;
+  padding-inline: 0 !important;
+}
+
+.lesson-header,
+.lesson-hero,
+.study-command-bar,
+.offline-action-panel,
+.section-jump-nav,
+.global-search-wrapper,
+.lesson-pane .content-card,
+.global-search-wrapper .resource-search-panel.global-search-panel,
+#guided-pathway-section,
+#guided-pathway-section #pathway-clips-section {
+  width: 100% !important;
+  max-width: none !important;
+}
+
+.lesson-header,
+.study-command-bar,
+.offline-action-panel,
+.section-jump-nav,
+.global-search-wrapper,
+.lesson-pane .content-card,
+#guided-pathway-section {
+  margin-bottom: clamp(0.85rem, 1.5vw, 1.2rem) !important;
+}
+
+.lesson-hero {
+  min-height: clamp(180px, 22vw, 260px) !important;
+  border-radius: 22px !important;
+}
+
+.lesson-hero-content {
+  max-width: min(980px, 78vw) !important;
+}
+
+.lesson-hero-content h1 {
+  font-size: clamp(2rem, 4.2vw, 3.4rem) !important;
+  line-height: 1.05 !important;
+}
+
+.lesson-hero-content p {
+  max-width: 880px !important;
+  font-size: clamp(0.95rem, 1.2vw, 1.08rem) !important;
+  line-height: 1.6 !important;
+}
+
+.study-command-bar,
+.section-jump-nav,
+.offline-action-panel,
+.global-search-wrapper .resource-search-panel.global-search-panel,
+.lesson-pane .content-card {
+  border-radius: 18px !important;
+  box-shadow: 0 10px 24px rgba(24, 52, 43, 0.08) !important;
+}
+
+.study-command-bar {
+  padding: 0.75rem 0.9rem !important;
+}
+
+.study-theme-btn,
+.study-action-btn,
+.section-jump-pill {
+  min-height: 2.25rem !important;
+  border-radius: 999px !important;
+  font-size: 0.86rem !important;
+  line-height: 1.2 !important;
+}
+
+.section-jump-nav {
+  padding: 0.9rem 1rem !important;
+}
+
+.section-jump-nav .text-muted.small {
+  color: var(--revert-muted) !important;
+}
+
+.section-jump-pillset {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 0.45rem !important;
+}
+
+.section-jump-pill {
+  width: auto !important;
+  min-width: 0 !important;
+  padding: 0.42rem 0.72rem !important;
+  background: rgba(255, 255, 255, 0.72) !important;
+  border: 1px solid var(--revert-line) !important;
+  color: var(--revert-ink) !important;
+}
+
+.section-jump-pill:hover,
+.section-jump-pill.active {
+  background: var(--revert-accent) !important;
+  border-color: var(--revert-accent) !important;
+  color: #ffffff !important;
+  transform: translateY(-1px);
+}
+
+.global-search-wrapper .resource-search-panel.global-search-panel {
+  padding: clamp(1rem, 1.6vw, 1.35rem) !important;
+}
+
+.global-search-panel .resource-search-controls {
+  align-items: end !important;
+  gap: 0.8rem !important;
+}
+
+.global-search-panel .resource-search-input,
+.global-search-panel .resource-search-control .form-select.form-select-sm {
+  min-height: 2.55rem !important;
+  border-radius: 14px !important;
+}
+
+.lesson-pane .content-card .card-header {
+  padding: 0.95rem 1rem !important;
+}
+
+.lesson-pane .content-card .card-body {
+  padding: 1rem !important;
+}
+
+.accordion-stack,
+.global-search-group-list,
+.resource-grid {
+  gap: 0.75rem !important;
+}
+
+@media (min-width: 992px) {
+  .revert-content {
+    padding-inline: clamp(1rem, 2.4vw, 2rem) !important;
+  }
+
+  .lesson-pane {
+    padding-top: 0 !important;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .revert-content {
+    padding-inline: 0.75rem !important;
+    padding-top: 1rem !important;
+  }
+
+  .lesson-pane {
+    padding-top: 6.6rem !important;
+  }
+
+  .lesson-hero {
+    min-height: auto !important;
+    padding: 1rem !important;
+    border-radius: 18px !important;
+  }
+
+  .lesson-hero-content {
+    max-width: 100% !important;
+  }
+
+  .lesson-hero-meta {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 0.45rem !important;
+  }
+
+  .study-command-bar {
+    align-items: stretch !important;
+    flex-direction: column !important;
+  }
+
+  .study-command-main,
+  .study-command-actions,
+  .study-theme-switcher {
+    width: 100% !important;
+  }
+
+  .study-theme-btn,
+  .study-action-btn {
+    flex: 1 1 auto !important;
+  }
+
+  .section-jump-nav {
+    padding: 0.78rem !important;
+  }
+
+  .section-jump-pillset {
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    padding-bottom: 0.15rem !important;
+  }
+
+  .section-jump-pill {
+    flex: 0 0 auto !important;
+    white-space: nowrap !important;
+  }
+
+  .global-search-wrapper .resource-search-panel.global-search-panel,
+  .lesson-pane .content-card .card-header,
+  .lesson-pane .content-card .card-body {
+    padding: 0.85rem !important;
+  }
+}
+
+/* ===== Revert Soft Renewal Corrections ===== */
+
+@media (min-width: 992px) {
+  .revert-content {
+    max-width: 1480px !important;
+    margin-inline: auto !important;
+  }
+
+  .revert-content > .row {
+    display: grid !important;
+    grid-template-columns: minmax(260px, 0.28fr) minmax(0, 1fr);
+    gap: clamp(1rem, 1.8vw, 1.65rem) !important;
+    align-items: start;
+    --bs-gutter-x: 0 !important;
+  }
+
+  .mobile-nav-frame,
+  .lesson-pane {
+    width: auto !important;
+    max-width: none !important;
+    flex: none !important;
+    padding: 0 !important;
+  }
+
+  .mobile-nav-frame {
+    display: block !important;
+    position: sticky !important;
+    top: 5.25rem !important;
+    z-index: 10;
+  }
+
+  .lesson-pane {
+    min-width: 0;
+  }
+}
+
+.lesson-header,
+.study-command-bar,
+.offline-action-panel,
+.section-jump-nav,
+.global-search-wrapper,
+.lesson-pane .content-card,
+#guided-pathway-section,
+.actions-card {
+  margin-bottom: clamp(1rem, 1.55vw, 1.4rem) !important;
+}
+
+.lesson-hero,
+.navigation-card,
+.study-command-bar,
+.offline-action-panel,
+.section-jump-nav,
+.lesson-pane .content-card,
+.global-search-wrapper .resource-search-panel.global-search-panel,
+#guided-pathway-section,
+#guided-pathway-section #pathway-clips-section,
+.actions-card,
+.custom-modal-card,
+.video-card,
+.clip-card,
+.dua-card,
+.accordion-item-card,
+.overview-highlight,
+.section-block,
+#resources-section .resource-section-card {
+  border: 0 !important;
+  border-radius: var(--revert-radius-md, 18px) !important;
+  box-shadow: var(--revert-shadow-sm, 0 10px 24px rgba(31, 61, 51, 0.075)) !important;
+}
+
+.navigation-card {
+  background: linear-gradient(180deg, #ffffff, #f8fbf7) !important;
+  padding: 1rem !important;
+  max-height: calc(100vh - 7rem);
+  overflow-y: auto;
+}
+
+.navigation-card .fw-bold,
+.navigation-card .fw-semibold,
+.navigation-card p,
+.navigation-card span {
+  color: var(--revert-ink) !important;
+}
+
+.navigation-card .text-muted,
+.navigation-card small {
+  color: var(--revert-muted) !important;
+}
+
+.roadmap-pill {
+  min-height: 0 !important;
+  padding: 0.72rem 0.75rem !important;
+  border: 0 !important;
+  border-radius: var(--revert-radius-sm, 12px) !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.roadmap-pill:hover {
+  background: var(--revert-accent-soft) !important;
+  transform: none !important;
+}
+
+.roadmap-pill.active {
+  background: #edf8f3 !important;
+  box-shadow: inset 3px 0 0 var(--revert-accent) !important;
+}
+
+.roadmap-pill.active p,
+.roadmap-pill.active small,
+.roadmap-pill.active i,
+.roadmap-pill.active span {
+  color: var(--revert-ink) !important;
+}
+
+.dot-wrapper .dot-icon-step {
+  width: 2rem !important;
+  height: 2rem !important;
+  border: 0 !important;
+  border-radius: 999px !important;
+  background: #eef7f2 !important;
+  color: var(--revert-accent) !important;
+}
+
+.lesson-hero {
+  min-height: auto !important;
+  padding: clamp(1.3rem, 2.2vw, 2rem) !important;
+  background:
+    linear-gradient(92deg, rgba(19, 67, 58, 0.86), rgba(21, 113, 101, 0.67) 58%, rgba(201, 151, 69, 0.34)),
+    url('/images/hijabis.jpeg') center 42% / cover !important;
+}
+
+.lesson-hero-content h1 {
+  font-size: clamp(1.8rem, 3.1vw, 2.55rem) !important;
+  line-height: 1.12 !important;
+  font-weight: 750 !important;
+}
+
+.lesson-hero-content p {
+  font-size: clamp(0.95rem, 1.05vw, 1.04rem) !important;
+  line-height: 1.65 !important;
+}
+
+.hero-meta-chip {
+  min-height: 2.15rem;
+  padding: 0.42rem 0.68rem !important;
+  border: 0 !important;
+  border-radius: 999px !important;
+  background: rgba(255, 255, 255, 0.18) !important;
+  box-shadow: none !important;
+  font-size: 0.82rem !important;
+}
+
+.lesson-help-button {
+  width: 2.35rem !important;
+  height: 2.35rem !important;
+  border-radius: 999px !important;
+  background: rgba(255, 255, 255, 0.92) !important;
+  color: var(--revert-accent) !important;
+}
+
+.study-command-bar,
+.offline-action-panel,
+.section-jump-nav,
+.lesson-pane .content-card,
+.global-search-wrapper .resource-search-panel.global-search-panel,
+#guided-pathway-section,
+#guided-pathway-section #pathway-clips-section,
+.actions-card {
+  background: var(--revert-surface) !important;
+  box-shadow: var(--revert-shadow-xs) !important;
+}
+
+.study-command-bar {
+  padding: 0.65rem 0.75rem !important;
+  gap: 0.55rem !important;
+}
+
+.study-command-kicker {
+  font-size: 0.76rem !important;
+  font-weight: 700 !important;
+  color: var(--revert-muted) !important;
+}
+
+.study-theme-btn,
+.study-action-btn,
+.section-font-btn,
+.section-toggle-btn,
+.btn,
+.btn-see-more,
+.offline-action-btn,
+.share-action-btn {
+  min-height: 2.15rem !important;
+  border-radius: 999px !important;
+  font-size: 0.88rem !important;
+  font-weight: 650 !important;
+  box-shadow: none !important;
+}
+
+.study-theme-btn,
+.study-action-btn,
+.section-font-btn,
+.section-toggle-btn {
+  padding: 0.34rem 0.62rem !important;
+  border: 0 !important;
+  background: #f4f7f2 !important;
+  color: var(--revert-ink) !important;
+}
+
+.study-theme-btn.active,
+.study-theme-btn:hover,
+.study-action-btn:hover {
+  background: var(--revert-accent) !important;
+  color: #fff !important;
+  transform: none !important;
+}
+
+.offline-action-panel {
+  padding: 1rem 1.1rem !important;
+}
+
+.offline-action-title {
+  font-size: 1rem !important;
+}
+
+.offline-action-desc,
+.offline-action-kicker {
+  font-size: 0.86rem !important;
+}
+
+.section-jump-nav {
+  padding: 1rem !important;
+}
+
+.section-jump-pill {
+  min-height: 2.15rem !important;
+  padding: 0.42rem 0.65rem !important;
+  border: 0 !important;
+  border-radius: 999px !important;
+  background: #f5f7f3 !important;
+  color: var(--revert-ink) !important;
+  font-size: 0.86rem !important;
+  font-weight: 650 !important;
+  box-shadow: none !important;
+}
+
+.section-jump-pill.active,
+.section-jump-pill:hover {
+  background: #e9f5ef !important;
+  color: var(--revert-accent) !important;
+  transform: none !important;
+}
+
+.lesson-pane .content-card .card-header,
+#guided-pathway-section > .guided-pathway-header,
+#guided-pathway-section #pathway-clips-section .card-header {
+  padding: 1rem 1.15rem !important;
+  background: transparent !important;
+  border-bottom: 1px solid rgba(42, 90, 74, 0.08) !important;
+}
+
+.lesson-pane .content-card .card-body,
+#guided-pathway-section #pathway-clips-section .card-body,
+.quiz-body {
+  padding: 1.15rem !important;
+}
+
+.content-card .card-header h2,
+.content-card .card-header h3,
+.resource-search-title {
+  font-size: clamp(1.05rem, 1.3vw, 1.28rem) !important;
+  line-height: 1.28 !important;
+  font-weight: 720 !important;
+}
+
+.card-header-icon {
+  width: 2.15rem !important;
+  height: 2.15rem !important;
+  border-radius: 999px !important;
+  background: #eef8f3 !important;
+  color: var(--revert-accent) !important;
+  box-shadow: none !important;
+}
+
+.card-header-icon i {
+  color: var(--revert-accent) !important;
+}
+
+.section-block,
+.overview-highlight,
+.global-search-group,
+.accordion-item-card,
+#resources-section .resource-section-card,
+.homework-task {
+  border: 0 !important;
+  background: #fbfcf8 !important;
+  box-shadow: inset 0 0 0 1px rgba(42, 90, 74, 0.07) !important;
+}
+
+.section-block {
+  padding: 1rem !important;
+  margin-bottom: 1rem !important;
+}
+
+.section-content,
+.section-content p,
+.section-content li,
+.accordion-answer,
+.global-search-result-snippet,
+.lesson-pane .text-muted {
+  color: var(--revert-muted) !important;
+  line-height: 1.7 !important;
+}
+
+.section-content p:first-child,
+.section-content p:nth-child(2),
+.section-content p:nth-child(3),
+.section-content p:nth-child(4) {
+  font-size: 1rem !important;
+  color: var(--revert-muted) !important;
+  font-weight: 500 !important;
+}
+
+.section-number,
+.insight-number,
+.step-badge {
+  width: 2rem !important;
+  height: 2rem !important;
+  border-radius: 999px !important;
+  background: #edf7f2 !important;
+  color: var(--revert-accent) !important;
+}
+
+.btn-teal,
+.next-btn,
+.btn-see-more,
+.share-action-btn.share-whatsapp,
+.offline-action-btn--primary {
+  background: var(--revert-accent) !important;
+  border: 0 !important;
+  color: #fff !important;
+  box-shadow: 0 8px 18px rgba(21, 113, 101, 0.16) !important;
+}
+
+.btn-outline-teal,
+.share-action-btn.share-copy,
+.offline-action-btn--secondary,
+.btn-outline-dark,
+.btn-outline-secondary {
+  border: 0 !important;
+  background: #f5f7f3 !important;
+  color: var(--revert-ink) !important;
+}
+
+#revert-stories-section .video-card,
+.modal-video-grid .video-card {
+  min-height: auto !important;
+  background: #fff !important;
+  box-shadow: var(--revert-shadow-xs) !important;
+}
+
+#revert-stories-section .video-card-media,
+.modal-video-grid .video-card-media {
+  flex: 0 0 auto !important;
+  height: auto !important;
+  min-height: 0 !important;
+}
+
+#revert-stories-section .video-feature,
+.modal-video-grid .video-feature {
+  min-height: 13.5rem !important;
+  border-radius: var(--revert-radius-md) var(--revert-radius-md) 0 0 !important;
+}
+
+.video-feature-overlay {
+  padding: 1rem !important;
+  background: linear-gradient(180deg, rgba(12, 32, 27, 0.24), rgba(12, 32, 27, 0.82)) !important;
+  backdrop-filter: none !important;
+}
+
+.video-feature-text,
+.video-feature-label,
+.video-feature-title,
+.video-feature-subtitle,
+.video-feature-duration {
+  color: #fff !important;
+}
+
+.video-feature-label {
+  font-size: 0.68rem !important;
+  letter-spacing: 0.12em !important;
+  opacity: 0.9 !important;
+}
+
+.video-feature-title {
+  font-size: clamp(1rem, 1.4vw, 1.18rem) !important;
+  line-height: 1.32 !important;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.35);
+}
+
+.video-feature-subtitle {
+  font-size: 0.86rem !important;
+  opacity: 0.9;
+}
+
+.video-feature-duration,
+.video-feature-source {
+  display: inline-flex !important;
+  width: -moz-fit-content !important;
+  width: fit-content !important;
+  max-width: 100%;
+  padding: 0.28rem 0.48rem !important;
+  border-radius: 999px !important;
+  background: rgba(255, 255, 255, 0.16) !important;
+  color: #fff !important;
+  letter-spacing: 0.04em !important;
+}
+
+#revert-stories-section .video-card-caption,
+.modal-video-grid .video-card-caption {
+  min-height: 0 !important;
+  padding: 0.85rem 0.95rem 1rem !important;
+  background: #fff !important;
+}
+
+.video-tag-badge,
+.section-meta-pill,
+.status-chip {
+  border: 0 !important;
+  border-radius: 999px !important;
+  background: #edf7f2 !important;
+  color: var(--revert-accent) !important;
+  font-size: 0.78rem !important;
+}
+
+.modal-dialog.modal-xl {
+  max-width: min(1120px, calc(100vw - 2rem));
+}
+
+.video-modal-filters {
+  padding: 0.95rem !important;
+  border-radius: var(--revert-radius-md) !important;
+  background: #fbfcf8 !important;
+  box-shadow: inset 0 0 0 1px rgba(42, 90, 74, 0.08) !important;
+}
+
+.filter-grid {
+  gap: 0.85rem !important;
+}
+
+.filter-label {
+  letter-spacing: 0.08em !important;
+  color: var(--revert-muted) !important;
+}
+
+.video-modal-filters .form-control,
+.video-modal-filters .form-select,
+.resource-search-input,
+.resource-search-panel .form-select-sm,
+.global-search-panel .resource-search-control .form-select.form-select-sm {
+  border: 0 !important;
+  box-shadow: inset 0 0 0 1px rgba(42, 90, 74, 0.12) !important;
+  background-color: #ffffff !important;
+}
+
+.scroll-top-fab {
+  width: 3rem !important;
+  height: 3rem !important;
+  border-radius: 999px !important;
+  background: var(--revert-accent) !important;
+  color: #fff !important;
+  box-shadow: 0 12px 24px rgba(21, 113, 101, 0.22) !important;
+}
+
+.scroll-top-fab i {
+  color: #fff !important;
+}
+
+.actions-card {
+  position: static !important;
+  padding: 0.2rem !important;
+}
+
+.lesson-pane .content-card:hover,
+.dua-card:hover,
+.clip-card:hover,
+.video-card:hover,
+.premium-card:hover {
+  transform: translateY(-1px) !important;
+  box-shadow: var(--revert-shadow-sm) !important;
+}
+
+@media (max-width: 991.98px) {
+  .mobile-nav-frame {
+    display: block !important;
+  }
+
+  .navigation-card {
+    background: linear-gradient(180deg, #ffffff, #f8fbf7) !important;
+  }
+
+  .lesson-pane {
+    padding-top: 7rem !important;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .revert-content {
+    padding-left: 0.8rem !important;
+    padding-right: 0.8rem !important;
+  }
+
+  .lesson-hero {
+    padding: 1.05rem !important;
+  }
+
+  .lesson-hero-content h1 {
+    font-size: 1.55rem !important;
+  }
+
+  .offline-action-panel,
+  .offline-action-buttons {
+    flex-direction: column !important;
+    align-items: stretch !important;
+  }
+
+  .offline-action-btn {
+    width: 100%;
+  }
+
+  .lesson-pane .content-card .card-header,
+  .lesson-pane .content-card .card-body,
+  .quiz-body {
+    padding: 0.95rem !important;
+  }
+}
+
+/* Revert Fluid Calm Layout */
+
+.revert-content.container-fluid {
+  width: 100% !important;
+  max-width: none !important;
+  margin-inline: 0 !important;
+  padding-left: clamp(0.9rem, 2vw, 2rem) !important;
+  padding-right: clamp(0.9rem, 2vw, 2rem) !important;
+}
+
+.revert-content > .row {
+  align-items: start !important;
+}
+
+.lesson-header,
+.lesson-hero {
+  margin-bottom: clamp(1.1rem, 1.8vw, 1.65rem) !important;
+}
+
+#lesson-focus-section {
+  margin-top: 0 !important;
+}
+
+.lesson-pane {
+  min-width: 0 !important;
+}
+
+.lesson-pane .content-card {
+  margin-bottom: clamp(1rem, 1.65vw, 1.55rem) !important;
+}
+
+.lesson-pane .content-card,
+.navigation-card,
+.video-card,
+.clip-card,
+.dua-card,
+.premium-card,
+.resource-search-panel {
+  border: 0 !important;
+  box-shadow: 0 12px 28px rgba(28, 66, 55, 0.09) !important;
+}
+
+.lesson-pane .content-card .card-header {
+  padding-top: clamp(0.95rem, 1.4vw, 1.2rem) !important;
+  padding-bottom: clamp(0.8rem, 1.2vw, 1.05rem) !important;
+}
+
+.lesson-pane .content-card .card-body,
+.quiz-body,
+.resource-card-body {
+  padding: clamp(1rem, 1.7vw, 1.35rem) !important;
+}
+
+.navigation-card {
+  border-radius: 1.35rem !important;
+  box-shadow: 0 14px 34px rgba(22, 72, 59, 0.1) !important;
+}
+
+.roadmap-pill {
+  border-radius: 0.95rem !important;
+  padding: 0.8rem 0.85rem !important;
+}
+
+.card-header-icon,
+.section-font-btn,
+.section-toggle-btn,
+.global-search-info-btn {
+  border-radius: 0.75rem !important;
+}
+
+@media (min-width: 768px) {
+  .revert-content > .row {
+    --bs-gutter-x: clamp(1rem, 1.9vw, 1.75rem);
+    --bs-gutter-y: 1.25rem;
+  }
+
+  .mobile-nav-frame {
+    flex: 0 0 25% !important;
+    max-width: 25% !important;
+  }
+
+  .lesson-pane {
+    flex: 0 0 75% !important;
+    max-width: 75% !important;
+  }
+}
+
+@media (min-width: 1200px) {
+  .mobile-nav-frame {
+    flex-basis: 23.5% !important;
+    max-width: 23.5% !important;
+  }
+
+  .lesson-pane {
+    flex-basis: 76.5% !important;
+    max-width: 76.5% !important;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .revert-content.container-fluid {
+    padding-left: 0.8rem !important;
+    padding-right: 0.8rem !important;
+  }
+
+  .lesson-header,
+  .lesson-hero {
+    margin-bottom: 0.95rem !important;
   }
 }
 
@@ -65379,7 +68283,6 @@ body.quran-reading-fullscreen-active .navbar,body.quran-reading-fullscreen-activ
     );
     box-shadow: 0 -10px 24px rgba(10, 32, 30, 0.35);
     border-top: 1px solid rgba(15, 118, 110, 0.35);
-    border-radius: 20px 20px 0 0;
     padding: 12px 14px calc(12px + env(safe-area-inset-bottom)) 14px;
     transition: transform 0.3s ease-in-out;
 }
@@ -74054,14 +76957,6 @@ to {
 .ayah-card-container .icon-btn[data-v-637d02d8] {
     border-radius: 11px;
 }
-.audio-player-container[data-v-637d02d8] {
-    border-top-color: rgba(220, 178, 94, 0.44);
-    background:
-        radial-gradient(circle at 12% 0%, rgba(214, 170, 86, 0.24), transparent 35%),
-        linear-gradient(140deg, rgba(8, 36, 31, 0.98), rgba(9, 44, 38, 0.97));
-    box-shadow: 0 -16px 36px rgba(8, 27, 24, 0.5);
-    backdrop-filter: saturate(130%) blur(6px);
-}
 .custom-audio-player .control-btn[data-v-637d02d8] {
     border-radius: 12px;
 }
@@ -79757,10 +82652,6 @@ to {
 }
 .surat-premium.has-audio-player .surah-scroll-top[data-v-637d02d8] {
         bottom: calc(186px + env(safe-area-inset-bottom)) !important;
-}
-.audio-player-container[data-v-637d02d8] {
-        border-radius: 16px 16px 0 0 !important;
-        padding: 8px 10px calc(8px + env(safe-area-inset-bottom)) !important;
 }
 .custom-audio-player[data-v-637d02d8] {
         padding: 0 !important;
@@ -100057,6 +102948,1411 @@ to {
 }
 }
 
+/* Final memorisation tools polish: clean panel, safe toolbar lane, and saved-session actions. */
+@media (min-width: 992px) {
+.surat-premium.memorisation-sidebar-open[data-v-637d02d8] {
+        --memorisation-open-panel-width: var(--memorisation-panel-current-width, var(--memorisation-panel-docked-width, 520px));
+        --memorisation-open-panel-gap: 16px;
+        --memorisation-open-content-width: calc(100vw - var(--memorisation-open-panel-width) - var(--memorisation-open-panel-gap));
+}
+.surat-premium.memorisation-sidebar-open .memorisation-tools-hero[data-v-637d02d8],
+    .surat-premium.memorisation-sidebar-open .quran-toolbar-sticky[data-v-637d02d8],
+    .surat-premium.memorisation-sidebar-open .row[role="list"][data-v-637d02d8] {
+        width: var(--memorisation-open-content-width) !important;
+        max-width: var(--memorisation-open-content-width) !important;
+        min-width: 0 !important;
+        margin-left: 0 !important;
+        margin-right: auto !important;
+        padding-right: 10px !important;
+        box-sizing: border-box !important;
+        overflow: hidden !important;
+        contain: layout paint !important;
+}
+.surat-premium.memorisation-sidebar-open .quran-toolbar-sticky.quran-toolbar-fixed-shell[data-v-637d02d8],
+    .surat-premium.memorisation-sidebar-open .quran-toolbar-sticky.memorisation-toolbar-sticky[data-v-637d02d8] {
+        left: 0 !important;
+        right: auto !important;
+        z-index: 1030 !important;
+        clip-path: inset(0 0 0 0 round 20px) !important;
+}
+.surat-premium.memorisation-sidebar-open .quran-toolbar.quran-toolbar-reader[data-v-637d02d8],
+    .surat-premium.memorisation-sidebar-open .quran-toolbar-reader-actions[data-v-637d02d8],
+    .surat-premium.memorisation-sidebar-open .quran-toolbar-scroll-track[data-v-637d02d8] {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        overflow-x: auto !important;
+        overflow-y: hidden !important;
+        flex-wrap: nowrap !important;
+        scrollbar-width: none !important;
+}
+.surat-premium.memorisation-sidebar-open .quran-toolbar-scroll-track[data-v-637d02d8]::-webkit-scrollbar {
+        display: none !important;
+}
+.surat-premium.memorisation-sidebar-open .quran-toolbar-btn-reader-control[data-v-637d02d8] {
+        flex: 0 0 auto !important;
+}
+}
+.memorisation-sidebar.memorisation-offcanvas[data-v-637d02d8],
+.memorisation-offcanvas[data-v-637d02d8] {
+    --memo-panel-bg: #f3faf7;
+    --memo-panel-surface: #ffffff;
+    --memo-panel-surface-soft: #eef8f4;
+    --memo-panel-border: rgba(15, 71, 65, 0.13);
+    --memo-panel-border-strong: rgba(15, 71, 65, 0.2);
+    --memo-panel-text: #12342e;
+    --memo-panel-muted: #5f7771;
+    --memo-panel-accent: #0f766e;
+    --memo-panel-danger: #b42318;
+    z-index: 1085 !important;
+    background:
+        radial-gradient(circle at top left, rgba(20, 184, 166, 0.12), transparent 34%),
+        var(--memo-panel-bg) !important;
+    border-left: 1px solid var(--memo-panel-border-strong) !important;
+    box-shadow: -22px 0 42px rgba(15, 53, 48, 0.12) !important;
+}
+.memorisation-offcanvas.surat-dark-modal[data-v-637d02d8] {
+    --memo-panel-bg: #111827;
+    --memo-panel-surface: #182231;
+    --memo-panel-surface-soft: #202c3c;
+    --memo-panel-border: rgba(148, 163, 184, 0.18);
+    --memo-panel-border-strong: rgba(148, 163, 184, 0.28);
+    --memo-panel-text: #f8fafc;
+    --memo-panel-muted: #cbd5e1;
+    --memo-panel-accent: #2dd4bf;
+    --memo-panel-danger: #fca5a5;
+    background:
+        radial-gradient(circle at top left, rgba(45, 212, 191, 0.11), transparent 34%),
+        var(--memo-panel-bg) !important;
+    box-shadow: -22px 0 42px rgba(0, 0, 0, 0.36) !important;
+}
+.memorisation-offcanvas .memorisation-panel-header[data-v-637d02d8],
+.memorisation-offcanvas .offcanvas-header[data-v-637d02d8] {
+    min-height: 88px !important;
+    padding: 1.15rem 1.45rem 1rem !important;
+    background: color-mix(in srgb, var(--memo-panel-surface) 94%, transparent) !important;
+    border-bottom: 1px solid var(--memo-panel-border) !important;
+    backdrop-filter: blur(16px) saturate(1.15) !important;
+    -webkit-backdrop-filter: blur(16px) saturate(1.15) !important;
+}
+.memorisation-offcanvas .offcanvas-body[data-v-637d02d8] {
+    padding: 1.45rem 1.5rem 1.75rem !important;
+    background: transparent !important;
+}
+.memorisation-offcanvas .memorisation-tools-tabs[data-v-637d02d8] {
+    position: static !important;
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 0.45rem !important;
+    margin: 0 0 1.25rem !important;
+    padding: 0.45rem !important;
+    border-radius: 18px !important;
+    border: 1px solid var(--memo-panel-border) !important;
+    background: var(--memo-panel-surface) !important;
+    box-shadow: 0 12px 30px rgba(15, 53, 48, 0.07) !important;
+}
+.memorisation-offcanvas.surat-dark-modal .memorisation-tools-tabs[data-v-637d02d8] {
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.22) !important;
+}
+.memorisation-offcanvas .memorisation-tools-tab[data-v-637d02d8] {
+    min-height: 44px !important;
+    border-radius: 14px !important;
+}
+.memorisation-offcanvas .memorisation-beginner-panel[data-v-637d02d8],
+.memorisation-offcanvas .memorisation-advanced-panel[data-v-637d02d8] {
+    gap: 1.25rem !important;
+}
+.memorisation-offcanvas .memorisation-tools-card[data-v-637d02d8] {
+    padding: 1.2rem !important;
+    border-radius: 18px !important;
+    border: 1px solid var(--memo-panel-border) !important;
+    background: color-mix(in srgb, var(--memo-panel-surface) 96%, transparent) !important;
+    box-shadow: 0 14px 32px rgba(15, 53, 48, 0.055) !important;
+}
+.memorisation-offcanvas.surat-dark-modal .memorisation-tools-card[data-v-637d02d8] {
+    box-shadow: 0 14px 32px rgba(0, 0, 0, 0.2) !important;
+}
+.memorisation-offcanvas .memorisation-tools-card-head[data-v-637d02d8] {
+    align-items: flex-start !important;
+    gap: 0.75rem !important;
+    margin-bottom: 1rem !important;
+    padding-bottom: 0.85rem !important;
+}
+.memorisation-offcanvas .memorisation-tools-grid[data-v-637d02d8] {
+    gap: 1rem !important;
+}
+.memorisation-offcanvas .memorisation-tools-control[data-v-637d02d8],
+.memorisation-offcanvas .memorisation-tools-switch[data-v-637d02d8] {
+    border-color: var(--memo-panel-border) !important;
+    background: var(--memo-panel-surface-soft) !important;
+    color: var(--memo-panel-text) !important;
+}
+.memorisation-offcanvas .memorisation-tools-secondary-btn[data-v-637d02d8],
+.memorisation-offcanvas .memorisation-tools-action-btn[data-v-637d02d8],
+.memorisation-offcanvas .memorisation-tools-link-btn[data-v-637d02d8] {
+    min-height: 44px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 0.42rem !important;
+    font-weight: 800 !important;
+}
+.memorisation-tools-danger-btn[data-v-637d02d8] {
+    color: var(--memo-panel-danger) !important;
+    border-color: color-mix(in srgb, var(--memo-panel-danger) 35%, transparent) !important;
+    background: color-mix(in srgb, var(--memo-panel-danger) 9%, var(--memo-panel-surface)) !important;
+}
+.memorisation-tools-danger-btn[data-v-637d02d8]:hover,
+.memorisation-tools-danger-btn[data-v-637d02d8]:focus-visible {
+    color: #ffffff !important;
+    border-color: var(--memo-panel-danger) !important;
+    background: var(--memo-panel-danger) !important;
+}
+.memorisation-tools-danger-btn[data-v-637d02d8]:disabled {
+    opacity: 0.48 !important;
+    color: var(--memo-panel-muted) !important;
+    border-color: var(--memo-panel-border) !important;
+    background: var(--memo-panel-surface-soft) !important;
+}
+@media (max-width: 991.98px) {
+.memorisation-offcanvas .memorisation-panel-header[data-v-637d02d8],
+    .memorisation-offcanvas .offcanvas-header[data-v-637d02d8] {
+        min-height: 76px !important;
+        padding: 0.95rem 1rem !important;
+}
+.memorisation-offcanvas .offcanvas-body[data-v-637d02d8] {
+        padding: 1rem 1rem 1.35rem !important;
+}
+.memorisation-offcanvas .memorisation-tools-card[data-v-637d02d8] {
+        padding: 1rem !important;
+        border-radius: 16px !important;
+}
+}
+
+/* Final friction pass: sticky memorisation toolbar and tighter offcanvas rhythm. */
+.surat-premium .quran-toolbar-sticky.memorisation-toolbar-sticky.memorisation-toolbar-active[data-v-637d02d8] {
+    position: sticky !important;
+    top: calc(var(--nav-offset, var(--navbar-h, 72px)) + 8px) !important;
+    z-index: 1060 !important;
+    margin: 0 0 1rem !important;
+    overflow: visible !important;
+    max-height: none !important;
+}
+.surat-premium .quran-toolbar-sticky.memorisation-toolbar-sticky.memorisation-toolbar-active .quran-toolbar[data-v-637d02d8] {
+    backdrop-filter: blur(18px) saturate(1.18) !important;
+    -webkit-backdrop-filter: blur(18px) saturate(1.18) !important;
+    box-shadow: 0 18px 42px rgba(15, 53, 48, 0.12) !important;
+}
+.surat-premium.surat-theme-dark .quran-toolbar-sticky.memorisation-toolbar-sticky.memorisation-toolbar-active .quran-toolbar[data-v-637d02d8] {
+    box-shadow: 0 18px 42px rgba(0, 0, 0, 0.28) !important;
+}
+@media (max-width: 991.98px) {
+.surat-premium .quran-toolbar-sticky.memorisation-toolbar-sticky.memorisation-toolbar-active[data-v-637d02d8] {
+        position: sticky !important;
+        top: calc(var(--nav-offset, var(--navbar-h, 64px)) + 6px) !important;
+        z-index: 1060 !important;
+}
+}
+@media (min-width: 992px) {
+.surat-premium.memorisation-sidebar-open .quran-toolbar-sticky.memorisation-toolbar-sticky.memorisation-toolbar-active[data-v-637d02d8] {
+        width: var(--memorisation-open-content-width) !important;
+        max-width: var(--memorisation-open-content-width) !important;
+        padding-right: 10px !important;
+        isolation: isolate !important;
+}
+}
+.memorisation-offcanvas .memorisation-panel-header[data-v-637d02d8],
+.memorisation-offcanvas .offcanvas-header[data-v-637d02d8] {
+    min-height: 74px !important;
+    padding: 0.9rem 1.15rem 0.85rem !important;
+    align-items: center !important;
+}
+.memorisation-offcanvas .offcanvas-title[data-v-637d02d8] {
+    font-size: 1.28rem !important;
+    line-height: 1.08 !important;
+}
+.memorisation-panel-eyebrow[data-v-637d02d8] {
+    font-size: 0.68rem !important;
+    letter-spacing: 0.16em !important;
+}
+.memorisation-panel-close-btn[data-v-637d02d8] {
+    width: 42px !important;
+    height: 42px !important;
+    border-radius: 14px !important;
+}
+.memorisation-offcanvas .offcanvas-body[data-v-637d02d8] {
+    padding: 1.05rem 1.15rem 1.25rem !important;
+}
+.memorisation-offcanvas .memorisation-tools-tabs[data-v-637d02d8] {
+    margin-bottom: 1rem !important;
+    padding: 0.32rem !important;
+    border-radius: 16px !important;
+}
+.memorisation-offcanvas .memorisation-tools-tab[data-v-637d02d8] {
+    min-height: 40px !important;
+    font-size: 0.92rem !important;
+}
+.memorisation-offcanvas .memorisation-beginner-panel[data-v-637d02d8],
+.memorisation-offcanvas .memorisation-advanced-panel[data-v-637d02d8] {
+    gap: 0.9rem !important;
+}
+.memorisation-offcanvas .memorisation-tools-card[data-v-637d02d8] {
+    padding: 1rem !important;
+    border-radius: 16px !important;
+}
+.memorisation-offcanvas .memorisation-tools-card-head[data-v-637d02d8] {
+    margin-bottom: 0.8rem !important;
+    padding-bottom: 0.68rem !important;
+    gap: 0.7rem !important;
+}
+.memorisation-offcanvas .memorisation-tools-card-title h5[data-v-637d02d8] {
+    font-size: 1rem !important;
+}
+.memorisation-offcanvas .memorisation-tools-card-title p[data-v-637d02d8] {
+    max-width: 38rem !important;
+}
+.memorisation-offcanvas .memorisation-tools-grid[data-v-637d02d8] {
+    gap: 0.78rem !important;
+}
+.memorisation-offcanvas .memorisation-tools-control[data-v-637d02d8] {
+    min-height: 41px !important;
+    border-radius: 12px !important;
+    padding: 0.5rem 0.68rem !important;
+}
+.memorisation-offcanvas .memorisation-tools-switch[data-v-637d02d8] {
+    min-height: 58px !important;
+    border-radius: 14px !important;
+    padding: 0.72rem 0.78rem !important;
+}
+.memorisation-saved-session-actions[data-v-637d02d8] {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 0.6rem !important;
+    width: 100% !important;
+}
+.memorisation-saved-session-actions .memorisation-tools-secondary-btn[data-v-637d02d8] {
+    width: 100% !important;
+    min-height: 42px !important;
+    padding-inline: 0.55rem !important;
+    white-space: nowrap !important;
+}
+.memorisation-beginner-actions[data-v-637d02d8] {
+    padding-top: 0.25rem !important;
+    margin-top: 0 !important;
+}
+@media (max-width: 520px) {
+.memorisation-offcanvas .memorisation-panel-header[data-v-637d02d8],
+    .memorisation-offcanvas .offcanvas-header[data-v-637d02d8] {
+        min-height: 68px !important;
+        padding: 0.78rem 0.85rem !important;
+}
+.memorisation-offcanvas .offcanvas-body[data-v-637d02d8] {
+        padding: 0.85rem 0.85rem 1.1rem !important;
+}
+.memorisation-saved-session-actions[data-v-637d02d8] {
+        grid-template-columns: 1fr !important;
+}
+}
+
+/* Memorisation v3: explicit visual refresh and hard layout guard. */
+.surat-premium.memorisation-offcanvas-open[data-v-637d02d8] {
+    --memo-v3-panel-width: clamp(420px, 31vw, 480px);
+    --memo-v3-content-gap: 30px;
+}
+.memorisation-offcanvas-v3[data-v-637d02d8] {
+    width: var(--memo-v3-panel-width, 480px) !important;
+    max-width: min(100vw, var(--memo-v3-panel-width, 480px)) !important;
+    background: #eaf6f1 !important;
+    color: #12342e !important;
+    border-left: 1px solid rgba(15, 71, 65, 0.18) !important;
+    box-shadow: -24px 0 60px rgba(7, 38, 34, 0.18) !important;
+    overflow: hidden !important;
+}
+.memorisation-offcanvas-v3.surat-dark-modal[data-v-637d02d8] {
+    background: #0f172a !important;
+    color: #f8fafc !important;
+    border-left-color: rgba(148, 163, 184, 0.26) !important;
+    box-shadow: -24px 0 60px rgba(0, 0, 0, 0.48) !important;
+}
+.memorisation-offcanvas-v3 .memorisation-panel-header[data-v-637d02d8],
+.memorisation-offcanvas-v3.offcanvas .offcanvas-header[data-v-637d02d8],
+.memorisation-offcanvas-v3 .offcanvas-header[data-v-637d02d8] {
+    min-height: 106px !important;
+    padding: 1.05rem 1.2rem !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 1rem !important;
+    background: linear-gradient(135deg, #0f766e 0%, #0b5f58 55%, #0f3f3a 100%) !important;
+    color: #ffffff !important;
+    border-bottom: 0 !important;
+    box-shadow: 0 16px 34px rgba(15, 118, 110, 0.28) !important;
+}
+.memorisation-offcanvas-v3.surat-dark-modal .memorisation-panel-header[data-v-637d02d8],
+.memorisation-offcanvas-v3.surat-dark-modal .offcanvas-header[data-v-637d02d8] {
+    background: linear-gradient(135deg, #134e4a 0%, #0f172a 100%) !important;
+    box-shadow: 0 16px 34px rgba(0, 0, 0, 0.42) !important;
+}
+.memorisation-offcanvas-v3 .memorisation-panel-title-wrap[data-v-637d02d8] {
+    min-width: 0 !important;
+}
+.memorisation-offcanvas-v3 .memorisation-panel-eyebrow[data-v-637d02d8] {
+    padding: 0.22rem 0.62rem !important;
+    border-radius: 999px !important;
+    background: rgba(255, 255, 255, 0.16) !important;
+    color: #d7fff8 !important;
+    font-size: 0.62rem !important;
+    font-weight: 900 !important;
+    letter-spacing: 0.18em !important;
+}
+.memorisation-offcanvas-v3 .offcanvas-title[data-v-637d02d8] {
+    margin: 0.34rem 0 0 !important;
+    color: #ffffff !important;
+    font-size: 1.45rem !important;
+    line-height: 1.05 !important;
+}
+.memorisation-offcanvas-v3 .memorisation-panel-subtitle[data-v-637d02d8] {
+    display: block !important;
+    margin-top: 0.34rem !important;
+    max-width: 24rem !important;
+    color: rgba(255, 255, 255, 0.82) !important;
+    font-size: 0.82rem !important;
+    line-height: 1.35 !important;
+    font-weight: 700 !important;
+}
+.memorisation-offcanvas-v3 .memorisation-panel-close-btn[data-v-637d02d8] {
+    flex: 0 0 auto !important;
+    width: 48px !important;
+    height: 48px !important;
+    margin-left: auto !important;
+    border-radius: 16px !important;
+    border: 1px solid rgba(255, 255, 255, 0.22) !important;
+    background: rgba(255, 255, 255, 0.14) !important;
+    color: #ffffff !important;
+    box-shadow: none !important;
+}
+.memorisation-offcanvas-v3 .offcanvas-body[data-v-637d02d8] {
+    padding: 1.25rem 1.25rem 1.45rem !important;
+    background: transparent !important;
+    scrollbar-gutter: stable !important;
+}
+.memorisation-offcanvas-v3 .memorisation-tools-tabs[data-v-637d02d8] {
+    position: relative !important;
+    top: auto !important;
+    z-index: 1 !important;
+    margin: 0 0 1.15rem !important;
+    padding: 0.36rem !important;
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 0.42rem !important;
+    border: 1px solid rgba(15, 71, 65, 0.13) !important;
+    border-radius: 18px !important;
+    background: rgba(255, 255, 255, 0.94) !important;
+    box-shadow: 0 12px 28px rgba(7, 38, 34, 0.08) !important;
+}
+.memorisation-offcanvas-v3.surat-dark-modal .memorisation-tools-tabs[data-v-637d02d8] {
+    border-color: rgba(148, 163, 184, 0.2) !important;
+    background: rgba(17, 24, 39, 0.96) !important;
+}
+.memorisation-offcanvas-v3 .memorisation-tools-tab[data-v-637d02d8] {
+    min-height: 42px !important;
+    border-radius: 14px !important;
+    border: 0 !important;
+    color: #526a64 !important;
+    font-weight: 900 !important;
+    letter-spacing: 0.01em !important;
+}
+.memorisation-offcanvas-v3.surat-dark-modal .memorisation-tools-tab[data-v-637d02d8] {
+    color: #cbd5e1 !important;
+}
+.memorisation-offcanvas-v3 .memorisation-tools-tab.is-active[data-v-637d02d8] {
+    background: #0f766e !important;
+    color: #ffffff !important;
+    box-shadow: 0 10px 24px rgba(15, 118, 110, 0.26) !important;
+}
+.memorisation-offcanvas-v3 .memorisation-beginner-panel[data-v-637d02d8],
+.memorisation-offcanvas-v3 .memorisation-advanced-panel[data-v-637d02d8] {
+    display: grid !important;
+    gap: 1rem !important;
+}
+.memorisation-offcanvas-v3 .memorisation-tools-card[data-v-637d02d8] {
+    padding: 1.08rem !important;
+    border-radius: 20px !important;
+    border: 1px solid rgba(15, 71, 65, 0.12) !important;
+    background: rgba(255, 255, 255, 0.96) !important;
+    box-shadow: 0 14px 30px rgba(7, 38, 34, 0.075) !important;
+    overflow: hidden !important;
+}
+.memorisation-offcanvas-v3 .memorisation-tools-card[data-v-637d02d8]::before {
+    content: "";
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 4px;
+    background: linear-gradient(180deg, #14b8a6 0%, #0f766e 100%);
+    opacity: 0.95;
+}
+.memorisation-offcanvas-v3.surat-dark-modal .memorisation-tools-card[data-v-637d02d8] {
+    border-color: rgba(148, 163, 184, 0.18) !important;
+    background: rgba(17, 24, 39, 0.96) !important;
+    box-shadow: 0 14px 30px rgba(0, 0, 0, 0.28) !important;
+}
+.memorisation-offcanvas-v3 .memorisation-tools-card-head[data-v-637d02d8] {
+    margin-bottom: 0.9rem !important;
+    padding-bottom: 0.78rem !important;
+    border-bottom: 1px solid rgba(15, 71, 65, 0.1) !important;
+    align-items: flex-start !important;
+}
+.memorisation-offcanvas-v3.surat-dark-modal .memorisation-tools-card-head[data-v-637d02d8] {
+    border-bottom-color: rgba(148, 163, 184, 0.16) !important;
+}
+.memorisation-offcanvas-v3 .memorisation-tools-card-title h5[data-v-637d02d8] {
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.48rem !important;
+    color: #12342e !important;
+    font-size: 1.06rem !important;
+    line-height: 1.12 !important;
+}
+.memorisation-offcanvas-v3.surat-dark-modal .memorisation-tools-card-title h5[data-v-637d02d8] {
+    color: #f8fafc !important;
+}
+.memorisation-offcanvas-v3 .memorisation-tools-card-title h5 i[data-v-637d02d8] {
+    width: 30px !important;
+    height: 30px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin: 0 !important;
+    border-radius: 11px !important;
+    background: rgba(15, 118, 110, 0.1) !important;
+    color: #0f766e !important;
+}
+.memorisation-offcanvas-v3.surat-dark-modal .memorisation-tools-card-title h5 i[data-v-637d02d8] {
+    background: rgba(45, 212, 191, 0.12) !important;
+    color: #5eead4 !important;
+}
+.memorisation-offcanvas-v3 .memorisation-tools-card-title p[data-v-637d02d8],
+.memorisation-offcanvas-v3 .memorisation-tools-field-hint[data-v-637d02d8],
+.memorisation-offcanvas-v3 .memorisation-tools-switch-copy small[data-v-637d02d8] {
+    color: #58706a !important;
+    font-size: 0.79rem !important;
+    line-height: 1.36 !important;
+}
+.memorisation-offcanvas-v3.surat-dark-modal .memorisation-tools-card-title p[data-v-637d02d8],
+.memorisation-offcanvas-v3.surat-dark-modal .memorisation-tools-field-hint[data-v-637d02d8],
+.memorisation-offcanvas-v3.surat-dark-modal .memorisation-tools-switch-copy small[data-v-637d02d8] {
+    color: #cbd5e1 !important;
+}
+.memorisation-offcanvas-v3 .memorisation-tools-grid[data-v-637d02d8] {
+    gap: 0.82rem !important;
+}
+.memorisation-offcanvas-v3 .memorisation-tools-label[data-v-637d02d8] {
+    margin-bottom: 0.35rem !important;
+    color: #58706a !important;
+    font-size: 0.68rem !important;
+    letter-spacing: 0.1em !important;
+}
+.memorisation-offcanvas-v3.surat-dark-modal .memorisation-tools-label[data-v-637d02d8] {
+    color: #94a3b8 !important;
+}
+.memorisation-offcanvas-v3 .memorisation-tools-control[data-v-637d02d8],
+.memorisation-offcanvas-v3 .memorisation-tools-switch[data-v-637d02d8] {
+    border: 1px solid rgba(15, 71, 65, 0.12) !important;
+    background: #edf7f3 !important;
+    color: #12342e !important;
+    box-shadow: none !important;
+}
+.memorisation-offcanvas-v3.surat-dark-modal .memorisation-tools-control[data-v-637d02d8],
+.memorisation-offcanvas-v3.surat-dark-modal .memorisation-tools-switch[data-v-637d02d8] {
+    border-color: rgba(148, 163, 184, 0.2) !important;
+    background: #1f2937 !important;
+    color: #f8fafc !important;
+}
+.memorisation-offcanvas-v3 .memorisation-tools-control[data-v-637d02d8] {
+    min-height: 42px !important;
+    border-radius: 13px !important;
+    padding: 0.54rem 0.7rem !important;
+}
+.memorisation-offcanvas-v3 .memorisation-tools-switch[data-v-637d02d8] {
+    min-height: 62px !important;
+    border-radius: 15px !important;
+    padding: 0.78rem 0.82rem !important;
+}
+.memorisation-offcanvas-v3 .memorisation-section-toggle[data-v-637d02d8],
+.memorisation-offcanvas-v3 .memorisation-tools-link-btn[data-v-637d02d8],
+.memorisation-offcanvas-v3 .memorisation-tools-secondary-btn[data-v-637d02d8],
+.memorisation-offcanvas-v3 .memorisation-tools-action-btn[data-v-637d02d8] {
+    min-height: 42px !important;
+    border-radius: 13px !important;
+    border: 1px solid rgba(15, 71, 65, 0.12) !important;
+    background: #edf7f3 !important;
+    color: #12342e !important;
+    font-weight: 900 !important;
+    box-shadow: none !important;
+}
+.memorisation-offcanvas-v3.surat-dark-modal .memorisation-section-toggle[data-v-637d02d8],
+.memorisation-offcanvas-v3.surat-dark-modal .memorisation-tools-link-btn[data-v-637d02d8],
+.memorisation-offcanvas-v3.surat-dark-modal .memorisation-tools-secondary-btn[data-v-637d02d8],
+.memorisation-offcanvas-v3.surat-dark-modal .memorisation-tools-action-btn[data-v-637d02d8] {
+    border-color: rgba(148, 163, 184, 0.2) !important;
+    background: #1f2937 !important;
+    color: #f8fafc !important;
+}
+.memorisation-offcanvas-v3 .memorisation-tools-action-btn--primary[data-v-637d02d8] {
+    background: #0f766e !important;
+    border-color: #0f766e !important;
+    color: #ffffff !important;
+}
+.memorisation-offcanvas-v3 .memorisation-saved-session-actions[data-v-637d02d8] {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 0.58rem !important;
+    width: 100% !important;
+}
+.memorisation-offcanvas-v3 .memorisation-beginner-actions[data-v-637d02d8] {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 0.7rem !important;
+    padding-top: 0.45rem !important;
+    margin-top: 0 !important;
+    position: static !important;
+}
+@media (min-width: 992px) {
+.surat-premium.memorisation-sidebar-open[data-v-637d02d8] {
+        --memorisation-panel-current-width: var(--memo-v3-panel-width, 480px) !important;
+        padding-right: 0 !important;
+}
+.surat-premium.memorisation-sidebar-open .memorisation-tools-hero[data-v-637d02d8],
+    .surat-premium.memorisation-sidebar-open .quran-toolbar-sticky[data-v-637d02d8],
+    .surat-premium.memorisation-sidebar-open .row[role="list"][data-v-637d02d8] {
+        width: calc(100vw - var(--memo-v3-panel-width, 480px) - var(--memo-v3-content-gap, 30px)) !important;
+        max-width: calc(100vw - var(--memo-v3-panel-width, 480px) - var(--memo-v3-content-gap, 30px)) !important;
+        margin-left: 0 !important;
+        margin-right: auto !important;
+        padding-right: 14px !important;
+        box-sizing: border-box !important;
+        overflow: hidden !important;
+}
+.surat-premium.memorisation-sidebar-open .quran-toolbar-sticky.memorisation-toolbar-active[data-v-637d02d8] {
+        position: sticky !important;
+        top: calc(var(--nav-offset, var(--navbar-h, 72px)) + 8px) !important;
+        z-index: 1040 !important;
+        contain: paint !important;
+}
+.surat-premium.memorisation-sidebar-open .quran-toolbar-reader[data-v-637d02d8],
+    .surat-premium.memorisation-sidebar-open .quran-toolbar-reader-actions[data-v-637d02d8],
+    .surat-premium.memorisation-sidebar-open .quran-toolbar-scroll-track[data-v-637d02d8] {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        overflow-x: auto !important;
+        overflow-y: hidden !important;
+        flex-wrap: nowrap !important;
+        scrollbar-width: none !important;
+}
+.surat-premium.memorisation-sidebar-open .quran-toolbar-scroll-track[data-v-637d02d8]::-webkit-scrollbar {
+        display: none !important;
+}
+}
+@media (max-width: 991.98px) {
+.memorisation-offcanvas-v3[data-v-637d02d8] {
+        width: min(100vw, 480px) !important;
+        max-width: 100vw !important;
+}
+.memorisation-offcanvas-v3 .memorisation-panel-header[data-v-637d02d8],
+    .memorisation-offcanvas-v3 .offcanvas-header[data-v-637d02d8] {
+        min-height: 96px !important;
+        padding: 0.95rem 1rem !important;
+}
+.memorisation-offcanvas-v3 .offcanvas-body[data-v-637d02d8] {
+        padding: 1rem 1rem 1.25rem !important;
+}
+}
+@media (max-width: 520px) {
+.memorisation-offcanvas-v3 .memorisation-panel-header[data-v-637d02d8],
+    .memorisation-offcanvas-v3 .offcanvas-header[data-v-637d02d8] {
+        min-height: 92px !important;
+        padding: 0.85rem 0.9rem !important;
+}
+.memorisation-offcanvas-v3 .offcanvas-title[data-v-637d02d8] {
+        font-size: 1.22rem !important;
+}
+.memorisation-offcanvas-v3 .memorisation-panel-subtitle[data-v-637d02d8] {
+        font-size: 0.75rem !important;
+}
+.memorisation-offcanvas-v3 .offcanvas-body[data-v-637d02d8] {
+        padding: 0.9rem 0.85rem 1.1rem !important;
+}
+.memorisation-offcanvas-v3 .memorisation-tools-card[data-v-637d02d8] {
+        padding: 0.9rem !important;
+        border-radius: 17px !important;
+}
+.memorisation-offcanvas-v3 .memorisation-beginner-actions[data-v-637d02d8],
+    .memorisation-offcanvas-v3 .memorisation-saved-session-actions[data-v-637d02d8] {
+        grid-template-columns: 1fr !important;
+}
+}
+.memorisation-offcanvas-v3 .memorisation-tools-card[data-v-637d02d8] {
+    position: relative !important;
+}
+
+/* Clean ayah reading row: removes the stretched card feel seen in wide layouts. */
+.surat-premium .ayah-card-container .ayah-surface[data-v-637d02d8] {
+    min-height: 0 !important;
+    height: auto !important;
+    padding: 1.05rem 1.1rem 1rem !important;
+    display: block !important;
+}
+.surat-premium .ayah-card-body[data-v-637d02d8] {
+    flex: 0 0 auto !important;
+}
+.surat-premium .ayah-card-header[data-v-637d02d8] {
+    padding: 0 0 0.75rem !important;
+    align-items: center !important;
+}
+.surat-premium .ayah-card-reference[data-v-637d02d8] {
+    min-height: 34px !important;
+    padding: 0.35rem 0.75rem !important;
+    border-radius: 999px !important;
+    background: rgba(15, 110, 99, 0.045) !important;
+    border: 1px solid rgba(15, 110, 99, 0.1) !important;
+    font-size: 0.9rem !important;
+}
+.surat-premium .ayah-menu-trigger[data-v-637d02d8] {
+    width: 38px !important;
+    height: 38px !important;
+    border-radius: 999px !important;
+    background: rgba(255, 255, 255, 0.82) !important;
+    border: 1px solid rgba(15, 110, 99, 0.1) !important;
+    box-shadow: 0 8px 20px rgba(7, 31, 28, 0.06) !important;
+}
+.surat-premium .ayah-card-copy[data-v-637d02d8] {
+    padding: 0 !important;
+}
+.surat-premium .ayah-arabic-inline-shell[data-v-637d02d8] {
+    --ayah-audio-control-size: 2.15rem;
+    align-items: center !important;
+    gap: 0.75rem !important;
+    margin: 0.3rem 0 0.75rem !important;
+}
+.surat-premium .ayah-arabic-audio-btn i[data-v-637d02d8],
+.surat-premium .translation-audio-btn i[data-v-637d02d8] {
+    font-size: 1.55rem !important;
+}
+.surat-premium .ayah-card-copy .arabic-text[data-v-637d02d8] {
+    margin-bottom: 0 !important;
+    padding-top: 0 !important;
+    line-height: 2.05 !important;
+}
+.surat-premium .translation-row[data-v-637d02d8] {
+    margin-top: 0.45rem !important;
+}
+.surat-premium .translation-row--collapsed[data-v-637d02d8] {
+    margin-top: 0.25rem !important;
+}
+.surat-premium .ayah-card-copy .transliteration-header[data-v-637d02d8],
+.surat-premium .ayah-card-copy .translation-header[data-v-637d02d8] {
+    margin: 0.35rem 0 0.28rem !important;
+    padding: 0 !important;
+}
+.surat-premium .ayah-card-copy-label[data-v-637d02d8] {
+    font-size: 0.78rem !important;
+    letter-spacing: 0.11em !important;
+    color: rgba(32, 73, 66, 0.78) !important;
+}
+.surat-premium .ayah-card-copy .translation-text[data-v-637d02d8],
+.surat-premium .ayah-card-copy .transliteration-text[data-v-637d02d8] {
+    margin: 0 !important;
+    padding-top: 0 !important;
+    border-top: 0 !important;
+    color: rgba(39, 63, 58, 0.86) !important;
+    line-height: 1.45 !important;
+}
+.surat-premium .ayah-card-copy .transliteration-text[data-v-637d02d8] {
+    display: inline-block !important;
+    max-width: min(100%, 46rem) !important;
+    padding: 0.65rem 0.78rem !important;
+    border-radius: 14px !important;
+    background: rgba(15, 110, 99, 0.045) !important;
+}
+.surat-premium .ayah-card-footer[data-v-637d02d8] {
+    margin-top: 0.95rem !important;
+    padding: 0.72rem 0 0 !important;
+    border-top: 1px solid rgba(16, 56, 51, 0.1) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 0.7rem !important;
+    overflow: visible !important;
+}
+.surat-premium .ayah-card-footer-main[data-v-637d02d8],
+.surat-premium .ayah-card-footer-text-controls[data-v-637d02d8] {
+    gap: 0.45rem !important;
+    min-width: 0 !important;
+    flex-wrap: wrap !important;
+}
+.surat-premium .ayah-card-footer-main[data-v-637d02d8] {
+    margin-left: auto !important;
+    justify-content: flex-end !important;
+}
+.surat-premium .ayah-card-footer-text-controls[data-v-637d02d8] {
+    margin-left: 0 !important;
+    flex: 0 0 auto !important;
+}
+.surat-premium .ayah-footer-action[data-v-637d02d8] {
+    min-height: 36px !important;
+    padding: 0.38rem 0.7rem !important;
+    gap: 0.42rem !important;
+    border-radius: 999px !important;
+    font-size: 0.9rem !important;
+    font-weight: 800 !important;
+    color: #204942 !important;
+    background: transparent !important;
+}
+.surat-premium .ayah-footer-action i[data-v-637d02d8] {
+    font-size: 1rem !important;
+}
+.surat-premium .ayah-footer-action[data-v-637d02d8]:hover,
+.surat-premium .ayah-footer-action[data-v-637d02d8]:focus-visible,
+.surat-premium .ayah-footer-action.is-active[data-v-637d02d8] {
+    transform: translateY(-1px) !important;
+    background: rgba(11, 107, 89, 0.08) !important;
+    box-shadow: none !important;
+}
+.surat-premium .ayah-footer-action--text[data-v-637d02d8] {
+    width: 36px !important;
+    min-width: 36px !important;
+    height: 36px !important;
+    padding: 0 !important;
+    border: 1px solid rgba(15, 110, 99, 0.18) !important;
+    background: rgba(255, 255, 255, 0.65) !important;
+}
+.surat-premium.surat-theme-dark .ayah-card-container .ayah-surface[data-v-637d02d8] {
+    background: rgba(10, 31, 58, 0.82) !important;
+    border-color: var(--surat-theme-border) !important;
+}
+.surat-premium.surat-theme-dark .ayah-card-reference[data-v-637d02d8],
+.surat-premium.surat-theme-dark .ayah-menu-trigger[data-v-637d02d8],
+.surat-premium.surat-theme-dark .ayah-footer-action--text[data-v-637d02d8],
+.surat-premium.surat-theme-dark .ayah-card-copy .transliteration-text[data-v-637d02d8] {
+    background: rgba(255, 255, 255, 0.07) !important;
+    border-color: rgba(255, 255, 255, 0.12) !important;
+}
+.surat-premium.surat-theme-dark .ayah-card-copy-label[data-v-637d02d8] {
+    color: rgba(217, 249, 243, 0.72) !important;
+}
+.surat-premium.surat-theme-dark .ayah-card-copy .translation-text[data-v-637d02d8],
+.surat-premium.surat-theme-dark .ayah-card-copy .transliteration-text[data-v-637d02d8],
+.surat-premium.surat-theme-dark .ayah-footer-action[data-v-637d02d8] {
+    color: var(--surat-theme-mint) !important;
+}
+.surat-premium.surat-theme-dark .ayah-card-footer[data-v-637d02d8] {
+    border-top-color: rgba(255, 255, 255, 0.12) !important;
+}
+@media (min-width: 992px) {
+.surat-premium .row[role="list"] > .ayah-card.ayah-card-container[data-v-637d02d8] {
+        max-width: 100% !important;
+        flex: 0 0 100% !important;
+}
+}
+@media (max-width: 767.98px) {
+.surat-premium .ayah-card-container .ayah-surface[data-v-637d02d8] {
+        padding: 0.9rem 0.85rem !important;
+}
+.surat-premium .ayah-arabic-inline-shell[data-v-637d02d8] {
+        grid-template-columns: 1fr !important;
+        gap: 0.35rem !important;
+}
+.surat-premium .ayah-arabic-audio-btn[data-v-637d02d8] {
+        order: 2;
+        justify-self: flex-start;
+}
+.surat-premium .ayah-card-footer[data-v-637d02d8] {
+        align-items: flex-start !important;
+        flex-direction: column !important;
+}
+.surat-premium .ayah-card-footer-main[data-v-637d02d8] {
+        width: 100% !important;
+        margin-left: 0 !important;
+        justify-content: space-between !important;
+}
+.surat-premium .ayah-footer-action[data-v-637d02d8] {
+        font-size: 0.84rem !important;
+        padding: 0.34rem 0.52rem !important;
+}
+}
+
+/* ===== Final Quran reader layout polish ===== */
+.surat-premium[data-v-637d02d8] {
+    --quran-soft-bg: #fbfaf5;
+    --quran-soft-panel: rgba(255, 255, 255, 0.94);
+    --quran-soft-panel-2: rgba(246, 251, 247, 0.94);
+    --quran-soft-green: #0f766e;
+    --quran-soft-green-dark: #0b4d42;
+    --quran-soft-gold: #d6a34a;
+    --quran-soft-ink: #173832;
+    --quran-soft-muted: #60756f;
+    --quran-soft-line: rgba(15, 118, 110, 0.1);
+    --quran-soft-shadow: 0 18px 44px rgba(15, 60, 50, 0.09);
+}
+.surat-premium .row[role="list"][data-v-637d02d8] {
+    row-gap: clamp(1.2rem, 2.2vw, 1.8rem) !important;
+    margin-inline: 0 !important;
+}
+.surat-premium .ayah-card[data-v-637d02d8],
+.surat-premium .ayah-card-container[data-v-637d02d8],
+.surat-premium .ayah-card-shell[data-v-637d02d8] {
+    width: 100% !important;
+    max-width: min(100%, 1200px) !important;
+    flex: 0 0 100% !important;
+    margin-inline: auto !important;
+    padding-inline: clamp(0.75rem, 2vw, 1.5rem) !important;
+}
+.surat-premium .ayah-surface[data-v-637d02d8] {
+    border: 0 !important;
+    border-radius: 32px !important;
+    background:
+        radial-gradient(circle at 94% 8%, rgba(214, 163, 74, 0.12), transparent 26%),
+        radial-gradient(circle at 8% 0%, rgba(15, 118, 110, 0.09), transparent 28%),
+        linear-gradient(180deg, var(--quran-soft-panel), var(--quran-soft-panel-2)) !important;
+    box-shadow: var(--quran-soft-shadow) !important;
+    padding: clamp(1.1rem, 2.2vw, 1.9rem) !important;
+}
+.surat-premium .ayah-surface[data-v-637d02d8]::before {
+    border: 0 !important;
+    height: 4px !important;
+    background: linear-gradient(90deg, var(--quran-soft-green), rgba(214, 163, 74, 0.9), transparent 70%) !important;
+    opacity: 0.42 !important;
+}
+.surat-premium .ayah-card-header[data-v-637d02d8] {
+    margin-bottom: clamp(1rem, 2vw, 1.6rem) !important;
+}
+.surat-premium .ayah-card-reference[data-v-637d02d8],
+.surat-premium .ayah-menu-trigger[data-v-637d02d8] {
+    border: 0 !important;
+    border-radius: 999px !important;
+    background: rgba(15, 118, 110, 0.07) !important;
+    color: var(--quran-soft-green-dark) !important;
+    box-shadow: inset 0 0 0 1px rgba(15, 118, 110, 0.08) !important;
+}
+.surat-premium .ayah-card-body[data-v-637d02d8] {
+    padding: 0 !important;
+}
+.surat-premium .ayah-card-copy[data-v-637d02d8] {
+    display: grid !important;
+    gap: clamp(1rem, 1.7vw, 1.4rem) !important;
+}
+.surat-premium .ayah-arabic-inline-shell[data-v-637d02d8] {
+    display: grid !important;
+    grid-template-columns: auto minmax(0, 1fr) !important;
+    align-items: center !important;
+    gap: clamp(1rem, 2vw, 1.6rem) !important;
+}
+.surat-premium .arabic-text[data-v-637d02d8] {
+    color: var(--quran-soft-ink) !important;
+    line-height: 2.45 !important;
+    margin: 0 !important;
+    text-wrap: balance;
+}
+.surat-premium .ayah-arabic-audio-btn[data-v-637d02d8],
+.surat-premium .translation-audio-btn[data-v-637d02d8],
+.surat-premium .ayah-footer-action[data-v-637d02d8],
+.surat-premium .icon-btn[data-v-637d02d8],
+.surat-premium .ayah-tafseer-trigger[data-v-637d02d8] {
+    border: 0 !important;
+    border-radius: 999px !important;
+    background: rgba(15, 118, 110, 0.07) !important;
+    color: var(--quran-soft-green-dark) !important;
+    box-shadow: inset 0 0 0 1px rgba(15, 118, 110, 0.08) !important;
+}
+.surat-premium .ayah-arabic-audio-btn[data-v-637d02d8]:hover,
+.surat-premium .translation-audio-btn[data-v-637d02d8]:hover,
+.surat-premium .ayah-footer-action[data-v-637d02d8]:hover,
+.surat-premium .icon-btn[data-v-637d02d8]:hover,
+.surat-premium .ayah-tafseer-trigger[data-v-637d02d8]:hover,
+.surat-premium .ayah-arabic-audio-btn.is-active[data-v-637d02d8],
+.surat-premium .translation-audio-btn.is-active[data-v-637d02d8],
+.surat-premium .ayah-footer-action.is-active[data-v-637d02d8] {
+    background: var(--quran-soft-green) !important;
+    color: #fff !important;
+    box-shadow: 0 10px 24px rgba(15, 118, 110, 0.18) !important;
+    transform: translateY(-1px);
+}
+.surat-premium .translation-header[data-v-637d02d8],
+.surat-premium .transliteration-header[data-v-637d02d8] {
+    margin: 0 !important;
+}
+.surat-premium .ayah-card-copy-label[data-v-637d02d8] {
+    color: var(--quran-soft-muted) !important;
+    font-size: 0.82rem !important;
+    letter-spacing: 0.15em !important;
+    font-weight: 800 !important;
+}
+.surat-premium .translation-row[data-v-637d02d8] {
+    border: 0 !important;
+    border-radius: 24px !important;
+    background: rgba(15, 118, 110, 0.035) !important;
+    padding: clamp(0.9rem, 1.5vw, 1.15rem) !important;
+}
+.surat-premium .translation-text[data-v-637d02d8],
+.surat-premium .transliteration-text[data-v-637d02d8] {
+    border: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    color: #465b55 !important;
+    line-height: 1.7 !important;
+}
+.surat-premium .transliteration-text--word-aligned[data-v-637d02d8] {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    gap: 0.22rem 0.34rem !important;
+    max-width: min(100%, 820px) !important;
+    margin-inline: auto !important;
+    padding: 0.72rem 0.9rem !important;
+    border-radius: 999px !important;
+    background: rgba(255, 255, 255, 0.64) !important;
+}
+.surat-premium[data-v-637d02d8] .ayah-transliteration-word {
+    margin: 0 !important;
+    padding: 0.02em 0.08em !important;
+    border-radius: 10px !important;
+}
+.surat-premium .ayah-card-footer[data-v-637d02d8] {
+    margin-top: clamp(1rem, 2vw, 1.5rem) !important;
+    padding-top: clamp(0.85rem, 1.4vw, 1.1rem) !important;
+    border-top: 1px solid var(--quran-soft-line) !important;
+}
+.surat-premium .ayah-card-footer-main[data-v-637d02d8] {
+    justify-content: center !important;
+    gap: clamp(0.45rem, 1vw, 0.8rem) !important;
+}
+.surat-premium .ayah-footer-action[data-v-637d02d8] {
+    min-height: 2.45rem !important;
+    padding-inline: 0.95rem !important;
+}
+.audio-player-container[data-v-637d02d8] {
+    --audio-player-bg: rgba(251, 250, 245, 0.97) !important;
+    --audio-player-text: #173832 !important;
+    --audio-player-muted: #415b54 !important;
+    --audio-player-icon: #0f766e !important;
+    --audio-player-icon-hover: #0b4d42 !important;
+    --audio-player-hover-bg: rgba(15, 118, 110, 0.08) !important;
+    --audio-player-seek-track: rgba(15, 118, 110, 0.15) !important;
+    --audio-player-seek-fill: #0f766e !important;
+    --audio-player-seek-thumb: #0f766e !important;
+    inset: auto clamp(0.75rem, 2vw, 1.4rem) clamp(0.75rem, 1.6vw, 1.15rem) clamp(0.75rem, 2vw, 1.4rem) !important;
+    width: auto !important;
+    border: 1px solid rgba(15, 118, 110, 0.1) !important;
+    border-radius: 30px !important;
+    background: var(--audio-player-bg) !important;
+    box-shadow: 0 -16px 42px rgba(15, 60, 50, 0.13) !important;
+    padding: 0.72rem 1rem calc(0.68rem + env(safe-area-inset-bottom)) !important;
+}
+.custom-audio-player[data-v-637d02d8] {
+    gap: 0.48rem !important;
+}
+.audio-player-seek-row[data-v-637d02d8] {
+    height: 18px !important;
+}
+.audio-player-seek[data-v-637d02d8]::-webkit-slider-runnable-track {
+    height: 7px !important;
+}
+.audio-player-seek[data-v-637d02d8]::-webkit-slider-thumb {
+    width: 18px !important;
+    height: 18px !important;
+    margin-top: -5.5px !important;
+    background: var(--audio-player-seek-thumb) !important;
+    box-shadow: 0 0 0 4px rgba(251, 250, 245, 0.98), 0 8px 20px rgba(15, 118, 110, 0.24) !important;
+}
+.audio-player-toolbar[data-v-637d02d8] {
+    min-height: 48px !important;
+}
+.audio-player-transport[data-v-637d02d8] {
+    gap: clamp(0.18rem, 1vw, 0.8rem) !important;
+}
+.audio-player-icon-btn[data-v-637d02d8],
+.audio-player-play-btn[data-v-637d02d8] {
+    width: 42px !important;
+    min-width: 42px !important;
+    height: 42px !important;
+    border-radius: 999px !important;
+    color: var(--audio-player-icon) !important;
+}
+.audio-player-play-btn[data-v-637d02d8] {
+    width: 50px !important;
+    min-width: 50px !important;
+    height: 50px !important;
+    background: #0f766e !important;
+    color: #fff !important;
+    box-shadow: 0 12px 28px rgba(15, 118, 110, 0.22) !important;
+}
+.audio-player-close-btn[data-v-637d02d8] {
+    color: #8a5d32 !important;
+}
+.audio-player-container.is-dark-theme[data-v-637d02d8] {
+    --audio-player-bg: rgba(22, 32, 29, 0.97) !important;
+    --audio-player-text: #f4fbf8 !important;
+    --audio-player-muted: #c5d7d0 !important;
+    --audio-player-icon: #8ee0d4 !important;
+    --audio-player-icon-hover: #fff !important;
+    --audio-player-hover-bg: rgba(142, 224, 212, 0.12) !important;
+    --audio-player-seek-track: rgba(142, 224, 212, 0.18) !important;
+    --audio-player-seek-fill: #8ee0d4 !important;
+    --audio-player-seek-thumb: #8ee0d4 !important;
+}
+.surat-premium.surat-theme-dark .ayah-surface[data-v-637d02d8] {
+    background:
+        radial-gradient(circle at 94% 8%, rgba(214, 163, 74, 0.08), transparent 26%),
+        linear-gradient(180deg, rgba(19, 30, 27, 0.97), rgba(15, 24, 22, 0.95)) !important;
+    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.28) !important;
+}
+.surat-premium.surat-theme-dark .arabic-text[data-v-637d02d8] {
+    color: #f4fbf8 !important;
+}
+.surat-premium.surat-theme-dark .translation-row[data-v-637d02d8],
+.surat-premium.surat-theme-dark .transliteration-text--word-aligned[data-v-637d02d8] {
+    background: rgba(142, 224, 212, 0.08) !important;
+}
+.surat-premium.surat-theme-dark .translation-text[data-v-637d02d8],
+.surat-premium.surat-theme-dark .transliteration-text[data-v-637d02d8] {
+    color: #c7d9d3 !important;
+}
+@media (max-width: 767.98px) {
+.surat-premium .ayah-card[data-v-637d02d8],
+    .surat-premium .ayah-card-container[data-v-637d02d8],
+    .surat-premium .ayah-card-shell[data-v-637d02d8] {
+        padding-inline: 0.7rem !important;
+}
+.surat-premium .ayah-surface[data-v-637d02d8] {
+        border-radius: 22px !important;
+        padding: 1rem !important;
+}
+.surat-premium .ayah-arabic-inline-shell[data-v-637d02d8] {
+        grid-template-columns: 1fr !important;
+        gap: 0.75rem !important;
+}
+.surat-premium .ayah-arabic-audio-btn[data-v-637d02d8] {
+        justify-self: start !important;
+}
+.surat-premium .arabic-text[data-v-637d02d8] {
+        line-height: 2.15 !important;
+        text-align: right !important;
+}
+.surat-premium .transliteration-text--word-aligned[data-v-637d02d8] {
+        justify-content: flex-start !important;
+        border-radius: 18px !important;
+}
+.surat-premium .ayah-card-footer-main[data-v-637d02d8] {
+        justify-content: flex-start !important;
+        overflow-x: auto !important;
+        flex-wrap: nowrap !important;
+        padding-bottom: 0.2rem !important;
+}
+.audio-player-container[data-v-637d02d8] {
+        inset: auto 0 0 0 !important;
+        border-radius: 22px 22px 0 0 !important;
+        padding: 0.62rem 0.75rem calc(0.62rem + env(safe-area-inset-bottom)) !important;
+}
+.audio-player-icon-btn[data-v-637d02d8] {
+        width: 36px !important;
+        min-width: 36px !important;
+        height: 36px !important;
+}
+.audio-player-play-btn[data-v-637d02d8] {
+        width: 42px !important;
+        min-width: 42px !important;
+        height: 42px !important;
+}
+}
+
+/* Keep translation and transliteration as separate left-aligned reading blocks. */
+.surat-premium .translation-row[data-v-637d02d8] {
+    display: block !important;
+    width: 100% !important;
+}
+.surat-premium .translation-copy[data-v-637d02d8] {
+    display: block !important;
+    width: 100% !important;
+}
+.surat-premium .translation-inline-shell[data-v-637d02d8] {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) auto !important;
+    align-items: center !important;
+    gap: 1rem !important;
+    width: 100% !important;
+}
+.surat-premium .translation-text[data-v-637d02d8] {
+    display: block !important;
+    width: 100% !important;
+    max-width: none !important;
+    text-align: left !important;
+    margin: 0 !important;
+}
+.surat-premium .transliteration-header[data-v-637d02d8] {
+    margin-top: clamp(1rem, 1.7vw, 1.35rem) !important;
+}
+.surat-premium .transliteration-text[data-v-637d02d8],
+.surat-premium .transliteration-text--word-aligned[data-v-637d02d8] {
+    display: block !important;
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
+    text-align: left !important;
+    justify-content: flex-start !important;
+    border-radius: 20px !important;
+}
+.surat-premium .transliteration-text--word-aligned[data-v-637d02d8] {
+    padding: 0.82rem 1rem !important;
+}
+.surat-premium[data-v-637d02d8] .ayah-transliteration-word {
+    display: inline !important;
+    margin-right: 0.18rem !important;
+}
+
+/* Force separate full-width translation and transliteration blocks. */
+.surat-premium .translation-row[data-v-637d02d8],
+.surat-premium .translation-row.translation-row--with-audio[data-v-637d02d8],
+.surat-premium .translation-row.translation-row--collapsed[data-v-637d02d8] {
+    display: block !important;
+    width: 100% !important;
+    max-width: none !important;
+    padding: 0 !important;
+    background: transparent !important;
+    border-radius: 0 !important;
+}
+.surat-premium .translation-copy[data-v-637d02d8],
+.surat-premium .translation-copy.flex-grow-1[data-v-637d02d8] {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: clamp(1.05rem, 1.8vw, 1.45rem) !important;
+    width: 100% !important;
+    max-width: none !important;
+}
+.surat-premium .translation-inline-shell[data-v-637d02d8] {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) auto !important;
+    align-items: center !important;
+    gap: 1rem !important;
+    width: 100% !important;
+    max-width: none !important;
+    border-radius: 24px !important;
+    background: rgba(15, 118, 110, 0.035) !important;
+    padding: clamp(0.95rem, 1.6vw, 1.25rem) !important;
+}
+.surat-premium .translation-text[data-v-637d02d8],
+.surat-premium p.translation-text[data-v-637d02d8] {
+    width: 100% !important;
+    max-width: none !important;
+    text-align: left !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+}
+.surat-premium .transliteration-header[data-v-637d02d8] {
+    margin-top: 0 !important;
+}
+.surat-premium .transliteration-text[data-v-637d02d8],
+.surat-premium p.transliteration-text[data-v-637d02d8],
+.surat-premium .transliteration-text--word-aligned[data-v-637d02d8],
+.surat-premium p.transliteration-text--word-aligned[data-v-637d02d8] {
+    display: block !important;
+    width: 100% !important;
+    max-width: none !important;
+    text-align: left !important;
+    margin: 0 !important;
+    border: 0 !important;
+    border-radius: 24px !important;
+    background: rgba(15, 118, 110, 0.035) !important;
+    padding: clamp(0.95rem, 1.6vw, 1.25rem) !important;
+    line-height: 1.8 !important;
+}
+.surat-premium[data-v-637d02d8] .ayah-transliteration-word,
+.surat-premium .ayah-transliteration-word[data-v-637d02d8] {
+    display: inline !important;
+    margin: 0 0.18rem 0 0 !important;
+    padding: 0.01em 0.08em !important;
+}
+.surat-onboarding-shell[data-v-637d02d8],
+.surat-onboarding-trigger[data-v-637d02d8],
+.quran-toolbar-btn-onboarding[data-v-637d02d8],
+.memorisation-onboarding-overlay[data-v-637d02d8],
+.hifdh-onboarding-invite[data-v-637d02d8],
+.hifdh-onboarding-disclosure[data-v-637d02d8],
+.hifdh-onboarding-banner[data-v-637d02d8] {
+    display: none !important;
+}
+
+/* Tighten translation/transliteration: no inner panels, left aligned content. */
+.surat-premium .translation-row[data-v-637d02d8],
+.surat-premium .translation-row.translation-row--with-audio[data-v-637d02d8],
+.surat-premium .translation-row.translation-row--collapsed[data-v-637d02d8],
+.surat-premium .translation-copy[data-v-637d02d8],
+.surat-premium .translation-copy.flex-grow-1[data-v-637d02d8] {
+    background: transparent !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: 0 !important;
+    box-shadow: none !important;
+}
+.surat-premium .translation-inline-shell[data-v-637d02d8] {
+    background: transparent !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+}
+.surat-premium .translation-text[data-v-637d02d8],
+.surat-premium p.translation-text[data-v-637d02d8],
+.surat-premium .transliteration-text[data-v-637d02d8],
+.surat-premium p.transliteration-text[data-v-637d02d8],
+.surat-premium .transliteration-text--word-aligned[data-v-637d02d8],
+.surat-premium p.transliteration-text--word-aligned[data-v-637d02d8] {
+    background: transparent !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    width: 100% !important;
+    max-width: none !important;
+    text-align: left !important;
+}
+.surat-premium .transliteration-text[data-v-637d02d8],
+.surat-premium p.transliteration-text[data-v-637d02d8],
+.surat-premium .transliteration-text--word-aligned[data-v-637d02d8],
+.surat-premium p.transliteration-text--word-aligned[data-v-637d02d8] {
+    display: block !important;
+    justify-content: flex-start !important;
+    justify-items: start !important;
+    align-items: start !important;
+    margin-inline: 0 !important;
+    padding-inline-start: 0 !important;
+    padding-left: 0 !important;
+}
+.surat-premium .transliteration-header[data-v-637d02d8] {
+    margin-top: clamp(0.55rem, 1vw, 0.8rem) !important;
+}
+.surat-premium .translation-copy[data-v-637d02d8] {
+    gap: clamp(0.55rem, 1vw, 0.8rem) !important;
+}
+.surat-premium .ayah-card-copy[data-v-637d02d8] {
+    gap: clamp(0.75rem, 1.3vw, 1rem) !important;
+}
+.surat-premium[data-v-637d02d8] .ayah-transliteration-word,
+.surat-premium .ayah-transliteration-word[data-v-637d02d8] {
+    display: inline !important;
+    margin: 0 0.16rem 0 0 !important;
+    padding: 0 !important;
+}
+
+/* Final: keep translation/transliteration plain, compact and left aligned. */
+.surat-premium .ayah-card-body[data-v-637d02d8] {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+}
+.surat-premium .ayah-card-copy[data-v-637d02d8] {
+    gap: 0.5rem !important;
+    align-items: stretch !important;
+}
+.surat-premium .translation-row[data-v-637d02d8],
+.surat-premium .translation-row.translation-row--with-audio[data-v-637d02d8],
+.surat-premium .translation-row.translation-row--collapsed[data-v-637d02d8],
+.surat-premium .translation-copy[data-v-637d02d8],
+.surat-premium .translation-copy.flex-grow-1[data-v-637d02d8],
+.surat-premium .translation-inline-shell[data-v-637d02d8],
+.surat-premium .translation-text[data-v-637d02d8],
+.surat-premium p.translation-text[data-v-637d02d8],
+.surat-premium .transliteration-text[data-v-637d02d8],
+.surat-premium p.transliteration-text[data-v-637d02d8],
+.surat-premium .transliteration-text--word-aligned[data-v-637d02d8],
+.surat-premium p.transliteration-text--word-aligned[data-v-637d02d8] {
+    background: transparent !important;
+    background-color: transparent !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+.surat-premium .translation-row[data-v-637d02d8],
+.surat-premium .translation-copy[data-v-637d02d8],
+.surat-premium .translation-copy.flex-grow-1[data-v-637d02d8] {
+    width: 100% !important;
+    max-width: none !important;
+    gap: 0.35rem !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+}
+.surat-premium .translation-inline-shell[data-v-637d02d8] {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) auto !important;
+    align-items: center !important;
+    gap: 0.65rem !important;
+    width: 100% !important;
+    max-width: none !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+}
+.surat-premium .translation-header[data-v-637d02d8],
+.surat-premium .transliteration-header[data-v-637d02d8] {
+    display: block !important;
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    text-align: left !important;
+}
+.surat-premium .transliteration-header[data-v-637d02d8] {
+    margin-top: 0.4rem !important;
+}
+.surat-premium .translation-text[data-v-637d02d8],
+.surat-premium p.translation-text[data-v-637d02d8],
+.surat-premium .transliteration-text[data-v-637d02d8],
+.surat-premium p.transliteration-text[data-v-637d02d8],
+.surat-premium .transliteration-text--word-aligned[data-v-637d02d8],
+.surat-premium p.transliteration-text--word-aligned[data-v-637d02d8] {
+    display: block !important;
+    width: 100% !important;
+    max-width: none !important;
+    min-width: 0 !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    text-align: left !important;
+    justify-content: flex-start !important;
+    justify-items: start !important;
+    align-items: flex-start !important;
+}
+.surat-premium .transliteration-text[data-v-637d02d8],
+.surat-premium p.transliteration-text[data-v-637d02d8],
+.surat-premium .transliteration-text--word-aligned[data-v-637d02d8],
+.surat-premium p.transliteration-text--word-aligned[data-v-637d02d8] {
+    line-height: 1.65 !important;
+    letter-spacing: 0.015em !important;
+    white-space: normal !important;
+}
+.surat-premium[data-v-637d02d8] .ayah-transliteration-word,
+.surat-premium .ayah-transliteration-word[data-v-637d02d8] {
+    display: inline !important;
+    margin: 0 0.12rem 0 0 !important;
+    padding: 0 !important;
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+}
+.surat-premium .ayah-card-footer[data-v-637d02d8] {
+    margin-top: 0.7rem !important;
+    padding-top: 0.65rem !important;
+}
+
 
 .bookmark-manager[data-v-e5539dca] {
     padding: 1.5rem 1.25rem;
@@ -107849,11 +112145,11 @@ mark[data-search-highlight][data-v-44a8361a] {
   --shadow-xl: 0 28px 80px rgba(26, 71, 49, 0.18);
 }
 :root[data-theme="dark"] .discover-islam {
-  --forest: #eefdf5;
-  --green-deep: #bbf7d0;
-  --green-mid: #86efac;
-  --green: #4ade80;
-  --green-med: #34d399;
+  --forest: #123326;
+  --green-deep: #174934;
+  --green-mid: #2fce8d;
+  --green: #34d399;
+  --green-med: #4ade80;
   --green-light: #a7f3d0;
   --green-pale: rgba(74, 222, 128, 0.32);
   --green-mist: #1d332b;
@@ -107982,9 +112278,7 @@ mark[data-search-highlight][data-v-44a8361a] {
   color: #991b1b;
 }
 .tool-pill--report {
-  border-color: rgba(245, 158, 11, 0.30);
-  background: rgba(245, 158, 11, 0.12);
-  color: #854d0e;
+  display: none !important;
 }
 .tool-pill--ai {
   border-color: rgba(85, 185, 138, 0.38);
@@ -108025,10 +112319,6 @@ mark[data-search-highlight][data-v-44a8361a] {
   background: rgba(239, 68, 68, 0.16);
   color: rgba(255, 255, 255, 0.92);
 }
-:root[data-theme="dark"] .tool-pill--report {
-  background: rgba(245, 158, 11, 0.16);
-  color: rgba(255, 255, 255, 0.92);
-}
 :root[data-theme="dark"] .tool-pill--ai {
   background: rgba(99, 209, 161, 0.18);
   color: rgba(255, 255, 255, 0.92);
@@ -108057,6 +112347,22 @@ mark[data-search-highlight][data-v-44a8361a] {
   color: var(--text-main);
   box-shadow: none;
 }
+:root[data-theme="dark"] .di-disclaimer {
+  background: #2d3034;
+  border-left-color: var(--green-med);
+}
+:root[data-theme="dark"] .twin-card-header,
+:root[data-theme="dark"] .card-faith .twin-card-header,
+:root[data-theme="dark"] .card-pillars .twin-card-header,
+:root[data-theme="dark"] .card-dos .twin-card-header,
+:root[data-theme="dark"] .twin-card-header:not(.card-faith .twin-card-header):not(.card-pillars .twin-card-header):not(.card-dos .twin-card-header):not(.card-donts .twin-card-header) {
+  background: linear-gradient(135deg, #173c2c 0%, #206040 100%);
+}
+:root[data-theme="dark"] .twin-card-header h3,
+:root[data-theme="dark"] .twin-card-header h3 em {
+  color: #f4fff8;
+  opacity: 1;
+}
 :root[data-theme="dark"] .names-title {
   background: var(--white);
   border-color: var(--border-soft);
@@ -108072,7 +112378,7 @@ mark[data-search-highlight][data-v-44a8361a] {
 :root[data-theme="dark"] .faq-q-text,
 :root[data-theme="dark"] .ai-summary-title,
 :root[data-theme="dark"] .di-disclaimer strong {
-  color: var(--forest);
+  color: #f4fff8;
 }
 :root[data-theme="dark"] .section-lead,
 :root[data-theme="dark"] .body-copy,
@@ -108111,8 +112417,7 @@ mark[data-search-highlight][data-v-44a8361a] {
   background: var(--surface-3);
 }
 :root[data-theme="dark"] .tool-pill--report {
-  background: rgba(245, 158, 11, 0.18);
-  color: rgba(255, 255, 255, 0.92);
+  display: none !important;
 }
 .ai-summary-inline {
   border: 1px solid var(--border-soft);
@@ -108635,7 +112940,10 @@ to {
    SECTIONS
    ────────────────────────────── */
 .di-section {
-  margin-bottom: 7rem;
+  margin-bottom: 3rem;
+  padding-top: 2.5rem;
+  padding-bottom: 2.5rem;
+  scroll-margin-top: calc(var(--navbar-h, 72px) + 1rem);
   opacity: 0;
   transform: translateY(40px);
   transition: opacity 0.75s cubic-bezier(.22, .68, 0, 1.15), transform 0.75s cubic-bezier(.22, .68, 0, 1.15);
@@ -108787,13 +113095,16 @@ to {
 .ref-pill {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 0.5rem;
   background: var(--green-frost);
   border: 1px solid var(--border-soft);
   border-radius: 30px;
-  padding: 15px;
+  padding: 0.85rem 1.25rem;
   font-size: 0.74rem;
   color: var(--text-muted);
+  line-height: 1.35;
+  text-align: center;
 }
 .ref-pill.centered {
   display: flex;
@@ -108801,6 +113112,14 @@ to {
   margin: 1.75rem auto 0;
   width: -moz-fit-content;
   width: fit-content;
+}
+.twin-card > .ref-pill {
+  display: flex;
+  width: -moz-fit-content;
+  width: fit-content;
+  min-width: min(100% - 3.2rem, 260px);
+  margin: 1rem auto 1.4rem;
+  padding: 0.85rem 1.25rem;
 }
 /* ── Photo duo ── */
 .photo-duo {

@@ -42,7 +42,10 @@ mix.options({
 mix.webpackConfig({
     target: 'web',
     output: {
-        chunkFormat: 'array-push'
+        chunkFormat: 'array-push',
+        // Dynamic Vue chunks were emitted as stable filenames, so browsers could
+        // keep serving an old /surat component even after app.css/js changed.
+        chunkFilename: 'js/[name].[contenthash].js'
     },
     resolve: {
         alias: {
