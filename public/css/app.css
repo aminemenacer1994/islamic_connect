@@ -77390,11 +77390,7 @@ to {
     --surat-surface-2: #f4fbf8;
     --surat-shadow-lg: 0 28px 60px rgba(10, 36, 32, 0.12);
     --surat-shadow-md: 0 14px 34px rgba(10, 36, 32, 0.12);
-    background:
-        radial-gradient(1200px 420px at 50% -10%, rgba(15, 118, 110, 0.12), transparent 62%),
-        radial-gradient(880px 260px at 0% 0%, rgba(214, 170, 86, 0.14), transparent 68%),
-        linear-gradient(180deg, #fdfdfb 0%, #f6fbf8 55%, #f2f8f6 100%);
-}
+    }
 
 /* Subtle page tint when Memorisation Tools mode is active. */
 .surat-premium.memorisation-offcanvas-open[data-v-637d02d8],
