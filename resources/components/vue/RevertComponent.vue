@@ -71,7 +71,7 @@
       <div class="row g-3">
 
         <!-- SIDEBAR (chapter progress + roadmap navigation) -->
-        <aside class="col-12 col-md-3 mobile-nav-frame">
+        <aside class="col-12 col-sm-3 col-md-3 mobile-nav-frame">
           <div
             class="navigation-card p-3 shadow-sm rounded-4"
             :class="{ 'mobile-open': mobileNavOpen }"
@@ -143,7 +143,7 @@
         </aside>
 
         <!-- MAIN CONTENT AREA (lesson overview + resources) -->
-        <section class="col-12 col-md-9 lesson-pane">
+        <section class="col-12 col-sm-9 col-md-9 lesson-pane">
           <div class="mobile-chapter-select d-lg-none">
             <label class="form-label small text-muted fw-semibold" for="mobile-chapter-picker">
               Choose a chapter
@@ -189,6 +189,12 @@
                 </span>
                 <div>
                   <h3 class="fw-bold mb-0">Focus of This Lesson</h3>
+                  <div class="section-explainer section-explainer--compact">
+                    <span><strong>What:</strong> The chapter’s main idea.</span>
+                    <span><strong>Purpose:</strong> Give you a soft starting point.</span>
+                    <span><strong>Aim:</strong> Know what to focus on first.</span>
+                    <span><strong>Result:</strong> You read with calm direction.</span>
+                  </div>
                 </div>
               </div>
               <div class="section-control-stack ms-auto">
@@ -243,6 +249,12 @@
                 </span>
                 <div class="d-flex flex-column">
                   <h3 class="fw-bold mb-0">Learning Paths</h3>
+                  <div class="section-explainer section-explainer--compact">
+                    <span><strong>What:</strong> The full chapter broken into steps.</span>
+                    <span><strong>Purpose:</strong> Make the topic easier to absorb.</span>
+                    <span><strong>Aim:</strong> Move from basics to confidence.</span>
+                    <span><strong>Result:</strong> You leave with practical understanding.</span>
+                  </div>
                   <div v-if="learningPathsMeta.wordCount" class="section-header-meta">
                     <span class="section-meta-pill">{{ learningPathsMeta.wordCount }} words</span>
                     <span class="section-meta-pill">{{ learningPathsMeta.readTime }} min read</span>
@@ -449,6 +461,12 @@
                   <div class="guided-pathway-heading-text flex-grow-1 min-width-0">
                     <p class="text-teal small mb-1 fw-bold">Guided Pathway</p>
                     <h3 class="mb-0 fs-4 fw-bold">Short clips to carry the lesson forward</h3>
+                    <div class="section-explainer section-explainer--compact">
+                      <span><strong>What:</strong> Carefully selected video support.</span>
+                      <span><strong>Purpose:</strong> Add warmth and real examples.</span>
+                      <span><strong>Aim:</strong> Reinforce the chapter visually.</span>
+                      <span><strong>Result:</strong> The lesson feels easier to remember.</span>
+                    </div>
                   </div>
                 </div>
                 <div class="section-font-controls guided-pathway-controls" role="group" aria-label="Guided pathway font size">
@@ -493,6 +511,12 @@
                 <div>
                   <h2 class="fw-bold mb-0 fs-5">Pathway Clips</h2>
                   <p class="text-muted small mb-0">Short visual cues to keep each insight gripping.</p>
+                  <div class="section-explainer section-explainer--compact">
+                    <span><strong>What:</strong> Quick clips for this chapter.</span>
+                    <span><strong>Purpose:</strong> Keep learning light.</span>
+                    <span><strong>Aim:</strong> Review without overwhelm.</span>
+                    <span><strong>Result:</strong> Key points stick faster.</span>
+                  </div>
                 </div>
               </div>
               <div v-show="isCardVisible('pathwayClips')" class="card-body px-3">
@@ -549,6 +573,12 @@
                   <p class="text-muted mb-0 medium">
                     Share this lesson’s insights, dua reminders, and revert-story clips so a friend can walk through the same content.
                   </p>
+                  <div class="section-explainer">
+                    <span><strong>What:</strong> A gentle way to pass the lesson on.</span>
+                    <span><strong>Purpose:</strong> Turn learning into benefit for others.</span>
+                    <span><strong>Aim:</strong> Make sharing simple and respectful.</span>
+                    <span><strong>Result:</strong> Someone else can begin from the same place.</span>
+                  </div>
                 </div>
               </div>
               <div class="section-control-stack ms-auto">
@@ -823,6 +853,12 @@
                 <div class="d-flex flex-column">
                   <h3 class="fw-bold mb-1">Key Insights</h3>
                   <p class="text-muted small mb-0">Anchor the lesson with these quick takeaways.</p>
+                  <div class="section-explainer section-explainer--compact">
+                    <span><strong>What:</strong> The most important takeaways.</span>
+                    <span><strong>Purpose:</strong> Help you revise quickly.</span>
+                    <span><strong>Aim:</strong> Keep the heart of the lesson clear.</span>
+                    <span><strong>Result:</strong> You remember what matters most.</span>
+                  </div>
                   <div v-if="keyInsightsMeta.wordCount" class="section-header-meta">
                     <span class="section-meta-pill">{{ keyInsightsMeta.wordCount }} words</span>
                     <span class="section-meta-pill">{{ keyInsightsMeta.readTime }} min read</span>
@@ -982,6 +1018,12 @@
                 <div>
                   <h3 class="fw-bold mb-1">{{ chapterTool.title }}</h3>
                   <p class="text-muted small mb-0">{{ chapterTool.description }}</p>
+                  <div class="section-explainer section-explainer--compact">
+                    <span><strong>What:</strong> An interactive helper for this chapter.</span>
+                    <span><strong>Purpose:</strong> Turn knowledge into action.</span>
+                    <span><strong>Aim:</strong> Practise the topic gently.</span>
+                    <span><strong>Result:</strong> You apply what you learned.</span>
+                  </div>
                 </div>
               </div>
               <div class="section-font-controls ms-auto" role="group" aria-label="Chapter tool font size">
@@ -1051,6 +1093,12 @@
                   <div>
                     <h3 class="fw-bold mb-1">Commonly Asked Questions</h3>
                     <p class="text-muted small mb-0">Short answers for this chapter.</p>
+                    <div class="section-explainer section-explainer--compact">
+                      <span><strong>What:</strong> Questions people often ask.</span>
+                      <span><strong>Purpose:</strong> Clear doubts without pressure.</span>
+                      <span><strong>Aim:</strong> Give simple answers in context.</span>
+                      <span><strong>Result:</strong> You move forward with more clarity.</span>
+                    </div>
                     <div v-if="commonQuestionsMeta.wordCount" class="section-header-meta">
                       <span class="section-meta-pill">{{ commonQuestionsMeta.wordCount }} words</span>
                       <span class="section-meta-pill">{{ commonQuestionsMeta.readTime }} min read</span>
@@ -1089,7 +1137,7 @@
                   
                 </div>
               </div>
-            <div v-show="isCardVisible('commonQuestions')">
+            <div v-show="isCardVisible('commonQuestions')" class="common-questions-body">
               <div class="accordion-stack">
                 <div v-for="(panel, index) in visibleCommonPanels" :key="panel.id" class="accordion-item-card">
                   <button type="button"

@@ -12,6 +12,12 @@
         <div>
           <h3 class="fw-bold mb-1">Chapter Quiz</h3>
           <p class="text-muted small mb-0">Attempt the curated quiz to move to the next chapter.</p>
+          <div class="section-explainer section-explainer--compact">
+            <span><strong>What:</strong> A short check of understanding.</span>
+            <span><strong>Purpose:</strong> Help you notice what is clear.</span>
+            <span><strong>Aim:</strong> Build confidence before continuing.</span>
+            <span><strong>Result:</strong> You unlock the next step with certainty.</span>
+          </div>
         </div>
       </div>
       <div class="section-control-stack ms-auto">

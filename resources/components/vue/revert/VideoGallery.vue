@@ -12,6 +12,12 @@
         <div>
           <h3 class="fw-bold mb-1">Revert Stories</h3>
           <p class="text-muted small mb-0">Short journeys from our community, handpicked for this chapter.</p>
+          <div class="section-explainer section-explainer--compact">
+            <span><strong>What:</strong> Real conversion stories.</span>
+            <span><strong>Purpose:</strong> Bring human warmth to the lesson.</span>
+            <span><strong>Aim:</strong> Show that questions and growth are normal.</span>
+            <span><strong>Result:</strong> You feel less alone on the path.</span>
+          </div>
         </div>
       </div>
       <div class="section-control-stack ms-auto">

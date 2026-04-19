@@ -12,6 +12,12 @@
         <div>
           <h3 class="fw-bold mb-0">Foundational References</h3>
           <p class="resources-header-subtitle mb-0">Only the essentials for quick review.</p>
+          <div class="section-explainer section-explainer--compact">
+            <span><strong>What:</strong> Core proofs and trusted references.</span>
+            <span><strong>Purpose:</strong> Keep the chapter grounded.</span>
+            <span><strong>Aim:</strong> Make review easy after reading.</span>
+            <span><strong>Result:</strong> You know where each point comes from.</span>
+          </div>
         </div>
       </div>
       <div class="section-control-stack ms-auto">
