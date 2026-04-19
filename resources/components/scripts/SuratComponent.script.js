@@ -1374,6 +1374,8 @@ export default {
             sessionHistoryHeatmapWindowDays: 84,
             sessionHistoryPageHideHandler: null,
             suppressSessionHistorySelectionTracking: false,
+            shouldCloseMemorisationOffcanvasOnPlaybackStart: false,
+            shouldSaveMemorisationSessionOnPlaybackStart: false,
             isMemorisationChainingAutomationActive: false,
             memorisationChainingRoundIndex: 0,
             memorisationChainingStageIndex: 0,
@@ -12427,6 +12429,9 @@ export default {
             if (!this.isMemorisationToolbarVisible) {
                 this.isMemorisationToolbarVisible = true;
             }
+            this.shouldCloseMemorisationOffcanvasOnPlaybackStart = true;
+            this.shouldSaveMemorisationSessionOnPlaybackStart =
+                !!this.memorisationSessionHistoryEnabled;
             this.isMemorisationMode = true;
             this.onMemorisationToolbarRangeChange();
             const startAyah = Math.max(1, Number(this.memorisationRangeStart || 1));
@@ -12453,6 +12458,10 @@ export default {
             this.isMemorisationDraftSubmitting = true;
             try {
                 const draft = this.normaliseMemorisationDraftValues();
+                const shouldAutoSaveSession = !!this.canSaveMemorisationSession;
+                if (shouldAutoSaveSession) {
+                    this.memorisationDraft.sessionHistoryEnabled = true;
+                }
                 const applied = await this.applyMemorisationSessionConfig(
                     {
                         ...draft,
@@ -12463,6 +12472,7 @@ export default {
                         rangeEnd: this.memorisationRangeEnd,
                         blurNextAyah: this.isBlurNextAyahEnabled,
                         sessionHistoryEnabled:
+                            shouldAutoSaveSession ||
                             !!this.memorisationDraft.sessionHistoryEnabled,
                     },
                     {
@@ -15150,6 +15160,23 @@ export default {
             }
             this.scheduleSessionHistoryInactivityTimeout();
             return tracker;
+        },
+        persistActiveSessionHistoryCheckpoint(reason = "started") {
+            const tracker = this.sessionHistoryActiveTracker;
+            if (!tracker) return null;
+            const entry = this.buildSessionHistoryEntryFromTracker(tracker, reason);
+            if (!entry) return null;
+            const nextEntries = [
+                entry,
+                ...(Array.isArray(this.sessionHistoryEntries)
+                    ? this.sessionHistoryEntries.filter(
+                          (item) => String(item?.id || "") !== String(entry.id || "")
+                      )
+                    : []),
+            ];
+            this.setSessionHistoryEntries(nextEntries);
+            this.persistSessionHistory();
+            return entry;
         },
         scheduleSessionHistoryInactivityTimeout() {
             this.clearSessionHistoryInactivityTimeout();
@@ -27174,6 +27201,54 @@ export default {
             const meta = await this.getTajweedRuleAudioMeta(rule);
             return meta?.audioUrl || "";
         },
+        describeAudioElementError(audio, event = null, sourceUrl = "", index = 0) {
+            const mediaError = audio?.error || null;
+            const errorLabels = {
+                1: "Playback aborted",
+                2: "Network error while loading audio",
+                3: "Audio decoding failed",
+                4: "Audio source is not supported or unavailable",
+            };
+            return {
+                ayah: Number(index) + 1,
+                code: mediaError?.code || null,
+                reason:
+                    errorLabels[mediaError?.code] ||
+                    mediaError?.message ||
+                    event?.type ||
+                    "Unknown audio error",
+                message: mediaError?.message || "",
+                src: sourceUrl || audio?.currentSrc || audio?.src || "",
+                networkState: audio?.networkState,
+                readyState: audio?.readyState,
+                reciter: this.selectedReciter || "",
+            };
+        },
+        async resolveFallbackAyahAudioUrl(ayah = {}, index = 0) {
+            const recitationId = this.getQuranRecitationId(this.selectedReciter);
+            const surahNumber = Number(
+                this.selectedSurah || this.surahDetails?.surahNumber || 0
+            );
+            const ayahNumber = Number(
+                ayah?.numberInSurah || ayah?.number || Number(index) + 1
+            );
+            if (!recitationId || !surahNumber || !ayahNumber) return "";
+            const verseKey = `${surahNumber}:${ayahNumber}`;
+            try {
+                const { data } = await this.cachedFetchJSON(
+                    `https://api.quran.com/api/v4/verses/by_key/${encodeURIComponent(verseKey)}?audio=${encodeURIComponent(recitationId)}`,
+                    `cache:quran-audio-fallback:${verseKey}:${recitationId}`,
+                    24 * 60 * 60 * 1000
+                );
+                const relativeUrl = data?.verse?.audio?.url || "";
+                if (!relativeUrl) return "";
+                if (/^https?:\/\//i.test(relativeUrl)) return relativeUrl;
+                return `https://audio.qurancdn.com/${String(relativeUrl).replace(/^\/+/, "")}`;
+            } catch (error) {
+                console.warn("Unable to resolve fallback ayah audio:", error);
+                return "";
+            }
+        },
         async toggleTajweedRuleAudio(rule) {
             if (!rule?.id) return;
             if (this.tajweedPlayingRuleId === rule.id && this.tajweedRuleExampleAudio) {
@@ -27345,8 +27420,52 @@ export default {
                 this.audioElements[index] = audio;
             }
             audio.onended = () => this.handleAyahEnd(index);
-            audio.onerror = (e) => {
-                console.error(`Audio error for ayah ${index + 1}:`, e);
+            const audioSourceUrl = normalizeAudioUrl(ayah?.audio);
+            audio.onerror = async (e) => {
+                const errorDetails = this.describeAudioElementError(
+                    audio,
+                    e,
+                    audioSourceUrl,
+                    index
+                );
+                console.error(
+                    `Audio error for ayah ${index + 1}:`,
+                    errorDetails,
+                    e
+                );
+                const failedAttemptToken = audio.__suratPlayAttemptToken;
+                if (!audio.__suratFallbackAttempted) {
+                    audio.__suratFallbackAttempted = true;
+                    const fallbackUrl = normalizeAudioUrl(
+                        await this.resolveFallbackAyahAudioUrl(ayah, index)
+                    );
+                    if (
+                        fallbackUrl &&
+                        fallbackUrl !== audioSourceUrl &&
+                        failedAttemptToken === audio.__suratPlayAttemptToken &&
+                        this.currentlyPlaying === audio &&
+                        Number(this.currentlyPlayingIndex) === Number(index)
+                    ) {
+                        try {
+                            audio.src = fallbackUrl;
+                            audio.load();
+                            const fallbackPlay = audio.play();
+                            if (
+                                fallbackPlay &&
+                                typeof fallbackPlay.then === "function"
+                            ) {
+                                await fallbackPlay;
+                            }
+                            markPlaying();
+                            return;
+                        } catch (fallbackError) {
+                            console.warn(
+                                `Fallback audio failed for ayah ${index + 1}:`,
+                                fallbackError
+                            );
+                        }
+                    }
+                }
                 clearTimeout(this.loadingTimers[index]);
                 this.isAudioLoading[index] = false;
                 this.isAudioPlaying[index] = false;
@@ -27358,7 +27477,6 @@ export default {
                     `Failed to load audio for ayah ${index + 1}`
                 );
             };
-            const audioSourceUrl = normalizeAudioUrl(ayah?.audio);
             if (!audioSourceUrl) {
                 clearTimeout(this.loadingTimers[index]);
                 this.isAudioLoading[index] = false;
@@ -27375,6 +27493,7 @@ export default {
                 } catch (_) { }
                 audio.src = audioSourceUrl;
             }
+            audio.__suratFallbackAttempted = false;
             audio.playbackRate = Number(this.playbackSpeed) || 1;
             audio.volume = this.volume;
 
@@ -27466,6 +27585,26 @@ export default {
 	                if (!this.isMemorisationToolbarVisible && !this.isPerformanceModeEnabled) {
 	                    this.animateVisualizer();
 	                }
+                if (this.isMemorisationToolbarVisible) {
+                    const ayahNumber = Number(
+                        ayah?.numberInSurah || ayah?.number || index + 1
+                    );
+                    const tracker = this.refreshSessionHistoryTracker({
+                        activitySource: "audio-playing",
+                        ayahNumber,
+                    });
+                    if (
+                        tracker &&
+                        this.shouldSaveMemorisationSessionOnPlaybackStart
+                    ) {
+                        this.persistActiveSessionHistoryCheckpoint("started");
+                        this.shouldSaveMemorisationSessionOnPlaybackStart = false;
+                    }
+                    if (this.shouldCloseMemorisationOffcanvasOnPlaybackStart) {
+                        this.closeMemorisationOffcanvas();
+                        this.shouldCloseMemorisationOffcanvasOnPlaybackStart = false;
+                    }
+                }
                 // Opportunistically warm next ayah
                 this.prepareNextAudio(index + 1);
             };

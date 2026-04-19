@@ -1271,7 +1271,7 @@
                     <span class="memorisation-panel-eyebrow">Quran practice</span>
                     <h4 class="offcanvas-title" id="memorisationOffcanvasLabel">Practice Tools</h4>
                     <p class="memorisation-panel-subtitle mb-0">
-                        {{ isMemorisationAdvancedMode ? 'More controls for your session.' : 'Simple setup to start practising.' }}
+                        {{ isMemorisationAdvancedMode ? 'Fine-tune repetition, recall, audio, and review behaviour from one compact panel.' : 'Simple setup to start practising.' }}
                     </p>
                 </div>
                 <button
@@ -1590,7 +1590,13 @@
                         </button>
                         <button
                             type="button"
-                            class="btn memorisation-tools-action-btn"
+                            class="btn memorisation-tools-action-btn memorisation-tools-action-btn--reset"
+                            @click="resetMemorisationDraftForm">
+                            Reset
+                        </button>
+                        <button
+                            type="button"
+                            class="btn memorisation-tools-action-btn memorisation-tools-action-btn--cancel"
                             @click="cancelMemorisationOffcanvas">
                             Cancel
                         </button>
@@ -1603,7 +1609,7 @@
                         <div class="memorisation-tools-card-head">
 	                            <div class="memorisation-tools-card-title">
 	                                <h5 class="mb-0"><i class="bi bi-sliders2 me-1" aria-hidden="true"></i>Session Setup</h5>
-		                                <p class="mb-0">Choose what to practise first. Every advanced tool uses this surah, reciter, and ayah range.</p>
+		                                <p class="mb-0">Set the exact practice target, then tune the repetition, recall, and review tools around it.</p>
 	                            </div>
                                 <button
                                     type="button"
@@ -2096,7 +2102,13 @@
                         </button>
                         <button
                             type="button"
-                            class="btn memorisation-tools-action-btn"
+                            class="btn memorisation-tools-action-btn memorisation-tools-action-btn--reset"
+                            @click="resetMemorisationDraftForm">
+                            Reset
+                        </button>
+                        <button
+                            type="button"
+                            class="btn memorisation-tools-action-btn memorisation-tools-action-btn--cancel"
                             @click="cancelMemorisationOffcanvas">
                             Cancel
                         </button>

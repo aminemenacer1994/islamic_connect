@@ -47982,7 +47982,6 @@ h1.display-5 {
     font-size: 0.88rem !important;
 }
 
-.sidebar-tabs .tab-btn:nth-child(2),
 .sidebar-ayah-jump,
 .sidebar-info-button {
     display: none !important;
@@ -50011,13 +50010,26 @@ h1.display-5 {
     margin-left: 0 !important;
 }
 
+.surat-premium .translation-header {
+    margin-bottom: 0.42rem !important;
+}
+
+.surat-premium .transliteration-header {
+    margin-top: 1.05rem !important;
+    margin-bottom: 0.42rem !important;
+}
+
 .surat-premium .ayah-card-copy-label {
     display: inline-block !important;
     max-width: 100% !important;
-    line-height: 1.2 !important;
+    line-height: 1.15 !important;
     overflow: visible !important;
     overflow-wrap: normal !important;
     word-break: normal !important;
+    color: rgba(49, 74, 68, 0.78) !important;
+    font-size: 0.82rem !important;
+    font-weight: 850 !important;
+    letter-spacing: 0.16em !important;
 }
 
 .surat-premium .translation-text,
@@ -50043,6 +50055,10 @@ h1.display-5 {
     hyphens: auto !important;
     text-align: left !important;
     box-sizing: border-box !important;
+    color: rgba(44, 66, 61, 0.92) !important;
+    font-weight: 500 !important;
+    letter-spacing: 0.01em !important;
+    line-height: 1.72 !important;
 }
 
 .surat-premium .translation-text *,
@@ -50058,7 +50074,22 @@ h1.display-5 {
 .surat-premium p.transliteration-text,
 .surat-premium .transliteration-text--word-aligned,
 .surat-premium p.transliteration-text--word-aligned {
-    line-height: 1.72 !important;
+    color: rgba(44, 66, 61, 0.88) !important;
+    line-height: 1.74 !important;
+    letter-spacing: 0.015em !important;
+}
+
+.surat-premium.surat-theme-dark .ayah-card-copy-label {
+    color: #c7d9d3 !important;
+}
+
+.surat-premium.surat-theme-dark .translation-text,
+.surat-premium.surat-theme-dark p.translation-text,
+.surat-premium.surat-theme-dark .transliteration-text,
+.surat-premium.surat-theme-dark p.transliteration-text,
+.surat-premium.surat-theme-dark .transliteration-text--word-aligned,
+.surat-premium.surat-theme-dark p.transliteration-text--word-aligned {
+    color: #e6f4ef !important;
 }
 
 @media (max-width: 575.98px) {
@@ -51264,4 +51295,108 @@ h1.display-5 {
 .memorisation-offcanvas-v3 .memorisation-beginner-actions .memorisation-tools-action-btn {
     min-height: 42px !important;
     border-radius: 8px !important;
+}
+
+/* Final offcanvas integration: page-matched background, non-sticky header, three-action row. */
+.surat-premium .memorisation-offcanvas-v3 {
+    background:
+        radial-gradient(320px 220px at 8% 8%, rgba(15, 118, 110, 0.16), transparent 65%),
+        radial-gradient(320px 220px at 92% 0%, rgba(15, 110, 99, 0.15), transparent 68%),
+        linear-gradient(180deg, #fffdf7 0%, #f7fbf7 55%, #f0f6f4 100%) !important;
+    box-shadow: none !important;
+}
+
+.surat-premium.surat-theme-dark .memorisation-offcanvas-v3,
+.memorisation-offcanvas-v3.surat-dark-modal {
+    background:
+        radial-gradient(circle at top left, rgba(129, 255, 220, 0.16), transparent 28%),
+        radial-gradient(circle at bottom right, rgba(129, 255, 220, 0.08), transparent 24%),
+        linear-gradient(180deg, #08203d 0%, #05162b 100%) !important;
+    box-shadow: none !important;
+}
+
+.memorisation-offcanvas-v3 .memorisation-panel-header,
+.memorisation-offcanvas-v3.offcanvas .offcanvas-header,
+.memorisation-offcanvas-v3 .offcanvas-header {
+    position: static !important;
+    top: auto !important;
+    z-index: auto !important;
+}
+
+.memorisation-offcanvas-v3 .memorisation-beginner-actions {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) auto auto !important;
+    align-items: center !important;
+}
+
+.memorisation-offcanvas-v3 .memorisation-beginner-actions .memorisation-tools-action-btn--reset,
+.memorisation-offcanvas-v3 .memorisation-beginner-actions .memorisation-tools-action-btn--cancel {
+    min-width: 76px !important;
+    padding-inline: 0.92rem !important;
+}
+
+.memorisation-offcanvas-v3 .memorisation-beginner-actions .memorisation-tools-action-btn--cancel {
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
+/* Final ayah reader width: remove the older card cap in the normal reader. */
+.surat-premium:not(.memorisation-sidebar-open):not(.memorisation-offcanvas-open) .row[role="list"] {
+    width: 100% !important;
+    max-width: none !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+.surat-premium:not(.memorisation-sidebar-open):not(.memorisation-offcanvas-open) .row[role="list"] > .ayah-card.ayah-card-container,
+.surat-premium:not(.memorisation-sidebar-open):not(.memorisation-offcanvas-open) .ayah-card,
+.surat-premium:not(.memorisation-sidebar-open):not(.memorisation-offcanvas-open) .ayah-card-container,
+.surat-premium:not(.memorisation-sidebar-open):not(.memorisation-offcanvas-open) .ayah-card-shell {
+    width: 100% !important;
+    max-width: none !important;
+    flex: 0 0 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}
+
+.surat-premium:not(.memorisation-sidebar-open):not(.memorisation-offcanvas-open) .ayah-card,
+.surat-premium:not(.memorisation-sidebar-open):not(.memorisation-offcanvas-open) .ayah-card-container,
+.surat-premium:not(.memorisation-sidebar-open):not(.memorisation-offcanvas-open) .ayah-card-shell {
+    padding-left: clamp(0.5rem, 1vw, 1rem) !important;
+    padding-right: clamp(0.5rem, 1vw, 1rem) !important;
+}
+
+.surat-premium:not(.memorisation-sidebar-open):not(.memorisation-offcanvas-open) .ayah-surface {
+    width: 100% !important;
+    max-width: none !important;
+}
+
+/* Final copy spacing: separate labels from body text clearly. */
+.surat-premium .translation-header {
+    margin-bottom: 0.72rem !important;
+}
+
+.surat-premium .translation-inline-shell {
+    margin-top: 0 !important;
+}
+
+.surat-premium .translation-text,
+.surat-premium p.translation-text {
+    margin-top: 0 !important;
+    margin-bottom: 1.05rem !important;
+}
+
+.surat-premium .transliteration-header {
+    margin-top: 0.2rem !important;
+    margin-bottom: 0.72rem !important;
+}
+
+.surat-premium .transliteration-text,
+.surat-premium p.transliteration-text,
+.surat-premium .transliteration-text--word-aligned,
+.surat-premium p.transliteration-text--word-aligned {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
 }
