@@ -209,26 +209,10 @@
           "title": "Handling Disagreements Calmly",
           "content": "The Prophet ﷺ never raised his voice in anger in his household. Seeking silence when heated, making wudu, and changing physical position (sitting if standing) are all prophetic remedies for anger. (Source: IslamQA.info)",
           "steps": [
-            {
-              "order": 1,
-              "title": "Pause",
-              "content": "Don't respond immediately when angry"
-            },
-            {
-              "order": 2,
-              "title": "Make wudu",
-              "content": "To cool down physically and spiritually"
-            },
-            {
-              "order": 3,
-              "title": "Return to conversation",
-              "content": "After emotions settle"
-            },
-            {
-              "order": 4,
-              "title": "Use 'I feel...' statements",
-              "content": "Not blame or accusation"
-            }
+            { "order": 1, "title": "Pause", "content": "Don't respond immediately when angry" },
+            { "order": 2, "title": "Make wudu", "content": "To cool down physically and spiritually" },
+            { "order": 3, "title": "Return to conversation", "content": "After emotions settle" },
+            { "order": 4, "title": "Use 'I feel...' statements", "content": "Not blame or accusation" }
           ],
           "propheticGuidance": {
             "source": "IslamQA.info",
@@ -265,22 +249,10 @@
           "title": "When Parents Don't Understand You",
           "content": "This is one of the most common struggles for Western Muslim youth. Your parents may have grown up in a completely different world. Their resistance often comes from love and fear, not malice.",
           "empathyPoints": [
-            {
-              "icon": "💚",
-              "content": "Try to understand their fears first"
-            },
-            {
-              "icon": "💚",
-              "content": "Find common ground in Islamic values"
-            },
-            {
-              "icon": "💚",
-              "content": "Involve a trusted imam or elder if needed"
-            },
-            {
-              "icon": "💚",
-              "content": "Be patient — understanding takes time"
-            }
+            { "icon": "💚", "content": "Try to understand their fears first" },
+            { "icon": "💚", "content": "Find common ground in Islamic values" },
+            { "icon": "💚", "content": "Involve a trusted imam or elder if needed" },
+            { "icon": "💚", "content": "Be patient — understanding takes time" }
           ]
         }
       ],
@@ -289,26 +261,10 @@
         "title": "🛠️ Conflict Phrase Generator",
         "description": "Select a situation and get an Islamically framed response:",
         "options": [
-          {
-            "value": "curfew",
-            "label": "Parents set an early curfew",
-            "response": "\"Baba/Mama, I understand your concern about my safety. Can we discuss a curfew that works for both of us? I want you to feel comfortable while also being able to participate in normal activities.\""
-          },
-          {
-            "value": "career",
-            "label": "Parents push a specific career",
-            "response": "\"I hear your vision for me, and I respect it. Can I show you some research about the path I'm passionate about? I want to find something we both feel good about.\""
-          },
-          {
-            "value": "friends",
-            "label": "Parents disapprove of your friends",
-            "response": "\"I understand you have concerns. Would you be willing to meet my friends so you can see who they actually are? I value your opinion and want you to have all the information.\""
-          },
-          {
-            "value": "marriage",
-            "label": "Parents want to rush marriage",
-            "response": "\"I know this is sensitive. Can we sit down and talk about what qualities you'd want in my future spouse? I want your blessing and your guidance in this process.\""
-          }
+          { "value": "curfew", "label": "Parents set an early curfew", "response": "\"Baba/Mama, I understand your concern about my safety. Can we discuss a curfew that works for both of us? I want you to feel comfortable while also being able to participate in normal activities.\"" },
+          { "value": "career", "label": "Parents push a specific career", "response": "\"I hear your vision for me, and I respect it. Can I show you some research about the path I'm passionate about? I want to find something we both feel good about.\"" },
+          { "value": "friends", "label": "Parents disapprove of your friends", "response": "\"I understand you have concerns. Would you be willing to meet my friends so you can see who they actually are? I value your opinion and want you to have all the information.\"" },
+          { "value": "marriage", "label": "Parents want to rush marriage", "response": "\"I know this is sensitive. Can we sit down and talk about what qualities you'd want in my future spouse? I want your blessing and your guidance in this process.\"" }
         ]
       },
       "sources": [
@@ -350,26 +306,15 @@
           "type": "content-card",
           "title": "\"My parents say it's haram but is it?\"",
           "content": "Many things labelled 'haram' by parents are actually cultural preferences, not Islamic rulings. Always verify with a qualified scholar. Trusted resources: IslamQA.info, SeekersGuidance.org, Islamweb.net.",
-          "warning": {
-            "icon": "⚠️",
-            "content": "Note: Don't use 'it's not haram' to justify genuinely forbidden things. Check with sincerity."
-          }
+          "warning": { "icon": "⚠️", "content": "Note: Don't use 'it's not haram' to justify genuinely forbidden things. Check with sincerity." }
         },
         {
           "id": "ch3-s3",
           "type": "content-card",
           "title": "Breaking Toxic Cultural Norms Respectfully",
           "dosDonts": {
-            "dos": [
-              "Use Islamic evidence calmly",
-              "Involve respected community figures",
-              "Make gradual, respectful change"
-            ],
-            "donts": [
-              "Publicly embarrass parents",
-              "Use Western norms as argument",
-              "Make it a power struggle"
-            ]
+            "dos": ["Use Islamic evidence calmly", "Involve respected community figures", "Make gradual, respectful change"],
+            "donts": ["Publicly embarrass parents", "Use Western norms as argument", "Make it a power struggle"]
           }
         },
         {
@@ -399,41 +344,11 @@
         "title": "🛠️ Culture Check: Is It Islam or Culture?",
         "description": "Select a situation to see its Islamic ruling:",
         "checks": [
-          {
-            "label": "Marrying only from same country/tribe",
-            "type": "Culture",
-            "detail": "Islam permits marriage to any suitable Muslim regardless of ethnicity or origin. Tribal exclusivity has no Islamic basis.",
-            "source": "Islamweb.net — discrimination in marriage",
-            "sourceUrl": "https://islamweb.net"
-          },
-          {
-            "label": "Hijab for girls only, no modesty standard for boys",
-            "type": "Culture",
-            "detail": "Islam commands modesty (ghadd al-basar) for both men and women. The double standard is cultural, not Islamic.",
-            "source": "IslamQA.info — modesty in Islam",
-            "sourceUrl": "https://islamqa.info"
-          },
-          {
-            "label": "Women cannot work outside the home",
-            "type": "Mixed",
-            "detail": "Islam permits women to work in halal environments. Khadijah (RA) was a businesswoman. Cultural restrictions vary but are not universal Islamic rulings.",
-            "source": "SeekersGuidance.org",
-            "sourceUrl": "https://seekersguidance.org"
-          },
-          {
-            "label": "Praying 5 times a day",
-            "type": "Islam",
-            "detail": "This is a clear Islamic obligation (fard) — not culture. The five daily prayers are one of the five pillars of Islam.",
-            "source": "Quran.com — Surah Al-Baqarah 2:43",
-            "sourceUrl": "https://quran.com/2/43"
-          },
-          {
-            "label": "Not allowed to have any friends of opposite gender",
-            "type": "Mixed",
-            "detail": "Islam prohibits khalwa (seclusion) and illicit relationships. However, professional/academic interaction with modesty and boundaries is generally permitted.",
-            "source": "IslamQA.info — mixed interaction",
-            "sourceUrl": "https://islamqa.info"
-          }
+          { "label": "Marrying only from same country/tribe", "type": "Culture", "detail": "Islam permits marriage to any suitable Muslim regardless of ethnicity or origin. Tribal exclusivity has no Islamic basis.", "source": "Islamweb.net — discrimination in marriage", "sourceUrl": "https://islamweb.net" },
+          { "label": "Hijab for girls only, no modesty standard for boys", "type": "Culture", "detail": "Islam commands modesty (ghadd al-basar) for both men and women. The double standard is cultural, not Islamic.", "source": "IslamQA.info — modesty in Islam", "sourceUrl": "https://islamqa.info" },
+          { "label": "Women cannot work outside the home", "type": "Mixed", "detail": "Islam permits women to work in halal environments. Khadijah (RA) was a businesswoman. Cultural restrictions vary but are not universal Islamic rulings.", "source": "SeekersGuidance.org", "sourceUrl": "https://seekersguidance.org" },
+          { "label": "Praying 5 times a day", "type": "Islam", "detail": "This is a clear Islamic obligation (fard) — not culture. The five daily prayers are one of the five pillars of Islam.", "source": "Quran.com — Surah Al-Baqarah 2:43", "sourceUrl": "https://quran.com/2/43" },
+          { "label": "Not allowed to have any friends of opposite gender", "type": "Mixed", "detail": "Islam prohibits khalwa (seclusion) and illicit relationships. However, professional/academic interaction with modesty and boundaries is generally permitted.", "source": "IslamQA.info — mixed interaction", "sourceUrl": "https://islamqa.info" }
         ]
       },
       "sources": [
@@ -467,26 +382,11 @@
           "type": "content-card",
           "title": "Dealing with Strict Parents",
           "steps": [
-            {
-              "order": 1,
-              "content": "Understand strictness often comes from fear"
-            },
-            {
-              "order": 2,
-              "content": "Build trust with small consistent actions"
-            },
-            {
-              "order": 3,
-              "content": "Show responsibility before asking for freedom"
-            },
-            {
-              "order": 4,
-              "content": "Request mediation from a trusted person"
-            },
-            {
-              "order": 5,
-              "content": "Make dua — hearts are in Allah's hands"
-            }
+            { "order": 1, "content": "Understand strictness often comes from fear" },
+            { "order": 2, "content": "Build trust with small consistent actions" },
+            { "order": 3, "content": "Show responsibility before asking for freedom" },
+            { "order": 4, "content": "Request mediation from a trusted person" },
+            { "order": 5, "content": "Make dua — hearts are in Allah's hands" }
           ]
         },
         {
@@ -505,11 +405,7 @@
           "type": "content-card",
           "title": "Feeling Controlled or Misunderstood",
           "content": "Feeling suffocated is a real and valid experience. Islam acknowledges that oppressive treatment even from parents does not nullify your dignity. Seek counsel from a scholar or counsellor if you feel trapped.",
-          "microTip": {
-            "icon": "💡",
-            "title": "Micro Tip",
-            "content": "Say one sentence that de-escalates: \"I respect you, and I just need you to hear me.\""
-          }
+          "microTip": { "icon": "💡", "title": "Micro Tip", "content": "Say one sentence that de-escalates: \"I respect you, and I just need you to hear me.\"" }
         }
       ],
       "interactiveTool": {
@@ -517,13 +413,8 @@
         "title": "🛠️ Anger Level Check-In",
         "description": "Before responding to your parents, check your anger level:",
         "scale": {
-          "min": 1,
-          "max": 10,
-          "labels": {
-            "low": "Calm",
-            "medium": "Moderate",
-            "high": "Very Angry"
-          },
+          "min": 1, "max": 10,
+          "labels": { "low": "Calm", "medium": "Moderate", "high": "Very Angry" },
           "advice": {
             "1-3": "✅ Good level — you can have a productive conversation now.",
             "4-6": "⚠️ Moderate — take 5 deep breaths before responding.",
@@ -548,10 +439,7 @@
           "type": "content-card",
           "title": "Feeling Unloved or Unappreciated",
           "content": "Many Muslim parents express love through provision and protection, not verbal affirmation — a cultural and generational pattern. This doesn't mean they don't love you. However, your emotional need for acknowledgment is valid in Islam too.",
-          "reminder": {
-            "icon": "💚",
-            "content": "Allah knows what is in the hearts — seek His acknowledgment first."
-          }
+          "reminder": { "icon": "💚", "content": "Allah knows what is in the hearts — seek His acknowledgment first." }
         },
         {
           "id": "ch5-s2",
@@ -572,32 +460,17 @@
           "type": "content-card",
           "title": "Comparison with Siblings/Others",
           "content": "The Prophet ﷺ warned against partiality among children. Comparison is often used as 'motivation' but can cause lasting harm. Know your own worth — in Islam, you are valued for your taqwa, not your grades or status.",
-          "tip": {
-            "icon": "💡",
-            "content": "Remind yourself: \"My worth is with Allah, not in comparison to anyone else.\""
-          }
+          "tip": { "icon": "💡", "content": "Remind yourself: \"My worth is with Allah, not in comparison to anyone else.\"" }
         },
         {
           "id": "ch5-s4",
           "type": "content-card",
           "title": "Healing Parent-Child Relationships",
           "steps": [
-            {
-              "order": 1,
-              "content": "Forgive — for your own sake, not only theirs"
-            },
-            {
-              "order": 2,
-              "content": "Start small: a smile, a cup of tea"
-            },
-            {
-              "order": 3,
-              "content": "Dua — sincerely ask Allah to mend hearts"
-            },
-            {
-              "order": 4,
-              "content": "Seek family counselling if needed"
-            }
+            { "order": 1, "content": "Forgive — for your own sake, not only theirs" },
+            { "order": 2, "content": "Start small: a smile, a cup of tea" },
+            { "order": 3, "content": "Dua — sincerely ask Allah to mend hearts" },
+            { "order": 4, "content": "Seek family counselling if needed" }
           ]
         }
       ],
@@ -664,26 +537,15 @@
             "authenticity": "Hasan",
             "application": "This principle protects individuals from all forms of oppression, including within families"
           },
-          "warning": {
-            "icon": "⚠️",
-            "content": "If you are experiencing abuse, seek help from a trusted imam, counsellor, or community organisation."
-          }
+          "warning": { "icon": "⚠️", "content": "If you are experiencing abuse, seek help from a trusted imam, counsellor, or community organisation." }
         },
         {
           "id": "ch6-s4",
           "type": "content-card",
           "title": "Respect vs Self-Respect Balance",
           "dosDonts": {
-            "respectful": [
-              "Disagreeing calmly",
-              "Expressing your limits kindly",
-              "Asking for space politely"
-            ],
-            "disrespectful": [
-              "Yelling or slamming doors",
-              "Posting family issues publicly",
-              "Complete silent treatment"
-            ]
+            "respectful": ["Disagreeing calmly", "Expressing your limits kindly", "Asking for space politely"],
+            "disrespectful": ["Yelling or slamming doors", "Posting family issues publicly", "Complete silent treatment"]
           }
         }
       ],
@@ -711,10 +573,7 @@
           "type": "content-card",
           "title": "The Double Identity",
           "content": "Many Western Muslim youth feel torn between two worlds: the home (with cultural/Islamic expectations) and outside (with peer and societal pressure). This 'double life' feeling is common and does not make you a bad Muslim.",
-          "reminder": {
-            "icon": "🌟",
-            "content": "Your identity as a Muslim is not threatened by living in the West — it is tested and strengthened."
-          }
+          "reminder": { "icon": "🌟", "content": "Your identity as a Muslim is not threatened by living in the West — it is tested and strengthened." }
         },
         {
           "id": "ch7-s2",
@@ -754,10 +613,7 @@
           "type": "content-card",
           "title": "\"You're Too Western\" or \"Too Strict\"",
           "content": "Being labelled either way shows you exist at an intersection. This is not a flaw — Islam is for all times and places. The key is grounding yourself in Islamic principles while being able to navigate any environment.",
-          "affirmation": {
-            "icon": "💡",
-            "content": "\"I am Muslim first — that doesn't change based on geography.\""
-          }
+          "affirmation": { "icon": "💡", "content": "\"I am Muslim first — that doesn't change based on geography.\"" }
         }
       ],
       "sources": [
@@ -798,16 +654,8 @@
             "lesson": "Excellence in any halal profession is an act of worship"
           },
           "dosDonts": {
-            "dos": [
-              "Research Islamic perspectives on your field",
-              "Show your parents success stories",
-              "Make istikhara before big decisions"
-            ],
-            "donts": [
-              "Choose a haram field to prove a point",
-              "Give up without trying to explain",
-              "Neglect parental input entirely"
-            ]
+            "dos": ["Research Islamic perspectives on your field", "Show your parents success stories", "Make istikhara before big decisions"],
+            "donts": ["Choose a haram field to prove a point", "Give up without trying to explain", "Neglect parental input entirely"]
           }
         },
         {
@@ -816,22 +664,10 @@
           "title": "Moving Out for Study/Work",
           "content": "Moving out for legitimate educational or professional reasons is permissible and has precedent in Islamic history. However, maintaining ties with parents — regular calls, visits, financial support if able — is obligatory.",
           "steps": [
-            {
-              "order": 1,
-              "content": "Have an honest family discussion"
-            },
-            {
-              "order": 2,
-              "content": "Reassure them of continued contact"
-            },
-            {
-              "order": 3,
-              "content": "Commit to regular check-ins"
-            },
-            {
-              "order": 4,
-              "content": "Maintain halal living arrangements"
-            }
+            { "order": 1, "content": "Have an honest family discussion" },
+            { "order": 2, "content": "Reassure them of continued contact" },
+            { "order": 3, "content": "Commit to regular check-ins" },
+            { "order": 4, "content": "Maintain halal living arrangements" }
           ]
         },
         {
@@ -839,11 +675,7 @@
           "type": "content-card",
           "title": "Istikhara — Seeking Allah's Guidance",
           "content": "For any major life decision, perform Salah al-Istikhara and make sincere dua. This is not about receiving a dream — it is about submitting the decision to Allah and then moving forward with tawakkul (reliance on Allah).",
-          "reminder": {
-            "icon": "🤲",
-            "content": "Istikhara Guide: Sunnah.com — Search 'Salat al-Istikhara'",
-            "sourceUrl": "https://sunnah.com"
-          }
+          "reminder": { "icon": "🤲", "content": "Istikhara Guide: Sunnah.com — Search 'Salat al-Istikhara'", "sourceUrl": "https://sunnah.com" }
         }
       ],
       "sources": [
@@ -891,10 +723,7 @@
           "type": "content-card",
           "title": "Love vs Arranged Marriage",
           "content": "Islam does not prohibit a person from expressing interest in marriage to someone — it prohibits unlawful relationships (khalwa, zina). Approaching a potential match through proper channels with the wali's involvement is halal and encouraged.",
-          "tip": {
-            "icon": "💡",
-            "content": "There is no 'arranged' vs 'love' dichotomy in Islam — there is only the halal process, which can include your input."
-          }
+          "tip": { "icon": "💡", "content": "There is no 'arranged' vs 'love' dichotomy in Islam — there is only the halal process, which can include your input." }
         },
         {
           "id": "ch9-s4",
@@ -905,16 +734,8 @@
             "content": "\"Baba/Mama, I've met someone I believe would be a good spouse based on their deen and character. I'd like to discuss this with you and follow the proper process.\""
           },
           "dosDonts": {
-            "dos": [
-              "Be transparent early",
-              "Involve a trusted elder",
-              "Follow Islamic steps"
-            ],
-            "donts": [
-              "Hide a relationship",
-              "Meet in private (khalwa)",
-              "Issue ultimatums"
-            ]
+            "dos": ["Be transparent early", "Involve a trusted elder", "Follow Islamic steps"],
+            "donts": ["Hide a relationship", "Meet in private (khalwa)", "Issue ultimatums"]
           }
         },
         {
@@ -980,27 +801,15 @@
           "type": "content-card",
           "title": "When Parents Are Less Practising",
           "content": "This is a test — not an excuse to be arrogant. The Prophet ﷺ's approach was always gentleness, example, and sincere love. You cannot force hidaya (guidance) — only Allah guides hearts.",
-          "reminder": {
-            "icon": "💡",
-            "content": "Your job is to be an example, not a preacher in your own home."
-          }
+          "reminder": { "icon": "💡", "content": "Your job is to be an example, not a preacher in your own home." }
         },
         {
           "id": "ch10-s2",
           "type": "content-card",
           "title": "When You Become More Practising Than Them",
           "dosDonts": {
-            "dos": [
-              "Lead by action and character",
-              "Make dua for their guidance",
-              "Share knowledge gently if asked",
-              "Maintain respect regardless"
-            ],
-            "donts": [
-              "Lecture them at every opportunity",
-              "Look down on their level",
-              "Use religion as a weapon in arguments"
-            ]
+            "dos": ["Lead by action and character", "Make dua for their guidance", "Share knowledge gently if asked", "Maintain respect regardless"],
+            "donts": ["Lecture them at every opportunity", "Look down on their level", "Use religion as a weapon in arguments"]
           }
         },
         {
@@ -1008,26 +817,11 @@
           "type": "content-card",
           "title": "Family Religious Habits to Build",
           "steps": [
-            {
-              "order": 1,
-              "content": "Pray together when possible"
-            },
-            {
-              "order": 2,
-              "content": "Read Quran aloud at home"
-            },
-            {
-              "order": 3,
-              "content": "Share beneficial content casually"
-            },
-            {
-              "order": 4,
-              "content": "Celebrate Islamic occasions as a family"
-            },
-            {
-              "order": 5,
-              "content": "Make morning/evening adhkar a family habit"
-            }
+            { "order": 1, "content": "Pray together when possible" },
+            { "order": 2, "content": "Read Quran aloud at home" },
+            { "order": 3, "content": "Share beneficial content casually" },
+            { "order": 4, "content": "Celebrate Islamic occasions as a family" },
+            { "order": 5, "content": "Make morning/evening adhkar a family habit" }
           ]
         },
         {
@@ -1114,10 +908,7 @@
             "sourceUrl": "https://sunnah.com/bukhari:5986",
             "lesson": "Honouring parents and maintaining family ties brings barakah (blessing) in life and provision"
           },
-          "reminder": {
-            "icon": "🌟",
-            "content": "Barakah (blessing) is unlocked through parental du'a for you."
-          }
+          "reminder": { "icon": "🌟", "content": "Barakah (blessing) is unlocked through parental du'a for you." }
         }
       ],
       "sources": [
@@ -1156,26 +947,12 @@
           "type": "content-card",
           "title": "When to Seek Help",
           "steps": [
-            {
-              "order": 1,
-              "content": "Speak to a trusted imam privately"
-            },
-            {
-              "order": 2,
-              "content": "Contact a Muslim counselling service"
-            },
-            {
-              "order": 3,
-              "content": "Reach out to a trustworthy adult outside the home"
-            },
-            {
-              "order": 4,
-              "content": "If in danger — contact services or authorities"
-            }
+            { "order": 1, "content": "Speak to a trusted imam privately" },
+            { "order": 2, "content": "Contact a Muslim counselling service" },
+            { "order": 3, "content": "Reach out to a trustworthy adult outside the home" },
+            { "order": 4, "content": "If in danger — contact services or authorities" }
           ],
-          "resources": {
-            "note": "Many Muslim communities have confidential support services. Search for 'Muslim counselling [your city]' or contact national Islamic organisations for referrals."
-          }
+          "resources": { "note": "Many Muslim communities have confidential support services. Search for 'Muslim counselling [your city]' or contact national Islamic organisations for referrals." }
         },
         {
           "id": "ch12-s3",
@@ -1185,11 +962,7 @@
           "scholarlyConsensus": {
             "principle": "La ta'ata li-makhluq fi ma'siyat al-Khaliq",
             "translation": "There is no obedience to a created being in disobedience to the Creator",
-            "sources": [
-              "IslamQA.info",
-              "Islamweb.net",
-              "SeekersGuidance.org"
-            ]
+            "sources": ["IslamQA.info", "Islamweb.net", "SeekersGuidance.org"]
           }
         },
         {
@@ -1197,10 +970,7 @@
           "type": "content-card",
           "title": "Emotional Neglect",
           "content": "Emotional neglect is a real harm. Islam's emphasis on rahma (mercy) in families means that a parent who consistently neglects a child's emotional wellbeing is falling short of their Islamic duty. Seek support — this is not ingratitude.",
-          "warning": {
-            "icon": "⚠️",
-            "content": "Your wellbeing matters. Getting help is an act of self-care, not betrayal."
-          }
+          "warning": { "icon": "⚠️", "content": "Your wellbeing matters. Getting help is an act of self-care, not betrayal." }
         }
       ],
       "sources": [
@@ -1221,26 +991,11 @@
           "type": "content-card",
           "title": "Small Actions with Big Impact",
           "empathyActions": [
-            {
-              "icon": "☕",
-              "content": "Bring them tea/coffee without being asked"
-            },
-            {
-              "icon": "📞",
-              "content": "Call when you're away — just to check in"
-            },
-            {
-              "icon": "🙏",
-              "content": "Ask for their du'a before exams/big events"
-            },
-            {
-              "icon": "🛒",
-              "content": "Offer to help with errands"
-            },
-            {
-              "icon": "💬",
-              "content": "Sit with them in the evening"
-            }
+            { "icon": "☕", "content": "Bring them tea/coffee without being asked" },
+            { "icon": "📞", "content": "Call when you're away — just to check in" },
+            { "icon": "🙏", "content": "Ask for their du'a before exams/big events" },
+            { "icon": "🛒", "content": "Offer to help with errands" },
+            { "icon": "💬", "content": "Sit with them in the evening" }
           ]
         },
         {
@@ -1266,22 +1021,10 @@
           "type": "content-card",
           "title": "Rebuilding Trust",
           "steps": [
-            {
-              "order": 1,
-              "content": "Be consistent — say what you do, do what you say"
-            },
-            {
-              "order": 2,
-              "content": "Apologise genuinely when you're wrong"
-            },
-            {
-              "order": 3,
-              "content": "Show improvement — don't just talk about it"
-            },
-            {
-              "order": 4,
-              "content": "Give it time — trust takes time to rebuild"
-            }
+            { "order": 1, "content": "Be consistent — say what you do, do what you say" },
+            { "order": 2, "content": "Apologise genuinely when you're wrong" },
+            { "order": 3, "content": "Show improvement — don't just talk about it" },
+            { "order": 4, "content": "Give it time — trust takes time to rebuild" }
           ]
         },
         {
@@ -1316,73 +1059,23 @@
       "title": "Quick Advice / Micro Content",
       "order": 14,
       "microTips": [
-        {
-          "id": "tip-1",
-          "icon": "😤",
-          "title": "When Your Parents Are Angry",
-          "content": "Go quiet. Don't respond immediately. Let them finish. Then calmly say: \"I hear you, can we talk about this when things are calm?\""
-        },
-        {
-          "id": "tip-2",
-          "icon": "🔥",
-          "title": "1 Sentence That De-escalates",
-          "content": "\"I don't want to argue — I want us to understand each other.\" This works almost every time."
-        },
-        {
-          "id": "tip-3",
-          "icon": "🚫",
-          "title": "Never Say This",
-          "content": "\"You don't understand anything.\" — This shuts down any chance of real communication instantly."
-        },
-        {
-          "id": "tip-4",
-          "icon": "✨",
-          "title": "3 Ways to Earn Barakah at Home",
-          "content": "1. Smile first. 2. Do something helpful unprompted. 3. Make du'a for them by name."
-        },
-        {
-          "id": "tip-5",
-          "icon": "📵",
-          "title": "Phone-Free Family Time",
-          "content": "Put your phone away during family meals/gatherings. This single act can transform your relationship."
-        },
-        {
-          "id": "tip-6",
-          "icon": "🤲",
-          "title": "Morning Du'a for Peace at Home",
-          "content": "Start each day with du'a for Allah to put love and harmony in your home."
-        }
+        { "id": "tip-1", "icon": "😤", "title": "When Your Parents Are Angry", "content": "Go quiet. Don't respond immediately. Let them finish. Then calmly say: \"I hear you, can we talk about this when things are calm?\"" },
+        { "id": "tip-2", "icon": "🔥", "title": "1 Sentence That De-escalates", "content": "\"I don't want to argue — I want us to understand each other.\" This works almost every time." },
+        { "id": "tip-3", "icon": "🚫", "title": "Never Say This", "content": "\"You don't understand anything.\" — This shuts down any chance of real communication instantly." },
+        { "id": "tip-4", "icon": "✨", "title": "3 Ways to Earn Barakah at Home", "content": "1. Smile first. 2. Do something helpful unprompted. 3. Make du'a for them by name." },
+        { "id": "tip-5", "icon": "📵", "title": "Phone-Free Family Time", "content": "Put your phone away during family meals/gatherings. This single act can transform your relationship." },
+        { "id": "tip-6", "icon": "🤲", "title": "Morning Du'a for Peace at Home", "content": "Start each day with du'a for Allah to put love and harmony in your home." }
       ],
       "interactiveTool": {
         "id": "habit-tracker",
         "title": "🛠️ Daily Habit Tracker",
         "description": "Track your daily relationship-building habits:",
         "habits": [
-          {
-            "id": "habit-1",
-            "label": "Made du'a for parents after Salah",
-            "reward": "+Barakah ✓"
-          },
-          {
-            "id": "habit-2",
-            "label": "Said something kind to a family member",
-            "reward": "+Barakah ✓"
-          },
-          {
-            "id": "habit-3",
-            "label": "Helped without being asked",
-            "reward": "+Barakah ✓"
-          },
-          {
-            "id": "habit-4",
-            "label": "Controlled my temper in a difficult moment",
-            "reward": "+Barakah ✓"
-          },
-          {
-            "id": "habit-5",
-            "label": "Made istighfar for family conflicts",
-            "reward": "+Barakah ✓"
-          }
+          { "id": "habit-1", "label": "Made du'a for parents after Salah", "reward": "+Barakah ✓" },
+          { "id": "habit-2", "label": "Said something kind to a family member", "reward": "+Barakah ✓" },
+          { "id": "habit-3", "label": "Helped without being asked", "reward": "+Barakah ✓" },
+          { "id": "habit-4", "label": "Controlled my temper in a difficult moment", "reward": "+Barakah ✓" },
+          { "id": "habit-5", "label": "Made istighfar for family conflicts", "reward": "+Barakah ✓" }
         ],
         "completionMessage": "🌟 SubhanAllah! Full day of goodness!"
       }
@@ -1528,78 +1221,14 @@
   ],
   "resources": {
     "apps": [
-      {
-        "id": "quran-com",
-        "icon": "📖",
-        "name": "Quran.com",
-        "description": "Read and search the Quran in Arabic with translations and tafsir.",
-        "type": "Website & App",
-        "url": "https://quran.com",
-        "features": ["Multiple translations", "Tafsir", "Audio recitation", "Bookmarking"]
-      },
-      {
-        "id": "sunnah-com",
-        "icon": "📚",
-        "name": "Sunnah.com",
-        "description": "Browse authenticated hadiths from the major collections.",
-        "type": "Website",
-        "url": "https://sunnah.com",
-        "features": ["Bukhari", "Muslim", "Abu Dawud", "Tirmidhi", "Search functionality"]
-      },
-      {
-        "id": "seekersguidance",
-        "icon": "🎓",
-        "name": "SeekersGuidance.org",
-        "description": "Free online Islamic courses and Q&A with verified scholars.",
-        "type": "Website & Courses",
-        "url": "https://seekersguidance.org",
-        "features": ["Free courses", "Scholarly Q&A", "Western Muslim focus", "Certification"]
-      },
-      {
-        "id": "islamqa",
-        "icon": "❓",
-        "name": "IslamQA.info",
-        "description": "Thousands of verified Q&As from Sh. Muhammad al-Munajjid.",
-        "type": "Q&A Website",
-        "url": "https://islamqa.info",
-        "features": ["Fatwa database", "Search by topic", "Scholarly review", "Multiple languages"]
-      },
-      {
-        "id": "islamweb",
-        "icon": "💬",
-        "name": "Islamweb.net",
-        "description": "Fatwa centre, prayer times, and Islamic resources.",
-        "type": "Website",
-        "url": "https://islamweb.net",
-        "features": ["Fatwa centre", "Prayer times", "Family resources", "Youth section"]
-      },
-      {
-        "id": "muslim-pro",
-        "icon": "📿",
-        "name": "Muslim Pro",
-        "description": "Prayer times, Quran, dhikr counter, and qibla direction.",
-        "type": "Mobile App",
-        "url": "https://muslimpro.com",
-        "features": ["Prayer times", "Qibla compass", "Quran audio", "Hijri calendar"]
-      },
-      {
-        "id": "athan-app",
-        "icon": "🌙",
-        "name": "Athan App",
-        "description": "Adhan alerts, Quran, and daily Islamic reminders.",
-        "type": "Mobile App",
-        "url": "https://athan.app",
-        "features": ["Adhan notifications", "Quran recitation", "Daily reminders", "Prayer tracking"]
-      },
-      {
-        "id": "yaqeen-podcast",
-        "icon": "🎙️",
-        "name": "Yaqeen Institute Podcast",
-        "description": "Research-based Islamic content for Western Muslim youth.",
-        "type": "Podcast",
-        "url": "https://yaqeeninstitute.org/podcast",
-        "features": ["Research-based", "Youth-focused", "Western context", "Expert interviews"]
-      }
+      { "id": "quran-com", "icon": "📖", "name": "Quran.com", "description": "Read and search the Quran in Arabic with translations and tafsir.", "type": "Website & App", "url": "https://quran.com", "features": ["Multiple translations", "Tafsir", "Audio recitation", "Bookmarking"] },
+      { "id": "sunnah-com", "icon": "📚", "name": "Sunnah.com", "description": "Browse authenticated hadiths from the major collections.", "type": "Website", "url": "https://sunnah.com", "features": ["Bukhari", "Muslim", "Abu Dawud", "Tirmidhi", "Search functionality"] },
+      { "id": "seekersguidance", "icon": "🎓", "name": "SeekersGuidance.org", "description": "Free online Islamic courses and Q&A with verified scholars.", "type": "Website & Courses", "url": "https://seekersguidance.org", "features": ["Free courses", "Scholarly Q&A", "Western Muslim focus", "Certification"] },
+      { "id": "islamqa", "icon": "❓", "name": "IslamQA.info", "description": "Thousands of verified Q&As from Sh. Muhammad al-Munajjid.", "type": "Q&A Website", "url": "https://islamqa.info", "features": ["Fatwa database", "Search by topic", "Scholarly review", "Multiple languages"] },
+      { "id": "islamweb", "icon": "💬", "name": "Islamweb.net", "description": "Fatwa centre, prayer times, and Islamic resources.", "type": "Website", "url": "https://islamweb.net", "features": ["Fatwa centre", "Prayer times", "Family resources", "Youth section"] },
+      { "id": "muslim-pro", "icon": "📿", "name": "Muslim Pro", "description": "Prayer times, Quran, dhikr counter, and qibla direction.", "type": "Mobile App", "url": "https://muslimpro.com", "features": ["Prayer times", "Qibla compass", "Quran audio", "Hijri calendar"] },
+      { "id": "athan-app", "icon": "🌙", "name": "Athan App", "description": "Adhan alerts, Quran, and daily Islamic reminders.", "type": "Mobile App", "url": "https://athan.app", "features": ["Adhan notifications", "Quran recitation", "Daily reminders", "Prayer tracking"] },
+      { "id": "yaqeen-podcast", "icon": "🎙️", "name": "Yaqeen Institute Podcast", "description": "Research-based Islamic content for Western Muslim youth.", "type": "Podcast", "url": "https://yaqeeninstitute.org/podcast", "features": ["Research-based", "Youth-focused", "Western context", "Expert interviews"] }
     ]
   },
   "accessibility": {

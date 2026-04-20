@@ -1,22 +1,19 @@
 <template>
   <div id="islamic-connect-app">
 
-    <!-- DISCLAIMER BANNER -->
-    <div class="disclaimer-banner">
-      <div class="container">
-        <strong>Disclaimer:</strong> All content in this guide is sourced from verified Islamic scholarship via IslamQA.info, Islamweb.net, Sunnah.com, Quran.com, and SeekersGuidance.org. Content is educational and does not replace qualified scholarly advice. Always consult a qualified Islamic scholar for personal matters. Sources are cited throughout to avoid plagiarism.
-      </div>
-    </div>
+    
 
     <!-- HERO SECTION -->
     <section class="hero-section">
       <div class="hero-overlay"></div>
       <div class="container hero-content">
         <div class="hero-badge">Islamic Connect</div>
-        <h1 class="hero-title">A Youth Guide to <span class="hero-highlight">Parenting in Islam</span></h1>
-        <p class="hero-sub">Real talk. Real struggles. Real Islamic guidance — for Muslim youth navigating family life in the West.</p>
+        <h1 class="hero-title text-white">A Youth Guide to <span class="hero-highlight">Parenting in Islam</span></h1>
+        <p class="hero-sub">Real talk. Real struggles. Real Islamic guidance — for Muslim youth navigating family life
+          in the West.</p>
         <div class="hero-search-wrap">
-          <input v-model="searchQuery" type="text" class="hero-search" placeholder="Search topics... e.g. 'strict parents', 'marriage', 'boundaries'" />
+          <input v-model="searchQuery" type="text" class="hero-search"
+            placeholder="Search topics... e.g. 'strict parents', 'marriage', 'boundaries'" />
           <button class="hero-search-btn" v-on:click="doSearch">Search</button>
         </div>
         <div v-if="searchResults.length > 0" class="search-results-dropdown">
@@ -37,14 +34,27 @@
     <!-- NAVIGATION TABS -->
     <nav class="chapter-nav sticky-nav">
       <div class="container nav-inner">
-        <button v-for="ch in chapters" class="nav-tab" :class="{ active: activeChapter === ch.id }" v-on:click="activeChapter = ch.id; scrollToChapter(ch.id)">
+        <button v-for="ch in chapters" class="nav-tab" :class="{ active: activeChapter === ch.id }"
+          v-on:click="activeChapter = ch.id; scrollToChapter(ch.id)">
           {{ ch.icon }} <span class="nav-label">{{ ch.shortTitle }}</span>
         </button>
       </div>
     </nav>
+    
+    
 
     <!-- MAIN CONTENT -->
     <div class="container main-content">
+
+    <!-- DISCLAIMER BANNER -->
+    <div class="disclaimer-banner pt-3">
+      <div class="container">
+        <strong>Disclaimer:</strong> All content in this guide is sourced from verified Islamic scholarship via
+        IslamQA.info, Islamweb.net, Sunnah.com, Quran.com, and SeekersGuidance.org. Content is educational and does not
+        replace qualified scholarly advice. Always consult a qualified Islamic scholar for personal matters. Sources are
+        cited throughout to avoid plagiarism.
+      </div>
+    </div>
 
       <!-- QUICK STATS BAR -->
       <div class="stats-bar">
@@ -79,19 +89,34 @@
         <div class="content-grid">
           <div class="content-card">
             <h3>Rights of Parents</h3>
-            <p>Allah commands honouring parents immediately after Tawheed (monotheism) — placing this duty second only to worshipping Him alone. This is mentioned in Surah Al-Isra (17:23): <em>"Your Lord has decreed that you worship none but Him, and that you be kind to parents."</em></p>
+            <p>Allah commands honouring parents immediately after Tawheed (monotheism) — placing this duty second only
+              to worshipping Him alone. This is mentioned in Surah Al-Isra (17:23): <em>"Your Lord has decreed that you
+                worship none but Him, and that you be kind to parents."</em></p>
             <div class="quran-block">
-              <div class="quran-arabic">وَقَضَىٰ رَبُّكَ أَلَّا تَعْبُدُوا إِلَّا إِيَّاهُ وَبِالْوَالِدَيْنِ إِحْسَانًا</div>
+              <div class="quran-arabic">وَقَضَىٰ رَبُّكَ أَلَّا تَعْبُدُوا إِلَّا إِيَّاهُ وَبِالْوَالِدَيْنِ إِحْسَانًا
+              </div>
               <div class="quran-ref">Surah Al-Isra 17:23 | Source: Quran.com</div>
             </div>
             <div class="tip-box">
-              <strong>📌 Bite-Sized Reminder:</strong> The Prophet ﷺ was asked who deserves best companionship three times — each time he said "your mother," then "your father." (Sahih Bukhari 5971 | Source: Sunnah.com)
+              <strong>📌 Bite-Sized Reminder:</strong> The Prophet ﷺ was asked who deserves best companionship three
+              times — each time he said "your mother," then "your father." (Sahih Bukhari 5971 | Source: Sunnah.com)
+            </div>
+          </div>
+
+          <div class="content-card">
+            <h3>Intention (Niyyah) in Family Life</h3>
+            <p>Every act in your household — helping, speaking kindly, enduring difficulty — becomes an act of worship
+              if done with sincere intention for Allah's sake. The Prophet ﷺ said: <em>"Actions are by intentions."</em>
+              (Sahih Bukhari 1 | Source: Sunnah.com)</p>
+            <div class="reminder-pill">💡 Reframe difficult moments: "I'm doing this for Allah, not just for them."
             </div>
           </div>
 
           <div class="content-card">
             <h3>Obedience vs Boundaries</h3>
-            <p>Obedience to parents is obligatory <strong>except</strong> when they command disobedience to Allah. The Prophet ﷺ said: <em>"There is no obedience to creation in disobedience to the Creator."</em> (Ahmad | Source: Sunnah.com)</p>
+            <p>Obedience to parents is obligatory <strong>except</strong> when they command disobedience to Allah. The
+              Prophet ﷺ said: <em>"There is no obedience to creation in disobedience to the Creator."</em> (Ahmad |
+              Source: Sunnah.com)</p>
             <div class="dos-donts">
               <div class="dos">
                 <div class="dd-title">✅ Do</div>
@@ -116,22 +141,15 @@
 
           <div class="content-card full-width">
             <h3>Mercy, Respect & Ihsan</h3>
-            <p><em>Ihsan</em> means excellence — doing more than the minimum. In family life, this means going beyond obligation to show genuine love, care, and kindness even when it's difficult. The Quran instructs us not to even say "uff" (a sound of irritation) to parents.</p>
-            <div class="image-block">
-              <img src="https://images.pexels.com/photos/7869025/pexels-photo-7869025.jpeg?auto=compress&w=700" alt="Family connection" class="section-img" />
-              <div class="img-credit">Photo: Pexels.com | Free to use</div>
-            </div>
-          </div>
-
-          <div class="content-card">
-            <h3>Intention (Niyyah) in Family Life</h3>
-            <p>Every act in your household — helping, speaking kindly, enduring difficulty — becomes an act of worship if done with sincere intention for Allah's sake. The Prophet ﷺ said: <em>"Actions are by intentions."</em> (Sahih Bukhari 1 | Source: Sunnah.com)</p>
-            <div class="reminder-pill">💡 Reframe difficult moments: "I'm doing this for Allah, not just for them."</div>
+            <p><em>Ihsan</em> means excellence — doing more than the minimum. In family life, this means going beyond
+              obligation to show genuine love, care, and kindness even when it's difficult. The Quran instructs us not
+              to even say "uff" (a sound of irritation) to parents.</p>
           </div>
         </div>
 
         <div class="source-block">
-          <strong>Sources:</strong> Quran.com (Surah Al-Isra 17:23), Sunnah.com (Sahih Bukhari 5971, Hadith on niyyah), SeekersGuidance.org (article on honouring parents)
+          <strong>Sources:</strong> Quran.com (Surah Al-Isra 17:23), Sunnah.com (Sahih Bukhari 5971, Hadith on niyyah),
+          SeekersGuidance.org (article on honouring parents)
         </div>
 
         <!-- FAQ -->
@@ -140,9 +158,9 @@
           <div v-for="(faq, i) in ch1Faqs" class="faq-item">
             <div class="faq-question" v-on:click="toggleFaq('ch1', i)">
               {{ faq.q }}
-              <span class="faq-arrow">{{ faqOpen['ch1_'+i] ? '▲' : '▼' }}</span>
+              <span class="faq-arrow">{{ faqOpen['ch1_' + i] ? '▲' : '▼' }}</span>
             </div>
-            <div class="faq-answer" v-if="faqOpen['ch1_'+i]">{{ faq.a }}</div>
+            <div class="faq-answer" v-if="faqOpen['ch1_' + i]">{{ faq.a }}</div>
           </div>
         </div>
       </section>
@@ -160,16 +178,20 @@
         <div class="content-grid">
           <div class="content-card">
             <h3>How to Talk Without Disrespect</h3>
-            <p>The Quran instructs us to speak to parents with <em>qawlan kariman</em> — noble, dignified speech. This means choosing words carefully, keeping your tone soft, and never raising your voice in contempt.</p>
+            <p>The Quran instructs us to speak to parents with <em>qawlan kariman</em> — noble, dignified speech. This
+              means choosing words carefully, keeping your tone soft, and never raising your voice in contempt.</p>
             <div class="script-box">
               <div class="script-title">📝 Practical Script</div>
-              <p><em>"Baba/Mama, I want to talk about something. Can we find a good time? I want to understand your view and share mine respectfully."</em></p>
+              <p><em>"Baba/Mama, I want to talk about something. Can we find a good time? I want to understand your view
+                  and share mine respectfully."</em></p>
             </div>
           </div>
 
           <div class="content-card">
             <h3>Handling Disagreements Calmly</h3>
-            <p>The Prophet ﷺ never raised his voice in anger in his household. Seeking silence when heated, making wudu, and changing physical position (sitting if standing) are all prophetic remedies for anger. (Source: IslamQA.info)</p>
+            <p>The Prophet ﷺ never raised his voice in anger in his household. Seeking silence when heated, making wudu,
+              and changing physical position (sitting if standing) are all prophetic remedies for anger. (Source:
+              IslamQA.info)</p>
             <div class="steps-list">
               <div class="step"><span class="step-num">1</span> Pause — don't respond immediately when angry</div>
               <div class="step"><span class="step-num">2</span> Make wudu to cool down</div>
@@ -178,23 +200,10 @@
             </div>
           </div>
 
-          <div class="content-card full-width">
-            <h3>Video: Communication in Muslim Families</h3>
-            <div class="video-row">
-              <div class="video-wrap">
-                <iframe src="https://www.youtube.com/embed/N4QeKnfSP3s" title="Muslim family communication" frameborder="0" allowfullscreen class="yt-embed"></iframe>
-                <div class="vid-label">Navigating Difficult Family Conversations — SeekersGuidance</div>
-              </div>
-              <div class="video-wrap">
-                <iframe src="https://www.youtube.com/embed/CYe1wfPx4dU" title="Youth and parents in Islam" frameborder="0" allowfullscreen class="yt-embed"></iframe>
-                <div class="vid-label">How to Talk to Your Parents — Islamic Perspective</div>
-              </div>
-            </div>
-          </div>
-
           <div class="content-card">
             <h3>When Parents Don't Understand You</h3>
-            <p>This is one of the most common struggles for Western Muslim youth. Your parents may have grown up in a completely different world. Their resistance often comes from love and fear, not malice.</p>
+            <p>This is one of the most common struggles for Western Muslim youth. Your parents may have grown up in a
+              completely different world. Their resistance often comes from love and fear, not malice.</p>
             <div class="empathy-box">
               <div class="empathy-item"><span>💚</span> Try to understand their fears first</div>
               <div class="empathy-item"><span>💚</span> Find common ground in Islamic values</div>
@@ -202,6 +211,24 @@
               <div class="empathy-item"><span>💚</span> Be patient — understanding takes time</div>
             </div>
           </div>
+
+          <div class="content-card full-width">
+            <h3>Video: Communication in Muslim Families</h3>
+            <div class="video-row">
+              <div class="video-wrap">
+                <iframe src="https://www.youtube.com/embed/N4QeKnfSP3s" title="Muslim family communication"
+                  frameborder="0" allowfullscreen class="yt-embed"></iframe>
+                <div class="vid-label">Navigating Difficult Family Conversations — SeekersGuidance</div>
+              </div>
+              <div class="video-wrap">
+                <iframe src="https://www.youtube.com/embed/CYe1wfPx4dU" title="Youth and parents in Islam"
+                  frameborder="0" allowfullscreen class="yt-embed"></iframe>
+                <div class="vid-label">How to Talk to Your Parents — Islamic Perspective</div>
+              </div>
+            </div>
+          </div>
+
+          
         </div>
 
         <div class="interactive-tool">
@@ -221,7 +248,8 @@
         </div>
 
         <div class="source-block">
-          <strong>Sources:</strong> Quran.com (Surah Al-Isra 17:23 — qawlan kariman), IslamQA.info (anger management in Islam), SeekersGuidance.org (family communication)
+          <strong>Sources:</strong> Quran.com (Surah Al-Isra 17:23 — qawlan kariman), IslamQA.info (anger management in
+          Islam), SeekersGuidance.org (family communication)
         </div>
       </section>
 
@@ -262,8 +290,12 @@
         <div class="content-grid" style="margin-top:1.5rem">
           <div class="content-card">
             <h3>"My parents say it's haram but is it?"</h3>
-            <p>Many things labelled "haram" by parents are actually cultural preferences, not Islamic rulings. Always verify with a qualified scholar. Trusted resources: <strong>IslamQA.info</strong>, <strong>SeekersGuidance.org</strong>, <strong>Islamweb.net</strong>.</p>
-            <div class="warning-note">⚠️ <strong>Note:</strong> Don't use "it's not haram" to justify genuinely forbidden things. Check with sincerity.</div>
+            <p>Many things labelled "haram" by parents are actually cultural preferences, not Islamic rulings. Always
+              verify with a qualified scholar. Trusted resources: <strong>IslamQA.info</strong>,
+              <strong>SeekersGuidance.org</strong>, <strong>Islamweb.net</strong>.
+            </p>
+            <div class="warning-note">⚠️ <strong>Note:</strong> Don't use "it's not haram" to justify genuinely
+              forbidden things. Check with sincerity.</div>
           </div>
 
           <div class="content-card">
@@ -292,11 +324,13 @@
             <h3>Video: Culture vs. Islam for Western Muslims</h3>
             <div class="video-row">
               <div class="video-wrap">
-                <iframe src="https://www.youtube.com/embed/rQIBLnMhHJo" title="Culture vs Islam" frameborder="0" allowfullscreen class="yt-embed"></iframe>
+                <iframe src="https://www.youtube.com/embed/rQIBLnMhHJo" title="Culture vs Islam" frameborder="0"
+                  allowfullscreen class="yt-embed"></iframe>
                 <div class="vid-label">Culture vs. Islam — Sh. Omar Suleiman</div>
               </div>
               <div class="video-wrap">
-                <iframe src="https://www.youtube.com/embed/WYrSP6vOPaI" title="Generational gaps Islam" frameborder="0" allowfullscreen class="yt-embed"></iframe>
+                <iframe src="https://www.youtube.com/embed/WYrSP6vOPaI" title="Generational gaps Islam" frameborder="0"
+                  allowfullscreen class="yt-embed"></iframe>
                 <div class="vid-label">Generational Gaps in Muslim Families</div>
               </div>
             </div>
@@ -313,14 +347,15 @@
             </div>
           </div>
           <div v-if="selectedCheck" class="cc-detail">
-            <strong>{{ selectedCheck.label }}</strong><br/>
+            <strong>{{ selectedCheck.label }}</strong><br />
             <span>{{ selectedCheck.detail }}</span>
             <div class="cc-source">Source: {{ selectedCheck.source }}</div>
           </div>
         </div>
 
         <div class="source-block">
-          <strong>Sources:</strong> IslamQA.info (cultural practices in Islam), SeekersGuidance.org (culture vs. shariah), Islamweb.net (tribal/racial discrimination in marriage)
+          <strong>Sources:</strong> IslamQA.info (cultural practices in Islam), SeekersGuidance.org (culture vs.
+          shariah), Islamweb.net (tribal/racial discrimination in marriage)
         </div>
       </section>
 
@@ -337,9 +372,12 @@
         <div class="content-grid">
           <div class="content-card">
             <h3>What Islam Says About Shouting & Anger</h3>
-            <p>The Prophet ﷺ repeated "Don't be angry" three times when asked for advice. Uncontrolled anger is described as coming from Shaytan. Physically, changing posture, making wudu, or leaving the room temporarily are all recommended. (Source: Sunnah.com — Sahih Bukhari 6116)</p>
+            <p>The Prophet ﷺ repeated "Don't be angry" three times when asked for advice. Uncontrolled anger is
+              described as coming from Shaytan. Physically, changing posture, making wudu, or leaving the room
+              temporarily are all recommended. (Source: Sunnah.com — Sahih Bukhari 6116)</p>
             <div class="hadith-block">
-              <div class="hadith-text">"The strong person is not the one who can wrestle someone down, but the one who controls himself when angry."</div>
+              <div class="hadith-text">"The strong person is not the one who can wrestle someone down, but the one who
+                controls himself when angry."</div>
               <div class="hadith-ref">Sahih Bukhari 6114 | Source: Sunnah.com</div>
             </div>
           </div>
@@ -355,18 +393,14 @@
             </div>
           </div>
 
-          <div class="content-card">
-            <h3>Image: Finding Calm</h3>
-            <div class="image-block">
-              <img src="https://images.pexels.com/photos/3807571/pexels-photo-3807571.jpeg?auto=compress&w=600" alt="Calm reflection" class="section-img" />
-              <div class="img-credit">Photo: Pexels.com | Free to use</div>
-            </div>
-          </div>
+          
 
           <div class="content-card">
             <h3>Feeling Controlled or Misunderstood</h3>
-            <p>Feeling suffocated is a real and valid experience. Islam acknowledges that oppressive treatment even from parents does not nullify your dignity. Seek counsel from a scholar or counsellor if you feel trapped.</p>
-            <div class="tip-box">💡 <strong>Micro Tip:</strong> Say one sentence that de-escalates: <em>"I respect you, and I just need you to hear me."</em></div>
+            <p>Feeling suffocated is a real and valid experience. Islam acknowledges that oppressive treatment even from
+              parents does not nullify your dignity. Seek counsel from a scholar or counsellor if you feel trapped.</p>
+            <div class="tip-box">💡 <strong>Micro Tip:</strong> Say one sentence that de-escalates: <em>"I respect you,
+                and I just need you to hear me."</em></div>
           </div>
         </div>
 
@@ -388,7 +422,8 @@
         </div>
 
         <div class="source-block">
-          <strong>Sources:</strong> Sunnah.com (Sahih Bukhari 6114, 6116 — anger), SeekersGuidance.org (conflict in Islamic family life)
+          <strong>Sources:</strong> Sunnah.com (Sahih Bukhari 6114, 6116 — anger), SeekersGuidance.org (conflict in
+          Islamic family life)
         </div>
       </section>
 
@@ -405,13 +440,16 @@
         <div class="content-grid">
           <div class="content-card">
             <h3>Feeling Unloved or Unappreciated</h3>
-            <p>Many Muslim parents express love through provision and protection, not verbal affirmation — a cultural and generational pattern. This doesn't mean they don't love you. However, your emotional need for acknowledgment is valid in Islam too.</p>
+            <p>Many Muslim parents express love through provision and protection, not verbal affirmation — a cultural
+              and generational pattern. This doesn't mean they don't love you. However, your emotional need for
+              acknowledgment is valid in Islam too.</p>
             <div class="reminder-pill">💚 Allah knows what is in the hearts — seek His acknowledgment first.</div>
           </div>
 
           <div class="content-card">
             <h3>Pressure to Meet Expectations</h3>
-            <p>Excessive pressure contradicts the Islamic principle of <em>la tukallafu nafsan illa wus'aha</em> — "Allah does not burden a soul beyond what it can bear." (Quran 2:286 | Source: Quran.com)</p>
+            <p>Excessive pressure contradicts the Islamic principle of <em>la tukallafu nafsan illa wus'aha</em> —
+              "Allah does not burden a soul beyond what it can bear." (Quran 2:286 | Source: Quran.com)</p>
             <div class="quran-block">
               <div class="quran-arabic">لَا يُكَلِّفُ اللَّهُ نَفْسًا إِلَّا وُسْعَهَا</div>
               <div class="quran-ref">Surah Al-Baqarah 2:286 | Source: Quran.com</div>
@@ -420,8 +458,11 @@
 
           <div class="content-card">
             <h3>Comparison with Siblings/Others</h3>
-            <p>The Prophet ﷺ warned against partiality among children. Comparison is often used as "motivation" but can cause lasting harm. Know your own worth — in Islam, you are valued for your taqwa, not your grades or status.</p>
-            <div class="tip-box">💡 Remind yourself: <em>"My worth is with Allah, not in comparison to anyone else."</em></div>
+            <p>The Prophet ﷺ warned against partiality among children. Comparison is often used as "motivation" but can
+              cause lasting harm. Know your own worth — in Islam, you are valued for your taqwa, not your grades or
+              status.</p>
+            <div class="tip-box">💡 Remind yourself: <em>"My worth is with Allah, not in comparison to anyone
+                else."</em></div>
           </div>
 
           <div class="content-card">
@@ -436,7 +477,8 @@
         </div>
 
         <div class="source-block">
-          <strong>Sources:</strong> Quran.com (2:286), SeekersGuidance.org (emotional well-being in Islam), IslamQA.info (dealing with parental pressure)
+          <strong>Sources:</strong> Quran.com (2:286), SeekersGuidance.org (emotional well-being in Islam), IslamQA.info
+          (dealing with parental pressure)
         </div>
 
         <div class="faq-section">
@@ -444,9 +486,9 @@
           <div v-for="(faq, i) in ch5Faqs" class="faq-item">
             <div class="faq-question" v-on:click="toggleFaq('ch5', i)">
               {{ faq.q }}
-              <span class="faq-arrow">{{ faqOpen['ch5_'+i] ? '▲' : '▼' }}</span>
+              <span class="faq-arrow">{{ faqOpen['ch5_' + i] ? '▲' : '▼' }}</span>
             </div>
-            <div class="faq-answer" v-if="faqOpen['ch5_'+i]">{{ faq.a }}</div>
+            <div class="faq-answer" v-if="faqOpen['ch5_' + i]">{{ faq.a }}</div>
           </div>
         </div>
       </section>
@@ -464,18 +506,25 @@
         <div class="content-grid">
           <div class="content-card">
             <h3>Is It Allowed to Say No?</h3>
-            <p>Yes — in Islam, obedience to parents is not unconditional. You may decline requests that are clearly sinful, harmful to you, or beyond your capacity. The key is <em>how</em> you decline: with respect, gentleness, and an explanation.</p>
+            <p>Yes — in Islam, obedience to parents is not unconditional. You may decline requests that are clearly
+              sinful, harmful to you, or beyond your capacity. The key is <em>how</em> you decline: with respect,
+              gentleness, and an explanation.</p>
           </div>
 
           <div class="content-card">
             <h3>Privacy & Independence</h3>
-            <p>Islam recognises the concept of <em>awra</em> (privacy) and individual accountability. Adults are responsible for their own deeds before Allah — this implies a level of personal autonomy. Parents may guide, but cannot control every decision of an adult child.</p>
+            <p>Islam recognises the concept of <em>awra</em> (privacy) and individual accountability. Adults are
+              responsible for their own deeds before Allah — this implies a level of personal autonomy. Parents may
+              guide, but cannot control every decision of an adult child.</p>
           </div>
 
           <div class="content-card">
             <h3>Toxic or Unfair Treatment</h3>
-            <p>Islam forbids oppression (dhulm) from anyone — including parents. The Prophet ﷺ said: <em>"There is no harm and no causing harm."</em> (Ibn Majah 2341 | Source: Sunnah.com). Enduring harmful treatment in silence is not required by Islam.</p>
-            <div class="warning-note">⚠️ If you are experiencing abuse, seek help from a trusted imam, counsellor, or community organisation.</div>
+            <p>Islam forbids oppression (dhulm) from anyone — including parents. The Prophet ﷺ said: <em>"There is no
+                harm and no causing harm."</em> (Ibn Majah 2341 | Source: Sunnah.com). Enduring harmful treatment in
+              silence is not required by Islam.</p>
+            <div class="warning-note">⚠️ If you are experiencing abuse, seek help from a trusted imam, counsellor, or
+              community organisation.</div>
           </div>
 
           <div class="content-card">
@@ -501,13 +550,9 @@
           </div>
         </div>
 
-        <div class="image-block" style="margin-top:1rem">
-          <img src="https://images.pexels.com/photos/6646917/pexels-photo-6646917.jpeg?auto=compress&w=700" alt="Peaceful reflection" class="section-img" />
-          <div class="img-credit">Photo: Pexels.com | Free to use</div>
-        </div>
-
         <div class="source-block">
-          <strong>Sources:</strong> Sunnah.com (Ibn Majah 2341 — la darar), SeekersGuidance.org (boundaries in Islamic family), IslamQA.info (refusing haram requests from parents)
+          <strong>Sources:</strong> Sunnah.com (Ibn Majah 2341 — la darar), SeekersGuidance.org (boundaries in Islamic
+          family), IslamQA.info (refusing haram requests from parents)
         </div>
       </section>
 
@@ -524,24 +569,31 @@
         <div class="content-grid">
           <div class="content-card">
             <h3>The Double Identity</h3>
-            <p>Many Western Muslim youth feel torn between two worlds: the home (with cultural/Islamic expectations) and outside (with peer and societal pressure). This "double life" feeling is common and does not make you a bad Muslim.</p>
-            <div class="reminder-pill">🌟 Your identity as a Muslim is not threatened by living in the West — it is tested and strengthened.</div>
+            <p>Many Western Muslim youth feel torn between two worlds: the home (with cultural/Islamic expectations) and
+              outside (with peer and societal pressure). This "double life" feeling is common and does not make you a
+              bad Muslim.</p>
+            <div class="reminder-pill">🌟 Your identity as a Muslim is not threatened by living in the West — it is
+              tested and strengthened.</div>
           </div>
 
           <div class="content-card">
             <h3>Freedom vs Protection</h3>
-            <p>Parents in the West often over-protect out of fear of the environment. Islam encourages balance — trust must be built gradually. The Prophet ﷺ gave companions independence as they demonstrated responsibility. (Source: SeekersGuidance.org)</p>
+            <p>Parents in the West often over-protect out of fear of the environment. Islam encourages balance — trust
+              must be built gradually. The Prophet ﷺ gave companions independence as they demonstrated responsibility.
+              (Source: SeekersGuidance.org)</p>
           </div>
 
           <div class="content-card full-width">
             <h3>Video: Being Muslim in the West</h3>
             <div class="video-row">
               <div class="video-wrap">
-                <iframe src="https://www.youtube.com/embed/W5p1bYyNEE8" title="Muslim identity in the West" frameborder="0" allowfullscreen class="yt-embed"></iframe>
+                <iframe src="https://www.youtube.com/embed/W5p1bYyNEE8" title="Muslim identity in the West"
+                  frameborder="0" allowfullscreen class="yt-embed"></iframe>
                 <div class="vid-label">Muslim Identity in the West — Yaqeen Institute</div>
               </div>
               <div class="video-wrap">
-                <iframe src="https://www.youtube.com/embed/hNFbITGIkjQ" title="Growing up Muslim in the West" frameborder="0" allowfullscreen class="yt-embed"></iframe>
+                <iframe src="https://www.youtube.com/embed/hNFbITGIkjQ" title="Growing up Muslim in the West"
+                  frameborder="0" allowfullscreen class="yt-embed"></iframe>
                 <div class="vid-label">Growing Up Muslim in the West</div>
               </div>
             </div>
@@ -549,13 +601,16 @@
 
           <div class="content-card">
             <h3>"You're Too Western" or "Too Strict"</h3>
-            <p>Being labelled either way shows you exist at an intersection. This is not a flaw — Islam is for all times and places. The key is grounding yourself in Islamic principles while being able to navigate any environment.</p>
+            <p>Being labelled either way shows you exist at an intersection. This is not a flaw — Islam is for all times
+              and places. The key is grounding yourself in Islamic principles while being able to navigate any
+              environment.</p>
             <div class="tip-box">💡 <em>"I am Muslim first — that doesn't change based on geography."</em></div>
           </div>
         </div>
 
         <div class="source-block">
-          <strong>Sources:</strong> SeekersGuidance.org (Muslim identity in the West), Yaqeen Institute research on Western Muslim youth
+          <strong>Sources:</strong> SeekersGuidance.org (Muslim identity in the West), Yaqeen Institute research on
+          Western Muslim youth
         </div>
       </section>
 
@@ -572,12 +627,16 @@
         <div class="content-grid">
           <div class="content-card">
             <h3>Parents Forcing Careers</h3>
-            <p>A parent's influence on career is permissible as guidance — but not as compulsion. Islam upholds the principle of <em>shura</em> (consultation) and individual accountability. You will answer to Allah for your life choices, not your parents.</p>
+            <p>A parent's influence on career is permissible as guidance — but not as compulsion. Islam upholds the
+              principle of <em>shura</em> (consultation) and individual accountability. You will answer to Allah for
+              your life choices, not your parents.</p>
           </div>
 
           <div class="content-card">
             <h3>Passion vs Parental Expectations</h3>
-            <p>The Prophet ﷺ is reported to have said: <em>"Allah loves that when one of you does a job, they do it with excellence (itqan)."</em> (Al-Bayhaqi | Source: IslamQA.info). Excellence is possible in any halal field — pursue what you can do with itqan.</p>
+            <p>The Prophet ﷺ is reported to have said: <em>"Allah loves that when one of you does a job, they do it with
+                excellence (itqan)."</em> (Al-Bayhaqi | Source: IslamQA.info). Excellence is possible in any halal field
+              — pursue what you can do with itqan.</p>
             <div class="dos-donts">
               <div class="dos">
                 <div class="dd-title">✅ Do</div>
@@ -600,7 +659,9 @@
 
           <div class="content-card">
             <h3>Moving Out for Study/Work</h3>
-            <p>Moving out for legitimate educational or professional reasons is permissible and has precedent in Islamic history. However, maintaining ties with parents — regular calls, visits, financial support if able — is obligatory.</p>
+            <p>Moving out for legitimate educational or professional reasons is permissible and has precedent in Islamic
+              history. However, maintaining ties with parents — regular calls, visits, financial support if able — is
+              obligatory.</p>
             <div class="steps-list">
               <div class="step"><span class="step-num">1</span> Have an honest family discussion</div>
               <div class="step"><span class="step-num">2</span> Reassure them of continued contact</div>
@@ -611,13 +672,16 @@
 
           <div class="content-card">
             <h3>Istikhara — Seeking Allah's Guidance</h3>
-            <p>For any major life decision, perform Salah al-Istikhara and make sincere dua. This is not about receiving a dream — it is about submitting the decision to Allah and then moving forward with tawakkul (reliance on Allah).</p>
+            <p>For any major life decision, perform Salah al-Istikhara and make sincere dua. This is not about receiving
+              a dream — it is about submitting the decision to Allah and then moving forward with tawakkul (reliance on
+              Allah).</p>
             <div class="reminder-pill">🤲 Istikhara Guide: Sunnah.com — Search "Salat al-Istikhara"</div>
           </div>
         </div>
 
         <div class="source-block">
-          <strong>Sources:</strong> IslamQA.info (career choices in Islam, istikhara), Sunnah.com (du'a of istikhara), SeekersGuidance.org (moving out of the family home)
+          <strong>Sources:</strong> IslamQA.info (career choices in Islam, istikhara), Sunnah.com (du'a of istikhara),
+          SeekersGuidance.org (moving out of the family home)
         </div>
       </section>
 
@@ -634,38 +698,55 @@
         <div class="content-grid">
           <div class="content-card">
             <h3>Islamic Rights in Marriage Choice</h3>
-            <p>Islam grants both men and women the right to consent to marriage. No valid marriage exists without the consent of both parties. (Source: IslamQA.info, based on Sahih Bukhari 5136). A wali (guardian) has the role of protection, not possession.</p>
+            <p>Islam grants both men and women the right to consent to marriage. No valid marriage exists without the
+              consent of both parties. (Source: IslamQA.info, based on Sahih Bukhari 5136). A wali (guardian) has the
+              role of protection, not possession.</p>
             <div class="hadith-block">
-              <div class="hadith-text">"A woman who has been previously married has more right to decide about herself than her guardian, and a virgin's consent must be sought."</div>
+              <div class="hadith-text">"A woman who has been previously married has more right to decide about herself
+                than her guardian, and a virgin's consent must be sought."</div>
               <div class="hadith-ref">Sahih Muslim 1421 | Source: Sunnah.com</div>
             </div>
           </div>
 
           <div class="content-card">
             <h3>Cultural Barriers to Marriage</h3>
-            <p>Refusing marriage proposals purely based on race or tribe contradicts the Prophetic teaching: <em>"If someone comes to you whose deen and character pleases you, then marry him."</em> (Tirmidhi 1084 | Source: Sunnah.com). Tribal pride is a sin in Islam.</p>
+            <p>Refusing marriage proposals purely based on race or tribe contradicts the Prophetic teaching: <em>"If
+                someone comes to you whose deen and character pleases you, then marry him."</em> (Tirmidhi 1084 |
+              Source: Sunnah.com). Tribal pride is a sin in Islam.</p>
           </div>
 
           <div class="content-card">
             <h3>Love vs Arranged Marriage</h3>
-            <p>Islam does not prohibit a person from expressing interest in marriage to someone — it prohibits unlawful relationships (khalwa, zina). Approaching a potential match through proper channels with the wali's involvement is halal and encouraged.</p>
-            <div class="tip-box">💡 There is no "arranged" vs "love" dichotomy in Islam — there is only the halal process, which can include your input.</div>
+            <p>Islam does not prohibit a person from expressing interest in marriage to someone — it prohibits unlawful
+              relationships (khalwa, zina). Approaching a potential match through proper channels with the wali's
+              involvement is halal and encouraged.</p>
+            <div class="tip-box">💡 There is no "arranged" vs "love" dichotomy in Islam — there is only the halal
+              process, which can include your input.</div>
           </div>
 
           <div class="content-card">
             <h3>Talking to Parents About Relationships</h3>
             <div class="script-box">
               <div class="script-title">📝 Opening Script</div>
-              <p><em>"Baba/Mama, I've met someone I believe would be a good spouse based on their deen and character. I'd like to discuss this with you and follow the proper process."</em></p>
+              <p><em>"Baba/Mama, I've met someone I believe would be a good spouse based on their deen and character.
+                  I'd like to discuss this with you and follow the proper process."</em></p>
             </div>
             <div class="dos-donts" style="margin-top:1rem">
               <div class="dos">
                 <div class="dd-title">✅ Do</div>
-                <ul><li>Be transparent early</li><li>Involve a trusted elder</li><li>Follow Islamic steps</li></ul>
+                <ul>
+                  <li>Be transparent early</li>
+                  <li>Involve a trusted elder</li>
+                  <li>Follow Islamic steps</li>
+                </ul>
               </div>
               <div class="donts">
                 <div class="dd-title">❌ Don't</div>
-                <ul><li>Hide a relationship</li><li>Meet in private (khalwa)</li><li>Issue ultimatums</li></ul>
+                <ul>
+                  <li>Hide a relationship</li>
+                  <li>Meet in private (khalwa)</li>
+                  <li>Issue ultimatums</li>
+                </ul>
               </div>
             </div>
           </div>
@@ -674,11 +755,13 @@
             <h3>Video: Marriage & Parents in Islam</h3>
             <div class="video-row">
               <div class="video-wrap">
-                <iframe src="https://www.youtube.com/embed/gEfFwsQHJ-E" title="Marriage in Islam" frameborder="0" allowfullscreen class="yt-embed"></iframe>
+                <iframe src="https://www.youtube.com/embed/gEfFwsQHJ-E" title="Marriage in Islam" frameborder="0"
+                  allowfullscreen class="yt-embed"></iframe>
                 <div class="vid-label">Talking to Parents About Marriage — Mufti Menk</div>
               </div>
               <div class="video-wrap">
-                <iframe src="https://www.youtube.com/embed/3V7HqsMtXso" title="Halal relationships" frameborder="0" allowfullscreen class="yt-embed"></iframe>
+                <iframe src="https://www.youtube.com/embed/3V7HqsMtXso" title="Halal relationships" frameborder="0"
+                  allowfullscreen class="yt-embed"></iframe>
                 <div class="vid-label">Navigating Halal Relationships for Youth</div>
               </div>
             </div>
@@ -686,7 +769,8 @@
         </div>
 
         <div class="source-block">
-          <strong>Sources:</strong> Sunnah.com (Sahih Bukhari 5136, Sahih Muslim 1421, Tirmidhi 1084), IslamQA.info (forced marriage in Islam), SeekersGuidance.org (marriage process)
+          <strong>Sources:</strong> Sunnah.com (Sahih Bukhari 5136, Sahih Muslim 1421, Tirmidhi 1084), IslamQA.info
+          (forced marriage in Islam), SeekersGuidance.org (marriage process)
         </div>
 
         <div class="faq-section">
@@ -694,9 +778,9 @@
           <div v-for="(faq, i) in ch9Faqs" class="faq-item">
             <div class="faq-question" v-on:click="toggleFaq('ch9', i)">
               {{ faq.q }}
-              <span class="faq-arrow">{{ faqOpen['ch9_'+i] ? '▲' : '▼' }}</span>
+              <span class="faq-arrow">{{ faqOpen['ch9_' + i] ? '▲' : '▼' }}</span>
             </div>
-            <div class="faq-answer" v-if="faqOpen['ch9_'+i]">{{ faq.a }}</div>
+            <div class="faq-answer" v-if="faqOpen['ch9_' + i]">{{ faq.a }}</div>
           </div>
         </div>
       </section>
@@ -714,7 +798,8 @@
         <div class="content-grid">
           <div class="content-card">
             <h3>When Parents Are Less Practising</h3>
-            <p>This is a test — not an excuse to be arrogant. The Prophet ﷺ's approach was always gentleness, example, and sincere love. You cannot force hidaya (guidance) — only Allah guides hearts.</p>
+            <p>This is a test — not an excuse to be arrogant. The Prophet ﷺ's approach was always gentleness, example,
+              and sincere love. You cannot force hidaya (guidance) — only Allah guides hearts.</p>
             <div class="reminder-pill">💡 Your job is to be an example, not a preacher in your own home.</div>
           </div>
 
@@ -755,14 +840,16 @@
           <div class="content-card">
             <h3>Image: Family & Deen</h3>
             <div class="image-block">
-              <img src="https://images.pexels.com/photos/8164742/pexels-photo-8164742.jpeg?auto=compress&w=600" alt="Muslim family worship" class="section-img" />
+              <img src="https://images.pexels.com/photos/8164742/pexels-photo-8164742.jpeg?auto=compress&w=600"
+                alt="Muslim family worship" class="section-img" />
               <div class="img-credit">Photo: Pexels.com | Free to use</div>
             </div>
           </div>
         </div>
 
         <div class="source-block">
-          <strong>Sources:</strong> SeekersGuidance.org (being more practising than parents), IslamQA.info (inviting family to Islam), Sunnah.com (family adhkar)
+          <strong>Sources:</strong> SeekersGuidance.org (being more practising than parents), IslamQA.info (inviting
+          family to Islam), Sunnah.com (family adhkar)
         </div>
       </section>
 
@@ -779,27 +866,30 @@
         <div class="dua-grid">
           <div class="dua-card" v-for="dua in duas">
             <div class="dua-arabic">{{ dua.arabic }}</div>
-            <div class="dua-translation">{{ dua.translation }}</div>
-            <div class="dua-ref">{{ dua.ref }}</div>
-            <button class="dua-copy-btn" v-on:click="copyDua(dua)">{{ dua.copied ? 'Copied!' : 'Copy' }}</button>
+            <div class="dua-translation text-black">{{ dua.translation }}</div>
+            <div class="dua-ref text-black">{{ dua.ref }}</div>
           </div>
         </div>
 
         <div class="content-grid" style="margin-top:1.5rem">
           <div class="content-card">
             <h3>Sabr (Patience) in Family Hardship</h3>
-            <p>Sabr is not passive acceptance — it is active endurance with trust in Allah. The Quran tells us Allah is with those who are patient. (Quran 2:153 | Source: Quran.com). Every difficult family moment endured with sabr earns reward.</p>
+            <p>Sabr is not passive acceptance — it is active endurance with trust in Allah. The Quran tells us Allah is
+              with those who are patient. (Quran 2:153 | Source: Quran.com). Every difficult family moment endured with
+              sabr earns reward.</p>
           </div>
 
           <div class="content-card">
             <h3>Barakah in Respecting Parents</h3>
-            <p>The Prophet ﷺ said that whoever wishes for an extended, blessed life and increase in provision should maintain family ties and honour parents. (Sahih Bukhari 5986 | Source: Sunnah.com)</p>
+            <p>The Prophet ﷺ said that whoever wishes for an extended, blessed life and increase in provision should
+              maintain family ties and honour parents. (Sahih Bukhari 5986 | Source: Sunnah.com)</p>
             <div class="reminder-pill">🌟 Barakah (blessing) is unlocked through parental du'a for you.</div>
           </div>
         </div>
 
         <div class="source-block">
-          <strong>Sources:</strong> Quran.com (2:153, 14:40–41), Sunnah.com (Sahih Bukhari 5986), SeekersGuidance.org (du'a for parents)
+          <strong>Sources:</strong> Quran.com (2:153, 14:40–41), Sunnah.com (Sahih Bukhari 5986), SeekersGuidance.org
+          (du'a for parents)
         </div>
       </section>
 
@@ -814,13 +904,16 @@
         </div>
 
         <div class="serious-notice">
-          ⚠️ This chapter addresses serious situations. If you are in immediate danger, contact emergency services. For Islamic support, reach out to a trusted imam or Muslim counselling service.
+          ⚠️ This chapter addresses serious situations. If you are in immediate danger, contact emergency services. For
+          Islamic support, reach out to a trusted imam or Muslim counselling service.
         </div>
 
         <div class="content-grid">
           <div class="content-card">
             <h3>Toxic or Abusive Households</h3>
-            <p>Islam explicitly forbids dhulm (oppression and injustice) from anyone — including parents. The Prophet ﷺ said: <em>"Beware of oppression, for oppression will be darkness on the Day of Judgement."</em> (Sahih Muslim 2578 | Source: Sunnah.com). Leaving an abusive situation is not disobedience.</p>
+            <p>Islam explicitly forbids dhulm (oppression and injustice) from anyone — including parents. The Prophet ﷺ
+              said: <em>"Beware of oppression, for oppression will be darkness on the Day of Judgement."</em> (Sahih
+              Muslim 2578 | Source: Sunnah.com). Leaving an abusive situation is not disobedience.</p>
           </div>
 
           <div class="content-card">
@@ -835,18 +928,24 @@
 
           <div class="content-card">
             <h3>Islamic Limits of Obedience</h3>
-            <p>The scholars are unanimous: obedience to parents is obligatory only in permissible matters. When parents command disobedience to Allah, or when obeying them causes you clear physical or spiritual harm, the obligation ends. (Source: IslamQA.info, Islamweb.net)</p>
+            <p>The scholars are unanimous: obedience to parents is obligatory only in permissible matters. When parents
+              command disobedience to Allah, or when obeying them causes you clear physical or spiritual harm, the
+              obligation ends. (Source: IslamQA.info, Islamweb.net)</p>
           </div>
 
           <div class="content-card">
             <h3>Emotional Neglect</h3>
-            <p>Emotional neglect is a real harm. Islam's emphasis on <em>rahma</em> (mercy) in families means that a parent who consistently neglects a child's emotional wellbeing is falling short of their Islamic duty. Seek support — this is not ingratitude.</p>
-            <div class="warning-note">⚠️ Your wellbeing matters. Getting help is an act of self-care, not betrayal.</div>
+            <p>Emotional neglect is a real harm. Islam's emphasis on <em>rahma</em> (mercy) in families means that a
+              parent who consistently neglects a child's emotional wellbeing is falling short of their Islamic duty.
+              Seek support — this is not ingratitude.</p>
+            <div class="warning-note">⚠️ Your wellbeing matters. Getting help is an act of self-care, not betrayal.
+            </div>
           </div>
         </div>
 
         <div class="source-block">
-          <strong>Sources:</strong> Sunnah.com (Sahih Muslim 2578 — dhulm), IslamQA.info (limits of obedience), Islamweb.net (family abuse in Islam)
+          <strong>Sources:</strong> Sunnah.com (Sahih Muslim 2578 — dhulm), IslamQA.info (limits of obedience),
+          Islamweb.net (family abuse in Islam)
         </div>
       </section>
 
@@ -874,7 +973,9 @@
 
           <div class="content-card">
             <h3>Becoming the "Cool-Headed One"</h3>
-            <p>In family conflict, someone has to be the mature one. Islam encourages us to be that person. The Prophet ﷺ said the best among people is the one who benefits others. (Source: Sunnah.com). Choose to de-escalate, not escalate.</p>
+            <p>In family conflict, someone has to be the mature one. Islam encourages us to be that person. The Prophet
+              ﷺ said the best among people is the one who benefits others. (Source: Sunnah.com). Choose to de-escalate,
+              not escalate.</p>
             <div class="script-box">
               <div class="script-title">1 Sentence That De-escalates</div>
               <p><em>"I don't want to argue with you — I love you and I just want us to understand each other."</em></p>
@@ -893,21 +994,17 @@
 
           <div class="content-card">
             <h3>Showing Appreciation</h3>
-            <div class="tip-box">💡 <strong>3 Ways to Earn Barakah at Home:</strong><br/>
-              1. Say "JazakAllah khair" to your parents genuinely<br/>
-              2. Include them in your du'a by name<br/>
+            <div class="tip-box">💡 <strong>3 Ways to Earn Barakah at Home:</strong><br />
+              1. Say "JazakAllah khair" to your parents genuinely<br />
+              2. Include them in your du'a by name<br />
               3. Speak well of them to others
             </div>
           </div>
         </div>
 
-        <div class="image-block">
-          <img src="https://images.pexels.com/photos/3820378/pexels-photo-3820378.jpeg?auto=compress&w=700" alt="Family bonding" class="section-img" />
-          <div class="img-credit">Photo: Pexels.com | Free to use</div>
-        </div>
-
         <div class="source-block">
-          <strong>Sources:</strong> Sunnah.com (best among people hadith), SeekersGuidance.org (rebuilding family relationships in Islam)
+          <strong>Sources:</strong> Sunnah.com (best among people hadith), SeekersGuidance.org (rebuilding family
+          relationships in Islam)
         </div>
       </section>
 
@@ -973,9 +1070,11 @@
         <div class="interactive-tool">
           <h3>📬 Share Your Story (Anonymous)</h3>
           <p>Sharing your experience helps others feel less alone. This is a safe, moderated space.</p>
-          <textarea v-model="userStory" class="story-textarea" placeholder="Write your situation anonymously... (e.g. 'My parents won't let me choose my career...')"></textarea>
+          <textarea v-model="userStory" class="story-textarea"
+            placeholder="Write your situation anonymously... (e.g. 'My parents won't let me choose my career...')"></textarea>
           <button class="submit-btn" v-on:click="submitStory">Submit Anonymously</button>
-          <div v-if="storySubmitted" class="success-notice">JazakAllah khair — your story has been noted. May Allah ease your situation.</div>
+          <div v-if="storySubmitted" class="success-notice">JazakAllah khair — your story has been noted. May Allah ease
+            your situation.</div>
         </div>
       </section>
 
@@ -1002,13 +1101,13 @@
             </div>
             <div v-if="quizFeedback" class="quiz-feedback">
               <strong>Feedback:</strong> {{ quizFeedback }}
-              <br/><button class="next-btn" v-on:click="nextScenario">Next Scenario →</button>
+              <br /><button class="next-btn" v-on:click="nextScenario">Next Scenario →</button>
             </div>
           </div>
           <div v-else class="quiz-done">
-            <strong>Quiz Complete! Jazakum Allahu Khayran.</strong><br/>
+            <strong>Quiz Complete! Jazakum Allahu Khayran.</strong><br />
             Your score: {{ quizScore }}/{{ scenarios.length }} — Remember, understanding both sides is the goal.
-            <br/><button class="next-btn" v-on:click="resetQuiz">Try Again</button>
+            <br /><button class="next-btn" v-on:click="resetQuiz">Try Again</button>
           </div>
         </div>
 
@@ -1035,7 +1134,9 @@
           <div v-for="(wyd, i) in wydSituations" class="wyd-item">
             <div class="wyd-q">{{ wyd.q }}</div>
             <div class="wyd-choices">
-              <button v-for="choice in wyd.choices" class="wyd-btn" :class="{ selected: wydAnswers[i] === choice.val, correct: wydAnswers[i] && choice.correct }" v-on:click="wydAnswers[i] = choice.val; wydAnswers = [...wydAnswers]">
+              <button v-for="choice in wyd.choices" class="wyd-btn"
+                :class="{ selected: wydAnswers[i] === choice.val, correct: wydAnswers[i] && choice.correct }"
+                v-on:click="wydAnswers[i] = choice.val; wydAnswers = [...wydAnswers]">
                 {{ choice.label }}
               </button>
             </div>
@@ -1080,17 +1181,6 @@
 
     </div><!-- end main-content -->
 
-    <!-- FOOTER -->
-    <footer class="ic-footer">
-      <div class="container">
-        <div class="footer-logo">Islamic Connect</div>
-        <div class="footer-tagline">Real guidance. Real struggles. Real Islam.</div>
-        <div class="footer-disclaimer">
-          All content is sourced from verified Islamic scholarship. This platform is for educational purposes only and does not replace the advice of a qualified Islamic scholar. Always verify matters with a scholar you trust. Content compiled from: IslamQA.info, Islamweb.net, Sunnah.com, Quran.com, SeekersGuidance.org.
-        </div>
-        <div class="footer-copy">© 2025 Islamic Connect. For the Muslim youth of the West.</div>
-      </div>
-    </footer>
 
   </div>
 </template>
@@ -1343,7 +1433,11 @@ export default {
   --radius-sm: 8px;
 }
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
 #islamic-connect-app {
   font-family: 'Segoe UI', system-ui, sans-serif;
@@ -1375,18 +1469,24 @@ export default {
   padding: 5rem 0 4rem;
   overflow: hidden;
 }
+
 .hero-overlay {
-  position: absolute; inset: 0;
+  position: absolute;
+  inset: 0;
   background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
 }
+
 .hero-content {
-  position: relative; z-index: 1; text-align: center;
+  position: relative;
+  z-index: 1;
+  text-align: center;
 }
+
 .hero-badge {
   display: inline-block;
-  background: rgba(255,255,255,0.15);
+  background: rgba(255, 255, 255, 0.15);
   color: #fff;
-  border: 1px solid rgba(255,255,255,0.3);
+  border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: 50px;
   padding: 0.35rem 1.25rem;
   font-size: 0.8rem;
@@ -1394,6 +1494,7 @@ export default {
   text-transform: uppercase;
   margin-bottom: 1.25rem;
 }
+
 .hero-title {
   color: #fff;
   font-size: clamp(2rem, 5vw, 3.2rem);
@@ -1401,16 +1502,26 @@ export default {
   margin-bottom: 1rem;
   line-height: 1.2;
 }
-.hero-highlight { color: var(--ic-gold-light); }
+
+.hero-highlight {
+  color: var(--ic-gold-light);
+}
+
 .hero-sub {
-  color: rgba(255,255,255,0.85);
+  color: rgba(255, 255, 255, 0.85);
   font-size: 1.1rem;
   max-width: 600px;
   margin: 0 auto 2rem;
 }
+
 .hero-search-wrap {
-  display: flex; gap: 0; max-width: 540px; margin: 0 auto 1rem; position: relative;
+  display: flex;
+  gap: 0;
+  max-width: 540px;
+  margin: 0 auto 1rem;
+  position: relative;
 }
+
 .hero-search {
   flex: 1;
   padding: 0.85rem 1.25rem;
@@ -1418,9 +1529,10 @@ export default {
   border-radius: var(--radius) 0 0 var(--radius);
   font-size: 0.95rem;
   outline: none;
-  background: rgba(255,255,255,0.95);
+  background: rgba(255, 255, 255, 0.95);
   color: var(--ic-text);
 }
+
 .hero-search-btn {
   background: var(--ic-gold);
   color: #fff;
@@ -1432,33 +1544,55 @@ export default {
   cursor: pointer;
   transition: background 0.2s;
 }
-.hero-search-btn:hover { background: var(--ic-gold-light); }
+
+.hero-search-btn:hover {
+  background: var(--ic-gold-light);
+}
+
 .search-results-dropdown {
-  position: absolute; top: 100%; left: 0; right: 0;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
   background: #fff;
   border-radius: 0 0 var(--radius) var(--radius);
-  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
   z-index: 100;
   margin-top: 0.25rem;
 }
+
 .search-result-item {
   padding: 0.75rem 1.25rem;
   cursor: pointer;
-  display: flex; align-items: center; gap: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
   font-size: 0.9rem;
   color: var(--ic-text);
   border-bottom: 1px solid var(--ic-border);
   transition: background 0.15s;
 }
-.search-result-item:hover { background: var(--ic-green-pale); }
-.result-icon { font-size: 1.1rem; }
-.hero-stats {
-  display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; margin-top: 1.5rem;
+
+.search-result-item:hover {
+  background: var(--ic-green-pale);
 }
+
+.result-icon {
+  font-size: 1.1rem;
+}
+
+.hero-stats {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 1.5rem;
+}
+
 .stat-pill {
-  background: rgba(255,255,255,0.12);
-  color: rgba(255,255,255,0.9);
-  border: 1px solid rgba(255,255,255,0.2);
+  background: rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 50px;
   padding: 0.35rem 1rem;
   font-size: 0.82rem;
@@ -1466,32 +1600,63 @@ export default {
 
 /* NAV */
 .sticky-nav {
-  position: sticky; top: 0; z-index: 50;
+  position: sticky;
+  top: 0;
+  z-index: 50;
   background: var(--ic-green);
   border-bottom: 2px solid var(--ic-green-light);
   overflow-x: auto;
 }
+
 .nav-inner {
-  display: flex; gap: 0; padding: 0; white-space: nowrap;
+  display: flex;
+  gap: 0;
+  padding: 0;
+  white-space: nowrap;
 }
+
 .nav-tab {
-  background: none; border: none; padding: 0.7rem 1rem;
-  color: rgba(255,255,255,0.7);
-  cursor: pointer; font-size: 0.8rem;
+  background: none;
+  border: none;
+  padding: 0.7rem 1rem;
+  color: rgba(255, 255, 255, 0.7);
+  cursor: pointer;
+  font-size: 0.8rem;
   border-bottom: 3px solid transparent;
   transition: all 0.2s;
   white-space: nowrap;
 }
-.nav-tab:hover { color: #fff; background: rgba(255,255,255,0.08); }
-.nav-tab.active { color: var(--ic-gold-light); border-bottom-color: var(--ic-gold-light); background: rgba(255,255,255,0.05); }
-.nav-label { display: none; }
-@media (min-width: 768px) { .nav-label { display: inline; margin-left: 0.35rem; } }
+
+.nav-tab:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.nav-tab.active {
+  color: var(--ic-gold-light);
+  border-bottom-color: var(--ic-gold-light);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.nav-label {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .nav-label {
+    display: inline;
+    margin-left: 0.35rem;
+  }
+}
 
 /* STATS BAR */
 .stats-bar {
-  display: grid; grid-template-columns: repeat(4, 1fr);
-  gap: 1rem; margin: 2rem 0;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  margin: 2rem 0;
 }
+
 .stat-card {
   background: var(--ic-white);
   border: 1px solid var(--ic-border);
@@ -1500,11 +1665,23 @@ export default {
   text-align: center;
   border-top: 3px solid var(--ic-green);
 }
-.stat-num { font-size: 2rem; font-weight: 700; color: var(--ic-green); }
-.stat-lbl { font-size: 0.8rem; color: var(--ic-text-muted); margin-top: 0.25rem; }
+
+.stat-num {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--ic-green);
+}
+
+.stat-lbl {
+  font-size: 0.8rem;
+  color: var(--ic-text-muted);
+  margin-top: 0.25rem;
+}
 
 /* MAIN CONTENT */
-.main-content { padding: 1rem 0 3rem; }
+.main-content {
+  padding: 1rem 0 3rem;
+}
 
 /* CHAPTER */
 .chapter-section {
@@ -1515,39 +1692,72 @@ export default {
   margin-bottom: 2rem;
   scroll-margin-top: 60px;
 }
+
 .chapter-header {
-  display: flex; align-items: center; gap: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
   border-bottom: 2px solid var(--ic-green-pale);
   padding-bottom: 1.25rem;
   margin-bottom: 1.75rem;
 }
+
 .chapter-icon-wrap {
   font-size: 2rem;
-  width: 56px; height: 56px;
+  width: 56px;
+  height: 56px;
   background: var(--ic-green-pale);
   border-radius: var(--radius);
-  display: flex; align-items: center; justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   border: 1px solid var(--ic-green-border);
   flex-shrink: 0;
 }
-.chapter-num { font-size: 0.75rem; color: var(--ic-text-light); text-transform: uppercase; letter-spacing: 0.08em; }
-.chapter-title { font-size: 1.5rem; font-weight: 700; color: var(--ic-navy); }
+
+.chapter-num {
+  font-size: 0.75rem;
+  color: var(--ic-text-light);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.chapter-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--ic-navy);
+}
 
 /* CONTENT GRID */
 .content-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  /* grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); */
   gap: 1.25rem;
 }
+
 .content-card {
   background: var(--ic-cream);
   border: 1px solid var(--ic-border);
   border-radius: var(--radius-sm);
   padding: 1.25rem;
 }
-.content-card.full-width { grid-column: 1 / -1; }
-.content-card h3 { font-size: 1rem; font-weight: 600; color: var(--ic-navy); margin-bottom: 0.75rem; }
-.content-card p { font-size: 0.92rem; color: var(--ic-text); line-height: 1.7; }
+
+.content-card.full-width {
+  grid-column: 1 / -1;
+}
+
+.content-card h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--ic-navy);
+  margin-bottom: 0.75rem;
+}
+
+.content-card p {
+  font-size: 0.92rem;
+  color: var(--ic-text);
+  line-height: 1.7;
+}
 
 /* QURAN / HADITH BLOCKS */
 .quran-block {
@@ -1557,8 +1767,22 @@ export default {
   padding: 1rem 1.25rem;
   margin-top: 1rem;
 }
-.quran-arabic { font-size: 1.5rem; text-align: right; color: var(--ic-green); line-height: 2; direction: rtl; font-family: 'Amiri', 'Traditional Arabic', serif; }
-.quran-ref { font-size: 0.78rem; color: var(--ic-warn); margin-top: 0.5rem; }
+
+.quran-arabic {
+  font-size: 1.5rem;
+  text-align: right;
+  color: var(--ic-green);
+  line-height: 2;
+  direction: rtl;
+  font-family: 'Amiri', 'Traditional Arabic', serif;
+}
+
+.quran-ref {
+  font-size: 0.78rem;
+  color: var(--ic-warn);
+  margin-top: 0.5rem;
+}
+
 .hadith-block {
   background: var(--ic-green-pale);
   border-left: 4px solid var(--ic-green);
@@ -1566,8 +1790,18 @@ export default {
   padding: 1rem 1.25rem;
   margin-top: 1rem;
 }
-.hadith-text { font-style: italic; color: var(--ic-navy); font-size: 0.92rem; }
-.hadith-ref { font-size: 0.78rem; color: var(--ic-green); margin-top: 0.5rem; }
+
+.hadith-text {
+  font-style: italic;
+  color: var(--ic-navy);
+  font-size: 0.92rem;
+}
+
+.hadith-ref {
+  font-size: 0.78rem;
+  color: var(--ic-green);
+  margin-top: 0.5rem;
+}
 
 /* TIP / REMINDER */
 .tip-box {
@@ -1579,6 +1813,7 @@ export default {
   font-size: 0.88rem;
   color: var(--ic-warn);
 }
+
 .reminder-pill {
   display: inline-block;
   background: var(--ic-green-pale);
@@ -1589,6 +1824,7 @@ export default {
   color: var(--ic-green);
   margin-top: 0.75rem;
 }
+
 .warning-note {
   background: var(--ic-danger-pale);
   border: 1px solid #f5c6c6;
@@ -1600,27 +1836,83 @@ export default {
 }
 
 /* DOS & DONTS */
-.dos-donts { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-top: 1rem; }
-.dos { background: var(--ic-green-pale); border: 1px solid var(--ic-green-border); border-radius: var(--radius-sm); padding: 0.85rem; }
-.donts { background: var(--ic-danger-pale); border: 1px solid #f5c6c6; border-radius: var(--radius-sm); padding: 0.85rem; }
-.dd-title { font-weight: 600; font-size: 0.85rem; margin-bottom: 0.5rem; }
-.dos .dd-title { color: var(--ic-green); }
-.donts .dd-title { color: var(--ic-danger); }
-.dos ul, .donts ul { padding-left: 1.1rem; font-size: 0.85rem; }
-.dos li { color: var(--ic-green); }
-.donts li { color: var(--ic-danger); }
+.dos-donts {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.dos {
+  background: var(--ic-green-pale);
+  border: 1px solid var(--ic-green-border);
+  border-radius: var(--radius-sm);
+  padding: 0.85rem;
+}
+
+.donts {
+  background: var(--ic-danger-pale);
+  border: 1px solid #f5c6c6;
+  border-radius: var(--radius-sm);
+  padding: 0.85rem;
+}
+
+.dd-title {
+  font-weight: 600;
+  font-size: 0.85rem;
+  margin-bottom: 0.5rem;
+}
+
+.dos .dd-title {
+  color: var(--ic-green);
+}
+
+.donts .dd-title {
+  color: var(--ic-danger);
+}
+
+.dos ul,
+.donts ul {
+  padding-left: 1.1rem;
+  font-size: 0.85rem;
+}
+
+.dos li {
+  color: var(--ic-green);
+}
+
+.donts li {
+  color: var(--ic-danger);
+}
 
 /* STEPS */
-.steps-list { display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.75rem; }
-.step { display: flex; align-items: flex-start; gap: 0.75rem; font-size: 0.9rem; }
+.steps-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+.step {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  font-size: 0.9rem;
+}
+
 .step-num {
   background: var(--ic-green);
   color: #fff;
-  width: 22px; height: 22px;
+  width: 22px;
+  height: 22px;
   border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 0.72rem; font-weight: 700;
-  flex-shrink: 0; margin-top: 0.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.72rem;
+  font-weight: 700;
+  flex-shrink: 0;
+  margin-top: 0.1rem;
 }
 
 /* SCRIPTS */
@@ -1630,23 +1922,82 @@ export default {
   padding: 1rem 1.25rem;
   margin-top: 1rem;
 }
-.script-title { font-size: 0.78rem; color: var(--ic-gold-light); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.5rem; }
-.script-box p { font-style: italic; color: rgba(255,255,255,0.9); font-size: 0.9rem; }
+
+.script-title {
+  font-size: 0.78rem;
+  color: var(--ic-gold-light);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.5rem;
+}
+
+.script-box p {
+  font-style: italic;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.9rem;
+}
 
 /* EMPATHY BOX */
-.empathy-box { display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.75rem; }
-.empathy-item { display: flex; align-items: center; gap: 0.75rem; font-size: 0.9rem; padding: 0.5rem; background: var(--ic-green-pale); border-radius: var(--radius-sm); }
+.empathy-box {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+.empathy-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.9rem;
+  padding: 0.5rem;
+  background: var(--ic-green-pale);
+  border-radius: var(--radius-sm);
+}
 
 /* IMAGES */
-.image-block { margin-top: 0.75rem; }
-.section-img { width: 100%; border-radius: var(--radius-sm); object-fit: cover; max-height: 300px; }
-.img-credit { font-size: 0.72rem; color: var(--ic-text-light); margin-top: 0.35rem; }
+.image-block {
+  margin-top: 0.75rem;
+}
+
+.section-img {
+  width: 100%;
+  border-radius: var(--radius-sm);
+  object-fit: cover;
+  max-height: 300px;
+}
+
+.img-credit {
+  font-size: 0.72rem;
+  color: var(--ic-text-light);
+  margin-top: 0.35rem;
+}
 
 /* VIDEOS */
-.video-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-.video-wrap { display: flex; flex-direction: column; }
-.yt-embed { width: 100%; height: 220px; border-radius: var(--radius-sm); border: none; }
-.vid-label { font-size: 0.8rem; color: var(--ic-text-muted); margin-top: 0.4rem; text-align: center; }
+.video-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.video-wrap {
+  display: flex;
+  flex-direction: column;
+}
+
+.yt-embed {
+  width: 100%;
+  height: 220px;
+  border-radius: var(--radius-sm);
+  border: none;
+}
+
+.vid-label {
+  font-size: 0.8rem;
+  color: var(--ic-text-muted);
+  margin-top: 0.4rem;
+  text-align: center;
+}
 
 /* SOURCE BLOCK */
 .source-block {
@@ -1660,21 +2011,53 @@ export default {
 }
 
 /* FAQ */
-.faq-section { margin-top: 1.5rem; }
-.faq-title { font-size: 1rem; font-weight: 600; color: var(--ic-navy); margin-bottom: 0.75rem; }
-.faq-item { border: 1px solid var(--ic-border); border-radius: var(--radius-sm); margin-bottom: 0.5rem; overflow: hidden; }
+.faq-section {
+  margin-top: 1.5rem;
+}
+
+.faq-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--ic-navy);
+  margin-bottom: 0.75rem;
+}
+
+.faq-item {
+  border: 1px solid var(--ic-border);
+  border-radius: var(--radius-sm);
+  margin-bottom: 0.5rem;
+  overflow: hidden;
+}
+
 .faq-question {
   padding: 0.85rem 1rem;
   cursor: pointer;
-  font-size: 0.9rem; font-weight: 500;
+  font-size: 0.9rem;
+  font-weight: 500;
   color: var(--ic-navy);
-  display: flex; justify-content: space-between; align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   background: var(--ic-white);
   transition: background 0.15s;
 }
-.faq-question:hover { background: var(--ic-green-pale); }
-.faq-arrow { color: var(--ic-green); font-size: 0.75rem; }
-.faq-answer { padding: 0.85rem 1rem; font-size: 0.88rem; background: var(--ic-cream); color: var(--ic-text); border-top: 1px solid var(--ic-border); }
+
+.faq-question:hover {
+  background: var(--ic-green-pale);
+}
+
+.faq-arrow {
+  color: var(--ic-green);
+  font-size: 0.75rem;
+}
+
+.faq-answer {
+  padding: 0.85rem 1rem;
+  font-size: 0.88rem;
+  background: var(--ic-cream);
+  color: var(--ic-text);
+  border-top: 1px solid var(--ic-border);
+}
 
 /* INTERACTIVE TOOL */
 .interactive-tool {
@@ -1684,8 +2067,20 @@ export default {
   padding: 1.5rem;
   margin-top: 1.5rem;
 }
-.interactive-tool h3 { font-size: 1rem; font-weight: 600; color: var(--ic-navy); margin-bottom: 0.5rem; }
-.interactive-tool p { font-size: 0.88rem; color: var(--ic-text-muted); margin-bottom: 1rem; }
+
+.interactive-tool h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--ic-navy);
+  margin-bottom: 0.5rem;
+}
+
+.interactive-tool p {
+  font-size: 0.88rem;
+  color: var(--ic-text-muted);
+  margin-bottom: 1rem;
+}
+
 .tool-select {
   width: 100%;
   padding: 0.7rem 1rem;
@@ -1696,6 +2091,7 @@ export default {
   color: var(--ic-text);
   margin-bottom: 1rem;
 }
+
 .script-output {
   background: var(--ic-white);
   border: 1px solid var(--ic-border);
@@ -1708,22 +2104,68 @@ export default {
 
 /* CULTURE VS ISLAM */
 .culture-vs-islam-grid {
-  display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 1rem;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 1rem;
 }
-.cvi-card { background: var(--ic-white); border-radius: var(--radius-sm); padding: 1.25rem; }
-.cvi-card.culture { border: 2px solid #e0c06b; }
-.cvi-card.islam { border: 2px solid var(--ic-green); }
-.cvi-header { font-weight: 700; font-size: 0.9rem; margin-bottom: 0.75rem; }
-.cvi-card.culture .cvi-header { color: var(--ic-gold); }
-.cvi-card.islam .cvi-header { color: var(--ic-green); }
-.cvi-card ul { padding-left: 1.1rem; font-size: 0.85rem; }
-.cvi-card li { margin-bottom: 0.35rem; }
-.cvi-vs { font-size: 1.5rem; font-weight: 700; color: var(--ic-text-muted); text-align: center; }
+
+.cvi-card {
+  background: var(--ic-white);
+  border-radius: var(--radius-sm);
+  padding: 1.25rem;
+}
+
+.cvi-card.culture {
+  border: 2px solid #e0c06b;
+}
+
+.cvi-card.islam {
+  border: 2px solid var(--ic-green);
+}
+
+.cvi-header {
+  font-weight: 700;
+  font-size: 0.9rem;
+  margin-bottom: 0.75rem;
+}
+
+.cvi-card.culture .cvi-header {
+  color: var(--ic-gold);
+}
+
+.cvi-card.islam .cvi-header {
+  color: var(--ic-green);
+}
+
+.cvi-card ul {
+  padding-left: 1.1rem;
+  font-size: 0.85rem;
+}
+
+.cvi-card li {
+  margin-bottom: 0.35rem;
+}
+
+.cvi-vs {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--ic-text-muted);
+  text-align: center;
+}
 
 /* CULTURE CHECKS */
-.culture-checks { display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1rem; }
+.culture-checks {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
 .cc-item {
-  display: flex; justify-content: space-between; align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   padding: 0.7rem 1rem;
   background: var(--ic-white);
   border: 1px solid var(--ic-border);
@@ -1732,40 +2174,140 @@ export default {
   font-size: 0.88rem;
   transition: background 0.15s;
 }
-.cc-item:hover { background: var(--ic-green-pale); }
+
+.cc-item:hover {
+  background: var(--ic-green-pale);
+}
+
 .cc-tag {
   padding: 0.2rem 0.65rem;
   border-radius: 50px;
   font-size: 0.72rem;
   font-weight: 600;
 }
-.cc-tag.Culture { background: var(--ic-gold-pale); color: var(--ic-gold); border: 1px solid var(--ic-gold-border); }
-.cc-tag.Islam { background: var(--ic-green-pale); color: var(--ic-green); border: 1px solid var(--ic-green-border); }
-.cc-tag.Mixed { background: #e8f0ff; color: #2a4099; border: 1px solid #b8caf5; }
-.cc-detail { background: var(--ic-white); border: 1px solid var(--ic-border); border-radius: var(--radius-sm); padding: 1rem; font-size: 0.88rem; }
-.cc-source { font-size: 0.75rem; color: var(--ic-text-light); margin-top: 0.5rem; }
+
+.cc-tag.Culture {
+  background: var(--ic-gold-pale);
+  color: var(--ic-gold);
+  border: 1px solid var(--ic-gold-border);
+}
+
+.cc-tag.Islam {
+  background: var(--ic-green-pale);
+  color: var(--ic-green);
+  border: 1px solid var(--ic-green-border);
+}
+
+.cc-tag.Mixed {
+  background: #e8f0ff;
+  color: #2a4099;
+  border: 1px solid #b8caf5;
+}
+
+.cc-detail {
+  background: var(--ic-white);
+  border: 1px solid var(--ic-border);
+  border-radius: var(--radius-sm);
+  padding: 1rem;
+  font-size: 0.88rem;
+}
+
+.cc-source {
+  font-size: 0.75rem;
+  color: var(--ic-text-light);
+  margin-top: 0.5rem;
+}
 
 /* ANGER METER */
-.anger-slider { width: 100%; margin: 0.75rem 0; }
-.anger-labels { display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--ic-text-muted); margin-bottom: 0.75rem; }
-.anger-advice { padding: 0.85rem 1rem; border-radius: var(--radius-sm); font-size: 0.9rem; font-weight: 500; }
-.advice-good { background: var(--ic-green-pale); color: var(--ic-green); border: 1px solid var(--ic-green-border); }
-.advice-warn { background: var(--ic-warn-pale); color: var(--ic-warn); border: 1px solid var(--ic-gold-border); }
-.advice-stop { background: var(--ic-danger-pale); color: var(--ic-danger); border: 1px solid #f5c6c6; }
+.anger-slider {
+  width: 100%;
+  margin: 0.75rem 0;
+}
+
+.anger-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: var(--ic-text-muted);
+  margin-bottom: 0.75rem;
+}
+
+.anger-advice {
+  padding: 0.85rem 1rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.advice-good {
+  background: var(--ic-green-pale);
+  color: var(--ic-green);
+  border: 1px solid var(--ic-green-border);
+}
+
+.advice-warn {
+  background: var(--ic-warn-pale);
+  color: var(--ic-warn);
+  border: 1px solid var(--ic-gold-border);
+}
+
+.advice-stop {
+  background: var(--ic-danger-pale);
+  color: var(--ic-danger);
+  border: 1px solid #f5c6c6;
+}
 
 /* DUA GRID */
-.dua-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem; }
+.dua-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.25rem;
+}
+
 .dua-card {
   background: linear-gradient(135deg, var(--ic-navy), var(--ic-green));
   border-radius: var(--radius);
   padding: 1.5rem;
   color: #fff;
 }
-.dua-arabic { font-size: 1.4rem; text-align: right; direction: rtl; line-height: 2; font-family: 'Amiri', 'Traditional Arabic', serif; color: var(--ic-gold-light); margin-bottom: 0.75rem; }
-.dua-translation { font-size: 0.9rem; color: rgba(255,255,255,0.9); font-style: italic; margin-bottom: 0.5rem; }
-.dua-ref { font-size: 0.75rem; color: rgba(255,255,255,0.6); margin-bottom: 1rem; }
-.dua-copy-btn { background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); color: #fff; padding: 0.4rem 1rem; border-radius: 50px; cursor: pointer; font-size: 0.8rem; transition: background 0.2s; }
-.dua-copy-btn:hover { background: rgba(255,255,255,0.25); }
+
+.dua-arabic {
+  font-size: 1.4rem;
+  text-align: right;
+  direction: rtl;
+  line-height: 2;
+  font-family: 'Amiri', 'Traditional Arabic', serif;
+  color: var(--ic-gold-light);
+  margin-bottom: 0.75rem;
+}
+
+.dua-translation {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.9);
+  font-style: italic;
+  margin-bottom: 0.5rem;
+}
+
+.dua-ref {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: 1rem;
+}
+
+.dua-copy-btn {
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: #fff;
+  padding: 0.4rem 1rem;
+  border-radius: 50px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  transition: background 0.2s;
+}
+
+.dua-copy-btn:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
 
 /* SERIOUS NOTICE */
 .serious-notice {
@@ -1780,7 +2322,12 @@ export default {
 }
 
 /* MICRO CONTENT */
-.micro-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; }
+.micro-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
 .micro-card {
   background: var(--ic-white);
   border: 1px solid var(--ic-border);
@@ -1788,21 +2335,84 @@ export default {
   padding: 1.25rem;
   border-top: 3px solid var(--ic-gold);
 }
-.micro-icon { font-size: 1.75rem; margin-bottom: 0.5rem; }
-.micro-title { font-weight: 600; font-size: 0.88rem; color: var(--ic-navy); margin-bottom: 0.5rem; }
-.micro-body { font-size: 0.82rem; color: var(--ic-text-muted); line-height: 1.6; }
+
+.micro-icon {
+  font-size: 1.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.micro-title {
+  font-weight: 600;
+  font-size: 0.88rem;
+  color: var(--ic-navy);
+  margin-bottom: 0.5rem;
+}
+
+.micro-body {
+  font-size: 0.82rem;
+  color: var(--ic-text-muted);
+  line-height: 1.6;
+}
 
 /* HABIT TRACKER */
-.habit-tracker { display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1rem; }
-.habit-row { display: flex; justify-content: space-between; align-items: center; padding: 0.6rem 0.85rem; background: var(--ic-white); border-radius: var(--radius-sm); border: 1px solid var(--ic-border); }
-.habit-label { display: flex; align-items: center; gap: 0.75rem; cursor: pointer; font-size: 0.88rem; }
-.habit-check { width: 16px; height: 16px; accent-color: var(--ic-green); }
-.done-habit { text-decoration: line-through; color: var(--ic-text-muted); }
-.habit-reward { font-size: 0.75rem; color: var(--ic-green); font-weight: 600; }
-.habit-score { font-size: 0.9rem; color: var(--ic-navy); padding: 0.75rem; background: var(--ic-white); border-radius: var(--radius-sm); text-align: center; }
+.habit-tracker {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.habit-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.6rem 0.85rem;
+  background: var(--ic-white);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--ic-border);
+}
+
+.habit-label {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+  font-size: 0.88rem;
+}
+
+.habit-check {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--ic-green);
+}
+
+.done-habit {
+  text-decoration: line-through;
+  color: var(--ic-text-muted);
+}
+
+.habit-reward {
+  font-size: 0.75rem;
+  color: var(--ic-green);
+  font-weight: 600;
+}
+
+.habit-score {
+  font-size: 0.9rem;
+  color: var(--ic-navy);
+  padding: 0.75rem;
+  background: var(--ic-white);
+  border-radius: var(--radius-sm);
+  text-align: center;
+}
 
 /* STORIES */
-.stories-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem; }
+.stories-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.25rem;
+}
+
 .story-card {
   background: var(--ic-white);
   border: 1px solid var(--ic-border);
@@ -1810,106 +2420,407 @@ export default {
   padding: 1.25rem;
   border-left: 4px solid var(--ic-green);
 }
-.story-tag { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ic-green); font-weight: 600; margin-bottom: 0.5rem; }
-.story-title { font-size: 1rem; font-weight: 600; color: var(--ic-navy); margin-bottom: 0.65rem; }
-.story-body { font-size: 0.88rem; color: var(--ic-text-muted); margin-bottom: 0.75rem; font-style: italic; }
-.story-response { font-size: 0.85rem; color: var(--ic-text); background: var(--ic-green-pale); border-radius: var(--radius-sm); padding: 0.65rem 0.85rem; margin-bottom: 0.5rem; }
-.story-source { font-size: 0.72rem; color: var(--ic-text-light); }
+
+.story-tag {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ic-green);
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.story-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--ic-navy);
+  margin-bottom: 0.65rem;
+}
+
+.story-body {
+  font-size: 0.88rem;
+  color: var(--ic-text-muted);
+  margin-bottom: 0.75rem;
+  font-style: italic;
+}
+
+.story-response {
+  font-size: 0.85rem;
+  color: var(--ic-text);
+  background: var(--ic-green-pale);
+  border-radius: var(--radius-sm);
+  padding: 0.65rem 0.85rem;
+  margin-bottom: 0.5rem;
+}
+
+.story-source {
+  font-size: 0.72rem;
+  color: var(--ic-text-light);
+}
+
 .story-textarea {
-  width: 100%; min-height: 100px; padding: 0.75rem; border: 1px solid var(--ic-border);
-  border-radius: var(--radius-sm); font-size: 0.88rem; font-family: inherit;
-  background: var(--ic-white); color: var(--ic-text); resize: vertical; margin-bottom: 0.75rem;
+  width: 100%;
+  min-height: 100px;
+  padding: 0.75rem;
+  border: 1px solid var(--ic-border);
+  border-radius: var(--radius-sm);
+  font-size: 0.88rem;
+  font-family: inherit;
+  background: var(--ic-white);
+  color: var(--ic-text);
+  resize: vertical;
+  margin-bottom: 0.75rem;
 }
+
 .submit-btn {
-  background: var(--ic-green); color: #fff; border: none;
-  padding: 0.7rem 1.5rem; border-radius: var(--radius-sm);
-  cursor: pointer; font-size: 0.9rem; font-weight: 600; transition: background 0.2s;
+  background: var(--ic-green);
+  color: #fff;
+  border: none;
+  padding: 0.7rem 1.5rem;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: background 0.2s;
 }
-.submit-btn:hover { background: var(--ic-green-light); }
+
+.submit-btn:hover {
+  background: var(--ic-green-light);
+}
+
 .success-notice {
-  background: var(--ic-green-pale); border: 1px solid var(--ic-green-border);
-  border-radius: var(--radius-sm); padding: 0.75rem 1rem;
-  color: var(--ic-green); font-size: 0.88rem; margin-top: 0.75rem;
+  background: var(--ic-green-pale);
+  border: 1px solid var(--ic-green-border);
+  border-radius: var(--radius-sm);
+  padding: 0.75rem 1rem;
+  color: var(--ic-green);
+  font-size: 0.88rem;
+  margin-top: 0.75rem;
 }
 
 /* QUIZ / POLL */
-.quiz-scenario { background: var(--ic-white); border: 1px solid var(--ic-border); border-radius: var(--radius-sm); padding: 1rem; font-size: 0.9rem; color: var(--ic-text); margin-bottom: 1rem; }
-.quiz-options { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+.quiz-scenario {
+  background: var(--ic-white);
+  border: 1px solid var(--ic-border);
+  border-radius: var(--radius-sm);
+  padding: 1rem;
+  font-size: 0.9rem;
+  color: var(--ic-text);
+  margin-bottom: 1rem;
+}
+
+.quiz-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
 .quiz-btn {
-  background: var(--ic-white); border: 1px solid var(--ic-green-border);
-  border-radius: var(--radius-sm); padding: 0.6rem 1.25rem;
-  color: var(--ic-green); cursor: pointer; font-size: 0.85rem; font-weight: 500;
+  background: var(--ic-white);
+  border: 1px solid var(--ic-green-border);
+  border-radius: var(--radius-sm);
+  padding: 0.6rem 1.25rem;
+  color: var(--ic-green);
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 500;
   transition: all 0.2s;
 }
-.quiz-btn:hover { background: var(--ic-green); color: #fff; }
-.quiz-feedback { margin-top: 1rem; background: var(--ic-cream); border: 1px solid var(--ic-border); border-radius: var(--radius-sm); padding: 0.85rem 1rem; font-size: 0.88rem; }
-.next-btn { margin-top: 0.75rem; background: var(--ic-green); color: #fff; border: none; padding: 0.5rem 1.25rem; border-radius: var(--radius-sm); cursor: pointer; font-size: 0.85rem; }
-.quiz-done { text-align: center; font-size: 0.95rem; padding: 1.5rem; }
-.poll-options { display: flex; flex-direction: column; gap: 0.5rem; }
-.poll-row { display: flex; align-items: center; gap: 0.75rem; }
+
+.quiz-btn:hover {
+  background: var(--ic-green);
+  color: #fff;
+}
+
+.quiz-feedback {
+  margin-top: 1rem;
+  background: var(--ic-cream);
+  border: 1px solid var(--ic-border);
+  border-radius: var(--radius-sm);
+  padding: 0.85rem 1rem;
+  font-size: 0.88rem;
+}
+
+.next-btn {
+  margin-top: 0.75rem;
+  background: var(--ic-green);
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1.25rem;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+.quiz-done {
+  text-align: center;
+  font-size: 0.95rem;
+  padding: 1.5rem;
+}
+
+.poll-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.poll-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
 .poll-btn {
-  min-width: 120px; padding: 0.5rem 1rem;
-  background: var(--ic-white); border: 1px solid var(--ic-border);
-  border-radius: var(--radius-sm); cursor: pointer; font-size: 0.82rem;
+  min-width: 120px;
+  padding: 0.5rem 1rem;
+  background: var(--ic-white);
+  border: 1px solid var(--ic-border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-size: 0.82rem;
   transition: all 0.2s;
 }
-.poll-btn.selected { background: var(--ic-green); color: #fff; border-color: var(--ic-green); }
-.poll-bar-wrap { flex: 1; background: var(--ic-border); border-radius: 50px; height: 12px; position: relative; }
-.poll-bar { height: 100%; background: var(--ic-green); border-radius: 50px; transition: width 0.4s; }
-.poll-pct { position: absolute; right: -32px; top: -4px; font-size: 0.72rem; color: var(--ic-text-muted); }
-.poll-note { font-size: 0.8rem; color: var(--ic-text-muted); margin-top: 0.75rem; }
+
+.poll-btn.selected {
+  background: var(--ic-green);
+  color: #fff;
+  border-color: var(--ic-green);
+}
+
+.poll-bar-wrap {
+  flex: 1;
+  background: var(--ic-border);
+  border-radius: 50px;
+  height: 12px;
+  position: relative;
+}
+
+.poll-bar {
+  height: 100%;
+  background: var(--ic-green);
+  border-radius: 50px;
+  transition: width 0.4s;
+}
+
+.poll-pct {
+  position: absolute;
+  right: -32px;
+  top: -4px;
+  font-size: 0.72rem;
+  color: var(--ic-text-muted);
+}
+
+.poll-note {
+  font-size: 0.8rem;
+  color: var(--ic-text-muted);
+  margin-top: 0.75rem;
+}
 
 /* WYD */
-.wyd-item { background: var(--ic-white); border: 1px solid var(--ic-border); border-radius: var(--radius-sm); padding: 1rem; margin-bottom: 0.75rem; }
-.wyd-q { font-size: 0.9rem; font-weight: 500; color: var(--ic-navy); margin-bottom: 0.75rem; }
-.wyd-choices { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.wyd-item {
+  background: var(--ic-white);
+  border: 1px solid var(--ic-border);
+  border-radius: var(--radius-sm);
+  padding: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.wyd-q {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--ic-navy);
+  margin-bottom: 0.75rem;
+}
+
+.wyd-choices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
 .wyd-btn {
-  background: var(--ic-cream); border: 1px solid var(--ic-border);
-  border-radius: var(--radius-sm); padding: 0.45rem 0.9rem;
-  cursor: pointer; font-size: 0.82rem;
+  background: var(--ic-cream);
+  border: 1px solid var(--ic-border);
+  border-radius: var(--radius-sm);
+  padding: 0.45rem 0.9rem;
+  cursor: pointer;
+  font-size: 0.82rem;
   transition: all 0.2s;
 }
-.wyd-btn.selected { background: var(--ic-navy); color: #fff; }
-.wyd-btn.correct { background: var(--ic-green); color: #fff; border-color: var(--ic-green); }
-.wyd-feedback { margin-top: 0.65rem; font-size: 0.83rem; color: var(--ic-green); background: var(--ic-green-pale); padding: 0.5rem 0.75rem; border-radius: var(--radius-sm); }
+
+.wyd-btn.selected {
+  background: var(--ic-navy);
+  color: #fff;
+}
+
+.wyd-btn.correct {
+  background: var(--ic-green);
+  color: #fff;
+  border-color: var(--ic-green);
+}
+
+.wyd-feedback {
+  margin-top: 0.65rem;
+  font-size: 0.83rem;
+  color: var(--ic-green);
+  background: var(--ic-green-pale);
+  padding: 0.5rem 0.75rem;
+  border-radius: var(--radius-sm);
+}
 
 /* RESOURCES */
-.resources-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
-.resource-card { background: var(--ic-white); border: 1px solid var(--ic-border); border-radius: var(--radius-sm); padding: 1.25rem; text-align: center; }
-.res-icon { font-size: 2rem; margin-bottom: 0.5rem; }
-.res-name { font-weight: 700; font-size: 0.95rem; color: var(--ic-navy); margin-bottom: 0.35rem; }
-.res-desc { font-size: 0.8rem; color: var(--ic-text-muted); margin-bottom: 0.5rem; }
-.res-type { display: inline-block; background: var(--ic-green-pale); color: var(--ic-green); border: 1px solid var(--ic-green-border); border-radius: 50px; padding: 0.2rem 0.65rem; font-size: 0.72rem; font-weight: 600; }
+.resources-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.resource-card {
+  background: var(--ic-white);
+  border: 1px solid var(--ic-border);
+  border-radius: var(--radius-sm);
+  padding: 1.25rem;
+  text-align: center;
+}
+
+.res-icon {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.res-name {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--ic-navy);
+  margin-bottom: 0.35rem;
+}
+
+.res-desc {
+  font-size: 0.8rem;
+  color: var(--ic-text-muted);
+  margin-bottom: 0.5rem;
+}
+
+.res-type {
+  display: inline-block;
+  background: var(--ic-green-pale);
+  color: var(--ic-green);
+  border: 1px solid var(--ic-green-border);
+  border-radius: 50px;
+  padding: 0.2rem 0.65rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+}
 
 /* TRUSTED SOURCES */
-.trusted-sources { background: var(--ic-navy); border-radius: var(--radius); padding: 2rem; }
-.trusted-sources h3 { color: var(--ic-gold-light); font-size: 1.1rem; margin-bottom: 1.25rem; }
-.sources-list { display: flex; flex-direction: column; gap: 1rem; }
-.source-item { display: flex; align-items: flex-start; gap: 1rem; }
-.src-num { font-size: 1.5rem; font-weight: 700; color: var(--ic-gold-light); min-width: 32px; }
-.src-name { font-weight: 600; color: #fff; font-size: 0.95rem; }
-.src-url { font-size: 0.8rem; color: var(--ic-gold-light); }
-.src-why { font-size: 0.82rem; color: rgba(255,255,255,0.7); margin-top: 0.25rem; }
+.trusted-sources {
+  background: var(--ic-navy);
+  border-radius: var(--radius);
+  padding: 2rem;
+}
+
+.trusted-sources h3 {
+  color: var(--ic-gold-light);
+  font-size: 1.1rem;
+  margin-bottom: 1.25rem;
+}
+
+.sources-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.source-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.src-num {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--ic-gold-light);
+  min-width: 32px;
+}
+
+.src-name {
+  font-weight: 600;
+  color: #fff;
+  font-size: 0.95rem;
+}
+
+.src-url {
+  font-size: 0.8rem;
+  color: var(--ic-gold-light);
+}
+
+.src-why {
+  font-size: 0.82rem;
+  color: rgba(255, 255, 255, 0.7);
+  margin-top: 0.25rem;
+}
 
 /* FOOTER */
 .ic-footer {
   background: var(--ic-navy);
-  color: rgba(255,255,255,0.8);
+  color: rgba(255, 255, 255, 0.8);
   padding: 2.5rem 0;
   text-align: center;
 }
-.footer-logo { font-size: 1.5rem; font-weight: 700; color: var(--ic-gold-light); margin-bottom: 0.35rem; }
-.footer-tagline { font-size: 0.9rem; color: rgba(255,255,255,0.6); margin-bottom: 1rem; }
-.footer-disclaimer { font-size: 0.78rem; color: rgba(255,255,255,0.5); max-width: 700px; margin: 0 auto 1rem; line-height: 1.6; }
-.footer-copy { font-size: 0.78rem; color: rgba(255,255,255,0.4); }
+
+.footer-logo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--ic-gold-light);
+  margin-bottom: 0.35rem;
+}
+
+.footer-tagline {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: 1rem;
+}
+
+.footer-disclaimer {
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.5);
+  max-width: 700px;
+  margin: 0 auto 1rem;
+  line-height: 1.6;
+}
+
+.footer-copy {
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.4);
+}
 
 /* RESPONSIVE */
 @media (max-width: 768px) {
-  .stats-bar { grid-template-columns: repeat(2, 1fr); }
-  .video-row { grid-template-columns: 1fr; }
-  .culture-vs-islam-grid { grid-template-columns: 1fr; }
-  .cvi-vs { text-align: center; font-size: 1.2rem; }
-  .dos-donts { grid-template-columns: 1fr; }
-  .chapter-section { padding: 1.25rem; }
+  .stats-bar {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .video-row {
+    grid-template-columns: 1fr;
+  }
+
+  .culture-vs-islam-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .cvi-vs {
+    text-align: center;
+    font-size: 1.2rem;
+  }
+
+  .dos-donts {
+    grid-template-columns: 1fr;
+  }
+
+  .chapter-section {
+    padding: 1.25rem;
+  }
 }
 </style>

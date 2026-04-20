@@ -1595,9 +1595,9 @@
                         <li class="nav-item mt-2">
                             <a class="nav-link pt-2 ml-3 pl-3" href="/" data-path="/" data-nav-item="primary"><b>Home</b></a>
                         </li>
-                        <li class="nav-item mt-2">
+                        <!-- <li class="nav-item mt-2">
                             <a class="nav-link pt-2 ml-3 pl-3" href="/hajj" data-path="/hajj" data-nav-item="primary"><b>Hajj & Umrah</b></a>
-                        </li> 
+                        </li>  -->
                         <!--
                         <li class="nav-item mt-2">
                             <button class="button-33" role="button" type="button" onclick="window.location.href='/muslim'">Discover Islam</button>
@@ -1632,9 +1632,9 @@
                             <a class="nav-link ml-3 pt-2 pl-3" href="/islamic-blog" data-path="/islamic-blog" data-nav-item="primary"><b>Content Library</b></a>
                         </li> -->
 
-                        <!-- <li class="nav-item mt-2">
+                        <li class="nav-item mt-2">
                             <a class="nav-link ml-3 pt-2 pl-3" href="/digital-library" data-path="/digital-library" data-nav-item="primary"><b>Content Library</b></a>
-                        </li> -->
+                        </li>
 
 	                        <li class="nav-item mt-2">
 	                            <a class="nav-link ml-3 pt-2 pl-3" href="/dua" data-path="/dua" data-nav-item="primary"><b>Dua Collection</b></a>

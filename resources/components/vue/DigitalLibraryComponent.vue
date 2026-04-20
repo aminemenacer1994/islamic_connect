@@ -69,14 +69,14 @@ export default {
           tags: ["Shahada", "Prayer", "Daily Practice"],
         },
         {
-          id: "youth-faith-lab",
-          title: "Youth Faith Lab",
+          id: "Parenting-youth",
+          title: "Parenting the Youth in the west",
           description:
             "Guidance for students and young professionals navigating identity, studies, and faith-centered habits.",
           audience: "youth",
           level: "Intermediate",
-          href: "/guide",
-          cta: "Start Youth Track",
+          href: "/parenting",
+          cta: "Start Parenting Track",
           tags: ["Campus Life", "Identity", "Habits"],
         },
         {
