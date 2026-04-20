@@ -1752,7 +1752,7 @@ export default defineComponent({
                 justify-content: space-between;
                 align-items: center;
                 margin-bottom: 1.5rem;
-                border-bottom: 1px solid rgba(15, 23, 42, 0.12);
+                border-bottom: 1px solid rgba(38, 41, 46, 0.12);
                 padding-bottom: 0.5rem;
               }
               header h1 {
@@ -2087,7 +2087,7 @@ export default defineComponent({
   min-width: 260px;
   background: #ffffff;
   border: 1px solid rgba(59, 130, 246, 0.35);
-  box-shadow: 0 4px 15px rgba(15, 23, 42, 0.15);
+  box-shadow: 0 4px 15px rgba(38, 41, 46, 0.15);
 }
 
 .alert-outline.alert-info {
@@ -2113,7 +2113,7 @@ export default defineComponent({
   padding: 1rem 1.4rem;
   font-size: 1rem;
   min-width: 300px;
-  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.25);
+  box-shadow: 0 12px 30px rgba(38, 41, 46, 0.25);
   border-left: 6px solid #0ea5e9;
   animation: slideInTopRight 0.4s cubic-bezier(0.25, 0.86, 0.25, 1) forwards;
   pointer-events: auto;
@@ -2393,7 +2393,7 @@ export default defineComponent({
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.95), rgba(248, 250, 252, 0.85));
   border-radius: 24px;
   padding: 1.5rem;
-  box-shadow: 0 18px 35px rgba(15, 23, 42, 0.18);
+  box-shadow: 0 18px 35px rgba(38, 41, 46, 0.18);
   border: 1px solid rgba(15, 76, 117, 0.15);
   position: sticky;
   top: 2rem;
@@ -2446,7 +2446,7 @@ export default defineComponent({
   padding: 0.85rem 1rem;
   background: rgba(255, 255, 255, 0.7);
   border: 1px solid rgba(16, 185, 129, 0.15);
-  box-shadow: 0 10px 20px rgba(15, 23, 42, 0.08);
+  box-shadow: 0 10px 20px rgba(38, 41, 46, 0.08);
   cursor: pointer;
   transition: transform 0.3s ease, border-color 0.3s ease, background 0.3s ease;
   position: relative;
@@ -2467,7 +2467,7 @@ export default defineComponent({
 .roadmap-pill.active {
   background: linear-gradient(135deg, rgba(59, 130, 246, 0.25), rgba(16, 185, 129, 0.15));
   border: 1px solid rgba(59, 130, 246, 0.55);
-  box-shadow: 0 22px 42px rgba(15, 23, 42, 0.4), inset 0 0 30px rgba(59, 130, 246, 0.35);
+  box-shadow: 0 22px 42px rgba(38, 41, 46, 0.4), inset 0 0 30px rgba(59, 130, 246, 0.35);
   backdrop-filter: blur(30px);
   color: #0f172a;
   position: relative;
@@ -2510,7 +2510,7 @@ export default defineComponent({
 
 .roadmap-pill.active .dot-icon-step i {
   color: #0f172a;
-  filter: drop-shadow(0 2px 6px rgba(15, 23, 42, 0.4));
+  filter: drop-shadow(0 2px 6px rgba(38, 41, 46, 0.4));
 }
 
 .roadmap-pill.locked {
@@ -2633,7 +2633,7 @@ export default defineComponent({
 
 .content-card:hover {
   transform: translateY(-1px);
-  box-shadow: 0 18px 35px rgba(15, 23, 42, 0.15);
+  box-shadow: 0 18px 35px rgba(38, 41, 46, 0.15);
 }
 
 .content-card .card-header {
@@ -2659,13 +2659,13 @@ export default defineComponent({
   overflow: hidden;
   background: #fff;
   border: 1px solid rgba(16, 185, 129, 0.15);
-  box-shadow: 0 20px 30px rgba(15, 23, 42, 0.12);
+  box-shadow: 0 20px 30px rgba(38, 41, 46, 0.12);
   transition: transform 0.4s ease, box-shadow 0.4s ease;
 }
 
 .dua-card:hover {
   transform: translateY(-6px);
-  box-shadow: 0 32px 45px rgba(15, 23, 42, 0.25);
+  box-shadow: 0 32px 45px rgba(38, 41, 46, 0.25);
 }
 
 .dua-card .dua-glow {
@@ -2791,7 +2791,7 @@ export default defineComponent({
   padding: 0.65rem 1rem;
   border: 1px solid rgba(59, 130, 246, 0.2);
   min-width: 160px;
-  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.12);
+  box-shadow: 0 10px 25px rgba(38, 41, 46, 0.12);
 }
 
 .section-stat-card strong {
@@ -2925,7 +2925,7 @@ export default defineComponent({
   justify-content: space-between;
   transform: translateY(-2px);
   border-color: #000;
-  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+  box-shadow: 0 12px 30px rgba(38, 41, 46, 0.08);
 }
 
 .quiz-option {
@@ -2938,7 +2938,7 @@ export default defineComponent({
   justify-content: space-between;
   transform: translateY(-2px);
   border-color: #000;
-  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+  box-shadow: 0 12px 30px rgba(38, 41, 46, 0.08);
 }
 
 /* .quiz-option:hover {
@@ -2951,7 +2951,7 @@ export default defineComponent({
   justify-content: space-between;
   transform: translateY(-2px);
   border-color: #000;
-  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+  box-shadow: 0 12px 30px rgba(38, 41, 46, 0.08);
 } */
 
 .quiz-option--correct {
@@ -2986,7 +2986,7 @@ export default defineComponent({
   width: 100%;
   height: 6px;
   border-radius: 999px;
-  background: rgba(15, 23, 42, 0.08);
+  background: rgba(38, 41, 46, 0.08);
   overflow: hidden;
 }
 
@@ -3003,7 +3003,7 @@ export default defineComponent({
 }
 
 .quiz-header {
-  border-bottom: 1px solid rgba(15, 23, 42, 0.04);
+  border-bottom: 1px solid rgba(38, 41, 46, 0.04);
 }
 
 .quiz-body {
@@ -3040,10 +3040,10 @@ export default defineComponent({
 }
 
 .hero-stat-card {
-  background: rgba(15, 23, 42, 0.04);
+  background: rgba(38, 41, 46, 0.04);
   border-radius: 16px;
   padding: 1.25rem 1.5rem;
-  border: 1px solid rgba(15, 23, 42, 0.1);
+  border: 1px solid rgba(38, 41, 46, 0.1);
   min-height: 120px;
   display: flex;
   flex-direction: column;
@@ -3071,7 +3071,7 @@ export default defineComponent({
   padding: 1.5rem;
   border: 1px solid rgba(14, 165, 233, 0.2);
   background: linear-gradient(180deg, rgba(16, 185, 129, 0.08), rgba(255, 255, 255, 0.9));
-  box-shadow: 0 18px 35px rgba(15, 23, 42, 0.1);
+  box-shadow: 0 18px 35px rgba(38, 41, 46, 0.1);
 }
 
 .transition-line {
@@ -3084,13 +3084,13 @@ export default defineComponent({
 .lesson-focus-card {
   background: rgba(255, 255, 255, 0.85);
   border: 1px solid rgba(16, 185, 129, 0.25);
-  box-shadow: 0 14px 30px rgba(15, 23, 42, 0.1) inset;
+  box-shadow: 0 14px 30px rgba(38, 41, 46, 0.1) inset;
 }
 
 .guided-section-card {
   background: #f8fafc;
   border: 1px solid rgba(14, 165, 233, 0.25);
-  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.1);
+  box-shadow: 0 12px 30px rgba(38, 41, 46, 0.1);
 }
 
 .guided-bullets {
@@ -3171,7 +3171,7 @@ export default defineComponent({
   background: #fff;
   border-radius: 18px;
   border: 1px solid rgba(11, 128, 111, 0.12);
-  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+  box-shadow: 0 12px 30px rgba(38, 41, 46, 0.08);
   min-height: 150px;
 }
 
@@ -3212,7 +3212,7 @@ export default defineComponent({
 
 .custom-modal-card .modal-body-top {
   background: linear-gradient(135deg, rgba(14, 165, 233, 0.8), rgba(16, 185, 129, 0.8));
-  box-shadow: 0 15px 35px rgba(15, 23, 42, 0.25);
+  box-shadow: 0 15px 35px rgba(38, 41, 46, 0.25);
 }
 
 .btn-close-custom {
@@ -3225,7 +3225,7 @@ export default defineComponent({
 }
 
 .modal-list {
-  border: 1px solid rgba(15, 23, 42, 0.06);
+  border: 1px solid rgba(38, 41, 46, 0.06);
   border-radius: 12px;
   padding: 0.9rem 1.1rem;
   margin-bottom: 0.6rem;
@@ -3236,7 +3236,7 @@ export default defineComponent({
   border: none;
   color: #fff;
   border-radius: 999px;
-  box-shadow: 0 15px 30px rgba(15, 23, 42, 0.2);
+  box-shadow: 0 15px 30px rgba(38, 41, 46, 0.2);
 }
 @keyframes modalEntrance {
   from {
@@ -3524,7 +3524,7 @@ export default defineComponent({
 .accordion-item-card {
   background: rgba(255, 255, 255, 0.03);
   border-radius: 16px;
-  border: 1px solid rgba(15, 23, 42, 0.1);
+  border: 1px solid rgba(38, 41, 46, 0.1);
   padding: 0.65rem;
   transition: border-color 0.3s ease, transform 0.3s ease;
 }
@@ -3628,8 +3628,8 @@ export default defineComponent({
 }
 
 .faq-question {
-  background: rgba(15, 23, 42, 0.02);
-  border: 1px solid rgba(15, 23, 42, 0.08);
+  background: rgba(38, 41, 46, 0.02);
+  border: 1px solid rgba(38, 41, 46, 0.08);
   border-radius: 14px;
   padding: 0.9rem 1.25rem;
   font-weight: 600;
@@ -3647,7 +3647,7 @@ export default defineComponent({
   border-radius: 12px;
   padding: 0.85rem 1rem;
   border: 1px solid rgba(59, 130, 246, 0.2);
-  box-shadow: inset 0 2px 4px rgba(15, 23, 42, 0.05);
+  box-shadow: inset 0 2px 4px rgba(38, 41, 46, 0.05);
 }
 
 .lesson-hero {
@@ -3658,7 +3658,7 @@ export default defineComponent({
   overflow: hidden;
   margin-bottom: 1rem;
   min-height: 180px;
-  box-shadow: 0 30px 45px rgba(15, 23, 42, 0.35);
+  box-shadow: 0 30px 45px rgba(38, 41, 46, 0.35);
   animation: softPulse 12s ease-in-out infinite;
 }
 

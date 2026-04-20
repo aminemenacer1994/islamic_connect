@@ -499,7 +499,7 @@ export default {
 
 .mission-map-card.is-dark,
 .mission-map-card.mission-map-card--fullscreen.is-dark {
-  background: #232529;
+  background: #26292e;
   border-color: rgba(255, 255, 255, 0.12);
   box-shadow: none;
 }
@@ -648,7 +648,7 @@ export default {
 .mission-map-card.is-dark .mission-map-card__icon-btn,
 .mission-map-card.is-dark .mission-map-card__state,
 .mission-map-card.is-dark .mission-map-card__canvas {
-  background: #232529;
+  background: #26292e;
   border-color: rgba(255, 255, 255, 0.12);
   box-shadow: none;
 }
@@ -667,7 +667,7 @@ export default {
 .mission-map-card.is-dark :deep(.leaflet-control-zoom a),
 .mission-map-card.is-dark :deep(.leaflet-popup-content-wrapper),
 .mission-map-card.is-dark :deep(.leaflet-popup-tip) {
-  background: #232529;
+  background: #26292e;
   color: #ffffff;
   border-color: rgba(255, 255, 255, 0.12);
 }

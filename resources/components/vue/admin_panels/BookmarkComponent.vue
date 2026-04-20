@@ -608,7 +608,7 @@ export default {
   display: flex;
   align-items: center;
   gap: 20px;
-  box-shadow: 0 4px 20px rgba(15, 23, 42, 0.04);
+  box-shadow: 0 4px 20px rgba(38, 41, 46, 0.04);
   border: 1px solid #f1f5f9;
   position: relative;
   overflow: hidden;
@@ -666,7 +666,7 @@ export default {
   border-radius: 20px;
   padding: 16px 24px;
   border: 1px solid #f1f5f9;
-  box-shadow: 0 2px 12px rgba(15, 23, 42, 0.03);
+  box-shadow: 0 2px 12px rgba(38, 41, 46, 0.03);
 }
 
 .search-group {
@@ -728,14 +728,14 @@ export default {
   height: 100%;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.04);
+  box-shadow: 0 10px 30px rgba(38, 41, 46, 0.04);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
 }
 
 .note-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.08);
+  box-shadow: 0 20px 40px rgba(38, 41, 46, 0.08);
   border-color: rgba(15, 110, 99, 0.2);
 }
 

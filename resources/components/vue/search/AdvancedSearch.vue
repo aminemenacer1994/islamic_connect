@@ -318,7 +318,7 @@ export default {
 .elegant-search {
   border-radius: 16px;
   overflow: visible;
-  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.12);
+  box-shadow: 0 12px 30px rgba(38, 41, 46, 0.12);
   position: relative;
   border: 1px solid rgba(15, 110, 99, 0.18);
   background: rgba(255, 255, 255, 0.98);
@@ -573,7 +573,7 @@ export default {
   padding: 8px 10px; /* reduced internal padding */
   cursor: pointer;
   transition: background-color .12s ease, color .12s ease, transform .06s ease, box-shadow .12s ease;
-  border-bottom: 1px solid rgba(2, 6, 23, 0.06);
+  border-bottom: 1px solid rgba(30, 33, 38, 0.06);
   border-radius: 8px;
   display: block;
 }

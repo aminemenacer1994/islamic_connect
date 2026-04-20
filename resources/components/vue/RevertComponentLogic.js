@@ -3310,7 +3310,7 @@ export default defineComponent({
                 justify-content: space-between;
                 align-items: center;
                 margin-bottom: 1.5rem;
-                border-bottom: 1px solid rgba(15, 23, 42, 0.12);
+                border-bottom: 1px solid rgba(38, 41, 46, 0.12);
                 padding-bottom: 0.5rem;
               }
               header h1 {

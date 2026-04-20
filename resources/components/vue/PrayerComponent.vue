@@ -483,7 +483,7 @@ export default {
   border-radius: 20px;
   background: rgba(255, 255, 255, 0.96);
   border: none;
-  box-shadow: 0 18px 32px rgba(15, 23, 42, 0.12);
+  box-shadow: 0 18px 32px rgba(38, 41, 46, 0.12);
 }
 
 .table-scroll {

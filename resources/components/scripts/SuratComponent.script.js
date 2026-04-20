@@ -651,6 +651,7 @@ export default {
 		            showWordTranslation: false,
 		            showWordTranslationTooltip: false,
                     transliterationWordHighlightEnabled: true,
+                    audioHighlightEnabled: true,
 		            gestureNavigationEnabled: true,
             toolbarScrollEnabled: true,
 	            wordTranslationPreferenceKey: "surat_show_word_translation",
@@ -658,6 +659,7 @@ export default {
                 "surat_show_word_translation_tooltip",
             transliterationWordHighlightPreferenceKey:
                 "suratTransliterationWordHighlightEnabled",
+            audioHighlightPreferenceKey: "suratAudioHighlightEnabled",
             gestureNavigationPreferenceKey: "suratGestureNavigationEnabled",
             progress: [],
             audioElements: [],
@@ -1544,6 +1546,7 @@ export default {
 	                showWordTranslation: false,
 	                showWordTranslationTooltip: false,
                     transliterationWordHighlightEnabled: true,
+                    audioHighlightEnabled: true,
 	                gestureNavigationEnabled: true,
 	                toolbarScrollEnabled: true,
                 playbackMode: "continuous",
@@ -4415,8 +4418,15 @@ export default {
         effectiveArabicFontSize() {
             const baseSize = Number(this.arabicFontSize);
             const safeBase = Number.isFinite(baseSize) ? baseSize : 28;
-            if (!this.isDeepFocusMode) return safeBase;
-            return Math.round(safeBase * 1.08 * 10) / 10;
+            let size = safeBase;
+            if (this.isDeepFocusMode) {
+                size = Math.round(safeBase * 1.08 * 10) / 10;
+            }
+            // Cap font size on mobile to maintain 100% responsiveness
+            if (this.isTabletOrMobile) {
+                return Math.min(size, 38);
+            }
+            return size;
         },
         effectiveAyahBodyFontSize() {
             const baseSize = Number(this.ayahBodyFontSize);
@@ -22519,7 +22529,10 @@ export default {
             };
         },
         async createSavedBookmarkFolder(payload = {}) {
-            if (!this.bookmarkAuthenticated) return;
+            if (!this.bookmarkAuthenticated) {
+                this.showToast("You need an account to create bookmark collections and folders.", 4000);
+                return;
+            }
             const name = String(payload?.name || "").trim();
             if (!name) return;
             try {
@@ -25650,6 +25663,7 @@ export default {
             );
             const useTajweed = this.shouldUseTajweedWords(ayah, words.length);
             const activeDisplayWordIndex =
+                this.audioHighlightEnabled &&
                 Number.isInteger(ayahIndex) &&
                 Number(ayahIndex) === Number(this.activePlaybackWordAyahIndex)
                     ? Number(this.activePlaybackWordDisplayIndex)
@@ -25711,6 +25725,7 @@ export default {
             const arabicWords = this.getAyahBaseWords(ayah);
 
             const activeDisplayWordIndex =
+                this.audioHighlightEnabled &&
                 this.transliterationWordHighlightEnabled &&
                 Number.isInteger(ayahIndex) &&
                 Number(ayahIndex) === Number(this.activePlaybackWordAyahIndex)
@@ -28636,11 +28651,11 @@ export default {
                     ? "0.82rem 0.82rem 0.86rem"
                     : "0.88rem 0.9rem 0.92rem",
                 background: isDark
-                    ? "linear-gradient(180deg, rgba(17, 24, 39, 0.96) 0%, rgba(15, 23, 42, 0.98) 100%)"
+                    ? "linear-gradient(180deg, rgba(17, 24, 39, 0.96) 0%, rgba(38, 41, 46, 0.98) 100%)"
                     : "linear-gradient(180deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 250, 252, 0.98) 100%)",
                 border: isDark
                     ? "1px solid rgba(148, 163, 184, 0.18)"
-                    : "1px solid rgba(15, 23, 42, 0.08)",
+                    : "1px solid rgba(38, 41, 46, 0.08)",
                 borderRadius: "18px",
             };
         },
@@ -28672,7 +28687,7 @@ export default {
                     ),
                 boxShadow: isDark
                     ? "none"
-                    : "0 8px 18px rgba(15, 23, 42, 0.04)",
+                    : "0 8px 18px rgba(38, 41, 46, 0.04)",
                 color: isDark ? "#f8fafc" : "#1f2937",
             };
 
@@ -29500,10 +29515,26 @@ export default {
             }
             this.announce(
                 checked
-                    ? "Transliteration sync enabled."
-                    : "Transliteration sync disabled."
+                    ? "Real-time text highlight enabled."
+                    : "Real-time text highlight disabled."
             );
-            this.showModeToggleToast("Sync", checked);
+            this.showModeToggleToast("Real-time highlight", checked);
+        },
+        toggleToolbarAudioHighlight() {
+            const checked = !this.audioHighlightEnabled;
+            this.audioHighlightEnabled = checked;
+            if (this.settingsDraft) {
+                this.settingsDraft.audioHighlightEnabled = checked;
+            }
+            if (checked) {
+                this.enrichSurahWithQuranSegments().catch(() => {});
+            }
+            this.announce(
+                checked
+                    ? "Ayah highlight enabled."
+                    : "Ayah highlight disabled."
+            );
+            this.showModeToggleToast("Ayah highlight", checked);
         },
         toggleToolbarTajweed() {
             const checked = !this.showTajweed; 
@@ -32685,6 +32716,32 @@ export default {
         },
         movePlaylistPanelItemDown(itemId = "") {
             this.reorderPlaylistPanelItem(itemId, "down");
+        },
+        playPlaylistFromPanel(playlistId = "all") {
+            const items = this.playlistPanelItems;
+            if (!items.length) return;
+            // Set playback mode to continuous for smooth listening
+            this.settingsDraft.playbackMode = "continuous";
+            // Start from the first item
+            const firstItem = items[0];
+            this.playCustomPlaylistItem(firstItem);
+            this.showToast({
+                message: `Now playing ${this.activePlaylist?.name || "All"} playlist`,
+                type: "success"
+            });
+        },
+        shufflePlaylistFromPanel(playlistId = "all") {
+            const items = [...this.playlistPanelItems];
+            if (!items.length) return;
+            // Shuffle and play the first one
+            const randomIndex = Math.floor(Math.random() * items.length);
+            const randomItem = items[randomIndex];
+            this.settingsDraft.playbackMode = "continuous";
+            this.playCustomPlaylistItem(randomItem);
+            this.showToast({
+                message: `Shuffled and playing ${this.activePlaylist?.name || "All"}`,
+                type: "success"
+            });
         },
         async playCustomPlaylistItem(item) {
             if (!item) return;

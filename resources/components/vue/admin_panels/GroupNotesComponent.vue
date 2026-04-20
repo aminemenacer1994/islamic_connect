@@ -331,7 +331,7 @@ export default {
 
 .filter-chip:hover {
   transform: translateY(-1px);
-  box-shadow: 0 8px 16px rgba(15, 23, 42, 0.12);
+  box-shadow: 0 8px 16px rgba(38, 41, 46, 0.12);
 }
 
 .filter-chip.active {
@@ -342,8 +342,8 @@ export default {
 
 .group-search {
   border-radius: 12px;
-  border-color: rgba(15, 23, 42, 0.12);
-  box-shadow: 0 10px 20px rgba(15, 23, 42, 0.08);
+  border-color: rgba(38, 41, 46, 0.12);
+  box-shadow: 0 10px 20px rgba(38, 41, 46, 0.08);
 }
 
 .group-count {
@@ -370,14 +370,14 @@ export default {
   flex-direction: column;
   border-radius: 16px;
   border: 1px solid var(--admin-border);
-  box-shadow: 0 16px 28px rgba(15, 23, 42, 0.08);
+  box-shadow: 0 16px 28px rgba(38, 41, 46, 0.08);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 /* Card hover effect */
 .card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 20px 36px rgba(15, 23, 42, 0.12);
+  box-shadow: 0 20px 36px rgba(38, 41, 46, 0.12);
 }
 
 i {
@@ -438,6 +438,6 @@ i:hover {
 }
 
 .card-body hr {
-  border-color: rgba(15, 23, 42, 0.08);
+  border-color: rgba(38, 41, 46, 0.08);
 }
 </style>

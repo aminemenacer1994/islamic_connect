@@ -465,8 +465,8 @@ export default {
   background: #fff;
   border-radius: 20px;
   padding: 1rem 1.2rem;
-  border: 1px solid rgba(15, 23, 42, 0.1);
-  box-shadow: 0 20px 42px rgba(15, 23, 42, 0.1);
+  border: 1px solid rgba(38, 41, 46, 0.1);
+  box-shadow: 0 20px 42px rgba(38, 41, 46, 0.1);
   gap: 1rem;
 }
 
@@ -484,12 +484,12 @@ export default {
   background-color: #fff;
   border-radius: 20px;
   overflow: hidden;
-  box-shadow: 0 20px 45px rgba(15, 23, 42, 0.12);
+  box-shadow: 0 20px 45px rgba(38, 41, 46, 0.12);
 }
 
 .calendar-weekdays .col {
   padding: 0.9rem;
-  border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+  border-bottom: 1px solid rgba(38, 41, 46, 0.08);
   background: #f9fafc;
 }
 
@@ -505,7 +505,7 @@ export default {
 .calendar-day:hover {
   background: #f4fbff;
   transform: translateY(-1px);
-  box-shadow: inset 0 0 0 1px rgba(15, 23, 42, 0.05);
+  box-shadow: inset 0 0 0 1px rgba(38, 41, 46, 0.05);
 }
 
 .calendar-day:focus-visible {

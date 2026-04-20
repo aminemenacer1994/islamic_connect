@@ -545,7 +545,7 @@ import Hls from 'hls.js';
 import { fetchUserIdFromApi, resolveClientUserId } from '../utils/bookmarkAuth';
 
 const RADIO_THEME_STORAGE_KEY = 'radioThemeMode';
-const RADIO_DARK_BG = '#232529';
+const RADIO_DARK_BG = '#26292e';
 const isRadioDark = ref(false);
 
 const hlsInstancesByStationId = markRaw(new Map());
@@ -2332,7 +2332,7 @@ const playAudio = (index) => {
   align-items: center;
   gap: 0.55rem;
   border-radius: 999px;
-  border: 1px solid rgba(15, 23, 42, 0.14);
+  border: 1px solid rgba(38, 41, 46, 0.14);
   background: rgba(255, 255, 255, 0.9);
   color: #0b1320;
   padding: 0.5rem 0.85rem;
@@ -2346,7 +2346,7 @@ const playAudio = (index) => {
 }
 
 :global(body.radio-route-page.dark-mode) .radio-theme-btn {
-  background: #232529;
+  background: #26292e;
   border-color: rgba(255, 255, 255, 0.14);
   color: #ffffff;
 }
@@ -2379,7 +2379,7 @@ const playAudio = (index) => {
     radial-gradient(980px 380px at 95% -26%, rgba(14, 165, 233, 0.12), transparent 58%),
     linear-gradient(180deg, #f8fbff 0%, #f6fffc 48%, #f7fafc 100%);
   border: 1px solid rgba(148, 163, 184, 0.24);
-  box-shadow: 0 18px 44px rgba(15, 23, 42, 0.08);
+  box-shadow: 0 18px 44px rgba(38, 41, 46, 0.08);
 }
 
 .station-content {
@@ -2401,7 +2401,7 @@ const playAudio = (index) => {
   border-radius: 16px;
   object-fit: cover;
   border: 1px solid rgba(6, 182, 172, 0.2);
-  box-shadow: 0 8px 18px rgba(15, 23, 42, 0.12);
+  box-shadow: 0 8px 18px rgba(38, 41, 46, 0.12);
   flex-shrink: 0;
 }
 
@@ -2448,7 +2448,7 @@ const playAudio = (index) => {
   border-radius: 20px !important;
   border: 1px solid rgba(14, 116, 144, 0.2) !important;
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.98) 0%, rgba(247, 255, 252, 0.98) 100%) !important;
-  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08) !important;
+  box-shadow: 0 10px 24px rgba(38, 41, 46, 0.08) !important;
   transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease !important;
 }
 
@@ -2469,7 +2469,7 @@ const playAudio = (index) => {
   position: fixed;
   inset: 0;
   z-index: 1500;
-  background: rgba(2, 6, 23, 0.55);
+  background: rgba(30, 33, 38, 0.55);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2483,7 +2483,7 @@ const playAudio = (index) => {
   border-radius: 18px;
   border: 1px solid rgba(148, 163, 184, 0.35);
   background: linear-gradient(155deg, #ffffff 0%, #f8fffe 55%, #eefcf9 100%);
-  box-shadow: 0 24px 45px rgba(2, 6, 23, 0.3);
+  box-shadow: 0 24px 45px rgba(30, 33, 38, 0.3);
   padding: 1.2rem;
 }
 
@@ -2559,7 +2559,7 @@ const playAudio = (index) => {
   padding: 0.75rem 0.8rem 0.82rem;
   border: 1px solid rgba(14, 116, 144, 0.24);
   background: linear-gradient(140deg, rgba(248, 252, 255, 0.94) 0%, rgba(236, 253, 250, 0.92) 45%, rgba(245, 250, 255, 0.95) 100%);
-  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.62);
+  box-shadow: 0 10px 24px rgba(38, 41, 46, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.62);
   position: sticky;
   top: 6px;
   z-index: 40;
@@ -2688,7 +2688,7 @@ const playAudio = (index) => {
   color: #0f172a;
   min-height: 40px;
   font-size: 0.9rem;
-  box-shadow: 0 4px 10px rgba(15, 23, 42, 0.05);
+  box-shadow: 0 4px 10px rgba(38, 41, 46, 0.05);
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
@@ -2733,7 +2733,7 @@ const playAudio = (index) => {
   border: 1px solid rgba(148, 163, 184, 0.35);
   border-radius: 10px;
   background: #ffffff;
-  box-shadow: 0 8px 16px rgba(15, 23, 42, 0.08);
+  box-shadow: 0 8px 16px rgba(38, 41, 46, 0.08);
   max-height: 180px;
   overflow-y: auto;
 }
@@ -3654,21 +3654,21 @@ mark {
 <style>
 /* Radio dark mode (scoped via body class) */
 body.radio-route-page.dark-mode .radio-page {
-  background: #232529;
+  background: #26292e;
   color: #ffffff;
 }
 
 body.radio-route-page.dark-mode {
-  background: #232529 !important;
+  background: #26292e !important;
 }
 
 body.radio-route-page.dark-mode main#main-content,
 body.radio-route-page.dark-mode #app {
-  background: #232529 !important;
+  background: #26292e !important;
 }
 
 body.radio-route-page.dark-mode .radio-shell {
-  background: #232529 !important;
+  background: #26292e !important;
   border-color: rgba(255, 255, 255, 0.12) !important;
   box-shadow: none !important;
 }
@@ -3699,7 +3699,7 @@ body.radio-route-page.dark-mode .global-audio-player,
 body.radio-route-page.dark-mode .station-list-item,
 body.radio-route-page.dark-mode .station-grid-item,
 body.radio-route-page.dark-mode .card {
-  background: #232529 !important;
+  background: #26292e !important;
   border-color: rgba(255, 255, 255, 0.12) !important;
   box-shadow: none !important;
 }
@@ -3708,7 +3708,7 @@ body.radio-route-page.dark-mode .card-teal,
 body.radio-route-page.dark-mode .station-content,
 body.radio-route-page.dark-mode .station-card-focusable [style*="background:#ffffff"],
 body.radio-route-page.dark-mode .station-card-focusable [style*="background: #ffffff"] {
-  background: #232529 !important;
+  background: #26292e !important;
 }
 
 body.radio-route-page.dark-mode .station-avatar {
@@ -3724,7 +3724,7 @@ body.radio-route-page.dark-mode .radio-page hr {
 body.radio-route-page.dark-mode .radio-page .search-suggestions,
 body.radio-route-page.dark-mode .radio-page .search-suggestion-item,
 body.radio-route-page.dark-mode .radio-page .dropdown-menu {
-  background: #232529 !important;
+  background: #26292e !important;
   border-color: rgba(255, 255, 255, 0.12) !important;
   box-shadow: none !important;
 }
@@ -3738,13 +3738,13 @@ body.radio-route-page.dark-mode .radio-page .btn-icon,
 body.radio-route-page.dark-mode .radio-page .like-button,
 body.radio-route-page.dark-mode .radio-page .station-info-btn,
 body.radio-route-page.dark-mode .radio-page .search-clear-btn {
-  background: #232529 !important;
+  background: #26292e !important;
   border-color: rgba(255, 255, 255, 0.12) !important;
   box-shadow: none !important;
 }
 
 body.radio-route-page.dark-mode .radio-page .station-login-warning {
-  background: #232529 !important;
+  background: #26292e !important;
   border-color: rgba(255, 255, 255, 0.12) !important;
   color: #ffffff !important;
 }
@@ -3754,13 +3754,13 @@ body.radio-route-page.dark-mode .imam-modal-backdrop {
 }
 
 body.radio-route-page.dark-mode .imam-modal {
-  background: #232529 !important;
+  background: #26292e !important;
   border-color: rgba(255, 255, 255, 0.12) !important;
   box-shadow: none !important;
 }
 
 body.radio-route-page.dark-mode .global-audio-player {
-  background: #232529 !important;
+  background: #26292e !important;
   border-top: 1px solid rgba(255, 255, 255, 0.12) !important;
   box-shadow: none !important;
 }
@@ -3778,13 +3778,13 @@ body.radio-route-page.dark-mode .filters-panel .form-select,
 body.radio-route-page.dark-mode .radio-page input,
 body.radio-route-page.dark-mode .radio-page textarea,
 body.radio-route-page.dark-mode .radio-page select {
-  background: #232529 !important;
+  background: #26292e !important;
   color: #ffffff !important;
   border-color: rgba(255, 255, 255, 0.12) !important;
 }
 
 body.radio-route-page.dark-mode .btn-outline-dark {
-  background: #232529 !important;
+  background: #26292e !important;
   color: #ffffff !important;
   border-color: rgba(255, 255, 255, 0.18) !important;
   box-shadow: none !important;
@@ -3797,7 +3797,7 @@ body.radio-route-page.dark-mode .btn-outline-dark:focus-visible {
 
 body.radio-route-page.dark-mode .btn-outline-dark.active,
 body.radio-route-page.dark-mode .btn-outline-dark:active {
-  background: #232529 !important;
+  background: #26292e !important;
   color: #ffffff !important;
   border-color: rgba(255, 255, 255, 0.68) !important;
   box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.08) inset !important;
@@ -3814,7 +3814,7 @@ body.radio-route-page.dark-mode .favorite-section-toggle span {
 
 /* Pills / icon chips should be readable */
 body.radio-route-page.dark-mode .filter-badge.badge {
-  background: #232529 !important;
+  background: #26292e !important;
   color: #ffffff !important;
   border: 1px solid rgba(255, 255, 255, 0.16) !important;
   box-shadow: none !important;
@@ -3827,7 +3827,7 @@ body.radio-route-page.dark-mode .filter-badge.badge * {
 body.radio-route-page.dark-mode .filter-chevron,
 body.radio-route-page.dark-mode .advanced-toggle-btn,
 body.radio-route-page.dark-mode .radio-theme-btn {
-  background: #232529 !important;
+  background: #26292e !important;
   color: #ffffff !important;
   border-color: rgba(255, 255, 255, 0.18) !important;
   box-shadow: none !important;
@@ -3853,7 +3853,7 @@ body.radio-route-page.dark-mode .radio-theme-btn:focus-visible {
 }
 
 body.radio-route-page.dark-mode .advanced-toggle-btn.is-active {
-  background: #232529 !important;
+  background: #26292e !important;
   color: #ffffff !important;
   border-color: rgba(255, 255, 255, 0.72) !important;
   box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.08) inset !important;

@@ -415,7 +415,7 @@ export default {
 
 .collection-pill:hover {
   transform: translateY(-1px);
-  box-shadow: 0 10px 18px rgba(15, 23, 42, 0.12);
+  box-shadow: 0 10px 18px rgba(38, 41, 46, 0.12);
   border-color: rgba(15, 110, 99, 0.3);
 }
 
@@ -430,13 +430,13 @@ export default {
   border-radius: 16px;
   padding: 12px;
   background: #fff;
-  box-shadow: 0 16px 32px rgba(15, 23, 42, 0.08);
+  box-shadow: 0 16px 32px rgba(38, 41, 46, 0.08);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .collection-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 20px 36px rgba(15, 23, 42, 0.12);
+  box-shadow: 0 20px 36px rgba(38, 41, 46, 0.12);
 }
 
 .collection-actions {
@@ -471,7 +471,7 @@ export default {
   background: #ffffff;
   border: 1px solid var(--admin-border);
   border-radius: 20px;
-  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.1);
+  box-shadow: 0 20px 40px rgba(38, 41, 46, 0.1);
   overflow: hidden;
   border-top: 4px solid var(--admin-accent);
 }

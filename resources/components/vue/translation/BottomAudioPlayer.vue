@@ -92,7 +92,7 @@ export default {
   padding: 1.25rem;
   background: #ffffff;
   color: #0f172a;
-  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.08);
+  box-shadow: 0 16px 40px rgba(38, 41, 46, 0.08);
 }
 
 .player-header {

@@ -258,7 +258,7 @@ export default {
 
 .feedback-detail-item,
 .feedback-message-block {
-  border: 1px solid rgba(15, 23, 42, 0.1);
+  border: 1px solid rgba(38, 41, 46, 0.1);
   border-radius: 8px;
   display: grid;
   gap: 0.25rem;
@@ -289,7 +289,7 @@ export default {
 }
 
 .feedback-subject-pill {
-  border: 1px solid rgba(15, 23, 42, 0.14);
+  border: 1px solid rgba(38, 41, 46, 0.14);
   border-radius: 999px;
   display: inline-flex;
   font-size: 0.85rem;

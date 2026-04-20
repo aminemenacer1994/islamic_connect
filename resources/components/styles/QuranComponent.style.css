@@ -1,14 +1,14 @@
 .card-teal {
     border-radius: 20px;
     border: 1px solid rgba(148, 163, 184, 0.5);
-    box-shadow: 0 16px 42px rgba(15, 23, 42, 0.08);
+    box-shadow: 0 16px 42px rgba(38, 41, 46, 0.08);
     background: #ffffff;
     transition: transform 160ms ease, box-shadow 160ms ease;
 }
 
 .card-teal:hover {
     transform: translateY(-2px);
-    box-shadow: 0 20px 48px rgba(15, 23, 42, 0.12);
+    box-shadow: 0 20px 48px rgba(38, 41, 46, 0.12);
 }
 
 .desktop-actions {
@@ -21,7 +21,7 @@
     border-radius: 28px;
     padding: clamp(1.5rem, 4vw, 3rem);
     /* margin: 2.5rem auto 1rem; */
-    box-shadow: 0 24px 60px rgba(15, 23, 42, 0.08);
+    box-shadow: 0 24px 60px rgba(38, 41, 46, 0.08);
 }
 
 .hero-inner {
@@ -107,7 +107,7 @@
 .selector-card {
     background: transparent !important;
     border-radius: 20px;
-    box-shadow: 0 20px 45px rgba(15, 23, 42, 0.06);
+    box-shadow: 0 20px 45px rgba(38, 41, 46, 0.06);
 }
 
 .selector-heading {
@@ -149,7 +149,7 @@
     border-radius: 14px;
     border: 1px solid rgba(49, 70, 67, 0.22);
     padding-inline: 0.95rem;
-    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.05);
+    box-shadow: 0 10px 24px rgba(38, 41, 46, 0.05);
 }
 
 .quran-ayah-jump-input:focus {
@@ -197,7 +197,7 @@
         )
         !important;
     box-shadow:
-        0 1rem 3rem rgba(15, 23, 42, 0.16),
+        0 1rem 3rem rgba(38, 41, 46, 0.16),
         0 0 0 1px rgba(11, 107, 89, 0.12),
         inset 0 1px 0 rgba(255, 255, 255, 0.62) !important;
     -webkit-backdrop-filter: blur(14px) saturate(145%);
@@ -375,7 +375,7 @@
         padding: 0.52rem 0.62rem 0.56rem;
         border-radius: 0.8rem;
         box-shadow:
-            0 0.9rem 2.2rem rgba(15, 23, 42, 0.18),
+            0 0.9rem 2.2rem rgba(38, 41, 46, 0.18),
             0 0 0 1px rgba(11, 107, 89, 0.12),
             inset 0 1px 0 rgba(255, 255, 255, 0.56) !important;
     }
@@ -554,7 +554,7 @@
     left: 50%;
     top: 80px;
     transform: translateX(-50%);
-    background: rgba(15, 23, 42, 0.85);
+    background: rgba(38, 41, 46, 0.85);
     color: #fff;
     padding: 6px 10px;
     border-radius: 999px;

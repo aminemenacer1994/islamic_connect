@@ -699,7 +699,7 @@ export default {
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
-  box-shadow: 0 14px 38px rgba(15, 23, 42, 0.08);
+  box-shadow: 0 14px 38px rgba(38, 41, 46, 0.08);
 }
 
 .folder-top {
@@ -759,12 +759,12 @@ export default {
   align-items: center;
   gap: 6px;
   font-weight: 600;
-  box-shadow: 0 6px 14px rgba(15, 23, 42, 0.15);
+  box-shadow: 0 6px 14px rgba(38, 41, 46, 0.15);
 }
 
 .create-trigger:hover {
   transform: translateY(-1px);
-  box-shadow: 0 10px 18px rgba(15, 23, 42, 0.2);
+  box-shadow: 0 10px 18px rgba(38, 41, 46, 0.2);
 }
 
 .create-panel {
@@ -868,7 +868,7 @@ export default {
   border-radius: 20px;
   border: 1px solid rgba(15, 110, 99, 0.1);
   padding: 1rem;
-  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.06);
+  box-shadow: 0 8px 20px rgba(38, 41, 46, 0.06);
 }
 
 .folder-panel {
@@ -887,7 +887,7 @@ export default {
   border-radius: 18px;
   background: #effdf9;
   border: 1px solid rgba(15, 110, 99, 0.25);
-  box-shadow: inset 0 2px 6px rgba(15, 23, 42, 0.08);
+  box-shadow: inset 0 2px 6px rgba(38, 41, 46, 0.08);
 }
 
 .folder-search .input-group-text {
@@ -933,7 +933,7 @@ export default {
   border-radius: 999px;
   padding: 0.45rem 1rem;
   border: 1px solid transparent;
-  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+  box-shadow: 0 10px 24px rgba(38, 41, 46, 0.08);
   font-weight: 600;
 }
 
@@ -1008,7 +1008,7 @@ export default {
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
-  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.15);
+  box-shadow: 0 6px 18px rgba(38, 41, 46, 0.15);
   transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
@@ -1024,7 +1024,7 @@ export default {
 
 .selection-pill:hover:not(:disabled) {
   transform: translateY(-1px);
-  box-shadow: 0 10px 20px rgba(15, 23, 42, 0.18);
+  box-shadow: 0 10px 20px rgba(38, 41, 46, 0.18);
 }
 
 .selection-pill:disabled {
@@ -1065,12 +1065,12 @@ export default {
   align-items: center;
   justify-content: space-between;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
-  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+  box-shadow: 0 4px 12px rgba(38, 41, 46, 0.08);
 }
 
 .folder-item:hover {
   transform: translateY(-1px);
-  box-shadow: 0 10px 20px rgba(15, 23, 42, 0.15);
+  box-shadow: 0 10px 20px rgba(38, 41, 46, 0.15);
 }
 
 .folder-item.active {
@@ -1116,7 +1116,7 @@ export default {
   padding: 0.3rem 0.7rem;
   font-size: 0.75rem;
   border: 1px solid transparent;
-  background: rgba(15, 23, 42, 0.05);
+  background: rgba(38, 41, 46, 0.05);
   color: #0f172a;
 }
 
@@ -1158,8 +1158,8 @@ export default {
 .modal-section .delete-confirm-modal {
   border-radius: 14px;
   background: #fff;
-  border: 1px solid rgba(15, 23, 42, 0.08);
-  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.12);
+  border: 1px solid rgba(38, 41, 46, 0.08);
+  box-shadow: 0 12px 30px rgba(38, 41, 46, 0.12);
   padding: 0.75rem;
 }
 
@@ -1212,7 +1212,7 @@ export default {
 }
 .folder-item--draggable.folder-dragging {
   opacity: 0.75;
-  box-shadow: 0 12px 24px rgba(15, 23, 42, 0.15);
+  box-shadow: 0 12px 24px rgba(38, 41, 46, 0.15);
   border-color: rgba(15, 110, 99, 0.4);
 }
 

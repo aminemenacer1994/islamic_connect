@@ -493,7 +493,7 @@ export default {
   color: #0f172a;
   border-radius: 24px;
   border: none;
-  box-shadow: 0 20px 45px rgba(15, 23, 42, 0.1);
+  box-shadow: 0 20px 45px rgba(38, 41, 46, 0.1);
 }
 
 .card-title {
@@ -506,7 +506,7 @@ export default {
   padding: 0.45rem 1.4rem;
   font-weight: 600;
   min-width: 160px;
-  box-shadow: 0 10px 20px rgba(15, 23, 42, 0.15);
+  box-shadow: 0 10px 20px rgba(38, 41, 46, 0.15);
   transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
@@ -523,7 +523,7 @@ export default {
   background: #fff;
   color: #0f3d3b;
   padding: 0.5rem 1rem;
-  box-shadow: 0 10px 18px rgba(15, 23, 42, 0.1);
+  box-shadow: 0 10px 18px rgba(38, 41, 46, 0.1);
   transition: background 0.25s ease, color 0.25s ease;
 }
 
@@ -537,7 +537,7 @@ export default {
   border-radius: 18px;
   overflow: hidden;
   background: rgba(34, 139, 34, 0.12);
-  box-shadow: inset 0 2px 6px rgba(15, 23, 42, 0.12);
+  box-shadow: inset 0 2px 6px rgba(38, 41, 46, 0.12);
 }
 
 .progress-tracker-bar {
@@ -550,7 +550,7 @@ export default {
   height: 80px;
   object-fit: cover;
   border: 2px solid rgba(34, 139, 34, 0.35);
-  box-shadow: 0 12px 18px rgba(15, 23, 42, 0.2);
+  box-shadow: 0 12px 18px rgba(38, 41, 46, 0.2);
 }
 
 .org-logo img {

@@ -231,13 +231,13 @@ export default {
   border: 1px solid var(--admin-border);
   border-radius: 18px;
   padding: 16px 18px;
-  box-shadow: 0 16px 28px rgba(15, 23, 42, .08);
+  box-shadow: 0 16px 28px rgba(38, 41, 46, .08);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .metric-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 20px 36px rgba(15, 23, 42, 0.12);
+  box-shadow: 0 20px 36px rgba(38, 41, 46, 0.12);
 }
 
 .metric-icon {
@@ -297,14 +297,14 @@ export default {
   background: #fff;
   border: 1px solid var(--admin-border);
   border-radius: 18px;
-  box-shadow: 0 16px 28px rgba(15, 23, 42, .08);
+  box-shadow: 0 16px 28px rgba(38, 41, 46, .08);
   padding: 16px;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .panel-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 20px 36px rgba(15, 23, 42, 0.12);
+  box-shadow: 0 20px 36px rgba(38, 41, 46, 0.12);
 }
 
 .panel-head {
@@ -324,7 +324,7 @@ export default {
   align-items: center;
   justify-content: space-between;
   padding: 8px 0;
-  border-bottom: 1px dashed rgba(15, 23, 42, 0.08);
+  border-bottom: 1px dashed rgba(38, 41, 46, 0.08);
 }
 
 .list.clean li:last-child {

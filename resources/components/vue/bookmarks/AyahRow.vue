@@ -75,10 +75,10 @@ export default {
 
 <style scoped>
 .ayah-row {
-  border: 1px solid rgba(15, 23, 42, 0.08);
+  border: 1px solid rgba(38, 41, 46, 0.08);
   border-radius: 18px;
   background: #ffffff;
-  box-shadow: 0 16px 28px rgba(15, 23, 42, 0.1);
+  box-shadow: 0 16px 28px rgba(38, 41, 46, 0.1);
   overflow: hidden;
 }
 .ayah-arabic {

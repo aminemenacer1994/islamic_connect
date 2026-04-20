@@ -57,10 +57,10 @@
   --mission-accent-3: #ffffff;
   --mission-ink: #ffffff;
   --mission-muted: rgba(255, 255, 255, 0.82);
-  --mission-surface: #232529;
-  --mission-surface-soft: #232529;
+  --mission-surface: #26292e;
+  --mission-surface-soft: #26292e;
   --mission-border: rgba(255, 255, 255, 0.12);
-  background: #232529;
+  background: #26292e;
   border-color: rgba(255, 255, 255, 0.12);
   box-shadow: none;
   color: #ffffff;
@@ -91,7 +91,7 @@
 .mission-shell.is-dark .mission-search__icon,
 .mission-shell.is-dark .mission-search__clear,
 .mission-shell.is-dark .mission-search__input {
-  background: #232529 !important;
+  background: #26292e !important;
   border-color: rgba(255, 255, 255, 0.12) !important;
   box-shadow: none !important;
 }
@@ -203,7 +203,7 @@
 }
 
 .mission-shell.is-dark .timeline-badge.active {
-  background: #232529 !important;
+  background: #26292e !important;
   color: #ffffff !important;
   border-color: rgba(255, 255, 255, 0.72) !important;
   box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.18) inset !important;
@@ -214,7 +214,7 @@
 .mission-shell.is-dark .action-item.action-danger,
 .mission-shell.is-dark .action-item.action-report {
   color: #ffffff;
-  background: #232529;
+  background: #26292e;
 }
 
 .mission-shell.is-dark .action-item:hover,
@@ -251,7 +251,7 @@
 }
 
 .mission-shell.is-dark .audio-player-container {
-  background: linear-gradient(135deg, #232529 0%, #2c3035 100%);
+  background: linear-gradient(135deg, #26292e 0%, #2c3035 100%);
   border-top-color: rgba(255, 255, 255, 0.12);
   box-shadow: 0 -16px 34px rgba(7, 8, 10, 0.55);
 }

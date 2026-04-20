@@ -1290,9 +1290,9 @@ export default {
     --bookmark-gold: #c89b3a;
     --bookmark-ink: #0f172a;
     --bookmark-muted: #64748b;
-    --bookmark-border: rgba(15, 23, 42, 0.1);
+    --bookmark-border: rgba(38, 41, 46, 0.1);
     --bookmark-card: #ffffff;
-    --bookmark-shadow: 0 24px 60px rgba(15, 23, 42, 0.18);
+    --bookmark-shadow: 0 24px 60px rgba(38, 41, 46, 0.18);
     position: relative;
     border-radius: 24px;
     border: 1px solid var(--bookmark-border);
@@ -1347,7 +1347,7 @@ export default {
 }
 
 .bookmark-modal .modal-header {
-    border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+    border-bottom: 1px solid rgba(38, 41, 46, 0.08);
     padding: 22px 26px;
     background: linear-gradient(
         90deg,
@@ -1379,7 +1379,7 @@ export default {
     color: var(--bookmark-accent);
     font-size: 1.3rem;
     box-shadow: inset 0 0 0 1px rgba(15, 110, 99, 0.2),
-        0 12px 20px rgba(15, 23, 42, 0.12);
+        0 12px 20px rgba(38, 41, 46, 0.12);
 }
 
 .header-meta {
@@ -1445,8 +1445,8 @@ export default {
     gap: 12px;
     padding: 12px 16px;
     border-radius: 14px;
-    border: 1px solid rgba(15, 23, 42, 0.08);
-    box-shadow: 0 14px 30px rgba(15, 23, 42, 0.12);
+    border: 1px solid rgba(38, 41, 46, 0.08);
+    box-shadow: 0 14px 30px rgba(38, 41, 46, 0.12);
     font-weight: 600;
     margin-bottom: 16px;
     background: rgba(255, 255, 255, 0.9);
@@ -1479,7 +1479,7 @@ export default {
 }
 
 .bookmark-modal .modal-footer {
-    border-top: 1px solid rgba(15, 23, 42, 0.08);
+    border-top: 1px solid rgba(38, 41, 46, 0.08);
     padding: 18px 26px 22px;
     background: linear-gradient(
         0deg,
@@ -1505,16 +1505,16 @@ export default {
 .btn-manage:hover {
     transform: translateY(-1px);
     border-color: rgba(15, 110, 99, 0.5);
-    box-shadow: 0 10px 18px rgba(15, 23, 42, 0.12);
+    box-shadow: 0 10px 18px rgba(38, 41, 46, 0.12);
     color: var(--bookmark-accent-strong);
 }
 
 .section-card {
     border-radius: 18px;
-    border: 1px solid rgba(15, 23, 42, 0.08);
+    border: 1px solid rgba(38, 41, 46, 0.08);
     padding: 18px;
     background: linear-gradient(180deg, #ffffff 0%, #f7fbfa 100%);
-    box-shadow: 0 18px 30px rgba(15, 23, 42, 0.08);
+    box-shadow: 0 18px 30px rgba(38, 41, 46, 0.08);
     position: relative;
     overflow: hidden;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
@@ -1536,7 +1536,7 @@ export default {
 
 .section-card:hover {
     transform: translateY(-2px);
-    box-shadow: 0 22px 36px rgba(15, 23, 42, 0.12);
+    box-shadow: 0 22px 36px rgba(38, 41, 46, 0.12);
 }
 
 .section-title {
@@ -1603,7 +1603,7 @@ export default {
     width: 36px;
     height: 36px;
     border-radius: 999px;
-    border: 1px solid rgba(15, 23, 42, 0.12);
+    border: 1px solid rgba(38, 41, 46, 0.12);
     background: #ffffff;
     color: #4b5563;
     display: inline-flex;
@@ -1641,9 +1641,9 @@ export default {
 
 .folder-search {
     border-radius: 14px;
-    border-color: rgba(15, 23, 42, 0.12);
+    border-color: rgba(38, 41, 46, 0.12);
     margin-bottom: 12px;
-    box-shadow: 0 12px 24px rgba(15, 23, 42, 0.08);
+    box-shadow: 0 12px 24px rgba(38, 41, 46, 0.08);
     padding: 10px 12px;
     background: rgba(255, 255, 255, 0.9);
 }
@@ -1656,7 +1656,7 @@ export default {
     align-items: center;
     padding: 12px 14px 12px 12px;
     border-radius: 16px;
-    border: 1px solid rgba(15, 23, 42, 0.12);
+    border: 1px solid rgba(38, 41, 46, 0.12);
     background: var(--pill-bg, #f9fafb);
     cursor: pointer;
     transition: transform 0.2s ease, box-shadow 0.2s ease,
@@ -1673,7 +1673,7 @@ export default {
 .folder-pill:hover {
     transform: translateY(-1px);
     border-color: rgba(15, 110, 99, 0.35);
-    box-shadow: 0 14px 24px rgba(15, 23, 42, 0.14);
+    box-shadow: 0 14px 24px rgba(38, 41, 46, 0.14);
 }
 
 .folder-pill.is-disabled {
@@ -1684,7 +1684,7 @@ export default {
 
 .folder-pill.is-disabled:hover {
     transform: none;
-    border-color: rgba(15, 23, 42, 0.12);
+    border-color: rgba(38, 41, 46, 0.12);
     box-shadow: none;
 }
 
@@ -1807,7 +1807,7 @@ export default {
 .empty-state {
     padding: 14px;
     border-radius: 14px;
-    border: 1px dashed rgba(15, 23, 42, 0.16);
+    border: 1px dashed rgba(38, 41, 46, 0.16);
     color: var(--bookmark-muted);
     text-align: center;
     background: rgba(255, 255, 255, 0.8);
@@ -1847,7 +1847,7 @@ export default {
     width: 38px;
     height: 38px;
     border-radius: 12px;
-    border: 1px solid rgba(15, 23, 42, 0.12);
+    border: 1px solid rgba(38, 41, 46, 0.12);
     background: #ffffff;
     color: var(--bookmark-accent);
     display: inline-flex;
@@ -1860,7 +1860,7 @@ export default {
 .icon-preset-btn:hover {
     border-color: rgba(15, 110, 99, 0.4);
     transform: translateY(-1px);
-    box-shadow: 0 10px 16px rgba(15, 23, 42, 0.12);
+    box-shadow: 0 10px 16px rgba(38, 41, 46, 0.12);
 }
 
 .icon-preset-btn.active {
@@ -1880,7 +1880,7 @@ export default {
     height: 24px;
     border-radius: 999px;
     border: 2px solid rgba(255, 255, 255, 0.9);
-    box-shadow: 0 0 0 1px rgba(15, 23, 42, 0.12);
+    box-shadow: 0 0 0 1px rgba(38, 41, 46, 0.12);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
@@ -1895,7 +1895,7 @@ export default {
 
 .btn-cancel {
     border-radius: 12px;
-    border: 1px solid rgba(15, 23, 42, 0.16);
+    border: 1px solid rgba(38, 41, 46, 0.16);
     color: #4b5563;
     background: #ffffff;
     transition: border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
@@ -1936,11 +1936,11 @@ export default {
 }
 
 .folder-content {
-    border: 1px solid rgba(15, 23, 42, 0.08);
+    border: 1px solid rgba(38, 41, 46, 0.08);
     border-radius: 18px;
     background: linear-gradient(180deg, #fdfdfb 0%, #ffffff 100%);
     padding: 16px 18px;
-    box-shadow: 0 16px 26px rgba(15, 23, 42, 0.08);
+    box-shadow: 0 16px 26px rgba(38, 41, 46, 0.08);
     transition: transform 0.2s ease, box-shadow 0.2s ease,
         border-color 0.2s ease;
     animation: list-pop 0.3s ease both;
@@ -1948,7 +1948,7 @@ export default {
 
 .folder-content:hover {
     transform: translateY(-1px);
-    box-shadow: 0 20px 30px rgba(15, 23, 42, 0.12);
+    box-shadow: 0 20px 30px rgba(38, 41, 46, 0.12);
     border-color: rgba(15, 110, 99, 0.2);
 }
 
@@ -2045,7 +2045,7 @@ export default {
     width: 34px;
     height: 34px;
     border-radius: 999px;
-    border: 1px solid rgba(15, 23, 42, 0.12);
+    border: 1px solid rgba(38, 41, 46, 0.12);
     background: #ffffff;
     color: #4b5563;
     display: inline-flex;
@@ -2094,10 +2094,10 @@ export default {
 
 .folder-item {
     border-radius: 16px;
-    border: 1px solid rgba(15, 23, 42, 0.08);
+    border: 1px solid rgba(38, 41, 46, 0.08);
     padding: 16px 18px;
     background: linear-gradient(135deg, #ffffff 0%, #f6fbfa 100%);
-    box-shadow: 0 12px 22px rgba(15, 23, 42, 0.06);
+    box-shadow: 0 12px 22px rgba(38, 41, 46, 0.06);
     position: relative;
     border-left: 4px solid rgba(15, 110, 99, 0.2);
 }
@@ -2109,7 +2109,7 @@ export default {
     font-size: 0.85rem;
     color: #374151;
     margin-bottom: 10px;
-    border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+    border-bottom: 1px solid rgba(38, 41, 46, 0.08);
     padding-bottom: 8px;
     gap: 12px;
 }
@@ -2176,7 +2176,7 @@ export default {
 .bookmark-modal .form-control,
 .bookmark-modal .form-select {
     border-radius: 12px;
-    border-color: rgba(15, 23, 42, 0.12);
+    border-color: rgba(38, 41, 46, 0.12);
     box-shadow: none;
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
     background: rgba(255, 255, 255, 0.96);

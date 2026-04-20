@@ -20,18 +20,18 @@
 }
 
 .dua-shell.is-dark {
-  --bg: #232529;
-  --surface: #232529;
-  --surface-soft: #232529;
+  --bg: #26292e;
+  --surface: #26292e;
+  --surface-soft: #26292e;
   --text: #ffffff;
   --muted: #ffffff;
   --line: rgba(255, 255, 255, 0.12);
-  --primary: #232529;
-  --primary-2: #232529;
+  --primary: #26292e;
+  --primary-2: #26292e;
   --accent: #ffffff;
   --shadow-sm: none;
   --shadow-md: none;
-  background: #232529;
+  background: #26292e;
   color: #ffffff;
   color-scheme: dark;
 }
@@ -82,7 +82,7 @@
 .dua-shell.is-dark .dua-search-input,
 .dua-shell.is-dark .dua-filter-select,
 .dua-shell.is-dark .dua-recommender-input {
-  background: #232529 !important;
+  background: #26292e !important;
   border: 1px solid rgba(255, 255, 255, 0.12) !important;
   box-shadow: none !important;
 }
@@ -114,7 +114,7 @@
 }
 
 .dua-shell.is-dark .dua-tab-btn.active {
-  background: #232529 !important;
+  background: #26292e !important;
   border-color: rgba(255, 255, 255, 0.82) !important;
   box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.82), 0 0 0 2px rgba(255, 255, 255, 0.08) !important;
 }
@@ -236,9 +236,9 @@
 .alert.no-duas-message,
 .copy-message {
   background: var(--surface);
-  border: 1px solid rgba(15, 23, 42, 0.08);
+  border: 1px solid rgba(38, 41, 46, 0.08);
   border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.03);
+  box-shadow: 0 2px 8px rgba(38, 41, 46, 0.03);
 }
 
 .dua-tab-panel {
@@ -472,7 +472,7 @@
 }
 
 .dua-filter-pill {
-  border: 1px solid rgba(15, 23, 42, 0.14);
+  border: 1px solid rgba(38, 41, 46, 0.14);
   border-radius: 999px;
   background: #ffffff;
   color: #334155;
@@ -492,10 +492,10 @@
 
 .dua-recommender-panel {
   background: #ffffff;
-  border: 1px solid rgba(15, 23, 42, 0.1);
+  border: 1px solid rgba(38, 41, 46, 0.1);
   border-radius: 16px;
   padding: 1.05rem;
-  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.05);
+  box-shadow: 0 6px 18px rgba(38, 41, 46, 0.05);
 }
 
 .dua-recommender-title {
@@ -551,7 +551,7 @@
 }
 
 .dua-recommender-results {
-  border-top: 1px dashed rgba(15, 23, 42, 0.12);
+  border-top: 1px dashed rgba(38, 41, 46, 0.12);
   padding-top: 0.85rem;
 }
 
@@ -632,9 +632,9 @@
 
 .dua-category-panel {
   background: #ffffff;
-  border: 1px solid rgba(15, 23, 42, 0.09);
+  border: 1px solid rgba(38, 41, 46, 0.09);
   border-radius: 18px;
-  box-shadow: 0 6px 20px rgba(15, 23, 42, 0.04);
+  box-shadow: 0 6px 20px rgba(38, 41, 46, 0.04);
   padding: 0.95rem 1rem 1.1rem;
 }
 
@@ -707,7 +707,7 @@
   width: 32px;
   height: 32px;
   border-radius: 8px;
-  border-color: rgba(15, 23, 42, 0.1);
+  border-color: rgba(38, 41, 46, 0.1);
   background: #f8fafc;
 }
 
@@ -727,7 +727,7 @@
   border-radius: 16px;
   border: 1px solid #e2e8f0;
   padding: 1.7rem 1.55rem 1.25rem;
-  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+  box-shadow: 0 8px 24px rgba(38, 41, 46, 0.06);
   display: flex;
   flex-direction: column;
   gap: 0.8rem;
@@ -739,7 +739,7 @@
 
 .dua-card:hover {
   transform: none;
-  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.09);
+  box-shadow: 0 12px 30px rgba(38, 41, 46, 0.09);
   border-color: #cbd5e1;
 }
 
@@ -1000,7 +1000,7 @@
   border: 1px solid rgba(13, 92, 74, 0.2);
   border-left: 4px solid var(--primary);
   border-radius: 0;
-  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.05);
+  box-shadow: 0 4px 14px rgba(38, 41, 46, 0.05);
 }
 
 .dua-disclaimer-note {

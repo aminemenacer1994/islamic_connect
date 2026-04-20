@@ -456,7 +456,7 @@ export default {
 
 .banner-meta p {
   font-weight: 600;
-  color: rgba(15, 23, 42, 0.75);
+  color: rgba(38, 41, 46, 0.75);
 }
 
 .banner-meta .btn {
@@ -525,7 +525,7 @@ export default {
   width: 95px;
   height: 95px;
   object-fit: cover;
-  border: 3px solid rgba(15, 23, 42, 0.12);
+  border: 3px solid rgba(38, 41, 46, 0.12);
 }
 
 .role-badge {
@@ -588,7 +588,7 @@ export default {
 .stat-label {
   font-size: 0.9rem;
   font-weight: 600;
-  color: rgba(15, 23, 42, 0.65);
+  color: rgba(38, 41, 46, 0.65);
 }
 
 .stat-value {
@@ -629,35 +629,35 @@ export default {
   background: transparent;
   border-radius: 22px;
   padding: 1.25rem;
-  border: 1px solid rgba(15, 23, 42, 0.05);
+  border: 1px solid rgba(38, 41, 46, 0.05);
 }
 
 .field {
   background: rgba(255, 255, 255, 0.95);
   border-radius: 15px;
   padding: 0.95rem 1rem;
-  border: 1px solid rgba(15, 23, 42, 0.05);
+  border: 1px solid rgba(38, 41, 46, 0.05);
   min-height: 90px;
 }
 
 .field-label {
   font-size: 0.85rem;
   letter-spacing: 0.03em;
-  color: rgba(15, 23, 42, 0.7);
+  color: rgba(38, 41, 46, 0.7);
   font-weight: 700;
   font-size: 1rem;
 }
 
 .field-value {
   font-size: 1rem;
-  color: rgba(15, 23, 42, 0.95);
+  color: rgba(38, 41, 46, 0.95);
   font-weight: 400;
 }
 
 .modal-content {
   border: 1px solid rgba(14, 116, 144, 0.2);
   border-radius: 18px;
-  box-shadow: 0 20px 45px rgba(15, 23, 42, 0.18);
+  box-shadow: 0 20px 45px rgba(38, 41, 46, 0.18);
   background: #ffffff;
 }
 
@@ -667,7 +667,7 @@ export default {
   /* background: linear-gradient(135deg, rgba(219, 234, 254, 0.8), rgba(255, 255, 255, 0.95)); */
   border-radius: 18px 18px 0 0;
   padding: 1.25rem 1.75rem;
-  box-shadow: inset 0 -1px 0 rgba(15, 23, 42, 0.06);
+  box-shadow: inset 0 -1px 0 rgba(38, 41, 46, 0.06);
 }
 
 .modal-title {
@@ -685,13 +685,13 @@ export default {
 
 .modal-body .input-group-text {
   background: #f3f6fc;
-  border-color: rgba(15, 23, 42, 0.1);
+  border-color: rgba(38, 41, 46, 0.1);
   color: #0f172a;
 }
 
 .modal-body .form-control {
   background: #fff;
-  border-color: rgba(15, 23, 42, 0.15);
+  border-color: rgba(38, 41, 46, 0.15);
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
@@ -706,22 +706,22 @@ export default {
 }
 
 .btn-outline-secondary {
-  border-color: rgba(15, 23, 42, 0.25);
+  border-color: rgba(38, 41, 46, 0.25);
 }
 
 .btn-outline-secondary:hover {
-  background-color: rgba(15, 23, 42, 0.05);
+  background-color: rgba(38, 41, 46, 0.05);
 }
 
 .modal-form-grid .form-label {
   font-weight: 600;
-  color: rgba(15, 23, 42, 0.75);
+  color: rgba(38, 41, 46, 0.75);
 }
 
 .modal-form-grid .input-group {
   border-radius: 12px;
   overflow: hidden;
-  box-shadow: inset 0 0 0 1px rgba(15, 23, 42, 0.06);
+  box-shadow: inset 0 0 0 1px rgba(38, 41, 46, 0.06);
 }
 
 .modal-form-grid .form-control {
@@ -747,7 +747,7 @@ export default {
 
 .btn-modal-light {
   background: #ffffff;
-  border: 1px solid rgba(15, 23, 42, 0.15);
+  border: 1px solid rgba(38, 41, 46, 0.15);
   color: #0f172a;
   padding: 0.65rem 1.25rem;
   border-radius: 999px;
@@ -756,8 +756,8 @@ export default {
 }
 
 .btn-modal-light:hover {
-  background: rgba(15, 23, 42, 0.05);
-  border-color: rgba(15, 23, 42, 0.25);
+  background: rgba(38, 41, 46, 0.05);
+  border-color: rgba(38, 41, 46, 0.25);
 }
 
 .btn-modal-primary {

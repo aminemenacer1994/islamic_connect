@@ -4159,7 +4159,7 @@ export default {
   --r-card-bg: #fff;
   --r-card-outline: rgba(15, 34, 48, 0.08);
   border: 1px solid rgba(15, 34, 48, 0.08);
-  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.08);
+  box-shadow: 0 18px 40px rgba(38, 41, 46, 0.08);
 }
 
 .r-card--planner {
@@ -4374,14 +4374,14 @@ export default {
   padding: 2rem;
   min-height: 240px;
   color: #fff;
-  background: linear-gradient(135deg, rgba(30, 64, 175, 0.3), rgba(15, 23, 42, 0.95)), var(--story-bg);
+  background: linear-gradient(135deg, rgba(30, 64, 175, 0.3), rgba(38, 41, 46, 0.95)), var(--story-bg);
   background-blend-mode: multiply;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   position: relative;
   overflow: hidden;
-  box-shadow: 0 20px 45px rgba(15, 23, 42, 0.25);
+  box-shadow: 0 20px 45px rgba(38, 41, 46, 0.25);
   transition: transform 0.35s var(--r-ease), box-shadow 0.35s var(--r-ease);
 }
 
@@ -4400,13 +4400,13 @@ export default {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(15, 23, 42, 0.25), rgba(15, 23, 42, 0.7));
+  background: linear-gradient(180deg, rgba(38, 41, 46, 0.25), rgba(38, 41, 46, 0.7));
   z-index: 0;
 }
 
 .ramadan-short-card:hover {
   transform: translateY(-10px) scale(1.01);
-  box-shadow: 0 30px 60px rgba(15, 23, 42, 0.35);
+  box-shadow: 0 30px 60px rgba(38, 41, 46, 0.35);
 }
 
 .ramadan-short-card__content,
@@ -4496,8 +4496,8 @@ export default {
   border-radius: 28px;
   padding: 2rem;
   background: #fff;
-  border: 1px solid rgba(15, 23, 42, 0.05);
-  box-shadow: 0 20px 35px rgba(15, 23, 42, 0.08);
+  border: 1px solid rgba(38, 41, 46, 0.05);
+  box-shadow: 0 20px 35px rgba(38, 41, 46, 0.08);
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -4567,7 +4567,7 @@ export default {
 .ramadan-reminder-input,
 .ramadan-reminder-select {
   border-radius: 18px;
-  border: 1px solid rgba(15, 23, 42, 0.12);
+  border: 1px solid rgba(38, 41, 46, 0.12);
   padding: 0.85rem 1.1rem;
   font-size: 0.95rem;
   font-family: inherit;
@@ -4615,14 +4615,14 @@ export default {
 
 .ramadan-reminder-item {
   border-radius: 18px;
-  border: 1px solid rgba(15, 23, 42, 0.12);
+  border: 1px solid rgba(38, 41, 46, 0.12);
   padding: 1rem 1.2rem;
   background: #fff;
   display: flex;
   justify-content: space-between;
   gap: 1rem;
   align-items: center;
-  box-shadow: 0 10px 20px rgba(15, 23, 42, 0.08);
+  box-shadow: 0 10px 20px rgba(38, 41, 46, 0.08);
 }
 
 .ramadan-reminder-item__status {
@@ -4636,7 +4636,7 @@ export default {
   width: 22px;
   height: 22px;
   border-radius: 6px;
-  border: 1px solid rgba(15, 23, 42, 0.2);
+  border: 1px solid rgba(38, 41, 46, 0.2);
   align-items: center;
   justify-content: center;
   position: relative;
@@ -4656,7 +4656,7 @@ export default {
   width: 12px;
   height: 12px;
   border-radius: 3px;
-  background: rgba(15, 23, 42, 0.1);
+  background: rgba(38, 41, 46, 0.1);
   transition: background 0.2s ease;
 }
 
@@ -4697,7 +4697,7 @@ export default {
 .ramadan-reminder-auth {
   border-radius: 18px;
   padding: 1rem;
-  background: rgba(15, 23, 42, 0.03);
+  background: rgba(38, 41, 46, 0.03);
 }
 
 .ramadan-reminder-auth__actions {

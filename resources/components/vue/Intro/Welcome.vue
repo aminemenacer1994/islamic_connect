@@ -59,7 +59,7 @@ export default {
   border-radius: 32px;
   margin: 0 auto;
   padding: clamp(2rem, 5vw, 3rem);
-  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.06), 0 1px 3px rgba(11, 128, 111, 0.08);
+  box-shadow: 0 24px 60px rgba(38, 41, 46, 0.06), 0 1px 3px rgba(11, 128, 111, 0.08);
   position: relative;
   overflow: hidden;
   transition: all 0.3s ease;

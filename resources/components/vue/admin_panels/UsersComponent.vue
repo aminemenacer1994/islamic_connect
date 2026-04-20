@@ -1614,7 +1614,7 @@ export default {
   .users-table tbody tr {
     border: 1px solid #e5e7eb;
     border-radius: 14px;
-    box-shadow: 0 8px 18px rgba(15, 23, 42, 0.06);
+    box-shadow: 0 8px 18px rgba(38, 41, 46, 0.06);
     padding: 0.3rem 0.75rem;
     margin-bottom: 0.85rem;
     background: #fff;

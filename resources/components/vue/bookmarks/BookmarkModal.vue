@@ -1030,12 +1030,12 @@ export default {
   --bookmark-danger-soft: rgba(239, 68, 68, 0.12);
   --bookmark-ink: #0f172a;
   --bookmark-muted: #64748b;
-  --bookmark-border: rgba(15, 23, 42, 0.1);
+  --bookmark-border: rgba(38, 41, 46, 0.1);
   --bookmark-surface: rgba(255, 255, 255, 0.98);
   --bookmark-surface-alt: rgba(248, 250, 252, 0.96);
   --bookmark-card: rgba(255, 255, 255, 0.92);
   --bookmark-toolbar: rgba(248, 250, 252, 0.9);
-  --bookmark-shadow: 0 28px 70px rgba(15, 23, 42, 0.18);
+  --bookmark-shadow: 0 28px 70px rgba(38, 41, 46, 0.18);
   position: relative;
   border-radius: 28px;
   border: 1px solid var(--bookmark-border);
@@ -1178,7 +1178,7 @@ export default {
   border-radius: 22px;
   border: 1px solid var(--bookmark-border);
   background: var(--bookmark-card);
-  box-shadow: 0 16px 34px rgba(15, 23, 42, 0.08);
+  box-shadow: 0 16px 34px rgba(38, 41, 46, 0.08);
   padding: 1rem;
 }
 
@@ -1877,11 +1877,11 @@ export default {
   --bookmark-ink: #f8fafc;
   --bookmark-muted: #cbd5e1;
   --bookmark-border: rgba(148, 163, 184, 0.22);
-  --bookmark-surface: rgba(2, 6, 23, 0.97);
-  --bookmark-surface-alt: rgba(15, 23, 42, 0.98);
-  --bookmark-card: rgba(15, 23, 42, 0.88);
+  --bookmark-surface: rgba(30, 33, 38, 0.97);
+  --bookmark-surface-alt: rgba(38, 41, 46, 0.98);
+  --bookmark-card: rgba(38, 41, 46, 0.88);
   --bookmark-toolbar: rgba(30, 41, 59, 0.9);
-  --bookmark-shadow: 0 32px 80px rgba(2, 6, 23, 0.52);
+  --bookmark-shadow: 0 32px 80px rgba(30, 33, 38, 0.52);
 }
 
 .bookmark-modal.surat-dark-modal .bookmark-alert.alert-danger {

@@ -1037,13 +1037,13 @@ export default {
   background: rgba(15, 140, 124, 0.08);
   border-color: rgba(15, 140, 124, 0.55);
   color: #0c7867;
-  box-shadow: inset 0 0 0 1px rgba(15, 23, 42, 0.08), 0 10px 24px rgba(15, 23, 42, 0.12);
+  box-shadow: inset 0 0 0 1px rgba(38, 41, 46, 0.08), 0 10px 24px rgba(38, 41, 46, 0.12);
 }
 
 .premium-action-button:focus-visible,
 .premium-action-button:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 14px 30px rgba(15, 23, 42, 0.25);
+  box-shadow: 0 14px 30px rgba(38, 41, 46, 0.25);
 }
 
 .premium-action-button:focus-visible {
@@ -1062,7 +1062,7 @@ export default {
   height: 36px;
   border-radius: 12px;
   background: rgba(255, 255, 255, 0.18);
-  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.16);
+  box-shadow: 0 4px 12px rgba(38, 41, 46, 0.16);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -1096,10 +1096,10 @@ export default {
 .summary-item {
   animation: premiumPulse 0.7s ease forwards;
   background: rgba(255, 255, 255, 0.95);
-  border: 1px solid rgba(15, 23, 42, 0.07);
+  border: 1px solid rgba(38, 41, 46, 0.07);
   border-radius: 20px;
   padding: 1rem;
-  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.12);
+  box-shadow: 0 12px 28px rgba(38, 41, 46, 0.12);
 }
 
 .bg-success-light {
@@ -1109,8 +1109,8 @@ export default {
 .summary-pillars {
   border-radius: 20px;
   background: #fff;
-  border: 1px solid rgba(15, 23, 42, 0.08);
-  box-shadow: 0 18px 35px rgba(15, 23, 42, 0.08);
+  border: 1px solid rgba(38, 41, 46, 0.08);
+  box-shadow: 0 18px 35px rgba(38, 41, 46, 0.08);
   padding: 1rem;
 }
 
@@ -1128,7 +1128,7 @@ export default {
 
 .summary-pill:hover {
   transform: translateY(-2px);
-  box-shadow: 0 16px 32px rgba(15, 23, 42, 0.15);
+  box-shadow: 0 16px 32px rgba(38, 41, 46, 0.15);
   background: rgba(0, 191, 166, 0.05);
 }
 
@@ -1165,15 +1165,15 @@ export default {
   gap: 0.6rem;
   padding: 0.75rem 0.65rem;
   border-radius: 18px;
-  background: rgba(15, 23, 42, 0.04);
-  border: 1px solid rgba(15, 23, 42, 0.06);
+  background: rgba(38, 41, 46, 0.04);
+  border: 1px solid rgba(38, 41, 46, 0.06);
   transition: background 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 .summary-metric:hover {
   background: rgba(0, 191, 166, 0.08);
   transform: translateY(-1px);
-  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.12);
+  box-shadow: 0 10px 30px rgba(38, 41, 46, 0.12);
 }
 
 .summary-metric__icon {
@@ -1211,8 +1211,8 @@ export default {
   height: 8px;
   border-radius: 10px;
   overflow: hidden;
-  background: rgba(15, 23, 42, 0.08);
-  box-shadow: inset 0 1px 4px rgba(15, 23, 42, 0.12);
+  background: rgba(38, 41, 46, 0.08);
+  box-shadow: inset 0 1px 4px rgba(38, 41, 46, 0.12);
 }
 
 .custom-progress .progress-bar {
@@ -1251,7 +1251,7 @@ export default {
   }
 
   100% {
-    box-shadow: 0 18px 38px rgba(15, 23, 42, 0.15);
+    box-shadow: 0 18px 38px rgba(38, 41, 46, 0.15);
   }
 }
 

@@ -76,6 +76,7 @@ use App\Http\Controllers\AiMessageReportController;
 use App\Http\Controllers\HajjController;
 use App\Http\Controllers\IslamController;
 use App\Http\Controllers\YouthController;
+use App\Http\Controllers\ParentingController;
 
 
 // use App\Http\Controllers\SubscriptionController;
@@ -266,6 +267,8 @@ Route::get('/guide', [GuideController::class, 'index'])->name('guide');
 Route::view('/ramadan-2026', 'ramadan_2026')->name('ramadan_2026');
 Route::view('/hajj','hajj')->name('hajj');
 Route::view('/islam','islam')->name('islam');
+Route::view('/parenting','parenting')->name('parenting');
+Route::view('/prayer','islam')->name('islam');
 Route::get('/quran', [QuranController::class, 'index']);
 Route::get('/contact', [ContactController::class, 'index']);
 // Route::get('/pricing', [PricingController::class, 'index'])->name('pricing');
@@ -360,6 +363,8 @@ Route::get('/hajj', [HajjController::class, 'index'])->name('hajj');
 Route::get('/islam', [IslamController::class, 'index'])->name('islam');
 Route::get('/youth', [YouthController::class, 'index'])->name('youth');
 Route::get('/quran', [IslamController::class, 'index'])->name('islam');
+Route::get('/parenting', [ParentingController::class, 'index'])->name('parenting');
+Route::get('/prayer', [IslamController::class, 'index'])->name('islam');
 
 Route::get('/read', [ReadController::class, 'index'])->name('read');
 Route::view('/islamic-blog', 'islamic-blog')->name('islamic_blog');

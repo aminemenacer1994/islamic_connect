@@ -1704,13 +1704,13 @@ body.surat-route-page .memorisation-sidebar.memorisation-offcanvas-v3 {
   overflow: hidden !important;
 }
 
-body.surat-route-page .memorisation-sidebar.memorisation-offcanvas-v3 .memorisation-panel-header {
+/* body.surat-route-page .memorisation-sidebar.memorisation-offcanvas-v3 .memorisation-panel-header {
   min-height: 106px !important;
   padding: 1.05rem 1.2rem !important;
   background: linear-gradient(135deg, #0f766e 0%, #0b5f58 55%, #0f3f3a 100%) !important;
   color: #fff !important;
   border-bottom: 0 !important;
-}
+} */
 
 body.surat-route-page .memorisation-sidebar.memorisation-offcanvas-v3 .offcanvas-title,
 body.surat-route-page .memorisation-sidebar.memorisation-offcanvas-v3 .memorisation-panel-subtitle {

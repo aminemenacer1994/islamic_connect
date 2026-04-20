@@ -9,17 +9,17 @@
 }
 
 .video-modal-filters {
-  border: 1px solid rgba(15, 23, 42, 0.1);
+  border: 1px solid rgba(38, 41, 46, 0.1);
   border-radius: 1.2rem;
   padding: 1.3rem 1.5rem;
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.97), rgba(243, 247, 250, 0.9));
-  box-shadow: 0 25px 60px rgba(15, 23, 42, 0.09);
+  box-shadow: 0 25px 60px rgba(38, 41, 46, 0.09);
 }
 
 .video-modal-filters .form-control-sm,
 .video-modal-filters .form-select-sm {
   border-radius: 0.9rem;
-  border-color: rgba(15, 23, 42, 0.2);
+  border-color: rgba(38, 41, 46, 0.2);
   box-shadow: none;
   background: #fff;
   padding: 0.55rem 0.85rem;
@@ -69,7 +69,7 @@
   box-sizing: border-box;
   background: #ffffff;
   border: 1px solid rgba(59, 130, 246, 0.35);
-  box-shadow: 0 4px 15px rgba(15, 23, 42, 0.15);
+  box-shadow: 0 4px 15px rgba(38, 41, 46, 0.15);
 }
 
 .search-info-modal .modal-body {
@@ -109,18 +109,18 @@
 
 .custom-modal-card .modal-body-top {
   background: linear-gradient(135deg, rgba(14, 165, 233, 0.8), rgba(16, 185, 129, 0.8));
-  box-shadow: 0 15px 35px rgba(15, 23, 42, 0.25);
+  box-shadow: 0 15px 35px rgba(38, 41, 46, 0.25);
 }
 
 .completion-modal-card {
-  border: 1px solid rgba(15, 23, 42, 0.08);
+  border: 1px solid rgba(38, 41, 46, 0.08);
   background: #ffffff;
-  box-shadow: 0 30px 60px rgba(15, 23, 42, 0.12);
+  box-shadow: 0 30px 60px rgba(38, 41, 46, 0.12);
 }
 
 .completion-modal-header {
   align-items: center;
-  border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+  border-bottom: 1px solid rgba(38, 41, 46, 0.08);
 }
 
 .completion-modal-body {
@@ -128,7 +128,7 @@
 }
 
 .modal-list {
-  border: 1px solid rgba(15, 23, 42, 0.06);
+  border: 1px solid rgba(38, 41, 46, 0.06);
   border-radius: 12px;
   padding: 0.9rem 1.1rem;
   margin-bottom: 0.6rem;

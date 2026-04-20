@@ -109,7 +109,7 @@
 
   .flat-panel__header {
     padding: 1.05rem 1.1rem;
-    background: rgba(15, 23, 42, 0.02);
+    background: rgba(38, 41, 46, 0.02);
   }
 
   .flat-panel__body {
@@ -267,7 +267,7 @@
 @media (prefers-reduced-motion: no-preference) {
   .insight-card:hover {
     transform: translateY(-3px);
-    box-shadow: 0 18px 28px rgba(15, 23, 42, 0.12);
+    box-shadow: 0 18px 28px rgba(38, 41, 46, 0.12);
   }
 }
 
@@ -667,7 +667,7 @@
     display: block;
     position: fixed;
     inset: 0;
-    background: rgba(15, 23, 42, 0.55);
+    background: rgba(38, 41, 46, 0.55);
     z-index: 1060;
     transition: opacity 0.3s ease;
   }
@@ -696,7 +696,7 @@
 
   .navigation-card.mobile-open {
     transform: translateX(0);
-    box-shadow: 0 30px 60px rgba(15, 23, 42, 0.35);
+    box-shadow: 0 30px 60px rgba(38, 41, 46, 0.35);
     pointer-events: auto;
   }
 

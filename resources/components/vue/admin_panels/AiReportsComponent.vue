@@ -390,7 +390,7 @@ export default {
   border: 1px solid rgba(15, 110, 99, 0.18);
   border-radius: 16px;
   padding: 0.35rem 0.75rem;
-  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+  box-shadow: 0 8px 24px rgba(38, 41, 46, 0.06);
 }
 
 .admin-search .input-group-text {
@@ -482,7 +482,7 @@ export default {
   border: 1px solid var(--admin-border);
   border-radius: 18px;
   padding: 18px;
-  box-shadow: 0 16px 32px rgba(15, 23, 42, 0.08);
+  box-shadow: 0 16px 32px rgba(38, 41, 46, 0.08);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   cursor: default;
   overflow: hidden;
@@ -506,13 +506,13 @@ export default {
   border-radius: 32px;
   padding: 2rem;
   border: 1px solid rgba(15, 110, 99, 0.15);
-  box-shadow: 0 30px 60px rgba(15, 23, 42, 0.08);
+  box-shadow: 0 30px 60px rgba(38, 41, 46, 0.08);
   margin-bottom: 2rem;
 }
 
 .note-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.12);
+  box-shadow: 0 20px 40px rgba(38, 41, 46, 0.12);
 }
 
 .note-title {
@@ -594,12 +594,12 @@ export default {
 
 .btn-icon:hover:not(:disabled) {
   transform: translateY(-1px);
-  box-shadow: 0 8px 18px rgba(15, 23, 42, 0.12);
+  box-shadow: 0 8px 18px rgba(38, 41, 46, 0.12);
 }
 
 .btn-ghost {
   background: #fff;
-  border: 1px solid rgba(15, 23, 42, 0.12);
+  border: 1px solid rgba(38, 41, 46, 0.12);
   color: var(--admin-ink);
 }
 
@@ -647,7 +647,7 @@ export default {
 
 .report-kv {
   background: #f8fbfa;
-  border: 1px solid rgba(15, 23, 42, 0.08);
+  border: 1px solid rgba(38, 41, 46, 0.08);
   border-radius: 12px;
   padding: 0.7rem 0.85rem;
 }
@@ -668,7 +668,7 @@ export default {
 }
 
 .report-block {
-  border: 1px solid rgba(15, 23, 42, 0.08);
+  border: 1px solid rgba(38, 41, 46, 0.08);
   border-radius: 12px;
   padding: 0.85rem 0.95rem;
   background: #fff;

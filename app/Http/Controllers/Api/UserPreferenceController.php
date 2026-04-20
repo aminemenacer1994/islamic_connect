@@ -18,6 +18,19 @@ class UserPreferenceController extends Controller
         'liked_reciters',
         'reciter_recent',
         'surat_realtime_highlighting',
+        'selectedSurah',
+        'selectedReciter',
+        'selectedTranslation',
+        'selectedTafsirEdition',
+        'continuousPlayback',
+        'surat_show_word_translation',
+        'surat_show_word_translation_tooltip',
+        'suratTransliterationWordHighlightEnabled',
+        'suratAudioHighlightEnabled',
+        'suratGestureNavigationEnabled',
+        'suratThemeMode',
+        'surat_reading_fullscreen_mode',
+        'playbackSpeed',
     ];
 
     public function show(Request $request, string $key)
@@ -39,7 +52,7 @@ class UserPreferenceController extends Controller
         $this->ensureAllowedKey($key);
 
         $validated = $request->validate([
-            'value' => 'nullable|array',
+            'value' => 'nullable',
         ]);
 
         $preference = UserPreference::updateOrCreate(

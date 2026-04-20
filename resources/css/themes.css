@@ -10,7 +10,7 @@
     --accent-color-light: #13a27f;
     --border-color: #e3eee9;
     --hover-bg: rgba(11, 128, 111, 0.08);
-    --shadow-color: rgba(15, 23, 42, 0.08);
+    --shadow-color: rgba(30, 41, 59, 0.08);
 
     /* Bootstrap color hooks */
     --bs-primary: var(--accent-color);
@@ -21,8 +21,8 @@
 }
 
 :root[data-theme="dark"] {
-    --bg-primary: #0b1410;
-    --bg-secondary: #0f1c16;
+    --bg-primary: #26292e;
+    --bg-secondary: #2f343a;
     --text-primary: rgba(255, 255, 255, 0.92);
     --text-secondary: rgba(255, 255, 255, 0.72);
     --accent-color: #2ea26f;

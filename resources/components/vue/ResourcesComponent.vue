@@ -662,7 +662,7 @@ export default {
   align-items: center;
   gap: 0.5rem;
   border-radius: 999px;
-  border: 1px solid rgba(15, 23, 42, 0.12);
+  border: 1px solid rgba(38, 41, 46, 0.12);
   background: rgba(255, 255, 255, 0.9);
   color: #0f172a;
   font-size: 0.84rem;
@@ -677,9 +677,9 @@ export default {
 .resource-card {
   padding: 1.5rem;
   border-radius: 1.5rem;
-  border: 1px solid rgba(15, 23, 42, 0.1);
+  border: 1px solid rgba(38, 41, 46, 0.1);
   background: linear-gradient(165deg, rgba(255, 255, 255, 0.98), rgba(248, 250, 252, 0.98));
-  box-shadow: 0 18px 36px rgba(15, 23, 42, 0.12);
+  box-shadow: 0 18px 36px rgba(38, 41, 46, 0.12);
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -728,7 +728,7 @@ export default {
 .resource-card__meta .divider {
   width: 1px;
   height: 14px;
-  background: rgba(15, 23, 42, 0.2);
+  background: rgba(38, 41, 46, 0.2);
 }
 
 .resource-items {
@@ -739,10 +739,10 @@ export default {
 
 .resource-item {
   border-radius: 1rem;
-  border: 1px solid rgba(15, 23, 42, 0.08);
+  border: 1px solid rgba(38, 41, 46, 0.08);
   background: #ffffff;
   padding: 1rem;
-  box-shadow: 0 8px 22px rgba(15, 23, 42, 0.06);
+  box-shadow: 0 8px 22px rgba(38, 41, 46, 0.06);
 }
 
 .resource-item__head {
@@ -759,7 +759,7 @@ export default {
   display: grid;
   place-items: center;
   font-size: 1rem;
-  box-shadow: 0 10px 20px rgba(15, 23, 42, 0.2);
+  box-shadow: 0 10px 20px rgba(38, 41, 46, 0.2);
   flex-shrink: 0;
 }
 
@@ -873,7 +873,7 @@ export default {
 
 .btn-resource--ghost {
   color: #0f172a;
-  border-color: rgba(15, 23, 42, 0.25);
+  border-color: rgba(38, 41, 46, 0.25);
   background: #ffffff;
 }
 
@@ -900,7 +900,7 @@ export default {
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(15, 23, 42, 0.64);
+  background: rgba(38, 41, 46, 0.64);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -915,7 +915,7 @@ export default {
   background: #ffffff;
   border-radius: 1.35rem;
   padding: 1.5rem;
-  box-shadow: 0 30px 65px rgba(15, 23, 42, 0.35);
+  box-shadow: 0 30px 65px rgba(38, 41, 46, 0.35);
 }
 
 .modal-card__header {
@@ -938,7 +938,7 @@ export default {
   color: #ffffff;
   display: grid;
   place-items: center;
-  box-shadow: 0 12px 20px rgba(15, 23, 42, 0.25);
+  box-shadow: 0 12px 20px rgba(38, 41, 46, 0.25);
 }
 
 .modal-card__tag {

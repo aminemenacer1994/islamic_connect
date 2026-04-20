@@ -224,7 +224,7 @@ export default {
 .card {
   border-radius: 16px;
   border: 1px solid var(--admin-border);
-  box-shadow: 0 16px 28px rgba(15, 23, 42, 0.08);
+  box-shadow: 0 16px 28px rgba(38, 41, 46, 0.08);
 }
 
 code {

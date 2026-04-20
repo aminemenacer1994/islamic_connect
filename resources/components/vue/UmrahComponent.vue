@@ -1057,7 +1057,7 @@ export default {
 .guide-card {
   background: #fff;
   border-radius: 24px;
-  box-shadow: 0 20px 50px rgba(15, 23, 42, 0.15);
+  box-shadow: 0 20px 50px rgba(38, 41, 46, 0.15);
   border: none;
   padding: 2.4rem 1.6rem 2.2rem;
   margin-bottom: 2.4rem;
@@ -1099,7 +1099,7 @@ export default {
   border-radius: 24px;
   overflow: hidden;
   background: #fff;
-  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.12);
+  box-shadow: 0 20px 40px rgba(38, 41, 46, 0.12);
 }
 
 .ritual-map-frame {
@@ -1355,7 +1355,7 @@ section .list-unstyled li {
   border-radius: 20px;
   background: rgba(223, 250, 241, 0.95);
   color: #0d6657;
-  box-shadow: 0 18px 44px rgba(15, 23, 42, 0.18);
+  box-shadow: 0 18px 44px rgba(38, 41, 46, 0.18);
   width: min(90vw, 450px);
   animation: premiumFloatUp 0.5s ease;
 }

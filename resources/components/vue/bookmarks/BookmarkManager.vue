@@ -1230,7 +1230,7 @@ export default {
 
 .ayah-list-item.ayah-dragging {
     opacity: 0.75;
-    box-shadow: 0 12px 26px rgba(15, 23, 42, 0.18);
+    box-shadow: 0 12px 26px rgba(38, 41, 46, 0.18);
 }
 
 @media (min-width: 992px) {
@@ -1265,7 +1265,7 @@ export default {
     border-radius: 30px;
     border: none;
     background: linear-gradient(180deg, #fdfefd, #eff9f1);
-    box-shadow: 0 30px 60px rgba(15, 23, 42, 0.15);
+    box-shadow: 0 30px 60px rgba(38, 41, 46, 0.15);
     overflow: visible;
     position: relative;
     display: flex;
@@ -1353,12 +1353,12 @@ export default {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 8px 14px rgba(15, 23, 42, 0.12);
+    box-shadow: 0 8px 14px rgba(38, 41, 46, 0.12);
 }
 
 .panel-toggle:hover {
     transform: translateY(-1px);
-    box-shadow: 0 10px 18px rgba(15, 23, 42, 0.15);
+    box-shadow: 0 10px 18px rgba(38, 41, 46, 0.15);
     border-color: rgba(15, 110, 99, 0.4);
 }
 
@@ -1374,8 +1374,8 @@ export default {
     padding-right: 4px;
     background: #ffffff;
     border-radius: 24px;
-    border: 1px solid rgba(15, 23, 42, 0.08);
-    box-shadow: inset 0 10px 20px rgba(15, 23, 42, 0.04);
+    border: 1px solid rgba(38, 41, 46, 0.08);
+    box-shadow: inset 0 10px 20px rgba(38, 41, 46, 0.04);
     touch-action: pan-y;
 }
 
@@ -1384,7 +1384,7 @@ export default {
 }
 
 .list-wrapper::-webkit-scrollbar-track {
-    background: rgba(15, 23, 42, 0.06);
+    background: rgba(38, 41, 46, 0.06);
     border-radius: 999px;
 }
 
@@ -1398,7 +1398,7 @@ export default {
 }
 
 .panel-body::-webkit-scrollbar-track {
-    background: rgba(15, 23, 42, 0.06);
+    background: rgba(38, 41, 46, 0.06);
     border-radius: 999px;
 }
 
@@ -1486,7 +1486,7 @@ export default {
     border-radius: 20px;
     background: #ffffff;
     border: 1px solid rgba(15, 110, 99, 0.15);
-    box-shadow: 0 12px 30px rgba(15, 23, 42, 0.1);
+    box-shadow: 0 12px 30px rgba(38, 41, 46, 0.1);
 }
 
 .panel-search .input-group-text {
@@ -1517,12 +1517,12 @@ export default {
     gap: 10px;
     padding: 10px 14px;
     border-radius: 12px;
-    border: 1px solid rgba(15, 23, 42, 0.08);
+    border: 1px solid rgba(38, 41, 46, 0.08);
     background: #ffffff;
     color: #0f172a;
     font-weight: 600;
     margin-bottom: 14px;
-    box-shadow: 0 12px 24px rgba(15, 23, 42, 0.06);
+    box-shadow: 0 12px 24px rgba(38, 41, 46, 0.06);
 }
 
 .loading-state,
@@ -1533,7 +1533,7 @@ export default {
     background: #ffffff;
     border: 1px solid rgba(226, 232, 240, 0.8);
     color: #6b7280;
-    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.05);
+    box-shadow: 0 10px 24px rgba(38, 41, 46, 0.05);
 }
 
 .empty-state {
@@ -1542,13 +1542,13 @@ export default {
 
 .remove-confirm-modal .modal-content {
     border-radius: 18px;
-    border: 1px solid rgba(15, 23, 42, 0.12);
-    box-shadow: 0 22px 40px rgba(15, 23, 42, 0.18);
+    border: 1px solid rgba(38, 41, 46, 0.12);
+    box-shadow: 0 22px 40px rgba(38, 41, 46, 0.18);
     padding: 1rem;
 }
 
 :deep(.modal-backdrop) {
-    background: rgba(15, 23, 42, 0.45);
+    background: rgba(38, 41, 46, 0.45);
 }
 
 .ayah-list {
@@ -1561,7 +1561,7 @@ export default {
     border-radius: 22px;
     padding: 20px 24px;
     background: linear-gradient(180deg, #ffffff, #f4fbf6);
-    box-shadow: 0 18px 50px rgba(15, 23, 42, 0.1);
+    box-shadow: 0 18px 50px rgba(38, 41, 46, 0.1);
 }
 
 .ayah-list-head {
@@ -1668,7 +1668,7 @@ export default {
     border-radius: 24px;
     background: linear-gradient(135deg, #f3f9ff, #e2f4f2);
     text-align: center;
-    box-shadow: 0 20px 50px rgba(15, 23, 42, 0.1);
+    box-shadow: 0 20px 50px rgba(38, 41, 46, 0.1);
 }
 
 .guest-icon {
@@ -1712,7 +1712,7 @@ export default {
     width: 52px;
     height: 52px;
     border-radius: 50%;
-    border: 4px solid rgba(15, 23, 42, 0.15);
+    border: 4px solid rgba(38, 41, 46, 0.15);
     border-top-color: #0f855a;
     animation: spin 1s linear infinite;
 }
@@ -1741,9 +1741,9 @@ export default {
     background: #ffffff;
     font-family: "Inter", "Segoe UI", system-ui, sans-serif;
     color: #0f172a;
-    border: 1px solid rgba(15, 23, 42, 0.08);
+    border: 1px solid rgba(38, 41, 46, 0.08);
     border-radius: 16px;
-    box-shadow: 0 20px 48px rgba(15, 23, 42, 0.12);
+    box-shadow: 0 20px 48px rgba(38, 41, 46, 0.12);
 }
 
 :global(.bookmark-export-sheet h1) {
@@ -1784,7 +1784,7 @@ export default {
 :global(.bookmark-export-sheet th),
 :global(.bookmark-export-sheet td) {
     padding: 10px 12px;
-    border: 1px solid rgba(15, 23, 42, 0.12);
+    border: 1px solid rgba(38, 41, 46, 0.12);
     word-break: break-word;
 }
 
@@ -1844,8 +1844,8 @@ export default {
 .export-menu {
     min-width: 18rem;
     border-radius: 1rem;
-    border: 1px solid rgba(15, 23, 42, 0.15);
-    box-shadow: 0 20px 45px rgba(15, 23, 42, 0.15);
+    border: 1px solid rgba(38, 41, 46, 0.15);
+    box-shadow: 0 20px 45px rgba(38, 41, 46, 0.15);
 }
 
 .export-item {

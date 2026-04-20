@@ -134,7 +134,7 @@ export default {
       const size = Math.max(14, this.fontSize) + 'px';
       const isDarkMode = this.isDarkMode;
       return {
-        '--content-bg': isDarkMode ? '#232529' : (this.fontSettings.backgroundColor || '#ffffff'),
+        '--content-bg': isDarkMode ? '#26292e' : (this.fontSettings.backgroundColor || '#ffffff'),
         '--content-fg': isDarkMode ? '#ffffff' : (this.fontSettings.color || '#0f172a'),
         '--content-font-style': this.fontSettings.fontStyle || 'normal',
         '--content-text-shadow': this.fontSettings.textShadow || 'none',

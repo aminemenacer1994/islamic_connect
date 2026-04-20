@@ -513,7 +513,6 @@
                                     </span>
                                 </button>
                                 <button
-                                    v-if="false"
                                     type="button"
                                     class="btn advanced-quran-mobile-action-btn"
                                     :class="{ 'is-enabled': showWordTranslationTooltip }"
@@ -573,25 +572,42 @@
                                     </span>
                                 </button>
                                 <button
-                                    v-if="false"
+                                    v-if="!isReaderToolbarMinimized"
+                                    type="button"
+                                    class="btn advanced-quran-mobile-action-btn"
+                                    :class="{ 'is-enabled': audioHighlightEnabled }"
+                                    @click="toggleToolbarAudioHighlight"
+                                    :aria-label="audioHighlightEnabled
+                                        ? 'Turn ayah highlighting off'
+                                        : 'Turn ayah highlighting on'"
+                                    :title="audioHighlightEnabled
+                                        ? 'Turn off ayah-level background highlight'
+                                        : 'Turn on ayah-level background highlight'">
+                                    <i class="bi bi-pencil-fill" aria-hidden="true"></i>
+                                    <span class="advanced-quran-mobile-action-label">Ayah highlight</span>
+                                    <span class="advanced-quran-mobile-action-btn-state">
+                                        {{ audioHighlightEnabled ? "On" : "Off" }}
+                                    </span>
+                                </button>
+                                <button
+                                    v-if="!isReaderToolbarMinimized"
                                     type="button"
                                     class="btn advanced-quran-mobile-action-btn"
                                     :class="{ 'is-enabled': transliterationWordHighlightEnabled }"
                                     @click="toggleToolbarTransliterationSync"
                                     :aria-label="transliterationWordHighlightEnabled
-                                        ? 'Turn transliteration sync off'
-                                        : 'Turn transliteration sync on'"
+                                        ? 'Turn real-time highlighting off'
+                                        : 'Turn real-time highlighting on'"
                                     :title="transliterationWordHighlightEnabled
-                                        ? 'Turn off transliteration word sync highlight'
-                                        : 'Turn on transliteration word sync highlight'">
-                                    <i class="bi bi-link-45deg" aria-hidden="true"></i>
-                                    <span class="advanced-quran-mobile-action-label">Sync</span>
+                                        ? 'Turn off real-time text highlight'
+                                        : 'Turn on real-time text highlight'">
+                                    <i class="bi bi-magic" aria-hidden="true"></i>
+                                    <span class="advanced-quran-mobile-action-label">Real-time highlight</span>
                                     <span class="advanced-quran-mobile-action-btn-state">
                                         {{ transliterationWordHighlightEnabled ? "On" : "Off" }}
                                     </span>
                                 </button>
                                 <div
-                                    v-if="false"
                                     class="dropdown advanced-quran-mobile-more">
                                     <button
                                         type="button"
@@ -715,6 +731,51 @@
                     @cancel-delete="cancelSavedBookmarksDelete" />
             </div>
         </teleport>
+        <teleport to="body">
+            <div
+                v-if="showCustomPlaylistPanel"
+                class="saved-playlists-panel-backdrop"
+                role="presentation"
+                @click="closeCustomPlaylistPanel"></div>
+            <div
+                v-if="showCustomPlaylistPanel"
+                class="saved-playlists-modal-shell"
+                :class="{ 'is-mobile': isTabletOrMobile, 'is-desktop': !isTabletOrMobile }"
+                role="dialog"
+                aria-modal="true"
+                aria-label="Saved playlists">
+                <saved-playlists-panel
+                    :playlists="playlistCollections"
+                    :items="playlistPanelItems"
+                    :active-playlist-id="activePlaylistCollectionId"
+                    :dark-theme="isDarkTheme"
+                    :busy="playlistDeleteBusy"
+                    :selected-keys="selectedPlaylistItemIds"
+                    :selected-count="selectedPlaylistItemCount"
+                    :all-selected="allActivePlaylistItemsSelected"
+                    :delete-confirm="playlistDeleteConfirm"
+                    :delete-busy="playlistDeleteBusy"
+                    @close="closeCustomPlaylistPanel"
+                    @select-playlist="setPlaylistCollectionFilter"
+                    @create-playlist="createPlaylistFromPanel"
+                    @update-playlist="updatePlaylistFromPanel"
+                    @delete-playlist="requestSinglePlaylistDeleteFromPayload"
+                    @open-item="openPlaylistPanelItem"
+                    @play-item="playPlaylistPanelItem"
+                    @move-item="movePlaylistItemToPlaylist"
+                    @move-item-up="movePlaylistPanelItemUp"
+                    @move-item-down="movePlaylistPanelItemDown"
+                    @toggle-selection="togglePlaylistItemSelection"
+                    @toggle-select-all="toggleAllActivePlaylistSelections"
+                    @clear-selection="clearPlaylistItemSelections"
+                    @request-delete="requestSinglePlaylistItemDelete"
+                    @request-bulk-delete="requestBulkPlaylistItemsDelete"
+                    @confirm-delete="confirmPlaylistDelete"
+                    @cancel-delete="cancelPlaylistDelete"
+                    @play-playlist="playPlaylistFromPanel"
+                    @shuffle-playlist="shufflePlaylistFromPanel" />
+            </div>
+        </teleport>
         <div v-if="!showReaderToolbar"
             class="reader-toolbar-restore ltr-text">
             <button
@@ -736,13 +797,12 @@
                 It connects setup, listening, and revision so daily practice turns into long-term retention and confident recitation.
             </p>
         </section>
-        <div v-if="(surahDetails || currentSurahInfo) && ((!isTabletOrMobile && ((showDesktopToolbar && showReaderToolbar) || showCustomPlaylistPanel)) || (isTabletOrMobile && showCustomPlaylistPanel))"
+        <div v-if="(surahDetails || currentSurahInfo) && (!isTabletOrMobile && showDesktopToolbar && showReaderToolbar)"
             class="quran-toolbar-sticky ltr-text"
             :class="{
                 'quran-toolbar-fixed-shell': showDesktopToolbar && !isTabletOrMobile,
                 'is-pinned': showDesktopToolbar && isToolbarPinned && !isTabletOrMobile,
                 'is-static': !toolbarScrollEnabled,
-                'is-mobile-playlist-shell': isTabletOrMobile && showCustomPlaylistPanel,
                 'memorisation-toolbar-sticky': isMemorisationToolbarVisible,
                 'memorisation-toolbar-active': isMemorisationToolbarVisible
             }"
@@ -987,7 +1047,6 @@
                         </button>
 
                         <button
-                            v-if="false"
                             type="button"
                             class="quran-toolbar-btn quran-toolbar-btn-toggle quran-toolbar-btn-reader-control"
                             :class="{ 'is-enabled': showWordTranslationTooltip }"
@@ -1080,6 +1139,25 @@
                             </span>
                             <span class="quran-toolbar-btn-state">{{ isTransliterationAllEnabled ? "On" : "Off" }}</span>
                         </button>
+                        <button
+                            v-if="!isReaderToolbarMinimized && !isMemorisationToolbarVisible"
+                            type="button"
+                            class="quran-toolbar-btn quran-toolbar-btn-toggle quran-toolbar-btn-reader-control"
+                            :class="{ 'is-enabled': audioHighlightEnabled }"
+                            @click="toggleToolbarAudioHighlight"
+                            :aria-label="audioHighlightEnabled
+                                ? 'Turn ayah highlighting off'
+                                : 'Turn ayah highlighting on'">
+                            <span class="quran-toolbar-btn-main">
+                                <span class="quran-toolbar-btn-icon-shell" aria-hidden="true">
+                                    <i class="bi bi-pencil-fill"></i>
+                                </span>
+                                <span class="quran-toolbar-btn-copy">
+                                    <span class="quran-toolbar-btn-text">Ayah highlight</span>
+                                </span>
+                            </span>
+                            <span class="quran-toolbar-btn-state">{{ audioHighlightEnabled ? "On" : "Off" }}</span>
+                        </button>
 	                        <button
 	                            v-if="!isReaderToolbarMinimized && !isMemorisationToolbarVisible"
                             type="button"
@@ -1087,14 +1165,14 @@
                             :class="{ 'is-enabled': transliterationWordHighlightEnabled }"
                             @click="toggleToolbarTransliterationSync"
                             :aria-label="transliterationWordHighlightEnabled
-                                ? 'Turn transliteration sync off'
-                                : 'Turn transliteration sync on'">
+                                ? 'Turn real-time text highlighting off'
+                                : 'Turn real-time text highlighting on'">
                             <span class="quran-toolbar-btn-main">
                                 <span class="quran-toolbar-btn-icon-shell" aria-hidden="true">
-                                    <i class="bi bi-link-45deg"></i>
+                                    <i class="bi bi-magic"></i>
                                 </span>
                                 <span class="quran-toolbar-btn-copy">
-                                    <span class="quran-toolbar-btn-text">Sync</span>
+                                    <span class="quran-toolbar-btn-text">Real-time highlight</span>
                                 </span>
                             </span>
                             <span class="quran-toolbar-btn-state">{{ transliterationWordHighlightEnabled ? "On" : "Off" }}</span>
@@ -1184,70 +1262,28 @@
                             <i class="bi bi-gear-fill" aria-hidden="true"></i>
                             <span class="advanced-quran-more-item-label">Display settings</span>
                         </button>
+                        </div>
                     </div>
                 </div>
-                </div>
-	                        <button
-	                            v-if="!isReaderToolbarMinimized && !isMemorisationToolbarVisible"
-	                    type="button"
-	                    class="quran-toolbar-btn quran-toolbar-btn-toggle quran-toolbar-btn-icon quran-toolbar-btn-theme-compact"
-	                    :class="{ 'is-enabled': isDarkTheme }"
-	                    :aria-pressed="isDarkTheme ? 'true' : 'false'"
+                <button
+                    v-if="!isReaderToolbarMinimized && !isMemorisationToolbarVisible"
+                    type="button"
+                    class="quran-toolbar-btn quran-toolbar-btn-toggle quran-toolbar-btn-icon quran-toolbar-btn-theme-compact"
+                    :class="{ 'is-enabled': isDarkTheme }"
+                    :aria-pressed="isDarkTheme ? 'true' : 'false'"
                     :aria-label="isDarkTheme
                         ? 'Switch to light mode for the Surat page'
                         : 'Switch to dark mode for the Surat page'"
-	                    @click="toggleSuratTheme">
-	                    <i
-	                        class="bi"
-	                        :class="isDarkTheme ? 'bi-sun-fill' : 'bi-moon-stars-fill'"
-	                        aria-hidden="true"></i>
-	                </button>
-
+                    @click="toggleSuratTheme">
+                    <i
+                        class="bi"
+                        :class="isDarkTheme ? 'bi-sun-fill' : 'bi-moon-stars-fill'"
+                        aria-hidden="true"></i>
+                </button>
             </div>
-        <teleport v-if="false" to="body">
-            <div
-                v-if="showCustomPlaylistPanel"
-                class="saved-playlists-panel-backdrop"
-                role="presentation"
-                @click="closeCustomPlaylistPanel"></div>
-            <div
-                v-if="showCustomPlaylistPanel"
-                class="saved-playlists-modal-shell"
-                :class="{ 'is-mobile': isTabletOrMobile, 'is-desktop': !isTabletOrMobile }"
-                role="dialog"
-                aria-modal="true"
-                aria-label="Saved playlists">
-                <saved-playlists-panel
-                    :playlists="playlistCollections"
-                    :items="playlistPanelItems"
-                    :active-playlist-id="activePlaylistCollectionId"
-                    :dark-theme="isDarkTheme"
-                    :busy="playlistDeleteBusy"
-                    :selected-keys="selectedPlaylistItemIds"
-                    :selected-count="selectedPlaylistItemCount"
-                    :all-selected="allActivePlaylistItemsSelected"
-                    :delete-confirm="playlistDeleteConfirm"
-                    :delete-busy="playlistDeleteBusy"
-                    @close="closeCustomPlaylistPanel"
-                    @select-playlist="setPlaylistCollectionFilter"
-                    @create-playlist="createPlaylistFromPanel"
-                    @update-playlist="updatePlaylistFromPanel"
-                    @delete-playlist="requestSinglePlaylistDeleteFromPayload"
-                    @open-item="openPlaylistPanelItem"
-                    @play-item="playPlaylistPanelItem"
-                    @move-item="movePlaylistItemToPlaylist"
-                    @move-item-up="movePlaylistPanelItemUp"
-                    @move-item-down="movePlaylistPanelItemDown"
-                    @toggle-selection="togglePlaylistItemSelection"
-                    @toggle-select-all="toggleAllActivePlaylistSelections"
-                    @clear-selection="clearPlaylistItemSelections"
-                    @request-delete="requestSinglePlaylistItemDelete"
-                    @request-bulk-delete="requestBulkPlaylistItemsDelete"
-                    @confirm-delete="confirmPlaylistDelete"
-                    @cancel-delete="cancelPlaylistDelete" />
-            </div>
-        </teleport>
         </div>
+
+
 
         <!-- Memorisation right offcanvas -->
         <div
@@ -4485,7 +4521,7 @@
                             openAyahPlaylistMenuKey === getAyahPlaylistMenuKey(item.ayah) ||
                             isTafsirDropdownOpenFor(item) ||
                             isTafsirModalOpenFor(item),
-                        'ayah-card-container--is-playing': isAudioPlaying[item.index],
+                        'ayah-card-container--is-playing': isAudioPlaying[item.index] && audioHighlightEnabled,
                     }">
                     <div class="ayah-surface rtl-text d-flex flex-column">
                         <div class="ayah-card-header ltr-text">
@@ -4916,7 +4952,10 @@
                                 <div
                                     v-if="shouldShowTranslationForRepeatPause(item)"
                                     class="translation-header ltr-text">
-                                    <b class="ayah-card-copy-label mb-0">Translation</b>
+                                    <h3 class="ayah-card-copy-label">
+                                        <i class="bi bi-translate me-2" aria-hidden="true"></i>
+                                        <span>Translation</span>
+                                    </h3>
                                 </div>
                                 <div
                                     v-if="shouldShowTranslationForRepeatPause(item) || isTransliterationVisibleFor(item)"
@@ -4960,9 +4999,12 @@
                                         <div
                                             v-if="isTransliterationVisibleFor(item) && !shouldHideVerseTextForRepeatPause(item.index)"
                                             class="transliteration-header ltr-text">
-                                            <b class="ayah-card-copy-label mb-0">Transliteration</b>
+                                            <h3 class="ayah-card-copy-label">
+                                                <i class="bi bi-alphabet-uppercase me-2" aria-hidden="true"></i>
+                                                <span>Transliteration</span>
+                                            </h3>
                                         </div>
-                                        <p
+                                            <p
 	                                            v-if="isTransliterationVisibleFor(item) && !shouldHideVerseTextForRepeatPause(item.index)"
 		                                            :class="[
 		                                                'fw-regular ltr-text flex-grow-1 transliteration-text',

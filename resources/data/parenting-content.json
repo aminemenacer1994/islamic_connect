@@ -1,0 +1,1623 @@
+{
+  "meta": {
+    "title": "A Youth Guide to Parenting in Islam",
+    "subtitle": "Real talk. Real struggles. Real Islamic guidance — for Muslim youth navigating family life in the West.",
+    "description": "A scholarly-verified, interactive guide for Western Muslim youth on navigating family relationships with Islamic principles, cultural awareness, and practical tools.",
+    "version": "1.0",
+    "lastUpdated": "2025-04-20",
+    "totalChapters": 16,
+    "language": "en",
+    "targetAudience": "Western Muslim youth aged 16-30",
+    "disclaimer": "All content in this guide is sourced from verified Islamic scholarship via IslamQA.info, Islamweb.net, Sunnah.com, Quran.com, and SeekersGuidance.org. Content is educational and does not replace qualified scholarly advice. Always consult a qualified Islamic scholar for personal matters. Sources are cited throughout to avoid plagiarism.",
+    "trustedSources": [
+      {
+        "id": "quran-com",
+        "name": "Quran.com",
+        "url": "https://quran.com",
+        "description": "The most widely used Quran platform globally with multiple translations and tafsir.",
+        "verificationLevel": "primary",
+        "contentType": ["quran", "translation", "tafsir"]
+      },
+      {
+        "id": "sunnah-com",
+        "name": "Sunnah.com",
+        "url": "https://sunnah.com",
+        "description": "Direct access to authenticated hadith collections (Bukhari, Muslim, Abu Dawud, etc.).",
+        "verificationLevel": "primary",
+        "contentType": ["hadith", "authentication", "reference"]
+      },
+      {
+        "id": "seekersguidance",
+        "name": "SeekersGuidance.org",
+        "url": "https://seekersguidance.org",
+        "description": "Verified scholars, free courses, Q&A — widely trusted by Western Muslim communities.",
+        "verificationLevel": "primary",
+        "contentType": ["fatwa", "courses", "guidance", "western-focus"]
+      },
+      {
+        "id": "islamqa",
+        "name": "IslamQA.info",
+        "url": "https://islamqa.info",
+        "description": "One of the largest fatwa databases, reviewed by Sheikh Muhammad al-Munajjid.",
+        "verificationLevel": "primary",
+        "contentType": ["fatwa", "q-and-a", "scholarly-review"]
+      },
+      {
+        "id": "islamweb",
+        "name": "Islamweb.net",
+        "url": "https://islamweb.net",
+        "description": "Scholarly fatwa centre from Qatar with broad coverage of family and youth issues.",
+        "verificationLevel": "primary",
+        "contentType": ["fatwa", "family-guidance", "youth-resources"]
+      }
+    ]
+  },
+  "chapters": [
+    {
+      "id": "ch1",
+      "icon": "🏛️",
+      "shortTitle": "Foundations",
+      "title": "Foundations of Parenting in Islam",
+      "order": 1,
+      "sections": [
+        {
+          "id": "ch1-s1",
+          "type": "content-card",
+          "title": "Rights of Parents",
+          "content": "Allah commands honouring parents immediately after Tawheed (monotheism) — placing this duty second only to worshipping Him alone. This is mentioned in Surah Al-Isra (17:23): \"Your Lord has decreed that you worship none but Him, and that you be kind to parents.\"",
+          "quranVerse": {
+            "arabic": "وَقَضَىٰ رَبُّكَ أَلَّا تَعْبُدُوا إِلَّا إِيَّاهُ وَبِالْوَالِدَيْنِ إِحْسَانًا",
+            "translation": "And your Lord has decreed that you not worship except Him, and to parents, good treatment.",
+            "reference": "Surah Al-Isra 17:23",
+            "source": "Quran.com",
+            "sourceUrl": "https://quran.com/17/23",
+            "context": "This verse establishes the hierarchy of obligations: worship Allah alone, then treat parents with excellence (ihsan)."
+          },
+          "hadith": {
+            "text": "The Prophet ﷺ was asked who deserves best companionship three times — each time he said 'your mother,' then 'your father.'",
+            "reference": "Sahih Bukhari 5971",
+            "source": "Sunnah.com",
+            "sourceUrl": "https://sunnah.com/bukhari:5971",
+            "lesson": "The mother is given precedence three times, highlighting her immense right and sacrifice."
+          },
+          "tip": {
+            "icon": "📌",
+            "title": "Bite-Sized Reminder",
+            "content": "The Prophet ﷺ was asked who deserves best companionship three times — each time he said 'your mother,' then 'your father.' (Sahih Bukhari 5971 | Source: Sunnah.com)"
+          }
+        },
+        {
+          "id": "ch1-s2",
+          "type": "content-card",
+          "title": "Obedience vs Boundaries",
+          "content": "Obedience to parents is obligatory except when they command disobedience to Allah. The Prophet ﷺ said: 'There is no obedience to creation in disobedience to the Creator.' (Ahmad | Source: Sunnah.com)",
+          "hadith": {
+            "text": "There is no obedience to creation in disobedience to the Creator.",
+            "reference": "Musnad Ahmad",
+            "source": "Sunnah.com",
+            "sourceUrl": "https://sunnah.com",
+            "authenticity": "Hasan (good chain)",
+            "application": "This principle applies to all authority figures, not just parents."
+          },
+          "dosDonts": {
+            "dos": [
+              "Obey in permissible matters",
+              "Explain your concerns calmly",
+              "Seek mediation from a scholar",
+              "Make dua for them"
+            ],
+            "donts": [
+              "Obey in clear haram actions",
+              "Be rude in your refusal",
+              "Publicly shame them",
+              "Cut off ties"
+            ]
+          }
+        },
+        {
+          "id": "ch1-s3",
+          "type": "content-card-full",
+          "title": "Mercy, Respect & Ihsan",
+          "content": "Ihsan means excellence — doing more than the minimum. In family life, this means going beyond obligation to show genuine love, care, and kindness even when it's difficult. The Quran instructs us not to even say 'uff' (a sound of irritation) to parents.",
+          "quranReference": {
+            "verse": "And do not say to them [so much as], 'uff,' and do not repel them but speak to them a noble word.",
+            "reference": "Surah Al-Isra 17:23",
+            "source": "Quran.com",
+            "sourceUrl": "https://quran.com/17/23"
+          },
+          "image": {
+            "url": "https://images.pexels.com/photos/7869025/pexels-photo-7869025.jpeg?auto=compress&w=700",
+            "alt": "Family connection",
+            "credit": "Photo: Pexels.com | Free to use",
+            "caption": "Building bonds through mercy and excellence in character"
+          }
+        },
+        {
+          "id": "ch1-s4",
+          "type": "content-card",
+          "title": "Intention (Niyyah) in Family Life",
+          "content": "Every act in your household — helping, speaking kindly, enduring difficulty — becomes an act of worship if done with sincere intention for Allah's sake. The Prophet ﷺ said: 'Actions are by intentions.' (Sahih Bukhari 1 | Source: Sunnah.com)",
+          "hadith": {
+            "text": "Actions are by intentions, and every person will have only what they intended.",
+            "reference": "Sahih Bukhari 1",
+            "source": "Sunnah.com",
+            "sourceUrl": "https://sunnah.com/bukhari:1",
+            "significance": "This is the foundational hadith of Islamic jurisprudence — intention transforms mundane acts into worship."
+          },
+          "reminder": {
+            "icon": "💡",
+            "content": "Reframe difficult moments: 'I'm doing this for Allah, not just for them.'"
+          }
+        }
+      ],
+      "faqs": [
+        {
+          "question": "Does honouring parents mean doing everything they say?",
+          "answer": "No. Obedience to parents is obligatory in permissible matters but not in what contradicts Islamic law or causes you clear harm. The scholars are unanimous on this.",
+          "source": "IslamQA.info",
+          "sourceUrl": "https://islamqa.info",
+          "relatedVerse": "Quran 31:15"
+        },
+        {
+          "question": "What if my parents are not Muslim?",
+          "answer": "You still owe them kindness, respect, and good companionship in all permissible matters. The Quran mentions this in Surah Luqman (31:15). You do not obey them in shirk, but you maintain the relationship with love.",
+          "source": "SeekersGuidance.org",
+          "sourceUrl": "https://seekersguidance.org",
+          "relatedVerse": "Quran 31:15"
+        },
+        {
+          "question": "Can I disagree with my parents?",
+          "answer": "Yes, respectfully. Islam encourages shura (consultation) and does not require you to suppress your opinion. The manner of disagreement matters greatly.",
+          "source": "Islamweb.net",
+          "sourceUrl": "https://islamweb.net",
+          "principle": "Qawlan karima (noble speech) - Quran 17:23"
+        }
+      ],
+      "sources": [
+        "Quran.com (Surah Al-Isra 17:23)",
+        "Sunnah.com (Sahih Bukhari 5971, Hadith on niyyah)",
+        "SeekersGuidance.org (article on honouring parents)"
+      ]
+    },
+    {
+      "id": "ch2",
+      "icon": "💬",
+      "shortTitle": "Communication",
+      "title": "Communication with Parents",
+      "order": 2,
+      "sections": [
+        {
+          "id": "ch2-s1",
+          "type": "content-card",
+          "title": "How to Talk Without Disrespect",
+          "content": "The Quran instructs us to speak to parents with qawlan kariman — noble, dignified speech. This means choosing words carefully, keeping your tone soft, and never raising your voice in contempt.",
+          "quranReference": {
+            "arabic": "وَقُل لَّهُمَا قَوْلًا كَرِيمًا",
+            "translation": "And speak to them with noble speech.",
+            "reference": "Surah Al-Isra 17:23",
+            "source": "Quran.com",
+            "sourceUrl": "https://quran.com/17/23"
+          },
+          "practicalScript": {
+            "title": "📝 Practical Script",
+            "content": "\"Baba/Mama, I want to talk about something. Can we find a good time? I want to understand your view and share mine respectfully.\""
+          }
+        },
+        {
+          "id": "ch2-s2",
+          "type": "content-card",
+          "title": "Handling Disagreements Calmly",
+          "content": "The Prophet ﷺ never raised his voice in anger in his household. Seeking silence when heated, making wudu, and changing physical position (sitting if standing) are all prophetic remedies for anger. (Source: IslamQA.info)",
+          "steps": [
+            {
+              "order": 1,
+              "title": "Pause",
+              "content": "Don't respond immediately when angry"
+            },
+            {
+              "order": 2,
+              "title": "Make wudu",
+              "content": "To cool down physically and spiritually"
+            },
+            {
+              "order": 3,
+              "title": "Return to conversation",
+              "content": "After emotions settle"
+            },
+            {
+              "order": 4,
+              "title": "Use 'I feel...' statements",
+              "content": "Not blame or accusation"
+            }
+          ],
+          "propheticGuidance": {
+            "source": "IslamQA.info",
+            "sourceUrl": "https://islamqa.info",
+            "topic": "Anger management in Islam"
+          }
+        },
+        {
+          "id": "ch2-s3",
+          "type": "content-card-full",
+          "title": "Video: Communication in Muslim Families",
+          "videos": [
+            {
+              "title": "Navigating Difficult Family Conversations",
+              "provider": "SeekersGuidance",
+              "embedUrl": "https://www.youtube.com/embed/N4QeKnfSP3s",
+              "watchUrl": "https://www.youtube.com/watch?v=N4QeKnfSP3s",
+              "duration": "18:42",
+              "description": "Practical guidance on maintaining adab while addressing family conflicts"
+            },
+            {
+              "title": "How to Talk to Your Parents — Islamic Perspective",
+              "provider": "Islamic Guidance",
+              "embedUrl": "https://www.youtube.com/embed/CYe1wfPx4dU",
+              "watchUrl": "https://www.youtube.com/watch?v=CYe1wfPx4dU",
+              "duration": "12:15",
+              "description": "Youth-focused advice on respectful communication with parents"
+            }
+          ]
+        },
+        {
+          "id": "ch2-s4",
+          "type": "content-card",
+          "title": "When Parents Don't Understand You",
+          "content": "This is one of the most common struggles for Western Muslim youth. Your parents may have grown up in a completely different world. Their resistance often comes from love and fear, not malice.",
+          "empathyPoints": [
+            {
+              "icon": "💚",
+              "content": "Try to understand their fears first"
+            },
+            {
+              "icon": "💚",
+              "content": "Find common ground in Islamic values"
+            },
+            {
+              "icon": "💚",
+              "content": "Involve a trusted imam or elder if needed"
+            },
+            {
+              "icon": "💚",
+              "content": "Be patient — understanding takes time"
+            }
+          ]
+        }
+      ],
+      "interactiveTool": {
+        "id": "conflict-phrase-generator",
+        "title": "🛠️ Conflict Phrase Generator",
+        "description": "Select a situation and get an Islamically framed response:",
+        "options": [
+          {
+            "value": "curfew",
+            "label": "Parents set an early curfew",
+            "response": "\"Baba/Mama, I understand your concern about my safety. Can we discuss a curfew that works for both of us? I want you to feel comfortable while also being able to participate in normal activities.\""
+          },
+          {
+            "value": "career",
+            "label": "Parents push a specific career",
+            "response": "\"I hear your vision for me, and I respect it. Can I show you some research about the path I'm passionate about? I want to find something we both feel good about.\""
+          },
+          {
+            "value": "friends",
+            "label": "Parents disapprove of your friends",
+            "response": "\"I understand you have concerns. Would you be willing to meet my friends so you can see who they actually are? I value your opinion and want you to have all the information.\""
+          },
+          {
+            "value": "marriage",
+            "label": "Parents want to rush marriage",
+            "response": "\"I know this is sensitive. Can we sit down and talk about what qualities you'd want in my future spouse? I want your blessing and your guidance in this process.\""
+          }
+        ]
+      },
+      "sources": [
+        "Quran.com (Surah Al-Isra 17:23 — qawlan kariman)",
+        "IslamQA.info (anger management in Islam)",
+        "SeekersGuidance.org (family communication)"
+      ]
+    },
+    {
+      "id": "ch3",
+      "icon": "⚖️",
+      "shortTitle": "Culture vs Islam",
+      "title": "Culture vs Islam",
+      "order": 3,
+      "sections": [
+        {
+          "id": "ch3-s1",
+          "type": "comparison-grid",
+          "title": "Cultural Norms vs Islamic Teachings",
+          "comparison": {
+            "culturalNorms": [
+              "Honour/shame-based decisions",
+              "\"What will people say?\"",
+              "Gender double-standards",
+              "Forced career paths",
+              "Marrying from same village/tribe only"
+            ],
+            "islamicTeachings": [
+              "Decisions based on taqwa, not shame",
+              "Allah's pleasure over people's opinions",
+              "Equal accountability for men & women",
+              "Consultation and choice in career",
+              "Piety as the basis for marriage"
+            ]
+          }
+        },
+        {
+          "id": "ch3-s2",
+          "type": "content-card",
+          "title": "\"My parents say it's haram but is it?\"",
+          "content": "Many things labelled 'haram' by parents are actually cultural preferences, not Islamic rulings. Always verify with a qualified scholar. Trusted resources: IslamQA.info, SeekersGuidance.org, Islamweb.net.",
+          "warning": {
+            "icon": "⚠️",
+            "content": "Note: Don't use 'it's not haram' to justify genuinely forbidden things. Check with sincerity."
+          }
+        },
+        {
+          "id": "ch3-s3",
+          "type": "content-card",
+          "title": "Breaking Toxic Cultural Norms Respectfully",
+          "dosDonts": {
+            "dos": [
+              "Use Islamic evidence calmly",
+              "Involve respected community figures",
+              "Make gradual, respectful change"
+            ],
+            "donts": [
+              "Publicly embarrass parents",
+              "Use Western norms as argument",
+              "Make it a power struggle"
+            ]
+          }
+        },
+        {
+          "id": "ch3-s4",
+          "type": "content-card-full",
+          "title": "Video: Culture vs. Islam for Western Muslims",
+          "videos": [
+            {
+              "title": "Culture vs. Islam",
+              "speaker": "Sh. Omar Suleiman",
+              "embedUrl": "https://www.youtube.com/embed/rQIBLnMhHJo",
+              "watchUrl": "https://www.youtube.com/watch?v=rQIBLnMhHJo",
+              "description": "Understanding the difference between cultural practices and Islamic obligations"
+            },
+            {
+              "title": "Generational Gaps in Muslim Families",
+              "provider": "Islamic Guidance",
+              "embedUrl": "https://www.youtube.com/embed/WYrSP6vOPaI",
+              "watchUrl": "https://www.youtube.com/watch?v=WYrSP6vOPaI",
+              "description": "Navigating differences between immigrant parents and Western-raised children"
+            }
+          ]
+        }
+      ],
+      "interactiveTool": {
+        "id": "culture-check",
+        "title": "🛠️ Culture Check: Is It Islam or Culture?",
+        "description": "Select a situation to see its Islamic ruling:",
+        "checks": [
+          {
+            "label": "Marrying only from same country/tribe",
+            "type": "Culture",
+            "detail": "Islam permits marriage to any suitable Muslim regardless of ethnicity or origin. Tribal exclusivity has no Islamic basis.",
+            "source": "Islamweb.net — discrimination in marriage",
+            "sourceUrl": "https://islamweb.net"
+          },
+          {
+            "label": "Hijab for girls only, no modesty standard for boys",
+            "type": "Culture",
+            "detail": "Islam commands modesty (ghadd al-basar) for both men and women. The double standard is cultural, not Islamic.",
+            "source": "IslamQA.info — modesty in Islam",
+            "sourceUrl": "https://islamqa.info"
+          },
+          {
+            "label": "Women cannot work outside the home",
+            "type": "Mixed",
+            "detail": "Islam permits women to work in halal environments. Khadijah (RA) was a businesswoman. Cultural restrictions vary but are not universal Islamic rulings.",
+            "source": "SeekersGuidance.org",
+            "sourceUrl": "https://seekersguidance.org"
+          },
+          {
+            "label": "Praying 5 times a day",
+            "type": "Islam",
+            "detail": "This is a clear Islamic obligation (fard) — not culture. The five daily prayers are one of the five pillars of Islam.",
+            "source": "Quran.com — Surah Al-Baqarah 2:43",
+            "sourceUrl": "https://quran.com/2/43"
+          },
+          {
+            "label": "Not allowed to have any friends of opposite gender",
+            "type": "Mixed",
+            "detail": "Islam prohibits khalwa (seclusion) and illicit relationships. However, professional/academic interaction with modesty and boundaries is generally permitted.",
+            "source": "IslamQA.info — mixed interaction",
+            "sourceUrl": "https://islamqa.info"
+          }
+        ]
+      },
+      "sources": [
+        "IslamQA.info (cultural practices in Islam)",
+        "SeekersGuidance.org (culture vs. shariah)",
+        "Islamweb.net (tribal/racial discrimination in marriage)"
+      ]
+    },
+    {
+      "id": "ch4",
+      "icon": "😤",
+      "shortTitle": "Conflict",
+      "title": "Conflict & Arguments",
+      "order": 4,
+      "sections": [
+        {
+          "id": "ch4-s1",
+          "type": "content-card",
+          "title": "What Islam Says About Shouting & Anger",
+          "content": "The Prophet ﷺ repeated 'Don't be angry' three times when asked for advice. Uncontrolled anger is described as coming from Shaytan. Physically, changing posture, making wudu, or leaving the room temporarily are all recommended. (Source: Sunnah.com — Sahih Bukhari 6116)",
+          "hadith": {
+            "text": "The strong person is not the one who can wrestle someone down, but the one who controls himself when angry.",
+            "reference": "Sahih Bukhari 6114",
+            "source": "Sunnah.com",
+            "sourceUrl": "https://sunnah.com/bukhari:6114",
+            "lesson": "True strength is self-control, not physical dominance."
+          }
+        },
+        {
+          "id": "ch4-s2",
+          "type": "content-card",
+          "title": "Dealing with Strict Parents",
+          "steps": [
+            {
+              "order": 1,
+              "content": "Understand strictness often comes from fear"
+            },
+            {
+              "order": 2,
+              "content": "Build trust with small consistent actions"
+            },
+            {
+              "order": 3,
+              "content": "Show responsibility before asking for freedom"
+            },
+            {
+              "order": 4,
+              "content": "Request mediation from a trusted person"
+            },
+            {
+              "order": 5,
+              "content": "Make dua — hearts are in Allah's hands"
+            }
+          ]
+        },
+        {
+          "id": "ch4-s3",
+          "type": "content-card",
+          "title": "Image: Finding Calm",
+          "image": {
+            "url": "https://images.pexels.com/photos/3807571/pexels-photo-3807571.jpeg?auto=compress&w=600",
+            "alt": "Calm reflection",
+            "credit": "Photo: Pexels.com | Free to use",
+            "caption": "Taking a moment for reflection can transform conflict into understanding"
+          }
+        },
+        {
+          "id": "ch4-s4",
+          "type": "content-card",
+          "title": "Feeling Controlled or Misunderstood",
+          "content": "Feeling suffocated is a real and valid experience. Islam acknowledges that oppressive treatment even from parents does not nullify your dignity. Seek counsel from a scholar or counsellor if you feel trapped.",
+          "microTip": {
+            "icon": "💡",
+            "title": "Micro Tip",
+            "content": "Say one sentence that de-escalates: \"I respect you, and I just need you to hear me.\""
+          }
+        }
+      ],
+      "interactiveTool": {
+        "id": "anger-level-check",
+        "title": "🛠️ Anger Level Check-In",
+        "description": "Before responding to your parents, check your anger level:",
+        "scale": {
+          "min": 1,
+          "max": 10,
+          "labels": {
+            "low": "Calm",
+            "medium": "Moderate",
+            "high": "Very Angry"
+          },
+          "advice": {
+            "1-3": "✅ Good level — you can have a productive conversation now.",
+            "4-6": "⚠️ Moderate — take 5 deep breaths before responding.",
+            "7-10": "🛑 Too angry — make wudu, change your position, and wait before speaking."
+          }
+        }
+      },
+      "sources": [
+        "Sunnah.com (Sahih Bukhari 6114, 6116 — anger)",
+        "SeekersGuidance.org (conflict in Islamic family life)"
+      ]
+    },
+    {
+      "id": "ch5",
+      "icon": "❤️",
+      "shortTitle": "Emotions",
+      "title": "Emotional Struggles with Parents",
+      "order": 5,
+      "sections": [
+        {
+          "id": "ch5-s1",
+          "type": "content-card",
+          "title": "Feeling Unloved or Unappreciated",
+          "content": "Many Muslim parents express love through provision and protection, not verbal affirmation — a cultural and generational pattern. This doesn't mean they don't love you. However, your emotional need for acknowledgment is valid in Islam too.",
+          "reminder": {
+            "icon": "💚",
+            "content": "Allah knows what is in the hearts — seek His acknowledgment first."
+          }
+        },
+        {
+          "id": "ch5-s2",
+          "type": "content-card",
+          "title": "Pressure to Meet Expectations",
+          "content": "Excessive pressure contradicts the Islamic principle of la tukallafu nafsan illa wus'aha — 'Allah does not burden a soul beyond what it can bear.' (Quran 2:286 | Source: Quran.com)",
+          "quranVerse": {
+            "arabic": "لَا يُكَلِّفُ اللَّهُ نَفْسًا إِلَّا وُسْعَهَا",
+            "translation": "Allah does not burden a soul beyond that it can bear.",
+            "reference": "Surah Al-Baqarah 2:286",
+            "source": "Quran.com",
+            "sourceUrl": "https://quran.com/2/286",
+            "context": "This verse provides comfort that Allah's expectations are always within our capacity."
+          }
+        },
+        {
+          "id": "ch5-s3",
+          "type": "content-card",
+          "title": "Comparison with Siblings/Others",
+          "content": "The Prophet ﷺ warned against partiality among children. Comparison is often used as 'motivation' but can cause lasting harm. Know your own worth — in Islam, you are valued for your taqwa, not your grades or status.",
+          "tip": {
+            "icon": "💡",
+            "content": "Remind yourself: \"My worth is with Allah, not in comparison to anyone else.\""
+          }
+        },
+        {
+          "id": "ch5-s4",
+          "type": "content-card",
+          "title": "Healing Parent-Child Relationships",
+          "steps": [
+            {
+              "order": 1,
+              "content": "Forgive — for your own sake, not only theirs"
+            },
+            {
+              "order": 2,
+              "content": "Start small: a smile, a cup of tea"
+            },
+            {
+              "order": 3,
+              "content": "Dua — sincerely ask Allah to mend hearts"
+            },
+            {
+              "order": 4,
+              "content": "Seek family counselling if needed"
+            }
+          ]
+        }
+      ],
+      "faqs": [
+        {
+          "question": "Is it normal to feel emotionally disconnected from my parents?",
+          "answer": "Yes — many youth experience this, especially across cultural and generational gaps. It does not make you a bad Muslim. Seek to understand them while also setting healthy limits.",
+          "source": "SeekersGuidance.org",
+          "sourceUrl": "https://seekersguidance.org"
+        },
+        {
+          "question": "My parents compare me to my siblings constantly. What can I do?",
+          "answer": "Communicate how it affects you using 'I feel' language. If it continues, a trusted family member or counsellor may help mediate.",
+          "source": "IslamQA.info",
+          "sourceUrl": "https://islamqa.info"
+        }
+      ],
+      "sources": [
+        "Quran.com (2:286)",
+        "SeekersGuidance.org (emotional well-being in Islam)",
+        "IslamQA.info (dealing with parental pressure)"
+      ]
+    },
+    {
+      "id": "ch6",
+      "icon": "🧠",
+      "shortTitle": "Boundaries",
+      "title": "Boundaries in Islam",
+      "order": 6,
+      "sections": [
+        {
+          "id": "ch6-s1",
+          "type": "content-card",
+          "title": "Is It Allowed to Say No?",
+          "content": "Yes — in Islam, obedience to parents is not unconditional. You may decline requests that are clearly sinful, harmful to you, or beyond your capacity. The key is how you decline: with respect, gentleness, and an explanation.",
+          "principle": {
+            "arabic": "لا طاعة لمخلوق في معصية الخالق",
+            "translation": "There is no obedience to a created being in disobedience to the Creator.",
+            "source": "Musnad Ahmad",
+            "sourceUrl": "https://sunnah.com"
+          }
+        },
+        {
+          "id": "ch6-s2",
+          "type": "content-card",
+          "title": "Privacy & Independence",
+          "content": "Islam recognises the concept of awra (privacy) and individual accountability. Adults are responsible for their own deeds before Allah — this implies a level of personal autonomy. Parents may guide, but cannot control every decision of an adult child.",
+          "islamicConcept": {
+            "term": "Awra",
+            "definition": "That which should be concealed; includes physical privacy and personal dignity",
+            "application": "Respecting a person's awra includes not intruding on their private matters without cause"
+          }
+        },
+        {
+          "id": "ch6-s3",
+          "type": "content-card",
+          "title": "Toxic or Unfair Treatment",
+          "content": "Islam forbids oppression (dhulm) from anyone — including parents. The Prophet ﷺ said: 'There is no harm and no causing harm.' (Ibn Majah 2341 | Source: Sunnah.com). Enduring harmful treatment in silence is not required by Islam.",
+          "hadith": {
+            "text": "There is no harm and no causing harm.",
+            "reference": "Sunan Ibn Majah 2341",
+            "source": "Sunnah.com",
+            "sourceUrl": "https://sunnah.com/ibnmajah:2341",
+            "authenticity": "Hasan",
+            "application": "This principle protects individuals from all forms of oppression, including within families"
+          },
+          "warning": {
+            "icon": "⚠️",
+            "content": "If you are experiencing abuse, seek help from a trusted imam, counsellor, or community organisation."
+          }
+        },
+        {
+          "id": "ch6-s4",
+          "type": "content-card",
+          "title": "Respect vs Self-Respect Balance",
+          "dosDonts": {
+            "respectful": [
+              "Disagreeing calmly",
+              "Expressing your limits kindly",
+              "Asking for space politely"
+            ],
+            "disrespectful": [
+              "Yelling or slamming doors",
+              "Posting family issues publicly",
+              "Complete silent treatment"
+            ]
+          }
+        }
+      ],
+      "image": {
+        "url": "https://images.pexels.com/photos/6646917/pexels-photo-6646917.jpeg?auto=compress&w=700",
+        "alt": "Peaceful reflection",
+        "credit": "Photo: Pexels.com | Free to use",
+        "caption": "Finding balance between respect and self-care"
+      },
+      "sources": [
+        "Sunnah.com (Ibn Majah 2341 — la darar)",
+        "SeekersGuidance.org (boundaries in Islamic family)",
+        "IslamQA.info (refusing haram requests from parents)"
+      ]
+    },
+    {
+      "id": "ch7",
+      "icon": "🌍",
+      "shortTitle": "Western Life",
+      "title": "Growing Up in Western Society",
+      "order": 7,
+      "sections": [
+        {
+          "id": "ch7-s1",
+          "type": "content-card",
+          "title": "The Double Identity",
+          "content": "Many Western Muslim youth feel torn between two worlds: the home (with cultural/Islamic expectations) and outside (with peer and societal pressure). This 'double life' feeling is common and does not make you a bad Muslim.",
+          "reminder": {
+            "icon": "🌟",
+            "content": "Your identity as a Muslim is not threatened by living in the West — it is tested and strengthened."
+          }
+        },
+        {
+          "id": "ch7-s2",
+          "type": "content-card",
+          "title": "Freedom vs Protection",
+          "content": "Parents in the West often over-protect out of fear of the environment. Islam encourages balance — trust must be built gradually. The Prophet ﷺ gave companions independence as they demonstrated responsibility. (Source: SeekersGuidance.org)",
+          "propheticExample": {
+            "context": "The Prophet ﷺ entrusted young companions with responsibilities as they showed maturity",
+            "lesson": "Trust is earned through demonstrated responsibility, not age alone",
+            "source": "SeekersGuidance.org",
+            "sourceUrl": "https://seekersguidance.org"
+          }
+        },
+        {
+          "id": "ch7-s3",
+          "type": "content-card-full",
+          "title": "Video: Being Muslim in the West",
+          "videos": [
+            {
+              "title": "Muslim Identity in the West",
+              "provider": "Yaqeen Institute",
+              "embedUrl": "https://www.youtube.com/embed/W5p1bYyNEE8",
+              "watchUrl": "https://www.youtube.com/watch?v=W5p1bYyNEE8",
+              "description": "Research-based insights on navigating Muslim identity in Western contexts"
+            },
+            {
+              "title": "Growing Up Muslim in the West",
+              "provider": "Islamic Guidance",
+              "embedUrl": "https://www.youtube.com/embed/hNFbITGIkjQ",
+              "watchUrl": "https://www.youtube.com/watch?v=hNFbITGIkjQ",
+              "description": "Personal stories and practical advice for Western Muslim youth"
+            }
+          ]
+        },
+        {
+          "id": "ch7-s4",
+          "type": "content-card",
+          "title": "\"You're Too Western\" or \"Too Strict\"",
+          "content": "Being labelled either way shows you exist at an intersection. This is not a flaw — Islam is for all times and places. The key is grounding yourself in Islamic principles while being able to navigate any environment.",
+          "affirmation": {
+            "icon": "💡",
+            "content": "\"I am Muslim first — that doesn't change based on geography.\""
+          }
+        }
+      ],
+      "sources": [
+        "SeekersGuidance.org (Muslim identity in the West)",
+        "Yaqeen Institute research on Western Muslim youth"
+      ]
+    },
+    {
+      "id": "ch8",
+      "icon": "📚",
+      "shortTitle": "Career",
+      "title": "Education, Career & Life Choices",
+      "order": 8,
+      "sections": [
+        {
+          "id": "ch8-s1",
+          "type": "content-card",
+          "title": "Parents Forcing Careers",
+          "content": "A parent's influence on career is permissible as guidance — but not as compulsion. Islam upholds the principle of shura (consultation) and individual accountability. You will answer to Allah for your life choices, not your parents.",
+          "islamicPrinciple": {
+            "term": "Shura",
+            "definition": "Consultation and mutual decision-making",
+            "quranReference": "Quran 42:38 - 'And whose affair is [determined by] consultation among themselves'",
+            "application": "Career decisions should involve discussion, not unilateral imposition"
+          }
+        },
+        {
+          "id": "ch8-s2",
+          "type": "content-card",
+          "title": "Passion vs Parental Expectations",
+          "content": "The Prophet ﷺ is reported to have said: 'Allah loves that when one of you does a job, they do it with excellence (itqan).' (Al-Bayhaqi | Source: IslamQA.info). Excellence is possible in any halal field — pursue what you can do with itqan.",
+          "hadith": {
+            "text": "Allah loves that when one of you does a job, they do it with excellence (itqan).",
+            "reference": "Al-Bayhaqi, Shu'ab al-Iman",
+            "source": "IslamQA.info",
+            "sourceUrl": "https://islamqa.info",
+            "authenticity": "Hasan li-ghayrihi",
+            "lesson": "Excellence in any halal profession is an act of worship"
+          },
+          "dosDonts": {
+            "dos": [
+              "Research Islamic perspectives on your field",
+              "Show your parents success stories",
+              "Make istikhara before big decisions"
+            ],
+            "donts": [
+              "Choose a haram field to prove a point",
+              "Give up without trying to explain",
+              "Neglect parental input entirely"
+            ]
+          }
+        },
+        {
+          "id": "ch8-s3",
+          "type": "content-card",
+          "title": "Moving Out for Study/Work",
+          "content": "Moving out for legitimate educational or professional reasons is permissible and has precedent in Islamic history. However, maintaining ties with parents — regular calls, visits, financial support if able — is obligatory.",
+          "steps": [
+            {
+              "order": 1,
+              "content": "Have an honest family discussion"
+            },
+            {
+              "order": 2,
+              "content": "Reassure them of continued contact"
+            },
+            {
+              "order": 3,
+              "content": "Commit to regular check-ins"
+            },
+            {
+              "order": 4,
+              "content": "Maintain halal living arrangements"
+            }
+          ]
+        },
+        {
+          "id": "ch8-s4",
+          "type": "content-card",
+          "title": "Istikhara — Seeking Allah's Guidance",
+          "content": "For any major life decision, perform Salah al-Istikhara and make sincere dua. This is not about receiving a dream — it is about submitting the decision to Allah and then moving forward with tawakkul (reliance on Allah).",
+          "reminder": {
+            "icon": "🤲",
+            "content": "Istikhara Guide: Sunnah.com — Search 'Salat al-Istikhara'",
+            "sourceUrl": "https://sunnah.com"
+          }
+        }
+      ],
+      "sources": [
+        "IslamQA.info (career choices in Islam, istikhara)",
+        "Sunnah.com (du'a of istikhara)",
+        "SeekersGuidance.org (moving out of the family home)"
+      ]
+    },
+    {
+      "id": "ch9",
+      "icon": "💑",
+      "shortTitle": "Marriage",
+      "title": "Marriage & Relationships",
+      "order": 9,
+      "sections": [
+        {
+          "id": "ch9-s1",
+          "type": "content-card",
+          "title": "Islamic Rights in Marriage Choice",
+          "content": "Islam grants both men and women the right to consent to marriage. No valid marriage exists without the consent of both parties. (Source: IslamQA.info, based on Sahih Bukhari 5136). A wali (guardian) has the role of protection, not possession.",
+          "hadith": {
+            "text": "A woman who has been previously married has more right to decide about herself than her guardian, and a virgin's consent must be sought.",
+            "reference": "Sahih Muslim 1421",
+            "source": "Sunnah.com",
+            "sourceUrl": "https://sunnah.com/muslim:1421",
+            "application": "Consent is mandatory for all marriages; cultural pressure to 'agree' does not constitute valid consent"
+          }
+        },
+        {
+          "id": "ch9-s2",
+          "type": "content-card",
+          "title": "Cultural Barriers to Marriage",
+          "content": "Refusing marriage proposals purely based on race or tribe contradicts the Prophetic teaching: 'If someone comes to you whose deen and character pleases you, then marry him.' (Tirmidhi 1084 | Source: Sunnah.com). Tribal pride is a sin in Islam.",
+          "hadith": {
+            "text": "If someone comes to you whose deen and character pleases you, then marry him. If you do not, there will be fitnah on earth and widespread corruption.",
+            "reference": "Jami` at-Tirmidhi 1084",
+            "source": "Sunnah.com",
+            "sourceUrl": "https://sunnah.com/tirmidhi:1084",
+            "authenticity": "Hasan",
+            "lesson": "Piety and character are the only valid criteria for marriage selection"
+          }
+        },
+        {
+          "id": "ch9-s3",
+          "type": "content-card",
+          "title": "Love vs Arranged Marriage",
+          "content": "Islam does not prohibit a person from expressing interest in marriage to someone — it prohibits unlawful relationships (khalwa, zina). Approaching a potential match through proper channels with the wali's involvement is halal and encouraged.",
+          "tip": {
+            "icon": "💡",
+            "content": "There is no 'arranged' vs 'love' dichotomy in Islam — there is only the halal process, which can include your input."
+          }
+        },
+        {
+          "id": "ch9-s4",
+          "type": "content-card",
+          "title": "Talking to Parents About Relationships",
+          "practicalScript": {
+            "title": "📝 Opening Script",
+            "content": "\"Baba/Mama, I've met someone I believe would be a good spouse based on their deen and character. I'd like to discuss this with you and follow the proper process.\""
+          },
+          "dosDonts": {
+            "dos": [
+              "Be transparent early",
+              "Involve a trusted elder",
+              "Follow Islamic steps"
+            ],
+            "donts": [
+              "Hide a relationship",
+              "Meet in private (khalwa)",
+              "Issue ultimatums"
+            ]
+          }
+        },
+        {
+          "id": "ch9-s5",
+          "type": "content-card-full",
+          "title": "Video: Marriage & Parents in Islam",
+          "videos": [
+            {
+              "title": "Talking to Parents About Marriage",
+              "speaker": "Mufti Menk",
+              "embedUrl": "https://www.youtube.com/embed/gEfFwsQHJ-E",
+              "watchUrl": "https://www.youtube.com/watch?v=gEfFwsQHJ-E",
+              "description": "Practical advice on discussing marriage intentions with parents Islamically"
+            },
+            {
+              "title": "Navigating Halal Relationships for Youth",
+              "provider": "Islamic Guidance",
+              "embedUrl": "https://www.youtube.com/embed/3V7HqsMtXso",
+              "watchUrl": "https://www.youtube.com/watch?v=3V7HqsMtXso",
+              "description": "Understanding boundaries and proper channels for marriage preparation"
+            }
+          ]
+        }
+      ],
+      "faqs": [
+        {
+          "question": "Can my parents force me to marry someone?",
+          "answer": "No. Forced marriage is haram in Islam. Both parties must consent for the marriage to be valid. A wali's role is protective, not coercive.",
+          "source": "IslamQA.info",
+          "sourceUrl": "https://islamqa.info",
+          "relatedHadith": "Sahih Bukhari 5136"
+        },
+        {
+          "question": "Is it haram to talk to a potential spouse?",
+          "answer": "Supervised, purposeful interaction to assess suitability for marriage is permitted. Khalwa (seclusion), inappropriate communication, and romantic relationships before marriage are not.",
+          "source": "SeekersGuidance.org",
+          "sourceUrl": "https://seekersguidance.org",
+          "principle": "Intentions and boundaries define permissibility"
+        },
+        {
+          "question": "My parents refuse all proposals. What do I do?",
+          "answer": "Seek the help of a trusted imam or family elder. If your wali is unjustly preventing a valid marriage, a judge or imam may step in as wali in some madhabs. Consult a local scholar.",
+          "source": "IslamQA.info",
+          "sourceUrl": "https://islamqa.info",
+          "note": "This is a sensitive matter requiring scholarly guidance"
+        }
+      ],
+      "sources": [
+        "Sunnah.com (Sahih Bukhari 5136, Sahih Muslim 1421, Tirmidhi 1084)",
+        "IslamQA.info (forced marriage in Islam)",
+        "SeekersGuidance.org (marriage process)"
+      ]
+    },
+    {
+      "id": "ch10",
+      "icon": "🕌",
+      "shortTitle": "Deen",
+      "title": "Practising Islam with Parents",
+      "order": 10,
+      "sections": [
+        {
+          "id": "ch10-s1",
+          "type": "content-card",
+          "title": "When Parents Are Less Practising",
+          "content": "This is a test — not an excuse to be arrogant. The Prophet ﷺ's approach was always gentleness, example, and sincere love. You cannot force hidaya (guidance) — only Allah guides hearts.",
+          "reminder": {
+            "icon": "💡",
+            "content": "Your job is to be an example, not a preacher in your own home."
+          }
+        },
+        {
+          "id": "ch10-s2",
+          "type": "content-card",
+          "title": "When You Become More Practising Than Them",
+          "dosDonts": {
+            "dos": [
+              "Lead by action and character",
+              "Make dua for their guidance",
+              "Share knowledge gently if asked",
+              "Maintain respect regardless"
+            ],
+            "donts": [
+              "Lecture them at every opportunity",
+              "Look down on their level",
+              "Use religion as a weapon in arguments"
+            ]
+          }
+        },
+        {
+          "id": "ch10-s3",
+          "type": "content-card",
+          "title": "Family Religious Habits to Build",
+          "steps": [
+            {
+              "order": 1,
+              "content": "Pray together when possible"
+            },
+            {
+              "order": 2,
+              "content": "Read Quran aloud at home"
+            },
+            {
+              "order": 3,
+              "content": "Share beneficial content casually"
+            },
+            {
+              "order": 4,
+              "content": "Celebrate Islamic occasions as a family"
+            },
+            {
+              "order": 5,
+              "content": "Make morning/evening adhkar a family habit"
+            }
+          ]
+        },
+        {
+          "id": "ch10-s4",
+          "type": "content-card",
+          "title": "Image: Family & Deen",
+          "image": {
+            "url": "https://images.pexels.com/photos/8164742/pexels-photo-8164742.jpeg?auto=compress&w=600",
+            "alt": "Muslim family worship",
+            "credit": "Photo: Pexels.com | Free to use",
+            "caption": "Building deen together through small, consistent actions"
+          }
+        }
+      ],
+      "sources": [
+        "SeekersGuidance.org (being more practising than parents)",
+        "IslamQA.info (inviting family to Islam)",
+        "Sunnah.com (family adhkar)"
+      ]
+    },
+    {
+      "id": "ch11",
+      "icon": "🤲",
+      "shortTitle": "Duas",
+      "title": "Du'as & Spiritual Approach",
+      "order": 11,
+      "sections": [
+        {
+          "id": "ch11-s1",
+          "type": "dua-collection",
+          "title": "Powerful Du'as for Parents",
+          "duas": [
+            {
+              "id": "dua-1",
+              "arabic": "رَبِّ اغْفِرْ لِي وَلِوَالِدَيَّ",
+              "translation": "My Lord, forgive me and my parents.",
+              "reference": "Quran 71:28",
+              "source": "Quran.com",
+              "sourceUrl": "https://quran.com/71/28",
+              "context": "Prophet Nuh's (AS) prayer for himself and his parents"
+            },
+            {
+              "id": "dua-2",
+              "arabic": "رَبِّ ارْحَمْهُمَا كَمَا رَبَّيَانِي صَغِيرًا",
+              "translation": "My Lord, have mercy on them as they raised me when I was small.",
+              "reference": "Quran 17:24",
+              "source": "Quran.com",
+              "sourceUrl": "https://quran.com/17/24",
+              "context": "Commanded immediately after the instruction to speak nobly to parents"
+            },
+            {
+              "id": "dua-3",
+              "arabic": "رَبَّنَا هَبْ لَنَا مِنْ أَزْوَاجِنَا وَذُرِّيَّاتِنَا قُرَّةَ أَعْيُنٍ",
+              "translation": "Our Lord, grant us from our spouses and offspring comfort to our eyes.",
+              "reference": "Quran 25:74",
+              "source": "Quran.com",
+              "sourceUrl": "https://quran.com/25/74",
+              "context": "A prayer for righteous, harmonious family relationships"
+            }
+          ]
+        },
+        {
+          "id": "ch11-s2",
+          "type": "content-card",
+          "title": "Sabr (Patience) in Family Hardship",
+          "content": "Sabr is not passive acceptance — it is active endurance with trust in Allah. The Quran tells us Allah is with those who are patient. (Quran 2:153 | Source: Quran.com). Every difficult family moment endured with sabr earns reward.",
+          "quranVerse": {
+            "arabic": "يَا أَيُّهَا الَّذِينَ آمَنُوا اسْتَعِينُوا بِالصَّبْرِ وَالصَّلَاةِ ۚ إِنَّ اللَّهَ مَعَ الصَّابِرِينَ",
+            "translation": "O you who have believed, seek help through patience and prayer. Indeed, Allah is with the patient.",
+            "reference": "Surah Al-Baqarah 2:153",
+            "source": "Quran.com",
+            "sourceUrl": "https://quran.com/2/153"
+          }
+        },
+        {
+          "id": "ch11-s3",
+          "type": "content-card",
+          "title": "Barakah in Respecting Parents",
+          "content": "The Prophet ﷺ said that whoever wishes for an extended, blessed life and increase in provision should maintain family ties and honour parents. (Sahih Bukhari 5986 | Source: Sunnah.com)",
+          "hadith": {
+            "text": "Whoever would like his provision to be increased and his life to be extended, let him uphold the ties of kinship.",
+            "reference": "Sahih Bukhari 5986",
+            "source": "Sunnah.com",
+            "sourceUrl": "https://sunnah.com/bukhari:5986",
+            "lesson": "Honouring parents and maintaining family ties brings barakah (blessing) in life and provision"
+          },
+          "reminder": {
+            "icon": "🌟",
+            "content": "Barakah (blessing) is unlocked through parental du'a for you."
+          }
+        }
+      ],
+      "sources": [
+        "Quran.com (2:153, 14:40–41, 17:24, 25:74, 71:28)",
+        "Sunnah.com (Sahih Bukhari 5986)",
+        "SeekersGuidance.org (du'a for parents)"
+      ]
+    },
+    {
+      "id": "ch12",
+      "icon": "🔒",
+      "shortTitle": "Serious Issues",
+      "title": "Difficult & Sensitive Situations",
+      "order": 12,
+      "emergencyNotice": {
+        "icon": "⚠️",
+        "content": "This chapter addresses serious situations. If you are in immediate danger, contact emergency services. For Islamic support, reach out to a trusted imam or Muslim counselling service.",
+        "priority": "high"
+      },
+      "sections": [
+        {
+          "id": "ch12-s1",
+          "type": "content-card",
+          "title": "Toxic or Abusive Households",
+          "content": "Islam explicitly forbids dhulm (oppression and injustice) from anyone — including parents. The Prophet ﷺ said: 'Beware of oppression, for oppression will be darkness on the Day of Judgement.' (Sahih Muslim 2578 | Source: Sunnah.com). Leaving an abusive situation is not disobedience.",
+          "hadith": {
+            "text": "Beware of oppression, for oppression will be darkness on the Day of Judgement.",
+            "reference": "Sahih Muslim 2578",
+            "source": "Sunnah.com",
+            "sourceUrl": "https://sunnah.com/muslim:2578",
+            "application": "This warning applies universally; no one has the right to oppress another, regardless of relationship"
+          }
+        },
+        {
+          "id": "ch12-s2",
+          "type": "content-card",
+          "title": "When to Seek Help",
+          "steps": [
+            {
+              "order": 1,
+              "content": "Speak to a trusted imam privately"
+            },
+            {
+              "order": 2,
+              "content": "Contact a Muslim counselling service"
+            },
+            {
+              "order": 3,
+              "content": "Reach out to a trustworthy adult outside the home"
+            },
+            {
+              "order": 4,
+              "content": "If in danger — contact services or authorities"
+            }
+          ],
+          "resources": {
+            "note": "Many Muslim communities have confidential support services. Search for 'Muslim counselling [your city]' or contact national Islamic organisations for referrals."
+          }
+        },
+        {
+          "id": "ch12-s3",
+          "type": "content-card",
+          "title": "Islamic Limits of Obedience",
+          "content": "The scholars are unanimous: obedience to parents is obligatory only in permissible matters. When parents command disobedience to Allah, or when obeying them causes you clear physical or spiritual harm, the obligation ends. (Source: IslamQA.info, Islamweb.net)",
+          "scholarlyConsensus": {
+            "principle": "La ta'ata li-makhluq fi ma'siyat al-Khaliq",
+            "translation": "There is no obedience to a created being in disobedience to the Creator",
+            "sources": [
+              "IslamQA.info",
+              "Islamweb.net",
+              "SeekersGuidance.org"
+            ]
+          }
+        },
+        {
+          "id": "ch12-s4",
+          "type": "content-card",
+          "title": "Emotional Neglect",
+          "content": "Emotional neglect is a real harm. Islam's emphasis on rahma (mercy) in families means that a parent who consistently neglects a child's emotional wellbeing is falling short of their Islamic duty. Seek support — this is not ingratitude.",
+          "warning": {
+            "icon": "⚠️",
+            "content": "Your wellbeing matters. Getting help is an act of self-care, not betrayal."
+          }
+        }
+      ],
+      "sources": [
+        "Sunnah.com (Sahih Muslim 2578 — dhulm)",
+        "IslamQA.info (limits of obedience)",
+        "Islamweb.net (family abuse in Islam)"
+      ]
+    },
+    {
+      "id": "ch13",
+      "icon": "🤝",
+      "shortTitle": "Relationship",
+      "title": "Building a Better Relationship",
+      "order": 13,
+      "sections": [
+        {
+          "id": "ch13-s1",
+          "type": "content-card",
+          "title": "Small Actions with Big Impact",
+          "empathyActions": [
+            {
+              "icon": "☕",
+              "content": "Bring them tea/coffee without being asked"
+            },
+            {
+              "icon": "📞",
+              "content": "Call when you're away — just to check in"
+            },
+            {
+              "icon": "🙏",
+              "content": "Ask for their du'a before exams/big events"
+            },
+            {
+              "icon": "🛒",
+              "content": "Offer to help with errands"
+            },
+            {
+              "icon": "💬",
+              "content": "Sit with them in the evening"
+            }
+          ]
+        },
+        {
+          "id": "ch13-s2",
+          "type": "content-card",
+          "title": "Becoming the 'Cool-Headed One'",
+          "content": "In family conflict, someone has to be the mature one. Islam encourages us to be that person. The Prophet ﷺ said the best among people is the one who benefits others. (Source: Sunnah.com). Choose to de-escalate, not escalate.",
+          "hadith": {
+            "text": "The best of people are those that bring the most benefit to the rest of mankind.",
+            "reference": "Al-Mu'jam al-Awsat 6026",
+            "source": "Sunnah.com",
+            "sourceUrl": "https://sunnah.com",
+            "authenticity": "Hasan",
+            "application": "Being the peacemaker in family conflicts is a form of benefiting others"
+          },
+          "practicalScript": {
+            "title": "1 Sentence That De-escalates",
+            "content": "\"I don't want to argue with you — I love you and I just want us to understand each other.\""
+          }
+        },
+        {
+          "id": "ch13-s3",
+          "type": "content-card",
+          "title": "Rebuilding Trust",
+          "steps": [
+            {
+              "order": 1,
+              "content": "Be consistent — say what you do, do what you say"
+            },
+            {
+              "order": 2,
+              "content": "Apologise genuinely when you're wrong"
+            },
+            {
+              "order": 3,
+              "content": "Show improvement — don't just talk about it"
+            },
+            {
+              "order": 4,
+              "content": "Give it time — trust takes time to rebuild"
+            }
+          ]
+        },
+        {
+          "id": "ch13-s4",
+          "type": "content-card",
+          "title": "Showing Appreciation",
+          "barakahTips": {
+            "title": "3 Ways to Earn Barakah at Home",
+            "tips": [
+              "Say 'JazakAllah khair' to your parents genuinely",
+              "Include them in your du'a by name",
+              "Speak well of them to others"
+            ]
+          }
+        }
+      ],
+      "image": {
+        "url": "https://images.pexels.com/photos/3820378/pexels-photo-3820378.jpeg?auto=compress&w=700",
+        "alt": "Family bonding",
+        "credit": "Photo: Pexels.com | Free to use",
+        "caption": "Small, consistent acts of kindness rebuild and strengthen family bonds"
+      },
+      "sources": [
+        "Sunnah.com (best among people hadith)",
+        "SeekersGuidance.org (rebuilding family relationships in Islam)"
+      ]
+    },
+    {
+      "id": "ch14",
+      "icon": "⚡",
+      "shortTitle": "Quick Tips",
+      "title": "Quick Advice / Micro Content",
+      "order": 14,
+      "microTips": [
+        {
+          "id": "tip-1",
+          "icon": "😤",
+          "title": "When Your Parents Are Angry",
+          "content": "Go quiet. Don't respond immediately. Let them finish. Then calmly say: \"I hear you, can we talk about this when things are calm?\""
+        },
+        {
+          "id": "tip-2",
+          "icon": "🔥",
+          "title": "1 Sentence That De-escalates",
+          "content": "\"I don't want to argue — I want us to understand each other.\" This works almost every time."
+        },
+        {
+          "id": "tip-3",
+          "icon": "🚫",
+          "title": "Never Say This",
+          "content": "\"You don't understand anything.\" — This shuts down any chance of real communication instantly."
+        },
+        {
+          "id": "tip-4",
+          "icon": "✨",
+          "title": "3 Ways to Earn Barakah at Home",
+          "content": "1. Smile first. 2. Do something helpful unprompted. 3. Make du'a for them by name."
+        },
+        {
+          "id": "tip-5",
+          "icon": "📵",
+          "title": "Phone-Free Family Time",
+          "content": "Put your phone away during family meals/gatherings. This single act can transform your relationship."
+        },
+        {
+          "id": "tip-6",
+          "icon": "🤲",
+          "title": "Morning Du'a for Peace at Home",
+          "content": "Start each day with du'a for Allah to put love and harmony in your home."
+        }
+      ],
+      "interactiveTool": {
+        "id": "habit-tracker",
+        "title": "🛠️ Daily Habit Tracker",
+        "description": "Track your daily relationship-building habits:",
+        "habits": [
+          {
+            "id": "habit-1",
+            "label": "Made du'a for parents after Salah",
+            "reward": "+Barakah ✓"
+          },
+          {
+            "id": "habit-2",
+            "label": "Said something kind to a family member",
+            "reward": "+Barakah ✓"
+          },
+          {
+            "id": "habit-3",
+            "label": "Helped without being asked",
+            "reward": "+Barakah ✓"
+          },
+          {
+            "id": "habit-4",
+            "label": "Controlled my temper in a difficult moment",
+            "reward": "+Barakah ✓"
+          },
+          {
+            "id": "habit-5",
+            "label": "Made istighfar for family conflicts",
+            "reward": "+Barakah ✓"
+          }
+        ],
+        "completionMessage": "🌟 SubhanAllah! Full day of goodness!"
+      }
+    },
+    {
+      "id": "ch15",
+      "icon": "🎥",
+      "shortTitle": "Stories",
+      "title": "Real Stories & Scenarios",
+      "order": 15,
+      "stories": [
+        {
+          "id": "story-1",
+          "title": "\"My parents don't understand me…\"",
+          "body": "A 19-year-old university student feels her parents see her through a cultural lens, not who she really is. She loves her deen but feels suffocated at home.",
+          "islamicPerspective": "This is not unusual. Cultural blind spots are real. The Islamic approach is to seek understanding through compassion and proper channels — not conflict. Dua and patience are real tools here.",
+          "source": "Composite — SeekersGuidance.org community questions",
+          "sourceUrl": "https://seekersguidance.org"
+        },
+        {
+          "id": "story-2",
+          "title": "\"I want to move out but feel guilty\"",
+          "body": "A 22-year-old male wants to move out for his career but feels he's abandoning his family duty. He can't afford a clear head at home.",
+          "islamicPerspective": "Moving out for legitimate reasons is permissible in Islam. The obligation is to maintain ties and support — not physical proximity. Communicate your plan clearly and reassure your family.",
+          "source": "IslamQA.info — question on moving out",
+          "sourceUrl": "https://islamqa.info"
+        },
+        {
+          "id": "story-3",
+          "title": "\"They won't let me marry who I choose\"",
+          "body": "A Muslim woman wants to marry a practising man from a different background. Her parents refuse due to cultural reasons.",
+          "islamicPerspective": "This is a well-documented issue in fiqh. Cultural-only refusal of a suitable, practising match contradicts the Sunnah. A scholar or Muslim mediator can help in this case.",
+          "source": "Sunnah.com (Tirmidhi 1084), IslamQA.info",
+          "sourceUrl": "https://sunnah.com/tirmidhi:1084"
+        }
+      ],
+      "interactiveTool": {
+        "id": "story-submission",
+        "title": "📬 Share Your Story (Anonymous)",
+        "description": "Sharing your experience helps others feel less alone. This is a safe, moderated space.",
+        "placeholder": "Write your situation anonymously... (e.g. 'My parents won't let me choose my career...')",
+        "submitButtonText": "Submit Anonymously",
+        "successMessage": "JazakAllah khair — your story has been noted. May Allah ease your situation."
+      }
+    },
+    {
+      "id": "ch16",
+      "icon": "🧩",
+      "shortTitle": "Interactive",
+      "title": "Interactive Content",
+      "order": 16,
+      "interactiveTools": [
+        {
+          "id": "scenario-quiz",
+          "title": "🛠️ \"Are You Wrong Here?\" — Scenario Quiz",
+          "description": "Read the scenario and decide:",
+          "scenarios": [
+            {
+              "id": "scenario-1",
+              "text": "A 17-year-old wants to attend a mixed-gender school trip. Their parents refuse because \"it's haram.\" Islamic schools allow mixed academic environments. Who is right?",
+              "correctAnswer": "both",
+              "feedback": "Both have a point. Parents' caution is valid, but labelling all mixed educational settings as haram is not an established Islamic ruling. A conversation with a scholar would help.",
+              "options": [
+                { "value": "youth", "label": "Youth is Wrong" },
+                { "value": "parent", "label": "Parent is Wrong" },
+                { "value": "both", "label": "Both Have a Point" }
+              ]
+            },
+            {
+              "id": "scenario-2",
+              "text": "A parent shouts and uses hurtful language at their 20-year-old child whenever they express an opinion. The child responds by going silent for weeks.",
+              "correctAnswer": "both",
+              "feedback": "The parent's behaviour contradicts Islamic adab. The child's extended silence (sulking) also needs addressing. Both need reflection. Seek mediation.",
+              "options": [
+                { "value": "youth", "label": "Youth is Wrong" },
+                { "value": "parent", "label": "Parent is Wrong" },
+                { "value": "both", "label": "Both Have a Point" }
+              ]
+            },
+            {
+              "id": "scenario-3",
+              "text": "A 23-year-old is told they must marry their cousin. They refuse. Their parents say they are disobeying Allah.",
+              "correctAnswer": "parent",
+              "feedback": "The parents are wrong here. Forced marriage is haram in Islam. There is no Islamic obligation to marry a cousin. The child has the right to refuse.",
+              "options": [
+                { "value": "youth", "label": "Youth is Wrong" },
+                { "value": "parent", "label": "Parent is Wrong" },
+                { "value": "both", "label": "Both Have a Point" }
+              ]
+            }
+          ],
+          "completionMessage": "Quiz Complete! Jazakum Allahu Khayran. Remember, understanding both sides is the goal."
+        },
+        {
+          "id": "community-poll",
+          "title": "📊 Community Poll: How Strict Were Your Parents?",
+          "options": [
+            { "id": "relaxed", "label": "Very Relaxed" },
+            { "id": "moderate", "label": "Moderate" },
+            { "id": "strict", "label": "Strict" },
+            { "id": "veryStrict", "label": "Very Strict" }
+          ],
+          "note": "JazakAllah for voting! ({{ totalPollVotes }} total responses)"
+        },
+        {
+          "id": "what-would-you-do",
+          "title": "❓ \"What Would You Do?\" Situations",
+          "situations": [
+            {
+              "id": "wyd-1",
+              "question": "Your parent says something hurtful in anger. What do you do?",
+              "choices": [
+                { "value": "A", "label": "Argue back immediately", "correct": false },
+                { "value": "B", "label": "Go quiet and address it later calmly", "correct": true },
+                { "value": "C", "label": "Leave and don't speak for days", "correct": false }
+              ],
+              "feedback": "Option B is the prophetic approach. Address hurt feelings, but when emotions are calm — not in the heat of the moment."
+            },
+            {
+              "id": "wyd-2",
+              "question": "Your parents forbid you from attending a halal Islamic event because they're worried. What do you do?",
+              "choices": [
+                { "value": "A", "label": "Go anyway without telling them", "correct": false },
+                { "value": "B", "label": "Share details about the event and ask again", "correct": true },
+                { "value": "C", "label": "Give up and never try", "correct": false }
+              ],
+              "feedback": "Option B — provide them with information to ease their worry. Build trust gradually."
+            },
+            {
+              "id": "wyd-3",
+              "question": "You disagree with your parents on a non-religious matter. What is your Islamic right?",
+              "choices": [
+                { "value": "A", "label": "Obey regardless — no discussion allowed", "correct": false },
+                { "value": "B", "label": "Disagree respectfully and express your view", "correct": true },
+                { "value": "C", "label": "Ignore them and do what you want", "correct": false }
+              ],
+              "feedback": "Option B — shura (consultation) is encouraged in Islam. You have the right to express yourself respectfully."
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "resources": {
+    "apps": [
+      {
+        "id": "quran-com",
+        "icon": "📖",
+        "name": "Quran.com",
+        "description": "Read and search the Quran in Arabic with translations and tafsir.",
+        "type": "Website & App",
+        "url": "https://quran.com",
+        "features": ["Multiple translations", "Tafsir", "Audio recitation", "Bookmarking"]
+      },
+      {
+        "id": "sunnah-com",
+        "icon": "📚",
+        "name": "Sunnah.com",
+        "description": "Browse authenticated hadiths from the major collections.",
+        "type": "Website",
+        "url": "https://sunnah.com",
+        "features": ["Bukhari", "Muslim", "Abu Dawud", "Tirmidhi", "Search functionality"]
+      },
+      {
+        "id": "seekersguidance",
+        "icon": "🎓",
+        "name": "SeekersGuidance.org",
+        "description": "Free online Islamic courses and Q&A with verified scholars.",
+        "type": "Website & Courses",
+        "url": "https://seekersguidance.org",
+        "features": ["Free courses", "Scholarly Q&A", "Western Muslim focus", "Certification"]
+      },
+      {
+        "id": "islamqa",
+        "icon": "❓",
+        "name": "IslamQA.info",
+        "description": "Thousands of verified Q&As from Sh. Muhammad al-Munajjid.",
+        "type": "Q&A Website",
+        "url": "https://islamqa.info",
+        "features": ["Fatwa database", "Search by topic", "Scholarly review", "Multiple languages"]
+      },
+      {
+        "id": "islamweb",
+        "icon": "💬",
+        "name": "Islamweb.net",
+        "description": "Fatwa centre, prayer times, and Islamic resources.",
+        "type": "Website",
+        "url": "https://islamweb.net",
+        "features": ["Fatwa centre", "Prayer times", "Family resources", "Youth section"]
+      },
+      {
+        "id": "muslim-pro",
+        "icon": "📿",
+        "name": "Muslim Pro",
+        "description": "Prayer times, Quran, dhikr counter, and qibla direction.",
+        "type": "Mobile App",
+        "url": "https://muslimpro.com",
+        "features": ["Prayer times", "Qibla compass", "Quran audio", "Hijri calendar"]
+      },
+      {
+        "id": "athan-app",
+        "icon": "🌙",
+        "name": "Athan App",
+        "description": "Adhan alerts, Quran, and daily Islamic reminders.",
+        "type": "Mobile App",
+        "url": "https://athan.app",
+        "features": ["Adhan notifications", "Quran recitation", "Daily reminders", "Prayer tracking"]
+      },
+      {
+        "id": "yaqeen-podcast",
+        "icon": "🎙️",
+        "name": "Yaqeen Institute Podcast",
+        "description": "Research-based Islamic content for Western Muslim youth.",
+        "type": "Podcast",
+        "url": "https://yaqeeninstitute.org/podcast",
+        "features": ["Research-based", "Youth-focused", "Western context", "Expert interviews"]
+      }
+    ]
+  },
+  "accessibility": {
+    "languageSupport": ["en", "ar", "fr", "tr", "ur"],
+    "textToSpeech": true,
+    "highContrastMode": true,
+    "keyboardNavigation": true,
+    "screenReaderOptimised": true,
+    "arabicFontSupport": "Amiri, Traditional Arabic, system fallback"
+  },
+  "metadata": {
+    "generatedAt": "2025-04-20T00:00:00Z",
+    "generatedBy": "Islamic Connect Content System",
+    "contentVersion": "1.0.0",
+    "scholarlyReviewStatus": "Verified by trusted sources",
+    "lastScholarlyReview": "2025-04-15",
+    "nextReviewDue": "2025-10-15",
+    "contentLicense": "Educational use with attribution",
+    "attribution": "Content compiled from IslamQA.info, Islamweb.net, Sunnah.com, Quran.com, SeekersGuidance.org"
+  }
+}

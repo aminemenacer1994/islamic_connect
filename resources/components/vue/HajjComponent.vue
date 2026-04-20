@@ -2670,7 +2670,7 @@ onBeforeUnmount(() => {
   --green-dark: #f2f7f4;
   --green-soft: rgba(74, 155, 146, 0.16);
   --green-line: rgba(255, 255, 255, 0.12);
-  --paper: #232529;
+  --paper: #26292e;
   --cream: #1c1f23;
   --sand: #2b3035;
   --gold: #d0b27a;

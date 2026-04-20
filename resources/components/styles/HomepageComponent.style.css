@@ -1131,7 +1131,7 @@ html.dark-mode .ic-home {
   --ic-border: rgba(255, 255, 255, 0.12);
   --ic-shadow-soft: none;
   --ic-shadow-strong: none;
-  background: #232529;
+  background: #26292e;
   color: #ffffff;
 }
 
@@ -1140,7 +1140,7 @@ html.dark-mode .ic-section--surface,
 html.dark-mode .ic-section--alt,
 html.dark-mode .ic-section--ayah,
 html.dark-mode .ic-section--partners {
-  background: #232529;
+  background: #26292e;
 }
 
 html.dark-mode .ic-hero::before,
@@ -1159,7 +1159,7 @@ html.dark-mode .ic-hero__lead {
 
 html.dark-mode .ic-hero__badge,
 html.dark-mode .ic-hero__trust-item {
-  background: #232529;
+  background: #26292e;
   color: #ffffff;
   border: 1px solid rgba(255, 255, 255, 0.12);
 }
@@ -1170,13 +1170,13 @@ html.dark-mode .ic-hero__trust-item i {
 
 html.dark-mode .ic-theme-toggle {
   border-color: rgba(255, 255, 255, 0.12);
-  background: #232529;
+  background: #26292e;
   color: #ffffff;
   box-shadow: none;
 }
 
 html.dark-mode .ic-btn--outline {
-  background: #232529;
+  background: #26292e;
   color: #ffffff;
   border-color: rgba(255, 255, 255, 0.22);
   box-shadow: none;
@@ -1193,7 +1193,7 @@ html.dark-mode .ic-partner-card,
 html.dark-mode .premium-dialog-card,
 html.dark-mode .premium-toast--success,
 html.dark-mode .ic-footer {
-  background: #232529 !important;
+  background: #26292e !important;
   border-color: rgba(255, 255, 255, 0.12) !important;
   box-shadow: none !important;
 }
@@ -1226,39 +1226,39 @@ html.dark-mode .ic-community__point i {
 
 html.dark-mode .ic-objective-card__index {
   background: #ffffff !important;
-  color: #232529 !important;
+  color: #26292e !important;
 }
 
 html.dark-mode .ic-objective-card__icon {
   background: #ffffff !important;
-  color: #232529 !important;
+  color: #26292e !important;
   cursor: pointer;
 }
 
 html.dark-mode .ic-objective-card__icon i {
-  color: #232529 !important;
+  color: #26292e !important;
 }
 
 html.dark-mode .ic-btn--solid {
   background: #ffffff !important;
   border-color: rgba(255, 255, 255, 0.12) !important;
-  color: #232529 !important;
+  color: #26292e !important;
   box-shadow: none !important;
 }
 
 html.dark-mode .ic-btn--solid i {
-  color: #232529 !important;
+  color: #26292e !important;
 }
 
 html.dark-mode .ic-btn--solid:hover,
 html.dark-mode .ic-btn--solid:focus-visible {
   background: #ffffff !important;
-  color: #232529 !important;
+  color: #26292e !important;
 }
 
 html.dark-mode .ic-partner-card__icon {
   background: #ffffff !important;
-  color: #232529 !important;
+  color: #26292e !important;
   cursor: pointer;
   box-shadow: none !important;
   transform: none !important;
@@ -1270,13 +1270,13 @@ html.dark-mode .ic-partner-card__icon::after {
 
 html.dark-mode .ic-partner-card:hover .ic-partner-card__icon {
   background: #ffffff !important;
-  color: #232529 !important;
+  color: #26292e !important;
   transform: none !important;
   box-shadow: none !important;
 }
 
 html.dark-mode .ic-community {
-  background: #232529 !important;
+  background: #26292e !important;
   border-color: rgba(255, 255, 255, 0.12) !important;
   box-shadow: none !important;
 }
@@ -1286,7 +1286,7 @@ html.dark-mode .ic-community__point {
 }
 
 html.dark-mode .ic-footer {
-  background: #232529 !important;
+  background: #26292e !important;
   border-top: 1px solid rgba(255, 255, 255, 0.12) !important;
 }
 
@@ -1304,23 +1304,23 @@ html.dark-mode .ic-feature-card__image {
 
 html.dark-mode .ic-partner-card__icon {
   background: #ffffff !important;
-  color: #232529 !important;
+  color: #26292e !important;
   cursor: pointer;
 }
 
 html.dark-mode .ic-partner-card__icon i {
-  color: #232529 !important;
+  color: #26292e !important;
 }
 
 html.dark-mode .ic-channel-card__icon,
 html.dark-mode .ic-channel-card__icon--whatsapp,
 html.dark-mode .ic-channel-card__icon--telegram {
   background: #ffffff !important;
-  color: #232529 !important;
+  color: #26292e !important;
 }
 
 html.dark-mode .ic-channel-card__icon i {
-  color: #232529 !important;
+  color: #26292e !important;
 }
 
 html.dark-mode .ic-ayah-card__ornament {

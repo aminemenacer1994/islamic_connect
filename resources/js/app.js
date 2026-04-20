@@ -281,6 +281,7 @@ const asyncComponentLoaders = {
   "ai-component": () => import("./components/AiComponent.vue"),
   "islam-component": () => import("./components/IslamComponent.vue"),
   "youth-component": () => import("./components/YouthComponent.vue"),
+  "parenting-component": () => import("./components/ParentingComponent.vue"),
 
 };
 

@@ -246,7 +246,7 @@
                     </div>
 
                     <div class="card card-teal"
-                        style="background-color:#ffffff; border-radius:18px; border:1px solid rgba(2,6,23,0.06); box-shadow: 0 14px 36px rgba(15, 23, 42, 0.08); overflow:hidden; transition: box-shadow .2s ease;">
+                        style="background-color:#ffffff; border-radius:18px; border:1px solid rgba(2,6,23,0.06); box-shadow: 0 14px 36px rgba(38, 41, 46, 0.08); overflow:hidden; transition: box-shadow .2s ease;">
                         <div v-if="information != null">
                             <div class="container-fluid ">
                                 <div class="row">
