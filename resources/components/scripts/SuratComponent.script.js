@@ -888,6 +888,7 @@ export default {
             bookmarkEventHandler: null,
             bookmarkStorageHandler: null,
             visibilityHandler: null,
+            activePlaybackWordUnderlineMs: 420,
             authAlert: "",
             authAlertTimer: null,
             deepLinkTarget: null,
@@ -1197,6 +1198,11 @@ export default {
                 chaining: true,
                 history: true,
                 saved: true,
+            },
+            memorisationBeginnerSectionExpanded: {
+                setup: true,
+                playback: true,
+                history: true,
             },
             memorisationTooltipInstances: [],
             isMemorisationReadingAidsOpen: false,
@@ -6216,6 +6222,7 @@ export default {
             this.persistMemorisationToolbarVisibilityPreference(!!newVal);
             this.scheduleAudioPlayerLayoutUpdate();
             this.scheduleAudioPlayerLayoutUpdate(260);
+            this.syncMemorisationProgressStripSticky(!!newVal);
             if (newVal) {
                 this.memorisationFocusIndex = this.activeAyahIndex;
                 this.hideSurahOffcanvasIfOpen();
@@ -6224,6 +6231,7 @@ export default {
                 }
                 this.showAudioPlayerQueuePanel = false;
                 this.audioQueueMinimized = false;
+                this.$nextTick(() => this.syncMemorisationProgressStripSticky(true));
                 return;
             }
             this.isMemorisationAdvancedOpen = false;
@@ -12154,9 +12162,20 @@ export default {
                 saved: true,
             };
         },
+        getDefaultMemorisationBeginnerSectionState() {
+            return {
+                setup: true,
+                playback: true,
+                history: true,
+            };
+        },
         resetMemorisationAdvancedSections() {
             this.memorisationAdvancedSectionExpanded =
                 this.getDefaultMemorisationAdvancedSectionState();
+        },
+        resetMemorisationBeginnerSections() {
+            this.memorisationBeginnerSectionExpanded =
+                this.getDefaultMemorisationBeginnerSectionState();
         },
         isMemorisationAdvancedSectionOpen(sectionKey = "") {
             const key = String(sectionKey || "").trim();
@@ -12171,12 +12190,27 @@ export default {
                 [key]: !this.isMemorisationAdvancedSectionOpen(key),
             };
         },
+        isMemorisationBeginnerSectionOpen(sectionKey = "") {
+            const key = String(sectionKey || "").trim();
+            return this.memorisationBeginnerSectionExpanded?.[key] !== false;
+        },
+        toggleMemorisationBeginnerSection(sectionKey = "") {
+            const key = String(sectionKey || "").trim();
+            if (!key) return;
+            this.memorisationBeginnerSectionExpanded = {
+                ...this.getDefaultMemorisationBeginnerSectionState(),
+                ...(this.memorisationBeginnerSectionExpanded || {}),
+                [key]: !this.isMemorisationBeginnerSectionOpen(key),
+            };
+        },
         openMemorisationOffcanvas() {
             this.prepareMemorisationToolsEntry();
             this.hideSurahOffcanvasIfOpen();
             this.resetDesktopToolbarScrollPosition();
             if (this.isMemorisationAdvancedOpen) {
                 this.resetMemorisationAdvancedSections();
+            } else {
+                this.resetMemorisationBeginnerSections();
             }
             this.isMemorisationOffcanvasVisible = true;
             this.$nextTick(() => {
@@ -12189,6 +12223,8 @@ export default {
             if (this.isMemorisationAdvancedOpen) {
                 this.resetMemorisationAdvancedSections();
                 this.triggerMemorisationCompletionConfetti();
+            } else {
+                this.resetMemorisationBeginnerSections();
             }
             this.$nextTick(() => {
                 if (!this.isMemorisationOffcanvasVisible) return;
@@ -13113,6 +13149,35 @@ export default {
         },
         showModeToggleToast(label, enabled) {
             this.showToast(`${label}: ${enabled ? "On" : "Off"}`, 3200);
+        },
+        syncMemorisationProgressStripSticky(enabled = false) {
+            if (typeof document === "undefined") return;
+            const active = !!enabled;
+            const host =
+                this.$el?.closest?.(".surat-premium") ||
+                document.querySelector(".surat-premium") ||
+                this.$el;
+            if (!host || typeof host.classList?.toggle !== "function") return;
+            host.classList.toggle("memorisation-progress-fixed", active);
+            if (!active) {
+                try {
+                    host.style.removeProperty("--memo-progress-top");
+                    host.style.removeProperty("--memo-progress-height");
+                } catch (_) {}
+                return;
+            }
+            this.$nextTick(() => {
+                try {
+                    const toolbar = host.querySelector(".quran-toolbar-sticky");
+                    const strip = host.querySelector(".memorisation-progress-strip");
+                    const toolbarRect = toolbar?.getBoundingClientRect?.();
+                    const stripRect = strip?.getBoundingClientRect?.();
+                    const toolbarH = toolbarRect ? Math.max(0, Math.round(toolbarRect.height)) : 92;
+                    const stripH = stripRect ? Math.max(0, Math.round(stripRect.height)) : 86;
+                    host.style.setProperty("--memo-progress-top", `${toolbarH}px`);
+                    host.style.setProperty("--memo-progress-height", `${stripH}px`);
+                } catch (_) {}
+            });
         },
         notifyAyahDelayChange() {
             let value = Number(this.memorisationVerseDelay);
@@ -15493,7 +15558,7 @@ export default {
             this.setSessionHistoryEntries(nextEntries);
             this.persistSessionHistory();
             if (String(reason || "").trim() === "completed") {
-                this.showSessionSavedToast(`Session saved ✓  ${entry.sessionName}`);
+                this.showSessionSavedToast("Session saved ✓", 2000);
                 this.triggerMemorisationSavedConfetti();
             }
             this.maybeCelebrateSessionHistoryMilestones(entry, previousEntries);
@@ -17276,7 +17341,7 @@ export default {
                 return;
             }
             const layer = document.createElement("div");
-            layer.className = "memorisation-confetti-layer";
+            layer.className = "memorisation-confetti-layer is-saved";
             layer.setAttribute("aria-hidden", "true");
             const palette = ["#0f766e", "#14b8a6", "#22c55e", "#86efac"];
             for (let i = 0; i < 14; i += 1) {
@@ -17296,7 +17361,7 @@ export default {
                 if (layer && layer.parentNode) {
                     layer.parentNode.removeChild(layer);
                 }
-            }, 1600);
+            }, 2000);
             this.memorisationConfettiTimeouts.push(timeoutId);
         },
         clearMemorisationConfettiLayers() {
@@ -26022,6 +26087,11 @@ export default {
                         index === activeDisplayWordIndex
                             ? " is-audio-active"
                             : "";
+                    const activeStyle =
+                        index === activeDisplayWordIndex &&
+                        Number.isFinite(Number(this.activePlaybackWordUnderlineMs))
+                            ? ` style="--word-underline-ms:${Math.round(Number(this.activePlaybackWordUnderlineMs))}ms"`
+                            : "";
                     const translation = this.showWordTranslation && wordTranslations.length
                         ? this.escapeHtml(
                             this.cleanWordTranslation(
@@ -26029,7 +26099,7 @@ export default {
                             )
                         )
                         : "";
-                    return `<span class="ayah-word${tooltipClass}${activeClass}" data-word-index="${index}"${tooltipAttr}><span class="ayah-word-ar">${content}</span>${translation ? `<span class="ayah-word-translation text-muted">${translation}</span>` : ""}</span>`;
+                    return `<span class="ayah-word${tooltipClass}${activeClass}" data-word-index="${index}"${tooltipAttr}${activeStyle}><span class="ayah-word-ar">${content}</span>${translation ? `<span class="ayah-word-translation text-muted">${translation}</span>` : ""}</span>`;
                 })
                 .join(" ");
         },
@@ -26625,6 +26695,7 @@ export default {
         clearActivePlaybackWordHighlight() {
             this.activePlaybackWordAyahIndex = -1;
             this.activePlaybackWordDisplayIndex = -1;
+            this.activePlaybackWordUnderlineMs = 420;
         },
         getApproximateDisplayWordIndexFromPlayback(ayah, currentTime, duration) {
             const words = this.getAyahDisplayWords(ayah);
@@ -26674,6 +26745,36 @@ export default {
                 segments,
                 currentTime
             );
+            if (Number.isFinite(audioWordIndex)) {
+                let ms = 420;
+                const selectedIndex = Number(audioWordIndex);
+                const sortedSegments = segments
+                    .filter((seg) => typeof seg?.wordIndex === "number")
+                    .slice()
+                    .sort((a, b) => Number(a.wordIndex) - Number(b.wordIndex));
+                const segPos = sortedSegments.findIndex(
+                    (seg) => Number(seg.wordIndex) === selectedIndex
+                );
+                if (segPos >= 0) {
+                    const seg = sortedSegments[segPos];
+                    const start = typeof seg?.start === "number" ? seg.start : null;
+                    const explicitEnd = typeof seg?.end === "number" ? seg.end : null;
+                    const nextStart =
+                        segPos + 1 < sortedSegments.length &&
+                        typeof sortedSegments[segPos + 1]?.start === "number"
+                            ? sortedSegments[segPos + 1].start
+                            : null;
+                    const endCandidate =
+                        explicitEnd !== null ? explicitEnd : nextStart !== null ? nextStart : null;
+                    if (start !== null && endCandidate !== null && endCandidate > start) {
+                        ms = Math.round((endCandidate - start) * 1000);
+                    }
+                }
+                // Clamp so the underline stays readable even with odd metadata.
+                this.activePlaybackWordUnderlineMs = Math.max(180, Math.min(900, ms));
+            } else {
+                this.activePlaybackWordUnderlineMs = 420;
+            }
             const audioWordCount = this.getAyahAudioWordCount(ayah);
             let displayWordIndex = Number.isFinite(audioWordIndex)
                 ? this.getDisplayWordIndexFromAudioIndex(

@@ -402,9 +402,9 @@
 
 .memorisation-panel-close-btn--floating {
     position: absolute !important;
-    top: 10px !important;
-    right: 10px !important;
-    z-index: 6 !important;
+    top: 12px !important;
+    right: 12px !important;
+    z-index: 40 !important;
     width: 34px !important;
     height: 34px !important;
     flex-basis: 34px !important;
@@ -416,19 +416,56 @@
 
 .memorisation-progress-strip {
     width: 100%;
-    padding: 0.45rem 1rem 0.7rem;
+    padding: 0.75rem 1rem 0.85rem;
     display: grid;
     gap: 0.35rem;
-    position: sticky;
-    /* Stay fully visible below navbar + toolbar while scrolling. */
-    top: calc(var(--nav-offset, var(--navbar-h, 72px)) + 86px);
-    z-index: 1002;
-    background:
-        radial-gradient(1200px 160px at 30% 0%, rgba(20, 184, 166, 0.16), transparent 60%),
-        radial-gradient(900px 140px at 80% 40%, rgba(245, 158, 11, 0.12), transparent 60%),
-        linear-gradient(180deg, rgba(255, 255, 255, 0.76), rgba(255, 255, 255, 0.92));
-    border-top: 1px solid rgba(15, 110, 99, 0.14);
-    backdrop-filter: blur(12px);
+    position: relative;
+    top: auto;
+    z-index: 1;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(255, 255, 255, 0.98));
+    border: 2px solid rgba(11, 95, 88, 0.88);
+    border-radius: 18px;
+    box-shadow: 0 16px 30px rgba(7, 31, 28, 0.14), 0 2px 8px rgba(7, 31, 28, 0.08);
+    backdrop-filter: blur(10px);
+    margin: 0.55rem 0 0.75rem;
+}
+
+/* Force-sticky behaviour: pin the strip under the pinned toolbar, even if the toolbar swaps positioning modes. */
+.surat-premium.memorisation-progress-fixed .memorisation-progress-strip {
+    position: fixed !important;
+    left: var(--memorisation-content-gutter, 24px) !important;
+    right: calc(var(--memorisation-content-right-offset, 0px) + var(--memorisation-content-gutter, 24px)) !important;
+    width: auto !important;
+    top: calc(var(--nav-offset, var(--navbar-h, 72px)) + var(--memo-progress-top, 92px)) !important;
+    z-index: 1200 !important;
+}
+
+/* Reserve vertical space so the pinned strip sits between the toolbar and the first ayah card (no overlap). */
+.surat-premium.memorisation-progress-fixed .row[role="list"] {
+    padding-top: calc(1.35rem + var(--memo-progress-height, 86px)) !important;
+}
+
+.memorisation-section-toggle {
+    width: 34px;
+    height: 34px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    border: 1px solid rgba(15, 118, 110, 0.16);
+    background: rgba(255, 255, 255, 0.72);
+    color: rgba(15, 23, 42, 0.74);
+    padding: 0;
+}
+
+.memorisation-section-toggle:hover {
+    border-color: rgba(15, 118, 110, 0.26);
+    color: rgba(6, 95, 70, 0.92);
+}
+
+.memorisation-section-toggle:focus-visible {
+    outline: 0;
+    box-shadow: 0 0 0 0.22rem rgba(15, 118, 110, 0.18);
 }
 
 .memorisation-progress-strip-row {
@@ -454,10 +491,10 @@
     padding: 0.22rem 0.55rem;
     border-radius: 999px;
     background: rgba(15, 118, 110, 0.12);
-    border: 1px solid rgba(15, 118, 110, 0.16);
-    color: rgba(15, 23, 42, 0.82);
-    font-size: 0.82rem;
-    font-weight: 750;
+    border: 1px solid rgba(11, 95, 88, 0.22);
+    color: rgba(15, 23, 42, 0.86);
+    font-size: 0.88rem;
+    font-weight: 850;
     letter-spacing: 0.01em;
     white-space: nowrap;
 }
@@ -474,24 +511,24 @@
 
 .memorisation-progress-strip-meta {
     flex: 0 0 auto;
-    font-size: 0.82rem;
-    font-weight: 900;
-    color: rgba(15, 23, 42, 0.72);
+    font-size: 0.86rem;
+    font-weight: 950;
+    color: rgba(10, 61, 57, 0.92);
 }
 
 .memorisation-progress-strip-track {
-    height: 7px;
+    height: 9px;
     border-radius: 999px;
     background: rgba(15, 118, 110, 0.12);
     overflow: hidden;
-    box-shadow: inset 0 0 0 1px rgba(15, 118, 110, 0.12);
+    box-shadow: inset 0 0 0 2px rgba(11, 95, 88, 0.14);
 }
 
 .memorisation-progress-strip-fill {
     display: block;
     height: 100%;
     border-radius: 999px;
-    background: linear-gradient(90deg, rgba(15, 118, 110, 0.55), rgba(15, 118, 110, 0.92));
+    background: linear-gradient(90deg, rgba(11, 95, 88, 0.58), rgba(11, 95, 88, 0.98));
     transition: width 240ms ease;
 }
 
@@ -10449,8 +10486,15 @@
     margin: 0 4px;
     white-space: nowrap;
     cursor: default;
-    transition: transform 0.14s ease, filter 0.14s ease;
+    transition: transform 0.18s ease, filter 0.18s ease;
     will-change: transform;
+}
+
+:deep(.ayah-word-ar) {
+    display: block;
+    border-radius: 10px;
+    transition: transform 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease, filter 0.18s ease;
+    transform-origin: 50% 70%;
 }
 
 :deep(.ayah-word.has-tooltip) {
@@ -10463,6 +10507,32 @@
 
 :deep(.ayah-word.is-audio-active) {
     transform: translateY(-1px);
+}
+
+:deep(.ayah-word:hover) {
+    z-index: 6;
+}
+
+/* Word hover/tap affordance (premium feel). Negative margin cancels padding so the line doesn't "jump". */
+:deep(.ayah-word:hover .ayah-word-ar),
+:deep(.ayah-word:active .ayah-word-ar),
+:deep(.ayah-word:focus-visible .ayah-word-ar) {
+    padding: 5px;
+    margin: -5px;
+    border-radius: 10px;
+    box-shadow: 0 10px 22px rgba(2, 44, 34, 0.16), 0 2px 8px rgba(2, 44, 34, 0.12);
+    background: rgba(255, 255, 255, 0.78);
+    transform: scale(1.4);
+}
+
+/* Intensify tajweed colours while hovering/tapping a word. */
+:deep(.ayah-word:hover .tajweed),
+:deep(.ayah-word:hover [class^="tajweed-"]),
+:deep(.ayah-word:active .tajweed),
+:deep(.ayah-word:active [class^="tajweed-"]),
+:deep(.ayah-word:focus-visible .tajweed),
+:deep(.ayah-word:focus-visible [class^="tajweed-"]) {
+    filter: saturate(1.35) contrast(1.08) brightness(0.98);
 }
 
 :deep(.ayah-word.has-tooltip)::after,
@@ -10515,10 +10585,6 @@
 :deep(.ayah-transliteration-word.has-tooltip:focus-visible)::before {
     opacity: 1;
     transform: translateX(-50%) translateY(0) scale(1);
-}
-
-:deep(.ayah-word-ar) {
-    display: block;
 }
 
 :deep(.ayah-word-translation) {
@@ -10599,7 +10665,7 @@
     opacity: 0.9;
     transform: scaleX(0);
     transform-origin: 100% 50%;
-    animation: rtl-underline-sweep 420ms cubic-bezier(0.2, 1, 0.2, 1) both;
+    animation: rtl-underline-sweep var(--word-underline-ms, 420ms) cubic-bezier(0.2, 1, 0.2, 1) both;
     pointer-events: none;
 }
 
@@ -32340,22 +32406,78 @@ h1.display-5 {
     font-weight: 800;
 }
 
-.memorisation-chaining-preview-link::after,
-.memorisation-chaining-link::after {
-    content: "";
-    position: absolute;
-    top: 50%;
-    left: calc(100% + 0.15rem);
-    width: 0.45rem;
-    height: 2px;
-    border-radius: 999px;
-    background: rgba(148, 163, 184, 0.42);
-    transform: translateY(-50%);
+.memorisation-chaining-link-wrap {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex: 0 0 auto;
 }
 
-.memorisation-chaining-preview-link:last-child::after,
-.memorisation-chaining-link:last-child::after {
-    display: none;
+.memorisation-chaining-connector {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.05rem;
+    height: 1.05rem;
+    color: rgba(15, 118, 110, 0.65);
+    flex: 0 0 auto;
+}
+
+.memorisation-chaining-connector-line {
+    position: absolute;
+    left: -0.55rem;
+    right: -0.55rem;
+    top: 50%;
+    height: 2px;
+    border-radius: 999px;
+    background: rgba(148, 163, 184, 0.38);
+    transform: translateY(-50%);
+    overflow: hidden;
+}
+
+.memorisation-chaining-connector-line::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, rgba(15, 118, 110, 0.12), rgba(15, 118, 110, 0.62));
+    transform: scaleX(0);
+    transform-origin: 0% 50%;
+}
+
+.memorisation-chaining-connector-icon {
+    position: relative;
+    font-size: 0.95rem;
+    transform: translateX(0);
+    opacity: 0.82;
+}
+
+.memorisation-chaining-connector.is-animating .memorisation-chaining-connector-line::after {
+    animation: memo-chain-connect 260ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.memorisation-chaining-connector.is-animating .memorisation-chaining-connector-icon {
+    animation: memo-chain-icon 260ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes memo-chain-connect {
+    from {
+        transform: scaleX(0);
+    }
+    to {
+        transform: scaleX(1);
+    }
+}
+
+@keyframes memo-chain-icon {
+    from {
+        transform: translateX(-6px);
+        opacity: 0.4;
+    }
+    to {
+        transform: translateX(6px);
+        opacity: 0.92;
+    }
 }
 
 .memorisation-chaining-preview-link.is-complete,
@@ -47086,6 +47208,13 @@ h1.display-5 {
     overflow: hidden;
 }
 
+.memorisation-confetti-layer.is-saved .memorisation-confetti-piece {
+    opacity: 0.42;
+    width: 9px;
+    height: 12px;
+    filter: saturate(0.95);
+}
+
 .memorisation-confetti-piece {
     position: absolute;
     top: -12px;
@@ -48571,6 +48700,50 @@ body.hifz-modal-open .memorisation-toolbar-sticky {
     line-height: 1.35 !important;
 }
 
+.memorisation-tools-level-hint {
+    margin: -0.55rem 0 0.65rem !important;
+    padding: 0.25rem 0.15rem !important;
+    color: rgba(15, 23, 42, 0.68) !important;
+    font-size: 0.86rem !important;
+    line-height: 1.35 !important;
+    font-weight: 700 !important;
+}
+
+.memorisation-shortcuts-disclosure {
+    margin: 0 0 0.65rem !important;
+}
+
+.memorisation-shortcuts-summary {
+    list-style: none;
+    cursor: pointer;
+    padding: 0.38rem 0.2rem;
+    font-weight: 900;
+    font-size: 0.86rem;
+    color: rgba(15, 23, 42, 0.76);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.memorisation-shortcuts-summary::-webkit-details-marker {
+    display: none;
+}
+
+.memorisation-shortcuts-summary::after {
+    content: "";
+    width: 0.55rem;
+    height: 0.55rem;
+    border-right: 2px solid rgba(15, 23, 42, 0.46);
+    border-bottom: 2px solid rgba(15, 23, 42, 0.46);
+    transform: rotate(45deg);
+    transition: transform 180ms ease;
+    margin-left: 0.1rem;
+}
+
+.memorisation-shortcuts-disclosure[open] .memorisation-shortcuts-summary::after {
+    transform: rotate(-135deg);
+}
+
 .memorisation-jump-links {
     display: flex !important;
     flex-wrap: wrap !important;
@@ -49002,13 +49175,13 @@ body.hifz-modal-open .memorisation-toolbar-sticky {
 
 /* Memorisation v3: explicit visual refresh and hard layout guard. */
 .surat-premium.memorisation-offcanvas-open {
-    --memo-v3-panel-width: clamp(320px, 26vw, 400px);
+    --memo-v3-panel-width: clamp(300px, 24vw, 360px);
     --memo-v3-content-gap: 30px;
 }
 
 .memorisation-offcanvas-v3 {
-    width: var(--memo-v3-panel-width, 440px) !important;
-    max-width: min(100vw, var(--memo-v3-panel-width, 440px)) !important;
+    width: var(--memo-v3-panel-width, 360px) !important;
+    max-width: min(100vw, var(--memo-v3-panel-width, 360px)) !important;
     background: var(--surat-surface-1, #ffffff) !important;
     color: var(--surat-ink-strong, #0f2722) !important;
     border-left: 0 !important;
@@ -49049,7 +49222,8 @@ body.hifz-modal-open .memorisation-toolbar-sticky {
 }
 
 .memorisation-offcanvas-v3 .offcanvas-body {
-    padding: 1.25rem 1.25rem 1.45rem !important;
+    /* Top padding reserves space for the floating X button. */
+    padding: 3.35rem 1.25rem 1.45rem !important;
     background: transparent !important;
     scrollbar-gutter: stable !important;
 }
@@ -49059,7 +49233,8 @@ body.hifz-modal-open .memorisation-toolbar-sticky {
     top: auto !important;
     z-index: 1 !important;
     margin: 0 0 1.15rem !important;
-    padding: 0.36rem !important;
+    /* Reserve space for the floating close button so it never overlaps the tab pill. */
+    padding: 0.36rem 3.1rem 0.36rem 0.36rem !important;
     display: grid !important;
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
     gap: 0.42rem !important;

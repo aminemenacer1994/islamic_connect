@@ -1389,9 +1389,6 @@
                 <i class="bi bi-x-lg" aria-hidden="true"></i>
             </button>
             <div class="offcanvas-body">
-                <p class="memorisation-shortcut-hints" aria-label="Keyboard shortcuts">
-                    Shortcuts: <strong>Space</strong> play/pause · <strong>R</strong> repeat · <strong>C</strong> chaining · <strong>←/→</strong> prev/next · <strong>S</strong> save
-                </p>
                 <div class="memorisation-tools-tabs" role="tablist" aria-label="Memorisation tool level">
                     <button
                         type="button"
@@ -1410,33 +1407,46 @@
                         Advanced
                     </button>
                 </div>
+                <p class="memorisation-tools-level-hint mb-0" role="note">
+                    <span v-if="!isMemorisationAdvancedMode">
+                        Beginner keeps it simple: pick a range, press Start, and recite along. You can still save and reload sessions.
+                    </span>
+                    <span v-else>
+                        Advanced gives you full control: repeat strategies, recall helpers, chaining method, and detailed history.
+                    </span>
+                </p>
+
+                <details class="memorisation-shortcuts-disclosure" open>
+                    <summary class="memorisation-shortcuts-summary">
+                        Keyboard shortcuts
+                    </summary>
+                    <p class="memorisation-shortcut-hints mb-0" aria-label="Keyboard shortcuts">
+                        <strong>Space</strong> play/pause · <strong>R</strong> repeat · <strong>C</strong> chaining · <strong>←/→</strong> prev/next · <strong>S</strong> save
+                    </p>
+                </details>
 
                 <div v-if="!isMemorisationAdvancedMode" class="memorisation-beginner-panel" aria-label="Beginner session setup">
-                    <section class="memorisation-tools-card memorisation-tools-card--guide" aria-label="What to do">
-                        <div class="memorisation-tools-card-head">
-                            <div class="memorisation-tools-card-title">
-                                <h5 class="mb-0">What to do</h5>
-                                <p class="mb-0">Three steps to start practising.</p>
-                            </div>
-                        </div>
-                        <div class="memorisation-tools-grid">
-                            <div class="memorisation-tools-field memorisation-tools-field--full">
-                                <ol class="mb-0 ps-3">
-                                    <li>Pick a Surah.</li>
-                                    <li>Press <strong>Start Session</strong>.</li>
-                                    <li>Recite along with the reciter.</li>
-                                </ol>
-                            </div>
-                        </div>
-                    </section>
-                    <section class="memorisation-tools-card" aria-label="Session foundation">
+                    <nav class="memorisation-jump-links" aria-label="Jump to section">
+                        <button type="button" class="btn memorisation-jump-link" @click="scrollMemorisationOffcanvasTo('memo-beginner-setup')">Setup</button>
+                        <button type="button" class="btn memorisation-jump-link" @click="scrollMemorisationOffcanvasTo('memo-beginner-playback')">Playback</button>
+                        <button type="button" class="btn memorisation-jump-link" @click="scrollMemorisationOffcanvasTo('memo-beginner-history')">History</button>
+                    </nav>
+                    <section id="memo-beginner-setup" class="memorisation-tools-card" aria-label="Session foundation">
                         <div class="memorisation-tools-card-head">
                             <div class="memorisation-tools-card-title">
                                 <h5 class="mb-0"><i class="bi bi-sliders2 me-1" aria-hidden="true"></i>Setup</h5>
-                                <p class="mb-0">Choose what to practise.</p>
+                                <p class="mb-0">Choose the surah, reciter, and the exact ayah range you will work on.</p>
                             </div>
+                            <button
+                                type="button"
+                                class="btn memorisation-section-toggle"
+                                :aria-expanded="isMemorisationBeginnerSectionOpen('setup') ? 'true' : 'false'"
+                                aria-label="Toggle setup"
+                                @click="toggleMemorisationBeginnerSection('setup')">
+                                <i class="bi" :class="isMemorisationBeginnerSectionOpen('setup') ? 'bi-chevron-up' : 'bi-chevron-down'" aria-hidden="true"></i>
+                            </button>
                         </div>
-                        <div class="memorisation-tools-grid">
+                        <div v-show="isMemorisationBeginnerSectionOpen('setup')" class="memorisation-tools-grid">
                             <label class="memorisation-tools-field memorisation-tools-field--full">
                                 <span class="memorisation-tools-label">Surah name</span>
                                 <select
@@ -1491,14 +1501,22 @@
                         </div>
                     </section>
 
-                    <section class="memorisation-tools-card" aria-label="Recitation flow">
+                    <section id="memo-beginner-playback" class="memorisation-tools-card" aria-label="Recitation flow">
                         <div class="memorisation-tools-card-head">
                             <div class="memorisation-tools-card-title">
                                 <h5 class="mb-0"><i class="bi bi-play-circle me-1" aria-hidden="true"></i>Playback</h5>
-                                <p class="mb-0">Set speed, pauses, and repeats.</p>
+                                <p class="mb-0">Set the pace: speed, delay, mode, and how many times each ayah repeats.</p>
                             </div>
+                            <button
+                                type="button"
+                                class="btn memorisation-section-toggle"
+                                :aria-expanded="isMemorisationBeginnerSectionOpen('playback') ? 'true' : 'false'"
+                                aria-label="Toggle playback"
+                                @click="toggleMemorisationBeginnerSection('playback')">
+                                <i class="bi" :class="isMemorisationBeginnerSectionOpen('playback') ? 'bi-chevron-up' : 'bi-chevron-down'" aria-hidden="true"></i>
+                            </button>
                         </div>
-                        <div class="memorisation-tools-grid">
+                        <div v-show="isMemorisationBeginnerSectionOpen('playback')" class="memorisation-tools-grid">
                             <label class="memorisation-tools-field">
                                 <span class="memorisation-tools-label">Recitation speed</span>
                                 <select
@@ -1650,14 +1668,22 @@
                         </div>
                     </section>
 
-                    <section class="memorisation-tools-card" aria-label="History">
+                    <section id="memo-beginner-history" class="memorisation-tools-card" aria-label="History">
                         <div class="memorisation-tools-card-head">
                             <div class="memorisation-tools-card-title">
                                 <h5 class="mb-0"><i class="bi bi-clock-history me-1" aria-hidden="true"></i>History</h5>
-                                <p class="mb-0">Load a saved setup only when you need to continue previous practice.</p>
+                                <p class="mb-0">Reload a previous session setup (surah, range, reciter, and settings).</p>
                             </div>
+                            <button
+                                type="button"
+                                class="btn memorisation-section-toggle"
+                                :aria-expanded="isMemorisationBeginnerSectionOpen('history') ? 'true' : 'false'"
+                                aria-label="Toggle history"
+                                @click="toggleMemorisationBeginnerSection('history')">
+                                <i class="bi" :class="isMemorisationBeginnerSectionOpen('history') ? 'bi-chevron-up' : 'bi-chevron-down'" aria-hidden="true"></i>
+                            </button>
                         </div>
-                        <div class="memorisation-tools-grid">
+                        <div v-show="isMemorisationBeginnerSectionOpen('history')" class="memorisation-tools-grid">
                             <div class="memorisation-saved-session-actions memorisation-tools-field--full">
                             </div>
                             <label class="memorisation-tools-field memorisation-tools-field--full">
@@ -1737,7 +1763,7 @@
                         <div class="memorisation-tools-card-head">
 	                            <div class="memorisation-tools-card-title">
 	                                <h5 class="mb-0"><i class="bi bi-sliders2 me-1" aria-hidden="true"></i>Session Setup</h5>
-		                                <p class="mb-0">Set the exact practice target, then tune the repetition, recall, and review tools around it.</p>
+		                                <p class="mb-0">Define your target (surah, range, reciter). Everything else below applies to this session.</p>
 	                            </div>
                                 <button
                                     type="button"
@@ -1867,7 +1893,7 @@
                         <div class="memorisation-tools-card-head">
 	                            <div class="memorisation-tools-card-title">
 	                                <h5 class="mb-0"><i class="bi bi-play-circle me-1" aria-hidden="true"></i>Playback</h5>
-		                                <p class="mb-0">Set speed, pauses, and repeats.</p>
+		                                <p class="mb-0">Control how the audio moves: speed, delay, loop rules, and when to advance.</p>
 	                            </div>
                                 <button
                                     type="button"
@@ -1976,7 +2002,7 @@
                         <div class="memorisation-tools-card-head">
                             <div class="memorisation-tools-card-title">
                                 <h5 class="mb-0"><i class="bi bi-arrow-repeat me-1" aria-hidden="true"></i>Repeat</h5>
-                                <p class="mb-0">Range loops and repeat-after-recite practice.</p>
+                                <p class="mb-0">Practice reps: loop the whole range or pause so you can repeat from memory.</p>
                             </div>
                             <button
                                 type="button"
@@ -2021,7 +2047,7 @@
                         <div class="memorisation-tools-card-head">
 	                            <div class="memorisation-tools-card-title">
 	                                <h5 class="mb-0"><i class="bi bi-arrow-repeat me-1" aria-hidden="true"></i>Repeat</h5>
-		                                <p class="mb-0">Adds listen-and-repeat pauses so you practise active recall, not passive listening.</p>
+		                                <p class="mb-0">Fine-tune the recall pause: how long you get, and how much text help you see.</p>
 	                            </div>
                                 <button
                                     type="button"
@@ -2221,7 +2247,7 @@
                         <div class="memorisation-tools-card-head">
 	                            <div class="memorisation-tools-card-title">
 	                                <h5 class="mb-0"><i class="bi bi-clock-history me-1" aria-hidden="true"></i>History</h5>
-	                                <p class="mb-0">Load a saved setup only when you need to continue previous practice.</p>
+	                                <p class="mb-0">Save, reload, and clean up past sessions so you can resume the same setup instantly.</p>
 	                            </div>
                                 <button
                                     type="button"
@@ -3334,9 +3360,6 @@
                             </div>
 
                             <div v-else class="hifz-plan-dashboard-content">
-                                <div v-if="hasOnlySeededHifzPlans" class="memorisation-starter-note">
-                                    Starter plans are loaded so you can explore the planner immediately.
-                                </div>
                                 <div class="hifz-plan-dashboard-topbar">
                                     <label class="hifz-plan-wizard-field mb-0">
                                         <span class="form-label">Active plan</span>
@@ -3379,7 +3402,7 @@
                                         </span>
                                         <span class="session-history-overview-pill">
                                             <strong>{{ sessionHistorySummaryStats.bestStreak }}</strong>
-                                            Best streak
+                                            Streak
                                         </span>
                                         <span class="session-history-overview-pill">
                                             <strong>{{ sessionHistoryAverageAccuracy === null ? "—" : `${sessionHistoryAverageAccuracy}%` }}</strong>
@@ -3401,15 +3424,8 @@
                                     <div class="progress hifz-plan-dashboard-progress-track" role="progressbar" aria-label="Hifz dashboard progress" :aria-valuemin="0" :aria-valuemax="100" :aria-valuenow="activeHifzPlanProgressPercent">
                                         <div class="progress-bar hifz-plan-dashboard-progress-bar" :style="{ width: `${activeHifzPlanProgressPercent}%` }"></div>
                                     </div>
-                                    <div class="hifz-plan-dashboard-summary-meta">
-                                        <span>{{ activeHifzPlanProgressLabel }}</span>
-                                        <span>{{ activeHifzPlanAheadBehindLabel }}</span>
-                                    </div>
                                     <p class="hifz-plan-dashboard-today-target mb-0">
                                         {{ activeHifzPlanTodayTargetSentence }}
-                                    </p>
-                                    <p class="hifz-plan-dashboard-auto-adjust-note mb-0">
-                                        Auto-adjust enabled: missed days redistribute across the remaining schedule.
                                     </p>
                                 </section>
 
@@ -4582,11 +4598,22 @@
 
                     <div class="memorisation-chaining-link-row" aria-label="Current memorisation chain">
                         <div
-                            v-for="link in memorisationChainingChainLinks"
+                            v-for="(link, linkIndex) in memorisationChainingChainLinks"
                             :key="`memorisation-chain-link-${link.index}`"
-                            class="memorisation-chaining-link"
-                            :class="`is-${link.state}`">
-                            <span>{{ link.ayahNumber }}</span>
+                            class="memorisation-chaining-link-wrap">
+                            <div
+                                class="memorisation-chaining-link"
+                                :class="`is-${link.state}`">
+                                <span>{{ link.ayahNumber }}</span>
+                            </div>
+                            <span
+                                v-if="linkIndex < memorisationChainingChainLinks.length - 1"
+                                class="memorisation-chaining-connector"
+                                :class="{ 'is-animating': memorisationChainingPendingAdvance && linkIndex === memorisationChainingCurrentRoundIndexSafe }"
+                                aria-hidden="true">
+                                <span class="memorisation-chaining-connector-line"></span>
+                                <i class="bi bi-link-45deg memorisation-chaining-connector-icon" aria-hidden="true"></i>
+                            </span>
                         </div>
                     </div>
 
