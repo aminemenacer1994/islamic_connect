@@ -404,15 +404,19 @@
     position: absolute !important;
     top: 12px !important;
     right: 12px !important;
-    z-index: 40 !important;
-    width: 34px !important;
-    height: 34px !important;
-    flex-basis: 34px !important;
+    z-index: 1060 !important;
+    width: 30px !important;
+    height: 30px !important;
+    flex-basis: 30px !important;
     border-radius: 999px !important;
-    background: rgba(255, 255, 255, 0.88) !important;
+    background: rgba(255, 255, 255, 0.82) !important;
     backdrop-filter: blur(8px) !important;
     box-shadow: 0 10px 22px rgba(7, 31, 28, 0.12) !important;
     pointer-events: auto !important;
+}
+
+.memorisation-panel-close-btn--floating i {
+    color: #111827 !important;
 }
 
 /* Ensure the close button never overlaps the Beginner/Advanced tabs. */
@@ -437,7 +441,7 @@
 }
 
 /* Force-sticky behaviour: pin the strip under the pinned toolbar, even if the toolbar swaps positioning modes. */
-.surat-premium.memorisation-progress-fixed .memorisation-progress-strip {
+:global(body.surat-route-page .surat-premium.memorisation-progress-fixed .memorisation-progress-strip) {
     position: fixed !important;
     left: 0 !important;
     right: 0 !important;
@@ -452,7 +456,7 @@
 }
 
 /* Same behaviour, but driven by body class to avoid dependency on the component root class attachment. */
-body.memorisation-progress-fixed .memorisation-progress-strip {
+:global(body.surat-route-page.memorisation-progress-fixed .memorisation-progress-strip) {
     position: fixed !important;
     left: 0 !important;
     right: 0 !important;
@@ -542,32 +546,41 @@ body.memorisation-progress-fixed .row[role="list"] {
 }
 
 .memorisation-progress-strip-track {
-    height: 8px;
+    height: 7px;
     border-radius: 999px;
-    background: rgba(15, 118, 110, 0.12);
+    background: rgba(11, 107, 89, 0.16);
     overflow: hidden;
-    box-shadow: 0 10px 24px rgba(7, 31, 28, 0.12);
-    margin: 0.55rem var(--memorisation-content-gutter, 24px) 0.55rem;
+    box-shadow: 0 12px 26px rgba(7, 31, 28, 0.12);
+    margin: 0.5rem 16px 0.65rem;
 }
 
 .memorisation-progress-strip-fill {
     display: block;
     height: 100%;
     border-radius: 999px;
-    background: linear-gradient(90deg, rgba(11, 95, 88, 0.58), rgba(11, 95, 88, 0.98));
+    background: linear-gradient(90deg, rgba(11, 107, 89, 0.55), rgba(11, 107, 89, 0.98));
     transition: width 240ms ease;
 }
 
 /* Toolbar tweaks for memorisation mode. */
 .quran-toolbar-btn--start-plan {
-    background: linear-gradient(135deg, rgba(11, 95, 88, 0.95), rgba(20, 184, 166, 0.78)) !important;
-    border-color: rgba(11, 95, 88, 0.65) !important;
-    box-shadow: 0 18px 32px rgba(11, 95, 88, 0.22), 0 2px 10px rgba(7, 31, 28, 0.12) !important;
+    background: #0f766e !important;
+    border-color: #0f766e !important;
+    box-shadow: 0 18px 34px rgba(11, 95, 88, 0.28), 0 2px 10px rgba(7, 31, 28, 0.12) !important;
     border-radius: 999px !important;
-    padding-inline: 1.15rem !important;
-    min-height: 44px !important;
+    padding-inline: 1.25rem !important;
+    min-height: 46px !important;
     transform: translateZ(0);
     transition: transform 160ms ease, box-shadow 160ms ease, filter 160ms ease;
+}
+
+.quran-toolbar-btn--start-plan .quran-toolbar-btn-icon-shell {
+    background: rgba(255, 255, 255, 0.16) !important;
+    border-radius: 999px !important;
+}
+
+.quran-toolbar-btn--start-plan .quran-toolbar-btn-copy {
+    padding-left: 0.1rem !important;
 }
 
 .quran-toolbar-btn--start-plan .quran-toolbar-btn-text {
@@ -586,6 +599,21 @@ body.memorisation-progress-fixed .row[role="list"] {
     filter: saturate(1.05) brightness(1.02);
     transform: translateY(-1px);
     box-shadow: 0 22px 38px rgba(11, 95, 88, 0.26), 0 3px 12px rgba(7, 31, 28, 0.14) !important;
+}
+
+/* Toolbar needs padding on both ends so controls never clip against the container edge. */
+.surat-premium .quran-toolbar-reader-actions .quran-toolbar-scroll-track {
+    padding-inline: 14px !important;
+    padding-block: 6px !important;
+    scroll-padding-inline: 14px !important;
+}
+
+.surat-premium .quran-toolbar-reader-actions .quran-toolbar-scroll-track > .quran-toolbar-btn:first-child {
+    margin-left: 2px !important;
+}
+
+.surat-premium .quran-toolbar-reader-actions .quran-toolbar-scroll-track > .quran-toolbar-btn:last-child {
+    margin-right: 2px !important;
 }
 
 .quran-toolbar-btn--memo-offcanvas {
@@ -661,6 +689,72 @@ body.memorisation-progress-fixed .row[role="list"] {
     max-width: 100% !important;
     background: transparent !important;
     border-radius: 0 !important;
+}
+
+/* ===== Surat Toolbar FINAL Overrides (must stay at end of file) ===== */
+:global(.surat-premium .quran-toolbar-reader-actions .quran-toolbar-scroll-track),
+:global(.surat-premium .quran-toolbar.quran-toolbar-reader .quran-toolbar-scroll-track) {
+    padding-inline: 16px !important;
+    padding-block: 8px !important;
+    scroll-padding-inline: 16px !important;
+}
+
+:global(.surat-premium .quran-toolbar-btn.quran-toolbar-btn--start-plan) {
+    background: #14532d !important; /* forest green */
+    border: 1px solid rgba(20, 83, 45, 0.92) !important;
+    color: #ffffff !important;
+    box-shadow: 0 14px 26px rgba(20, 83, 45, 0.28), 0 2px 10px rgba(7, 31, 28, 0.12) !important;
+    border-radius: 6px !important;
+    min-height: 46px !important;
+    padding-inline: 1.25rem !important;
+    outline: 0 !important;
+}
+
+:global(.surat-premium .quran-toolbar-btn.quran-toolbar-btn--start-plan .quran-toolbar-btn-text),
+:global(.surat-premium .quran-toolbar-btn.quran-toolbar-btn--start-plan i) {
+    color: #ffffff !important;
+}
+
+:global(.surat-premium .quran-toolbar-btn.quran-toolbar-btn--start-plan .quran-toolbar-btn-icon-shell) {
+    background: transparent !important;
+    border-radius: 6px !important;
+}
+
+:global(.surat-premium .quran-toolbar-btn.quran-toolbar-btn--start-plan .quran-toolbar-btn-main) {
+    gap: 0.6rem !important;
+}
+
+:global(.surat-premium .quran-toolbar-btn.quran-toolbar-btn--start-plan .quran-toolbar-btn-icon-shell) {
+    width: auto !important;
+    height: auto !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+}
+
+:global(.surat-premium .quran-toolbar-btn.quran-toolbar-btn--start-plan:hover),
+:global(.surat-premium .quran-toolbar-btn.quran-toolbar-btn--start-plan:focus-visible) {
+    filter: saturate(1.03) brightness(1.03) !important;
+    box-shadow: 0 18px 32px rgba(20, 83, 45, 0.34), 0 3px 12px rgba(7, 31, 28, 0.14) !important;
+}
+
+/* Streak chip: softer, premium, readable. */
+:global(.memorisation-streak-pill) {
+    background: rgba(11, 107, 89, 0.08) !important;
+    border: 1px solid rgba(11, 107, 89, 0.16) !important;
+    box-shadow: 0 10px 22px rgba(7, 38, 34, 0.06) !important;
+    color: rgba(15, 23, 42, 0.88) !important;
+    padding: 0.38rem 0.7rem !important;
+    gap: 0.5rem !important;
+}
+
+:global(.memorisation-streak-pill-label) {
+    color: rgba(11, 107, 89, 0.9) !important;
+    opacity: 1 !important;
+}
+
+:global(.memorisation-streak-pill-value) {
+    color: rgba(15, 23, 42, 0.9) !important;
+    font-weight: 950 !important;
 }
 
 /* Surat memorisation: final hard overrides (keep last). */
@@ -49305,7 +49399,7 @@ body.surat-route-page .memorisation-offcanvas-v3 {
     border-radius: 16px !important;
     border: 1px solid rgba(255, 255, 255, 0.22) !important;
     background: rgba(255, 255, 255, 0.14) !important;
-    color: #ffffff !important;
+    color: #111827 !important;
     box-shadow: none !important;
 }
 
@@ -49331,6 +49425,30 @@ body.surat-route-page .memorisation-offcanvas-v3 {
     border-radius: 18px !important;
     background: rgba(255, 255, 255, 0.94) !important;
     box-shadow: 0 12px 28px rgba(7, 38, 34, 0.08) !important;
+}
+
+.memorisation-streak-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.32rem 0.6rem;
+    border-radius: 999px;
+    background: rgba(15, 118, 110, 0.1);
+    color: rgba(10, 61, 57, 0.92);
+    font-weight: 900;
+    margin: 0 0 0.9rem;
+    width: max-content;
+}
+
+.memorisation-streak-pill-label {
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    opacity: 0.78;
+}
+
+.memorisation-streak-pill-value {
+    font-size: 0.92rem;
 }
 
 .memorisation-offcanvas-v3.surat-dark-modal .memorisation-tools-tabs {

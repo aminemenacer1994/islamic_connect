@@ -31,7 +31,28 @@ class AppServiceProvider extends ServiceProvider
             $manifestVersion = is_file($manifestPath) ? (string) filemtime($manifestPath) : 'missing';
             $resolverVersion = (string) filemtime(__FILE__);
 
-            $view->with('assetUrls', Cache::rememberForever("view.asset-urls.{$manifestVersion}.{$resolverVersion}", function () {
+            // Asset URLs were previously cached "forever" keyed only by mix-manifest mtime.
+            // In practice this can get stuck and make frontend changes look like they "never apply".
+            // Include the compiled asset mtimes in the cache key so any rebuild invalidates it.
+            $compiledFiles = [
+                'css/app.css',
+                'css/vue-runtime.css',
+                'css/layout.css',
+                'css/vue-styles.css',
+                'js/app.js',
+                'js/vendor.js',
+                'js/manifest.js',
+            ];
+            $compiledVersion = collect($compiledFiles)->map(function ($path) {
+                $full = public_path($path);
+                return is_file($full) ? (string) filemtime($full) : 'missing';
+            })->implode('.');
+
+            $view->with(
+                'assetUrls',
+                Cache::rememberForever(
+                    "view.asset-urls.{$manifestVersion}.{$compiledVersion}.{$resolverVersion}",
+                    function () {
                 return [
                     'css.app' => $this->resolveAssetUrl('css/app.css'),
                     'css.vue-runtime' => $this->resolveAssetUrl('css/vue-runtime.css'),
@@ -43,7 +64,9 @@ class AppServiceProvider extends ServiceProvider
                     'js.vendor' => $this->resolveAssetUrl('js/vendor.js'),
                     'js.app' => $this->resolveAssetUrl('js/app.js'),
                 ];
-            }));
+                }
+                )
+            );
         });
     }
 

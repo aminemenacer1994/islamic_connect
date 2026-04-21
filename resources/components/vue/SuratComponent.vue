@@ -1407,14 +1407,10 @@
                         Advanced
                     </button>
                 </div>
-                <p class="memorisation-tools-level-hint mb-0" role="note">
-                    <span v-if="!isMemorisationAdvancedMode">
-                        Beginner keeps it simple: pick a range, press Start, and recite along. You can still save and reload sessions.
-                    </span>
-                    <span v-else>
-                        Advanced gives you full control: repeat strategies, recall helpers, chaining method, and detailed history.
-                    </span>
-                </p>
+                <div class="memorisation-streak-pill" :title="hifdhConsistencyTooltip">
+                    <span class="memorisation-streak-pill-label">Streak</span>
+                    <span class="memorisation-streak-pill-value">{{ hifdhConsistencyPillLabel }}</span>
+                </div>
 
                 <div v-if="!isMemorisationAdvancedMode" class="memorisation-beginner-panel" aria-label="Beginner session setup">
                     <nav class="memorisation-jump-links" aria-label="Jump to section">
