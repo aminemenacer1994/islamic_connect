@@ -419,6 +419,10 @@
     padding: 0.45rem 1rem 0.7rem;
     display: grid;
     gap: 0.35rem;
+    position: sticky;
+    /* Stay fully visible below navbar + toolbar while scrolling. */
+    top: calc(var(--nav-offset, var(--navbar-h, 72px)) + 86px);
+    z-index: 1002;
     background:
         radial-gradient(1200px 160px at 30% 0%, rgba(20, 184, 166, 0.16), transparent 60%),
         radial-gradient(900px 140px at 80% 40%, rgba(245, 158, 11, 0.12), transparent 60%),
@@ -5752,6 +5756,77 @@
     border-color: rgba(15, 110, 99, 0.28);
     background: rgba(255, 255, 255, 0.84);
     color: #0b5f54;
+}
+
+/* Bottom "session saved" toast (premium, subtle). */
+.session-saved-toast {
+    position: fixed;
+    left: 50%;
+    bottom: 16px;
+    transform: translateX(-50%);
+    width: min(560px, calc(100vw - 22px));
+    z-index: 12000;
+    pointer-events: none;
+}
+
+.session-saved-toast-inner {
+    pointer-events: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    width: 100%;
+    padding: 0.7rem 0.95rem;
+    border-radius: 999px;
+    border: 1px solid rgba(15, 118, 110, 0.22);
+    background: rgba(255, 255, 255, 0.92);
+    color: rgba(15, 23, 42, 0.86);
+    font-weight: 800;
+    box-shadow: 0 18px 40px rgba(7, 31, 28, 0.16);
+    backdrop-filter: blur(10px);
+}
+
+.session-saved-toast-inner .bi {
+    color: #0f766e;
+    flex: 0 0 auto;
+}
+
+.slide-up-enter-active,
+.slide-up-leave-active {
+    transition: transform 200ms cubic-bezier(0.2, 0.9, 0.2, 1), opacity 180ms ease;
+}
+
+.slide-up-enter-from,
+.slide-up-leave-to {
+    transform: translateX(-50%) translateY(14px);
+    opacity: 0;
+}
+
+.slide-up-enter-to,
+.slide-up-leave-from {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+}
+
+.memorisation-progress-strip-meta {
+    display: grid;
+    justify-items: end;
+    gap: 0.05rem;
+}
+
+.memorisation-progress-strip-identity {
+    font-size: 0.82rem;
+    font-weight: 900;
+    color: rgba(15, 23, 42, 0.82);
+    max-width: min(64vw, 520px);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.memorisation-progress-strip-range {
+    font-size: 0.76rem;
+    font-weight: 850;
+    color: rgba(15, 23, 42, 0.62);
 }
 
 .continue-surah-container {
@@ -11099,6 +11174,16 @@ h1.display-5 {
     top: var(--nav-offset, var(--navbar-h, 72px));
     z-index: 1000;
     margin: 0 0 10px;
+}
+
+/* Prevent the memorisation progress strip (rendered under the toolbar) from being clipped while sticky. */
+.quran-toolbar-sticky.memorisation-toolbar-active {
+    overflow: visible !important;
+}
+
+.quran-toolbar-sticky.memorisation-toolbar-active .quran-toolbar,
+.quran-toolbar-sticky.memorisation-toolbar-active .quran-toolbar-reader-actions {
+    overflow: visible !important;
 }
 
 .quran-toolbar-sticky.is-mobile-playlist-shell {
@@ -47169,6 +47254,8 @@ h1.display-5 {
         scrollbar-width: none !important;
         min-width: 0 !important;
         width: 100% !important;
+        padding-left: 12px !important;
+        padding-right: 12px !important;
     }
 
     .surat-premium .quran-toolbar-scroll-track::-webkit-scrollbar {
@@ -48049,7 +48136,7 @@ h1.display-5 {
 
     .surat-premium.memorisation-sidebar-open .quran-toolbar-sticky {
         padding-right: 0 !important;
-        overflow: hidden !important;
+        overflow: visible !important;
     }
 
     .surat-premium.memorisation-sidebar-open .quran-toolbar.quran-toolbar-reader,
@@ -48057,7 +48144,7 @@ h1.display-5 {
         width: 100% !important;
         max-width: 100% !important;
         min-width: 0 !important;
-        overflow: hidden !important;
+        overflow: visible !important;
     }
 
     .surat-premium.memorisation-sidebar-open .quran-toolbar-scroll-track {
@@ -48473,9 +48560,92 @@ body.hifz-modal-open .memorisation-toolbar-sticky {
     }
 }
 
+.memorisation-shortcut-hints {
+    margin: 0 0 0.55rem !important;
+    padding: 0.55rem 0.7rem !important;
+    border-radius: 14px !important;
+    background: rgba(15, 118, 110, 0.06) !important;
+    border: 1px solid rgba(15, 118, 110, 0.12) !important;
+    color: rgba(15, 23, 42, 0.78) !important;
+    font-size: 0.86rem !important;
+    line-height: 1.35 !important;
+}
+
+.memorisation-jump-links {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 0.35rem !important;
+    margin: 0 0 0.65rem !important;
+}
+
+.memorisation-jump-link {
+    padding: 0.35rem 0.55rem !important;
+    border-radius: 999px !important;
+    border: 1px solid rgba(15, 118, 110, 0.14) !important;
+    background: rgba(255, 255, 255, 0.78) !important;
+    color: rgba(15, 23, 42, 0.78) !important;
+    font-weight: 800 !important;
+    font-size: 0.82rem !important;
+}
+
+.memorisation-jump-link:hover,
+.memorisation-jump-link:focus-visible {
+    border-color: rgba(15, 118, 110, 0.26) !important;
+    background: rgba(15, 118, 110, 0.08) !important;
+}
+
+.memorisation-anchor {
+    display: block !important;
+    position: relative !important;
+    top: -10px !important;
+    height: 0 !important;
+}
+
 /* Ensure memorisation tooltips sit above sticky toolbars/offcanvas chrome. */
 .tooltip.memorisation-tooltip {
     z-index: 20000 !important;
+}
+
+/* Playback word hover/tap polish. */
+:deep(.ayah-word),
+:deep(.ayah-transliteration-word) {
+    transition: transform 180ms ease, box-shadow 180ms ease, filter 180ms ease, background-color 180ms ease;
+}
+
+:deep(.ayah-word:hover),
+:deep(.ayah-word:focus-visible),
+:deep(.ayah-transliteration-word:hover),
+:deep(.ayah-transliteration-word:focus-visible) {
+    transform: translateY(-1px) scale(1.05);
+    filter: saturate(1.12);
+    box-shadow: 0 10px 20px rgba(7, 31, 28, 0.12);
+}
+
+:deep(.ayah-word:hover .ayah-word-ar),
+:deep(.ayah-word:focus-visible .ayah-word-ar) {
+    filter: saturate(1.25) contrast(1.05);
+}
+
+/* Active word RTL fill (subtle, synced-ish). */
+:deep(.ayah-word.is-audio-active .ayah-word-ar)::before {
+    content: "";
+    position: absolute;
+    left: 0.12em;
+    right: 0.12em;
+    bottom: 0.02em;
+    height: 0.22em;
+    border-radius: 999px;
+    background: currentColor;
+    opacity: 0.12;
+    transform: scaleX(0);
+    transform-origin: 100% 50%;
+    animation: rtl-active-fill 520ms cubic-bezier(0.2, 1, 0.2, 1) both;
+    pointer-events: none;
+}
+
+@keyframes rtl-active-fill {
+    from { transform: scaleX(0); }
+    to { transform: scaleX(1); }
 }
 
 /* Final memorisation tools polish: clean panel, safe toolbar lane, and saved-session actions. */
@@ -48505,7 +48675,7 @@ body.hifz-modal-open .memorisation-toolbar-sticky {
         left: 0 !important;
         right: auto !important;
         z-index: 1030 !important;
-        clip-path: inset(0 0 0 0 round 20px) !important;
+        clip-path: none !important;
     }
 
     .surat-premium.memorisation-sidebar-open .quran-toolbar.quran-toolbar-reader,

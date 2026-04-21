@@ -4,6 +4,7 @@ import { Form } from "vform";
 import swal from "sweetalert2";
 import PrimeVue from "primevue/config";
 import { ref, onMounted } from 'vue';
+
 // Removed session milestone tracking
 
 const DARK_MODE_STORAGE_KEY = 'darkMode';

@@ -882,6 +882,8 @@ export default {
             bookmarkToast: "",
             bookmarkToastAction: null,
             bookmarkToastTimer: null,
+            sessionSavedToast: "",
+            sessionSavedToastTimer: null,
             bookmarkInstanceId: `surat-${Math.random().toString(36).slice(2)}`,
             bookmarkEventHandler: null,
             bookmarkStorageHandler: null,
@@ -1731,6 +1733,25 @@ export default {
                     return "Focuses on transitions by practicing the link between adjacent ayahs.";
                 }
                 return "Choose a chaining mode for an explanation.";
+            },
+            selectedReciterName() {
+                const id = String(this.selectedReciter || "").trim();
+                const reciter =
+                    (this.recitersSorted || []).find(
+                        (item) => String(item?.identifier || "") === id
+                    ) || null;
+                return String(reciter?.englishName || "Reciter").trim() || "Reciter";
+            },
+            memorisationPracticeIdentityLabel() {
+                const surahNumber = Number(
+                    this.surahDetails?.surahNumber || this.selectedSurah || 0
+                );
+                const surahName =
+                    this.surahDetails?.englishName ||
+                    this.currentSurahInfo?.englishName ||
+                    this.getSurahNameByNumber(surahNumber) ||
+                    (surahNumber ? `Surah ${surahNumber}` : "Surah");
+                return `${surahNumber ? `${surahNumber}. ` : ""}${surahName} · ${this.selectedReciterName}`;
             },
         sidebarPinnedSurahNumber() {
             const currentSurahNumber = Number(
@@ -13073,6 +13094,13 @@ export default {
                 this.bookmarkToastAction = null;
             }, timeout);
         },
+        showSessionSavedToast(message, timeout = 2400) {
+            this.sessionSavedToast = String(message || "").trim();
+            clearTimeout(this.sessionSavedToastTimer);
+            this.sessionSavedToastTimer = setTimeout(() => {
+                this.sessionSavedToast = "";
+            }, timeout);
+        },
         handleBookmarkToastAction() {
             const action = this.bookmarkToastAction;
             if (!action || typeof action.handler !== "function") return;
@@ -15374,6 +15402,16 @@ export default {
                         .filter((value) => Number.isFinite(value) && value > 0)
                 )
             ).sort((left, right) => left - right);
+            const reciterIdentifier = String(
+                sessionConfig.reciterIdentifier ||
+                    sessionConfig.selectedReciter ||
+                    this.selectedReciter ||
+                    ""
+            ).trim();
+            const reciterName =
+                (this.recitersSorted || []).find(
+                    (item) => String(item?.identifier || "") === reciterIdentifier
+                )?.englishName || "";
             return this.normalizeSessionHistoryEntry({
                 id: tracker.id || this.createSessionHistoryEntryId(),
                 sessionId: tracker.sessionId || tracker.id,
@@ -15401,7 +15439,9 @@ export default {
                         ? this.resolveSessionHistoryAccuracyScore(sessionConfig)
                         : tracker.accuracyScore,
                 note: String(tracker.note || "").trim(),
-                sessionName: "",
+                sessionName: `${this.getSurahNameByNumber(surahNumber)} ${rangeStart}-${rangeEnd}${
+                    reciterName ? ` · ${reciterName}` : ""
+                }`,
                 completionReason: reason,
                 sessionConfig,
             });
@@ -15453,11 +15493,8 @@ export default {
             this.setSessionHistoryEntries(nextEntries);
             this.persistSessionHistory();
             if (String(reason || "").trim() === "completed") {
-                this.showToast(
-                    `Session complete${entry.sessionName ? `: ${entry.sessionName}` : ""}.`,
-                    2600
-                );
-                this.triggerMemorisationCompletionConfetti();
+                this.showSessionSavedToast(`Session saved ✓  ${entry.sessionName}`);
+                this.triggerMemorisationSavedConfetti();
             }
             this.maybeCelebrateSessionHistoryMilestones(entry, previousEntries);
             return entry;
@@ -17227,6 +17264,39 @@ export default {
                     layer.parentNode.removeChild(layer);
                 }
             }, 2300);
+            this.memorisationConfettiTimeouts.push(timeoutId);
+        },
+        triggerMemorisationSavedConfetti() {
+            if (typeof document === "undefined") return;
+            if (
+                typeof window !== "undefined" &&
+                window.matchMedia &&
+                window.matchMedia("(prefers-reduced-motion: reduce)").matches
+            ) {
+                return;
+            }
+            const layer = document.createElement("div");
+            layer.className = "memorisation-confetti-layer";
+            layer.setAttribute("aria-hidden", "true");
+            const palette = ["#0f766e", "#14b8a6", "#22c55e", "#86efac"];
+            for (let i = 0; i < 14; i += 1) {
+                const piece = document.createElement("span");
+                piece.className = "memorisation-confetti-piece";
+                piece.style.setProperty("--memo-confetti-x", `${Math.round(Math.random() * 100)}%`);
+                piece.style.setProperty("--memo-confetti-delay", `${(Math.random() * 0.12).toFixed(2)}s`);
+                piece.style.setProperty("--memo-confetti-duration", `${(0.75 + Math.random() * 0.55).toFixed(2)}s`);
+                piece.style.setProperty(
+                    "--memo-confetti-color",
+                    palette[Math.floor(Math.random() * palette.length)]
+                );
+                layer.appendChild(piece);
+            }
+            document.body.appendChild(layer);
+            const timeoutId = setTimeout(() => {
+                if (layer && layer.parentNode) {
+                    layer.parentNode.removeChild(layer);
+                }
+            }, 1600);
             this.memorisationConfettiTimeouts.push(timeoutId);
         },
         clearMemorisationConfettiLayers() {
@@ -25018,6 +25088,9 @@ export default {
             if (isTypingContext) {
                 return;
             }
+            if (this.handleMemorisationShortcut(e)) {
+                return;
+            }
             if (
                 key === "/" &&
                 !e.metaKey &&
@@ -25067,6 +25140,82 @@ export default {
                     this.goToLastCard();
                     break;
             }
+        },
+        handleMemorisationShortcut(e) {
+            if (!e) return false;
+            if (e.metaKey || e.ctrlKey || e.altKey) return false;
+            if (!this.isMemorisationToolbarVisible && !this.isMemorisationMode) return false;
+            const key = String(e.key || "");
+            const normalized = key.toLowerCase();
+            if (!normalized) return false;
+
+            // Space: play/pause
+            if (key === " ") {
+                e.preventDefault();
+                this.toggleMemorisationPlayPause();
+                return true;
+            }
+            // R: repeat (range loop)
+            if (normalized === "r") {
+                e.preventDefault();
+                this.onMemorisationToolbarToggleRangeLoop();
+                this.showModeToggleToast("Repeat range", !!this.memorisationRangeLoopEnabled);
+                return true;
+            }
+            // C: chaining
+            if (normalized === "c") {
+                e.preventDefault();
+                this.toggleMemorisationChainingShortcut();
+                return true;
+            }
+            // S: save session now
+            if (normalized === "s") {
+                e.preventDefault();
+                this.saveMemorisationSessionNow();
+                return true;
+            }
+            return false;
+        },
+        toggleMemorisationPlayPause() {
+            const playingIndex = Number(this.currentlyPlayingIndex);
+            const index = Number.isInteger(playingIndex) && playingIndex >= 0
+                ? playingIndex
+                : Number(this.memorisationPlayIndex ?? this.memorisationFocusIndexSafe ?? 0);
+            if (!Number.isFinite(index) || index < 0) return;
+            this.toggleAudioPlayer(index);
+        },
+        toggleMemorisationChainingShortcut() {
+            const current = !!this.memorisationDraft?.chainingMethodEnabled;
+            if (!this.memorisationDraft) this.memorisationDraft = {};
+            this.memorisationDraft.chainingMethodEnabled = !current;
+            // Keep runtime state in sync where needed.
+            this.memorisationChainingEnabled = !!this.memorisationDraft.chainingMethodEnabled;
+            this.syncMemorisationDraftFromCurrentSession();
+            this.showModeToggleToast("Chaining", !!this.memorisationDraft.chainingMethodEnabled);
+        },
+        scrollMemorisationOffcanvasTo(anchorId = "") {
+            if (typeof document === "undefined") return;
+            const id = String(anchorId || "").trim();
+            if (!id) return;
+            const host = document.getElementById("memorisationOffcanvas");
+            if (!host) return;
+            const target = host.querySelector(`#${CSS.escape(id)}`);
+            if (!target || typeof target.scrollIntoView !== "function") return;
+            try {
+                target.scrollIntoView({ behavior: "smooth", block: "start" });
+            } catch (_) {
+                target.scrollIntoView(true);
+            }
+        },
+        saveMemorisationSessionNow() {
+            if (!this.memorisationSessionHistoryEnabled || Number(this.userId || 0) <= 0) {
+                this.showToast("Enable “Save session” to store sessions.", 2400);
+                return;
+            }
+            // Ensure there is a tracker, then force-finalize.
+            this.startSessionHistoryTracking({ reason: "started" });
+            const entry = this.finalizeSessionHistoryEntry("completed", { force: true });
+            if (!entry) this.showToast("Nothing to save yet.", 2200);
         },
         handleAyahCardTap(index) {
             const safeIndex = Number(index);

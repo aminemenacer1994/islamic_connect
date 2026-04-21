@@ -199,6 +199,19 @@
                 </button>
             </div>
         </transition>
+        <transition name="slide-up">
+            <div
+                v-if="sessionSavedToast"
+                class="session-saved-toast"
+                role="status"
+                aria-live="polite"
+                aria-atomic="true">
+                <div class="session-saved-toast-inner">
+                    <i class="bi bi-check-circle-fill" aria-hidden="true"></i>
+                    <span>{{ sessionSavedToast }}</span>
+                </div>
+            </div>
+        </transition>
         <div
             v-if="showReaderToolbar && isTabletOrMobile && !isMemorisationToolbarVisible"
             class="row justify-content-center mb-3">
@@ -1018,7 +1031,8 @@
                             type="button"
                             class="quran-toolbar-btn quran-toolbar-btn-reader-control quran-toolbar-btn--start-plan"
                             @click="openCustomHifzPlanFromSurat"
-                            aria-label="Create a custom hifz plan">
+                            aria-label="Create a custom hifz plan"
+                            title="Start plan">
                             <span class="quran-toolbar-btn-main">
                                 <span class="quran-toolbar-btn-icon-shell" aria-hidden="true">
                                     <i class="bi bi-calendar2-check" aria-hidden="true"></i>
@@ -1036,7 +1050,8 @@
                             @click="toggleToolbarWordForWordHighlight"
                             :aria-label="transliterationWordHighlightEnabled
                                 ? 'Turn word-by-word highlighting off'
-                                : 'Turn word-by-word highlighting on'">
+                                : 'Turn word-by-word highlighting on'"
+                            title="Word highlight (toggle)">
                             <span class="quran-toolbar-btn-main">
                                 <span class="quran-toolbar-btn-icon-shell" aria-hidden="true">
                                     <i class="bi bi-highlighter"></i>
@@ -1335,7 +1350,8 @@
                         </span>
                     </div>
                     <div class="memorisation-progress-strip-meta">
-                        Range {{ memorisationProgressStripMeta.start }}-{{ memorisationProgressStripMeta.end }}
+                        <span class="memorisation-progress-strip-identity">{{ memorisationPracticeIdentityLabel }}</span>
+                        <span class="memorisation-progress-strip-range">Range {{ memorisationProgressStripMeta.start }}-{{ memorisationProgressStripMeta.end }}</span>
                     </div>
                 </div>
                 <div class="memorisation-progress-strip-track" aria-hidden="true">
@@ -1373,6 +1389,9 @@
                 <i class="bi bi-x-lg" aria-hidden="true"></i>
             </button>
             <div class="offcanvas-body">
+                <p class="memorisation-shortcut-hints" aria-label="Keyboard shortcuts">
+                    Shortcuts: <strong>Space</strong> play/pause · <strong>R</strong> repeat · <strong>C</strong> chaining · <strong>←/→</strong> prev/next · <strong>S</strong> save
+                </p>
                 <div class="memorisation-tools-tabs" role="tablist" aria-label="Memorisation tool level">
                     <button
                         type="button"
@@ -1393,6 +1412,23 @@
                 </div>
 
                 <div v-if="!isMemorisationAdvancedMode" class="memorisation-beginner-panel" aria-label="Beginner session setup">
+                    <section class="memorisation-tools-card memorisation-tools-card--guide" aria-label="What to do">
+                        <div class="memorisation-tools-card-head">
+                            <div class="memorisation-tools-card-title">
+                                <h5 class="mb-0">What to do</h5>
+                                <p class="mb-0">Three steps to start practising.</p>
+                            </div>
+                        </div>
+                        <div class="memorisation-tools-grid">
+                            <div class="memorisation-tools-field memorisation-tools-field--full">
+                                <ol class="mb-0 ps-3">
+                                    <li>Pick a Surah.</li>
+                                    <li>Press <strong>Start Session</strong>.</li>
+                                    <li>Recite along with the reciter.</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </section>
                     <section class="memorisation-tools-card" aria-label="Session foundation">
                         <div class="memorisation-tools-card-head">
                             <div class="memorisation-tools-card-title">
@@ -1689,7 +1725,15 @@
                 </div>
 
                 <div v-else class="memorisation-advanced-panel" aria-label="Advanced memorisation setup">
+                    <nav class="memorisation-jump-links" aria-label="Jump to section">
+                        <button type="button" class="btn memorisation-jump-link" @click="scrollMemorisationOffcanvasTo('memo-advanced-setup')">Setup</button>
+                        <button type="button" class="btn memorisation-jump-link" @click="scrollMemorisationOffcanvasTo('memo-advanced-playback')">Playback</button>
+                        <button type="button" class="btn memorisation-jump-link" @click="scrollMemorisationOffcanvasTo('memo-advanced-repeat')">Repeat</button>
+                        <button type="button" class="btn memorisation-jump-link" @click="scrollMemorisationOffcanvasTo('memo-advanced-chaining')">Chaining</button>
+                        <button type="button" class="btn memorisation-jump-link" @click="scrollMemorisationOffcanvasTo('memo-advanced-history')">History</button>
+                    </nav>
                     <section class="memorisation-tools-card" aria-label="Advanced setup">
+                        <span id="memo-advanced-setup" class="memorisation-anchor" aria-hidden="true"></span>
                         <div class="memorisation-tools-card-head">
 	                            <div class="memorisation-tools-card-title">
 	                                <h5 class="mb-0"><i class="bi bi-sliders2 me-1" aria-hidden="true"></i>Session Setup</h5>
@@ -1819,6 +1863,7 @@
                     </section>
 
                     <section class="memorisation-tools-card" aria-label="Playback and repetition settings">
+                        <span id="memo-advanced-playback" class="memorisation-anchor" aria-hidden="true"></span>
                         <div class="memorisation-tools-card-head">
 	                            <div class="memorisation-tools-card-title">
 	                                <h5 class="mb-0"><i class="bi bi-play-circle me-1" aria-hidden="true"></i>Playback</h5>
@@ -1926,6 +1971,52 @@
                         </div>
                     </section>
 
+                    <section class="memorisation-tools-card" aria-label="Repeat helpers">
+                        <span id="memo-advanced-repeat" class="memorisation-anchor" aria-hidden="true"></span>
+                        <div class="memorisation-tools-card-head">
+                            <div class="memorisation-tools-card-title">
+                                <h5 class="mb-0"><i class="bi bi-arrow-repeat me-1" aria-hidden="true"></i>Repeat</h5>
+                                <p class="mb-0">Range loops and repeat-after-recite practice.</p>
+                            </div>
+                            <button
+                                type="button"
+                                class="btn memorisation-section-toggle"
+                                @click="toggleMemorisationAdvancedSection('repeat')"
+                                :aria-expanded="isMemorisationAdvancedSectionOpen('repeat') ? 'true' : 'false'"
+                                aria-label="Toggle repeat section">
+                                <i class="bi" :class="isMemorisationAdvancedSectionOpen('repeat') ? 'bi-chevron-up' : 'bi-chevron-down'" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                        <div v-show="isMemorisationAdvancedSectionOpen('repeat')" class="memorisation-tools-grid memorisation-advanced-section-body">
+                            <label class="memorisation-tools-switch memorisation-tools-field--full">
+                                <span class="memorisation-tools-switch-copy">
+                                    <strong>Repeat range</strong>
+                                    <small>Loop the selected ayah range during practice.</small>
+                                </span>
+                                <span class="form-check form-switch mb-0">
+                                    <input
+                                        class="form-check-input"
+                                        type="checkbox"
+                                        v-model="memorisationDraft.rangeLoopEnabled"
+                                        aria-label="Toggle repeat range" />
+                                </span>
+                            </label>
+                            <label class="memorisation-tools-switch memorisation-tools-field--full">
+                                <span class="memorisation-tools-switch-copy">
+                                    <strong>Repeat after reciter</strong>
+                                    <small>Pause after each ayah so you can recite it back.</small>
+                                </span>
+                                <span class="form-check form-switch mb-0">
+                                    <input
+                                        class="form-check-input"
+                                        type="checkbox"
+                                        v-model="memorisationDraft.repeatAfterReciterEnabled"
+                                        aria-label="Toggle repeat after reciter" />
+                                </span>
+                            </label>
+                        </div>
+                    </section>
+
                     <section class="memorisation-tools-card" aria-label="Repeat after reciter settings">
                         <div class="memorisation-tools-card-head">
 	                            <div class="memorisation-tools-card-title">
@@ -1991,6 +2082,7 @@
                     </section>
 
                     <section class="memorisation-tools-card" aria-label="Chaining method settings">
+                        <span id="memo-advanced-chaining" class="memorisation-anchor" aria-hidden="true"></span>
                         <div class="memorisation-tools-card-head">
 	                            <div class="memorisation-tools-card-title">
 	                                <h5 class="mb-0">
@@ -2125,6 +2217,7 @@
                     </section>
 
                     <section class="memorisation-tools-card" aria-label="History">
+                        <span id="memo-advanced-history" class="memorisation-anchor" aria-hidden="true"></span>
                         <div class="memorisation-tools-card-head">
 	                            <div class="memorisation-tools-card-title">
 	                                <h5 class="mb-0"><i class="bi bi-clock-history me-1" aria-hidden="true"></i>History</h5>
@@ -5021,7 +5114,7 @@
                                     </button>
                                     <p
                                         :class="[
-		                                            'arabic-text rtl-text text-end mb-3',
+		                                            'arabic-text rtl-text text-end mb-3 w-100',
 		                                            {
 		                                                'repeat-pause-text-dimmed':
 		                                                    shouldDimVerseTextForRepeatPause(item.index),

@@ -56,6 +56,7 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 
 
+
 // Removed session milestone tracking
 
 const DARK_MODE_STORAGE_KEY = 'darkMode';
