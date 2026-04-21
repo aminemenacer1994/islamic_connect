@@ -6246,6 +6246,11 @@ export default {
                 this.closeMemorisationOffcanvas();
             }
         },
+        memorisationProgressStripMeta(newVal) {
+            if (!this.isMemorisationToolbarVisible) return;
+            if (!newVal) return;
+            this.$nextTick(() => this.syncMemorisationProgressStripSticky(true));
+        },
         isBlurNextAyahEnabled(newVal) {
             this.writeScopedBooleanPreference(
                 "suratIsBlurNextAyahEnabled",
@@ -6378,11 +6383,8 @@ export default {
         // postpone loading until we know the authentication status
     },
     async mounted() {
-        if (!this.hasSeenTour) {
-            setTimeout(() => {
-                this.startGuidedTour();
-            }, 1500);
-        }
+        // Do not auto-start onboarding on load. It can leave a stuck backdrop and "grey out" the page.
+        // Users can still open onboarding manually from the UI (More tools).
         if (typeof window !== "undefined") {
             if ("scrollRestoration" in window.history) {
                 window.history.scrollRestoration = "manual";
@@ -6840,6 +6842,14 @@ export default {
                 await this.autoOpenMemorisationToolsFromQuery();
             });
         }
+
+        // Backstop: if a backdrop/body class gets stuck, force-clear it shortly after load.
+        this.$nextTick(() => {
+            this.forceClearSuratOverlays({ force: true });
+        });
+        setTimeout(() => {
+            this.forceClearSuratOverlays({ force: true });
+        }, 450);
     },
         beforeUnmount() {
             this.isComponentAlive = false;
@@ -12069,6 +12079,7 @@ export default {
         },
         syncMemorisationOffcanvasDockedWidth() {
             if (typeof window === "undefined") return;
+            this.syncMemorisationOffcanvasPreferredWidth();
             const panel = this.$refs?.memorisationOffcanvas;
             if (!panel) return;
             const measured = Math.round(
@@ -12101,6 +12112,44 @@ export default {
                 );
             } catch (_) {}
             this.scheduleAudioPlayerLayoutUpdate();
+        },
+        syncMemorisationOffcanvasPreferredWidth() {
+            if (typeof window === "undefined") return;
+            try {
+                const root = document?.documentElement;
+                if (!root) return;
+                // Mobile/tablet: use full width sheet.
+                if (this.isTabletOrMobile) {
+                    root.style.setProperty("--memo-v3-panel-width", "100vw");
+                    root.style.setProperty("--memorisation-panel-docked-width", "100vw");
+                    return;
+                }
+
+                // Desktop: make the panel fill the "right gutter" up to the ayah container edge.
+                const host =
+                    this.$el?.closest?.(".surat-premium") ||
+                    document.querySelector(".surat-premium") ||
+                    this.$el;
+                const verseContainer =
+                    host?.querySelector?.('.row[role="list"]') ||
+                    host?.querySelector?.(".surah-ayahs") ||
+                    document.querySelector('.row[role="list"]') ||
+                    null;
+                const rect = verseContainer?.getBoundingClientRect?.();
+                const containerRight = rect ? rect.right : null;
+                const viewportW = window.innerWidth || 0;
+
+                let target = 520;
+                if (Number.isFinite(containerRight) && containerRight > 0) {
+                    // +16 to avoid a thin gap due to subpixel rounding.
+                    target = Math.round(Math.max(0, viewportW - containerRight + 16));
+                }
+
+                // Keep it sensible if layout changes or container is missing.
+                target = Math.max(360, Math.min(760, target || 0));
+                root.style.setProperty("--memo-v3-panel-width", `${target}px`);
+                root.style.setProperty("--memorisation-panel-docked-width", `${target}px`);
+            } catch (_) {}
         },
         resetDesktopToolbarScrollPosition() {
             if (this.isTabletOrMobile) return;
@@ -12246,6 +12295,43 @@ export default {
             this.disposeMemorisationTooltips();
             this.isMemorisationOffcanvasVisible = false;
             this.hideMemorisationSubmitAlert();
+            this.$nextTick(() => {
+                this.forceClearSuratOverlays();
+            });
+        },
+        forceClearSuratOverlays({ force = false } = {}) {
+            if (typeof document === "undefined") return;
+
+            const hasShownModal = !!document.querySelector(".modal.show");
+            const hasShownBsOffcanvas = !!document.querySelector(".offcanvas.show");
+            const shouldClear =
+                !!force ||
+                (!hasShownModal &&
+                    !hasShownBsOffcanvas &&
+                    !this.isMemorisationOffcanvasVisible);
+
+            if (!shouldClear) return;
+
+            try {
+                document.body.classList.remove(
+                    "modal-open",
+                    "memorisation-sidebar-lock",
+                    "surat-onboarding-backdrop-active"
+                );
+                document.body.style.removeProperty("padding-right");
+            } catch (_) {}
+
+            try {
+                document
+                    .querySelectorAll(
+                        ".modal-backdrop, .offcanvas-backdrop, .memorisation-sidebar-backdrop"
+                    )
+                    .forEach((el) => {
+                        try {
+                            el.remove();
+                        } catch (_) {}
+                    });
+            } catch (_) {}
         },
         initializeMemorisationTooltips() {
             this.disposeMemorisationTooltips();
@@ -13159,6 +13245,12 @@ export default {
                 this.$el;
             if (!host || typeof host.classList?.toggle !== "function") return;
             host.classList.toggle("memorisation-progress-fixed", active);
+            try {
+                document.body?.classList?.toggle(
+                    "memorisation-progress-fixed",
+                    active
+                );
+            } catch (_) {}
             if (!active) {
                 try {
                     host.style.removeProperty("--memo-progress-top");

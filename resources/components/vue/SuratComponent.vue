@@ -1332,7 +1332,7 @@
                 </button>
             </div>
             <div
-                v-if="isMemorisationToolbarVisible && memorisationProgressStripMeta"
+                v-if="isMemorisationToolbarVisible"
                 class="memorisation-progress-strip"
                 role="status"
                 aria-live="polite"
@@ -1340,24 +1340,24 @@
                 <div class="memorisation-progress-strip-row">
                     <div class="memorisation-progress-strip-chips">
                         <span class="memorisation-progress-chip">
-                            Now on <strong>Ayah {{ memorisationProgressStripMeta.current }}</strong>
+                            Now on <strong>Ayah {{ memorisationProgressStripMeta?.current ?? "—" }}</strong>
                             <span class="memorisation-progress-chip-sub">
-                                ({{ memorisationProgressStripMeta.ayahPos }}/{{ memorisationProgressStripMeta.total }})
+                                ({{ memorisationProgressStripMeta?.ayahPos ?? "—" }}/{{ memorisationProgressStripMeta?.total ?? "—" }})
                             </span>
                         </span>
                         <span class="memorisation-progress-chip">
-                            Repeat <strong>{{ memorisationProgressStripMeta.roundPos }}</strong>/<span>{{ memorisationProgressStripMeta.roundTotal }}</span>
+                            Repeat <strong>{{ memorisationProgressStripMeta?.roundPos ?? "—" }}</strong>/<span>{{ memorisationProgressStripMeta?.roundTotal ?? "—" }}</span>
                         </span>
                     </div>
                     <div class="memorisation-progress-strip-meta">
                         <span class="memorisation-progress-strip-identity">{{ memorisationPracticeIdentityLabel }}</span>
-                        <span class="memorisation-progress-strip-range">Range {{ memorisationProgressStripMeta.start }}-{{ memorisationProgressStripMeta.end }}</span>
+                        <span class="memorisation-progress-strip-range">Range {{ memorisationProgressStripMeta?.start ?? "—" }}-{{ memorisationProgressStripMeta?.end ?? "—" }}</span>
                     </div>
                 </div>
                 <div class="memorisation-progress-strip-track" aria-hidden="true">
                     <span
                         class="memorisation-progress-strip-fill"
-                        :style="{ width: `${memorisationProgressStripPercent}%` }"></span>
+                        :style="{ width: `${memorisationProgressStripPercent || 0}%` }"></span>
                 </div>
             </div>
         </div>
@@ -1366,8 +1366,8 @@
 
         <!-- Memorisation right offcanvas -->
         <div
-            class="memorisation-sidebar-backdrop"
-            :class="{ 'is-open': isMemorisationOffcanvasVisible && isTabletOrMobile }"
+            v-if="isMemorisationOffcanvasVisible && isTabletOrMobile"
+            class="memorisation-sidebar-backdrop is-open"
             role="presentation"
             aria-hidden="true"
             @click="closeMemorisationOffcanvas"></div>
@@ -1415,15 +1415,6 @@
                         Advanced gives you full control: repeat strategies, recall helpers, chaining method, and detailed history.
                     </span>
                 </p>
-
-                <details class="memorisation-shortcuts-disclosure" open>
-                    <summary class="memorisation-shortcuts-summary">
-                        Keyboard shortcuts
-                    </summary>
-                    <p class="memorisation-shortcut-hints mb-0" aria-label="Keyboard shortcuts">
-                        <strong>Space</strong> play/pause · <strong>R</strong> repeat · <strong>C</strong> chaining · <strong>←/→</strong> prev/next · <strong>S</strong> save
-                    </p>
-                </details>
 
                 <div v-if="!isMemorisationAdvancedMode" class="memorisation-beginner-panel" aria-label="Beginner session setup">
                     <nav class="memorisation-jump-links" aria-label="Jump to section">
