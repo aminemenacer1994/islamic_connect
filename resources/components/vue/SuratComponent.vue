@@ -790,8 +790,8 @@
             v-if="isMemorisationToolbarVisible"
             class="memorisation-tools-hero ltr-text"
             :style="getMemorisationContentLaneStyle()"
-            aria-label="Quran Memorisation Tools intro">
-            <h2 class="mb-0">Quran Memorisation Tools</h2>
+            aria-label="Quran Memorisation intro">
+            <h2 class="mb-0">Quran Memorisation</h2>
             <p class="mb-0">
                 A focused memorisation workspace for setting your session, shaping repetition and recall support, and tracking progress.
                 It connects setup, listening, and revision so daily practice turns into long-term retention and confident recitation.
@@ -1016,7 +1016,41 @@
                         <button
                             v-if="isMemorisationToolbarVisible && !isReaderToolbarMinimized"
                             type="button"
-	                            class="quran-toolbar-btn quran-toolbar-btn-toggle quran-toolbar-btn-reader-control quran-toolbar-tools-icon-only"
+                            class="quran-toolbar-btn quran-toolbar-btn-reader-control quran-toolbar-btn--start-plan"
+                            @click="openCustomHifzPlanFromSurat"
+                            aria-label="Create a custom hifz plan">
+                            <span class="quran-toolbar-btn-main">
+                                <span class="quran-toolbar-btn-icon-shell" aria-hidden="true">
+                                    <i class="bi bi-calendar2-check" aria-hidden="true"></i>
+                                </span>
+                                <span class="quran-toolbar-btn-copy">
+                                    <span class="quran-toolbar-btn-text">Start plan</span>
+                                </span>
+                            </span>
+                        </button>
+                        <button
+                            v-if="isMemorisationToolbarVisible && !isReaderToolbarMinimized"
+                            type="button"
+                            class="quran-toolbar-btn quran-toolbar-btn-toggle quran-toolbar-btn-reader-control"
+                            :class="{ 'is-enabled': transliterationWordHighlightEnabled }"
+                            @click="toggleToolbarWordForWordHighlight"
+                            :aria-label="transliterationWordHighlightEnabled
+                                ? 'Turn word-by-word highlighting off'
+                                : 'Turn word-by-word highlighting on'">
+                            <span class="quran-toolbar-btn-main">
+                                <span class="quran-toolbar-btn-icon-shell" aria-hidden="true">
+                                    <i class="bi bi-highlighter"></i>
+                                </span>
+                                <span class="quran-toolbar-btn-copy">
+                                    <span class="quran-toolbar-btn-text">Word highlight</span>
+                                </span>
+                            </span>
+                            <span class="quran-toolbar-btn-state">{{ transliterationWordHighlightEnabled ? "On" : "Off" }}</span>
+                        </button>
+                        <button
+                            v-if="isMemorisationToolbarVisible && !isReaderToolbarMinimized"
+                            type="button"
+                            class="quran-toolbar-btn quran-toolbar-btn-toggle quran-toolbar-btn-reader-control quran-toolbar-tools-icon-only quran-toolbar-btn--memo-offcanvas"
                             :class="{ 'is-enabled': isMemorisationOffcanvasVisible }"
                             @click="isMemorisationOffcanvasVisible ? closeMemorisationOffcanvas() : openMemorisationOffcanvas()"
                             :aria-label="isMemorisationOffcanvasVisible ? 'Close tools panel' : 'Open tools panel'">
@@ -1281,6 +1315,21 @@
                         aria-hidden="true"></i>
                 </button>
             </div>
+            <div
+                v-if="isMemorisationToolbarVisible && memorisationProgressStripText"
+                class="memorisation-progress-strip"
+                role="status"
+                aria-live="polite"
+                aria-atomic="true">
+                <div class="memorisation-progress-strip-copy">
+                    {{ memorisationProgressStripText }}
+                </div>
+                <div class="memorisation-progress-strip-track" aria-hidden="true">
+                    <span
+                        class="memorisation-progress-strip-fill"
+                        :style="{ width: `${memorisationProgressStripPercent}%` }"></span>
+                </div>
+            </div>
         </div>
 
 
@@ -1302,22 +1351,13 @@
             }"
             :aria-hidden="isMemorisationOffcanvasVisible ? 'false' : 'true'"
             aria-label="Memorisation tools offcanvas">
-            <div class="offcanvas-header memorisation-panel-header">
-                <div class="memorisation-panel-title-wrap">
-                    <span class="memorisation-panel-eyebrow">Quran practice</span>
-                    <h4 class="offcanvas-title" id="memorisationOffcanvasLabel">Practice Tools</h4>
-                    <p class="memorisation-panel-subtitle mb-0">
-                        {{ isMemorisationAdvancedMode ? 'Fine-tune repetition, recall, audio, and review behaviour from one compact panel.' : 'Simple setup to start practising.' }}
-                    </p>
-                </div>
-                <button
-                    type="button"
-                    class="btn memorisation-panel-close-btn"
-                    @click="closeMemorisationToolsPanel"
-                    aria-label="Close memorisation tools">
-                    <i class="bi bi-x-lg" aria-hidden="true"></i>
-                </button>
-            </div>
+            <button
+                type="button"
+                class="btn memorisation-panel-close-btn memorisation-panel-close-btn--floating"
+                @click="closeMemorisationToolsPanel"
+                aria-label="Close memorisation tools">
+                <i class="bi bi-x-lg" aria-hidden="true"></i>
+            </button>
             <div class="offcanvas-body">
                 <div class="memorisation-tools-tabs" role="tablist" aria-label="Memorisation tool level">
                     <button
@@ -1339,6 +1379,23 @@
                 </div>
 
                 <div v-if="!isMemorisationAdvancedMode" class="memorisation-beginner-panel" aria-label="Beginner session setup">
+                    <section class="memorisation-tools-card" aria-label="What to do next">
+                        <div class="memorisation-tools-card-head">
+                            <div class="memorisation-tools-card-title">
+                                <h5 class="mb-0"><i class="bi bi-signpost-split me-1" aria-hidden="true"></i>What to do</h5>
+                                <p class="mb-0">Simple steps to start practising.</p>
+                            </div>
+                        </div>
+                        <div class="memorisation-tools-grid">
+                            <div class="memorisation-tools-field memorisation-tools-field--full">
+                                <ol class="mb-0 ps-3">
+                                    <li>Pick your Surah and range.</li>
+                                    <li>Press <strong>Start Session</strong>.</li>
+                                    <li>Recite along with the reciter.</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </section>
                     <section class="memorisation-tools-card" aria-label="Session foundation">
                         <div class="memorisation-tools-card-head">
                             <div class="memorisation-tools-card-title">
@@ -1523,14 +1580,6 @@
                                 <h5 class="mb-0"><i class="bi bi-lightbulb me-1" aria-hidden="true"></i>Tools</h5>
                                 <p class="mb-0">Use blur for recall testing and save sessions to continue later.</p>
                             </div>
-                            <button
-                                type="button"
-                                class="btn memorisation-tools-link-btn"
-                                @click="openSessionHistoryModal()"
-                                aria-label="Open sessions history">
-                                <i class="bi bi-clock-history" aria-hidden="true"></i>
-                                <span>History</span>
-                            </button>
                         </div>
                         <div class="memorisation-tools-grid">
                             <label class="memorisation-tools-switch memorisation-tools-field--full">
@@ -1576,6 +1625,23 @@
                             </div>
                         </div>
                         <div class="memorisation-tools-grid">
+                            <div class="memorisation-saved-session-actions memorisation-tools-field--full">
+                                <button
+                                    type="button"
+                                    class="btn memorisation-tools-secondary-btn"
+                                    :disabled="!sessionHistoryFilteredEntries.length"
+                                    @click="shareSessionHistoryProgressReport()">
+                                    <i class="bi bi-share" aria-hidden="true"></i>
+                                    <span>Report</span>
+                                </button>
+                                    <button
+                                        type="button"
+                                        class="btn memorisation-tools-secondary-btn"
+                                        @click="openHifzPlannerFromSurat">
+                                        <i class="bi bi-calendar2-check" aria-hidden="true"></i>
+                                        <span>Hifz Planner</span>
+                                    </button>
+                            </div>
                             <label class="memorisation-tools-field memorisation-tools-field--full">
                                 <span class="memorisation-tools-label">Choose session</span>
                                 <select class="form-select memorisation-tools-control" v-model="selectedMemorisationSessionHistoryId" aria-label="Choose saved session">
@@ -1613,8 +1679,8 @@
                                         <span>Delete</span>
                                     </button>
                                 </div>
-		                        </div>
-		                    </section>
+	                        </div>
+	                    </section>
 
                     <div class="memorisation-beginner-actions">
                         <button
@@ -1945,7 +2011,10 @@
                     <section class="memorisation-tools-card" aria-label="Chaining method settings">
                         <div class="memorisation-tools-card-head">
 	                            <div class="memorisation-tools-card-title">
-	                                <h5 class="mb-0"><i class="bi bi-diagram-3 me-1" aria-hidden="true"></i>Chaining</h5>
+	                                <h5 class="mb-0">
+                                        <i class="bi bi-diagram-3 me-1" aria-hidden="true"></i>
+                                        <span>Chaining</span>
+                                    </h5>
 		                                <p class="mb-0">Builds the range in linked steps so ayahs connect naturally in order.</p>
 	                            </div>
                                 <button
@@ -2047,6 +2116,7 @@
                                     <i class="bi" :class="isMemorisationAdvancedSectionOpen('history') ? 'bi-chevron-up' : 'bi-chevron-down'" aria-hidden="true"></i>
                                 </button>
 	                            <button
+                                v-if="false"
                                 type="button"
                                 class="btn memorisation-tools-link-btn"
                                 @click="openSessionHistoryModal()"
@@ -2086,8 +2156,25 @@
                                     aria-label="Toggle saved session section">
                                     <i class="bi" :class="isMemorisationAdvancedSectionOpen('saved') ? 'bi-chevron-up' : 'bi-chevron-down'" aria-hidden="true"></i>
                                 </button>
-	                        </div>
+                        </div>
 	                        <div v-show="isMemorisationAdvancedSectionOpen('saved')" class="memorisation-tools-grid memorisation-advanced-section-body">
+                            <div class="memorisation-saved-session-actions memorisation-tools-field--full">
+                                <button
+                                    type="button"
+                                    class="btn memorisation-tools-secondary-btn"
+                                    :disabled="!sessionHistoryFilteredEntries.length"
+                                    @click="shareSessionHistoryProgressReport()">
+                                    <i class="bi bi-share" aria-hidden="true"></i>
+                                    <span>Report</span>
+                                </button>
+                                    <button
+                                        type="button"
+                                        class="btn memorisation-tools-secondary-btn"
+                                        @click="openHifzPlannerFromSurat">
+                                        <i class="bi bi-calendar2-check" aria-hidden="true"></i>
+                                        <span>Hifz Planner</span>
+                                    </button>
+                            </div>
                             <label class="memorisation-tools-field memorisation-tools-field--full">
                                 <span class="memorisation-tools-label">Choose session</span>
                                 <select class="form-select memorisation-tools-control" v-model="selectedMemorisationSessionHistoryId" aria-label="Choose saved session">
@@ -2167,6 +2254,7 @@
 
         <teleport to="body">
             <div
+                v-if="false"
                 class="modal fade session-history-modal-shell"
                 :id="sessionHistoryModalId"
                 tabindex="-1"
@@ -2229,19 +2317,23 @@
                             <section class="session-history-overview-strip">
                                 <div class="session-history-overview-pills">
                                     <span class="session-history-overview-pill">
-                                        <strong>{{ sessionHistorySummaryStats.totalSessions }}</strong>
-                                        Sessions
+                                        <strong>{{ sessionHistoryTotalAyahsCompleted }}</strong>
+                                        Ayahs completed
                                     </span>
                                     <span class="session-history-overview-pill">
-                                        <strong>{{ formatSessionHistoryDuration(sessionHistorySummaryStats.averageDurationMs) }}</strong>
-                                        Average
+                                        <strong>{{ sessionHistorySummaryStats.totalSessions }}</strong>
+                                        Sessions
                                     </span>
                                     <span class="session-history-overview-pill">
                                         <strong>{{ sessionHistorySummaryStats.bestStreak }}</strong>
                                         Best streak
                                     </span>
+                                    <span class="session-history-overview-pill">
+                                        <strong>{{ sessionHistoryAverageAccuracy === null ? "—" : `${sessionHistoryAverageAccuracy}%` }}</strong>
+                                        Accuracy
+                                    </span>
                                 </div>
-                                <div class="session-history-overview-meta">
+                                <div v-if="false" class="session-history-overview-meta">
                                     <p class="session-history-overview-note mb-0">
                                         {{ sessionHistoryOverviewNote }}
                                     </p>
@@ -2293,7 +2385,7 @@
                                         </article>
                                     </div>
                                 </div>
-                                <div v-if="sessionHistoryOnThisDayEntries.length" class="session-history-overview-links">
+                                <div v-if="false && sessionHistoryOnThisDayEntries.length" class="session-history-overview-links">
                                     <span class="session-history-insight-label">On this day</span>
                                     <div class="session-history-overview-link-row">
                                         <button
@@ -2324,6 +2416,7 @@
                                             List
                                         </button>
                                         <button
+                                            v-if="false"
                                             type="button"
                                             class="btn session-history-view-btn"
                                             :class="{ 'is-active': sessionHistoryView === 'calendar' }"
@@ -2334,6 +2427,7 @@
                                             Calendar
                                         </button>
                                         <button
+                                            v-if="false"
                                             type="button"
                                             class="btn session-history-view-btn"
                                             :class="{ 'is-active': sessionHistoryView === 'heatmap' }"
@@ -2344,6 +2438,7 @@
                                             Heatmap
                                         </button>
                                         <button
+                                            v-if="false"
                                             type="button"
                                             class="btn session-history-view-btn"
                                             :class="{ 'is-active': sessionHistoryView === 'surah' }"
@@ -3212,6 +3307,27 @@
                                     </div>
                                 </div>
 
+                                <section class="session-history-overview-strip" aria-label="Hifz planner key metrics">
+                                    <div class="session-history-overview-pills">
+                                        <span class="session-history-overview-pill">
+                                            <strong>{{ activeHifzPlan?.completedAyahs || 0 }}</strong>
+                                            Ayahs completed
+                                        </span>
+                                        <span class="session-history-overview-pill">
+                                            <strong>{{ sessionHistorySummaryStats.totalSessions }}</strong>
+                                            Sessions
+                                        </span>
+                                        <span class="session-history-overview-pill">
+                                            <strong>{{ sessionHistorySummaryStats.bestStreak }}</strong>
+                                            Best streak
+                                        </span>
+                                        <span class="session-history-overview-pill">
+                                            <strong>{{ sessionHistoryAverageAccuracy === null ? "—" : `${sessionHistoryAverageAccuracy}%` }}</strong>
+                                            Accuracy
+                                        </span>
+                                    </div>
+                                </section>
+
                                 <section class="hifz-plan-dashboard-summary">
                                     <div class="hifz-plan-dashboard-summary-head">
                                         <div>
@@ -3237,7 +3353,7 @@
                                     </p>
                                 </section>
 
-                                <section class="hifz-plan-dashboard-calendar">
+                                <section v-if="false" class="hifz-plan-dashboard-calendar">
                                     <div class="hifz-plan-dashboard-calendar-head">
                                         <h6 class="mb-0">Calendar</h6>
                                         <div class="hifz-plan-dashboard-calendar-controls">
@@ -4953,7 +5069,6 @@
                                     v-if="shouldShowTranslationForRepeatPause(item)"
                                     class="translation-header ltr-text">
                                     <h3 class="ayah-card-copy-label">
-                                        <i class="bi bi-translate me-2" aria-hidden="true"></i>
                                         <span>Translation</span>
                                     </h3>
                                 </div>
@@ -5000,7 +5115,6 @@
                                             v-if="isTransliterationVisibleFor(item) && !shouldHideVerseTextForRepeatPause(item.index)"
                                             class="transliteration-header ltr-text">
                                             <h3 class="ayah-card-copy-label">
-                                                <i class="bi bi-alphabet-uppercase me-2" aria-hidden="true"></i>
                                                 <span>Transliteration</span>
                                             </h3>
                                         </div>
@@ -5239,12 +5353,12 @@
                     <div class="modal-content surat-onboarding-modal-simple" :class="{ 'surat-dark-modal': isDarkTheme }">
                         <div class="modal-header">
                             <div>
-                                <p class="surat-onboarding-kicker mb-1">Surat onboarding</p>
+                                <p class="surat-onboarding-kicker mb-1">Quick Start</p>
                                 <h4 class="modal-title" id="suratOnboardingLabel">
                                     Step {{ suratOnboardingCurrentStep }} of {{ suratOnboardingSteps.length }}
                                 </h4>
                                 <p class="surat-onboarding-subtitle mb-0">
-                                    {{ currentSuratOnboardingStepData.summary }}
+                                    A gentle first-use tour so the reader feels approachable before you explore everything.
                                 </p>
                             </div>
                             <button
@@ -5398,6 +5512,12 @@
                         </div>
                         <div class="modal-footer">
                             <div class="surat-onboarding-footer-actions">
+                                <button
+                                    type="button"
+                                    class="btn surat-onboarding-nav-btn surat-onboarding-nav-btn-secondary"
+                                    @click="startQuickStartFromOnboarding">
+                                    Open Quick Start
+                                </button>
                                 <button
                                     type="button"
                                     class="btn surat-onboarding-nav-btn surat-onboarding-nav-btn-secondary"

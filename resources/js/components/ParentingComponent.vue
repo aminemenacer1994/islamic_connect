@@ -7,9 +7,8 @@
     <section class="hero-section">
       <div class="hero-overlay"></div>
       <div class="container hero-content">
-        <div class="hero-badge">Islamic Connect</div>
-        <h1 class="hero-title text-white">A Youth Guide to <span class="hero-highlight">Parenting in Islam</span></h1>
-        <p class="hero-sub">Real talk. Real struggles. Real Islamic guidance — for Muslim youth navigating family life
+        <h1 class="text-white" style="font-weight: 700;">Parenting in Islam</h1>
+        <p class="hero-sub text-white">Real talk. Real struggles. Real Islamic guidance for Muslim youth navigating family life
           in the West.</p>
         <div class="hero-search-wrap">
           <input v-model="searchQuery" type="text" class="hero-search"
@@ -33,7 +32,7 @@
 
     <!-- NAVIGATION TABS -->
     <nav class="chapter-nav sticky-nav">
-      <div class="container nav-inner">
+      <div class="container-fluid nav-inner">
         <button v-for="ch in chapters" class="nav-tab" :class="{ active: activeChapter === ch.id }"
           v-on:click="activeChapter = ch.id; scrollToChapter(ch.id)">
           {{ ch.icon }} <span class="nav-label">{{ ch.shortTitle }}</span>
@@ -837,14 +836,7 @@
             </div>
           </div>
 
-          <div class="content-card">
-            <h3>Image: Family & Deen</h3>
-            <div class="image-block">
-              <img src="https://images.pexels.com/photos/8164742/pexels-photo-8164742.jpeg?auto=compress&w=600"
-                alt="Muslim family worship" class="section-img" />
-              <div class="img-credit">Photo: Pexels.com | Free to use</div>
-            </div>
-          </div>
+          
         </div>
 
         <div class="source-block">
@@ -1412,8 +1404,6 @@ export default {
   --ic-green-light: #2d8653;
   --ic-green-pale: #e8f5ee;
   --ic-green-border: #a8d5b8;
-  --ic-gold: #b8860b;
-  --ic-gold-light: #d4a820;
   --ic-gold-pale: #fdf6e3;
   --ic-gold-border: #e8c96d;
   --ic-navy: #1a2744;
@@ -1534,7 +1524,7 @@ export default {
 }
 
 .hero-search-btn {
-  background: var(--ic-gold);
+  background: var(--ic-green-light);
   color: #fff;
   border: none;
   padding: 0.85rem 1.5rem;
@@ -1629,7 +1619,7 @@ export default {
 
 .nav-tab:hover {
   color: #fff;
-  background: rgba(255, 255, 255, 0.08);
+  /* background: rgba(255, 255, 255, 0.08); */
 }
 
 .nav-tab.active {

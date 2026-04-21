@@ -62083,11 +62083,11 @@ to {
 .memorisation-offcanvas .offcanvas-header[data-v-637d02d8] {
     display: flex !important;
     align-items: center !important;
-    justify-content: space-between !important;
+    justify-content: flex-end !important;
     gap: 0.75rem !important;
     width: 100% !important;
-    min-height: 72px !important;
-    padding: 0.9rem 1rem !important;
+    min-height: 44px !important;
+    padding: 0.45rem 0.6rem !important;
 }
 .memorisation-panel-title-wrap[data-v-637d02d8] {
     min-width: 0 !important;
@@ -62133,6 +62133,87 @@ to {
     border-color: var(--memo-panel-border-strong) !important;
     background: var(--memo-panel-surface) !important;
     color: var(--memo-panel-text) !important;
+}
+.memorisation-panel-close-btn--floating[data-v-637d02d8] {
+    position: absolute !important;
+    top: 10px !important;
+    right: 10px !important;
+    z-index: 3 !important;
+}
+.memorisation-progress-strip[data-v-637d02d8] {
+    width: 100%;
+    padding: 0.35rem 1rem 0.65rem;
+    display: grid;
+    gap: 0.35rem;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.82), rgba(255, 255, 255, 0.92));
+    border-top: 1px solid rgba(15, 110, 99, 0.12);
+    backdrop-filter: blur(10px);
+}
+.memorisation-progress-strip-copy[data-v-637d02d8] {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.75rem;
+    font-size: 0.9rem;
+    font-weight: 800;
+    color: rgba(15, 23, 42, 0.86);
+    margin-bottom: 0;
+}
+.memorisation-progress-strip-track[data-v-637d02d8] {
+    height: 6px;
+    border-radius: 999px;
+    background: rgba(15, 118, 110, 0.12);
+    overflow: hidden;
+    box-shadow: inset 0 0 0 1px rgba(15, 118, 110, 0.12);
+}
+.memorisation-progress-strip-fill[data-v-637d02d8] {
+    display: block;
+    height: 100%;
+    border-radius: 999px;
+    background: linear-gradient(90deg, rgba(15, 118, 110, 0.55), rgba(15, 118, 110, 0.92));
+    transition: width 220ms ease;
+}
+
+/* Toolbar tweaks for memorisation mode. */
+.quran-toolbar-btn--start-plan[data-v-637d02d8] {
+    background: rgba(15, 118, 110, 0.12) !important;
+    border-color: rgba(15, 118, 110, 0.3) !important;
+    box-shadow: 0 10px 18px rgba(15, 118, 110, 0.12) !important;
+}
+.quran-toolbar-btn--start-plan .quran-toolbar-btn-text[data-v-637d02d8] {
+    font-weight: 900 !important;
+}
+.quran-toolbar-btn--memo-offcanvas[data-v-637d02d8] {
+    margin-left: auto !important;
+    order: 99 !important;
+}
+
+/* Make the Arabic line fully occupy the available column next to the audio button. */
+.surat-premium .ayah-arabic-inline-shell .arabic-text[data-v-637d02d8] {
+    width: 100% !important;
+    justify-self: stretch !important;
+}
+
+/* Cleaner section titles for translation/transliteration. */
+.surat-premium .ayah-card-copy-label[data-v-637d02d8] {
+    font-size: 1.15rem !important;
+    font-weight: 950 !important;
+    letter-spacing: -0.01em !important;
+    text-transform: none !important;
+    color: rgba(15, 23, 42, 0.92) !important;
+}
+.surat-premium .ayah-card-copy .translation-header[data-v-637d02d8],
+.surat-premium .ayah-card-copy .transliteration-header[data-v-637d02d8] {
+    margin: 0.85rem 0 0.35rem !important;
+    padding: 0 !important;
+}
+.surat-premium .ayah-card-copy .translation-text[data-v-637d02d8],
+.surat-premium .ayah-card-copy .transliteration-text[data-v-637d02d8] {
+    margin: 0 !important;
+    padding: 0 !important;
+    max-width: 100% !important;
+    background: transparent !important;
+    border-radius: 0 !important;
 }
 .memorisation-offcanvas .offcanvas-body[data-v-637d02d8] {
     padding: 0.9rem !important;
@@ -70632,6 +70713,32 @@ h4[data-v-637d02d8] {
     padding: 0.15em 0.3em;
     transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
     transform: scale(1.03);
+    position: relative;
+}
+
+/* RTL underline sweep during word-by-word playback highlighting. */
+[data-v-637d02d8] .ayah-word.is-audio-active .ayah-word-ar::after {
+    content: "";
+    position: absolute;
+    left: 0.2em;
+    right: 0.2em;
+    bottom: 0.08em;
+    height: 2px;
+    border-radius: 999px;
+    background: currentColor;
+    opacity: 0.9;
+    transform: scaleX(0);
+    transform-origin: 100% 50%;
+    animation: rtl-underline-sweep-637d02d8 420ms cubic-bezier(0.2, 1, 0.2, 1) both;
+    pointer-events: none;
+}
+@keyframes rtl-underline-sweep-637d02d8 {
+from {
+        transform: scaleX(0);
+}
+to {
+        transform: scaleX(1);
+}
 }
 [data-v-637d02d8] .ayah-word.is-audio-active .ayah-word-translation {
     color: #0b6b59 !important;
@@ -103109,8 +103216,117 @@ to {
     font-size: 0.92rem !important;
     line-height: 1 !important;
 }
+.memorisation-tooltip-btn[data-v-637d02d8] {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    position: relative !important;
+    z-index: 3 !important;
+    width: 28px !important;
+    min-width: 28px !important;
+    height: 28px !important;
+    padding: 0 !important;
+    margin-left: 0.35rem !important;
+    border-radius: 999px !important;
+    border: 1px solid var(--memo-panel-border) !important;
+    background: var(--memo-panel-surface-soft) !important;
+    color: var(--memo-panel-text) !important;
+    pointer-events: auto !important;
+    transition: transform 160ms ease, background-color 160ms ease, border-color 160ms ease !important;
+}
+.memorisation-tooltip-btn--inline[data-v-637d02d8] {
+    margin-left: 0.15rem !important;
+}
+.memorisation-tooltip-btn[data-v-637d02d8]:hover,
+.memorisation-tooltip-btn[data-v-637d02d8]:focus-visible {
+    transform: translateY(-1px) !important;
+    border-color: var(--memo-panel-border-strong) !important;
+    background: var(--memo-panel-accent-soft) !important;
+}
+.memorisation-tooltip-btn .bi[data-v-637d02d8] {
+    font-size: 0.92rem !important;
+    line-height: 1 !important;
+}
+.memorisation-quickstart-card[data-v-637d02d8] {
+    border: 1px solid var(--memo-panel-border) !important;
+    background: linear-gradient(180deg, var(--memo-panel-surface) 0%, var(--memo-panel-surface-soft) 100%) !important;
+    border-radius: 18px !important;
+    padding: 1rem 1rem 0.9rem !important;
+    margin: 0 0 0.9rem !important;
+}
+.memorisation-quickstart-head[data-v-637d02d8] {
+    display: flex !important;
+    align-items: baseline !important;
+    justify-content: space-between !important;
+    gap: 0.75rem !important;
+    margin-bottom: 0.55rem !important;
+}
+.memorisation-quickstart-head strong[data-v-637d02d8] {
+    color: var(--memo-panel-text) !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.01em !important;
+}
+.memorisation-quickstart-head small[data-v-637d02d8] {
+    color: var(--memo-panel-text-muted) !important;
+}
+.memorisation-quickstart-steps[data-v-637d02d8] {
+    margin: 0 0 0.85rem 1.2rem !important;
+    padding: 0 !important;
+    color: var(--memo-panel-text) !important;
+}
+.memorisation-quickstart-steps li[data-v-637d02d8] {
+    margin: 0.25rem 0 !important;
+}
+.memorisation-quickstart-actions[data-v-637d02d8] {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 0.75rem !important;
+}
+.memorisation-quickstart-primary[data-v-637d02d8] {
+    flex: 1 1 auto !important;
+    min-height: 44px !important;
+    border-radius: 14px !important;
+    border: 1px solid var(--memo-panel-border-strong) !important;
+    background: var(--memo-panel-accent) !important;
+    color: #f8fffd !important;
+    font-weight: 800 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 0.5rem !important;
+    box-shadow: 0 16px 28px rgba(15, 118, 110, 0.22) !important;
+}
+.memorisation-quickstart-primary[data-v-637d02d8]:hover,
+.memorisation-quickstart-primary[data-v-637d02d8]:focus-visible {
+    background: var(--memo-panel-accent-strong) !important;
+    border-color: var(--memo-panel-border-strong) !important;
+    transform: translateY(-1px) !important;
+}
+.memorisation-quickstart-link[data-v-637d02d8] {
+    flex: 0 0 auto !important;
+    padding-inline: 0.6rem !important;
+    color: var(--memo-panel-accent) !important;
+    text-decoration: underline !important;
+}
+.memorisation-quickstart-link[data-v-637d02d8]:hover,
+.memorisation-quickstart-link[data-v-637d02d8]:focus-visible {
+    color: var(--memo-panel-accent-strong) !important;
+}
 .memorisation-advanced-section-body[data-v-637d02d8] {
     animation: memo-section-expand-637d02d8 180ms ease both;
+}
+body.hifz-modal-open #hifzPlanWizardModal[data-v-637d02d8],
+body.hifz-dashboard-open #hifzPlanDashboardModal[data-v-637d02d8] {
+    z-index: 50050 !important;
+}
+body.hifz-modal-open .modal-backdrop.show[data-v-637d02d8] {
+    z-index: 50040 !important;
+}
+body.hifz-modal-open .quran-toolbar-sticky[data-v-637d02d8],
+body.hifz-modal-open .advanced-quran-mobile-controls[data-v-637d02d8],
+body.hifz-modal-open .memorisation-toolbar-sticky[data-v-637d02d8] {
+    display: none !important;
 }
 @keyframes memo-section-expand-637d02d8 {
 from {
@@ -103121,6 +103337,11 @@ to {
         opacity: 1;
         transform: translateY(0);
 }
+}
+
+/* Ensure memorisation tooltips sit above sticky toolbars/offcanvas chrome. */
+.tooltip.memorisation-tooltip[data-v-637d02d8] {
+    z-index: 20000 !important;
 }
 
 /* Final memorisation tools polish: clean panel, safe toolbar lane, and saved-session actions. */
@@ -106303,6 +106524,32 @@ body.surat-page-shell-dark .main-header,body.surat-page-shell-dark .navbar {
 .surat-theme-dark .audio-player-container[data-v-637d02d8] {
     background-color: #26292e !important;
     background-image: none !important;
+}
+
+/* Surat UI polish overrides (keep last so it wins specificity conflicts). */
+.surat-premium .ayah-arabic-inline-shell .arabic-text[data-v-637d02d8] {
+    width: 100% !important;
+    justify-self: stretch !important;
+}
+.surat-premium .ayah-card-copy-label[data-v-637d02d8] {
+    font-size: 1.15rem !important;
+    font-weight: 950 !important;
+    letter-spacing: -0.01em !important;
+    text-transform: none !important;
+    color: rgba(15, 23, 42, 0.92) !important;
+}
+.surat-premium .ayah-card-copy .translation-header[data-v-637d02d8],
+.surat-premium .ayah-card-copy .transliteration-header[data-v-637d02d8] {
+    margin: 0.85rem 0 0.35rem !important;
+    padding: 0 !important;
+}
+.surat-premium .ayah-card-copy .translation-text[data-v-637d02d8],
+.surat-premium .ayah-card-copy .transliteration-text[data-v-637d02d8] {
+    margin: 0 !important;
+    padding: 0 !important;
+    max-width: 100% !important;
+    background: transparent !important;
+    border-radius: 0 !important;
 }
 
 
@@ -117013,8 +117260,6 @@ to   { opacity: 1; transform: translateY(0);
   --ic-green-light: #2d8653;
   --ic-green-pale: #e8f5ee;
   --ic-green-border: #a8d5b8;
-  --ic-gold: #b8860b;
-  --ic-gold-light: #d4a820;
   --ic-gold-pale: #fdf6e3;
   --ic-gold-border: #e8c96d;
   --ic-navy: #1a2744;
@@ -117121,7 +117366,7 @@ to   { opacity: 1; transform: translateY(0);
   color: var(--ic-text);
 }
 .hero-search-btn {
-  background: var(--ic-gold);
+  background: var(--ic-green-light);
   color: #fff;
   border: none;
   padding: 0.85rem 1.5rem;
@@ -117205,7 +117450,7 @@ to   { opacity: 1; transform: translateY(0);
 }
 .nav-tab:hover {
   color: #fff;
-  background: rgba(255, 255, 255, 0.08);
+  /* background: rgba(255, 255, 255, 0.08); */
 }
 .nav-tab.active {
   color: var(--ic-gold-light);

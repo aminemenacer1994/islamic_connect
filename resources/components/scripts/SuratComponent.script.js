@@ -1196,6 +1196,7 @@ export default {
                 history: true,
                 saved: true,
             },
+            memorisationTooltipInstances: [],
             isMemorisationReadingAidsOpen: false,
             selectedMemorisationSessionHistoryId: "",
 
@@ -1342,6 +1343,7 @@ export default {
             ],
             memorisationChainingEnabled: false,
             memorisationChainingMode: "cumulative",
+            memorisationProgressCelebratedKey: "",
             memorisationChainingRepetitionStrategy: "3",
             memorisationChainingAutoAdvance: true,
             memorisationChainingAudioGuidance: "qari-first",
@@ -1716,6 +1718,20 @@ export default {
 	                ? this.isAudioPlaying.some(Boolean)
 	                : false;
 	        },
+            memorisationChainingModeTooltipText() {
+                const mode = String(
+                    this.memorisationDraft?.chainingMethodMode || ""
+                )
+                    .trim()
+                    .toLowerCase();
+                if (mode === "cumulative") {
+                    return "Recites current ayah + all previous ayahs in the range.";
+                }
+                if (mode === "bridging") {
+                    return "Focuses on transitions by practicing the link between adjacent ayahs.";
+                }
+                return "Choose a chaining mode for an explanation.";
+            },
         sidebarPinnedSurahNumber() {
             const currentSurahNumber = Number(
                 this.surahDetails?.surahNumber || this.selectedSurah || 0
@@ -2128,6 +2144,42 @@ export default {
             if (!ayah) return 1;
             const fallback = this.memorisationPlayIndex + 1;
             return Number(ayah.numberInSurah || ayah.number || fallback);
+        },
+        memorisationProgressStripMeta() {
+            if (!this.isMemorisationToolbarVisible) return null;
+            const totalAyahs = Math.max(1, Number(this.totalAyahs || 1));
+            const rawStart = Number(this.memorisationRangeStart || 1);
+            const rawEnd = Number(this.memorisationRangeEnd || totalAyahs);
+            const start = Math.min(
+                totalAyahs,
+                Math.max(1, Math.min(rawStart, rawEnd))
+            );
+            const end = Math.min(
+                totalAyahs,
+                Math.max(start, Math.max(rawStart, rawEnd))
+            );
+            const total = Math.max(1, end - start + 1);
+            const current = Math.min(
+                end,
+                Math.max(start, Number(this.memorisationCurrentAyahNumber || start))
+            );
+            const ayahPos = Math.max(1, Math.min(total, current - start + 1));
+            const roundTotal = Math.max(1, Number(this.memorisationRepetitionCount || 1));
+            const roundPos = Math.max(
+                1,
+                Math.min(roundTotal, Number(this.memorisationRepetitionCurrent || 1))
+            );
+            const percent = Math.max(0, Math.min(100, Math.round((ayahPos / total) * 100)));
+            return { start, end, total, current, ayahPos, roundPos, roundTotal, percent };
+        },
+        memorisationProgressStripText() {
+            const meta = this.memorisationProgressStripMeta;
+            if (!meta) return "";
+            return `Ayah ${meta.ayahPos} of ${meta.total} · Round ${meta.roundPos} of ${meta.roundTotal}`;
+        },
+        memorisationProgressStripPercent() {
+            const meta = this.memorisationProgressStripMeta;
+            return meta ? Number(meta.percent || 0) : 0;
         },
         memorisationProgressPercent() {
             const total = Number(this.totalAyahs || 0);
@@ -3178,6 +3230,32 @@ export default {
         },
         sessionHistorySummaryStats() {
             return this.getSessionHistoryStats(this.sessionHistoryFilteredEntries);
+        },
+        sessionHistoryAverageAccuracy() {
+            const entries = Array.isArray(this.sessionHistoryFilteredEntries)
+                ? this.sessionHistoryFilteredEntries
+                : [];
+            const scored = entries.filter((entry) =>
+                Number.isFinite(Number(entry?.accuracyScore))
+            );
+            if (!scored.length) return null;
+            const sum = scored.reduce(
+                (total, entry) =>
+                    total + Math.max(0, Number(entry?.accuracyScore || 0) || 0),
+                0
+            );
+            return Math.max(0, Math.min(100, Math.round(sum / scored.length)));
+        },
+        sessionHistoryTotalAyahsCompleted() {
+            const entries = Array.isArray(this.sessionHistoryFilteredEntries)
+                ? this.sessionHistoryFilteredEntries
+                : [];
+            return entries.reduce((total, entry) => {
+                const start = Math.max(1, Number(entry?.rangeStart || 1) || 1);
+                const end = Math.max(start, Number(entry?.rangeEnd || start) || start);
+                const count = Math.max(0, end - start + 1);
+                return total + count;
+            }, 0);
         },
         sessionHistoryOnThisDayEntries() {
             const today = new Date();
@@ -5533,6 +5611,7 @@ export default {
         isMemorisationOffcanvasVisible(next) {
             if (next) {
                 this.$nextTick(() => this.syncMemorisationOffcanvasDockedWidth());
+                this.$nextTick(() => this.initializeMemorisationTooltips());
                 if (!String(this.selectedMemorisationSessionHistoryId || "").trim()) {
                     const firstEntry = Array.isArray(this.sessionHistoryEntries)
                         ? this.sessionHistoryEntries[0]
@@ -5541,6 +5620,9 @@ export default {
                         this.selectedMemorisationSessionHistoryId = String(firstEntry.id);
                     }
                 }
+            }
+            if (!next) {
+                this.disposeMemorisationTooltips();
             }
             this.$nextTick(() => this.scheduleAudioPlayerLayoutUpdate());
             this.scheduleAudioPlayerLayoutUpdate(220);
@@ -5552,6 +5634,20 @@ export default {
                     shouldLock
                 );
             } catch (_) {}
+        },
+        "memorisationDraft.chainingMethodMode"() {
+            if (!this.isMemorisationOffcanvasVisible) return;
+            this.$nextTick(() => this.initializeMemorisationTooltips());
+        },
+        memorisationProgressStripText() {
+            const meta = this.memorisationProgressStripMeta;
+            if (!meta) return;
+            if (meta.percent !== 100) return;
+            if (meta.roundPos < meta.roundTotal) return;
+            const key = `${meta.start}-${meta.end}-r${meta.roundTotal}`;
+            if (this.memorisationProgressCelebratedKey === key) return;
+            this.memorisationProgressCelebratedKey = key;
+            this.triggerMemorisationCompletionConfetti();
         },
         savedAyahKeys: {
             deep: true,
@@ -12064,6 +12160,7 @@ export default {
             this.isMemorisationOffcanvasVisible = true;
             this.$nextTick(() => {
                 this.syncMemorisationOffcanvasDockedWidth();
+                this.initializeMemorisationTooltips();
             });
         },
         setMemorisationToolsDepth(mode = "beginner") {
@@ -12072,6 +12169,10 @@ export default {
                 this.resetMemorisationAdvancedSections();
                 this.triggerMemorisationCompletionConfetti();
             }
+            this.$nextTick(() => {
+                if (!this.isMemorisationOffcanvasVisible) return;
+                this.initializeMemorisationTooltips();
+            });
         },
         openAdvancedMemorisationToolsPanel() {
             this.setMemorisationToolsDepth("advanced");
@@ -12085,8 +12186,44 @@ export default {
             this.openMemorisationOffcanvas();
         },
         closeMemorisationOffcanvas() {
+            this.disposeMemorisationTooltips();
             this.isMemorisationOffcanvasVisible = false;
             this.hideMemorisationSubmitAlert();
+        },
+        initializeMemorisationTooltips() {
+            this.disposeMemorisationTooltips();
+            if (typeof document === "undefined") return;
+            // Prefer the globally-available Bootstrap bundle constructor when present.
+            // This avoids Popper/tooling mismatches that can prevent ESM Tooltip from working.
+            const TooltipCtor = window?.bootstrap?.Tooltip || Tooltip;
+            if (!TooltipCtor) return;
+            const panelEl = document.getElementById("memorisationOffcanvas");
+            if (!panelEl) return;
+            const nodes = panelEl.querySelectorAll("[data-memorisation-tooltip]");
+            this.memorisationTooltipInstances = Array.from(nodes)
+                .map((node) => {
+                    try {
+                        return TooltipCtor.getOrCreateInstance(node, {
+                            trigger: "hover focus click",
+                            container: "body",
+                        });
+                    } catch (_) {
+                        return null;
+                    }
+                })
+                .filter(Boolean);
+        },
+        disposeMemorisationTooltips() {
+            if (!Array.isArray(this.memorisationTooltipInstances)) {
+                this.memorisationTooltipInstances = [];
+                return;
+            }
+            this.memorisationTooltipInstances.forEach((instance) => {
+                try {
+                    instance.dispose();
+                } catch (_) {}
+            });
+            this.memorisationTooltipInstances = [];
         },
         async exitLoadedMemorisationSession() {
             await this.applyMemorisationDefaultSession({
@@ -13473,20 +13610,6 @@ export default {
             await this.seekToAyahWord(index, ayah, displayWordIndex);
         },
         initializeSuratOnboardingState() {
-            this.hasCompletedSuratOnboarding = true;
-            this.suratOnboardingCurrentStep = 1;
-            if (typeof window !== "undefined" && window.localStorage) {
-                try {
-                    localStorage.setItem("ic_surat_onboarding_verified", "1");
-                    this.writeScopedBooleanPreference(
-                        this.suratOnboardingCompletedPreferenceBaseKey,
-                        true
-                    );
-                } catch (_) {
-                    // Ignore storage errors; onboarding is intentionally disabled.
-                }
-            }
-            return;
             if (typeof window === "undefined" || !window.localStorage) return;
             try {
                 const globalCompleted =
@@ -13549,8 +13672,6 @@ export default {
             this.announce("Onboarding finished.");
         },
         openSuratOnboarding(options = {}) {
-            this.hasCompletedSuratOnboarding = true;
-            return;
             const { step = 1 } = options;
             const modalEl = document.getElementById(this.suratOnboardingModalId);
             if (!modalEl) return;
@@ -13569,6 +13690,27 @@ export default {
                 Modal.getInstance(modalEl) ||
                 new Modal(modalEl);
             this.suratOnboardingModalInstance.show();
+        },
+        async startQuickStartFromOnboarding() {
+            this.finishSuratOnboarding();
+            this.setMemorisationToolsDepth("beginner");
+            try {
+                if (!this.isMemorisationToolbarVisible) {
+                    await this.toggleMemorisationToolbar();
+                } else {
+                    this.openMemorisationOffcanvas();
+                }
+                this.showToast(
+                    "Quick Start is ready. Choose a small range and start your first session.",
+                    3400
+                );
+                this.announce(
+                    "Quick Start is ready. Beginner memorisation tools are open."
+                );
+            } catch (error) {
+                console.error("Unable to open Surat quick start:", error);
+                this.showToast("Could not open Quick Start right now.", 2600);
+            }
         },
         openGestureGuideModal() {
             const openGuide = () => {
@@ -18613,11 +18755,39 @@ export default {
         getHifzPlanWizardModalInstance() {
             const modalEl = document.getElementById("hifzPlanWizardModal");
             if (!modalEl) return null;
+            if (!modalEl.dataset.hifzWizardEventsBound) {
+                modalEl.addEventListener("shown.bs.modal", () => {
+                    try {
+                        document.body.classList.add("hifz-modal-open");
+                    } catch (_) {}
+                });
+                modalEl.addEventListener("hidden.bs.modal", () => {
+                    try {
+                        document.body.classList.remove("hifz-modal-open");
+                    } catch (_) {}
+                });
+                modalEl.dataset.hifzWizardEventsBound = "1";
+            }
             return Modal.getInstance(modalEl) || new Modal(modalEl);
         },
         getHifzPlanDashboardModalInstance() {
             const modalEl = document.getElementById("hifzPlanDashboardModal");
             if (!modalEl) return null;
+            if (!modalEl.dataset.hifzDashboardEventsBound) {
+                modalEl.addEventListener("shown.bs.modal", () => {
+                    try {
+                        document.body.classList.add("hifz-dashboard-open");
+                        document.body.classList.add("hifz-modal-open");
+                    } catch (_) {}
+                });
+                modalEl.addEventListener("hidden.bs.modal", () => {
+                    try {
+                        document.body.classList.remove("hifz-dashboard-open");
+                        document.body.classList.remove("hifz-modal-open");
+                    } catch (_) {}
+                });
+                modalEl.dataset.hifzDashboardEventsBound = "1";
+            }
             return Modal.getInstance(modalEl) || new Modal(modalEl);
         },
         openHifzPlanWizard() {
@@ -18645,6 +18815,18 @@ export default {
             if (!instance) return;
             this.hifzPlanDashboardModalInstance = instance;
             instance.show();
+        },
+        openHifzPlannerFromSurat() {
+            this.closeMemorisationOffcanvas();
+            if (!this.hasHifzPlans) {
+                this.openHifzPlanWizard();
+                return;
+            }
+            this.openHifzPlanDashboard();
+        },
+        openCustomHifzPlanFromSurat() {
+            this.closeMemorisationOffcanvas();
+            this.openHifzPlanWizard();
         },
         closeHifzPlanDashboard() {
             const instance =
@@ -29519,6 +29701,26 @@ export default {
                     : "Real-time text highlight disabled."
             );
             this.showModeToggleToast("Real-time highlight", checked);
+        },
+        toggleToolbarWordForWordHighlight() {
+            const checked = !this.transliterationWordHighlightEnabled;
+            this.transliterationWordHighlightEnabled = checked;
+            if (checked && !this.audioHighlightEnabled) {
+                this.audioHighlightEnabled = true;
+            }
+            if (this.settingsDraft) {
+                this.settingsDraft.transliterationWordHighlightEnabled = checked;
+                this.settingsDraft.audioHighlightEnabled = !!this.audioHighlightEnabled;
+            }
+            if (checked) {
+                this.enrichSurahWithQuranSegments().catch(() => {});
+            }
+            this.announce(
+                checked
+                    ? "Word-by-word audio highlighting enabled."
+                    : "Word-by-word audio highlighting disabled."
+            );
+            this.showModeToggleToast("Word highlight", checked);
         },
         toggleToolbarAudioHighlight() {
             const checked = !this.audioHighlightEnabled;
