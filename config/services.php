@@ -85,6 +85,12 @@ return [
     'huggingface' => [
         'model' => env('HUGGINGFACE_CHAT_MODEL', 'meta-llama/Llama-3.1-8B-Instruct'),
         'token' => env('HUGGINGFACE_API_TOKEN'),
+        // Used for frontend-only Whisper transcription on /surat (client-side; exposed to browser).
+        'recitation_token' => env('HUGGINGFACE_API_RECITATION_TOKEN')
+            ?: env('HUGGINGFACE_API_TOKEN')
+            ?: env('MIX_HUGGINGFACE_API_RECITATION_TOKEN')
+            ?: env('MIX_HF_API_TOKEN')
+            ?: env('MIX_HUGGINGFACE_API_TOKEN'),
         'router_provider' => env('HUGGINGFACE_ROUTER_PROVIDER', 'novita'),
     ],
     'criterion' => [

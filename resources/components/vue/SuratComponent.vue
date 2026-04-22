@@ -7143,6 +7143,15 @@
             </div>
         </teleport>
 
+        <SessionQuizModal
+            v-if="sessionQuizSession"
+            :session="sessionQuizSession"
+            :isOpen="isSessionQuizOpen"
+            @close="onSessionQuizClosed"
+            @save="onSessionQuizSaved"
+            @retake="onSessionQuizRetake"
+        />
+
         <button
             v-show="showScrollTop"
             @click="scrollToTop"

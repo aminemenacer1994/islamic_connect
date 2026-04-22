@@ -21,12 +21,14 @@ import {
 import { GUIDED_TOUR_DATA, guidedTourMethods } from "./surat.guided-tour";
 import { LEARNING_PATHS, learningPathMethods } from "./surat.learning-paths";
 import { PRONUNCIATION_GUIDES, pronunciationMethods } from "./surat.pronunciation";
+import SessionQuizModal from "../vue/SessionQuizModal.vue";
 export default {
     name: "SuratComponent",
     components: {
         BookmarkModal,
         SavedBookmarksPanel,
         SavedPlaylistsPanel,
+        SessionQuizModal,
     },
     data: function () {
         return {
@@ -87,6 +89,10 @@ export default {
             fullscreenChangeHandler: null,
             isThemeSwitching: false,
             suratThemeSwitchTimer: null,
+            // end-of-session quiz modal
+            isSessionQuizOpen: false,
+            sessionQuizSession: null,
+            sessionQuizOpenedForSessionId: "",
             userId: null,
             // a11y
             selectedCardIndex: 0,
@@ -9536,7 +9542,14 @@ export default {
             if (!skipCompletionAction) {
                 this.handleMemorisationChainingCompletionAction();
             }
-            this.finalizeSessionHistoryEntry("completed");
+            const entry = this.finalizeSessionHistoryEntry("completed");
+            if (entry) {
+                this.openSessionQuizFromSessionHistoryEntry(entry);
+            } else {
+                this.openSessionQuizFromCurrentMemorisationState({
+                    source: "chaining",
+                });
+            }
             this.showToast(
                 `${this.memorisationChainingModeLabel} completed for verses ${this.memorisationRangeStart}-${this.memorisationRangeEnd}.`,
                 3200
@@ -9920,6 +9933,10 @@ export default {
             this.verseCountdownCompletionNotified = true;
             this.triggerVerseCountdownCelebration();
             this.openVerseCountdownCompleteModal();
+            // Ensure quiz appears even if session history tracking is disabled (eg logged out).
+            this.openSessionQuizFromCurrentMemorisationState({
+                source: "verse-countdown",
+            });
         },
         triggerVerseCountdownCelebration() {
             if (
@@ -15652,10 +15669,156 @@ export default {
             if (String(reason || "").trim() === "completed") {
                 this.showSessionSavedToast("Session saved ✓", 2000);
                 this.triggerMemorisationSavedConfetti();
+                this.openSessionQuizFromSessionHistoryEntry(entry);
             }
             this.maybeCelebrateSessionHistoryMilestones(entry, previousEntries);
             return entry;
         },
+        // -------- Session Quiz (auto-open on session end) --------
+        stripHtmlToText(value) {
+            const input = String(value || "");
+            if (!input) return "";
+            if (typeof document === "undefined") {
+                return input.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
+            }
+            const div = document.createElement("div");
+            div.innerHTML = input;
+            return String(div.textContent || div.innerText || "")
+                .replace(/\s+/g, " ")
+                .trim();
+        },
+        buildQuizAyahsFromCurrentRange(options = {}) {
+            const { onlyAyahNumbers = null } = options || {};
+            const totalAyahs = Math.max(1, Number(this.totalAyahs || 1));
+            const rawStart = Number(this.memorisationRangeStart || 1);
+            const rawEnd = Number(this.memorisationRangeEnd || totalAyahs);
+            const start = Math.min(totalAyahs, Math.max(1, Math.min(rawStart, rawEnd)));
+            const end = Math.min(totalAyahs, Math.max(start, Math.max(rawStart, rawEnd)));
+
+            const allowed =
+                Array.isArray(onlyAyahNumbers) && onlyAyahNumbers.length
+                    ? new Set(
+                          onlyAyahNumbers
+                              .map((n) => Number(n || 0))
+                              .filter((n) => Number.isFinite(n) && n > 0)
+                      )
+                    : null;
+
+            const ayahs = Array.isArray(this.filteredAyahs) ? this.filteredAyahs : [];
+            const rows = ayahs
+                .map((a) => {
+                    const ayahNumber = Number(a?.numberInSurah || a?.number || 0);
+                    if (!Number.isFinite(ayahNumber) || ayahNumber < start || ayahNumber > end) {
+                        return null;
+                    }
+                    if (allowed && !allowed.has(ayahNumber)) return null;
+                    const arabicText = this.stripHtmlToText(a?.text || a?.arabicText || "");
+                    if (!arabicText) return null;
+                    const translation = this.stripHtmlToText(a?.translation || "");
+                    return { ayahNumber, arabicText, translation };
+                })
+                .filter(Boolean)
+                .sort((l, r) => Number(l.ayahNumber) - Number(r.ayahNumber));
+
+            // We don't have per-ayah attempt/correct stats yet, so approximate mastery from config accuracy.
+            const accuracy =
+                Number(this.sessionHistoryActiveTracker?.accuracyScore) ||
+                Number(
+                    (typeof this.resolveSessionHistoryAccuracyScore === "function"
+                        ? this.resolveSessionHistoryAccuracyScore(
+                              typeof this.getCurrentSessionHistoryConfig === "function"
+                                  ? this.getCurrentSessionHistoryConfig()
+                                  : null
+                          )
+                        : 0) || 0
+                );
+            const mastery = Number.isFinite(accuracy)
+                ? Math.max(0, Math.min(1, accuracy / 100))
+                : 0.7;
+            const mistakes = mastery < 0.7;
+
+            return rows.map((row) => ({
+                ayahNumber: row.ayahNumber,
+                arabicText: row.arabicText,
+                translation: row.translation,
+                attempts: 1,
+                correct: mastery >= 0.8,
+                mastery,
+                mistakes,
+            }));
+        },
+        openSessionQuizFromSessionHistoryEntry(entry) {
+            if (!entry) return false;
+            const sessionId = String(entry.id || entry.sessionId || "").trim();
+            if (!sessionId) return false;
+            if (this.isSessionQuizOpen) return false;
+            if (this.sessionQuizOpenedForSessionId === sessionId) return false;
+
+            const surahNumber = Number(entry.surahNumber || this.selectedSurah || 1);
+            const rangeStart = Number(entry.rangeStart || this.memorisationRangeStart || 1);
+            const rangeEnd = Number(entry.rangeEnd || this.memorisationRangeEnd || rangeStart);
+            const onlyAyahNumbers =
+                Array.isArray(entry.versesCovered) && entry.versesCovered.length
+                    ? entry.versesCovered
+                    : null;
+
+            const ayahs = this.buildQuizAyahsFromCurrentRange({ onlyAyahNumbers });
+            if (!ayahs.length) return false;
+
+            this.sessionQuizOpenedForSessionId = sessionId;
+            this.sessionQuizSession = {
+                sessionId,
+                date: Number(entry.endedAt || entry.startedAt || Date.now()),
+                surahNumber,
+                rangeStart,
+                rangeEnd,
+                ayahs,
+                settings:
+                    entry.sessionConfig ||
+                    (typeof this.getCurrentSessionHistoryConfig === "function"
+                        ? this.getCurrentSessionHistoryConfig()
+                        : null),
+            };
+            this.isSessionQuizOpen = true;
+            return true;
+        },
+        openSessionQuizFromCurrentMemorisationState(options = {}) {
+            if (this.isSessionQuizOpen) return false;
+            const totalAyahs = Math.max(1, Number(this.totalAyahs || 1));
+            const rawStart = Number(this.memorisationRangeStart || 1);
+            const rawEnd = Number(this.memorisationRangeEnd || totalAyahs);
+            const rangeStart = Math.min(totalAyahs, Math.max(1, Math.min(rawStart, rawEnd)));
+            const rangeEnd = Math.min(totalAyahs, Math.max(rangeStart, Math.max(rawStart, rawEnd)));
+            const surahNumber = Number(this.selectedSurah || 1);
+            const sessionId = `local-${surahNumber}-${rangeStart}-${rangeEnd}-${Date.now()}`;
+            if (this.sessionQuizOpenedForSessionId === sessionId) return false;
+
+            const ayahs = this.buildQuizAyahsFromCurrentRange();
+            if (!ayahs.length) return false;
+
+            this.sessionQuizOpenedForSessionId = sessionId;
+            this.sessionQuizSession = {
+                sessionId,
+                date: Date.now(),
+                surahNumber,
+                rangeStart,
+                rangeEnd,
+                ayahs,
+                settings:
+                    typeof this.getCurrentSessionHistoryConfig === "function"
+                        ? this.getCurrentSessionHistoryConfig()
+                        : null,
+                source: String(options?.source || "unknown"),
+            };
+            this.isSessionQuizOpen = true;
+            return true;
+        },
+        onSessionQuizClosed() {
+            this.isSessionQuizOpen = false;
+            this.sessionQuizSession = null;
+        },
+        onSessionQuizSaved(_result) {},
+        onSessionQuizRetake(_payload) {},
         maybeCelebrateSessionHistoryMilestones(entry, previousEntries = []) {
             const nextEntries = this.sessionHistoryEntries || [];
             const previousStats = this.getSessionHistoryStats(previousEntries);

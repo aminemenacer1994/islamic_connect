@@ -74,6 +74,17 @@
         window.Laravel.userId = {{ auth()->id() ? (int) auth()->id() : 'null' }};
         window.Laravel.user = {!! auth()->user() ? json_encode(['id' => auth()->id()]) : 'null' !!};
     </script>
+    @if($isSuratRoute)
+        @php
+            $hfToken = trim((string) config('services.huggingface.recitation_token', ''));
+        @endphp
+        @if($hfToken)
+            <script>
+                // Frontend-only Quran recitation transcription (Hugging Face Whisper)
+                window.__HF_API_TOKEN__ = {!! json_encode($hfToken) !!};
+            </script>
+        @endif
+    @endif
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
     <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
     <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>

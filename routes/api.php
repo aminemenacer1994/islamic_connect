@@ -7,6 +7,7 @@ use App\Http\Controllers\DebugController;
 use App\Http\Controllers\Api\RamadanUkController;
 use App\Http\Controllers\Api\RssProxyController;
 use App\Http\Controllers\Api\PexelsController;
+use App\Http\Controllers\Api\HuggingFaceRecitationController;
 
 
 /*
@@ -33,4 +34,7 @@ Route::get('/rss', [RssProxyController::class, 'show'])
     ->withoutMiddleware('auth:sanctum');
 
 Route::get('/pexels/search', [PexelsController::class, 'search'])
+    ->withoutMiddleware('auth:sanctum');
+Route::post('/quran/recitation/transcribe', [HuggingFaceRecitationController::class, 'transcribe'])
+    ->withoutMiddleware(\Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class)
     ->withoutMiddleware('auth:sanctum');
