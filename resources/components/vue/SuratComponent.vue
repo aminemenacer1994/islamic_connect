@@ -1383,7 +1383,11 @@
                         aria-label="How memorisation works">
                         <div class="memorisation-beginner-guide-head">
                             <div>
-                                <div class="memorisation-beginner-guide-kicker">How it works</div>
+                                <div class="memorisation-beginner-guide-kicker">
+                                    <i class="bi bi-compass" aria-hidden="true"></i>
+                                    <span>How it works</span>
+                                    <span class="memorisation-beginner-guide-pill" aria-hidden="true">4 steps</span>
+                                </div>
                             </div>
                             <div class="memorisation-beginner-guide-controls" role="group" aria-label="Guide controls">
                                 <button
@@ -1407,10 +1411,10 @@
                         </div>
                         <div v-show="!memorisationBeginnerGuideCollapsed" class="memorisation-beginner-guide-body">
                             <ol class="memorisation-beginner-guide-steps">
-                                <li><strong>Pick</strong> surah + range.</li>
-                                <li><strong>Press</strong> Start Session.</li>
-                                <li><strong>Repeat</strong> when it’s your turn.</li>
-                                <li><strong>Save</strong> and come back tomorrow.</li>
+                                <li>Pick surah + range.</li>
+                                <li>Press Start Session.</li>
+                                <li>Repeat when it’s your turn.</li>
+                                <li>Save and come back tomorrow.</li>
                             </ol>
                         </div>
                     </section>
