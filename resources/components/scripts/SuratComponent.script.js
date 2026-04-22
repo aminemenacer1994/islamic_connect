@@ -1236,11 +1236,12 @@ export default {
             isMemorisationRangeLoopCountdownActive: false,
             memorisationRangeLoopAudioContext: null,
             memorisationRangeLoopDelayPresets: [0, 1, 2, 3, 5],
-            memorisationRepeatAfterEnabled: false,
-            memorisationRepeatAfterPauseMode: "3",
-            memorisationRepeatAfterShowTranslation: true,
-            memorisationRepeatAfterVerseTextMode: "dimmed",
-            memorisationRepeatAfterRecordEnabled: false,
+	            memorisationRepeatAfterEnabled: false,
+	            memorisationRepeatAfterPauseMode: "3",
+	            // Removed: translation assist during repeat-after-reciter.
+	            memorisationRepeatAfterShowTranslation: false,
+	            memorisationRepeatAfterVerseTextMode: "dimmed",
+	            memorisationRepeatAfterRecordEnabled: false,
             memorisationVerseCountdownEnabled: false,
             memorisationVerseCountdownDisplayStyle: "combined",
             memorisationVerseCountdownPosition: "floating",
@@ -1439,7 +1440,7 @@ export default {
             memorisationRepeatRecordingsMaxTotal: 24,
             memorisationRepeatRecordingsMaxPayloadChars: 1800000,
             memorisationRepeatRecordingMaxDurationMs: 30000,
-            memorisationDraft: {
+	            memorisationDraft: {
                 surahNumber: "1",
                 reciterIdentifier: "ar.alafasy",
                 rangeStart: 1,
@@ -1450,7 +1451,7 @@ export default {
                 playbackMode: "continuous",
                 quranFontId: "",
                 singleAyahFocus: false,
-                rangeLoopEnabled: true,
+	                rangeLoopEnabled: false,
                 rangeLoopDelay: 3,
                 rangeLoopDelayIsCustom: false,
                 rangeLoopShowCountdown: true,
@@ -1458,11 +1459,12 @@ export default {
 	                showTajweed: true,
 	                showWordTranslation: false,
 	                showWordTranslationTooltip: false,
-                repeatAfterReciterEnabled: false,
-                repeatAfterReciterPauseMode: "3",
-                repeatAfterReciterShowTranslation: true,
-                repeatAfterReciterVerseTextMode: "dimmed",
-                repeatAfterReciterRecordEnabled: false,
+	                repeatAfterReciterEnabled: false,
+	                repeatAfterReciterPauseMode: "3",
+	                // Removed: translation assist during repeat-after-reciter.
+	                repeatAfterReciterShowTranslation: false,
+	                repeatAfterReciterVerseTextMode: "dimmed",
+	                repeatAfterReciterRecordEnabled: false,
                 verseCountdownEnabled: false,
                 verseCountdownDisplayStyle: "combined",
                 verseCountdownPosition: "floating",
@@ -2038,31 +2040,29 @@ export default {
                 return total + entries.length;
             }, 0);
         },
-        memorisationRepeatAfterDraftSupportPreset() {
-            const showTranslation =
-                this.memorisationDraft?.repeatAfterReciterShowTranslation !== false;
-            const verseTextMode =
-                this.normaliseMemorisationRepeatAfterVerseTextMode(
-                    this.memorisationDraft?.repeatAfterReciterVerseTextMode
-                );
-            if (showTranslation && verseTextMode === "show") return "full";
-            if (showTranslation && verseTextMode === "dimmed") return "balanced";
-            if (!showTranslation && verseTextMode === "hide") return "recall";
-            return "custom";
-        },
-        memorisationRepeatAfterDraftSupportSummary() {
-            const preset = this.memorisationRepeatAfterDraftSupportPreset;
-            if (preset === "full") {
-                return "Translation stays visible and the ayah stays fully visible.";
-            }
-            if (preset === "recall") {
-                return "Most prompts are removed so you can test yourself.";
-            }
-            if (preset === "balanced") {
-                return "Translation stays visible while the ayah is lightly dimmed.";
-            }
-            return "Custom mix of on-screen help.";
-        },
+	        memorisationRepeatAfterDraftSupportPreset() {
+	            const verseTextMode =
+	                this.normaliseMemorisationRepeatAfterVerseTextMode(
+	                    this.memorisationDraft?.repeatAfterReciterVerseTextMode
+	                );
+	            if (verseTextMode === "show") return "show";
+	            if (verseTextMode === "dimmed") return "dimmed";
+	            if (verseTextMode === "hide") return "hide";
+	            return "custom";
+	        },
+	        memorisationRepeatAfterDraftSupportSummary() {
+	            const preset = this.memorisationRepeatAfterDraftSupportPreset;
+	            if (preset === "show") {
+	                return "Ayah stays fully visible while you repeat.";
+	            }
+	            if (preset === "hide") {
+	                return "Most prompts are removed so you can test yourself.";
+	            }
+	            if (preset === "dimmed") {
+	                return "Ayah is lightly dimmed while you repeat.";
+	            }
+	            return "Custom mix of on-screen help.";
+	        },
         memorisationRepeatAfterDraftPauseLabel() {
             const mode = this.normaliseMemorisationRepeatAfterPauseMode(
                 this.memorisationDraft?.repeatAfterReciterPauseMode
@@ -7901,32 +7901,27 @@ export default {
             this.isMemorisationRepeatAfterSettingsOpen =
                 !this.isMemorisationRepeatAfterSettingsOpen;
         },
-        applyMemorisationRepeatAfterSupportPreset(preset = "balanced") {
-            if (!this.memorisationDraft) return;
-            if (preset === "full") {
-                this.memorisationDraft.repeatAfterReciterShowTranslation = true;
-                this.memorisationDraft.repeatAfterReciterVerseTextMode = "show";
-                return;
-            }
-            if (preset === "recall") {
-                this.memorisationDraft.repeatAfterReciterShowTranslation = false;
-                this.memorisationDraft.repeatAfterReciterVerseTextMode = "hide";
-                return;
-            }
-            this.memorisationDraft.repeatAfterReciterShowTranslation = true;
-            this.memorisationDraft.repeatAfterReciterVerseTextMode = "dimmed";
-        },
+	        applyMemorisationRepeatAfterSupportPreset(preset = "balanced") {
+	            if (!this.memorisationDraft) return;
+	            // Removed: translation assist during repeat-after-reciter.
+	            if (preset === "full") {
+	                this.memorisationDraft.repeatAfterReciterVerseTextMode = "show";
+	                return;
+	            }
+	            if (preset === "recall") {
+	                this.memorisationDraft.repeatAfterReciterVerseTextMode = "hide";
+	                return;
+	            }
+	            this.memorisationDraft.repeatAfterReciterVerseTextMode = "dimmed";
+	        },
         isMemorisationRepeatPauseActiveForIndex(index) {
             if (!this.isMemorisationRepeatPauseActive) return false;
             return Number(index) === Number(this.memorisationRepeatPauseIndex);
         },
-        shouldShowTranslationForRepeatPause(item) {
-            const isVisible = this.isTranslationVisibleFor(item);
-            if (!this.isMemorisationRepeatPauseActiveForIndex(item?.index)) {
-                return isVisible;
-            }
-            return !!this.memorisationRepeatAfterShowTranslation;
-        },
+	        shouldShowTranslationForRepeatPause(item) {
+	            // Removed: translation assist during repeat-after-reciter.
+	            return this.isTranslationVisibleFor(item);
+	        },
         shouldHideVerseTextForRepeatPause(index) {
             return (
                 this.isMemorisationRepeatPauseActiveForIndex(index) &&
@@ -10407,8 +10402,8 @@ export default {
                     this.normaliseMemorisationRepeatAfterPauseMode(
                         snapshot.memorisationRepeatAfterPauseMode
                     );
-                this.memorisationRepeatAfterShowTranslation =
-                    !!snapshot.memorisationRepeatAfterShowTranslation;
+	                // Removed: translation assist during repeat-after-reciter.
+	                this.memorisationRepeatAfterShowTranslation = false;
                 this.memorisationRepeatAfterVerseTextMode =
                     this.normaliseMemorisationRepeatAfterVerseTextMode(
                         snapshot.memorisationRepeatAfterVerseTextMode
@@ -10633,8 +10628,8 @@ export default {
                     this.normaliseMemorisationRepeatAfterPauseMode(
                         draft.repeatAfterReciterPauseMode
                     ),
-                repeatAfterReciterShowTranslation:
-                    draft.repeatAfterReciterShowTranslation !== false,
+	                // Removed: translation assist during repeat-after-reciter.
+	                repeatAfterReciterShowTranslation: false,
                 repeatAfterReciterVerseTextMode:
                     this.normaliseMemorisationRepeatAfterVerseTextMode(
                         draft.repeatAfterReciterVerseTextMode
@@ -10766,7 +10761,7 @@ export default {
                         showTajweed: true,
                         repeatAfterReciterEnabled: true,
                         repeatAfterReciterPauseMode: "3",
-                        repeatAfterReciterShowTranslation: true,
+	                        repeatAfterReciterShowTranslation: false,
                         repeatAfterReciterVerseTextMode: "dimmed",
                         sessionHistoryEnabled: true,
                         translationVisible: true,
@@ -10837,7 +10832,7 @@ export default {
                         playbackSpeed: 1,
                         repetitionCount: 2,
                         playbackMode: "repeat",
-                        rangeLoopEnabled: true,
+	                rangeLoopEnabled: false,
                         rangeLoopDelay: 2,
 	                        rangeLoopShowCountdown: true,
 	                        showTajweed: true,
@@ -11376,8 +11371,8 @@ export default {
                     this.normaliseMemorisationRepeatAfterPauseMode(
                         config.repeatAfterReciterPauseMode
                     ),
-                repeatAfterReciterShowTranslation:
-                    config.repeatAfterReciterShowTranslation !== false,
+	                // Removed: translation assist during repeat-after-reciter.
+	                repeatAfterReciterShowTranslation: false,
                 repeatAfterReciterVerseTextMode:
                     this.normaliseMemorisationRepeatAfterVerseTextMode(
                         config.repeatAfterReciterVerseTextMode
@@ -11905,8 +11900,8 @@ export default {
                     this.normaliseMemorisationRepeatAfterPauseMode(
                         config.repeatAfterReciterPauseMode
                     );
-                this.memorisationRepeatAfterShowTranslation =
-                    !!config.repeatAfterReciterShowTranslation;
+	                // Removed: translation assist during repeat-after-reciter.
+	                this.memorisationRepeatAfterShowTranslation = false;
                 this.memorisationRepeatAfterVerseTextMode =
                     this.normaliseMemorisationRepeatAfterVerseTextMode(
                         config.repeatAfterReciterVerseTextMode
@@ -12405,6 +12400,7 @@ export default {
                         return TooltipCtor.getOrCreateInstance(node, {
                             trigger: "hover focus click",
                             container: "body",
+                            html: true,
                         });
                     } catch (_) {
                         return null;
@@ -12948,7 +12944,7 @@ export default {
 	                showWordTranslationTooltip: false,
                 repeatAfterReciterEnabled: false,
                 repeatAfterReciterPauseMode: "3",
-                repeatAfterReciterShowTranslation: true,
+	                repeatAfterReciterShowTranslation: false,
                 repeatAfterReciterVerseTextMode: "dimmed",
                 repeatAfterReciterRecordEnabled: false,
                 verseCountdownEnabled: false,
@@ -13023,8 +13019,8 @@ export default {
                     this.normaliseMemorisationRepeatAfterPauseMode(
                         defaults.repeatAfterReciterPauseMode
                     );
-                this.memorisationRepeatAfterShowTranslation =
-                    !!defaults.repeatAfterReciterShowTranslation;
+	                // Removed: translation assist during repeat-after-reciter.
+	                this.memorisationRepeatAfterShowTranslation = false;
                 this.memorisationRepeatAfterVerseTextMode =
                     this.normaliseMemorisationRepeatAfterVerseTextMode(
                         defaults.repeatAfterReciterVerseTextMode
@@ -15059,7 +15055,7 @@ export default {
                         showTajweed: true,
                         repeatAfterReciterEnabled: true,
                         repeatAfterReciterPauseMode: "3",
-                        repeatAfterReciterShowTranslation: true,
+	                        repeatAfterReciterShowTranslation: false,
                         repeatAfterReciterVerseTextMode: "dimmed",
                         sessionHistoryEnabled: true,
                         translationVisible: true,
@@ -21022,11 +21018,8 @@ export default {
                             snapshot.repeatAfterReciterPauseMode ??
                             "3"
                     ),
-                memorisationRepeatAfterShowTranslation: !!(
-                    snapshot.memorisationRepeatAfterShowTranslation ??
-                    snapshot.repeatAfterReciterShowTranslation ??
-                    true
-                ),
+	                // Removed: translation assist during repeat-after-reciter.
+	                memorisationRepeatAfterShowTranslation: false,
                 memorisationRepeatAfterVerseTextMode:
                     this.normaliseMemorisationRepeatAfterVerseTextMode(
                         snapshot.memorisationRepeatAfterVerseTextMode ??
@@ -25481,6 +25474,43 @@ export default {
             if (isTypingContext) {
                 return;
             }
+            // Power-user shortcuts (desktop keyboards).
+            if (!e.metaKey && !e.ctrlKey && !e.altKey) {
+                if (key === " ") {
+                    e.preventDefault();
+                    if (this.isMemorisationToolbarVisible || this.isMemorisationMode) {
+                        this.toggleMemorisationPlayPause();
+                    } else {
+                        const index = Number.isFinite(Number(this.selectedCardIndex))
+                            ? Number(this.selectedCardIndex)
+                            : 0;
+                        this.toggleAudioPlayer(Math.max(0, index));
+                    }
+                    return;
+                }
+                if (normalizedKey === "b") {
+                    e.preventDefault();
+                    const idx = Number.isFinite(Number(this.selectedCardIndex))
+                        ? Number(this.selectedCardIndex)
+                        : 0;
+                    const ayah = this.filteredAyahs?.[Math.max(0, idx)] || null;
+                    if (ayah) {
+                        void this.toggleBookmark(ayah);
+                    }
+                    return;
+                }
+                if (normalizedKey === "r") {
+                    e.preventDefault();
+                    const idx = Number.isFinite(Number(this.selectedCardIndex))
+                        ? Number(this.selectedCardIndex)
+                        : 0;
+                    const ayah = this.filteredAyahs?.[Math.max(0, idx)] || null;
+                    if (ayah) {
+                        this.openReflectionModal(ayah);
+                    }
+                    return;
+                }
+            }
             if (this.handleMemorisationShortcut(e)) {
                 return;
             }
@@ -25548,11 +25578,14 @@ export default {
                 this.toggleMemorisationPlayPause();
                 return true;
             }
-            // R: repeat (range loop)
-            if (normalized === "r") {
+            // L: repeat (range loop) - keep R free for Reflect (global shortcut).
+            if (normalized === "l") {
                 e.preventDefault();
                 this.onMemorisationToolbarToggleRangeLoop();
-                this.showModeToggleToast("Repeat range", !!this.memorisationRangeLoopEnabled);
+                this.showModeToggleToast(
+                    "Repeat range",
+                    !!this.memorisationRangeLoopEnabled
+                );
                 return true;
             }
             // C: chaining
