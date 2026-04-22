@@ -451,6 +451,7 @@
     background: rgba(255, 255, 255, 0.88);
     box-shadow: 0 18px 42px rgba(7, 31, 28, 0.10);
     backdrop-filter: blur(10px);
+    transition: margin 220ms ease, width 220ms ease, max-width 220ms ease;
 }
 
 /* Reserve space so sticky strip never covers the first ayah card while scrolling. */
@@ -1082,6 +1083,16 @@ body.surat-route-page .memorisation-sidebar {
         ) !important;
         max-width: calc(
             100vw - var(--memorisation-content-right-offset) - (var(--memorisation-content-gutter, 24px) * 2)
+        ) !important;
+    }
+
+    /* Progress strip should "stop" at the offcanvas edge (right side), not stay centered. */
+    .surat-premium.memorisation-sidebar-open .memorisation-progress-strip--above-list {
+        width: auto !important;
+        max-width: none !important;
+        margin-left: var(--memorisation-content-gutter, 24px) !important;
+        margin-right: calc(
+            var(--memorisation-content-right-offset) + var(--memorisation-content-gutter, 24px)
         ) !important;
     }
 
