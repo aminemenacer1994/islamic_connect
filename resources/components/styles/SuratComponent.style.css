@@ -52175,7 +52175,8 @@ body.surat-route-page .memorisation-offcanvas-v3 {
 .memorisation-offcanvas-v3 .memorisation-advanced-panel .memorisation-tools-card-title p,
 .memorisation-offcanvas-v3 .memorisation-advanced-panel .memorisation-tools-field-hint,
 .memorisation-offcanvas-v3 .memorisation-advanced-panel .memorisation-tools-switch-copy small {
-    display: none !important;
+    /* Keep Advanced mode self-explanatory (same as Beginner). */
+    display: block !important;
 }
 
 .memorisation-offcanvas-v3 .memorisation-advanced-panel .memorisation-tools-grid {
