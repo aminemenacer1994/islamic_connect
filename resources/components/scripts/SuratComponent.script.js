@@ -1213,6 +1213,7 @@ export default {
             memorisationTooltipInstances: [],
             isMemorisationReadingAidsOpen: false,
             selectedMemorisationSessionHistoryId: "",
+            memorisationFullscreenOnStart: false,
 
             isMemorisationMode: false,
             memorisationFocusIndex: 0,
@@ -1487,6 +1488,12 @@ export default {
             isMemorisationOnboardingVisible: false,
             memorisationOnboardingStorageKey:
                 "ic_memorisation_beginner_onboarding_v1",
+            memorisationBeginnerGuideDismissed: false,
+            memorisationBeginnerGuideStorageKey:
+                "ic_memorisation_beginner_how_it_works_v1",
+            memorisationBeginnerGuideCollapsed: false,
+            memorisationBeginnerGuideCollapsedStorageKey:
+                "ic_memorisation_beginner_how_it_works_collapsed_v1",
             hifdhAuthStorageKey: "ic_hifdh_auth_user_v1",
             hifdhSchedulerStorageKey: "ic_hifdh_scheduler_v1",
             hifdhCheckpointDays: [1, 3, 7, 14, 30],
@@ -6273,6 +6280,12 @@ export default {
         isMemorisationMode(newVal) {
             this.persistMemorisationModeSetting();
         },
+        memorisationFullscreenOnStart(newVal) {
+            this.writeScopedBooleanPreference(
+                "suratMemoFullscreenOnStart",
+                !!newVal
+            );
+        },
         memorisationRangeLoopEnabled(newVal) {
             if (newVal) return;
             this.clearMemorisationRangeLoopRestartState();
@@ -6434,6 +6447,28 @@ export default {
             "resize",
             this.audioPlayerWindowResizeHandler
         );
+        this.memorisationFullscreenOnStart = this.readScopedBooleanPreference(
+            "suratMemoFullscreenOnStart",
+            false
+        );
+        this.writeScopedBooleanPreference(
+            "suratMemoFullscreenOnStart",
+            !!this.memorisationFullscreenOnStart
+        );
+        try {
+            this.memorisationBeginnerGuideDismissed =
+                localStorage.getItem(this.memorisationBeginnerGuideStorageKey) === "1";
+        } catch (_) {
+            this.memorisationBeginnerGuideDismissed = false;
+        }
+        try {
+            this.memorisationBeginnerGuideCollapsed =
+                localStorage.getItem(
+                    this.memorisationBeginnerGuideCollapsedStorageKey
+                ) === "1";
+        } catch (_) {
+            this.memorisationBeginnerGuideCollapsed = false;
+        }
         this._keydownHandler = (e) => {
             if (!this.bottomAudioPlayerEnabled || !this.showAudioPlayer) return;
             const target = e.target || {};
@@ -9546,6 +9581,7 @@ export default {
             if (entry) {
                 this.openSessionQuizFromSessionHistoryEntry(entry);
             } else {
+                this.triggerMemorisationSavedConfetti({ force: true, intensity: "full" });
                 this.openSessionQuizFromCurrentMemorisationState({
                     source: "chaining",
                 });
@@ -9932,6 +9968,8 @@ export default {
             if (this.verseCountdownCompletionNotified) return;
             this.verseCountdownCompletionNotified = true;
             this.triggerVerseCountdownCelebration();
+            // Confetti should trigger on completion even when session history is disabled.
+            this.triggerMemorisationSavedConfetti({ force: true, intensity: "full" });
             this.openVerseCountdownCompleteModal();
             // Ensure quiz appears even if session history tracking is disabled (eg logged out).
             this.openSessionQuizFromCurrentMemorisationState({
@@ -10349,8 +10387,9 @@ export default {
                     1,
                     Number(snapshot.memorisationRepetitionCount || 1)
                 );
-                this.memorisationRangeLoopEnabled =
-                    !!snapshot.memorisationRangeLoopEnabled;
+                // Default range looping to Off when restoring a session snapshot
+                // to prevent surprise auto-looping for most users.
+                this.memorisationRangeLoopEnabled = false;
                 this.memorisationRangeLoopDelay =
                     this.normaliseMemorisationRangeLoopDelay(
                         snapshot.memorisationRangeLoopDelay
@@ -12758,6 +12797,15 @@ export default {
             this.syncMemorisationDraftFromCurrentSession();
             this.showToast(this.memorisationSessionStatusMessage, 2800);
             this.announce(this.memorisationSessionStatusMessage);
+            if (
+                this.isMemorisationAdvancedMode &&
+                this.memorisationFullscreenOnStart &&
+                !this.isReadingFullscreen
+            ) {
+                try {
+                    await this.toggleReadingFullscreen();
+                } catch (_) {}
+            }
             this.playAudio(startIndex);
         },
         async startMemorisationBeginnerSession() {
@@ -12813,6 +12861,25 @@ export default {
             try {
                 localStorage.setItem(this.memorisationOnboardingStorageKey, "1");
             } catch (_) {}
+        },
+        dismissMemorisationBeginnerGuide() {
+            this.memorisationBeginnerGuideDismissed = true;
+            try {
+                localStorage.setItem(this.memorisationBeginnerGuideStorageKey, "1");
+            } catch (_) {}
+        },
+        toggleMemorisationBeginnerGuideCollapsed() {
+            this.memorisationBeginnerGuideCollapsed =
+                !this.memorisationBeginnerGuideCollapsed;
+            try {
+                localStorage.setItem(
+                    this.memorisationBeginnerGuideCollapsedStorageKey,
+                    this.memorisationBeginnerGuideCollapsed ? "1" : "0"
+                );
+            } catch (_) {}
+        },
+        scrollMemorisationBeginnerToStart() {
+            this.scrollMemorisationOffcanvasTo("memo-beginner-actions");
         },
         async startMemorisationOnboardingWithAlFatiha() {
             this.dismissMemorisationOnboarding();
@@ -13255,36 +13322,34 @@ export default {
         },
         syncMemorisationProgressStripSticky(enabled = false) {
             if (typeof document === "undefined") return;
-            const active = !!enabled;
             const host =
                 this.$el?.closest?.(".surat-premium") ||
                 document.querySelector(".surat-premium") ||
                 this.$el;
-            if (!host || typeof host.classList?.toggle !== "function") return;
-            host.classList.toggle("memorisation-progress-fixed", active);
-            try {
-                document.body?.classList?.toggle(
-                    "memorisation-progress-fixed",
-                    active
-                );
-            } catch (_) {}
-            if (!active) {
+            if (!host || typeof host.style?.setProperty !== "function") return;
+            if (!enabled) {
                 try {
-                    host.style.removeProperty("--memo-progress-top");
-                    host.style.removeProperty("--memo-progress-height");
+                    host.style.removeProperty("--memo-toolbar-h");
+                    host.style.removeProperty("--memo-progress-h");
                 } catch (_) {}
                 return;
             }
             this.$nextTick(() => {
                 try {
                     const toolbar = host.querySelector(".quran-toolbar-sticky");
-                    const strip = host.querySelector(".memorisation-progress-strip");
+                    const strip = host.querySelector(
+                        ".memorisation-progress-strip--above-list"
+                    );
                     const toolbarRect = toolbar?.getBoundingClientRect?.();
                     const stripRect = strip?.getBoundingClientRect?.();
-                    const toolbarH = toolbarRect ? Math.max(0, Math.round(toolbarRect.height)) : 92;
-                    const stripH = stripRect ? Math.max(0, Math.round(stripRect.height)) : 86;
-                    host.style.setProperty("--memo-progress-top", `${toolbarH}px`);
-                    host.style.setProperty("--memo-progress-height", `${stripH}px`);
+                    const toolbarH = toolbarRect
+                        ? Math.max(0, Math.round(toolbarRect.height))
+                        : 92;
+                    host.style.setProperty("--memo-toolbar-h", `${toolbarH}px`);
+                    const stripH = stripRect
+                        ? Math.max(0, Math.round(stripRect.height))
+                        : 62;
+                    host.style.setProperty("--memo-progress-h", `${stripH}px`);
                 } catch (_) {}
             });
         },
@@ -15668,7 +15733,7 @@ export default {
             this.persistSessionHistory();
             if (String(reason || "").trim() === "completed") {
                 this.showSessionSavedToast("Session saved ✓", 2000);
-                this.triggerMemorisationSavedConfetti();
+                this.triggerMemorisationSavedConfetti({ force: true, intensity: "full" });
                 this.openSessionQuizFromSessionHistoryEntry(entry);
             }
             this.maybeCelebrateSessionHistoryMilestones(entry, previousEntries);
@@ -17586,23 +17651,31 @@ export default {
             }, 2300);
             this.memorisationConfettiTimeouts.push(timeoutId);
         },
-        triggerMemorisationSavedConfetti() {
+        triggerMemorisationSavedConfetti(options = {}) {
+            const { force = false, intensity = "subtle" } = options || {};
             if (typeof document === "undefined") return;
-            if (
-                typeof window !== "undefined" &&
-                window.matchMedia &&
-                window.matchMedia("(prefers-reduced-motion: reduce)").matches
-            ) {
-                return;
+            if (!force) {
+                if (
+                    typeof window !== "undefined" &&
+                    window.matchMedia &&
+                    window.matchMedia("(prefers-reduced-motion: reduce)").matches
+                ) {
+                    return;
+                }
             }
             const layer = document.createElement("div");
             layer.className = "memorisation-confetti-layer is-saved";
             layer.setAttribute("aria-hidden", "true");
             const palette = ["#0f766e", "#14b8a6", "#22c55e", "#86efac"];
-            for (let i = 0; i < 14; i += 1) {
+            const pieceCount = intensity === "full" ? 72 : 18;
+            for (let i = 0; i < pieceCount; i += 1) {
                 const piece = document.createElement("span");
                 piece.className = "memorisation-confetti-piece";
                 piece.style.setProperty("--memo-confetti-x", `${Math.round(Math.random() * 100)}%`);
+                piece.style.setProperty(
+                    "--memo-confetti-dx",
+                    `${Math.round(-160 + Math.random() * 320)}px`
+                );
                 piece.style.setProperty("--memo-confetti-delay", `${(Math.random() * 0.12).toFixed(2)}s`);
                 piece.style.setProperty("--memo-confetti-duration", `${(0.75 + Math.random() * 0.55).toFixed(2)}s`);
                 piece.style.setProperty(
@@ -17616,7 +17689,7 @@ export default {
                 if (layer && layer.parentNode) {
                     layer.parentNode.removeChild(layer);
                 }
-            }, 2000);
+            }, intensity === "full" ? 2400 : 2000);
             this.memorisationConfettiTimeouts.push(timeoutId);
         },
         clearMemorisationConfettiLayers() {

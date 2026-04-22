@@ -800,7 +800,7 @@
                 </button>
         </div>
         <section
-            v-if="isMemorisationToolbarVisible"
+            v-if="isMemorisationToolbarVisible && !isReadingFullscreen"
             class="memorisation-tools-hero ltr-text"
             :style="getMemorisationContentLaneStyle()"
             aria-label="Quran Memorisation intro">
@@ -810,7 +810,7 @@
                 It connects setup, listening, and revision so daily practice turns into long-term retention and confident recitation.
             </p>
         </section>
-        <div v-if="(surahDetails || currentSurahInfo) && (!isTabletOrMobile && showDesktopToolbar && showReaderToolbar)"
+        <div v-if="(surahDetails || currentSurahInfo) && (!isTabletOrMobile && showDesktopToolbar && showReaderToolbar) && !isReadingFullscreen"
             class="quran-toolbar-sticky ltr-text"
             :class="{
                 'quran-toolbar-fixed-shell': showDesktopToolbar && !isTabletOrMobile,
@@ -1026,22 +1026,6 @@
                     <div
                         class="quran-toolbar-scroll-track"
                         :class="{ 'is-centered': isMemorisationToolbarVisible && !isMemorisationOffcanvasVisible }">
-                        <button
-                            v-if="isMemorisationToolbarVisible && !isReaderToolbarMinimized"
-                            type="button"
-                            class="quran-toolbar-btn quran-toolbar-btn-reader-control quran-toolbar-btn--start-plan"
-                            @click="openCustomHifzPlanFromSurat"
-                            aria-label="Create a custom hifz plan"
-                            title="Start plan">
-                            <span class="quran-toolbar-btn-main">
-                                <span class="quran-toolbar-btn-icon-shell" aria-hidden="true">
-                                    <i class="bi bi-calendar2-check" aria-hidden="true"></i>
-                                </span>
-                                <span class="quran-toolbar-btn-copy">
-                                    <span class="quran-toolbar-btn-text">Start plan</span>
-                                </span>
-                            </span>
-                        </button>
                         <button
                             v-if="isMemorisationToolbarVisible && !isReaderToolbarMinimized"
                             type="button"
@@ -1331,35 +1315,6 @@
                         aria-hidden="true"></i>
                 </button>
             </div>
-            <div
-                v-if="isMemorisationToolbarVisible"
-                class="memorisation-progress-strip"
-                role="status"
-                aria-live="polite"
-                aria-atomic="true">
-                <div class="memorisation-progress-strip-row">
-                    <div class="memorisation-progress-strip-chips">
-                        <span class="memorisation-progress-chip">
-                            Now on <strong>Ayah {{ memorisationProgressStripMeta?.current ?? "—" }}</strong>
-                            <span class="memorisation-progress-chip-sub">
-                                ({{ memorisationProgressStripMeta?.ayahPos ?? "—" }}/{{ memorisationProgressStripMeta?.total ?? "—" }})
-                            </span>
-                        </span>
-                        <span class="memorisation-progress-chip">
-                            Repeat <strong>{{ memorisationProgressStripMeta?.roundPos ?? "—" }}</strong>/<span>{{ memorisationProgressStripMeta?.roundTotal ?? "—" }}</span>
-                        </span>
-                    </div>
-                    <div class="memorisation-progress-strip-meta">
-                        <span class="memorisation-progress-strip-identity">{{ memorisationPracticeIdentityLabel }}</span>
-                        <span class="memorisation-progress-strip-range">Range {{ memorisationProgressStripMeta?.start ?? "—" }}-{{ memorisationProgressStripMeta?.end ?? "—" }}</span>
-                    </div>
-                </div>
-                <div class="memorisation-progress-strip-track" aria-hidden="true">
-                    <span
-                        class="memorisation-progress-strip-fill"
-                        :style="{ width: `${memorisationProgressStripPercent || 0}%` }"></span>
-                </div>
-            </div>
         </div>
 
 
@@ -1407,12 +1362,58 @@
                         Advanced
                     </button>
                 </div>
+                <button
+                    v-if="isMemorisationToolbarVisible"
+                    type="button"
+                    class="btn memorisation-start-plan-btn"
+                    @click="openCustomHifzPlanFromSurat"
+                    aria-label="Create a custom hifz plan">
+                    <i class="bi bi-calendar2-check" aria-hidden="true"></i>
+                    <span>Start plan</span>
+                </button>
                 <div class="memorisation-streak-pill" :title="hifdhConsistencyTooltip">
                     <span class="memorisation-streak-pill-label">Streak</span>
                     <span class="memorisation-streak-pill-value">{{ hifdhConsistencyPillLabel }}</span>
                 </div>
 
                 <div v-if="!isMemorisationAdvancedMode" class="memorisation-beginner-panel" aria-label="Beginner session setup">
+                    <section
+                        v-if="!memorisationBeginnerGuideDismissed"
+                        class="memorisation-beginner-guide"
+                        aria-label="How memorisation works">
+                        <div class="memorisation-beginner-guide-head">
+                            <div>
+                                <div class="memorisation-beginner-guide-kicker">How it works</div>
+                            </div>
+                            <div class="memorisation-beginner-guide-controls" role="group" aria-label="Guide controls">
+                                <button
+                                    type="button"
+                                    class="btn memorisation-beginner-guide-icon"
+                                    @click="toggleMemorisationBeginnerGuideCollapsed"
+                                    :aria-label="memorisationBeginnerGuideCollapsed ? 'Expand guide' : 'Collapse guide'">
+                                    <i
+                                        class="bi"
+                                        :class="memorisationBeginnerGuideCollapsed ? 'bi-chevron-down' : 'bi-chevron-up'"
+                                        aria-hidden="true"></i>
+                                </button>
+                                <button
+                                    type="button"
+                                    class="btn memorisation-beginner-guide-icon"
+                                    @click="dismissMemorisationBeginnerGuide"
+                                    aria-label="Dismiss guide">
+                                    <i class="bi bi-x" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div v-show="!memorisationBeginnerGuideCollapsed" class="memorisation-beginner-guide-body">
+                            <ol class="memorisation-beginner-guide-steps">
+                                <li><strong>Pick</strong> surah + range.</li>
+                                <li><strong>Press</strong> Start Session.</li>
+                                <li><strong>Repeat</strong> when it’s your turn.</li>
+                                <li><strong>Save</strong> and come back tomorrow.</li>
+                            </ol>
+                        </div>
+                    </section>
                     <nav class="memorisation-jump-links" aria-label="Jump to section">
                         <button type="button" class="btn memorisation-jump-link" @click="scrollMemorisationOffcanvasTo('memo-beginner-setup')">Setup</button>
                         <button type="button" class="btn memorisation-jump-link" @click="scrollMemorisationOffcanvasTo('memo-beginner-playback')">Playback</button>
@@ -1585,30 +1586,7 @@
                                 </div>
                             </div>
 
-                            <label class="memorisation-tools-switch memorisation-tools-field--full">
-                                <span class="memorisation-tools-switch-copy">
-                                    <strong>Range loop</strong>
-                                    <small>Automatically replays the full range so you reinforce sequence memory without restarting manually.</small>
-                                </span>
-                                <span class="form-check form-switch mb-0">
-                                    <input
-                                        class="form-check-input"
-                                        type="checkbox"
-                                        v-model="memorisationDraft.rangeLoopEnabled"
-                                        aria-label="Toggle range loop" />
-                                </span>
-                            </label>
-                            <label class="memorisation-tools-field memorisation-tools-field--full">
-                                <span class="memorisation-tools-label">Loop delay (sec)</span>
-                                <input
-                                    type="number"
-                                    class="form-control memorisation-tools-control"
-                                    v-model.number="memorisationDraft.rangeLoopDelay"
-                                    min="0"
-                                    max="300"
-                                    aria-label="Loop delay" />
-                                <small class="memorisation-tools-field-hint">Small pauses between loops reduce fatigue while keeping recall momentum.</small>
-                            </label>
+                            <!-- Range loop is intentionally hidden in Beginner mode. -->
                         </div>
                     </section>
 
@@ -1713,7 +1691,7 @@
 	                        </div>
 	                    </section>
 
-                    <div class="memorisation-beginner-actions">
+                    <div id="memo-beginner-actions" class="memorisation-beginner-actions">
                         <button
                             type="button"
                             class="btn memorisation-tools-action-btn memorisation-tools-action-btn--primary"
@@ -1811,8 +1789,22 @@
                                         @change="onMemorisationToolbarRangeChange"
 	                                        aria-label="Range end ayah" />
 	                                </div>
-                                    <small class="memorisation-tools-field-hint">A smaller range makes repetition easier to control and review.</small>
-	                            </label>
+                                <small class="memorisation-tools-field-hint">A smaller range makes repetition easier to control and review.</small>
+                            </label>
+
+                            <label class="memorisation-tools-switch memorisation-tools-field--full">
+                                <span class="memorisation-tools-switch-copy">
+                                    <strong>Fullscreen on start</strong>
+                                    <small>Enters focused fullscreen as soon as you press Start Session (Advanced only).</small>
+                                </span>
+                                <span class="form-check form-switch mb-0">
+                                    <input
+                                        class="form-check-input"
+                                        type="checkbox"
+                                        v-model="memorisationFullscreenOnStart"
+                                        aria-label="Toggle fullscreen on start" />
+                                </span>
+                            </label>
 
                             <label class="memorisation-tools-field">
                                 <span class="memorisation-tools-label">Recitation speed</span>
@@ -2080,15 +2072,15 @@
 	                            </label>
                             <label class="memorisation-tools-switch memorisation-tools-field--full">
                                 <span class="memorisation-tools-switch-copy">
-                                    <strong>Show translation assist</strong>
-	                                    <small>Shows meaning as a support cue when recall needs context.</small>
+                                    <strong>Show translation during your turn</strong>
+		                                    <small>Shows the translation while you repeat, so you can use meaning as a gentle cue.</small>
                                 </span>
                                 <span class="form-check form-switch mb-0">
                                     <input
                                         class="form-check-input"
                                         type="checkbox"
                                         v-model="memorisationDraft.repeatAfterReciterShowTranslation"
-                                        aria-label="Toggle translation assist during repeat pause" />
+                                        aria-label="Toggle translation during your turn" />
                                 </span>
                             </label>
                         </div>
@@ -4680,6 +4672,30 @@
                 </section>
             </div>
 
+            <div
+                v-if="isMemorisationToolbarVisible"
+                class="memorisation-progress-strip memorisation-progress-strip--above-list"
+                role="status"
+                aria-live="polite"
+                aria-atomic="true">
+                <div class="memorisation-progress-strip-row">
+                    <div class="memorisation-progress-strip-meta">
+                        <span class="memorisation-progress-strip-identity">{{ memorisationPracticeIdentityLabel }}</span>
+                        <span class="memorisation-progress-strip-range">{{ memorisationProgressStripText }}</span>
+                    </div>
+                    <div class="memorisation-progress-strip-chips">
+                        <span class="memorisation-progress-chip">
+                            Range <strong>{{ memorisationProgressStripMeta?.start ?? "—" }}-{{ memorisationProgressStripMeta?.end ?? "—" }}</strong>
+                        </span>
+                    </div>
+                </div>
+                <div class="memorisation-progress-strip-track" aria-hidden="true">
+                    <span
+                        class="memorisation-progress-strip-fill"
+                        :style="{ width: `${memorisationProgressStripPercent || 0}%` }"></span>
+                </div>
+            </div>
+
             <div class="row rtl-text" ref="listContainer" role="list" aria-label="Ayah verses list"
                 :style="getAyahListContainerStyle()">
                 <div ref="audioCard" v-for="item in visibleWindow"
@@ -6184,6 +6200,7 @@
                                                 type="button"
                                                 class="btn surah-settings-action-btn"
                                                 :class="{ 'is-active': isReadingFullscreen }"
+                                                v-if="!isMemorisationToolbarVisible"
                                                 @click="toggleReadingFullscreenFromSettings"
                                                 :aria-label="isReadingFullscreen
                                                     ? 'Exit fullscreen reading mode'

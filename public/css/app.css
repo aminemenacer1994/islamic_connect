@@ -62462,33 +62462,153 @@ to { transform: rotate(360deg);
     margin: 0;
 }
 
-/* Force-sticky behaviour: pin the strip under the pinned toolbar, even if the toolbar swaps positioning modes. */
-body.surat-route-page .surat-premium.memorisation-progress-fixed .memorisation-progress-strip {
-    position: fixed !important;
-    left: 0 !important;
-    right: 0 !important;
-    width: 100vw !important;
-    top: calc(var(--nav-offset, var(--navbar-h, 72px)) + var(--memo-progress-top, 92px) + 8px) !important;
-    z-index: 2000 !important;
+/* Progress strip placed above the ayah list (simple, readable, no overlay). */
+.memorisation-progress-strip--above-list[data-v-637d02d8] {
+    position: sticky;
+    top: calc(var(--nav-offset, var(--navbar-h, 72px)) + var(--memo-toolbar-h, 92px) + 8px);
+    z-index: 1500;
+    margin: 0.55rem auto 0.35rem;
+    padding: 0.55rem 0.75rem 0.6rem;
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.88);
+    box-shadow: 0 18px 42px rgba(7, 31, 28, 0.10);
+    backdrop-filter: blur(10px);
 }
 
-/* Reserve vertical space so the pinned strip sits between the toolbar and the first ayah card (no overlap). */
-.surat-premium.memorisation-progress-fixed .row[role="list"][data-v-637d02d8] {
-    padding-top: calc(1.35rem + var(--memo-progress-height, 86px) + 8px) !important;
+/* Reserve space so sticky strip never covers the first ayah card while scrolling. */
+.surat-premium.memorisation-offcanvas-open .row[role="list"][data-v-637d02d8] {
+    padding-top: calc(var(--memo-progress-h, 62px) + 14px) !important;
+}
+.memorisation-progress-strip--above-list .memorisation-progress-strip-row[data-v-637d02d8] {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+}
+.memorisation-progress-strip--above-list .memorisation-progress-strip-track[data-v-637d02d8] {
+    margin-top: 0.65rem;
+    height: 8px;
+    border-radius: 999px;
+    background: rgba(15, 118, 110, 0.12);
+    overflow: hidden;
+}
+.memorisation-progress-strip--above-list .memorisation-progress-strip-fill[data-v-637d02d8] {
+    height: 100%;
+    border-radius: 999px;
+    background: linear-gradient(90deg, rgba(15, 118, 110, 0.95) 0%, rgba(27, 143, 126, 0.92) 45%, rgba(214, 170, 86, 0.92) 100%);
+}
+.memorisation-progress-strip--above-list .memorisation-progress-strip-meta[data-v-637d02d8] {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    min-width: 0;
+}
+.memorisation-progress-strip--above-list .memorisation-progress-strip-identity[data-v-637d02d8] {
+    font-weight: 900;
+    color: rgba(6, 95, 70, 0.92);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.memorisation-progress-strip--above-list .memorisation-progress-strip-range[data-v-637d02d8] {
+    font-weight: 700;
+    color: rgba(15, 23, 42, 0.72);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.memorisation-progress-strip--above-list .memorisation-progress-chip[data-v-637d02d8] {
+    padding: 0.2rem 0.5rem;
+    background: rgba(15, 118, 110, 0.06);
+    border: 1px solid rgba(15, 118, 110, 0.12);
+    border-radius: 999px;
+    font-weight: 800;
+    color: rgba(6, 95, 70, 0.92);
 }
 
-/* Same behaviour, but driven by body class to avoid dependency on the component root class attachment. */
-body.surat-route-page.memorisation-progress-fixed .memorisation-progress-strip {
-    position: fixed !important;
-    left: 0 !important;
-    right: 0 !important;
-    width: 100vw !important;
-    top: calc(var(--nav-offset, var(--navbar-h, 72px)) + var(--memo-progress-top, 92px) + 8px) !important;
-    z-index: 2000 !important;
+/* Start plan button inside the memorisation offcanvas (below Beginner/Advanced). */
+.memorisation-start-plan-btn[data-v-637d02d8] {
+    width: 100%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.55rem;
+    margin: 0.85rem 0 0.6rem;
+    padding: 0.7rem 0.85rem;
+    border-radius: 14px;
+    border: 1px solid rgba(15, 118, 110, 0.18);
+    background: rgba(15, 118, 110, 0.10);
+    color: rgba(6, 95, 70, 0.96);
+    font-weight: 800;
+    box-shadow: 0 12px 28px rgba(7, 31, 28, 0.10);
 }
-body.memorisation-progress-fixed .row[role="list"][data-v-637d02d8] {
-    padding-top: calc(1.35rem + var(--memo-progress-height, 86px) + 8px) !important;
+.memorisation-start-plan-btn[data-v-637d02d8]:hover {
+    background: rgba(15, 118, 110, 0.14);
+    border-color: rgba(15, 118, 110, 0.26);
 }
+.memorisation-start-plan-btn[data-v-637d02d8]:focus-visible {
+    outline: 0;
+    box-shadow: 0 0 0 0.22rem rgba(15, 118, 110, 0.18), 0 12px 28px rgba(7, 31, 28, 0.10);
+}
+.memorisation-beginner-guide[data-v-637d02d8] {
+    padding: 0.65rem 0.7rem;
+    border-radius: 18px;
+    border: 2px solid rgba(15, 118, 110, 0.55);
+    background: rgba(255, 255, 255, 0.88);
+    box-shadow: 0 16px 40px rgba(7, 31, 28, 0.10);
+    backdrop-filter: blur(10px);
+}
+.memorisation-beginner-guide-head[data-v-637d02d8] {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.75rem;
+}
+.memorisation-beginner-guide-kicker[data-v-637d02d8] {
+    font-size: 0.72rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(15, 118, 110, 0.88);
+}
+.memorisation-beginner-guide-controls[data-v-637d02d8] {
+    display: inline-flex;
+    gap: 0.35rem;
+    align-items: center;
+}
+.memorisation-beginner-guide-icon[data-v-637d02d8] {
+    width: 30px;
+    height: 30px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border-radius: 10px;
+    border: 1px solid rgba(15, 118, 110, 0.14);
+    background: rgba(255, 255, 255, 0.65);
+    color: rgba(15, 23, 42, 0.78);
+}
+.memorisation-beginner-guide-icon[data-v-637d02d8]:hover {
+    border-color: rgba(15, 118, 110, 0.22);
+    background: rgba(255, 255, 255, 0.78);
+}
+.memorisation-beginner-guide-icon[data-v-637d02d8]:focus-visible {
+    outline: 0;
+    box-shadow: 0 0 0 0.22rem rgba(15, 118, 110, 0.18);
+}
+.memorisation-beginner-guide-steps[data-v-637d02d8] {
+    margin: 0.55rem 0 0;
+    padding-left: 1.25rem;
+    color: rgba(15, 23, 42, 0.78);
+    font-weight: 750;
+    font-size: 1.02rem;
+    line-height: 1.42;
+}
+.memorisation-beginner-guide-steps li[data-v-637d02d8] {
+    margin: 0.25rem 0;
+}
+
+/* link removed (guide is now purely informational) */
 
 /* Floating close button should always remain available (some states can otherwise trap users behind an overlay). */
 .memorisation-offcanvas .memorisation-panel-close-btn--floating[data-v-637d02d8] {
@@ -62751,9 +62871,8 @@ body.surat-route-page .memorisation-offcanvas-v3[data-v-637d02d8] {
 body.surat-route-page .memorisation-offcanvas .memorisation-panel-close-btn--floating[data-v-637d02d8] {
     display: inline-flex !important;
 }
-body.surat-route-page.memorisation-progress-fixed .memorisation-progress-strip[data-v-637d02d8] {
-    border: 0 !important;
-}
+
+/* legacy: memorisation-progress-fixed no longer used */
 
 /* Keep the JS-driven layout vars in sync with our wider docked width preference. */
 body.surat-route-page[data-v-637d02d8] {
@@ -102761,7 +102880,7 @@ to {
     position: fixed;
     inset: 0;
     pointer-events: none;
-    z-index: 1400;
+    z-index: 60000;
     overflow: hidden;
 }
 .memorisation-confetti-layer.is-saved .memorisation-confetti-piece[data-v-637d02d8] {
@@ -102791,7 +102910,7 @@ to {
         opacity: 1;
 }
 100% {
-        transform: translate3d(calc((50vw - var(--memo-confetti-x, 50%)) * 0.08), 104vh, 0)
+        transform: translate3d(var(--memo-confetti-dx, 0px), 104vh, 0)
             rotate(540deg);
         opacity: 0;
 }
