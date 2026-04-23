@@ -1020,12 +1020,12 @@
                     </div>
                 </div>
 
-                <div
-                    class="quran-toolbar-reader-actions"
-                    :class="{ 'is-memorisation-centered': isMemorisationToolbarVisible && !isMemorisationOffcanvasVisible }">
-                    <div
-                        class="quran-toolbar-scroll-track"
-                        :class="{ 'is-centered': isMemorisationToolbarVisible && !isMemorisationOffcanvasVisible }">
+	                <div
+	                    class="quran-toolbar-reader-actions"
+	                    :class="{ 'is-memorisation-centered': isMemorisationToolbarVisible && !isMemorisationOffcanvasVisible }">
+	                    <div
+	                        class="quran-toolbar-scroll-track"
+	                        :class="{ 'is-centered': isMemorisationToolbarVisible && !isMemorisationOffcanvasVisible }">
                         <button
                             v-if="isMemorisationToolbarVisible && !isReaderToolbarMinimized"
                             type="button"
@@ -1197,10 +1197,10 @@
                             </span>
                             <span class="quran-toolbar-btn-state">{{ transliterationWordHighlightEnabled ? "On" : "Off" }}</span>
                         </button>
-                        <button
-                            v-if="isMemorisationToolbarVisible && !isReaderToolbarMinimized"
-                            type="button"
-                            class="quran-toolbar-btn quran-toolbar-btn-toggle quran-toolbar-btn-reader-control quran-toolbar-tools-icon-only quran-toolbar-btn--memo-offcanvas"
+		                        <button
+		                            v-if="isMemorisationToolbarVisible && !isReaderToolbarMinimized"
+		                            type="button"
+		                            class="quran-toolbar-btn quran-toolbar-btn-toggle quran-toolbar-btn-reader-control quran-toolbar-tools-icon-only quran-toolbar-btn--memo-offcanvas"
                             :class="{ 'is-enabled': isMemorisationOffcanvasVisible }"
                             @click="isMemorisationOffcanvasVisible ? closeMemorisationOffcanvas() : openMemorisationOffcanvas()"
                             :aria-label="isMemorisationOffcanvasVisible ? 'Close tools panel' : 'Open tools panel'"
@@ -1210,20 +1210,52 @@
                                     class="bi"
                                     :class="isMemorisationOffcanvasVisible ? 'bi-layout-sidebar-inset' : 'bi-layout-sidebar-inset-reverse'"></i>
                             </span>
-                        </button>
-                    </div>
-                    <button
-                        v-if="isMemorisationToolbarVisible && !isReaderToolbarMinimized"
-                        type="button"
-                        class="quran-toolbar-btn quran-toolbar-memorisation-exit"
-                        @click="deactivateMemorisationToolbar()"
-                        aria-label="Exit memorisation tools"
-                        title="Exit memorisation tools">
-                        <i class="bi bi-x-lg" aria-hidden="true"></i>
-                    </button>
-                    <div v-if="!isMemorisationToolbarVisible && !isReaderToolbarMinimized" class="dropdown quran-toolbar-more">
-                        <button
-                            type="button"
+		                        </button>
+		                        <button
+		                            v-if="isMemorisationToolbarVisible && !isReaderToolbarMinimized"
+		                            type="button"
+		                            class="quran-toolbar-btn quran-toolbar-btn-toggle quran-toolbar-btn-reader-control quran-toolbar-tools-icon-only"
+		                            data-memorisation-tooltip
+		                            data-bs-toggle="tooltip"
+		                            data-bs-html="true"
+		                            data-bs-placement="bottom"
+		                            :data-bs-title="'<strong>Keyboard shortcuts</strong><br>Space: Play/Pause<br>←/→: Prev/Next ayah<br>B: Bookmark<br>R: Reflect<br>L: Repeat range'"
+		                            aria-label="Keyboard shortcuts"
+		                            title="Keyboard shortcuts">
+		                            <span class="quran-toolbar-btn-icon-shell" aria-hidden="true">
+		                                <i class="bi bi-keyboard"></i>
+		                            </span>
+		                        </button>
+		                    </div>
+	                    <button
+	                        v-if="isMemorisationToolbarVisible && !isReaderToolbarMinimized"
+	                        type="button"
+	                        class="quran-toolbar-btn quran-toolbar-memorisation-exit"
+	                        @click="deactivateMemorisationToolbar()"
+	                        aria-label="Exit memorisation tools"
+	                        title="Exit memorisation tools">
+	                        <i class="bi bi-x-lg" aria-hidden="true"></i>
+	                    </button>
+	                    <div
+	                        v-if="isMemorisationToolbarVisible && !isReaderToolbarMinimized"
+	                        class="memorisation-toolbar-progress"
+	                        role="status"
+	                        aria-live="polite"
+	                        aria-atomic="true">
+	                        <span class="memorisation-toolbar-progress-identity">{{ memorisationPracticeIdentityLabel }}</span>
+	                        <span class="memorisation-toolbar-progress-range">{{ memorisationProgressStripText }}</span>
+	                        <div class="memorisation-toolbar-progress-track" aria-hidden="true">
+	                            <span
+	                                class="memorisation-toolbar-progress-fill"
+	                                :style="{ width: `${memorisationProgressStripPercent || 0}%` }"></span>
+	                        </div>
+	                        <span class="memorisation-progress-chip memorisation-toolbar-progress-chip">
+	                            Range <strong>{{ memorisationProgressStripMeta?.start ?? "—" }}-{{ memorisationProgressStripMeta?.end ?? "—" }}</strong>
+	                        </span>
+	                    </div>
+	                    <div v-if="!isMemorisationToolbarVisible && !isReaderToolbarMinimized" class="dropdown quran-toolbar-more">
+	                        <button
+	                            type="button"
                             class="quran-toolbar-btn quran-toolbar-btn-icon quran-toolbar-more-toggle dropdown-toggle"
                             data-bs-toggle="dropdown"
                             aria-expanded="false"
@@ -1296,9 +1328,9 @@
                             <i class="bi bi-gear-fill" aria-hidden="true"></i>
                             <span class="advanced-quran-more-item-label">Display settings</span>
                         </button>
-                        </div>
-                    </div>
-                </div>
+	            </div>
+	            </div>
+	        </div>
                 <button
                     v-if="!isReaderToolbarMinimized && !isMemorisationToolbarVisible"
                     type="button"
@@ -1659,13 +1691,59 @@
                                 <i class="bi" :class="isMemorisationBeginnerSectionOpen('history') ? 'bi-chevron-up' : 'bi-chevron-down'" aria-hidden="true"></i>
                             </button>
                         </div>
-                        <div v-show="isMemorisationBeginnerSectionOpen('history')" class="memorisation-tools-grid">
-                            <div class="memorisation-saved-session-actions memorisation-tools-field--full">
-                            </div>
-                            <label class="memorisation-tools-field memorisation-tools-field--full">
-                                <span class="memorisation-tools-label">Choose session</span>
-                                <select class="form-select memorisation-tools-control" v-model="selectedMemorisationSessionHistoryId" aria-label="Choose saved session">
-                                    <option value="">Select a saved session</option>
+	                        <div v-show="isMemorisationBeginnerSectionOpen('history')" class="memorisation-tools-grid">
+	                            <div class="memorisation-saved-session-actions memorisation-tools-field--full">
+	                                <details
+	                                    v-if="Array.isArray(sessionHistoryEntries) && sessionHistoryEntries.length"
+	                                    class="memorisation-saved-session-bulk"
+	                                    aria-label="Bulk delete saved sessions">
+	                                    <summary class="memorisation-saved-session-bulk-summary">
+	                                        <span>Bulk delete</span>
+	                                        <span class="memorisation-saved-session-bulk-count">
+	                                            {{ (Array.isArray(selectedMemorisationSessionHistoryIds) ? selectedMemorisationSessionHistoryIds.length : 0) }} selected
+	                                        </span>
+	                                    </summary>
+	                                    <div class="memorisation-saved-session-bulk-actions">
+	                                        <button
+	                                            type="button"
+	                                            class="btn memorisation-tools-secondary-btn memorisation-tools-danger-btn"
+	                                            :disabled="!(Array.isArray(selectedMemorisationSessionHistoryIds) && selectedMemorisationSessionHistoryIds.length)"
+	                                            @click="deleteSelectedMemorisationSessionsBulk">
+	                                            <i class="bi bi-trash3" aria-hidden="true"></i>
+	                                            <span>Delete selected</span>
+	                                        </button>
+	                                        <button
+	                                            type="button"
+	                                            class="btn memorisation-tools-secondary-btn"
+	                                            :disabled="!(Array.isArray(selectedMemorisationSessionHistoryIds) && selectedMemorisationSessionHistoryIds.length)"
+	                                            @click="clearMemorisationSessionHistoryBulkSelection">
+	                                            <i class="bi bi-x-circle" aria-hidden="true"></i>
+	                                            <span>Clear</span>
+	                                        </button>
+	                                    </div>
+	                                    <div class="memorisation-saved-session-checklist" role="group" aria-label="Select saved sessions">
+	                                        <label
+	                                            v-for="entry in sessionHistoryEntries.slice(0, 20)"
+	                                            :key="`memo-session-bulk-beginner-${entry.id}`"
+	                                            class="memorisation-saved-session-check">
+	                                            <input
+	                                                type="checkbox"
+	                                                class="form-check-input"
+	                                                :checked="Array.isArray(selectedMemorisationSessionHistoryIds) && selectedMemorisationSessionHistoryIds.includes(entry.id)"
+	                                                @change="toggleMemorisationSessionHistoryBulkSelection(entry.id)"
+	                                                :aria-label="`Select session ${entry.sessionName || formatSessionHistoryRange(entry)}`" />
+	                                            <span>
+	                                                {{ entry.sessionName || formatSessionHistoryRange(entry) }}
+	                                                <small>{{ entry.createdAtLabel || entry.dateLabel || 'Saved' }}</small>
+	                                            </span>
+	                                        </label>
+	                                    </div>
+	                                </details>
+	                            </div>
+	                            <label class="memorisation-tools-field memorisation-tools-field--full">
+	                                <span class="memorisation-tools-label">Choose session</span>
+	                                <select class="form-select memorisation-tools-control" v-model="selectedMemorisationSessionHistoryId" aria-label="Choose saved session">
+	                                    <option value="">Select a saved session</option>
                                     <option
                                         v-for="entry in (Array.isArray(sessionHistoryEntries) ? sessionHistoryEntries.slice(0, 20) : [])"
                                         :key="`memo-session-load-beginner-${entry.id}`"
@@ -2205,13 +2283,59 @@
                                     <i class="bi" :class="isMemorisationAdvancedSectionOpen('saved') ? 'bi-chevron-up' : 'bi-chevron-down'" aria-hidden="true"></i>
                                 </button>
                         </div>
-	                        <div v-show="isMemorisationAdvancedSectionOpen('saved')" class="memorisation-tools-grid memorisation-advanced-section-body">
-                            <div class="memorisation-saved-session-actions memorisation-tools-field--full">
-                            </div>
-                            <label class="memorisation-tools-field memorisation-tools-field--full">
-                                <span class="memorisation-tools-label">Choose session</span>
-                                <select class="form-select memorisation-tools-control" v-model="selectedMemorisationSessionHistoryId" aria-label="Choose saved session">
-                                    <option value="">Select a saved session</option>
+		                        <div v-show="isMemorisationAdvancedSectionOpen('saved')" class="memorisation-tools-grid memorisation-advanced-section-body">
+	                            <div class="memorisation-saved-session-actions memorisation-tools-field--full">
+	                                <details
+	                                    v-if="Array.isArray(sessionHistoryEntries) && sessionHistoryEntries.length"
+	                                    class="memorisation-saved-session-bulk"
+	                                    aria-label="Bulk delete saved sessions">
+	                                    <summary class="memorisation-saved-session-bulk-summary">
+	                                        <span>Bulk delete</span>
+	                                        <span class="memorisation-saved-session-bulk-count">
+	                                            {{ (Array.isArray(selectedMemorisationSessionHistoryIds) ? selectedMemorisationSessionHistoryIds.length : 0) }} selected
+	                                        </span>
+	                                    </summary>
+	                                    <div class="memorisation-saved-session-bulk-actions">
+	                                        <button
+	                                            type="button"
+	                                            class="btn memorisation-tools-secondary-btn memorisation-tools-danger-btn"
+	                                            :disabled="!(Array.isArray(selectedMemorisationSessionHistoryIds) && selectedMemorisationSessionHistoryIds.length)"
+	                                            @click="deleteSelectedMemorisationSessionsBulk">
+	                                            <i class="bi bi-trash3" aria-hidden="true"></i>
+	                                            <span>Delete selected</span>
+	                                        </button>
+	                                        <button
+	                                            type="button"
+	                                            class="btn memorisation-tools-secondary-btn"
+	                                            :disabled="!(Array.isArray(selectedMemorisationSessionHistoryIds) && selectedMemorisationSessionHistoryIds.length)"
+	                                            @click="clearMemorisationSessionHistoryBulkSelection">
+	                                            <i class="bi bi-x-circle" aria-hidden="true"></i>
+	                                            <span>Clear</span>
+	                                        </button>
+	                                    </div>
+	                                    <div class="memorisation-saved-session-checklist" role="group" aria-label="Select saved sessions">
+	                                        <label
+	                                            v-for="entry in sessionHistoryEntries.slice(0, 20)"
+	                                            :key="`memo-session-bulk-advanced-${entry.id}`"
+	                                            class="memorisation-saved-session-check">
+	                                            <input
+	                                                type="checkbox"
+	                                                class="form-check-input"
+	                                                :checked="Array.isArray(selectedMemorisationSessionHistoryIds) && selectedMemorisationSessionHistoryIds.includes(entry.id)"
+	                                                @change="toggleMemorisationSessionHistoryBulkSelection(entry.id)"
+	                                                :aria-label="`Select session ${entry.sessionName || formatSessionHistoryRange(entry)}`" />
+	                                            <span>
+	                                                {{ entry.sessionName || formatSessionHistoryRange(entry) }}
+	                                                <small>{{ entry.createdAtLabel || entry.dateLabel || 'Saved' }}</small>
+	                                            </span>
+	                                        </label>
+	                                    </div>
+	                                </details>
+	                            </div>
+	                            <label class="memorisation-tools-field memorisation-tools-field--full">
+	                                <span class="memorisation-tools-label">Choose session</span>
+	                                <select class="form-select memorisation-tools-control" v-model="selectedMemorisationSessionHistoryId" aria-label="Choose saved session">
+	                                    <option value="">Select a saved session</option>
                                     <option
                                         v-for="entry in (Array.isArray(sessionHistoryEntries) ? sessionHistoryEntries.slice(0, 20) : [])"
                                         :key="`memo-session-load-advanced-${entry.id}`"
@@ -4640,32 +4764,8 @@
                 </section>
             </div>
 
-            <div
-                v-if="isMemorisationToolbarVisible"
-                class="memorisation-progress-strip memorisation-progress-strip--above-list"
-                role="status"
-                aria-live="polite"
-                aria-atomic="true">
-                <div class="memorisation-progress-strip-row">
-                    <div class="memorisation-progress-strip-meta">
-                        <span class="memorisation-progress-strip-identity">{{ memorisationPracticeIdentityLabel }}</span>
-                        <span class="memorisation-progress-strip-range">{{ memorisationProgressStripText }}</span>
-                    </div>
-                    <div class="memorisation-progress-strip-chips">
-                        <span class="memorisation-progress-chip">
-                            Range <strong>{{ memorisationProgressStripMeta?.start ?? "—" }}-{{ memorisationProgressStripMeta?.end ?? "—" }}</strong>
-                        </span>
-                    </div>
-                </div>
-                <div class="memorisation-progress-strip-track" aria-hidden="true">
-                    <span
-                        class="memorisation-progress-strip-fill"
-                        :style="{ width: `${memorisationProgressStripPercent || 0}%` }"></span>
-                </div>
-            </div>
-
-            <div class="row rtl-text" ref="listContainer" role="list" aria-label="Ayah verses list"
-                :style="getAyahListContainerStyle()">
+	            <div class="row rtl-text" ref="listContainer" role="list" aria-label="Ayah verses list"
+	                :style="getAyahListContainerStyle()">
                 <div ref="audioCard" v-for="item in visibleWindow"
                     :key="getAyahCardRenderKey(item)" class="col-12 col-md-8 mb-2 mt-2 ayah-card ayah-card-container ayah-card-shell" role="listitem"
                     :style="getAyahCardContainerStyle()"

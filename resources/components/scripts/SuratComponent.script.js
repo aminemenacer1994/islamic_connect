@@ -1210,8 +1210,10 @@ export default {
                 playback: true,
                 history: true,
             },
-            memorisationTooltipInstances: [],
-            isMemorisationReadingAidsOpen: false,
+	            memorisationTooltipInstances: [],
+	            memorisationCelebrationTimer: null,
+	            selectedMemorisationSessionHistoryIds: [],
+	            isMemorisationReadingAidsOpen: false,
             selectedMemorisationSessionHistoryId: "",
             memorisationFullscreenOnStart: false,
 
@@ -1493,10 +1495,19 @@ export default {
             memorisationBeginnerGuideDismissed: false,
             memorisationBeginnerGuideStorageKey:
                 "ic_memorisation_beginner_how_it_works_v1",
-            memorisationBeginnerGuideCollapsed: false,
-            memorisationBeginnerGuideCollapsedStorageKey:
-                "ic_memorisation_beginner_how_it_works_collapsed_v1",
-            hifdhAuthStorageKey: "ic_hifdh_auth_user_v1",
+	            memorisationBeginnerGuideCollapsed: false,
+	            memorisationBeginnerGuideCollapsedStorageKey:
+	                "ic_memorisation_beginner_how_it_works_collapsed_v1",
+	            memorisationAdvancedGuideDismissed: false,
+	            memorisationAdvancedGuideStorageKey:
+	                "ic_memorisation_advanced_how_it_works_v1",
+	            memorisationAdvancedGuideCollapsed: false,
+	            memorisationAdvancedGuideCollapsedStorageKey:
+	                "ic_memorisation_advanced_how_it_works_collapsed_v1",
+	            memorisationRuntimeStorageKey: "ic_memorisation_runtime_state_v1",
+	            memorisationRuntimePersistDebounceTimer: null,
+	            memorisationRuntimePersistInterval: null,
+	            hifdhAuthStorageKey: "ic_hifdh_auth_user_v1",
             hifdhSchedulerStorageKey: "ic_hifdh_scheduler_v1",
             hifdhCheckpointDays: [1, 3, 7, 14, 30],
             hifdhPlanSets: [],
@@ -1512,10 +1523,10 @@ export default {
             hifdhTooltipInstances: [],
             hifdhPlanModalInstance: null,
             hifdhPlanModalShownHandler: null,
-            hifdhPlanModalHiddenHandler: null,
-            hifdhConfettiTimeouts: [],
-            memorisationConfettiTimeouts: [],
-            isHifdhResetConfirmVisible: false,
+	            hifdhPlanModalHiddenHandler: null,
+	            hifdhConfettiTimeouts: [],
+	            // Removed: memorisation confetti (replaced by subtle toolbar celebration).
+	            isHifdhResetConfirmVisible: false,
             hifdhFeedbackChoices: [
                 { value: "strong", label: "Strong" },
                 { value: "minor", label: "Minor Mistakes" },
@@ -5647,7 +5658,7 @@ export default {
             return Math.round(((value - 1) / (max - 1)) * 100);
         },
     },
-    watch: {
+	    watch: {
         isMemorisationOffcanvasVisible(next) {
             if (next) {
                 this.$nextTick(() => this.syncMemorisationOffcanvasDockedWidth());
@@ -5675,20 +5686,108 @@ export default {
                 );
             } catch (_) {}
         },
-        "memorisationDraft.chainingMethodMode"() {
-            if (!this.isMemorisationOffcanvasVisible) return;
-            this.$nextTick(() => this.initializeMemorisationTooltips());
-        },
-        memorisationProgressStripText() {
-            const meta = this.memorisationProgressStripMeta;
-            if (!meta) return;
-            if (meta.percent !== 100) return;
-            if (meta.roundPos < meta.roundTotal) return;
-            const key = `${meta.start}-${meta.end}-r${meta.roundTotal}`;
-            if (this.memorisationProgressCelebratedKey === key) return;
-            this.memorisationProgressCelebratedKey = key;
-            this.triggerMemorisationCompletionConfetti();
-        },
+	        "memorisationDraft.chainingMethodMode"() {
+	            if (!this.isMemorisationOffcanvasVisible) return;
+	            this.$nextTick(() => this.initializeMemorisationTooltips());
+	        },
+	        memorisationFocusIndex() {
+	            if (!this.isMemorisationToolbarVisible) return;
+	            this.schedulePersistMemorisationRuntimeState();
+	        },
+	        memorisationRepetitionCurrent() {
+	            if (!this.isMemorisationToolbarVisible) return;
+	            this.schedulePersistMemorisationRuntimeState();
+	        },
+	        memorisationRepetitionCount() {
+	            if (!this.isMemorisationToolbarVisible) return;
+	            this.schedulePersistMemorisationRuntimeState();
+	        },
+	        memorisationRangeStart() {
+	            if (!this.isMemorisationToolbarVisible) return;
+	            this.schedulePersistMemorisationRuntimeState();
+	        },
+	        memorisationRangeEnd() {
+	            if (!this.isMemorisationToolbarVisible) return;
+	            this.schedulePersistMemorisationRuntimeState();
+	        },
+	        playbackMode() {
+	            if (!this.isMemorisationToolbarVisible) return;
+	            this.schedulePersistMemorisationRuntimeState();
+	        },
+	        playbackSpeed() {
+	            if (!this.isMemorisationToolbarVisible) return;
+	            this.schedulePersistMemorisationRuntimeState();
+	        },
+	        memorisationVerseDelay() {
+	            if (!this.isMemorisationToolbarVisible) return;
+	            this.schedulePersistMemorisationRuntimeState();
+	        },
+	        isBlurNextAyahEnabled() {
+	            if (!this.isMemorisationToolbarVisible) return;
+	            this.schedulePersistMemorisationRuntimeState();
+	        },
+	        showTajweed() {
+	            if (!this.isMemorisationToolbarVisible) return;
+	            this.schedulePersistMemorisationRuntimeState();
+	        },
+	        showWordTranslation() {
+	            if (!this.isMemorisationToolbarVisible) return;
+	            this.schedulePersistMemorisationRuntimeState();
+	        },
+	        showWordTranslationTooltip() {
+	            if (!this.isMemorisationToolbarVisible) return;
+	            this.schedulePersistMemorisationRuntimeState();
+	        },
+	        isTranslationVisible() {
+	            if (!this.isMemorisationToolbarVisible) return;
+	            this.schedulePersistMemorisationRuntimeState();
+	        },
+	        isTransliterationVisible() {
+	            if (!this.isMemorisationToolbarVisible) return;
+	            this.schedulePersistMemorisationRuntimeState();
+	        },
+	        memorisationRangeLoopEnabled() {
+	            if (!this.isMemorisationToolbarVisible) return;
+	            this.schedulePersistMemorisationRuntimeState();
+	        },
+	        memorisationRangeLoopDelay() {
+	            if (!this.isMemorisationToolbarVisible) return;
+	            this.schedulePersistMemorisationRuntimeState();
+	        },
+	        memorisationRepeatAfterEnabled() {
+	            if (!this.isMemorisationToolbarVisible) return;
+	            this.schedulePersistMemorisationRuntimeState();
+	        },
+	        memorisationRepeatAfterPauseMode() {
+	            if (!this.isMemorisationToolbarVisible) return;
+	            this.schedulePersistMemorisationRuntimeState();
+	        },
+	        memorisationRepeatAfterVerseTextMode() {
+	            if (!this.isMemorisationToolbarVisible) return;
+	            this.schedulePersistMemorisationRuntimeState();
+	        },
+	        memorisationChainingEnabled() {
+	            if (!this.isMemorisationToolbarVisible) return;
+	            this.schedulePersistMemorisationRuntimeState();
+	        },
+	        memorisationChainingMode() {
+	            if (!this.isMemorisationToolbarVisible) return;
+	            this.schedulePersistMemorisationRuntimeState();
+	        },
+	        memorisationVerseCountdownEnabled() {
+	            if (!this.isMemorisationToolbarVisible) return;
+	            this.schedulePersistMemorisationRuntimeState();
+	        },
+	        memorisationProgressStripText() {
+	            const meta = this.memorisationProgressStripMeta;
+	            if (!meta) return;
+	            if (meta.percent !== 100) return;
+	            if (meta.roundPos < meta.roundTotal) return;
+	            const key = `${meta.start}-${meta.end}-r${meta.roundTotal}`;
+	            if (this.memorisationProgressCelebratedKey === key) return;
+	            this.memorisationProgressCelebratedKey = key;
+	            this.triggerMemorisationCompletionCelebration();
+	        },
         savedAyahKeys: {
             deep: true,
             handler(next) {
@@ -6231,25 +6330,32 @@ export default {
             this.resetAyahCardSwipeGesture();
             this.resetAyahCardPointerGesture();
         },
-        isMemorisationToolbarVisible(newVal) {
-            this.persistMemorisationToolbarVisibilityPreference(!!newVal);
-            this.scheduleAudioPlayerLayoutUpdate();
-            this.scheduleAudioPlayerLayoutUpdate(260);
-            this.syncMemorisationProgressStripSticky(!!newVal);
-            if (newVal) {
-                this.memorisationFocusIndex = this.activeAyahIndex;
-                this.hideSurahOffcanvasIfOpen();
-                if (this.showCustomPlaylistPanel) {
-                    this.showCustomPlaylistPanel = false;
-                }
+	        isMemorisationToolbarVisible(newVal) {
+	            this.persistMemorisationToolbarVisibilityPreference(!!newVal);
+	            this.scheduleAudioPlayerLayoutUpdate();
+	            this.scheduleAudioPlayerLayoutUpdate(260);
+	            if (newVal) {
+	                this.$nextTick(() => this.initializeMemorisationTooltips());
+	                this.schedulePersistMemorisationRuntimeState();
+	                clearInterval(this.memorisationRuntimePersistInterval);
+	                this.memorisationRuntimePersistInterval = setInterval(() => {
+	                    this.persistMemorisationRuntimeState();
+	                }, 2500);
+	                this.memorisationFocusIndex = this.activeAyahIndex;
+	                this.hideSurahOffcanvasIfOpen();
+	                if (this.showCustomPlaylistPanel) {
+	                    this.showCustomPlaylistPanel = false;
+	                }
                 this.showAudioPlayerQueuePanel = false;
-                this.audioQueueMinimized = false;
-                this.$nextTick(() => this.syncMemorisationProgressStripSticky(true));
-                return;
-            }
-            this.isMemorisationAdvancedOpen = false;
-            this.isMemorisationReadingAidsOpen = false;
-            this.clearMemorisationAutomationState();
+	                this.audioQueueMinimized = false;
+	                return;
+	            }
+	            clearInterval(this.memorisationRuntimePersistInterval);
+	            this.memorisationRuntimePersistInterval = null;
+	            this.persistMemorisationRuntimeState();
+	            this.isMemorisationAdvancedOpen = false;
+	            this.isMemorisationReadingAidsOpen = false;
+	            this.clearMemorisationAutomationState();
             this.clearVerseCountdownCelebrationState();
             this.verseCountdownHasPlaybackStarted = false;
             this.verseCountdownFinalAyahRecited = false;
@@ -6262,7 +6368,6 @@ export default {
         memorisationProgressStripMeta(newVal) {
             if (!this.isMemorisationToolbarVisible) return;
             if (!newVal) return;
-            this.$nextTick(() => this.syncMemorisationProgressStripSticky(true));
         },
         isBlurNextAyahEnabled(newVal) {
             this.writeScopedBooleanPreference(
@@ -6461,14 +6566,28 @@ export default {
         } catch (_) {
             this.memorisationBeginnerGuideDismissed = false;
         }
-        try {
-            this.memorisationBeginnerGuideCollapsed =
-                localStorage.getItem(
-                    this.memorisationBeginnerGuideCollapsedStorageKey
-                ) === "1";
-        } catch (_) {
-            this.memorisationBeginnerGuideCollapsed = false;
-        }
+	        try {
+	            this.memorisationBeginnerGuideCollapsed =
+	                localStorage.getItem(
+	                    this.memorisationBeginnerGuideCollapsedStorageKey
+	                ) === "1";
+	        } catch (_) {
+	            this.memorisationBeginnerGuideCollapsed = false;
+	        }
+	        try {
+	            this.memorisationAdvancedGuideDismissed =
+	                localStorage.getItem(this.memorisationAdvancedGuideStorageKey) === "1";
+	        } catch (_) {
+	            this.memorisationAdvancedGuideDismissed = false;
+	        }
+	        try {
+	            this.memorisationAdvancedGuideCollapsed =
+	                localStorage.getItem(
+	                    this.memorisationAdvancedGuideCollapsedStorageKey
+	                ) === "1";
+	        } catch (_) {
+	            this.memorisationAdvancedGuideCollapsed = false;
+	        }
         this._keydownHandler = (e) => {
             if (!this.bottomAudioPlayerEnabled || !this.showAudioPlayer) return;
             const target = e.target || {};
@@ -7240,11 +7359,11 @@ export default {
             );
             this.surahOffcanvasShowHandler = null;
         }
-        this.isMemorisationOffcanvasVisible = false;
-        this.disposeHifdhTooltips();
-        this.clearHifdhConfettiLayers();
-        this.clearMemorisationConfettiLayers();
-    },
+	        this.isMemorisationOffcanvasVisible = false;
+	        this.disposeHifdhTooltips();
+	        this.clearHifdhConfettiLayers();
+	        this.clearMemorisationCompletionCelebration();
+	    },
 	        beforeDestroy() {
 	            this.stopTranslationAudio();
                 if (
@@ -7517,11 +7636,11 @@ export default {
                 );
                 this.surahOffcanvasShowHandler = null;
             }
-            this.isMemorisationOffcanvasVisible = false;
-            this.disposeHifdhTooltips();
-            this.clearHifdhConfettiLayers();
-            this.clearMemorisationConfettiLayers();
-        },
+	            this.isMemorisationOffcanvasVisible = false;
+	            this.disposeHifdhTooltips();
+	            this.clearHifdhConfettiLayers();
+	            this.clearMemorisationCompletionCelebration();
+	        },
     methods: {
         ...voiceCommandMethods,
         isSidebarPinnedSurah(surahNumber) {
@@ -9573,14 +9692,14 @@ export default {
                 this.handleMemorisationChainingCompletionAction();
             }
             const entry = this.finalizeSessionHistoryEntry("completed");
-            if (entry) {
-                this.openSessionQuizFromSessionHistoryEntry(entry);
-            } else {
-                this.triggerMemorisationSavedConfetti({ force: true, intensity: "full" });
-                this.openSessionQuizFromCurrentMemorisationState({
-                    source: "chaining",
-                });
-            }
+	            if (entry) {
+	                this.openSessionQuizFromSessionHistoryEntry(entry);
+	            } else {
+	                this.triggerMemorisationCompletionCelebration({ kind: "complete" });
+	                this.openSessionQuizFromCurrentMemorisationState({
+	                    source: "chaining",
+	                });
+	            }
             this.showToast(
                 `${this.memorisationChainingModeLabel} completed for verses ${this.memorisationRangeStart}-${this.memorisationRangeEnd}.`,
                 3200
@@ -9956,16 +10075,15 @@ export default {
             });
             this.playAudio(startIndex);
         },
-        handleVerseCountdownCompletion() {
+	        handleVerseCountdownCompletion() {
             if (!this.memorisationVerseCountdownEnabled) return;
             if (!this.verseCountdownHasPlaybackStarted) return;
             if (!this.verseCountdownIsCompleted) return;
             if (this.verseCountdownCompletionNotified) return;
-            this.verseCountdownCompletionNotified = true;
-            this.triggerVerseCountdownCelebration();
-            // Confetti should trigger on completion even when session history is disabled.
-            this.triggerMemorisationSavedConfetti({ force: true, intensity: "full" });
-            this.openVerseCountdownCompleteModal();
+	            this.verseCountdownCompletionNotified = true;
+	            this.triggerVerseCountdownCelebration();
+	            this.triggerMemorisationCompletionCelebration({ kind: "complete" });
+	            this.openVerseCountdownCompleteModal();
             // Ensure quiz appears even if session history tracking is disabled (eg logged out).
             this.openSessionQuizFromCurrentMemorisationState({
                 source: "verse-countdown",
@@ -12318,19 +12436,18 @@ export default {
                 this.initializeMemorisationTooltips();
             });
         },
-        setMemorisationToolsDepth(mode = "beginner") {
-            this.isMemorisationAdvancedOpen = mode === "advanced";
-            if (this.isMemorisationAdvancedOpen) {
-                this.resetMemorisationAdvancedSections();
-                this.triggerMemorisationCompletionConfetti();
-            } else {
-                this.resetMemorisationBeginnerSections();
-            }
-            this.$nextTick(() => {
-                if (!this.isMemorisationOffcanvasVisible) return;
-                this.initializeMemorisationTooltips();
-            });
-        },
+	        setMemorisationToolsDepth(mode = "beginner") {
+	            this.isMemorisationAdvancedOpen = mode === "advanced";
+	            if (this.isMemorisationAdvancedOpen) {
+	                this.resetMemorisationAdvancedSections();
+	            } else {
+	                this.resetMemorisationBeginnerSections();
+	            }
+	            this.$nextTick(() => {
+	                if (!this.isMemorisationOffcanvasVisible) return;
+	                this.initializeMemorisationTooltips();
+	            });
+	        },
         openAdvancedMemorisationToolsPanel() {
             this.setMemorisationToolsDepth("advanced");
             const toolsDropdown = this.$refs?.memoToolbarToolsDropdown;
@@ -12384,30 +12501,31 @@ export default {
                     });
             } catch (_) {}
         },
-        initializeMemorisationTooltips() {
-            this.disposeMemorisationTooltips();
-            if (typeof document === "undefined") return;
+	        initializeMemorisationTooltips() {
+	            this.disposeMemorisationTooltips();
+	            if (typeof document === "undefined") return;
             // Prefer the globally-available Bootstrap bundle constructor when present.
             // This avoids Popper/tooling mismatches that can prevent ESM Tooltip from working.
             const TooltipCtor = window?.bootstrap?.Tooltip || Tooltip;
             if (!TooltipCtor) return;
-            const panelEl = document.getElementById("memorisationOffcanvas");
-            if (!panelEl) return;
-            const nodes = panelEl.querySelectorAll("[data-memorisation-tooltip]");
-            this.memorisationTooltipInstances = Array.from(nodes)
-                .map((node) => {
-                    try {
-                        return TooltipCtor.getOrCreateInstance(node, {
-                            trigger: "hover focus click",
-                            container: "body",
-                            html: true,
-                        });
-                    } catch (_) {
-                        return null;
-                    }
-                })
-                .filter(Boolean);
-        },
+	            // Tooltips are used both in the right offcanvas and in the sticky toolbar.
+	            const scope = document.querySelector(".surat-premium") || document;
+	            const nodes = scope.querySelectorAll("[data-memorisation-tooltip]");
+	            this.memorisationTooltipInstances = Array.from(nodes)
+	                .map((node) => {
+	                    try {
+	                        return TooltipCtor.getOrCreateInstance(node, {
+	                            trigger: "hover focus click",
+	                            container: "body",
+	                            html: true,
+	                            customClass: "memorisation-tooltip",
+	                        });
+	                    } catch (_) {
+	                        return null;
+	                    }
+	                })
+	                .filter(Boolean);
+	        },
         disposeMemorisationTooltips() {
             if (!Array.isArray(this.memorisationTooltipInstances)) {
                 this.memorisationTooltipInstances = [];
@@ -12451,7 +12569,7 @@ export default {
             await this.reloadSessionHistoryEntry(targetEntry);
             this.showToast("Saved session loaded.", 2200);
         },
-        deleteSelectedMemorisationSessionFromOffcanvas() {
+	        deleteSelectedMemorisationSessionFromOffcanvas() {
             const targetId = String(this.selectedMemorisationSessionHistoryId || "").trim();
             if (!targetId) return;
             const entries = Array.isArray(this.sessionHistoryEntries)
@@ -12465,8 +12583,51 @@ export default {
             this.persistSessionHistory();
             this.selectedMemorisationSessionHistoryId = "";
             this.showToast("Saved session deleted.", 2200);
-            this.announce("Saved memorisation session deleted.");
-        },
+	            this.announce("Saved memorisation session deleted.");
+	        },
+	        toggleMemorisationSessionHistoryBulkSelection(entryId) {
+	            const id = String(entryId || "").trim();
+	            if (!id) return;
+	            const current = Array.isArray(this.selectedMemorisationSessionHistoryIds)
+	                ? this.selectedMemorisationSessionHistoryIds
+	                : [];
+	            const set = new Set(current.map((v) => String(v)));
+	            if (set.has(id)) {
+	                set.delete(id);
+	            } else {
+	                set.add(id);
+	            }
+	            this.selectedMemorisationSessionHistoryIds = Array.from(set);
+	        },
+	        clearMemorisationSessionHistoryBulkSelection() {
+	            this.selectedMemorisationSessionHistoryIds = [];
+	        },
+	        deleteSelectedMemorisationSessionsBulk() {
+	            const selected = Array.isArray(this.selectedMemorisationSessionHistoryIds)
+	                ? this.selectedMemorisationSessionHistoryIds.map((v) => String(v).trim()).filter(Boolean)
+	                : [];
+	            if (!selected.length) return;
+	            const selectedSet = new Set(selected);
+	            const entries = Array.isArray(this.sessionHistoryEntries)
+	                ? this.sessionHistoryEntries
+	                : [];
+	            const nextEntries = entries.filter(
+	                (entry) => !selectedSet.has(String(entry?.id || ""))
+	            );
+	            const deletedCount = entries.length - nextEntries.length;
+	            if (!deletedCount) return;
+	            this.setSessionHistoryEntries(nextEntries);
+	            this.persistSessionHistory();
+	            if (selectedSet.has(String(this.selectedMemorisationSessionHistoryId || ""))) {
+	                this.selectedMemorisationSessionHistoryId = "";
+	            }
+	            this.clearMemorisationSessionHistoryBulkSelection();
+	            this.showToast(
+	                `Deleted ${deletedCount} saved session${deletedCount === 1 ? "" : "s"}.`,
+	                2400
+	            );
+	            this.announce("Saved memorisation sessions deleted.");
+	        },
         getHifdhPlanPanelInstance() {
             const modalEl = document.getElementById("hifdhPlanModal");
             if (!modalEl) return null;
@@ -12864,9 +13025,9 @@ export default {
                 localStorage.setItem(this.memorisationBeginnerGuideStorageKey, "1");
             } catch (_) {}
         },
-        toggleMemorisationBeginnerGuideCollapsed() {
-            this.memorisationBeginnerGuideCollapsed =
-                !this.memorisationBeginnerGuideCollapsed;
+	        toggleMemorisationBeginnerGuideCollapsed() {
+	            this.memorisationBeginnerGuideCollapsed =
+	                !this.memorisationBeginnerGuideCollapsed;
             try {
                 localStorage.setItem(
                     this.memorisationBeginnerGuideCollapsedStorageKey,
@@ -13235,11 +13396,10 @@ export default {
                 this.populateMemorisationDraft();
             }
             this.persistMemorisationActivePresetId("");
-            this.memorisationSessionStatusMessage = `Ready to begin Ayah ${this.memorisationRangeLabel}`;
-            this.maybeShowMemorisationOnboarding();
-            this.showModeToggleToast("Memorisation tools", true);
-            this.triggerMemorisationCompletionConfetti();
-            this.syncMemorisationToolsUrlState(true);
+	            this.memorisationSessionStatusMessage = `Ready to begin Ayah ${this.memorisationRangeLabel}`;
+	            this.maybeShowMemorisationOnboarding();
+	            this.showModeToggleToast("Memorisation tools", true);
+	            this.syncMemorisationToolsUrlState(true);
             if (!this.isMobile) {
                 this.setMemorisationToolsDepth("beginner");
                 this.openMemorisationOffcanvas();
@@ -13315,39 +13475,6 @@ export default {
         },
         showModeToggleToast(label, enabled) {
             this.showToast(`${label}: ${enabled ? "On" : "Off"}`, 3200);
-        },
-        syncMemorisationProgressStripSticky(enabled = false) {
-            if (typeof document === "undefined") return;
-            const host =
-                this.$el?.closest?.(".surat-premium") ||
-                document.querySelector(".surat-premium") ||
-                this.$el;
-            if (!host || typeof host.style?.setProperty !== "function") return;
-            if (!enabled) {
-                try {
-                    host.style.removeProperty("--memo-toolbar-h");
-                    host.style.removeProperty("--memo-progress-h");
-                } catch (_) {}
-                return;
-            }
-            this.$nextTick(() => {
-                try {
-                    const toolbar = host.querySelector(".quran-toolbar-sticky");
-                    const strip = host.querySelector(
-                        ".memorisation-progress-strip--above-list"
-                    );
-                    const toolbarRect = toolbar?.getBoundingClientRect?.();
-                    const stripRect = strip?.getBoundingClientRect?.();
-                    const toolbarH = toolbarRect
-                        ? Math.max(0, Math.round(toolbarRect.height))
-                        : 92;
-                    host.style.setProperty("--memo-toolbar-h", `${toolbarH}px`);
-                    const stripH = stripRect
-                        ? Math.max(0, Math.round(stripRect.height))
-                        : 62;
-                    host.style.setProperty("--memo-progress-h", `${stripH}px`);
-                } catch (_) {}
-            });
         },
         notifyAyahDelayChange() {
             let value = Number(this.memorisationVerseDelay);
@@ -15274,6 +15401,22 @@ export default {
 	            }
 	            return enabled;
 	        },
+	        dismissMemorisationAdvancedGuide() {
+	            this.memorisationAdvancedGuideDismissed = true;
+	            try {
+	                localStorage.setItem(this.memorisationAdvancedGuideStorageKey, "1");
+	            } catch (_) {}
+	        },
+	        toggleMemorisationAdvancedGuideCollapsed() {
+	            this.memorisationAdvancedGuideCollapsed =
+	                !this.memorisationAdvancedGuideCollapsed;
+	            try {
+	                localStorage.setItem(
+	                    this.memorisationAdvancedGuideCollapsedStorageKey,
+	                    this.memorisationAdvancedGuideCollapsed ? "1" : "0"
+	                );
+	            } catch (_) {}
+	        },
         resolveSessionHistoryAccuracyScore(config = {}) {
             const raw = Number(
                 config?.accuracyScore ?? config?.aiAccuracyScore ?? NaN
@@ -15727,11 +15870,11 @@ export default {
             ];
             this.setSessionHistoryEntries(nextEntries);
             this.persistSessionHistory();
-            if (String(reason || "").trim() === "completed") {
-                this.showSessionSavedToast("Session saved ✓", 2000);
-                this.triggerMemorisationSavedConfetti({ force: true, intensity: "full" });
-                this.openSessionQuizFromSessionHistoryEntry(entry);
-            }
+	            if (String(reason || "").trim() === "completed") {
+	                this.showSessionSavedToast("Session saved ✓", 2000);
+	                this.triggerMemorisationCompletionCelebration({ kind: "saved" });
+	                this.openSessionQuizFromSessionHistoryEntry(entry);
+	            }
             this.maybeCelebrateSessionHistoryMilestones(entry, previousEntries);
             return entry;
         },
@@ -17599,7 +17742,7 @@ export default {
             }, 2300);
             this.hifdhConfettiTimeouts.push(timeoutId);
         },
-        clearHifdhConfettiLayers() {
+	        clearHifdhConfettiLayers() {
             if (typeof document !== "undefined") {
                 document.querySelectorAll(".hifdh-confetti-layer").forEach((node) => {
                     if (node && node.parentNode) {
@@ -17613,98 +17756,46 @@ export default {
                 });
             }
             this.hifdhConfettiTimeouts = [];
-        },
-        triggerMemorisationCompletionConfetti() {
-            if (typeof document === "undefined") return;
-            if (
-                typeof window !== "undefined" &&
-                window.matchMedia &&
-                window.matchMedia("(prefers-reduced-motion: reduce)").matches
-            ) {
-                return;
-            }
-            const layer = document.createElement("div");
-            layer.className = "memorisation-confetti-layer";
-            layer.setAttribute("aria-hidden", "true");
-            const palette = ["#10b981", "#14b8a6", "#22c55e", "#60a5fa", "#f59e0b"];
-            for (let i = 0; i < 34; i += 1) {
-                const piece = document.createElement("span");
-                piece.className = "memorisation-confetti-piece";
-                piece.style.setProperty("--memo-confetti-x", `${Math.round(Math.random() * 100)}%`);
-                piece.style.setProperty("--memo-confetti-delay", `${(Math.random() * 0.2).toFixed(2)}s`);
-                piece.style.setProperty("--memo-confetti-duration", `${(0.9 + Math.random() * 1.0).toFixed(2)}s`);
-                piece.style.setProperty(
-                    "--memo-confetti-color",
-                    palette[Math.floor(Math.random() * palette.length)]
-                );
-                layer.appendChild(piece);
-            }
-            document.body.appendChild(layer);
-            const timeoutId = setTimeout(() => {
-                if (layer && layer.parentNode) {
-                    layer.parentNode.removeChild(layer);
-                }
-            }, 2300);
-            this.memorisationConfettiTimeouts.push(timeoutId);
-        },
-        triggerMemorisationSavedConfetti(options = {}) {
-            const { force = false, intensity = "subtle" } = options || {};
-            if (typeof document === "undefined") return;
-            if (!force) {
-                if (
-                    typeof window !== "undefined" &&
-                    window.matchMedia &&
-                    window.matchMedia("(prefers-reduced-motion: reduce)").matches
-                ) {
-                    return;
-                }
-            }
-            const layer = document.createElement("div");
-            layer.className = "memorisation-confetti-layer is-saved";
-            layer.setAttribute("aria-hidden", "true");
-            const palette = ["#0f766e", "#14b8a6", "#22c55e", "#86efac"];
-            const pieceCount = intensity === "full" ? 72 : 18;
-            for (let i = 0; i < pieceCount; i += 1) {
-                const piece = document.createElement("span");
-                piece.className = "memorisation-confetti-piece";
-                piece.style.setProperty("--memo-confetti-x", `${Math.round(Math.random() * 100)}%`);
-                piece.style.setProperty(
-                    "--memo-confetti-dx",
-                    `${Math.round(-160 + Math.random() * 320)}px`
-                );
-                piece.style.setProperty("--memo-confetti-delay", `${(Math.random() * 0.12).toFixed(2)}s`);
-                piece.style.setProperty("--memo-confetti-duration", `${(0.75 + Math.random() * 0.55).toFixed(2)}s`);
-                piece.style.setProperty(
-                    "--memo-confetti-color",
-                    palette[Math.floor(Math.random() * palette.length)]
-                );
-                layer.appendChild(piece);
-            }
-            document.body.appendChild(layer);
-            const timeoutId = setTimeout(() => {
-                if (layer && layer.parentNode) {
-                    layer.parentNode.removeChild(layer);
-                }
-            }, intensity === "full" ? 2400 : 2000);
-            this.memorisationConfettiTimeouts.push(timeoutId);
-        },
-        clearMemorisationConfettiLayers() {
-            if (typeof document !== "undefined") {
-                document
-                    .querySelectorAll(".memorisation-confetti-layer")
-                    .forEach((node) => {
-                        if (node && node.parentNode) {
-                            node.parentNode.removeChild(node);
-                        }
-                    });
-            }
-            if (Array.isArray(this.memorisationConfettiTimeouts)) {
-                this.memorisationConfettiTimeouts.forEach((timeoutId) => {
-                    clearTimeout(timeoutId);
-                });
-            }
-            this.memorisationConfettiTimeouts = [];
-        },
+	        },
+	        triggerMemorisationCompletionCelebration(options = {}) {
+	            const { kind = "complete" } = options || {};
+	            if (typeof document === "undefined") return;
+	            if (
+	                typeof window !== "undefined" &&
+	                window.matchMedia &&
+	                window.matchMedia("(prefers-reduced-motion: reduce)").matches
+	            ) {
+	                if (kind === "saved") this.showSessionSavedToast("Session saved ✓", 2000);
+	                return;
+	            }
+	            const host =
+	                document.querySelector(".quran-toolbar-sticky.memorisation-toolbar-active") ||
+	                document.querySelector(".quran-toolbar-sticky") ||
+	                document.body;
+	            if (!host || !host.classList) return;
+	            clearTimeout(this.memorisationCelebrationTimer);
+	            host.classList.add("is-memorisation-celebrating");
+	            if (kind === "saved") {
+	                this.showSessionSavedToast("Session saved ✓", 2000);
+	            } else {
+	                this.showToast("Session complete. Keep the streak alive.", 2600);
+	            }
+	            this.memorisationCelebrationTimer = setTimeout(() => {
+	                try {
+	                    host.classList.remove("is-memorisation-celebrating");
+	                } catch (_) {}
+	            }, 1600);
+	        },
+	        clearMemorisationCompletionCelebration() {
+	            clearTimeout(this.memorisationCelebrationTimer);
+	            this.memorisationCelebrationTimer = null;
+	            if (typeof document === "undefined") return;
+	            try {
+	                document
+	                    .querySelectorAll(".is-memorisation-celebrating")
+	                    .forEach((node) => node.classList.remove("is-memorisation-celebrating"));
+	            } catch (_) {}
+	        },
         async quickStartSurahTwoDemoRange() {
             const surahNumber = 2;
             const rangeStart = 1;
@@ -19833,16 +19924,21 @@ export default {
                 restored = false;
             }
 
-            if (!restored) {
-                this.isMemorisationToolbarVisible = false;
-                this.shouldRestoreMemorisationToolbarOnLoad = false;
-                this.persistMemorisationToolbarVisibilityPreference(false);
-                return false;
-            }
+	            if (!restored) {
+	                this.isMemorisationToolbarVisible = false;
+	                this.shouldRestoreMemorisationToolbarOnLoad = false;
+	                this.persistMemorisationToolbarVisibilityPreference(false);
+	                return false;
+	            }
 
-            this.persistMemorisationToolbarVisibilityPreference(true);
-            return true;
-        },
+	            // Restore full runtime state (focus index, current round, etc.) without auto-playing.
+	            try {
+	                await this.restoreMemorisationRuntimeState();
+	            } catch (_) {}
+
+	            this.persistMemorisationToolbarVisibilityPreference(true);
+	            return true;
+	        },
         advanceMemorisationFocus() {
             const current = this.memorisationFocusIndexSafe;
             if (current + 1 >= this.filteredAyahs.length) {
@@ -21111,6 +21207,148 @@ export default {
                 ...payload.snapshot,
             };
             return this.memorisationPreviousSessionSnapshot;
+        },
+        buildMemorisationRuntimeState() {
+            const now = Date.now();
+            return {
+                version: 1,
+                updatedAt: now,
+                scopeId: this.getMemorisationSessionScopeId(),
+                selectedSurah: String(this.selectedSurah || this.memorisationDraft?.surahNumber || ""),
+                selectedReciter: String(this.selectedReciter || this.memorisationDraft?.reciterIdentifier || ""),
+                rangeStart: Number(this.memorisationRangeStart || this.memorisationDraft?.rangeStart || 1) || 1,
+                rangeEnd: Number(this.memorisationRangeEnd || this.memorisationDraft?.rangeEnd || 1) || 1,
+                memorisationFocusIndex: Number(this.memorisationFocusIndexSafe || 0) || 0,
+                memorisationRepetitionCurrent: Number(this.memorisationRepetitionCurrent || 1) || 1,
+                memorisationRepetitionCount: Number(this.memorisationRepetitionCount || 1) || 1,
+                playbackMode: String(this.playbackMode || this.memorisationDraft?.playbackMode || "continuous"),
+                playbackSpeed: Number(this.playbackSpeed || this.memorisationDraft?.playbackSpeed || 1) || 1,
+                verseDelay: Number(this.memorisationVerseDelay || this.memorisationDraft?.verseDelay || 0) || 0,
+                isMemorisationMode: !!this.isMemorisationMode,
+                isBlurNextAyahEnabled: !!this.isBlurNextAyahEnabled,
+                showTajweed: !!this.showTajweed,
+                showWordTranslation: !!this.showWordTranslation,
+                showWordTranslationTooltip: !!this.showWordTranslationTooltip,
+                isTranslationVisible: !!this.isTranslationVisible,
+                isTransliterationVisible: !!this.isTransliterationVisible,
+                translationVisibility:
+                    this.translationVisibility && typeof this.translationVisibility === "object"
+                        ? { ...this.translationVisibility }
+                        : {},
+                transliterationVisibility:
+                    this.transliterationVisibility && typeof this.transliterationVisibility === "object"
+                        ? { ...this.transliterationVisibility }
+                        : {},
+                memorisationRangeLoopEnabled: !!this.memorisationRangeLoopEnabled,
+                memorisationRangeLoopDelay: Number(this.memorisationRangeLoopDelay || 0) || 0,
+                memorisationRepeatAfterEnabled: !!this.memorisationRepeatAfterEnabled,
+                memorisationRepeatAfterPauseMode: String(this.memorisationRepeatAfterPauseMode || "3"),
+                memorisationRepeatAfterVerseTextMode: String(this.memorisationRepeatAfterVerseTextMode || "dimmed"),
+                memorisationChainingEnabled: !!this.memorisationChainingEnabled,
+                memorisationChainingMode: String(this.memorisationChainingMode || "cumulative"),
+                memorisationVerseCountdownEnabled: !!this.memorisationVerseCountdownEnabled,
+            };
+        },
+        schedulePersistMemorisationRuntimeState() {
+            if (typeof window === "undefined") return;
+            clearTimeout(this.memorisationRuntimePersistDebounceTimer);
+            this.memorisationRuntimePersistDebounceTimer = setTimeout(() => {
+                this.persistMemorisationRuntimeState();
+            }, 180);
+        },
+        persistMemorisationRuntimeState() {
+            if (typeof window === "undefined") return false;
+            if (!this.isMemorisationToolbarVisible) return false;
+            const state = this.buildMemorisationRuntimeState();
+            try {
+                localStorage.setItem(this.memorisationRuntimeStorageKey, JSON.stringify(state));
+                return true;
+            } catch (_) {
+                return false;
+            }
+        },
+        async restoreMemorisationRuntimeState() {
+            if (typeof window === "undefined") return false;
+            let raw = "";
+            try {
+                raw = localStorage.getItem(this.memorisationRuntimeStorageKey) || "";
+            } catch (_) {
+                raw = "";
+            }
+            if (!raw) return false;
+            let parsed = null;
+            try {
+                parsed = JSON.parse(raw);
+            } catch (_) {
+                parsed = null;
+            }
+            if (!parsed || typeof parsed !== "object") return false;
+            const scopeId = this.getMemorisationSessionScopeId();
+            if (String(parsed.scopeId || "") && String(parsed.scopeId || "") !== scopeId) return false;
+            const maxAgeMs = 7 * 86400000;
+            const updatedAt = Number(parsed.updatedAt || 0) || 0;
+            if (updatedAt && Date.now() - updatedAt > maxAgeMs) return false;
+
+            const surah = String(parsed.selectedSurah || "").trim();
+            const reciter = String(parsed.selectedReciter || "").trim();
+            if (surah && String(this.selectedSurah || "") !== surah) {
+                try {
+                    await this.selectSurah(surah, { skipScroll: true });
+                } catch (_) {}
+                this.selectedSurah = surah;
+            }
+            if (reciter) {
+                this.selectedReciter = reciter;
+            }
+
+            const total = Math.max(1, Number(this.totalAyahs || 1));
+            const rangeStart = Math.max(1, Math.min(total, Number(parsed.rangeStart || 1) || 1));
+            const rangeEnd = Math.max(rangeStart, Math.min(total, Number(parsed.rangeEnd || rangeStart) || rangeStart));
+            this.memorisationRangeStart = rangeStart;
+            this.memorisationRangeEnd = rangeEnd;
+            this.memorisationRepetitionCurrent = Math.max(1, Number(parsed.memorisationRepetitionCurrent || 1) || 1);
+            this.memorisationRepetitionCount = Math.max(1, Number(parsed.memorisationRepetitionCount || 1) || 1);
+            this.memorisationVerseDelay = Math.max(0, Number(parsed.verseDelay || 0) || 0);
+            this.playbackSpeed = Math.max(0.25, Math.min(2, Number(parsed.playbackSpeed || 1) || 1));
+            this.setPlaybackMode(String(parsed.playbackMode || "continuous"));
+            this.isMemorisationMode = !!parsed.isMemorisationMode;
+            this.isBlurNextAyahEnabled = !!parsed.isBlurNextAyahEnabled;
+            this.showTajweed = parsed.showTajweed !== false;
+            this.showWordTranslation = !!parsed.showWordTranslation;
+            this.showWordTranslationTooltip = !!parsed.showWordTranslationTooltip;
+            this.isTranslationVisible = !!parsed.isTranslationVisible;
+            this.isTransliterationVisible = !!parsed.isTransliterationVisible;
+            this.translationVisibility =
+                parsed.translationVisibility && typeof parsed.translationVisibility === "object"
+                    ? { ...parsed.translationVisibility }
+                    : {};
+            this.transliterationVisibility =
+                parsed.transliterationVisibility && typeof parsed.transliterationVisibility === "object"
+                    ? { ...parsed.transliterationVisibility }
+                    : {};
+            this.memorisationRangeLoopEnabled = !!parsed.memorisationRangeLoopEnabled;
+            this.memorisationRangeLoopDelay = this.normaliseMemorisationRangeLoopDelay(
+                parsed.memorisationRangeLoopDelay
+            );
+            this.memorisationRepeatAfterEnabled = !!parsed.memorisationRepeatAfterEnabled;
+            this.memorisationRepeatAfterPauseMode = this.normaliseMemorisationRepeatAfterPauseMode(
+                parsed.memorisationRepeatAfterPauseMode
+            );
+            this.memorisationRepeatAfterVerseTextMode =
+                this.normaliseMemorisationRepeatAfterVerseTextMode(
+                    parsed.memorisationRepeatAfterVerseTextMode
+                );
+            this.memorisationChainingEnabled = !!parsed.memorisationChainingEnabled;
+            this.memorisationChainingMode = this.normaliseMemorisationChainingMode(parsed.memorisationChainingMode);
+            this.memorisationVerseCountdownEnabled = !!parsed.memorisationVerseCountdownEnabled;
+
+            const focusIndex = Math.max(0, Math.round(Number(parsed.memorisationFocusIndex || 0) || 0));
+            if (Array.isArray(this.filteredAyahs) && this.filteredAyahs.length) {
+                this.memorisationFocusIndex = Math.min(focusIndex, this.filteredAyahs.length - 1);
+            } else {
+                this.memorisationFocusIndex = focusIndex;
+            }
+            return true;
         },
         loadPersistedMemorisationPreviousSession() {
             if (typeof window === "undefined") {

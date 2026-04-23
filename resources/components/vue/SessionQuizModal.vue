@@ -1245,54 +1245,15 @@ function prefersReduced () {
 }
 
 function ensureConfetti () {
-  if (typeof window === 'undefined') return Promise.resolve(null)
-  if (window.confetti) return Promise.resolve(window.confetti)
-  return new Promise(resolve => {
-    const ex = document.querySelector('script[data-sq-confetti="1"]')
-    if (ex) {
-      ex.addEventListener('load', () => resolve(window.confetti || null), { once: true })
-      ex.addEventListener('error', () => resolve(null), { once: true })
-      return
-    }
-    const s = document.createElement('script')
-    s.dataset.sqConfetti = '1'
-    s.src = 'https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js'
-    s.onload = () => resolve(window.confetti || null)
-    s.onerror = () => resolve(null)
-    document.head.appendChild(s)
-  })
+  return Promise.resolve(null)
 }
 
 function confettiMicro () {
-  if (prefersReduced()) return
-  ensureConfetti().then(fn => {
-    if (!fn) return
-    fn({
-      particleCount: 18,
-      spread: 42,
-      startVelocity: 22,
-      ticks: 120,
-      scalar: 0.75,
-      origin: { x: 0.5, y: 0.62 },
-      colors: ['#0f766e', '#14532d', '#16a34a', '#d6aa56']
-    })
-  })
+  // Confetti removed: keep quiz feedback quiet and premium.
 }
 
 function celebrateComplete () {
-  if (prefersReduced() || scorePct.value < 80) return
-  ensureConfetti().then(fn => {
-    if (!fn) return
-    fn({
-      particleCount: scorePct.value === 100 ? 90 : 60,
-      spread: 66,
-      startVelocity: 28,
-      ticks: 180,
-      scalar: 0.95,
-      origin: { x: 0.5, y: 0.45 },
-      colors: ['#0f766e', '#166534', '#22c55e', '#d6aa56']
-    })
-  })
+  // Confetti removed: keep quiz completion quiet and premium.
 }
 
 function eq (a, b) {
