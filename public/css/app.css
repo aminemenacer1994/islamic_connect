@@ -62494,21 +62494,10 @@ to { transform: rotate(360deg);
 }
 }
 .memorisation-saved-session-bulk[data-v-637d02d8] {
-    width: 100%;
-    border-radius: 14px;
-    border: 1px solid rgba(15, 118, 110, 0.12);
-    background: rgba(15, 118, 110, 0.04);
-    padding: 0.45rem 0.55rem;
+    display: none;
 }
 .memorisation-saved-session-bulk-summary[data-v-637d02d8] {
-    list-style: none;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 0.6rem;
-    font-weight: 900;
-    color: rgba(6, 95, 70, 0.92);
+    display: none;
 }
 .memorisation-saved-session-bulk-summary[data-v-637d02d8]::-webkit-details-marker {
     display: none;
@@ -62528,21 +62517,10 @@ details[open].memorisation-saved-session-bulk .memorisation-saved-session-bulk-s
     color: rgba(15, 23, 42, 0.58);
 }
 .memorisation-saved-session-bulk-actions[data-v-637d02d8] {
-    display: flex;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-    margin-top: 0.55rem;
+    display: none;
 }
 .memorisation-saved-session-checklist[data-v-637d02d8] {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 0.35rem;
-    padding: 0.45rem 0.15rem 0.15rem;
-    max-height: 180px;
-    overflow: auto;
-    border-radius: 12px;
-    background: transparent;
-    border: 0;
+    display: none;
 }
 .memorisation-saved-session-check[data-v-637d02d8] {
     display: grid;
@@ -62571,6 +62549,334 @@ details[open].memorisation-saved-session-bulk .memorisation-saved-session-bulk-s
 .memorisation-toolbar-progress-chip[data-v-637d02d8] {
     font-size: 0.82rem;
     padding: 0.16rem 0.48rem;
+}
+.memorisation-toolbar-resume[data-v-637d02d8] {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 0.7rem;
+    padding: 0.85rem 0.95rem;
+    border-radius: 18px;
+    background:
+        radial-gradient(520px 160px at 0% 0%, rgba(218, 165, 32, 0.12), transparent 72%),
+        linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(238, 250, 245, 0.92));
+    border: 1px solid rgba(15, 118, 110, 0.14);
+    box-shadow: 0 18px 42px rgba(7, 31, 28, 0.12);
+}
+.memorisation-toolbar-resume-copy[data-v-637d02d8] {
+    min-width: 0;
+    display: grid;
+    gap: 0.22rem;
+}
+.memorisation-toolbar-resume-kicker[data-v-637d02d8] {
+    width: -moz-fit-content;
+    width: fit-content;
+    display: inline-flex;
+    align-items: center;
+    min-height: 24px;
+    padding: 0.18rem 0.48rem;
+    border-radius: 999px;
+    background: rgba(15, 118, 110, 0.10);
+    color: #0f766e;
+    font-size: 0.68rem;
+    font-weight: 900;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+.memorisation-toolbar-resume-title[data-v-637d02d8] {
+    font-weight: 950;
+    color: #12342e;
+    font-size: clamp(1rem, 1.5vw, 1.2rem);
+    line-height: 1.18;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.memorisation-toolbar-resume-subtitle[data-v-637d02d8] {
+    max-width: 78ch;
+    font-size: 0.88rem;
+    line-height: 1.45;
+    font-weight: 650;
+    color: rgba(15, 23, 42, 0.68);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.memorisation-toolbar-resume-btn[data-v-637d02d8] {
+    flex: 0 0 auto;
+    min-height: 46px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.48rem;
+    border-radius: 10px;
+    padding: 0.62rem 1rem;
+    font-weight: 950;
+    background: linear-gradient(135deg, #14532d 0%, #166534 100%);
+    border: 1px solid rgba(6, 95, 70, 0.28);
+    color: #fff;
+    box-shadow: 0 16px 30px rgba(20, 83, 45, 0.26);
+    white-space: nowrap;
+    transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease;
+}
+.memorisation-toolbar-resume-btn[data-v-637d02d8]:hover,
+.memorisation-toolbar-resume-btn[data-v-637d02d8]:focus-visible {
+    background: linear-gradient(135deg, #166534 0%, #0f766e 100%);
+    color: #fff;
+    transform: translateY(-1px);
+    box-shadow: 0 20px 36px rgba(20, 83, 45, 0.30);
+}
+
+/* Saved session dropdown with checkbox list (bulk delete inside dropdown). */
+.memorisation-session-dropdown[data-v-637d02d8] {
+    width: 100%;
+}
+.memorisation-session-dropdown-btn[data-v-637d02d8] {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.6rem;
+    border-radius: 14px;
+    padding: 0.55rem 0.65rem;
+    background: rgba(255, 255, 255, 0.86);
+    border: 1px solid rgba(15, 118, 110, 0.14);
+    box-shadow: 0 12px 22px rgba(7, 31, 28, 0.06);
+    color: rgba(15, 23, 42, 0.86);
+    font-weight: 800;
+}
+.memorisation-session-dropdown-btn i[data-v-637d02d8] {
+    opacity: 0.75;
+}
+.memorisation-session-dropdown-menu[data-v-637d02d8] {
+    width: 100%;
+    max-width: 100%;
+    padding: 0.55rem;
+    border-radius: 16px;
+    border: 1px solid rgba(15, 118, 110, 0.14);
+    background: rgba(255, 255, 255, 0.98);
+    box-shadow: 0 22px 44px rgba(7, 31, 28, 0.16);
+    max-height: 360px;
+    overflow: hidden;
+}
+
+/* Neutralize Bootstrap dropdown item/button defaults inside our custom menu. */
+.memorisation-session-dropdown-menu .memorisation-session-row[data-v-637d02d8] {
+    -moz-appearance: none;
+         appearance: none;
+    -webkit-appearance: none;
+    border: 1px solid rgba(15, 118, 110, 0.08);
+}
+.memorisation-session-dropdown-menu button.memorisation-session-row[data-v-637d02d8] {
+    background-clip: padding-box;
+}
+.memorisation-session-dropdown-menu .memorisation-session-row-check[data-v-637d02d8] {
+    align-self: center;
+    /* Bootstrap's `.form-check-input` floats + negative margin by default. */
+    float: none;
+    margin-left: 0;
+    margin-right: 0;
+}
+.memorisation-session-dropdown-menu .dropdown-item[data-v-637d02d8]:active,
+.memorisation-session-dropdown-menu .dropdown-item[data-v-637d02d8]:focus,
+.memorisation-session-dropdown-menu .dropdown-item[data-v-637d02d8]:hover {
+    background: transparent;
+}
+.memorisation-session-dropdown-menu .dropdown-divider[data-v-637d02d8] {
+    display: none;
+}
+.memorisation-session-dropdown-header[data-v-637d02d8] {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    flex-wrap: nowrap;
+    padding: 0.25rem 0.1rem 0.55rem;
+    position: sticky;
+    top: 0;
+    background: rgba(255, 255, 255, 0.98);
+    z-index: 2;
+    border-bottom: 1px solid rgba(15, 118, 110, 0.10);
+}
+.memorisation-session-dropdown-selected[data-v-637d02d8] {
+    font-weight: 900;
+    color: rgba(6, 95, 70, 0.92);
+    white-space: nowrap;
+}
+.memorisation-session-dropdown-header-actions[data-v-637d02d8] {
+    display: inline-flex;
+    gap: 0.35rem;
+    align-items: center;
+    flex: 0 0 auto;
+}
+.memorisation-session-dropdown-icon-btn[data-v-637d02d8] {
+    width: 38px;
+    height: 38px;
+    padding: 0;
+    border-radius: 12px;
+    border: 1px solid rgba(15, 118, 110, 0.12);
+    background: rgba(244, 251, 248, 0.8);
+    color: rgba(15, 23, 42, 0.72);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+.memorisation-session-dropdown-icon-btn--danger[data-v-637d02d8] {
+    border-color: rgba(239, 68, 68, 0.18);
+    background: rgba(254, 242, 242, 0.9);
+    color: rgba(153, 27, 27, 0.88);
+}
+.memorisation-session-dropdown-list[data-v-637d02d8] {
+    max-height: 280px;
+    overflow: auto;
+    padding: 0.45rem 0.05rem 0.1rem;
+}
+.memorisation-session-row[data-v-637d02d8] {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 18px minmax(0, 1fr);
+    gap: 0.6rem;
+    align-items: center;
+    padding: 0.6rem 0.65rem;
+    border-radius: 14px;
+    border: 1px solid rgba(15, 118, 110, 0.08);
+    background: rgba(244, 251, 248, 0.74);
+    margin: 0.35rem 0;
+    text-align: left;
+}
+.memorisation-session-row.is-active[data-v-637d02d8] {
+    border-color: rgba(15, 118, 110, 0.26);
+    box-shadow: 0 14px 26px rgba(7, 31, 28, 0.10);
+    background: rgba(15, 118, 110, 0.08);
+}
+.memorisation-session-row-check[data-v-637d02d8] {
+    margin: 0;
+    width: 18px;
+    height: 18px;
+    flex: 0 0 auto;
+}
+.memorisation-session-row-copy[data-v-637d02d8] {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.08rem;
+}
+.memorisation-session-row-title[data-v-637d02d8] {
+    font-weight: 950;
+    color: rgba(6, 95, 70, 0.92);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.memorisation-session-row-meta[data-v-637d02d8] {
+    font-size: 0.72rem;
+    font-weight: 750;
+    color: rgba(15, 23, 42, 0.56);
+}
+.memo-kbd-popover[data-v-637d02d8] {
+    display: none;
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    width: -moz-max-content;
+    width: max-content;
+    max-width: 260px;
+    padding: 0.82rem 0.92rem;
+    border-radius: 14px;
+    background:
+        radial-gradient(520px 140px at 0% 0%, rgba(15, 118, 110, 0.14), transparent 62%),
+        radial-gradient(520px 140px at 100% 0%, rgba(214, 170, 86, 0.16), transparent 62%),
+        rgba(255, 255, 255, 0.98);
+    color: rgba(15, 23, 42, 0.92);
+    border: 1px solid rgba(15, 118, 110, 0.18);
+    box-shadow: 0 18px 38px rgba(7, 31, 28, 0.18);
+    z-index: 70000;
+    pointer-events: none;
+    text-align: left;
+}
+.memo-kbd-popover strong[data-v-637d02d8] {
+    display: block;
+    font-weight: 950;
+    margin-bottom: 0.35rem;
+    color: rgba(6, 95, 70, 0.92);
+}
+.memo-kbd-popover span[data-v-637d02d8] {
+    display: block;
+    font-size: 0.78rem;
+    font-weight: 750;
+    color: rgba(15, 23, 42, 0.70);
+    line-height: 1.35;
+}
+.quran-toolbar-btn:focus-visible .memo-kbd-popover[data-v-637d02d8],
+.quran-toolbar-btn:hover .memo-kbd-popover[data-v-637d02d8] {
+    display: block;
+}
+
+/* Memorisation Bootstrap tooltips (keyboard hint button inside the offcanvas). */
+.tooltip.memorisation-tooltip[data-v-637d02d8] {
+    z-index: 100000 !important;
+}
+.tooltip.memorisation-tooltip .tooltip-inner[data-v-637d02d8] {
+    max-width: 280px;
+    padding: 0.82rem 0.92rem;
+    border-radius: 14px;
+    background:
+        radial-gradient(520px 140px at 0% 0%, rgba(15, 118, 110, 0.14), transparent 62%),
+        radial-gradient(520px 140px at 100% 0%, rgba(214, 170, 86, 0.16), transparent 62%),
+        rgba(255, 255, 255, 0.98);
+    color: rgba(15, 23, 42, 0.92);
+    border: 1px solid rgba(15, 118, 110, 0.18);
+    box-shadow: 0 18px 38px rgba(7, 31, 28, 0.18);
+    text-align: left;
+}
+.tooltip.memorisation-tooltip .tooltip-arrow[data-v-637d02d8]::before {
+    border-top-color: rgba(255, 255, 255, 0.98);
+    border-bottom-color: rgba(255, 255, 255, 0.98);
+}
+
+/* Returning user / first session banner inside memorisation offcanvas. */
+.memorisation-return-banner[data-v-637d02d8] {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 0.75rem 0.8rem;
+    margin-bottom: 0.7rem;
+    border-radius: 16px;
+    background:
+        radial-gradient(820px 180px at 0% 0%, rgba(15, 118, 110, 0.10), transparent 62%),
+        radial-gradient(820px 180px at 100% 0%, rgba(214, 170, 86, 0.12), transparent 62%),
+        rgba(255, 255, 255, 0.92);
+    border: 1px solid rgba(15, 118, 110, 0.14);
+    box-shadow: 0 14px 32px rgba(7, 31, 28, 0.10);
+}
+.memorisation-return-banner-title[data-v-637d02d8] {
+    font-weight: 950;
+    color: rgba(6, 95, 70, 0.92);
+    letter-spacing: -0.01em;
+}
+.memorisation-return-banner-subtitle[data-v-637d02d8] {
+    font-size: 0.86rem;
+    font-weight: 650;
+    color: rgba(15, 23, 42, 0.66);
+}
+.memorisation-return-banner-actions[data-v-637d02d8] {
+    flex: 0 0 auto;
+}
+.memorisation-return-banner-primary[data-v-637d02d8] {
+    border-radius: 12px;
+    padding: 0.55rem 0.75rem;
+    font-weight: 900;
+    background: rgba(6, 95, 70, 0.92);
+    border: 1px solid rgba(6, 95, 70, 0.28);
+    color: #fff;
+    box-shadow: 0 14px 28px rgba(6, 95, 70, 0.18);
+}
+.memorisation-return-banner-primary[data-v-637d02d8]:hover {
+    background: rgba(6, 95, 70, 0.98);
+    color: #fff;
 }
 
 /* Start plan button inside the memorisation offcanvas (below Beginner/Advanced). */
@@ -104304,7 +104610,7 @@ to {
 
 /* Ensure memorisation tooltips sit above sticky toolbars/offcanvas chrome. */
 .tooltip.memorisation-tooltip[data-v-637d02d8] {
-    z-index: 20000 !important;
+    z-index: 65000 !important;
 }
 
 /* Bootstrap tooltip inner polish for memorisation hints. */
@@ -104313,13 +104619,22 @@ to {
     padding: 0.5rem 0.65rem;
     font-weight: 700;
     letter-spacing: 0;
-    background: rgba(15, 23, 42, 0.96);
-    color: rgba(248, 250, 252, 0.98);
-    box-shadow: 0 12px 26px rgba(0, 0, 0, 0.28);
+    background:
+        radial-gradient(520px 140px at 0% 0%, rgba(15, 118, 110, 0.14), transparent 62%),
+        radial-gradient(520px 140px at 100% 0%, rgba(214, 170, 86, 0.16), transparent 62%),
+        rgba(255, 255, 255, 0.98);
+    color: rgba(15, 23, 42, 0.92);
+    border: 1px solid rgba(15, 118, 110, 0.18);
+    box-shadow: 0 16px 30px rgba(7, 31, 28, 0.16);
 }
 .tooltip.memorisation-tooltip .tooltip-arrow[data-v-637d02d8]::before {
-    border-top-color: rgba(15, 23, 42, 0.96);
-    border-bottom-color: rgba(15, 23, 42, 0.96);
+    border-top-color: rgba(255, 255, 255, 0.98);
+    border-bottom-color: rgba(255, 255, 255, 0.98);
+}
+
+/* If Bootstrap injects tooltips without our customClass for any reason, still keep them above the toolbar on /surat. */
+.surat-premium .tooltip[data-v-637d02d8] {
+    z-index: 65000 !important;
 }
 
 /* Playback word hover/tap polish. */

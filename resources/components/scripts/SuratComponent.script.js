@@ -1212,7 +1212,7 @@ export default {
             },
 	            memorisationTooltipInstances: [],
 	            memorisationCelebrationTimer: null,
-	            selectedMemorisationSessionHistoryIds: [],
+	            // Bulk multi-delete intentionally removed (keeps History frictionless).
 	            isMemorisationReadingAidsOpen: false,
             selectedMemorisationSessionHistoryId: "",
             memorisationFullscreenOnStart: false,
@@ -1504,7 +1504,8 @@ export default {
 	            memorisationAdvancedGuideCollapsed: false,
 	            memorisationAdvancedGuideCollapsedStorageKey:
 	                "ic_memorisation_advanced_how_it_works_collapsed_v1",
-	            memorisationRuntimeStorageKey: "ic_memorisation_runtime_state_v1",
+            memorisationRuntimeStorageKey: "ic_memorisation_runtime_state_v1",
+            memorisationRuntimeResumeMeta: null,
 	            memorisationRuntimePersistDebounceTimer: null,
 	            memorisationRuntimePersistInterval: null,
 	            hifdhAuthStorageKey: "ic_hifdh_auth_user_v1",
@@ -6896,10 +6897,11 @@ export default {
             this.fetchQuranFonts(),
             this.fetchFontPreviewAyah(),
         ])
-            .then(async () => {
-                this.isInitialLoad = false;
-                await this.restoreMemorisationToolbarOnLoadIfNeeded();
-                this.maybeSeedHifzPlans();
+	            .then(async () => {
+	                this.isInitialLoad = false;
+	                await this.restoreMemorisationToolbarOnLoadIfNeeded();
+	                this.loadMemorisationResumeMetaFromStorage();
+	                this.maybeSeedHifzPlans();
                 this.refreshHifzPlanSchedules();
                 await this.autoLoadTodayHifzTargetRange();
                 this.syncHifzIntegrations();
@@ -12422,19 +12424,40 @@ export default {
             };
         },
         openMemorisationOffcanvas() {
-            this.prepareMemorisationToolsEntry();
-            this.hideSurahOffcanvasIfOpen();
-            this.resetDesktopToolbarScrollPosition();
-            if (this.isMemorisationAdvancedOpen) {
-                this.resetMemorisationAdvancedSections();
-            } else {
-                this.resetMemorisationBeginnerSections();
-            }
-            this.isMemorisationOffcanvasVisible = true;
+	            this.prepareMemorisationToolsEntry();
+	            this.hideSurahOffcanvasIfOpen();
+	            this.resetDesktopToolbarScrollPosition();
+	            // First-time users should land in Beginner mode.
+	            if (
+	                !this.isMemorisationToolbarVisible &&
+	                !this.hasMemorisationResumeCandidate() &&
+	                !(Array.isArray(this.sessionHistoryEntries) && this.sessionHistoryEntries.length)
+	            ) {
+	                this.isMemorisationAdvancedOpen = false;
+	            }
+	            if (this.isMemorisationAdvancedOpen) {
+	                this.resetMemorisationAdvancedSections();
+	            } else {
+	                this.resetMemorisationBeginnerSections();
+	            }
+	            this.isMemorisationOffcanvasVisible = true;
             this.$nextTick(() => {
                 this.syncMemorisationOffcanvasDockedWidth();
                 this.initializeMemorisationTooltips();
             });
+        },
+        async toggleMemorisationToolbarOrResume() {
+            // One-click "Jump back in": enable tools if needed, then resume and start immediately.
+            try {
+                if (this.hasMemorisationResumeCandidate && this.hasMemorisationResumeCandidate()) {
+                    if (!this.isMemorisationToolbarVisible) {
+                        await this.toggleMemorisationToolbar();
+                    }
+                    await this.resumeMemorisationFromRuntime();
+                    return;
+                }
+            } catch (_) {}
+            this.toggleMemorisationToolbar();
         },
 	        setMemorisationToolsDepth(mode = "beginner") {
 	            this.isMemorisationAdvancedOpen = mode === "advanced";
@@ -12585,49 +12608,7 @@ export default {
             this.showToast("Saved session deleted.", 2200);
 	            this.announce("Saved memorisation session deleted.");
 	        },
-	        toggleMemorisationSessionHistoryBulkSelection(entryId) {
-	            const id = String(entryId || "").trim();
-	            if (!id) return;
-	            const current = Array.isArray(this.selectedMemorisationSessionHistoryIds)
-	                ? this.selectedMemorisationSessionHistoryIds
-	                : [];
-	            const set = new Set(current.map((v) => String(v)));
-	            if (set.has(id)) {
-	                set.delete(id);
-	            } else {
-	                set.add(id);
-	            }
-	            this.selectedMemorisationSessionHistoryIds = Array.from(set);
-	        },
-	        clearMemorisationSessionHistoryBulkSelection() {
-	            this.selectedMemorisationSessionHistoryIds = [];
-	        },
-	        deleteSelectedMemorisationSessionsBulk() {
-	            const selected = Array.isArray(this.selectedMemorisationSessionHistoryIds)
-	                ? this.selectedMemorisationSessionHistoryIds.map((v) => String(v).trim()).filter(Boolean)
-	                : [];
-	            if (!selected.length) return;
-	            const selectedSet = new Set(selected);
-	            const entries = Array.isArray(this.sessionHistoryEntries)
-	                ? this.sessionHistoryEntries
-	                : [];
-	            const nextEntries = entries.filter(
-	                (entry) => !selectedSet.has(String(entry?.id || ""))
-	            );
-	            const deletedCount = entries.length - nextEntries.length;
-	            if (!deletedCount) return;
-	            this.setSessionHistoryEntries(nextEntries);
-	            this.persistSessionHistory();
-	            if (selectedSet.has(String(this.selectedMemorisationSessionHistoryId || ""))) {
-	                this.selectedMemorisationSessionHistoryId = "";
-	            }
-	            this.clearMemorisationSessionHistoryBulkSelection();
-	            this.showToast(
-	                `Deleted ${deletedCount} saved session${deletedCount === 1 ? "" : "s"}.`,
-	                2400
-	            );
-	            this.announce("Saved memorisation sessions deleted.");
-	        },
+	        // Bulk session deletion intentionally removed.
         getHifdhPlanPanelInstance() {
             const modalEl = document.getElementById("hifdhPlanModal");
             if (!modalEl) return null;
@@ -12928,7 +12909,7 @@ export default {
             }
             this.syncMemorisationDraftFromCurrentSession();
         },
-        async startMemorisationSession() {
+	        async startMemorisationSession() {
             if (!this.isMemorisationToolbarVisible) {
                 this.isMemorisationToolbarVisible = true;
             }
@@ -12950,21 +12931,34 @@ export default {
                 settle: true,
                 force: true,
             });
-            this.memorisationSessionStatusMessage = `Memorising Ayah ${startAyah}-${endAyah}`;
+	            this.memorisationSessionStatusMessage = `Memorising Ayah ${startAyah}-${endAyah}`;
             this.syncMemorisationDraftFromCurrentSession();
             this.showToast(this.memorisationSessionStatusMessage, 2800);
             this.announce(this.memorisationSessionStatusMessage);
-            if (
-                this.isMemorisationAdvancedMode &&
-                this.memorisationFullscreenOnStart &&
-                !this.isReadingFullscreen
-            ) {
-                try {
-                    await this.toggleReadingFullscreen();
-                } catch (_) {}
-            }
-            this.playAudio(startIndex);
-        },
+	            if (
+	                this.isMemorisationAdvancedMode &&
+	                this.memorisationFullscreenOnStart &&
+	                !this.isReadingFullscreen
+	            ) {
+	                try {
+	                    await this.toggleReadingFullscreen();
+	                } catch (_) {}
+	            }
+	            // Auto-dismiss the panel so the workspace is visible immediately.
+	            if (this.isMemorisationOffcanvasVisible) {
+	                this.closeMemorisationOffcanvas();
+	            }
+
+	            // Skip "chain ready" intermediate state by starting chaining playback immediately when enabled.
+	            if (this.isMemorisationChainingActive) {
+	                this.resetMemorisationChainingProgress({ stopAudio: false, preserveCompleted: false });
+	                this.beginMemorisationChainingRound(0);
+	                this.playMemorisationChainingStage({ restart: true });
+	                return;
+	            }
+
+	            this.playAudio(startIndex);
+	        },
         async startMemorisationBeginnerSession() {
             if (this.isMemorisationDraftSubmitting) return;
             this.isMemorisationDraftSubmitting = true;
@@ -21256,19 +21250,92 @@ export default {
                 this.persistMemorisationRuntimeState();
             }, 180);
         },
-        persistMemorisationRuntimeState() {
-            if (typeof window === "undefined") return false;
-            if (!this.isMemorisationToolbarVisible) return false;
-            const state = this.buildMemorisationRuntimeState();
-            try {
-                localStorage.setItem(this.memorisationRuntimeStorageKey, JSON.stringify(state));
-                return true;
-            } catch (_) {
-                return false;
-            }
-        },
-        async restoreMemorisationRuntimeState() {
-            if (typeof window === "undefined") return false;
+	        persistMemorisationRuntimeState() {
+	            if (typeof window === "undefined") return false;
+	            if (!this.isMemorisationToolbarVisible) return false;
+	            const state = this.buildMemorisationRuntimeState();
+	            try {
+	                localStorage.setItem(this.memorisationRuntimeStorageKey, JSON.stringify(state));
+	                this.memorisationRuntimeResumeMeta =
+	                    this.normalizeMemorisationResumeMeta(state);
+	                return true;
+	            } catch (_) {
+	                return false;
+	            }
+	        },
+	        normalizeMemorisationResumeMeta(source = {}) {
+	            if (!source || typeof source !== "object") return null;
+	            const snapshot = source.snapshot && typeof source.snapshot === "object"
+	                ? source.snapshot
+	                : source;
+	            const selectedSurah = String(
+	                snapshot.selectedSurah ||
+	                    snapshot.surahNumber ||
+	                    snapshot.selectedSurahNumber ||
+	                    ""
+	            ).trim();
+	            const selectedReciter = String(
+	                snapshot.selectedReciter ||
+	                    snapshot.reciterIdentifier ||
+	                    ""
+	            ).trim();
+	            const rangeStart = Math.max(
+	                1,
+	                Number(
+	                    snapshot.rangeStart ||
+	                        snapshot.startAyah ||
+	                        snapshot.ayahRange?.start ||
+	                        1
+	                ) || 1
+	            );
+	            const rangeEnd = Math.max(
+	                rangeStart,
+	                Number(
+	                    snapshot.rangeEnd ||
+	                        snapshot.endAyah ||
+	                        snapshot.ayahRange?.end ||
+	                        rangeStart
+	                ) || rangeStart
+	            );
+	            const updatedAt = Number(
+	                source.updatedAt ||
+	                    snapshot.updatedAt ||
+	                    source.endedAt ||
+	                    snapshot.endedAt ||
+	                    source.startedAt ||
+	                    snapshot.startedAt ||
+	                    Date.now()
+	            ) || Date.now();
+	            if (!selectedSurah || rangeEnd < rangeStart) return null;
+	            return {
+	                updatedAt,
+	                selectedSurah,
+	                selectedReciter,
+	                rangeStart,
+	                rangeEnd,
+	            };
+	        },
+	        loadMemorisationResumeMetaFromStorage() {
+	            if (typeof window === "undefined") return null;
+	            const candidates = [];
+	            try {
+	                const rawRuntime = localStorage.getItem(this.memorisationRuntimeStorageKey) || "";
+	                if (rawRuntime) candidates.push(JSON.parse(rawRuntime));
+	            } catch (_) {}
+	            try {
+	                const rawPrevious =
+	                    localStorage.getItem(this.getMemorisationSessionStorageKey()) || "";
+	                if (rawPrevious) candidates.push(JSON.parse(rawPrevious));
+	            } catch (_) {}
+	            const metas = candidates
+	                .map((candidate) => this.normalizeMemorisationResumeMeta(candidate))
+	                .filter(Boolean)
+	                .sort((a, b) => Number(b.updatedAt || 0) - Number(a.updatedAt || 0));
+	            this.memorisationRuntimeResumeMeta = metas[0] || null;
+	            return this.memorisationRuntimeResumeMeta;
+	        },
+	        async restoreMemorisationRuntimeState() {
+	            if (typeof window === "undefined") return false;
             let raw = "";
             try {
                 raw = localStorage.getItem(this.memorisationRuntimeStorageKey) || "";
@@ -21300,6 +21367,8 @@ export default {
             if (reciter) {
                 this.selectedReciter = reciter;
             }
+	            this.memorisationRuntimeResumeMeta =
+	                this.normalizeMemorisationResumeMeta(parsed);
 
             const total = Math.max(1, Number(this.totalAyahs || 1));
             const rangeStart = Math.max(1, Math.min(total, Number(parsed.rangeStart || 1) || 1));
@@ -21349,6 +21418,130 @@ export default {
                 this.memorisationFocusIndex = focusIndex;
             }
             return true;
+        },
+
+        hasMemorisationResumeCandidate() {
+            const meta = this.memorisationRuntimeResumeMeta;
+            if (!meta || typeof meta !== "object") return false;
+            const start = Number(meta.rangeStart || 0) || 0;
+            const end = Number(meta.rangeEnd || 0) || 0;
+            return !!String(meta.selectedSurah || "").trim() && start > 0 && end >= start;
+        },
+        memorisationReturnTitle() {
+            const streak = Number(this.hifdhConsistencyStreakDays || 0) || 0;
+            if (this.hasMemorisationResumeCandidate()) {
+                if (streak > 0) return `Welcome back · ${streak}-day streak`;
+                return "Welcome back";
+            }
+            return "Start your first session";
+        },
+	        memorisationReturnSubtitle() {
+            if (this.hasMemorisationResumeCandidate()) {
+                const meta = this.memorisationRuntimeResumeMeta || {};
+                const surah = this.getSurahNameByNumber(meta.selectedSurah) || `Surah ${meta.selectedSurah || "—"}`;
+                const reciterId = String(meta.selectedReciter || "").trim();
+                const reciterMatch =
+                    (this.recitersSorted || this.reciters || []).find(
+                        (item) => String(item?.identifier || "").trim() === reciterId
+                    ) || null;
+                const reciter =
+                    String(reciterMatch?.englishName || "").trim() ||
+                    (reciterId || "Reciter");
+                const start = Number(meta.rangeStart || this.memorisationRangeStart || 1);
+                const end = Number(meta.rangeEnd || this.memorisationRangeEnd || start);
+                const rangeLabel = `${start}\u2013${end}`;
+                return `Next: ${surah} ${rangeLabel} · ${reciter}`;
+            }
+	            return "Pick a surah and range, then press Start Session. We’ll remember your setup.";
+	        },
+	        getMemorisationResumeDayGap() {
+	            const updatedAt = Number(this.memorisationRuntimeResumeMeta?.updatedAt || 0);
+	            if (!updatedAt) return null;
+	            const todayKey = this.toDateKey(new Date());
+	            const updatedKey = this.toDateKey(new Date(updatedAt));
+	            const today = new Date(`${todayKey}T12:00:00`);
+	            const updated = new Date(`${updatedKey}T12:00:00`);
+	            if (Number.isNaN(today.getTime()) || Number.isNaN(updated.getTime())) {
+	                return null;
+	            }
+	            return Math.max(
+	                0,
+	                Math.round((today.getTime() - updated.getTime()) / 86400000)
+	            );
+	        },
+	        memorisationEntryKicker() {
+	            if (!this.hasMemorisationResumeCandidate()) return "Quran practice";
+	            const dayGap = this.getMemorisationResumeDayGap();
+	            if (dayGap === 1) return "Welcome back";
+	            if (dayGap && dayGap > 1) return "Pick up where you left off";
+	            return "Ready to continue";
+	        },
+	        memorisationEntryTitle() {
+	            if (!this.hasMemorisationResumeCandidate()) {
+	                return "Start your first session";
+	            }
+	            const dayGap = this.getMemorisationResumeDayGap();
+	            if (dayGap === 1) {
+	                return "Your next review is ready";
+	            }
+	            if (dayGap && dayGap > 1) {
+	                return "Resume your memorisation session";
+	            }
+	            return "Jump back in";
+	        },
+	        memorisationEntrySummary() {
+	            if (!this.hasMemorisationResumeCandidate()) {
+	                return "Beginner mode opens first so you can choose a short range and start.";
+	            }
+	            const base = this.memorisationReturnSubtitle();
+	            const dayGap = this.getMemorisationResumeDayGap();
+	            if (dayGap === 1) {
+	                return `${base}. Suggested: listen once, then recite once from memory.`;
+	            }
+	            if (dayGap && dayGap > 1) {
+	                return `${base}. Start with a light review round.`;
+	            }
+	            return base;
+	        },
+	        startFirstMemorisationSession() {
+	            if (!this.isMemorisationToolbarVisible) {
+	                this.isMemorisationToolbarVisible = true;
+	                this.persistMemorisationToolbarVisibilityPreference(true);
+	            }
+	            this.setMemorisationToolsDepth("beginner");
+	            this.openMemorisationOffcanvas();
+	            this.$nextTick(() => this.scrollMemorisationOffcanvasTo("memo-beginner-setup"));
+	        },
+	        async resumeMemorisationFromRuntime() {
+	            // Restore if possible, then immediately start playback.
+	            this.loadMemorisationResumeMetaFromStorage();
+	            let restored = false;
+	            try {
+	                restored = await this.restoreMemorisationRuntimeState();
+	            } catch (_) {}
+	            if (!restored && this.hasMemorisationResumeCandidate()) {
+	                const meta = this.memorisationRuntimeResumeMeta || {};
+	                try {
+	                    await this.applyMemorisationSessionConfig(
+	                        {
+	                            surahNumber: meta.selectedSurah,
+	                            reciterIdentifier: meta.selectedReciter || this.selectedReciter,
+	                            rangeStart: meta.rangeStart,
+	                            rangeEnd: meta.rangeEnd,
+	                        },
+	                        {
+	                            showSubmitAlert: false,
+	                            closeOffcanvas: false,
+	                            syncDraft: true,
+	                        }
+	                    );
+	                } catch (_) {}
+	            }
+	            if (this.isMemorisationAdvancedMode) {
+	                await this.startMemorisationSession();
+	                return;
+            }
+            await this.startMemorisationBeginnerSession();
         },
         loadPersistedMemorisationPreviousSession() {
             if (typeof window === "undefined") {

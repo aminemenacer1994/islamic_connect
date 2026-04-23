@@ -670,16 +670,18 @@
                                             <i class="bi bi-columns-gap" aria-hidden="true"></i>
                                             <span class="advanced-quran-more-item-label">Compare translation</span>
                                         </button>
-                                        <button
-                                            type="button"
-                                            class="dropdown-item advanced-quran-more-item"
-                                            @click="toggleMemorisationToolbar">
-                                            <i class="bi bi-journal-bookmark-fill" aria-hidden="true"></i>
-                                            <span class="advanced-quran-more-item-label">Memorisation tools</span>
-                                            <span
-                                                v-if="isMemorisationToolsComingSoon"
-                                                class="advanced-quran-more-item-meta">Soon</span>
-                                        </button>
+	                                        <button
+	                                            type="button"
+	                                            class="dropdown-item advanced-quran-more-item"
+	                                            @click="toggleMemorisationToolbarOrResume">
+	                                            <i class="bi bi-journal-bookmark-fill" aria-hidden="true"></i>
+	                                            <span class="advanced-quran-more-item-label">
+	                                                {{ hasMemorisationResumeCandidate() ? "Jump back in" : "Memorisation tools" }}
+	                                            </span>
+	                                            <span
+	                                                v-if="isMemorisationToolsComingSoon"
+	                                                class="advanced-quran-more-item-meta">Soon</span>
+	                                        </button>
                                         <button
                                             type="button"
                                             class="dropdown-item advanced-quran-more-item"
@@ -1046,10 +1048,10 @@
                             </span>
                             <span class="quran-toolbar-btn-state">{{ transliterationWordHighlightEnabled ? "On" : "Off" }}</span>
                         </button>
-	                        <button
-	                            v-if="!isReaderToolbarMinimized"
-                            type="button"
-                            class="quran-toolbar-btn quran-toolbar-btn-toggle quran-toolbar-btn-reader-control"
+		                        <button
+		                            v-if="!isReaderToolbarMinimized"
+	                            type="button"
+	                            class="quran-toolbar-btn quran-toolbar-btn-toggle quran-toolbar-btn-reader-control"
                             :class="{ 'is-enabled': showTajweed }"
                             @click="toggleToolbarTajweed"
                             :aria-label="showTajweed
@@ -1100,8 +1102,9 @@
                                     <span class="quran-toolbar-btn-text">Word meaning</span>
                                 </span>
                             </span>
-                            <span class="quran-toolbar-btn-state">{{ showWordTranslation && showWordTranslationTooltip ? "On" : "Off" }}</span>
-                        </button>
+		                            <span class="quran-toolbar-btn-state">{{ showWordTranslation && showWordTranslationTooltip ? "On" : "Off" }}</span>
+		                        </button>
+
 	                        <button
 	                            v-if="!isReaderToolbarMinimized && !isMemorisationToolbarVisible"
                             type="button"
@@ -1215,15 +1218,18 @@
 		                            v-if="isMemorisationToolbarVisible && !isReaderToolbarMinimized"
 		                            type="button"
 		                            class="quran-toolbar-btn quran-toolbar-btn-toggle quran-toolbar-btn-reader-control quran-toolbar-tools-icon-only"
-		                            data-memorisation-tooltip
-		                            data-bs-toggle="tooltip"
-		                            data-bs-html="true"
-		                            data-bs-placement="bottom"
-		                            :data-bs-title="'<strong>Keyboard shortcuts</strong><br>Space: Play/Pause<br>←/→: Prev/Next ayah<br>B: Bookmark<br>R: Reflect<br>L: Repeat range'"
 		                            aria-label="Keyboard shortcuts"
 		                            title="Keyboard shortcuts">
 		                            <span class="quran-toolbar-btn-icon-shell" aria-hidden="true">
 		                                <i class="bi bi-keyboard"></i>
+		                            </span>
+		                            <span class="memo-kbd-popover" role="tooltip" aria-hidden="true">
+		                                <strong>Keyboard shortcuts</strong>
+		                                <span>Space: Play/Pause</span>
+		                                <span>←/→: Prev/Next ayah</span>
+		                                <span>B: Bookmark</span>
+		                                <span>R: Reflect</span>
+		                                <span>L: Repeat range</span>
 		                            </span>
 		                        </button>
 		                    </div>
@@ -1236,12 +1242,12 @@
 	                        title="Exit memorisation tools">
 	                        <i class="bi bi-x-lg" aria-hidden="true"></i>
 	                    </button>
-	                    <div
-	                        v-if="isMemorisationToolbarVisible && !isReaderToolbarMinimized"
-	                        class="memorisation-toolbar-progress"
-	                        role="status"
-	                        aria-live="polite"
-	                        aria-atomic="true">
+		                        <div
+		                            v-if="isMemorisationToolbarVisible && !isReaderToolbarMinimized"
+		                            class="memorisation-toolbar-progress"
+		                            role="status"
+		                            aria-live="polite"
+		                            aria-atomic="true">
 	                        <span class="memorisation-toolbar-progress-identity">{{ memorisationPracticeIdentityLabel }}</span>
 	                        <span class="memorisation-toolbar-progress-range">{{ memorisationProgressStripText }}</span>
 	                        <div class="memorisation-toolbar-progress-track" aria-hidden="true">
@@ -1252,8 +1258,37 @@
 	                        <span class="memorisation-progress-chip memorisation-toolbar-progress-chip">
 	                            Range <strong>{{ memorisationProgressStripMeta?.start ?? "—" }}-{{ memorisationProgressStripMeta?.end ?? "—" }}</strong>
 	                        </span>
-	                    </div>
-	                    <div v-if="!isMemorisationToolbarVisible && !isReaderToolbarMinimized" class="dropdown quran-toolbar-more">
+		                        </div>
+		                        <div
+		                            v-if="isMemorisationToolbarVisible && !isMemorisationModeActive && !isReaderToolbarMinimized"
+		                            class="memorisation-toolbar-resume"
+		                            role="region"
+			                            aria-label="Resume memorisation session">
+			                            <div class="memorisation-toolbar-resume-copy">
+                                        <span class="memorisation-toolbar-resume-kicker">{{ memorisationEntryKicker() }}</span>
+			                                <span class="memorisation-toolbar-resume-title">{{ memorisationEntryTitle() }}</span>
+			                                <span class="memorisation-toolbar-resume-subtitle">{{ memorisationEntrySummary() }}</span>
+			                            </div>
+		                            <button
+		                                v-if="hasMemorisationResumeCandidate()"
+		                                type="button"
+		                                class="btn memorisation-toolbar-resume-btn"
+		                                @click="resumeMemorisationFromRuntime"
+		                                aria-label="Jump back in and resume your last session">
+                                        <i class="bi bi-arrow-return-right" aria-hidden="true"></i>
+		                                <span>Jump back in</span>
+		                            </button>
+		                            <button
+		                                v-else
+		                                type="button"
+		                                class="btn memorisation-toolbar-resume-btn"
+		                                @click="openMemorisationOffcanvas(); startFirstMemorisationSession();"
+		                                aria-label="Start your first memorisation session">
+                                        <i class="bi bi-play-fill" aria-hidden="true"></i>
+		                                <span>Start session</span>
+		                            </button>
+		                        </div>
+		                    <div v-if="!isMemorisationToolbarVisible && !isReaderToolbarMinimized" class="dropdown quran-toolbar-more">
 	                        <button
 	                            type="button"
                             class="quran-toolbar-btn quran-toolbar-btn-icon quran-toolbar-more-toggle dropdown-toggle"
@@ -1374,11 +1409,11 @@
                 @click="closeMemorisationToolsPanel"
                 aria-label="Close memorisation tools">
                 <i class="bi bi-x-lg" aria-hidden="true"></i>
-            </button>
-            <div class="offcanvas-body">
-                <div class="memorisation-tools-tabs" role="tablist" aria-label="Memorisation tool level">
-                    <button
-                        type="button"
+	            </button>
+	            <div class="offcanvas-body">
+	                <div class="memorisation-tools-tabs" role="tablist" aria-label="Memorisation tool level">
+	                    <button
+	                        type="button"
                         class="btn memorisation-tools-tab"
                         :class="{ 'is-active': !isMemorisationAdvancedMode }"
                         :aria-selected="!isMemorisationAdvancedMode ? 'true' : 'false'"
@@ -1691,70 +1726,26 @@
                                 <i class="bi" :class="isMemorisationBeginnerSectionOpen('history') ? 'bi-chevron-up' : 'bi-chevron-down'" aria-hidden="true"></i>
                             </button>
                         </div>
-	                        <div v-show="isMemorisationBeginnerSectionOpen('history')" class="memorisation-tools-grid">
-	                            <div class="memorisation-saved-session-actions memorisation-tools-field--full">
-	                                <details
-	                                    v-if="Array.isArray(sessionHistoryEntries) && sessionHistoryEntries.length"
-	                                    class="memorisation-saved-session-bulk"
-	                                    aria-label="Bulk delete saved sessions">
-	                                    <summary class="memorisation-saved-session-bulk-summary">
-	                                        <span>Bulk delete</span>
-	                                        <span class="memorisation-saved-session-bulk-count">
-	                                            {{ (Array.isArray(selectedMemorisationSessionHistoryIds) ? selectedMemorisationSessionHistoryIds.length : 0) }} selected
-	                                        </span>
-	                                    </summary>
-	                                    <div class="memorisation-saved-session-bulk-actions">
-	                                        <button
-	                                            type="button"
-	                                            class="btn memorisation-tools-secondary-btn memorisation-tools-danger-btn"
-	                                            :disabled="!(Array.isArray(selectedMemorisationSessionHistoryIds) && selectedMemorisationSessionHistoryIds.length)"
-	                                            @click="deleteSelectedMemorisationSessionsBulk">
-	                                            <i class="bi bi-trash3" aria-hidden="true"></i>
-	                                            <span>Delete selected</span>
-	                                        </button>
-	                                        <button
-	                                            type="button"
-	                                            class="btn memorisation-tools-secondary-btn"
-	                                            :disabled="!(Array.isArray(selectedMemorisationSessionHistoryIds) && selectedMemorisationSessionHistoryIds.length)"
-	                                            @click="clearMemorisationSessionHistoryBulkSelection">
-	                                            <i class="bi bi-x-circle" aria-hidden="true"></i>
-	                                            <span>Clear</span>
-	                                        </button>
-	                                    </div>
-	                                    <div class="memorisation-saved-session-checklist" role="group" aria-label="Select saved sessions">
-	                                        <label
-	                                            v-for="entry in sessionHistoryEntries.slice(0, 20)"
-	                                            :key="`memo-session-bulk-beginner-${entry.id}`"
-	                                            class="memorisation-saved-session-check">
-	                                            <input
-	                                                type="checkbox"
-	                                                class="form-check-input"
-	                                                :checked="Array.isArray(selectedMemorisationSessionHistoryIds) && selectedMemorisationSessionHistoryIds.includes(entry.id)"
-	                                                @change="toggleMemorisationSessionHistoryBulkSelection(entry.id)"
-	                                                :aria-label="`Select session ${entry.sessionName || formatSessionHistoryRange(entry)}`" />
-	                                            <span>
-	                                                {{ entry.sessionName || formatSessionHistoryRange(entry) }}
-	                                                <small>{{ entry.createdAtLabel || entry.dateLabel || 'Saved' }}</small>
-	                                            </span>
-	                                        </label>
-	                                    </div>
-	                                </details>
-	                            </div>
-	                            <label class="memorisation-tools-field memorisation-tools-field--full">
-	                                <span class="memorisation-tools-label">Choose session</span>
-	                                <select class="form-select memorisation-tools-control" v-model="selectedMemorisationSessionHistoryId" aria-label="Choose saved session">
-	                                    <option value="">Select a saved session</option>
-                                    <option
-                                        v-for="entry in (Array.isArray(sessionHistoryEntries) ? sessionHistoryEntries.slice(0, 20) : [])"
-                                        :key="`memo-session-load-beginner-${entry.id}`"
-                                        :value="entry.id">
-                                        {{ entry.sessionName || formatSessionHistoryRange(entry) }} - {{ entry.createdAtLabel || entry.dateLabel || 'Saved' }}
-                                    </option>
-                                </select>
-                            </label>
-                                <div class="memorisation-saved-session-actions memorisation-tools-field--full">
-                                    <button
-                                        type="button"
+		                        <div v-show="isMemorisationBeginnerSectionOpen('history')" class="memorisation-tools-grid">
+		                            <div class="memorisation-saved-session-actions memorisation-tools-field--full"></div>
+		                            <label class="memorisation-tools-field memorisation-tools-field--full">
+		                                <span class="memorisation-tools-label">Choose session</span>
+		                                <select
+		                                    class="form-select memorisation-tools-select"
+		                                    v-model="selectedMemorisationSessionHistoryId"
+		                                    aria-label="Select a saved session">
+		                                    <option value="">Select a saved session</option>
+		                                    <option
+		                                        v-for="entry in (Array.isArray(sessionHistoryEntries) ? sessionHistoryEntries : [])"
+		                                        :key="`memo-session-beginner-${entry.id}`"
+		                                        :value="String(entry.id)">
+		                                        {{ entry.sessionName || formatSessionHistoryRange(entry) }}
+		                                    </option>
+		                                </select>
+		                            </label>
+		                                <div class="memorisation-saved-session-actions memorisation-tools-field--full">
+		                                    <button
+	                                        type="button"
                                         class="btn memorisation-tools-secondary-btn"
                                         :disabled="!selectedMemorisationSessionHistoryId"
                                         @click="loadSelectedMemorisationSessionFromOffcanvas">
@@ -2283,67 +2274,23 @@
                                     <i class="bi" :class="isMemorisationAdvancedSectionOpen('saved') ? 'bi-chevron-up' : 'bi-chevron-down'" aria-hidden="true"></i>
                                 </button>
                         </div>
-		                        <div v-show="isMemorisationAdvancedSectionOpen('saved')" class="memorisation-tools-grid memorisation-advanced-section-body">
-	                            <div class="memorisation-saved-session-actions memorisation-tools-field--full">
-	                                <details
-	                                    v-if="Array.isArray(sessionHistoryEntries) && sessionHistoryEntries.length"
-	                                    class="memorisation-saved-session-bulk"
-	                                    aria-label="Bulk delete saved sessions">
-	                                    <summary class="memorisation-saved-session-bulk-summary">
-	                                        <span>Bulk delete</span>
-	                                        <span class="memorisation-saved-session-bulk-count">
-	                                            {{ (Array.isArray(selectedMemorisationSessionHistoryIds) ? selectedMemorisationSessionHistoryIds.length : 0) }} selected
-	                                        </span>
-	                                    </summary>
-	                                    <div class="memorisation-saved-session-bulk-actions">
-	                                        <button
-	                                            type="button"
-	                                            class="btn memorisation-tools-secondary-btn memorisation-tools-danger-btn"
-	                                            :disabled="!(Array.isArray(selectedMemorisationSessionHistoryIds) && selectedMemorisationSessionHistoryIds.length)"
-	                                            @click="deleteSelectedMemorisationSessionsBulk">
-	                                            <i class="bi bi-trash3" aria-hidden="true"></i>
-	                                            <span>Delete selected</span>
-	                                        </button>
-	                                        <button
-	                                            type="button"
-	                                            class="btn memorisation-tools-secondary-btn"
-	                                            :disabled="!(Array.isArray(selectedMemorisationSessionHistoryIds) && selectedMemorisationSessionHistoryIds.length)"
-	                                            @click="clearMemorisationSessionHistoryBulkSelection">
-	                                            <i class="bi bi-x-circle" aria-hidden="true"></i>
-	                                            <span>Clear</span>
-	                                        </button>
-	                                    </div>
-	                                    <div class="memorisation-saved-session-checklist" role="group" aria-label="Select saved sessions">
-	                                        <label
-	                                            v-for="entry in sessionHistoryEntries.slice(0, 20)"
-	                                            :key="`memo-session-bulk-advanced-${entry.id}`"
-	                                            class="memorisation-saved-session-check">
-	                                            <input
-	                                                type="checkbox"
-	                                                class="form-check-input"
-	                                                :checked="Array.isArray(selectedMemorisationSessionHistoryIds) && selectedMemorisationSessionHistoryIds.includes(entry.id)"
-	                                                @change="toggleMemorisationSessionHistoryBulkSelection(entry.id)"
-	                                                :aria-label="`Select session ${entry.sessionName || formatSessionHistoryRange(entry)}`" />
-	                                            <span>
-	                                                {{ entry.sessionName || formatSessionHistoryRange(entry) }}
-	                                                <small>{{ entry.createdAtLabel || entry.dateLabel || 'Saved' }}</small>
-	                                            </span>
-	                                        </label>
-	                                    </div>
-	                                </details>
-	                            </div>
-	                            <label class="memorisation-tools-field memorisation-tools-field--full">
-	                                <span class="memorisation-tools-label">Choose session</span>
-	                                <select class="form-select memorisation-tools-control" v-model="selectedMemorisationSessionHistoryId" aria-label="Choose saved session">
-	                                    <option value="">Select a saved session</option>
-                                    <option
-                                        v-for="entry in (Array.isArray(sessionHistoryEntries) ? sessionHistoryEntries.slice(0, 20) : [])"
-                                        :key="`memo-session-load-advanced-${entry.id}`"
-                                        :value="entry.id">
-                                        {{ entry.sessionName || formatSessionHistoryRange(entry) }} - {{ entry.createdAtLabel || entry.dateLabel || 'Saved' }}
-                                    </option>
-                                </select>
-                            </label>
+			                        <div v-show="isMemorisationAdvancedSectionOpen('saved')" class="memorisation-tools-grid memorisation-advanced-section-body">
+		                            <div class="memorisation-saved-session-actions memorisation-tools-field--full"></div>
+		                            <label class="memorisation-tools-field memorisation-tools-field--full">
+		                                <span class="memorisation-tools-label">Choose session</span>
+		                                <select
+		                                    class="form-select memorisation-tools-select"
+		                                    v-model="selectedMemorisationSessionHistoryId"
+		                                    aria-label="Select a saved session">
+		                                    <option value="">Select a saved session</option>
+		                                    <option
+		                                        v-for="entry in (Array.isArray(sessionHistoryEntries) ? sessionHistoryEntries : [])"
+		                                        :key="`memo-session-advanced-${entry.id}`"
+		                                        :value="String(entry.id)">
+		                                        {{ entry.sessionName || formatSessionHistoryRange(entry) }}
+		                                    </option>
+		                                </select>
+		                            </label>
                                 <div class="memorisation-saved-session-actions memorisation-tools-field--full">
                                     <button
                                         type="button"
