@@ -1477,7 +1477,7 @@ export default {
                 chainingMethodAudioGuidance: "qari-first",
                 chainingMethodBlurProgression: "off",
                 chainingMethodCompletionAction: "none",
-                sessionHistoryEnabled: false,
+                sessionHistoryEnabled: true,
                 sessionName: "",
             },
             countdownSeconds: 0,
