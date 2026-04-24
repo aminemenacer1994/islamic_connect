@@ -1212,7 +1212,6 @@ export default {
             },
 	            memorisationTooltipInstances: [],
 	            memorisationCelebrationTimer: null,
-	            // Bulk multi-delete intentionally removed (keeps History frictionless).
 	            isMemorisationReadingAidsOpen: false,
             selectedMemorisationSessionHistoryId: "",
             memorisationFullscreenOnStart: false,
@@ -1489,9 +1488,14 @@ export default {
             isBlurNextAyahEnabled: false,
             memorisationSelectedQuickTool: "loopRange",
             memorisationSessionStatusMessage: "Ready to begin",
-            isMemorisationOnboardingVisible: false,
-            memorisationOnboardingStorageKey:
-                "ic_memorisation_beginner_onboarding_v1",
+            memorisationStartCountdownSeconds: 3,
+            memorisationStartCountdownRemaining: 0,
+	            memorisationStartCountdownTimer: null,
+	            memorisationStartCountdownLabel: "",
+	            isMemorisationOnboardingVisible: false,
+	            isMemorisationFirstSessionStarting: false,
+	            memorisationOnboardingStorageKey:
+	                "ic_memorisation_beginner_onboarding_v1",
             memorisationBeginnerGuideDismissed: false,
             memorisationBeginnerGuideStorageKey:
                 "ic_memorisation_beginner_how_it_works_v1",
@@ -1501,11 +1505,15 @@ export default {
 	            memorisationAdvancedGuideDismissed: false,
 	            memorisationAdvancedGuideStorageKey:
 	                "ic_memorisation_advanced_how_it_works_v1",
-	            memorisationAdvancedGuideCollapsed: false,
-	            memorisationAdvancedGuideCollapsedStorageKey:
-	                "ic_memorisation_advanced_how_it_works_collapsed_v1",
+            memorisationAdvancedGuideCollapsed: false,
+            memorisationAdvancedGuideCollapsedStorageKey:
+                "ic_memorisation_advanced_how_it_works_collapsed_v1",
+            memorisationAdvancedScrollStorageKeyBase:
+                "ic_memorisation_advanced_scroll_v1",
             memorisationRuntimeStorageKey: "ic_memorisation_runtime_state_v1",
+            memorisationResumeStorageKeyBase: "ic_memorisation_resume_state_v1",
             memorisationRuntimeResumeMeta: null,
+            memorisationRuntimeLastActiveAt: 0,
 	            memorisationRuntimePersistDebounceTimer: null,
 	            memorisationRuntimePersistInterval: null,
 	            hifdhAuthStorageKey: "ic_hifdh_auth_user_v1",
@@ -1786,6 +1794,35 @@ export default {
                     (surahNumber ? `Surah ${surahNumber}` : "Surah");
                 return `${surahNumber ? `${surahNumber}. ` : ""}${surahName} · ${this.selectedReciterName}`;
             },
+            memorisationHappyPathTitle() {
+                if (this.hasMemorisationResumeCandidate()) return "Continue your session";
+                return "Start in 3 steps";
+            },
+            memorisationHappyPathSummary() {
+                if (this.hasMemorisationResumeCandidate()) {
+                    return `${this.memorisationReturnSubtitle()} Press Jump in to resume immediately.`;
+                }
+                return this.isMemorisationAdvancedMode
+                    ? "Advanced adds repeat-after-reciter, chaining, countdown, and detailed history. Start with Setup, then tune only what you need."
+                    : "Pick a short range, press Start Session, then repeat with the reciter. Save stays available for coming back later.";
+            },
+            memorisationPrimaryModeHint() {
+                return this.isMemorisationAdvancedMode
+                    ? "Use Advanced only when you need exact repeat, chaining, countdown, or recovery controls."
+                    : "Beginner hides advanced tools so the path stays simple: setup, playback, start.";
+            },
+            memorisationRecommendedRangeLabel() {
+                const next = this.nextHifdhDueItem;
+                if (next) {
+                    return this.hifdhEntrySummary(next);
+                }
+                const meta = this.memorisationRuntimeResumeMeta || {};
+                if (this.hasMemorisationResumeCandidate()) {
+                    const surah = this.getSurahNameByNumber(meta.selectedSurah) || `Surah ${meta.selectedSurah}`;
+                    return `${surah} ${meta.rangeStart}-${meta.rangeEnd}`;
+                }
+                return `Ayah ${this.memorisationRangeStart || 1}-${this.memorisationRangeEnd || this.totalAyahs || 1}`;
+            },
         sidebarPinnedSurahNumber() {
             const currentSurahNumber = Number(
                 this.surahDetails?.surahNumber || this.selectedSurah || 0
@@ -1825,7 +1862,7 @@ export default {
             return !!this.isMemorisationAdvancedOpen;
         },
         canSaveMemorisationSession() {
-            return Number(this.userId || 0) > 0;
+            return true;
         },
         memorisationQuickPlaybackModeOptions() {
             const options = Array.isArray(this.playbackModeOptions)
@@ -1865,6 +1902,20 @@ export default {
                 this.memorisationSessionStatusMessage ||
                 `Ready to begin Ayah ${this.memorisationRangeLabel}`
             );
+        },
+        shouldShowMemorisationLandingCard() {
+            return (
+                !this.isMemorisationToolbarVisible &&
+                !this.isMemorisationModeActive &&
+                !this.isMemorisationOffcanvasVisible
+            );
+        },
+        memorisationQuickStartHint() {
+            if (this.hasMemorisationResumeCandidate()) {
+                return this.memorisationReturnSubtitle();
+            }
+            const reciterLabel = String(this.selectedReciterName || "Alafasy").trim();
+            return `Starts instantly with Al-Fatiha 1-7 · ${reciterLabel}`;
         },
         memorisationStartButtonHint() {
             return `Ayah ${this.memorisationRangeLabel}`;
@@ -2227,7 +2278,17 @@ export default {
         memorisationProgressStripText() {
             const meta = this.memorisationProgressStripMeta;
             if (!meta) return "";
-            return `Ayah ${meta.ayahPos} of ${meta.total} · Round ${meta.roundPos} of ${meta.roundTotal}`;
+            const mode =
+                this.isMemorisationChainingActive
+                    ? "Chaining"
+                    : this.memorisationRepeatAfterEnabled
+                    ? "Repeat after reciter"
+                    : this.playbackMode === "repeat"
+                    ? "Repeat ayah"
+                    : this.playbackMode === "manual"
+                    ? "Manual"
+                    : "Continuous";
+            return `${mode} · Ayah ${meta.ayahPos} of ${meta.total} · Round ${meta.roundPos} of ${meta.roundTotal}`;
         },
         memorisationProgressStripPercent() {
             const meta = this.memorisationProgressStripMeta;
@@ -10789,8 +10850,7 @@ export default {
                     this.normaliseMemorisationChainingCompletionAction(
                         chainingMethodCompletionActionRaw
                     ),
-                sessionHistoryEnabled:
-                    Number(this.userId || 0) > 0 && !!draft.sessionHistoryEnabled,
+                sessionHistoryEnabled: !!draft.sessionHistoryEnabled,
                 sessionName: "",
             };
         },
@@ -11369,6 +11429,12 @@ export default {
                     this.isTransliterationVisible
                 ),
             };
+        },
+        normaliseStoredMemorisationSessionConfig(config = {}) {
+            return this.normaliseMemorisationPresetConfig({
+                ...this.getDefaultMemorisationState(),
+                ...(config && typeof config === "object" ? config : {}),
+            });
         },
         buildCurrentMemorisationPresetConfig({ preferDraft = true } = {}) {
             const baseConfig = preferDraft
@@ -11975,8 +12041,64 @@ export default {
                 ) {
                     await this.selectSurah(config.surahNumber, { skipScroll: true });
                 }
+                this.isMemorisationToolbarVisible = true;
+                const requestedReciter =
+                    config.reciterIdentifier || config.selectedReciter || this.selectedReciter;
+                const reciterChanged =
+                    requestedReciter &&
+                    requestedReciter !== this.selectedReciter;
+                if (reciterChanged) {
+                    // Prevent the selectedReciter watcher from racing this config apply.
+                    const wasLoading = this.isLoading;
+                    this.isLoading = true;
+                    this.selectedReciter = requestedReciter;
+                    this.isLoading = wasLoading;
+                    await this.ensureSurahReciterApplied(requestedReciter);
+                } else if (requestedReciter) {
+                    this.selectedReciter = requestedReciter;
+                }
 
-                const total = Math.max(1, Number(this.totalAyahs || 1));
+                // Ensure we have the full surah payload before clamping ranges.
+	                if (
+	                    !Array.isArray(this.surahDetails?.ayahs) ||
+	                    this.surahDetails.ayahs.length < 2 ||
+	                    String(this.surahDetails?.surahNumber || "") !== String(this.selectedSurah || "") ||
+	                    (requestedReciter &&
+	                        String(this.surahDetailsReciterIdentifier || "") !== String(requestedReciter || ""))
+	                ) {
+	                    await this.fetchSurahDetails();
+	                }
+                await this.waitForReaderIdle();
+
+	                const totalFromMeta = (() => {
+	                    const targetSurah = String(
+	                        config.surahNumber || this.selectedSurah || ""
+	                    ).trim();
+	                    if (targetSurah === "1") return 7;
+	                    const match = Array.isArray(this.surahs)
+	                        ? this.surahs.find(
+	                              (surah) => String(surah?.number || "") === targetSurah
+	                          )
+	                        : null;
+	                    return Math.max(
+	                        0,
+	                        Number(
+	                            match?.numberOfAyahs ||
+	                                match?.ayahCount ||
+	                                match?.ayahs?.length ||
+	                                0
+	                        ) || 0
+	                    );
+	                })();
+	                const total = Math.max(
+	                    1,
+	                    Number(
+	                        totalFromMeta ||
+	                            this.totalAyahs ||
+	                            this.surahDetails?.ayahs?.length ||
+	                            1
+	                    )
+	                );
                 const start = Math.min(
                     total,
                     Math.max(1, Number(config.rangeStart || 1))
@@ -11985,17 +12107,6 @@ export default {
                     total,
                     Math.max(start, Number(config.rangeEnd || total))
                 );
-
-                this.isMemorisationToolbarVisible = true;
-                const requestedReciter =
-                    config.reciterIdentifier || this.selectedReciter;
-                const reciterChanged =
-                    requestedReciter &&
-                    requestedReciter !== this.selectedReciter;
-                this.selectedReciter = requestedReciter;
-                if (reciterChanged) {
-                    await this.ensureSurahReciterApplied(requestedReciter);
-                }
                 this.memorisationRangeStart = start;
                 this.memorisationRangeEnd = end;
                 this.memorisationVerseDelay = config.verseDelay;
@@ -12372,6 +12483,40 @@ export default {
                 this.scrollMemorisationToolsTitleIntoView({ behavior: "smooth" });
             });
         },
+        async applyMemorisationSuggestedRangeIfHelpful() {
+            if (this.hasMemorisationResumeCandidate()) return false;
+            const next =
+                this.getPreferredHifdhStartItem?.() ||
+                this.nextHifdhDueItem ||
+                null;
+            if (!next) return false;
+            const surahNumber = String(next.surahNumber || "").trim();
+            const startAyah = Math.max(1, Number(next.startAyah || 0) || 0);
+            const endAyah = Math.max(startAyah, Number(next.endAyah || startAyah) || startAyah);
+            if (!surahNumber || !startAyah || !endAyah) return false;
+            try {
+                await this.applyMemorisationSessionConfig(
+                    {
+                        ...this.normaliseMemorisationDraftValues(),
+                        surahNumber,
+                        rangeStart: startAyah,
+                        rangeEnd: endAyah,
+                        reciterIdentifier: this.selectedReciter || this.memorisationDraft?.reciterIdentifier,
+                    },
+                    {
+                        successMessage: "",
+                        errorMessage: "",
+                        showSubmitAlert: false,
+                        closeOffcanvas: false,
+                        syncDraft: true,
+                    }
+                );
+                this.memorisationSessionStatusMessage = `Suggested review loaded: ${this.hifdhEntrySummary(next)}`;
+                return true;
+            } catch (_) {
+                return false;
+            }
+        },
         getDefaultMemorisationAdvancedSectionState() {
             return {
                 setup: true,
@@ -12423,6 +12568,53 @@ export default {
                 [key]: !this.isMemorisationBeginnerSectionOpen(key),
             };
         },
+        getMemorisationOffcanvasBodyElement() {
+            const doc =
+                typeof document !== "undefined" && document
+                    ? document
+                    : null;
+            return (
+                this.$refs?.memorisationOffcanvas?.querySelector?.(".offcanvas-body") ||
+                this.$el?.querySelector?.("#memorisationOffcanvas .offcanvas-body") ||
+                doc?.querySelector?.("#memorisationOffcanvas .offcanvas-body") ||
+                null
+            );
+        },
+        persistMemorisationAdvancedScrollPosition() {
+            if (typeof window === "undefined" || !this.isMemorisationAdvancedOpen) return;
+            const body = this.getMemorisationOffcanvasBodyElement();
+            if (!body) return;
+            try {
+                localStorage.setItem(
+                    this.getMemorisationAdvancedScrollStorageKey(),
+                    String(Math.max(0, Math.round(Number(body.scrollTop || 0))))
+                );
+            } catch (_) {}
+        },
+        restoreMemorisationAdvancedScrollPosition() {
+            if (typeof window === "undefined" || !this.isMemorisationAdvancedOpen) return;
+            this.$nextTick(() => {
+                const body = this.getMemorisationOffcanvasBodyElement();
+                if (!body) return;
+                let top = 0;
+                try {
+                    top = Number(
+                        localStorage.getItem(
+                            this.getMemorisationAdvancedScrollStorageKey()
+                        ) || 0
+                    ) || 0;
+                } catch (_) {
+                    top = 0;
+                }
+                if (top > 0) {
+                    try {
+                        body.scrollTo({ top, behavior: "auto" });
+                    } catch (_) {
+                        body.scrollTop = top;
+                    }
+                }
+            });
+        },
         openMemorisationOffcanvas() {
 	            this.prepareMemorisationToolsEntry();
 	            this.hideSurahOffcanvasIfOpen();
@@ -12436,7 +12628,10 @@ export default {
 	                this.isMemorisationAdvancedOpen = false;
 	            }
 	            if (this.isMemorisationAdvancedOpen) {
-	                this.resetMemorisationAdvancedSections();
+	                this.memorisationAdvancedSectionExpanded = {
+	                    ...this.getDefaultMemorisationAdvancedSectionState(),
+	                    ...(this.memorisationAdvancedSectionExpanded || {}),
+	                };
 	            } else {
 	                this.resetMemorisationBeginnerSections();
 	            }
@@ -12444,10 +12639,11 @@ export default {
             this.$nextTick(() => {
                 this.syncMemorisationOffcanvasDockedWidth();
                 this.initializeMemorisationTooltips();
+                this.restoreMemorisationAdvancedScrollPosition();
             });
         },
         async toggleMemorisationToolbarOrResume() {
-            // One-click "Jump back in": enable tools if needed, then resume and start immediately.
+            // One-click "Jump in": enable tools if needed, then resume and start immediately.
             try {
                 if (this.hasMemorisationResumeCandidate && this.hasMemorisationResumeCandidate()) {
                     if (!this.isMemorisationToolbarVisible) {
@@ -12460,15 +12656,20 @@ export default {
             this.toggleMemorisationToolbar();
         },
 	        setMemorisationToolsDepth(mode = "beginner") {
+	            this.persistMemorisationAdvancedScrollPosition();
 	            this.isMemorisationAdvancedOpen = mode === "advanced";
 	            if (this.isMemorisationAdvancedOpen) {
-	                this.resetMemorisationAdvancedSections();
+	                this.memorisationAdvancedSectionExpanded = {
+	                    ...this.getDefaultMemorisationAdvancedSectionState(),
+	                    ...(this.memorisationAdvancedSectionExpanded || {}),
+	                };
 	            } else {
 	                this.resetMemorisationBeginnerSections();
 	            }
 	            this.$nextTick(() => {
 	                if (!this.isMemorisationOffcanvasVisible) return;
 	                this.initializeMemorisationTooltips();
+	                this.restoreMemorisationAdvancedScrollPosition();
 	            });
 	        },
         openAdvancedMemorisationToolsPanel() {
@@ -12483,6 +12684,7 @@ export default {
             this.openMemorisationOffcanvas();
         },
         closeMemorisationOffcanvas() {
+            this.persistMemorisationAdvancedScrollPosition();
             this.disposeMemorisationTooltips();
             this.isMemorisationOffcanvasVisible = false;
             this.hideMemorisationSubmitAlert();
@@ -12589,8 +12791,11 @@ export default {
                 this.showToast("Saved session was not found.", 2600);
                 return;
             }
-            await this.reloadSessionHistoryEntry(targetEntry);
-            this.showToast("Saved session loaded.", 2200);
+            await this.reloadSessionHistoryEntry(targetEntry, {
+                autoStart: true,
+                closeOffcanvas: true,
+            });
+            this.showToast("Session loaded. Resuming now.", 2200);
         },
 	        deleteSelectedMemorisationSessionFromOffcanvas() {
             const targetId = String(this.selectedMemorisationSessionHistoryId || "").trim();
@@ -12605,10 +12810,32 @@ export default {
             this.setSessionHistoryEntries(nextEntries);
             this.persistSessionHistory();
             this.selectedMemorisationSessionHistoryId = "";
+            this.syncMemorisationResumeAfterSessionHistoryMutation();
             this.showToast("Saved session deleted.", 2200);
 	            this.announce("Saved memorisation session deleted.");
 	        },
-	        // Bulk session deletion intentionally removed.
+	        syncMemorisationResumeAfterSessionHistoryMutation() {
+	            if (typeof window === "undefined") return;
+	            const latest = this.getLatestSessionHistoryEntry();
+	            if (!latest) {
+	                try {
+	                    localStorage.removeItem(this.getMemorisationResumeStorageKey());
+	                } catch (_) {}
+	                this.memorisationRuntimeResumeMeta = null;
+	                return;
+	            }
+	            try {
+	                const meta = this.buildMemorisationResumeMetaFromSessionEntry(latest);
+	                if (!meta) return;
+	                this.persistMemorisationResumeRecord({
+	                    ...(meta.sessionConfig || {}),
+	                    sourceKind: "saved-session",
+	                    startedAt: Number(latest.startedAt || 0) || 0,
+	                    endedAt: Number(latest.endedAt || 0) || 0,
+	                    focusAyahNumber: Number(meta.rangeStart || 0) || 0,
+	                });
+	            } catch (_) {}
+	        },
         getHifdhPlanPanelInstance() {
             const modalEl = document.getElementById("hifdhPlanModal");
             if (!modalEl) return null;
@@ -12674,6 +12901,21 @@ export default {
             restoreSession = true,
         } = {}) {
             const wasVisible = !!this.isMemorisationToolbarVisible;
+            if (wasVisible && this.isMemorisationMode) {
+                const focusIndex = Number(this.memorisationFocusIndexSafe || 0) || 0;
+                this.persistMemorisationResumeRecord({
+                    ...this.buildCurrentMemorisationSessionSnapshot(),
+                    lastActiveAt: Date.now(),
+                    isMemorisationMode: true,
+                    memorisationFocusIndex: focusIndex,
+                    focusAyahNumber:
+                        Number(
+                            this.filteredAyahs?.[focusIndex]?.numberInSurah ||
+                                this.memorisationCurrentAyahNumber ||
+                                0
+                        ) || Number(this.memorisationRangeStart || 1),
+                });
+            }
             if (this.sessionHistoryActiveTracker) {
                 this.finalizeSessionHistoryEntry("closed");
             }
@@ -12909,10 +13151,14 @@ export default {
             }
             this.syncMemorisationDraftFromCurrentSession();
         },
-	        async startMemorisationSession() {
-            if (!this.isMemorisationToolbarVisible) {
-                this.isMemorisationToolbarVisible = true;
-            }
+		        async startMemorisationSession(options = {}) {
+	            const preserveResumePosition =
+	                options && options.preserveResumePosition === true;
+	            const preserveChainingProgress =
+	                options && options.preserveChainingProgress === true;
+	            if (!this.isMemorisationToolbarVisible) {
+	                this.isMemorisationToolbarVisible = true;
+	            }
             this.shouldCloseMemorisationOffcanvasOnPlaybackStart = true;
             this.shouldSaveMemorisationSessionOnPlaybackStart =
                 !!this.memorisationSessionHistoryEnabled;
@@ -12920,9 +13166,14 @@ export default {
             this.onMemorisationToolbarRangeChange();
             const startAyah = Math.max(1, Number(this.memorisationRangeStart || 1));
             const endAyah = Math.max(startAyah, Number(this.memorisationRangeEnd || startAyah));
-            let startIndex = this.resolveAyahIndexByNumber(startAyah);
+            let startIndex = preserveResumePosition
+                ? Number(this.memorisationFocusIndexSafe || 0) || 0
+                : this.resolveAyahIndexByNumber(startAyah);
             if (startIndex < 0) {
                 startIndex = 0;
+            }
+            if (Array.isArray(this.filteredAyahs) && this.filteredAyahs.length) {
+                startIndex = Math.min(startIndex, this.filteredAyahs.length - 1);
             }
             this.memorisationFocusIndex = startIndex;
             this.selectCard(startIndex);
@@ -12931,8 +13182,17 @@ export default {
                 settle: true,
                 force: true,
             });
-	            this.memorisationSessionStatusMessage = `Memorising Ayah ${startAyah}-${endAyah}`;
+            this.memorisationSessionStatusMessage = `Memorising Ayah ${startAyah}-${endAyah}`;
             this.syncMemorisationDraftFromCurrentSession();
+            this.persistMemorisationResumeRecord({
+                ...this.buildCurrentMemorisationSessionSnapshot(),
+                rangeStart: startAyah,
+                rangeEnd: endAyah,
+                memorisationFocusIndex: startIndex,
+                focusAyahNumber:
+                    Number(this.filteredAyahs?.[startIndex]?.numberInSurah || 0) ||
+                    startAyah,
+            });
             this.showToast(this.memorisationSessionStatusMessage, 2800);
             this.announce(this.memorisationSessionStatusMessage);
 	            if (
@@ -12949,13 +13209,51 @@ export default {
 	                this.closeMemorisationOffcanvas();
 	            }
 
-	            // Skip "chain ready" intermediate state by starting chaining playback immediately when enabled.
-	            if (this.isMemorisationChainingActive) {
-	                this.resetMemorisationChainingProgress({ stopAudio: false, preserveCompleted: false });
-	                this.beginMemorisationChainingRound(0);
-	                this.playMemorisationChainingStage({ restart: true });
-	                return;
-	            }
+	            await this.runMemorisationStartCountdown(
+	                this.isMemorisationChainingActive
+	                    ? "Chain starting"
+	                    : "Recitation starting"
+	            );
+
+		            // Skip "chain ready" intermediate state by starting chaining playback immediately when enabled.
+		            if (this.isMemorisationChainingActive) {
+                        if (preserveChainingProgress) {
+                            if (this.memorisationChainingPendingAdvance) {
+                                this.continueMemorisationChaining();
+                                return;
+                            }
+                            const stage = this.getMemorisationChainingStageDescriptor(
+                                this.memorisationChainingRoundIndex,
+                                this.memorisationChainingStageIndex
+                            );
+                            if (stage) {
+                                const startIndex = Number(stage.startIndex || 0);
+                                const endIndex = Number(
+                                    stage.endIndex ?? stage.endAyahIndex ?? startIndex
+                                );
+                                const cursor = Number(this.memorisationChainingSequenceCursor);
+                                this.memorisationChainingSequenceCursor = Number.isFinite(cursor)
+                                    ? Math.min(
+                                          Math.max(cursor, startIndex),
+                                          Math.max(startIndex, endIndex)
+                                      )
+                                    : startIndex;
+                                this.memorisationChainingStageRepeatCurrent = Math.max(
+                                    1,
+                                    Number(this.memorisationChainingStageRepeatCurrent || 1) || 1
+                                );
+                                this.playMemorisationChainingStage({ restart: false });
+                                return;
+                            }
+                        }
+		                this.resetMemorisationChainingProgress({
+                            stopAudio: false,
+                            preserveCompleted: false,
+                        });
+		                this.beginMemorisationChainingRound(0);
+		                this.playMemorisationChainingStage({ restart: true });
+		                return;
+		            }
 
 	            this.playAudio(startIndex);
 	        },
@@ -13032,26 +13330,50 @@ export default {
         scrollMemorisationBeginnerToStart() {
             this.scrollMemorisationOffcanvasTo("memo-beginner-actions");
         },
-        async startMemorisationOnboardingWithAlFatiha() {
-            this.dismissMemorisationOnboarding();
-            try {
-                if (String(this.selectedSurah || "") !== "1") {
-                    await this.selectSurah("1", { skipScroll: true });
-                    this.selectedSurah = "1";
-                }
-                const maxAyah = Math.max(1, Number(this.totalAyahs || 7));
-                this.memorisationRangeStart = 1;
-                this.memorisationRangeEnd = Math.min(7, maxAyah);
-                this.memorisationRangeLoopEnabled = true;
-                this.showTajweed = true;
-                this.setPlaybackMode("continuous");
-                await this.$nextTick();
-                await this.startMemorisationSession();
-            } catch (error) {
-                console.error("Unable to start memorisation onboarding:", error);
-                this.showToast("Could not start Al-Fatiha right now.", 2600);
-            }
-        },
+	        async startMemorisationOnboardingWithAlFatiha() {
+	            if (this.isMemorisationFirstSessionStarting) return;
+	            this.isMemorisationFirstSessionStarting = true;
+	            this.dismissMemorisationOnboarding();
+	            try {
+	                const defaultReciter =
+	                    this.getDefaultMemorisationReciterIdentifier();
+	                const preferredReciter = String(
+	                    this.selectedReciter || defaultReciter || ""
+	                ).trim();
+	                const maxEnd = 7;
+	                await this.applyMemorisationSessionConfig(
+	                    {
+	                        surahNumber: "1",
+	                        reciterIdentifier: preferredReciter || defaultReciter,
+	                        rangeStart: 1,
+	                        rangeEnd: maxEnd,
+	                        playbackMode: "continuous",
+	                        playbackSpeed: Number(this.playbackSpeed || 1) || 1,
+	                        verseDelay: 0,
+	                        repetitionCount: 3,
+	                        singleAyahFocus: false,
+	                        rangeLoopEnabled: false,
+	                        repeatAfterReciterEnabled: false,
+	                        verseCountdownEnabled: false,
+	                        chainingMethodEnabled: false,
+	                        sessionHistoryEnabled: false,
+	                        showTajweed: true,
+	                    },
+	                    {
+	                        showSubmitAlert: false,
+	                        closeOffcanvas: false,
+	                        syncDraft: true,
+	                    }
+	                );
+	                await this.$nextTick();
+	                await this.startMemorisationSession();
+	            } catch (error) {
+	                console.error("Unable to start memorisation onboarding:", error);
+	                this.showToast("Could not start Al-Fatiha right now.", 2600);
+	            } finally {
+	                this.isMemorisationFirstSessionStarting = false;
+	            }
+	        },
         getDefaultMemorisationReciterIdentifier() {
             const preferredReciter = "ar.alafasy";
             const availableReciters = Array.isArray(this.recitersSorted)
@@ -13087,7 +13409,7 @@ export default {
                 playbackMode: "continuous",
                 quranFontId: "",
                 singleAyahFocus: false,
-                rangeLoopEnabled: true,
+                rangeLoopEnabled: false,
                 rangeLoopDelay: 3,
                 rangeLoopShowCountdown: true,
                 rangeLoopAlertSound: "off",
@@ -13137,22 +13459,65 @@ export default {
                     );
                 }
 
-                const totalAyahs = Math.max(1, Number(this.totalAyahs || 1));
-                const safeEnd = Math.min(
-                    totalAyahs,
-                    Math.max(defaults.rangeStart, Number(defaults.rangeEnd || 7))
-                );
-                const requestedReciter =
-                    defaults.reciterIdentifier || this.selectedReciter;
-                const reciterChanged =
-                    requestedReciter && requestedReciter !== this.selectedReciter;
+	                const requestedReciter =
+	                    defaults.reciterIdentifier || this.selectedReciter;
+	                const reciterChanged =
+	                    requestedReciter && requestedReciter !== this.selectedReciter;
 
-                this.selectedReciter = requestedReciter;
-                if (reciterChanged) {
-                    await this.ensureSurahReciterApplied(requestedReciter);
-                }
-                this.memorisationRangeStart = defaults.rangeStart;
-                this.memorisationRangeEnd = safeEnd;
+	                this.selectedReciter = requestedReciter;
+	                if (reciterChanged) {
+	                    await this.ensureSurahReciterApplied(requestedReciter);
+	                }
+	
+	                // Ensure we have the full surah payload before clamping ranges.
+	                if (
+	                    !Array.isArray(this.surahDetails?.ayahs) ||
+	                    this.surahDetails.ayahs.length < 2 ||
+	                    String(this.surahDetails?.surahNumber || "") !==
+	                        String(this.selectedSurah || "") ||
+	                    (requestedReciter &&
+	                        String(this.surahDetailsReciterIdentifier || "") !==
+	                            String(requestedReciter || ""))
+	                ) {
+	                    await this.fetchSurahDetails();
+	                }
+	                await this.waitForReaderIdle();
+
+		                const totalFromMeta = (() => {
+		                    const targetSurah = String(
+		                        defaults.surahNumber || this.selectedSurah || ""
+		                    ).trim();
+		                    if (targetSurah === "1") return 7;
+		                    const match = Array.isArray(this.surahs)
+		                        ? this.surahs.find(
+		                              (surah) => String(surah?.number || "") === targetSurah
+		                          )
+		                        : null;
+		                    return Math.max(
+		                        0,
+		                        Number(
+		                            match?.numberOfAyahs ||
+		                                match?.ayahCount ||
+		                                match?.ayahs?.length ||
+		                                0
+		                        ) || 0
+		                    );
+		                })();
+		                const totalAyahs = Math.max(
+		                    1,
+		                    Number(
+		                        totalFromMeta ||
+		                            this.totalAyahs ||
+		                            this.surahDetails?.ayahs?.length ||
+		                            1
+		                    )
+		                );
+	                const safeEnd = Math.min(
+	                    totalAyahs,
+	                    Math.max(defaults.rangeStart, Number(defaults.rangeEnd || 7))
+	                );
+	                this.memorisationRangeStart = defaults.rangeStart;
+	                this.memorisationRangeEnd = safeEnd;
                 this.memorisationVerseDelay = defaults.verseDelay;
                 this.memorisationRepetitionCount = defaults.repetitionCount;
                 this.setPlaybackMode(defaults.playbackMode);
@@ -13376,15 +13741,56 @@ export default {
                 return;
             }
             this.hideMemorisationSubmitAlert();
+            this.loadMemorisationResumeMetaFromStorage();
+            const shouldResume = this.hasMemorisationResumeCandidate();
+            const resumeMeta = shouldResume
+                ? this.getPreferredMemorisationResumeMeta() || {}
+                : {};
             this.memorisationSessionSnapshot =
                 this.buildCurrentMemorisationSessionSnapshot();
             this.prepareMemorisationToolsEntry();
             this.isMemorisationToolbarVisible = true;
             try {
-                await this.applyMemorisationDefaultSession({
-                    syncDraft: true,
-                    scroll: false,
-                });
+	                if (shouldResume) {
+	                    const targetConfig =
+	                        resumeMeta.sourceKind === "saved-session" &&
+	                        resumeMeta.sessionConfig
+	                            ? {
+	                                  ...resumeMeta.sessionConfig,
+	                                  surahNumber:
+	                                      resumeMeta.selectedSurah ||
+	                                      resumeMeta.sessionConfig.surahNumber,
+	                                  reciterIdentifier:
+	                                      resumeMeta.selectedReciter ||
+	                                      resumeMeta.sessionConfig.reciterIdentifier,
+	                                  rangeStart:
+	                                      resumeMeta.rangeStart ||
+	                                      resumeMeta.sessionConfig.rangeStart,
+	                                  rangeEnd:
+	                                      resumeMeta.rangeEnd ||
+	                                      resumeMeta.sessionConfig.rangeEnd,
+	                              }
+	                            : {
+	                                  surahNumber: resumeMeta.selectedSurah,
+	                                  reciterIdentifier:
+	                                      resumeMeta.selectedReciter || this.selectedReciter,
+	                                  rangeStart: resumeMeta.rangeStart,
+	                                  rangeEnd: resumeMeta.rangeEnd,
+	                              };
+	                    await this.applyMemorisationSessionConfig(targetConfig, {
+	                        successMessage: "",
+	                        errorMessage: "",
+	                        showSubmitAlert: false,
+	                        closeOffcanvas: false,
+	                        syncDraft: true,
+	                    });
+	                } else {
+	                    await this.applyMemorisationDefaultSession({
+	                        syncDraft: true,
+	                        scroll: false,
+	                    });
+	                    await this.applyMemorisationSuggestedRangeIfHelpful();
+	                }
             } catch (error) {
                 console.error("Unable to apply default memorisation session:", error);
                 this.populateMemorisationDraft();
@@ -13393,10 +13799,10 @@ export default {
 	            this.memorisationSessionStatusMessage = `Ready to begin Ayah ${this.memorisationRangeLabel}`;
 	            this.maybeShowMemorisationOnboarding();
 	            this.showModeToggleToast("Memorisation tools", true);
-	            this.syncMemorisationToolsUrlState(true);
+            this.syncMemorisationToolsUrlState(true);
             if (!this.isMobile) {
                 this.setMemorisationToolsDepth("beginner");
-                this.openMemorisationOffcanvas();
+	                this.closeMemorisationOffcanvas();
             }
         },
         openMemorisationComingSoonModal() {
@@ -15420,7 +15826,7 @@ export default {
         },
         normalizeSessionHistoryEntry(entry) {
             if (!entry || typeof entry !== "object") return null;
-            const sessionConfig = this.normaliseMemorisationPresetConfig(
+            const sessionConfig = this.normaliseStoredMemorisationSessionConfig(
                 entry.sessionConfig || entry.config || {}
             );
             const startedAt =
@@ -15440,10 +15846,52 @@ export default {
                 1,
                 Number(entry.rangeStart || sessionConfig.rangeStart || 1)
             );
-            const rangeEnd = Math.max(
-                rangeStart,
-                Number(entry.rangeEnd || sessionConfig.rangeEnd || rangeStart)
-            );
+	            const rangeEnd = Math.max(
+	                rangeStart,
+	                Number(entry.rangeEnd || sessionConfig.rangeEnd || rangeStart)
+	            );
+	            const focusAyahNumber = Math.max(
+	                1,
+	                Number(entry.focusAyahNumber || entry.rangeStart || rangeStart) ||
+	                    rangeStart
+	            );
+	            const memorisationFocusIndex = Number.isFinite(
+	                Number(entry.memorisationFocusIndex)
+	            )
+	                ? Math.max(0, Math.round(Number(entry.memorisationFocusIndex)))
+	                : 0;
+	            const memorisationRepetitionCurrent = Math.max(
+	                1,
+	                Number(entry.memorisationRepetitionCurrent || 1) || 1
+	            );
+	            const memorisationChainingRoundIndex = Number.isFinite(
+	                Number(entry.memorisationChainingRoundIndex)
+	            )
+	                ? Math.max(0, Math.round(Number(entry.memorisationChainingRoundIndex)))
+	                : 0;
+	            const memorisationChainingStageIndex = Number.isFinite(
+	                Number(entry.memorisationChainingStageIndex)
+	            )
+	                ? Math.max(0, Math.round(Number(entry.memorisationChainingStageIndex)))
+	                : 0;
+	            const memorisationChainingSequenceCursor = Number.isFinite(
+	                Number(entry.memorisationChainingSequenceCursor)
+	            )
+	                ? Math.max(0, Math.round(Number(entry.memorisationChainingSequenceCursor)))
+	                : 0;
+	            const memorisationChainingStageRepeatCurrent = Math.max(
+	                1,
+	                Number(entry.memorisationChainingStageRepeatCurrent || 1) || 1
+	            );
+	            const memorisationChainingPendingAdvance =
+	                entry.memorisationChainingPendingAdvance === true;
+	            const memorisationChainingCompleted =
+	                entry.memorisationChainingCompleted === true;
+	            const memorisationChainingLastCompletedRoundIndex = Number.isFinite(
+	                Number(entry.memorisationChainingLastCompletedRoundIndex)
+	            )
+	                ? Math.round(Number(entry.memorisationChainingLastCompletedRoundIndex))
+	                : -1;
             const versesCovered = Array.from(
                 new Set(
                     (Array.isArray(entry.versesCovered) ? entry.versesCovered : [])
@@ -15492,9 +15940,19 @@ export default {
                 surahArabicName:
                     String(entry.surahArabicName || "").trim() ||
                     this.getSurahArabicNameByNumber(surahNumber),
-                rangeStart,
-                rangeEnd,
-                durationMs: Math.max(
+	                rangeStart,
+	                rangeEnd,
+	                focusAyahNumber,
+	                memorisationFocusIndex,
+	                memorisationRepetitionCurrent,
+	                memorisationChainingRoundIndex,
+	                memorisationChainingStageIndex,
+	                memorisationChainingSequenceCursor,
+	                memorisationChainingStageRepeatCurrent,
+	                memorisationChainingPendingAdvance,
+	                memorisationChainingCompleted,
+	                memorisationChainingLastCompletedRoundIndex,
+	                durationMs: Math.max(
                     0,
                     Number(entry.durationMs || endedAt - (startedAt || endedAt)) || 0
                 ),
@@ -15614,8 +16072,7 @@ export default {
             const { reason = "started", config = null } = options || {};
             if (
                 !this.isMemorisationToolbarVisible ||
-                !this.memorisationSessionHistoryEnabled ||
-                Number(this.userId || 0) <= 0
+                !this.memorisationSessionHistoryEnabled
             ) {
                 return null;
             }
@@ -15633,25 +16090,35 @@ export default {
                 this.scheduleSessionHistoryInactivityTimeout();
                 return this.sessionHistoryActiveTracker;
             }
-            this.sessionHistoryActiveTracker = {
-                id: this.createSessionHistoryEntryId(),
-                sessionId: this.createMemorisationSessionId(),
-                startedAt: now,
-                lastActiveAt: now,
-                createdReason: String(reason || "started"),
-                surahNumber: Number(normalizedConfig.surahNumber || this.selectedSurah || 1),
-                rangeStart: Number(normalizedConfig.rangeStart || this.memorisationRangeStart || 1),
-                rangeEnd: Number(
-                    normalizedConfig.rangeEnd ||
-                        this.memorisationRangeEnd ||
-                        normalizedConfig.rangeStart ||
-                        1
-                ),
-                versesCovered: [],
-                versesCoveredLookup: Object.create(null),
-                repetitionsCompleted: 0,
-                note: "",
-                sessionName: "",
+	            this.sessionHistoryActiveTracker = {
+	                id: this.createSessionHistoryEntryId(),
+	                sessionId: this.createMemorisationSessionId(),
+	                startedAt: now,
+	                lastActiveAt: now,
+	                createdReason: String(reason || "started"),
+	                surahNumber: Number(normalizedConfig.surahNumber || this.selectedSurah || 1),
+	                rangeStart: Number(normalizedConfig.rangeStart || this.memorisationRangeStart || 1),
+	                rangeEnd: Number(
+	                    normalizedConfig.rangeEnd ||
+	                        this.memorisationRangeEnd ||
+	                        normalizedConfig.rangeStart ||
+	                        1
+	                ),
+	                focusAyahNumber: Number(this.memorisationCurrentAyahNumber || 0) || Number(normalizedConfig.rangeStart || this.memorisationRangeStart || 1),
+	                memorisationFocusIndex: Number(this.memorisationFocusIndexSafe || 0) || 0,
+	                memorisationRepetitionCurrent: Math.max(1, Number(this.memorisationRepetitionCurrent || 1) || 1),
+	                memorisationChainingRoundIndex: Math.max(0, Number(this.memorisationChainingRoundIndex || 0) || 0),
+	                memorisationChainingStageIndex: Math.max(0, Number(this.memorisationChainingStageIndex || 0) || 0),
+	                memorisationChainingSequenceCursor: Math.max(0, Number(this.memorisationChainingSequenceCursor || 0) || 0),
+	                memorisationChainingStageRepeatCurrent: Math.max(1, Number(this.memorisationChainingStageRepeatCurrent || 1) || 1),
+	                memorisationChainingPendingAdvance: this.memorisationChainingPendingAdvance === true,
+	                memorisationChainingCompleted: this.memorisationChainingCompleted === true,
+	                memorisationChainingLastCompletedRoundIndex: Number(this.memorisationChainingLastCompletedRoundIndex || -1),
+	                versesCovered: [],
+	                versesCoveredLookup: Object.create(null),
+	                repetitionsCompleted: 0,
+	                note: "",
+	                sessionName: "",
                 accuracyScore: this.resolveSessionHistoryAccuracyScore(
                     normalizedConfig
                 ),
@@ -15707,12 +16174,57 @@ export default {
                     tracker.versesCovered.sort((left, right) => left - right);
                 }
             }
-            if (Number.isFinite(Number(repetitionIncrement)) && repetitionIncrement > 0) {
-                tracker.repetitionsCompleted += Number(repetitionIncrement);
-            }
-            this.scheduleSessionHistoryInactivityTimeout();
-            return tracker;
-        },
+	            if (Number.isFinite(Number(repetitionIncrement)) && repetitionIncrement > 0) {
+	                tracker.repetitionsCompleted += Number(repetitionIncrement);
+	            }
+	            const resolvedAyahNumber =
+	                Number.isFinite(safeAyahNumber) && safeAyahNumber > 0
+	                    ? safeAyahNumber
+	                    : Number(this.memorisationCurrentAyahNumber || 0) ||
+	                      Number(
+	                          this.filteredAyahs?.[
+	                              Number(this.memorisationFocusIndexSafe || 0) || 0
+	                          ]?.numberInSurah || 0
+	                      ) ||
+	                      null;
+	            if (
+	                Number.isFinite(Number(resolvedAyahNumber)) &&
+	                Number(resolvedAyahNumber) > 0
+	            ) {
+	                tracker.focusAyahNumber = Number(resolvedAyahNumber);
+	            }
+	            tracker.memorisationFocusIndex =
+	                Number(this.memorisationFocusIndexSafe || 0) || 0;
+	            tracker.memorisationRepetitionCurrent = Math.max(
+	                1,
+	                Number(this.memorisationRepetitionCurrent || 1) || 1
+	            );
+	            tracker.memorisationChainingRoundIndex = Math.max(
+	                0,
+	                Number(this.memorisationChainingRoundIndex || 0) || 0
+	            );
+	            tracker.memorisationChainingStageIndex = Math.max(
+	                0,
+	                Number(this.memorisationChainingStageIndex || 0) || 0
+	            );
+	            tracker.memorisationChainingSequenceCursor = Math.max(
+	                0,
+	                Number(this.memorisationChainingSequenceCursor || 0) || 0
+	            );
+	            tracker.memorisationChainingStageRepeatCurrent = Math.max(
+	                1,
+	                Number(this.memorisationChainingStageRepeatCurrent || 1) || 1
+	            );
+	            tracker.memorisationChainingPendingAdvance =
+	                this.memorisationChainingPendingAdvance === true;
+	            tracker.memorisationChainingCompleted =
+	                this.memorisationChainingCompleted === true;
+	            tracker.memorisationChainingLastCompletedRoundIndex = Number(
+	                this.memorisationChainingLastCompletedRoundIndex || -1
+	            );
+	            this.scheduleSessionHistoryInactivityTimeout();
+	            return tracker;
+	        },
         persistActiveSessionHistoryCheckpoint(reason = "started") {
             const tracker = this.sessionHistoryActiveTracker;
             if (!tracker) return null;
@@ -15784,19 +16296,39 @@ export default {
                 (this.recitersSorted || []).find(
                     (item) => String(item?.identifier || "") === reciterIdentifier
                 )?.englishName || "";
-            return this.normalizeSessionHistoryEntry({
-                id: tracker.id || this.createSessionHistoryEntryId(),
-                sessionId: tracker.sessionId || tracker.id,
-                startedAt,
-                endedAt,
-                surahNumber,
-                surahName: this.getSurahNameByNumber(surahNumber),
-                surahArabicName: this.getSurahArabicNameByNumber(surahNumber),
-                rangeStart,
-                rangeEnd,
-                durationMs: Math.max(0, endedAt - startedAt),
-                versesCovered,
-                versesCoveredCount: versesCovered.length,
+	            return this.normalizeSessionHistoryEntry({
+	                id: tracker.id || this.createSessionHistoryEntryId(),
+	                sessionId: tracker.sessionId || tracker.id,
+	                startedAt,
+	                endedAt,
+	                surahNumber,
+	                surahName: this.getSurahNameByNumber(surahNumber),
+	                surahArabicName: this.getSurahArabicNameByNumber(surahNumber),
+	                rangeStart,
+	                rangeEnd,
+	                focusAyahNumber: Number(tracker.focusAyahNumber || 0) || rangeStart,
+	                memorisationFocusIndex:
+	                    Number(tracker.memorisationFocusIndex || 0) || 0,
+	                memorisationRepetitionCurrent:
+	                    Number(tracker.memorisationRepetitionCurrent || 1) || 1,
+	                memorisationChainingRoundIndex:
+	                    Number(tracker.memorisationChainingRoundIndex || 0) || 0,
+	                memorisationChainingStageIndex:
+	                    Number(tracker.memorisationChainingStageIndex || 0) || 0,
+	                memorisationChainingSequenceCursor:
+	                    Number(tracker.memorisationChainingSequenceCursor || 0) || 0,
+	                memorisationChainingStageRepeatCurrent:
+	                    Number(tracker.memorisationChainingStageRepeatCurrent || 1) || 1,
+	                memorisationChainingPendingAdvance:
+	                    tracker.memorisationChainingPendingAdvance === true,
+	                memorisationChainingCompleted:
+	                    tracker.memorisationChainingCompleted === true,
+	                memorisationChainingLastCompletedRoundIndex: Number(
+	                    tracker.memorisationChainingLastCompletedRoundIndex || -1
+	                ),
+	                durationMs: Math.max(0, endedAt - startedAt),
+	                versesCovered,
+	                versesCoveredCount: versesCovered.length,
                 repetitionsCompleted: Math.max(
                     0,
                     Number(tracker.repetitionsCompleted || 0)
@@ -15865,6 +16397,15 @@ export default {
             this.setSessionHistoryEntries(nextEntries);
             this.persistSessionHistory();
 	            if (String(reason || "").trim() === "completed") {
+	                try {
+	                    this.persistMemorisationResumeRecord({
+	                        ...(entry.sessionConfig || {}),
+	                        sourceKind: "saved-session",
+	                        startedAt: Number(entry.startedAt || 0) || 0,
+	                        endedAt: Number(entry.endedAt || 0) || 0,
+	                        focusAyahNumber: Number(entry.rangeStart || 0) || 0,
+	                    });
+	                } catch (_) {}
 	                this.showSessionSavedToast("Session saved ✓", 2000);
 	                this.triggerMemorisationCompletionCelebration({ kind: "saved" });
 	                this.openSessionQuizFromSessionHistoryEntry(entry);
@@ -16976,28 +17517,98 @@ export default {
             if (!instance) return;
             instance.hide();
         },
-        async reloadSessionHistoryEntry(entry) {
-            const target = this.normalizeSessionHistoryEntry(entry);
-            if (!target?.sessionConfig) return;
-            await this.applyMemorisationSessionConfig(target.sessionConfig, {
-                successMessage: "Session reloaded.",
-                showSubmitAlert: false,
-                closeOffcanvas: false,
-                syncDraft: true,
-            });
-            const startAyah = Number(target.rangeStart || 1);
-            const targetIndex = this.resolveAyahIndexByNumber(startAyah);
-            if (targetIndex >= 0) {
-                this.selectCard(targetIndex);
-                this.scrollToAyahIndex(targetIndex, {
-                    settle: true,
-                    force: true,
-                    behavior: "smooth",
-                    lock: true,
-                });
-            }
-            this.closeSessionHistoryModal();
-        },
+	        async reloadSessionHistoryEntry(entry, options = {}) {
+	            const { autoStart = false, closeOffcanvas = false } = options || {};
+	            const target = this.normalizeSessionHistoryEntry(entry);
+	            if (!target?.sessionConfig) return;
+	            await this.applyMemorisationSessionConfig(target.sessionConfig, {
+	                successMessage: "Session reloaded.",
+	                showSubmitAlert: false,
+	                closeOffcanvas: false,
+	                syncDraft: true,
+	            });
+	            const resumeAyahNumber = Number(
+	                target.focusAyahNumber || target.rangeStart || 1
+	            );
+	            const resolvedResumeIndex =
+	                resumeAyahNumber > 0
+	                    ? this.resolveAyahIndexByNumber(resumeAyahNumber)
+	                    : -1;
+	            const resumeIndex =
+	                resolvedResumeIndex >= 0
+	                    ? resolvedResumeIndex
+	                    : Number.isFinite(Number(target.memorisationFocusIndex))
+	                    ? Math.max(0, Math.round(Number(target.memorisationFocusIndex)))
+	                    : -1;
+	            if (resumeIndex >= 0) {
+	                this.memorisationFocusIndex = resumeIndex;
+	                this.selectCard(resumeIndex);
+	                this.scrollToAyahIndex(resumeIndex, {
+	                    settle: true,
+	                    force: true,
+	                    behavior: "smooth",
+	                    lock: true,
+	                });
+	            }
+	            if (Number.isFinite(Number(target.memorisationRepetitionCurrent))) {
+	                this.memorisationRepetitionCurrent = Math.max(
+	                    1,
+	                    Number(target.memorisationRepetitionCurrent || 1) || 1
+	                );
+	            }
+	            const chainingRoundIndex = Number(target.memorisationChainingRoundIndex);
+	            const chainingStageIndex = Number(target.memorisationChainingStageIndex);
+	            const chainingCursor = Number(target.memorisationChainingSequenceCursor);
+	            const hasChainingProgress =
+	                Number.isFinite(chainingRoundIndex) ||
+	                Number.isFinite(chainingStageIndex) ||
+	                Number.isFinite(chainingCursor);
+	            if (hasChainingProgress) {
+	                this.memorisationChainingRoundIndex = Math.max(
+	                    0,
+	                    Number.isFinite(chainingRoundIndex)
+	                        ? Math.round(chainingRoundIndex)
+	                        : 0
+	                );
+	                this.memorisationChainingStageIndex = Math.max(
+	                    0,
+	                    Number.isFinite(chainingStageIndex)
+	                        ? Math.round(chainingStageIndex)
+	                        : 0
+	                );
+	                this.memorisationChainingSequenceCursor = Math.max(
+	                    0,
+	                    Number.isFinite(chainingCursor) ? Math.round(chainingCursor) : 0
+	                );
+	                this.memorisationChainingStageRepeatCurrent = Math.max(
+	                    1,
+	                    Number(target.memorisationChainingStageRepeatCurrent || 1) || 1
+	                );
+	                this.memorisationChainingPendingAdvance =
+	                    target.memorisationChainingPendingAdvance === true;
+	                this.memorisationChainingCompleted =
+	                    target.memorisationChainingCompleted === true;
+	                if (
+	                    Number.isFinite(
+	                        Number(target.memorisationChainingLastCompletedRoundIndex)
+	                    )
+	                ) {
+	                    this.memorisationChainingLastCompletedRoundIndex = Math.round(
+	                        Number(target.memorisationChainingLastCompletedRoundIndex)
+	                    );
+	                }
+	            }
+	            this.closeSessionHistoryModal();
+	            if (closeOffcanvas) {
+	                this.closeMemorisationOffcanvas();
+	            }
+	            if (autoStart) {
+	                await this.startMemorisationSession({
+	                    preserveResumePosition: true,
+	                    preserveChainingProgress: hasChainingProgress,
+	                });
+	            }
+	        },
         async viewSessionHistoryVerses(entry) {
             const target = this.normalizeSessionHistoryEntry(entry);
             if (!target) return;
@@ -17772,7 +18383,10 @@ export default {
 	            if (kind === "saved") {
 	                this.showSessionSavedToast("Session saved ✓", 2000);
 	            } else {
-	                this.showToast("Session complete. Keep the streak alive.", 2600);
+	                this.showToast(
+	                    "Session complete. Quiz opens next; save or review weak ayahs after it.",
+	                    3600
+	                );
 	            }
 	            this.memorisationCelebrationTimer = setTimeout(() => {
 	                try {
@@ -19886,9 +20500,30 @@ export default {
                 this.memorisationPreviousSessionSnapshot ||
                 this.loadPersistedMemorisationPreviousSession();
             let restored = false;
+            const latestSavedSession = this.getLatestSessionHistoryEntry();
+            let restoredFromLatestSavedSession = false;
 
             try {
-                if (persistedSnapshot) {
+                if (latestSavedSession?.sessionConfig) {
+                    this.isMemorisationToolbarVisible = true;
+                    await this.reloadSessionHistoryEntry(latestSavedSession, {
+                        autoStart: false,
+                        closeOffcanvas: false,
+                    });
+                    try {
+                        this.persistMemorisationResumeRecord({
+                            ...(latestSavedSession.sessionConfig || {}),
+                            startedAt: Number(latestSavedSession.startedAt || 0) || 0,
+                            endedAt: Number(latestSavedSession.endedAt || 0) || 0,
+                            focusAyahNumber: Number(latestSavedSession.rangeStart || 0) || 0,
+                        });
+                    } catch (_) {}
+                    try {
+                        this.persistMemorisationRuntimeState();
+                    } catch (_) {}
+                    restored = true;
+                    restoredFromLatestSavedSession = true;
+                } else if (persistedSnapshot) {
                     restored = await this.applyMemorisationSessionConfig(
                         persistedSnapshot,
                         {
@@ -19925,14 +20560,181 @@ export default {
 	                return false;
 	            }
 
-	            // Restore full runtime state (focus index, current round, etc.) without auto-playing.
-	            try {
-	                await this.restoreMemorisationRuntimeState();
-	            } catch (_) {}
+	            // Restore runtime state (focus index, current round, etc.) without auto-playing.
+	            // If we just restored from the latest saved session, do not overwrite it with stale runtime storage.
+	            if (!restoredFromLatestSavedSession) {
+	                try {
+	                    await this.restoreMemorisationRuntimeState();
+	                } catch (_) {}
+	            }
+
+	            // If there is no prior session history, land directly in session setup.
+	            if (!latestSavedSession && !(persistedSnapshot && typeof persistedSnapshot === "object")) {
+	                try {
+	                    this.openMemorisationOffcanvas();
+	                    this.setMemorisationToolsDepth("beginner");
+	                    this.scrollMemorisationOffcanvasTo("memo-beginner-setup");
+	                    this.$nextTick(() => this.focusMemorisationSessionSetup());
+	                } catch (_) {}
+	            } else {
+	                // Otherwise keep the tools sidebar closed on initial load.
+	                this.isMemorisationOffcanvasVisible = false;
+	            }
 
 	            this.persistMemorisationToolbarVisibilityPreference(true);
 	            return true;
 	        },
+
+        getLatestSessionHistoryEntry() {
+            const entries = Array.isArray(this.sessionHistoryEntries)
+                ? this.sessionHistoryEntries
+                : [];
+            const candidates = entries
+                .map((entry) => this.normalizeSessionHistoryEntry(entry))
+                .filter((entry) => entry && entry.sessionConfig);
+            const preferredCandidates = candidates.filter(
+                (entry) => !this.isSeededSessionHistoryEntry(entry)
+            );
+            const sortableCandidates = preferredCandidates.length
+                ? preferredCandidates
+                : candidates;
+            if (!sortableCandidates.length) return null;
+            sortableCandidates.sort((a, b) => {
+                const bTime = Number(b.endedAt || b.startedAt || 0) || 0;
+                const aTime = Number(a.endedAt || a.startedAt || 0) || 0;
+                return bTime - aTime;
+            });
+            return sortableCandidates[0] || null;
+        },
+
+        focusMemorisationSessionSetup() {
+            this.$nextTick(() => {
+                const root =
+                    this.$el?.querySelector?.("#memo-beginner-setup") ||
+                    (typeof document !== "undefined"
+                        ? document.querySelector("#memo-beginner-setup")
+                        : null);
+                if (!root) return;
+                const focusable = root.querySelector(
+                    "select, input, button, textarea, [tabindex]:not([tabindex='-1'])"
+                );
+                focusable?.focus?.();
+            });
+        },
+
+        async continueFromLastMemorisationSession(options = {}) {
+            const { announce = false } = options || {};
+            const latest = this.getLatestSessionHistoryEntry();
+            if (latest?.sessionConfig) {
+                try {
+                    if (!this.isMemorisationToolbarVisible) {
+                        this.memorisationSessionSnapshot =
+                            this.buildCurrentMemorisationSessionSnapshot();
+                        this.prepareMemorisationToolsEntry();
+                        this.isMemorisationToolbarVisible = true;
+                    }
+                    await this.reloadSessionHistoryEntry(latest, {
+                        autoStart: true,
+                        closeOffcanvas: true,
+                    });
+                    try {
+                        this.persistMemorisationResumeRecord({
+                            ...(latest.sessionConfig || {}),
+                            sourceKind: "saved-session",
+                            startedAt: Number(latest.startedAt || 0) || 0,
+                            endedAt: Number(latest.endedAt || 0) || 0,
+                            focusAyahNumber:
+                                Number(
+                                    latest.focusAyahNumber ||
+                                        latest.rangeStart ||
+                                        0
+                                ) || 0,
+                        });
+                    } catch (_) {}
+                    if (announce) {
+                        this.announce("Resumed your latest saved session.");
+                    }
+                    return true;
+                } catch (error) {
+                    console.error(
+                        "Unable to continue from the latest saved session:",
+                        error
+                    );
+                    this.showToast("Could not resume your saved session.", 2600);
+                    return false;
+                }
+            }
+
+            const preferredMeta = this.getPreferredMemorisationResumeMeta();
+            if (preferredMeta && preferredMeta.sourceKind !== "saved-session") {
+                try {
+                    if (!this.isMemorisationToolbarVisible) {
+                        this.memorisationSessionSnapshot =
+                            this.buildCurrentMemorisationSessionSnapshot();
+                        this.prepareMemorisationToolsEntry();
+                        this.isMemorisationToolbarVisible = true;
+                    }
+                    await this.resumeMemorisationFromRuntime({
+                        meta: preferredMeta,
+                    });
+                    if (announce) {
+                        this.announce("Jumped back in.");
+                    }
+                    return true;
+                } catch (error) {
+                    console.error("Unable to resume memorisation runtime:", error);
+                    this.showToast("Could not resume your session.", 2600);
+                    return false;
+                }
+            }
+
+            await this.startFirstMemorisationSession();
+            return true;
+        },
+
+	        async startNewMemorisationSessionSetup(options = {}) {
+	            const { announce = false } = options || {};
+	            if (this.isMemorisationToolsComingSoon) {
+	                this.openMemorisationComingSoonModal();
+                return;
+            }
+            try {
+                if (!this.isMemorisationToolbarVisible) {
+                    this.memorisationSessionSnapshot =
+                        this.buildCurrentMemorisationSessionSnapshot();
+                    this.prepareMemorisationToolsEntry();
+                    this.isMemorisationToolbarVisible = true;
+                }
+                this.hideMemorisationSubmitAlert();
+                await this.applyMemorisationDefaultSession({
+                    syncDraft: true,
+                    scroll: false,
+                });
+                await this.applyMemorisationSuggestedRangeIfHelpful();
+                this.setMemorisationToolsDepth("beginner");
+                this.openMemorisationOffcanvas();
+                this.scrollMemorisationOffcanvasTo("memo-beginner-setup");
+                this.focusMemorisationSessionSetup();
+                if (announce) {
+                    this.announce("Session setup opened.");
+                }
+            } catch (error) {
+                console.error("Unable to start new memorisation session:", error);
+                this.showToast("Could not open session setup.", 2400);
+	            }
+	        },
+
+	        async jumpBackInOneClick(options = {}) {
+	            if (this.isMemorisationToolsComingSoon) {
+	                this.openMemorisationComingSoonModal();
+	                return;
+	            }
+	            return this.continueFromLastMemorisationSession(options);
+	        },
+
+	        async resumeLatestSavedSession(options = {}) {
+	            return this.continueFromLastMemorisationSession(options);
+        },
         advanceMemorisationFocus() {
             const current = this.memorisationFocusIndexSafe;
             if (current + 1 >= this.filteredAyahs.length) {
@@ -20954,6 +21756,18 @@ export default {
                     "ic_memorisation_previous_session_v1"
             );
         },
+        getMemorisationAdvancedScrollStorageKey() {
+            return this.buildScopedFontPreferenceKey(
+                this.memorisationAdvancedScrollStorageKeyBase ||
+                    "ic_memorisation_advanced_scroll_v1"
+            );
+        },
+        getMemorisationResumeStorageKey() {
+            return this.buildScopedFontPreferenceKey(
+                this.memorisationResumeStorageKeyBase ||
+                    "ic_memorisation_resume_state_v1"
+            );
+        },
         createMemorisationSessionId(scopeId = this.getMemorisationSessionScopeId()) {
             const scoped = String(scopeId || "anon_local").replace(
                 /[^a-zA-Z0-9_-]/g,
@@ -21202,11 +22016,328 @@ export default {
             };
             return this.memorisationPreviousSessionSnapshot;
         },
+        buildMemorisationResumeRecord(source = {}) {
+            const now = Date.now();
+            const snapshot =
+                source && typeof source === "object" && Object.keys(source).length
+                    ? source
+                    : this.buildCurrentMemorisationSessionSnapshot();
+            const normalized = this.normalizeMemorisationSessionSnapshot(snapshot);
+            if (!normalized) return null;
+            const sourceFocusIndex = Number(snapshot.memorisationFocusIndex);
+            const focusIndex = Number.isFinite(sourceFocusIndex)
+                ? Math.max(0, Math.round(sourceFocusIndex))
+                : Number(this.memorisationFocusIndexSafe || 0) || 0;
+            const focusAyahNumber =
+                Number(normalized.focusAyahNumber || 0) ||
+                Number(snapshot.focusAyahNumber || 0) ||
+                Number(this.memorisationCurrentAyahNumber || 0) ||
+                Number(normalized.rangeStart || 1);
+            return {
+                version: 1,
+                status: "active",
+                scopeId: this.getMemorisationSessionScopeId(),
+                updatedAt: now,
+                lastActiveAt: now,
+                selectedSurah: String(normalized.selectedSurah || ""),
+	                selectedReciter: String(normalized.selectedReciter || ""),
+	                rangeStart: Number(normalized.rangeStart || 1) || 1,
+	                rangeEnd:
+	                    Number(normalized.rangeEnd || normalized.rangeStart || 1) || 1,
+	                memorisationChainingRoundIndex: Math.max(
+	                    0,
+	                    Number(
+	                        snapshot.memorisationChainingRoundIndex ??
+	                            snapshot.chainingRoundIndex ??
+	                            this.memorisationChainingRoundIndex ??
+	                            0
+	                    ) || 0
+	                ),
+	                memorisationChainingStageIndex: Math.max(
+	                    0,
+	                    Number(
+	                        snapshot.memorisationChainingStageIndex ??
+	                            snapshot.chainingStageIndex ??
+	                            this.memorisationChainingStageIndex ??
+	                            0
+	                    ) || 0
+	                ),
+	                memorisationChainingSequenceCursor: Math.max(
+	                    0,
+	                    Number(
+	                        snapshot.memorisationChainingSequenceCursor ??
+	                            snapshot.chainingSequenceCursor ??
+	                            this.memorisationChainingSequenceCursor ??
+	                            0
+	                    ) || 0
+	                ),
+	                memorisationChainingStageRepeatCurrent: Math.max(
+	                    1,
+	                    Number(
+	                        snapshot.memorisationChainingStageRepeatCurrent ??
+	                            snapshot.chainingStageRepeatCurrent ??
+	                            this.memorisationChainingStageRepeatCurrent ??
+	                            1
+	                    ) || 1
+	                ),
+	                memorisationChainingPendingAdvance:
+	                    snapshot.memorisationChainingPendingAdvance ??
+	                    snapshot.chainingPendingAdvance ??
+	                    this.memorisationChainingPendingAdvance === true,
+	                memorisationChainingCompleted:
+	                    snapshot.memorisationChainingCompleted ??
+	                    snapshot.chainingCompleted ??
+	                    this.memorisationChainingCompleted === true,
+	                memorisationChainingLastCompletedRoundIndex: Number(
+	                    snapshot.memorisationChainingLastCompletedRoundIndex ??
+	                        snapshot.chainingLastCompletedRoundIndex ??
+	                        this.memorisationChainingLastCompletedRoundIndex ??
+	                        -1
+	                ),
+	                sessionConfig: this.normaliseStoredMemorisationSessionConfig({
+                    surahNumber: String(normalized.selectedSurah || ""),
+                    reciterIdentifier: String(normalized.selectedReciter || ""),
+                    rangeStart: Number(normalized.rangeStart || 1) || 1,
+                    rangeEnd:
+                        Number(normalized.rangeEnd || normalized.rangeStart || 1) || 1,
+                    playbackMode: String(snapshot.playbackMode || this.playbackMode || "continuous"),
+                    playbackSpeed: Number(snapshot.playbackSpeed || this.playbackSpeed || 1) || 1,
+                    verseDelay: Number(
+                        snapshot.memorisationVerseDelay ||
+                            snapshot.verseDelay ||
+                            this.memorisationVerseDelay ||
+                            0
+                    ) || 0,
+                    repetitionCount: Number(
+                        snapshot.memorisationRepetitionCount ||
+                            snapshot.repetitionCount ||
+                            this.memorisationRepetitionCount ||
+                            1
+                    ) || 1,
+                    rangeLoopEnabled:
+                        snapshot.memorisationRangeLoopEnabled ??
+                        snapshot.rangeLoopEnabled ??
+                        this.memorisationRangeLoopEnabled,
+                    rangeLoopDelay:
+                        snapshot.memorisationRangeLoopDelay ??
+                        snapshot.rangeLoopDelay ??
+                        this.memorisationRangeLoopDelay,
+                    rangeLoopShowCountdown:
+                        snapshot.memorisationRangeLoopShowCountdown ??
+                        snapshot.rangeLoopShowCountdown ??
+                        this.memorisationRangeLoopShowCountdown,
+                    rangeLoopAlertSound:
+                        snapshot.memorisationRangeLoopAlertSound ??
+                        snapshot.rangeLoopAlertSound ??
+                        this.memorisationRangeLoopAlertSound,
+                    repeatAfterReciterEnabled:
+                        snapshot.memorisationRepeatAfterEnabled ??
+                        snapshot.repeatAfterReciterEnabled ??
+                        this.memorisationRepeatAfterEnabled,
+                    repeatAfterReciterPauseMode:
+                        snapshot.memorisationRepeatAfterPauseMode ??
+                        snapshot.repeatAfterReciterPauseMode ??
+                        this.memorisationRepeatAfterPauseMode,
+                    repeatAfterReciterVerseTextMode:
+                        snapshot.memorisationRepeatAfterVerseTextMode ??
+                        snapshot.repeatAfterReciterVerseTextMode ??
+                        this.memorisationRepeatAfterVerseTextMode,
+                    repeatAfterReciterRecordEnabled:
+                        snapshot.memorisationRepeatAfterRecordEnabled ??
+                        snapshot.repeatAfterReciterRecordEnabled ??
+                        this.memorisationRepeatAfterRecordEnabled,
+                    verseCountdownEnabled:
+                        snapshot.memorisationVerseCountdownEnabled ??
+                        snapshot.verseCountdownEnabled ??
+                        this.memorisationVerseCountdownEnabled,
+                    verseCountdownDisplayStyle:
+                        snapshot.memorisationVerseCountdownDisplayStyle ??
+                        snapshot.verseCountdownDisplayStyle ??
+                        this.memorisationVerseCountdownDisplayStyle,
+                    verseCountdownPosition:
+                        snapshot.memorisationVerseCountdownPosition ??
+                        snapshot.verseCountdownPosition ??
+                        this.memorisationVerseCountdownPosition,
+                    verseCountdownConfettiEnabled:
+                        snapshot.memorisationVerseCountdownConfettiEnabled ??
+                        snapshot.verseCountdownConfettiEnabled ??
+                        this.memorisationVerseCountdownConfettiEnabled,
+                    chainingMethodEnabled:
+                        snapshot.memorisationChainingEnabled ??
+                        snapshot.chainingMethodEnabled ??
+                        this.memorisationChainingEnabled,
+                    chainingMethodMode:
+                        snapshot.memorisationChainingMode ??
+                        snapshot.chainingMethodMode ??
+                        this.memorisationChainingMode,
+                    chainingMethodRepetitionStrategy:
+                        snapshot.memorisationChainingRepetitionStrategy ??
+                        snapshot.chainingMethodRepetitionStrategy ??
+                        this.memorisationChainingRepetitionStrategy,
+                    chainingMethodAutoAdvance:
+                        snapshot.memorisationChainingAutoAdvance ??
+                        snapshot.chainingMethodAutoAdvance ??
+                        this.memorisationChainingAutoAdvance,
+                    chainingMethodAudioGuidance:
+                        snapshot.memorisationChainingAudioGuidance ??
+                        snapshot.chainingMethodAudioGuidance ??
+                        this.memorisationChainingAudioGuidance,
+                    chainingMethodBlurProgression:
+                        snapshot.memorisationChainingBlurProgression ??
+                        snapshot.chainingMethodBlurProgression ??
+                        this.memorisationChainingBlurProgression,
+                    chainingMethodCompletionAction:
+                        snapshot.memorisationChainingCompletionAction ??
+                        snapshot.chainingMethodCompletionAction ??
+                        this.memorisationChainingCompletionAction,
+                    blurNextAyah:
+                        snapshot.isBlurNextAyahEnabled ??
+                        snapshot.blurNextAyah ??
+                        this.isBlurNextAyahEnabled,
+                    translationVisible:
+                        snapshot.isTranslationVisible ??
+                        snapshot.translationVisible ??
+                        this.isTranslationVisible,
+                    transliterationVisible:
+                        snapshot.isTransliterationVisible ??
+                        snapshot.transliterationVisible ??
+                        this.isTransliterationVisible,
+                    showTajweed:
+                        snapshot.showTajweed ?? this.showTajweed,
+                    showWordTranslation:
+                        snapshot.showWordTranslation ?? this.showWordTranslation,
+                    showWordTranslationTooltip:
+                        snapshot.showWordTranslationTooltip ??
+                        this.showWordTranslationTooltip,
+                    sessionHistoryEnabled:
+                        snapshot.memorisationSessionHistoryEnabled ??
+                        snapshot.sessionHistoryEnabled ??
+                        this.memorisationSessionHistoryEnabled,
+                }),
+                memorisationFocusIndex: focusIndex,
+                focusAyahNumber,
+                memorisationRepetitionCurrent:
+                    Number(
+                        snapshot.memorisationRepetitionCurrent ||
+                            this.memorisationRepetitionCurrent ||
+                            1
+                    ) || 1,
+                memorisationRepetitionCount:
+                    Number(
+                        snapshot.memorisationRepetitionCount ||
+                            this.memorisationRepetitionCount ||
+                            1
+                    ) || 1,
+                playbackMode: String(
+                    snapshot.playbackMode || this.playbackMode || "continuous"
+                ),
+                playbackSpeed:
+                    Number(snapshot.playbackSpeed || this.playbackSpeed || 1) || 1,
+                verseDelay:
+                    Number(
+                        snapshot.memorisationVerseDelay ||
+                            snapshot.verseDelay ||
+                            this.memorisationVerseDelay ||
+                            0
+                    ) || 0,
+                sourceKind: String(source.sourceKind || "runtime"),
+            };
+        },
+        persistMemorisationResumeRecord(source = {}) {
+            if (typeof window === "undefined") return null;
+            const record = this.buildMemorisationResumeRecord(source);
+            if (!record) return null;
+            try {
+                localStorage.setItem(
+                    this.getMemorisationResumeStorageKey(),
+                    JSON.stringify(record)
+                );
+            } catch (_) {}
+            this.memorisationRuntimeLastActiveAt = Number(record.lastActiveAt || 0) || 0;
+            this.memorisationRuntimeResumeMeta =
+                this.normalizeMemorisationResumeMeta(record);
+            return record;
+        },
+	        buildMemorisationResumeMetaFromSessionEntry(entry) {
+	            const target = this.normalizeSessionHistoryEntry(entry);
+	            if (!target?.sessionConfig) return null;
+            const sessionConfig = this.normaliseStoredMemorisationSessionConfig(
+                target.sessionConfig || {}
+            );
+            const rangeStart = Math.max(
+                1,
+                Number(target.rangeStart || sessionConfig.rangeStart || 1) || 1
+            );
+            const rangeEnd = Math.max(
+                rangeStart,
+                Number(target.rangeEnd || sessionConfig.rangeEnd || rangeStart) || rangeStart
+            );
+	            return {
+	                updatedAt: Number(target.endedAt || target.startedAt || Date.now()) || Date.now(),
+	                lastActiveAt:
+	                    Number(target.endedAt || target.startedAt || Date.now()) || Date.now(),
+                selectedSurah: String(
+                    target.surahNumber || sessionConfig.surahNumber || ""
+                ).trim(),
+                selectedReciter: String(
+                    sessionConfig.reciterIdentifier || sessionConfig.selectedReciter || ""
+                ).trim(),
+	                rangeStart,
+	                rangeEnd,
+	                memorisationFocusIndex: Number(target.memorisationFocusIndex || 0) || 0,
+	                focusAyahNumber: Number(target.focusAyahNumber || 0) || rangeStart,
+	                memorisationRepetitionCurrent:
+	                    Number(target.memorisationRepetitionCurrent || 1) || 1,
+	                memorisationRepetitionCount:
+	                    Number(sessionConfig.repetitionCount || 1) || 1,
+	                memorisationChainingRoundIndex:
+	                    Number(target.memorisationChainingRoundIndex || 0) || 0,
+	                memorisationChainingStageIndex:
+	                    Number(target.memorisationChainingStageIndex || 0) || 0,
+	                memorisationChainingSequenceCursor:
+	                    Number(target.memorisationChainingSequenceCursor || 0) || 0,
+	                memorisationChainingStageRepeatCurrent:
+	                    Number(target.memorisationChainingStageRepeatCurrent || 1) || 1,
+	                memorisationChainingPendingAdvance:
+	                    target.memorisationChainingPendingAdvance === true,
+	                memorisationChainingCompleted:
+	                    target.memorisationChainingCompleted === true,
+	                memorisationChainingLastCompletedRoundIndex: Number(
+	                    target.memorisationChainingLastCompletedRoundIndex || -1
+	                ),
+	                playbackMode: String(sessionConfig.playbackMode || "continuous"),
+	                playbackSpeed: Number(sessionConfig.playbackSpeed || 1) || 1,
+	                verseDelay: Number(sessionConfig.verseDelay || 0) || 0,
+                isResumeEligible: true,
+                sourceKind: "saved-session",
+                sessionConfig: { ...sessionConfig },
+                sessionHistoryEntryId: String(target.id || ""),
+            };
+        },
+        getPreferredMemorisationResumeMeta() {
+            const latestSavedMeta = this.buildMemorisationResumeMetaFromSessionEntry(
+                this.getLatestSessionHistoryEntry()
+            );
+            if (latestSavedMeta) return latestSavedMeta;
+            let meta = this.memorisationRuntimeResumeMeta;
+            if (!meta && typeof window !== "undefined") {
+                try {
+                    meta = this.loadMemorisationResumeMetaFromStorage();
+                } catch (_) {
+                    meta = this.memorisationRuntimeResumeMeta;
+                }
+            }
+            return meta && typeof meta === "object" ? meta : null;
+        },
         buildMemorisationRuntimeState() {
             const now = Date.now();
+            if (this.isMemorisationMode) {
+                this.memorisationRuntimeLastActiveAt = now;
+            }
             return {
                 version: 1,
                 updatedAt: now,
+                lastActiveAt: Number(this.memorisationRuntimeLastActiveAt || 0) || 0,
                 scopeId: this.getMemorisationSessionScopeId(),
                 selectedSurah: String(this.selectedSurah || this.memorisationDraft?.surahNumber || ""),
                 selectedReciter: String(this.selectedReciter || this.memorisationDraft?.reciterIdentifier || ""),
@@ -21237,12 +22368,34 @@ export default {
                 memorisationRangeLoopDelay: Number(this.memorisationRangeLoopDelay || 0) || 0,
                 memorisationRepeatAfterEnabled: !!this.memorisationRepeatAfterEnabled,
                 memorisationRepeatAfterPauseMode: String(this.memorisationRepeatAfterPauseMode || "3"),
-                memorisationRepeatAfterVerseTextMode: String(this.memorisationRepeatAfterVerseTextMode || "dimmed"),
-                memorisationChainingEnabled: !!this.memorisationChainingEnabled,
-                memorisationChainingMode: String(this.memorisationChainingMode || "cumulative"),
-                memorisationVerseCountdownEnabled: !!this.memorisationVerseCountdownEnabled,
-            };
-        },
+	                memorisationRepeatAfterVerseTextMode: String(this.memorisationRepeatAfterVerseTextMode || "dimmed"),
+	                memorisationChainingEnabled: !!this.memorisationChainingEnabled,
+	                memorisationChainingMode: String(this.memorisationChainingMode || "cumulative"),
+	                memorisationVerseCountdownEnabled: !!this.memorisationVerseCountdownEnabled,
+	                memorisationChainingRoundIndex: Math.max(
+	                    0,
+	                    Number(this.memorisationChainingRoundIndex || 0) || 0
+	                ),
+	                memorisationChainingStageIndex: Math.max(
+	                    0,
+	                    Number(this.memorisationChainingStageIndex || 0) || 0
+	                ),
+	                memorisationChainingSequenceCursor: Math.max(
+	                    0,
+	                    Number(this.memorisationChainingSequenceCursor || 0) || 0
+	                ),
+	                memorisationChainingStageRepeatCurrent: Math.max(
+	                    1,
+	                    Number(this.memorisationChainingStageRepeatCurrent || 1) || 1
+	                ),
+	                memorisationChainingPendingAdvance:
+	                    this.memorisationChainingPendingAdvance === true,
+	                memorisationChainingCompleted: this.memorisationChainingCompleted === true,
+	                memorisationChainingLastCompletedRoundIndex: Number(
+	                    this.memorisationChainingLastCompletedRoundIndex || -1
+	                ),
+	            };
+	        },
         schedulePersistMemorisationRuntimeState() {
             if (typeof window === "undefined") return;
             clearTimeout(this.memorisationRuntimePersistDebounceTimer);
@@ -21250,24 +22403,38 @@ export default {
                 this.persistMemorisationRuntimeState();
             }, 180);
         },
-	        persistMemorisationRuntimeState() {
-	            if (typeof window === "undefined") return false;
-	            if (!this.isMemorisationToolbarVisible) return false;
-	            const state = this.buildMemorisationRuntimeState();
-	            try {
-	                localStorage.setItem(this.memorisationRuntimeStorageKey, JSON.stringify(state));
-	                this.memorisationRuntimeResumeMeta =
-	                    this.normalizeMemorisationResumeMeta(state);
-	                return true;
-	            } catch (_) {
-	                return false;
-	            }
-	        },
-	        normalizeMemorisationResumeMeta(source = {}) {
-	            if (!source || typeof source !== "object") return null;
-	            const snapshot = source.snapshot && typeof source.snapshot === "object"
-	                ? source.snapshot
-	                : source;
+		        persistMemorisationRuntimeState() {
+		            if (typeof window === "undefined") return false;
+		            if (!this.isMemorisationToolbarVisible) return false;
+		            const state = this.buildMemorisationRuntimeState();
+		            try {
+		                localStorage.setItem(this.memorisationRuntimeStorageKey, JSON.stringify(state));
+		                if (this.isMemorisationMode) {
+		                    const resumeState = {
+		                        ...state,
+		                        sourceKind: "runtime-active",
+		                    };
+		                    this.persistMemorisationResumeRecord(resumeState);
+		                    this.memorisationRuntimeResumeMeta =
+		                        this.normalizeMemorisationResumeMeta(resumeState);
+		                }
+		                return true;
+		            } catch (_) {
+		                return false;
+		            }
+		        },
+        normalizeMemorisationResumeMeta(source = {}) {
+            if (!source || typeof source !== "object") return null;
+            const snapshot = source.snapshot && typeof source.snapshot === "object"
+                ? source.snapshot
+                : source;
+	            const isSavedSession = !!(source.snapshot && typeof source.snapshot === "object");
+		            const lastActiveAt = Number(source.lastActiveAt || snapshot.lastActiveAt || 0) || 0;
+		            const isActiveRuntimeSession =
+		                snapshot.isMemorisationMode === true ||
+		                snapshot.started === true ||
+		                snapshot.status === "active" ||
+		                snapshot.status === "paused";
 	            const selectedSurah = String(
 	                snapshot.selectedSurah ||
 	                    snapshot.surahNumber ||
@@ -21307,30 +22474,100 @@ export default {
 	                    Date.now()
 	            ) || Date.now();
 	            if (!selectedSurah || rangeEnd < rangeStart) return null;
-	            return {
-	                updatedAt,
-	                selectedSurah,
-	                selectedReciter,
-	                rangeStart,
-	                rangeEnd,
+            return {
+                updatedAt,
+                lastActiveAt,
+                selectedSurah,
+                selectedReciter,
+                rangeStart,
+                rangeEnd,
+                sessionConfig:
+                    snapshot.sessionConfig && typeof snapshot.sessionConfig === "object"
+                        ? this.normaliseStoredMemorisationSessionConfig(
+                              snapshot.sessionConfig
+                          )
+                        : null,
+                memorisationFocusIndex:
+                    Number(snapshot.memorisationFocusIndex || 0) || 0,
+                focusAyahNumber:
+                    Number(snapshot.focusAyahNumber || 0) || rangeStart,
+	                memorisationRepetitionCurrent:
+	                    Number(snapshot.memorisationRepetitionCurrent || 1) || 1,
+	                memorisationRepetitionCount:
+	                    Number(snapshot.memorisationRepetitionCount || 1) || 1,
+	                memorisationChainingRoundIndex: Number.isFinite(
+	                    Number(snapshot.memorisationChainingRoundIndex)
+	                )
+	                    ? Math.max(
+	                          0,
+	                          Math.round(Number(snapshot.memorisationChainingRoundIndex))
+	                      )
+	                    : 0,
+	                memorisationChainingStageIndex: Number.isFinite(
+	                    Number(snapshot.memorisationChainingStageIndex)
+	                )
+	                    ? Math.max(
+	                          0,
+	                          Math.round(Number(snapshot.memorisationChainingStageIndex))
+	                      )
+	                    : 0,
+	                memorisationChainingSequenceCursor: Number.isFinite(
+	                    Number(snapshot.memorisationChainingSequenceCursor)
+	                )
+	                    ? Math.max(
+	                          0,
+	                          Math.round(Number(snapshot.memorisationChainingSequenceCursor))
+	                      )
+	                    : 0,
+	                memorisationChainingStageRepeatCurrent: Math.max(
+	                    1,
+	                    Number(snapshot.memorisationChainingStageRepeatCurrent || 1) || 1
+	                ),
+	                memorisationChainingPendingAdvance:
+	                    snapshot.memorisationChainingPendingAdvance === true,
+	                memorisationChainingCompleted:
+	                    snapshot.memorisationChainingCompleted === true,
+	                memorisationChainingLastCompletedRoundIndex: Number.isFinite(
+	                    Number(snapshot.memorisationChainingLastCompletedRoundIndex)
+	                )
+	                    ? Math.round(Number(snapshot.memorisationChainingLastCompletedRoundIndex))
+	                    : -1,
+	                isResumeEligible: isSavedSession || isActiveRuntimeSession,
+	                sourceKind: String(snapshot.sourceKind || source.sourceKind || "runtime"),
 	            };
 	        },
 	        loadMemorisationResumeMetaFromStorage() {
 	            if (typeof window === "undefined") return null;
 	            const candidates = [];
 	            try {
-	                const rawRuntime = localStorage.getItem(this.memorisationRuntimeStorageKey) || "";
-	                if (rawRuntime) candidates.push(JSON.parse(rawRuntime));
+	                const latestSavedMeta = this.buildMemorisationResumeMetaFromSessionEntry(
+	                    this.getLatestSessionHistoryEntry()
+	                );
+	                if (latestSavedMeta) candidates.push(latestSavedMeta);
 	            } catch (_) {}
 	            try {
-	                const rawPrevious =
-	                    localStorage.getItem(this.getMemorisationSessionStorageKey()) || "";
-	                if (rawPrevious) candidates.push(JSON.parse(rawPrevious));
+	                const rawResume =
+	                    localStorage.getItem(this.getMemorisationResumeStorageKey()) || "";
+	                if (rawResume) candidates.push(JSON.parse(rawResume));
+	            } catch (_) {}
+	            try {
+	                const rawRuntime =
+	                    localStorage.getItem(this.memorisationRuntimeStorageKey) || "";
+	                const runtime = rawRuntime ? JSON.parse(rawRuntime) : null;
+	                const wasActiveSession =
+	                    runtime &&
+	                    runtime.isMemorisationMode === true &&
+	                    Number(runtime.lastActiveAt || 0) > 0;
+	                if (wasActiveSession) candidates.push(runtime);
 	            } catch (_) {}
 	            const metas = candidates
 	                .map((candidate) => this.normalizeMemorisationResumeMeta(candidate))
 	                .filter(Boolean)
-	                .sort((a, b) => Number(b.updatedAt || 0) - Number(a.updatedAt || 0));
+	                .sort((a, b) => {
+	                    const bTime = Number(b.lastActiveAt || b.updatedAt || 0);
+	                    const aTime = Number(a.lastActiveAt || a.updatedAt || 0);
+	                    return bTime - aTime;
+	                });
 	            this.memorisationRuntimeResumeMeta = metas[0] || null;
 	            return this.memorisationRuntimeResumeMeta;
 	        },
@@ -21364,13 +22601,56 @@ export default {
                 } catch (_) {}
                 this.selectedSurah = surah;
             }
-            if (reciter) {
-                this.selectedReciter = reciter;
-            }
-	            this.memorisationRuntimeResumeMeta =
-	                this.normalizeMemorisationResumeMeta(parsed);
+	            if (reciter) {
+	                this.selectedReciter = reciter;
+	                try {
+	                    await this.ensureSurahReciterApplied(reciter);
+	                } catch (_) {}
+	            }
+	            try {
+	                if (
+	                    !Array.isArray(this.surahDetails?.ayahs) ||
+	                    this.surahDetails.ayahs.length < 2 ||
+	                    String(this.surahDetails?.surahNumber || "") !== String(this.selectedSurah || "") ||
+	                    (reciter &&
+	                        String(this.surahDetailsReciterIdentifier || "") !==
+	                            String(reciter || ""))
+	                ) {
+	                    await this.fetchSurahDetails();
+	                }
+	            } catch (_) {}
+	            await this.waitForReaderIdle();
+		            this.memorisationRuntimeResumeMeta =
+		                this.normalizeMemorisationResumeMeta(parsed);
+		            this.memorisationRuntimeLastActiveAt = Number(parsed.lastActiveAt || 0) || 0;
 
-            const total = Math.max(1, Number(this.totalAyahs || 1));
+	            const totalFromMeta = (() => {
+	                const targetSurah = String(this.selectedSurah || surah || "").trim();
+	                if (targetSurah === "1") return 7;
+	                const match = Array.isArray(this.surahs)
+	                    ? this.surahs.find(
+	                          (entry) => String(entry?.number || "") === targetSurah
+	                      )
+	                    : null;
+	                return Math.max(
+	                    0,
+	                    Number(
+	                        match?.numberOfAyahs ||
+	                            match?.ayahCount ||
+	                            match?.ayahs?.length ||
+	                            0
+	                    ) || 0
+	                );
+	            })();
+	            const total = Math.max(
+	                1,
+	                Number(
+	                    totalFromMeta ||
+	                        this.totalAyahs ||
+	                        this.surahDetails?.ayahs?.length ||
+	                        1
+	                )
+	            );
             const rangeStart = Math.max(1, Math.min(total, Number(parsed.rangeStart || 1) || 1));
             const rangeEnd = Math.max(rangeStart, Math.min(total, Number(parsed.rangeEnd || rangeStart) || rangeStart));
             this.memorisationRangeStart = rangeStart;
@@ -21407,9 +22687,35 @@ export default {
                 this.normaliseMemorisationRepeatAfterVerseTextMode(
                     parsed.memorisationRepeatAfterVerseTextMode
                 );
-            this.memorisationChainingEnabled = !!parsed.memorisationChainingEnabled;
-            this.memorisationChainingMode = this.normaliseMemorisationChainingMode(parsed.memorisationChainingMode);
-            this.memorisationVerseCountdownEnabled = !!parsed.memorisationVerseCountdownEnabled;
+	            this.memorisationChainingEnabled = !!parsed.memorisationChainingEnabled;
+	            this.memorisationChainingMode = this.normaliseMemorisationChainingMode(parsed.memorisationChainingMode);
+	            this.memorisationVerseCountdownEnabled = !!parsed.memorisationVerseCountdownEnabled;
+
+	            this.memorisationChainingRoundIndex = Math.max(
+	                0,
+	                Math.round(Number(parsed.memorisationChainingRoundIndex || 0) || 0)
+	            );
+	            this.memorisationChainingStageIndex = Math.max(
+	                0,
+	                Math.round(Number(parsed.memorisationChainingStageIndex || 0) || 0)
+	            );
+	            this.memorisationChainingSequenceCursor = Math.max(
+	                0,
+	                Math.round(Number(parsed.memorisationChainingSequenceCursor || 0) || 0)
+	            );
+	            this.memorisationChainingStageRepeatCurrent = Math.max(
+	                1,
+	                Math.round(Number(parsed.memorisationChainingStageRepeatCurrent || 1) || 1)
+	            );
+	            this.memorisationChainingPendingAdvance =
+	                parsed.memorisationChainingPendingAdvance === true;
+	            this.memorisationChainingCompleted =
+	                parsed.memorisationChainingCompleted === true;
+	            this.memorisationChainingLastCompletedRoundIndex = Number.isFinite(
+	                Number(parsed.memorisationChainingLastCompletedRoundIndex)
+	            )
+	                ? Math.round(Number(parsed.memorisationChainingLastCompletedRoundIndex))
+	                : this.memorisationChainingLastCompletedRoundIndex;
 
             const focusIndex = Math.max(0, Math.round(Number(parsed.memorisationFocusIndex || 0) || 0));
             if (Array.isArray(this.filteredAyahs) && this.filteredAyahs.length) {
@@ -21421,25 +22727,28 @@ export default {
         },
 
         hasMemorisationResumeCandidate() {
-            const meta = this.memorisationRuntimeResumeMeta;
+            const meta = this.getPreferredMemorisationResumeMeta();
             if (!meta || typeof meta !== "object") return false;
             const start = Number(meta.rangeStart || 0) || 0;
             const end = Number(meta.rangeEnd || 0) || 0;
-            return !!String(meta.selectedSurah || "").trim() && start > 0 && end >= start;
+            return (
+                meta.isResumeEligible === true &&
+                !!String(meta.selectedSurah || "").trim() &&
+                start > 0 &&
+                end >= start
+            );
         },
-        memorisationReturnTitle() {
-            const streak = Number(this.hifdhConsistencyStreakDays || 0) || 0;
-            if (this.hasMemorisationResumeCandidate()) {
-                if (streak > 0) return `Welcome back · ${streak}-day streak`;
-                return "Welcome back";
-            }
-            return "Start your first session";
-        },
-	        memorisationReturnSubtitle() {
-            if (this.hasMemorisationResumeCandidate()) {
-                const meta = this.memorisationRuntimeResumeMeta || {};
-                const surah = this.getSurahNameByNumber(meta.selectedSurah) || `Surah ${meta.selectedSurah || "—"}`;
-                const reciterId = String(meta.selectedReciter || "").trim();
+	        memorisationReturnTitle() {
+	            if (this.hasMemorisationResumeCandidate()) {
+	                return "Continue from where you last stopped";
+	            }
+	            return "Start your first session";
+	        },
+		        memorisationReturnSubtitle() {
+	            if (this.hasMemorisationResumeCandidate()) {
+	                const meta = this.getPreferredMemorisationResumeMeta() || {};
+	                const surah = this.getSurahNameByNumber(meta.selectedSurah) || `Surah ${meta.selectedSurah || "—"}`;
+	                const reciterId = String(meta.selectedReciter || "").trim();
                 const reciterMatch =
                     (this.recitersSorted || this.reciters || []).find(
                         (item) => String(item?.identifier || "").trim() === reciterId
@@ -21449,16 +22758,17 @@ export default {
                     (reciterId || "Reciter");
                 const start = Number(meta.rangeStart || this.memorisationRangeStart || 1);
                 const end = Number(meta.rangeEnd || this.memorisationRangeEnd || start);
-                const rangeLabel = `${start}\u2013${end}`;
-                return `Next: ${surah} ${rangeLabel} · ${reciter}`;
-            }
-	            return "Pick a surah and range, then press Start Session. We’ll remember your setup.";
-	        },
+	                const rangeLabel = `${start}\u2013${end}`;
+	                return `Next: ${surah} ${rangeLabel} · ${reciter}`;
+	            }
+		            return "We will start you with Surah Al-Fatiha (1\u20137) and remember your place for next time.";
+		        },
 	        getMemorisationResumeDayGap() {
-	            const updatedAt = Number(this.memorisationRuntimeResumeMeta?.updatedAt || 0);
-	            if (!updatedAt) return null;
+	            const meta = this.getPreferredMemorisationResumeMeta() || {};
+	            const activityAt = Number(meta.lastActiveAt || meta.updatedAt || 0);
+	            if (!activityAt) return null;
 	            const todayKey = this.toDateKey(new Date());
-	            const updatedKey = this.toDateKey(new Date(updatedAt));
+	            const updatedKey = this.toDateKey(new Date(activityAt));
 	            const today = new Date(`${todayKey}T12:00:00`);
 	            const updated = new Date(`${updatedKey}T12:00:00`);
 	            if (Number.isNaN(today.getTime()) || Number.isNaN(updated.getTime())) {
@@ -21470,57 +22780,103 @@ export default {
 	            );
 	        },
 	        memorisationEntryKicker() {
-	            if (!this.hasMemorisationResumeCandidate()) return "Quran practice";
+	            if (!this.hasMemorisationResumeCandidate()) return "Quick start";
 	            const dayGap = this.getMemorisationResumeDayGap();
-	            if (dayGap === 1) return "Welcome back";
+	            const streak = Number(this.hifdhConsistencyStreakDays || 0) || 0;
+	            if (dayGap === 1) {
+	                return streak > 0
+	                    ? `Welcome back · ${streak}-day streak`
+	                    : "Welcome back";
+	            }
 	            if (dayGap && dayGap > 1) return "Pick up where you left off";
-	            return "Ready to continue";
+	            return "Jump in";
 	        },
 	        memorisationEntryTitle() {
 	            if (!this.hasMemorisationResumeCandidate()) {
 	                return "Start your first session";
 	            }
-	            const dayGap = this.getMemorisationResumeDayGap();
-	            if (dayGap === 1) {
-	                return "Your next review is ready";
-	            }
-	            if (dayGap && dayGap > 1) {
-	                return "Resume your memorisation session";
-	            }
-	            return "Jump back in";
+	            return "Continue from where you last stopped";
 	        },
 	        memorisationEntrySummary() {
 	            if (!this.hasMemorisationResumeCandidate()) {
-	                return "Beginner mode opens first so you can choose a short range and start.";
+	                return "Beginner opens first. Pick a short range, press Start Session, and come back to the same place later.";
 	            }
 	            const base = this.memorisationReturnSubtitle();
 	            const dayGap = this.getMemorisationResumeDayGap();
-	            if (dayGap === 1) {
-	                return `${base}. Suggested: listen once, then recite once from memory.`;
-	            }
-	            if (dayGap && dayGap > 1) {
-	                return `${base}. Start with a light review round.`;
-	            }
+	            if (dayGap === 1) return `${base}. Suggested: listen once, then recite once from memory.`;
+	            if (dayGap && dayGap > 1) return `${base}. Start with a light review.`;
 	            return base;
 	        },
 	        startFirstMemorisationSession() {
-	            if (!this.isMemorisationToolbarVisible) {
-	                this.isMemorisationToolbarVisible = true;
-	                this.persistMemorisationToolbarVisibilityPreference(true);
-	            }
-	            this.setMemorisationToolsDepth("beginner");
-	            this.openMemorisationOffcanvas();
-	            this.$nextTick(() => this.scrollMemorisationOffcanvasTo("memo-beginner-setup"));
+	            this.startMemorisationOnboardingWithAlFatiha();
 	        },
-	        async resumeMemorisationFromRuntime() {
-	            // Restore if possible, then immediately start playback.
-	            this.loadMemorisationResumeMetaFromStorage();
-	            let restored = false;
-	            try {
-	                restored = await this.restoreMemorisationRuntimeState();
-	            } catch (_) {}
-	            if (!restored && this.hasMemorisationResumeCandidate()) {
-	                const meta = this.memorisationRuntimeResumeMeta || {};
+        clearMemorisationStartCountdown() {
+            if (this.memorisationStartCountdownTimer) {
+                clearInterval(this.memorisationStartCountdownTimer);
+                this.memorisationStartCountdownTimer = null;
+            }
+            this.memorisationStartCountdownRemaining = 0;
+            this.memorisationStartCountdownLabel = "";
+        },
+        async runMemorisationStartCountdown(label = "Starting") {
+            this.clearMemorisationStartCountdown();
+            const total = Math.max(
+                0,
+                Number(this.memorisationStartCountdownSeconds || 0)
+            );
+            if (!total) return;
+            this.memorisationStartCountdownLabel = String(label || "Starting").trim();
+            this.memorisationStartCountdownRemaining = total;
+            await new Promise((resolve) => {
+                this.memorisationStartCountdownTimer = setInterval(() => {
+                    if (this.memorisationStartCountdownRemaining <= 1) {
+                        this.clearMemorisationStartCountdown();
+                        resolve();
+                        return;
+                    }
+                    this.memorisationStartCountdownRemaining -= 1;
+                }, 1000);
+            });
+        },
+		        async resumeMemorisationFromRuntime(options = {}) {
+		            const metaOverride =
+		                options &&
+		                options.meta &&
+		                typeof options.meta === "object" &&
+		                Object.keys(options.meta).length
+		                    ? { ...options.meta }
+		                    : null;
+		            const preferredMeta = metaOverride || this.getPreferredMemorisationResumeMeta();
+		            if (preferredMeta?.sourceKind === "saved-session") {
+		                await this.resumeLatestSavedSession();
+		                return;
+		            }
+		            // Restore if possible, then immediately start playback.
+		            const savedResumeMeta = metaOverride
+		                ? null
+		                : this.loadMemorisationResumeMetaFromStorage()
+		                ? { ...this.memorisationRuntimeResumeMeta }
+		                : null;
+		            let restored = false;
+		            try {
+		                restored = await this.restoreMemorisationRuntimeState();
+		            } catch (_) {}
+		            const meta =
+		                metaOverride ||
+		                savedResumeMeta ||
+		                this.memorisationRuntimeResumeMeta ||
+		                {};
+	            if (meta.selectedReciter) {
+	                this.selectedReciter = meta.selectedReciter;
+	                try {
+	                    await this.ensureSurahReciterApplied(meta.selectedReciter);
+	                } catch (_) {}
+	            }
+	            if (
+	                meta &&
+	                meta.selectedSurah &&
+	                Number(meta.rangeEnd || 0) >= Number(meta.rangeStart || 0)
+	            ) {
 	                try {
 	                    await this.applyMemorisationSessionConfig(
 	                        {
@@ -21537,12 +22893,85 @@ export default {
 	                    );
 	                } catch (_) {}
 	            }
-	            if (this.isMemorisationAdvancedMode) {
-	                await this.startMemorisationSession();
-	                return;
-            }
-            await this.startMemorisationBeginnerSession();
-        },
+	            const resumeAyahNumber = Number(meta.focusAyahNumber || 0);
+	            const resolvedResumeIndex =
+	                resumeAyahNumber > 0
+	                    ? this.resolveAyahIndexByNumber(resumeAyahNumber)
+	                    : -1;
+	            const resumeFocusIndex =
+	                resolvedResumeIndex >= 0
+	                    ? resolvedResumeIndex
+	                    : Number(meta.memorisationFocusIndex);
+	            if (Number.isFinite(resumeFocusIndex)) {
+	                const maxIndex = Math.max(
+	                    0,
+	                    Array.isArray(this.filteredAyahs)
+	                        ? this.filteredAyahs.length - 1
+	                        : 0
+	                );
+	                this.memorisationFocusIndex = Math.min(
+	                    maxIndex,
+	                    Math.max(0, Math.round(resumeFocusIndex))
+	                );
+	            }
+	            this.memorisationRepetitionCurrent = Math.max(
+	                1,
+	                Number(meta.memorisationRepetitionCurrent || this.memorisationRepetitionCurrent || 1) || 1
+	            );
+		            this.memorisationRepetitionCount = Math.max(
+		                1,
+		                Number(meta.memorisationRepetitionCount || this.memorisationRepetitionCount || 1) || 1
+		            );
+		            const shouldPreserveChainingProgress =
+		                this.memorisationChainingEnabled === true &&
+		                (Number(meta.memorisationChainingSequenceCursor || 0) > 0 ||
+		                    Number(meta.memorisationChainingRoundIndex || 0) > 0 ||
+		                    Number(meta.memorisationChainingStageIndex || 0) > 0 ||
+		                    meta.memorisationChainingPendingAdvance === true);
+		            if (this.memorisationChainingEnabled === true) {
+		                this.memorisationChainingRoundIndex = Math.max(
+		                    0,
+		                    Math.round(
+		                        Number(meta.memorisationChainingRoundIndex || 0) || 0
+		                    )
+		                );
+		                this.memorisationChainingStageIndex = Math.max(
+		                    0,
+		                    Math.round(
+		                        Number(meta.memorisationChainingStageIndex || 0) || 0
+		                    )
+		                );
+		                this.memorisationChainingSequenceCursor = Math.max(
+		                    0,
+		                    Math.round(
+		                        Number(meta.memorisationChainingSequenceCursor || 0) || 0
+		                    )
+		                );
+		                this.memorisationChainingStageRepeatCurrent = Math.max(
+		                    1,
+		                    Math.round(
+		                        Number(meta.memorisationChainingStageRepeatCurrent || 1) || 1
+		                    )
+		                );
+		                this.memorisationChainingPendingAdvance =
+		                    meta.memorisationChainingPendingAdvance === true;
+		                this.memorisationChainingCompleted =
+		                    meta.memorisationChainingCompleted === true;
+		                if (
+		                    Number.isFinite(
+		                        Number(meta.memorisationChainingLastCompletedRoundIndex)
+		                    )
+		                ) {
+		                    this.memorisationChainingLastCompletedRoundIndex = Math.round(
+		                        Number(meta.memorisationChainingLastCompletedRoundIndex)
+		                    );
+		                }
+		            }
+		            await this.startMemorisationSession({
+		                preserveResumePosition: true,
+		                preserveChainingProgress: shouldPreserveChainingProgress,
+		            });
+	        },
         loadPersistedMemorisationPreviousSession() {
             if (typeof window === "undefined") {
                 this.memorisationPreviousSessionSnapshot = null;
@@ -26040,6 +27469,20 @@ export default {
                 : Number(this.memorisationPlayIndex ?? this.memorisationFocusIndexSafe ?? 0);
             if (!Number.isFinite(index) || index < 0) return;
             this.toggleAudioPlayer(index);
+        },
+        onMemorisationProgressPlayClick() {
+            if (!this.isMemorisationToolbarVisible) return;
+            if (!this.isMemorisationModeActive) {
+                if (this.hasMemorisationResumeCandidate()) {
+                    void this.continueFromLastMemorisationSession({
+                        announce: true,
+                    });
+                    return;
+                }
+                void this.startMemorisationBeginnerSession();
+                return;
+            }
+            this.toggleMemorisationPlayPause();
         },
         toggleMemorisationChainingShortcut() {
             const current = !!this.memorisationDraft?.chainingMethodEnabled;

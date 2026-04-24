@@ -427,16 +427,163 @@
 /* Memorisation progress lives under the toolbar controls (single sticky container). */
 .memorisation-toolbar-progress {
     display: flex;
-    align-items: center;
-    gap: 0.6rem;
-    padding: 0.35rem 0.75rem 0.45rem;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.38rem;
+    padding: 0.7rem 0.8rem;
     border-top: 1px solid rgba(15, 118, 110, 0.10);
+    border-radius: 18px;
     min-width: 0;
-    background: linear-gradient(
-        180deg,
-        rgba(15, 118, 110, 0.06),
-        rgba(255, 255, 255, 0)
-    );
+    background:
+        linear-gradient(180deg, rgba(247, 252, 250, 0.96), rgba(255, 255, 255, 0.9));
+    border: 1px solid rgba(15, 118, 110, 0.12);
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+}
+
+:global(body.surat-page-shell-dark) .memorisation-toolbar-progress {
+    border-top-color: rgba(45, 212, 191, 0.14);
+    border-color: rgba(148, 163, 184, 0.14);
+    background:
+        linear-gradient(180deg, rgba(15, 23, 42, 0.72), rgba(2, 6, 23, 0.62));
+    box-shadow: none;
+}
+
+:global(body.surat-page-shell-dark) .memorisation-toolbar-progress-range-label {
+    color: rgba(226, 232, 240, 0.8);
+}
+
+.memorisation-toolbar-progress-main {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    min-width: 0;
+    flex-wrap: wrap;
+}
+
+.memorisation-toolbar-progress-copy {
+    min-width: 0;
+    display: flex;
+    align-items: baseline;
+    gap: 0.65rem;
+    flex: 1 1 auto;
+    flex-wrap: wrap;
+}
+
+.memorisation-toolbar-progress-actions {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    flex: 0 0 auto;
+}
+
+.memorisation-toolbar-progress-range-label {
+    font-weight: 850;
+    color: rgba(15, 23, 42, 0.72);
+    white-space: nowrap;
+    font-size: 0.9rem;
+}
+
+.memorisation-toolbar-progress-play {
+    min-height: 34px;
+    padding: 0.32rem 0.7rem;
+    border-radius: 999px;
+    border: 1px solid rgba(6, 95, 70, 0.55);
+    background: linear-gradient(135deg, rgba(15, 118, 110, 0.95), rgba(11, 95, 83, 0.95));
+    box-shadow: 0 10px 18px rgba(2, 6, 23, 0.14);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    transition: transform 160ms ease, box-shadow 160ms ease, filter 160ms ease, background 160ms ease, border-color 160ms ease;
+}
+
+.memorisation-toolbar-progress-play i {
+    font-size: 1.05rem;
+    color: rgba(236, 253, 245, 0.98);
+    line-height: 1;
+}
+
+.memorisation-toolbar-progress-play-label {
+    font-size: 0.84rem;
+    font-weight: 900;
+    color: rgba(236, 253, 245, 0.98);
+    letter-spacing: 0.01em;
+}
+
+@keyframes memo-play-pulse {
+    0% {
+        box-shadow: 0 10px 18px rgba(2, 6, 23, 0.14);
+    }
+    50% {
+        box-shadow: 0 0 0 5px rgba(45, 212, 191, 0.18), 0 14px 26px rgba(2, 6, 23, 0.16);
+    }
+    100% {
+        box-shadow: 0 10px 18px rgba(2, 6, 23, 0.14);
+    }
+}
+
+.memorisation-toolbar-progress-play.is-paused {
+    animation: memo-play-pulse 2.4s ease-in-out infinite;
+}
+
+.memorisation-toolbar-progress-play.is-resume {
+    animation: none;
+}
+
+.memorisation-toolbar-progress-play:hover,
+.memorisation-toolbar-progress-play:focus-visible {
+    transform: translateY(-1px);
+    filter: saturate(1.05);
+    border-color: rgba(6, 95, 70, 0.8);
+    box-shadow: 0 0 0 4px rgba(45, 212, 191, 0.18), 0 16px 30px rgba(2, 6, 23, 0.18);
+}
+
+.memorisation-toolbar-progress-play.is-playing {
+    animation: none;
+    border-color: rgba(15, 23, 42, 0.22);
+    background: rgba(15, 23, 42, 0.92);
+}
+
+.memorisation-toolbar-progress-play.is-playing i,
+.memorisation-toolbar-progress-play.is-playing .memorisation-toolbar-progress-play-label {
+    color: rgba(248, 250, 252, 0.98);
+}
+
+@media (max-width: 520px) {
+    .memorisation-toolbar-progress-play {
+        padding: 0.36rem 0.52rem;
+    }
+    .memorisation-toolbar-progress-play-label {
+        display: none;
+    }
+}
+
+.memorisation-toolbar-progress-resume-btn {
+    min-height: 34px;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.34rem 0.6rem;
+    border-radius: 8px;
+    border: 1px solid rgba(15, 110, 99, 0.22);
+    background: rgba(240, 253, 250, 0.92);
+    color: #0b4a43;
+    font-weight: 900;
+    white-space: nowrap;
+    box-shadow: none;
+}
+
+.memorisation-toolbar-progress-resume-btn:hover,
+.memorisation-toolbar-progress-resume-btn:focus-visible {
+    border-color: rgba(15, 110, 99, 0.35);
+    background: rgba(240, 253, 250, 1);
+}
+
+:global(body.surat-page-shell-dark) .memorisation-toolbar-progress-resume-btn {
+    border-color: rgba(255, 255, 255, 0.18);
+    background: rgba(255, 255, 255, 0.08);
+    color: #f8fafc;
 }
 
 .memorisation-toolbar-progress-identity {
@@ -454,14 +601,15 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    flex: 0 0 auto;
+    flex: 1 1 auto;
+    min-width: 0;
 }
 
 .memorisation-toolbar-progress-track {
     flex: 1 1 auto;
-    height: 6px;
+    height: 10px;
     border-radius: 999px;
-    background: rgba(15, 118, 110, 0.12);
+    background: rgba(15, 118, 110, 0.1);
     overflow: hidden;
     min-width: 120px;
 }
@@ -473,64 +621,11 @@
     .memorisation-toolbar-progress-track {
         min-width: 84px;
     }
+    .memorisation-toolbar-progress-range-label {
+        display: none;
+    }
 }
 
-.memorisation-saved-session-bulk {
-    display: none;
-}
-
-.memorisation-saved-session-bulk-summary {
-    display: none;
-}
-
-.memorisation-saved-session-bulk-summary::-webkit-details-marker {
-    display: none;
-}
-
-.memorisation-saved-session-bulk-summary::after {
-    content: "▾";
-    font-weight: 900;
-    color: rgba(15, 23, 42, 0.52);
-    margin-left: auto;
-}
-
-details[open].memorisation-saved-session-bulk .memorisation-saved-session-bulk-summary::after {
-    content: "▴";
-}
-
-.memorisation-saved-session-bulk-count {
-    font-size: 0.78rem;
-    font-weight: 850;
-    color: rgba(15, 23, 42, 0.58);
-}
-
-.memorisation-saved-session-bulk-actions {
-    display: none;
-}
-
-.memorisation-saved-session-checklist {
-    display: none;
-}
-
-.memorisation-saved-session-check {
-    display: grid;
-    grid-template-columns: 18px minmax(0, 1fr);
-    gap: 0.55rem;
-    align-items: start;
-    padding: 0.45rem 0.55rem;
-    border-radius: 12px;
-    background: rgba(255, 255, 255, 0.72);
-    box-shadow: 0 10px 22px rgba(7, 31, 28, 0.06);
-    border: 1px solid rgba(15, 118, 110, 0.08);
-}
-
-.memorisation-saved-session-check small {
-    display: block;
-    font-size: 0.72rem;
-    font-weight: 650;
-    color: rgba(15, 23, 42, 0.58);
-    margin-top: 0.1rem;
-}
 
 .memorisation-toolbar-progress-fill {
     display: block;
@@ -545,24 +640,48 @@ details[open].memorisation-saved-session-bulk .memorisation-saved-session-bulk-s
 }
 
 .memorisation-toolbar-resume {
+    position: relative;
+    overflow: hidden;
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto;
     align-items: center;
-    gap: 1rem;
-    margin-top: 0.7rem;
-    padding: 0.85rem 0.95rem;
-    border-radius: 18px;
+    gap: 1.15rem;
+    margin-top: 0.78rem;
+    padding: 1rem 1.05rem;
+    border-radius: 20px;
     background:
-        radial-gradient(520px 160px at 0% 0%, rgba(218, 165, 32, 0.12), transparent 72%),
-        linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(238, 250, 245, 0.92));
+        radial-gradient(620px 180px at 0% 0%, rgba(214, 170, 86, 0.18), transparent 70%),
+        radial-gradient(420px 150px at 100% 0%, rgba(20, 184, 166, 0.12), transparent 72%),
+        linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(239, 250, 245, 0.95));
     border: 1px solid rgba(15, 118, 110, 0.14);
-    box-shadow: 0 18px 42px rgba(7, 31, 28, 0.12);
+    box-shadow: 0 20px 48px rgba(7, 31, 28, 0.13);
+}
+
+.memorisation-toolbar-resume::before {
+    content: "";
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 7px;
+    background: linear-gradient(180deg, #0f766e, #d6aa56);
+    opacity: 0.95;
 }
 
 .memorisation-toolbar-resume-copy {
+    position: relative;
+    z-index: 1;
     min-width: 0;
     display: grid;
-    gap: 0.22rem;
+    gap: 0.32rem;
+}
+
+.memorisation-toolbar-resume-actions {
+    position: relative;
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.75rem;
+    flex-wrap: wrap;
 }
 
 .memorisation-toolbar-resume-kicker {
@@ -584,8 +703,8 @@ details[open].memorisation-saved-session-bulk .memorisation-saved-session-bulk-s
 .memorisation-toolbar-resume-title {
     font-weight: 950;
     color: #12342e;
-    font-size: clamp(1rem, 1.5vw, 1.2rem);
-    line-height: 1.18;
+    font-size: clamp(1.04rem, 1.55vw, 1.28rem);
+    line-height: 1.2;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -593,8 +712,8 @@ details[open].memorisation-saved-session-bulk .memorisation-saved-session-bulk-s
 
 .memorisation-toolbar-resume-subtitle {
     max-width: 78ch;
-    font-size: 0.88rem;
-    line-height: 1.45;
+    font-size: 0.9rem;
+    line-height: 1.5;
     font-weight: 650;
     color: rgba(15, 23, 42, 0.68);
     white-space: nowrap;
@@ -602,30 +721,570 @@ details[open].memorisation-saved-session-bulk .memorisation-saved-session-bulk-s
     text-overflow: ellipsis;
 }
 
+.memorisation-toolbar-resume-steps {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.42rem;
+    margin-top: 0.12rem;
+}
+
+.memorisation-toolbar-resume-steps span {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.34rem;
+    min-height: 28px;
+    padding: 0.26rem 0.52rem;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.78);
+    color: #12342e;
+    font-size: 0.76rem;
+    font-weight: 800;
+    box-shadow: inset 0 0 0 1px rgba(15, 118, 110, 0.12);
+}
+
+.memorisation-toolbar-resume-steps strong {
+    display: inline-grid;
+    place-items: center;
+    width: 1.18rem;
+    height: 1.18rem;
+    border-radius: 50%;
+    background: #0f766e;
+    color: #fff;
+    font-size: 0.7rem;
+    line-height: 1;
+}
+
 .memorisation-toolbar-resume-btn {
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
     flex: 0 0 auto;
-    min-height: 46px;
+    min-height: 52px;
+    min-width: 176px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 0.48rem;
-    border-radius: 10px;
-    padding: 0.62rem 1rem;
+    gap: 0.55rem;
+    border-radius: 14px;
+    padding: 0.78rem 1.35rem;
     font-weight: 950;
-    background: linear-gradient(135deg, #14532d 0%, #166534 100%);
-    border: 1px solid rgba(6, 95, 70, 0.28);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    border: 4px solid transparent;
+    background:
+        linear-gradient(#0b0f12, #0b0f12) padding-box,
+        linear-gradient(110deg, #11b5f3 0%, #2563eb 28%, #8b5cf6 58%, #ec4899 100%) border-box;
     color: #fff;
-    box-shadow: 0 16px 30px rgba(20, 83, 45, 0.26);
+    box-shadow:
+        0 10px 0 rgba(2, 6, 23, 0.08),
+        0 18px 34px rgba(2, 6, 23, 0.44);
     white-space: nowrap;
     transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease;
 }
 
+.memorisation-toolbar-resume-btn::before,
+.memorisation-toolbar-resume-btn::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 38px;
+    background: rgba(255, 255, 255, 0.06);
+    pointer-events: none;
+}
+
+.memorisation-toolbar-resume-btn::before {
+    left: 24px;
+}
+
+.memorisation-toolbar-resume-btn::after {
+    right: 24px;
+}
+
+.memorisation-toolbar-resume-btn > i,
+.memorisation-toolbar-resume-btn > span {
+    position: relative;
+    z-index: 1;
+}
+
 .memorisation-toolbar-resume-btn:hover,
 .memorisation-toolbar-resume-btn:focus-visible {
-    background: linear-gradient(135deg, #166534 0%, #0f766e 100%);
+    background:
+        linear-gradient(#0b0f12, #0b0f12) padding-box,
+        linear-gradient(110deg, #0ea5e9 0%, #2563eb 28%, #7c3aed 58%, #db2777 100%) border-box;
     color: #fff;
+    transform: translateY(-2px);
+    box-shadow:
+        0 12px 0 rgba(2, 6, 23, 0.08),
+        0 24px 44px rgba(2, 6, 23, 0.52);
+}
+
+.memorisation-toolbar-resume-secondary-btn {
+    position: relative;
+    z-index: 1;
+    min-height: 52px;
+    min-width: 176px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.55rem;
+    border-radius: 14px;
+    padding: 0.78rem 1.15rem;
+    font-weight: 900;
+    border: 1px solid rgba(15, 118, 110, 0.18);
+    background: rgba(255, 255, 255, 0.82);
+    color: #12342e;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9);
+    transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
+    white-space: nowrap;
+}
+
+.memorisation-toolbar-resume-secondary-btn:hover,
+.memorisation-toolbar-resume-secondary-btn:focus-visible {
+    transform: translateY(-2px);
+    border-color: rgba(15, 118, 110, 0.28);
+    background: rgba(255, 255, 255, 0.96);
+    color: #0f2f2a;
+}
+
+/* Memorisation landing (1-tap quick start). */
+.memorisation-one-click-resume {
+    margin: 0 auto 0.75rem;
+    max-width: min(960px, calc(100% - 1rem));
+}
+
+.memorisation-one-click-resume-btn {
+    width: 100%;
+    min-height: 46px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    padding: 0.6rem 0.95rem;
+    border-radius: 14px;
+    border: 1px solid rgba(13, 148, 136, 0.4);
+    background: linear-gradient(135deg, rgba(13, 148, 136, 0.96), rgba(45, 212, 191, 0.9));
+    color: #ffffff;
+    font-weight: 950;
+    letter-spacing: 0;
+    text-transform: none;
+    box-shadow: 0 18px 32px rgba(13, 148, 136, 0.22);
+}
+
+.memorisation-one-click-resume-btn:hover,
+.memorisation-one-click-resume-btn:focus-visible {
+    border-color: rgba(13, 148, 136, 0.55);
+    background: linear-gradient(135deg, rgba(15, 118, 110, 0.98), rgba(45, 212, 191, 0.94));
+    color: #ffffff;
     transform: translateY(-1px);
-    box-shadow: 0 20px 36px rgba(20, 83, 45, 0.30);
+    box-shadow: 0 20px 36px rgba(13, 148, 136, 0.26);
+}
+
+.surat-theme-dark .memorisation-one-click-resume-btn {
+    border-color: rgba(45, 212, 191, 0.32);
+    box-shadow: 0 18px 34px rgba(2, 6, 23, 0.35);
+}
+
+.surat-theme-dark .memorisation-one-click-resume-btn:hover,
+.surat-theme-dark .memorisation-one-click-resume-btn:focus-visible {
+    border-color: rgba(45, 212, 191, 0.42);
+}
+
+.memorisation-landing-card {
+    margin: 0 auto 0.6rem;
+    max-width: min(960px, calc(100% - 1rem));
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.6rem;
+    padding: 0.7rem 0.8rem;
+    border-radius: 8px;
+    border: 1px solid rgba(148, 163, 184, 0.34);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(248, 250, 252, 0.96));
+    box-shadow: 0 10px 24px rgba(2, 6, 23, 0.06);
+    position: relative;
+}
+
+.memorisation-landing-card.is-dark {
+    border-color: rgba(148, 163, 184, 0.22);
+    background: rgba(17, 24, 39, 0.78);
+    box-shadow: 0 14px 30px rgba(2, 6, 23, 0.28);
+}
+
+.memorisation-landing-card::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    border-radius: 8px 0 0 8px;
+    background: linear-gradient(180deg, rgba(15, 118, 110, 0.85), rgba(56, 189, 248, 0.65));
+    opacity: 0.55;
+    pointer-events: none;
+}
+
+.memorisation-landing-card.is-dark::before {
+    opacity: 0.45;
+}
+
+.memorisation-landing-copy {
+    display: grid;
+    gap: 0.35rem;
+    min-width: 0;
+}
+
+.memorisation-landing-title {
+    font-size: clamp(1.05rem, 1.7vw, 1.25rem);
+    line-height: 1.15;
+    letter-spacing: 0;
+    margin: 0;
+}
+
+.memorisation-landing-subtitle {
+    max-width: 56ch;
+    color: rgba(15, 23, 42, 0.66);
+    font-size: 0.9rem;
+}
+
+.memorisation-landing-card.is-dark .memorisation-landing-subtitle {
+    color: rgba(226, 232, 240, 0.8);
+}
+
+.memorisation-landing-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.memorisation-landing-primary-btn {
+    min-height: 38px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.42rem 0.72rem;
+    border-radius: 8px;
+    border: 1px solid rgba(15, 23, 42, 0.18);
+    background: rgba(15, 23, 42, 0.92);
+    color: #ffffff;
+    font-weight: 900;
+    letter-spacing: 0;
+    text-transform: none;
+    box-shadow: 0 10px 18px rgba(2, 6, 23, 0.14);
+    white-space: nowrap;
+}
+
+.memorisation-landing-primary-btn:hover,
+.memorisation-landing-primary-btn:focus-visible {
+    border-color: rgba(15, 23, 42, 0.28);
+    background: rgba(17, 24, 39, 0.96);
+    color: #ffffff;
+    transform: translateY(-1px);
+    box-shadow: 0 12px 22px rgba(2, 6, 23, 0.16);
+}
+
+.memorisation-landing-card.is-dark .memorisation-landing-primary-btn {
+    border-color: rgba(148, 163, 184, 0.22);
+    background: rgba(248, 250, 252, 0.92);
+    color: rgba(15, 23, 42, 0.95);
+}
+
+.memorisation-landing-card.is-dark .memorisation-landing-primary-btn:hover,
+.memorisation-landing-card.is-dark .memorisation-landing-primary-btn:focus-visible {
+    border-color: rgba(148, 163, 184, 0.35);
+    background: rgba(255, 255, 255, 0.96);
+}
+
+.memorisation-landing-secondary-btn {
+    min-height: 38px;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.42rem 0.62rem;
+    border-radius: 8px;
+    border: 1px solid rgba(148, 163, 184, 0.45);
+    background: transparent;
+    color: rgba(15, 23, 42, 0.92);
+    font-weight: 850;
+    letter-spacing: 0;
+    text-transform: none;
+    box-shadow: none;
+    white-space: nowrap;
+}
+
+.memorisation-landing-secondary-btn:hover,
+.memorisation-landing-secondary-btn:focus-visible {
+    border-color: rgba(148, 163, 184, 0.65);
+    background: rgba(2, 6, 23, 0.03);
+    color: rgba(15, 23, 42, 0.95);
+}
+
+.memorisation-landing-card.is-dark .memorisation-landing-secondary-btn {
+    border-color: rgba(148, 163, 184, 0.26);
+    background: transparent;
+    color: rgba(241, 245, 249, 0.92);
+}
+
+.memorisation-landing-card.is-dark .memorisation-landing-secondary-btn:hover,
+.memorisation-landing-card.is-dark .memorisation-landing-secondary-btn:focus-visible {
+    border-color: rgba(148, 163, 184, 0.4);
+    background: rgba(255, 255, 255, 0.06);
+}
+
+@media (min-width: 992px) {
+    .memorisation-landing-card {
+        padding: 0.75rem 0.9rem;
+    }
+}
+
+/* Memorisation tools resume tile (inside the offcanvas). */
+.memorisation-tools-resume-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.1rem;
+    margin: 0.62rem 0 0.72rem;
+    padding: 1rem 1.05rem;
+    border-radius: 18px;
+    border: 1px solid rgba(148, 163, 184, 0.22);
+    background:
+        radial-gradient(circle at top left, rgba(45, 212, 191, 0.14), transparent 32%),
+        linear-gradient(135deg, rgba(255, 255, 255, 0.99), rgba(248, 250, 252, 0.95));
+    box-shadow: 0 20px 40px rgba(2, 6, 23, 0.08);
+}
+
+.memorisation-tools-resume-card.is-dark {
+    border-color: rgba(148, 163, 184, 0.22);
+    background:
+        radial-gradient(circle at top left, rgba(45, 212, 191, 0.15), transparent 30%),
+        linear-gradient(135deg, rgba(15, 23, 42, 0.88), rgba(15, 23, 42, 0.72));
+    box-shadow: 0 18px 36px rgba(2, 6, 23, 0.24);
+}
+
+.memorisation-tools-resume-copy {
+    display: grid;
+    gap: 0.35rem;
+    min-width: 0;
+}
+
+.memorisation-tools-resume-kicker {
+    font-size: 0.72rem;
+    font-weight: 900;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(15, 118, 110, 0.9);
+}
+
+.memorisation-tools-resume-card.is-dark .memorisation-tools-resume-kicker {
+    color: rgba(94, 234, 212, 0.9);
+}
+
+.memorisation-tools-resume-card h5 {
+    font-size: 1.14rem;
+    line-height: 1.15;
+    font-weight: 950;
+    color: rgba(15, 23, 42, 0.92);
+}
+
+.memorisation-tools-resume-card.is-dark h5 {
+    color: rgba(241, 245, 249, 0.96);
+}
+
+.memorisation-tools-resume-card p {
+    color: rgba(15, 23, 42, 0.66);
+    font-size: 0.96rem;
+    line-height: 1.35;
+    font-weight: 700;
+    max-width: 60ch;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.memorisation-tools-resume-card.is-dark p {
+    color: rgba(226, 232, 240, 0.78);
+}
+
+.memorisation-tools-resume-actions {
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.72rem;
+    flex-wrap: wrap;
+}
+
+.memorisation-tools-resume-btn {
+    flex: 0 0 auto;
+    min-height: 48px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.52rem;
+    padding: 0.72rem 1.15rem;
+    border-radius: 999px;
+    border: 1px solid transparent;
+    background:
+        linear-gradient(rgba(15, 23, 42, 0.98), rgba(15, 23, 42, 0.98)) padding-box,
+        linear-gradient(135deg, rgba(56, 189, 248, 0.95), rgba(34, 197, 94, 0.85), rgba(14, 165, 233, 0.95)) border-box;
+    color: #ffffff;
+    font-weight: 900;
+    white-space: nowrap;
+    letter-spacing: 0.01em;
+    box-shadow: 0 14px 26px rgba(2, 6, 23, 0.18), 0 0 24px rgba(14, 165, 233, 0.18);
+    transition: transform 160ms ease, box-shadow 160ms ease, filter 160ms ease, background 160ms ease;
+}
+
+.memorisation-tools-resume-btn:hover,
+.memorisation-tools-resume-btn:focus-visible {
+    filter: brightness(1.05);
+    transform: translateY(-1px);
+    box-shadow: 0 18px 30px rgba(2, 6, 23, 0.22), 0 0 32px rgba(34, 211, 238, 0.24);
+    color: #ffffff;
+}
+
+.memorisation-tools-resume-card.is-dark .memorisation-tools-resume-btn {
+    background:
+        linear-gradient(rgba(241, 245, 249, 0.98), rgba(241, 245, 249, 0.98)) padding-box,
+        linear-gradient(135deg, rgba(56, 189, 248, 0.92), rgba(45, 212, 191, 0.9), rgba(96, 165, 250, 0.9)) border-box;
+    color: rgba(15, 23, 42, 0.92);
+    box-shadow: 0 16px 28px rgba(2, 6, 23, 0.28), 0 0 26px rgba(34, 211, 238, 0.18);
+}
+
+.memorisation-tools-resume-card.is-dark .memorisation-tools-resume-btn:hover,
+.memorisation-tools-resume-card.is-dark .memorisation-tools-resume-btn:focus-visible {
+    filter: brightness(1.02);
+    transform: translateY(-1px);
+    box-shadow: 0 18px 32px rgba(2, 6, 23, 0.32), 0 0 0 1px rgba(34, 211, 238, 0.3);
+}
+
+.memorisation-tools-resume-secondary-btn {
+    min-height: 48px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.52rem;
+    padding: 0.72rem 1.05rem;
+    border-radius: 999px;
+    border: 1px solid rgba(148, 163, 184, 0.3);
+    background: rgba(255, 255, 255, 0.74);
+    color: rgba(30, 41, 59, 0.92);
+    font-weight: 850;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
+}
+
+.memorisation-tools-resume-secondary-btn:hover,
+.memorisation-tools-resume-secondary-btn:focus-visible {
+    transform: translateY(-1px);
+    border-color: rgba(45, 212, 191, 0.42);
+    background: rgba(248, 250, 252, 0.92);
+    color: rgba(15, 23, 42, 0.95);
+}
+
+.memorisation-tools-resume-card.is-dark .memorisation-tools-resume-secondary-btn {
+    border-color: rgba(148, 163, 184, 0.22);
+    background: rgba(15, 23, 42, 0.34);
+    color: rgba(241, 245, 249, 0.92);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.memorisation-tools-resume-card.is-dark .memorisation-tools-resume-secondary-btn:hover,
+.memorisation-tools-resume-card.is-dark .memorisation-tools-resume-secondary-btn:focus-visible {
+    border-color: rgba(45, 212, 191, 0.38);
+    background: rgba(30, 41, 59, 0.58);
+}
+
+@media (max-width: 575.98px) {
+    .memorisation-tools-resume-card {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .memorisation-tools-resume-card p {
+        white-space: normal;
+    }
+
+    .memorisation-tools-resume-actions,
+    .memorisation-tools-resume-btn,
+    .memorisation-tools-resume-secondary-btn {
+        width: 100%;
+    }
+}
+
+@media (max-width: 991.98px) {
+    .memorisation-toolbar-resume {
+        grid-template-columns: 1fr;
+    }
+
+    .memorisation-toolbar-resume-title,
+    .memorisation-toolbar-resume-subtitle {
+        white-space: normal;
+    }
+
+    .memorisation-toolbar-resume-actions,
+    .memorisation-toolbar-resume-btn,
+    .memorisation-toolbar-resume-secondary-btn {
+        width: 100%;
+    }
+}
+
+.memorisation-start-countdown {
+    position: fixed;
+    inset: 0;
+    z-index: 1105;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    background: rgba(2, 6, 23, 0.52);
+    backdrop-filter: blur(8px);
+}
+
+/* Countdown transition: avoid the global `.fade-*` translateX(-50%) that can push fixed overlays off-screen. */
+.countdown-fade-enter-active,
+.countdown-fade-leave-active {
+    transition: opacity 0.18s ease;
+}
+.countdown-fade-enter-from,
+.countdown-fade-leave-to {
+    opacity: 0;
+}
+
+.memorisation-start-countdown-card {
+    display: grid;
+    justify-items: center;
+    gap: 0.32rem;
+    width: min(92vw, 420px);
+    padding: 1.25rem 1.35rem;
+    border-radius: 28px;
+    background:
+        radial-gradient(circle at top, rgba(45, 212, 191, 0.22), transparent 55%),
+        rgba(15, 23, 42, 0.95);
+    color: #f8fafc;
+    border: 1px solid rgba(125, 211, 252, 0.24);
+    box-shadow: 0 22px 40px rgba(2, 6, 23, 0.28);
+    backdrop-filter: blur(14px);
+}
+
+.memorisation-start-countdown-label {
+    font-size: 0.78rem;
+    font-weight: 900;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(153, 246, 228, 0.92);
+}
+
+.memorisation-start-countdown-card strong {
+    font-size: clamp(2.5rem, 5vw, 3.4rem);
+    line-height: 1;
+    font-weight: 950;
+}
+
+.memorisation-start-countdown-card small {
+    font-size: 0.94rem;
+    color: rgba(226, 232, 240, 0.84);
+    text-align: center;
 }
 
 /* Saved session dropdown with checkbox list (bulk delete inside dropdown). */
@@ -1268,6 +1927,101 @@ details[open].memorisation-saved-session-bulk .memorisation-saved-session-bulk-s
     max-width: 100% !important;
     background: transparent !important;
     border-radius: 0 !important;
+}
+
+/* Memorisation CTA: only used inside the memorisation tools surfaces. */
+.surat-premium .memorisation-toolbar-start-btn,
+.surat-premium .memorisation-toolbar-resume-btn,
+.surat-premium .memorisation-tools-action-btn--primary,
+.memorisation-offcanvas .memorisation-tools-action-btn--primary {
+    position: relative !important;
+    isolation: isolate !important;
+    overflow: hidden !important;
+    min-height: 56px !important;
+    min-width: 190px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 0.58rem !important;
+    padding: 0.82rem 1.45rem !important;
+    border: 4px solid transparent !important;
+    border-radius: 14px !important;
+    background:
+        linear-gradient(#050505, #050505) padding-box,
+        linear-gradient(110deg, #0ea5e9 0%, #2563eb 30%, #7c3aed 62%, #db2777 100%) border-box !important;
+    color: #fff !important;
+    box-shadow:
+        0 10px 0 rgba(2, 6, 23, 0.08),
+        0 18px 34px rgba(2, 6, 23, 0.42) !important;
+    font-weight: 900 !important;
+    letter-spacing: 0.035em !important;
+    text-transform: uppercase !important;
+    white-space: nowrap !important;
+    transform: translateY(0) !important;
+    transition: transform 160ms ease, box-shadow 160ms ease, filter 160ms ease !important;
+}
+
+.surat-premium .memorisation-toolbar-start-btn::before,
+.surat-premium .memorisation-toolbar-start-btn::after,
+.surat-premium .memorisation-toolbar-resume-btn::before,
+.surat-premium .memorisation-toolbar-resume-btn::after,
+.surat-premium .memorisation-tools-action-btn--primary::before,
+.surat-premium .memorisation-tools-action-btn--primary::after,
+.memorisation-offcanvas .memorisation-tools-action-btn--primary::before,
+.memorisation-offcanvas .memorisation-tools-action-btn--primary::after {
+    content: "" !important;
+    position: absolute !important;
+    inset-block: 0 !important;
+    width: 42px !important;
+    background: rgba(255, 255, 255, 0.075) !important;
+    pointer-events: none !important;
+    z-index: -1 !important;
+}
+
+.surat-premium .memorisation-toolbar-start-btn::before,
+.surat-premium .memorisation-toolbar-resume-btn::before,
+.surat-premium .memorisation-tools-action-btn--primary::before,
+.memorisation-offcanvas .memorisation-tools-action-btn--primary::before {
+    left: 28px !important;
+}
+
+.surat-premium .memorisation-toolbar-start-btn::after,
+.surat-premium .memorisation-toolbar-resume-btn::after,
+.surat-premium .memorisation-tools-action-btn--primary::after,
+.memorisation-offcanvas .memorisation-tools-action-btn--primary::after {
+    right: 28px !important;
+}
+
+.surat-premium .memorisation-toolbar-start-btn > *,
+.surat-premium .memorisation-toolbar-resume-btn > *,
+.surat-premium .memorisation-tools-action-btn--primary > *,
+.memorisation-offcanvas .memorisation-tools-action-btn--primary > * {
+    position: relative !important;
+    z-index: 1 !important;
+    color: inherit !important;
+}
+
+.surat-premium .memorisation-toolbar-start-btn small {
+    color: rgba(255, 255, 255, 0.78) !important;
+    font-weight: 700 !important;
+    letter-spacing: 0 !important;
+    text-transform: none !important;
+}
+
+.surat-premium .memorisation-toolbar-start-btn:hover,
+.surat-premium .memorisation-toolbar-start-btn:focus-visible,
+.surat-premium .memorisation-toolbar-resume-btn:hover,
+.surat-premium .memorisation-toolbar-resume-btn:focus-visible,
+.surat-premium .memorisation-tools-action-btn--primary:hover,
+.surat-premium .memorisation-tools-action-btn--primary:focus-visible,
+.memorisation-offcanvas .memorisation-tools-action-btn--primary:hover,
+.memorisation-offcanvas .memorisation-tools-action-btn--primary:focus-visible {
+    color: #fff !important;
+    filter: brightness(1.06) !important;
+    transform: translateY(-2px) !important;
+    box-shadow:
+        0 12px 0 rgba(2, 6, 23, 0.08),
+        0 24px 44px rgba(2, 6, 23, 0.52) !important;
 }
 
 /* ===== Surat Toolbar FINAL Overrides (must stay at end of file) ===== */
@@ -32809,6 +33563,89 @@ h1.display-5 {
 
 .surat-premium .arabic-text {
     transition: filter 220ms ease, -webkit-filter 220ms ease;
+}
+
+.memorisation-flow-card {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.65rem;
+    margin: 0.62rem 0 0.72rem;
+    padding: 0.78rem;
+    border-radius: 16px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(239, 249, 245, 0.92));
+    box-shadow:
+        0 16px 38px rgba(13, 75, 67, 0.12),
+        inset 0 0 0 1px rgba(15, 118, 110, 0.13);
+}
+
+.memorisation-flow-card-main {
+    display: grid;
+    gap: 0.42rem;
+    min-width: 0;
+}
+
+.memorisation-flow-kicker {
+    width: max-content;
+    max-width: 100%;
+    display: inline-flex;
+    align-items: center;
+    padding: 0.22rem 0.55rem;
+    border-radius: 999px;
+    background: rgba(15, 118, 110, 0.10);
+    color: #0f766e;
+    font-size: 0.68rem;
+    font-weight: 900;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.memorisation-flow-card h5 {
+    color: #113c34;
+    font-size: 1.05rem;
+    font-weight: 950;
+    line-height: 1.15;
+}
+
+.memorisation-flow-card p,
+.memorisation-flow-side span {
+    color: rgba(15, 23, 42, 0.68);
+    font-size: 0.82rem;
+    line-height: 1.4;
+    font-weight: 650;
+}
+
+.memorisation-flow-steps {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.42rem;
+}
+
+.memorisation-flow-steps span {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.32rem;
+    padding: 0.35rem 0.52rem;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.82);
+    box-shadow: inset 0 0 0 1px rgba(15, 118, 110, 0.10);
+    color: #173f37;
+    font-size: 0.75rem;
+    font-weight: 850;
+}
+
+.memorisation-flow-steps strong {
+    display: inline-grid;
+    place-items: center;
+    width: 1.2rem;
+    height: 1.2rem;
+    border-radius: 50%;
+    background: #0f766e;
+    color: #fff;
+    font-size: 0.72rem;
+}
+
+.sq__fallbackBtn {
+    margin-top: 0.7rem;
 }
 
 .memorisation-chaining-settings,
