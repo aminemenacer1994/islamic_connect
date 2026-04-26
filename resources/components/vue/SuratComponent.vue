@@ -1300,7 +1300,7 @@
                         Advanced
                     </button>
                 </div>
-                <section
+                <!-- <section
                     v-if="!isMemorisationModeActive"
                     class="memorisation-flow-card"
                     aria-label="Recommended memorisation path">
@@ -1316,7 +1316,7 @@
                             <span><strong>3</strong> Repeat / save</span>
                         </div>
                     </div>
-                </section>
+                </section> -->
                 <button
                     type="button"
                     class="btn memorisation-shortcuts-hint"
@@ -1521,7 +1521,7 @@
                                 </div>
                             </div>
 
-                            <label class="memorisation-tools-field">
+                            <label class="memorisation-tools-field memorisation-tools-field--full">
                                 <span class="memorisation-tools-label">Repetition count</span>
                                 <input
                                     type="number"
@@ -1572,7 +1572,7 @@
                                 </span>
                             </label>
 
-                            <label class="memorisation-tools-switch memorisation-tools-field--full">
+                            <!-- <label class="memorisation-tools-switch memorisation-tools-field--full">
                                 <span class="memorisation-tools-switch-copy">
                                     <strong>Save session</strong>
                                     <small>Stores completed sessions locally so you can reload the same setup later.</small>
@@ -1584,7 +1584,7 @@
                                         v-model="memorisationDraft.sessionHistoryEnabled"
                                         aria-label="Toggle save session" />
                                 </span>
-                            </label>
+                            </label> -->
                         </div>
                     </section>
 
@@ -1676,7 +1676,7 @@
                     <nav class="memorisation-jump-links" aria-label="Jump to section">
                         <button type="button" class="btn memorisation-jump-link" @click="scrollMemorisationOffcanvasTo('memo-advanced-setup')">Setup</button>
                         <button type="button" class="btn memorisation-jump-link" @click="scrollMemorisationOffcanvasTo('memo-advanced-chaining')">Method</button>
-                        <button type="button" class="btn memorisation-jump-link" @click="scrollMemorisationOffcanvasTo('memo-advanced-playback')">Pace</button>
+                        <!-- <button type="button" class="btn memorisation-jump-link" @click="scrollMemorisationOffcanvasTo('memo-advanced-playback')">Pace</button> -->
                         <button type="button" class="btn memorisation-jump-link" @click="scrollMemorisationOffcanvasTo('memo-advanced-repeat')">Repeat</button>
                         <button type="button" class="btn memorisation-jump-link" @click="scrollMemorisationOffcanvasTo('memo-advanced-tools')">Recall</button>
                         <button type="button" class="btn memorisation-jump-link" @click="scrollMemorisationOffcanvasTo('memo-advanced-history')">Saved</button>
@@ -1843,10 +1843,10 @@
                                     <i class="bi" :class="isMemorisationAdvancedSectionOpen('chaining') ? 'bi-chevron-up' : 'bi-chevron-down'" aria-hidden="true"></i>
                                 </button>
 	                        </div>
-	                        <div v-show="isMemorisationAdvancedSectionOpen('chaining')" class="memorisation-tools-grid memorisation-advanced-section-body">
+	                        <div v-show="isMemorisationAdvancedSectionOpen('chaining')" @click="memorisationDraft.chainingMethodMode = 'cumulative'" class="memorisation-tools-grid memorisation-advanced-section-body">
                             <label class="memorisation-tools-switch memorisation-tools-field--full">
                                 <span class="memorisation-tools-switch-copy">
-                                    <strong>Enable Chaining / Bridging</strong>
+                                    <strong>Enable Chaining</strong>
 	                                    <small>Master links between ayahs automatically.</small>
                                 </span>
                                 <span class="form-check form-switch mb-0">
@@ -1857,7 +1857,7 @@
                                         aria-label="Toggle chaining method" />
                                 </span>
                             </label>
-                            <div v-if="memorisationDraft.chainingMethodEnabled" class="memorisation-method-select-row memorisation-tools-field--full">
+                            <!-- <div v-if="memorisationDraft.chainingMethodEnabled" class="memorisation-method-select-row memorisation-tools-field--full">
                                 <div class="memorisation-method-options" role="radiogroup">
                                     <button
                                         type="button"
@@ -1876,7 +1876,7 @@
                                         <span><strong>Bridging</strong><small>Master the gaps</small></span>
                                     </button>
                                 </div>
-                            </div>
+                            </div> -->
 
                             <label v-if="memorisationDraft.chainingMethodEnabled" class="memorisation-tools-field">
                                 <span class="memorisation-tools-label">Rounds per step</span>
@@ -1895,7 +1895,7 @@
 	                                </select>
 	                            </label>
 
-                            <label v-if="memorisationDraft.chainingMethodEnabled" class="memorisation-tools-switch memorisation-tools-field--full">
+                            <!-- <label v-if="memorisationDraft.chainingMethodEnabled" class="memorisation-tools-switch memorisation-tools-field--full">
                                 <span class="memorisation-tools-switch-copy">
                                     <strong>Auto advance</strong>
                                     <small>Next step as soon as round ends.</small>
@@ -1907,7 +1907,7 @@
                                         v-model="memorisationDraft.chainingMethodAutoAdvance"
                                         aria-label="Toggle chaining auto advance" />
                                 </span>
-                            </label>
+                            </label> -->
                         </div>
                     </section>
 
@@ -1984,7 +1984,7 @@
                                 </div>
 	                            </div>
 
-                            <label class="memorisation-tools-switch memorisation-tools-field--full">
+                            <!-- <label class="memorisation-tools-switch memorisation-tools-field--full">
                                 <span class="memorisation-tools-switch-copy">
                                     <strong>Single ayah focus</strong>
 	                                    <small>Keeps attention on one ayah at a time.</small>
@@ -1996,7 +1996,7 @@
                                         v-model="memorisationDraft.singleAyahFocus"
                                         aria-label="Toggle single ayah focus" />
                                 </span>
-                            </label>
+                            </label> -->
                         </div>
                     </section>
 
@@ -2057,7 +2057,7 @@
 	                        </div>
 	                    </section>
 
-                    <section class="memorisation-tools-card" aria-label="Recall support tools">
+                    <!-- <section class="memorisation-tools-card" aria-label="Recall support tools">
                         <span id="memo-advanced-tools" class="memorisation-anchor" aria-hidden="true"></span>
                         <div class="memorisation-tools-card-head">
                             <div class="memorisation-tools-card-title">
@@ -2126,13 +2126,13 @@
                                 </span>
                             </label>
                         </div>
-                    </section>
+                    </section> -->
 
                     <section class="memorisation-tools-card" aria-label="Secondary tools and history">
                         <span id="memo-advanced-history" class="memorisation-anchor" aria-hidden="true"></span>
                         <div class="memorisation-tools-card-head">
 	                            <div class="memorisation-tools-card-title">
-	                                <h5 class="mb-0"><i class="bi bi-clock-history me-1" aria-hidden="true"></i>6. Sessions & History</h5>
+	                                <h5 class="mb-0"><i class="bi bi-clock-history me-1" aria-hidden="true"></i>5. Sessions & History</h5>
 	                                <p class="mb-0">Reload past setups or manage your local session storage.</p>
 	                            </div>
                                 <button
@@ -3154,6 +3154,14 @@
 </teleport>
 
         <teleport to="body">
+            <div v-if="isHifzCountdownActive" class="hifz-countdown-overlay d-flex justify-content-center align-items-center" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.85); z-index: 1060; backdrop-filter: blur(4px);">
+                <div class="hifz-countdown-circle" style="width: 150px; height: 150px; border-radius: 50%; background: #28a745; color: white; font-size: 5rem; font-weight: bold; display: flex; justify-content: center; align-items: center; box-shadow: 0 0 30px rgba(40,167,69,0.5); animation: pulse-countdown 1s infinite;">
+                    {{ hifzCountdown }}
+                </div>
+            </div>
+        </teleport>
+
+        <teleport to="body">
             <div class="modal fade hifz-plan-dashboard-modal" id="hifzPlanDashboardModal" tabindex="-1" aria-labelledby="hifzPlanDashboardModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-xl modal-dialog-scrollable modal-dialog-centered">
                     <div class="modal-content" :class="{ 'surat-dark-modal': isDarkTheme }">
@@ -3190,13 +3198,15 @@
                                             </option>
                                         </select>
                                     </label>
-                                    <div class="hifz-plan-dashboard-topbar-actions">
+                                    <div class="hifz-plan-dashboard-topbar-actions w-100 mt-3 d-flex justify-content-between align-items-center">
                                         <button
                                             type="button"
-                                            class="btn hifz-plan-dashboard-btn hifz-plan-dashboard-btn-primary"
+                                            class="btn hifz-plan-dashboard-btn-primary flex-grow-1 me-3"
+                                            style="background-color: #28a745; border-color: #28a745; color: white; font-weight: bold; padding: 14px; font-size: 1.1rem; box-shadow: 0 4px 10px rgba(40,167,69,0.4);"
                                             :disabled="!activeHifzPlanTodayEntry || activeHifzPlanTodayEntry.isRestDay"
-                                            @click="openActiveHifzTodayTarget">
-                                            Start today's target
+                                            @click="startHifzSessionWithCountdown">
+                                            <i class="bi bi-play-circle-fill me-2"></i>
+                                            {{ activeHifzPlan?.completedAyahs === 0 ? 'Start Your First Session' : 'Start Today\'s Target' }}
                                         </button>
                                         <button
                                             type="button"
@@ -3862,52 +3872,7 @@
                 </div>
             </div>
         </div>
-        <!-- <div v-show="showNextStep" class="next-step-wrapper">
-            <div class="mx-auto mb-4 next-step-card">
-                <button v-if="canMinimizeNextStep" type="button" :title="isNextStepMinimized ? 'Restore' : 'Minimize'" :aria-label="isNextStepMinimized
-                    ? 'Restore next step'
-                    : 'Minimize next step'
-                    " @click="toggleNextStepMinimized" class="next-step-toggle">
-                    <i class="bi" :class="isNextStepMinimized
-                        ? 'bi-fullscreen'
-                        : 'bi-fullscreen-exit'
-                        " aria-hidden="true"></i>
-                </button>
-                <div class="d-flex align-items-start gap-3 text-start">
-                    <div class="flex-shrink-0 mt-1">
-                        <div class="next-step-icon-circle">
-                            <i class="bi bi-book-half"></i>
-                        </div>
-                    </div>
-                    <div class="flex-grow-1">
-                        <p class="mb-2 fw-semibold text-uppercase next-step-eyebrow">
-                            NEXT STEP
-                        </p>
-                        <div v-show="isNextStepMinimized" class="mb-2 next-step-teaser">
-                            <a href="/history" class="fw-semibold text-decoration-none next-step-link">
-                                Explore the Seerah timeline
-                            </a>
-                            <i class="bi bi-box-arrow-up-right ms-1 next-step-link-icon"></i>
-                        </div>
-                        <p v-show="!isNextStepMinimized" class="mb-3 next-step-text">
-                            Learning how the Qur’an was preserved is a beautiful beginning. When you’re ready, gently
-                            continue with the life of the Messenger who lived its message. Walk through a simple,
-                            welcoming
-                            <a href="/mission" class="fw-semibold text-decoration-none next-step-link">
-                                Seerah timeline
-                            </a>
-                            to see the journey unfold.
-                        </p>
-                        <a v-show="!isNextStepMinimized" href="/mission"
-                            class="btn btn-sm fw-semibold text-white px-3 py-2 next-step-cta">
-                            Explore Seerah
-                            <i class="bi bi-box-arrow-up-right ms-2"></i>
-                        </a>
-                    </div>
-                    
-                </div>
-            </div>
-        </div> -->
+        
         <div class="surah-layout">
             <div
                 class="sticky-dropdown"
@@ -4495,7 +4460,7 @@
                     </div>
                 </section>
             </div>
-
+                
 	            <div class="row rtl-text" ref="listContainer" role="list" aria-label="Ayah verses list"
 	                :style="getAyahListContainerStyle()">
                 <div ref="audioCard" v-for="item in visibleWindow"
@@ -4811,7 +4776,7 @@
 								</div>
                             </div>
                         </div>
-
+                        <!-- Ayah status -->
                         <div
                             v-if="isAudioPlaying[item.index]
                                 || (isMemorisationRangeLoopCountdownVisible && item.index === memorisationRangeLoopCountdownFromIndex)
@@ -4864,7 +4829,7 @@
                                 <small v-if="memorisationRepeatRecordingError">{{ memorisationRepeatRecordingError }}</small>
                             </div>
                         </div>
-
+                        <!-- Ayah feedback -->
                         <transition name="feedback-fade">
                             <span v-if="
                                 feedbackMessages[
@@ -4936,7 +4901,7 @@
                                 </a>
                             </span>
                         </transition>
-
+                        <!-- Ayah body -->
                         <div class="ayah-card-body" role="group" aria-label="Ayah text">
                             <div class="ayah-card-copy">
                                 <div
@@ -5046,7 +5011,7 @@
                                 </div>
                             </div>
                         </div>
-
+                        <!-- Ayah footer -->
                         <div class="ayah-card-footer ltr-text" role="group" aria-label="Ayah footer actions">
                             <div class="ayah-card-footer-main">
                                 <button
@@ -5129,6 +5094,7 @@
                             </div>
                         </div>
                     </div>
+                    <!-- Verse countdown -->
                     <div
                         v-if="isVerseCountdownSideAnchorItem(item)"
                         class="verse-countdown-side-wrap ltr-text">

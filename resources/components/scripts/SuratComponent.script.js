@@ -1561,6 +1561,8 @@ export default {
             hifzDashboardSelectedDateKey: "",
             isHifzPlanPanelCollapsed: false,
             isHifzWizardAdvancedOpen: false,
+            hifzCountdown: 0,
+            isHifzCountdownActive: false,
             hifzAutoloadedDateKey: "",
             hifzRestDayOptions: [
                 { value: 0, label: "Sun" },
@@ -19978,6 +19980,11 @@ export default {
             return Modal.getInstance(modalEl) || new Modal(modalEl);
         },
         openHifzPlanWizard() {
+            if (!this.userId && !this.bookmarkStorageUserId) {
+                this.announce("Please log in to create a custom Hifz plan.");
+                alert("You must be logged in to create a custom Hifz plan.");
+                return;
+            }
             if (!this.hifzWizard || typeof this.hifzWizard !== "object") {
                 this.hifzWizard = this.buildDefaultHifzWizardState();
             }
@@ -20193,6 +20200,25 @@ export default {
             }
             this.syncHifzDashboardSelectedDate();
             this.persistHifzPlanToolState();
+        },
+        startHifzSessionWithCountdown() {
+            this.isHifzCountdownActive = true;
+            this.hifzCountdown = 3;
+            
+            const interval = setInterval(() => {
+                this.hifzCountdown--;
+                if (this.hifzCountdown <= 0) {
+                    clearInterval(interval);
+                    this.isHifzCountdownActive = false;
+                    this.openActiveHifzTodayTarget();
+                    
+                    setTimeout(() => {
+                        if (typeof this.togglePlay === 'function') {
+                            this.togglePlay();
+                        }
+                    }, 800);
+                }
+            }, 1000);
         },
         async openActiveHifzTodayTarget(
             { closeDashboard = true, closeOffcanvas = false } = {}

@@ -445,7 +445,10 @@ if (typeof document !== 'undefined') {
   }
 }
 
-/***/ })
+/***/ }),
+
+/***/ "https://cdn.jsdelivr.net/npm/canvas-confetti@1/+esm":
+false
 
 },
 /******/ __webpack_require__ => { // webpackRuntimeModules
