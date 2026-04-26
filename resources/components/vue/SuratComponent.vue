@@ -4364,9 +4364,11 @@
 
             <div
                 v-if="isMemorisationChainingActive"
+                style="border: 3 solid black"
                 class="memorisation-chaining-host ltr-text"
                 :class="{ 'is-complete': memorisationChainingCompleted }">
                 <section
+                    style="border: 3 solid black"
                     class="memorisation-chaining-display"
                     role="status"
                     aria-live="polite">
@@ -4386,11 +4388,10 @@
                             <button
                                 v-if="memorisationChainingPendingAdvance || !isMemorisationChainingAutomationActive"
                                 type="button"
-                                class="btn btn-next-hero"
+                                class="btn btn-next-hero text-black"
                                 @click="continueMemorisationChaining">
                                 <span v-if="memorisationChainingAutoAdvanceCountdown > 0">{{ memorisationChainingAutoAdvanceCountdown }}s</span>
-                                <span v-else>Next Verse</span>
-                                <i class="bi bi-chevron-right"></i>
+                                <span v-else class="text-black">Next Verse</span>
                             </button>
 
                             <button
