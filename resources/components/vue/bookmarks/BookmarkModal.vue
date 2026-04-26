@@ -163,32 +163,35 @@
                 </div>
 
                 <div v-if="filteredFolders.length" class="folder-grid">
-                  <button
+                  <div
                     v-for="folder in filteredFolders"
                     :key="folder.id"
-                    type="button"
-                    class="folder-pill"
+                    class="folder-pill-container"
                     :class="[
                       folder.color ? `pill-${folder.color}` : 'pill-neutral',
                       {
                         'is-selected': selectedFolderIds.includes(folder.id),
                         'is-disabled': folder.is_smart,
                       },
-                    ]"
-                    :aria-pressed="selectedFolderIds.includes(folder.id) ? 'true' : 'false'"
-                    :disabled="folder.is_smart"
-                    @click="toggleFolderSelection(folder)">
-                    <span class="pill-icon" aria-hidden="true">
-                      <i v-if="folder.icon" :class="folder.icon"></i>
-                      <i v-else class="bi bi-folder2-open"></i>
-                    </span>
-                    <span class="pill-copy">
-                      <span class="pill-title">{{ folder.name }}</span>
-                      <span class="pill-count">{{ folder.ayah_count || 0 }} saved</span>
-                    </span>
-                    <span class="pill-check" aria-hidden="true">
-                      <i class="bi bi-check-lg"></i>
-                    </span>
+                    ]">
+                    <button
+                      type="button"
+                      class="folder-pill-trigger"
+                      :aria-pressed="selectedFolderIds.includes(folder.id) ? 'true' : 'false'"
+                      :disabled="folder.is_smart"
+                      @click="toggleFolderSelection(folder)">
+                      <span class="pill-icon" aria-hidden="true">
+                        <i v-if="folder.icon" :class="folder.icon"></i>
+                        <i v-else class="bi bi-folder2-open"></i>
+                      </span>
+                      <span class="pill-copy">
+                        <span class="pill-title">{{ folder.name }}</span>
+                        <span class="pill-count">{{ folder.ayah_count || 0 }} saved</span>
+                      </span>
+                      <span class="pill-check" aria-hidden="true">
+                        <i class="bi bi-check-lg"></i>
+                      </span>
+                    </button>
                     <button
                       v-if="!folder.is_smart"
                       type="button"
@@ -197,7 +200,7 @@
                       :aria-label="`Delete ${folder.name}`">
                       <i class="bi bi-trash3" aria-hidden="true"></i>
                     </button>
-                  </button>
+                  </div>
                 </div>
                 <div v-else class="empty-state">
                   <i class="bi bi-folder2-open" aria-hidden="true"></i>
@@ -662,9 +665,20 @@ export default {
         });
         const bookmark = Array.isArray(response.data?.data) ? response.data.data[0] : null;
         this.currentBookmark = bookmark || null;
-        if (bookmark?.folders) {
-          this.selectedFolderIds = bookmark.folders.map((folder) => folder.id);
+        
+        // Extract existing folder IDs safely
+        const rawFolders = bookmark?.folders || [];
+        const rawFolderIds = bookmark?.folder_ids || bookmark?.folderIds || [];
+        
+        let extractedIds = [];
+        if (Array.isArray(rawFolders) && rawFolders.length > 0) {
+            extractedIds = rawFolders.map((f) => Number(f.id));
+        } else if (Array.isArray(rawFolderIds) && rawFolderIds.length > 0) {
+            extractedIds = rawFolderIds.map(Number);
         }
+        
+        this.selectedFolderIds = extractedIds.filter((id) => Number.isFinite(id) && id > 0);
+        
         this.normalizeSelectedFolders();
       } catch (_) {
         this.currentBookmark = null;
@@ -775,8 +789,18 @@ export default {
       this.isSaving = true;
       try {
         this.normalizeSelectedFolders();
-        const selectedIds = Array.from(new Set(this.selectedFolderIds));
-        const existingIds = this.currentBookmark?.folders?.map((folder) => folder.id) || [];
+        const selectedIds = Array.from(new Set(this.selectedFolderIds.map(Number).filter(id => Number.isFinite(id) && id > 0)));
+        
+        const rawFolders = this.currentBookmark?.folders || [];
+        const rawFolderIds = this.currentBookmark?.folder_ids || this.currentBookmark?.folderIds || [];
+        let existingIds = [];
+        if (Array.isArray(rawFolders) && rawFolders.length > 0) {
+            existingIds = rawFolders.map((f) => Number(f.id));
+        } else if (Array.isArray(rawFolderIds) && rawFolderIds.length > 0) {
+            existingIds = rawFolderIds.map(Number);
+        }
+        existingIds = existingIds.filter(id => Number.isFinite(id) && id > 0);
+
         const removableIds = existingIds.filter((id) => !selectedIds.includes(id));
         const addIds = selectedIds.filter((id) => !existingIds.includes(id));
 
@@ -904,8 +928,10 @@ export default {
       this.$nextTick(() => {
         const modalEl = document.getElementById("bookmarkModal");
         if (!modalEl) return;
-        const instance = Modal.getInstance(modalEl) || new Modal(modalEl);
-        instance.hide();
+        if (typeof window !== "undefined" && window.bootstrap) {
+          const instance = window.bootstrap.Modal.getInstance(modalEl) || new window.bootstrap.Modal(modalEl);
+          instance.hide();
+        }
       });
     },
     async toggleFolderContents(folder) {

@@ -134,6 +134,19 @@
                     placeholder="Create a new collection"
                     :disabled="busy"
                     aria-label="New collection name" />
+                
+                <div class="saved-bookmarks-manage-presets mt-2 mb-2">
+                    <button 
+                        v-for="preset in iconPresets" 
+                        :key="`new-preset-${preset.icon}`"
+                        type="button"
+                        class="btn btn-sm saved-bookmarks-preset-btn"
+                        :class="{ 'is-active': newFolderIcon === preset.icon }"
+                        @click="newFolderIcon = preset.icon">
+                        <i :class="preset.icon"></i>
+                    </button>
+                </div>
+
                 <button
                     type="submit"
                     class="btn saved-bookmarks-icon-btn saved-bookmarks-icon-btn-primary"
@@ -162,6 +175,17 @@
                                     class="form-control saved-bookmarks-manage-input"
                                     :disabled="busy"
                                     :aria-label="`Rename ${folder.name}`" />
+                                <div class="saved-bookmarks-manage-presets mt-2">
+                                    <button 
+                                        v-for="preset in iconPresets" 
+                                        :key="`edit-preset-${folder.id}-${preset.icon}`"
+                                        type="button"
+                                        class="btn btn-sm saved-bookmarks-preset-btn"
+                                        :class="{ 'is-active': editingFolderIcon === preset.icon }"
+                                        @click="editingFolderIcon = preset.icon">
+                                        <i :class="preset.icon"></i>
+                                    </button>
+                                </div>
                             </template>
                             <template v-else>
                                 <strong class="saved-bookmarks-manage-name">{{ folder.name }}</strong>
@@ -473,6 +497,20 @@ export default {
             editingFolderId: null,
             editingFolderName: "",
             pendingFolderDeleteId: null,
+            newFolderIcon: "bi-bookmark",
+            editingFolderIcon: "bi-bookmark",
+            iconPresets: [
+                { icon: "bi-bookmark" },
+                { icon: "bi-star" },
+                { icon: "bi-heart" },
+                { icon: "bi-book" },
+                { icon: "bi-book-half" },
+                { icon: "bi-leaf" },
+                { icon: "bi-bank" },
+                { icon: "bi-box-fill" },
+                { icon: "bi-lightbulb" },
+                { icon: "bi-journal-bookmark" },
+            ],
         };
     },
     computed: {
@@ -484,7 +522,13 @@ export default {
                 const surah = String(b?.surahName || "").toLowerCase();
                 const note = String(b?.note || "").toLowerCase();
                 const ref = String(b?.refLabel || "").toLowerCase();
-                return surah.includes(query) || note.includes(query) || ref.includes(query);
+                const translation = String(b?.translation || "").toLowerCase();
+                return (
+                    surah.includes(query) ||
+                    note.includes(query) ||
+                    ref.includes(query) ||
+                    translation.includes(query)
+                );
             });
         },
         isAllActive() {
@@ -570,24 +614,32 @@ export default {
         onCreateFolder() {
             const name = (this.newFolderName || "").trim();
             if (!name) return;
-            this.$emit("create-folder", { name });
+            this.$emit("create-folder", { 
+                name, 
+                icon: this.newFolderIcon,
+                color: "primary" 
+            });
             this.newFolderName = "";
+            this.newFolderIcon = "bi-bookmark";
             this.pendingFolderDeleteId = null;
         },
         beginEdit(folder) {
             this.pendingFolderDeleteId = null;
             this.editingFolderId = folder?.id ?? null;
             this.editingFolderName = String(folder?.name || "").trim();
+            this.editingFolderIcon = folder?.icon || "bi-bookmark";
         },
         cancelEdit() {
             this.editingFolderId = null;
             this.editingFolderName = "";
+            this.editingFolderIcon = "bi-bookmark";
         },
         confirmEdit(folder) {
             const id = Number(folder?.id || 0);
             const name = (this.editingFolderName || "").trim();
+            const icon = this.editingFolderIcon;
             if (!id || !name) return;
-            this.$emit("update-folder", { id, name });
+            this.$emit("update-folder", { id, name, icon });
             this.cancelEdit();
         },
         requestFolderDelete(folder) {
@@ -1096,5 +1148,37 @@ export default {
     .saved-bookmarks-primary-pills {
         flex-direction: column;
     }
+}
+.saved-bookmarks-manage-presets {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+}
+
+.saved-bookmarks-preset-btn {
+    width: 2.1rem;
+    height: 2.1rem;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    background: var(--saved-bookmarks-control-bg);
+    border: 1px solid var(--saved-bookmarks-border);
+    color: var(--saved-bookmarks-muted);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.saved-bookmarks-preset-btn:hover {
+    border-color: var(--saved-bookmarks-accent);
+    color: var(--saved-bookmarks-accent);
+    transform: translateY(-2px);
+}
+
+.saved-bookmarks-preset-btn.is-active {
+    background: var(--saved-bookmarks-accent);
+    border-color: var(--saved-bookmarks-accent);
+    color: #fff;
+    box-shadow: 0 4px 12px var(--saved-bookmarks-accent-soft);
 }
 </style>

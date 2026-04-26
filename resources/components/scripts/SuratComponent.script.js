@@ -1403,7 +1403,11 @@ export default {
             memorisationChainingSequenceCursor: 0,
             memorisationChainingStageRepeatCurrent: 1,
             memorisationChainingPendingAdvance: false,
+            memorisationChainingAutoAdvanceCountdown: 0,
+            memorisationChainingAutoAdvanceTimer: null,
+            memorisationChainingAutoAdvance: true,
             memorisationChainingCompleted: false,
+            memorisationChainingTotalVerses: 0,
             memorisationChainingLastCompletedRoundIndex: -1,
             verseCountdownHasPlaybackStarted: false,
             verseCountdownFinalAyahRecited: false,
@@ -2736,9 +2740,7 @@ export default {
             }
             return "Applying...";
         },
-        memorisationChainingTotalVerses() {
-            return Array.isArray(this.filteredAyahs) ? this.filteredAyahs.length : 0;
-        },
+
         memorisationChainingCurrentRoundIndexSafe() {
             const total = Number(this.memorisationChainingTotalVerses || 0);
             if (!total) return 0;
@@ -2748,11 +2750,10 @@ export default {
         },
         memorisationChainingCompletedRounds() {
             const total = Number(this.memorisationChainingTotalVerses || 0);
-            if (!total) return 0;
+            if (!total || isNaN(total)) return 0;
             if (this.memorisationChainingCompleted) return total;
-            const completed =
-                Math.max(-1, Number(this.memorisationChainingLastCompletedRoundIndex || -1)) +
-                1;
+            const lastIdx = Number(this.memorisationChainingLastCompletedRoundIndex);
+            const completed = (isNaN(lastIdx) ? -1 : lastIdx) + 1;
             return Math.min(Math.max(0, completed), total);
         },
         memorisationChainingCurrentChainLength() {
@@ -9397,21 +9398,8 @@ export default {
             return normalized === "5" || normalized === "mastered" ? 5 : 3;
         },
         shouldAutoAdvanceMemorisationChaining() {
-            if (
-                this.normaliseMemorisationChainingRepetitionStrategy(
-                    this.memorisationChainingRepetitionStrategy
-                ) === "mastered"
-            ) {
-                return false;
-            }
-            if (
-                this.normaliseMemorisationChainingAudioGuidance(
-                    this.memorisationChainingAudioGuidance
-                ) !== "qari-first"
-            ) {
-                return false;
-            }
-            return !!this.memorisationChainingAutoAdvance;
+            // Force auto-advance to remove friction
+            return true;
         },
         getMemorisationChainingStagesForRound(roundIndex = 0) {
             const ayahs = Array.isArray(this.filteredAyahs) ? this.filteredAyahs : [];
@@ -9434,33 +9422,46 @@ export default {
             if (mode === "bridging") {
                 const stages = [];
                 if (safeRound > 0) {
+                    // Stage 1: Previous Ayah (The start of the bridge)
                     stages.push({
-                        key: "existing",
-                        label: "Existing chain",
-                        summary:
-                            "Begin from the start so the already learned links are active before you add the new ayah.",
-                        startIndex: 0,
+                        key: "bridge-start",
+                        label: "Bridge start",
+                        summary: "Recite the previous ayah to prepare for the connection.",
+                        startIndex: safeRound - 1,
                         endIndex: safeRound - 1,
                         repeatTarget: 1,
                     });
+                    
+                    // Stage 2: New Ayah (The target)
+                    stages.push({
+                        key: "bridge-end",
+                        label: "Bridge end",
+                        summary: `Master Ayah ${currentAyahNumber} in isolation.`,
+                        startIndex: safeRound,
+                        endIndex: safeRound,
+                        repeatTarget: repeatTarget,
+                    });
+
+                    // Stage 3: The actual Bridge (N-1 to N)
+                    stages.push({
+                        key: "bridge-link",
+                        label: "Joining the bridge",
+                        summary: "Recite the transition between the two ayahs until it becomes seamless.",
+                        startIndex: safeRound - 1,
+                        endIndex: safeRound,
+                        repeatTarget: Math.max(2, Math.floor(repeatTarget / 2)),
+                    });
+                } else {
+                    // First ayah, just repeat it
+                    stages.push({
+                        key: "new",
+                        label: "First verse reinforcement",
+                        summary: `Repeat Ayah ${currentAyahNumber} to begin your chain.`,
+                        startIndex: safeRound,
+                        endIndex: safeRound,
+                        repeatTarget,
+                    });
                 }
-                stages.push({
-                    key: "new",
-                    label: "New verse reinforcement",
-                    summary: `Repeat Ayah ${currentAyahNumber} with focused attention before reconnecting it to the chain.`,
-                    startIndex: safeRound,
-                    endIndex: safeRound,
-                    repeatTarget,
-                });
-                stages.push({
-                    key: "full",
-                    label: "Linked chain",
-                    summary:
-                        "Recite the full chain from the beginning so the transition into the new ayah becomes automatic.",
-                    startIndex: 0,
-                    endIndex: safeRound,
-                    repeatTarget: 1,
-                });
                 return stages;
             }
 
@@ -9679,7 +9680,7 @@ export default {
                 : false;
         },
         syncMemorisationChainingFocus(index, options = {}) {
-            const { behavior = "smooth", force = false } = options || {};
+            const { behavior = "auto", force = false } = options || {};
             const total = Array.isArray(this.filteredAyahs)
                 ? this.filteredAyahs.length
                 : 0;
@@ -9902,6 +9903,7 @@ export default {
         },
         continueMemorisationChaining() {
             if (!this.isMemorisationChainingActive) return;
+            this.stopMemorisationChainingAutoAdvance();
             const total = Number(this.memorisationChainingTotalVerses || 0);
             if (!total) return;
             if (this.memorisationChainingCompleted) {
@@ -10046,10 +10048,35 @@ export default {
                 this.currentlyPlayingIndex = -1;
                 return true;
             }
-            const nextRound = roundIndex + 1;
-            this.beginMemorisationChainingRound(nextRound);
-            this.playMemorisationChainingStage({ restart: true });
+            this.startMemorisationChainingAutoAdvanceCountdown();
             return true;
+        },
+        deactivateMemorisationChaining() {
+            this.memorisationChainingEnabled = false;
+            this.resetMemorisationChainingProgress({
+                stopAudio: true,
+                preserveCompleted: false,
+            });
+        },
+        startMemorisationChainingAutoAdvanceCountdown() {
+            this.stopMemorisationChainingAutoAdvance();
+            this.memorisationChainingPendingAdvance = true;
+            this.memorisationChainingAutoAdvanceCountdown = 5;
+            this.memorisationChainingAutoAdvanceTimer = setInterval(() => {
+                if (this.memorisationChainingAutoAdvanceCountdown > 1) {
+                    this.memorisationChainingAutoAdvanceCountdown -= 1;
+                } else {
+                    this.stopMemorisationChainingAutoAdvance();
+                    this.continueMemorisationChaining();
+                }
+            }, 1000);
+        },
+        stopMemorisationChainingAutoAdvance() {
+            if (this.memorisationChainingAutoAdvanceTimer) {
+                clearInterval(this.memorisationChainingAutoAdvanceTimer);
+                this.memorisationChainingAutoAdvanceTimer = null;
+            }
+            this.memorisationChainingAutoAdvanceCountdown = 0;
         },
         estimateMemorisationVerseDurationSeconds(ayah) {
             const repetitionCount = Math.max(
@@ -12109,6 +12136,7 @@ export default {
                 );
                 this.memorisationRangeStart = start;
                 this.memorisationRangeEnd = end;
+                this.memorisationChainingTotalVerses = end - start + 1;
                 this.memorisationVerseDelay = config.verseDelay;
                 this.memorisationRepetitionCount = config.repetitionCount;
                 this.setPlaybackMode(config.playbackMode);
@@ -12523,6 +12551,7 @@ export default {
                 playback: true,
                 repeat: true,
                 chaining: true,
+                tools: true,
                 history: true,
                 saved: true,
             };
@@ -24880,6 +24909,8 @@ export default {
                 )
                     .replace(/\s+/g, " ")
                     .trim(),
+                note: source.note || source.notes || options.note || null,
+                refLabel: source.ref_label || source.refLabel || options.refLabel || null,
                 savedAt:
                     this.normalizeBookmarkTimestamp(
                         options.savedAt ||
@@ -25125,12 +25156,12 @@ export default {
                         ...(Array.isArray(resolved?.folderIds) ? resolved.folderIds : []),
                         targetFolderId,
                     ])
-                );
-                const finalFolderIds =
-                    Number.isFinite(fromFolderId) && fromFolderId > 0
-                        ? nextFolderIds.filter((id) => Number(id) !== fromFolderId)
-                        : nextFolderIds;
-                this.updateSavedBookmarkRecordFoldersByKey(key, finalFolderIds);
+                ).filter((id) => {
+                    const nid = Number(id);
+                    return Number.isFinite(nid) && nid > 0 && nid !== fromFolderId;
+                });
+                
+                this.updateSavedBookmarkRecordFoldersByKey(key, nextFolderIds);
                 await this.fetchSavedBookmarkFolders();
                 this.showToast(
                     Number.isFinite(fromFolderId) && fromFolderId > 0
@@ -27059,7 +27090,7 @@ export default {
             } = options || {};
             const isAutoMemorisationScroll =
                 !!this.isMemorisationToolbarVisible &&
-                (!!this.isAnyAudioPlaying || !!this.isMemorisationRepeatPauseActive);
+                (!!this.isAnyAudioPlaying || !!this.isMemorisationRepeatPauseActive || !!this.isMemorisationChainingActive);
             const desiredBehavior = isAutoMemorisationScroll ? "auto" : behavior;
             const shouldSettleScroll = !!settle && !isAutoMemorisationScroll;
             const resolvedBehavior = this.getScrollBehavior(desiredBehavior);
@@ -27088,13 +27119,16 @@ export default {
             // Reduced nested ticks for an "instant" jump feel
             this.$nextTick(() => {
                 const runScroll = () => {
-                    this.computeListTop();
-                    const now = Date.now();
-                    const shouldRecalibrateHeight =
-                        !this.itemHeightCalibrated ||
-                        now - Number(this.lastItemHeightCalibrationAt || 0) > 1200;
-                    if (shouldRecalibrateHeight) {
-                        this.calibrateItemHeight();
+                    const isChainingActive = !!this.isMemorisationChainingActive;
+                    if (!isChainingActive) {
+                        this.computeListTop();
+                        const now = Date.now();
+                        const shouldRecalibrateHeight =
+                            !this.itemHeightCalibrated ||
+                            now - Number(this.lastItemHeightCalibrationAt || 0) > 1200;
+                        if (shouldRecalibrateHeight) {
+                            this.calibrateItemHeight();
+                        }
                     }
 
                     const metrics = this.getAyahScrollMetrics();

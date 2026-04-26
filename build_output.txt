@@ -1,0 +1,84 @@
+
+> build
+> webpack --config webpack.config.js && node scripts/generate-sitemap.js
+
+Browserslist: browsers data (caniuse-lite) is 8 months old. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+assets by status 10 MiB [cached] 180 assets
+Entrypoint app = 10 assets
+orphan modules 4.87 MiB [orphan] 1679 modules
+runtime modules 13.4 KiB 14 modules
+cacheable modules 18.3 MiB (javascript) 6.35 KiB (asset)
+  modules by path ./node_modules/ 11.3 MiB (javascript) 6.35 KiB (asset)
+    javascript modules 11.3 MiB 430 modules
+    asset modules 6.35 KiB (asset) 210 bytes (javascript) 5 modules
+  modules by path ./resources/ 7.03 MiB
+    modules by path ./resources/components/ 4.09 MiB 220 modules
+    modules by path ./resources/js/ 2.92 MiB 91 modules
+    ./resources/data/hajj-umrah-content.json 22.1 KiB [built] [code generated]
+  modules by mime type image/svg+xml 2.05 KiB
+    data:image/svg+xml,%3Csvg width=%27.. 457 bytes [built] [code generated]
+    data:image/svg+xml,%3Csvg width=%27.. 1.6 KiB [built] [code generated]
+  ./utils/subscriptionUtils.js 2.6 KiB [built] [code generated]
+
+ERROR in ./resources/components/vue/RevertComponent.css?vue&type=style&index=0&lang=css&external (./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/dist/stylePostLoader.js!./resources/components/vue/RevertComponent.css?vue&type=style&index=0&lang=css&external) 10:36-84
+Module not found: Error: Can't resolve '/images/hijabis.jpeg' in '/Users/mohamedamine/Desktop/islamic-connect/resources/components/vue'
+ @ ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/dist/stylePostLoader.js!./resources/components/vue/RevertComponent.css?vue&type=style&index=0&lang=css&external 8:6-213 22:17-24 27:22-29 27:33-47 27:50-64 26:0-183 26:0-183
+ @ ./resources/components/vue/RevertComponent.css?vue&type=style&index=0&lang=css&external 1:0-229 1:0-229
+ @ ./resources/components/vue/RevertComponent.vue 5:0-71
+ @ ./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/index.js??ruleSet[0]!./resources/js/components/RevertComponent.vue?vue&type=script&lang=js
+ @ ./resources/js/components/RevertComponent.vue?vue&type=script&lang=js 1:0-181 1:0-181 1:182-352 1:182-352
+ @ ./resources/js/components/RevertComponent.vue 1:0-66 4:20-26 2:0-61 2:0-61
+ @ ./resources/js/app.js
+
+ERROR in ./resources/components/vue/RevertComponent.css?vue&type=style&index=0&lang=css&external (./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/dist/stylePostLoader.js!./resources/components/vue/RevertComponent.css?vue&type=style&index=0&lang=css&external) 11:36-87
+Module not found: Error: Can't resolve '/images/calligraphy.png' in '/Users/mohamedamine/Desktop/islamic-connect/resources/components/vue'
+ @ ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/dist/stylePostLoader.js!./resources/components/vue/RevertComponent.css?vue&type=style&index=0&lang=css&external 8:6-213 22:17-24 27:22-29 27:33-47 27:50-64 26:0-183 26:0-183
+ @ ./resources/components/vue/RevertComponent.css?vue&type=style&index=0&lang=css&external 1:0-229 1:0-229
+ @ ./resources/components/vue/RevertComponent.vue 5:0-71
+ @ ./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/index.js??ruleSet[0]!./resources/js/components/RevertComponent.vue?vue&type=script&lang=js
+ @ ./resources/js/components/RevertComponent.vue?vue&type=script&lang=js 1:0-181 1:0-181 1:182-352 1:182-352
+ @ ./resources/js/components/RevertComponent.vue 1:0-66 4:20-26 2:0-61 2:0-61
+ @ ./resources/js/app.js
+
+ERROR in ./resources/components/vue/RevertComponent.css?vue&type=style&index=0&lang=css&external (./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/dist/stylePostLoader.js!./resources/components/vue/RevertComponent.css?vue&type=style&index=0&lang=css&external) 12:36-86
+Module not found: Error: Can't resolve '/images/mad_mamluk.jpg' in '/Users/mohamedamine/Desktop/islamic-connect/resources/components/vue'
+ @ ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/dist/stylePostLoader.js!./resources/components/vue/RevertComponent.css?vue&type=style&index=0&lang=css&external 8:6-213 22:17-24 27:22-29 27:33-47 27:50-64 26:0-183 26:0-183
+ @ ./resources/components/vue/RevertComponent.css?vue&type=style&index=0&lang=css&external 1:0-229 1:0-229
+ @ ./resources/components/vue/RevertComponent.vue 5:0-71
+ @ ./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/index.js??ruleSet[0]!./resources/js/components/RevertComponent.vue?vue&type=script&lang=js
+ @ ./resources/js/components/RevertComponent.vue?vue&type=script&lang=js 1:0-181 1:0-181 1:182-352 1:182-352
+ @ ./resources/js/components/RevertComponent.vue 1:0-66 4:20-26 2:0-61 2:0-61
+ @ ./resources/js/app.js
+
+ERROR in ./resources/components/vue/RevertComponent.css?vue&type=style&index=0&lang=css&external (./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/dist/stylePostLoader.js!./resources/components/vue/RevertComponent.css?vue&type=style&index=0&lang=css&external) 13:36-79
+Module not found: Error: Can't resolve '/images/rl.jpeg' in '/Users/mohamedamine/Desktop/islamic-connect/resources/components/vue'
+ @ ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/dist/stylePostLoader.js!./resources/components/vue/RevertComponent.css?vue&type=style&index=0&lang=css&external 8:6-213 22:17-24 27:22-29 27:33-47 27:50-64 26:0-183 26:0-183
+ @ ./resources/components/vue/RevertComponent.css?vue&type=style&index=0&lang=css&external 1:0-229 1:0-229
+ @ ./resources/components/vue/RevertComponent.vue 5:0-71
+ @ ./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/index.js??ruleSet[0]!./resources/js/components/RevertComponent.vue?vue&type=script&lang=js
+ @ ./resources/js/components/RevertComponent.vue?vue&type=script&lang=js 1:0-181 1:0-181 1:182-352 1:182-352
+ @ ./resources/js/components/RevertComponent.vue 1:0-66 4:20-26 2:0-61 2:0-61
+ @ ./resources/js/app.js
+
+ERROR in ./resources/components/vue/SuratComponent.vue
+Module Error (from ./node_modules/vue-loader/dist/index.js):
+
+VueCompilerError: Element is missing end tag.
+at /Users/mohamedamine/Desktop/islamic-connect/resources/components/vue/SuratComponent.vue:1684:21
+1682|                          <button type="button" class="btn memorisation-jump-link" @click="scrollMemorisationOffcanvasTo('memo-advanced-history')">Saved</button>
+1683|                      </nav>
+1684|                      <section class="memorisation-tools-card" aria-label="Advanced setup">
+   |                      ^
+1685|                          <span id="memo-advanced-setup" class="memorisation-anchor" aria-hidden="true"></span>
+1686|                          <div class="memorisation-tools-card-head">
+ @ ./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/index.js??ruleSet[0]!./resources/js/components/SuratComponent.vue?vue&type=script&lang=js 1:0-66 1:0-66
+ @ ./resources/js/components/SuratComponent.vue?vue&type=script&lang=js 1:0-180 1:0-180 1:181-350 1:181-350
+ @ ./resources/js/components/SuratComponent.vue 1:0-65 4:20-26 2:0-60 2:0-60
+ @ ./resources/js/app.js 229:27-68
+
+5 errors have detailed information that is not shown.
+Use 'stats.errorDetails: true' resp. '--stats-error-details' to show it.
+
+webpack 5.101.3 compiled with 5 errors in 47467 ms
