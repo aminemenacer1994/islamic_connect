@@ -14,10 +14,12 @@ import {
 import {
     dispatchReviewQueueSync,
     getReviewQueueStorageKey,
+    normalizeReviewQueueEntry,
     normalizeReviewQueueMap,
     readReviewQueue,
     writeReviewQueue,
 } from "./reviewQueueStorage";
+import { trackEventOnce } from "./memorisationTracking";
 import { GUIDED_TOUR_DATA, guidedTourMethods } from "./surat.guided-tour";
 import { LEARNING_PATHS, learningPathMethods } from "./surat.learning-paths";
 import { PRONUNCIATION_GUIDES, pronunciationMethods } from "./surat.pronunciation";
@@ -93,6 +95,7 @@ export default {
             isSessionQuizOpen: false,
             sessionQuizSession: null,
             sessionQuizOpenedForSessionId: "",
+            sessionQuizLastSavedQuizId: "",
             userId: null,
             // a11y
             selectedCardIndex: 0,
@@ -613,6 +616,7 @@ export default {
             searchQuery: "",
             debouncedQuery: "",
             debounceTimer: null,
+            memorisationActionInFlight: false,
             arabicFontSize: 28,
             translationFontSize: 18,
             transliterationFallbackText: "Transliteration not available",
@@ -1246,7 +1250,6 @@ export default {
             memorisationVerseCountdownEnabled: false,
             memorisationVerseCountdownDisplayStyle: "combined",
             memorisationVerseCountdownPosition: "floating",
-            memorisationVerseCountdownConfettiEnabled: false,
             memorisationChainingModeOptions: [
                 {
                     value: "cumulative",
@@ -1473,7 +1476,6 @@ export default {
                 verseCountdownEnabled: false,
                 verseCountdownDisplayStyle: "combined",
                 verseCountdownPosition: "floating",
-                verseCountdownConfettiEnabled: false,
                 chainingMethodEnabled: false,
                 chainingMethodMode: "cumulative",
                 chainingMethodRepetitionStrategy: "3",
@@ -1520,8 +1522,11 @@ export default {
             memorisationRuntimeLastActiveAt: 0,
 	            memorisationRuntimePersistDebounceTimer: null,
 	            memorisationRuntimePersistInterval: null,
-	            hifdhAuthStorageKey: "ic_hifdh_auth_user_v1",
+            hifdhAuthStorageKey: "ic_hifdh_auth_user_v1",
             hifdhSchedulerStorageKey: "ic_hifdh_scheduler_v1",
+            hifdhLearningStateStorageKey: "ic_hifdh_learning_state_v1",
+            hifdhDailyQueueLevel: "beginner",
+            hifdhLearningStateByAyah: {},
             hifdhCheckpointDays: [1, 3, 7, 14, 30],
             hifdhPlanSets: [],
             hifdhReviewQueue: [],
@@ -1537,8 +1542,6 @@ export default {
             hifdhPlanModalInstance: null,
             hifdhPlanModalShownHandler: null,
 	            hifdhPlanModalHiddenHandler: null,
-	            hifdhConfettiTimeouts: [],
-	            // Removed: memorisation confetti (replaced by subtle toolbar celebration).
 	            isHifdhResetConfirmVisible: false,
             hifdhFeedbackChoices: [
                 { value: "strong", label: "Strong" },
@@ -1829,6 +1832,7 @@ export default {
                 }
                 return `Ayah ${this.memorisationRangeStart || 1}-${this.memorisationRangeEnd || this.totalAyahs || 1}`;
             },
+            
         sidebarPinnedSurahNumber() {
             const currentSurahNumber = Number(
                 this.surahDetails?.surahNumber || this.selectedSurah || 0
@@ -2016,6 +2020,16 @@ export default {
                     description: this.isTranslationAllEnabled
                         ? "Translation is visible so the meaning stays close."
                         : "Show translation when you want the meaning beside the ayah.",
+                },
+                {
+                    key: "hifdhPlan",
+                    label: "Hifdh Plan",
+                    icon: "bi-calendar-check",
+                    active: false,
+                    stateLabel: "Today",
+                    shortDesc: "Open planner",
+                    description:
+                        "Open Today's Hifdh Plan to queue, review, and continue memorisation ranges.",
                 },
             ];
         },
@@ -7427,7 +7441,6 @@ export default {
         }
 	        this.isMemorisationOffcanvasVisible = false;
 	        this.disposeHifdhTooltips();
-	        this.clearHifdhConfettiLayers();
 	        this.clearMemorisationCompletionCelebration();
 	    },
 	        beforeDestroy() {
@@ -7704,7 +7717,6 @@ export default {
             }
 	            this.isMemorisationOffcanvasVisible = false;
 	            this.disposeHifdhTooltips();
-	            this.clearHifdhConfettiLayers();
 	            this.clearMemorisationCompletionCelebration();
 	        },
     methods: {
@@ -7715,6 +7727,7 @@ export default {
                 Number(surahNumber || 0)
             );
         },
+        
         isVerseCountdownSideAnchorItem(item) {
             if (!this.isVerseCountdownVisible) return false;
             if (!this.verseCountdownUseSideRail) return false;
@@ -10276,8 +10289,6 @@ export default {
                     this.normaliseMemorisationVerseCountdownPosition(
                         this.memorisationVerseCountdownPosition
                     ),
-                verseCountdownConfettiEnabled:
-                    !!this.memorisationVerseCountdownConfettiEnabled,
                 chainingMethodEnabled: !!this.memorisationChainingEnabled,
                 chainingMethodMode: this.normaliseMemorisationChainingMode(
                     this.memorisationChainingMode
@@ -10380,8 +10391,6 @@ export default {
                     this.normaliseMemorisationVerseCountdownPosition(
                         this.memorisationVerseCountdownPosition
                     ),
-                memorisationVerseCountdownConfettiEnabled:
-                    !!this.memorisationVerseCountdownConfettiEnabled,
                 memorisationChainingEnabled: !!this.memorisationChainingEnabled,
                 memorisationChainingMode:
                     this.normaliseMemorisationChainingMode(
@@ -10494,8 +10503,6 @@ export default {
                     this.normaliseMemorisationVerseCountdownPosition(
                         this.memorisationVerseCountdownPosition
                     ),
-                memorisationVerseCountdownConfettiEnabled:
-                    !!this.memorisationVerseCountdownConfettiEnabled,
                 memorisationChainingEnabled: !!this.memorisationChainingEnabled,
                 memorisationChainingMode:
                     this.normaliseMemorisationChainingMode(
@@ -10633,8 +10640,7 @@ export default {
                     this.normaliseMemorisationVerseCountdownPosition(
                         snapshot.memorisationVerseCountdownPosition
                     );
-                this.memorisationVerseCountdownConfettiEnabled =
-                    snapshot.memorisationVerseCountdownConfettiEnabled !== false;
+                
                 this.verseCountdownHasPlaybackStarted = false;
                 this.verseCountdownFinalAyahRecited = false;
                 this.verseCountdownCompletionNotified = false;
@@ -10855,8 +10861,6 @@ export default {
                     this.normaliseMemorisationVerseCountdownPosition(
                         verseCountdownPositionRaw
                     ),
-                verseCountdownConfettiEnabled:
-                    draft.verseCountdownConfettiEnabled !== false,
                 chainingMethodEnabled: !!draft.chainingMethodEnabled,
                 chainingMethodMode: this.normaliseMemorisationChainingMode(
                     chainingMethodModeRaw
@@ -11021,7 +11025,6 @@ export default {
                         verseCountdownEnabled: true,
                         verseCountdownDisplayStyle: "combined",
                         verseCountdownPosition: "floating",
-                        verseCountdownConfettiEnabled: true,
                         sessionHistoryEnabled: true,
                         translationVisible: false,
                         transliterationVisible: false,
@@ -11269,9 +11272,6 @@ export default {
                 config.memorisationVerseCountdownPosition ??
                 this.memorisationVerseCountdownPosition ??
                 "floating";
-            const verseCountdownConfettiEnabledSource =
-                config.verseCountdownConfettiEnabled ??
-                config.memorisationVerseCountdownConfettiEnabled;
             const chainingMethodEnabledSource =
                 config.chainingMethodEnabled ??
                 config.memorisationChainingEnabled;
@@ -11405,10 +11405,7 @@ export default {
                     this.normaliseMemorisationVerseCountdownPosition(
                         verseCountdownPositionSource
                     ),
-                verseCountdownConfettiEnabled:
-                    verseCountdownConfettiEnabledSource !== undefined
-                        ? !!verseCountdownConfettiEnabledSource
-                        : !!this.memorisationVerseCountdownConfettiEnabled,
+                
                 chainingMethodEnabled: !!(
                     chainingMethodEnabledSource ?? this.memorisationChainingEnabled
                 ),
@@ -11513,8 +11510,6 @@ export default {
                           this.normaliseMemorisationVerseCountdownPosition(
                               this.memorisationVerseCountdownPosition
                           ),
-                      verseCountdownConfettiEnabled:
-                          !!this.memorisationVerseCountdownConfettiEnabled,
                       chainingMethodEnabled:
                           !!this.memorisationChainingEnabled,
                       chainingMethodMode:
@@ -11603,8 +11598,6 @@ export default {
                     this.normaliseMemorisationVerseCountdownPosition(
                         config.verseCountdownPosition
                     ),
-                verseCountdownConfettiEnabled:
-                    config.verseCountdownConfettiEnabled !== false,
                 chainingMethodEnabled: !!config.chainingMethodEnabled,
                 chainingMethodMode: this.normaliseMemorisationChainingMode(
                     config.chainingMethodMode
@@ -12182,8 +12175,7 @@ export default {
                     this.normaliseMemorisationVerseCountdownPosition(
                         config.verseCountdownPosition
                     );
-                this.memorisationVerseCountdownConfettiEnabled =
-                    config.verseCountdownConfettiEnabled !== false;
+
                 this.verseCountdownHasPlaybackStarted = false;
                 this.verseCountdownFinalAyahRecited = false;
                 this.verseCountdownCompletionNotified = false;
@@ -13089,6 +13081,9 @@ export default {
                 case "translation":
                     this.toggleMemorisationToolbarFlag("translation");
                     break;
+                case "hifdhPlan":
+                    this.openHifdhPlanModalGuarded();
+                    break;
                 default:
                     return;
             }
@@ -13224,6 +13219,18 @@ export default {
                     Number(this.filteredAyahs?.[startIndex]?.numberInSurah || 0) ||
                     startAyah,
             });
+            // Lightweight tracking (best-effort, no impact on core logic).
+            trackEventOnce(
+                "session_started",
+                {
+                    surahNumber: Number(this.selectedSurah || 0) || 0,
+                    rangeStart: startAyah,
+                    rangeEnd: endAyah,
+                    chainingEnabled: !!this.isMemorisationChainingActive,
+                    flowStep: "chaining",
+                },
+                { dedupeKey: `session_started:${Number(this.selectedSurah || 0) || 0}:${startAyah}-${endAyah}` }
+            );
             this.showToast(this.memorisationSessionStatusMessage, 2800);
             this.announce(this.memorisationSessionStatusMessage);
 	            if (
@@ -13289,7 +13296,8 @@ export default {
 	            this.playAudio(startIndex);
 	        },
         async startMemorisationBeginnerSession() {
-            if (this.isMemorisationDraftSubmitting) return;
+            if (this.isMemorisationDraftSubmitting || this.memorisationActionInFlight) return;
+            this.memorisationActionInFlight = true;
             this.isMemorisationDraftSubmitting = true;
             try {
                 const draft = this.normaliseMemorisationDraftValues();
@@ -13320,6 +13328,7 @@ export default {
                 await this.startMemorisationSession();
             } finally {
                 this.isMemorisationDraftSubmitting = false;
+                this.memorisationActionInFlight = false;
             }
         },
         maybeShowMemorisationOnboarding() {
@@ -13458,7 +13467,6 @@ export default {
                 verseCountdownEnabled: false,
                 verseCountdownDisplayStyle: "combined",
                 verseCountdownPosition: "floating",
-                verseCountdownConfettiEnabled: false,
                 chainingMethodEnabled: false,
                 chainingMethodMode: "cumulative",
                 chainingMethodRepetitionStrategy: "3",
@@ -13591,8 +13599,6 @@ export default {
                     this.normaliseMemorisationVerseCountdownPosition(
                         defaults.verseCountdownPosition
                     );
-                this.memorisationVerseCountdownConfettiEnabled =
-                    defaults.verseCountdownConfettiEnabled !== false;
                 this.verseCountdownHasPlaybackStarted = false;
                 this.verseCountdownFinalAyahRecited = false;
                 this.verseCountdownCompletionNotified = false;
@@ -15429,6 +15435,7 @@ export default {
         },
         initializeHifdhScheduler() {
             this.loadHifdhSchedulerState();
+            this.loadHifdhLearningState();
             this.loadHifdhPlanUiState();
             if (!this.hifdhNewRangeStart) {
                 this.hifdhNewRangeStart = this.memorisationRangeStart || 1;
@@ -15464,6 +15471,167 @@ export default {
                     })
                 );
             } catch (_) {}
+        },
+        loadHifdhLearningState() {
+            try {
+                const raw = localStorage.getItem(this.hifdhLearningStateStorageKey);
+                const parsed = raw ? JSON.parse(raw) : {};
+                const source = parsed && typeof parsed === "object" ? parsed : {};
+                const normalized = {};
+                Object.entries(source).forEach(([key, value]) => {
+                    const record = this.normalizeAyahLearningStateRecord(key, value);
+                    if (record) {
+                        normalized[record.id] = record;
+                    }
+                });
+                this.hifdhLearningStateByAyah = normalized;
+            } catch (_) {
+                this.hifdhLearningStateByAyah = {};
+            }
+        },
+        persistHifdhLearningState() {
+            try {
+                const normalized = {};
+                Object.entries(this.hifdhLearningStateByAyah || {}).forEach(
+                    ([key, value]) => {
+                        const record = this.normalizeAyahLearningStateRecord(key, value);
+                        if (record) {
+                            normalized[record.id] = record;
+                        }
+                    }
+                );
+                this.hifdhLearningStateByAyah = normalized;
+                localStorage.setItem(
+                    this.hifdhLearningStateStorageKey,
+                    JSON.stringify(normalized)
+                );
+            } catch (_) {}
+        },
+        buildLearningStateKey(surahNumber, ayahNumber) {
+            const s = Number(surahNumber || this.selectedSurah || 0);
+            const a = Number(ayahNumber || 0);
+            if (!s || !a) return "";
+            return `${s}:${a}`;
+        },
+        normalizeAyahLearningStateRecord(key, value = {}) {
+            const source = value && typeof value === "object" ? value : {};
+            const [surahToken, ayahToken] = String(key || "").split(":");
+            const surahNumber = Math.max(
+                0,
+                Number(source.surah || surahToken || this.selectedSurah || 0) || 0
+            );
+            const ayahNumber = Math.max(
+                0,
+                Number(source.ayahNumber || ayahToken || 0) || 0
+            );
+            if (!surahNumber || !ayahNumber) return null;
+            const nextReviewDate = new Date(
+                source.nextReviewDate || new Date().toISOString()
+            );
+            return {
+                id: `${surahNumber}:${ayahNumber}`,
+                surah: surahNumber,
+                ayahNumber,
+                repetitions: Math.max(0, Number(source.repetitions || 0) || 0),
+                interval: Math.max(0, Number(source.interval || 0) || 0),
+                easeFactor: Math.max(1.3, Number(source.easeFactor || 2.5) || 2.5),
+                nextReviewDate: Number.isNaN(nextReviewDate.getTime())
+                    ? new Date().toISOString()
+                    : nextReviewDate.toISOString(),
+                mistakeCount: Math.max(0, Number(source.mistakeCount || 0) || 0),
+                strength: ["WEAK", "MEDIUM", "STRONG"].includes(source.strength)
+                    ? source.strength
+                    : "WEAK",
+                consecutiveEasy: Math.max(
+                    0,
+                    Number(source.consecutiveEasy || 0) || 0
+                ),
+                hifdhStage: ["NEW", "LEARNING", "REVISING", "MASTERED"].includes(
+                    source.hifdhStage
+                )
+                    ? source.hifdhStage
+                    : "NEW",
+            };
+        },
+        getOrCreateAyahLearningState(surahNumber, ayahNumber) {
+            const key = this.buildLearningStateKey(surahNumber, ayahNumber);
+            if (!key) return null;
+            const current = this.hifdhLearningStateByAyah[key] || {};
+            const next = this.normalizeAyahLearningStateRecord(key, {
+                ...current,
+                surah: Number(surahNumber || this.selectedSurah || 0),
+                ayahNumber: Number(ayahNumber || 0),
+            });
+            if (!next) return null;
+            this.hifdhLearningStateByAyah[key] = next;
+            return next;
+        },
+        runSm2UpdateForAyah(state, q) {
+            if (!state) return;
+            const grade = Math.max(0, Math.min(5, Number(q || 0)));
+            if (grade < 3) {
+                state.repetitions = 0;
+                state.interval = 1;
+                state.strength = "WEAK";
+                state.mistakeCount += 1;
+                state.consecutiveEasy = 0;
+            } else {
+                state.repetitions += 1;
+                if (state.repetitions === 1) state.interval = 1;
+                else if (state.repetitions === 2) state.interval = 6;
+                else state.interval = Math.max(1, Math.round(state.interval * state.easeFactor));
+                const delta = 0.1 - (5 - grade) * (0.08 + (5 - grade) * 0.02);
+                state.easeFactor = Math.max(1.3, state.easeFactor + delta);
+                state.consecutiveEasy = grade === 5 ? state.consecutiveEasy + 1 : 0;
+                if (state.consecutiveEasy >= 3) state.strength = "STRONG";
+                else if (state.repetitions >= 2) state.strength = "MEDIUM";
+            }
+            const next = new Date();
+            next.setDate(next.getDate() + Math.max(1, Math.round(state.interval)));
+            state.nextReviewDate = next.toISOString();
+        },
+        runHifdhPlannerUpdateForAyah(state) {
+            if (!state) return;
+            if (state.strength === "WEAK") state.hifdhStage = "LEARNING";
+            else if (state.repetitions >= 3) state.hifdhStage = "REVISING";
+            else state.hifdhStage = "LEARNING";
+            const stableEase = Number(state.easeFactor || 0) >= 2.3;
+            const noRecentMistakes = Number(state.mistakeCount || 0) === 0 || Number(state.consecutiveEasy || 0) >= 3;
+            if (state.strength === "STRONG" && stableEase && noRecentMistakes) {
+                state.hifdhStage = "MASTERED";
+            }
+        },
+        calculateDailyQueueScore(state, today = new Date()) {
+            if (!state) return 0;
+            const base = state.strength === "WEAK" ? 100 : state.strength === "MEDIUM" ? 50 : 20;
+            const plannerBoost =
+                state.hifdhStage === "LEARNING"
+                    ? 20
+                    : state.hifdhStage === "REVISING"
+                    ? 10
+                    : state.hifdhStage === "MASTERED"
+                    ? -10
+                    : 0;
+            const next = new Date(state.nextReviewDate || today.toISOString());
+            const overdueDays = next <= today ? Math.floor((today - next) / (24 * 60 * 60 * 1000)) : 0;
+            return base + overdueDays * 10 + Math.max(0, Number(state.mistakeCount || 0)) * 5 + plannerBoost;
+        },
+        buildDailyLearningQueue(level = "beginner") {
+            const cap = String(level).toLowerCase() === "advanced" ? 50 : 15;
+            const today = new Date();
+            const all = Object.values(this.hifdhLearningStateByAyah || {})
+                .filter((state) => {
+                    const due = new Date(state?.nextReviewDate || today.toISOString());
+                    return due <= today;
+                })
+                .map((state) => ({ ...state, queueScore: this.calculateDailyQueueScore(state, today) }));
+            const deduped = new Map();
+            all.forEach((state) => {
+                if (!deduped.has(state.id)) deduped.set(state.id, state);
+            });
+            return Array.from(deduped.values())
+                .sort((a, b) => Number(b.queueScore || 0) - Number(a.queueScore || 0))
+                .slice(0, cap);
         },
         loadHifdhPlanUiState() {
             try {
@@ -16458,10 +16626,18 @@ export default {
                 .trim();
         },
         buildQuizAyahsFromCurrentRange(options = {}) {
-            const { onlyAyahNumbers = null } = options || {};
+            const {
+                onlyAyahNumbers = null,
+                rangeStart: optionRangeStart = null,
+                rangeEnd: optionRangeEnd = null,
+            } = options || {};
             const totalAyahs = Math.max(1, Number(this.totalAyahs || 1));
-            const rawStart = Number(this.memorisationRangeStart || 1);
-            const rawEnd = Number(this.memorisationRangeEnd || totalAyahs);
+            const rawStart = Number(
+                optionRangeStart ?? this.memorisationRangeStart ?? 1
+            );
+            const rawEnd = Number(
+                optionRangeEnd ?? this.memorisationRangeEnd ?? totalAyahs
+            );
             const start = Math.min(totalAyahs, Math.max(1, Math.min(rawStart, rawEnd)));
             const end = Math.min(totalAyahs, Math.max(start, Math.max(rawStart, rawEnd)));
 
@@ -16490,31 +16666,66 @@ export default {
                 .filter(Boolean)
                 .sort((l, r) => Number(l.ayahNumber) - Number(r.ayahNumber));
 
-            // We don't have per-ayah attempt/correct stats yet, so approximate mastery from config accuracy.
-            const accuracy =
-                Number(this.sessionHistoryActiveTracker?.accuracyScore) ||
-                Number(
-                    (typeof this.resolveSessionHistoryAccuracyScore === "function"
-                        ? this.resolveSessionHistoryAccuracyScore(
-                              typeof this.getCurrentSessionHistoryConfig === "function"
-                                  ? this.getCurrentSessionHistoryConfig()
-                                  : null
-                          )
-                        : 0) || 0
+            const today = new Date();
+            const dayMs = 24 * 60 * 60 * 1000;
+            const weightedRows = rows.map((row) => {
+                const state = this.getOrCreateAyahLearningState(
+                    Number(this.selectedSurah || 0),
+                    row.ayahNumber
                 );
-            const mastery = Number.isFinite(accuracy)
-                ? Math.max(0, Math.min(1, accuracy / 100))
-                : 0.7;
-            const mistakes = mastery < 0.7;
+                const nextDate = new Date(state?.nextReviewDate || today.toISOString());
+                const overdueDays = nextDate <= today ? Math.floor((today - nextDate) / dayMs) : 0;
+                const isRecent = Math.abs(today - nextDate) <= 2 * dayMs;
+                const strengthWeight =
+                    state?.strength === "WEAK" ? 4 : state?.strength === "MEDIUM" ? 2 : 1;
+                const plannerWeight =
+                    state?.hifdhStage === "LEARNING"
+                        ? 3
+                        : state?.hifdhStage === "REVISING"
+                        ? 2
+                        : state?.hifdhStage === "MASTERED"
+                        ? 0.5
+                        : 1;
+                const mistakesWeight = Math.max(1, Number(state?.mistakeCount || 0) * 2);
+                const overdueWeight = Math.max(1, overdueDays + 1);
+                const recentWeight = isRecent ? 2 : 1;
+                return {
+                    row,
+                    state,
+                    weight: strengthWeight * plannerWeight * mistakesWeight * overdueWeight * recentWeight,
+                };
+            });
 
-            return rows.map((row) => ({
+            const prioritized = weightedRows
+                .sort((a, b) => Number(b.weight || 0) - Number(a.weight || 0))
+                .slice(0, Math.min(10, weightedRows.length));
+
+            return prioritized.map(({ row, state }) => ({
                 ayahNumber: row.ayahNumber,
                 arabicText: row.arabicText,
                 translation: row.translation,
                 attempts: 1,
-                correct: mastery >= 0.8,
-                mastery,
-                mistakes,
+                correct: (state?.strength || "WEAK") !== "WEAK",
+                mastery:
+                    state?.strength === "STRONG"
+                        ? 0.9
+                        : state?.strength === "MEDIUM"
+                        ? 0.7
+                        : 0.4,
+                mistakes: Number(state?.mistakeCount || 0) > 0,
+                learningState: {
+                    id: state?.id,
+                    surah: state?.surah,
+                    ayahNumber: state?.ayahNumber,
+                    repetitions: state?.repetitions,
+                    interval: state?.interval,
+                    easeFactor: state?.easeFactor,
+                    nextReviewDate: state?.nextReviewDate,
+                    mistakeCount: state?.mistakeCount,
+                    strength: state?.strength,
+                    consecutiveEasy: state?.consecutiveEasy,
+                    hifdhStage: state?.hifdhStage,
+                },
             }));
         },
         openSessionQuizFromSessionHistoryEntry(entry) {
@@ -16532,7 +16743,11 @@ export default {
                     ? entry.versesCovered
                     : null;
 
-            const ayahs = this.buildQuizAyahsFromCurrentRange({ onlyAyahNumbers });
+            const ayahs = this.buildQuizAyahsFromCurrentRange({
+                onlyAyahNumbers,
+                rangeStart,
+                rangeEnd,
+            });
             if (!ayahs.length) return false;
 
             this.sessionQuizOpenedForSessionId = sessionId;
@@ -16550,6 +16765,11 @@ export default {
                         : null),
             };
             this.isSessionQuizOpen = true;
+            trackEventOnce(
+                "session_completed",
+                { source: "history_entry", sessionId },
+                { dedupeKey: `session_completed:${sessionId}` }
+            );
             return true;
         },
         openSessionQuizFromCurrentMemorisationState(options = {}) {
@@ -16563,7 +16783,11 @@ export default {
             const sessionId = `local-${surahNumber}-${rangeStart}-${rangeEnd}-${Date.now()}`;
             if (this.sessionQuizOpenedForSessionId === sessionId) return false;
 
-            const ayahs = this.buildQuizAyahsFromCurrentRange();
+            const ayahs = this.buildQuizAyahsFromCurrentRange({
+                onlyAyahNumbers: Array.isArray(options?.onlyAyahNumbers)
+                    ? options.onlyAyahNumbers
+                    : null,
+            });
             if (!ayahs.length) return false;
 
             this.sessionQuizOpenedForSessionId = sessionId;
@@ -16581,14 +16805,112 @@ export default {
                 source: String(options?.source || "unknown"),
             };
             this.isSessionQuizOpen = true;
+            trackEventOnce(
+                "session_completed",
+                {
+                    source: "live_session",
+                    sessionId,
+                    surahNumber,
+                    rangeStart,
+                    rangeEnd,
+                    chainingEnabled: !!this.isMemorisationChainingActive,
+                    flowStep: "quiz",
+                },
+                { dedupeKey: `session_completed:${sessionId}` }
+            );
             return true;
         },
         onSessionQuizClosed() {
             this.isSessionQuizOpen = false;
             this.sessionQuizSession = null;
+            this.sessionQuizOpenedForSessionId = "";
         },
-        onSessionQuizSaved(_result) {},
-        onSessionQuizRetake(_payload) {},
+        onSessionQuizSaved(result) {
+            if (!result || typeof result !== "object") return;
+            const quizId = String(result.quizId || "").trim();
+            if (quizId && this.sessionQuizLastSavedQuizId === quizId) return;
+            const surahNumber = Number(result.surahNumber || this.selectedSurah || 0);
+            const cards = Array.isArray(result.cards) ? result.cards : [];
+            if (!surahNumber || !cards.length) return;
+            if (quizId) {
+                this.sessionQuizLastSavedQuizId = quizId;
+            }
+
+            const queueMap = readReviewQueue({ userId: this.userId });
+            let queueChanged = false;
+
+            cards.forEach((card) => {
+                const ayahNumber = Number(card?.ayahNumber || 0);
+                if (!ayahNumber) return;
+
+                const state = this.getOrCreateAyahLearningState(
+                    surahNumber,
+                    ayahNumber
+                );
+                const grade = card?.isCorrect ? 5 : 2;
+                this.runSm2UpdateForAyah(state, grade);
+                this.runHifdhPlannerUpdateForAyah(state);
+
+                if (!card?.isCorrect) {
+                    const entry = normalizeReviewQueueEntry({
+                        surahNumber,
+                        ayahNumber,
+                        surahEnglishName:
+                            result.surahName ||
+                            this.getSurahNameByNumber(surahNumber) ||
+                            "",
+                        text: card.arabicText || "",
+                        translation: card.translation || "",
+                        markedAt: Date.now(),
+                    });
+                    if (entry?.key) {
+                        queueMap[entry.key] = entry;
+                        queueChanged = true;
+                    }
+                }
+            });
+
+            this.persistHifdhLearningState();
+
+            if (queueChanged) {
+                const normalized = normalizeReviewQueueMap(queueMap);
+                writeReviewQueue(normalized, { userId: this.userId });
+                dispatchReviewQueueSync({
+                    source: "session-quiz",
+                    key: getReviewQueueStorageKey({ userId: this.userId }),
+                    count: Object.keys(normalized).length,
+                });
+            }
+
+            this.showToast(
+                queueChanged
+                    ? "Quiz saved. Weak ayahs were added to your review queue."
+                    : "Quiz saved. Spaced review schedule updated.",
+                3200
+            );
+
+            trackEventOnce(
+                "quiz_completed",
+                {
+                    surahNumber,
+                    total: cards.length,
+                    weakCount: cards.filter((card) => card && card.isCorrect === false).length,
+                    queueChanged,
+                    flowStep: "review",
+                },
+                { dedupeKey: `quiz_completed:${String(result?.quizId || surahNumber)}` }
+            );
+        },
+        onSessionQuizRetake(payload) {
+            const ayahNumbers = Array.isArray(payload?.ayahNumbers)
+                ? payload.ayahNumbers
+                : [];
+            if (!ayahNumbers.length) return;
+            this.openSessionQuizFromCurrentMemorisationState({
+                source: "retake",
+                onlyAyahNumbers: ayahNumbers,
+            });
+        },
         maybeCelebrateSessionHistoryMilestones(entry, previousEntries = []) {
             const nextEntries = this.sessionHistoryEntries || [];
             const previousStats = this.getSessionHistoryStats(previousEntries);
@@ -18237,7 +18559,6 @@ export default {
             await this.$nextTick();
             if (this.hasTodayHifdhPlan) {
                 await this.startTodayHifdhSessionAndCloseModal();
-                this.triggerHifdhConfetti({ burst: "soft" });
             }
         },
         markAllPendingHifdhDueToday() {
@@ -18291,22 +18612,7 @@ export default {
         },
         initializeHifdhTooltips() {
             this.disposeHifdhTooltips();
-            if (typeof document === "undefined") return;
-            const modalEl = document.getElementById("hifdhPlanModal");
-            if (!modalEl) return;
-            const nodes = modalEl.querySelectorAll("[data-hifdh-tooltip]");
-            this.hifdhTooltipInstances = Array.from(nodes)
-                .map((node) => {
-                    try {
-                        return new Tooltip(node, {
-                            trigger: "hover focus",
-                            container: "body",
-                        });
-                    } catch (_) {
-                        return null;
-                    }
-                })
-                .filter(Boolean);
+            this.hifdhTooltipInstances = [];
         },
         disposeHifdhTooltips() {
             if (!Array.isArray(this.hifdhTooltipInstances)) {
@@ -18320,79 +18626,8 @@ export default {
             });
             this.hifdhTooltipInstances = [];
         },
-        triggerHifdhConfetti({ burst = "soft" } = {}) {
-            if (typeof document === "undefined") return;
-            if (
-                typeof window !== "undefined" &&
-                window.matchMedia &&
-                window.matchMedia("(prefers-reduced-motion: reduce)").matches
-            ) {
-                return;
-            }
-            const host =
-                document.querySelector("#hifdhPlanModal.show .modal-content") ||
-                document.querySelector("#hifdhPlanModal .modal-content");
-            if (!host) return;
-
-            const layer = document.createElement("div");
-            layer.className = "hifdh-confetti-layer";
-            layer.setAttribute("aria-hidden", "true");
-
-            const palette = ["#10b981", "#14b8a6", "#22c55e", "#f59e0b", "#60a5fa"];
-            const isFullBurst = burst === "full";
-            const particleCount = isFullBurst ? 48 : 26;
-            const spread = isFullBurst ? 380 : 240;
-
-            for (let i = 0; i < particleCount; i += 1) {
-                const piece = document.createElement("span");
-                piece.className = "hifdh-confetti-piece";
-                piece.style.setProperty(
-                    "--hifdh-confetti-x",
-                    `${Math.round((Math.random() - 0.5) * spread)}px`
-                );
-                piece.style.setProperty(
-                    "--hifdh-confetti-delay",
-                    `${(Math.random() * 0.22).toFixed(2)}s`
-                );
-                piece.style.setProperty(
-                    "--hifdh-confetti-duration",
-                    `${(0.9 + Math.random() * 1.05).toFixed(2)}s`
-                );
-                piece.style.setProperty(
-                    "--hifdh-confetti-rotation",
-                    `${Math.round(Math.random() * 420)}deg`
-                );
-                piece.style.setProperty(
-                    "--hifdh-confetti-color",
-                    palette[Math.floor(Math.random() * palette.length)]
-                );
-                layer.appendChild(piece);
-            }
-
-            host.appendChild(layer);
-
-            const timeoutId = setTimeout(() => {
-                if (layer && layer.parentNode) {
-                    layer.parentNode.removeChild(layer);
-                }
-            }, 2300);
-            this.hifdhConfettiTimeouts.push(timeoutId);
-        },
-	        clearHifdhConfettiLayers() {
-            if (typeof document !== "undefined") {
-                document.querySelectorAll(".hifdh-confetti-layer").forEach((node) => {
-                    if (node && node.parentNode) {
-                        node.parentNode.removeChild(node);
-                    }
-                });
-            }
-            if (Array.isArray(this.hifdhConfettiTimeouts)) {
-                this.hifdhConfettiTimeouts.forEach((timeoutId) => {
-                    clearTimeout(timeoutId);
-                });
-            }
-            this.hifdhConfettiTimeouts = [];
-	        },
+        
+	        
 	        triggerMemorisationCompletionCelebration(options = {}) {
 	            const { kind = "complete" } = options || {};
 	            if (typeof document === "undefined") return;
@@ -18684,6 +18919,18 @@ export default {
             queueItem.status = "completed";
             queueItem.feedback = feedback || "";
             queueItem.completedOn = this.toDateKey(new Date());
+            // Order is enforced: SM-2 first, then planner, then queue adjustments.
+            const qMap = { weak: 0, minor: 3, strong: 5 };
+            const ayahStart = Number(queueItem.startAyah || 0);
+            const ayahEnd = Math.max(ayahStart, Number(queueItem.endAyah || ayahStart));
+            const surahNumber = Number(queueItem.surahNumber || this.selectedSurah || 0);
+            const q = qMap[String(feedback || "").toLowerCase()] ?? 3;
+            for (let ayahNumber = ayahStart; ayahNumber <= ayahEnd; ayahNumber += 1) {
+                const learningState = this.getOrCreateAyahLearningState(surahNumber, ayahNumber);
+                this.runSm2UpdateForAyah(learningState, q);
+                this.runHifdhPlannerUpdateForAyah(learningState);
+            }
+            this.persistHifdhLearningState();
             this.applyHifdhFeedbackAdjustments(queueItem, feedback);
             this.ensureMonthlyReviewContinuation(queueItem);
             this.persistHifdhSchedulerState();
@@ -18695,10 +18942,9 @@ export default {
             if (next) {
                 this.openHifdhPlanItem(next);
                 if (String(feedback || "").toLowerCase() === "strong") {
-                    this.triggerHifdhConfetti({ burst: "soft" });
+                    // this.triggerHifdhConfetti({ burst: "soft" });
                 }
             } else {
-                this.triggerHifdhConfetti({ burst: "full" });
                 this.announce("Today’s Hifdh session is complete.");
             }
             this.persistHifdhPlanUiState();
@@ -20678,8 +20924,11 @@ export default {
         },
 
         async continueFromLastMemorisationSession(options = {}) {
+            if (this.memorisationActionInFlight) return false;
+            this.memorisationActionInFlight = true;
             const { announce = false } = options || {};
             const latest = this.getLatestSessionHistoryEntry();
+            try {
             if (latest?.sessionConfig) {
                 try {
                     if (!this.isMemorisationToolbarVisible) {
@@ -20745,6 +20994,9 @@ export default {
 
             await this.startFirstMemorisationSession();
             return true;
+            } finally {
+                this.memorisationActionInFlight = false;
+            }
         },
 
 	        async startNewMemorisationSessionSetup(options = {}) {
@@ -21874,9 +22126,6 @@ export default {
                 snapshot.memorisationVerseCountdownPosition ??
                 snapshot.verseCountdownPosition ??
                 "floating";
-            const verseCountdownConfettiEnabledSource =
-                snapshot.memorisationVerseCountdownConfettiEnabled ??
-                snapshot.verseCountdownConfettiEnabled;
             const chainingMethodEnabledSource =
                 snapshot.memorisationChainingEnabled ??
                 snapshot.chainingMethodEnabled;
@@ -22001,8 +22250,6 @@ export default {
                     this.normaliseMemorisationVerseCountdownPosition(
                         verseCountdownPositionSource
                     ),
-                memorisationVerseCountdownConfettiEnabled:
-                    verseCountdownConfettiEnabledSource !== false,
                 memorisationChainingEnabled: !!(
                     chainingMethodEnabledSource ?? false
                 ),
@@ -22213,10 +22460,6 @@ export default {
                         snapshot.memorisationVerseCountdownPosition ??
                         snapshot.verseCountdownPosition ??
                         this.memorisationVerseCountdownPosition,
-                    verseCountdownConfettiEnabled:
-                        snapshot.memorisationVerseCountdownConfettiEnabled ??
-                        snapshot.verseCountdownConfettiEnabled ??
-                        this.memorisationVerseCountdownConfettiEnabled,
                     chainingMethodEnabled:
                         snapshot.memorisationChainingEnabled ??
                         snapshot.chainingMethodEnabled ??
@@ -24566,6 +24809,9 @@ export default {
         },
         async ensureHifdhPlanAccess() {
             if (this.canAccessHifdhPlanByStorage()) return true;
+            if (!this.bookmarkAuthenticated || !this.bookmarkStorageUserId) {
+                return true;
+            }
             const isAuthed = await this.ensureAuthenticated(
                 "Please log in to use Hifdh Plan."
             );
@@ -24582,6 +24828,13 @@ export default {
             this.$nextTick(() => {
                 this.openHifdhPlanPanel();
             });
+        },
+        async openCreateHifdhFromOffcanvas(event) {
+            if (event && typeof event.preventDefault === "function") {
+                event.preventDefault();
+            }
+            this.closeMemorisationOffcanvas();
+            await this.openHifdhPlanModalGuarded();
         },
         clearSavedBookmarks() {
             this.savedAyahKeys = {};
@@ -27531,7 +27784,7 @@ export default {
             this.toggleAudioPlayer(index);
         },
         onMemorisationProgressPlayClick() {
-            if (!this.isMemorisationToolbarVisible) return;
+            if (!this.isMemorisationToolbarVisible || this.memorisationActionInFlight) return;
             if (!this.isMemorisationModeActive) {
                 if (this.hasMemorisationResumeCandidate()) {
                     void this.continueFromLastMemorisationSession({
@@ -27561,8 +27814,15 @@ export default {
             if (!host) return;
             const target = host.querySelector(`#${CSS.escape(id)}`);
             if (!target || typeof target.scrollIntoView !== "function") return;
+            const prefersReducedMotion =
+                typeof window !== "undefined" &&
+                typeof window.matchMedia === "function" &&
+                window.matchMedia("(prefers-reduced-motion: reduce)").matches;
             try {
-                target.scrollIntoView({ behavior: "smooth", block: "start" });
+                target.scrollIntoView({
+                    behavior: prefersReducedMotion ? "auto" : "smooth",
+                    block: "start",
+                });
             } catch (_) {
                 target.scrollIntoView(true);
             }
@@ -33061,11 +33321,17 @@ export default {
                     self.scheduleMemorisationRangeLoopRestart(index);
                     return;
                 }
-                self.finalizeSessionHistoryEntry("completed");
-                self.showAudioPlayer = false;
-                self.currentlyPlayingIndex = -1;
-                return;
-            }
+	                const entry = self.finalizeSessionHistoryEntry("completed");
+	                if (!entry) {
+	                    self.triggerMemorisationCompletionCelebration({ kind: "complete" });
+	                    self.openSessionQuizFromCurrentMemorisationState({
+	                        source: "audio-end",
+	                    });
+	                }
+	                self.showAudioPlayer = false;
+	                self.currentlyPlayingIndex = -1;
+	                return;
+	            }
 
             this.stopAudio(index);
             var isLastAyahInRange =
@@ -33150,12 +33416,18 @@ export default {
                 this.scheduleMemorisationRangeLoopRestart(index);
                 return;
             }
-            if (isLastAyahInRange) {
-                this.finalizeSessionHistoryEntry("completed");
-            }
-            this.showAudioPlayer = false;
-            this.currentlyPlayingIndex = -1;
-        },
+	            if (isLastAyahInRange) {
+	                const entry = this.finalizeSessionHistoryEntry("completed");
+	                if (!entry) {
+	                    this.triggerMemorisationCompletionCelebration({ kind: "complete" });
+	                    this.openSessionQuizFromCurrentMemorisationState({
+	                        source: "audio-end",
+	                    });
+	                }
+	            }
+	            this.showAudioPlayer = false;
+	            this.currentlyPlayingIndex = -1;
+	        },
         // playNextAyah: function () {
         //   if (this.filteredAyahs.length > 0) {
         //     const nextIndex = (this.currentlyPlayingIndex + 1) % this.filteredAyahs.length;

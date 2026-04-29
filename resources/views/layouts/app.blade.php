@@ -1479,9 +1479,18 @@
             z-index: 1070 !important;
         }
 
-        body.surat-route-page .modal,
+        /* Keep stacking order deterministic:
+           memorisation offcanvas < modal backdrop < modal content */
         body.surat-route-page .offcanvas {
-            z-index: 1080 !important;
+            z-index: 1260 !important;
+        }
+
+        body.surat-route-page .modal-backdrop {
+            z-index: 1290 !important;
+        }
+
+        body.surat-route-page .modal {
+            z-index: 1300 !important;
         }
 
         body.surat-route-page .offcanvas.memorisation-offcanvas {
@@ -1515,8 +1524,6 @@
         }
 
         body.surat-route-page .modal .modal-dialog[class*="modal-fullscreen"] {
-            width: min(100%, calc(100vw - 1rem)) !important;
-            max-width: min(100%, calc(100vw - 1rem)) !important;
             min-height: 0 !important;
         }
 

@@ -8,14 +8,14 @@
           <span class="badge-premium">
             <i class="bi bi-clock-history"></i> {{ estimatedTime }} min left
           </span>
-          <button @click="resetChain" class="btn-reset" title="Reset Progress">
+          <button @click="resetChain" class="btn-reset" title="Reset progress" aria-label="Reset progress">
             <i class="bi bi-arrow-counterclockwise"></i>
           </button>
         </div>
       </div>
 
       <div class="chain-progress-container">
-        <div class="chain-progress-bar">
+        <div class="chain-progress-bar" role="progressbar" :aria-valuenow="Math.round(progressPercentage)" aria-valuemin="0" aria-valuemax="100" :aria-label="`Chain progress ${Math.round(progressPercentage)}%`">
           <div class="chain-progress-fill" :style="{ width: progressPercentage + '%' }"></div>
         </div>
         <div class="chain-progress-labels">
@@ -33,13 +33,17 @@
           :key="index"
           class="chain-node-wrapper"
         >
-          <div 
+          <button
             class="chain-node"
             :class="{
               'is-active': currentStepIndex === index,
               'is-completed': index < currentStepIndex,
               'is-locked': index > currentStepIndex
             }"
+            type="button"
+            :disabled="index > currentStepIndex"
+            :aria-current="currentStepIndex === index ? 'step' : undefined"
+            :aria-label="`Go to step ${index + 1}`"
             @click="jumpToStep(index)"
           >
             <div class="node-content">
@@ -47,7 +51,7 @@
               <span v-else>{{ getStepLabel(step) }}</span>
             </div>
             <div class="node-pulse" v-if="currentStepIndex === index"></div>
-          </div>
+          </button>
           <div v-if="index < steps.length - 1" class="chain-connector" :class="{ 'is-active': index < currentStepIndex }"></div>
         </div>
       </div>
@@ -75,10 +79,11 @@
           <!-- Blur Progression -->
           <div class="blur-control">
             <div class="blur-header">
-              <label>Focus / Blur Intensity</label>
+              <label for="chainBlurIntensity">Focus / Blur Intensity</label>
               <span>{{ blurIntensity }}%</span>
             </div>
-            <input 
+            <input
+              id="chainBlurIntensity"
               type="range" 
               v-model="blurIntensity" 
               min="0" 
@@ -263,6 +268,7 @@ const generateConfettiStyle = (n) => {
 };
 
 const saveToStorage = () => {
+  if (typeof window === 'undefined' || !window.localStorage) return;
   localStorage.setItem('chaining_method_state', JSON.stringify({
     chainSize: chainSize.value,
     currentStepIndex: currentStepIndex.value,
@@ -272,13 +278,18 @@ const saveToStorage = () => {
 };
 
 onMounted(() => {
+  if (typeof window === 'undefined' || !window.localStorage) return;
   const saved = localStorage.getItem('chaining_method_state');
   if (saved) {
-    const data = JSON.parse(saved);
-    chainSize.value = data.chainSize || 5;
-    currentStepIndex.value = data.currentStepIndex || 0;
-    blurIntensity.value = data.blurIntensity || 0;
-    autoAdvance.value = data.autoAdvance || false;
+    try {
+      const data = JSON.parse(saved);
+      chainSize.value = Number(data?.chainSize || 5) || 5;
+      currentStepIndex.value = Math.max(0, Number(data?.currentStepIndex || 0) || 0);
+      blurIntensity.value = Math.max(0, Number(data?.blurIntensity || 0) || 0);
+      autoAdvance.value = !!data?.autoAdvance;
+    } catch (_) {
+      resetChain();
+    }
   }
 });
 
@@ -346,11 +357,26 @@ watch([chainSize, currentStepIndex, blurIntensity, autoAdvance], saveToStorage);
 
 .btn-reset {
   background: none;
-  border: none;
+  border: 1px solid transparent;
   color: var(--text-muted);
   cursor: pointer;
   transition: all 0.3s ease;
   font-size: 1.2rem;
+}
+.btn-reset:focus-visible,
+.chain-node:focus-visible,
+.btn-audio-play:focus-visible,
+.btn-icon-subtle:focus-visible,
+.pill-selector button:focus-visible,
+.btn-next-step:focus-visible,
+.btn-premium-outline:focus-visible,
+.select-premium:focus-visible,
+.premium-slider:focus-visible,
+.premium-switch input:focus-visible + .slider {
+  /* Accessibility: consistent, high-visibility focus ring for keyboard navigation. */
+  outline: 2px solid #34d399;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(52, 211, 153, 0.25);
 }
 
 .btn-reset:hover {
@@ -411,8 +437,8 @@ watch([chainSize, currentStepIndex, blurIntensity, autoAdvance], saveToStorage);
 }
 
 .chain-node {
-  width: 44px;
-  height: 44px;
+  width: 48px;
+  height: 48px;
   border-radius: 14px;
   background: var(--card-bg);
   border: 2px solid var(--border);
@@ -659,8 +685,18 @@ watch([chainSize, currentStepIndex, blurIntensity, autoAdvance], saveToStorage);
 }
 
 .toggle-label {
-  font-size: 0.65rem;
+  font-size: 0.78rem;
   color: var(--text-muted);
+}
+
+.chain-title,
+.verse-range,
+.audio-label,
+.toggle-label,
+.chain-progress-labels,
+.blur-header,
+.verse-placeholder {
+  line-height: 1.45;
 }
 
 /* Config & Next */

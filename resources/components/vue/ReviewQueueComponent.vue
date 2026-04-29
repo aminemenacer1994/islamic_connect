@@ -5,7 +5,7 @@
                 <p class="review-queue-eyebrow mb-1">Memorisation</p>
                 <h1 class="review-queue-title mb-1">My Review Queue</h1>
                 <p class="review-queue-subtitle mb-0">
-                    Track difficult verses and jump back to focused practice.
+                    Bismillah. Review missed ayahs, then return to focused recitation.
                 </p>
             </div>
             <span class="review-queue-count-badge" aria-live="polite">
@@ -18,9 +18,9 @@
         </div>
 
         <div v-else-if="!queueList.length" class="review-queue-empty">
-            <h2 class="mb-2">No verses marked yet</h2>
+            <h2 class="mb-2">No ayahs in review yet</h2>
             <p class="mb-3">
-                Go to the Quran reader, turn on <strong>Mark as difficult</strong>, and tap stars next to verses you want to revisit.
+                Start a memorisation session, complete the quiz, then use <strong>Practice</strong> here for ayahs that need review.
             </p>
             <a href="/surat" class="btn btn-success">Go to Quran Reader</a>
         </div>
@@ -34,8 +34,8 @@
                     <p class="review-queue-item-date mb-0">Date marked: {{ formatMarkedAt(item.markedAt) }}</p>
                 </div>
                 <div class="review-queue-item-actions">
-                    <a :href="practiceNowUrl(item)" class="btn btn-sm btn-success">Practice Now</a>
-                    <button type="button" class="btn btn-sm btn-outline-danger" @click="removeFromQueue(item)">
+                    <a :href="practiceNowUrl(item)" class="btn btn-success review-queue-action-primary">Practice</a>
+                    <button type="button" class="btn btn-outline-danger review-queue-action-secondary" @click="removeFromQueue(item)">
                         Remove
                     </button>
                 </div>
@@ -54,6 +54,7 @@ import {
     writeReviewQueue,
     REVIEW_QUEUE_SYNC_EVENT,
 } from "../scripts/reviewQueueStorage";
+import { trackEventOnce } from "../scripts/memorisationTracking";
 
 export default {
     name: "ReviewQueueComponent",
@@ -77,6 +78,11 @@ export default {
     mounted() {
         this.currentUserId = Number(window?.Laravel?.userId || 0) || 0;
         this.loadReviewQueue();
+        trackEventOnce(
+            "review_queue_opened",
+            { userId: this.currentUserId, count: this.queueCount, flowStep: "review" },
+            { dedupeKey: `review_queue_opened:${this.currentUserId}` }
+        );
         this.reviewQueueStorageHandler = (event) => {
             if (event?.key !== this.getStorageKey()) return;
             this.loadReviewQueue();
@@ -163,14 +169,16 @@ export default {
 <style scoped>
 .review-queue-page {
     max-width: 980px;
+    padding-top: var(--space-5);
+    padding-bottom: var(--space-5);
 }
 
 .review-queue-header {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
-    gap: 1rem;
-    margin-bottom: 1.25rem;
+    gap: var(--space-4);
+    margin-bottom: var(--space-5);
 }
 
 .review-queue-eyebrow {
@@ -234,10 +242,17 @@ export default {
     justify-content: space-between;
     gap: 0.85rem;
     flex-wrap: wrap;
+    transition: border-color 0.16s ease, box-shadow 0.16s ease;
+}
+
+.review-queue-item:hover {
+    border-color: rgba(15, 118, 110, 0.24);
+    box-shadow: 0 6px 14px rgba(15, 23, 42, 0.05);
 }
 
 .review-queue-item-main {
-    min-width: 240px;
+    min-width: 0;
+    flex-basis: 240px;
     flex: 1;
 }
 
@@ -245,6 +260,7 @@ export default {
     color: #0f172a;
     font-size: 1rem;
     font-weight: 700;
+    overflow-wrap: anywhere;
 }
 
 .review-queue-item-date {
@@ -258,7 +274,20 @@ export default {
     align-items: center;
 }
 
+.review-queue-action-primary,
+.review-queue-action-secondary {
+    min-height: 44px;
+    border-radius: 8px;
+    font-weight: 700;
+    padding: 0.5rem 0.8rem;
+}
+
 @media (max-width: 640px) {
+    .review-queue-page {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
     .review-queue-header {
         flex-direction: column;
         align-items: flex-start;
@@ -274,6 +303,7 @@ export default {
 
     .review-queue-item-actions .btn {
         flex: 1;
+        min-height: 44px;
     }
 }
 </style>

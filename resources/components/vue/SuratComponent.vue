@@ -808,6 +808,7 @@
                     @shuffle-playlist="shufflePlaylistFromPanel" />
             </div>
         </teleport>
+        
         <div v-if="!showReaderToolbar"
             class="reader-toolbar-restore ltr-text">
             <button
@@ -817,6 +818,23 @@
                 <i class="bi bi-layout-text-sidebar-reverse" aria-hidden="true"></i>
                 <span>Show reader tools</span>
                 </button>
+        </div>
+        <div
+            class="memorisation-workspace-hero text-center"
+            :class="{
+                'is-memo-open': isMemorisationToolbarVisible && isMemorisationOffcanvasVisible,
+                'is-memo-closed': !isMemorisationOffcanvasVisible
+            }"
+            role="region"
+            aria-label="Quran memorisation workspace introduction">
+            <h1 class="memorisation-workspace-hero-title">Quran Memorisation</h1>
+            <p class="memorisation-workspace-hero-description">
+                {{
+                    isMemorisationToolbarVisible && isMemorisationOffcanvasVisible
+                        ? "Set your range, then begin chaining, quiz, and review with a focused Hifdh workflow."
+                        : "Build daily Hifdh with a calm flow: chaining, quiz, and review in one connected workspace."
+                }}
+            </p>
         </div>
         <div v-if="(surahDetails || currentSurahInfo) && (!isTabletOrMobile && showDesktopToolbar && showReaderToolbar) && !isReadingFullscreen"
             class="quran-toolbar-sticky ltr-text"
@@ -1124,6 +1142,7 @@
                                             <button
                                                 type="button"
                                                 class="btn memorisation-toolbar-progress-play"
+                                                :disabled="memorisationActionInFlight"
                                                 :class="{
                                                     'is-playing': isAnyAudioPlaying,
                                                     'is-paused': !isAnyAudioPlaying && isMemorisationModeActive,
@@ -1282,7 +1301,7 @@
                 <i class="bi bi-x-lg" aria-hidden="true"></i>
 	            </button>
 	            <div class="offcanvas-body">
-	                <div class="memorisation-tools-tabs" role="tablist" aria-label="Memorisation tool level">
+                <div class="memorisation-tools-tabs" role="tablist" aria-label="Memorisation tool level">
 	                    <button
 	                        type="button"
                         class="btn memorisation-tools-tab"
@@ -1300,23 +1319,16 @@
                         Advanced
                     </button>
                 </div>
-                <!-- <section
-                    v-if="!isMemorisationModeActive"
-                    class="memorisation-flow-card"
-                    aria-label="Recommended memorisation path">
-                    <div class="memorisation-flow-card-main">
-                        <span class="memorisation-flow-kicker">
-                            {{ isMemorisationAdvancedMode ? 'Advanced path' : 'Simple path' }}
-                        </span>
-                        <h5 class="mb-0">{{ memorisationHappyPathTitle }}</h5>
-                        <p class="mb-0">{{ memorisationHappyPathSummary }}</p>
-                        <div class="memorisation-flow-steps" aria-label="Session steps">
-                            <span><strong>1</strong> Pick range</span>
-                            <span><strong>2</strong> Start</span>
-                            <span><strong>3</strong> Repeat / save</span>
-                        </div>
-                    </div>
-                </section> -->
+                <div class="memorisation-tools-grid mb-2">
+                    <button
+                        type="button"
+                        class="btn memorisation-tools-action-btn memorisation-tools-action-btn--reset memorisation-tools-field--full"
+                        @click="openCreateHifdhFromOffcanvas($event)">
+                        <i class="bi bi-calendar-plus me-1" aria-hidden="true"></i>
+                        Create Hifdh
+                    </button>
+                </div>
+                
                 <button
                     type="button"
                     class="btn memorisation-shortcuts-hint"
@@ -1621,57 +1633,45 @@
 		                                </select>
 		                            </label>
 		                                <div class="memorisation-saved-session-actions memorisation-tools-field--full">
-		                                    <button
-	                                        type="button"
-                                        class="btn memorisation-tools-secondary-btn"
-                                        :disabled="!selectedMemorisationSessionHistoryId"
-                                        @click="loadSelectedMemorisationSessionFromOffcanvas">
-                                        <i class="bi bi-arrow-clockwise" aria-hidden="true"></i>
-                                        <span>Load</span>
-                                    </button>
-                                    <button
-                                        type="button"
-                                        class="btn memorisation-tools-secondary-btn"
-                                        @click="exitLoadedMemorisationSession">
-                                        <i class="bi bi-box-arrow-left" aria-hidden="true"></i>
-                                        <span>Reset</span>
-                                    </button>
-                                    <button
-                                        type="button"
-                                        class="btn memorisation-tools-secondary-btn memorisation-tools-danger-btn"
-                                        :disabled="!selectedMemorisationSessionHistoryId"
-                                        @click="deleteSelectedMemorisationSessionFromOffcanvas">
-                                        <i class="bi bi-trash3" aria-hidden="true"></i>
-                                        <span>Delete</span>
-                                    </button>
-                                </div>
+		                                <button type="button"
+                                            class="btn memorisation-tools-secondary-btn"
+                                            :disabled="!selectedMemorisationSessionHistoryId"
+                                            @click="loadSelectedMemorisationSessionFromOffcanvas">
+                                            <i class="bi bi-arrow-clockwise" aria-hidden="true"></i>
+                                            <span>Load</span>
+                                        </button>
+                                        <button
+                                            type="button"
+                                            class="btn memorisation-tools-secondary-btn"
+                                            @click="exitLoadedMemorisationSession">
+                                            <i class="bi bi-box-arrow-left" aria-hidden="true"></i>
+                                            <span>Reset</span>
+                                        </button>
+                                        <button
+                                            type="button"
+                                            class="btn memorisation-tools-secondary-btn memorisation-tools-danger-btn"
+                                            :disabled="!selectedMemorisationSessionHistoryId"
+                                            @click="deleteSelectedMemorisationSessionFromOffcanvas">
+                                            <i class="bi bi-trash3" aria-hidden="true"></i>
+                                            <span>Delete</span>
+                                        </button>
+                                    </div>
 	                        </div>
 	                    </section>
 
-                    <div id="memo-beginner-actions" class="memorisation-beginner-actions">
-                        <button
-                            type="button"
-                            class="btn memorisation-tools-action-btn memorisation-tools-action-btn--primary"
-                            @click="startMemorisationBeginnerSession">
+                        <div id="memo-beginner-actions" class="memorisation-beginner-actions">
+                            <button type="button" class="btn memorisation-tools-action-btn memorisation-tools-action-btn--primary" @click="startMemorisationBeginnerSession">
                             <i class="bi bi-play-fill me-1" aria-hidden="true"></i>
                             Start Session
-                        </button>
-                        <button
-                            type="button"
-                            class="btn memorisation-tools-action-btn memorisation-tools-action-btn--reset"
-                            @click="resetMemorisationDraftForm">
+                            </button>
+                            <button type="button" class="btn memorisation-tools-action-btn memorisation-tools-action-btn--reset" @click="resetMemorisationDraftForm">
                             Reset
-                        </button>
-                        <button
-                            type="button"
-                            class="btn memorisation-tools-action-btn memorisation-tools-action-btn--cancel"
-                            @click="cancelMemorisationOffcanvas">
+                            </button>
+                            <button type="button" class="btn memorisation-tools-action-btn memorisation-tools-action-btn--cancel" @click="cancelMemorisationOffcanvas">
                             Cancel
-                        </button>
-                    </div>
-
+                            </button>
+                        </div>
                 </div>
-
                 <div v-else class="memorisation-advanced-panel" aria-label="Advanced memorisation setup">
                     <nav class="memorisation-jump-links" aria-label="Jump to section">
                         <button type="button" class="btn memorisation-jump-link" @click="scrollMemorisationOffcanvasTo('memo-advanced-setup')">Setup</button>
@@ -1680,6 +1680,7 @@
                         <button type="button" class="btn memorisation-jump-link" @click="scrollMemorisationOffcanvasTo('memo-advanced-repeat')">Repeat</button>
                         <button type="button" class="btn memorisation-jump-link" @click="scrollMemorisationOffcanvasTo('memo-advanced-tools')">Recall</button>
                         <button type="button" class="btn memorisation-jump-link" @click="scrollMemorisationOffcanvasTo('memo-advanced-history')">Saved</button>
+                        <button type="button" class="btn memorisation-jump-link" @click="openHifdhPlanModalGuarded($event)">Hifdh Plan</button>
                     </nav>
                     <section class="memorisation-tools-card" aria-label="Advanced setup">
                         <span id="memo-advanced-setup" class="memorisation-anchor" aria-hidden="true"></span>
@@ -2979,7 +2980,7 @@
 
         <teleport to="body">
   <div class="modal fade hifz-plan-wizard-modal" id="hifzPlanWizardModal" tabindex="-1" aria-labelledby="hifzPlanWizardModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl modal-dialog-scrollable modal-dialog-centered">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable modal-dialog-centered">
       <div class="modal-content" :class="{ 'surat-dark-modal': isDarkTheme }">
         <div class="modal-header">
           <div>
@@ -3155,7 +3156,7 @@
 
         <teleport to="body">
             <div v-if="isHifzCountdownActive" class="hifz-countdown-overlay d-flex justify-content-center align-items-center" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.85); z-index: 1060; backdrop-filter: blur(4px);">
-                <div class="hifz-countdown-circle" style="width: 150px; height: 150px; border-radius: 50%; background: #28a745; color: white; font-size: 5rem; font-weight: bold; display: flex; justify-content: center; align-items: center; box-shadow: 0 0 30px rgba(40,167,69,0.5); animation: pulse-countdown 1s infinite;">
+                <div class="hifz-countdown-circle" style="width: 150px; height: 150px; border-radius: 50%; background: #28a745; color: white; font-size: 5rem; font-weight: bold; display: flex; justify-content: center; align-items: center; box-shadow: 0 0 30px rgba(40,167,69,0.5);">
                     {{ hifzCountdown }}
                 </div>
             </div>
@@ -3163,7 +3164,7 @@
 
         <teleport to="body">
             <div class="modal fade hifz-plan-dashboard-modal" id="hifzPlanDashboardModal" tabindex="-1" aria-labelledby="hifzPlanDashboardModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-xl modal-dialog-scrollable modal-dialog-centered">
+                <div class="modal-dialog modal-lg modal-dialog-scrollable modal-dialog-centered">
                     <div class="modal-content" :class="{ 'surat-dark-modal': isDarkTheme }">
                         <div class="modal-header">
                             <div>
@@ -3367,7 +3368,7 @@
 
         <teleport to="body">
             <div class="modal fade hifdh-plan-modal" id="hifdhPlanModal" tabindex="-1" aria-labelledby="hifdhPlanModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-xl modal-dialog-scrollable modal-dialog-centered">
+                <div class="modal-dialog modal-lg modal-dialog-scrollable modal-dialog-centered">
                     <div class="modal-content" :class="{ 'surat-dark-modal': isDarkTheme }">
                         <div class="modal-header">
                             <div>
@@ -4329,81 +4330,95 @@
 
             <div
                 v-if="isMemorisationChainingActive"
-                style="border: 3 solid black"
                 class="memorisation-chaining-host ltr-text"
                 :class="{ 'is-complete': memorisationChainingCompleted }">
                 <section
-                    style="border: 3 solid black"
                     class="memorisation-chaining-display"
                     role="status"
                     aria-live="polite">
-                    <div class="memorisation-chaining-display-head">
-                        <div class="memorisation-chaining-display-badges-row">
-                            <span class="memorisation-chaining-display-state-pill">
-                                {{ memorisationChainingCompleted ? "Mastered" : "Active Session" }}
-                            </span>
-
-                            <div class="memorisation-chaining-display-badges">
-                                <span class="badge badge-bridging" v-if="memorisationChainingMode === 'bridge'">Bridge</span>
-                                <span class="badge badge-chaining">Chain</span>
+                    <div class="memorisation-chaining-zone memorisation-chaining-zone-header">
+                        <div class="memorisation-chaining-header-copy">
+                            <h4 class="memorisation-chaining-header-title mb-0">Chaining Method</h4>
+                            <p class="memorisation-chaining-header-helper mb-0">Build ayahs step-by-step</p>
+                        </div>
+                    </div>
+                    <div class="memorisation-chaining-zone memorisation-chaining-zone-track">
+                        <!-- UX: keep current link visually dominant so users instantly know where to recite now. -->
+                        <div class="memorisation-chaining-link-row" aria-label="Current memorisation chain">
+                            <template v-for="(link, linkIndex) in memorisationChainingChainLinks" :key="`memorisation-chain-link-${link.index}`">
+                                <div
+                                    class="memorisation-chaining-link-wrap">
+                                    <div
+                                        class="memorisation-chaining-link"
+                                        :class="`is-${link.state}`">
+                                        <span>{{ link.ayahNumber }}</span>
+                                    </div>
+                                    <span
+                                        v-if="linkIndex < memorisationChainingChainLinks.length - 1"
+                                        class="memorisation-chaining-track-connector"
+                                        aria-hidden="true">→</span>
+                                </div>
+                            </template>
+                        </div>
+                        <div class="memorisation-chaining-progress-track" aria-hidden="true">
+                            <div
+                                class="memorisation-chaining-progress-fill"
+                                :style="{ width: `${memorisationChainingProgressPercent}%` }"></div>
+                        </div>
+                    </div>
+                    <div class="memorisation-chaining-zone memorisation-chaining-zone-actions">
+                        <span class="memorisation-chaining-display-state-pill">
+                            {{ memorisationChainingCompleted ? "Mastered" : "Active Session" }}
+                        </span>
+                        <button
+                            v-if="memorisationChainingPendingAdvance || !isMemorisationChainingAutomationActive"
+                            type="button"
+                            class="btn btn-next-hero"
+                            @click="continueMemorisationChaining">
+                            <span v-if="memorisationChainingAutoAdvanceCountdown > 0">{{ memorisationChainingAutoAdvanceCountdown }}s</span>
+                            <span v-else>Next Verse</span>
+                        </button>
+                        <button
+                            type="button"
+                            class="memorisation-chaining-close-btn"
+                            @click="deactivateMemorisationChaining"
+                            aria-label="Close">
+                            <i class="bi bi-x-lg"></i>
+                        </button>
+                    </div>
+                    <div class="memorisation-chaining-zone memorisation-chaining-zone-status">
+                        <div class="memorisation-chaining-status-summary">
+                            Session details · Round {{ memorisationChainingRoundIndex + 1 }}/{{ memorisationChainingTotalVerses }} · {{ memorisationChainingProgressPercent }}%
+                        </div>
+                        <div class="memorisation-chaining-details-body">
+                            <div class="memorisation-chaining-details-copy">
+                                <!-- UX: concise instruction line reduces cognitive load and keeps next action explicit. -->
+                                <p class="memorisation-chaining-instruction mb-0">
+                                    Recite now: {{ memorisationChainingStatusText }}
+                                </p>
+                                <p class="memorisation-chaining-context mb-0">
+                                    Status: {{ memorisationChainingStatusTitle }} · Chain {{ memorisationChainingCurrentChainLength }} ·
+                                    {{ Math.max(0, memorisationChainingTotalVerses - (memorisationChainingRoundIndex + 1)) }} rounds left
+                                </p>
                             </div>
-                        </div>
-
-                        <div class="d-flex align-items-center gap-4">
-                            <button
-                                v-if="memorisationChainingPendingAdvance || !isMemorisationChainingAutomationActive"
-                                type="button"
-                                class="btn btn-next-hero text-black"
-                                @click="continueMemorisationChaining">
-                                <span v-if="memorisationChainingAutoAdvanceCountdown > 0">{{ memorisationChainingAutoAdvanceCountdown }}s</span>
-                                <span v-else class="text-black">Next Verse</span>
-                            </button>
-
-                            <button
-                                type="button"
-                                class="memorisation-chaining-close-btn"
-                                @click="deactivateMemorisationChaining"
-                                aria-label="Close">
-                                <i class="bi bi-x-lg"></i>
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="memorisation-chaining-display-metrics">
-                        <div class="memorisation-chaining-display-metric">
-                            <span>Chain</span>
-                            <strong>{{ memorisationChainingCurrentChainLength }}</strong>
-                        </div>
-
-                        <div class="memorisation-chaining-display-metric">
-                            <span>Round</span>
-                            <strong>{{ memorisationChainingRoundIndex + 1 }}/{{ memorisationChainingTotalVerses }}</strong>
-                        </div>
-
-                        <div class="memorisation-chaining-display-metric">
-                            <span>Progress</span>
-                            <strong>{{ memorisationChainingProgressPercent }}%</strong>
-                        </div>
-
-                        <div class="memorisation-chaining-display-metric">
-                            <span>Time</span>
-                            <strong>{{ memorisationChainingEstimatedTimeLabel || '--:--' }}</strong>
-                        </div>
-                    </div>
-
-                    <div class="memorisation-chaining-progress-track" aria-hidden="true">
-                        <div
-                            class="memorisation-chaining-progress-fill"
-                            :style="{ width: `${memorisationChainingProgressPercent}%` }"></div>
-                    </div>
-
-                    <div class="memorisation-chaining-link-row" aria-label="Current memorisation chain">
-                        <div
-                            v-for="(link, linkIndex) in memorisationChainingChainLinks"
-                            :key="`memorisation-chain-link-${link.index}`"
-                            class="memorisation-chaining-link"
-                            :class="`is-${link.state}`">
-                            <span>{{ link.ayahNumber }}</span>
+                            <div class="memorisation-chaining-display-metrics">
+                                <div class="memorisation-chaining-display-metric">
+                                    <span>Round</span>
+                                    <strong>{{ memorisationChainingRoundIndex + 1 }}/{{ memorisationChainingTotalVerses }}</strong>
+                                </div>
+                                <div class="memorisation-chaining-display-metric">
+                                    <span>Progress</span>
+                                    <strong>{{ memorisationChainingProgressPercent }}%</strong>
+                                </div>
+                                <div class="memorisation-chaining-display-metric">
+                                    <span>Left</span>
+                                    <strong>{{ Math.max(0, memorisationChainingTotalVerses - (memorisationChainingRoundIndex + 1)) }}</strong>
+                                </div>
+                                <div class="memorisation-chaining-display-metric">
+                                    <span>ETA</span>
+                                    <strong>{{ memorisationChainingEstimatedTimeLabel || "--:--" }}</strong>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </section>
@@ -6317,7 +6332,7 @@
         <teleport to="body">
             <div class="modal fade" id="ayahReflectionModal" tabindex="-1" aria-labelledby="reflectionModalLabel"
                 aria-hidden="true" data-bs-backdrop="true">
-                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl modal-modern modal-fullscreen-sm-down reflection-modal-dialog">
+                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-md modal-modern">
                     <div class="modal-content reflection-modal" :class="{ 'surat-dark-modal': isDarkTheme }">
                         <div class="modal-header">
                             <h6 class="modal-title" id="reflectionModalLabel">
@@ -6334,115 +6349,121 @@
                                     close, deepens remembrance, and turns reading into lived practice.
                                 </p>
                             </div>
-                            <form class="d-flex flex-column gap-3 mt-3" @submit.prevent="submitReflectionForm"
-                                novalidate>
-                                <div v-if="reflectionSuccessMessage"
-                                    class="reflection-success-banner reflection-success-top">
+                            <form class="d-flex flex-column gap-3 mt-3" @submit.prevent="submitReflectionForm" novalidate>
+                                <div v-if="reflectionSuccessMessage" class="reflection-success-banner reflection-success-top">
                                     <i class="bi bi-check-circle-fill"></i>
                                     <span>{{ reflectionSuccessMessage }}</span>
                                 </div>
+                                
                                 <div>
                                     <label class="form-label fw-bold mb-1 medium-label">Title</label>
-                                    <input type="text" class="form-control form-control-lg"
-                                        v-model="reflectionForm.subject"
+                                    <input type="text" class="form-control form-control-lg" v-model="reflectionForm.subject"
                                         placeholder="Give this reflection a guiding intention" required />
                                 </div>
+                                
                                 <div>
                                     <label class="form-label fw-bold mb-1 medium-label">Message</label>
-                                    <textarea class="form-control form-control-lg" v-model="reflectionForm.message"
-                                        rows="5" :minlength="reflectionMessageMinLength"
+                                    <textarea class="form-control form-control-lg" v-model="reflectionForm.message" rows="5"
+                                        :minlength="reflectionMessageMinLength"
                                         placeholder="Type how this verse moved you today..." required></textarea>
                                     <div class="d-flex justify-content-between align-items-center mt-2">
-                                        <small class="text-muted">Message must be at least {{ reflectionMessageMinLength
-                                        }} characters.</small>
-                                        <span class="text-muted small">{{ (reflectionForm.message || '').trim().length
-                                        }} characters</span>
+                                        <small class="text-muted">Message must be at least {{ reflectionMessageMinLength }} characters.</small>
+                                        <span class="text-muted small">{{ (reflectionForm.message || '').trim().length }} characters</span>
                                     </div>
                                 </div>
-                                <div v-if="editingReflectionId"
-                                    class="alert alert-info surat-inline-alert surat-inline-alert-info reflection-editing-alert small">
+
+                                <div v-if="editingReflectionId" class="alert alert-info surat-inline-alert surat-inline-alert-info reflection-editing-alert small">
                                     <span>Editing saved reflection</span>
-                                    <button type="button"
-                                        class="btn btn-link btn-sm text-decoration-underline p-0 small"
+                                    <button type="button" class="btn btn-link btn-sm text-decoration-underline p-0 small"
                                         @click="cancelReflectionEdit">Cancel edit</button>
                                 </div>
-                                <div class="note-suggestions" :class="{ collapsed: carouselCollapsed }">
-                                    <div
-                                        class="note-suggestions-header d-flex justify-content-between align-items-center mb-3">
-                                        <div>
-                                            <span class="fw-semibold text-dark me-2">Message prompts</span>
-                                            <small class="text-muted">Tap to adapt</small>
+
+                                <!-- IMPROVED: Cleaner Message Prompts Section -->
+                                <!-- <div class="note-suggestions" :class="{ 'is-collapsed': carouselCollapsed }">
+                                    <div class="suggestions-header">
+                                        <div class="suggestions-title-group">
+                                            <i class="bi bi-lightbulb suggestions-icon"></i>
+                                            <span class="suggestions-title">Message prompts</span>
+                                            <span class="suggestions-badge">Get inspired</span>
                                         </div>
-                                        <button type="button" class="btn btn-ghost p-0 small"
-                                            @click="carouselCollapsed = !carouselCollapsed">
-                                            <i class="bi"
-                                                :class="carouselCollapsed ? 'bi-chevron-up' : 'bi-chevron-down'"></i>
-                                            {{ carouselCollapsed ? 'show prompts' : 'collapse' }}
+                                        <button type="button" class="suggestions-toggle" @click="carouselCollapsed = !carouselCollapsed">
+                                            <i class="bi" :class="carouselCollapsed ? 'bi-chevron-down' : 'bi-chevron-up'"></i>
+                                            <span>{{ carouselCollapsed ? 'Show prompts' : 'Hide prompts' }}</span>
                                         </button>
                                     </div>
-                                    <div class="suggestion-marquee-stack">
-                                        <div v-for="(rowPrompts, rowIndex) in reflectionMessagePromptRows"
-                                            :key="`row-${rowIndex}`" class="suggestion-marquee-row">
-                                            <div class="suggestion-marquee">
-                                                <div class="suggestion-track"
-                                                    :class="{ 'is-paused': carouselCollapsed }"
-                                                    :style="suggestionTrackStyle(rowIndex + 1)">
-                                                    <div class="suggestion-track-group" :aria-hidden="false">
-                                                        <button type="button" class="suggestion-pill light"
-                                                            v-for="(prompt, idx) in rowPrompts"
-                                                            :key="`msg-${rowIndex}-${idx}`"
-                                                            @click="applyMessageSuggestion(prompt.text)">
-                                                            <span class="lead">{{ prompt.icon }}</span>
-                                                            <span>{{ prompt.text }}</span>
-                                                        </button>
-                                                    </div>
-                                                </div>
+                                    
+                                    <div v-if="!carouselCollapsed" class="suggestions-grid">
+                                        <div class="suggestions-category">
+                                            <h6 class="suggestions-category-title">🌿 Intention & Purpose</h6>
+                                            <div class="suggestions-list">
+                                                <button type="button" class="suggestion-chip" @click="applyMessageSuggestion('This ayah reminded me that Allah sees my hidden struggles.')">
+                                                    <span>🤲</span> Allah sees my hidden struggles
+                                                </button>
+                                                <button type="button" class="suggestion-chip" @click="applyMessageSuggestion('I realised that my sincere intention matters more than the length of my prayer.')">
+                                                    <span>💭</span> Intention matters more than length
+                                                </button>
+                                                <button type="button" class="suggestion-chip" @click="applyMessageSuggestion('This verse gave me clarity about why I exist and what I am working toward.')">
+                                                    <span>✨</span> Clarity about my purpose
+                                                </button>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="suggestions-category">
+                                            <h6 class="suggestions-category-title">❤️ Personal Connection</h6>
+                                            <div class="suggestions-list">
+                                                <button type="button" class="suggestion-chip" @click="applyMessageSuggestion('This ayah touched a place in my heart I usually keep guarded.')">
+                                                    <span>💗</span> Touched a guarded part of my heart
+                                                </button>
+                                                <button type="button" class="suggestion-chip" @click="applyMessageSuggestion('I felt a quiet sense of peace while reciting this verse.')">
+                                                    <span>🕊️</span> A quiet sense of peace
+                                                </button>
+                                                <button type="button" class="suggestion-chip" @click="applyMessageSuggestion('This is exactly what I needed to hear today, without even knowing it.')">
+                                                    <span>🎯</span> Exactly what I needed today
+                                                </button>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="suggestions-category">
+                                            <h6 class="suggestions-category-title">📿 Action & Application</h6>
+                                            <div class="suggestions-list">
+                                                <button type="button" class="suggestion-chip" @click="applyMessageSuggestion('I will try to act on this teaching in my interactions today.')">
+                                                    <span>⚡</span> Act on this teaching today
+                                                </button>
+                                                <button type="button" class="suggestion-chip" @click="applyMessageSuggestion('This made me want to share the message with someone close to me.')">
+                                                    <span>📢</span> Share this message with someone
+                                                </button>
+                                                <button type="button" class="suggestion-chip" @click="applyMessageSuggestion('I will repeat this ayah in my morning and evening adhkar.')">
+                                                    <span>🔄</span> Repeat in morning/evening adhkar
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div v-if="carouselCollapsed"
-                                    class="note-suggestions-collapsed d-flex justify-content-between align-items-center">
-                                    <span class="text-muted small">Message prompts are hidden</span>
-                                    <button type="button" class="btn note-suggestions-toggle p-0"
-                                        @click="carouselCollapsed = false">
-                                        <i class="bi bi-chevron-down me-1"></i>
-                                        Show prompts
-                                    </button>
-                                </div>
+                                </div> -->
+
                                 <div v-if="reflectionErrorMessage" class="alert alert-danger surat-inline-alert surat-inline-alert-danger reflection-error-alert small">
                                     {{ reflectionErrorMessage }}
                                 </div>
-                                <div v-if="currentAyahReflections.length"
-                                    class="reflection-history reflection-history-card mt-4">
+
+                                <div v-if="currentAyahReflections.length" class="reflection-history reflection-history-card mt-4">
                                     <div class="reflection-history-header">
                                         <span class="reflection-history-title">
-                                            <i class="bi bi-journal-text me-1 reflection-title-icon"
-                                                aria-hidden="true"></i>
+                                            <i class="bi bi-journal-text me-1 reflection-title-icon" aria-hidden="true"></i>
                                             Saved reflections
                                         </span>
                                         <span class="reflection-history-count">
-                                            {{ currentAyahReflections.length }} {{ currentAyahReflections.length === 1 ?
-                                                'reflection' : 'reflections' }}
+                                            {{ currentAyahReflections.length }} {{ currentAyahReflections.length === 1 ? 'reflection' : 'reflections' }}
                                         </span>
                                     </div>
                                     <div class="reflection-history-list">
-                                        <article v-for="(note, index) in currentAyahReflections" :key="note.id || index"
-                                            class="reflection-history-entry">
-                                            <p class="reflection-history-subject">
-                                                {{ note.subject || 'Untitled reflection' }}
-                                            </p>
-                                            <p class="reflection-history-message">
-                                                {{ note.message }}
-                                            </p>
+                                        <article v-for="(note, index) in currentAyahReflections" :key="note.id || index" class="reflection-history-entry">
+                                            <p class="reflection-history-subject">{{ note.subject || 'Untitled reflection' }}</p>
+                                            <p class="reflection-history-message">{{ note.message }}</p>
                                             <div class="reflection-history-entry-actions">
-                                                <button type="button" class="btn reflection-action edit-action"
-                                                    @click="startEditingReflection(note, index)">
+                                                <button type="button" class="btn reflection-action edit-action" @click="startEditingReflection(note, index)">
                                                     <i class="bi bi-pencil" aria-hidden="true"></i>
                                                     <span>Edit</span>
                                                 </button>
-                                                <button type="button" class="btn reflection-action delete-action"
-                                                    @click="deleteReflection(note, index)">
+                                                <button type="button" class="btn reflection-action delete-action" @click="deleteReflection(note, index)">
                                                     <i class="bi bi-trash" aria-hidden="true"></i>
                                                     <span>Delete</span>
                                                 </button>
@@ -6450,15 +6471,13 @@
                                         </article>
                                     </div>
                                 </div>
+
                                 <div class="modal-footer justify-content-end border-0 p-0 mt-2 gap-2 small-actions">
-                                    <button type="button" class="btn btn-outline-secondary btn-lg"
-                                        @click="hideReflectionModal">
+                                    <button type="button" class="btn btn-outline-secondary btn-lg" @click="hideReflectionModal">
                                         Cancel
                                     </button>
-                                    <button type="submit" class="btn btn-lg btn-primary ms-2"
-                                        :disabled="!canSubmitReflection || isSavingReflection">
-                                        <span v-if="isSavingReflection" class="spinner-border spinner-border-sm me-2"
-                                            role="status" aria-hidden="true"></span>
+                                    <button type="submit" class="btn btn-lg btn-primary ms-2" :disabled="!canSubmitReflection || isSavingReflection">
+                                        <span v-if="isSavingReflection" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
                                         Save reflection
                                     </button>
                                 </div>

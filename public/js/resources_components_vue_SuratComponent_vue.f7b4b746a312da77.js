@@ -357,23 +357,27 @@ const WHISPER_MODEL = 'openai/whisper-large-v3';
       idx.value = n;
       persistDraft();
     }
-    function pick(val) {
-      const q = currentQ.value;
-      if (!q || q.answered) return;
-      q.user = val;
-      q.answered = true;
-      q.correct = eq(val, q.correctAnswer);
-      if (q.correct) confettiMicro();
-      persistDraft();
-      if (allAnswered()) {
-        state.value = 'complete';
-        stopTimer();
-        persistDraft();
-        celebrateComplete();
-        return;
-      }
-      scheduleAutoNext();
-    }
+   function pick(val) {
+  const q = currentQ.value
+  if (!q || q.answered) return
+  q.userAnswer = val
+  q.answered = true
+  q.correct = (val === q.correctAnswer)
+  persistDraft()
+  
+  if (q.correct) {
+    confettiMicro()
+  }
+  
+  if (allAnswered()) {
+    state.value = 'complete'
+    stopTimer()
+    persistDraft()
+    celebrateComplete()
+    return
+  }
+  scheduleAutoNext()
+}
     function choiceClass(val) {
       const q = currentQ.value;
       if (!q) return {};

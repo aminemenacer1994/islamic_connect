@@ -1420,13 +1420,29 @@ body.has-admin-sidebar .badge[data-status="cancelled"] {
 }
 
 .memorisation-sidebar.memorisation-offcanvas .memorisation-beginner-actions {
+  /* Keep primary actions reachable while preserving natural placement when content is short. */
+  position: sticky !important;
+  bottom: 0 !important;
+  z-index: 8 !important;
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  align-items: center !important;
   gap: 0.6rem !important;
-  padding-top: 0.2rem !important;
+  padding: 0.72rem 0 0.2rem !important;
+  margin-top: auto !important;
+  background: linear-gradient(180deg, rgba(238, 248, 244, 0), rgba(238, 248, 244, 0.94) 34%, rgba(238, 248, 244, 0.98) 100%) !important;
+  border-top: 1px solid rgba(15, 71, 65, 0.12) !important;
+  box-shadow: 0 -10px 24px rgba(6, 33, 29, 0.1) !important;
+  backdrop-filter: blur(3px) !important;
+  -webkit-backdrop-filter: blur(3px) !important;
+  transform: translateY(0) !important;
+  opacity: 1 !important;
+  transition: box-shadow 180ms ease, transform 180ms ease, opacity 180ms ease !important;
 }
 
 @media (max-width: 520px) {
   .memorisation-sidebar.memorisation-offcanvas .offcanvas-body {
-    padding: 0.78rem 0.78rem 1rem !important;
+    padding: 0.78rem 0.78rem 1.15rem !important;
   }
 
   .memorisation-sidebar.memorisation-offcanvas .memorisation-tools-card {
@@ -1436,6 +1452,23 @@ body.has-admin-sidebar .badge[data-status="cancelled"] {
   .memorisation-sidebar.memorisation-offcanvas .memorisation-saved-session-actions {
     grid-template-columns: 1fr !important;
   }
+}
+
+/* Reserve enough scroll space so the last card content never sits under the sticky footer. */
+.memorisation-sidebar.memorisation-offcanvas .offcanvas-body {
+  padding-bottom: calc(1.45rem + env(safe-area-inset-bottom, 0px) + 92px) !important;
+}
+
+@media (max-width: 680px) {
+  .memorisation-sidebar.memorisation-offcanvas .memorisation-beginner-actions {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+body.surat-route-page .memorisation-sidebar.memorisation-offcanvas-v2 .memorisation-beginner-actions,
+body.surat-route-page .memorisation-sidebar.memorisation-offcanvas-v3 .memorisation-beginner-actions {
+  background: linear-gradient(180deg, rgba(234, 246, 241, 0), rgba(234, 246, 241, 0.94) 34%, rgba(234, 246, 241, 0.99) 100%) !important;
+  border-top-color: rgba(15, 71, 65, 0.12) !important;
 }
 
 /* Surat memorisation tools v2: explicit class-based redesign and sticky toolbar. */

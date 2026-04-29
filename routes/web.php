@@ -333,6 +333,7 @@ Route::post('api/send-message', [FeedbackController::class, 'sendMessage']);
 // Other Public Pages
 Route::get('/access', [AccessController::class, 'index'])->name('access');
 Route::get('/surat', [SuratController::class, 'index'])->name('surat');
+Route::view('/review-queue', 'review-queue')->name('review_queue');
 Route::get('/dua', [DuaController::class, 'index'])->name('dua');
 Route::get('/seerah', [MissionController::class, 'index'])->name('seerah');
 Route::get('/guide', [GuideController::class, 'index'])->name('guide');

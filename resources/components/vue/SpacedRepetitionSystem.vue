@@ -37,10 +37,10 @@
       <div class="queue-list">
         <h3>Queue Preview (Sorted by Priority)</h3>
         <div v-if="filteredQueue.length === 0" class="empty-state">No ayahs due for this filter.</div>
-        <div v-for="item in filteredQueue" :key="item.ayahId" class="queue-card">
+        <div v-for="item in filteredQueue" :key="item.id" class="queue-card">
           <div class="queue-card-header">
-            <strong>Ayah {{ item.ayahId }}</strong>
-            <span class="priority-badge">Priority: {{ calculatePriority(item).toFixed(1) }}</span>
+            <strong>Ayah {{ item.ayahNumber || item.id }}</strong>
+            <span class="priority-badge">Priority: {{ getQueueScore(item).toFixed(1) }}</span>
           </div>
           <div class="queue-card-meta">
             <span>Ease: {{ item.easeFactor.toFixed(2) }}</span>
@@ -132,31 +132,39 @@ const sessionSummary = ref(null);
 const revealedWords = ref(new Set());
 
 onMounted(() => {
+  if (typeof window === 'undefined' || !window.localStorage) return;
   const stored = localStorage.getItem(STORAGE_KEY);
   if (stored) {
     try {
       ayahs.value = JSON.parse(stored);
     } catch (e) {
-      console.error("Failed to parse stored ayahs", e);
+      ayahs.value = [];
     }
   }
 });
 
 const saveData = () => {
+  if (typeof window === 'undefined' || !window.localStorage) return;
   localStorage.setItem(STORAGE_KEY, JSON.stringify(ayahs.value));
 };
 
 const createNewAyah = (text) => {
   return {
-    ayahId: Date.now().toString(),
+    id: Date.now().toString(),
+    surah: null,
+    ayahNumber: null,
     text: text,
+    repetitions: 0,
     easeFactor: 2.5,
     interval: 0,
     nextReviewDate: new Date().toISOString(),
+    mistakeCount: 0,
+    strength: 'WEAK',
+    consecutiveEasy: 0,
+    hifdhStage: 'NEW',
     lastReviewDate: null,
     reviewCount: 0,
     correctCount: 0,
-    mistakeCount: 0,
     reviewHistory: []
   };
 };
@@ -183,9 +191,72 @@ const getDaysOverdue = (nextReviewDate) => {
   return diffTime / (1000 * 60 * 60 * 24);
 };
 
-const calculatePriority = (ayah) => {
+const FEEDBACK_TO_GRADE = Object.freeze({ Again: 0, Hard: 3, Good: 4, Easy: 5 });
+const PLANNER_BOOST = Object.freeze({ NEW: 0, LEARNING: 20, REVISING: 10, MASTERED: -10 });
+const STRENGTH_BASE = Object.freeze({ WEAK: 100, MEDIUM: 50, STRONG: 20 });
+
+const normalizeAyahModel = (ayah) => {
+  ayah.id = String(ayah.id || ayah.ayahId || Date.now().toString());
+  ayah.surah = Number.isFinite(Number(ayah.surah)) ? Number(ayah.surah) : null;
+  ayah.ayahNumber = Number.isFinite(Number(ayah.ayahNumber)) ? Number(ayah.ayahNumber) : null;
+  ayah.repetitions = Math.max(0, Number(ayah.repetitions || 0) || 0);
+  ayah.interval = Math.max(0, Number(ayah.interval || 0) || 0);
+  ayah.easeFactor = Math.max(1.3, Number(ayah.easeFactor || 2.5) || 2.5);
+  ayah.nextReviewDate = ayah.nextReviewDate || new Date().toISOString();
+  ayah.mistakeCount = Math.max(0, Number(ayah.mistakeCount || 0) || 0);
+  ayah.consecutiveEasy = Math.max(0, Number(ayah.consecutiveEasy || 0) || 0);
+  ayah.strength = ['WEAK', 'MEDIUM', 'STRONG'].includes(ayah.strength) ? ayah.strength : 'WEAK';
+  ayah.hifdhStage = ['NEW', 'LEARNING', 'REVISING', 'MASTERED'].includes(ayah.hifdhStage) ? ayah.hifdhStage : 'NEW';
+  return ayah;
+};
+
+// Single source of truth for learning state updates.
+const runSm2Update = (ayah, q) => {
+  normalizeAyahModel(ayah);
+  const now = new Date();
+
+  if (q < 3) {
+    ayah.repetitions = 0;
+    ayah.interval = 1;
+    ayah.strength = 'WEAK';
+    ayah.mistakeCount += 1;
+    ayah.consecutiveEasy = 0;
+  } else {
+    ayah.repetitions += 1;
+
+    if (ayah.repetitions === 1) ayah.interval = 1;
+    else if (ayah.repetitions === 2) ayah.interval = 6;
+    else ayah.interval = Math.max(1, Math.round(ayah.interval * ayah.easeFactor));
+
+    const delta = 0.1 - (5 - q) * (0.08 + (5 - q) * 0.02);
+    ayah.easeFactor = Math.max(1.3, ayah.easeFactor + delta);
+
+    ayah.consecutiveEasy = q === 5 ? ayah.consecutiveEasy + 1 : 0;
+    if (ayah.consecutiveEasy >= 3) ayah.strength = 'STRONG';
+    else if (ayah.repetitions >= 2) ayah.strength = 'MEDIUM';
+  }
+
+  const next = new Date(now);
+  next.setDate(next.getDate() + Math.max(1, Math.round(ayah.interval)));
+  ayah.nextReviewDate = next.toISOString();
+};
+
+// Planner only affects planning metadata; never mutates SM-2 fields.
+const runHifdhPlannerUpdate = (ayah) => {
+  normalizeAyahModel(ayah);
+  if (ayah.strength === 'WEAK') ayah.hifdhStage = 'LEARNING';
+  else if (ayah.repetitions >= 3) ayah.hifdhStage = 'REVISING';
+  else if (ayah.repetitions >= 0 && ayah.repetitions <= 2) ayah.hifdhStage = 'LEARNING';
+
+  const stableEase = ayah.easeFactor >= 2.3;
+  const noRecentMistakes = ayah.mistakeCount === 0 || ayah.consecutiveEasy >= 3;
+  if (ayah.strength === 'STRONG' && stableEase && noRecentMistakes) ayah.hifdhStage = 'MASTERED';
+};
+
+const getQueueScore = (ayah) => {
   const daysOverdue = getDaysOverdue(ayah.nextReviewDate);
-  return ((ayah.mistakeCount || 0) * 10) + (daysOverdue * 2);
+  const base = STRENGTH_BASE[ayah.strength] || STRENGTH_BASE.WEAK;
+  return base + (daysOverdue * 10) + ((ayah.mistakeCount || 0) * 5) + (PLANNER_BOOST[ayah.hifdhStage] || 0);
 };
 
 const isDue = (ayah) => {
@@ -194,9 +265,17 @@ const isDue = (ayah) => {
 };
 
 const dueQueue = computed(() => {
-  return ayahs.value
+  const deduped = new Map();
+  ayahs.value
+    .map(normalizeAyahModel)
     .filter(isDue)
-    .sort((a, b) => calculatePriority(b) - calculatePriority(a));
+    .forEach((ayah) => {
+      if (!deduped.has(ayah.id)) deduped.set(ayah.id, ayah);
+    });
+
+  return Array.from(deduped.values())
+    .sort((a, b) => getQueueScore(b) - getQueueScore(a))
+    .slice(0, 15);
 });
 
 const filteredQueue = computed(() => {
@@ -277,23 +356,6 @@ const revealWord = (index) => {
   revealedWords.value = newSet;
 };
 
-const clampEase = (ease) => Math.min(Math.max(ease, 1.3), 2.5);
-
-const calculateNextInterval = (ayah, rating) => {
-  if (!ayah) return 1;
-  let easeFactor = ayah.easeFactor || 2.5;
-  let interval = ayah.interval || 0;
-  let newInterval = interval === 0 ? 1 : interval;
-
-  switch (rating) {
-    case 'Again': return 1;
-    case 'Hard': return newInterval * 1.2;
-    case 'Good': return newInterval * easeFactor;
-    case 'Easy': return newInterval * easeFactor * 1.3;
-    default: return newInterval;
-  }
-};
-
 const formatInterval = (days) => {
   if (days < 1) return '< 1d';
   if (days < 30) return `${Math.round(days)}d`;
@@ -301,60 +363,55 @@ const formatInterval = (days) => {
   return `${(days / 365).toFixed(1)}y`;
 };
 
+// Preview-only helper for UI labels; does not mutate source state.
+const calculateNextInterval = (ayah, rating) => {
+  if (!ayah) return 1;
+  const q = FEEDBACK_TO_GRADE[rating];
+  const probe = {
+    id: ayah.id,
+    surah: ayah.surah,
+    ayahNumber: ayah.ayahNumber,
+    repetitions: ayah.repetitions,
+    interval: ayah.interval,
+    easeFactor: ayah.easeFactor,
+    nextReviewDate: ayah.nextReviewDate,
+    mistakeCount: ayah.mistakeCount,
+    strength: ayah.strength,
+    consecutiveEasy: ayah.consecutiveEasy,
+    hifdhStage: ayah.hifdhStage
+  };
+  runSm2Update(probe, Number.isFinite(q) ? q : 0);
+  return probe.interval;
+};
+
 const rateAyah = (rating) => {
   if (!currentAyah.value) return;
   
   const ayah = currentAyah.value;
   const now = new Date().toISOString();
-  
-  // Protect against undefined variables from old data schemas
-  let easeFactor = ayah.easeFactor || 2.5;
-  let interval = ayah.interval || 0;
-  if (interval === 0) interval = 1;
 
-  let newInterval = interval;
-  let newEase = easeFactor;
+  // Integration order: SM-2 -> planner -> queue/quiz effects.
+  const q = FEEDBACK_TO_GRADE[rating];
+  runSm2Update(ayah, Number.isFinite(q) ? q : 0);
+  runHifdhPlannerUpdate(ayah);
 
-  switch (rating) {
-    case 'Again':
-      newEase -= 0.2;
-      newInterval = 1;
-      ayah.mistakeCount = (ayah.mistakeCount || 0) + 1;
-      sessionSummary.value.mistakes++;
-      break;
-    case 'Hard':
-      newEase -= 0.15;
-      newInterval = interval * 1.2;
-      ayah.mistakeCount = (ayah.mistakeCount || 0) + 1;
-      sessionSummary.value.mistakes++;
-      break;
-    case 'Good':
-      newInterval = interval * easeFactor;
-      ayah.correctCount = (ayah.correctCount || 0) + 1;
-      sessionSummary.value.correct++;
-      break;
-    case 'Easy':
-      newEase += 0.15;
-      newInterval = interval * easeFactor * 1.3;
-      ayah.correctCount = (ayah.correctCount || 0) + 1;
-      sessionSummary.value.correct++;
-      break;
-  }
+  if (rating === 'Again' || rating === 'Hard') sessionSummary.value.mistakes++;
+  else sessionSummary.value.correct++;
 
-  // Update properties cleanly
-  ayah.easeFactor = clampEase(newEase);
-  ayah.interval = newInterval;
   ayah.lastReviewDate = now;
-  
-  const nextDate = new Date();
-  nextDate.setDate(nextDate.getDate() + Math.round(newInterval));
-  ayah.nextReviewDate = nextDate.toISOString();
-  
   ayah.reviewCount = (ayah.reviewCount || 0) + 1;
   
-  // Safe push to array
   if (!ayah.reviewHistory) ayah.reviewHistory = [];
-  ayah.reviewHistory.push({ date: now, rating, interval: newInterval, easeFactor: ayah.easeFactor });
+  ayah.reviewHistory.push({
+    date: now,
+    rating,
+    q,
+    repetitions: ayah.repetitions,
+    interval: ayah.interval,
+    easeFactor: ayah.easeFactor,
+    strength: ayah.strength,
+    hifdhStage: ayah.hifdhStage
+  });
 
   sessionSummary.value.total++;
 

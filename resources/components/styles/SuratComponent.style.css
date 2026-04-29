@@ -6,6 +6,12 @@
     padding: 0.72rem 0.86rem 0.46rem;
 }
 
+/* Prevent accidental horizontal scrolling on mobile (offcanvas + long Arabic runs). */
+.surat-premium {
+    overflow-x: hidden;
+    overscroll-behavior-x: none;
+}
+
 /* Right memorisation panel refinement and theme parity. */
 :root {
     --memorisation-panel-docked-width: clamp(320px, 26vw, 420px);
@@ -258,6 +264,68 @@
     background: var(--memo-panel-surface-soft) !important;
     color: var(--memo-panel-text) !important;
     box-shadow: none !important;
+}
+
+/* Stability hardening:
+   Keep memorisation interactions on transform/opacity-only motion and
+   reserve space to prevent visible reflow/CLS during state changes. */
+.surat-premium {
+    --memo-motion-fast: 180ms;
+    --memo-motion-ease: cubic-bezier(0.2, 0.0, 0.0, 1);
+}
+
+/* Prevent layout-property animation jank inside memorisation surfaces. */
+.surat-premium .memorisation-sidebar *,
+.surat-premium .memorisation-chaining-host *,
+.surat-premium .memorisation-toolbar-progress *,
+.surat-premium .memorisation-mobile-quick-panel *,
+.surat-premium .session-quiz-modal * {
+    transition-property: transform, opacity, background-color, border-color, color, box-shadow, filter !important;
+    transition-duration: var(--memo-motion-fast) !important;
+    transition-timing-function: var(--memo-motion-ease) !important;
+}
+
+/* Sticky footer should not shift when button labels/state change. */
+.memorisation-beginner-actions {
+    min-height: 76px !important;
+    contain: layout paint;
+    transform: translateZ(0);
+    will-change: transform;
+}
+
+/* Reserve stable drawing area for chaining status/metrics updates. */
+.memorisation-chaining-host {
+    contain: layout paint;
+    transform: translateZ(0);
+}
+
+.memorisation-chaining-zone-status {
+    min-height: 142px;
+}
+
+.memorisation-chaining-display-metrics {
+    min-height: 52px;
+}
+
+/* Keep offcanvas and sticky tool tabs composited/stable while scrolling. */
+.memorisation-offcanvas,
+.memorisation-offcanvas .offcanvas-body,
+.memorisation-tools-tabs,
+.quran-toolbar-sticky.memorisation-toolbar-active {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+}
+
+/* Prevent flicker when queue/progress counters update rapidly. */
+.memorisation-toolbar-progress-range,
+.memorisation-toolbar-progress-identity,
+.memorisation-toolbar-progress-range-label {
+    min-height: 20px;
+}
+
+/* Disable decorative pulse/looping motion that competes with core UI feedback. */
+.memorisation-toolbar-progress-play.is-paused {
+    animation: none !important;
 }
 
 .memorisation-tools-link-btn:hover,
@@ -902,6 +970,9 @@
     background: linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(248, 250, 252, 0.96));
     box-shadow: 0 10px 24px rgba(2, 6, 23, 0.06);
     position: relative;
+    contain: layout paint;
+    will-change: transform, opacity;
+    transition: transform 220ms ease-out, box-shadow 220ms ease-out, opacity 200ms ease-out;
 }
 
 .memorisation-landing-card.is-dark {
@@ -955,6 +1026,7 @@
     flex-wrap: wrap;
     gap: 0.5rem;
     align-items: center;
+    min-height: 38px;
 }
 
 .memorisation-landing-primary-btn {
@@ -973,6 +1045,8 @@
     text-transform: none;
     box-shadow: 0 10px 18px rgba(2, 6, 23, 0.14);
     white-space: nowrap;
+    will-change: transform, opacity;
+    transition: transform 180ms ease-out, opacity 180ms ease-out, box-shadow 180ms ease-out, background-color 180ms ease-out, border-color 180ms ease-out;
 }
 
 .memorisation-landing-primary-btn:hover,
@@ -996,6 +1070,17 @@
     background: rgba(255, 255, 255, 0.96);
 }
 
+.memorisation-landing-primary-btn:active {
+    transform: translateY(0) scale(0.985);
+}
+
+.memorisation-landing-primary-btn:disabled {
+    opacity: 0.62;
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
+}
+
 .memorisation-landing-secondary-btn {
     min-height: 38px;
     display: inline-flex;
@@ -1011,6 +1096,8 @@
     text-transform: none;
     box-shadow: none;
     white-space: nowrap;
+    will-change: transform, opacity;
+    transition: transform 180ms ease-out, opacity 180ms ease-out, background-color 180ms ease-out, border-color 180ms ease-out;
 }
 
 .memorisation-landing-secondary-btn:hover,
@@ -1030,6 +1117,18 @@
 .memorisation-landing-card.is-dark .memorisation-landing-secondary-btn:focus-visible {
     border-color: rgba(148, 163, 184, 0.4);
     background: rgba(255, 255, 255, 0.06);
+}
+
+.memorisation-landing-secondary-btn:active {
+    transform: scale(0.985);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .memorisation-landing-card,
+    .memorisation-landing-primary-btn,
+    .memorisation-landing-secondary-btn {
+        transition: none !important;
+    }
 }
 
 @media (min-width: 992px) {
@@ -46937,6 +47036,110 @@ h1.display-5 {
     color: #89e0d4 !important;
 }
 
+/* Replace the crowded button group with grid layout */
+.session-history-actions,
+.saved-session-actions,
+.memorisation-history-actions {
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    gap: 0.5rem;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.session-history-actions button,
+.saved-session-actions button,
+.memorisation-history-actions button {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.85rem;
+    white-space: nowrap;
+}
+
+/* Specific button colors for clarity */
+.load-session-btn {
+    background-color: #0f766e;
+    color: white;
+    border: none;
+}
+
+.reset-session-btn {
+    background-color: #f59e0b;
+    color: white;
+    border: none;
+}
+
+.delete-session-btn {
+    background-color: #dc2626;
+    color: white;
+    border: none;
+}
+
+/* Pin the actions footer to bottom of sidebar */
+.offcanvas-body,
+.memorisation-sidebar-body,
+.advanced-tab-content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow-y: auto;
+}
+
+/* Content area - scrollable */
+.settings-scrollable-content {
+    flex: 1;
+    overflow-y: auto;
+    /* Keep content from sitting under the sticky Start/Save footer (esp. on mobile + safe-area). */
+    padding-bottom: max(6rem, calc(env(safe-area-inset-bottom) + 5.5rem));
+}
+
+/* Actions footer - always visible at bottom */
+.sidebar-actions-footer {
+    position: sticky;
+    bottom: 0;
+    background: inherit;
+    padding: 1rem;
+    margin-top: auto;
+    border-top: 1px solid rgba(15, 118, 110, 0.1);
+    z-index: 10;
+    display: flex;
+    gap: 0.75rem;
+    justify-content: flex-end;
+}
+
+/* The actual Start Session button container */
+#memo-beginner-actions,
+.memorisation-beginner-actions {
+    position: sticky;
+    bottom: 0;
+    background: linear-gradient(180deg, #fdfdfb 0%, #f6fbf8 100%);
+    padding: 1rem;
+    margin-top: auto;
+    z-index: 10;
+    border-top: 1px solid rgba(214, 170, 86, 0.15);
+    display: flex;
+    gap: 0.75rem;
+    justify-content: flex-end;
+}
+
+
+
+/* For offcanvas sidebar */
+.offcanvas-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* Your action buttons container */
+.memorisation-beginner-actions {
+    position: sticky;
+    bottom: 0;
+    background: inherit;
+    padding: 1rem 1rem 1.5rem;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    margin-top: auto;
+    z-index: 5;
+}
 @media (max-width: 991.98px) {
     .surat-premium .continue-reading-card-body {
         grid-template-columns: 1fr auto !important;
@@ -47340,6 +47543,278 @@ h1.display-5 {
     box-shadow: inset 0 0 0 1px rgba(125, 211, 199, 0.22);
     color: #7dd3c7;
 }
+
+.offcanvas-body {
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.offcanvas-footer {
+  position: sticky;
+  bottom: 0;
+  background: inherit;
+  padding: 1rem;
+  border-top: 1px solid rgba(214, 170, 86, 0.15);
+  margin-top: auto;
+  z-index: 10;
+}
+
+.session-panel {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    max-height: calc(100vh - 120px);
+    overflow: hidden;
+  }
+  
+  .session-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 0 1rem;
+  }
+  
+  .session-footer {
+    position: sticky;
+    bottom: 0;
+    background: #fffdf8;
+    padding: 1rem 1rem 1.5rem;
+    border-top: 1px solid rgba(214, 170, 86, 0.2);
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+    z-index: 10;
+  }
+
+  #memo-beginner-actions {
+  position: sticky;
+  bottom: 0;
+  background: inherit;
+  padding: 1rem;
+  margin-top: auto;
+  z-index: 10;
+  display: flex;
+  gap: 0.75rem;
+  justify-content: flex-end;
+  border-top: 1px solid rgba(214, 170, 86, 0.15);
+}
+
+/* For Bootstrap offcanvas body */
+.offcanvas-body {
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  padding: 0;
+}
+
+.offcanvas-body > *:first-child {
+  flex: 1;
+  padding: 1rem;
+}
+
+/* Clean Message Prompts Section */
+.note-suggestions {
+    background: rgba(15, 118, 110, 0.04);
+    border-radius: 20px;
+    padding: 1rem;
+    border: 1px solid rgba(15, 118, 110, 0.1);
+}
+
+.suggestions-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.suggestions-title-group {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.suggestions-icon {
+    color: #d6aa56;
+    font-size: 1.2rem;
+}
+
+.suggestions-title {
+    font-weight: 700;
+    color: #0b2f2a;
+}
+
+.suggestions-badge {
+    background: rgba(214, 170, 86, 0.15);
+    padding: 0.2rem 0.6rem;
+    border-radius: 30px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: #8B7355;
+}
+
+.suggestions-toggle {
+    background: none;
+    border: none;
+    font-size: 0.8rem;
+    color: #0f766e;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    cursor: pointer;
+    padding: 0.3rem 0.6rem;
+    border-radius: 20px;
+    transition: background 0.2s;
+}
+
+.suggestions-toggle:hover {
+    background: rgba(15, 118, 110, 0.1);
+}
+
+.suggestions-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.suggestions-category {
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 16px;
+    padding: 0.75rem;
+}
+
+.suggestions-category-title {
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #0f766e;
+    margin-bottom: 0.75rem;
+}
+
+.suggestions-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.suggestion-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: white;
+    border: 1px solid rgba(15, 118, 110, 0.15);
+    border-radius: 40px;
+    padding: 0.4rem 0.9rem;
+    font-size: 0.8rem;
+    color: #2d3e3a;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.suggestion-chip:hover {
+    background: #0f766e;
+    border-color: #0f766e;
+    color: white;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.suggestion-chip span {
+    font-size: 1rem;
+}
+
+/* Dark mode support */
+.surat-dark-modal .suggestions-category {
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.surat-dark-modal .suggestion-chip {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.1);
+    color: #e0e0e0;
+}
+
+.surat-dark-modal .suggestion-chip:hover {
+    background: #0f766e;
+    color: white;
+}
+
+/* Responsive */
+@media (max-width: 576px) {
+    .suggestions-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .suggestion-chip {
+        font-size: 0.7rem;
+        padding: 0.3rem 0.7rem;
+    }
+    
+    .suggestions-category-title {
+        font-size: 0.7rem;
+    }
+}
+
+.note-suggestions.is-collapsed {
+    background: transparent;
+    border: none;
+    padding: 0;
+}
+
+.note-suggestions.is-collapsed .suggestions-header {
+    margin-bottom: 0;
+    background: rgba(15, 118, 110, 0.04);
+    padding: 0.75rem 1rem;
+    border-radius: 16px;
+    border: 1px solid rgba(15, 118, 110, 0.1);
+}
+
+.reflection-editing-alert {
+    background: rgba(15, 118, 110, 0.08);
+    border-color: rgba(15, 118, 110, 0.2);
+    color: #0f766e;
+}
+
+/* Your buttons container */
+.memorisation-beginner-actions {
+  position: sticky;
+  bottom: 0;
+  background: var(--bs-offcanvas-bg, #fffdf8);
+  padding: 1rem;
+  margin: 0;
+  z-index: 10;
+  border-top: 1px solid rgba(214, 170, 86, 0.15);
+}
+  
+  .btn-cancel {
+    padding: 0.75rem 1.5rem;
+    border-radius: 12px;
+    border: 1px solid rgba(15,118,110,0.3);
+    background: transparent;
+    color: #0f766e;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  
+  .btn-start {
+    padding: 0.75rem 1.5rem;
+    border-radius: 12px;
+    border: none;
+    background: linear-gradient(180deg, #0f766e 0%, #0b5f58 100%);
+    color: white;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(15,118,110,0.3);
+  }
+  
+  .btn-start:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(15,118,110,0.4);
+  }
 
 @media (min-width: 992px) {
     .surat-premium.surat-theme-dark:not(.mobile-compact-layout) .quran-toolbar-sticky.quran-toolbar-fixed-shell {
@@ -51564,6 +52039,84 @@ body.surat-route-page .memorisation-offcanvas-v3 {
     margin-inline: 0 !important;
 }
 
+/* Memorisation workspace heading (outside Surat landing card). */
+.surat-premium .memorisation-workspace-hero {
+    width: min(100%, 960px);
+    margin: 0.4rem auto 1rem;
+    padding: 0.9rem 1rem 0.45rem;
+    transition: max-width 180ms ease, opacity 160ms ease, transform 160ms ease;
+}
+
+.surat-premium .memorisation-workspace-hero.is-memo-open {
+    max-width: 760px;
+}
+
+.surat-premium .memorisation-workspace-hero.is-memo-closed {
+    max-width: 960px;
+}
+
+.surat-premium .memorisation-workspace-hero-title {
+    margin: 0 0 0.35rem;
+    color: var(--quran-soft-green-dark, #0b4d42);
+    font-size: clamp(1.45rem, 2.6vw, 2rem);
+    font-weight: 850;
+    letter-spacing: 0;
+}
+
+.surat-premium .memorisation-workspace-hero-description {
+    margin: 0 auto;
+    color: var(--quran-soft-muted, #60756f);
+    max-width: 70ch;
+    font-size: clamp(0.94rem, 1.25vw, 1.05rem);
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+}
+
+@media (max-width: 767.98px) {
+    .surat-premium .memorisation-workspace-hero {
+        margin: 0.2rem auto 0.8rem;
+        padding: 0.65rem 0.75rem 0.3rem;
+        width: min(100%, 680px);
+    }
+
+    .surat-premium .memorisation-workspace-hero-description {
+        max-width: 60ch;
+    }
+}
+
+/* Keep offcanvas close affordance clear of tabs/content on all viewports. */
+.memorisation-panel-close-btn--floating {
+    z-index: 12 !important;
+}
+
+@media (max-width: 991.98px) {
+    .memorisation-offcanvas .memorisation-panel-close-btn--floating,
+    .memorisation-offcanvas-v3 .memorisation-panel-close-btn--floating {
+        top: 0.72rem !important;
+        right: 0.72rem !important;
+    }
+}
+
+/* Allow chaining workspace and modal/card surfaces to shrink before colliding. */
+.surat-premium .memorisation-chaining-host {
+    min-width: 0 !important;
+}
+
+.surat-premium .memorisation-chaining-link-row,
+.surat-premium .memorisation-chaining-details-body,
+.surat-premium .memorisation-chaining-display-metrics {
+    min-width: 0 !important;
+    flex-wrap: wrap !important;
+}
+
+.surat-premium .memorisation-chaining-status-summary,
+.surat-premium .memorisation-chaining-instruction,
+.surat-premium .memorisation-chaining-context,
+.surat-premium .memorisation-chaining-header-title,
+.surat-premium .memorisation-chaining-header-helper {
+    overflow-wrap: anywhere;
+}
+
 .surat-premium .ayah-card,
 .surat-premium .ayah-card-container,
 .surat-premium .ayah-card-shell {
@@ -54284,9 +54837,220 @@ body.surat-route-page .memorisation-offcanvas-v3 {
 }
 
 .badge-chaining {
-    background-color: #fff7ed !important;
-    color: #ea580c !important;
-    border: 1px solid #fdba74 !important;
+    background-color: rgba(240, 253, 250, 0.22) !important;
+    color: #ffffff !important;
+    border: 1px solid rgba(255, 255, 255, 0.32) !important;
+    letter-spacing: 0.08em !important;
+}
+
+/* Chaining card redesign: clarity-first 3-zone layout without changing logic. */
+.memorisation-chaining-host {
+    position: fixed;
+    bottom: calc(96px + env(safe-area-inset-bottom));
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2000;
+    width: min(960px, 94vw);
+    border-radius: 16px;
+    border: 1px solid rgba(94, 234, 212, 0.26);
+    background: linear-gradient(180deg, rgba(15, 118, 110, 0.84), rgba(13, 148, 136, 0.78));
+    box-shadow: 0 12px 26px rgba(2, 44, 34, 0.26);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    padding: 0.62rem 0.72rem;
+}
+
+.memorisation-chaining-display {
+    display: grid;
+    gap: 0.46rem;
+}
+
+.memorisation-chaining-zone {
+    display: grid;
+    gap: 0.45rem;
+}
+
+.memorisation-chaining-zone-header {
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: start;
+    gap: 0.5rem;
+}
+
+.memorisation-chaining-header-title {
+    font-size: 0.9rem;
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1.2;
+}
+
+.memorisation-chaining-header-helper {
+    font-size: 0.71rem;
+    color: rgba(255, 255, 255, 0.86);
+    line-height: 1.35;
+    letter-spacing: 0.04em;
+}
+
+.memorisation-chaining-header-meta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+}
+
+.memorisation-chaining-link-row {
+    display: flex;
+    align-items: center;
+    gap: 0.28rem;
+    overflow-x: auto;
+    padding-bottom: 0.1rem;
+    scrollbar-width: thin;
+}
+
+.memorisation-chaining-link-wrap {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    flex: 0 0 auto;
+}
+
+.memorisation-chaining-track-connector {
+    font-size: 0.74rem;
+    color: rgba(255, 255, 255, 0.72);
+}
+
+.memorisation-chaining-link {
+    min-width: 1.78rem;
+    height: 1.78rem;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.34);
+    background: rgba(255, 255, 255, 0.16);
+    color: rgba(255, 255, 255, 0.92);
+    font-weight: 700;
+    font-size: 0.7rem;
+    transition: transform 180ms ease, opacity 180ms ease;
+    opacity: 0.62;
+}
+
+.memorisation-chaining-link.is-complete,
+.memorisation-chaining-link.is-linked {
+    opacity: 0.92;
+    background: rgba(255, 255, 255, 0.24);
+    color: #ffffff;
+}
+
+.memorisation-chaining-link.is-active,
+.memorisation-chaining-link.is-pending-current {
+    transform: scale(1.1);
+    opacity: 1;
+    border-color: rgba(255, 255, 255, 0.74);
+    background: rgba(255, 255, 255, 0.3);
+    color: #ffffff;
+    font-weight: 800;
+}
+
+.memorisation-chaining-progress-fill {
+    transition: transform 200ms ease, opacity 200ms ease, width 200ms ease;
+}
+
+.memorisation-chaining-zone-status {
+    border-top: 1px solid rgba(255, 255, 255, 0.24);
+    padding-top: 0.45rem;
+}
+
+.memorisation-chaining-instruction {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 1.4;
+    letter-spacing: 0.03em;
+}
+
+.memorisation-chaining-context {
+    font-size: 0.68rem;
+    color: rgba(255, 255, 255, 0.9);
+    line-height: 1.4;
+    letter-spacing: 0.035em;
+}
+
+.memorisation-chaining-display-metrics {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.memorisation-chaining-display-metric {
+    align-items: flex-start;
+    min-width: 78px;
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    background: rgba(255, 255, 255, 0.14);
+    border-radius: 10px;
+    padding: 0.32rem 0.45rem;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.75);
+}
+
+.memorisation-chaining-display-metric span {
+    font-size: 0.62rem;
+    letter-spacing: 0.08em;
+    color: rgba(255, 255, 255, 0.88);
+}
+
+.memorisation-chaining-display-metric strong {
+    font-size: 0.8rem;
+    line-height: 1.25;
+    color: #ffffff;
+    letter-spacing: 0.03em;
+}
+
+.btn-next-hero {
+    border: 1px solid rgba(255, 255, 255, 0.42);
+    background: rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 0.66rem;
+    padding: 0.28rem 0.62rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: transform 180ms ease, opacity 180ms ease;
+}
+
+.btn-next-hero:hover {
+    transform: translateY(-1px);
+    opacity: 1;
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.memorisation-chaining-close-btn {
+    width: 1.7rem;
+    height: 1.7rem;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.38);
+    background: rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+}
+
+.memorisation-chaining-display-state-pill {
+    color: #ffffff !important;
+    letter-spacing: 0.12em;
+}
+
+.memorisation-chaining-display-state-pill::before {
+    background: #ffffff !important;
+    box-shadow: 0 0 6px rgba(255, 255, 255, 0.7) !important;
+}
+
+@media (max-width: 767.98px) {
+    .memorisation-chaining-host {
+        width: 96vw;
+        padding: 0.8rem;
+    }
+    .memorisation-chaining-zone-header {
+        grid-template-columns: 1fr;
+        gap: 0.55rem;
+    }
+    .memorisation-chaining-header-meta {
+        flex-wrap: wrap;
+    }
 }
 .badge-bridging {
     background-color: #f0f9ff !important;
@@ -54394,4 +55158,838 @@ body.surat-route-page .memorisation-offcanvas-v3 {
     max-width: 100% !important;
     background: transparent !important;
     border-radius: 0 !important;
+}
+
+/* Final memorisation footer behavior override:
+   keep actions reachable while preventing content overlap. */
+.memorisation-offcanvas .offcanvas-body,
+.memorisation-offcanvas-v3 .offcanvas-body {
+    padding-bottom: calc(1rem + 96px + env(safe-area-inset-bottom, 0px)) !important;
+}
+
+.memorisation-offcanvas .memorisation-beginner-actions,
+.memorisation-offcanvas-v3 .memorisation-beginner-actions {
+    position: sticky !important;
+    bottom: 0 !important;
+    z-index: 9 !important;
+    margin-top: auto !important;
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 0.6rem !important;
+    align-items: center !important;
+    padding-top: 0.6rem !important;
+    background: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.92) 34%,
+        rgba(255, 255, 255, 0.98) 100%
+    ) !important;
+    border-top: 1px solid rgba(15, 71, 65, 0.14) !important;
+    box-shadow: 0 -10px 22px rgba(7, 31, 28, 0.1) !important;
+    transform: translateY(0) !important;
+    opacity: 1 !important;
+    transition: opacity 180ms ease, transform 180ms ease, box-shadow 180ms ease !important;
+}
+
+.memorisation-offcanvas.surat-dark-modal .memorisation-beginner-actions,
+.memorisation-offcanvas-v3.surat-dark-modal .memorisation-beginner-actions {
+    background: linear-gradient(
+        180deg,
+        rgba(38, 41, 46, 0) 0%,
+        rgba(38, 41, 46, 0.9) 34%,
+        rgba(38, 41, 46, 0.98) 100%
+    ) !important;
+    border-top-color: rgba(203, 213, 225, 0.2) !important;
+}
+
+@media (max-width: 680px) {
+    .memorisation-offcanvas .memorisation-beginner-actions,
+    .memorisation-offcanvas-v3 .memorisation-beginner-actions {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+/* FORCE OVERRIDE: chaining card final production theme */
+.surat-premium .memorisation-chaining-host,
+.memorisation-offcanvas .memorisation-chaining-host {
+    background: linear-gradient(160deg, rgba(15, 118, 110, 0.95), rgba(13, 148, 136, 0.9)) !important;
+    border: 1px solid rgba(255, 255, 255, 0.24) !important;
+    box-shadow: 0 14px 30px rgba(1, 34, 30, 0.28) !important;
+    border-radius: 18px !important;
+    padding: 0.58rem 0.72rem !important;
+    width: min(1280px, 97vw) !important;
+    max-width: 1280px !important;
+    font-family: "Plus Jakarta Sans", "Avenir Next", "Segoe UI", Inter, system-ui, sans-serif !important;
+}
+
+.surat-premium .memorisation-chaining-display {
+    display: grid !important;
+    grid-template-columns: minmax(190px, 0.72fr) minmax(460px, 1.75fr) auto !important;
+    align-items: center !important;
+    gap: 0.6rem 0.72rem !important;
+}
+
+.surat-premium .memorisation-chaining-zone-header {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    align-items: center !important;
+    gap: 0.28rem !important;
+    min-width: 0 !important;
+}
+
+.surat-premium .memorisation-chaining-header-title {
+    color: #ffffff !important;
+    font-size: 1.16rem !important;
+    line-height: 1.05 !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.005em !important;
+}
+
+.surat-premium .memorisation-chaining-header-helper {
+    color: rgba(239, 255, 251, 0.9) !important;
+    font-size: 0.76rem !important;
+    line-height: 1.28 !important;
+    letter-spacing: 0.02em !important;
+    margin-top: 0.22rem !important;
+}
+
+.surat-premium .memorisation-chaining-header-meta,
+.surat-premium .memorisation-chaining-zone-actions {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    gap: 0.5rem !important;
+    min-width: max-content !important;
+}
+
+.surat-premium .memorisation-chaining-display-state-pill,
+.surat-premium .badge-chaining {
+    color: #ffffff !important;
+    background: rgba(255, 255, 255, 0.14) !important;
+    border: 1px solid rgba(255, 255, 255, 0.32) !important;
+    border-radius: 999px !important;
+    padding: 0.3rem 0.64rem !important;
+    font-size: 0.68rem !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.11em !important;
+    text-transform: uppercase !important;
+}
+
+.surat-premium .memorisation-chaining-display-state-pill::before {
+    background: #ffffff !important;
+    box-shadow: 0 0 9px rgba(255, 255, 255, 0.78) !important;
+}
+
+.surat-premium .btn-next-hero {
+    background: rgba(255, 255, 255, 0.18) !important;
+    border: 1px solid rgba(255, 255, 255, 0.42) !important;
+    color: #ffffff !important;
+    border-radius: 999px !important;
+    padding: 0.38rem 0.88rem !important;
+    font-size: 0.78rem !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.1em !important;
+    text-transform: uppercase !important;
+}
+
+.surat-premium .btn-next-hero:hover {
+    background: rgba(255, 255, 255, 0.28) !important;
+    transform: translateY(-1px) !important;
+}
+
+.surat-premium .memorisation-chaining-close-btn {
+    position: static !important;
+    width: 2.35rem !important;
+    height: 2.35rem !important;
+    border-radius: 12px !important;
+    background: rgba(255, 255, 255, 0.14) !important;
+    border: 1px solid rgba(255, 255, 255, 0.35) !important;
+    color: #ffffff !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.surat-premium .memorisation-chaining-zone-track {
+    background: rgba(255, 255, 255, 0.06) !important;
+    border: 1px solid rgba(255, 255, 255, 0.16) !important;
+    border-radius: 16px !important;
+    padding: 0.48rem 0.62rem !important;
+    min-width: 0 !important;
+}
+
+.surat-premium .memorisation-chaining-link-row {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    gap: 0.28rem !important;
+    overflow-x: auto !important;
+    padding: 0.04rem 0 0.18rem !important;
+}
+
+.surat-premium .memorisation-chaining-link-wrap {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 0.28rem !important;
+}
+
+.surat-premium .memorisation-chaining-link {
+    min-width: 2rem !important;
+    height: 2rem !important;
+    border-radius: 999px !important;
+    border: 1px solid rgba(255, 255, 255, 0.34) !important;
+    background: rgba(255, 255, 255, 0.12) !important;
+    color: rgba(255, 255, 255, 0.9) !important;
+    font-size: 0.84rem !important;
+    font-weight: 800 !important;
+}
+
+.surat-premium .memorisation-chaining-link.is-complete,
+.surat-premium .memorisation-chaining-link.is-linked {
+    background: rgba(255, 255, 255, 0.24) !important;
+}
+
+.surat-premium .memorisation-chaining-link.is-active,
+.surat-premium .memorisation-chaining-link.is-pending-current {
+    background: rgba(255, 255, 255, 0.36) !important;
+    border-color: rgba(255, 255, 255, 0.82) !important;
+    color: #ffffff !important;
+    transform: scale(1.1) !important;
+    box-shadow: 0 8px 16px rgba(2, 44, 34, 0.28) !important;
+}
+
+.surat-premium .memorisation-chaining-track-connector {
+    color: rgba(255, 255, 255, 0.9) !important;
+    font-size: 0.92rem !important;
+    font-weight: 900 !important;
+}
+
+.surat-premium .memorisation-chaining-progress-track {
+    height: 4px !important;
+    background: rgba(255, 255, 255, 0.22) !important;
+    border-radius: 999px !important;
+}
+
+.surat-premium .memorisation-chaining-progress-fill {
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 1)) !important;
+}
+
+.surat-premium .memorisation-chaining-zone-status {
+    border: 1px solid rgba(255, 255, 255, 0.18) !important;
+    background: rgba(255, 255, 255, 0.07) !important;
+    border-radius: 14px !important;
+    padding: 0.42rem 0.55rem !important;
+    min-width: 0 !important;
+    grid-column: 1 / -1 !important;
+}
+
+.surat-premium .memorisation-chaining-status-summary {
+    color: rgba(255, 255, 255, 0.94) !important;
+    font-size: 0.68rem !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.09em !important;
+    text-transform: uppercase !important;
+    margin-bottom: 0 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+}
+
+.surat-premium .memorisation-chaining-zone-status[open] .memorisation-chaining-status-summary {
+    margin-bottom: 0.38rem !important;
+    white-space: normal !important;
+}
+
+.surat-premium .memorisation-chaining-instruction {
+    color: #ffffff !important;
+    font-size: 0.92rem !important;
+    line-height: 1.38 !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.01em !important;
+    margin-bottom: 0.22rem !important;
+}
+
+.surat-premium .memorisation-chaining-context {
+    color: rgba(234, 255, 251, 0.96) !important;
+    font-size: 0.8rem !important;
+    line-height: 1.34 !important;
+    letter-spacing: 0.02em !important;
+}
+
+.surat-premium .memorisation-chaining-display-metrics {
+    display: grid !important;
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    gap: 0.42rem !important;
+    margin-top: 0.5rem !important;
+}
+
+.surat-premium .memorisation-chaining-display-metric {
+    background: rgba(255, 255, 255, 0.14) !important;
+    border: 1px solid rgba(255, 255, 255, 0.29) !important;
+    border-radius: 12px !important;
+    padding: 0.42rem 0.5rem !important;
+    min-width: 0 !important;
+}
+
+.surat-premium .memorisation-chaining-display-metric span {
+    color: rgba(238, 255, 252, 0.96) !important;
+    font-size: 0.68rem !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.07em !important;
+}
+
+.surat-premium .memorisation-chaining-display-metric strong {
+    color: #ffffff !important;
+    font-size: 1.28rem !important;
+    line-height: 1.1 !important;
+    font-weight: 800 !important;
+}
+
+@media (max-width: 991.98px) {
+    .surat-premium .memorisation-chaining-display { grid-template-columns: 1fr !important; }
+    .surat-premium .memorisation-chaining-header-title { font-size: 1.24rem !important; }
+    .surat-premium .memorisation-chaining-instruction { font-size: 0.88rem !important; }
+    .surat-premium .memorisation-chaining-display-metric strong { font-size: 1.14rem !important; }
+}
+
+@media (max-width: 767.98px) {
+    .surat-premium .memorisation-chaining-host { padding: 0.7rem !important; border-radius: 18px !important; }
+    .surat-premium .memorisation-chaining-zone-header { grid-template-columns: 1fr !important; }
+    .surat-premium .memorisation-chaining-header-meta { justify-content: space-between !important; }
+    .surat-premium .memorisation-chaining-zone-actions { justify-content: space-between !important; min-width: 0 !important; }
+    .surat-premium .memorisation-chaining-link { min-width: 2rem !important; height: 2rem !important; font-size: 0.88rem !important; }
+    .surat-premium .memorisation-chaining-display-metrics { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+    .surat-premium .memorisation-chaining-display-metric strong { font-size: 1.04rem !important; }
+}
+
+/* Chaining command bar polish: compact, wide, responsive progression. */
+.surat-premium .memorisation-chaining-host {
+    bottom: calc(74px + env(safe-area-inset-bottom)) !important;
+    width: min(1420px, calc(100vw - 32px)) !important;
+    max-width: 1420px !important;
+    padding: 0.52rem 0.64rem !important;
+    border-radius: 16px !important;
+    background:
+        linear-gradient(180deg, rgba(20, 150, 136, 0.9), rgba(12, 121, 112, 0.92)) !important;
+    box-shadow:
+        0 12px 26px rgba(2, 44, 34, 0.22),
+        inset 0 1px 0 rgba(255, 255, 255, 0.18) !important;
+}
+
+.surat-premium .memorisation-chaining-display {
+    grid-template-columns: minmax(180px, 0.55fr) minmax(360px, 1.8fr) auto !important;
+    gap: 0.48rem 0.66rem !important;
+}
+
+.surat-premium .memorisation-chaining-header-title {
+    font-family: "Avenir Next", "Segoe UI", sans-serif !important;
+    font-size: 1.04rem !important;
+    line-height: 1.08 !important;
+    font-weight: 800 !important;
+}
+
+.surat-premium .memorisation-chaining-header-helper {
+    font-size: 0.72rem !important;
+    line-height: 1.22 !important;
+    margin-top: 0.12rem !important;
+}
+
+.surat-premium .memorisation-chaining-zone-track {
+    padding: 0.38rem 0.48rem !important;
+    border-radius: 12px !important;
+    background: rgba(255, 255, 255, 0.08) !important;
+}
+
+.surat-premium .memorisation-chaining-link-row {
+    justify-content: flex-start !important;
+    gap: 0.22rem !important;
+    padding: 0 0 0.14rem !important;
+    scrollbar-width: none !important;
+}
+
+.surat-premium .memorisation-chaining-link-row::-webkit-scrollbar {
+    display: none !important;
+}
+
+.surat-premium .memorisation-chaining-link-wrap {
+    gap: 0.22rem !important;
+}
+
+.surat-premium .memorisation-chaining-link {
+    width: 1.78rem !important;
+    min-width: 1.78rem !important;
+    height: 1.78rem !important;
+    font-size: 0.74rem !important;
+    border-width: 1px !important;
+    transition: transform 180ms ease, opacity 180ms ease, background-color 180ms ease !important;
+}
+
+.surat-premium .memorisation-chaining-link.is-active,
+.surat-premium .memorisation-chaining-link.is-pending-current {
+    transform: scale(1.08) !important;
+    box-shadow: 0 6px 12px rgba(2, 44, 34, 0.22) !important;
+}
+
+.surat-premium .memorisation-chaining-track-connector {
+    font-size: 0.82rem !important;
+    opacity: 0.78 !important;
+}
+
+.surat-premium .memorisation-chaining-progress-track {
+    height: 3px !important;
+    margin-top: 0.18rem !important;
+}
+
+.surat-premium .memorisation-chaining-display-state-pill {
+    padding: 0.26rem 0.58rem !important;
+    font-size: 0.62rem !important;
+}
+
+.surat-premium .btn-next-hero {
+    padding: 0.32rem 0.76rem !important;
+    font-size: 0.7rem !important;
+    min-height: 2rem !important;
+}
+
+.surat-premium .memorisation-chaining-close-btn {
+    width: 2rem !important;
+    height: 2rem !important;
+    border-radius: 10px !important;
+}
+
+.surat-premium .memorisation-chaining-zone-status {
+    padding: 0 !important;
+    border-radius: 12px !important;
+    overflow: hidden !important;
+}
+
+.surat-premium .memorisation-chaining-status-summary {
+    position: relative !important;
+    display: block !important;
+    padding: 0.42rem 2rem 0.42rem 0.6rem !important;
+    margin: 0 !important;
+    font-size: 0.66rem !important;
+    line-height: 1.1 !important;
+}
+
+.surat-premium .memorisation-chaining-status-summary::after {
+    position: absolute !important;
+    right: 0.62rem !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+}
+
+.surat-premium .memorisation-chaining-details-body {
+    display: grid !important;
+    grid-template-columns: minmax(280px, 1fr) minmax(420px, 1.1fr) !important;
+    gap: 0.7rem !important;
+    align-items: center !important;
+    padding: 0 0.6rem 0.58rem !important;
+}
+
+.surat-premium .memorisation-chaining-instruction {
+    font-size: 0.86rem !important;
+    line-height: 1.32 !important;
+    margin-bottom: 0.12rem !important;
+}
+
+.surat-premium .memorisation-chaining-context {
+    font-size: 0.74rem !important;
+    line-height: 1.26 !important;
+}
+
+.surat-premium .memorisation-chaining-display-metrics {
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    gap: 0.35rem !important;
+    margin-top: 0 !important;
+}
+
+.surat-premium .memorisation-chaining-display-metric {
+    padding: 0.34rem 0.42rem !important;
+    border-radius: 10px !important;
+}
+
+.surat-premium .memorisation-chaining-display-metric span {
+    font-size: 0.6rem !important;
+}
+
+.surat-premium .memorisation-chaining-display-metric strong {
+    font-size: 1.02rem !important;
+}
+
+@media (min-width: 1200px) {
+    .surat-premium .memorisation-chaining-link {
+        width: 1.92rem !important;
+        min-width: 1.92rem !important;
+        height: 1.92rem !important;
+        font-size: 0.8rem !important;
+    }
+}
+
+@media (max-width: 991.98px) {
+    .surat-premium .memorisation-chaining-display {
+        grid-template-columns: minmax(0, 1fr) auto !important;
+    }
+
+    .surat-premium .memorisation-chaining-zone-track,
+    .surat-premium .memorisation-chaining-zone-status {
+        grid-column: 1 / -1 !important;
+    }
+
+    .surat-premium .memorisation-chaining-details-body {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .surat-premium .memorisation-chaining-host {
+        width: calc(100vw - 16px) !important;
+        padding: 0.48rem !important;
+    }
+
+    .surat-premium .memorisation-chaining-link {
+        width: 1.65rem !important;
+        min-width: 1.65rem !important;
+        height: 1.65rem !important;
+        font-size: 0.68rem !important;
+    }
+
+    .surat-premium .memorisation-chaining-track-connector {
+        font-size: 0.72rem !important;
+    }
+
+    .surat-premium .memorisation-chaining-display-metrics {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    }
+}
+
+/* Stabilize the top reader toolbar: keep sticky in-flow and avoid fixed-state jitter. */
+@media (min-width: 992px) {
+    .surat-premium:not(.mobile-compact-layout) .quran-toolbar-sticky.quran-toolbar-fixed-shell,
+    .surat-premium:not(.mobile-compact-layout) .quran-toolbar-sticky.quran-toolbar-fixed-shell.is-pinned {
+        position: sticky !important;
+        top: calc(var(--nav-offset, var(--navbar-h, 72px)) + 10px) !important;
+        min-height: unset !important;
+        transition: none !important;
+        will-change: auto !important;
+    }
+
+    .surat-premium:not(.mobile-compact-layout) .quran-toolbar-sticky.quran-toolbar-fixed-shell .quran-toolbar,
+    .surat-premium:not(.mobile-compact-layout) .quran-toolbar-sticky.quran-toolbar-fixed-shell.is-pinned .quran-toolbar {
+        position: static !important;
+        top: auto !important;
+        left: auto !important;
+        right: auto !important;
+        width: 100% !important;
+        max-width: none !important;
+        margin: 0 !important;
+        transform: none !important;
+        animation: none !important;
+        transition: box-shadow 160ms ease, background-color 160ms ease, border-color 160ms ease !important;
+        will-change: auto !important;
+    }
+}
+
+/* Chaining command bar final refinement: softer surface, permanent status, responsive circles. */
+.surat-premium .memorisation-chaining-host {
+    background:
+        linear-gradient(180deg, rgba(231, 250, 247, 0.94), rgba(207, 241, 236, 0.9)) !important;
+    border: 1px solid rgba(15, 118, 110, 0.22) !important;
+    box-shadow:
+        0 14px 30px rgba(15, 69, 62, 0.16),
+        inset 0 1px 0 rgba(255, 255, 255, 0.72) !important;
+    color: #123d38 !important;
+}
+
+.surat-premium .memorisation-chaining-header-title,
+.surat-premium .memorisation-chaining-instruction,
+.surat-premium .memorisation-chaining-display-metric strong {
+    color: #123d38 !important;
+}
+
+.surat-premium .memorisation-chaining-header-helper,
+.surat-premium .memorisation-chaining-context,
+.surat-premium .memorisation-chaining-display-metric span,
+.surat-premium .memorisation-chaining-status-summary {
+    color: rgba(18, 61, 56, 0.72) !important;
+}
+
+.surat-premium .memorisation-chaining-zone-track,
+.surat-premium .memorisation-chaining-zone-status {
+    background: rgba(255, 255, 255, 0.38) !important;
+    border: 1px solid rgba(15, 118, 110, 0.16) !important;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.58) !important;
+}
+
+.surat-premium .memorisation-chaining-link-row {
+    gap: clamp(0.24rem, 0.7vw, 0.55rem) !important;
+    padding: 0.18rem 0.16rem 0.26rem !important;
+}
+
+.surat-premium .memorisation-chaining-link-wrap {
+    gap: clamp(0.2rem, 0.55vw, 0.42rem) !important;
+}
+
+.surat-premium .memorisation-chaining-link {
+    width: clamp(1.85rem, 2.25vw, 2.4rem) !important;
+    min-width: clamp(1.85rem, 2.25vw, 2.4rem) !important;
+    height: clamp(1.85rem, 2.25vw, 2.4rem) !important;
+    padding: 0.28rem !important;
+    background: rgba(15, 118, 110, 0.08) !important;
+    border: 1px solid rgba(15, 118, 110, 0.22) !important;
+    color: rgba(18, 61, 56, 0.74) !important;
+    opacity: 0.55 !important;
+    font-size: clamp(0.74rem, 0.9vw, 0.94rem) !important;
+}
+
+.surat-premium .memorisation-chaining-link.is-complete,
+.surat-premium .memorisation-chaining-link.is-linked {
+    background: rgba(15, 118, 110, 0.14) !important;
+    color: rgba(18, 61, 56, 0.86) !important;
+    opacity: 0.78 !important;
+}
+
+.surat-premium .memorisation-chaining-link.is-active,
+.surat-premium .memorisation-chaining-link.is-pending-current {
+    background: rgba(255, 255, 255, 0.78) !important;
+    border-color: rgba(15, 118, 110, 0.42) !important;
+    color: #0f4f48 !important;
+    opacity: 1 !important;
+    transform: scale(1.08) !important;
+    box-shadow:
+        0 8px 18px rgba(15, 69, 62, 0.18),
+        inset 0 0 0 2px rgba(255, 255, 255, 0.7) !important;
+}
+
+.surat-premium .memorisation-chaining-track-connector {
+    color: rgba(18, 61, 56, 0.45) !important;
+    opacity: 0.75 !important;
+}
+
+.surat-premium .memorisation-chaining-progress-track {
+    background: rgba(15, 118, 110, 0.16) !important;
+}
+
+.surat-premium .memorisation-chaining-progress-fill {
+    background: linear-gradient(90deg, rgba(15, 118, 110, 0.58), rgba(20, 184, 166, 0.88)) !important;
+}
+
+.surat-premium .memorisation-chaining-display-state-pill,
+.surat-premium .btn-next-hero,
+.surat-premium .memorisation-chaining-close-btn {
+    color: #0f4f48 !important;
+    background: rgba(255, 255, 255, 0.54) !important;
+    border-color: rgba(15, 118, 110, 0.18) !important;
+}
+
+.surat-premium .memorisation-chaining-display-state-pill::before {
+    background: #0f766e !important;
+    box-shadow: 0 0 8px rgba(15, 118, 110, 0.36) !important;
+}
+
+.surat-premium .btn-next-hero:hover {
+    background: rgba(255, 255, 255, 0.76) !important;
+}
+
+.surat-premium .memorisation-chaining-details-body {
+    padding: 0.1rem 0.6rem 0.58rem !important;
+}
+
+.surat-premium .memorisation-chaining-display-metric {
+    background: rgba(255, 255, 255, 0.46) !important;
+    border: 1px solid rgba(15, 118, 110, 0.16) !important;
+}
+
+@media (max-width: 767.98px) {
+    .surat-premium .memorisation-chaining-link {
+        width: clamp(1.65rem, 8vw, 2rem) !important;
+        min-width: clamp(1.65rem, 8vw, 2rem) !important;
+        height: clamp(1.65rem, 8vw, 2rem) !important;
+    }
+}
+
+/* Chaining compact density pass. */
+.surat-premium .memorisation-chaining-host {
+    padding: 0.42rem 0.52rem !important;
+    border-radius: 14px !important;
+}
+
+.surat-premium .memorisation-chaining-display {
+    gap: 0.36rem 0.52rem !important;
+}
+
+.surat-premium .memorisation-chaining-header-title {
+    font-size: 0.96rem !important;
+}
+
+.surat-premium .memorisation-chaining-header-helper {
+    font-size: 0.66rem !important;
+    margin-top: 0.06rem !important;
+}
+
+.surat-premium .memorisation-chaining-zone-track {
+    padding: 0.28rem 0.4rem !important;
+    border-radius: 10px !important;
+}
+
+.surat-premium .memorisation-chaining-link-row {
+    padding: 0.08rem 0.1rem 0.16rem !important;
+}
+
+.surat-premium .memorisation-chaining-link {
+    width: clamp(1.55rem, 1.85vw, 2rem) !important;
+    min-width: clamp(1.55rem, 1.85vw, 2rem) !important;
+    height: clamp(1.55rem, 1.85vw, 2rem) !important;
+    padding: 0.2rem !important;
+    font-size: clamp(0.64rem, 0.76vw, 0.82rem) !important;
+}
+
+.surat-premium .memorisation-chaining-track-connector {
+    font-size: 0.72rem !important;
+}
+
+.surat-premium .memorisation-chaining-progress-track {
+    height: 2px !important;
+    margin-top: 0.08rem !important;
+}
+
+.surat-premium .memorisation-chaining-display-state-pill {
+    padding: 0.2rem 0.46rem !important;
+    font-size: 0.56rem !important;
+}
+
+.surat-premium .btn-next-hero {
+    min-height: 1.7rem !important;
+    padding: 0.22rem 0.58rem !important;
+    font-size: 0.62rem !important;
+}
+
+.surat-premium .memorisation-chaining-close-btn {
+    width: 1.7rem !important;
+    height: 1.7rem !important;
+    border-radius: 8px !important;
+}
+
+.surat-premium .memorisation-chaining-zone-status {
+    border-radius: 10px !important;
+}
+
+.surat-premium .memorisation-chaining-status-summary {
+    padding: 0.3rem 1.7rem 0.3rem 0.48rem !important;
+    font-size: 0.58rem !important;
+}
+
+.surat-premium .memorisation-chaining-details-body {
+    grid-template-columns: minmax(240px, 1fr) minmax(360px, 1.1fr) !important;
+    gap: 0.48rem !important;
+    padding: 0.02rem 0.48rem 0.42rem !important;
+}
+
+.surat-premium .memorisation-chaining-instruction {
+    font-size: 0.76rem !important;
+    line-height: 1.24 !important;
+}
+
+.surat-premium .memorisation-chaining-context {
+    font-size: 0.66rem !important;
+    line-height: 1.2 !important;
+}
+
+.surat-premium .memorisation-chaining-display-metrics {
+    gap: 0.28rem !important;
+}
+
+.surat-premium .memorisation-chaining-display-metric {
+    padding: 0.26rem 0.34rem !important;
+    border-radius: 8px !important;
+}
+
+.surat-premium .memorisation-chaining-display-metric span {
+    font-size: 0.52rem !important;
+}
+
+.surat-premium .memorisation-chaining-display-metric strong {
+    font-size: 0.88rem !important;
+}
+
+@media (max-width: 767.98px) {
+    .surat-premium .memorisation-chaining-link {
+        width: 1.55rem !important;
+        min-width: 1.55rem !important;
+        height: 1.55rem !important;
+    }
+}
+
+/* Chaining compact readability rebalance. */
+.surat-premium .memorisation-chaining-display {
+    grid-template-columns: minmax(190px, 0.55fr) minmax(380px, 1.2fr) minmax(270px, 0.75fr) !important;
+}
+
+.surat-premium .memorisation-chaining-header-title {
+    font-size: 1.08rem !important;
+}
+
+.surat-premium .memorisation-chaining-header-helper {
+    font-size: 0.76rem !important;
+}
+
+.surat-premium .memorisation-chaining-details-body {
+    grid-template-columns: minmax(0, 1.15fr) minmax(360px, 0.85fr) !important;
+    align-items: stretch !important;
+}
+
+.surat-premium .memorisation-chaining-details-copy {
+    display: grid !important;
+    align-content: center !important;
+    min-width: 0 !important;
+}
+
+.surat-premium .memorisation-chaining-instruction {
+    font-size: 0.92rem !important;
+    line-height: 1.3 !important;
+    max-width: none !important;
+}
+
+.surat-premium .memorisation-chaining-context {
+    font-size: 0.78rem !important;
+    line-height: 1.26 !important;
+}
+
+.surat-premium .memorisation-chaining-display-metrics {
+    height: 100% !important;
+}
+
+.surat-premium .memorisation-chaining-display-metric {
+    display: grid !important;
+    align-content: center !important;
+}
+
+.surat-premium .memorisation-chaining-display-metric span {
+    font-size: 0.6rem !important;
+}
+
+.surat-premium .memorisation-chaining-display-metric strong {
+    font-size: 1.06rem !important;
+}
+
+.surat-premium .memorisation-chaining-status-summary {
+    font-size: 0.66rem !important;
+}
+
+.surat-premium .memorisation-chaining-display-state-pill {
+    font-size: 0.62rem !important;
+}
+
+.surat-premium .btn-next-hero {
+    font-size: 0.7rem !important;
+}
+
+@media (max-width: 991.98px) {
+    .surat-premium .memorisation-chaining-display {
+        grid-template-columns: minmax(0, 1fr) auto !important;
+    }
+
+    .surat-premium .memorisation-chaining-details-body {
+        grid-template-columns: 1fr !important;
+    }
 }

@@ -1,182 +1,153 @@
 <template>
   <Teleport to="body">
     <Transition name="sq-fade">
-      <div v-if="isOpen" class="sq" role="dialog" aria-modal="true" :aria-label="title" @click.self.prevent>
-        <div ref="card" class="sq__card" tabindex="-1">
-          <header class="sq__hd">
-            <div class="sq__hdRow">
-              <div class="sq__hdCopy">
-                <div class="sq__kicker">Session quiz</div>
-                <h2 class="sq__title">{{ title }}</h2>
-              </div>
+      <div
+        v-if="isOpen"
+        class="sq"
+        role="dialog"
+        aria-modal="true"
+        :aria-label="title"
+      >
+        <section ref="cardEl" class="sq__card" tabindex="-1">
+          <header class="sq__header">
+            <div>
+              <p class="sq__kicker">Bismillah · Session quiz</p>
+              <h2 class="sq__title">{{ title }}</h2>
+            </div>
+            <button type="button" class="sq__close" aria-label="Close quiz" @click="close">
+              <i class="bi bi-x-lg" aria-hidden="true"></i>
+            </button>
+          </header>
 
-              <button type="button" class="sq__close" aria-label="Close quiz" @click="close">
-                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                  <path d="M18 6L6 18M6 6l12 12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" />
-                </svg>
-              </button>
+          <div class="sq__progress">
+            <span class="sq__progressText">{{ progressLabel }}</span>
+            <div class="sq__bar" role="progressbar" :aria-valuenow="progress" aria-valuemin="0" aria-valuemax="100">
+              <span :style="{ width: `${progress}%` }"></span>
+            </div>
+          </div>
+
+          <main class="sq__body">
+            <div v-if="state === 'error'" class="sq__notice is-error" role="alert">
+              {{ error }}
             </div>
 
-            <div class="sq__meta">
-              <div class="sq__bar" aria-hidden="true"><div class="sq__barFill" :style="{ width: progress + '%' }"></div></div>
-              <div class="sq__metaRow">
-                <div class="sq__count">
-                  <span class="sq__countStrong">Card {{ qNumber }}</span>
-                  <span class="sq__countMuted">of {{ total }}</span>
-                </div>
-                <button
-                  type="button"
-                  class="sq__timer"
-                  :class="{ 'is-on': timerOn }"
-                  :aria-pressed="timerOn ? 'true' : 'false'"
-                  @click="toggleTimer"
-                  title="Toggle timer"
-                >
-                  <span class="sq__timerLabel">Timer</span>
-                  <span class="sq__timerValue">{{ timerOn ? timeLeftFmt : 'Off' }}</span>
+            <div v-else-if="state === 'complete'" class="sq__complete">
+              <div class="sq__score">
+                <span>Score</span>
+                <strong>{{ correctCount }}/{{ total }}</strong>
+                <small>{{ scorePct }}%</small>
+              </div>
+              <div v-if="weakAyahs.length" class="sq__weak">
+                <strong>Needs review</strong>
+                <span v-for="ayah in weakAyahs" :key="`weak-${ayah}`">Ayah {{ ayah }}</span>
+              </div>
+              <p class="sq__completeNote">
+                Alhamdulillah. Your result is saved to your memorisation plan, and weak ayahs are ready for review.
+              </p>
+              <div v-if="weakAyahs.length" class="sq__actions sq__actions--center">
+                <button type="button" class="sqBtn sqBtn--soft" @click="retakeWeakAyahs">
+                  Review mistakes
                 </button>
               </div>
             </div>
-          </header>
 
-          <main class="sq__bd">
-            <Transition :name="slideName">
-              <section :key="viewKey" class="sq__panel">
-                <div v-if="state === 'loading'" class="sq__loading" role="status" aria-live="polite">
-                  <span class="sq__spinner" aria-hidden="true"></span>
-                  <div>
-                    <div class="sq__loadingTitle">Preparing your quiz...</div>
-                    <div class="sq__loadingSub">Flashcards are generated from the ayahs you just practiced.</div>
-                  </div>
+            <article v-else-if="currentQuestion" class="sq__question">
+              <div class="sq__questionHead">
+                <span class="sq__type">{{ typeLabel(currentQuestion.type) }}</span>
+                <span>Ayah {{ currentQuestion.ayahNumber }}</span>
+              </div>
+
+              <template v-if="currentQuestion.type === 'flashcard'">
+                <button
+                  type="button"
+                  class="sq__flashcard"
+                  :class="{ 'is-flipped': isFlipped }"
+                  @click="isFlipped = !isFlipped"
+                >
+                  <span v-if="!isFlipped" class="sq__arabic" dir="rtl" lang="ar">
+                    {{ currentQuestion.arabicText }}
+                  </span>
+                  <span v-else class="sq__translation">
+                    {{ currentQuestion.translation || 'No translation available for this ayah.' }}
+                  </span>
+                </button>
+                <div v-if="isFlipped && !currentQuestion.answered" class="sq__actions">
+                  <button type="button" class="sqBtn sqBtn--soft" @click="answerCurrent(false)">Need review</button>
+                  <button type="button" class="sqBtn sqBtn--primary" @click="answerCurrent(true)">Knew it</button>
+                </div>
+              </template>
+
+              <template v-else>
+                <div class="sq__prompt">
+                  <p v-if="currentQuestion.type === 'fill'" class="sq__arabic" dir="rtl" lang="ar">
+                    {{ currentQuestion.promptText }}
+                  </p>
+                  <template v-else>
+                    <p class="sq__arabic" dir="rtl" lang="ar">{{ currentQuestion.arabicText }}</p>
+                    <p class="sq__hint">{{ currentQuestion.hint }}</p>
+                  </template>
                 </div>
 
-                <div v-else-if="state === 'error'" class="sq__error" role="alert">
-                  <div class="sq__errorTitle">Quiz could not be generated.</div>
-                  <div class="sq__errorSub">{{ error }}</div>
+                <div class="sq__choices" role="group" :aria-label="`Question ${questionNumber} choices`">
+                  <button
+                    v-for="option in currentQuestion.options"
+                    :key="`${currentQuestion.id}-${option.value}`"
+                    type="button"
+                    class="sq__choice"
+                    :class="choiceClass(option)"
+                    :disabled="currentQuestion.answered"
+                    @click="answerCurrent(option.value === currentQuestion.correctAnswer, option.value)"
+                  >
+                    <span :dir="currentQuestion.type === 'fill' ? 'rtl' : 'ltr'">{{ option.label }}</span>
+                  </button>
                 </div>
+              </template>
 
-                <div v-else-if="state === 'complete'" class="sq__complete">
-                  <div class="sq__score">
-                    <div class="sq__scoreLabel">Your score</div>
-                    <div class="sq__scoreValue">
-                      <span class="sq__scoreStrong">{{ correct }}</span><span class="sq__scoreMuted">/ {{ total }}</span>
-                      <span class="sq__scorePct">({{ scorePct }}%)</span>
-                    </div>
-                    <div class="sq__scoreNote">
-                      <span v-if="scorePct === 100" class="sq__perfect">Perfect memorisation.</span>
-                      <span v-else-if="scorePct >= 80">Strong retention.</span>
-                      <span v-else>Keep reviewing. Consistency wins.</span>
-                    </div>
-                  </div>
-
-                  <div class="sq__break">
-                    <div class="sq__breakTitle">By ayah</div>
-                    <div class="sq__breakGrid">
-                      <div v-for="row in breakdown" :key="row.ayah" class="sq__breakRow" :class="{ 'is-weak': row.wrong > 0 }">
-                        <div class="sq__breakAyah">Ayah {{ row.ayah }}</div>
-                        <div class="sq__breakPills">
-                          <span class="sq__pill is-good">{{ row.correct }} correct</span>
-                          <span class="sq__pill is-bad">{{ row.wrong }} needs review</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div v-if="scorePct < 70 && weakAyahs.length" class="sq__recommend">
-                    <div class="sq__recommendTitle">Recommended</div>
-                    <div class="sq__recommendSub">Review these ayahs again:</div>
-                    <div class="sq__chips">
-                      <span v-for="n in weakAyahs" :key="`weak-${n}`" class="sq__chip">Ayah {{ n }}</span>
-                    </div>
-                  </div>
-
-                  <div class="sq__actions">
-                    <button type="button" class="sqBtn sqBtn--primary" :disabled="saving" @click="save">
-                      <span v-if="saving">Saving...</span><span v-else>Save quiz results</span>
-                    </button>
-                    <button type="button" class="sqBtn sqBtn--ghost" :disabled="wrong === 0" @click="retakeWrong">Review mistakes</button>
-                  </div>
-                </div>
-
-                <!-- FLASHCARD MODE -->
-                <div v-else-if="currentCard" class="sq__flashcard">
-                  <div class="sq__qHead">
-                    <div class="sq__type">
-                      <span class="sq__typePill">Flashcard</span>
-                      <span class="sq__typeMeta">Ayah {{ currentCard.ayahNumber }}</span>
-                    </div>
-                    <div class="sq__diff" v-if="currentCard.diff">{{ currentCard.diff }}</div>
-                  </div>
-
-                  <div class="sq__flipContainer">
-                    <div class="sq__flipCard" :class="{ 'is-flipped': isFlipped }" @click="flipCard">
-                      <div class="sq__flipFront">
-                        <p class="sq__arabicLarge" dir="rtl" lang="ar">{{ currentCard.arabicText }}</p>
-                        <div class="sq__flipHint">Tap to reveal translation</div>
-                      </div>
-                      <div class="sq__flipBack">
-                        <div class="sq__translation">
-                          <div class="sq__transLabel">Translation</div>
-                          <p class="sq__transText">{{ currentCard.translation }}</p>
-                        </div>
-                        <div v-if="currentCard.wordMeanings" class="sq__wordMeanings">
-                          <div class="sq__transLabel">Word meanings</div>
-                          <p class="sq__transText">{{ currentCard.wordMeanings }}</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div v-if="isFlipped && !currentCard.answered" class="sq__selfMark">
-                    <div class="sq__selfMarkLabel">How well did you know this ayah?</div>
-                    <div class="sq__selfMarkBtns">
-                      <button type="button" class="sqBtn sqBtn--mark is-hard" @click="markCard('hard')">
-                        <span>🔄 Need Review</span>
-                      </button>
-                      <button type="button" class="sqBtn sqBtn--mark is-good" @click="markCard('good')">
-                        <span>✅ Knew It</span>
-                      </button>
-                    </div>
-                  </div>
-
-                  <div v-if="currentCard.answered" class="sq__feedback" :class="{ 'is-ok': currentCard.correct, 'is-bad': !currentCard.correct }">
-                    <div class="sq__fbTitle">{{ currentCard.correct ? 'Memorised!' : 'Need more practice.' }}</div>
-                  </div>
-                </div>
-              </section>
-            </Transition>
+              <div
+                v-if="currentQuestion.answered"
+                class="sq__feedback"
+                :class="{ 'is-good': currentQuestion.correct, 'is-bad': !currentQuestion.correct }"
+              >
+                {{ currentQuestion.correct ? 'Correct' : 'Needs review' }}
+              </div>
+            </article>
           </main>
 
-          <footer v-if="state === 'quiz'" class="sq__ft">
-            <button type="button" class="sqBtn sqBtn--ghost" :disabled="cardIdx <= 0" @click="prevCard">Previous</button>
-            <div class="sq__dots" aria-label="Card navigation">
+          <footer class="sq__footer">
+            <button type="button" class="sqBtn sqBtn--ghost" :disabled="state !== 'quiz' || questionIndex === 0" @click="previousQuestion">
+              Previous
+            </button>
+            <div v-if="state === 'quiz'" class="sq__dots" aria-label="Quiz navigation">
               <button
-                v-for="(c, i) in cards"
-                :key="`d-${c.id}`"
+                v-for="(question, index) in questions"
+                :key="`dot-${question.id}`"
                 type="button"
                 class="sq__dot"
-                :class="dotClass(c, i)"
-                :aria-current="i === cardIdx ? 'true' : 'false'"
-                :aria-label="`Go to card ${i + 1}`"
-                @click="jumpToCard(i)"
+                :class="{ 'is-active': index === questionIndex, 'is-done': question.answered, 'is-wrong': question.answered && !question.correct }"
+                :aria-label="`Go to question ${index + 1} (${question.answered ? (question.correct ? 'answered correctly' : 'needs review') : 'not answered'})`"
+                @click="jumpToQuestion(index)"
               ></button>
             </div>
-            <button type="button" class="sqBtn sqBtn--primary" :disabled="!currentCard?.answered" @click="nextCard">
-              {{ cardIdx + 1 >= cards.length ? 'Finish' : 'Next' }}
+            <button
+              v-if="state === 'complete'"
+              type="button"
+              class="sqBtn sqBtn--primary"
+              :disabled="saving"
+              @click="save"
+            >
+              {{ saving ? 'Saving...' : 'Save result' }}
+            </button>
+            <button
+              v-else
+              type="button"
+              class="sqBtn sqBtn--primary"
+              :disabled="!currentQuestion?.answered"
+              @click="nextQuestion"
+            >
+              {{ questionIndex + 1 >= total ? 'Finish' : 'Next' }}
             </button>
           </footer>
-        </div>
-      </div>
-    </Transition>
-
-    <Transition name="sq-toast">
-      <div v-if="toast.on" class="sqToast" role="status" aria-live="polite" aria-atomic="true">
-        <div class="sqToast__card">
-          <span class="sqToast__icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" focusable="false"><path d="M20 6L9 17l-5-5" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </span>
-          <span class="sqToast__text">{{ toast.text }}</span>
-        </div>
+        </section>
       </div>
     </Transition>
   </Teleport>
@@ -184,827 +155,894 @@
 
 <script setup>
 import { computed, nextTick, onBeforeUnmount, ref, watch } from 'vue'
+import { trackEventOnce } from '../scripts/memorisationTracking'
+
+const MAX_QUESTIONS = 6
 
 const props = defineProps({
   session: { type: Object, required: true },
   isOpen: { type: Boolean, required: true }
 })
+
 const emit = defineEmits(['close', 'save', 'retake'])
 
-const state = ref('loading')
+const state = ref('quiz')
 const error = ref('')
-const cards = ref([])
-const cardIdx = ref(0)
-const dir = ref('next')
+const questions = ref([])
+const questionIndex = ref(0)
+const isFlipped = ref(false)
+const saving = ref(false)
 const quizId = ref('')
 const startedAt = ref(0)
-const savedAt = ref(0)
-const saving = ref(false)
-const isFlipped = ref(false)
-
-const timerOn = ref(true)
-const timeLeft = ref(0)
-let tHandle = null
-
-const toast = ref({ on: false, text: 'Quiz saved.' })
-let toastHandle = null
-
 const cardEl = ref(null)
 
 const sessionInfo = computed(() => normalizeSession(props.session))
-const total = computed(() => cards.value.length || 0)
-const currentCard = computed(() => cards.value[cardIdx.value] || null)
-const canClose = computed(() => true)
-
-const title = computed(() => {
-  const s = sessionInfo.value
-  const surah = s.surahName ? s.surahName : (s.surahNumber ? `Surah ${s.surahNumber}` : 'Session')
-  const range = s.rangeStart && s.rangeEnd ? `${s.rangeStart}-${s.rangeEnd}` : ''
-  return range ? `${surah} · ${range}` : surah
-})
-
-const qNumber = computed(() => state.value === 'quiz' ? clamp(cardIdx.value + 1, 1, Math.max(1, total.value)) : total.value)
+const currentQuestion = computed(() => questions.value[questionIndex.value] || null)
+const total = computed(() => questions.value.length)
+const questionNumber = computed(() => total.value ? questionIndex.value + 1 : 0)
+const correctCount = computed(() => questions.value.filter(q => q.answered && q.correct).length)
+const answeredCount = computed(() => questions.value.filter(q => q.answered).length)
+const scorePct = computed(() => total.value ? Math.round((correctCount.value / total.value) * 100) : 0)
 const progress = computed(() => {
   if (state.value === 'complete') return 100
-  const t = total.value
-  if (!t) return 0
-  const answered = cards.value.filter(c => c && c.answered).length
-  return clamp(Math.round((answered / t) * 100), 0, 100)
+  return total.value ? Math.round((answeredCount.value / total.value) * 100) : 0
 })
 
-const timeLeftFmt = computed(() => {
-  const s = Math.max(0, Number(timeLeft.value || 0))
-  const mm = Math.floor(s / 60)
-  const ss = s % 60
-  return `${String(mm).padStart(2, '0')}:${String(ss).padStart(2, '0')}`
+const progressLabel = computed(() => {
+  if (state.value === 'complete') return 'Complete'
+  return `Question ${Math.max(questionNumber.value, 1)} of ${Math.max(total.value, 1)}`
 })
 
-const slideName = computed(() => dir.value === 'prev' ? 'sq-slide-prev' : 'sq-slide-next')
-const viewKey = computed(() => {
-  if (state.value !== 'quiz') return `${state.value}-${quizId.value || 'q'}`
-  return currentCard.value?.id || `c-${cardIdx.value}`
+const title = computed(() => {
+  const session = sessionInfo.value
+  const surah = session.surahName || (session.surahNumber ? `Surah ${session.surahNumber}` : 'Memorisation')
+  const range = session.rangeStart && session.rangeEnd ? `${session.rangeStart}-${session.rangeEnd}` : ''
+  return range ? `${surah} · Ayah ${range}` : surah
 })
 
-const correct = computed(() => cards.value.filter(c => c && c.answered && c.correct).length)
-const wrong = computed(() => cards.value.filter(c => c && c.answered && !c.correct).length)
-const scorePct = computed(() => total.value ? Math.round((correct.value / total.value) * 100) : 0)
-
-const breakdown = computed(() => {
-  const map = new Map()
-  for (const c of cards.value) {
-    if (!c || !c.answered) continue
-    const n = Number(c.ayahNumber || 0)
-    if (!n) continue
-    if (!map.has(n)) map.set(n, { ayah: n, correct: 0, wrong: 0 })
-    const row = map.get(n)
-    if (c.correct) row.correct += 1
-    else row.wrong += 1
-  }
-  return [...map.values()].sort((a, b) => a.ayah - b.ayah)
+const weakAyahs = computed(() => {
+  const set = new Set()
+  questions.value.forEach(question => {
+    if (question.answered && !question.correct && question.ayahNumber) {
+      set.add(Number(question.ayahNumber))
+    }
+  })
+  return Array.from(set).sort((a, b) => a - b)
 })
 
-const weakAyahs = computed(() =>
-  breakdown.value
-    .filter(r => r.wrong > 0)
-    .sort((a, b) => b.wrong - a.wrong || a.ayah - b.ayah)
-    .map(r => r.ayah)
-)
+watch(() => props.isOpen, open => {
+  if (open) openQuiz()
+  else cleanup()
+}, { immediate: true })
 
-watch(() => props.isOpen, open => (open ? openQuiz() : cleanup(false)), { immediate: true })
-watch(() => props.session, () => { if (props.isOpen) openQuiz() })
-onBeforeUnmount(() => cleanup(true))
+watch(() => props.session, () => {
+  if (props.isOpen) openQuiz()
+})
+
+onBeforeUnmount(cleanup)
+
+watch(state, (next) => {
+  if (next !== 'complete') return
+  // Fires once per quiz id (retakes get a new quizId).
+  trackEventOnce(
+    'quiz_completed',
+    {
+      sessionId: sessionInfo.value.sessionId,
+      surahNumber: sessionInfo.value.surahNumber,
+      rangeStart: sessionInfo.value.rangeStart,
+      rangeEnd: sessionInfo.value.rangeEnd,
+      correct: correctCount.value,
+      total: total.value
+    },
+    { dedupeKey: `quiz_completed:${quizId.value || sessionInfo.value.sessionId}` }
+  )
+})
 
 function openQuiz() {
-  const s = sessionInfo.value
-  if (!s?.ayahs?.length) {
+  const session = sessionInfo.value
+  questions.value = []
+  questionIndex.value = 0
+  isFlipped.value = false
+  saving.value = false
+  if (!session.ayahs.length) {
     state.value = 'error'
-    error.value = 'Missing ayah data for this session. Pass `session.ayahsPracticed` with Arabic text to generate the quiz.'
+    error.value = 'No ayah text was available for this session.'
+    clearDraft()
+    lockPage(true)
+    nextTick(() => cardEl.value?.focus?.())
     return
   }
-
-  state.value = 'loading'
-  error.value = ''
-  savedAt.value = 0
-  isFlipped.value = false
-
-  const d = loadDraft(s)
-  if (d?.cards?.length) {
-    quizId.value = d.quizId || id('quiz')
-    startedAt.value = Number(d.startedAt || Date.now()) || Date.now()
-    timerOn.value = d.timerOn !== false
-    cards.value = d.cards
-    cardIdx.value = clampIndex(Number(d.cardIdx || 0), cards.value.length)
-    timeLeft.value = Number(d.timeLeft || 0) || timerSeconds(cards.value.length)
-    state.value = d.state === 'complete' ? 'complete' : 'quiz'
-  } else {
-    quizId.value = id('quiz')
-    startedAt.value = Date.now()
-    timerOn.value = timerPref()
-    cards.value = buildFlashcards(s)
-    cardIdx.value = 0
-    timeLeft.value = timerSeconds(cards.value.length)
-    state.value = 'quiz'
-    persistDraft()
-  }
-
-  if (state.value === 'quiz' && allAnswered()) {
-    state.value = 'complete'
-    stopTimer()
-    persistDraft()
-    celebrateComplete()
-  }
-
-  if (props.isOpen) {
-    lock(true)
-    keys(true)
-    startTimer()
-    nextTick(() => { try { cardEl.value?.focus?.() } catch (_) {} })
-    if (state.value === 'complete') celebrateComplete()
-  }
-}
-
-function cleanup(unmount) {
-  keys(false)
-  stopTimer()
-  lock(false)
-  if (autoNextHandle) {
-    clearTimeout(autoNextHandle)
-    autoNextHandle = null
-  }
-  toast.value.on = false
-  if (toastHandle) {
-    clearTimeout(toastHandle)
-    toastHandle = null
-  }
-  if (unmount) cards.value = []
-}
-
-function close() {
-  cleanup(false)
-  emit('close')
-}
-
-let autoNextHandle = null
-function scheduleAutoNext() {
-  if (autoNextHandle) clearTimeout(autoNextHandle)
-  autoNextHandle = setTimeout(() => {
-    autoNextHandle = null
-    if (state.value !== 'quiz') return
-    if (!currentCard.value?.answered) return
-    nextCard()
-  }, 800)
-}
-
-function lock(on) {
-  if (typeof document === 'undefined') return
-  try { document.documentElement.classList.toggle('sqLock', !!on) } catch (_) {}
-}
-
-function keys(on) {
-  if (typeof window === 'undefined') return
-  const opt = { capture: true }
-  if (on) window.addEventListener('keydown', onKey, opt)
-  else window.removeEventListener('keydown', onKey, opt)
-}
-
-function onKey(e) {
-  if (!props.isOpen) return
-  if (e.key === 'Escape') {
-    e.preventDefault()
-    e.stopPropagation()
-    return
-  }
-  if (e.key === 'Enter' || e.key === ' ') {
-    e.preventDefault()
-    e.stopPropagation()
-    if (state.value === 'complete') {
-      if (!saving.value) save()
-      return
-    }
-    if (state.value === 'quiz' && currentCard.value && !currentCard.value.answered && !isFlipped.value) {
-      flipCard()
-    }
-  }
-  if (e.key === 'ArrowLeft') {
-    e.preventDefault()
-    if (state.value === 'quiz' && cardIdx.value > 0) prevCard()
-  }
-  if (e.key === 'ArrowRight') {
-    e.preventDefault()
-    if (state.value === 'quiz' && currentCard.value?.answered && cardIdx.value + 1 < cards.value.length) nextCard()
-    else if (state.value === 'quiz' && currentCard.value?.answered && cardIdx.value + 1 >= cards.value.length) nextCard()
-  }
-}
-
-function flipCard() {
-  if (!currentCard.value || currentCard.value.answered) return
-  isFlipped.value = !isFlipped.value
-}
-
-function markCard(rating) {
-  const card = currentCard.value
-  if (!card || card.answered) return
-  card.answered = true
-  card.correct = rating === 'good'
-  card.rating = rating
-  isFlipped.value = false
-  persistDraft()
-
-  if (card.correct) {
-    playDing()
-    confettiMicro()
-  }
-
-  if (allAnswered()) {
-    state.value = 'complete'
-    stopTimer()
-    persistDraft()
-    celebrateComplete()
-    return
-  }
-  scheduleAutoNext()
-}
-
-function playDing() {
-  try {
-    const audio = new Audio('data:audio/wav;base64,U3RlYWx0aCBzb3VuZCBub3QgYXZhaWxhYmxl')
-    audio.volume = 0.2
-    audio.play().catch(() => {})
-  } catch (_) {}
-}
-
-function toggleTimer() {
-  timerOn.value = !timerOn.value
-  try { localStorage.setItem('ic_memo_quiz_timer_v1', timerOn.value ? '1' : '0') } catch (_) {}
-  if (timerOn.value) {
-    if (!timeLeft.value) timeLeft.value = timerSeconds(total.value)
-    startTimer()
-  } else {
-    stopTimer()
-  }
-  persistDraft()
-}
-
-function timerPref() {
-  if (typeof window === 'undefined') return true
-  try {
-    const v = localStorage.getItem('ic_memo_quiz_timer_v1')
-    return v == null ? true : v !== '0'
-  } catch (_) {
-    return true
-  }
-}
-
-function startTimer() {
-  stopTimer()
-  if (!timerOn.value || state.value !== 'quiz' || timeLeft.value <= 0) return
-  tHandle = setInterval(() => {
-    if (!props.isOpen || state.value !== 'quiz' || !timerOn.value) return
-    timeLeft.value = Math.max(0, Number(timeLeft.value || 0) - 1)
-    if (timeLeft.value % 10 === 0) persistDraft()
-    if (timeLeft.value <= 0) stopTimer()
-  }, 1000)
-}
-
-function stopTimer() {
-  if (tHandle) {
-    clearInterval(tHandle)
-    tHandle = null
-  }
-}
-
-function timerSeconds(qCount) {
-  return clamp(Math.round(clamp(qCount * 45, 180, 900)), 60, 3600)
-}
-
-function prevCard() {
-  if (state.value !== 'quiz') return
-  isFlipped.value = false
-  dir.value = 'prev'
-  cardIdx.value = clampIndex(cardIdx.value - 1, total.value)
-  persistDraft()
-}
-
-function nextCard() {
-  if (state.value !== 'quiz') return
-  isFlipped.value = false
-  dir.value = 'next'
-  if (cardIdx.value + 1 >= total.value) {
-    state.value = 'complete'
-    stopTimer()
-    persistDraft()
-    celebrateComplete()
-    return
-  }
-  cardIdx.value = clampIndex(cardIdx.value + 1, total.value)
-  persistDraft()
-}
-
-function jumpToCard(i) {
-  if (state.value !== 'quiz') return
-  isFlipped.value = false
-  const n = clampIndex(i, total.value)
-  if (n === cardIdx.value) return
-  dir.value = n < cardIdx.value ? 'prev' : 'next'
-  cardIdx.value = n
-  persistDraft()
-}
-
-function dotClass(card, i) {
-  return {
-    'is-a': i === cardIdx.value,
-    'is-ans': card.answered,
-    'is-ok': card.answered && card.correct,
-    'is-bad': card.answered && !card.correct
-  }
-}
-
-function allAnswered() {
-  return cards.value.length > 0 && cards.value.every(c => c && c.answered)
-}
-
-function save() {
-  const s = sessionInfo.value
-  if (!s || saving.value || !allAnswered()) return
-  saving.value = true
-
-  const res = buildResult({
-    quizId: quizId.value || id('quiz'),
-    session: s,
-    cards: cards.value,
-    startedAt: startedAt.value || Date.now(),
-    endedAt: Date.now()
-  })
-
-  try {
-    persistHistory(res)
-    patchSessionHistory(res)
-    clearDraft(s)
-  } catch (_) {}
-
-  savedAt.value = Date.now()
-  toast.value = { on: true, text: 'Quiz saved.' }
-  if (toastHandle) clearTimeout(toastHandle)
-  toastHandle = setTimeout(() => { toast.value.on = false }, 2200)
-
-  emit('save', res)
-  setTimeout(() => {
-    saving.value = false
-    emit('close')
-  }, 650)
-}
-
-function retakeWrong() {
-  if (!wrong.value) return
-  const s = sessionInfo.value
-  if (!s) return
-
-  const wrongAyahs = new Set(
-    cards.value
-      .filter(c => c?.answered && !c.correct)
-      .map(c => Number(c.ayahNumber || 0))
-      .filter(n => n > 0)
-  )
-  const focus = { ...s, ayahs: s.ayahs.filter(a => wrongAyahs.has(Number(a.ayahNumber || 0))) }
 
   quizId.value = id('quiz')
   startedAt.value = Date.now()
-  savedAt.value = 0
-  state.value = 'quiz'
-  cards.value = buildFlashcards(focus)
-  cardIdx.value = 0
-  timeLeft.value = timerSeconds(cards.value.length)
+  questions.value = buildQuestions(session)
+  questionIndex.value = 0
+  isFlipped.value = false
+  saving.value = false
+  state.value = questions.value.length ? 'quiz' : 'error'
+  error.value = questions.value.length ? '' : 'Quiz could not be generated for this session.'
   persistDraft()
-  startTimer()
-
-  emit('retake', { sessionId: s.sessionId, quizId: quizId.value, ayahNumbers: [...wrongAyahs] })
+  lockPage(true)
+  nextTick(() => cardEl.value?.focus?.())
 }
 
-function buildFlashcards(s) {
-  const ayahs = (s.ayahs || []).filter(a => a?.ayahNumber && a?.arabicText)
-  const shuffled = shuffle([...ayahs])
-  return shuffled.map((a, i) => ({
-    id: id('card'),
-    ayahNumber: Number(a.ayahNumber),
-    arabicText: String(a.arabicText || '').trim(),
-    translation: String(a.translationText || '').trim(),
-    wordMeanings: a.wordMeanings || '',
-    diff: a.mastery >= 0.8 ? 'Mastered' : (a.mastery < 0.5 ? 'Learning' : 'Reviewing'),
-    answered: false,
-    correct: null,
-    rating: null
-  }))
+function cleanup() {
+  questions.value = []
+  questionIndex.value = 0
+  isFlipped.value = false
+  saving.value = false
+  lockPage(false)
 }
 
-function buildResult({ quizId: quizIdValue, session, cards: cardList, startedAt: startedAtValue, endedAt }) {
-  const cs = Array.isArray(cardList) ? cardList : []
-  const totalQuestions = cs.length
-  const correctAnswers = cs.filter(c => c?.answered && c.correct).length
-  const scorePercent = totalQuestions ? Math.round((correctAnswers / totalQuestions) * 100) : 0
-  const timeSpentSeconds = Math.max(0, Math.round((Number(endedAt || 0) - Number(startedAtValue || 0)) / 1000))
-  const mistakesByAyah = {}
-  for (const c of cs) {
-    const n = Number(c?.ayahNumber || 0)
-    if (!n) continue
-    if (!mistakesByAyah[n]) mistakesByAyah[n] = 0
-    if (c.answered && !c.correct) mistakesByAyah[n] += 1
+function close() {
+  cleanup()
+  emit('close')
+}
+
+function previousQuestion() {
+  questionIndex.value = clamp(questionIndex.value - 1, 0, Math.max(total.value - 1, 0))
+  isFlipped.value = false
+  persistDraft()
+}
+
+function nextQuestion() {
+  if (!currentQuestion.value?.answered) return
+  if (questionIndex.value + 1 >= total.value) {
+    state.value = 'complete'
+    persistDraft()
+    return
   }
+  questionIndex.value += 1
+  isFlipped.value = false
+  persistDraft()
+}
+
+function jumpToQuestion(index) {
+  questionIndex.value = clamp(index, 0, Math.max(total.value - 1, 0))
+  isFlipped.value = false
+  persistDraft()
+}
+
+function answerCurrent(correct, selectedAnswer = null) {
+  const question = currentQuestion.value
+  if (!question || question.answered) return
+  question.answered = true
+  question.correct = !!correct
+  question.selectedAnswer = selectedAnswer
+  question.rating = correct ? 'good' : 'hard'
+  persistDraft()
+}
+
+function choiceClass(option) {
+  const question = currentQuestion.value
+  if (!question?.answered) return {}
+  const isCorrect = option.value === question.correctAnswer
+  const isSelected = option.value === question.selectedAnswer
   return {
-    version: 2,
-    quizId: String(quizIdValue || id('quiz')),
-    sessionId: String(session?.sessionId || ''),
+    'is-correct': isCorrect,
+    'is-wrong': isSelected && !isCorrect
+  }
+}
+
+function save() {
+  if (saving.value || !total.value) return
+  saving.value = true
+  const result = buildResult()
+  persistHistory(result)
+  clearDraft()
+  emit('save', result)
+  setTimeout(() => {
+    saving.value = false
+    close()
+  }, 300)
+}
+
+function retakeWeakAyahs() {
+  const weakSet = new Set(weakAyahs.value.map(Number))
+  if (!weakSet.size) return
+  const session = {
+    ...sessionInfo.value,
+    ayahs: sessionInfo.value.ayahs.filter(ayah => weakSet.has(Number(ayah.ayahNumber || 0)))
+  }
+  quizId.value = id('quiz')
+  startedAt.value = Date.now()
+  questions.value = buildQuestions(session)
+  questionIndex.value = 0
+  isFlipped.value = false
+  state.value = questions.value.length ? 'quiz' : 'complete'
+  persistDraft()
+  emit('retake', {
+    sessionId: session.sessionId,
+    quizId: quizId.value,
+    ayahNumbers: Array.from(weakSet).sort((a, b) => a - b)
+  })
+}
+
+function buildQuestions(session) {
+  const ayahs = shuffle(session.ayahs).slice(0, Math.max(MAX_QUESTIONS, session.ayahs.length))
+  const built = []
+
+  ayahs.forEach((ayah, index) => {
+    if (built.length >= MAX_QUESTIONS) return
+    const type = index % 3 === 0 ? 'flashcard' : index % 3 === 1 ? 'fill' : 'multiple'
+    const question = type === 'fill'
+      ? buildFillQuestion(ayah, session.ayahs)
+      : type === 'multiple'
+        ? buildMultipleQuestion(ayah, session.ayahs)
+        : buildFlashcardQuestion(ayah)
+    if (question) built.push(question)
+  })
+
+  if (built.length < Math.min(MAX_QUESTIONS, session.ayahs.length)) {
+    session.ayahs.forEach(ayah => {
+      if (built.length >= MAX_QUESTIONS) return
+      if (built.some(question => question.type === 'flashcard' && question.ayahNumber === ayah.ayahNumber)) return
+      built.push(buildFlashcardQuestion(ayah))
+    })
+  }
+
+  return built.filter(Boolean).slice(0, MAX_QUESTIONS)
+}
+
+function buildFlashcardQuestion(ayah) {
+  return baseQuestion('flashcard', ayah, {
+    correctAnswer: 'self',
+    options: []
+  })
+}
+
+function buildFillQuestion(ayah, allAyahs) {
+  const words = tokenizeArabic(ayah.arabicText)
+  if (words.length < 3) return buildFlashcardQuestion(ayah)
+  const blankIndex = Math.min(words.length - 1, Math.max(1, Math.floor(words.length / 2)))
+  const correctWord = words[blankIndex]
+  const promptText = words.map((word, index) => index === blankIndex ? '_____' : word).join(' ')
+  const distractors = unique(
+    allAyahs.flatMap(item => tokenizeArabic(item.arabicText)).filter(word => word !== correctWord)
+  ).slice(0, 12)
+  return baseQuestion('fill', ayah, {
+    promptText,
+    correctAnswer: correctWord,
+    options: shuffle([correctWord, ...shuffle(distractors).slice(0, 3)])
+      .map(value => ({ value, label: value }))
+  })
+}
+
+function buildMultipleQuestion(ayah, allAyahs) {
+  const otherAyahs = allAyahs.filter(item => Number(item.ayahNumber) !== Number(ayah.ayahNumber))
+  const options = shuffle([ayah, ...shuffle(otherAyahs).slice(0, 3)])
+    .map(item => ({
+      value: Number(item.ayahNumber),
+      label: `Ayah ${Number(item.ayahNumber)}`
+    }))
+  return baseQuestion('multiple', ayah, {
+    correctAnswer: Number(ayah.ayahNumber),
+    hint: 'Which ayah number is this?',
+    options
+  })
+}
+
+function baseQuestion(type, ayah, extra = {}) {
+  return {
+    id: id('q'),
+    type,
+    ayahNumber: Number(ayah.ayahNumber || 0),
+    arabicText: ayah.arabicText || '',
+    translation: ayah.translationText || ayah.translation || '',
+    answered: false,
+    correct: false,
+    selectedAnswer: null,
+    rating: '',
+    ...extra
+  }
+}
+
+function buildResult() {
+  const session = sessionInfo.value
+  const endedAt = Date.now()
+  const mistakesByAyah = {}
+  questions.value.forEach(question => {
+    const ayahNumber = Number(question.ayahNumber || 0)
+    if (!ayahNumber) return
+    if (!mistakesByAyah[ayahNumber]) mistakesByAyah[ayahNumber] = 0
+    if (!question.correct) mistakesByAyah[ayahNumber] += 1
+  })
+
+  return {
+    version: 3,
+    quizId: quizId.value || id('quiz'),
+    sessionId: session.sessionId,
     savedAt: Date.now(),
-    date: session?.date || Date.now(),
-    surahNumber: Number(session?.surahNumber || 0) || 0,
-    surahName: session?.surahName || '',
-    rangeStart: Number(session?.rangeStart || 0) || 0,
-    rangeEnd: Number(session?.rangeEnd || 0) || 0,
-    totalQuestions,
-    correctAnswers,
-    scorePercent,
-    timeSpentSeconds,
+    startedAt: startedAt.value,
+    endedAt,
+    date: session.date,
+    surahNumber: session.surahNumber,
+    surahName: session.surahName,
+    rangeStart: session.rangeStart,
+    rangeEnd: session.rangeEnd,
+    totalQuestions: total.value,
+    correctAnswers: correctCount.value,
+    scorePercent: scorePct.value,
+    timeSpentSeconds: Math.max(0, Math.round((endedAt - Number(startedAt.value || endedAt)) / 1000)),
     mistakesByAyah,
-    cards: cs.map(c => ({
-      id: c.id,
-      ayahNumber: c.ayahNumber,
-      arabicText: c.arabicText,
-      translation: c.translation,
-      userRating: c.rating,
-      isCorrect: c.correct
+    cards: questions.value.map(question => ({
+      id: question.id,
+      type: question.type,
+      ayahNumber: question.ayahNumber,
+      arabicText: question.arabicText,
+      translation: question.translation,
+      selectedAnswer: question.selectedAnswer,
+      correctAnswer: question.correctAnswer,
+      userRating: question.rating,
+      isCorrect: !!question.correct
     }))
   }
 }
 
 function normalizeSession(src) {
-  const s = (src && typeof src === 'object') ? src : {}
-  const sessionId = String(s.id || s.sessionId || s.session_id || '').trim() || id('session')
-  const surahNumber = Number(s.surahNumber || s.surah || s.sessionConfig?.surahNumber || 0) || 0
-  const surahName = String(s.surahName || s.surah_name || s.sessionConfig?.surahName || '').trim()
-  const rangeStart = Number(s.rangeStart || s.startAyah || s.sessionConfig?.rangeStart || s.ayahRange?.start || 0) || 0
-  const rangeEnd = Number(s.rangeEnd || s.endAyah || s.sessionConfig?.rangeEnd || s.ayahRange?.end || 0) || 0
-  const date = s.date || s.endedAt || s.startedAt || Date.now()
-
-  const raw =
-    (Array.isArray(s.ayahsPracticed) && s.ayahsPracticed) ||
-    (Array.isArray(s.practicedAyahs) && s.practicedAyahs) ||
-    (Array.isArray(s.ayahs) && s.ayahs) ||
+  const source = src && typeof src === 'object' ? src : {}
+  const rawAyahs =
+    (Array.isArray(source.ayahsPracticed) && source.ayahsPracticed) ||
+    (Array.isArray(source.practicedAyahs) && source.practicedAyahs) ||
+    (Array.isArray(source.ayahs) && source.ayahs) ||
     []
-  const ayahs = raw.map(it => normPractice(it, s)).filter(Boolean).sort((a, b) => a.ayahNumber - b.ayahNumber)
 
-  return { sessionId, date, surahNumber, surahName, rangeStart, rangeEnd, ayahs }
-}
-
-function normPractice(it, session) {
-  if (!it || typeof it !== 'object') return null
-  const ayahNumber = Number(it.ayahNumber || it.ayah || it.verseNumber || it.number || 0) || 0
-  if (!ayahNumber) return null
-  const arabicText =
-    String(it.arabicText || it.arabic || it.text || it.ayahText || it.verseText || it.textArabic || '').trim() ||
-    String(session?.ayahTextMap?.[ayahNumber] || '').trim()
-  if (!arabicText) return null
-  const translationText = String(it.translation || it.translationText || it.english || it.textTranslation || '').trim()
-  const wordMeanings = it.wordMeanings || it.word_meanings || ''
-  const attempts = clamp(Number(it.attempts || it.attemptCount || it.tries || it.totalAttempts || 0) || 0, 0, 999)
-  const correctValue = resolveCorrect(it, attempts)
-  const safeAttempts = Math.max(1, attempts || (typeof it.isCorrect === 'boolean' ? 1 : 1))
-  const mastery = clamp(correctValue / safeAttempts, 0, 1)
-  return { ayahNumber, arabicText, translationText, wordMeanings, mastery }
-}
-
-function resolveCorrect(it, attempts) {
-  const v = it.correctCount ?? it.correctAttempts ?? it.correct
-  if (typeof v === 'number') return clamp(v, 0, Math.max(1, attempts || 1))
-  if (typeof v === 'boolean') return v ? Math.max(1, attempts || 1) : 0
-  if (typeof it.isCorrect === 'boolean') return it.isCorrect ? Math.max(1, attempts || 1) : 0
-  return 0
-}
-
-function scopeId() {
-  if (typeof window === 'undefined') return 'local'
-  const k = 'ic_memo_quiz_scope_v1'
-  try {
-    const ex = localStorage.getItem(k)
-    if (ex) return ex
-    const created = id('scope').replace(/[^a-zA-Z0-9_-]/g, '')
-    localStorage.setItem(k, created)
-    return created
-  } catch (_) {
-    return 'local'
+  const ayahs = rawAyahs.map(item => normalizeAyah(item, source)).filter(Boolean)
+  return {
+    sessionId: String(source.id || source.sessionId || source.session_id || id('session')),
+    date: source.date || source.endedAt || source.startedAt || Date.now(),
+    surahNumber: Number(source.surahNumber || source.surah || source.sessionConfig?.surahNumber || 0) || 0,
+    surahName: String(source.surahName || source.surah_name || source.sessionConfig?.surahName || '').trim(),
+    rangeStart: Number(source.rangeStart || source.startAyah || source.sessionConfig?.rangeStart || 0) || 0,
+    rangeEnd: Number(source.rangeEnd || source.endAyah || source.sessionConfig?.rangeEnd || 0) || 0,
+    ayahs
   }
 }
 
-function dKey(s) {
-  return `ic_memo_quiz_draft_v2_${scopeId()}_${String(s.sessionId || 'session').replace(/[^a-zA-Z0-9_-]/g, '')}`
+function normalizeAyah(item, session) {
+  if (!item || typeof item !== 'object') return null
+  const ayahNumber = Number(item.ayahNumber || item.ayah || item.verseNumber || item.number || 0) || 0
+  if (!ayahNumber) return null
+  const arabicText = String(
+    item.arabicText ||
+    item.arabic ||
+    item.text ||
+    item.ayahText ||
+    item.verseText ||
+    session?.ayahTextMap?.[ayahNumber] ||
+    ''
+  ).trim()
+  if (!arabicText) return null
+  return {
+    ayahNumber,
+    arabicText,
+    translationText: String(item.translationText || item.translation || item.english || item.textTranslation || '').trim()
+  }
 }
 
-function loadDraft(s) {
-  if (typeof window === 'undefined') return null
+function persistHistory(result) {
+  if (typeof window === 'undefined') return
   try {
-    const raw = localStorage.getItem(dKey(s))
-    if (!raw) return null
-    const d = JSON.parse(raw)
-    if (!d || d.v !== 2 || String(d.sessionId || '') !== String(s.sessionId || '')) return null
-    return d
+    const key = `ic_memo_quiz_history_v3_${scopeId()}`
+    const raw = localStorage.getItem(key)
+    const parsed = raw ? safeParse(raw) : null
+    const entries = Array.isArray(parsed?.entries) ? parsed.entries : []
+    const next = [result, ...entries.filter(entry => entry.quizId !== result.quizId)].slice(0, 250)
+    localStorage.setItem(key, JSON.stringify({ version: 3, updatedAt: Date.now(), entries: next }))
+    patchSessionHistory(result)
+  } catch (_) {}
+}
+
+function patchSessionHistory(result) {
+  if (typeof window === 'undefined') return
+  try {
+    for (let index = 0; index < localStorage.length; index += 1) {
+      const key = localStorage.key(index)
+      if (!key || !key.startsWith('ic_memorisation_session_history_v1')) continue
+      const raw = localStorage.getItem(key)
+      if (!raw) continue
+      const parsed = safeParse(raw)
+      const entries = Array.isArray(parsed?.entries) ? parsed.entries : Array.isArray(parsed) ? parsed : []
+      const nextEntries = entries.map(entry => String(entry?.id || '') === String(result.sessionId || '')
+        ? { ...entry, quizResult: result }
+        : entry
+      )
+      localStorage.setItem(key, JSON.stringify({ ...(parsed || {}), entries: nextEntries, updatedAt: Date.now() }))
+    }
+  } catch (_) {}
+}
+
+function draftKey() {
+  const session = sessionInfo.value
+  return `ic_memo_quiz_draft_v3_${scopeId()}_${String(session.sessionId || 'session').replace(/[^a-zA-Z0-9_-]/g, '')}`
+}
+
+function persistDraft() {
+  if (typeof window === 'undefined' || !questions.value.length) return
+  try {
+    localStorage.setItem(draftKey(), JSON.stringify({
+      version: 3,
+      quizId: quizId.value,
+      questionIndex: questionIndex.value,
+      questions: questions.value,
+      state: state.value,
+      updatedAt: Date.now()
+    }))
+  } catch (_) {}
+}
+
+function clearDraft() {
+  if (typeof window === 'undefined') return
+  try {
+    localStorage.removeItem(draftKey())
+  } catch (_) {}
+}
+
+function typeLabel(type) {
+  if (type === 'fill') return 'Fill in the blank'
+  if (type === 'multiple') return 'Multiple choice'
+  return 'Flashcard'
+}
+
+function tokenizeArabic(text) {
+  return String(text || '')
+    .replace(/[۞۩.,;:!?()[\]{}"“”]/g, ' ')
+    .split(/\s+/)
+    .map(word => word.trim())
+    .filter(Boolean)
+}
+
+function unique(values) {
+  return Array.from(new Set(values.filter(Boolean)))
+}
+
+function shuffle(values) {
+  const copy = Array.isArray(values) ? values.slice() : []
+  for (let index = copy.length - 1; index > 0; index -= 1) {
+    const swapIndex = Math.floor(Math.random() * (index + 1))
+    const current = copy[index]
+    copy[index] = copy[swapIndex]
+    copy[swapIndex] = current
+  }
+  return copy
+}
+
+function clamp(value, min, max) {
+  const number = Number(value)
+  if (!Number.isFinite(number)) return min
+  return Math.max(min, Math.min(max, Math.round(number)))
+}
+
+function safeParse(value) {
+  try {
+    return JSON.parse(value)
   } catch (_) {
     return null
   }
 }
 
-function persistDraft() {
-  const s = sessionInfo.value
-  if (!s || typeof window === 'undefined') return
-  const payload = {
-    v: 2,
-    sessionId: s.sessionId,
-    quizId: quizId.value,
-    state: state.value,
-    startedAt: startedAt.value,
-    cardIdx: cardIdx.value,
-    timerOn: timerOn.value,
-    timeLeft: timeLeft.value,
-    cards: cards.value,
-    updatedAt: Date.now()
-  }
-  try { localStorage.setItem(dKey(s), JSON.stringify(payload)) } catch (_) {}
-}
-
-function clearDraft(s) {
-  if (typeof window !== 'undefined') {
-    try { localStorage.removeItem(dKey(s)) } catch (_) {}
+function scopeId() {
+  if (typeof window === 'undefined') return 'local'
+  try {
+    return String(window?.Laravel?.userId || localStorage.getItem('ic_memo_quiz_scope_v1') || 'local')
+  } catch (_) {
+    return 'local'
   }
 }
 
-function persistHistory(res) {
-  if (typeof window === 'undefined') return
-  const key = `ic_memo_quiz_history_v2_${scopeId()}`
+function id(prefix) {
+  const safePrefix = String(prefix || 'id').replace(/[^a-zA-Z0-9_-]/g, '')
   try {
-    const raw = localStorage.getItem(key)
-    const parsed = raw ? JSON.parse(raw) : null
-    const entries = Array.isArray(parsed) ? parsed : (Array.isArray(parsed?.entries) ? parsed.entries : [])
-    const next = [res, ...entries.filter(e => String(e?.quizId || '') !== String(res.quizId || ''))].slice(0, 250)
-    localStorage.setItem(key, JSON.stringify({ version: 2, updatedAt: Date.now(), entries: next }))
+    if (window?.crypto?.randomUUID) return `${safePrefix}-${window.crypto.randomUUID()}`
   } catch (_) {}
+  return `${safePrefix}-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`
 }
 
-function patchSessionHistory(res) {
-  if (typeof window === 'undefined') return
-  const sid = String(res?.sessionId || '')
-  if (!sid) return
-  try {
-    for (let i = 0; i < localStorage.length; i += 1) {
-      const k = localStorage.key(i)
-      if (!k || !k.startsWith('ic_memorisation_session_history_v1')) continue
-      const raw = localStorage.getItem(k)
-      if (!raw) continue
-      let parsed = null
-      try { parsed = JSON.parse(raw) } catch (_) {}
-      const entries = Array.isArray(parsed) ? parsed : (Array.isArray(parsed?.entries) ? parsed.entries : null)
-      if (!entries) continue
-      const updated = entries.map(e => (
-        String(e?.id || '') === sid
-          ? {
-              ...e,
-              quizResult: {
-                quizId: res.quizId,
-                scorePercent: res.scorePercent,
-                correctAnswers: res.correctAnswers,
-                totalQuestions: res.totalQuestions,
-                savedAt: res.savedAt,
-                mistakesByAyah: res.mistakesByAyah
-              }
-            }
-          : e
-      ))
-      localStorage.setItem(
-        k,
-        JSON.stringify({
-          ...(parsed && typeof parsed === 'object' ? parsed : {}),
-          version: parsed?.version || 1,
-          updatedAt: Date.now(),
-          entries: updated
-        })
-      )
-      return
-    }
-  } catch (_) {}
-}
-
-function prefersReduced() {
-  try { return window?.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches } catch (_) { return false }
-}
-
-function confettiMicro() {
-  if (prefersReduced()) return
-  try {
-    import('https://cdn.jsdelivr.net/npm/canvas-confetti@1/+esm').then(module => {
-      const confetti = module.default || module
-      confetti({ particleCount: 28, spread: 48, origin: { y: 0.65 }, colors: ['#0f766e', '#d6aa56', '#1b8f7e'], startVelocity: 14, decay: 0.85 })
-    })
-  } catch (_) {}
-}
-
-function celebrateComplete() {
-  if (prefersReduced()) return
-  if (scorePct.value >= 80) {
-    try {
-      import('https://cdn.jsdelivr.net/npm/canvas-confetti@1/+esm').then(module => {
-        const confetti = module.default || module
-        confetti({ particleCount: 120, spread: 70, origin: { y: 0.6 }, colors: ['#0f766e', '#d6aa56', '#2d9c84', '#e8c468'], startVelocity: 18, decay: 0.9 })
-        setTimeout(() => {
-          confetti({ particleCount: 40, spread: 45, origin: { y: 0.5, x: 0.3 }, colors: ['#d6aa56'], startVelocity: 12 })
-          confetti({ particleCount: 40, spread: 45, origin: { y: 0.5, x: 0.7 }, colors: ['#0f766e'], startVelocity: 12 })
-        }, 160)
-      })
-    } catch (_) {}
-  }
-}
-
-function clampIndex(i, len) {
-  len = Math.max(0, Number(len || 0))
-  if (!len) return 0
-  i = Number(i || 0)
-  if (!Number.isFinite(i)) return 0
-  return Math.max(0, Math.min(len - 1, Math.round(i)))
-}
-
-function clamp(v, a, b) {
-  v = Number(v)
-  if (!Number.isFinite(v)) return a
-  return Math.max(a, Math.min(b, v))
-}
-
-function shuffle(arr) {
-  const a = Array.isArray(arr) ? arr.slice() : []
-  for (let i = a.length - 1; i > 0; i -= 1) {
-    const j = Math.floor(Math.random() * (i + 1))
-    const t = a[i]
-    a[i] = a[j]
-    a[j] = t
-  }
-  return a
-}
-
-function id(p) {
-  p = String(p || 'id').replace(/[^a-zA-Z0-9_-]/g, '')
-  try {
-    if (window?.crypto?.randomUUID) return `${p}-${window.crypto.randomUUID()}`
-  } catch (_) {}
-  return `${p}-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`
+function lockPage(locked) {
+  if (typeof document === 'undefined') return
+  document.documentElement.classList.toggle('sqLock', !!locked)
 }
 </script>
 
 <style scoped>
-:global(.sqLock) { overflow: hidden !important; }
-
-.sq { position: fixed; inset: 0; z-index: 99999; display: grid; place-items: center; padding: 1rem; background: rgba(7, 11, 10, 0.52); backdrop-filter: blur(8px); }
-.sq__card { width: min(700px, 100%); max-height: min(92vh, 860px); background: linear-gradient(180deg, #fff 0%, #fffdf8 100%); border-radius: 24px; border: 1px solid rgba(214, 170, 86, 0.22); box-shadow: 0 40px 120px rgba(10, 18, 16, 0.33), 0 12px 32px rgba(10, 18, 16, 0.18); overflow: hidden; outline: none; display: flex; flex-direction: column; }
-
-.sq__hd { padding: 1.1rem 1.1rem 0.95rem; background: radial-gradient(900px 340px at 50% -20%, rgba(15, 118, 110, 0.14), transparent 62%), radial-gradient(720px 260px at 10% 0%, rgba(214, 170, 86, 0.16), transparent 70%), linear-gradient(180deg, #fdfdfb 0%, #f6fbf8 100%); }
-.sq__hdRow { display: flex; align-items: flex-start; justify-content: space-between; gap: .8rem; }
-.sq__kicker { font-size: .78rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: rgba(15, 118, 110, .86); }
-.sq__title { margin: .2rem 0 0; font-size: 1.22rem; line-height: 1.15; font-weight: 900; color: #0b2f2a; }
-.sq__close { width: 40px; height: 40px; border-radius: 12px; border: 1px solid rgba(15, 118, 110, .18); background: rgba(255,255,255,.84); color: #111827; display: inline-flex; align-items: center; justify-content: center; box-shadow: 0 10px 20px rgba(10,18,16,.12); transition: transform .16s ease, box-shadow .16s ease; }
-.sq__close svg { width: 20px; height: 20px; }
-.sq__close:hover { transform: translateY(-1px); box-shadow: 0 14px 26px rgba(10,18,16,.16); }
-.sq__close:focus-visible { outline: 3px solid rgba(15, 118, 110, .28); outline-offset: 2px; }
-
-.sq__meta { margin-top: .95rem; }
-.sq__bar { height: 10px; border-radius: 999px; background: rgba(15,118,110,.12); overflow: hidden; }
-.sq__barFill { height: 100%; border-radius: 999px; background: linear-gradient(90deg, #0f766e 0%, #1b8f7e 35%, #d6aa56 100%); transition: width .24s ease; }
-.sq__metaRow { margin-top: .85rem; display: flex; align-items: center; justify-content: space-between; gap: .8rem; }
-.sq__count { font-size: .92rem; color: rgba(11,47,42,.9); }
-.sq__countStrong { font-weight: 900; }
-.sq__countMuted { margin-left: .35rem; opacity: .8; }
-.sq__timer { border: 1px solid rgba(15,118,110,.18); background: rgba(255,255,255,.78); border-radius: 999px; padding: .38rem .62rem .38rem .75rem; display: inline-flex; align-items: center; gap: .55rem; color: rgba(11,47,42,.9); box-shadow: 0 10px 22px rgba(10,18,16,.08); transition: transform .16s ease, box-shadow .16s ease; }
-.sq__timer:hover { transform: translateY(-1px); box-shadow: 0 14px 26px rgba(10,18,16,.12); }
-.sq__timer:focus-visible { outline: 3px solid rgba(15,118,110,.28); outline-offset: 2px; }
-.sq__timerLabel { font-size: .78rem; font-weight: 900; letter-spacing: .08em; text-transform: uppercase; opacity: .85; }
-.sq__timerValue { font-weight: 900; font-variant-numeric: tabular-nums; }
-
-.sq__bd { padding: 1.05rem 1.1rem 1.1rem; background: linear-gradient(180deg, #fff 0%, #fdfdfb 100%); flex: 1 1 auto; overflow: auto; }
-.sq__panel { min-height: 460px; }
-
-.sq__loading { display: flex; gap: .9rem; align-items: center; padding: 1.05rem; border-radius: 18px; background: rgba(15,118,110,.06); border: 1px solid rgba(15,118,110,.12); }
-.sq__spinner { width: 34px; height: 34px; border-radius: 999px; border: 3px solid rgba(15,118,110,.18); border-top-color: rgba(15,118,110,.78); animation: sqSpin .9s linear infinite; }
-@keyframes sqSpin { to { transform: rotate(360deg); } }
-.sq__loadingTitle { font-weight: 900; color: rgba(11,47,42,.92); }
-.sq__loadingSub { font-size: .9rem; color: rgba(11,47,42,.72); }
-
-.sq__error { padding: 1.1rem; border-radius: 18px; background: rgba(185,28,28,.06); border: 1px solid rgba(185,28,28,.18); color: rgba(127,29,29,.92); }
-.sq__errorTitle { font-weight: 900; margin-bottom: .35rem; }
-.sq__errorSub { opacity: .88; }
-
-/* FLASHCARD STYLES */
-.sq__flashcard { display: flex; flex-direction: column; gap: 1.25rem; }
-.sq__qHead { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; margin-bottom: .25rem; }
-.sq__type { display: flex; align-items: baseline; gap: .65rem; flex-wrap: wrap; }
-.sq__typePill { display: inline-flex; padding: .38rem .68rem; border-radius: 999px; font-weight: 900; font-size: .84rem; color: rgba(11,47,42,.9); background: rgba(15,118,110,.1); border: 1px solid rgba(15,118,110,.16); }
-.sq__typeMeta { font-size: .92rem; color: rgba(11,47,42,.78); font-weight: 900; }
-.sq__diff { font-size: .85rem; color: rgba(11,47,42,.75); text-align: right; }
-
-.sq__flipContainer { perspective: 1400px; margin: 0.5rem 0; }
-.sq__flipCard { position: relative; width: 100%; min-height: 320px; cursor: pointer; transition: transform 0.35s cubic-bezier(0.2, 0.85, 0.4, 1); transform-style: preserve-3d; border-radius: 28px; }
-.sq__flipCard.is-flipped { transform: rotateY(180deg); }
-.sq__flipFront, .sq__flipBack { position: absolute; width: 100%; min-height: 320px; backface-visibility: hidden; border-radius: 28px; padding: 1.8rem 1.5rem; display: flex; flex-direction: column; align-items: center; justify-content: center; box-sizing: border-box; background: radial-gradient(900px 420px at 50% 30%, rgba(15, 118, 110, 0.08), transparent 78%), linear-gradient(145deg, #fefdf9 0%, #fffdf5 100%); border: 1px solid rgba(214, 170, 86, 0.28); box-shadow: 0 32px 56px rgba(10, 18, 16, 0.14); }
-.sq__flipBack { transform: rotateY(180deg); background: radial-gradient(900px 480px at 50% 20%, rgba(214, 170, 86, 0.06), transparent 80%), linear-gradient(145deg, #fffaf0 0%, #fef8ea 100%); }
-.sq__arabicLarge { font-size: 2rem; line-height: 3rem; font-weight: 800; text-align: center; margin: 0 0 1.25rem; font-family: "Amiri", "Scheherazade New", "Noto Naskh Arabic", serif; color: rgba(7, 26, 23, 0.96); }
-.sq__flipHint { font-size: 0.82rem; color: rgba(15, 118, 110, 0.72); font-weight: 600; letter-spacing: 0.02em; text-transform: uppercase; margin-top: 1rem; }
-.sq__translation { margin-bottom: 1rem; width: 100%; }
-.sq__wordMeanings { width: 100%; margin-top: 0.5rem; padding-top: 0.75rem; border-top: 1px dashed rgba(214, 170, 86, 0.35); }
-.sq__transLabel { font-size: 0.7rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(15, 118, 110, 0.7); margin-bottom: 0.5rem; }
-.sq__transText { font-size: 1rem; line-height: 1.5; color: rgba(11, 47, 42, 0.88); margin: 0; }
-
-.sq__selfMark { margin-top: 1.2rem; padding: 1rem 1rem 0.2rem; border-radius: 28px; background: rgba(15, 118, 110, 0.05); text-align: center; }
-.sq__selfMarkLabel { font-weight: 800; font-size: 0.9rem; color: rgba(11, 47, 42, 0.85); margin-bottom: 0.85rem; }
-.sq__selfMarkBtns { display: flex; gap: 0.85rem; justify-content: center; flex-wrap: wrap; }
-.sqBtn--mark { padding: 0.7rem 1.4rem; border-radius: 60px; font-weight: 800; transition: transform 0.12s ease, box-shadow 0.12s ease; }
-.sqBtn--mark.is-hard { background: rgba(185, 28, 28, 0.12); border-color: rgba(185, 28, 28, 0.28); color: rgba(127, 29, 29, 0.95); }
-.sqBtn--mark.is-good { background: rgba(22, 163, 74, 0.12); border-color: rgba(22, 163, 74, 0.32); color: rgba(21, 84, 58, 0.95); }
-.sqBtn--mark:hover { transform: translateY(-2px); }
-
-.sq__feedback { margin-top: 1rem; padding: 0.85rem 0.95rem; border-radius: 24px; border: 1px solid rgba(15, 118, 110, 0.14); background: rgba(15, 118, 110, 0.06); }
-.sq__feedback.is-ok { border-color: rgba(22, 163, 74, 0.32); background: rgba(22, 163, 74, 0.08); }
-.sq__feedback.is-bad { border-color: rgba(185, 28, 28, 0.22); background: rgba(185, 28, 28, 0.06); }
-.sq__fbTitle { font-weight: 900; }
-
-.sq__complete { display: grid; gap: 1rem; }
-.sq__score { padding: 1.1rem; border-radius: 22px; border: 1px solid rgba(15,118,110,.12); background: rgba(15,118,110,.06); }
-.sq__scoreLabel { font-size: .85rem; font-weight: 900; letter-spacing: .08em; text-transform: uppercase; color: rgba(15,118,110,.85); }
-.sq__scoreValue { margin-top: .5rem; font-size: 1.35rem; font-weight: 900; color: rgba(11,47,42,.95); }
-.sq__scoreStrong { font-size: 1.65rem; }
-.sq__scoreMuted { opacity: .75; }
-.sq__scorePct { margin-left: .45rem; color: rgba(15,118,110,.9); }
-.sq__scoreNote { margin-top: .4rem; color: rgba(11,47,42,.75); }
-.sq__perfect { font-weight: 900; color: rgba(15,118,110,.95); }
-
-.sq__breakTitle { font-weight: 900; color: rgba(11,47,42,.9); }
-.sq__breakGrid { margin-top: .6rem; display: grid; gap: .65rem; }
-.sq__breakRow { padding: .85rem; border-radius: 18px; border: 1px solid rgba(15,118,110,.12); background: rgba(255,255,255,.9); display: flex; align-items: center; justify-content: space-between; gap: .75rem; flex-wrap: wrap; }
-.sq__breakRow.is-weak { border-color: rgba(185,28,28,.18); background: rgba(185,28,28,.04); }
-.sq__breakAyah { font-weight: 900; color: rgba(11,47,42,.92); }
-.sq__breakPills { display: inline-flex; gap: .45rem; flex-wrap: wrap; justify-content: flex-end; }
-.sq__pill { display: inline-flex; align-items: center; padding: .26rem .55rem; border-radius: 999px; font-weight: 900; font-size: .82rem; border: 1px solid transparent; }
-.sq__pill.is-good { background: rgba(22,163,74,.1); border-color: rgba(22,163,74,.2); color: rgba(22,101,52,.92); }
-.sq__pill.is-bad { background: rgba(185,28,28,.08); border-color: rgba(185,28,28,.18); color: rgba(127,29,29,.9); }
-
-.sq__recommend { padding: 1rem; border-radius: 22px; border: 1px solid rgba(214,170,86,.22); background: rgba(214,170,86,.08); }
-.sq__recommendTitle { font-weight: 900; color: rgba(11,47,42,.9); }
-.sq__recommendSub { margin-top: .35rem; color: rgba(11,47,42,.75); }
-.sq__chips { margin-top: .6rem; display: flex; flex-wrap: wrap; gap: .45rem; }
-.sq__chip { padding: .32rem .55rem; border-radius: 999px; background: rgba(255,255,255,.8); border: 1px solid rgba(214,170,86,.22); font-weight: 900; color: rgba(11,47,42,.88); }
-
-.sq__actions { display: flex; gap: .7rem; flex-wrap: wrap; justify-content: flex-end; }
-
-.sq__ft { padding: .85rem 1.1rem 1.05rem; display: flex; align-items: center; justify-content: space-between; gap: .9rem; background: linear-gradient(180deg, #fdfdfb 0%, #f6fbf8 100%); border-top: 1px solid rgba(15,118,110,.08); flex: 0 0 auto; }
-.sq__dots { display: flex; align-items: center; justify-content: center; gap: .45rem; flex-wrap: wrap; min-width: 160px; }
-.sq__dot { width: 12px; height: 12px; border-radius: 999px; border: 1px solid rgba(15,118,110,.28); background: rgba(15,118,110,.1); transition: transform .16s ease, background .16s ease, border-color .16s ease; }
-.sq__dot:hover { transform: translateY(-1px) scale(1.08); }
-.sq__dot.is-a { background: rgba(15,118,110,.58); border-color: rgba(15,118,110,.7); }
-.sq__dot.is-ok { background: rgba(22,163,74,.55); border-color: rgba(22,163,74,.75); }
-.sq__dot.is-bad { background: rgba(185,28,28,.5); border-color: rgba(185,28,28,.7); }
-
-.sqBtn { border: 1px solid transparent; border-radius: 16px; padding: .75rem .95rem; font-weight: 900; letter-spacing: .01em; transition: transform .16s ease, box-shadow .16s ease, background .16s ease, border-color .16s ease; user-select: none; cursor: pointer; background: rgba(255,255,255,.86); }
-.sqBtn:focus-visible { outline: 3px solid rgba(15,118,110,.26); outline-offset: 2px; }
-.sqBtn:disabled { opacity: .6; cursor: not-allowed; transform: none !important; }
-.sqBtn--primary { color: #fff; background: linear-gradient(180deg, #0f766e 0%, #0b5f58 100%); box-shadow: 0 18px 34px rgba(15,118,110,.22); border: none; }
-.sqBtn--primary:hover:enabled { transform: translateY(-1px); box-shadow: 0 22px 40px rgba(15,118,110,.26); }
-.sqBtn--ghost { color: rgba(11,47,42,.92); background: rgba(255,255,255,.86); border-color: rgba(15,118,110,.18); box-shadow: 0 14px 26px rgba(10,18,16,.08); }
-.sqBtn--ghost:hover:enabled { transform: translateY(-1px); box-shadow: 0 18px 30px rgba(10,18,16,.12); border-color: rgba(15,118,110,.28); }
-
-.sqToast { position: fixed; left: 0; right: 0; bottom: 1.1rem; z-index: 100000; display: flex; justify-content: center; padding: 0 1rem; pointer-events: none; }
-.sqToast__card { pointer-events: auto; display: inline-flex; align-items: center; gap: .55rem; padding: .85rem 1rem; border-radius: 18px; background: rgba(15,118,110,.92); color: #fff; box-shadow: 0 20px 48px rgba(15,118,110,.28); }
-.sqToast__icon { width: 22px; height: 22px; border-radius: 999px; display: inline-flex; align-items: center; justify-content: center; background: rgba(255,255,255,.18); }
-.sqToast__icon svg { width: 16px; height: 16px; }
-.sqToast__text { font-weight: 900; }
-
-.sq-fade-enter-active, .sq-fade-leave-active { transition: opacity .28s ease; }
-.sq-fade-enter-from, .sq-fade-leave-to { opacity: 0; }
-.sq-fade-enter-active .sq__card, .sq-fade-leave-active .sq__card { transition: transform .28s ease, opacity .28s ease; }
-.sq-fade-enter-from .sq__card { transform: scale(.95); opacity: 0; }
-.sq-fade-leave-to .sq__card { transform: scale(.97); opacity: 0; }
-
-.sq-slide-next-enter-active, .sq-slide-next-leave-active, .sq-slide-prev-enter-active, .sq-slide-prev-leave-active { transition: transform .22s ease, opacity .22s ease; }
-.sq-slide-next-enter-from { transform: translateX(14px); opacity: 0; }
-.sq-slide-next-leave-to { transform: translateX(-14px); opacity: 0; }
-.sq-slide-prev-enter-from { transform: translateX(-14px); opacity: 0; }
-.sq-slide-prev-leave-to { transform: translateX(14px); opacity: 0; }
-
-.sq-toast-enter-active, .sq-toast-leave-active { transition: transform .22s ease, opacity .22s ease; }
-.sq-toast-enter-from, .sq-toast-leave-to { transform: translateY(12px); opacity: 0; }
-
-@media (max-width: 640px) {
-  .sq { padding: .85rem; }
-  .sq__hd, .sq__bd, .sq__ft { padding-left: 1rem; padding-right: 1rem; }
-  .sq__panel { min-height: 480px; }
-  .sq__arabicLarge { font-size: 1.6rem; line-height: 2.4rem; }
-  .sq__title { font-size: 1.12rem; }
-  .sq__flipFront, .sq__flipBack { min-height: 280px; padding: 1.2rem; }
+:global(.sqLock) {
+  overflow: hidden !important;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .sq__barFill, .sq__flipCard, .sqBtn, .sq__dot, .sq__close, .sq__timer { transition: none !important; }
-  .sq__spinner { animation: none !important; }
-  .sq__flipCard { transform: none !important; }
-  .sq__flipCard.is-flipped { transform: none !important; }
+.sq {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  background: rgba(7, 18, 17, 0.56);
+  backdrop-filter: blur(8px);
+}
+
+.sq__card {
+  width: min(720px, 100%);
+  max-height: min(92vh, 860px);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  color: #12231f;
+  border: 1px solid rgba(15, 118, 110, 0.18);
+  border-radius: 12px;
+  box-shadow: 0 28px 90px rgba(6, 24, 22, 0.28);
+  outline: none;
+}
+
+.sq__header,
+.sq__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.72rem;
+  padding: 0.88rem 0.95rem;
+  background: #f7fbf9;
+}
+
+.sq__header {
+  border-bottom: 1px solid rgba(15, 118, 110, 0.12);
+}
+
+.sq__footer {
+  border-top: 1px solid rgba(15, 118, 110, 0.12);
+  flex-wrap: wrap;
+}
+
+.sq__kicker {
+  margin: 0 0 0.2rem;
+  color: #0f766e;
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.sq__title {
+  margin: 0;
+  font-size: 1.18rem;
+  line-height: 1.2;
+  font-weight: 850;
+  overflow-wrap: anywhere;
+}
+
+.sq__close {
+  width: 40px;
+  height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(15, 118, 110, 0.18);
+  border-radius: 8px;
+  background: #ffffff;
+  color: #12231f;
+}
+
+.sq__progress {
+  padding: 0.72rem 0.95rem 0;
+}
+
+.sq__progressText {
+  display: block;
+  margin-bottom: 0.45rem;
+  color: #536862;
+  font-size: 0.86rem;
+  font-weight: 750;
+}
+
+.sq__bar {
+  height: 8px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(15, 118, 110, 0.1);
+}
+
+.sq__bar span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #0f766e, #d6aa56);
+  transition: width 0.2s ease;
+}
+
+.sq__body {
+  flex: 1;
+  overflow: auto;
+  padding: 0.9rem 0.95rem;
+}
+
+.sq__notice,
+.sq__question,
+.sq__complete {
+  border: 1px solid rgba(15, 118, 110, 0.12);
+  border-radius: 10px;
+  background: #ffffff;
+  padding: 1rem;
+}
+
+.sq__notice.is-error {
+  border-color: rgba(185, 28, 28, 0.22);
+  background: #fff6f6;
+  color: #991b1b;
+}
+
+.sq__questionHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.7rem;
+  margin-bottom: 1rem;
+  color: #536862;
+  font-size: 0.9rem;
+  font-weight: 750;
+}
+
+.sq__type {
+  color: #0f766e;
+}
+
+.sq__arabic {
+  font-family: 'Uthmanic Hafs', 'Amiri Quran', 'Traditional Arabic', 'Noto Naskh Arabic', serif;
+  font-size: clamp(1.55rem, 3vw, 2.25rem);
+  line-height: 2.25;
+  font-weight: 400;
+  letter-spacing: 0;
+  text-align: right;
+}
+
+.sq__flashcard {
+  width: 100%;
+  min-height: 240px;
+  border: 1px solid rgba(15, 118, 110, 0.16);
+  border-radius: 10px;
+  background: #f8fcfa;
+  color: inherit;
+  padding: 1.1rem;
+  transition: transform 0.18s ease, border-color 0.18s ease;
+}
+
+.sq__flashcard:hover {
+  border-color: rgba(15, 118, 110, 0.36);
+  transform: translateY(-1px);
+}
+
+.sq__translation {
+  display: block;
+  color: #263c36;
+  font-size: 1.02rem;
+  line-height: 1.65;
+  text-align: left;
+}
+
+.sq__prompt {
+  margin-bottom: 1rem;
+  padding: 1rem;
+  border-radius: 10px;
+  background: #f8fcfa;
+}
+
+.sq__hint {
+  margin: 0;
+  color: #536862;
+  font-size: 0.92rem;
+}
+
+.sq__choices {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.sq__choice {
+  min-height: 46px;
+  border: 1px solid rgba(15, 118, 110, 0.16);
+  border-radius: 8px;
+  background: #ffffff;
+  color: #12231f;
+  padding: 0.65rem 0.75rem;
+  text-align: left;
+  font-weight: 700;
+  transition: border-color 0.14s ease, background-color 0.14s ease, transform 0.14s ease;
+}
+
+.sq__choice:hover:not(:disabled),
+.sq__choice:focus-visible,
+.sq__close:focus-visible,
+.sqBtn:focus-visible {
+  outline: 3px solid rgba(15, 118, 110, 0.22);
+  outline-offset: 2px;
+}
+
+.sq__choice:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.sq__choice.is-correct {
+  border-color: rgba(22, 163, 74, 0.5);
+  background: #ecfdf3;
+}
+
+.sq__choice.is-wrong {
+  border-color: rgba(220, 38, 38, 0.44);
+  background: #fff1f1;
+}
+
+.sq__feedback {
+  margin-top: 0.85rem;
+  padding: 0.65rem 0.75rem;
+  border-radius: 8px;
+  font-weight: 800;
+}
+
+.sq__feedback.is-good {
+  color: #166534;
+  background: #ecfdf3;
+}
+
+.sq__feedback.is-bad {
+  color: #991b1b;
+  background: #fff1f1;
+}
+
+.sq__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.55rem;
+  margin-top: 0.85rem;
+  flex-wrap: wrap;
+}
+
+.sq__actions--center {
+  justify-content: center;
+}
+
+.sqBtn {
+  min-height: 44px;
+  border-radius: 8px;
+  border: 1px solid rgba(15, 118, 110, 0.16);
+  padding: 0.55rem 0.85rem;
+  font-weight: 800;
+  max-width: 100%;
+}
+
+.sqBtn:disabled,
+.sq__choice:disabled {
+  opacity: 0.62;
+  cursor: not-allowed;
+}
+
+.sqBtn--primary {
+  background: #0f766e;
+  border-color: #0f766e;
+  color: #ffffff;
+  box-shadow: 0 8px 16px rgba(15, 118, 110, 0.2);
+}
+
+.sqBtn--soft,
+.sqBtn--ghost {
+  background: #ffffff;
+  color: #0f766e;
+}
+
+.sq__dots {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  flex: 1 1 160px;
+  flex-wrap: wrap;
+  min-width: 0;
+}
+
+.sq__dot {
+  width: 10px;
+  height: 10px;
+  border: 2px solid transparent;
+  border-radius: 999px;
+  background: #cbd5d0;
+}
+
+.sq__dot.is-active {
+  background: #0f766e;
+  transform: scale(1.15);
+}
+
+.sq__dot.is-done {
+  background: #16a34a;
+  border-color: #14532d;
+}
+
+.sq__dot.is-wrong {
+  background: #dc2626;
+  border-color: #7f1d1d;
+}
+
+.sq__dot:focus-visible {
+  outline: 2px solid rgba(15, 118, 110, 0.4);
+  outline-offset: 2px;
+}
+
+.sq__score {
+  display: grid;
+  gap: 0.25rem;
+  justify-items: center;
+  padding: 1.2rem;
+  border-radius: 10px;
+  background: #f8fcfa;
+}
+
+.sq__score strong {
+  font-size: 2rem;
+  color: #0f766e;
+}
+
+.sq__weak {
+  display: flex;
+  gap: 0.45rem;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 0.9rem;
+}
+
+.sq__weak span {
+  border-radius: 999px;
+  background: #fff1f1;
+  color: #991b1b;
+  padding: 0.25rem 0.55rem;
+  font-size: 0.84rem;
+  font-weight: 800;
+}
+
+.sq__completeNote {
+  margin: 0.9rem 0 0;
+  color: #536862;
+  text-align: center;
+}
+
+.sq-fade-enter-active,
+.sq-fade-leave-active {
+  transition: opacity 0.16s ease;
+}
+
+.sq-fade-enter-from,
+.sq-fade-leave-to {
+  opacity: 0;
+}
+
+@media (max-width: 560px) {
+  .sq {
+    padding: 0.55rem;
+  }
+
+  .sq__card {
+    max-height: min(94vh, 100%);
+  }
+
+  .sq__header,
+  .sq__footer {
+    padding: 0.8rem;
+  }
+
+  .sq__footer {
+    flex-wrap: wrap;
+  }
+
+  .sq__dots {
+    order: -1;
+    width: 100%;
+  }
+
+  .sq__footer > .sqBtn {
+    flex: 1 1 calc(50% - 0.36rem);
+  }
+
+  .sq__questionHead {
+    align-items: flex-start;
+    flex-direction: column;
+  }
 }
 </style>

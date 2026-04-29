@@ -139,7 +139,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
         quizId.value = id('quiz');
         startedAt.value = Date.now();
         timerOn.value = timerPref();
-        cards.value = buildFlashcards(s);
+        cards.value = buildQuestions(s);
         cardIdx.value = 0;
         timeLeft.value = timerSeconds(cards.value.length);
         state.value = 'quiz';

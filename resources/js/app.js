@@ -231,6 +231,7 @@ const asyncComponentLoaders = {
   "access-component": () => import("./components/AccessComponent.vue"),
   "content-component": () => import("./components/ContentComponent.vue"),
   "surat-component": () => import("./components/SuratComponent.vue"),
+  "review-queue-component": () => import("./components/ReviewQueueComponent.vue"),
   "search-component": () => import("./components/surah_selection/CustomSurahSelection.vue"),
   "surah-list-component": () => import("./components/search/SurahList.vue"),
   "donations-component": () => import("./components/intro/Donation.vue"),
