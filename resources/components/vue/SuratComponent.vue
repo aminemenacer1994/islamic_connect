@@ -474,9 +474,11 @@
                                     <button
                                         type="button"
                                         class="btn memorisation-toolbar-start-btn"
+                                        :disabled="memorisationActionInFlight"
+                                        :aria-busy="memorisationActionInFlight ? 'true' : 'false'"
                                         @click="hasMemorisationResumeCandidate() ? continueFromLastMemorisationSession({ announce: true }) : startMemorisationBeginnerSession()">
                                         <i class="bi bi-play-fill" style="margin-right: 0.2rem;" aria-hidden="true"></i>
-                                        <span>{{ hasMemorisationResumeCandidate() ? 'Jump in' : 'Start Session' }}</span>
+                                        <span>{{ memorisationActionInFlight ? 'Starting...' : (hasMemorisationResumeCandidate() ? 'Jump in' : 'Start Session') }}</span>
                                         <small>{{ memorisationStartButtonHint }}</small>
                                     </button>
                                 </div>
@@ -835,6 +837,21 @@
                         : "Build daily Hifdh with a calm flow: chaining, quiz, and review in one connected workspace."
                 }}
             </p>
+            <p class="memorisation-workspace-hero-next mb-0">{{ memorisationWorkspaceNextStepLabel }}</p>
+            <div class="memorisation-workspace-flow" role="list" aria-label="Memorisation flow">
+                <span
+                    class="memorisation-workspace-flow-step"
+                    :class="{ 'is-active': memorisationWorkspaceFlowStage === 'start' || memorisationWorkspaceFlowStage === 'chaining' }"
+                    role="listitem">1. Chaining</span>
+                <span
+                    class="memorisation-workspace-flow-step"
+                    :class="{ 'is-active': memorisationWorkspaceFlowStage === 'quiz' }"
+                    role="listitem">2. Quiz</span>
+                <span
+                    class="memorisation-workspace-flow-step"
+                    :class="{ 'is-active': memorisationWorkspaceFlowStage === 'review' }"
+                    role="listitem">3. Review</span>
+            </div>
         </div>
         <div v-if="(surahDetails || currentSurahInfo) && (!isTabletOrMobile && showDesktopToolbar && showReaderToolbar) && !isReadingFullscreen"
             class="quran-toolbar-sticky ltr-text"
@@ -1660,14 +1677,14 @@
 	                    </section>
 
                         <div id="memo-beginner-actions" class="memorisation-beginner-actions">
-                            <button type="button" class="btn memorisation-tools-action-btn memorisation-tools-action-btn--primary" @click="startMemorisationBeginnerSession">
+                            <button type="button" class="btn memorisation-tools-action-btn memorisation-tools-action-btn--primary" :disabled="memorisationActionInFlight" :aria-busy="memorisationActionInFlight ? 'true' : 'false'" @click="startMemorisationBeginnerSession">
                             <i class="bi bi-play-fill me-1" aria-hidden="true"></i>
-                            Start Session
+                            {{ memorisationActionInFlight ? "Starting..." : "Start Session" }}
                             </button>
-                            <button type="button" class="btn memorisation-tools-action-btn memorisation-tools-action-btn--reset" @click="resetMemorisationDraftForm">
+                            <button type="button" class="btn memorisation-tools-action-btn memorisation-tools-action-btn--reset" :disabled="memorisationActionInFlight" @click="resetMemorisationDraftForm">
                             Reset
                             </button>
-                            <button type="button" class="btn memorisation-tools-action-btn memorisation-tools-action-btn--cancel" @click="cancelMemorisationOffcanvas">
+                            <button type="button" class="btn memorisation-tools-action-btn memorisation-tools-action-btn--cancel" :disabled="memorisationActionInFlight" @click="cancelMemorisationOffcanvas">
                             Cancel
                             </button>
                         </div>
@@ -2191,19 +2208,23 @@
                         <button
                             type="button"
                             class="btn memorisation-tools-action-btn memorisation-tools-action-btn--primary"
+                            :disabled="memorisationActionInFlight"
+                            :aria-busy="memorisationActionInFlight ? 'true' : 'false'"
                             @click="startMemorisationBeginnerSession">
                             <i class="bi bi-play-fill me-1" aria-hidden="true"></i>
-                            Start Session
+                            {{ memorisationActionInFlight ? "Starting..." : "Start Session" }}
                         </button>
                         <button
                             type="button"
                             class="btn memorisation-tools-action-btn memorisation-tools-action-btn--reset"
+                            :disabled="memorisationActionInFlight"
                             @click="resetMemorisationDraftForm">
                             Reset
                         </button>
                         <button
                             type="button"
                             class="btn memorisation-tools-action-btn memorisation-tools-action-btn--cancel"
+                            :disabled="memorisationActionInFlight"
                             @click="cancelMemorisationOffcanvas">
                             Cancel
                         </button>

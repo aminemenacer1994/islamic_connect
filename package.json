@@ -9,6 +9,7 @@
         "prod": "npm run production",
         "production": "npx mix --production",
         "build": "webpack --config webpack.config.js && node scripts/generate-sitemap.js",
+        "test:sm2": "node scripts/test-sm2-simulator.js",
         "sitemap:duas": "node scripts/generate-dua-sitemap.js"
     },
     "devDependencies": {

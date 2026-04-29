@@ -1832,6 +1832,25 @@ export default {
                 }
                 return `Ayah ${this.memorisationRangeStart || 1}-${this.memorisationRangeEnd || this.totalAyahs || 1}`;
             },
+            memorisationWorkspaceNextStepLabel() {
+                if (this.isSessionQuizOpen) {
+                    return "Next: save your quiz result, then practice weak ayahs in review.";
+                }
+                if (this.isMemorisationModeActive) {
+                    return this.isMemorisationChainingActive
+                        ? "Next: finish the chaining round, then move straight into the quiz."
+                        : "Next: complete this recitation round, then take the quiz.";
+                }
+                if (this.hasMemorisationResumeCandidate()) {
+                    return "Next: continue your saved session and finish with quiz and review.";
+                }
+                return "Next: choose a short range and press Start Session.";
+            },
+            memorisationWorkspaceFlowStage() {
+                if (this.isSessionQuizOpen) return "quiz";
+                if (this.isMemorisationModeActive) return "chaining";
+                return "start";
+            },
             
         sidebarPinnedSurahNumber() {
             const currentSurahNumber = Number(

@@ -14,7 +14,7 @@
               <p class="sq__kicker">Bismillah · Session quiz</p>
               <h2 class="sq__title">{{ title }}</h2>
             </div>
-            <button type="button" class="sq__close" aria-label="Close quiz" @click="close">
+            <button type="button" class="sq__close" aria-label="Close quiz" :disabled="saving" @click="close">
               <i class="bi bi-x-lg" aria-hidden="true"></i>
             </button>
           </header>
@@ -44,8 +44,11 @@
               <p class="sq__completeNote">
                 Alhamdulillah. Your result is saved to your memorisation plan, and weak ayahs are ready for review.
               </p>
+              <p class="sq__completeNext mb-0">
+                Next: save this result, then open review and practice the ayahs marked for review.
+              </p>
               <div v-if="weakAyahs.length" class="sq__actions sq__actions--center">
-                <button type="button" class="sqBtn sqBtn--soft" @click="retakeWeakAyahs">
+                <button type="button" class="sqBtn sqBtn--soft" :disabled="saving" @click="retakeWeakAyahs">
                   Review mistakes
                 </button>
               </div>
@@ -62,6 +65,7 @@
                   type="button"
                   class="sq__flashcard"
                   :class="{ 'is-flipped': isFlipped }"
+                  :disabled="saving"
                   @click="isFlipped = !isFlipped"
                 >
                   <span v-if="!isFlipped" class="sq__arabic" dir="rtl" lang="ar">
@@ -72,8 +76,8 @@
                   </span>
                 </button>
                 <div v-if="isFlipped && !currentQuestion.answered" class="sq__actions">
-                  <button type="button" class="sqBtn sqBtn--soft" @click="answerCurrent(false)">Need review</button>
-                  <button type="button" class="sqBtn sqBtn--primary" @click="answerCurrent(true)">Knew it</button>
+                  <button type="button" class="sqBtn sqBtn--soft" :disabled="saving" @click="answerCurrent(false)">Need review</button>
+                  <button type="button" class="sqBtn sqBtn--primary" :disabled="saving" @click="answerCurrent(true)">Knew it</button>
                 </div>
               </template>
 
@@ -95,7 +99,7 @@
                     type="button"
                     class="sq__choice"
                     :class="choiceClass(option)"
-                    :disabled="currentQuestion.answered"
+                    :disabled="currentQuestion.answered || saving"
                     @click="answerCurrent(option.value === currentQuestion.correctAnswer, option.value)"
                   >
                     <span :dir="currentQuestion.type === 'fill' ? 'rtl' : 'ltr'">{{ option.label }}</span>
@@ -114,7 +118,7 @@
           </main>
 
           <footer class="sq__footer">
-            <button type="button" class="sqBtn sqBtn--ghost" :disabled="state !== 'quiz' || questionIndex === 0" @click="previousQuestion">
+            <button type="button" class="sqBtn sqBtn--ghost" :disabled="saving || state !== 'quiz' || questionIndex === 0" @click="previousQuestion">
               Previous
             </button>
             <div v-if="state === 'quiz'" class="sq__dots" aria-label="Quiz navigation">
@@ -125,6 +129,7 @@
                 class="sq__dot"
                 :class="{ 'is-active': index === questionIndex, 'is-done': question.answered, 'is-wrong': question.answered && !question.correct }"
                 :aria-label="`Go to question ${index + 1} (${question.answered ? (question.correct ? 'answered correctly' : 'needs review') : 'not answered'})`"
+                :disabled="saving"
                 @click="jumpToQuestion(index)"
               ></button>
             </div>
@@ -141,7 +146,7 @@
               v-else
               type="button"
               class="sqBtn sqBtn--primary"
-              :disabled="!currentQuestion?.answered"
+              :disabled="saving || !currentQuestion?.answered"
               @click="nextQuestion"
             >
               {{ questionIndex + 1 >= total ? 'Finish' : 'Next' }}
@@ -175,6 +180,9 @@ const saving = ref(false)
 const quizId = ref('')
 const startedAt = ref(0)
 const cardEl = ref(null)
+// Final UI lock: once saving starts, freeze quiz interactions so result
+// emission, draft cleanup, and modal teardown stay single-path and consistent.
+const isInteractionLocked = computed(() => saving.value)
 
 const sessionInfo = computed(() => normalizeSession(props.session))
 const currentQuestion = computed(() => questions.value[questionIndex.value] || null)
@@ -275,17 +283,20 @@ function cleanup() {
 }
 
 function close() {
+  if (isInteractionLocked.value) return
   cleanup()
   emit('close')
 }
 
 function previousQuestion() {
+  if (isInteractionLocked.value || state.value !== 'quiz') return
   questionIndex.value = clamp(questionIndex.value - 1, 0, Math.max(total.value - 1, 0))
   isFlipped.value = false
   persistDraft()
 }
 
 function nextQuestion() {
+  if (isInteractionLocked.value || state.value !== 'quiz') return
   if (!currentQuestion.value?.answered) return
   if (questionIndex.value + 1 >= total.value) {
     state.value = 'complete'
@@ -298,12 +309,14 @@ function nextQuestion() {
 }
 
 function jumpToQuestion(index) {
+  if (isInteractionLocked.value || state.value !== 'quiz') return
   questionIndex.value = clamp(index, 0, Math.max(total.value - 1, 0))
   isFlipped.value = false
   persistDraft()
 }
 
 function answerCurrent(correct, selectedAnswer = null) {
+  if (isInteractionLocked.value || state.value !== 'quiz') return
   const question = currentQuestion.value
   if (!question || question.answered) return
   question.answered = true
@@ -338,6 +351,7 @@ function save() {
 }
 
 function retakeWeakAyahs() {
+  if (isInteractionLocked.value || state.value !== 'complete') return
   const weakSet = new Set(weakAyahs.value.map(Number))
   if (!weakSet.size) return
   const session = {
@@ -1001,6 +1015,15 @@ function lockPage(locked) {
   margin: 0.9rem 0 0;
   color: #536862;
   text-align: center;
+}
+
+.sq__completeNext {
+  margin-top: 0.55rem;
+  color: #0f4f47;
+  text-align: center;
+  font-size: 0.92rem;
+  font-weight: 700;
+  line-height: 1.45;
 }
 
 .sq-fade-enter-active,

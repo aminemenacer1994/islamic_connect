@@ -62431,6 +62431,14 @@ to {
   color: #536862;
   text-align: center;
 }
+.sq__completeNext[data-v-47f373bc] {
+  margin-top: 0.55rem;
+  color: #0f4f47;
+  text-align: center;
+  font-size: 0.92rem;
+  font-weight: 700;
+  line-height: 1.45;
+}
 .sq-fade-enter-active[data-v-47f373bc],
 .sq-fade-leave-active[data-v-47f373bc] {
   transition: opacity 0.16s ease;
@@ -107313,6 +107321,42 @@ body.surat-route-page .memorisation-offcanvas-v3[data-v-637d02d8] {
     line-height: 1.6;
     overflow-wrap: anywhere;
 }
+.surat-premium .memorisation-workspace-hero-next[data-v-637d02d8] {
+    margin: 0.65rem auto 0;
+    max-width: 60ch;
+    color: #0f4f47;
+    font-size: 0.92rem;
+    font-weight: 700;
+    line-height: 1.45;
+    overflow-wrap: anywhere;
+}
+.surat-premium .memorisation-workspace-flow[data-v-637d02d8] {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 0.7rem;
+}
+.surat-premium .memorisation-workspace-flow-step[data-v-637d02d8] {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 2.25rem;
+    padding: 0.42rem 0.78rem;
+    border-radius: 999px;
+    border: 1px solid rgba(15, 118, 110, 0.16);
+    background: rgba(255, 255, 255, 0.88);
+    color: #55706a;
+    font-size: 0.84rem;
+    font-weight: 700;
+    white-space: nowrap;
+}
+.surat-premium .memorisation-workspace-flow-step.is-active[data-v-637d02d8] {
+    border-color: rgba(15, 118, 110, 0.34);
+    background: rgba(15, 118, 110, 0.12);
+    color: #0f4f47;
+}
 @media (max-width: 767.98px) {
 .surat-premium .memorisation-workspace-hero[data-v-637d02d8] {
         margin: 0.2rem auto 0.8rem;
@@ -107321,6 +107365,14 @@ body.surat-route-page .memorisation-offcanvas-v3[data-v-637d02d8] {
 }
 .surat-premium .memorisation-workspace-hero-description[data-v-637d02d8] {
         max-width: 60ch;
+}
+.surat-premium .memorisation-workspace-flow[data-v-637d02d8] {
+        gap: 0.4rem;
+}
+.surat-premium .memorisation-workspace-flow-step[data-v-637d02d8] {
+        min-height: 2.125rem;
+        padding-inline: 0.68rem;
+        font-size: 0.8rem;
 }
 }
 

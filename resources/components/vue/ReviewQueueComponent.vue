@@ -35,8 +35,13 @@
                 </div>
                 <div class="review-queue-item-actions">
                     <a :href="practiceNowUrl(item)" class="btn btn-success review-queue-action-primary">Practice</a>
-                    <button type="button" class="btn btn-outline-danger review-queue-action-secondary" @click="removeFromQueue(item)">
-                        Remove
+                    <button
+                        type="button"
+                        class="btn btn-outline-danger review-queue-action-secondary"
+                        :disabled="isRemoving(item)"
+                        :aria-busy="isRemoving(item) ? 'true' : 'false'"
+                        @click="removeFromQueue(item)">
+                        {{ isRemoving(item) ? "Removing..." : "Remove" }}
                     </button>
                 </div>
             </li>
@@ -65,6 +70,7 @@ export default {
             reviewQueueMap: {},
             reviewQueueStorageHandler: null,
             reviewQueueSyncHandler: null,
+            removingKeys: {},
         };
     },
     computed: {
@@ -130,12 +136,27 @@ export default {
                 count: Object.keys(normalized).length,
             });
         },
+        isRemoving(item) {
+            const key = String(item?.key || "").trim();
+            return !!(key && this.removingKeys[key]);
+        },
         removeFromQueue(item) {
             const key = String(item?.key || "").trim();
-            if (!key) return;
+            if (!key || this.removingKeys[key]) return;
+            // Final hardening: keep queue removal idempotent under rapid taps.
+            this.removingKeys = {
+                ...this.removingKeys,
+                [key]: true,
+            };
             const next = { ...this.reviewQueueMap };
             delete next[key];
-            this.persistReviewQueue(next);
+            try {
+                this.persistReviewQueue(next);
+            } finally {
+                const pending = { ...this.removingKeys };
+                delete pending[key];
+                this.removingKeys = pending;
+            }
         },
         getSurahLabel(item) {
             const explicitName = String(item?.surahEnglishName || "").trim();
