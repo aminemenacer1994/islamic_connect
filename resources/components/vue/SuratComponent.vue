@@ -822,6 +822,7 @@
                 </button>
         </div>
         <div
+            v-if="isMemorisationToolbarVisible"
             class="memorisation-workspace-hero text-center"
             :class="{
                 'is-memo-open': isMemorisationToolbarVisible && isMemorisationOffcanvasVisible,
@@ -837,21 +838,6 @@
                         : "Build daily Hifdh with a calm flow: chaining, quiz, and review in one connected workspace."
                 }}
             </p>
-            <p class="memorisation-workspace-hero-next mb-0">{{ memorisationWorkspaceNextStepLabel }}</p>
-            <div class="memorisation-workspace-flow" role="list" aria-label="Memorisation flow">
-                <span
-                    class="memorisation-workspace-flow-step"
-                    :class="{ 'is-active': memorisationWorkspaceFlowStage === 'start' || memorisationWorkspaceFlowStage === 'chaining' }"
-                    role="listitem">1. Chaining</span>
-                <span
-                    class="memorisation-workspace-flow-step"
-                    :class="{ 'is-active': memorisationWorkspaceFlowStage === 'quiz' }"
-                    role="listitem">2. Quiz</span>
-                <span
-                    class="memorisation-workspace-flow-step"
-                    :class="{ 'is-active': memorisationWorkspaceFlowStage === 'review' }"
-                    role="listitem">3. Review</span>
-            </div>
         </div>
         <div v-if="(surahDetails || currentSurahInfo) && (!isTabletOrMobile && showDesktopToolbar && showReaderToolbar) && !isReadingFullscreen"
             class="quran-toolbar-sticky ltr-text"
@@ -1339,10 +1325,10 @@
                 <div class="memorisation-tools-grid mb-2">
                     <button
                         type="button"
-                        class="btn memorisation-tools-action-btn memorisation-tools-action-btn--reset memorisation-tools-field--full"
+                        class="btn memorisation-tools-action-btn memorisation-tools-action-btn--primary memorisation-tools-field--full memorisation-create-hifdh-btn"
                         @click="openCreateHifdhFromOffcanvas($event)">
                         <i class="bi bi-calendar-plus me-1" aria-hidden="true"></i>
-                        Create Hifdh
+                        Create Hifdh Plan
                     </button>
                 </div>
                 

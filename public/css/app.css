@@ -32469,6 +32469,33 @@ body {
     font-weight: 700;
     padding: 0.5rem 0.8rem;
 }
+body.surat-page-shell-dark {
+    color: #edf4f1;
+}
+body.surat-page-shell-dark,body.surat-page-shell-dark,body.surat-page-shell-dark {
+    color: #edf4f1;
+}
+body.surat-page-shell-dark,body.surat-page-shell-dark {
+    color: #a8bab4;
+}
+body.surat-page-shell-dark {
+    background: rgba(142, 224, 212, 0.14);
+    color: #8ee0d4;
+}
+body.surat-page-shell-dark,body.surat-page-shell-dark,body.surat-page-shell-dark {
+    background: rgba(23, 34, 31, 0.88);
+    border-color: rgba(142, 224, 212, 0.12);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.16);
+}
+body.surat-page-shell-dark {
+    border-color: rgba(142, 224, 212, 0.24);
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.22);
+}
+body.surat-page-shell-dark {
+    background: rgba(127, 29, 29, 0.18);
+    border-color: rgba(248, 113, 113, 0.24);
+    color: #fecaca;
+}
 @media (max-width: 640px) {
 .review-queue-page[data-v-691386be] {
         padding-left: 1rem;
@@ -62438,6 +62465,53 @@ to {
   font-size: 0.92rem;
   font-weight: 700;
   line-height: 1.45;
+}
+body.surat-page-shell-dark {
+  background: #1b211f;
+  color: #edf4f1;
+  border-color: rgba(142, 224, 212, 0.12);
+  box-shadow: 0 24px 56px rgba(0, 0, 0, 0.42);
+}
+body.surat-page-shell-dark,body.surat-page-shell-dark {
+  border-color: rgba(142, 224, 212, 0.12);
+  background: rgba(19, 30, 27, 0.94);
+}
+body.surat-page-shell-dark,body.surat-page-shell-dark,body.surat-page-shell-dark {
+  color: #edf4f1;
+}
+body.surat-page-shell-dark,body.surat-page-shell-dark,body.surat-page-shell-dark,body.surat-page-shell-dark,body.surat-page-shell-dark {
+  color: #a8bab4;
+}
+body.surat-page-shell-dark,body.surat-page-shell-dark,body.surat-page-shell-dark,body.surat-page-shell-dark,body.surat-page-shell-dark,body.surat-page-shell-dark,body.surat-page-shell-dark {
+  background: rgba(23, 34, 31, 0.96);
+  color: #edf4f1;
+  border-color: rgba(142, 224, 212, 0.12);
+}
+body.surat-page-shell-dark,body.surat-page-shell-dark,body.surat-page-shell-dark {
+  background: rgba(27, 43, 39, 0.88);
+  border-color: rgba(142, 224, 212, 0.14);
+}
+body.surat-page-shell-dark,body.surat-page-shell-dark {
+  border-color: rgba(142, 224, 212, 0.3);
+}
+body.surat-page-shell-dark {
+  background: rgba(142, 224, 212, 0.12);
+}
+body.surat-page-shell-dark,body.surat-page-shell-dark,body.surat-page-shell-dark {
+  color: #8ee0d4;
+}
+body.surat-page-shell-dark,body.surat-page-shell-dark {
+  background: rgba(20, 83, 45, 0.36);
+  color: #ccfbe6;
+  border-color: rgba(74, 222, 128, 0.28);
+}
+body.surat-page-shell-dark,body.surat-page-shell-dark,body.surat-page-shell-dark,body.surat-page-shell-dark {
+  background: rgba(127, 29, 29, 0.34);
+  color: #fecaca;
+  border-color: rgba(248, 113, 113, 0.28);
+}
+body.surat-page-shell-dark {
+  background: #4b635d;
 }
 .sq-fade-enter-active[data-v-47f373bc],
 .sq-fade-leave-active[data-v-47f373bc] {
@@ -107357,6 +107431,25 @@ body.surat-route-page .memorisation-offcanvas-v3[data-v-637d02d8] {
     background: rgba(15, 118, 110, 0.12);
     color: #0f4f47;
 }
+.surat-premium.surat-theme-dark .memorisation-workspace-hero-title[data-v-637d02d8] {
+    color: #edf4f1;
+}
+.surat-premium.surat-theme-dark .memorisation-workspace-hero-description[data-v-637d02d8] {
+    color: #b8cbc5;
+}
+.surat-premium.surat-theme-dark .memorisation-workspace-hero-next[data-v-637d02d8] {
+    color: #8ee0d4;
+}
+.surat-premium.surat-theme-dark .memorisation-workspace-flow-step[data-v-637d02d8] {
+    border-color: rgba(142, 224, 212, 0.16);
+    background: rgba(19, 30, 27, 0.76);
+    color: #c7d9d3;
+}
+.surat-premium.surat-theme-dark .memorisation-workspace-flow-step.is-active[data-v-637d02d8] {
+    border-color: rgba(142, 224, 212, 0.32);
+    background: rgba(142, 224, 212, 0.12);
+    color: #8ee0d4;
+}
 @media (max-width: 767.98px) {
 .surat-premium .memorisation-workspace-hero[data-v-637d02d8] {
         margin: 0.2rem auto 0.8rem;
@@ -110090,36 +110183,32 @@ body.surat-page-shell-dark .main-header,body.surat-page-shell-dark .navbar {
     z-index: 9 !important;
     margin-top: auto !important;
     display: grid !important;
-    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-    gap: 0.6rem !important;
+    grid-template-columns: minmax(0, 1.7fr) auto auto !important;
+    gap: 0.85rem !important;
     align-items: center !important;
-    padding-top: 0.6rem !important;
-    background: linear-gradient(
-        180deg,
-        rgba(255, 255, 255, 0) 0%,
-        rgba(255, 255, 255, 0.92) 34%,
-        rgba(255, 255, 255, 0.98) 100%
-    ) !important;
+    padding: 0.75rem 0 0 !important;
+    background: rgba(247, 251, 248, 0.96) !important;
     border-top: 1px solid rgba(15, 71, 65, 0.14) !important;
-    box-shadow: 0 -10px 22px rgba(7, 31, 28, 0.1) !important;
+    box-shadow: 0 -8px 18px rgba(7, 31, 28, 0.06) !important;
     transform: translateY(0) !important;
     opacity: 1 !important;
     transition: opacity 180ms ease, transform 180ms ease, box-shadow 180ms ease !important;
 }
 .memorisation-offcanvas.surat-dark-modal .memorisation-beginner-actions[data-v-637d02d8],
 .memorisation-offcanvas-v3.surat-dark-modal .memorisation-beginner-actions[data-v-637d02d8] {
-    background: linear-gradient(
-        180deg,
-        rgba(38, 41, 46, 0) 0%,
-        rgba(38, 41, 46, 0.9) 34%,
-        rgba(38, 41, 46, 0.98) 100%
-    ) !important;
+    background: rgba(24, 31, 29, 0.96) !important;
     border-top-color: rgba(203, 213, 225, 0.2) !important;
+    box-shadow: 0 -10px 22px rgba(0, 0, 0, 0.2) !important;
 }
 @media (max-width: 680px) {
 .memorisation-offcanvas .memorisation-beginner-actions[data-v-637d02d8],
     .memorisation-offcanvas-v3 .memorisation-beginner-actions[data-v-637d02d8] {
-        grid-template-columns: 1fr !important;
+        grid-template-columns: 1fr 1fr !important;
+}
+.memorisation-offcanvas .memorisation-beginner-actions .memorisation-tools-action-btn--primary[data-v-637d02d8],
+    .memorisation-offcanvas-v3 .memorisation-beginner-actions .memorisation-tools-action-btn--primary[data-v-637d02d8] {
+        grid-column: 1 / -1 !important;
+        justify-content: center !important;
 }
 }
 
@@ -110801,6 +110890,92 @@ body.surat-page-shell-dark .main-header,body.surat-page-shell-dark .navbar {
 }
 .surat-premium .memorisation-chaining-details-body[data-v-637d02d8] {
         grid-template-columns: 1fr !important;
+}
+}
+
+/* Final QA fixes for memorisation offcanvas polish:
+   hero clearance, Create Hifdh alignment, and calmer action-row hierarchy. */
+@media (min-width: 992px) {
+.surat-premium.memorisation-sidebar-open .memorisation-workspace-hero[data-v-637d02d8] {
+        width: min(
+            100%,
+            calc(100vw - var(--memorisation-panel-current-width, var(--memorisation-panel-docked-width)) - 4rem)
+        ) !important;
+        max-width: 920px !important;
+        margin-right: calc(var(--memorisation-panel-current-width, var(--memorisation-panel-docked-width)) + 1.5rem) !important;
+        padding-right: 0.5rem !important;
+}
+}
+.memorisation-offcanvas-v3 .memorisation-tools-grid > .memorisation-create-hifdh-btn.memorisation-tools-field--full[data-v-637d02d8] {
+    grid-column: 1 / -1 !important;
+    width: 100% !important;
+}
+.memorisation-offcanvas-v3 .memorisation-create-hifdh-btn[data-v-637d02d8] {
+    min-height: 52px !important;
+    justify-content: center !important;
+    gap: 0.5rem !important;
+    padding: 0.9rem 1rem !important;
+    border: 1px solid rgba(15, 118, 110, 0.16) !important;
+    background: linear-gradient(135deg, #0f766e 0%, #157f75 100%) !important;
+    color: #ffffff !important;
+    font-weight: 800 !important;
+    text-decoration: none !important;
+    box-shadow: 0 14px 28px rgba(15, 118, 110, 0.22) !important;
+}
+.memorisation-offcanvas-v3.surat-dark-modal .memorisation-create-hifdh-btn[data-v-637d02d8] {
+    background: linear-gradient(135deg, #8ee0d4 0%, #6fd4c6 100%) !important;
+    border-color: rgba(142, 224, 212, 0.18) !important;
+    color: #10211d !important;
+    box-shadow: 0 14px 28px rgba(142, 224, 212, 0.16) !important;
+}
+.memorisation-offcanvas .memorisation-beginner-actions[data-v-637d02d8],
+.memorisation-offcanvas-v3 .memorisation-beginner-actions[data-v-637d02d8] {
+    grid-template-columns: minmax(0, 1.55fr) auto auto !important;
+    justify-content: stretch !important;
+    gap: 0.85rem !important;
+}
+.memorisation-offcanvas .memorisation-beginner-actions .memorisation-tools-action-btn[data-v-637d02d8],
+.memorisation-offcanvas-v3 .memorisation-beginner-actions .memorisation-tools-action-btn[data-v-637d02d8] {
+    min-height: 52px !important;
+    padding-inline: 1rem !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-weight: 800 !important;
+    text-decoration: none !important;
+}
+.memorisation-offcanvas .memorisation-beginner-actions .memorisation-tools-action-btn--primary[data-v-637d02d8],
+.memorisation-offcanvas-v3 .memorisation-beginner-actions .memorisation-tools-action-btn--primary[data-v-637d02d8] {
+    justify-content: flex-start !important;
+    padding-inline: 1.2rem !important;
+    letter-spacing: 0.01em !important;
+}
+.memorisation-offcanvas .memorisation-beginner-actions .memorisation-tools-action-btn--reset[data-v-637d02d8],
+.memorisation-offcanvas .memorisation-beginner-actions .memorisation-tools-action-btn--cancel[data-v-637d02d8],
+.memorisation-offcanvas-v3 .memorisation-beginner-actions .memorisation-tools-action-btn--reset[data-v-637d02d8],
+.memorisation-offcanvas-v3 .memorisation-beginner-actions .memorisation-tools-action-btn--cancel[data-v-637d02d8] {
+    min-width: 92px !important;
+    color: var(--quran-soft-muted, #60756f) !important;
+    background: rgba(255, 255, 255, 0.8) !important;
+    border: 1px solid rgba(15, 118, 110, 0.12) !important;
+    box-shadow: 0 6px 16px rgba(15, 60, 50, 0.06) !important;
+}
+.memorisation-offcanvas-v3.surat-dark-modal .memorisation-beginner-actions .memorisation-tools-action-btn--reset[data-v-637d02d8],
+.memorisation-offcanvas-v3.surat-dark-modal .memorisation-beginner-actions .memorisation-tools-action-btn--cancel[data-v-637d02d8] {
+    background: rgba(19, 30, 27, 0.88) !important;
+    color: #cfe0da !important;
+    border-color: rgba(142, 224, 212, 0.12) !important;
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.18) !important;
+}
+@media (max-width: 767.98px) {
+.memorisation-offcanvas .memorisation-beginner-actions[data-v-637d02d8],
+    .memorisation-offcanvas-v3 .memorisation-beginner-actions[data-v-637d02d8] {
+        grid-template-columns: 1fr 1fr !important;
+}
+.memorisation-offcanvas .memorisation-beginner-actions .memorisation-tools-action-btn--primary[data-v-637d02d8],
+    .memorisation-offcanvas-v3 .memorisation-beginner-actions .memorisation-tools-action-btn--primary[data-v-637d02d8] {
+        grid-column: 1 / -1 !important;
+        justify-content: center !important;
 }
 }
 

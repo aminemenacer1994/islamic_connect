@@ -303,6 +303,45 @@ export default {
     padding: 0.5rem 0.8rem;
 }
 
+:global(body.surat-page-shell-dark) .review-queue-page {
+    color: #edf4f1;
+}
+
+:global(body.surat-page-shell-dark) .review-queue-title,
+:global(body.surat-page-shell-dark) .review-queue-empty h2,
+:global(body.surat-page-shell-dark) .review-queue-item-title {
+    color: #edf4f1;
+}
+
+:global(body.surat-page-shell-dark) .review-queue-subtitle,
+:global(body.surat-page-shell-dark) .review-queue-item-date {
+    color: #a8bab4;
+}
+
+:global(body.surat-page-shell-dark) .review-queue-count-badge {
+    background: rgba(142, 224, 212, 0.14);
+    color: #8ee0d4;
+}
+
+:global(body.surat-page-shell-dark) .review-queue-loading,
+:global(body.surat-page-shell-dark) .review-queue-empty,
+:global(body.surat-page-shell-dark) .review-queue-item {
+    background: rgba(23, 34, 31, 0.88);
+    border-color: rgba(142, 224, 212, 0.12);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.16);
+}
+
+:global(body.surat-page-shell-dark) .review-queue-item:hover {
+    border-color: rgba(142, 224, 212, 0.24);
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.22);
+}
+
+:global(body.surat-page-shell-dark) .review-queue-action-secondary {
+    background: rgba(127, 29, 29, 0.18);
+    border-color: rgba(248, 113, 113, 0.24);
+    color: #fecaca;
+}
+
 @media (max-width: 640px) {
     .review-queue-page {
         padding-left: 1rem;

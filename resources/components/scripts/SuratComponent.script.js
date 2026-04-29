@@ -24852,6 +24852,10 @@ export default {
             if (event && typeof event.preventDefault === "function") {
                 event.preventDefault();
             }
+            if (!this.bookmarkAuthenticated || !this.bookmarkStorageUserId) {
+                this.showToast("Log in to create a Hifdh plan.", 2600);
+                return;
+            }
             this.closeMemorisationOffcanvas();
             await this.openHifdhPlanModalGuarded();
         },

@@ -1026,6 +1026,87 @@ function lockPage(locked) {
   line-height: 1.45;
 }
 
+:global(body.surat-page-shell-dark) .sq__card {
+  background: #1b211f;
+  color: #edf4f1;
+  border-color: rgba(142, 224, 212, 0.12);
+  box-shadow: 0 24px 56px rgba(0, 0, 0, 0.42);
+}
+
+:global(body.surat-page-shell-dark) .sq__header,
+:global(body.surat-page-shell-dark) .sq__footer {
+  border-color: rgba(142, 224, 212, 0.12);
+  background: rgba(19, 30, 27, 0.94);
+}
+
+:global(body.surat-page-shell-dark) .sq__title,
+:global(body.surat-page-shell-dark) .sq__score,
+:global(body.surat-page-shell-dark) .sq__translation {
+  color: #edf4f1;
+}
+
+:global(body.surat-page-shell-dark) .sq__kicker,
+:global(body.surat-page-shell-dark) .sq__progressText,
+:global(body.surat-page-shell-dark) .sq__questionHead,
+:global(body.surat-page-shell-dark) .sq__hint,
+:global(body.surat-page-shell-dark) .sq__completeNote {
+  color: #a8bab4;
+}
+
+:global(body.surat-page-shell-dark) .sq__close,
+:global(body.surat-page-shell-dark) .sq__question,
+:global(body.surat-page-shell-dark) .sq__complete,
+:global(body.surat-page-shell-dark) .sq__notice,
+:global(body.surat-page-shell-dark) .sq__choice,
+:global(body.surat-page-shell-dark) .sqBtn--soft,
+:global(body.surat-page-shell-dark) .sqBtn--ghost {
+  background: rgba(23, 34, 31, 0.96);
+  color: #edf4f1;
+  border-color: rgba(142, 224, 212, 0.12);
+}
+
+:global(body.surat-page-shell-dark) .sq__prompt,
+:global(body.surat-page-shell-dark) .sq__flashcard,
+:global(body.surat-page-shell-dark) .sq__score {
+  background: rgba(27, 43, 39, 0.88);
+  border-color: rgba(142, 224, 212, 0.14);
+}
+
+:global(body.surat-page-shell-dark) .sq__flashcard:hover,
+:global(body.surat-page-shell-dark) .sq__choice:hover:not(:disabled) {
+  border-color: rgba(142, 224, 212, 0.3);
+}
+
+:global(body.surat-page-shell-dark) .sq__bar {
+  background: rgba(142, 224, 212, 0.12);
+}
+
+:global(body.surat-page-shell-dark) .sq__type,
+:global(body.surat-page-shell-dark) .sq__score strong,
+:global(body.surat-page-shell-dark) .sq__completeNext {
+  color: #8ee0d4;
+}
+
+:global(body.surat-page-shell-dark) .sq__choice.is-correct,
+:global(body.surat-page-shell-dark) .sq__feedback.is-good {
+  background: rgba(20, 83, 45, 0.36);
+  color: #ccfbe6;
+  border-color: rgba(74, 222, 128, 0.28);
+}
+
+:global(body.surat-page-shell-dark) .sq__choice.is-wrong,
+:global(body.surat-page-shell-dark) .sq__feedback.is-bad,
+:global(body.surat-page-shell-dark) .sq__weak span,
+:global(body.surat-page-shell-dark) .sq__notice.is-error {
+  background: rgba(127, 29, 29, 0.34);
+  color: #fecaca;
+  border-color: rgba(248, 113, 113, 0.28);
+}
+
+:global(body.surat-page-shell-dark) .sq__dot {
+  background: #4b635d;
+}
+
 .sq-fade-enter-active,
 .sq-fade-leave-active {
   transition: opacity 0.16s ease;

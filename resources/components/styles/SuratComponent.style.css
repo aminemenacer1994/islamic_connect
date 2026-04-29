@@ -52112,6 +52112,30 @@ body.surat-route-page .memorisation-offcanvas-v3 {
     color: #0f4f47;
 }
 
+.surat-premium.surat-theme-dark .memorisation-workspace-hero-title {
+    color: #edf4f1;
+}
+
+.surat-premium.surat-theme-dark .memorisation-workspace-hero-description {
+    color: #b8cbc5;
+}
+
+.surat-premium.surat-theme-dark .memorisation-workspace-hero-next {
+    color: #8ee0d4;
+}
+
+.surat-premium.surat-theme-dark .memorisation-workspace-flow-step {
+    border-color: rgba(142, 224, 212, 0.16);
+    background: rgba(19, 30, 27, 0.76);
+    color: #c7d9d3;
+}
+
+.surat-premium.surat-theme-dark .memorisation-workspace-flow-step.is-active {
+    border-color: rgba(142, 224, 212, 0.32);
+    background: rgba(142, 224, 212, 0.12);
+    color: #8ee0d4;
+}
+
 @media (max-width: 767.98px) {
     .surat-premium .memorisation-workspace-hero {
         margin: 0.2rem auto 0.8rem;
@@ -55224,18 +55248,13 @@ body.surat-route-page .memorisation-offcanvas-v3 {
     z-index: 9 !important;
     margin-top: auto !important;
     display: grid !important;
-    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-    gap: 0.6rem !important;
+    grid-template-columns: minmax(0, 1.7fr) auto auto !important;
+    gap: 0.85rem !important;
     align-items: center !important;
-    padding-top: 0.6rem !important;
-    background: linear-gradient(
-        180deg,
-        rgba(255, 255, 255, 0) 0%,
-        rgba(255, 255, 255, 0.92) 34%,
-        rgba(255, 255, 255, 0.98) 100%
-    ) !important;
+    padding: 0.75rem 0 0 !important;
+    background: rgba(247, 251, 248, 0.96) !important;
     border-top: 1px solid rgba(15, 71, 65, 0.14) !important;
-    box-shadow: 0 -10px 22px rgba(7, 31, 28, 0.1) !important;
+    box-shadow: 0 -8px 18px rgba(7, 31, 28, 0.06) !important;
     transform: translateY(0) !important;
     opacity: 1 !important;
     transition: opacity 180ms ease, transform 180ms ease, box-shadow 180ms ease !important;
@@ -55243,19 +55262,21 @@ body.surat-route-page .memorisation-offcanvas-v3 {
 
 .memorisation-offcanvas.surat-dark-modal .memorisation-beginner-actions,
 .memorisation-offcanvas-v3.surat-dark-modal .memorisation-beginner-actions {
-    background: linear-gradient(
-        180deg,
-        rgba(38, 41, 46, 0) 0%,
-        rgba(38, 41, 46, 0.9) 34%,
-        rgba(38, 41, 46, 0.98) 100%
-    ) !important;
+    background: rgba(24, 31, 29, 0.96) !important;
     border-top-color: rgba(203, 213, 225, 0.2) !important;
+    box-shadow: 0 -10px 22px rgba(0, 0, 0, 0.2) !important;
 }
 
 @media (max-width: 680px) {
     .memorisation-offcanvas .memorisation-beginner-actions,
     .memorisation-offcanvas-v3 .memorisation-beginner-actions {
-        grid-template-columns: 1fr !important;
+        grid-template-columns: 1fr 1fr !important;
+    }
+
+    .memorisation-offcanvas .memorisation-beginner-actions .memorisation-tools-action-btn--primary,
+    .memorisation-offcanvas-v3 .memorisation-beginner-actions .memorisation-tools-action-btn--primary {
+        grid-column: 1 / -1 !important;
+        justify-content: center !important;
     }
 }
 
@@ -56041,5 +56062,101 @@ body.surat-route-page .memorisation-offcanvas-v3 {
 
     .surat-premium .memorisation-chaining-details-body {
         grid-template-columns: 1fr !important;
+    }
+}
+
+/* Final QA fixes for memorisation offcanvas polish:
+   hero clearance, Create Hifdh alignment, and calmer action-row hierarchy. */
+@media (min-width: 992px) {
+    .surat-premium.memorisation-sidebar-open .memorisation-workspace-hero {
+        width: min(
+            100%,
+            calc(100vw - var(--memorisation-panel-current-width, var(--memorisation-panel-docked-width)) - 4rem)
+        ) !important;
+        max-width: 920px !important;
+        margin-right: calc(var(--memorisation-panel-current-width, var(--memorisation-panel-docked-width)) + 1.5rem) !important;
+        padding-right: 0.5rem !important;
+    }
+}
+
+.memorisation-offcanvas-v3 .memorisation-tools-grid > .memorisation-create-hifdh-btn.memorisation-tools-field--full {
+    grid-column: 1 / -1 !important;
+    width: 100% !important;
+}
+
+.memorisation-offcanvas-v3 .memorisation-create-hifdh-btn {
+    min-height: 52px !important;
+    justify-content: center !important;
+    gap: 0.5rem !important;
+    padding: 0.9rem 1rem !important;
+    border: 1px solid rgba(15, 118, 110, 0.16) !important;
+    background: linear-gradient(135deg, #0f766e 0%, #157f75 100%) !important;
+    color: #ffffff !important;
+    font-weight: 800 !important;
+    text-decoration: none !important;
+    box-shadow: 0 14px 28px rgba(15, 118, 110, 0.22) !important;
+}
+
+.memorisation-offcanvas-v3.surat-dark-modal .memorisation-create-hifdh-btn {
+    background: linear-gradient(135deg, #8ee0d4 0%, #6fd4c6 100%) !important;
+    border-color: rgba(142, 224, 212, 0.18) !important;
+    color: #10211d !important;
+    box-shadow: 0 14px 28px rgba(142, 224, 212, 0.16) !important;
+}
+
+.memorisation-offcanvas .memorisation-beginner-actions,
+.memorisation-offcanvas-v3 .memorisation-beginner-actions {
+    grid-template-columns: minmax(0, 1.55fr) auto auto !important;
+    justify-content: stretch !important;
+    gap: 0.85rem !important;
+}
+
+.memorisation-offcanvas .memorisation-beginner-actions .memorisation-tools-action-btn,
+.memorisation-offcanvas-v3 .memorisation-beginner-actions .memorisation-tools-action-btn {
+    min-height: 52px !important;
+    padding-inline: 1rem !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-weight: 800 !important;
+    text-decoration: none !important;
+}
+
+.memorisation-offcanvas .memorisation-beginner-actions .memorisation-tools-action-btn--primary,
+.memorisation-offcanvas-v3 .memorisation-beginner-actions .memorisation-tools-action-btn--primary {
+    justify-content: flex-start !important;
+    padding-inline: 1.2rem !important;
+    letter-spacing: 0.01em !important;
+}
+
+.memorisation-offcanvas .memorisation-beginner-actions .memorisation-tools-action-btn--reset,
+.memorisation-offcanvas .memorisation-beginner-actions .memorisation-tools-action-btn--cancel,
+.memorisation-offcanvas-v3 .memorisation-beginner-actions .memorisation-tools-action-btn--reset,
+.memorisation-offcanvas-v3 .memorisation-beginner-actions .memorisation-tools-action-btn--cancel {
+    min-width: 92px !important;
+    color: var(--quran-soft-muted, #60756f) !important;
+    background: rgba(255, 255, 255, 0.8) !important;
+    border: 1px solid rgba(15, 118, 110, 0.12) !important;
+    box-shadow: 0 6px 16px rgba(15, 60, 50, 0.06) !important;
+}
+
+.memorisation-offcanvas-v3.surat-dark-modal .memorisation-beginner-actions .memorisation-tools-action-btn--reset,
+.memorisation-offcanvas-v3.surat-dark-modal .memorisation-beginner-actions .memorisation-tools-action-btn--cancel {
+    background: rgba(19, 30, 27, 0.88) !important;
+    color: #cfe0da !important;
+    border-color: rgba(142, 224, 212, 0.12) !important;
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.18) !important;
+}
+
+@media (max-width: 767.98px) {
+    .memorisation-offcanvas .memorisation-beginner-actions,
+    .memorisation-offcanvas-v3 .memorisation-beginner-actions {
+        grid-template-columns: 1fr 1fr !important;
+    }
+
+    .memorisation-offcanvas .memorisation-beginner-actions .memorisation-tools-action-btn--primary,
+    .memorisation-offcanvas-v3 .memorisation-beginner-actions .memorisation-tools-action-btn--primary {
+        grid-column: 1 / -1 !important;
+        justify-content: center !important;
     }
 }
