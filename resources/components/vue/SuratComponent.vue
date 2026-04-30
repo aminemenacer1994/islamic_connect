@@ -478,7 +478,7 @@
                                         :aria-busy="memorisationActionInFlight ? 'true' : 'false'"
                                         @click="hasMemorisationResumeCandidate() ? continueFromLastMemorisationSession({ announce: true }) : startMemorisationBeginnerSession()">
                                         <i class="bi bi-play-fill" style="margin-right: 0.2rem;" aria-hidden="true"></i>
-                                        <span>{{ memorisationActionInFlight ? 'Starting...' : (hasMemorisationResumeCandidate() ? 'Jump in' : 'Start Session') }}</span>
+                                        <span>{{ memorisationActionInFlight ? 'Starting...' : (hasMemorisationResumeCandidate() ? 'Continue Learning' : 'Start Learning') }}</span>
                                         <small>{{ memorisationStartButtonHint }}</small>
                                     </button>
                                 </div>
@@ -834,8 +834,8 @@
             <p class="memorisation-workspace-hero-description">
                 {{
                     isMemorisationToolbarVisible && isMemorisationOffcanvasVisible
-                        ? "Set your range, then begin chaining, quiz, and review with a focused Hifdh workflow."
-                        : "Build daily Hifdh with a calm flow: chaining, quiz, and review in one connected workspace."
+                        ? "Pick a short range and begin a calm session with recitation, quiz, and review."
+                        : "Memorise a few ayahs, check yourself, and return stronger in one connected flow."
                 }}
             </p>
         </div>
@@ -1305,13 +1305,13 @@
 	            </button>
 	            <div class="offcanvas-body">
                 <div class="memorisation-tools-tabs" role="tablist" aria-label="Memorisation tool level">
-	                    <button
-	                        type="button"
+                    <button
+                        type="button"
                         class="btn memorisation-tools-tab"
                         :class="{ 'is-active': !isMemorisationAdvancedMode }"
                         :aria-selected="!isMemorisationAdvancedMode ? 'true' : 'false'"
                         @click="setMemorisationToolsDepth('beginner')">
-                        Beginner
+                        Quick Start
                     </button>
                     <button
                         type="button"
@@ -1330,6 +1330,20 @@
                         <i class="bi bi-calendar-plus me-1" aria-hidden="true"></i>
                         Create Hifdh Plan
                     </button>
+                </div>
+                <div class="memorisation-tools-grid mb-2">
+                    <button
+                        type="button"
+                        class="btn memorisation-tools-action-btn memorisation-tools-field--full memorisation-backup-btn"
+                        :disabled="memorisationBackupInFlight"
+                        :aria-busy="memorisationBackupInFlight ? 'true' : 'false'"
+                        @click="onBackupMemorisationProgress">
+                        <i class="bi bi-download me-1" aria-hidden="true"></i>
+                        {{ memorisationBackupInFlight ? "Saving Backup..." : "Backup Progress" }}
+                    </button>
+                    <p class="memorisation-backup-helper mb-0">
+                        Download a backup of your progress anytime.
+                    </p>
                 </div>
                 
                 <button
@@ -1354,7 +1368,7 @@
                                 <div class="memorisation-beginner-guide-kicker">
                                     <i class="bi bi-compass" aria-hidden="true"></i>
                                     <span>How it works</span>
-                                    <span class="memorisation-beginner-guide-pill" aria-hidden="true">4 steps</span>
+                                    <span class="memorisation-beginner-guide-pill" aria-hidden="true">3 steps</span>
                                 </div>
                             </div>
                             <div class="memorisation-beginner-guide-controls" role="group" aria-label="Guide controls">
@@ -1379,23 +1393,17 @@
                         </div>
                         <div v-show="!memorisationBeginnerGuideCollapsed" class="memorisation-beginner-guide-body">
                             <ol class="memorisation-beginner-guide-steps">
-                                <li>Pick surah + range.</li>
-                                <li>Press Start Session.</li>
-                                <li>Repeat when it’s your turn.</li>
-                                <li>Save and come back tomorrow.</li>
+                                <li>Pick a short surah range.</li>
+                                <li>Press Start Learning.</li>
+                                <li>Finish the quiz, then review any weak ayahs.</li>
                             </ol>
                         </div>
                     </section>
-                    <nav class="memorisation-jump-links" aria-label="Jump to section">
-                        <button type="button" class="btn memorisation-jump-link" @click="scrollMemorisationOffcanvasTo('memo-beginner-setup')">Setup</button>
-                        <button type="button" class="btn memorisation-jump-link" @click="scrollMemorisationOffcanvasTo('memo-beginner-playback')">Playback</button>
-                        <button type="button" class="btn memorisation-jump-link" @click="scrollMemorisationOffcanvasTo('memo-beginner-history')">History</button>
-                    </nav>
                     <section id="memo-beginner-setup" class="memorisation-tools-card" aria-label="Session foundation">
                         <div class="memorisation-tools-card-head">
                             <div class="memorisation-tools-card-title">
-                                <h5 class="mb-0"><i class="bi bi-sliders2 me-1" aria-hidden="true"></i>Setup</h5>
-                                <p class="mb-0">Choose the surah, reciter, and the exact ayah range you will work on.</p>
+                                <h5 class="mb-0"><i class="bi bi-sliders2 me-1" aria-hidden="true"></i>Start learning</h5>
+                                <p class="mb-0">Pick the surah and ayahs you want to memorise. You can start right away.</p>
                             </div>
                             <button
                                 type="button"
@@ -1408,7 +1416,7 @@
                         </div>
                         <div v-show="isMemorisationBeginnerSectionOpen('setup')" class="memorisation-tools-grid">
                             <label class="memorisation-tools-field memorisation-tools-field--full">
-                                <span class="memorisation-tools-label">Surah name</span>
+                                <span class="memorisation-tools-label">Surah</span>
                                 <select
                                     class="form-select memorisation-tools-control"
                                     v-model="selectedSurah"
@@ -1422,7 +1430,7 @@
                             </label>
 
                             <label class="memorisation-tools-field memorisation-tools-field--full">
-                                <span class="memorisation-tools-label">Reciter name</span>
+                                <span class="memorisation-tools-label">Reciter</span>
                                 <select
                                     class="form-select memorisation-tools-control"
                                     v-model="selectedReciter"
@@ -1432,7 +1440,7 @@
                                         {{ reciter.englishName }}
                                     </option>
                                 </select>
-                                <small class="memorisation-tools-field-hint">Choose the voice.</small>
+                                <small class="memorisation-tools-field-hint">Optional: choose the voice you want to follow.</small>
                             </label>
 
                             <label class="memorisation-tools-field memorisation-tools-field--full">
@@ -1456,7 +1464,7 @@
                                         @change="onMemorisationToolbarRangeChange"
                                         aria-label="Range end ayah" />
                                 </div>
-                                <small class="memorisation-tools-field-hint">Choose the ayahs.</small>
+                                <small class="memorisation-tools-field-hint">Keep it short for a quick first session.</small>
                             </label>
                         </div>
                     </section>
@@ -1464,8 +1472,8 @@
                     <section id="memo-beginner-playback" class="memorisation-tools-card" aria-label="Recitation flow">
                         <div class="memorisation-tools-card-head">
                             <div class="memorisation-tools-card-title">
-                                <h5 class="mb-0"><i class="bi bi-play-circle me-1" aria-hidden="true"></i>Playback</h5>
-                                <p class="mb-0">Set the pace: speed, delay, mode, and how many times each ayah repeats.</p>
+                                <h5 class="mb-0"><i class="bi bi-play-circle me-1" aria-hidden="true"></i>Optional pacing</h5>
+                                <p class="mb-0">Only change this if you want a slower or more guided rhythm.</p>
                             </div>
                             <button
                                 type="button"
@@ -1565,8 +1573,8 @@
                     <section class="memorisation-tools-card" aria-label="Recall support and continuity">
                         <div class="memorisation-tools-card-head">
                             <div class="memorisation-tools-card-title">
-                                <h5 class="mb-0"><i class="bi bi-lightbulb me-1" aria-hidden="true"></i>Tools</h5>
-                                <p class="mb-0">Use blur for recall testing and save sessions to continue later.</p>
+                                <h5 class="mb-0"><i class="bi bi-lightbulb me-1" aria-hidden="true"></i>Recall support</h5>
+                                <p class="mb-0">Use this when you want a little more memory challenge.</p>
                             </div>
                         </div>
                         <div class="memorisation-tools-grid">
@@ -1606,8 +1614,8 @@
                     <section id="memo-beginner-history" class="memorisation-tools-card" aria-label="History">
                         <div class="memorisation-tools-card-head">
                             <div class="memorisation-tools-card-title">
-                                <h5 class="mb-0"><i class="bi bi-clock-history me-1" aria-hidden="true"></i>History</h5>
-                                <p class="mb-0">Reload a previous session setup (surah, range, reciter, and settings).</p>
+                                <h5 class="mb-0"><i class="bi bi-clock-history me-1" aria-hidden="true"></i>Continue a saved session</h5>
+                                <p class="mb-0">Open the same setup again when you want to keep going.</p>
                             </div>
                             <button
                                 type="button"
@@ -1665,7 +1673,7 @@
                         <div id="memo-beginner-actions" class="memorisation-beginner-actions">
                             <button type="button" class="btn memorisation-tools-action-btn memorisation-tools-action-btn--primary" :disabled="memorisationActionInFlight" :aria-busy="memorisationActionInFlight ? 'true' : 'false'" @click="startMemorisationBeginnerSession">
                             <i class="bi bi-play-fill me-1" aria-hidden="true"></i>
-                            {{ memorisationActionInFlight ? "Starting..." : "Start Session" }}
+                            {{ memorisationActionInFlight ? "Starting..." : "Start Learning" }}
                             </button>
                             <button type="button" class="btn memorisation-tools-action-btn memorisation-tools-action-btn--reset" :disabled="memorisationActionInFlight" @click="resetMemorisationDraftForm">
                             Reset
@@ -1757,7 +1765,7 @@
                             <label class="memorisation-tools-switch memorisation-tools-field--full">
                                 <span class="memorisation-tools-switch-copy">
                                     <strong>Fullscreen on start</strong>
-                                    <small>Enters focused fullscreen as soon as you press Start Session (Advanced only).</small>
+                                    <small>Enters focused fullscreen as soon as you press Start Learning (Advanced only).</small>
                                 </span>
                                 <span class="form-check form-switch mb-0">
                                     <input
@@ -2198,8 +2206,8 @@
                             :aria-busy="memorisationActionInFlight ? 'true' : 'false'"
                             @click="startMemorisationBeginnerSession">
                             <i class="bi bi-play-fill me-1" aria-hidden="true"></i>
-                            {{ memorisationActionInFlight ? "Starting..." : "Start Session" }}
-                        </button>
+                            {{ memorisationActionInFlight ? "Starting..." : "Start Learning" }}
+                            </button>
                         <button
                             type="button"
                             class="btn memorisation-tools-action-btn memorisation-tools-action-btn--reset"

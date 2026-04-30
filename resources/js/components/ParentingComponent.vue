@@ -1,59 +1,98 @@
 <template>
   <div id="islamic-connect-app">
-
-    
-
-    <!-- HERO SECTION -->
     <section class="hero-section">
       <div class="hero-overlay"></div>
       <div class="container hero-content">
-        <h1 class="text-white" style="font-weight: 700;">Parenting in Islam</h1>
-        <p class="hero-sub text-white">Real talk. Real struggles. Real Islamic guidance for Muslim youth navigating family life
-          in the West.</p>
-        <div class="hero-search-wrap">
-          <input v-model="searchQuery" type="text" class="hero-search"
-            placeholder="Search topics... e.g. 'strict parents', 'marriage', 'boundaries'" />
-          <button class="hero-search-btn" v-on:click="doSearch">Search</button>
-        </div>
-        <div v-if="searchResults.length > 0" class="search-results-dropdown">
-          <div v-for="result in searchResults" class="search-result-item" v-on:click="scrollToChapter(result.id)">
-            <span class="result-icon">{{ result.icon }}</span>
-            <span>{{ result.title }}</span>
+        <div class="hero-copy">
+          <div class="hero-badge">Family guidance hub</div>
+          <h1 class="hero-title">Parenting in Islam</h1>
+          <p class="hero-sub">A practical guide for Muslim families navigating respect, boundaries, culture, conflict,
+            marriage, faith, and emotional pressure in the West.</p>
+          <div class="hero-search-shell">
+            <div class="hero-search-wrap">
+              <i class="bi bi-search" aria-hidden="true"></i>
+              <input v-model="searchQuery" v-on:keyup.enter="doSearch" type="text" class="hero-search"
+                placeholder="Search strict parents, marriage, boundaries..." aria-label="Search parenting topics" />
+              <button class="hero-search-btn" v-on:click="doSearch">Search</button>
+            </div>
+            <div v-if="searchResults.length > 0" class="search-results-dropdown">
+              <button v-for="result in searchResults" :key="result.id" class="search-result-item"
+                v-on:click="scrollToChapter(result.id)">
+                <span class="result-icon">{{ result.icon }}</span>
+                <span>{{ result.title }}</span>
+              </button>
+            </div>
+          </div>
+          <div class="hero-actions">
+            <button class="primary-action" v-on:click="scrollToChapter('ch1')">
+              <i class="bi bi-play-fill" aria-hidden="true"></i>
+              Start the guide
+            </button>
+            <button class="secondary-action" v-on:click="scrollToChapter('ch16')">
+              <i class="bi bi-tools" aria-hidden="true"></i>
+              Open tools
+            </button>
+          </div>
+          <div class="hero-stats" aria-label="Guide summary">
+            <div class="stat-pill"><strong>16</strong><span>Chapters</span></div>
+            <div class="stat-pill"><strong>5</strong><span>Trusted sources</span></div>
+            <div class="stat-pill"><strong>100+</strong><span>Practical tips</span></div>
           </div>
         </div>
-        <div class="hero-stats">
-          <div class="stat-pill">16 Chapters</div>
-          <div class="stat-pill">Scholarly Verified</div>
-          <div class="stat-pill">Western Muslim Focus</div>
-          <div class="stat-pill">Interactive Tools</div>
-        </div>
+        <aside class="hero-panel" aria-label="Recommended starting points">
+          <div class="panel-kicker">Start with what you need today</div>
+          <button v-for="item in featuredStarts" :key="item.id" class="hero-topic" v-on:click="scrollToChapter(item.id)">
+            <span>{{ item.icon }}</span>
+            <span>
+              <strong>{{ item.shortTitle }}</strong>
+              <small>{{ item.prompt }}</small>
+            </span>
+          </button>
+          <div class="hero-note">
+            <i class="bi bi-shield-check" aria-hidden="true"></i>
+            Educational guidance with source notes throughout. For personal rulings or safety concerns, speak to a
+            qualified scholar or trusted professional.
+          </div>
+        </aside>
       </div>
     </section>
 
-    <!-- NAVIGATION TABS -->
     <nav class="chapter-nav sticky-nav">
-      <div class="container-fluid nav-inner">
-        <button v-for="ch in chapters" class="nav-tab" :class="{ active: activeChapter === ch.id }"
+      <div class="nav-inner">
+        <button v-for="ch in chapters" :key="ch.id" class="nav-tab" :class="{ active: activeChapter === ch.id }"
           v-on:click="activeChapter = ch.id; scrollToChapter(ch.id)">
-          {{ ch.icon }} <span class="nav-label">{{ ch.shortTitle }}</span>
+          <span class="nav-icon">{{ ch.icon }}</span>
+          <span class="nav-label">{{ ch.shortTitle }}</span>
+        </button>
+        <button class="nav-tab" :class="{ active: activeChapter === 'resources' }" v-on:click="scrollToChapter('resources')">
+          <span class="nav-icon">📱</span>
+          <span class="nav-label">Resources</span>
         </button>
       </div>
     </nav>
-    
-    
 
-    <!-- MAIN CONTENT -->
-    <div class="container main-content">
+    <div class="container-fluid parenting-layout">
+      <aside class="page-rail" aria-label="Chapter index">
+        <div class="rail-card">
+          <div class="rail-title">Guide Sections</div>
+          <button v-for="ch in chapters" :key="'rail-' + ch.id" class="rail-link"
+            :class="{ active: activeChapter === ch.id }" v-on:click="scrollToChapter(ch.id)">
+            <span>{{ ch.icon }}</span>
+            <span>{{ ch.shortTitle }}</span>
+          </button>
+          <button class="rail-link" :class="{ active: activeChapter === 'resources' }" v-on:click="scrollToChapter('resources')">
+            <span>📱</span>
+            <span>Resources</span>
+          </button>
+        </div>
+      </aside>
 
-    <!-- DISCLAIMER BANNER -->
-    <div class="disclaimer-banner pt-3">
-      <div class="container">
-        <strong>Disclaimer:</strong> All content in this guide is sourced from verified Islamic scholarship via
-        IslamQA.info, Islamweb.net, Sunnah.com, Quran.com, and SeekersGuidance.org. Content is educational and does not
-        replace qualified scholarly advice. Always consult a qualified Islamic scholar for personal matters. Sources are
-        cited throughout to avoid plagiarism.
-      </div>
-    </div>
+      <main class="main-content">
+        <div class="disclaimer-banner">
+          <i class="bi bi-info-circle" aria-hidden="true"></i>
+          <span><strong>Disclaimer:</strong> This guide is educational and does not replace qualified scholarly,
+            counselling, medical, or safeguarding advice. Sources are cited throughout.</span>
+        </div>
 
       <!-- QUICK STATS BAR -->
       <div class="stats-bar">
@@ -1171,9 +1210,8 @@
         </div>
       </section>
 
-    </div><!-- end main-content -->
-
-
+      </main>
+    </div>
   </div>
 </template>
 
@@ -1185,6 +1223,7 @@ export default {
       searchQuery: '',
       searchResults: [],
       activeChapter: 'ch1',
+      chapterObserver: null,
       faqOpen: {},
       conflictSituation: '',
       selectedCheck: null,
@@ -1305,6 +1344,14 @@ export default {
     }
   },
   computed: {
+    featuredStarts() {
+      return [
+        { ...this.chapters[0], prompt: 'Build the foundation first' },
+        { ...this.chapters[3], prompt: 'Calm conflict before it grows' },
+        { ...this.chapters[5], prompt: 'Respectful limits and privacy' },
+        { ...this.chapters[8], prompt: 'Marriage pressure and choice' }
+      ]
+    },
     completedHabits() {
       return this.habits.filter(h => h.done).length
     },
@@ -1330,6 +1377,14 @@ export default {
       return this.scenarios[this.quizIndex] || this.scenarios[0]
     }
   },
+  mounted() {
+    this.setupChapterObserver()
+  },
+  beforeUnmount() {
+    if (this.chapterObserver) {
+      this.chapterObserver.disconnect()
+    }
+  },
   methods: {
     doSearch() {
       const q = this.searchQuery.toLowerCase()
@@ -1346,7 +1401,10 @@ export default {
     },
     toggleFaq(ch, i) {
       const key = ch + '_' + i
-      this.$set(this.faqOpen, key, !this.faqOpen[key])
+      this.faqOpen = {
+        ...this.faqOpen,
+        [key]: !this.faqOpen[key]
+      }
     },
     copyDua(dua) {
       navigator.clipboard.writeText(dua.arabic + '\n' + dua.translation)
@@ -1356,7 +1414,10 @@ export default {
     castVote(id) {
       if (!this.pollVote) {
         this.pollVote = id
-        this.$set(this.pollCounts, id, this.pollCounts[id] + 1)
+        this.pollCounts = {
+          ...this.pollCounts,
+          [id]: this.pollCounts[id] + 1
+        }
       }
     },
     getPollPercent(id) {
@@ -1392,6 +1453,27 @@ export default {
         this.storySubmitted = true
         this.userStory = ''
       }
+    },
+    setupChapterObserver() {
+      if (typeof IntersectionObserver === 'undefined') return
+
+      const sections = [...document.querySelectorAll('#islamic-connect-app .chapter-section')]
+      if (!sections.length) return
+
+      this.chapterObserver = new IntersectionObserver((entries) => {
+        const visible = entries
+          .filter(entry => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0]
+
+        if (visible?.target?.id) {
+          this.activeChapter = visible.target.id
+        }
+      }, {
+        rootMargin: '-25% 0px -55% 0px',
+        threshold: [0.15, 0.35, 0.6]
+      })
+
+      sections.forEach(section => this.chapterObserver.observe(section))
     }
   }
 }
@@ -1400,25 +1482,27 @@ export default {
 <style>
 /* ===== ISLAMIC COLOR PALETTE ===== */
 :root {
-  --ic-green: #1a5c38;
-  --ic-green-light: #2d8653;
-  --ic-green-pale: #e8f5ee;
-  --ic-green-border: #a8d5b8;
-  --ic-gold-pale: #fdf6e3;
-  --ic-gold-border: #e8c96d;
-  --ic-navy: #1a2744;
-  --ic-navy-light: #253563;
-  --ic-cream: #faf8f2;
+  --ic-green: #0f766e;
+  --ic-green-light: #14b8a6;
+  --ic-green-pale: #e9fbf6;
+  --ic-green-border: #99f6e4;
+  --ic-gold: #0e7490;
+  --ic-gold-light: #67e8f9;
+  --ic-gold-pale: #ecfeff;
+  --ic-gold-border: #a5f3fc;
+  --ic-navy: #0f2742;
+  --ic-navy-light: #164e63;
+  --ic-cream: #f3fbf9;
   --ic-white: #ffffff;
-  --ic-text: #1e2a1e;
-  --ic-text-muted: #5a6b5a;
-  --ic-text-light: #8a9b8a;
-  --ic-danger: #8b1a1a;
-  --ic-danger-pale: #fdf0f0;
-  --ic-warn: #7a4d00;
-  --ic-warn-pale: #fff8e8;
-  --ic-border: #dde8dd;
-  --ic-shadow: rgba(26, 92, 56, 0.08);
+  --ic-text: #102522;
+  --ic-text-muted: #56716d;
+  --ic-text-light: #7f9994;
+  --ic-danger: #0f5f66;
+  --ic-danger-pale: #e6fffb;
+  --ic-warn: #0e5f6f;
+  --ic-warn-pale: #ecfeff;
+  --ic-border: #d2ebe6;
+  --ic-shadow: rgba(15, 118, 110, 0.08);
   --radius: 12px;
   --radius-sm: 8px;
 }
@@ -2811,6 +2895,1306 @@ export default {
 
   .chapter-section {
     padding: 1.25rem;
+  }
+}
+</style>
+
+<style>
+#islamic-connect-app {
+  --ic-green: #0f766e;
+  --ic-green-light: #14b8a6;
+  --ic-green-pale: #e9fbf6;
+  --ic-green-border: #99f6e4;
+  --ic-gold: #0e7490;
+  --ic-gold-light: #67e8f9;
+  --ic-gold-pale: #ecfeff;
+  --ic-gold-border: #a5f3fc;
+  --ic-coral: #0f5f66;
+  --ic-coral-pale: #e6fffb;
+  --ic-navy: #0f2742;
+  --ic-navy-light: #164e63;
+  --ic-cream: #f3fbf9;
+  --ic-white: #ffffff;
+  --ic-text: #102522;
+  --ic-text-muted: #56716d;
+  --ic-text-light: #7f9994;
+  --ic-danger: #0f5f66;
+  --ic-danger-pale: #e6fffb;
+  --ic-warn: #0e5f6f;
+  --ic-warn-pale: #ecfeff;
+  --ic-border: #d2ebe6;
+  --ic-shadow: 0 18px 50px rgba(15, 118, 110, 0.12);
+  --radius: 8px;
+  --radius-sm: 8px;
+  min-height: 100vh;
+  background:
+    linear-gradient(180deg, rgba(243, 251, 249, 0) 0, #f3fbf9 520px),
+    #f3fbf9;
+  color: var(--ic-text);
+  font-family: Inter, Manrope, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  line-height: 1.65;
+}
+
+#islamic-connect-app .container {
+  width: min(100%, 1180px);
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+#islamic-connect-app button,
+#islamic-connect-app input,
+#islamic-connect-app select,
+#islamic-connect-app textarea {
+  font: inherit;
+}
+
+#islamic-connect-app button {
+  touch-action: manipulation;
+}
+
+#islamic-connect-app .hero-section {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding: 72px 0 54px;
+  background:
+    linear-gradient(115deg, rgba(15, 39, 66, 0.94) 0%, rgba(15, 118, 110, 0.92) 58%, rgba(20, 184, 166, 0.82) 100%),
+    url("/images/ilm.jpg") center / cover;
+}
+
+#islamic-connect-app .hero-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.055) 1px, transparent 1px);
+  background-size: 42px 42px;
+  mask-image: linear-gradient(90deg, #000 0%, rgba(0, 0, 0, 0.75) 62%, transparent 100%);
+}
+
+#islamic-connect-app .hero-content {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
+  gap: 32px;
+  align-items: center;
+}
+
+#islamic-connect-app .hero-copy {
+  text-align: left;
+  max-width: 760px;
+}
+
+#islamic-connect-app .hero-badge,
+#islamic-connect-app .panel-kicker,
+#islamic-connect-app .chapter-num,
+#islamic-connect-app .story-tag,
+#islamic-connect-app .script-title {
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+#islamic-connect-app .hero-badge {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  min-height: 34px;
+  padding: 6px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.34);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.14);
+  color: #ecfeff;
+  font-size: 0.78rem;
+  font-weight: 800;
+  backdrop-filter: blur(10px);
+}
+
+#islamic-connect-app .hero-title {
+  margin: 16px 0 14px;
+  color: #fff;
+  background: none;
+  background-image: none;
+  -webkit-background-clip: initial;
+  background-clip: initial;
+  -webkit-text-fill-color: #fff;
+  font-size: 5rem;
+  font-weight: 900;
+  line-height: 0.98;
+}
+
+#islamic-connect-app .hero-sub {
+  max-width: 680px;
+  margin: 0 0 26px;
+  color: rgba(255, 255, 255, 0.88);
+  font-size: 1.18rem;
+  line-height: 1.7;
+}
+
+#islamic-connect-app .hero-search-shell {
+  position: relative;
+  max-width: 720px;
+}
+
+#islamic-connect-app .hero-search-wrap {
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: center;
+  min-height: 62px;
+  margin: 0;
+  padding: 8px 8px 8px 18px;
+  border: 1px solid rgba(255, 255, 255, 0.34);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.18);
+}
+
+#islamic-connect-app .hero-search-wrap i {
+  color: var(--ic-green);
+  font-size: 1.1rem;
+}
+
+#islamic-connect-app .hero-search {
+  width: 100%;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  outline: none;
+  background: transparent;
+  color: var(--ic-text);
+  font-size: 0.98rem;
+}
+
+#islamic-connect-app .hero-search-btn,
+#islamic-connect-app .primary-action,
+#islamic-connect-app .secondary-action,
+#islamic-connect-app .submit-btn,
+#islamic-connect-app .next-btn,
+#islamic-connect-app .dua-copy-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  font-weight: 800;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease, border-color 0.18s ease;
+}
+
+#islamic-connect-app .hero-search-btn {
+  padding: 0 20px;
+  background: var(--ic-navy);
+  color: #fff;
+}
+
+#islamic-connect-app .hero-search-btn:hover,
+#islamic-connect-app .primary-action:hover,
+#islamic-connect-app .submit-btn:hover,
+#islamic-connect-app .next-btn:hover {
+  transform: translateY(-1px);
+  background: #0c5f58;
+  box-shadow: 0 12px 26px rgba(20, 33, 61, 0.18);
+}
+
+#islamic-connect-app .search-results-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  z-index: 40;
+  max-height: 320px;
+  overflow: auto;
+  border: 1px solid rgba(20, 33, 61, 0.12);
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: var(--ic-shadow);
+}
+
+#islamic-connect-app .search-result-item {
+  width: 100%;
+  padding: 13px 16px;
+  border: 0;
+  border-bottom: 1px solid var(--ic-border);
+  background: #fff;
+  color: var(--ic-text);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-align: left;
+}
+
+#islamic-connect-app .search-result-item:hover {
+  background: var(--ic-green-pale);
+}
+
+#islamic-connect-app .hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+#islamic-connect-app .primary-action {
+  padding: 0 18px;
+  background: #fff;
+  color: var(--ic-navy);
+}
+
+#islamic-connect-app .secondary-action {
+  padding: 0 18px;
+  border-color: rgba(255, 255, 255, 0.45);
+  background: rgba(255, 255, 255, 0.13);
+  color: #fff;
+  backdrop-filter: blur(10px);
+}
+
+#islamic-connect-app .secondary-action:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-1px);
+}
+
+#islamic-connect-app .hero-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  max-width: 640px;
+  gap: 10px;
+  margin-top: 22px;
+}
+
+#islamic-connect-app .stat-pill {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-height: 72px;
+  padding: 12px 14px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.26);
+  background: rgba(255, 255, 255, 0.13);
+  color: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(10px);
+}
+
+#islamic-connect-app .stat-pill strong {
+  color: #fff;
+  font-size: 1.3rem;
+  line-height: 1;
+}
+
+#islamic-connect-app .stat-pill span {
+  font-size: 0.8rem;
+}
+
+#islamic-connect-app .hero-panel {
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  border-radius: 8px;
+  padding: 18px;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 22px 60px rgba(0, 0, 0, 0.2);
+}
+
+#islamic-connect-app .panel-kicker {
+  color: var(--ic-green);
+  font-size: 0.76rem;
+  font-weight: 900;
+  margin-bottom: 10px;
+}
+
+#islamic-connect-app .hero-topic {
+  width: 100%;
+  min-height: 74px;
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr);
+  gap: 12px;
+  align-items: center;
+  padding: 12px;
+  border: 1px solid var(--ic-border);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--ic-text);
+  text-align: left;
+  margin-top: 10px;
+}
+
+#islamic-connect-app .hero-topic:hover,
+#islamic-connect-app .rail-link:hover,
+#islamic-connect-app .nav-tab:hover,
+#islamic-connect-app .cc-item:hover,
+#islamic-connect-app .faq-question:hover {
+  border-color: var(--ic-green-border);
+  background: var(--ic-green-pale);
+}
+
+#islamic-connect-app .hero-topic > span:first-child {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border-radius: 8px;
+  background: var(--ic-green-pale);
+}
+
+#islamic-connect-app .hero-topic strong,
+#islamic-connect-app .hero-topic small {
+  display: block;
+}
+
+#islamic-connect-app .hero-topic small {
+  color: var(--ic-text-muted);
+  font-size: 0.8rem;
+}
+
+#islamic-connect-app .hero-note {
+  display: grid;
+  grid-template-columns: 22px minmax(0, 1fr);
+  gap: 10px;
+  margin-top: 14px;
+  padding: 12px;
+  border-radius: 8px;
+  background: var(--ic-gold-pale);
+  color: var(--ic-warn);
+  font-size: 0.82rem;
+  line-height: 1.55;
+}
+
+#islamic-connect-app .sticky-nav {
+  position: sticky;
+  top: 0;
+  z-index: 35;
+  background: rgba(255, 255, 255, 0.92);
+  border-bottom: 1px solid var(--ic-border);
+  box-shadow: 0 10px 28px rgba(20, 33, 61, 0.08);
+  backdrop-filter: blur(14px);
+}
+
+#islamic-connect-app .nav-inner {
+  width: min(100%, 1280px);
+  margin: 0 auto;
+  padding: 8px 18px;
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+
+#islamic-connect-app .nav-tab {
+  min-height: 42px;
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 12px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--ic-text-muted);
+  font-size: 0.85rem;
+  font-weight: 800;
+}
+
+#islamic-connect-app .nav-tab.active {
+  background: var(--ic-navy);
+  color: #fff;
+  border-color: var(--ic-navy);
+}
+
+#islamic-connect-app .nav-icon {
+  font-size: 1rem;
+}
+
+#islamic-connect-app .parenting-layout {
+  width: 100%;
+  max-width: none;
+  display: grid;
+  grid-template-columns: 230px minmax(0, 1fr);
+  gap: 24px;
+  align-items: start;
+  padding-left: 32px;
+  padding-right: 32px;
+  padding-top: 30px;
+  padding-bottom: 56px;
+}
+
+#islamic-connect-app .page-rail {
+  position: sticky;
+  top: 72px;
+  display: block;
+}
+
+#islamic-connect-app .rail-card {
+  padding: 12px;
+  border: 1px solid var(--ic-border);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.86);
+  box-shadow: 0 16px 38px rgba(20, 33, 61, 0.08);
+}
+
+#islamic-connect-app .rail-title {
+  padding: 4px 8px 10px;
+  color: var(--ic-navy);
+  font-size: 0.82rem;
+  font-weight: 900;
+}
+
+#islamic-connect-app .rail-link {
+  width: 100%;
+  min-height: 38px;
+  display: grid;
+  grid-template-columns: 26px minmax(0, 1fr);
+  align-items: center;
+  gap: 8px;
+  padding: 7px 8px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--ic-text-muted);
+  text-align: left;
+  font-size: 0.84rem;
+  font-weight: 700;
+}
+
+#islamic-connect-app .rail-link.active {
+  background: var(--ic-green-pale);
+  border-color: var(--ic-green-border);
+  color: var(--ic-green);
+}
+
+#islamic-connect-app .main-content {
+  min-width: 0;
+  padding: 0;
+}
+
+#islamic-connect-app .disclaimer-banner {
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr);
+  gap: 12px;
+  align-items: start;
+  margin-bottom: 18px;
+  padding: 14px 16px;
+  border: 1px solid var(--ic-gold-border);
+  border-radius: 8px;
+  background: var(--ic-gold-pale);
+  color: var(--ic-warn);
+  font-size: 0.86rem;
+  text-align: left;
+}
+
+#islamic-connect-app .stats-bar {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  margin: 0 0 20px;
+}
+
+#islamic-connect-app .stat-card,
+#islamic-connect-app .content-card,
+#islamic-connect-app .resource-card,
+#islamic-connect-app .micro-card,
+#islamic-connect-app .story-card,
+#islamic-connect-app .interactive-tool,
+#islamic-connect-app .faq-item,
+#islamic-connect-app .source-block,
+#islamic-connect-app .cvi-card,
+#islamic-connect-app .trusted-sources,
+#islamic-connect-app .dua-card {
+  border-radius: 8px;
+}
+
+#islamic-connect-app .stat-card {
+  min-height: 108px;
+  padding: 18px;
+  border: 1px solid var(--ic-border);
+  border-top: 4px solid var(--ic-green);
+  background: #fff;
+  text-align: left;
+  box-shadow: 0 12px 28px rgba(20, 33, 61, 0.06);
+}
+
+#islamic-connect-app .stat-num {
+  color: var(--ic-navy);
+  font-size: 2.25rem;
+  line-height: 1;
+  font-weight: 900;
+}
+
+#islamic-connect-app .stat-lbl {
+  margin-top: 8px;
+  color: var(--ic-text-muted);
+  font-size: 0.84rem;
+  font-weight: 700;
+}
+
+#islamic-connect-app .chapter-section {
+  position: relative;
+  margin-bottom: 22px;
+  padding: clamp(18px, 3vw, 30px);
+  border: 1px solid var(--ic-border);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 14px 40px rgba(20, 33, 61, 0.07);
+  scroll-margin-top: 82px;
+}
+
+#islamic-connect-app .chapter-section::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 5px;
+  border-radius: 8px 0 0 8px;
+  background: linear-gradient(180deg, var(--ic-green), var(--ic-gold-light));
+}
+
+#islamic-connect-app .chapter-header {
+  display: grid;
+  grid-template-columns: 56px minmax(0, 1fr);
+  gap: 14px;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--ic-border);
+}
+
+#islamic-connect-app .chapter-icon-wrap {
+  width: 56px;
+  height: 56px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--ic-green-border);
+  border-radius: 8px;
+  background: var(--ic-green-pale);
+  font-size: 1.65rem;
+}
+
+#islamic-connect-app .chapter-num {
+  color: var(--ic-green);
+  font-size: 0.76rem;
+  font-weight: 900;
+}
+
+#islamic-connect-app .chapter-title {
+  margin: 2px 0 0;
+  color: var(--ic-navy);
+  font-size: 1.9rem;
+  font-weight: 900;
+  line-height: 1.18;
+}
+
+#islamic-connect-app .content-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+#islamic-connect-app .content-card {
+  min-width: 0;
+  padding: 18px;
+  border: 1px solid var(--ic-border);
+  background: #fff;
+  box-shadow: 0 8px 24px rgba(20, 33, 61, 0.05);
+}
+
+#islamic-connect-app .content-card.full-width {
+  grid-column: 1 / -1;
+}
+
+#islamic-connect-app .content-card h3,
+#islamic-connect-app .interactive-tool h3,
+#islamic-connect-app .faq-title,
+#islamic-connect-app .trusted-sources h3 {
+  margin: 0 0 10px;
+  color: var(--ic-navy);
+  font-size: 1.05rem;
+  font-weight: 900;
+  line-height: 1.25;
+}
+
+#islamic-connect-app .content-card p,
+#islamic-connect-app .interactive-tool p,
+#islamic-connect-app .content-card li,
+#islamic-connect-app .source-block,
+#islamic-connect-app .faq-answer,
+#islamic-connect-app .quiz-scenario,
+#islamic-connect-app .story-body,
+#islamic-connect-app .story-response {
+  color: var(--ic-text-muted);
+  font-size: 0.93rem;
+  line-height: 1.72;
+}
+
+#islamic-connect-app .quran-block,
+#islamic-connect-app .hadith-block,
+#islamic-connect-app .tip-box,
+#islamic-connect-app .reminder-pill,
+#islamic-connect-app .warning-note,
+#islamic-connect-app .script-output,
+#islamic-connect-app .cc-detail,
+#islamic-connect-app .wyd-feedback,
+#islamic-connect-app .quiz-feedback,
+#islamic-connect-app .success-notice,
+#islamic-connect-app .habit-score,
+#islamic-connect-app .serious-notice {
+  border-radius: 8px;
+}
+
+#islamic-connect-app .quran-block,
+#islamic-connect-app .hadith-block {
+  margin-top: 14px;
+  padding: 16px;
+  border-left-width: 5px;
+  background: var(--ic-gold-pale);
+}
+
+#islamic-connect-app .hadith-block {
+  background: var(--ic-green-pale);
+}
+
+#islamic-connect-app .quran-arabic,
+#islamic-connect-app .dua-arabic {
+  color: var(--ic-green);
+  font-family: Amiri, "Noto Naskh Arabic", serif;
+  font-size: 1.65rem;
+  line-height: 2;
+}
+
+#islamic-connect-app .quran-ref,
+#islamic-connect-app .hadith-ref,
+#islamic-connect-app .story-source,
+#islamic-connect-app .cc-source,
+#islamic-connect-app .vid-label {
+  color: var(--ic-text-light);
+  font-size: 0.78rem;
+}
+
+#islamic-connect-app .tip-box,
+#islamic-connect-app .warning-note,
+#islamic-connect-app .reminder-pill {
+  display: block;
+  padding: 12px 14px;
+  margin-top: 14px;
+  border: 1px solid var(--ic-gold-border);
+  background: var(--ic-gold-pale);
+  color: var(--ic-warn);
+  font-size: 0.88rem;
+}
+
+#islamic-connect-app .warning-note {
+  border-color: rgba(20, 184, 166, 0.38);
+  background: var(--ic-coral-pale);
+  color: var(--ic-coral);
+}
+
+#islamic-connect-app .reminder-pill {
+  border-color: var(--ic-green-border);
+  background: var(--ic-green-pale);
+  color: var(--ic-green);
+}
+
+#islamic-connect-app .dos-donts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 14px;
+}
+
+#islamic-connect-app .dos,
+#islamic-connect-app .donts {
+  padding: 14px;
+  border-radius: 8px;
+}
+
+#islamic-connect-app .dos {
+  border: 1px solid var(--ic-green-border);
+  background: var(--ic-green-pale);
+}
+
+#islamic-connect-app .donts {
+  border: 1px solid rgba(20, 184, 166, 0.32);
+  background: var(--ic-coral-pale);
+}
+
+#islamic-connect-app .dd-title {
+  margin-bottom: 8px;
+  font-weight: 900;
+}
+
+#islamic-connect-app .steps-list,
+#islamic-connect-app .empathy-box,
+#islamic-connect-app .culture-checks,
+#islamic-connect-app .habit-tracker,
+#islamic-connect-app .poll-options,
+#islamic-connect-app .sources-list {
+  display: grid;
+  gap: 10px;
+}
+
+#islamic-connect-app .step,
+#islamic-connect-app .empathy-item,
+#islamic-connect-app .habit-row,
+#islamic-connect-app .cc-item,
+#islamic-connect-app .wyd-item,
+#islamic-connect-app .quiz-scenario,
+#islamic-connect-app .poll-row {
+  border: 1px solid var(--ic-border);
+  border-radius: 8px;
+  background: #fff;
+}
+
+#islamic-connect-app .step,
+#islamic-connect-app .empathy-item,
+#islamic-connect-app .habit-row,
+#islamic-connect-app .cc-item {
+  padding: 10px 12px;
+}
+
+#islamic-connect-app .step {
+  align-items: flex-start;
+}
+
+#islamic-connect-app .step-num {
+  width: 24px;
+  height: 24px;
+  border-radius: 8px;
+  background: var(--ic-green);
+  color: #fff;
+  font-size: 0.74rem;
+}
+
+#islamic-connect-app .script-box {
+  padding: 16px;
+  border-radius: 8px;
+  background: var(--ic-navy);
+}
+
+#islamic-connect-app .script-title {
+  color: var(--ic-gold-light);
+  font-size: 0.76rem;
+  font-weight: 900;
+}
+
+#islamic-connect-app .script-box p {
+  color: rgba(255, 255, 255, 0.86);
+}
+
+#islamic-connect-app .video-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+#islamic-connect-app .yt-embed {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  height: auto;
+  border: 0;
+  border-radius: 8px;
+  background: var(--ic-navy);
+}
+
+#islamic-connect-app .source-block {
+  margin-top: 16px;
+  padding: 12px 14px;
+  border: 1px dashed var(--ic-border);
+  background: #fbfcfb;
+}
+
+#islamic-connect-app .faq-section {
+  margin-top: 18px;
+}
+
+#islamic-connect-app .faq-item {
+  margin-bottom: 8px;
+  overflow: hidden;
+  border: 1px solid var(--ic-border);
+  background: #fff;
+}
+
+#islamic-connect-app .faq-question {
+  width: 100%;
+  min-height: 50px;
+  padding: 12px 14px;
+  border: 0;
+  background: #fff;
+  color: var(--ic-navy);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-weight: 800;
+  text-align: left;
+  cursor: pointer;
+}
+
+#islamic-connect-app .faq-answer {
+  padding: 14px;
+  border-top: 1px solid var(--ic-border);
+  background: #fbfcfb;
+}
+
+#islamic-connect-app .interactive-tool {
+  margin-top: 16px;
+  padding: 18px;
+  border: 1px solid var(--ic-green-border);
+  background:
+    linear-gradient(135deg, rgba(233, 251, 246, 0.86), rgba(255, 247, 223, 0.72)),
+    #fff;
+}
+
+#islamic-connect-app .tool-select,
+#islamic-connect-app .story-textarea {
+  width: 100%;
+  border: 1px solid var(--ic-border);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--ic-text);
+  outline: none;
+}
+
+#islamic-connect-app .tool-select {
+  min-height: 46px;
+  padding: 0 12px;
+}
+
+#islamic-connect-app .story-textarea {
+  min-height: 120px;
+  padding: 12px;
+  resize: vertical;
+}
+
+#islamic-connect-app .tool-select:focus,
+#islamic-connect-app .story-textarea:focus,
+#islamic-connect-app .hero-search:focus {
+  box-shadow: 0 0 0 3px rgba(20, 160, 133, 0.18);
+}
+
+#islamic-connect-app .culture-vs-islam-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 56px minmax(0, 1fr);
+  gap: 14px;
+  align-items: stretch;
+}
+
+#islamic-connect-app .cvi-card {
+  padding: 18px;
+  background: #fff;
+}
+
+#islamic-connect-app .cvi-card.culture {
+  border: 1px solid var(--ic-gold-border);
+}
+
+#islamic-connect-app .cvi-card.islam {
+  border: 1px solid var(--ic-green-border);
+}
+
+#islamic-connect-app .cvi-header {
+  margin-bottom: 10px;
+  font-weight: 900;
+}
+
+#islamic-connect-app .cvi-vs {
+  display: grid;
+  place-items: center;
+  min-height: 56px;
+  border-radius: 8px;
+  background: var(--ic-navy);
+  color: #fff;
+  font-size: 0.9rem;
+  font-weight: 900;
+}
+
+#islamic-connect-app .cc-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+
+#islamic-connect-app .cc-tag,
+#islamic-connect-app .res-type {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 900;
+}
+
+#islamic-connect-app .anger-slider,
+#islamic-connect-app input[type="range"] {
+  width: 100%;
+  accent-color: var(--ic-green);
+}
+
+#islamic-connect-app .anger-advice {
+  padding: 12px 14px;
+  font-weight: 800;
+}
+
+#islamic-connect-app .dua-grid,
+#islamic-connect-app .micro-grid,
+#islamic-connect-app .stories-grid,
+#islamic-connect-app .resources-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 14px;
+}
+
+#islamic-connect-app .dua-card {
+  padding: 18px;
+  background: linear-gradient(135deg, var(--ic-navy), var(--ic-green));
+  color: #fff;
+}
+
+#islamic-connect-app .dua-translation,
+#islamic-connect-app .dua-ref {
+  color: rgba(255, 255, 255, 0.78);
+}
+
+#islamic-connect-app .dua-copy-btn {
+  min-height: 38px;
+  padding: 0 12px;
+  border-color: rgba(255, 255, 255, 0.28);
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+}
+
+#islamic-connect-app .micro-card,
+#islamic-connect-app .story-card,
+#islamic-connect-app .resource-card {
+  padding: 18px;
+  border: 1px solid var(--ic-border);
+  background: #fff;
+  box-shadow: 0 8px 24px rgba(20, 33, 61, 0.05);
+}
+
+#islamic-connect-app .micro-card {
+  border-top: 4px solid var(--ic-gold-light);
+}
+
+#islamic-connect-app .story-card {
+  border-left: 4px solid var(--ic-green);
+}
+
+#islamic-connect-app .resource-card {
+  text-align: left;
+}
+
+#islamic-connect-app .micro-icon,
+#islamic-connect-app .res-icon {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  margin-bottom: 12px;
+  border-radius: 8px;
+  background: var(--ic-green-pale);
+  font-size: 1.35rem;
+}
+
+#islamic-connect-app .micro-title,
+#islamic-connect-app .story-title,
+#islamic-connect-app .res-name,
+#islamic-connect-app .src-name,
+#islamic-connect-app .wyd-q {
+  color: var(--ic-navy);
+  font-weight: 900;
+}
+
+#islamic-connect-app .micro-body,
+#islamic-connect-app .res-desc,
+#islamic-connect-app .src-why,
+#islamic-connect-app .poll-note {
+  color: var(--ic-text-muted);
+  font-size: 0.88rem;
+}
+
+#islamic-connect-app .habit-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#islamic-connect-app .habit-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+#islamic-connect-app .habit-check {
+  accent-color: var(--ic-green);
+}
+
+#islamic-connect-app .quiz-options,
+#islamic-connect-app .wyd-choices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+#islamic-connect-app .quiz-btn,
+#islamic-connect-app .poll-btn,
+#islamic-connect-app .wyd-btn {
+  min-height: 40px;
+  padding: 0 12px;
+  border: 1px solid var(--ic-border);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--ic-text);
+  cursor: pointer;
+  font-weight: 800;
+}
+
+#islamic-connect-app .quiz-btn:hover,
+#islamic-connect-app .poll-btn:hover,
+#islamic-connect-app .wyd-btn:hover,
+#islamic-connect-app .quiz-btn.selected,
+#islamic-connect-app .poll-btn.selected,
+#islamic-connect-app .wyd-btn.selected {
+  border-color: var(--ic-green);
+  background: var(--ic-green);
+  color: #fff;
+}
+
+#islamic-connect-app .wyd-btn.correct {
+  border-color: var(--ic-green);
+  background: var(--ic-green-pale);
+  color: var(--ic-green);
+}
+
+#islamic-connect-app .poll-row {
+  display: grid;
+  grid-template-columns: 150px minmax(0, 1fr);
+  gap: 12px;
+  align-items: center;
+  padding: 10px;
+}
+
+#islamic-connect-app .poll-btn {
+  width: 100%;
+}
+
+#islamic-connect-app .poll-bar-wrap {
+  min-width: 0;
+  height: 12px;
+  border-radius: 999px;
+  background: #e6eeeb;
+  position: relative;
+}
+
+#islamic-connect-app .poll-bar {
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--ic-green), var(--ic-gold-light));
+}
+
+#islamic-connect-app .poll-pct {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translate(44px, -50%);
+  color: var(--ic-text-muted);
+  font-size: 0.76rem;
+  font-weight: 900;
+}
+
+#islamic-connect-app .submit-btn,
+#islamic-connect-app .next-btn {
+  min-height: 42px;
+  padding: 0 16px;
+  background: var(--ic-green);
+  color: #fff;
+}
+
+#islamic-connect-app .trusted-sources {
+  padding: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: var(--ic-navy);
+}
+
+#islamic-connect-app .trusted-sources h3,
+#islamic-connect-app .src-url {
+  color: var(--ic-gold-light);
+}
+
+#islamic-connect-app .source-item {
+  display: grid;
+  grid-template-columns: 46px minmax(0, 1fr);
+  gap: 12px;
+  align-items: start;
+}
+
+#islamic-connect-app .src-num {
+  color: var(--ic-gold-light);
+  font-size: 1.35rem;
+  font-weight: 900;
+  line-height: 1;
+}
+
+#islamic-connect-app .trusted-sources .src-name {
+  color: #fff;
+}
+
+#islamic-connect-app .src-url {
+  font-size: 0.82rem;
+}
+
+#islamic-connect-app .trusted-sources .src-why {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+@media (max-width: 1100px) {
+  #islamic-connect-app .hero-content,
+  #islamic-connect-app .parenting-layout {
+    grid-template-columns: 1fr;
+  }
+
+  #islamic-connect-app .page-rail {
+    display: none;
+  }
+
+  #islamic-connect-app .hero-panel {
+    max-width: 760px;
+  }
+}
+
+@media (max-width: 820px) {
+  #islamic-connect-app .container {
+    padding: 0 16px;
+  }
+
+  #islamic-connect-app .parenting-layout {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  #islamic-connect-app .hero-section {
+    padding: 48px 0 36px;
+  }
+
+  #islamic-connect-app .hero-stats,
+  #islamic-connect-app .stats-bar,
+  #islamic-connect-app .content-grid,
+  #islamic-connect-app .video-row,
+  #islamic-connect-app .culture-vs-islam-grid,
+  #islamic-connect-app .dos-donts {
+    grid-template-columns: 1fr;
+  }
+
+  #islamic-connect-app .hero-panel {
+    display: none;
+  }
+
+  #islamic-connect-app .hero-stats {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  #islamic-connect-app .stat-pill {
+    min-height: 58px;
+    padding: 10px;
+  }
+
+  #islamic-connect-app .hero-search-wrap {
+    grid-template-columns: 22px minmax(0, 1fr);
+    padding: 12px;
+  }
+
+  #islamic-connect-app .hero-search {
+    font-size: 0.95rem;
+  }
+
+  #islamic-connect-app .hero-search::placeholder {
+    font-size: 0.88rem;
+  }
+
+  #islamic-connect-app .hero-search-btn {
+    grid-column: 1 / -1;
+    width: 100%;
+  }
+
+  #islamic-connect-app .hero-actions {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  #islamic-connect-app .primary-action,
+  #islamic-connect-app .secondary-action {
+    width: 100%;
+  }
+
+  #islamic-connect-app .nav-label {
+    display: inline;
+  }
+
+  #islamic-connect-app .chapter-section {
+    padding: 18px;
+  }
+
+  #islamic-connect-app .hero-title {
+    font-size: 3.1rem;
+  }
+
+  #islamic-connect-app .hero-sub {
+    font-size: 1rem;
+  }
+
+  #islamic-connect-app .stat-num {
+    font-size: 1.85rem;
+  }
+
+  #islamic-connect-app .chapter-title {
+    font-size: 1.45rem;
+  }
+
+  #islamic-connect-app .quran-arabic,
+  #islamic-connect-app .dua-arabic {
+    font-size: 1.35rem;
+  }
+
+  #islamic-connect-app .chapter-header {
+    grid-template-columns: 48px minmax(0, 1fr);
+  }
+
+  #islamic-connect-app .chapter-icon-wrap {
+    width: 48px;
+    height: 48px;
+    font-size: 1.35rem;
+  }
+
+  #islamic-connect-app .poll-row {
+    grid-template-columns: 1fr;
+  }
+
+  #islamic-connect-app .poll-pct {
+    right: 8px;
+    transform: translateY(-50%);
+  }
+}
+
+@media (max-width: 520px) {
+  #islamic-connect-app .hero-title {
+    font-size: 2.35rem;
+  }
+
+  #islamic-connect-app .hero-panel,
+  #islamic-connect-app .content-card,
+  #islamic-connect-app .interactive-tool {
+    padding: 14px;
+  }
+
+  #islamic-connect-app .nav-inner {
+    padding: 8px 12px;
+  }
+
+  #islamic-connect-app .nav-tab {
+    min-height: 38px;
+    padding: 0 10px;
+    font-size: 0.8rem;
   }
 }
 </style>

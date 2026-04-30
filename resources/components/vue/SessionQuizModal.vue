@@ -41,15 +41,18 @@
                 <strong>Needs review</strong>
                 <span v-for="ayah in weakAyahs" :key="`weak-${ayah}`">Ayah {{ ayah }}</span>
               </div>
-              <p class="sq__completeNote">
-                Alhamdulillah. Your result is saved to your memorisation plan, and weak ayahs are ready for review.
+              <p v-else class="sq__completeNext mb-0">
+                You finished this session well. Your next session is ready when you return.
               </p>
-              <p class="sq__completeNext mb-0">
-                Next: save this result, then open review and practice the ayahs marked for review.
+              <p class="sq__completeNote">
+                Alhamdulillah. Your result is saved, and the ayahs that need more work are ready for review.
+              </p>
+              <p v-if="weakAyahs.length" class="sq__completeNext mb-0">
+                Next: save your result, then practice the ayahs marked for review.
               </p>
               <div v-if="weakAyahs.length" class="sq__actions sq__actions--center">
                 <button type="button" class="sqBtn sqBtn--soft" :disabled="saving" @click="retakeWeakAyahs">
-                  Review mistakes
+                  Practice weak ayahs
                 </button>
               </div>
             </div>
@@ -76,7 +79,7 @@
                   </span>
                 </button>
                 <div v-if="isFlipped && !currentQuestion.answered" class="sq__actions">
-                  <button type="button" class="sqBtn sqBtn--soft" :disabled="saving" @click="answerCurrent(false)">Need review</button>
+                  <button type="button" class="sqBtn sqBtn--soft" :disabled="saving" @click="answerCurrent(false)">I missed this</button>
                   <button type="button" class="sqBtn sqBtn--primary" :disabled="saving" @click="answerCurrent(true)">Knew it</button>
                 </div>
               </template>
@@ -319,10 +322,37 @@ function answerCurrent(correct, selectedAnswer = null) {
   if (isInteractionLocked.value || state.value !== 'quiz') return
   const question = currentQuestion.value
   if (!question || question.answered) return
+  const previousFailures = Array.isArray(question.mistakeEvents)
+    ? question.mistakeEvents.filter(event => event && (event.type === 'incorrect' || event.type === 'repeated_failure')).length
+    : 0
   question.answered = true
   question.correct = !!correct
   question.selectedAnswer = selectedAnswer
   question.rating = correct ? 'good' : 'hard'
+  const timestamp = new Date().toISOString()
+  const mistakeEvent = correct
+    ? previousFailures > 0
+      ? {
+          ayahId: `${sessionInfo.value.surahNumber}:${question.ayahNumber}`,
+          sessionId: sessionInfo.value.sessionId,
+          timestamp,
+          type: 'recovery',
+          severity: 1,
+          dedupeKey: `${quizId.value}:${question.id}:recovery`,
+        }
+      : null
+    : {
+        ayahId: `${sessionInfo.value.surahNumber}:${question.ayahNumber}`,
+        sessionId: sessionInfo.value.sessionId,
+        timestamp,
+        type: previousFailures > 0 ? 'repeated_failure' : 'incorrect',
+        severity: previousFailures > 0 ? previousFailures + 1 : 1,
+        dedupeKey: `${quizId.value}:${question.id}:${previousFailures > 0 ? 'repeated_failure' : 'incorrect'}`,
+      }
+  question.mistakeEvents = uniqueMistakeEvents([
+    ...(Array.isArray(question.mistakeEvents) ? question.mistakeEvents : []),
+    ...(mistakeEvent ? [mistakeEvent] : []),
+  ])
   persistDraft()
 }
 
@@ -447,6 +477,7 @@ function baseQuestion(type, ayah, extra = {}) {
     correct: false,
     selectedAnswer: null,
     rating: '',
+    mistakeEvents: [],
     ...extra
   }
 }
@@ -488,9 +519,32 @@ function buildResult() {
       selectedAnswer: question.selectedAnswer,
       correctAnswer: question.correctAnswer,
       userRating: question.rating,
-      isCorrect: !!question.correct
+      isCorrect: !!question.correct,
+      mistakeEvents: uniqueMistakeEvents([
+        ...(question.mistakeEvents || []),
+        ...(!question.answered
+          ? [{
+              ayahId: `${session.surahNumber}:${question.ayahNumber}`,
+              sessionId: session.sessionId,
+              timestamp: new Date().toISOString(),
+              type: 'skipped',
+              severity: 0.5,
+              dedupeKey: `${quizId.value || 'quiz'}:${question.id}:skipped`,
+            }]
+          : []),
+      ]),
     }))
   }
+}
+
+function uniqueMistakeEvents(events) {
+  const seen = new Set()
+  return (Array.isArray(events) ? events : []).filter(event => {
+    const key = String(event?.dedupeKey || '').trim()
+    if (!key || seen.has(key)) return false
+    seen.add(key)
+    return true
+  })
 }
 
 function normalizeSession(src) {

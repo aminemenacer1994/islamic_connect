@@ -68,10 +68,10 @@
       class="container-fluid revert-content px-3 px-md-4 py-4 py-md-5"
       :style="{ fontSize: `${globalFontScale}rem` }"
     >
-      <div class="row g-3">
+      <div class="row g-3 revert-study-grid">
 
         <!-- SIDEBAR (chapter progress + roadmap navigation) -->
-        <aside class="col-12 col-sm-3 col-md-3 mobile-nav-frame">
+        <aside class="col-12 col-lg-3 mobile-nav-frame">
           <div
             class="navigation-card p-3 shadow-sm rounded-4"
             :class="{ 'mobile-open': mobileNavOpen }"
@@ -143,7 +143,7 @@
         </aside>
 
         <!-- MAIN CONTENT AREA (lesson overview + resources) -->
-        <section class="col-12 col-sm-9 col-md-9 lesson-pane">
+        <section class="col-12 col-lg-9 lesson-pane">
           <div class="mobile-chapter-select d-lg-none">
             <label class="form-label small text-muted fw-semibold" for="mobile-chapter-picker">
               Choose a chapter
@@ -176,6 +176,40 @@
             :max-step-reached="maxStepReached"
             @open-help="openHelpModal"
           />
+
+          <nav class="study-command-bar" aria-label="Study sections">
+            <div class="study-command-context">
+              <span class="study-command-kicker">Chapter {{ selectedPill }}</span>
+              <strong>{{ currentLesson?.title || 'Revert Journey' }}</strong>
+            </div>
+            <div class="study-command-links">
+              <button type="button" class="study-command-link" @click="jumpToContentSection('lesson-focus-section')">
+                <i class="bi bi-brightness-high-fill" aria-hidden="true"></i>
+                <span>Focus</span>
+              </button>
+              <button type="button" class="study-command-link" @click="jumpToContentSection('learning-paths-section')">
+                <i class="bi bi-journal-text" aria-hidden="true"></i>
+                <span>Learn</span>
+              </button>
+              <button
+                v-if="currentDuas.length"
+                type="button"
+                class="study-command-link"
+                @click="jumpToContentSection('duas-section')"
+              >
+                <i class="bi bi-bookmark-star-fill" aria-hidden="true"></i>
+                <span>Duas</span>
+              </button>
+              <button type="button" class="study-command-link" @click="jumpToContentSection('revert-stories-section')">
+                <i class="bi bi-play-circle-fill" aria-hidden="true"></i>
+                <span>Stories</span>
+              </button>
+              <button type="button" class="study-command-link study-command-link--primary" @click="jumpToContentSection('chapter-quiz-section')">
+                <i class="bi bi-journal-check" aria-hidden="true"></i>
+                <span>Quiz</span>
+              </button>
+            </div>
+          </nav>
 
           <!-- Focus of the lesson -->
           <div

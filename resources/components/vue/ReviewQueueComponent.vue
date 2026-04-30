@@ -5,11 +5,11 @@
                 <p class="review-queue-eyebrow mb-1">Memorisation</p>
                 <h1 class="review-queue-title mb-1">My Review Queue</h1>
                 <p class="review-queue-subtitle mb-0">
-                    Bismillah. Review missed ayahs, then return to focused recitation.
+                    Bismillah. Practice the ayahs that need another pass, then return to your next session.
                 </p>
             </div>
             <span class="review-queue-count-badge" aria-live="polite">
-                {{ queueCount }} waiting
+                {{ queueCount }} to practise
             </span>
         </header>
 
@@ -18,11 +18,11 @@
         </div>
 
         <div v-else-if="!queueList.length" class="review-queue-empty">
-            <h2 class="mb-2">No ayahs in review yet</h2>
+            <h2 class="mb-2">No review needed yet</h2>
             <p class="mb-3">
-                Start a memorisation session, complete the quiz, then use <strong>Practice</strong> here for ayahs that need review.
+                Finish a short memorisation session and quiz. Any ayahs that need more work will appear here.
             </p>
-            <a href="/surat" class="btn btn-success">Go to Quran Reader</a>
+            <a href="/surat" class="btn btn-success">Start learning</a>
         </div>
 
         <ul v-else class="review-queue-list" role="list">

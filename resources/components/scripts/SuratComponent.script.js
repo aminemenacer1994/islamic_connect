@@ -24,6 +24,7 @@ import { GUIDED_TOUR_DATA, guidedTourMethods } from "./surat.guided-tour";
 import { LEARNING_PATHS, learningPathMethods } from "./surat.learning-paths";
 import { PRONUNCIATION_GUIDES, pronunciationMethods } from "./surat.pronunciation";
 import SessionQuizModal from "../vue/SessionQuizModal.vue";
+import { createMemorisationDataManager } from "./memorisationDataManager";
 export default {
     name: "SuratComponent",
     components: {
@@ -617,6 +618,7 @@ export default {
             debouncedQuery: "",
             debounceTimer: null,
             memorisationActionInFlight: false,
+            memorisationBackupInFlight: false,
             arabicFontSize: 28,
             translationFontSize: 18,
             transliterationFallbackText: "Transliteration not available",
@@ -1832,26 +1834,6 @@ export default {
                 }
                 return `Ayah ${this.memorisationRangeStart || 1}-${this.memorisationRangeEnd || this.totalAyahs || 1}`;
             },
-            memorisationWorkspaceNextStepLabel() {
-                if (this.isSessionQuizOpen) {
-                    return "Next: save your quiz result, then practice weak ayahs in review.";
-                }
-                if (this.isMemorisationModeActive) {
-                    return this.isMemorisationChainingActive
-                        ? "Next: finish the chaining round, then move straight into the quiz."
-                        : "Next: complete this recitation round, then take the quiz.";
-                }
-                if (this.hasMemorisationResumeCandidate()) {
-                    return "Next: continue your saved session and finish with quiz and review.";
-                }
-                return "Next: choose a short range and press Start Session.";
-            },
-            memorisationWorkspaceFlowStage() {
-                if (this.isSessionQuizOpen) return "quiz";
-                if (this.isMemorisationModeActive) return "chaining";
-                return "start";
-            },
-            
         sidebarPinnedSurahNumber() {
             const currentSurahNumber = Number(
                 this.surahDetails?.surahNumber || this.selectedSurah || 0
@@ -1929,7 +1911,7 @@ export default {
         memorisationSessionStatusLabel() {
             return (
                 this.memorisationSessionStatusMessage ||
-                `Ready to begin Ayah ${this.memorisationRangeLabel}`
+                `Ready to start Ayah ${this.memorisationRangeLabel}`
             );
         },
         shouldShowMemorisationLandingCard() {
@@ -1941,13 +1923,13 @@ export default {
         },
         memorisationQuickStartHint() {
             if (this.hasMemorisationResumeCandidate()) {
-                return this.memorisationReturnSubtitle();
+                return `${this.memorisationReturnSubtitle()} Ready when you are.`;
             }
             const reciterLabel = String(this.selectedReciterName || "Alafasy").trim();
-            return `Starts instantly with Al-Fatiha 1-7 · ${reciterLabel}`;
+            return `Start simply with Al-Fatiha 1-7 · ${reciterLabel}`;
         },
         memorisationStartButtonHint() {
-            return `Ayah ${this.memorisationRangeLabel}`;
+            return `Range: ${this.memorisationRangeLabel}`;
         },
         memorisationBeginnerToolOptions() {
             const playback = this.activeMemorisationPlaybackModeOption || {};
@@ -12570,10 +12552,11 @@ export default {
             };
         },
         getDefaultMemorisationBeginnerSectionState() {
+            // Casual-user default: keep focus on the only section required to begin.
             return {
                 setup: true,
-                playback: true,
-                history: true,
+                playback: false,
+                history: false,
             };
         },
         resetMemorisationAdvancedSections() {
@@ -15491,39 +15474,33 @@ export default {
                 );
             } catch (_) {}
         },
+        getMemorisationDataManager() {
+            if (!this._memorisationDataManager) {
+                this._memorisationDataManager = createMemorisationDataManager({
+                    storageKey: this.hifdhLearningStateStorageKey,
+                    normalizeAyah: (key, value) =>
+                        this.normalizeAyahLearningStateRecord(key, value),
+                    getAppVersion: () => "memorisation-platform-v1",
+                });
+            }
+            return this._memorisationDataManager;
+        },
         loadHifdhLearningState() {
             try {
-                const raw = localStorage.getItem(this.hifdhLearningStateStorageKey);
-                const parsed = raw ? JSON.parse(raw) : {};
-                const source = parsed && typeof parsed === "object" ? parsed : {};
-                const normalized = {};
-                Object.entries(source).forEach(([key, value]) => {
-                    const record = this.normalizeAyahLearningStateRecord(key, value);
-                    if (record) {
-                        normalized[record.id] = record;
-                    }
-                });
-                this.hifdhLearningStateByAyah = normalized;
+                this.hifdhLearningStateByAyah =
+                    this.getMemorisationDataManager().getAyahs();
             } catch (_) {
                 this.hifdhLearningStateByAyah = {};
             }
         },
         persistHifdhLearningState() {
             try {
-                const normalized = {};
-                Object.entries(this.hifdhLearningStateByAyah || {}).forEach(
-                    ([key, value]) => {
-                        const record = this.normalizeAyahLearningStateRecord(key, value);
-                        if (record) {
-                            normalized[record.id] = record;
-                        }
-                    }
+                const saved = this.getMemorisationDataManager().saveAyahs(
+                    this.hifdhLearningStateByAyah
                 );
-                this.hifdhLearningStateByAyah = normalized;
-                localStorage.setItem(
-                    this.hifdhLearningStateStorageKey,
-                    JSON.stringify(normalized)
-                );
+                if (saved?.ayahs) {
+                    this.hifdhLearningStateByAyah = saved.ayahs;
+                }
             } catch (_) {}
         },
         buildLearningStateKey(surahNumber, ayahNumber) {
@@ -15547,6 +15524,12 @@ export default {
             const nextReviewDate = new Date(
                 source.nextReviewDate || new Date().toISOString()
             );
+            const lastUpdated = new Date(
+                source.lastUpdated ||
+                    source.updatedAt ||
+                    source.nextReviewDate ||
+                    new Date().toISOString()
+            );
             return {
                 id: `${surahNumber}:${ayahNumber}`,
                 surah: surahNumber,
@@ -15557,6 +15540,9 @@ export default {
                 nextReviewDate: Number.isNaN(nextReviewDate.getTime())
                     ? new Date().toISOString()
                     : nextReviewDate.toISOString(),
+                lastUpdated: Number.isNaN(lastUpdated.getTime())
+                    ? new Date().toISOString()
+                    : lastUpdated.toISOString(),
                 mistakeCount: Math.max(0, Number(source.mistakeCount || 0) || 0),
                 strength: ["WEAK", "MEDIUM", "STRONG"].includes(source.strength)
                     ? source.strength
@@ -15565,12 +15551,172 @@ export default {
                     0,
                     Number(source.consecutiveEasy || 0) || 0
                 ),
+                mistakes: this.normalizeAyahMistakeLog(source.mistakes),
                 hifdhStage: ["NEW", "LEARNING", "REVISING", "MASTERED"].includes(
                     source.hifdhStage
                 )
                     ? source.hifdhStage
                     : "NEW",
             };
+        },
+        normalizeAyahMistakeLog(input = {}) {
+            const source = input && typeof input === "object" ? input : {};
+            const history = Array.isArray(source.history) ? source.history : [];
+            const seen = new Set();
+            const normalizedHistory = history
+                .map((entry) => {
+                    const item = entry && typeof entry === "object" ? entry : {};
+                    const type = ["incorrect", "repeated_failure", "skipped", "recovery"].includes(item.type)
+                        ? item.type
+                        : "";
+                    const timestamp = new Date(item.timestamp || item.at || Date.now());
+                    const sessionId = String(item.sessionId || "").trim();
+                    const ayahId = String(item.ayahId || "").trim();
+                    const dedupeKey = String(
+                        item.dedupeKey || `${sessionId}:${ayahId}:${type}:${timestamp.toISOString()}`
+                    ).trim();
+                    if (!type || !sessionId || !ayahId || !dedupeKey || Number.isNaN(timestamp.getTime())) {
+                        return null;
+                    }
+                    if (seen.has(dedupeKey)) return null;
+                    seen.add(dedupeKey);
+                    return {
+                        ayahId,
+                        sessionId,
+                        timestamp: timestamp.toISOString(),
+                        type,
+                        severity: Math.max(0, Number(item.severity || 0) || 0),
+                        dedupeKey,
+                    };
+                })
+                .filter(Boolean)
+                .slice(-60);
+            const total = Math.max(
+                0,
+                Number(source.total || normalizedHistory.length) || normalizedHistory.length
+            );
+            const lastMistakeDate = normalizedHistory.length
+                ? normalizedHistory[normalizedHistory.length - 1].timestamp
+                : "";
+            const weaknessScore = this.calculateMistakeWeaknessScore(normalizedHistory);
+            return {
+                total,
+                lastMistakeDate,
+                history: normalizedHistory,
+                weaknessScore,
+            };
+        },
+        calculateMistakeWeaknessScore(history = []) {
+            const safeHistory = Array.isArray(history) ? history : [];
+            if (!safeHistory.length) return 0;
+            const recentCutoff = Date.now() - 7 * 24 * 60 * 60 * 1000;
+            let totalMistakes = 0;
+            let recentMistakes = 0;
+            let repeatedFailures = 0;
+            let recoveries = 0;
+            safeHistory.forEach((entry) => {
+                const type = String(entry?.type || "");
+                const timestamp = new Date(entry?.timestamp || 0).getTime();
+                const isRecent = Number.isFinite(timestamp) && timestamp >= recentCutoff;
+                if (type === "recovery") {
+                    recoveries += 1;
+                    return;
+                }
+                totalMistakes += 1;
+                if (isRecent) recentMistakes += 1;
+                if (type === "repeated_failure") repeatedFailures += 1;
+            });
+            return Math.max(
+                0,
+                totalMistakes * 2 + recentMistakes * 3 + repeatedFailures * 5 - recoveries * 2
+            );
+        },
+        appendAyahMistakeEvents(state, events = []) {
+            if (!state) return;
+            const current = this.normalizeAyahMistakeLog(state.mistakes);
+            const nextEvents = Array.isArray(events) ? events : [];
+            if (!nextEvents.length) {
+                state.mistakes = current;
+                return;
+            }
+            const merged = this.normalizeAyahMistakeLog({
+                history: [...current.history, ...nextEvents],
+                total: current.total + nextEvents.length,
+            });
+            state.mistakes = merged;
+            state.lastUpdated = new Date().toISOString();
+        },
+        buildMemorisationProgressSnapshot() {
+            return this.getMemorisationDataManager().generateSnapshot(
+                this.hifdhLearningStateByAyah
+            );
+        },
+        exportMemorisationProgressSnapshot() {
+            const snapshot = this.buildMemorisationProgressSnapshot();
+            const totalAyahs = Math.max(
+                0,
+                Number(snapshot?.meta?.totalAyahs || snapshot?.ayahs?.length || 0) || 0
+            );
+            if (!totalAyahs) {
+                return { ok: false, reason: "No progress to back up." };
+            }
+            const payload = JSON.stringify(snapshot, null, 2);
+            if (!payload || typeof document === "undefined") {
+                return { ok: false, reason: "Could not build memorisation snapshot." };
+            }
+            try {
+                const blob = new Blob([payload], { type: "application/json" });
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement("a");
+                link.href = url;
+                link.download = `hifdh-backup-${new Date().toISOString().slice(0, 10)}.json`;
+                link.click();
+                URL.revokeObjectURL(url);
+                return { ok: true, snapshot };
+            } catch (_) {
+                return { ok: false, reason: "Could not export memorisation snapshot." };
+            }
+        },
+        onBackupMemorisationProgress() {
+            if (this.memorisationBackupInFlight) return;
+            this.memorisationBackupInFlight = true;
+            try {
+                const result = this.exportMemorisationProgressSnapshot();
+                if (result?.ok) {
+                    this.showToast("Backup saved successfully.", 2200);
+                    return;
+                }
+                this.showToast(result?.reason || "Could not back up your progress.", 2600);
+            } finally {
+                window.setTimeout(() => {
+                    this.memorisationBackupInFlight = false;
+                }, 180);
+            }
+        },
+        importMemorisationProgressSnapshot(rawSnapshot, options = {}) {
+            const parsed =
+                typeof rawSnapshot === "string"
+                    ? JSON.parse(rawSnapshot)
+                    : rawSnapshot;
+            const result = this.getMemorisationDataManager().importSnapshot(
+                parsed,
+                options
+            );
+            if (result?.ok && result.ayahs) {
+                this.hifdhLearningStateByAyah = result.ayahs;
+            }
+            return result;
+        },
+        async importMemorisationProgressSnapshotFile(file, options = {}) {
+            if (!(file instanceof File)) {
+                return { ok: false, reason: "Import file is invalid." };
+            }
+            const text = await file.text();
+            try {
+                return this.importMemorisationProgressSnapshot(text, options);
+            } catch (_) {
+                return { ok: false, reason: "Import file is not valid JSON." };
+            }
         },
         getOrCreateAyahLearningState(surahNumber, ayahNumber) {
             const key = this.buildLearningStateKey(surahNumber, ayahNumber);
@@ -15580,6 +15726,7 @@ export default {
                 ...current,
                 surah: Number(surahNumber || this.selectedSurah || 0),
                 ayahNumber: Number(ayahNumber || 0),
+                lastUpdated: new Date().toISOString(),
             });
             if (!next) return null;
             this.hifdhLearningStateByAyah[key] = next;
@@ -15608,6 +15755,7 @@ export default {
             const next = new Date();
             next.setDate(next.getDate() + Math.max(1, Math.round(state.interval)));
             state.nextReviewDate = next.toISOString();
+            state.lastUpdated = new Date().toISOString();
         },
         runHifdhPlannerUpdateForAyah(state) {
             if (!state) return;
@@ -15633,7 +15781,9 @@ export default {
                     : 0;
             const next = new Date(state.nextReviewDate || today.toISOString());
             const overdueDays = next <= today ? Math.floor((today - next) / (24 * 60 * 60 * 1000)) : 0;
-            return base + overdueDays * 10 + Math.max(0, Number(state.mistakeCount || 0)) * 5 + plannerBoost;
+            const weaknessBoost =
+                Math.max(0, Number(state?.mistakes?.weaknessScore || 0) || 0) * 2;
+            return base + overdueDays * 10 + Math.max(0, Number(state.mistakeCount || 0)) * 5 + plannerBoost + weaknessBoost;
         },
         buildDailyLearningQueue(level = "beginner") {
             const cap = String(level).toLowerCase() === "advanced" ? 50 : 15;
@@ -16866,6 +17016,12 @@ export default {
                     surahNumber,
                     ayahNumber
                 );
+                const mistakeEvents = Array.isArray(card?.mistakeEvents)
+                    ? card.mistakeEvents
+                    : [];
+                // Observer-only layer: log evaluated mistakes first, then let SM-2
+                // remain the sole owner of repetitions/interval/EF/nextReviewDate.
+                this.appendAyahMistakeEvents(state, mistakeEvents);
                 const grade = card?.isCorrect ? 5 : 2;
                 this.runSm2UpdateForAyah(state, grade);
                 this.runHifdhPlannerUpdateForAyah(state);
@@ -23057,9 +23213,9 @@ export default {
         },
 	        memorisationReturnTitle() {
 	            if (this.hasMemorisationResumeCandidate()) {
-	                return "Continue from where you last stopped";
+	                return "Continue your last session";
 	            }
-	            return "Start your first session";
+	            return "Start learning";
 	        },
 		        memorisationReturnSubtitle() {
 	            if (this.hasMemorisationResumeCandidate()) {
@@ -23076,9 +23232,9 @@ export default {
                 const start = Number(meta.rangeStart || this.memorisationRangeStart || 1);
                 const end = Number(meta.rangeEnd || this.memorisationRangeEnd || start);
 	                const rangeLabel = `${start}\u2013${end}`;
-	                return `Next: ${surah} ${rangeLabel} · ${reciter}`;
+	                return `${surah} ${rangeLabel} · ${reciter}`;
 	            }
-		            return "We will start you with Surah Al-Fatiha (1\u20137) and remember your place for next time.";
+		            return "Start with a short range in Al-Fatiha and come back to the same place later.";
 		        },
 	        getMemorisationResumeDayGap() {
 	            const meta = this.getPreferredMemorisationResumeMeta() || {};
@@ -23110,17 +23266,17 @@ export default {
 	        },
 	        memorisationEntryTitle() {
 	            if (!this.hasMemorisationResumeCandidate()) {
-	                return "Start your first session";
+	                return "Start learning";
 	            }
-	            return "Continue from where you last stopped";
+	            return "Continue your last session";
 	        },
 	        memorisationEntrySummary() {
 	            if (!this.hasMemorisationResumeCandidate()) {
-	                return "Beginner opens first. Pick a short range, press Start Session, and come back to the same place later.";
+	                return "Pick a short range, press Start Learning, then finish with quiz and review.";
 	            }
 	            const base = this.memorisationReturnSubtitle();
 	            const dayGap = this.getMemorisationResumeDayGap();
-	            if (dayGap === 1) return `${base}. Suggested: listen once, then recite once from memory.`;
+	            if (dayGap === 1) return `${base}. Listen once, then recite from memory.`;
 	            if (dayGap && dayGap > 1) return `${base}. Start with a light review.`;
 	            return base;
 	        },
